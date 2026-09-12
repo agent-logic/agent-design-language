@@ -1,0 +1,784 @@
+{
+  "schema": "issue911.adr_inventory.v1",
+  "source_revision": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+  "status": "complete proposed candidate set; formal acceptance pending",
+  "seed_count": 8,
+  "additional_recommendations": 4,
+  "candidates": [
+    {
+      "candidate": "ADR-CF-01",
+      "title": "Portable repository inputs",
+      "decision_question": "One immutable packet for local, GitHub and CI inputs; exact revision, scope and unsupported-language limits.",
+      "participating_owners": [
+        "CF-ADAPTER",
+        "CF-ADAPTER-GITHUB",
+        "CF-ADAPTER-CI"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-01.md",
+      "accountable_scope_owner": "CF-ADAPTER",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-02",
+      "title": "Evidence, finding and run identity",
+      "decision_question": "Separate evidence identity from finding matching; canonical contracts, provenance and incomplete-run semantics.",
+      "participating_owners": [
+        "CF-EVIDENCE"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-02.md",
+      "accountable_scope_owner": "CF-EVIDENCE",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-03",
+      "title": "Untrusted input, redaction and retention",
+      "decision_question": "Repository instructions are evidence, not authority; redact before model use and retention, enforce deletion and prevent private schema forks.",
+      "participating_owners": [
+        "CF-EVIDENCE",
+        "CF-REVIEW"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-03.md",
+      "accountable_scope_owner": "CF-EVIDENCE",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-04",
+      "title": "Architecture cognition and explanation",
+      "decision_question": "Separate observed structure, impact, rationale and drift from inference; expose scope and unknowns.",
+      "participating_owners": [
+        "CF-COG",
+        "CF-COG-IMPACT",
+        "CF-COG-RATIONALE",
+        "CF-COG-DRIFT"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-04.md",
+      "accountable_scope_owner": "CF-COG",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-05",
+      "title": "Executable governance",
+      "decision_question": "Machine-checkable fitness rules run locally and in CI; human judgment remains explicit and rule limits remain visible.",
+      "participating_owners": [
+        "CF-GOV",
+        "CF-GOV-CI"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-05.md",
+      "accountable_scope_owner": "CF-GOV",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-06",
+      "title": "Independent review, synthesis and action plans",
+      "decision_question": "Four isolated perspectives commit before peer visibility; synthesis preserves attribution/disagreement; remediation and test plans remain advisory.",
+      "participating_owners": [
+        "CF-REVIEW",
+        "CF-SYNTHESIS",
+        "CF-REMEDIATE",
+        "CF-TESTPLAN"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-06.md",
+      "accountable_scope_owner": "CF-REVIEW",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-07",
+      "title": "Longitudinal comparison and Memory Palace",
+      "decision_question": "Compatible baseline selection, stable matching and not-comparable outcomes; retrieve prior reviews through the shared Memory Palace boundary.",
+      "participating_owners": [
+        "CF-MEMORY",
+        "PLAT-MEMORY",
+        "CF-COG-DRIFT"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0058",
+      "source": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-07.md",
+      "accountable_scope_owner": "CF-MEMORY",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/adr/0058-memory-palace-context-handoff-architecture.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-08",
+      "title": "Approval and renderer parity",
+      "decision_question": "Approval binds the exact finding/run/artifact/target set; changes invalidate approval; Markdown, HTML and PDF preserve semantic parity.",
+      "participating_owners": [
+        "CF-UX",
+        "CF-RENDER-MD",
+        "CF-RENDER-HTML",
+        "CF-RENDER-PDF"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-08.md",
+      "accountable_scope_owner": "CF-UX",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "title": "Local CodeFriend product boundary",
+      "decision_question": "Local adl codefriend CLI and artifact browsing in this repository; shared services, no hosted customer service or autonomous source edits.",
+      "participating_owners": [
+        "CF-SHELL",
+        "CF-INTEGRATE"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0025",
+      "source": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+      "path": "docs/architecture/adr/issue-911/adr-cf-09.md",
+      "accountable_scope_owner": "CF-SHELL",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+        "docs/adr/0025-codefriend-review-packet-product-boundary.md"
+      ]
+    },
+    {
+      "candidate": "ADR-PLAT-01",
+      "title": "Shared provider configuration and lifecycle",
+      "decision_question": "Configuration/profile ownership versus Runtime lifecycle, credentials and cost observation; consumers reuse the same provider contracts; hardware experiments do not imply production suitability.",
+      "participating_owners": [
+        "PLAT-PROVIDER",
+        "RT-PROVIDER",
+        "RT-COST",
+        "PLAT-MLX",
+        "PLAT-PAIR",
+        "SPEC-RETEST"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "0004 / 0041; candidate0075",
+      "source": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+      "path": "docs/architecture/adr/issue-911/adr-plat-01.md",
+      "accountable_scope_owner": "PLAT-PROVIDER",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/adr/0004-provider-profiles.md",
+        "docs/adr/0041-provider-model-suitability-boundary-v2.md",
+        "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+        "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CSDLC-01",
+      "title": "One authoritative semantic issue record",
+      "decision_question": "Intent-oriented commands share one lifecycle transaction owner; cards are derived projections; diagnostics are observational; local/remote effects reconcile idempotently.",
+      "participating_owners": [
+        "SIM-01",
+        "SIM-02",
+        "SIM-03",
+        "SIM-04",
+        "SIM-05",
+        "CSDLC-DECOMPOSE",
+        "CSDLC-REMOTE",
+        "CSDLC-MERGE"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "candidate0072",
+      "source": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-01.md",
+      "accountable_scope_owner": "SIM-04",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
+      ]
+    },
+    {
+      "candidate": "ADR-CSDLC-02",
+      "title": "Single-writer transition and recovery",
+      "decision_question": "Staged replacement under an explicitly authorized writer fence; semantic conversion proof, exact installed provenance, bounded restore before new writes and forward repair afterwards.",
+      "participating_owners": [
+        "SIM-06",
+        "SIM-07",
+        "SIM-08",
+        "SIM-09",
+        "SIM-UMBRELLA"
+      ],
+      "status": "proposed",
+      "relationship": "refines; no supersession enacted",
+      "prior": "candidate0072",
+      "source": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-02.md",
+      "accountable_scope_owner": "SIM-08",
+      "acceptance_status": "pending_operator_decision",
+      "source_refs": [
+        "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+        "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+        "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md"
+      ]
+    }
+  ],
+  "task_mapping": [
+    {
+      "task": "WP-01",
+      "issue": 864,
+      "disposition": [
+        "Reuse launch inventory and approval evidence; task creation adds no new architecture."
+      ]
+    },
+    {
+      "task": "RT-PROVIDER",
+      "issue": 855,
+      "disposition": [
+        "ADR-PLAT-01"
+      ]
+    },
+    {
+      "task": "ARCH-SPLIT",
+      "issue": 848,
+      "disposition": [
+        "Reconcile the owner-produced #848 repository/public-private boundary decision; no extraction or acceptance invented by #911."
+      ]
+    },
+    {
+      "task": "CSDLC-MERGE",
+      "issue": 849,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "QUAL-RUNTIME",
+      "issue": 852,
+      "disposition": [
+        "Reuse accepted ADR0054 Runtime and ADR0048 observability; repair proof is not new authority."
+      ]
+    },
+    {
+      "task": "RT-COST",
+      "issue": 854,
+      "disposition": [
+        "ADR-PLAT-01"
+      ]
+    },
+    {
+      "task": "CSDLC-MAN",
+      "issue": 861,
+      "disposition": [
+        "Document ADR-CSDLC-01/02; manual is a projection of settled authority."
+      ]
+    },
+    {
+      "task": "CSDLC-DECOMPOSE",
+      "issue": 862,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "OBS-LIVE",
+      "issue": 720,
+      "disposition": [
+        "Reuse accepted ADR0054/0048; deferred ADR0069 dual-client proof remains deferred."
+      ]
+    },
+    {
+      "task": "SIM-UMBRELLA",
+      "issue": 866,
+      "disposition": [
+        "ADR-CSDLC-02"
+      ]
+    },
+    {
+      "task": "SIM-01",
+      "issue": 867,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "SIM-02",
+      "issue": 868,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "SIM-03",
+      "issue": 869,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "SIM-04",
+      "issue": 870,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "SIM-05",
+      "issue": 871,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "SIM-06",
+      "issue": 872,
+      "disposition": [
+        "ADR-CSDLC-02"
+      ]
+    },
+    {
+      "task": "SIM-07",
+      "issue": 873,
+      "disposition": [
+        "ADR-CSDLC-02"
+      ]
+    },
+    {
+      "task": "SIM-08",
+      "issue": 874,
+      "disposition": [
+        "ADR-CSDLC-02"
+      ]
+    },
+    {
+      "task": "SIM-09",
+      "issue": 875,
+      "disposition": [
+        "ADR-CSDLC-02"
+      ]
+    },
+    {
+      "task": "PLAT-PROVIDER",
+      "issue": 876,
+      "disposition": [
+        "ADR-PLAT-01"
+      ]
+    },
+    {
+      "task": "PLAT-UTS",
+      "issue": 877,
+      "disposition": [
+        "Reuse accepted ADR0020 portable schema / ADR0021 ACC authority; crate packaging alone is not a new tool authority."
+      ]
+    },
+    {
+      "task": "CF-ADAPTER",
+      "issue": 878,
+      "disposition": [
+        "ADR-CF-01"
+      ]
+    },
+    {
+      "task": "CF-ADAPTER-GITHUB",
+      "issue": 879,
+      "disposition": [
+        "ADR-CF-01"
+      ]
+    },
+    {
+      "task": "CF-ADAPTER-CI",
+      "issue": 880,
+      "disposition": [
+        "ADR-CF-01"
+      ]
+    },
+    {
+      "task": "CF-EVIDENCE",
+      "issue": 881,
+      "disposition": [
+        "ADR-CF-02",
+        "ADR-CF-03"
+      ]
+    },
+    {
+      "task": "CF-COG",
+      "issue": 882,
+      "disposition": [
+        "ADR-CF-04"
+      ]
+    },
+    {
+      "task": "CF-COG-IMPACT",
+      "issue": 883,
+      "disposition": [
+        "ADR-CF-04"
+      ]
+    },
+    {
+      "task": "CF-COG-RATIONALE",
+      "issue": 884,
+      "disposition": [
+        "ADR-CF-04"
+      ]
+    },
+    {
+      "task": "CF-MEMORY",
+      "issue": 885,
+      "disposition": [
+        "ADR-CF-07"
+      ]
+    },
+    {
+      "task": "CF-COG-DRIFT",
+      "issue": 886,
+      "disposition": [
+        "ADR-CF-04",
+        "ADR-CF-07"
+      ]
+    },
+    {
+      "task": "CF-GOV",
+      "issue": 887,
+      "disposition": [
+        "ADR-CF-05"
+      ]
+    },
+    {
+      "task": "CF-GOV-CI",
+      "issue": 888,
+      "disposition": [
+        "ADR-CF-05"
+      ]
+    },
+    {
+      "task": "PLAT-MEMORY",
+      "issue": 889,
+      "disposition": [
+        "ADR-CF-07"
+      ]
+    },
+    {
+      "task": "CF-REVIEW",
+      "issue": 890,
+      "disposition": [
+        "ADR-CF-03",
+        "ADR-CF-06"
+      ]
+    },
+    {
+      "task": "CF-SHELL",
+      "issue": 891,
+      "disposition": [
+        "ADR-CF-09"
+      ]
+    },
+    {
+      "task": "CF-SYNTHESIS",
+      "issue": 892,
+      "disposition": [
+        "ADR-CF-06"
+      ]
+    },
+    {
+      "task": "CF-REMEDIATE",
+      "issue": 893,
+      "disposition": [
+        "ADR-CF-06"
+      ]
+    },
+    {
+      "task": "CF-TESTPLAN",
+      "issue": 894,
+      "disposition": [
+        "ADR-CF-06"
+      ]
+    },
+    {
+      "task": "CF-UX",
+      "issue": 895,
+      "disposition": [
+        "ADR-CF-08"
+      ]
+    },
+    {
+      "task": "CF-RENDER-MD",
+      "issue": 896,
+      "disposition": [
+        "ADR-CF-08"
+      ]
+    },
+    {
+      "task": "CF-RENDER-HTML",
+      "issue": 897,
+      "disposition": [
+        "ADR-CF-08"
+      ]
+    },
+    {
+      "task": "CF-RENDER-PDF",
+      "issue": 898,
+      "disposition": [
+        "ADR-CF-08"
+      ]
+    },
+    {
+      "task": "QUAL-INVENTORY",
+      "issue": 899,
+      "disposition": [
+        "Reuse ADR0054 Runtime ownership; inventory is evidence, not replacement architecture."
+      ]
+    },
+    {
+      "task": "QUAL-RESIDENT",
+      "issue": 900,
+      "disposition": [
+        "Reuse ADR0054; retain exact resident success/failure proof separately."
+      ]
+    },
+    {
+      "task": "QUAL-PROVIDER",
+      "issue": 901,
+      "disposition": [
+        "Consume ADR-PLAT-01 and ADR0054; qualification does not accept the proposed record."
+      ]
+    },
+    {
+      "task": "QUAL-EVIDENCE",
+      "issue": 902,
+      "disposition": [
+        "Consume ADR0054 and ADR-PLAT-01; preserve producer-specific evidence and nonzero proof denominators."
+      ]
+    },
+    {
+      "task": "PLAT-MLX",
+      "issue": 903,
+      "disposition": [
+        "ADR-PLAT-01"
+      ]
+    },
+    {
+      "task": "PLAT-PAIR",
+      "issue": 904,
+      "disposition": [
+        "ADR-PLAT-01"
+      ]
+    },
+    {
+      "task": "SPEC-RETEST",
+      "issue": 905,
+      "disposition": [
+        "ADR-PLAT-01"
+      ]
+    },
+    {
+      "task": "PLAT-RUST",
+      "issue": 906,
+      "disposition": [
+        "Behavior-preserving refactor; no new architectural decision unless the selected boundary changes."
+      ]
+    },
+    {
+      "task": "CSDLC-REMOTE",
+      "issue": 907,
+      "disposition": [
+        "ADR-CSDLC-01"
+      ]
+    },
+    {
+      "task": "OPS-AWS",
+      "issue": 908,
+      "disposition": [
+        "Operational inventory delta and runbook; no new architecture unless owner identifies a changed boundary."
+      ]
+    },
+    {
+      "task": "OPS-GCP",
+      "issue": 909,
+      "disposition": [
+        "Read-only reconciliation of prior move-in authority; no new architecture or cloud mutation."
+      ]
+    },
+    {
+      "task": "OBS-S3",
+      "issue": 910,
+      "disposition": [
+        "Reconcile existing #679/#685 static-client design with ADR0054; record explicit deployment decision/approval provenance, without promoting deferred dual-client ADR0069."
+      ]
+    },
+    {
+      "task": "ARCH-ADR",
+      "issue": 911,
+      "disposition": [
+        "Own this inventory and candidate curation; acceptance remains explicit decision-owner authority."
+      ]
+    },
+    {
+      "task": "PUB-MEDIUM",
+      "issue": 912,
+      "disposition": [
+        "Consume ADR0025 and proposed CodeFriend decisions with accurate status; article grants no architecture authority."
+      ]
+    },
+    {
+      "task": "PUB-CSDLC",
+      "issue": 913,
+      "disposition": [
+        "Consume settled C-SDLC evidence with private manuscript separation; writing grants no architecture authority."
+      ]
+    },
+    {
+      "task": "CF-INTEGRATE",
+      "issue": 914,
+      "disposition": [
+        "ADR-CF-09"
+      ]
+    },
+    {
+      "task": "CF-PROOF",
+      "issue": 915,
+      "disposition": [
+        "Consume proposed CodeFriend records and qualification selections; independently qualify installed integrated product, do not infer proof from ADR text."
+      ]
+    },
+    {
+      "task": "TAIL-01",
+      "issue": 916,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-02",
+      "issue": 917,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-03",
+      "issue": 918,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-04",
+      "issue": 919,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-05",
+      "issue": 920,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-06",
+      "issue": 921,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-07",
+      "issue": 922,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-08",
+      "issue": 923,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-09",
+      "issue": 924,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    },
+    {
+      "task": "TAIL-10",
+      "issue": 925,
+      "disposition": [
+        "Reuse canonical ten-step release policy; record accepted product evidence and issue-specific outcome, no standalone architectural decision."
+      ]
+    }
+  ],
+  "unresolved": [
+    "All twelve records remain Proposed; exact-text operator/designated-owner acceptance is pending.",
+    "#848 owner-produced repository decision remains independently open at observed readback.",
+    "#910 deployed acceptance remains open; merged685 design does not prove deployment.",
+    "0072 and0075 remain Proposed;0069 remains Deferred."
+  ]
+}

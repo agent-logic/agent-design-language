@@ -1,0 +1,24 @@
+{
+  "expected_lifecycle_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "exact_review_sha": "1111111111111111111111111111111111111111",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 861,
+      "pull_request": 1234,
+      "expected_head_sha": "1111111111111111111111111111111111111111",
+      "credential_names": [
+        "GITHUB_TOKEN"
+      ],
+      "mutation": {
+        "action": "pull_request_merge",
+        "base": "main",
+        "method": "merge",
+        "review_receipt_path": ".csdlc/evidence/861/typed-review.json",
+        "review_receipt_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "operator_approval": "fixture only; no authorized live merge"
+    }
+  }
+}

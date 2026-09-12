@@ -20,3 +20,9 @@ Each candidate must cite alternatives, consequences, reversibility, and evidence
 The owner sets above are participating implementation tasks, not bundled implementation issues. ARCH-ADR remains one required planning deliverable: the completed source-grounded decision set and supersession map. Reconcile provider configuration versus lifecycle, action-planner consumers, Runtime evidence ownership and local/remote command decomposition against the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) when selecting necessary ADRs. A candidate record cannot close an implementation task.
 
 ARCH-ADR completion and its decision-set acceptance explicitly gate TAIL-10 milestone closure. It remains outside CF-INTEGRATE and the early TAIL-01 quality gate; the ten-step release order is preserved.
+
+## Proposed records from #911
+
+The [complete proposed packet](adr/issue-911/README.md) supplies ADR-CF-01 through ADR-CF-09, ADR-PLAT-01 and ADR-CSDLC-01/02. The original eight topics remain represented; four reviewed additions capture the local product, shared provider lifecycle, semantic C-SDLC record and single-writer transition boundaries. These are issue-local candidate labels, not accepted numeric ADR allocations.
+
+The packet reconciles all 69 task identities and retains separate #848 repository-decision and #910 deployment obligations. Twelve drafted candidates are documentation delivery, not formal decision acceptance, completed implementation, or satisfaction of the TAIL-10 gate. See its decision-dispositions and supersession map for unresolved authority.

@@ -1221,3 +1221,169 @@ async fn resident_shepherd_lifetime_recovery_retries_and_recovers() {
         ]
     );
 }
+
+// PVF: runtime; production recovery controller; deterministic virtual clock;
+// bounded local CPU, no provider/network; required #854 metered-call regression.
+#[tokio::test(start_paused = true)]
+async fn resident_shepherd_ready_is_idle_until_explicit_failure() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let readiness = ResidentShepherdReadiness::default();
+    let task_readiness = readiness.clone();
+    let shutdown = CancellationToken::new();
+    let task_shutdown = shutdown.clone();
+    let calls = Arc::new(AtomicUsize::new(0));
+    let task_calls = calls.clone();
+    let failures = Arc::new(AtomicUsize::new(0));
+    let task_failures = failures.clone();
+    let task = tokio::spawn(async move {
+        run_resident_shepherd_recovery(
+            "cloud-resident",
+            ResidentShepherdRecoveryPolicy {
+                timeout: Duration::from_secs(10),
+                retry_initial: Duration::from_secs(1),
+                retry_max: Duration::from_secs(4),
+            },
+            task_readiness,
+            task_shutdown,
+            move || {
+                task_calls.fetch_add(1, Ordering::SeqCst);
+                let failed = task_failures
+                    .fetch_update(Ordering::SeqCst, Ordering::SeqCst, |count| {
+                        count.checked_sub(1)
+                    })
+                    .is_ok();
+                async move {
+                    if failed {
+                        Err("provider_temporarily_unavailable")
+                    } else {
+                        Ok(())
+                    }
+                }
+            },
+            |_| {},
+        )
+        .await;
+    });
+    tokio::task::yield_now().await;
+    assert!(readiness.is_ready("cloud-resident"));
+    for _ in 0..100 {
+        tokio::time::advance(Duration::from_secs(4)).await;
+        for _ in 0..100 {
+            assert!(readiness.is_ready("cloud-resident"));
+        }
+        tokio::task::yield_now().await;
+    }
+    assert_eq!(
+        calls.load(Ordering::SeqCst),
+        1,
+        "steady-state/status reads must not invoke inference"
+    );
+    failures.store(2, Ordering::SeqCst);
+    readiness.mark_unready("cloud-resident");
+    tokio::task::yield_now().await;
+    assert_eq!(calls.load(Ordering::SeqCst), 2);
+    assert!(!readiness.is_ready("cloud-resident"));
+    tokio::time::advance(Duration::from_secs(1)).await;
+    tokio::task::yield_now().await;
+    assert_eq!(calls.load(Ordering::SeqCst), 3);
+    tokio::time::advance(Duration::from_secs(1)).await;
+    tokio::task::yield_now().await;
+    assert_eq!(
+        calls.load(Ordering::SeqCst),
+        3,
+        "second failure doubles backoff"
+    );
+    tokio::time::advance(Duration::from_secs(1)).await;
+    tokio::task::yield_now().await;
+    assert_eq!(calls.load(Ordering::SeqCst), 4);
+    assert!(readiness.is_ready("cloud-resident"));
+    tokio::time::advance(Duration::from_secs(400)).await;
+    tokio::task::yield_now().await;
+    assert_eq!(
+        calls.load(Ordering::SeqCst),
+        4,
+        "recovery must stop after success"
+    );
+    shutdown.cancel();
+    task.await.unwrap();
+}
+
+// Same PVF lane: a stuck startup attempt must not delay shutdown until timeout.
+#[tokio::test(start_paused = true)]
+async fn resident_shepherd_shutdown_interrupts_pending_probe() {
+    let shutdown = CancellationToken::new();
+    let task_shutdown = shutdown.clone();
+    let task = tokio::spawn(async move {
+        run_resident_shepherd_recovery(
+            "resident",
+            ResidentShepherdRecoveryPolicy {
+                timeout: Duration::from_secs(600),
+                retry_initial: Duration::from_secs(1),
+                retry_max: Duration::from_secs(4),
+            },
+            ResidentShepherdReadiness::default(),
+            task_shutdown,
+            std::future::pending::<Result<(), &'static str>>,
+            |_| {},
+        )
+        .await;
+    });
+    tokio::task::yield_now().await;
+    shutdown.cancel();
+    task.await.unwrap();
+}
+
+// PVF: deterministic virtual-clock concurrency regression, production recovery
+// controller, local CPU only, required #854 proof.
+#[tokio::test(start_paused = true)]
+async fn resident_shepherd_invalidation_during_probe_is_not_overwritten() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    let readiness = ResidentShepherdReadiness::default();
+    let shutdown = CancellationToken::new();
+    let calls = Arc::new(AtomicUsize::new(0));
+    let task = tokio::spawn({
+        let readiness = readiness.clone();
+        let attempt_readiness = readiness.clone();
+        let shutdown = shutdown.clone();
+        let calls = calls.clone();
+        async move {
+            run_resident_shepherd_recovery(
+                "beacon",
+                ResidentShepherdRecoveryPolicy {
+                    timeout: Duration::from_secs(10),
+                    retry_initial: Duration::from_secs(2),
+                    retry_max: Duration::from_secs(8),
+                },
+                readiness,
+                shutdown,
+                move || {
+                    let count = calls.fetch_add(1, Ordering::SeqCst);
+                    let readiness = attempt_readiness.clone();
+                    async move {
+                        if count == 0 {
+                            readiness.mark_unready("beacon");
+                        }
+                        Ok(())
+                    }
+                },
+                |_| {},
+            )
+            .await;
+        }
+    });
+    tokio::task::yield_now().await;
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+    assert!(!readiness.is_ready("beacon"));
+    tokio::time::advance(Duration::from_secs(1)).await;
+    tokio::task::yield_now().await;
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+    tokio::time::advance(Duration::from_secs(1)).await;
+    tokio::task::yield_now().await;
+    assert!(readiness.is_ready("beacon"));
+    assert_eq!(calls.load(Ordering::SeqCst), 2);
+    tokio::time::advance(Duration::from_secs(100)).await;
+    tokio::task::yield_now().await;
+    assert_eq!(calls.load(Ordering::SeqCst), 2);
+    shutdown.cancel();
+    task.await.unwrap();
+}

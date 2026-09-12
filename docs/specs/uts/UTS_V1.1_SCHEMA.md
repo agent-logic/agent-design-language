@@ -7,8 +7,9 @@ Tracked normative next-version specification for the Universal Tool Schema.
 Status note:
 
 > This document defines the `UTS v1.1` adoption target.
-> The current implemented runtime baseline remains `UTS v1.0` until follow-on
-> code adoption lands.
+> The guaranteed baseline remains `UTS v1.0`. The versioned package also
+> implements the existing v1.1 declaration subset; see [PACKAGE.md](PACKAGE.md)
+> for exact supported semantics. The full target is not claimed as implemented.
 
 Matching machine-readable schema artifacts:
 

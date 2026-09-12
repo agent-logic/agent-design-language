@@ -1,0 +1,152 @@
+[
+  {
+    "page": "csdlc-bind.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-clean.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-cutover.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-doctor.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-edit.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-eligibility.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-finish.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-foundation.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-github-issue.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-github-pr.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-github.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-install.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-issue.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-local.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-pr-state.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-proof.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-publish.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-release-preflight.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-remote.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-requests.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-review.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-rollback.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-schedule.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-shadow.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-shepherd.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-soak.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-sprint.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-validate.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc-workflow.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  },
+  {
+    "page": "csdlc.1",
+    "exit_code": 0,
+    "diagnostics": ""
+  }
+]

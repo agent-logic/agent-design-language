@@ -8,7 +8,7 @@
       name="description"
       content="ADL Observatory for the live Runtime v3 API with retained historical evidence."
     >
-    <link rel="stylesheet" href="./styles.css?v=v0921-wuji-56">
+    <link rel="stylesheet" href="./styles.css?v=v0922-live-720">
   </head>
   <body>
     <a class="skip-link" href="#runtime-proof">Skip to Observatory runtime proof</a>
@@ -106,13 +106,9 @@
             <button class="button button-secondary" type="button" id="polis-add-cancel" style="padding:0.3rem 0.7rem">✕</button>
           </div>
           <select id="top-mode-select" aria-label="Mode" style="display:none">
-            <option value="published">Published Mirror</option>
-            <option value="retained">Retained Mirror</option>
             <option value="live">Live Loopback</option>
           </select>
           <div class="mode-tabs" role="group" aria-label="Runtime mode">
-            <button class="mode-tab" type="button" data-mode="published">Published</button>
-            <button class="mode-tab" type="button" data-mode="retained">Retained</button>
             <button class="mode-tab active" type="button" data-mode="live" aria-selected="true">Live</button>
           </div>
           <div class="topbar-controls" role="group" aria-label="Runtime controls">
@@ -214,7 +210,7 @@
               <ol class="trace-list hero-trace" id="hero-event-stream">
                 <li class="trace-row">
                   <span class="trace-seq">00</span>
-                  <span><strong>Waiting</strong><br><span class="row-detail">Runtime events load from retained or loopback CSM data.</span></span>
+                  <span><strong>Waiting</strong><br><span class="row-detail">Waiting for live Runtime events.</span></span>
                 </li>
               </ol>
             </section>
@@ -610,14 +606,14 @@
 
       <footer class="dashboard-statusbar" aria-label="Observatory runtime status">
         <span><b id="statusbar-indicator"></b><strong id="statusbar-runtime-label">Runtime Source</strong></span>
-        <span id="statusbar-source">retained packet</span>
+        <span id="statusbar-source">awaiting live Runtime</span>
         <span>WSS <strong id="statusbar-websocket">idle</strong></span>
         <span>Last Update <strong id="statusbar-updated">pending</strong></span>
         <span>Data Source <strong>Runtime v3 opt-in + CSM Runtime + AWS CloudWatch + ACIP/SNS</strong></span>
-        <span>Mode <strong id="statusbar-mode">Retained Mirror</strong></span>
+        <span>Mode <strong id="statusbar-mode">Live</strong></span>
       </footer>
     </main>
 
-    <script src="./app.js?v=v0921-wuji-56"></script>
+    <script src="./app.js?v=v0922-live-720"></script>
   </body>
 </html>

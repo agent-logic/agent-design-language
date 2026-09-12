@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-09-12T01:39:24.118770+00:00",
+  "endpoint": "https://wuji.dev.csm.agent-logic.ai:20997/v1/health",
+  "no_origin_http_status": 200,
+  "target_origin": "https://observatory.csm.agent-logic.ai",
+  "with_origin_http_status": 403,
+  "browser_origin_accepted": false,
+  "websocket_connectivity": "not proven",
+  "authentication": "not exercised"
+}

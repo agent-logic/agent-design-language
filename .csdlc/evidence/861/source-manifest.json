@@ -1,0 +1,241 @@
+{
+  "schema": "csdlc.operator_manual_source_manifest.v1",
+  "files": [
+    {
+      "path": "adl/tools/install_csdlc_man_pages.sh",
+      "sha256": "9d8e6bc3a8a3abf81d81afed95302469892c4db765128912f78f6f1dd2b93657"
+    },
+    {
+      "path": "adl/tools/install_owner_binaries.sh",
+      "sha256": "c97501b20b12d7f2b9a1f0fda33d600a0a722781ea4e818a70df3691ebcedcfc"
+    },
+    {
+      "path": "adl/tools/test_owner_binary_install.sh",
+      "sha256": "6876ede175079b4c0bcabcd5306f5a471f23e10945013365a804bae60d2b0da2"
+    },
+    {
+      "path": "csdlc-v3/examples/operator_manual.rs",
+      "sha256": "b7b182b1a250b06177a604e32b483ed603e43ca7b4dcda78cdadc544388787c0"
+    },
+    {
+      "path": "csdlc-v3/tests/operator_man_pages.rs",
+      "sha256": "c435d53f696878e3977235995f12c9302e8abfcf3a66882c4de63a79001f4b45"
+    },
+    {
+      "path": "docs/csdlc-v3/man/README.md",
+      "sha256": "d2779d45e4839ed2e98511375875b744cbc259251d31cd8a59d9c6a64858bb23"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/clean.json",
+      "sha256": "beb38614b31aca23fabf23d145b9739f5a5be826e2bfb92bcbe298b598ecb837"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/cutover.json",
+      "sha256": "6401fb6963ad19b0339c00c929fbbc47bcb5909dc8b0b8ae27eed1f24ba27e0e"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/finish-primary.json",
+      "sha256": "c0da1bcc3bc2844b325f3ddc6f42168a1da738db790669bcf40ff3da2f16df18"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/finish.json",
+      "sha256": "543568ab0ffe0a11652f11af716bc7fa03d2dc7add0f3ee64651da6805436db6"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/install.json",
+      "sha256": "bc81fdbe86be723a64763d01bd21df14b98f7664bff0c7bcb7a0975adc3a7194"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/local.json",
+      "sha256": "f37dc1d89e523a4607fc521cae951342463c9b13bc25230167912b3170296040"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/merge.json",
+      "sha256": "4e5528ec4a7c52d4e08a037fa8dddbd6213d0bba797587381fac734b87fb628a"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/mutation.json",
+      "sha256": "4afc1f29702de60bcb2f96362f3de867f2ab68962b49772df2045f87dff1d324"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/pr-create.json",
+      "sha256": "06a73aa2373cafebd56a85c054f974ba6be1406ff1a09012da0858e9beb44c36"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/proof.json",
+      "sha256": "96e54189a04add1c31cf85dcea0de0e457ca53bfaf5da1845b3597d68fe47d9a"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/release.json",
+      "sha256": "ccf0d0a892d5ae7f0d9ccbeb4c3d68d69aba4c43309b531949ac4c3784548ce9"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/remote.json",
+      "sha256": "fe0d64fe3bd8298bfe2dcc548bb104fe1a6f136f6c526b976caad28ea86ec8f5"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/review.json",
+      "sha256": "46ac527a196f7ebfcf369510c66b9e9176ed895faab26c86ce11ad6000e6826b"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/rollback.json",
+      "sha256": "93ede32ef4971af44fdbb910a3f59be5c6de7721589b07999a6e941d27cf8669"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/shadow.json",
+      "sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/soak.json",
+      "sha256": "3bb23dd3ef201542627f30e4c4bcc333cffd8119c4e09c27c22128e487cd5dd9"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/sprint.json",
+      "sha256": "e39ba658918125337c35e9ef4502054dc6a6e5ecd154b343d6d22ec029d035a6"
+    },
+    {
+      "path": "docs/csdlc-v3/man/examples/typed-review.json",
+      "sha256": "1add12864d22def8264ac058df21d04c0084d38d84a21d6722828b3ae0d47c6f"
+    },
+    {
+      "path": "docs/csdlc-v3/man/inventory.json",
+      "sha256": "523569a9f6c14c755bf95792b85dd28eec2049abfe54853d3cb17e2d176b5679"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-bind.1",
+      "sha256": "cd3e10a2b0e8a29da998497d904b06b1543a9a87c34ba26cfd0a78c87aeab687"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-clean.1",
+      "sha256": "3e35f9a4fbe04d4943b38cc1fdeadfe10190b8c472cbc7e1657618bca8ef91af"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-cutover.1",
+      "sha256": "b6cf2004d2041ceb89827e390b33c8a08d5b91c40e9867cdb77ab6a6439a5ee7"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-doctor.1",
+      "sha256": "b68e88fc540e0f0721ffd8450fd8b22aea8b04005ab7760d5039de2c2db06ae5"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-edit.1",
+      "sha256": "74f8fe412e0341bd3ee9491cd86a190bc16da4fff91b61812e3c946fe9d8e81e"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-eligibility.1",
+      "sha256": "8c1c26e69b9b85f8a1990f55e3afcaa2fa9bb349eefddaeaa2eff3c85cd7e079"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-finish.1",
+      "sha256": "0661e9aeb5ad19d2fd664b058a8fa4f5b574f1144e2d0c01947c4f7b58de504a"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-foundation.1",
+      "sha256": "671ac35071df31bb0ccd1038bfc1f85c27991c719a48a0f4d6440311967f95d2"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-issue.1",
+      "sha256": "f5d9ac135defafc26d1761751cfbb1946f6280dcbdcac2092a54a87b3c1d569f"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-github-pr.1",
+      "sha256": "4b055a2a88af2afd1e2232a1b777f446a6f486917e9844151281df1ee45ee53b"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-github.1",
+      "sha256": "d86e1ca2562e3ac64b0b59a6baf9beff2646f597c9a7f12a18fd95c6708ed0aa"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-install.1",
+      "sha256": "33db9ecd8468705de2360b17aadef829a804124f6948038de461ab2f0d99390d"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-issue.1",
+      "sha256": "62bac7464f00a231c2907296571964364aa2eb861cf2f81e57b0b1280269445c"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-local.1",
+      "sha256": "c022e618e4f5977ef931a41308869f5ec138748d4a399b854ebfe16f966e1fa6"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-pr-state.1",
+      "sha256": "a8a3a7ff8e556e01b85594d5f7f8c418efae7b1bbb8c30556e4246c39b21f352"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-proof.1",
+      "sha256": "cdbf1fbea2192d1566061334ed2cc334e322f98d52d3354a780b42fe62b64d49"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-publish.1",
+      "sha256": "1c1bd72675abac3499e3969dac2cfdd4c7b5c08207fb744117aef1ee3239ed6a"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-release-preflight.1",
+      "sha256": "b6373f8f0a7e12b7d0f1d7e6e8106799dc98d24c188fa9be363a5b688dfdeb40"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-remote.1",
+      "sha256": "21c5f2495d9db039d3df4f0ba447f4a6b3de92a6bf58ac46c95ebd8f19ad76ca"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-requests.1",
+      "sha256": "091919506f89550c6b095ac764418a52160001f0f1301fc368179c73a4600a3c"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-review.1",
+      "sha256": "bba3537060c523a44ed445fa18101dc459c68b649f3c8fe9d2c0a7f08ef4a64f"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-rollback.1",
+      "sha256": "3039618ce403ae3e6362b02359773104559f1ab071b4aaaa997bebfad689581e"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-schedule.1",
+      "sha256": "90b8b82052072ab7517a73b9190b3de9668c812eddc2e2f36f71ea2298abbcf2"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-shadow.1",
+      "sha256": "edb42a98fe1ec4dead0f21fc12c348a5baa55e2c18eafb438a83e4a0b8c70a68"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-shepherd.1",
+      "sha256": "26bc69eb80cfb90c804892823d4cdc626119b38d0b7f7fab1b3f39aeb95fb5b8"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-soak.1",
+      "sha256": "b72fcb194da12096aa4e2258cb06a2968f7f0f8c2e863f0fd0361cb1abed272c"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-sprint.1",
+      "sha256": "cab7a2f8371e7f793edf55df6bd4266da0784597360250aafc929dca147a4ed9"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-validate.1",
+      "sha256": "dfe0dcccc1eb5b70208c943ea3aca83f948618464cd7a47606274a49570d2a01"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc-workflow.1",
+      "sha256": "518d91a2341df6c60a6af96f9d4badd857ba68e9f27daaecf359febd1a1188fb"
+    },
+    {
+      "path": "docs/csdlc-v3/man/man1/csdlc.1",
+      "sha256": "6779317cb3091205e8ccaea7ac216980d1a3887a2c00998cee7d6bdf6edca090"
+    },
+    {
+      "path": "docs/csdlc-v3/man/manual.json",
+      "sha256": "4eae8ed311f461e1705f42cee2313d64c8cd1e9cf5eeaaf7c8829fa40d78c38e"
+    },
+    {
+      "path": "docs/csdlc-v3/man/pvf.json",
+      "sha256": "7bdde96ffef5881f5804099fbf584d5bacc431039037458297423bfd67de8916"
+    },
+    {
+      "path": "docs/csdlc-v3/man/render.py",
+      "sha256": "6c272c90d9b3dd8b2bda790bdcf881c913beb7551534967738ef0ea26756e881"
+    },
+    {
+      "path": "docs/csdlc-v3/man/test_install.sh",
+      "sha256": "a30403c014c505f07fe0eb34baf708813facc56d5a64b9d0b548a87df4ad3de4"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 720,
+  "phase": "bound",
+  "generation": 8,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/720-observatory-live",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-720-observatory-live",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "7e533247203e56d14d9143426de358b87221e071788ba5b1bb39e7d7abd9191e"
+}

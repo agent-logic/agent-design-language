@@ -1,0 +1,1511 @@
+{
+  "schema": "csdlc.operator_manual.v1",
+  "pages": [
+    {
+      "name": "csdlc",
+      "summary": "operate the authenticated C-SDLC v3 lifecycle",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc --help\ncsdlc COMMAND --help\nman csdlc-COMMAND\nman csdlc-requests\nman csdlc-workflow"
+          }
+        ],
+        "DESCRIPTION": [
+          "C-SDLC v3 is the current lifecycle authority after #505 / PR #591 only when canonical origin/main selector, authenticated native receipt, terminal reconciliation and Git objects validate. Missing or stale proof suspends authority. A printed plan, a construction report, an install, or a boolean in a request cannot grant it.",
+          "This suite documents the committed native command contract. It includes all help-listed commands plus the supported rollback alias and github-issue create/close forms. The active simplification issues may change future behavior; rerun command/option parity after integration. Historical v1 wrappers and retained v2 binaries are not routine operational routes."
+        ],
+        "INSTALLATION": [
+          {
+            "code": "bash adl/tools/install_owner_binaries.sh --bin csdlc\nexport PATH=\"$PWD/.adl/bin/native-v3:$PATH\"\nexport MANPATH=\"$PWD/.adl/bin/native-v3/share/man:${MANPATH:-}\"\nman csdlc\nman csdlc-finish"
+          },
+          "The owner installer installs the manual under STABLE_BIN_DIR/share/man/man1 and prints discovery instructions; it does not edit shell startup files or global system directories. Set PATH and MANPATH in your own shell as above. The trailing MANPATH colon retains system manual paths on macOS and Linux. --stable-bin-dir changes the binary and manual prefix together. A docs-only refresh does not rebuild or replace an unchanged binary.",
+          "The native csdlc install command is an issue-bound proof/install route with a separate .adl/bin/csdlc destination and explicit approval. It is not the owner installer or manual installer. See csdlc-install(1)."
+        ],
+        "LIFECYCLE": [
+          "Prepare issue-specific SIP -> STP -> SPP -> VPP -> SRP -> SOR using the active template registry. Native issue/edit/validate/doctor prepare a local issue; bind creates the registered execution worktree. Implement and validate proportionally, obtain independent exact-head review, and check native review before publication. Native publish validates publication admission; github-pr executes the actual create/update/ready/merge transport. Finish observes merged PR plus closed issue and may persist terminal records; clean independently previews and removes only the exact eligible registered checkout.",
+          "Use csdlc-workflow(1) for the complete operator sequence. A successful command exit is not sufficient: inspect operational_authority, result status/findings, exact issue/head and mutation flags. A ready model-only plan is not executed work."
+        ],
+        "CONVENTIONS": [
+          "--help and -h are standalone help arguments, not global options mixed into another invocation. There is no --version, --json, --quiet, --root or global --repo option. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc-requests(1).",
+          "Local commands accept --repo-root for discovery and --v3-state-root for retained construction storage. Ordinary operations should run from clean primary main during preparation, then from the native-bound issue checkout. Do not use alternate roots to bypass ownership. Exact SHA means the full 40-hex Git revision. Local lifecycle digests and remote canonical selector digests are different values."
+        ],
+        "CREDENTIALS": [
+          "Select credential names, never credential values, in credential_names or --credential-name. The default simple-issue name is GITHUB_TOKEN. The current native resolver first reads the selected environment variable; if absent, GITHUB_TOKEN or GH_TOKEN may use the explicitly set ADL_GITHUB_TOKEN_FILE. A set-but-empty variable fails; it does not fall back. Other credential names require their corresponding environment variable.",
+          "For the operator-approved token file use ADL_GITHUB_TOKEN_FILE=\"$HOME/keys/github.token\" only on commands needing GitHub access. Do not print or retain its contents. This committed native resolver requires the explicit file variable; it does not automatically discover a default file. Invalid credentials, unsafe token characters or unavailable authentication fail closed. Child processes receive scoped credentials and sanitized environments. Retained curl transport uses a private temporary config and removes the file; do not mistake temporary file cleanup for a completely write-free observation."
+        ],
+        "EXIT STATUS": [
+          "0 means the command returned a report (or help); some planning reports still contain blocked findings. 2 means usage, parsing, guard, transport or execution failure. Read the structured status as well as the process exit status.",
+          "Successful JSON reports go to stdout. Current proof/release-preflight blocked reports also go to stdout with a short diagnostic on stderr. Other current failures may serialize findings on stderr with a csdlc prefix. Do not assume all errors are JSON stdout. The v3 CLI does not implement ADL_OBSERVABILITY_STDERR or ADL_OBSERVABILITY_LOG overrides; this manual claims no such compatibility mode."
+        ],
+        "FILES": [
+          "Primary local preparation: resolved Git metadata csdlc-v3/local/issues/ISSUE/{index.json,values/,cards/}. In an ordinary primary checkout this is .git/csdlc-v3/local. Linked issue state: .csdlc/issues/ISSUE/{index.json,values/,cards/}. Local locks and transactions live beneath that resolved local state root, including transactions/ISSUE.json and completed transaction records.",
+          "Remote intents, recovery and mutation receipts live beneath resolved common Git metadata csdlc-v3/remote/. Merge intent/reconciliation lives in remote/merges/. Temporary private transport inputs live under resolved Git runtime metadata. Do not delete uncertain intent, locks, journals, stages or backup records as a recovery shortcut.",
+          "Terminal state is LOCAL_ROOT/v3/issues/ISSUE/terminal.json and LOCAL_ROOT/evidence/ISSUE/terminal-receipt.json. LOCAL_ROOT is resolved Git metadata csdlc-v3/local on primary and .csdlc in linked checkout. Use paths returned by the native result and preserve exact topology. Proof artifacts are issue-scoped .csdlc/evidence/ISSUE in the invoking bound checkout."
+        ],
+        "DIAGNOSTICS": [
+          "authority missing/stale: inspect canonical origin/main selector, native receipt and referenced Git objects, then route authority repair through its owner. Do not switch to v2 or raw GitHub writes.",
+          "stale_lifecycle_digest: reread actual native index/generation, compare the intended field edits, refresh the request from that state, and validate. Never copy an unrelated issue digest.",
+          "github_credential_missing or credential resolution failed: set the approved credential source explicitly and retry the same read. Never put the token into JSON or argv.",
+          "review stale/head mismatch: verify actual branch HEAD, rerun affected proof and independent review at that head, refresh the typed receipt and native review. Do not relabel an old receipt.",
+          "incorrect checkout topology/invalid_operational_roots: inspect git status --short --branch and git worktree list --porcelain. Return to the exact registered branch and native-bound checkout; preserve existing work. Do not hand-edit index binding or register fake worktrees.",
+          "finish without --observe-github: a caller-provided public_adapter_receipt is not authentication. Use native finish --observe-github with numeric PR, expected head and closing mode; a still-open issue or unmerged PR remains blocked.",
+          "uncertain remote mutation/reconciliation: preserve request and intent bytes, then reissue the identical native request to reconcile authenticated remote state. Do not change IDs, delete receipts or repeat a raw write. Only explicitly supported creation/ready absence recovery may request its one-shot retry. Merge and issue-edit uncertain retries are observation-only.",
+          "Current local diagnostic execution can initialize lock directories and participate in interrupted local transaction recovery; doctor/eligibility can return a non-authoritative construction report on certain topology errors. Inspect operational_authority and findings. Strict observation-only behavior is being addressed by #867 and is not claimed by this manual before that change integrates."
+        ],
+        "SEE ALSO": [
+          "csdlc-workflow(1), csdlc-requests(1), csdlc-doctor(1), csdlc-github-pr(1), csdlc-finish(1), csdlc-clean(1). Repository policy: AGENTS.md, docs/csdlc-v3/CURRENT_AUTHORITY.md, docs/csdlc-v3/CONTRACT.md and docs/csdlc-v3/PULL_REQUEST_MERGE.md."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-local",
+      "summary": "inspect retained local preparation model",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc local --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc local --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Constructs render, dependency and bind plans from the request, active registry and registration inventory. It neither creates a GitHub issue nor binds a checkout. A proposed branch generally must have a matching registration for the retained helper plan; do not invent a registration to obtain a green result."
+        ],
+        "EFFECTS": [
+          "Read-only helper; no operational authority.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc local --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-issue",
+      "summary": "prepare six native lifecycle cards",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc issue --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc issue --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Creates local lifecycle state and six cards from active templates. It does not create the remote GitHub issue. First preparation omits expected_lifecycle_digest; existing state requires the exact current digest. Primary preparation uses resolved Git metadata, then bind materializes the issue bundle in its worktree."
+        ],
+        "EFFECTS": [
+          "Mutates local issue state after authority checks.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc issue --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-bind",
+      "summary": "bind an issue to its registered execution checkout",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc bind --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc bind --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Requires ready issue-specific cards, current digest, authenticated canonical authority and the tracked .adl/worktree-policy.json approved parent. Creates the exact branch and FastWork checkout when absent, or validates supported existing binding. Do not manually create a competing checkout. Verify bound phase, returned digest and all six cards before implementation."
+        ],
+        "EFFECTS": [
+          "Mutates Git branch/worktree and local issue state.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc bind --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-edit",
+      "summary": "edit declared card values transactionally",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc edit --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc edit --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "card_updates maps sip/stp/spp/vpp/srp/sor to semantic field values. The native renderer validates locked template shape and commits the transaction. Use the appropriate editor skill to determine truthful fields; never patch generated Markdown. Compare-and-swap expected_lifecycle_digest binds the existing issue generation."
+        ],
+        "EFFECTS": [
+          "Mutates issue values, renders, index and transaction records.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc edit --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-validate",
+      "summary": "validate the six-card issue bundle",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc validate --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc validate --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Checks values, rendered structures and index digest against the active registry. A missing or malformed bundle blocks; this is structural validation, not implementation or semantic proof. The route uses the request's plan_pvf capability mapping, not a fictional validate command enum."
+        ],
+        "EFFECTS": [
+          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc validate --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-doctor",
+      "summary": "diagnose local lifecycle readiness",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc doctor --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc doctor --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Checks the native lifecycle and six cards, returns findings and next_route. Some invalid operational roots currently fall back to non-authoritative construction reporting. Check operational_authority and full findings before considering binding. It does not establish independent implementation review."
+        ],
+        "EFFECTS": [
+          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc doctor --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-eligibility",
+      "summary": "inspect lifecycle eligibility",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc eligibility --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc eligibility --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Inspects native issue state and eligibility under current authority. Retained --v3-state-root observation and topology fallback can produce non-authoritative construction reports. Eligibility is not permission to execute a different issue or override dependency gates."
+        ],
+        "EFFECTS": [
+          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc eligibility --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-schedule",
+      "summary": "check six-dimensional issue readiness",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc schedule --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc schedule --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Requires schedule_readiness with phase_ready, cards_ready, design_ready, dependencies_ready, paths_clear and budget_available. All six must be truthfully supported. Reports eligible operations and blockers; it does not launch children or remove dependency edges."
+        ],
+        "EFFECTS": [
+          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc schedule --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-shepherd",
+      "summary": "select the next issue route from explicit state",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc shepherd --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc shepherd --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Consumes shepherd_routing validation/dependency_wait/retryable_failure/repair_needed/operator_decision_needed and native phase. Returns routing state and eligible operations. It does not create workers, dispatch tasks or perform the suggested next operation."
+        ],
+        "EFFECTS": [
+          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
+          "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--v3-state-root: Optional retained construction state root for issue/eligibility; not a primary-checkout artifact location or an ownership bypass.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc shepherd --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
+          },
+          "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
+        ],
+        "RECOVERY": [
+          "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-github",
+      "summary": "dispatch generic issue and PR operations",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc github --request REQUEST [--observe-github] [--execute]\ncsdlc github --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "With --execute owns github_mutation issue_create/comment/edit/close and pull_request_create/update/ready; pull_request_merge is rejected here. Without --execute returns a non-authoritative remote plan."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
+          "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
+        ],
+        "EFFECTS": [
+          "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc github --request github-dispatch.json --execute"
+          },
+          "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
+        ],
+        "RECOVERY": [
+          "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
+          "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), csdlc-finish(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-github-issue",
+      "summary": "create, comment, edit or administratively close GitHub issues",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc github-issue --request REQUEST [--observe-github] [--execute]\ncsdlc github-issue --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "With --execute owns only issue_create, issue_comment, issue_edit and issue_close. Creation returns the assigned GitHub number and durable receipt. Administrative duplicate/superseded/no-op closure is not delivery; completed closure is rejected. Use the simple forms documented below or the typed dispatch."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
+          "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
+        ],
+        "EFFECTS": [
+          "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc github-issue --request github-dispatch.json --execute"
+          },
+          "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
+        ],
+        "RECOVERY": [
+          "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
+          "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), csdlc-finish(1)."
+        ],
+        "SIMPLE FORMS": [
+          {
+            "code": "csdlc github-issue create --repo OWNER/REPO --title TITLE \\\n  (--body BODY | --body-file PATH) --expected-head SHA \\\n  [--label LABEL]... [--assignee LOGIN]... [--milestone NUMBER] \\\n  [--credential-name NAME] [--execute]\ncsdlc github-issue close --repo OWNER/REPO --issue NUMBER \\\n  --disposition duplicate|superseded|no-op --rationale TEXT \\\n  (--body CURRENT_BODY | --body-file PATH) --expected-head SHA \\\n  [--duplicate-of NUMBER] [--credential-name NAME] [--execute]"
+          },
+          "Without --execute these forms print the same typed dispatch for inspection; --expected-head is still a full exact SHA and canonical selector discovery must succeed. --body/--body-file are mutually exclusive and one is required. --label/--assignee repeat; other duplicate flags fail. --milestone, --issue and --duplicate-of are positive numeric IDs. Duplicate close requires --duplicate-of. --disposition also accepts no_op. --credential-name selects an environment name (default GITHUB_TOKEN), never a token value.",
+          "Close appends rationale and disposition to the authenticated current issue body, sets closed/not_planned, and retains the operation marker. A supplied current body containing an existing native operation marker is rejected by the current simple form; use a reviewed typed request preserving exact provenance rather than removing markers opportunistically.",
+          "issue_edit optional metadata: omitted title/body/labels/assignees/milestone preserves the corresponding remote value. labels is {operation:add|remove|replace,names:[...]}; replacement [] clears. assignees [] clears. milestone is {operation:set,number:N} or {operation:clear}. Bare null metadata fails; explicit empty body clears prose while retaining native marker. Deltas are resolved once and intent/readback binds the resolved target."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-github-pr",
+      "summary": "create, update, ready or merge a reviewed PR",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc github-pr --request REQUEST [--observe-github] [--execute]\ncsdlc github-pr --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "With --execute owns pull_request_create, pull_request_update, pull_request_ready and pull_request_merge. Only this command owns merge. Merge requires explicit authorization naming the repository and numeric PR, matching independent exact-head review, merge method, base and authenticated policy/check admission. Unsupported policy and uncertain outcomes fail closed."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
+          "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
+        ],
+        "EFFECTS": [
+          "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc github-pr --request pr-create-dispatch.json --execute"
+          },
+          "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
+        ],
+        "RECOVERY": [
+          "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
+          "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), csdlc-finish(1)."
+        ],
+        "MERGE": [
+          "mutation.action pull_request_merge requires base, method \"merge\", review_receipt_path and review_receipt_digest. Squash/rebase, queues, unsupported active rules, incomplete pagination, missing/wrong-app checks, skipped required checks, unresolved threads and changes-requested reviews fail closed.",
+          "Admission observes exact PR/head/base and effective branch policy. The SHA conditional protects the head, not an atomic base/policy snapshot. Reconciliation requires the authenticated merge commit to have two ordered parents, matching retained base then reviewed head. A base race after dispatch can only be detected afterward; never claim atomic policy compare-and-swap or automatic rollback.",
+          "After successful merge reconciliation run finish --observe-github independently. A merge receipt is not terminal issue-close evidence."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-pr-state",
+      "summary": "observe PR state and publication linkage",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc pr-state --request REQUEST [--observe-github] [--execute]\ncsdlc pr-state --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Without --observe-github validates supplied retained receipts; with it obtains authenticated exact PR readback. No remote write is dispatched. The shared parser accepts --execute but pr-state ignores that selection and remains on its readback path; do not use it as a mutation switch. Current transport can create temporary local runtime metadata."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
+          "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
+        ],
+        "EFFECTS": [
+          "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc pr-state --request remote-request.json --observe-github"
+          },
+          "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
+        ],
+        "RECOVERY": [
+          "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
+          "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), csdlc-finish(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-publish",
+      "summary": "check reviewed publication admission",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc publish --request REQUEST [--observe-github] [--execute]\ncsdlc publish --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Validates typed independent review, exact head, closing/part-of linkage and readback evidence. Without --execute produces a non-authoritative plan. With --execute requires an operational dispatch with operation.kind publish and canonical authority; it still validates a publication plan and does not create the GitHub PR. Use github-pr for the actual publication transport after successful review/admission."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
+          "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
+        ],
+        "EFFECTS": [
+          "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc publish --request remote-request.json"
+          },
+          "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
+        ],
+        "RECOVERY": [
+          "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
+          "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), csdlc-finish(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-review",
+      "summary": "validate independent exact-head review evidence",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc review --request REQUEST [--observe-github] [--execute]\ncsdlc review --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Checks that implementer/reviewer are not the same nonempty principal and that a review revision is supplied. The current review classifier does not authenticate the typed receipt contents or perform the human/subagent review; loading a receipt is not evidence that this route validated it. Independent review and a matching typed receipt remain required by policy and later publication checks. Without --execute produces a non-authoritative plan; with it requires operational envelope operation.kind review and authenticated authority."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
+          "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
+        ],
+        "EFFECTS": [
+          "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc review --request review-request.json"
+          },
+          "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
+        ],
+        "RECOVERY": [
+          "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
+          "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), csdlc-finish(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-finish",
+      "summary": "reconcile terminal issue truth",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc finish --request REQUEST [--observe-github]\ncsdlc finish --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Requires authenticated GitHub observation of a merged PR with the exact expected head, closing linkage and closed issue. mode must be closing; part_of checkpoints cannot finish. --observe-github is necessary for public authenticated finish; caller-authored public_adapter_receipt is not trusted. terminal_state is optional: omit to observe, include canonical output paths to retain terminal state and receipt. Finish does not merge or close GitHub issues."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc-requests(1). Examples under docs/csdlc-v3/man/examples use fixture identities and are not permission to mutate those targets."
+        ],
+        "EFFECTS": [
+          "Authenticated readback plus optional local terminal persistence; no GitHub write. A successful terminal observation without terminal_state does not create a durable terminal receipt."
+        ],
+        "FILES": [
+          "Primary terminal paths: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc finish --request finish-request.json --observe-github"
+          },
+          "Use csdlc-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization."
+        ],
+        "RECOVERY": [
+          "Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-clean",
+      "summary": "preview and remove an eligible registered worktree",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc clean --request REQUEST\ncsdlc clean --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Requires durable terminal receipt identity and digest, actual registered candidate, approved parent, exact matching head and clean non-live checkout. First use cleanup.remove false; inspect Removable and save returned receipt_digest. Then use remove true with that preview_receipt_digest and unchanged target identity. Removal is separate from finish. Dirty/live/unregistered/protected paths are not permission to delete manually."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc-requests(1). Examples under docs/csdlc-v3/man/examples use fixture identities and are not permission to mutate those targets."
+        ],
+        "EFFECTS": [
+          "Preview inspects; remove true may remove exactly the registered candidate after repeated guards. It does not authorize broad branch/worktree cleanup."
+        ],
+        "FILES": [
+          "Primary terminal paths: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc clean --request clean-request.json"
+          },
+          "Use csdlc-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization."
+        ],
+        "RECOVERY": [
+          "Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-cutover",
+      "summary": "apply an explicitly authorized authority transition",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc cutover --request REQUEST [--observe-github]\ncsdlc cutover --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Retained authority-transition owner for operator-reviewed cutover/rollback, not routine issue work. Requires cutover approval, source provenance, rollback evidence, undo boundary and authenticated #505 evidence; execute false previews, execute true requests guarded mutation. Do not reuse historical approval for a new authority transition. --observe-github obtains authenticated transition evidence."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc-requests(1). Examples under docs/csdlc-v3/man/examples use fixture identities and are not permission to mutate those targets."
+        ],
+        "EFFECTS": [
+          "May replace selected binary/authority selector or retain rollback receipt only through the explicitly authorized transition. Preview and proof do not authorize execution."
+        ],
+        "FILES": [
+          "Primary terminal paths: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc cutover --request cutover-request.json"
+          },
+          "Use csdlc-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization."
+        ],
+        "RECOVERY": [
+          "Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-rollback",
+      "summary": "invoke the typed rollback transition",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc rollback --request REQUEST [--observe-github]\ncsdlc rollback --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Supported alias of cutover requiring cutover.operation rollback. It is not listed in root help. Exact explicit operator authorization and retained rollback proof remain mandatory; it does not automatically enable v2 when v3 authority fails. --observe-github obtains authenticated transition evidence; cutover.execute controls requested mutation."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc-requests(1). Examples under docs/csdlc-v3/man/examples use fixture identities and are not permission to mutate those targets."
+        ],
+        "EFFECTS": [
+          "May replace selected binary/authority selector or retain rollback receipt only through the explicitly authorized transition. Preview and proof do not authorize execution."
+        ],
+        "FILES": [
+          "Primary terminal paths: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc rollback --request rollback-request.json"
+          },
+          "Use csdlc-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization."
+        ],
+        "RECOVERY": [
+          "Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-proof",
+      "summary": "execute and retain an issue-bound proof manifest",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc proof --request REQUEST\ncsdlc proof --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Runs the declared deterministic V3 command through bounded argv/request/evidence paths, normalizes its result and retains proof evidence. Requires authenticated invoking linked worktree ownership and exact generation/digest/head/common-Git binding. Provider side effects, stale evidence and unsupported normalization fail closed. This is focused command proof, not broad semantic equivalence."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations."
+        ],
+        "EFFECTS": [
+          "Executes declared subprocess and writes canonical proof artifacts on admitted execution; blocked proof is not successful validation."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc proof --request proof-request.json"
+          },
+          "Fixture examples are parse-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success."
+        ],
+        "DIAGNOSTICS": [
+          "Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-install",
+      "summary": "validate or execute an issue-bound binary installation",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc install --request REQUEST\ncsdlc install --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Validates source provenance, selected binary and selector metadata digests plus stable destination. Executes only when install.executes_install is true, current bound issue ownership validates, and explicit exact-head cutover approval proof matches. Executing destination is exactly .adl/bin/csdlc in the bound checkout. This is separate from adl/tools/install_owner_binaries.sh, which installs operational owners and man pages to .adl/bin/native-v3."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations."
+        ],
+        "EFFECTS": [
+          "Preview checks; admitted executing install copies the verified binary, sets executable permissions and retains receipt. A validated install plan alone performs no deployment."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc install --request install-request.json"
+          },
+          "Fixture examples are parse-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success."
+        ],
+        "DIAGNOSTICS": [
+          "Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-shadow",
+      "summary": "report the retired shadow execution boundary",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc shadow --request REQUEST\ncsdlc shadow --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Historical compatibility route. Execution is disabled and reports blocked; no current v2/v3 equivalence proof or operational authorization is granted. Retained ShadowComparison inputs remain parseable for historical evidence only."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations."
+        ],
+        "EFFECTS": [
+          "Read-only blocked historical classification; no execution."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc shadow --request shadow-request.json"
+          },
+          "Fixture examples are parse-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success."
+        ],
+        "DIAGNOSTICS": [
+          "Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-soak",
+      "summary": "report the retired soak execution boundary",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc soak --request REQUEST\ncsdlc soak --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Historical compatibility route. Execution is disabled and reports blocked; no current soak/service/heartbeat proof is granted. Retained SoakEvidence inputs remain parseable for historical evidence only."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations."
+        ],
+        "EFFECTS": [
+          "Read-only blocked historical classification; no execution."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc soak --request soak-request.json"
+          },
+          "Fixture examples are parse-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success."
+        ],
+        "DIAGNOSTICS": [
+          "Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-foundation",
+      "summary": "inspect retained foundation contract",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc foundation --repo-root ROOT"
+          }
+        ],
+        "DESCRIPTION": [
+          "Reads docs/csdlc-v3 foundation contract, predecessor coverage and proportional lifecycle inputs; produces static construction classification. It does not grant current authority or create lifecycle state."
+        ],
+        "OPTIONS": [
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "No JSON request."
+        ],
+        "EFFECTS": [
+          "Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc foundation --repo-root ."
+          }
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-remote",
+      "summary": "list remote command routes",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc remote --help"
+          }
+        ],
+        "DESCRIPTION": [
+          "Read-only overview of github, github-issue, github-pr, pr-state, publish and review. No request is accepted; invocation with no arguments also prints help. See each command page for its actual mutation boundary."
+        ],
+        "OPTIONS": [
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "No JSON request."
+        ],
+        "EFFECTS": [
+          "Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc remote --help"
+          }
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-sprint",
+      "summary": "inspect sprint readiness from retained issue readbacks",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc sprint --repo-root ROOT --request REQUEST"
+          }
+        ],
+        "DESCRIPTION": [
+          "Read-only helper consumes typed retained issue readbacks, explicit membership and sequential/parallel/hybrid scheduling. It does not authenticate new remote state, bind child worktrees or launch workers. Its retained task-artifact layout is not a substitute for native six-card readiness of current issues."
+        ],
+        "OPTIONS": [
+          "--repo-root: Explicit repository discovery root. Required by foundation/sprint; optional for local-family commands. It does not override authenticated binding guards.",
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "SprintReadinessRequest; see csdlc-requests(1) and docs/csdlc-v3/man/examples/sprint.json."
+        ],
+        "EFFECTS": [
+          "Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc sprint --repo-root . --request sprint-request.json"
+          }
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-release-preflight",
+      "summary": "check exact release-candidate consistency",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc release-preflight --request REQUEST"
+          }
+        ],
+        "DESCRIPTION": [
+          "Checks exact candidate revision, release notes bytes, gate/inventory/evidence digests and package/lockfile consistency. Gate evidence is an input, never release authorization. This route does not tag, publish or mutate GitHub. Current Git status inspection may refresh index metadata; byte-level observation hardening is pending #867.",
+          "The current route is explicitly limited to repository agent-logic/agent-design-language and version v0.92.1; other versions report unsupported_release_identity. Do not claim v0.92.2 release readiness from this older bounded checker."
+        ],
+        "OPTIONS": [
+          "--request: Required path to a UTF-8 JSON request of the command's request family.",
+          "--help: Show standalone help; -h is equivalent.",
+          "-h: Show standalone help; do not combine with execution options."
+        ],
+        "REQUEST": [
+          "Release preflight Request; see csdlc-requests(1) and docs/csdlc-v3/man/examples/release.json."
+        ],
+        "EFFECTS": [
+          "Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc release-preflight --request release-preflight-request.json"
+          }
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1)."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-requests",
+      "summary": "native request fields, enums and digest contracts",
+      "sections": {
+        "DESCRIPTION": [
+          "This is the operator-readable request field reference. Strings are JSON strings, u64 values are nonnegative JSON integers, bool values are JSON booleans, Vec values are arrays and map values are JSON objects. Optional fields may be omitted; a schema-valid shape is only the first gate. Current identity, positive issue IDs where required, authority, receipts, path confinement and operation-specific guards are still mandatory.",
+          "The checked-in examples are schema fixtures, not authenticated credentials, approvals, reviews or remote readback. Replace all illustrative IDs/paths/digests from live evidence before execution. Do not copy a fixture's true readiness flags as facts. Request JSON files have no wrapper schema field unless the named type defines one."
+        ],
+        "LOCAL CONTRACT": [
+          "LocalPreparationRequest.commands uses prepare_issue, bind_worktree, edit_cards, plan_pvf, doctor, schedule, shepherd and eligibility. validate requires plan_pvf. The six card_updates keys are sip, stp, spp, vpp, srp and sor; fields come from the active registry's versioned values schemas. No hand-authored rendered cards.",
+          "Expected local digest is index.json.digest from the current native state. First issue preparation omits it; bind/edit and subsequent guarded operations use the current value. Registry version must match docs/templates/prompts/current.json. WorktreeRegistration contains actual branch without refs/heads/, normalized absolute worktree and primary boolean; detached checkouts cannot masquerade as issue branches.",
+          "schedule_readiness requires every named dimension. shepherd_routing.validation is optional observed validation status, with explicit dependency_wait, retryable_failure, repair_needed and operator_decision_needed booleans. Do not set readiness from desired outcomes."
+        ],
+        "REMOTE CONTRACT": [
+          "RemoteRouteRequest.mode is closing or part_of; readback_source is github, caller or fixture, and only authenticated GitHub evidence qualifies for operational readback. review_present alone is not a review. TypedReviewReceipt.schema is csdlc.v3.typed_review_receipt.v1; repository/issue/head/reviewed_revision must match, reviewer must differ from implementer, and evidence_digest must name actual review evidence.",
+          "OperationalRemoteDispatchRequest.operation is {kind:review|publish|github_mutation,request:{...}}. review and publish nest RemoteRouteRequest; github_mutation nests GithubMutationRequest. expected_lifecycle_digest is the payload digest of canonical origin/main authority-selector bytes and exact_review_sha is current reviewed HEAD. Do not substitute the local issue digest.",
+          "GithubMutationRequest.mutation is tagged by action. issue_create requires title/body and optionally labels, assignees, milestone. issue_comment requires body. issue_edit optionally supplies title/body and explicit metadata operations documented by csdlc-github-issue(1). issue_close requires rationale/current_body/disposition (duplicate|superseded|no_op), duplicate_of for duplicate, and only not_planned for github_state_reason.",
+          "pull_request_create requires base/head/title/body and optional draft boolean. head is the actual branch name and expected_head_sha is its exact reviewed SHA. pull_request_update supplies title/body. pull_request_ready has no payload fields. pull_request_merge requires base, method merge, review_receipt_path, review_receipt_digest and operator_approval in the enclosing request. Only github-pr owns merge.",
+          "recovery may be retry_after_authenticated_absence for supported creation/ready cases; it is not generic retry permission and cannot replay merge or issue-edit writes. cutover_issue/operator_approval do not grant authority by themselves."
+        ],
+        "DIGESTS": [
+          "Digest algorithms are field-specific. Artifact/terminal byte digests use BLAKE3 of the exact bytes. Remote stable payload digests use BLAKE3 over each ordered UTF-8 field followed by a NUL byte. Canonical authority selector payload digest is BLAKE3 of origin/main:csdlc-v3/operator/authority-selector.json bytes followed by NUL. Whitespace in those bytes matters.",
+          "Typed review payload field order: schema, repository, issue rendered as decimal, implementer, reviewer, reviewed_revision, expected_head_sha, evidence_digest; append NUL after each. The typed receipt file itself need not have the same byte digest. Use the supplied fixture-checked operator digest example rather than confusing SHA-256 or a file hash with this payload digest.",
+          "A native result's returned digest/receipt path is preferable to recomputing a lifecycle receipt. Never claim authentication by writing a receipt with a matching checksum; transport-derived receipts require actual native observation."
+        ],
+        "TERMINAL CONTRACT": [
+          "TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus --observe-github. terminal_state identifies the actual repository_root and exact canonical state_path/receipt_path; optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.",
+          "NoPrCloseout.disposition is retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. It requires operator/rationale/evidence_refs and exact authenticated issue updated/closed timestamps. It is administrative disposition, not merged implementation. expected_head_sha must match the actual reconciliation checkout for this route.",
+          "CleanupRouteRequest.remove defaults false. terminal_receipt is not sufficient alone: use terminal_receipt_path and its exact BLAKE3 byte digest, then preview_receipt_digest returned by an eligible preview for removal. approved_parent/repository_root/candidate_path must be actual normalized paths; candidate must be absolute. Preserve dirty or live work.",
+          "CutoverDecisionRequest.operation is apply (default) or rollback; execute defaults false. Execution requires exact selected binary, selector, installation, rollback receipt and readiness evidence paths/digests plus explicit approval. Retained cutover configuration is not a routine startup requirement."
+        ],
+        "PROOF CONTRACT": [
+          "ProofWorktreeBinding compares worktree, branch, exact_head, git_common_dir, generation and lifecycle_digest with the actual native-bound issue. evidence_root is that checkout. ProofManifest.normalization is doctor_issue_phase_v1 or route_preview_v1; command.generation is v3 (v2 is retained historical input only). provider_side_effects must be false for this bounded proof.",
+          "ShadowCommandSpec.binary_ref/request_ref/side_effect_boundary_refs are confined artifact references, argv is a literal argument array, and timeout_millis is an explicit bound. No shell expansion occurs. doctor_issue_phase_v1 normalizes a real doctor response; route_preview_v1 expects the exact typed semantic preview contract, not arbitrary help text. The current CLI has no --preview producer, so routine examples use doctor_issue_phase_v1; do not invent a successful preview invocation.",
+          "InstallPlanInput requires verified source artifact/provenance/selector references and digests. stable_destination must be truthful. executes_install true requires destination .adl/bin/csdlc, exact head and matching explicit cutover_approval_ref/digest. ShadowComparison and SoakEvidence remain historical parseable shapes; the public shadow/soak execution routes are disabled."
+        ],
+        "SPRINT AND RELEASE": [
+          "SprintReadinessRequest.sprints contains SprintReadinessTarget entries. execution_mode is sequential, parallel or hybrid. child_readback_refs maps issue-number strings to retained typed issue readback files; umbrella_readback_ref identifies the umbrella readback. Paths are bounded repository references. This retained helper does not prove current native cards merely by accepting readbacks.",
+          "ReleaseRequest carries exact repository/version/candidate_sha, notes_path/notes_digest and gate_path/gate_digest. The gate schema is csdlc.v3.release_gate.v1, with repository/version/candidate_sha/notes_path/notes_digest/inventory_digest/status status must be ready_for_preflight, and evidence [{issue,path,digest}]. Evidence and inventories are versioned repository inputs, not caller release authorization."
+        ],
+        "LOCALPREPARATIONREQUEST": [
+          "issue: u64; required.",
+          "title: String; required.",
+          "repository: String; required.",
+          "branch: String; required.",
+          "worktree: String; required.",
+          "registry_version: String; required.",
+          "expected_lifecycle_digest: Option<String>; optional/defaulted.",
+          "commands: Vec<LocalCommand>; required.",
+          "card_updates: BTreeMap<String, Value>; optional/defaulted.",
+          "schedule_readiness: Option<ScheduleReadinessInput>; optional/defaulted.",
+          "shepherd_routing: Option<ShepherdRoutingInput>; optional/defaulted."
+        ],
+        "SCHEDULEREADINESSINPUT": [
+          "phase_ready: bool; required.",
+          "cards_ready: bool; required.",
+          "design_ready: bool; required.",
+          "dependencies_ready: bool; required.",
+          "paths_clear: bool; required.",
+          "budget_available: bool; required."
+        ],
+        "SHEPHERDROUTINGINPUT": [
+          "validation: Option<String>; optional/defaulted.",
+          "dependency_wait: bool; optional/defaulted.",
+          "retryable_failure: bool; optional/defaulted.",
+          "repair_needed: bool; optional/defaulted.",
+          "operator_decision_needed: bool; optional/defaulted."
+        ],
+        "WORKTREEREGISTRATION": [
+          "branch: String; required.",
+          "worktree: String; required.",
+          "primary: bool; required."
+        ],
+        "REMOTEROUTEREQUEST": [
+          "repository: String; required.",
+          "issue: u64; required.",
+          "pull_request: Option<u64>; optional/defaulted.",
+          "actor: Option<String>; optional/defaulted.",
+          "implementer: Option<String>; optional/defaulted.",
+          "reviewer: Option<String>; optional/defaulted.",
+          "review_revision: Option<String>; optional/defaulted.",
+          "expected_head_sha: Option<String>; optional/defaulted.",
+          "head_sha: Option<String>; optional/defaulted.",
+          "mode: Option<RemotePublicationMode>; optional/defaulted.",
+          "title: Option<String>; optional/defaulted.",
+          "body: Option<String>; optional/defaulted.",
+          "review_present: bool; optional/defaulted.",
+          "typed_review_receipt_path: Option<String>; optional/defaulted.",
+          "typed_review_receipt_digest: Option<String>; optional/defaulted.",
+          "readback_source: Option<RemoteReadbackSource>; optional/defaulted.",
+          "readback_receipt_path: Option<String>; optional/defaulted.",
+          "readback_receipt_digest: Option<String>; optional/defaulted.",
+          "adapter_receipt_path: Option<String>; optional/defaulted.",
+          "adapter_receipt_digest: Option<String>; optional/defaulted.",
+          "closes_issue: Option<u64>; optional/defaulted.",
+          "closing_issues: Vec<u64>; optional/defaulted.",
+          "part_of_issue: Option<u64>; optional/defaulted.",
+          "credential_names: Vec<String>; optional/defaulted."
+        ],
+        "TYPEDREVIEWRECEIPT": [
+          "schema: String; required.",
+          "repository: String; required.",
+          "issue: u64; required.",
+          "implementer: String; required.",
+          "reviewer: String; required.",
+          "reviewed_revision: String; required.",
+          "expected_head_sha: String; required.",
+          "evidence_digest: String; required."
+        ],
+        "GITHUBREADBACKRECEIPT": [
+          "schema: String; required.",
+          "repository: String; required.",
+          "issue: u64; required.",
+          "pull_request: u64; required.",
+          "title: Option<String>; optional/defaulted.",
+          "head_sha: String; required.",
+          "closes_issue: Option<u64>; optional/defaulted.",
+          "closing_issues: Vec<u64>; optional/defaulted.",
+          "part_of_issue: Option<u64>; optional/defaulted.",
+          "source: RemoteReadbackSource; required.",
+          "observed_by: String; required."
+        ],
+        "GITHUBADAPTERRECEIPT": [
+          "schema: String; required.",
+          "repository: String; required.",
+          "issue: u64; required.",
+          "pull_request: u64; required.",
+          "head_sha: String; required.",
+          "readback_receipt_digest: String; required.",
+          "credential_names: Vec<String>; required.",
+          "adapter: String; required.",
+          "authenticated: bool; required."
+        ],
+        "GITHUBMUTATIONREQUEST": [
+          "repository: String; required.",
+          "issue: u64; optional/defaulted.",
+          "pull_request: Option<u64>; optional/defaulted.",
+          "cutover_issue: Option<u64>; optional/defaulted.",
+          "operator_approval: Option<String>; optional/defaulted.",
+          "expected_head_sha: String; required.",
+          "credential_names: Vec<String>; required.",
+          "recovery: Option<GithubMutationRecovery>; optional/defaulted.",
+          "mutation: GithubMutation; required."
+        ],
+        "OPERATIONALREMOTEDISPATCHREQUEST": [
+          "expected_lifecycle_digest: String; required.",
+          "exact_review_sha: String; required.",
+          "operation: OperationalRemoteOperation; required."
+        ],
+        "TERMINALROUTEREQUEST": [
+          "repository: String; required.",
+          "issue: u64; required.",
+          "pull_request: Option<u64>; optional/defaulted.",
+          "expected_head_sha: Option<String>; optional/defaulted.",
+          "mode: Option<TerminalPublicationMode>; optional/defaulted.",
+          "public_adapter_receipt: Option<AdapterReceipt>; optional/defaulted.",
+          "terminal_state: Option<TerminalStateWriteRequest>; optional/defaulted.",
+          "no_pr_closeout: Option<NoPrCloseout>; optional/defaulted.",
+          "cleanup: Option<CleanupRouteRequest>; optional/defaulted.",
+          "cutover: Option<CutoverDecisionRequest>; optional/defaulted.",
+          "credential_names: Vec<String>; optional/defaulted."
+        ],
+        "NOPRCLOSEOUT": [
+          "disposition: NoPrDisposition; required.",
+          "operator: String; required.",
+          "rationale: String; required.",
+          "evidence_refs: Vec<String>; required.",
+          "expected_issue_updated_at: String; required.",
+          "expected_issue_closed_at: String; required."
+        ],
+        "ADAPTERRECEIPT": [
+          "producer: String; required.",
+          "digest: String; required."
+        ],
+        "CLEANUPROUTEREQUEST": [
+          "approved_parent: PathBuf; required.",
+          "repository_root: PathBuf; required.",
+          "candidate_path: PathBuf; required.",
+          "remove: bool; optional/defaulted.",
+          "terminal_receipt: bool; optional/defaulted.",
+          "terminal_receipt_path: Option<String>; optional/defaulted.",
+          "terminal_receipt_digest: Option<String>; optional/defaulted.",
+          "preview_receipt_digest: Option<String>; optional/defaulted."
+        ],
+        "TERMINALSTATEWRITEREQUEST": [
+          "repository_root: PathBuf; required.",
+          "state_path: PathBuf; required.",
+          "receipt_path: PathBuf; required.",
+          "expected_state_digest: Option<String>; optional/defaulted."
+        ],
+        "CUTOVERDECISIONREQUEST": [
+          "operator: String; required.",
+          "approval: String; required.",
+          "selected_binary_provenance: String; required.",
+          "rollback_evidence: String; required.",
+          "undo_boundary: String; required.",
+          "operation: CutoverOperation; optional/defaulted.",
+          "execute: bool; optional/defaulted.",
+          "repository_root: Option<PathBuf>; optional/defaulted.",
+          "selected_binary_path: Option<PathBuf>; optional/defaulted.",
+          "authority_selector_path: Option<PathBuf>; optional/defaulted.",
+          "install_destination_path: Option<PathBuf>; optional/defaulted.",
+          "rollback_receipt_path: Option<PathBuf>; optional/defaulted.",
+          "readiness_evidence_path: Option<PathBuf>; optional/defaulted.",
+          "readiness_evidence_digest: Option<String>; optional/defaulted."
+        ],
+        "PROOFROUTEREQUEST": [
+          "issue: u64; required.",
+          "repository: String; required.",
+          "binding: Option<ProofWorktreeBinding>; optional/defaulted.",
+          "cutover_issue: Option<u64>; optional/defaulted.",
+          "operator_approval: Option<String>; optional/defaulted.",
+          "evidence_root: Option<String>; optional/defaulted.",
+          "proof: Option<ProofManifest>; optional/defaulted.",
+          "shadow: Option<ShadowComparison>; optional/defaulted.",
+          "soak: Option<SoakEvidence>; optional/defaulted.",
+          "install: Option<InstallPlanInput>; optional/defaulted."
+        ],
+        "PROOFWORKTREEBINDING": [
+          "worktree: PathBuf; required.",
+          "branch: String; required.",
+          "exact_head: String; required.",
+          "git_common_dir: PathBuf; required.",
+          "generation: u64; required.",
+          "lifecycle_digest: String; required."
+        ],
+        "PROOFMANIFEST": [
+          "manifest_id: String; required.",
+          "lane: String; required.",
+          "deterministic: bool; required.",
+          "evidence_ref: String; required.",
+          "evidence_digest: String; required.",
+          "observed_digest: String; required.",
+          "stale: bool; required.",
+          "normalization: ShadowNormalizationContract; required.",
+          "command: ShadowCommandSpec; required."
+        ],
+        "SHADOWCOMPARISON": [
+          "normalization: ShadowNormalizationContract; required.",
+          "v2: ShadowCommandSpec; required.",
+          "v3: ShadowCommandSpec; required.",
+          "broad_equivalence_claim: bool; required."
+        ],
+        "SOAKEVIDENCE": [
+          "normalization: ShadowNormalizationContract; required.",
+          "command: ShadowCommandSpec; required.",
+          "duration_millis: u64; required.",
+          "sample_interval_millis: u64; required.",
+          "hidden_state: bool; required.",
+          "provider_side_effects: bool; required."
+        ],
+        "SHADOWCOMMANDSPEC": [
+          "generation: ShadowGeneration; required.",
+          "binary_ref: String; required.",
+          "argv: Vec<String>; required.",
+          "request_ref: String; required.",
+          "timeout_millis: u64; required.",
+          "side_effect_boundary_refs: Vec<String>; required.",
+          "provider_side_effects: bool; required."
+        ],
+        "INSTALLPLANINPUT": [
+          "artifact_name: String; required.",
+          "artifact_ref: String; required.",
+          "source_provenance_ref: String; required.",
+          "selector_metadata_ref: String; required.",
+          "source_provenance: String; required.",
+          "selected_binary_digest: String; required.",
+          "observed_binary_digest: String; required.",
+          "selector_metadata_digest: String; required.",
+          "destination: String; required.",
+          "stable_destination: bool; required.",
+          "executes_install: bool; required.",
+          "exact_head: String; optional/defaulted.",
+          "cutover_approval_ref: Option<String>; optional/defaulted.",
+          "cutover_approval_digest: Option<String>; optional/defaulted."
+        ],
+        "SPRINTREADINESSREQUEST": [
+          "repository: String; required.",
+          "version: String; required.",
+          "sprints: Vec<SprintReadinessTarget>; required."
+        ],
+        "SPRINTREADINESSTARGET": [
+          "sprint: u64; required.",
+          "umbrella_issue: u64; required.",
+          "title: String; required.",
+          "execution_mode: SprintExecutionMode; required.",
+          "serial_gates: Vec<String>; required.",
+          "umbrella_readback_ref: String; required.",
+          "child_readback_refs: BTreeMap<String, String>; required."
+        ],
+        "RELEASEREQUEST": [
+          "repository: String; required.",
+          "version: String; required.",
+          "candidate_sha: String; required.",
+          "notes_path: String; required.",
+          "notes_digest: String; required.",
+          "gate_path: String; required.",
+          "gate_digest: String; required."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-workflow",
+      "summary": "prepare, execute, publish and reconcile one issue",
+      "sections": {
+        "PRECONDITIONS": [
+          "Use an existing tracked issue, accepted prerequisites and a reviewed issue-specific plan. Check clean primary main and actual registrations; preserve another session's checkout. Commands below are templates using your own reviewed request files, not permission to mutate example IDs. Use the active installed binary by absolute path after changing checkouts.",
+          "Optional documentation helper: cargo run --quiet --manifest-path csdlc-v3/Cargo.toml --example operator_manual -- ACTION PATH. Actions selector-digest, review-digest, file-digest and registrations only read and print. It requires the pinned Rust toolchain/dependencies and is not installed as a lifecycle owner. It calls the current native public digest functions; it does not authenticate authored receipts."
+        ],
+        "1 PREPARE": [
+          {
+            "code": "git status --short --branch\ngit worktree list --porcelain\ncsdlc issue --request prepare.json --registry docs/templates/prompts/current.json --registrations registrations.json\ncsdlc edit --request design-edit.json --registry docs/templates/prompts/current.json --registrations registrations.json\ncsdlc validate --request current.json --registry docs/templates/prompts/current.json --registrations registrations.json\ncsdlc doctor --request current.json --registry docs/templates/prompts/current.json --registrations registrations.json"
+          },
+          "Store invocation files under the resolved primary Git metadata csdlc-v3/local/invocations/ISSUE, not untracked primary artifacts. prepare.json uses LocalPreparationRequest from csdlc-requests(1), the existing issue identity and proposed approved branch/worktree, registry version from current.json, full required commands and no initial expected digest.",
+          "Native issue creates six template-based cards. Set design-edit.json.card_updates to issue-specific values from the active template field schemas using the relevant card-editor skills. Preserve SIP/STP/SPP design truth, select proportional VPP lane, and leave review/output completion unclaimed. Before each following command refresh expected_lifecycle_digest from actual LOCAL_ROOT/issues/ISSUE/index.json.digest. Readiness dimensions must reflect observed prerequisites, path ownership and budget.",
+          "Generate registrations.json from actual Git topology using the optional registrations helper. Read every returned finding. A schema-valid generic template is not an accepted design."
+        ],
+        "2 BIND": [
+          {
+            "code": "csdlc bind --request current.json --registry docs/templates/prompts/current.json --registrations registrations.json\ncd /absolute/approved/issue-worktree\ncsdlc doctor --request current.json --registry docs/templates/prompts/current.json --registrations registrations.json"
+          },
+          "Verify the exact native bound branch, returned worktree, phase and six cards. Refresh current.json from the worktree .csdlc/issues/ISSUE/index.json and refresh registrations after bind. Use an absolute installed binary path or configured PATH. Create the issue-bound session goal before implementation; keep root main inspection-only."
+        ],
+        "3 IMPLEMENT AND REVIEW": [
+          "Implement only planned paths, execute VPP's smallest meaningful proof, update SPP if the plan changes and SOR with actual results through native edit/validate. Commit the intended source and evidence so review binds an exact head. Obtain independent review at that exact revision; resolve actionable findings and renew proof/review after source changes.",
+          "Record real review evidence and a TypedReviewReceipt with separate implementer/reviewer identities and actual reviewed_revision/expected_head_sha. Use the review-digest helper for its payload digest. A generated receipt or review_present true does not perform the review. Native review currently checks a narrower planning contract; independent review remains an operator policy requirement.",
+          {
+            "code": "csdlc review --request review-request.json\ncsdlc review --request review-dispatch.json --execute"
+          },
+          "review-request.json is RemoteRouteRequest with issue/repository/implementer/reviewer/review_revision/expected_head_sha; review-dispatch.json wraps it in operation.kind review, canonical selector digest and exact_review_sha. Require ready in the result and valid current authority. Keep the typed receipt and actual evidence under .csdlc/evidence/ISSUE/."
+        ],
+        "4 CREATE AND VERIFY THE PR": [
+          "Prepare a reviewed closing PR body containing exactly Closes #ISSUE, correct base and branch head. A checkpoint uses Part of #ISSUE and cannot terminally finish. Push the reviewed branch to its intended remote after verifying scope, then execute the native github-pr pull_request_create dispatch. Ordinary Git push transports the branch; it is not a raw GitHub lifecycle write.",
+          {
+            "code": "git push -u origin YOUR_REVIEWED_BRANCH\ncsdlc github-pr --request pr-create-dispatch.json --execute\ncsdlc pr-state --request remote-request.json --observe-github\ncsdlc publish --request remote-request.json --observe-github"
+          },
+          "The create dispatch's exact_review_sha and nested expected_head_sha match the reviewed head; mutation has action pull_request_create, base, head, title, body and draft. Retain the returned assigned numeric PR and authenticated mutation receipt. Verify actual base/head and closing linkage immediately.",
+          "Update RemoteRouteRequest with assigned PR/title/body, current head, mode closing, review_present, distinct principals and typed receipt path/digest. --observe-github obtains authenticated readback. The current publish route requires an existing authenticated PR readback, so its complete ready check occurs after actual PR creation. A pre-creation publish plan lacking readback must remain blocked; never forge receipts to get a green preflight. Native review and independent exact-head review precede the creation.",
+          "To transition from draft after required proof, use github-pr with pull_request_ready. Updating a PR title/body uses pull_request_update. Recheck publication after any material change. A published PR remains open/unmerged until explicit merge succeeds."
+        ],
+        "5 MERGE ONLY WITH AUTHORIZATION": [
+          "Confirm required checks actually pass, unresolved review threads are resolved, current review is exact and the operator authorized this numeric PR merge. Use mutation pull_request_merge only through github-pr with explicit base, method merge and current review receipt path/digest. Put the actual authorization reference in operator_approval; text alone is not approval.",
+          {
+            "code": "csdlc github-pr --request merge-dispatch.json --execute"
+          },
+          "Retain authenticated reconciliation. Unsupported branch policy, incomplete observations or head/base/check drift stay blocked. All retries after merge intent are observation-only; do not delete the guard or send a second raw merge."
+        ],
+        "6 FINISH": [
+          {
+            "code": "csdlc finish --request finish-request.json --observe-github"
+          },
+          "Use TerminalRouteRequest repository/issue/numeric PR/expected_head_sha/mode closing and credential_names. To persist terminal truth include terminal_state with actual reconciliation root and exact canonical state/receipt locations from csdlc(1). Linked: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Primary: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json.",
+          "Finish independently observes merged PR, correct expected head and closed linked issue; no second GitHub mutation or closeout PR is needed. Retain returned terminal state/receipt and distinguish terminal observation from persistence when terminal_state is omitted."
+        ],
+        "7 CLEAN": [
+          {
+            "code": "csdlc clean --request cleanup-preview.json\ncsdlc clean --request cleanup-remove.json"
+          },
+          "Before cleaning from primary, repeat the authenticated finish invocation from primary with terminal_state.repository_root set to that primary checkout and primary canonical Git-metadata state/receipt paths. The linked finish receipt in step 6 is not a primary cleanup receipt: do not copy it or point primary cleanup at the linked .csdlc file. Retain the newly authenticated primary receipt and its byte digest.",
+          "Run clean from the primary, not the target you will remove. Supply the actual approved parent, primary repository root, exact registered candidate, expected head and that primary durable terminal receipt path/digest. First remove false; only a Removable result supplies the preview receipt for a second request with remove true and matching preview_receipt_digest.",
+          "Preserve dirty, live or unregistered work. The cleanup gate checks a live-worktree marker and Git state; it is not a general host process scanner. Remove only the exact target and verify the returned Removed result. Do not broaden cleanup to other issue worktrees."
+        ],
+        "RECOVERY": [
+          "Local compare-and-swap drift: inspect actual current state and regenerate only the intended semantic edit with fresh digest. Interrupted transaction: retain original request and state, use the identical native mutator request, and route unresolved failures to bounded tooling repair. No handwritten index/journal recovery.",
+          "Remote uncertain response: same exact request, same target and retained intent; native reconciliation observes the remote effect. An uncertain result is not a successful publication, merge or finish. Read csdlc-github-pr(1) for merge-specific one-shot dispatch semantics.",
+          "This manual's schema fixtures prove request shape and selected guard/plan behavior. They do not claim an end-to-end live GitHub deployment or authorize example targets."
+        ]
+      }
+    }
+  ]
+}

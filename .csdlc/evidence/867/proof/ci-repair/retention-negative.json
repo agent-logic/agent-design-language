@@ -1,0 +1,91 @@
+{
+  "schema": "csdlc.sim01.attempt_corpus.v1",
+  "provenance": {
+    "source_head": "7b59601a9bd1c5b881dd7eda92b1f76b24e0c03f",
+    "tracked_diff_blake3": "fbaadc9cb445873c79688e05bc838abc6c7fcf60b3e1d809806fa2c7ff4f0045",
+    "source_and_tests_inventory_blake3": "cf642f45ccad28fed6a7e0ffe261c6092d1f389f07acfc0baa46b8b3e46ab658",
+    "binary_blake3": "ecdb9fb6efd92bfb9215d521bcbd2edf91540826149aef283fc94a4d42e7ef2a",
+    "os": "macos",
+    "architecture": "aarch64",
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+    "git": "git version 2.54.0",
+    "transport": "isolated fake remote; no live credentials or network",
+    "clock": "injected synthetic fixture clock; actual subprocess duration recorded separately",
+    "scope": "installed fixture attempts, not production reliability or causal timing savings"
+  },
+  "denominators": {
+    "abandoned": 0,
+    "attempted": 2,
+    "censored": 0,
+    "completed": 0,
+    "eligible": 2
+  },
+  "outcomes": {
+    "failed": 2
+  },
+  "attempts": [
+    {
+      "correlation_id": "spawn",
+      "route": "missing",
+      "scenario": "guard",
+      "eligible": true,
+      "attempted": true,
+      "completed": false,
+      "abandoned": false,
+      "censored": false,
+      "outcome": "failed",
+      "reason": "could not start or collect installed subprocess",
+      "manual_input_fields": [],
+      "operator_invocation_count": 1,
+      "issue_version_before": {
+        "state": "missing"
+      },
+      "wall_start_millis": 1789084800000,
+      "monotonic_start_millis": 0,
+      "wait_owner": "installed subprocess",
+      "invalidation_cause": null
+    },
+    {
+      "correlation_id": "parse",
+      "route": "printf",
+      "scenario": "malformed_output",
+      "checkout": "",
+      "eligible": true,
+      "attempted": true,
+      "completed": false,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "failed",
+      "reason": "raw result retained; semantic classification not yet completed",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 0,
+      "manual_input_fields": [],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "state": "missing"
+      },
+      "issue_version_after": {
+        "state": "missing"
+      },
+      "effects": [],
+      "stdout": null,
+      "stdout_text": "not-json",
+      "stderr": "",
+      "wall_start_millis": 1789084800010,
+      "wall_end_millis": 1789084800020,
+      "monotonic_start_millis": 10,
+      "monotonic_end_millis": 20,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 1894
+    }
+  ]
+}

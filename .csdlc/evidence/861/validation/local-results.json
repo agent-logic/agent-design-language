@@ -1,0 +1,106 @@
+{
+  "schema": "csdlc.operator_manual_validation.v1",
+  "recorded_at": "2026-09-12T01:02:19.794175+00:00",
+  "platform": "Darwin",
+  "base_head": "2c09eca135808fb6385a6613f7317088b01ffeab",
+  "results": [
+    {
+      "check": "rust-tests",
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "operator_man_pages",
+        "--example",
+        "operator_manual"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/rust-tests.log"
+    },
+    {
+      "check": "clippy",
+      "command": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "operator_man_pages",
+        "--example",
+        "operator_manual",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/clippy.log"
+    },
+    {
+      "check": "fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/fmt.log"
+    },
+    {
+      "check": "render",
+      "command": [
+        "python3",
+        "docs/csdlc-v3/man/render.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/render.log"
+    },
+    {
+      "check": "macos-install",
+      "command": [
+        "bash",
+        "docs/csdlc-v3/man/test_install.sh"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/macos-install.log"
+    },
+    {
+      "check": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/diff-check.log"
+    },
+    {
+      "check": "mandoc",
+      "pages": 30,
+      "passed": true
+    },
+    {
+      "check": "existing-owner-install-regression",
+      "command": [
+        "bash",
+        "adl/tools/test_owner_binary_install.sh"
+      ],
+      "environment": "TMPDIR set to ignored issue-local target/owner-install-regression",
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/owner-install-regression.log",
+      "prior_failure": "exit127 missing new manual helper in miniature fixture; corrected required fixture inputs and installed-page assertion"
+    }
+  ]
+}

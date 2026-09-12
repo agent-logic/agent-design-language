@@ -1,0 +1,8 @@
+owner-binary installed: csdlc -> /repo/target/operator-man-install.ARFFBE/prefix with spaces/csdlc
+csdlc manual installed: /repo/target/operator-man-install.ARFFBE/prefix with spaces/share/man
+Manual lookup: MANPATH="/repo/target/operator-man-install.ARFFBE/prefix with spaces/share/man:${MANPATH:-}" man csdlc
+owner-binary unchanged: csdlc
+csdlc manual installed: /repo/target/operator-man-install.ARFFBE/prefix with spaces/share/man
+Manual lookup: MANPATH="/repo/target/operator-man-install.ARFFBE/prefix with spaces/share/man:${MANPATH:-}" man csdlc
+owner-binary install: all requested binaries are current
+operator manual clean install, all-page lookup/render, docs refresh and missing-source denial passed on Linux

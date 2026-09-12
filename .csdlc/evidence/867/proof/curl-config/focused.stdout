@@ -1,0 +1,7 @@
+
+running 3 tests
+test adapters::tests::observational_transport_preserves_missing_executable_classification ... ok
+test adapters::tests::observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments ... ok
+test adapters::tests::observational_curl_disables_default_config_before_other_arguments ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 83 filtered out; finished in 0.02s

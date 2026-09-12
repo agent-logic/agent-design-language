@@ -1,0 +1,85 @@
+{
+  "schema": "adr_candidate_review_content.v1",
+  "files": [
+    {
+      "path": "docs/architecture/adr/issue-911/README.md",
+      "sha256": "11d7fc991b7755a2718920ae822fb756318fe39700f381aa9128797169e08577"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-01.md",
+      "sha256": "59fa096cbb3dacb692eccf89353420002459fcb631434b5120b0fdc6360901ae"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-02.md",
+      "sha256": "29aa61f5bd506ecfb0a9a2289484d3df06784821c0ca98726afbb9509793d439"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-03.md",
+      "sha256": "8c72060f57bec1b0785306ff453a963560380b77c2742749ecd696a880b48914"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-04.md",
+      "sha256": "657f2d31e2e299e8a343de1743dd9e7a1d60f2fe1bf48b66129e229cc9ee4dc4"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-05.md",
+      "sha256": "0e1a5ec4af8537ab3087c69c7f615d4b5284fdf77496153d303cf680dafac803"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-06.md",
+      "sha256": "d77e1b4427c90ff1dd2665ca18079f2361b5722019cf0452de5f9b5165cbddd5"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-07.md",
+      "sha256": "3faf4fb97bff8e48907ffa559f7ded5608c695f4b170966148ed950094aaa2a7"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-08.md",
+      "sha256": "831237772fb1af53f6a2187498e92deb6c65016e084f3d215ee9fe21ca926b5e"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-09.md",
+      "sha256": "ba8691b8b7ca7d402125df58df88456516176955c68b8f12c125df2c531de968"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-01.md",
+      "sha256": "16bf11385a2d5faf0b22712d6451b6627b5e1084956fe1b2ff702aa52aa2ab8f"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-02.md",
+      "sha256": "daae1d7e4e213e55ce26c55a033bb3e32aae9d708b3b12029dc6d4e483d9edb5"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-plat-01.md",
+      "sha256": "91dfa7fc4114f91de7a13a3bf7e521424660b3224513e50778c6d10ea48ff87e"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.json",
+      "sha256": "33fb393515b73c20c412df493e0c89126573e8ec7d17583290f73390f1018eeb"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.md",
+      "sha256": "f2e66c33bc5332bec043ae9d5a15c869db0d2e55ebf6afe106d1e5188f771934"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/supersession-map.md",
+      "sha256": "e32acaa9f726c49fd5f6449a75ffd28edc31fe814d5bfee72716c06c4d37818a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/relationships.json",
+      "sha256": "5f072887470b89b4c3cd147476ccf60c00ff05056e802d196cd7ab2a1ce9a857"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-dispositions.md",
+      "sha256": "368ffce569f469d169c38be206851bd7858871d14de61037fdea382f4a757dc8"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/source-manifest.json",
+      "sha256": "13b0bb922273838f8f72018352df66a79e4b1a7255b22e4aa9417f090077e0e6"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/validate_packet.py",
+      "sha256": "316f964918f885311bc53954a3c3717af9128e99e9c311a77768891839ef45d2"
+    }
+  ]
+}

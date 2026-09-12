@@ -1,7 +1,10 @@
 //! PVF: deterministic local Git/CLI contract proof, small CPU/disk, required for #856.
 //! Fixtures prove consistency and nonmutation, never live release approval.
 use serde_json::{json, Value};
+#[path = "support/observation.rs"]
+mod observation;
 use std::{
+    collections::{BTreeMap, BTreeSet},
     fs,
     path::{Path, PathBuf},
     process::Command,
@@ -70,6 +73,129 @@ impl Fixture {
         }
         let inventory = "docs/milestones/v0.92.1/RELEASE_ARTIFACTS.json";
         fs::copy(source.join(inventory), root.join(inventory)).unwrap();
+        // This is a historical release fixture, not a claim that today's merge
+        // checkout is releasable as v0.92.1. Exercise post-release package drift
+        // on every host, then retain only the inventory's declared Cargo inputs.
+        let later_package = root.join("fixture-post-release");
+        fs::create_dir_all(&later_package).unwrap();
+        fs::write(
+            later_package.join("Cargo.toml"),
+            "[package]\nname = 'fixture-post-release'\nversion = '0.1.0'\n",
+        )
+        .unwrap();
+        fs::write(later_package.join("Cargo.lock"), "version = 4\n").unwrap();
+        git(&root, &["add", "fixture-post-release"]);
+        let declared: Value =
+            serde_json::from_slice(&fs::read(root.join(inventory)).unwrap()).unwrap();
+        let mut retained = BTreeSet::new();
+        for package in declared["packages"].as_array().unwrap() {
+            retained.insert(package["manifest"].as_str().unwrap());
+            if let Some(workspace) = package["workspace"].as_str() {
+                retained.insert(workspace);
+            }
+        }
+        for lock in declared["lockfiles"].as_array().unwrap() {
+            retained.insert(lock.as_str().unwrap());
+        }
+        for lock in declared["historical_lockfiles"].as_array().unwrap() {
+            retained.insert(lock["path"].as_str().unwrap());
+        }
+        for path in git(&root, &["ls-files"]).lines().filter(|path| {
+            (path.ends_with("Cargo.toml") || path.ends_with("Cargo.lock"))
+                && !retained.contains(path)
+        }) {
+            fs::remove_file(root.join(path)).unwrap();
+        }
+        assert!(!later_package.join("Cargo.toml").exists());
+        assert!(!later_package.join("Cargo.lock").exists());
+        // Exercise future drift in an existing package, workspace declaration,
+        // and shared lock even when the current checkout has not changed them.
+        fs::write(
+            root.join("adl/Cargo.toml"),
+            "[package]\nname = 'future-adl'\nversion = '9.9.9'\n",
+        )
+        .unwrap();
+        fs::write(
+            root.join("adl-v2/Cargo.toml"),
+            "[workspace.package]\nversion = '9.9.9'\n",
+        )
+        .unwrap();
+        fs::write(
+            root.join("adl/Cargo.lock"),
+            "version = 4\n[[package]]\nname = 'fixture-later-local'\nversion = '9.9.9'\n",
+        )
+        .unwrap();
+        let mut workspaces: BTreeMap<String, (String, Vec<String>)> = BTreeMap::new();
+        for package in declared["packages"].as_array().unwrap() {
+            let manifest = package["manifest"].as_str().unwrap();
+            let version = package["version"].as_str().unwrap();
+            let version_field = if let Some(workspace) = package["workspace"].as_str() {
+                let parent = Path::new(workspace).parent().unwrap();
+                let member = Path::new(manifest)
+                    .parent()
+                    .unwrap()
+                    .strip_prefix(parent)
+                    .unwrap();
+                let entry = workspaces
+                    .entry(workspace.to_owned())
+                    .or_insert_with(|| (version.to_owned(), Vec::new()));
+                assert_eq!(entry.0, version, "fixture workspace versions disagree");
+                entry.1.push(member.to_str().unwrap().to_owned());
+                "version.workspace = true".to_owned()
+            } else {
+                format!("version = {}", package["version"])
+            };
+            fs::write(
+                root.join(manifest),
+                format!(
+                    "[package]\nname = {}\n{version_field}\nedition = \"2021\"\n",
+                    package["package"]
+                ),
+            )
+            .unwrap();
+        }
+        for (path, (version, members)) in workspaces {
+            fs::write(
+                root.join(path),
+                format!(
+                    "[workspace]\nmembers = {}\n[workspace.package]\nversion = {}\n",
+                    json!(members),
+                    json!(version)
+                ),
+            )
+            .unwrap();
+        }
+        // Lockfile package records are synthetic release-metadata inputs. Do
+        // not inherit later local packages through today's shared lockfiles;
+        // this fixture does not prove Cargo dependency resolution.
+        for lock in declared["lockfiles"].as_array().unwrap() {
+            let lock = lock.as_str().unwrap();
+            let owner = lock.strip_suffix("Cargo.lock").unwrap().to_owned() + "Cargo.toml";
+            let owners: Vec<_> = declared["packages"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .filter(|package| {
+                    package["manifest"].as_str() == Some(&owner)
+                        || package["workspace"].as_str() == Some(&owner)
+                })
+                .collect();
+            assert!(
+                !owners.is_empty(),
+                "fixture lock has no declared owner: {lock}"
+            );
+            let mut text = String::from("version = 4\n\n[[package]]\nname = \"fixture-registry-dependency\"\nversion = \"1.0.0\"\nsource = \"registry+https://example.invalid/index\"\n");
+            for package in owners {
+                text.push_str(&format!(
+                    "\n[[package]]\nname = {}\nversion = {}\n",
+                    package["package"], package["version"]
+                ));
+            }
+            fs::write(root.join(lock), text).unwrap();
+        }
+        assert!(!fs::read_to_string(root.join("adl/Cargo.lock"))
+            .unwrap()
+            .contains("fixture-later-local"));
         fs::copy(
             source.join("adl/tools/release_ceremony.sh"),
             root.join("adl/tools/release_ceremony.sh"),
@@ -115,18 +241,41 @@ impl Fixture {
         self.request["gate_digest"] = hash(&self.root, ".git/gate.json").into();
     }
     fn run(&self, expected: Option<&str>) {
+        self.run_at(&self.root, expected);
+    }
+    fn run_at(&self, checkout: &Path, expected: Option<&str>) {
         fs::write(
             self.root.join(".git/request.json"),
             serde_json::to_vec(&self.request).unwrap(),
         )
         .unwrap();
-        let refs = git(&self.root, &["show-ref"]);
-        let status = git(&self.root, &["status", "--porcelain"]);
-        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-            .current_dir(&self.root)
-            .args(["release-preflight", "--request", ".git/request.json"])
+        let refs = git(checkout, &["show-ref"]);
+        let status = git(checkout, &["status", "--porcelain"]);
+        let candidate = self.root.join(".git/observation-candidate/csdlc");
+        if !candidate.exists() {
+            observation::install_candidate(&candidate);
+        }
+        // Same bytes with new stat metadata expose optional Git index refresh,
+        // which a content-only working-tree status comparison cannot detect.
+        let notes = checkout.join("docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md");
+        fs::write(&notes, fs::read(&notes).unwrap()).unwrap();
+        let before = observation::inventory(&self.root.join(".git"));
+        let output = Command::new(&candidate)
+            .current_dir(checkout)
+            .args(["release-preflight", "--request"])
+            .arg(self.root.join(".git/request.json"))
             .output()
             .unwrap();
+        let after = observation::inventory(&self.root.join(".git"));
+        let changed: std::collections::BTreeSet<_> = before
+            .keys()
+            .chain(after.keys())
+            .filter(|path| before.get(*path) != after.get(*path))
+            .collect();
+        assert!(
+            changed.is_empty(),
+            "release-preflight mutated Git metadata: {changed:?}"
+        );
         let report: Value = serde_json::from_slice(&output.stdout)
             .unwrap_or_else(|_| panic!("{}", String::from_utf8_lossy(&output.stderr)));
         assert_eq!(output.status.success(), expected.is_none(), "{report}");
@@ -142,8 +291,8 @@ impl Fixture {
         } else {
             assert!(output.stderr.is_empty());
         }
-        assert_eq!(refs, git(&self.root, &["show-ref"]));
-        assert_eq!(status, git(&self.root, &["status", "--porcelain"]));
+        assert_eq!(refs, git(checkout, &["show-ref"]));
+        assert_eq!(status, git(checkout, &["status", "--porcelain"]));
     }
     fn commit_input(&mut self) {
         git(&self.root, &["add", "."]);
@@ -172,6 +321,62 @@ impl Drop for Fixture {
 fn exact_candidate_preflight_and_negative_matrix() {
     let mut f = Fixture::new();
     f.run(None);
+    // Isolation must not weaken the production omission guard. A new package
+    // introduced after fixture setup is still rejected without an inventory row.
+    let unlisted = f.root.join("fixture-unlisted");
+    fs::create_dir_all(&unlisted).unwrap();
+    fs::write(
+        unlisted.join("Cargo.toml"),
+        "[package]\nname = 'fixture-unlisted'\nversion = '0.1.0'\n",
+    )
+    .unwrap();
+    f.commit_input();
+    f.run(Some("release_inventory_omits_manifest"));
+    fs::remove_dir_all(unlisted).unwrap();
+    f.commit_input();
+    f.run(None);
+    let shared_lock = f.root.join("adl/Cargo.lock");
+    let declared_lock = fs::read_to_string(&shared_lock).unwrap();
+    fs::write(
+        &shared_lock,
+        format!("{declared_lock}\n[[package]]\nname = \"fixture-unlisted\"\nversion = \"0.1.0\"\n"),
+    )
+    .unwrap();
+    f.commit_input();
+    f.run(Some("unlisted_local_lock_package"));
+    fs::write(shared_lock, declared_lock).unwrap();
+    f.commit_input();
+    f.run(None);
+    let linked = f.root.with_extension("linked");
+    git(
+        &f.root,
+        &[
+            "worktree",
+            "add",
+            "--quiet",
+            "--detach",
+            linked.to_str().unwrap(),
+            "HEAD",
+        ],
+    );
+    f.run_at(&linked, None);
+    let gate_bytes = fs::read(f.root.join(".git/gate.json")).unwrap();
+    fs::remove_file(f.root.join(".git/gate.json")).unwrap();
+    f.run_at(&linked, Some("native_v3_gate_missing"));
+    fs::write(f.root.join(".git/gate.json"), b"corrupt gate").unwrap();
+    f.request["gate_digest"] = hash(&f.root, ".git/gate.json").into();
+    f.run_at(&linked, Some("native_v3_gate_malformed"));
+    let original_gate = f.gate.clone();
+    f.gate["status"] = "pending_qualification".into();
+    f.write_gate();
+    f.run_at(&linked, Some("native_v3_gate_stale_or_ineligible"));
+    f.gate = original_gate;
+    f.write_gate();
+    assert_eq!(fs::read(f.root.join(".git/gate.json")).unwrap(), gate_bytes);
+    git(
+        &f.root,
+        &["worktree", "remove", "--force", linked.to_str().unwrap()],
+    );
     let original = f.request.clone();
     for (key, value, error) in [
         ("candidate_sha", "abc", "full_candidate_sha_required"),

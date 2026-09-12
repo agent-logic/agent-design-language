@@ -41,6 +41,7 @@ pub mod private_state;
 pub mod production_birthday;
 pub mod proof;
 pub mod protocol_adapters;
+pub mod provider_usage;
 pub mod reasoning;
 pub mod resident_cycle;
 pub mod resident_shepherd;

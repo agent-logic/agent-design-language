@@ -1,0 +1,43 @@
+.TH "CSDLC-SCHEDULE" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-schedule \- check six\-dimensional issue readiness
+.SH SYNOPSIS
+.nf
+\&csdlc schedule \-\-request REQUEST \-\-registry REGISTRY \-\-registrations REGISTRATIONS
+\&  [\-\-repo\-root ROOT] [\-\-v3\-state\-root ROOT]
+\&csdlc schedule \-\-help
+.fi
+.SH DESCRIPTION
+\&Requires schedule_readiness with phase_ready, cards_ready, design_ready, dependencies_ready, paths_clear and budget_available. All six must be truthfully supported. Reports eligible operations and blockers; it does not launch children or remove dependency edges.
+.SH EFFECTS
+\&Diagnostic route; current implementation may create lock metadata or recover a pending transaction.
+.PP
+\&Do not interpret read_only in an older report as a byte\-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.
+.PP
+\&\-\-registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list \-\-porcelain.
+.PP
+\&\-\-repo\-root: Explicit repository discovery root. Required by foundation/sprint; optional for local\-family commands. It does not override authenticated binding guards.
+.PP
+\&\-\-v3\-state\-root: Optional retained construction state root for issue/eligibility; not a primary\-checkout artifact location or an ownership bypass.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc\-requests(1). Example source: docs/csdlc\-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use.
+.SH EXAMPLES
+.nf
+\&csdlc schedule \-\-request local\-request.json \e
+\&  \-\-registry docs/templates/prompts/current.json \e
+\&  \-\-registrations actual\-registrations.json
+.fi
+.PP
+\&The checked\-in example is fixture\-validated. A JSON\-valid example does not grant an operational binding or assert dependency readiness. Use csdlc\-workflow(1) to prepare and refresh these inputs from real state.
+.SH RECOVERY
+\&Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand\-edit transaction stages/backups or stale digest guards.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

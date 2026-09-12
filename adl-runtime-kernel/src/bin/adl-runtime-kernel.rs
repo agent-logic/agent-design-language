@@ -280,11 +280,14 @@ async fn main() -> ExitCode {
                 .get(&AdapterKind::Shepherd)
                 .cloned()
                 .expect("production assembly contains native Shepherd admission");
-            let resident_shepherd = Arc::new(ResidentShepherdExecutor::new(
-                instance_id.clone(),
-                init.resident_shepherd.iter().cloned(),
-                native_shepherd_executor,
-            ));
+            let resident_shepherd = Arc::new(
+                ResidentShepherdExecutor::new(
+                    instance_id.clone(),
+                    init.resident_shepherd.iter().cloned(),
+                    native_shepherd_executor,
+                )
+                .with_usage(recorder.provider_usage.clone()),
+            );
             let resident_shepherd_readiness = resident_shepherd.readiness();
             let shepherd_probe = Arc::new(
                 OperationalAdapter::new(
@@ -804,12 +807,14 @@ async fn main() -> ExitCode {
             let api_shutdown = tokio_util::sync::CancellationToken::new();
             for (shepherd_index, shepherd) in init.resident_shepherd.iter().cloned().enumerate() {
                 let orientation_service = Arc::clone(&service);
+                let provider_usage = recorder.provider_usage.clone();
                 let health_service = Arc::clone(&service);
                 let readiness = resident_shepherd_readiness.clone();
                 let probe_adapter = shepherd_probe.clone();
                 let probe_runtime_id = instance_id.clone();
                 let shutdown = api_shutdown.child_token();
                 let shepherd_agent_id = resident_shepherd_runtime_id(shepherd_index, &shepherd);
+                provider_usage.register_resident_alias(&shepherd_agent_id, &shepherd.name);
                 tokio::spawn(async move {
                     let name = shepherd.name.clone();
                     let policy = ResidentShepherdRecoveryPolicy {
@@ -838,16 +843,18 @@ async fn main() -> ExitCode {
                             let sequence = sequence.clone();
                             let agent_id = shepherd_agent_id.clone();
                             let orientation_service = Arc::clone(&orientation_service);
+                            let provider_usage = provider_usage.clone();
                             async move {
                                 let orientation = orientation_service
                                     .orientation_for_agent(&agent_id)
                                     .ok_or("agent_orientation_missing")?;
-                                preload_resident_shepherd_model(&shepherd, &orientation, &shutdown)
-                                    .await?;
                                 let probe_sequence = sequence.fetch_add(
                                     1,
                                     std::sync::atomic::Ordering::Relaxed,
                                 ) + 1;
+                                let metadata = preload_resident_shepherd_model(&shepherd, &orientation, &shutdown).await;
+                                provider_usage.observe_metadata(&shepherd.name, &shepherd.provider, &shepherd.model, metadata);
+                                metadata?;
                                 let probe_id = format!(
                                     "{}:resident-shepherd-probe:{probe_sequence}",
                                     shepherd.name
@@ -858,7 +865,7 @@ async fn main() -> ExitCode {
                                     schema: OPERATION_REQUEST_SCHEMA.to_owned(),
                                     request_id: probe_id.clone(),
                                     idempotency_key: probe_id,
-                                    principal: "runtime-bootstrap".to_owned(),
+                                    principal: if probe_sequence == 1 { "runtime-bootstrap" } else { "runtime-recovery" }.to_owned(),
                                     payload: serde_json::to_vec(&serde_json::json!({
                                         "schema": adl_runtime_kernel::SHEPHERD_REQUEST_SCHEMA,
                                         "correlation_id": format!("{}-probe-{probe_sequence}", shepherd.name.replace('.', "-")),

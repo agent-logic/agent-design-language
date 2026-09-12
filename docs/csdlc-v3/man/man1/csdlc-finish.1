@@ -1,0 +1,34 @@
+.TH "CSDLC-FINISH" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-finish \- reconcile terminal issue truth
+.SH SYNOPSIS
+.nf
+\&csdlc finish \-\-request REQUEST [\-\-observe\-github]
+\&csdlc finish \-\-help
+.fi
+.SH DESCRIPTION
+\&Requires authenticated GitHub observation of a merged PR with the exact expected head, closing linkage and closed issue. mode must be closing; part_of checkpoints cannot finish. \-\-observe\-github is necessary for public authenticated finish; caller\-authored public_adapter_receipt is not trusted. terminal_state is optional: omit to observe, include canonical output paths to retain terminal state and receipt. Finish does not merge or close GitHub issues.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc\-requests(1). Examples under docs/csdlc\-v3/man/examples use fixture identities and are not permission to mutate those targets.
+.SH EFFECTS
+\&Authenticated readback plus optional local terminal persistence; no GitHub write. A successful terminal observation without terminal_state does not create a durable terminal receipt.
+.SH FILES
+\&Primary terminal paths: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations.
+.SH EXAMPLES
+.nf
+\&csdlc finish \-\-request finish\-request.json \-\-observe\-github
+.fi
+.PP
+\&Use csdlc\-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization.
+.SH RECOVERY
+\&Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

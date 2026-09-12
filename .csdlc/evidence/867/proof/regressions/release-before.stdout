@@ -1,0 +1,17 @@
+
+running 1 test
+test exact_candidate_preflight_and_negative_matrix ... FAILED
+
+failures:
+
+---- exact_candidate_preflight_and_negative_matrix stdout ----
+
+thread 'exact_candidate_preflight_and_negative_matrix' (7263728) panicked at tests/release_preflight.rs:144:9:
+release-preflight mutated Git metadata: {"index"}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    exact_candidate_preflight_and_negative_matrix
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.79s

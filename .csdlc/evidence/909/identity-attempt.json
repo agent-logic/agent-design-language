@@ -1,0 +1,47 @@
+{
+  "schema": "adl.issue909.identity_attempt.v1",
+  "observed_at": "2026-09-12T00:10:49.005377+00:00",
+  "credential_material_retained": false,
+  "context": "approved Git-common csdlc-v2/gcloud-config",
+  "selected_account": "daniel@agent-logic.ai",
+  "result": "reauthentication_required",
+  "commands": [
+    {
+      "argv": [
+        "gcloud",
+        "projects",
+        "describe",
+        "cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json(projectId,projectNumber,name,parent,lifecycleState)"
+      ],
+      "exit_code": 1
+    },
+    {
+      "argv": [
+        "gcloud",
+        "organizations",
+        "describe",
+        "321515087273",
+        "--account=daniel@agent-logic.ai",
+        "--format=json(name,displayName,state,directoryCustomerId)"
+      ],
+      "exit_code": 1
+    },
+    {
+      "argv": [
+        "gcloud",
+        "billing",
+        "projects",
+        "describe",
+        "cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "error": "There was a problem refreshing your current auth tokens: Reauthentication failed. cannot prompt during non-interactive execution.",
+  "consequence": "Current identity, ownership, resource inventory and real Terraform plan remain unproven. No resource absence inferred.",
+  "current_status": "resolved by normal authenticated company configuration; live-inventory.json supersedes auth blocker"
+}

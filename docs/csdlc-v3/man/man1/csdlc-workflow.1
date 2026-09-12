@@ -1,0 +1,86 @@
+.TH "CSDLC-WORKFLOW" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-workflow \- prepare, execute, publish and reconcile one issue
+.SH PRECONDITIONS
+\&Use an existing tracked issue, accepted prerequisites and a reviewed issue\-specific plan. Check clean primary main and actual registrations; preserve another session's checkout. Commands below are templates using your own reviewed request files, not permission to mutate example IDs. Use the active installed binary by absolute path after changing checkouts.
+.PP
+\&Optional documentation helper: cargo run \-\-quiet \-\-manifest\-path csdlc\-v3/Cargo.toml \-\-example operator_manual \-\- ACTION PATH. Actions selector\-digest, review\-digest, file\-digest and registrations only read and print. It requires the pinned Rust toolchain/dependencies and is not installed as a lifecycle owner. It calls the current native public digest functions; it does not authenticate authored receipts.
+.SH 1 PREPARE
+.nf
+\&git status \-\-short \-\-branch
+\&git worktree list \-\-porcelain
+\&csdlc issue \-\-request prepare.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
+\&csdlc edit \-\-request design\-edit.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
+\&csdlc validate \-\-request current.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
+\&csdlc doctor \-\-request current.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
+.fi
+.PP
+\&Store invocation files under the resolved primary Git metadata csdlc\-v3/local/invocations/ISSUE, not untracked primary artifacts. prepare.json uses LocalPreparationRequest from csdlc\-requests(1), the existing issue identity and proposed approved branch/worktree, registry version from current.json, full required commands and no initial expected digest.
+.PP
+\&Native issue creates six template\-based cards. Set design\-edit.json.card_updates to issue\-specific values from the active template field schemas using the relevant card\-editor skills. Preserve SIP/STP/SPP design truth, select proportional VPP lane, and leave review/output completion unclaimed. Before each following command refresh expected_lifecycle_digest from actual LOCAL_ROOT/issues/ISSUE/index.json.digest. Readiness dimensions must reflect observed prerequisites, path ownership and budget.
+.PP
+\&Generate registrations.json from actual Git topology using the optional registrations helper. Read every returned finding. A schema\-valid generic template is not an accepted design.
+.SH 2 BIND
+.nf
+\&csdlc bind \-\-request current.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
+\&cd /absolute/approved/issue\-worktree
+\&csdlc doctor \-\-request current.json \-\-registry docs/templates/prompts/current.json \-\-registrations registrations.json
+.fi
+.PP
+\&Verify the exact native bound branch, returned worktree, phase and six cards. Refresh current.json from the worktree .csdlc/issues/ISSUE/index.json and refresh registrations after bind. Use an absolute installed binary path or configured PATH. Create the issue\-bound session goal before implementation; keep root main inspection\-only.
+.SH 3 IMPLEMENT AND REVIEW
+\&Implement only planned paths, execute VPP's smallest meaningful proof, update SPP if the plan changes and SOR with actual results through native edit/validate. Commit the intended source and evidence so review binds an exact head. Obtain independent review at that exact revision; resolve actionable findings and renew proof/review after source changes.
+.PP
+\&Record real review evidence and a TypedReviewReceipt with separate implementer/reviewer identities and actual reviewed_revision/expected_head_sha. Use the review\-digest helper for its payload digest. A generated receipt or review_present true does not perform the review. Native review currently checks a narrower planning contract; independent review remains an operator policy requirement.
+.nf
+\&csdlc review \-\-request review\-request.json
+\&csdlc review \-\-request review\-dispatch.json \-\-execute
+.fi
+.PP
+\&review\-request.json is RemoteRouteRequest with issue/repository/implementer/reviewer/review_revision/expected_head_sha; review\-dispatch.json wraps it in operation.kind review, canonical selector digest and exact_review_sha. Require ready in the result and valid current authority. Keep the typed receipt and actual evidence under .csdlc/evidence/ISSUE/.
+.SH 4 CREATE AND VERIFY THE PR
+\&Prepare a reviewed closing PR body containing exactly Closes #ISSUE, correct base and branch head. A checkpoint uses Part of #ISSUE and cannot terminally finish. Push the reviewed branch to its intended remote after verifying scope, then execute the native github\-pr pull_request_create dispatch. Ordinary Git push transports the branch; it is not a raw GitHub lifecycle write.
+.nf
+\&git push \-u origin YOUR_REVIEWED_BRANCH
+\&csdlc github\-pr \-\-request pr\-create\-dispatch.json \-\-execute
+\&csdlc pr\-state \-\-request remote\-request.json \-\-observe\-github
+\&csdlc publish \-\-request remote\-request.json \-\-observe\-github
+.fi
+.PP
+\&The create dispatch's exact_review_sha and nested expected_head_sha match the reviewed head; mutation has action pull_request_create, base, head, title, body and draft. Retain the returned assigned numeric PR and authenticated mutation receipt. Verify actual base/head and closing linkage immediately.
+.PP
+\&Update RemoteRouteRequest with assigned PR/title/body, current head, mode closing, review_present, distinct principals and typed receipt path/digest. \-\-observe\-github obtains authenticated readback. The current publish route requires an existing authenticated PR readback, so its complete ready check occurs after actual PR creation. A pre\-creation publish plan lacking readback must remain blocked; never forge receipts to get a green preflight. Native review and independent exact\-head review precede the creation.
+.PP
+\&To transition from draft after required proof, use github\-pr with pull_request_ready. Updating a PR title/body uses pull_request_update. Recheck publication after any material change. A published PR remains open/unmerged until explicit merge succeeds.
+.SH 5 MERGE ONLY WITH AUTHORIZATION
+\&Confirm required checks actually pass, unresolved review threads are resolved, current review is exact and the operator authorized this numeric PR merge. Use mutation pull_request_merge only through github\-pr with explicit base, method merge and current review receipt path/digest. Put the actual authorization reference in operator_approval; text alone is not approval.
+.nf
+\&csdlc github\-pr \-\-request merge\-dispatch.json \-\-execute
+.fi
+.PP
+\&Retain authenticated reconciliation. Unsupported branch policy, incomplete observations or head/base/check drift stay blocked. All retries after merge intent are observation\-only; do not delete the guard or send a second raw merge.
+.SH 6 FINISH
+.nf
+\&csdlc finish \-\-request finish\-request.json \-\-observe\-github
+.fi
+.PP
+\&Use TerminalRouteRequest repository/issue/numeric PR/expected_head_sha/mode closing and credential_names. To persist terminal truth include terminal_state with actual reconciliation root and exact canonical state/receipt locations from csdlc(1). Linked: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Primary: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json.
+.PP
+\&Finish independently observes merged PR, correct expected head and closed linked issue; no second GitHub mutation or closeout PR is needed. Retain returned terminal state/receipt and distinguish terminal observation from persistence when terminal_state is omitted.
+.SH 7 CLEAN
+.nf
+\&csdlc clean \-\-request cleanup\-preview.json
+\&csdlc clean \-\-request cleanup\-remove.json
+.fi
+.PP
+\&Before cleaning from primary, repeat the authenticated finish invocation from primary with terminal_state.repository_root set to that primary checkout and primary canonical Git\-metadata state/receipt paths. The linked finish receipt in step 6 is not a primary cleanup receipt: do not copy it or point primary cleanup at the linked .csdlc file. Retain the newly authenticated primary receipt and its byte digest.
+.PP
+\&Run clean from the primary, not the target you will remove. Supply the actual approved parent, primary repository root, exact registered candidate, expected head and that primary durable terminal receipt path/digest. First remove false; only a Removable result supplies the preview receipt for a second request with remove true and matching preview_receipt_digest.
+.PP
+\&Preserve dirty, live or unregistered work. The cleanup gate checks a live\-worktree marker and Git state; it is not a general host process scanner. Remove only the exact target and verify the returned Removed result. Do not broaden cleanup to other issue worktrees.
+.SH RECOVERY
+\&Local compare\-and\-swap drift: inspect actual current state and regenerate only the intended semantic edit with fresh digest. Interrupted transaction: retain original request and state, use the identical native mutator request, and route unresolved failures to bounded tooling repair. No handwritten index/journal recovery.
+.PP
+\&Remote uncertain response: same exact request, same target and retained intent; native reconciliation observes the remote effect. An uncertain result is not a successful publication, merge or finish. Read csdlc\-github\-pr(1) for merge\-specific one\-shot dispatch semantics.
+.PP
+\&This manual's schema fixtures prove request shape and selected guard/plan behavior. They do not claim an end\-to\-end live GitHub deployment or authorize example targets.

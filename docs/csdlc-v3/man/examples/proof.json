@@ -1,0 +1,42 @@
+{
+  "issue": 861,
+  "repository": "agent-logic/agent-design-language",
+  "binding": {
+    "worktree": "/approved/worktrees/issue-861-example",
+    "branch": "codex/861-operator-manual-example",
+    "exact_head": "1111111111111111111111111111111111111111",
+    "git_common_dir": "/repository/primary/.git",
+    "generation": 5,
+    "lifecycle_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "evidence_root": "/approved/worktrees/issue-861-example",
+  "proof": {
+    "manifest_id": "operator-manual-fixture",
+    "lane": "tooling",
+    "deterministic": true,
+    "evidence_ref": ".csdlc/evidence/861/input.json",
+    "evidence_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "observed_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "stale": false,
+    "normalization": "doctor_issue_phase_v1",
+    "command": {
+      "generation": "v3",
+      "binary_ref": ".csdlc/evidence/861/candidate/csdlc",
+      "argv": [
+        "doctor",
+        "--request",
+        ".csdlc/evidence/861/doctor.json",
+        "--registry",
+        "docs/templates/prompts/current.json",
+        "--registrations",
+        ".csdlc/evidence/861/registrations.json"
+      ],
+      "request_ref": ".csdlc/evidence/861/doctor.json",
+      "timeout_millis": 30000,
+      "side_effect_boundary_refs": [
+        ".csdlc/issues/861"
+      ],
+      "provider_side_effects": false
+    }
+  }
+}

@@ -1,0 +1,1548 @@
+{
+  "schema": "adl.issue909.plan_summary.v1",
+  "package": "infra/gcp/platform",
+  "observed_at": "2026-09-12T01:23:24.427957+00:00",
+  "exit_code": 0,
+  "provenance": "reconstructed private candidate; not authoritative adopted state",
+  "state_sha256": "056ae60722abd96b5102604c7241d36e2b8782c6576758164bf5a6dc47d15af4",
+  "state_serial": 36,
+  "state_lineage": "85034bc7-32bd-e807-1798-81537b9eec28",
+  "plan_sha256": "c1b26a420740315a3723194b36f29fec5c29b5f300cf3815db8bf4a7695759f3",
+  "changes": [
+    {
+      "address": "google_compute_firewall.deny_unapproved_egress",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "allow": [],
+        "creation_timestamp": "2026-09-08T02:38:53.965-07:00",
+        "deny": [
+          {
+            "ports": [],
+            "protocol": "all"
+          }
+        ],
+        "description": "",
+        "destination_ranges": [
+          "0.0.0.0/0"
+        ],
+        "direction": "EGRESS",
+        "disabled": false,
+        "enable_logging": null,
+        "id": "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-deny-unapproved-egress",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "priority": 65534,
+        "project": "cs-host-377d41e71a824f92802120",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress",
+        "source_ranges": [],
+        "source_service_accounts": [],
+        "source_tags": [],
+        "target_service_accounts": [],
+        "target_tags": [
+          "csm-disposable"
+        ],
+        "timeouts": null
+      },
+      "after": {
+        "allow": [],
+        "creation_timestamp": "2026-09-08T02:38:53.965-07:00",
+        "deny": [
+          {
+            "ports": [],
+            "protocol": "all"
+          }
+        ],
+        "description": "",
+        "destination_ranges": [
+          "0.0.0.0/0"
+        ],
+        "direction": "EGRESS",
+        "disabled": false,
+        "enable_logging": null,
+        "id": "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-deny-unapproved-egress",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "priority": 65534,
+        "project": "cs-host-377d41e71a824f92802120",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress",
+        "source_ranges": [],
+        "source_service_accounts": [],
+        "source_tags": [],
+        "target_service_accounts": [],
+        "target_tags": [
+          "csm-disposable"
+        ],
+        "timeouts": null
+      }
+    },
+    {
+      "address": "google_compute_firewall.explicit_private_egress",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "allow": [
+          {
+            "ports": [
+              "443"
+            ],
+            "protocol": "tcp"
+          }
+        ],
+        "creation_timestamp": "2026-09-08T02:37:12.009-07:00",
+        "deny": [],
+        "description": "",
+        "destination_ranges": [
+          "199.36.153.8/30"
+        ],
+        "direction": "EGRESS",
+        "disabled": false,
+        "enable_logging": null,
+        "id": "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-explicit-private-egress",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-explicit-private-egress",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "priority": 1000,
+        "project": "cs-host-377d41e71a824f92802120",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-explicit-private-egress",
+        "source_ranges": [],
+        "source_service_accounts": [],
+        "source_tags": [],
+        "target_service_accounts": [],
+        "target_tags": [
+          "csm-disposable"
+        ],
+        "timeouts": null
+      },
+      "after": {
+        "allow": [
+          {
+            "ports": [
+              "443"
+            ],
+            "protocol": "tcp"
+          }
+        ],
+        "creation_timestamp": "2026-09-08T02:37:12.009-07:00",
+        "deny": [],
+        "description": "",
+        "destination_ranges": [
+          "199.36.153.8/30"
+        ],
+        "direction": "EGRESS",
+        "disabled": false,
+        "enable_logging": null,
+        "id": "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-explicit-private-egress",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-explicit-private-egress",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "priority": 1000,
+        "project": "cs-host-377d41e71a824f92802120",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-explicit-private-egress",
+        "source_ranges": [],
+        "source_service_accounts": [],
+        "source_tags": [],
+        "target_service_accounts": [],
+        "target_tags": [
+          "csm-disposable"
+        ],
+        "timeouts": null
+      }
+    },
+    {
+      "address": "google_compute_firewall.iap_operator_access",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "allow": [
+          {
+            "ports": [
+              "22"
+            ],
+            "protocol": "tcp"
+          }
+        ],
+        "creation_timestamp": "2026-09-08T02:37:12.036-07:00",
+        "deny": [],
+        "description": "",
+        "destination_ranges": [],
+        "direction": "INGRESS",
+        "disabled": false,
+        "enable_logging": null,
+        "id": "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-iap-operator-access",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-iap-operator-access",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "priority": 1000,
+        "project": "cs-host-377d41e71a824f92802120",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-iap-operator-access",
+        "source_ranges": [
+          "35.235.240.0/20"
+        ],
+        "source_service_accounts": [],
+        "source_tags": [],
+        "target_service_accounts": [],
+        "target_tags": [
+          "csm-disposable"
+        ],
+        "timeouts": null
+      },
+      "after": {
+        "allow": [
+          {
+            "ports": [
+              "22"
+            ],
+            "protocol": "tcp"
+          }
+        ],
+        "creation_timestamp": "2026-09-08T02:37:12.036-07:00",
+        "deny": [],
+        "description": "",
+        "destination_ranges": [],
+        "direction": "INGRESS",
+        "disabled": false,
+        "enable_logging": null,
+        "id": "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-iap-operator-access",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-iap-operator-access",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "priority": 1000,
+        "project": "cs-host-377d41e71a824f92802120",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-iap-operator-access",
+        "source_ranges": [
+          "35.235.240.0/20"
+        ],
+        "source_service_accounts": [],
+        "source_tags": [],
+        "target_service_accounts": [],
+        "target_tags": [
+          "csm-disposable"
+        ],
+        "timeouts": null
+      }
+    },
+    {
+      "address": "google_compute_network.private",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "auto_create_subnetworks": false,
+        "bgp_always_compare_med": false,
+        "bgp_best_path_selection_mode": "LEGACY",
+        "bgp_inter_region_cost": "",
+        "delete_default_routes_on_create": false,
+        "description": "",
+        "enable_ula_internal_ipv6": false,
+        "gateway_ipv4": "",
+        "id": "projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "internal_ipv6_range": "",
+        "mtu": 0,
+        "name": "axioma-dev-csm-private",
+        "network_firewall_policy_enforcement_order": "AFTER_CLASSIC_FIREWALL",
+        "network_id": "7386400375461538263",
+        "network_profile": "",
+        "numeric_id": "7386400375461538263",
+        "params": [],
+        "project": "cs-host-377d41e71a824f92802120",
+        "routing_mode": "REGIONAL",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "timeouts": null
+      },
+      "after": {
+        "auto_create_subnetworks": false,
+        "bgp_always_compare_med": false,
+        "bgp_best_path_selection_mode": "LEGACY",
+        "bgp_inter_region_cost": "",
+        "delete_default_routes_on_create": false,
+        "description": "",
+        "enable_ula_internal_ipv6": false,
+        "gateway_ipv4": "",
+        "id": "projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "internal_ipv6_range": "",
+        "mtu": 0,
+        "name": "axioma-dev-csm-private",
+        "network_firewall_policy_enforcement_order": "AFTER_CLASSIC_FIREWALL",
+        "network_id": "7386400375461538263",
+        "network_profile": "",
+        "numeric_id": "7386400375461538263",
+        "params": [],
+        "project": "cs-host-377d41e71a824f92802120",
+        "routing_mode": "REGIONAL",
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "timeouts": null
+      }
+    },
+    {
+      "address": "google_compute_project_metadata_item.os_login",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "id": "enable-oslogin",
+        "key": "enable-oslogin",
+        "project": "cs-host-377d41e71a824f92802120",
+        "timeouts": null,
+        "value": "TRUE"
+      },
+      "after": {
+        "id": "enable-oslogin",
+        "key": "enable-oslogin",
+        "project": "cs-host-377d41e71a824f92802120",
+        "timeouts": null,
+        "value": "TRUE"
+      }
+    },
+    {
+      "address": "google_compute_subnetwork.private",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "creation_timestamp": "2026-09-08T02:37:12.685-07:00",
+        "description": "",
+        "enable_flow_logs": false,
+        "external_ipv6_prefix": "",
+        "fingerprint": null,
+        "gateway_address": "10.42.0.1",
+        "id": "projects/cs-host-377d41e71a824f92802120/regions/us-west2/subnetworks/axioma-dev-csm-private-us-west2",
+        "internal_ipv6_prefix": "",
+        "ip_cidr_range": "10.42.0.0/24",
+        "ip_collection": null,
+        "ipv6_access_type": "",
+        "ipv6_cidr_range": "",
+        "ipv6_gce_endpoint": "",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-us-west2",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "private_ip_google_access": true,
+        "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+        "project": "cs-host-377d41e71a824f92802120",
+        "purpose": "PRIVATE",
+        "region": "us-west2",
+        "reserved_internal_range": "",
+        "role": "",
+        "secondary_ip_range": [],
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west2/subnetworks/axioma-dev-csm-private-us-west2",
+        "send_secondary_ip_range_if_empty": null,
+        "stack_type": "IPV4_ONLY",
+        "state": "",
+        "subnetwork_id": 7305592550062188967,
+        "timeouts": null
+      },
+      "after": {
+        "creation_timestamp": "2026-09-08T02:37:12.685-07:00",
+        "description": "",
+        "enable_flow_logs": false,
+        "external_ipv6_prefix": "",
+        "fingerprint": null,
+        "gateway_address": "10.42.0.1",
+        "id": "projects/cs-host-377d41e71a824f92802120/regions/us-west2/subnetworks/axioma-dev-csm-private-us-west2",
+        "internal_ipv6_prefix": "",
+        "ip_cidr_range": "10.42.0.0/24",
+        "ip_collection": null,
+        "ipv6_access_type": "",
+        "ipv6_cidr_range": "",
+        "ipv6_gce_endpoint": "",
+        "log_config": [],
+        "name": "axioma-dev-csm-private-us-west2",
+        "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+        "params": [],
+        "private_ip_google_access": true,
+        "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+        "project": "cs-host-377d41e71a824f92802120",
+        "purpose": "PRIVATE",
+        "region": "us-west2",
+        "reserved_internal_range": "",
+        "role": "",
+        "secondary_ip_range": [],
+        "self_link": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west2/subnetworks/axioma-dev-csm-private-us-west2",
+        "send_secondary_ip_range_if_empty": null,
+        "stack_type": "IPV4_ONLY",
+        "state": "",
+        "subnetwork_id": 7305592550062188967,
+        "timeouts": null
+      }
+    },
+    {
+      "address": "google_logging_metric.disposable_without_deadline",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "bucket_name": "",
+        "bucket_options": [],
+        "description": "Watchdog/readback command support: counts disposable workload log entries missing deadline labels.",
+        "disabled": false,
+        "filter": "resource.type=\"gce_instance\" AND labels.issue=\"493\" AND labels.ttl=\"disposable\" AND -labels.deadline:*",
+        "id": "csm_dev_disposable_without_deadline",
+        "label_extractors": {},
+        "metric_descriptor": [
+          {
+            "display_name": "",
+            "labels": [],
+            "metric_kind": "DELTA",
+            "unit": "1",
+            "value_type": "INT64"
+          }
+        ],
+        "name": "csm_dev_disposable_without_deadline",
+        "project": "cs-host-377d41e71a824f92802120",
+        "timeouts": null,
+        "value_extractor": ""
+      },
+      "after": {
+        "bucket_name": "",
+        "bucket_options": [],
+        "description": "Watchdog/readback command support: counts disposable workload log entries missing deadline labels.",
+        "disabled": false,
+        "filter": "resource.type=\"gce_instance\" AND labels.issue=\"493\" AND labels.ttl=\"disposable\" AND -labels.deadline:*",
+        "id": "csm_dev_disposable_without_deadline",
+        "label_extractors": {},
+        "metric_descriptor": [
+          {
+            "display_name": "",
+            "labels": [],
+            "metric_kind": "DELTA",
+            "unit": "1",
+            "value_type": "INT64"
+          }
+        ],
+        "name": "csm_dev_disposable_without_deadline",
+        "project": "cs-host-377d41e71a824f92802120",
+        "timeouts": null,
+        "value_extractor": ""
+      }
+    },
+    {
+      "address": "google_project_iam_member.operator_iap_tunnel",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "condition": [],
+        "etag": "BwZbELdG85w=",
+        "id": "cs-host-377d41e71a824f92802120/roles/iap.tunnelResourceAccessor/user:daniel@agent-logic.ai",
+        "member": "user:daniel@agent-logic.ai",
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/iap.tunnelResourceAccessor"
+      },
+      "after": {
+        "condition": [],
+        "etag": "BwZbELdG85w=",
+        "id": "cs-host-377d41e71a824f92802120/roles/iap.tunnelResourceAccessor/user:daniel@agent-logic.ai",
+        "member": "user:daniel@agent-logic.ai",
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/iap.tunnelResourceAccessor"
+      }
+    },
+    {
+      "address": "google_project_iam_member.operator_os_login",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "condition": [],
+        "etag": "BwZbELdG85w=",
+        "id": "cs-host-377d41e71a824f92802120/roles/compute.osLogin/user:daniel@agent-logic.ai",
+        "member": "user:daniel@agent-logic.ai",
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/compute.osLogin"
+      },
+      "after": {
+        "condition": [],
+        "etag": "BwZbELdG85w=",
+        "id": "cs-host-377d41e71a824f92802120/roles/compute.osLogin/user:daniel@agent-logic.ai",
+        "member": "user:daniel@agent-logic.ai",
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/compute.osLogin"
+      }
+    },
+    {
+      "address": "google_project_iam_member.workload_log_writer",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "condition": [],
+        "etag": "BwZbELdG85w=",
+        "id": "cs-host-377d41e71a824f92802120/roles/logging.logWriter/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/logging.logWriter"
+      },
+      "after": {
+        "condition": [],
+        "etag": "BwZbELdG85w=",
+        "id": "cs-host-377d41e71a824f92802120/roles/logging.logWriter/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/logging.logWriter"
+      }
+    },
+    {
+      "address": "google_service_account.workload",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "account_id": "axioma-dev-workload",
+        "create_ignore_already_exists": null,
+        "description": "Dedicated workload identity for #493 GCP-D disposable private workloads.",
+        "disabled": false,
+        "display_name": "CSM axioma dev disposable workload service account",
+        "email": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "id": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "name": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "project": "cs-host-377d41e71a824f92802120",
+        "timeouts": null,
+        "unique_id": "112849676077204471277"
+      },
+      "after": {
+        "account_id": "axioma-dev-workload",
+        "create_ignore_already_exists": null,
+        "description": "Dedicated workload identity for #493 GCP-D disposable private workloads.",
+        "disabled": false,
+        "display_name": "CSM axioma dev disposable workload service account",
+        "email": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "id": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "name": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "project": "cs-host-377d41e71a824f92802120",
+        "timeouts": null,
+        "unique_id": "112849676077204471277"
+      }
+    },
+    {
+      "address": "google_storage_bucket.artifacts",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "artifacts",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "artifacts",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:57.195Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "artifacts",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:57.195Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.647Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      },
+      "after": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "artifacts",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "artifacts",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:57.195Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "artifacts",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:57.195Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.647Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      }
+    },
+    {
+      "address": "google_storage_bucket.continuity_evidence",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "continuity-evidence",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "continuity-evidence",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:57.926Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "continuity-evidence",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:57.926Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.633Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      },
+      "after": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "continuity-evidence",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "continuity-evidence",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:57.926Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "continuity-evidence",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:57.926Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.633Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      }
+    },
+    {
+      "address": "google_storage_bucket.logs",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "logs",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "logs",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:56.973Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "logs",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:56.973Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.638Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      },
+      "after": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "logs",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "logs",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:56.973Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "logs",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:56.973Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.638Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      }
+    },
+    {
+      "address": "google_storage_bucket.models",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "models",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "models",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:58.040Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "models",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:58.040Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.746Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      },
+      "after": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "models",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "models",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:58.040Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "models",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:58.040Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:37:13.746Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      }
+    },
+    {
+      "address": "google_storage_bucket.state",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "state",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "state",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:57.760Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "state",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:57.760Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:36:57.760Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      },
+      "after": {
+        "autoclass": [],
+        "cors": [],
+        "custom_placement_config": [],
+        "default_event_based_hold": false,
+        "effective_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "state",
+          "ttl": "disposable"
+        },
+        "enable_object_retention": false,
+        "encryption": [],
+        "force_destroy": false,
+        "hierarchical_namespace": [
+          {
+            "enabled": false
+          }
+        ],
+        "id": "cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "ip_filter": [],
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "state",
+          "ttl": "disposable"
+        },
+        "lifecycle_rule": [],
+        "location": "US-WEST2",
+        "logging": [],
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "project": "cs-host-377d41e71a824f92802120",
+        "project_number": 27581932047,
+        "public_access_prevention": "inherited",
+        "requester_pays": false,
+        "retention_policy": [],
+        "rpo": null,
+        "self_link": "https://www.googleapis.com/storage/v1/b/cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:36:57.760Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "storage_class": "STANDARD",
+        "terraform_labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "state",
+          "ttl": "disposable"
+        },
+        "time_created": "2026-09-08T09:36:57.760Z",
+        "timeouts": null,
+        "uniform_bucket_level_access": true,
+        "updated": "2026-09-08T09:36:57.760Z",
+        "url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "website": []
+      }
+    },
+    {
+      "address": "google_storage_bucket_iam_member.workload_artifacts_object_user",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts/roles/storage.objectUser/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectUser"
+      },
+      "after": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts/roles/storage.objectUser/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectUser"
+      }
+    },
+    {
+      "address": "google_storage_bucket_iam_member.workload_evidence_object_creator",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence/roles/storage.objectCreator/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectCreator"
+      },
+      "after": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence/roles/storage.objectCreator/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectCreator"
+      }
+    },
+    {
+      "address": "google_storage_bucket_iam_member.workload_logs_object_creator",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-logs/roles/storage.objectCreator/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectCreator"
+      },
+      "after": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-logs/roles/storage.objectCreator/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectCreator"
+      }
+    },
+    {
+      "address": "google_storage_bucket_iam_member.workload_models_object_viewer",
+      "actions": [
+        "no-op"
+      ],
+      "before": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-models/roles/storage.objectViewer/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectViewer"
+      },
+      "after": {
+        "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "condition": [],
+        "etag": "CAI=",
+        "id": "b/cs-host-377d41e71a824f92802120-dev-axioma-models/roles/storage.objectViewer/serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "role": "roles/storage.objectViewer"
+      }
+    }
+  ],
+  "resource_drift": [
+    {
+      "changed_fields": {
+        "source_ranges": {
+          "before": null,
+          "after": []
+        },
+        "source_service_accounts": {
+          "before": null,
+          "after": []
+        },
+        "source_tags": {
+          "before": null,
+          "after": []
+        },
+        "target_service_accounts": {
+          "before": null,
+          "after": []
+        }
+      },
+      "address": "google_compute_firewall.explicit_private_egress",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    },
+    {
+      "changed_fields": {
+        "source_service_accounts": {
+          "before": null,
+          "after": []
+        },
+        "source_tags": {
+          "before": null,
+          "after": []
+        },
+        "target_service_accounts": {
+          "before": null,
+          "after": []
+        }
+      },
+      "address": "google_compute_firewall.iap_operator_access",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    },
+    {
+      "changed_fields": {
+        "label_extractors": {
+          "before": null,
+          "after": {}
+        }
+      },
+      "address": "google_logging_metric.disposable_without_deadline",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    },
+    {
+      "changed_fields": {
+        "etag": {
+          "before": "BwZa9XsEQjI=",
+          "after": "BwZbELdG85w="
+        }
+      },
+      "address": "google_project_iam_member.workload_log_writer",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    },
+    {
+      "changed_fields": {
+        "updated": {
+          "before": "2026-09-08T09:36:57.195Z",
+          "after": "2026-09-08T09:37:13.647Z"
+        }
+      },
+      "address": "google_storage_bucket.artifacts",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    },
+    {
+      "changed_fields": {
+        "updated": {
+          "before": "2026-09-08T09:36:57.926Z",
+          "after": "2026-09-08T09:37:13.633Z"
+        }
+      },
+      "address": "google_storage_bucket.continuity_evidence",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    },
+    {
+      "changed_fields": {
+        "updated": {
+          "before": "2026-09-08T09:36:56.973Z",
+          "after": "2026-09-08T09:37:13.638Z"
+        }
+      },
+      "address": "google_storage_bucket.logs",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    },
+    {
+      "changed_fields": {
+        "updated": {
+          "before": "2026-09-08T09:36:58.040Z",
+          "after": "2026-09-08T09:37:13.746Z"
+        }
+      },
+      "address": "google_storage_bucket.models",
+      "actions": [
+        "update"
+      ],
+      "disposition": "read-only historical-state refresh; no configuration action"
+    }
+  ],
+  "remote_state_mutation": false,
+  "cloud_resource_mutation": false,
+  "apply_authorized": false
+}

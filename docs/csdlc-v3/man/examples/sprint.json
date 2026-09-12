@@ -1,0 +1,19 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "version": "v0.92.2",
+  "sprints": [
+    {
+      "sprint": 1,
+      "umbrella_issue": 866,
+      "title": "Sprint 1",
+      "execution_mode": "parallel",
+      "serial_gates": [
+        "accepted prerequisites"
+      ],
+      "umbrella_readback_ref": ".csdlc/evidence/866/umbrella-readback.json",
+      "child_readback_refs": {
+        "861": ".csdlc/evidence/866/861-readback.json"
+      }
+    }
+  ]
+}

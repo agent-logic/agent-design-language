@@ -1,0 +1,461 @@
+.TH "CSDLC-REQUESTS" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-requests \- native request fields, enums and digest contracts
+.SH DESCRIPTION
+\&This is the operator\-readable request field reference. Strings are JSON strings, u64 values are nonnegative JSON integers, bool values are JSON booleans, Vec values are arrays and map values are JSON objects. Optional fields may be omitted; a schema\-valid shape is only the first gate. Current identity, positive issue IDs where required, authority, receipts, path confinement and operation\-specific guards are still mandatory.
+.PP
+\&The checked\-in examples are schema fixtures, not authenticated credentials, approvals, reviews or remote readback. Replace all illustrative IDs/paths/digests from live evidence before execution. Do not copy a fixture's true readiness flags as facts. Request JSON files have no wrapper schema field unless the named type defines one.
+.SH LOCAL CONTRACT
+\&LocalPreparationRequest.commands uses prepare_issue, bind_worktree, edit_cards, plan_pvf, doctor, schedule, shepherd and eligibility. validate requires plan_pvf. The six card_updates keys are sip, stp, spp, vpp, srp and sor; fields come from the active registry's versioned values schemas. No hand\-authored rendered cards.
+.PP
+\&Expected local digest is index.json.digest from the current native state. First issue preparation omits it; bind/edit and subsequent guarded operations use the current value. Registry version must match docs/templates/prompts/current.json. WorktreeRegistration contains actual branch without refs/heads/, normalized absolute worktree and primary boolean; detached checkouts cannot masquerade as issue branches.
+.PP
+\&schedule_readiness requires every named dimension. shepherd_routing.validation is optional observed validation status, with explicit dependency_wait, retryable_failure, repair_needed and operator_decision_needed booleans. Do not set readiness from desired outcomes.
+.SH REMOTE CONTRACT
+\&RemoteRouteRequest.mode is closing or part_of; readback_source is github, caller or fixture, and only authenticated GitHub evidence qualifies for operational readback. review_present alone is not a review. TypedReviewReceipt.schema is csdlc.v3.typed_review_receipt.v1; repository/issue/head/reviewed_revision must match, reviewer must differ from implementer, and evidence_digest must name actual review evidence.
+.PP
+\&OperationalRemoteDispatchRequest.operation is {kind:review|publish|github_mutation,request:{...}}. review and publish nest RemoteRouteRequest; github_mutation nests GithubMutationRequest. expected_lifecycle_digest is the payload digest of canonical origin/main authority\-selector bytes and exact_review_sha is current reviewed HEAD. Do not substitute the local issue digest.
+.PP
+\&GithubMutationRequest.mutation is tagged by action. issue_create requires title/body and optionally labels, assignees, milestone. issue_comment requires body. issue_edit optionally supplies title/body and explicit metadata operations documented by csdlc\-github\-issue(1). issue_close requires rationale/current_body/disposition (duplicate|superseded|no_op), duplicate_of for duplicate, and only not_planned for github_state_reason.
+.PP
+\&pull_request_create requires base/head/title/body and optional draft boolean. head is the actual branch name and expected_head_sha is its exact reviewed SHA. pull_request_update supplies title/body. pull_request_ready has no payload fields. pull_request_merge requires base, method merge, review_receipt_path, review_receipt_digest and operator_approval in the enclosing request. Only github\-pr owns merge.
+.PP
+\&recovery may be retry_after_authenticated_absence for supported creation/ready cases; it is not generic retry permission and cannot replay merge or issue\-edit writes. cutover_issue/operator_approval do not grant authority by themselves.
+.SH DIGESTS
+\&Digest algorithms are field\-specific. Artifact/terminal byte digests use BLAKE3 of the exact bytes. Remote stable payload digests use BLAKE3 over each ordered UTF\-8 field followed by a NUL byte. Canonical authority selector payload digest is BLAKE3 of origin/main:csdlc\-v3/operator/authority\-selector.json bytes followed by NUL. Whitespace in those bytes matters.
+.PP
+\&Typed review payload field order: schema, repository, issue rendered as decimal, implementer, reviewer, reviewed_revision, expected_head_sha, evidence_digest; append NUL after each. The typed receipt file itself need not have the same byte digest. Use the supplied fixture\-checked operator digest example rather than confusing SHA\-256 or a file hash with this payload digest.
+.PP
+\&A native result's returned digest/receipt path is preferable to recomputing a lifecycle receipt. Never claim authentication by writing a receipt with a matching checksum; transport\-derived receipts require actual native observation.
+.SH TERMINAL CONTRACT
+\&TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus \-\-observe\-github. terminal_state identifies the actual repository_root and exact canonical state_path/receipt_path; optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.
+.PP
+\&NoPrCloseout.disposition is retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. It requires operator/rationale/evidence_refs and exact authenticated issue updated/closed timestamps. It is administrative disposition, not merged implementation. expected_head_sha must match the actual reconciliation checkout for this route.
+.PP
+\&CleanupRouteRequest.remove defaults false. terminal_receipt is not sufficient alone: use terminal_receipt_path and its exact BLAKE3 byte digest, then preview_receipt_digest returned by an eligible preview for removal. approved_parent/repository_root/candidate_path must be actual normalized paths; candidate must be absolute. Preserve dirty or live work.
+.PP
+\&CutoverDecisionRequest.operation is apply (default) or rollback; execute defaults false. Execution requires exact selected binary, selector, installation, rollback receipt and readiness evidence paths/digests plus explicit approval. Retained cutover configuration is not a routine startup requirement.
+.SH PROOF CONTRACT
+\&ProofWorktreeBinding compares worktree, branch, exact_head, git_common_dir, generation and lifecycle_digest with the actual native\-bound issue. evidence_root is that checkout. ProofManifest.normalization is doctor_issue_phase_v1 or route_preview_v1; command.generation is v3 (v2 is retained historical input only). provider_side_effects must be false for this bounded proof.
+.PP
+\&ShadowCommandSpec.binary_ref/request_ref/side_effect_boundary_refs are confined artifact references, argv is a literal argument array, and timeout_millis is an explicit bound. No shell expansion occurs. doctor_issue_phase_v1 normalizes a real doctor response; route_preview_v1 expects the exact typed semantic preview contract, not arbitrary help text. The current CLI has no \-\-preview producer, so routine examples use doctor_issue_phase_v1; do not invent a successful preview invocation.
+.PP
+\&InstallPlanInput requires verified source artifact/provenance/selector references and digests. stable_destination must be truthful. executes_install true requires destination .adl/bin/csdlc, exact head and matching explicit cutover_approval_ref/digest. ShadowComparison and SoakEvidence remain historical parseable shapes; the public shadow/soak execution routes are disabled.
+.SH SPRINT AND RELEASE
+\&SprintReadinessRequest.sprints contains SprintReadinessTarget entries. execution_mode is sequential, parallel or hybrid. child_readback_refs maps issue\-number strings to retained typed issue readback files; umbrella_readback_ref identifies the umbrella readback. Paths are bounded repository references. This retained helper does not prove current native cards merely by accepting readbacks.
+.PP
+\&ReleaseRequest carries exact repository/version/candidate_sha, notes_path/notes_digest and gate_path/gate_digest. The gate schema is csdlc.v3.release_gate.v1, with repository/version/candidate_sha/notes_path/notes_digest/inventory_digest/status status must be ready_for_preflight, and evidence [{issue,path,digest}]. Evidence and inventories are versioned repository inputs, not caller release authorization.
+.SH LOCALPREPARATIONREQUEST
+\&issue: u64; required.
+.PP
+\&title: String; required.
+.PP
+\&repository: String; required.
+.PP
+\&branch: String; required.
+.PP
+\&worktree: String; required.
+.PP
+\&registry_version: String; required.
+.PP
+\&expected_lifecycle_digest: Option<String>; optional/defaulted.
+.PP
+\&commands: Vec<LocalCommand>; required.
+.PP
+\&card_updates: BTreeMap<String, Value>; optional/defaulted.
+.PP
+\&schedule_readiness: Option<ScheduleReadinessInput>; optional/defaulted.
+.PP
+\&shepherd_routing: Option<ShepherdRoutingInput>; optional/defaulted.
+.SH SCHEDULEREADINESSINPUT
+\&phase_ready: bool; required.
+.PP
+\&cards_ready: bool; required.
+.PP
+\&design_ready: bool; required.
+.PP
+\&dependencies_ready: bool; required.
+.PP
+\&paths_clear: bool; required.
+.PP
+\&budget_available: bool; required.
+.SH SHEPHERDROUTINGINPUT
+\&validation: Option<String>; optional/defaulted.
+.PP
+\&dependency_wait: bool; optional/defaulted.
+.PP
+\&retryable_failure: bool; optional/defaulted.
+.PP
+\&repair_needed: bool; optional/defaulted.
+.PP
+\&operator_decision_needed: bool; optional/defaulted.
+.SH WORKTREEREGISTRATION
+\&branch: String; required.
+.PP
+\&worktree: String; required.
+.PP
+\&primary: bool; required.
+.SH REMOTEROUTEREQUEST
+\&repository: String; required.
+.PP
+\&issue: u64; required.
+.PP
+\&pull_request: Option<u64>; optional/defaulted.
+.PP
+\&actor: Option<String>; optional/defaulted.
+.PP
+\&implementer: Option<String>; optional/defaulted.
+.PP
+\&reviewer: Option<String>; optional/defaulted.
+.PP
+\&review_revision: Option<String>; optional/defaulted.
+.PP
+\&expected_head_sha: Option<String>; optional/defaulted.
+.PP
+\&head_sha: Option<String>; optional/defaulted.
+.PP
+\&mode: Option<RemotePublicationMode>; optional/defaulted.
+.PP
+\&title: Option<String>; optional/defaulted.
+.PP
+\&body: Option<String>; optional/defaulted.
+.PP
+\&review_present: bool; optional/defaulted.
+.PP
+\&typed_review_receipt_path: Option<String>; optional/defaulted.
+.PP
+\&typed_review_receipt_digest: Option<String>; optional/defaulted.
+.PP
+\&readback_source: Option<RemoteReadbackSource>; optional/defaulted.
+.PP
+\&readback_receipt_path: Option<String>; optional/defaulted.
+.PP
+\&readback_receipt_digest: Option<String>; optional/defaulted.
+.PP
+\&adapter_receipt_path: Option<String>; optional/defaulted.
+.PP
+\&adapter_receipt_digest: Option<String>; optional/defaulted.
+.PP
+\&closes_issue: Option<u64>; optional/defaulted.
+.PP
+\&closing_issues: Vec<u64>; optional/defaulted.
+.PP
+\&part_of_issue: Option<u64>; optional/defaulted.
+.PP
+\&credential_names: Vec<String>; optional/defaulted.
+.SH TYPEDREVIEWRECEIPT
+\&schema: String; required.
+.PP
+\&repository: String; required.
+.PP
+\&issue: u64; required.
+.PP
+\&implementer: String; required.
+.PP
+\&reviewer: String; required.
+.PP
+\&reviewed_revision: String; required.
+.PP
+\&expected_head_sha: String; required.
+.PP
+\&evidence_digest: String; required.
+.SH GITHUBREADBACKRECEIPT
+\&schema: String; required.
+.PP
+\&repository: String; required.
+.PP
+\&issue: u64; required.
+.PP
+\&pull_request: u64; required.
+.PP
+\&title: Option<String>; optional/defaulted.
+.PP
+\&head_sha: String; required.
+.PP
+\&closes_issue: Option<u64>; optional/defaulted.
+.PP
+\&closing_issues: Vec<u64>; optional/defaulted.
+.PP
+\&part_of_issue: Option<u64>; optional/defaulted.
+.PP
+\&source: RemoteReadbackSource; required.
+.PP
+\&observed_by: String; required.
+.SH GITHUBADAPTERRECEIPT
+\&schema: String; required.
+.PP
+\&repository: String; required.
+.PP
+\&issue: u64; required.
+.PP
+\&pull_request: u64; required.
+.PP
+\&head_sha: String; required.
+.PP
+\&readback_receipt_digest: String; required.
+.PP
+\&credential_names: Vec<String>; required.
+.PP
+\&adapter: String; required.
+.PP
+\&authenticated: bool; required.
+.SH GITHUBMUTATIONREQUEST
+\&repository: String; required.
+.PP
+\&issue: u64; optional/defaulted.
+.PP
+\&pull_request: Option<u64>; optional/defaulted.
+.PP
+\&cutover_issue: Option<u64>; optional/defaulted.
+.PP
+\&operator_approval: Option<String>; optional/defaulted.
+.PP
+\&expected_head_sha: String; required.
+.PP
+\&credential_names: Vec<String>; required.
+.PP
+\&recovery: Option<GithubMutationRecovery>; optional/defaulted.
+.PP
+\&mutation: GithubMutation; required.
+.SH OPERATIONALREMOTEDISPATCHREQUEST
+\&expected_lifecycle_digest: String; required.
+.PP
+\&exact_review_sha: String; required.
+.PP
+\&operation: OperationalRemoteOperation; required.
+.SH TERMINALROUTEREQUEST
+\&repository: String; required.
+.PP
+\&issue: u64; required.
+.PP
+\&pull_request: Option<u64>; optional/defaulted.
+.PP
+\&expected_head_sha: Option<String>; optional/defaulted.
+.PP
+\&mode: Option<TerminalPublicationMode>; optional/defaulted.
+.PP
+\&public_adapter_receipt: Option<AdapterReceipt>; optional/defaulted.
+.PP
+\&terminal_state: Option<TerminalStateWriteRequest>; optional/defaulted.
+.PP
+\&no_pr_closeout: Option<NoPrCloseout>; optional/defaulted.
+.PP
+\&cleanup: Option<CleanupRouteRequest>; optional/defaulted.
+.PP
+\&cutover: Option<CutoverDecisionRequest>; optional/defaulted.
+.PP
+\&credential_names: Vec<String>; optional/defaulted.
+.SH NOPRCLOSEOUT
+\&disposition: NoPrDisposition; required.
+.PP
+\&operator: String; required.
+.PP
+\&rationale: String; required.
+.PP
+\&evidence_refs: Vec<String>; required.
+.PP
+\&expected_issue_updated_at: String; required.
+.PP
+\&expected_issue_closed_at: String; required.
+.SH ADAPTERRECEIPT
+\&producer: String; required.
+.PP
+\&digest: String; required.
+.SH CLEANUPROUTEREQUEST
+\&approved_parent: PathBuf; required.
+.PP
+\&repository_root: PathBuf; required.
+.PP
+\&candidate_path: PathBuf; required.
+.PP
+\&remove: bool; optional/defaulted.
+.PP
+\&terminal_receipt: bool; optional/defaulted.
+.PP
+\&terminal_receipt_path: Option<String>; optional/defaulted.
+.PP
+\&terminal_receipt_digest: Option<String>; optional/defaulted.
+.PP
+\&preview_receipt_digest: Option<String>; optional/defaulted.
+.SH TERMINALSTATEWRITEREQUEST
+\&repository_root: PathBuf; required.
+.PP
+\&state_path: PathBuf; required.
+.PP
+\&receipt_path: PathBuf; required.
+.PP
+\&expected_state_digest: Option<String>; optional/defaulted.
+.SH CUTOVERDECISIONREQUEST
+\&operator: String; required.
+.PP
+\&approval: String; required.
+.PP
+\&selected_binary_provenance: String; required.
+.PP
+\&rollback_evidence: String; required.
+.PP
+\&undo_boundary: String; required.
+.PP
+\&operation: CutoverOperation; optional/defaulted.
+.PP
+\&execute: bool; optional/defaulted.
+.PP
+\&repository_root: Option<PathBuf>; optional/defaulted.
+.PP
+\&selected_binary_path: Option<PathBuf>; optional/defaulted.
+.PP
+\&authority_selector_path: Option<PathBuf>; optional/defaulted.
+.PP
+\&install_destination_path: Option<PathBuf>; optional/defaulted.
+.PP
+\&rollback_receipt_path: Option<PathBuf>; optional/defaulted.
+.PP
+\&readiness_evidence_path: Option<PathBuf>; optional/defaulted.
+.PP
+\&readiness_evidence_digest: Option<String>; optional/defaulted.
+.SH PROOFROUTEREQUEST
+\&issue: u64; required.
+.PP
+\&repository: String; required.
+.PP
+\&binding: Option<ProofWorktreeBinding>; optional/defaulted.
+.PP
+\&cutover_issue: Option<u64>; optional/defaulted.
+.PP
+\&operator_approval: Option<String>; optional/defaulted.
+.PP
+\&evidence_root: Option<String>; optional/defaulted.
+.PP
+\&proof: Option<ProofManifest>; optional/defaulted.
+.PP
+\&shadow: Option<ShadowComparison>; optional/defaulted.
+.PP
+\&soak: Option<SoakEvidence>; optional/defaulted.
+.PP
+\&install: Option<InstallPlanInput>; optional/defaulted.
+.SH PROOFWORKTREEBINDING
+\&worktree: PathBuf; required.
+.PP
+\&branch: String; required.
+.PP
+\&exact_head: String; required.
+.PP
+\&git_common_dir: PathBuf; required.
+.PP
+\&generation: u64; required.
+.PP
+\&lifecycle_digest: String; required.
+.SH PROOFMANIFEST
+\&manifest_id: String; required.
+.PP
+\&lane: String; required.
+.PP
+\&deterministic: bool; required.
+.PP
+\&evidence_ref: String; required.
+.PP
+\&evidence_digest: String; required.
+.PP
+\&observed_digest: String; required.
+.PP
+\&stale: bool; required.
+.PP
+\&normalization: ShadowNormalizationContract; required.
+.PP
+\&command: ShadowCommandSpec; required.
+.SH SHADOWCOMPARISON
+\&normalization: ShadowNormalizationContract; required.
+.PP
+\&v2: ShadowCommandSpec; required.
+.PP
+\&v3: ShadowCommandSpec; required.
+.PP
+\&broad_equivalence_claim: bool; required.
+.SH SOAKEVIDENCE
+\&normalization: ShadowNormalizationContract; required.
+.PP
+\&command: ShadowCommandSpec; required.
+.PP
+\&duration_millis: u64; required.
+.PP
+\&sample_interval_millis: u64; required.
+.PP
+\&hidden_state: bool; required.
+.PP
+\&provider_side_effects: bool; required.
+.SH SHADOWCOMMANDSPEC
+\&generation: ShadowGeneration; required.
+.PP
+\&binary_ref: String; required.
+.PP
+\&argv: Vec<String>; required.
+.PP
+\&request_ref: String; required.
+.PP
+\&timeout_millis: u64; required.
+.PP
+\&side_effect_boundary_refs: Vec<String>; required.
+.PP
+\&provider_side_effects: bool; required.
+.SH INSTALLPLANINPUT
+\&artifact_name: String; required.
+.PP
+\&artifact_ref: String; required.
+.PP
+\&source_provenance_ref: String; required.
+.PP
+\&selector_metadata_ref: String; required.
+.PP
+\&source_provenance: String; required.
+.PP
+\&selected_binary_digest: String; required.
+.PP
+\&observed_binary_digest: String; required.
+.PP
+\&selector_metadata_digest: String; required.
+.PP
+\&destination: String; required.
+.PP
+\&stable_destination: bool; required.
+.PP
+\&executes_install: bool; required.
+.PP
+\&exact_head: String; optional/defaulted.
+.PP
+\&cutover_approval_ref: Option<String>; optional/defaulted.
+.PP
+\&cutover_approval_digest: Option<String>; optional/defaulted.
+.SH SPRINTREADINESSREQUEST
+\&repository: String; required.
+.PP
+\&version: String; required.
+.PP
+\&sprints: Vec<SprintReadinessTarget>; required.
+.SH SPRINTREADINESSTARGET
+\&sprint: u64; required.
+.PP
+\&umbrella_issue: u64; required.
+.PP
+\&title: String; required.
+.PP
+\&execution_mode: SprintExecutionMode; required.
+.PP
+\&serial_gates: Vec<String>; required.
+.PP
+\&umbrella_readback_ref: String; required.
+.PP
+\&child_readback_refs: BTreeMap<String, String>; required.
+.SH RELEASEREQUEST
+\&repository: String; required.
+.PP
+\&version: String; required.
+.PP
+\&candidate_sha: String; required.
+.PP
+\&notes_path: String; required.
+.PP
+\&notes_digest: String; required.
+.PP
+\&gate_path: String; required.
+.PP
+\&gate_digest: String; required.

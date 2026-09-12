@@ -1,0 +1,491 @@
+{
+  "schema": "adl.issue909.local_recovery.v1",
+  "authorization": {
+    "operator_authorization": "User yes carry on in direct response to reviewed isolated three-import recovery proposal; parent relayed explicit approval.",
+    "allowed": "Private isolated candidate state writes for exactly3imports then read-only plan.",
+    "excluded": [
+      "cloud_resource_changes",
+      "remote_state_write",
+      "backend_migration",
+      "authoritative_adoption",
+      "apply"
+    ],
+    "provider_version": "6.50.0",
+    "import_grammar_sources": [
+      "https://raw.githubusercontent.com/hashicorp/terraform-provider-google/v6.50.0/website/docs/r/google_project_iam.html.markdown",
+      "https://raw.githubusercontent.com/hashicorp/terraform-provider-google/v6.50.0/website/docs/r/compute_firewall.html.markdown"
+    ],
+    "preflight_corrections": [
+      "Stopped before imports because gcloud bucket describe omits project_number; require explicit project bucket-list membership.",
+      "Stopped before imports because provider bucket IAM state ID has b/ prefix; normalize to bucket name for gcloud URL."
+    ],
+    "native_scope_generation": 9,
+    "native_scope_digest": "21617b3263d3be8eeca30298d4ce819e985824d5c3cde8ba647a0d3b7f7301a1"
+  },
+  "provenance": {
+    "source_revision": "78490bd7bc8f0815914469fb4c0323d23437dd13",
+    "source_plan_sha256": "e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+    "partial_state_sha256": "5b853a5f92eb75ebdb9092a4310242e9d06eede84da939ee55e1c1b661dd38bc",
+    "lineage": "85034bc7-32bd-e807-1798-81537b9eec28",
+    "serial": 33,
+    "imports": [
+      [
+        "google_compute_firewall.deny_unapproved_egress",
+        "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress"
+      ],
+      [
+        "google_project_iam_member.operator_iap_tunnel",
+        "cs-host-377d41e71a824f92802120 roles/iap.tunnelResourceAccessor user:daniel@agent-logic.ai"
+      ],
+      [
+        "google_project_iam_member.operator_os_login",
+        "cs-host-377d41e71a824f92802120 roles/compute.osLogin user:daniel@agent-logic.ai"
+      ]
+    ],
+    "source_hashes": {
+      "outputs.tf": "7c6539c9b62584f658f86055550a768648db2ca4f36fe8c7c12f3adf5c5c49ea",
+      "main.tf": "64a5e7a767209d2aff3722c9aa76bee197434657a549f32ab5739b6fdfe6b5ac",
+      "versions.tf": "bbedaf98085c4190d33a11baf78371a4b093ca0a0ecf65cdfbd94f185d563529",
+      "variables.tf": "9e6b1a69621bfe377c40d2b47aad51de14ea3e6144049b56ca7b021c3b8eba45",
+      "provider.tf": "a60a038a12ff8ab17621dfdeb9672da47b12eff2a860d94eae560caba1ae27d5",
+      ".terraform.lock.hcl": "f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9"
+    },
+    "partial_managed_addresses": [
+      "google_compute_firewall.explicit_private_egress",
+      "google_compute_firewall.iap_operator_access",
+      "google_compute_network.private",
+      "google_compute_project_metadata_item.os_login",
+      "google_compute_subnetwork.private",
+      "google_logging_metric.disposable_without_deadline",
+      "google_project_iam_member.workload_log_writer",
+      "google_service_account.workload",
+      "google_storage_bucket.artifacts",
+      "google_storage_bucket.continuity_evidence",
+      "google_storage_bucket.logs",
+      "google_storage_bucket.models",
+      "google_storage_bucket.state",
+      "google_storage_bucket_iam_member.workload_artifacts_object_user",
+      "google_storage_bucket_iam_member.workload_evidence_object_creator",
+      "google_storage_bucket_iam_member.workload_logs_object_creator",
+      "google_storage_bucket_iam_member.workload_models_object_viewer"
+    ],
+    "candidate_managed_addresses": [
+      "google_compute_firewall.deny_unapproved_egress",
+      "google_compute_firewall.explicit_private_egress",
+      "google_compute_firewall.iap_operator_access",
+      "google_compute_network.private",
+      "google_compute_project_metadata_item.os_login",
+      "google_compute_subnetwork.private",
+      "google_logging_metric.disposable_without_deadline",
+      "google_project_iam_member.operator_iap_tunnel",
+      "google_project_iam_member.operator_os_login",
+      "google_project_iam_member.workload_log_writer",
+      "google_service_account.workload",
+      "google_storage_bucket.artifacts",
+      "google_storage_bucket.continuity_evidence",
+      "google_storage_bucket.logs",
+      "google_storage_bucket.models",
+      "google_storage_bucket.state",
+      "google_storage_bucket_iam_member.workload_artifacts_object_user",
+      "google_storage_bucket_iam_member.workload_evidence_object_creator",
+      "google_storage_bucket_iam_member.workload_logs_object_creator",
+      "google_storage_bucket_iam_member.workload_models_object_viewer"
+    ]
+  },
+  "imports": [
+    {
+      "address": "google_compute_firewall.deny_unapproved_egress",
+      "import_id": "projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress",
+      "exit_code": 0,
+      "before_sha256": "5b853a5f92eb75ebdb9092a4310242e9d06eede84da939ee55e1c1b661dd38bc",
+      "after_sha256": "384f15faf72d2915ddbfd251d2f39eb141e4ed45d5312209095b5ff1956c79df",
+      "serial": 34,
+      "managed_resources": 18
+    },
+    {
+      "address": "google_project_iam_member.operator_iap_tunnel",
+      "import_id": "cs-host-377d41e71a824f92802120 roles/iap.tunnelResourceAccessor user:daniel@agent-logic.ai",
+      "exit_code": 0,
+      "before_sha256": "384f15faf72d2915ddbfd251d2f39eb141e4ed45d5312209095b5ff1956c79df",
+      "after_sha256": "8a055743ecedd50b436d1b11158b03d4fb3bf9b59a373befb603198927f11f5b",
+      "serial": 35,
+      "managed_resources": 19
+    },
+    {
+      "address": "google_project_iam_member.operator_os_login",
+      "import_id": "cs-host-377d41e71a824f92802120 roles/compute.osLogin user:daniel@agent-logic.ai",
+      "exit_code": 0,
+      "before_sha256": "8a055743ecedd50b436d1b11158b03d4fb3bf9b59a373befb603198927f11f5b",
+      "after_sha256": "056ae60722abd96b5102604c7241d36e2b8782c6576758164bf5a6dc47d15af4",
+      "serial": 36,
+      "managed_resources": 20
+    }
+  ],
+  "preflight": {
+    "observed_at": "2026-09-12T01:20:23.200259+00:00",
+    "account": "daniel@agent-logic.ai",
+    "project": "cs-host-377d41e71a824f92802120",
+    "records": [
+      {
+        "address": "google_compute_firewall.deny_unapproved_egress",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-deny-unapproved-egress"
+        }
+      },
+      {
+        "address": "google_compute_firewall.explicit_private_egress",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-explicit-private-egress"
+        }
+      },
+      {
+        "address": "google_compute_firewall.iap_operator_access",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-iap-operator-access"
+        }
+      },
+      {
+        "address": "google_compute_network.private",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private"
+        }
+      },
+      {
+        "address": "google_compute_project_metadata_item.os_login",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "key": "enable-oslogin"
+        }
+      },
+      {
+        "address": "google_compute_subnetwork.private",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-us-west2",
+          "role": ""
+        }
+      },
+      {
+        "address": "google_logging_metric.disposable_without_deadline",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "csm_dev_disposable_without_deadline"
+        }
+      },
+      {
+        "address": "google_project_iam_member.operator_iap_tunnel",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "role": "roles/iap.tunnelResourceAccessor",
+          "member": "user:daniel@agent-logic.ai"
+        }
+      },
+      {
+        "address": "google_project_iam_member.operator_os_login",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "role": "roles/compute.osLogin",
+          "member": "user:daniel@agent-logic.ai"
+        }
+      },
+      {
+        "address": "google_project_iam_member.workload_log_writer",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "role": "roles/logging.logWriter",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_service_account.workload",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+          "email": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket.artifacts",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts"
+        }
+      },
+      {
+        "address": "google_storage_bucket.continuity_evidence",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence"
+        }
+      },
+      {
+        "address": "google_storage_bucket.logs",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-logs"
+        }
+      },
+      {
+        "address": "google_storage_bucket.models",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-models"
+        }
+      },
+      {
+        "address": "google_storage_bucket.state",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-state"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_artifacts_object_user",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+          "role": "roles/storage.objectUser",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_evidence_object_creator",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+          "role": "roles/storage.objectCreator",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_logs_object_creator",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-logs",
+          "role": "roles/storage.objectCreator",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_models_object_viewer",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-models",
+          "role": "roles/storage.objectViewer",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      }
+    ],
+    "unique_read_commands": 23,
+    "raw_readbacks_sha256": "617b75ddc017375f7c31496d46b63669971663aa1577cbaad025fd17cb00593e"
+  },
+  "postflight": {
+    "observed_at": "2026-09-12T01:28:24.203952+00:00",
+    "account": "daniel@agent-logic.ai",
+    "project": "cs-host-377d41e71a824f92802120",
+    "records": [
+      {
+        "address": "google_compute_firewall.deny_unapproved_egress",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-deny-unapproved-egress"
+        }
+      },
+      {
+        "address": "google_compute_firewall.explicit_private_egress",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-explicit-private-egress"
+        }
+      },
+      {
+        "address": "google_compute_firewall.iap_operator_access",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-iap-operator-access"
+        }
+      },
+      {
+        "address": "google_compute_network.private",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private"
+        }
+      },
+      {
+        "address": "google_compute_project_metadata_item.os_login",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "key": "enable-oslogin"
+        }
+      },
+      {
+        "address": "google_compute_subnetwork.private",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "axioma-dev-csm-private-us-west2",
+          "role": ""
+        }
+      },
+      {
+        "address": "google_logging_metric.disposable_without_deadline",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "csm_dev_disposable_without_deadline"
+        }
+      },
+      {
+        "address": "google_project_iam_member.operator_iap_tunnel",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "role": "roles/iap.tunnelResourceAccessor",
+          "member": "user:daniel@agent-logic.ai"
+        }
+      },
+      {
+        "address": "google_project_iam_member.operator_os_login",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "role": "roles/compute.osLogin",
+          "member": "user:daniel@agent-logic.ai"
+        }
+      },
+      {
+        "address": "google_project_iam_member.workload_log_writer",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "role": "roles/logging.logWriter",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_service_account.workload",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+          "email": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket.artifacts",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts"
+        }
+      },
+      {
+        "address": "google_storage_bucket.continuity_evidence",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence"
+        }
+      },
+      {
+        "address": "google_storage_bucket.logs",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-logs"
+        }
+      },
+      {
+        "address": "google_storage_bucket.models",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-models"
+        }
+      },
+      {
+        "address": "google_storage_bucket.state",
+        "identity_verified": true,
+        "identity": {
+          "project": "cs-host-377d41e71a824f92802120",
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-state"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_artifacts_object_user",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+          "role": "roles/storage.objectUser",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_evidence_object_creator",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+          "role": "roles/storage.objectCreator",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_logs_object_creator",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-logs",
+          "role": "roles/storage.objectCreator",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      },
+      {
+        "address": "google_storage_bucket_iam_member.workload_models_object_viewer",
+        "identity_verified": true,
+        "identity": {
+          "bucket": "b/cs-host-377d41e71a824f92802120-dev-axioma-models",
+          "role": "roles/storage.objectViewer",
+          "member": "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+        }
+      }
+    ],
+    "unique_read_commands": 23,
+    "raw_readbacks_sha256": "617b75ddc017375f7c31496d46b63669971663aa1577cbaad025fd17cb00593e"
+  },
+  "all_readback_values_unchanged": true,
+  "plan_exit": 0,
+  "plan_noop_count": 20,
+  "candidate_state_unchanged_by_plan": true,
+  "candidate_state_sha256": "056ae60722abd96b5102604c7241d36e2b8782c6576758164bf5a6dc47d15af4",
+  "plan_sha256": "c1b26a420740315a3723194b36f29fec5c29b5f300cf3815db8bf4a7695759f3",
+  "authoritative_adoption": false,
+  "remote_backend_write": false,
+  "cloud_resource_change": false
+}

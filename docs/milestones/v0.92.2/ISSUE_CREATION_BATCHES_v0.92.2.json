@@ -1,6 +1,6 @@
 {
   "schema": "adl.issue-creation-batches.v1",
-  "purpose": "Sequential creation and independent review groups, not additional execution dependencies or new umbrella issues.",
+  "purpose": "Original issue-creation and independent review groups; no additional execution dependencies. Full-sprint management umbrellas were subsequently authorized under #926 and are mapped separately in SPRINT_MANAGEMENT_v0.92.2.json.",
   "first_sprint": [
     "SIM-UMBRELLA",
     "SIM-01",

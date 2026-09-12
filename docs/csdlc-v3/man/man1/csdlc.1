@@ -1,0 +1,67 @@
+.TH "CSDLC" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc \- operate the authenticated C\-SDLC v3 lifecycle
+.SH SYNOPSIS
+.nf
+\&csdlc \-\-help
+\&csdlc COMMAND \-\-help
+\&man csdlc\-COMMAND
+\&man csdlc\-requests
+\&man csdlc\-workflow
+.fi
+.SH DESCRIPTION
+\&C\-SDLC v3 is the current lifecycle authority after #505 / PR #591 only when canonical origin/main selector, authenticated native receipt, terminal reconciliation and Git objects validate. Missing or stale proof suspends authority. A printed plan, a construction report, an install, or a boolean in a request cannot grant it.
+.PP
+\&This suite documents the committed native command contract. It includes all help\-listed commands plus the supported rollback alias and github\-issue create/close forms. The active simplification issues may change future behavior; rerun command/option parity after integration. Historical v1 wrappers and retained v2 binaries are not routine operational routes.
+.SH INSTALLATION
+.nf
+\&bash adl/tools/install_owner_binaries.sh \-\-bin csdlc
+\&export PATH=\(dq$PWD/.adl/bin/native\-v3:$PATH\(dq
+\&export MANPATH=\(dq$PWD/.adl/bin/native\-v3/share/man:${MANPATH:\-}\(dq
+\&man csdlc
+\&man csdlc\-finish
+.fi
+.PP
+\&The owner installer installs the manual under STABLE_BIN_DIR/share/man/man1 and prints discovery instructions; it does not edit shell startup files or global system directories. Set PATH and MANPATH in your own shell as above. The trailing MANPATH colon retains system manual paths on macOS and Linux. \-\-stable\-bin\-dir changes the binary and manual prefix together. A docs\-only refresh does not rebuild or replace an unchanged binary.
+.PP
+\&The native csdlc install command is an issue\-bound proof/install route with a separate .adl/bin/csdlc destination and explicit approval. It is not the owner installer or manual installer. See csdlc\-install(1).
+.SH LIFECYCLE
+\&Prepare issue\-specific SIP \-> STP \-> SPP \-> VPP \-> SRP \-> SOR using the active template registry. Native issue/edit/validate/doctor prepare a local issue; bind creates the registered execution worktree. Implement and validate proportionally, obtain independent exact\-head review, and check native review before publication. Native publish validates publication admission; github\-pr executes the actual create/update/ready/merge transport. Finish observes merged PR plus closed issue and may persist terminal records; clean independently previews and removes only the exact eligible registered checkout.
+.PP
+\&Use csdlc\-workflow(1) for the complete operator sequence. A successful command exit is not sufficient: inspect operational_authority, result status/findings, exact issue/head and mutation flags. A ready model\-only plan is not executed work.
+.SH CONVENTIONS
+\&\-\-help and \-h are standalone help arguments, not global options mixed into another invocation. There is no \-\-version, \-\-json, \-\-quiet, \-\-root or global \-\-repo option. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc\-requests(1).
+.PP
+\&Local commands accept \-\-repo\-root for discovery and \-\-v3\-state\-root for retained construction storage. Ordinary operations should run from clean primary main during preparation, then from the native\-bound issue checkout. Do not use alternate roots to bypass ownership. Exact SHA means the full 40\-hex Git revision. Local lifecycle digests and remote canonical selector digests are different values.
+.SH CREDENTIALS
+\&Select credential names, never credential values, in credential_names or \-\-credential\-name. The default simple\-issue name is GITHUB_TOKEN. The current native resolver first reads the selected environment variable; if absent, GITHUB_TOKEN or GH_TOKEN may use the explicitly set ADL_GITHUB_TOKEN_FILE. A set\-but\-empty variable fails; it does not fall back. Other credential names require their corresponding environment variable.
+.PP
+\&For the operator\-approved token file use ADL_GITHUB_TOKEN_FILE=\(dq$HOME/keys/github.token\(dq only on commands needing GitHub access. Do not print or retain its contents. This committed native resolver requires the explicit file variable; it does not automatically discover a default file. Invalid credentials, unsafe token characters or unavailable authentication fail closed. Child processes receive scoped credentials and sanitized environments. Retained curl transport uses a private temporary config and removes the file; do not mistake temporary file cleanup for a completely write\-free observation.
+.SH EXIT STATUS
+\&0 means the command returned a report (or help); some planning reports still contain blocked findings. 2 means usage, parsing, guard, transport or execution failure. Read the structured status as well as the process exit status.
+.PP
+\&Successful JSON reports go to stdout. Current proof/release\-preflight blocked reports also go to stdout with a short diagnostic on stderr. Other current failures may serialize findings on stderr with a csdlc prefix. Do not assume all errors are JSON stdout. The v3 CLI does not implement ADL_OBSERVABILITY_STDERR or ADL_OBSERVABILITY_LOG overrides; this manual claims no such compatibility mode.
+.SH FILES
+\&Primary local preparation: resolved Git metadata csdlc\-v3/local/issues/ISSUE/{index.json,values/,cards/}. In an ordinary primary checkout this is .git/csdlc\-v3/local. Linked issue state: .csdlc/issues/ISSUE/{index.json,values/,cards/}. Local locks and transactions live beneath that resolved local state root, including transactions/ISSUE.json and completed transaction records.
+.PP
+\&Remote intents, recovery and mutation receipts live beneath resolved common Git metadata csdlc\-v3/remote/. Merge intent/reconciliation lives in remote/merges/. Temporary private transport inputs live under resolved Git runtime metadata. Do not delete uncertain intent, locks, journals, stages or backup records as a recovery shortcut.
+.PP
+\&Terminal state is LOCAL_ROOT/v3/issues/ISSUE/terminal.json and LOCAL_ROOT/evidence/ISSUE/terminal\-receipt.json. LOCAL_ROOT is resolved Git metadata csdlc\-v3/local on primary and .csdlc in linked checkout. Use paths returned by the native result and preserve exact topology. Proof artifacts are issue\-scoped .csdlc/evidence/ISSUE in the invoking bound checkout.
+.SH DIAGNOSTICS
+\&authority missing/stale: inspect canonical origin/main selector, native receipt and referenced Git objects, then route authority repair through its owner. Do not switch to v2 or raw GitHub writes.
+.PP
+\&stale_lifecycle_digest: reread actual native index/generation, compare the intended field edits, refresh the request from that state, and validate. Never copy an unrelated issue digest.
+.PP
+\&github_credential_missing or credential resolution failed: set the approved credential source explicitly and retry the same read. Never put the token into JSON or argv.
+.PP
+\&review stale/head mismatch: verify actual branch HEAD, rerun affected proof and independent review at that head, refresh the typed receipt and native review. Do not relabel an old receipt.
+.PP
+\&incorrect checkout topology/invalid_operational_roots: inspect git status \-\-short \-\-branch and git worktree list \-\-porcelain. Return to the exact registered branch and native\-bound checkout; preserve existing work. Do not hand\-edit index binding or register fake worktrees.
+.PP
+\&finish without \-\-observe\-github: a caller\-provided public_adapter_receipt is not authentication. Use native finish \-\-observe\-github with numeric PR, expected head and closing mode; a still\-open issue or unmerged PR remains blocked.
+.PP
+\&uncertain remote mutation/reconciliation: preserve request and intent bytes, then reissue the identical native request to reconcile authenticated remote state. Do not change IDs, delete receipts or repeat a raw write. Only explicitly supported creation/ready absence recovery may request its one\-shot retry. Merge and issue\-edit uncertain retries are observation\-only.
+.PP
+\&Current local diagnostic execution can initialize lock directories and participate in interrupted local transaction recovery; doctor/eligibility can return a non\-authoritative construction report on certain topology errors. Inspect operational_authority and findings. Strict observation\-only behavior is being addressed by #867 and is not claimed by this manual before that change integrates.
+.SH SEE ALSO
+\&csdlc\-workflow(1), csdlc\-requests(1), csdlc\-doctor(1), csdlc\-github\-pr(1), csdlc\-finish(1), csdlc\-clean(1). Repository policy: AGENTS.md, docs/csdlc\-v3/CURRENT_AUTHORITY.md, docs/csdlc\-v3/CONTRACT.md and docs/csdlc\-v3/PULL_REQUEST_MERGE.md.

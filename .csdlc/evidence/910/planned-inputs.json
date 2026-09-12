@@ -1,0 +1,8 @@
+{
+  "hosted_zone_name": "csm.agent-logic.ai",
+  "artifact_version": "b5219c8bb742",
+  "runtime_connect_origins": [
+    "https://wuji.dev.csm.agent-logic.ai:20997",
+    "wss://wuji.dev.csm.agent-logic.ai:20997"
+  ]
+}

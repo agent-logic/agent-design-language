@@ -1,0 +1,45 @@
+{
+  "schema": "csdlc.sim01.release_fixture_repair.v1",
+  "issue": 867,
+  "pull_request": 948,
+  "source_revision": "bc0a2f3de052efda11d20af9cb06b093af952907",
+  "base_revision": "03c5aead6d1849e30f05e01c095232737999a66a",
+  "production_source_unchanged": true,
+  "changed_source_sha256": {
+    "csdlc-v3/tests/fixtures/diagnostic_observation_pvf.json": "9f77e72a5ac7375c58f08a97d3f42af59bac11ac84afb40c0bd60a635900be77",
+    "csdlc-v3/tests/release_preflight.rs": "6a1fc8c78a26655f8d24198feb34e611c7e721f06981b3d8c8ac7a57dad04f7a"
+  },
+  "local_matrix": "passed; one test exercises the complete positive and negative matrix",
+  "strict_all_target_clippy": "passed",
+  "format_and_diff": "passed",
+  "prior_full_suite": "248 tests at curl-config supplement source; not rerun for test-only fixture correction",
+  "fresh_ci": "pending new-head push",
+  "artifacts": [
+    {
+      "path": "matrix.stdout",
+      "sha256": "5dd28fb19b61eb9c9c1281b8d277ee1bb48d1a5492336c14d8c4f499ee1abb7d",
+      "original_sha256": "c6dbcbd0e3178c881d0bed34878ec77b65f150745eb5c07b1554eeda169512a5"
+    },
+    {
+      "path": "matrix.stderr",
+      "sha256": "0dcab0866f0c1460cbb14193dcbc43a9f9b065ea45ceef8b0191aa3af35b6eb6",
+      "original_sha256": "19f33ae1986ef88815c1d42edd6f2c825042302fd44de726f20b6267fd4af218"
+    },
+    {
+      "path": "clippy.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "clippy.stderr",
+      "sha256": "e6832c7cd7312c5c16b7d01db74fa6f9d3762beabe641a5ab8a618f09f5759fc",
+      "original_sha256": "1aa4dbf9efe3d22288f7b9940e50e0cd32f7886071707e34ecee6605f7c1d558"
+    },
+    {
+      "path": "ci-failure-excerpt.log",
+      "sha256": "c54f0610392738f83091daac64bcb815238f4cb3c3b2e85331205fc835bdbfc2",
+      "original_complete_log_sha256": "a246e11bf57a6e6a6115d4e7398c47593f019463b28dfe1c164af07674896260",
+      "selection": "named curl and release test results, test totals, exact inventory finding; excerpt, not full log"
+    }
+  ]
+}

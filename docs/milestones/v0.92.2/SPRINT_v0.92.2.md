@@ -24,6 +24,24 @@ Sprint 1 completes WP-01 readiness before CSDLC-MAN, while the SIM chain retains
 
 Podcast #671 is separately scheduled sidecar work outside these eleven core sprint groups and the 69-task startup denominator. It retains its own explicit public-launch/provider-submission approval requirements.
 
+## Sprint management umbrellas
+
+Operator instruction under #926 adds one umbrella for each full execution sprint. These management issues preserve the existing child rosters and dependencies; they do not create an all-sprints serial barrier. #866 remains the narrower SIM coordinator inside Sprint 1.
+
+| Sprint | Umbrella | Existing children |
+|---|---|---|
+| 1 | [#927](https://github.com/agent-logic/agent-design-language/issues/927) | #864, #861, #866, #867, #868, #869, #870, #871, #872, #873, #874, #875 |
+| 2 | [#928](https://github.com/agent-logic/agent-design-language/issues/928) | #848, #854, #855, #876, #877, #878, #879, #880, #881 |
+| 3 | [#929](https://github.com/agent-logic/agent-design-language/issues/929) | #882, #883, #884, #885, #886, #887, #888, #889 |
+| 4 | [#930](https://github.com/agent-logic/agent-design-language/issues/930) | #890, #891, #892, #893, #894, #895, #896, #897, #898 |
+| 5 | [#931](https://github.com/agent-logic/agent-design-language/issues/931) | #852, #899, #900, #901, #902 |
+| 6 | [#932](https://github.com/agent-logic/agent-design-language/issues/932) | #903, #904, #905 |
+| 7 | [#933](https://github.com/agent-logic/agent-design-language/issues/933) | #849, #862, #906, #907 |
+| 8 | [#934](https://github.com/agent-logic/agent-design-language/issues/934) | #720, #908, #909, #910 |
+| 9 | [#935](https://github.com/agent-logic/agent-design-language/issues/935) | #911, #912, #913 |
+| 10 | [#936](https://github.com/agent-logic/agent-design-language/issues/936) | #914, #915 |
+| 11 | [#937](https://github.com/agent-logic/agent-design-language/issues/937) | #916, #917, #918, #919, #920, #921, #922, #923, #924, #925 |
+
 ## First sprint — C-SDLC v3 simplification alongside Runtime
 
 SIM-UMBRELLA opens coordination; SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM-05 → SIM-06 → SIM-07 → SIM-08 → SIM-09 is one coherent sprint. After all 69 core identities are created and all creation reviews pass, it starts through its own readiness in parallel with Runtime. Its graph does not add a WP-01 or unrelated prior-closeout dependency. The umbrella completes after SIM-09 and converges at TAIL-01. Resolve C-SDLC/Runtime shared-path and installed-binary ownership before overlapping writes. An eventual C-SDLC writer pause requires separate explicit authorization; it does not pause Runtime/provider services. See the [complete plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md).
@@ -56,6 +74,6 @@ SIM-UMBRELLA is #866 and SIM-01 through SIM-09 are #867 through #875 respectivel
 
 The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
 
-Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 70 issue memberships, comprising the 69 core-plan identities and this one sidecar.
+Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 82 issue memberships: 69 core-plan identities, this one sidecar, eleven sprint-management umbrellas (#927–#937), and setup issue #926. The management layer is recorded in [SPRINT_MANAGEMENT_v0.92.2.json](SPRINT_MANAGEMENT_v0.92.2.json); it does not change the 69-task implementation/startup denominator.
 
 The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

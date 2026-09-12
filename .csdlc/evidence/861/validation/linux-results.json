@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.operator_manual_linux_install.v1",
+  "recorded_at": "2026-09-12T01:03:07.318266+00:00",
+  "platform": "Linux",
+  "distribution": "Amazon Linux 2023",
+  "image_id": "sha256:65bc6d5a74368474d3bab174b297a721745831ad52261df37d50a27499edd42f",
+  "exit_code": 0,
+  "proof": "same test_install.sh through supported owner-binary flow with fixture executable; all30 pages actual Linux man lookup/render, unchanged-owner docs refresh and missing-page denial",
+  "non_claim": "No Linux native Rust binary build or live owner activation; manual installation/discovery proof only"
+}

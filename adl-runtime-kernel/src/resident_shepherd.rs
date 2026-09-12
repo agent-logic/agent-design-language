@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, BTreeSet},
+    collections::BTreeMap,
     future::Future,
     pin::Pin,
     sync::{Arc, RwLock},
@@ -33,6 +33,7 @@ pub struct ResidentShepherdExecutor {
     configs: BTreeMap<String, ResidentShepherdInitConfig>,
     ready: ResidentShepherdReadiness,
     admission: Arc<dyn OperationExecutor>,
+    usage: crate::provider_usage::ProviderUsage,
 }
 
 /// Internal-only executor used by the Runtime's governed bootstrap probe. It
@@ -42,29 +43,77 @@ pub struct ResidentShepherdProbeExecutor {
     inner: Arc<ResidentShepherdExecutor>,
 }
 
-#[derive(Clone, Default)]
-pub struct ResidentShepherdReadiness(Arc<RwLock<BTreeSet<String>>>);
+#[derive(Clone, Copy, Debug, Default)]
+struct ReadinessSignal {
+    ready: bool,
+    invalidation: u64,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ResidentShepherdReadiness(
+    Arc<RwLock<BTreeMap<String, tokio::sync::watch::Sender<ReadinessSignal>>>>,
+);
 
 impl ResidentShepherdReadiness {
-    pub fn mark_ready(&self, name: &str) {
+    fn signal(&self, name: &str) -> tokio::sync::watch::Sender<ReadinessSignal> {
         self.0
             .write()
             .expect("resident Shepherd readiness lock poisoned")
-            .insert(name.to_owned());
+            .entry(name.to_owned())
+            .or_insert_with(|| tokio::sync::watch::channel(ReadinessSignal::default()).0)
+            .clone()
     }
 
+    pub fn mark_ready(&self, name: &str) {
+        self.signal(name).send_modify(|state| state.ready = true);
+    }
+
+    /// A real execution failure or explicit lifecycle change wakes recovery.
     pub fn mark_unready(&self, name: &str) {
+        self.signal(name).send_modify(|state| {
+            state.ready = false;
+            state.invalidation = state.invalidation.saturating_add(1);
+        });
+    }
+
+    pub fn register_alias(&self, alias: &str, name: &str) {
+        let signal = self.signal(name);
         self.0
             .write()
             .expect("resident Shepherd readiness lock poisoned")
-            .remove(name);
+            .insert(alias.to_owned(), signal);
+    }
+
+    fn begin_attempt(&self, name: &str) -> u64 {
+        let signal = self.signal(name);
+        signal.send_modify(|state| state.ready = false);
+        let generation = signal.borrow().invalidation;
+        generation
+    }
+
+    fn complete_attempt(&self, name: &str, generation: u64) -> bool {
+        let mut accepted = false;
+        self.signal(name).send_modify(|state| {
+            if state.invalidation == generation {
+                state.ready = true;
+                accepted = true;
+            }
+        });
+        accepted
     }
 
     pub fn is_ready(&self, name: &str) -> bool {
         self.0
             .read()
             .expect("resident Shepherd readiness lock poisoned")
-            .contains(name)
+            .get(name)
+            .is_some_and(|signal| signal.borrow().ready)
+    }
+
+    async fn wait_until_unready(&self, name: &str) {
+        let mut receiver = self.signal(name).subscribe();
+        // watch retains the latest state, including a failure before subscription.
+        let _ = receiver.wait_for(|state| !state.ready).await;
     }
 }
 
@@ -148,32 +197,31 @@ pub async fn run_resident_shepherd_recovery<Attempt, AttemptFuture, Observe>(
     Observe: FnMut(ResidentShepherdRecoveryState) + Send,
 {
     let mut retry = policy.retry_initial;
-    let mut was_ready = false;
     loop {
-        if !was_ready {
-            readiness.mark_unready(name);
-            observe(ResidentShepherdRecoveryState::ModelLoading);
+        if shutdown.is_cancelled() {
+            break;
         }
-        let result = tokio::time::timeout(policy.timeout, attempt()).await;
-        if matches!(result, Ok(Ok(()))) {
-            readiness.mark_ready(name);
+        let generation = readiness.begin_attempt(name);
+        observe(ResidentShepherdRecoveryState::ModelLoading);
+        let result = tokio::select! {
+            _ = shutdown.cancelled() => break,
+            result = tokio::time::timeout(policy.timeout, attempt()) => result,
+        };
+        if matches!(result, Ok(Ok(()))) && readiness.complete_attempt(name, generation) {
             observe(ResidentShepherdRecoveryState::Ready);
-            was_ready = true;
             retry = policy.retry_initial;
             tokio::select! {
                 _ = shutdown.cancelled() => break,
-                _ = tokio::time::sleep(policy.retry_max) => continue,
+                _ = readiness.wait_until_unready(name) => continue,
             }
         }
 
-        readiness.mark_unready(name);
         let state = match result {
             Ok(Err(error)) => ResidentShepherdRecoveryState::from_attempt_error(error),
             Err(_) => ResidentShepherdRecoveryState::Unavailable,
-            Ok(Ok(())) => unreachable!("successful attempt handled above"),
+            Ok(Ok(())) => ResidentShepherdRecoveryState::Failed,
         };
         observe(state);
-        was_ready = false;
         tokio::select! {
             _ = shutdown.cancelled() => break,
             _ = tokio::time::sleep(retry) => {}
@@ -198,13 +246,21 @@ impl ResidentShepherdExecutor {
             .into_iter()
             .map(|config| (config.name.clone(), config))
             .collect::<BTreeMap<_, _>>();
+        let usage = crate::provider_usage::ProviderUsage::default();
         Self {
             runtime_id: runtime_id.into(),
             primary_name,
             configs,
-            ready: ResidentShepherdReadiness::default(),
+            ready: usage.readiness(),
             admission,
+            usage,
         }
+    }
+
+    pub fn with_usage(mut self, usage: crate::provider_usage::ProviderUsage) -> Self {
+        self.ready = usage.readiness();
+        self.usage = usage;
+        self
     }
 
     pub fn readiness(&self) -> ResidentShepherdReadiness {
@@ -251,6 +307,23 @@ impl ResidentShepherdExecutor {
                 message: "shepherd_model_not_ready".to_owned(),
             });
         }
+        use crate::provider_usage::ProviderRequestReason;
+        let reason = if !require_ready {
+            if request.principal == "runtime-bootstrap" {
+                ProviderRequestReason::StartupProbe
+            } else {
+                ProviderRequestReason::RecoveryProbe
+            }
+        } else {
+            ProviderRequestReason::OperatorConversation
+        };
+        let usage = self.usage.begin(
+            shepherd_name,
+            &config.provider,
+            &config.model,
+            reason,
+            &shepherd_request.prompt,
+        );
         let started = Instant::now();
         let response = invoke_resident_shepherd_provider(
             &config.provider,
@@ -260,14 +333,18 @@ impl ResidentShepherdExecutor {
             cancellation,
         )
         .await
-        .map_err(|message| ExecutorError {
-            class: if message == "operation cancelled" {
-                FailureClass::Degraded
-            } else {
-                FailureClass::Retryable
-            },
-            message: message.to_owned(),
+        .map_err(|message| {
+            usage.failure(message);
+            ExecutorError {
+                class: if message == "operation cancelled" {
+                    FailureClass::Degraded
+                } else {
+                    FailureClass::Retryable
+                },
+                message: message.to_owned(),
+            }
         })?;
+        usage.success(&response);
         let response_sha256 = sha256(response.as_bytes());
         serde_json::to_vec(&ShepherdResponse {
             schema: SHEPHERD_RESPONSE_SCHEMA.to_owned(),

@@ -1,0 +1,30 @@
+.TH "CSDLC-SOAK" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-soak \- report the retired soak execution boundary
+.SH SYNOPSIS
+.nf
+\&csdlc soak \-\-request REQUEST
+\&csdlc soak \-\-help
+.fi
+.SH DESCRIPTION
+\&Historical compatibility route. Execution is disabled and reports blocked; no current soak/service/heartbeat proof is granted. Retained SoakEvidence inputs remain parseable for historical evidence only.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc\-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations.
+.SH EFFECTS
+\&Read\-only blocked historical classification; no execution.
+.SH EXAMPLES
+.nf
+\&csdlc soak \-\-request soak\-request.json
+.fi
+.PP
+\&Fixture examples are parse\-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success.
+.SH DIAGNOSTICS
+\&Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

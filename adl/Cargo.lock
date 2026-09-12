@@ -8,6 +8,7 @@ version = "0.92.1"
 dependencies = [
  "adl-runtime",
  "adl-runtime-kernel",
+ "adl-uts",
  "anyhow",
  "async-trait",
  "aws-config",
@@ -60,6 +61,7 @@ dependencies = [
  "serde_jcs",
  "serde_json",
  "serde_yaml",
+ "sha1",
  "sha2 0.10.9",
  "tempfile",
  "thiserror 1.0.69",
@@ -67,6 +69,7 @@ dependencies = [
  "tokio",
  "tokio-tungstenite 0.24.0",
  "tokio-util",
+ "toml 0.7.8",
  "tower",
  "tracing",
  "tracing-subscriber",
@@ -161,6 +164,15 @@ dependencies = [
  "uuid",
  "windows-sys 0.61.2",
  "x509-parser",
+]
+
+[[package]]
+name = "adl-uts"
+version = "0.1.0"
+dependencies = [
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

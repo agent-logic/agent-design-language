@@ -1,0 +1,34 @@
+{
+  "schema": "adl.pvf.issue_inventory.v1",
+  "issue": 877,
+  "lane": "runtime",
+  "determinism": "deterministic local",
+  "resources": "bounded CPU/disk; readonly in-process tool; zero provider or cloud calls",
+  "release_gate": "required milestone support result",
+  "surfaces": [
+    {
+      "path": "adl-uts/src/lib.rs",
+      "cases": [
+        "packaged_loader_accepts_supported_versions_without_semantic_drift",
+        "packaged_loader_rejects_unknown_versions_and_malformed_declarations"
+      ],
+      "role": "version/type/schema compatibility; existing 18 contract tests relocated without semantic changes"
+    },
+    {
+      "path": "adl-uts/tools/verify_install.py",
+      "role": "clean Git package artifact, isolated offline Cargo consumption, schema mirror parity"
+    },
+    {
+      "path": "adl/examples/uts_package_runtime.rs",
+      "role": "production governed dispatch, ACC gate/binding/policy/replay denial before actual readonly adapter effects; 11 scenarios"
+    },
+    {
+      "path": "adl-uts/tools/test_ci_contract.rb",
+      "lane": "tooling",
+      "role": "actual CI aggregation shell accepts selected success and unselected skip; rejects failed/missing/skipped-required proof; verifies gate declaration scope",
+      "determinism": "deterministic local shell",
+      "resources": "bounded local CPU",
+      "release_gate": "required #877 publication regression"
+    }
+  ]
+}

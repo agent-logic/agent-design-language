@@ -1,0 +1,28 @@
+{
+  "issue": 861,
+  "repository": "agent-logic/agent-design-language",
+  "binding": {
+    "worktree": "/approved/worktrees/issue-861-example",
+    "branch": "codex/861-operator-manual-example",
+    "exact_head": "1111111111111111111111111111111111111111",
+    "git_common_dir": "/repository/primary/.git",
+    "generation": 5,
+    "lifecycle_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "evidence_root": "/approved/worktrees/issue-861-example",
+  "proof": null,
+  "install": {
+    "artifact_name": "csdlc",
+    "artifact_ref": ".csdlc/evidence/861/candidate/csdlc",
+    "source_provenance_ref": ".csdlc/evidence/861/source.json",
+    "selector_metadata_ref": ".csdlc/evidence/861/selector.json",
+    "source_provenance": "fixture",
+    "selected_binary_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "observed_binary_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "selector_metadata_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "destination": ".adl/bin/csdlc",
+    "stable_destination": true,
+    "executes_install": false,
+    "exact_head": "1111111111111111111111111111111111111111"
+  }
+}

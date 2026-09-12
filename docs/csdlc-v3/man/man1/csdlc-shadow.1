@@ -1,0 +1,30 @@
+.TH "CSDLC-SHADOW" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-shadow \- report the retired shadow execution boundary
+.SH SYNOPSIS
+.nf
+\&csdlc shadow \-\-request REQUEST
+\&csdlc shadow \-\-help
+.fi
+.SH DESCRIPTION
+\&Historical compatibility route. Execution is disabled and reports blocked; no current v2/v3 equivalence proof or operational authorization is granted. Retained ShadowComparison inputs remain parseable for historical evidence only.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc\-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations.
+.SH EFFECTS
+\&Read\-only blocked historical classification; no execution.
+.SH EXAMPLES
+.nf
+\&csdlc shadow \-\-request shadow\-request.json
+.fi
+.PP
+\&Fixture examples are parse\-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success.
+.SH DIAGNOSTICS
+\&Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

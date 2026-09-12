@@ -1,0 +1,25 @@
+.TH "CSDLC-FOUNDATION" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-foundation \- inspect retained foundation contract
+.SH SYNOPSIS
+.nf
+\&csdlc foundation \-\-repo\-root ROOT
+.fi
+.SH DESCRIPTION
+\&Reads docs/csdlc\-v3 foundation contract, predecessor coverage and proportional lifecycle inputs; produces static construction classification. It does not grant current authority or create lifecycle state.
+.SH OPTIONS
+\&\-\-repo\-root: Explicit repository discovery root. Required by foundation/sprint; optional for local\-family commands. It does not override authenticated binding guards.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&No JSON request.
+.SH EFFECTS
+\&Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted.
+.SH EXAMPLES
+.nf
+\&csdlc foundation \-\-repo\-root .
+.fi
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1).

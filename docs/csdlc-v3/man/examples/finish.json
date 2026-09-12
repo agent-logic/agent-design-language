@@ -1,0 +1,15 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "issue": 861,
+  "pull_request": 1234,
+  "expected_head_sha": "1111111111111111111111111111111111111111",
+  "mode": "closing",
+  "credential_names": [
+    "GITHUB_TOKEN"
+  ],
+  "terminal_state": {
+    "repository_root": "/approved/worktrees/issue-861-example",
+    "state_path": ".csdlc/v3/issues/861/terminal.json",
+    "receipt_path": ".csdlc/evidence/861/terminal-receipt.json"
+  }
+}

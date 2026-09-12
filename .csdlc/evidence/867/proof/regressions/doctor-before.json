@@ -1,0 +1,8 @@
+{
+  "source_head": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+  "production_source_unchanged": true,
+  "new_regression_test_added": true,
+  "exit_code": 101,
+  "candidate_sha256": "b7c110fa23e4d67f98fc79bb034e7b8d783d7056d994cb747187a65fcfb85334",
+  "claim": "Installed doctor creates locks during healthy observation; full 40-case matrix stops at first failure."
+}

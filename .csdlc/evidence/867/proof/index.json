@@ -1,0 +1,97 @@
+{
+  "schema": "csdlc.sim01.proof_index.v1",
+  "issue": 867,
+  "source_revision": "40c068b11a2cca7303f5fcaed01d33b2614db743",
+  "base_revision": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+  "candidate_sha256": "96ce02566d52d566f836d7a501db08c3dfd82f37a3539e139a1e859cc0120e9f",
+  "candidate_blake3": "ecdb9fb6efd92bfb9215d521bcbd2edf91540826149aef283fc94a4d42e7ef2a",
+  "tests": {
+    "library": 85,
+    "local_commands": 37,
+    "operational_cli": 18,
+    "release_matrix": 1,
+    "remote_publication": 13,
+    "total": 154
+  },
+  "status": "local_pass_independent_source_review_passed",
+  "ci": "not_run_before_publication",
+  "artifacts": [
+    {
+      "path": "attempts/baseline.json",
+      "sha256": "9179bef9e0f94f2b39ec27d0c896ec5a66f372c65fe0441e0c122d0c360c2813",
+      "original_sha256": "9179bef9e0f94f2b39ec27d0c896ec5a66f372c65fe0441e0c122d0c360c2813",
+      "display_normalized": false,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "attempts/retention-negative.json",
+      "sha256": "3c94ccd632a082d1f28435096276e19a649a434e1153da3d08de9f65a95d8957",
+      "original_sha256": "3c94ccd632a082d1f28435096276e19a649a434e1153da3d08de9f65a95d8957",
+      "display_normalized": false,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "attempts/retention-censored.json",
+      "sha256": "5cf984fe9382fc03e4f7684d69c232725ae0901d37a5b5d3c2737f9728e88597",
+      "original_sha256": "5cf984fe9382fc03e4f7684d69c232725ae0901d37a5b5d3c2737f9728e88597",
+      "display_normalized": false,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "regressions/doctor-before.json",
+      "sha256": "b37950344762ab1a8ce2f599c887ef3630b852702209432bc2867ac6cb0a193a",
+      "original_sha256": "b37950344762ab1a8ce2f599c887ef3630b852702209432bc2867ac6cb0a193a",
+      "display_normalized": false,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "regressions/doctor-before.stdout",
+      "sha256": "4f843822c23c039c530a32928b38da380d26f11f3e07fa1620fc2723d5e14441",
+      "original_sha256": "ba9e73268041984f047b9f4ca7aa4c57f08de35af989366fb3597e6a29aff744",
+      "display_normalized": true,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "regressions/release-before.stdout",
+      "sha256": "ac3fc8a934389b8f1074d5cf7d3c0551bf8c7919618577aa9650b64cac7d1ee1",
+      "original_sha256": "223bd1e9868fca0723145985be85ca22dcf943c4172c11f6fa360a1138aa128e",
+      "display_normalized": true,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "regressions/remote-before.stdout",
+      "sha256": "893d40303ddfa3c9bc28096ec7233c5a95f841adc31e444be1d7c499bd1e82de",
+      "original_sha256": "e4970078f4363db224cc80c7a7eb493860bbee248d2399ba31cee977fd7cf2f1",
+      "display_normalized": true,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "regressions/redaction-before.stdout",
+      "sha256": "b3370d60e5fb317892956b714e04a2f1ddfdee01a8d4f4c7869f3f08b8ab0209",
+      "original_sha256": "0416e6b48cd0d084341d60926f45c16cca5eb7e7d8ee3c86680a000434e82d90",
+      "display_normalized": true,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "regressions/redaction-after.stdout",
+      "sha256": "43d7d9bd9c3c9b108e82586cf72eacba7b68438c79c7b03d6b728e078b581fed",
+      "original_sha256": "e76f9c9c76532ca4fc347256a76938c62a688e69913d896a1d92d4473f5b2979",
+      "display_normalized": true,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "validation.stdout",
+      "sha256": "4e9682187238998a1463f2bd7d982e37e88e1eb07fea26ffabb6946a569aea00",
+      "original_sha256": "adaaf878322c5d2b9f4f28c400409089aaac4cb88446bbfd43167b23f9d216a6",
+      "display_normalized": true,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    },
+    {
+      "path": "validation.stderr",
+      "sha256": "f9b90d66b020e4b045f95488ae87144bd0a56dd88512a4ddd075f151b497a9ab",
+      "original_sha256": "0d9dd07eeb26891756b4225e19692d9524f0eeffea6324532631f7139723e1ed",
+      "display_normalized": true,
+      "normalization": "Host path display prefixes and trailing blank lines only; original local bytes retain original_sha256."
+    }
+  ]
+}

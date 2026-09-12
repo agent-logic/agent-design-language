@@ -1,0 +1,16 @@
+2026-09-12T02:04:15.4077837Z test result: ok. 86 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.74s
+2026-09-12T02:04:15.4098138Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-12T02:04:15.4876442Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+2026-09-12T02:04:15.5578410Z test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+2026-09-12T02:04:16.3887865Z test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.83s
+2026-09-12T02:04:23.1216785Z test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.73s
+2026-09-12T02:04:23.1829678Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+2026-09-12T02:04:23.1906437Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+2026-09-12T02:04:36.1576173Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.97s
+2026-09-12T02:04:36.2320003Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+2026-09-12T02:04:41.3267352Z test exact_candidate_preflight_and_negative_matrix ... FAILED
+2026-09-12T02:04:41.3268414Z ---- exact_candidate_preflight_and_negative_matrix stdout ----
+2026-09-12T02:04:41.3269016Z thread 'exact_candidate_preflight_and_negative_matrix' (11752) panicked at tests/release_preflight.rs:193:9:
+2026-09-12T02:04:41.3271054Z assertion `left == right` failed: {"schema":"csdlc.v3.release_preflight.v1","eligible":false,"read_only":true,"mutation_allowed":false,"release_authorized":false,"candidate_sha":"a2b2828f7a975e48a6c6629ea79ce39f23d05ddb","notes_digest":"603f025fc64fce625f87e4810073bc281952dfffb91d79b485baebb054aa8b49","gate_digest":"32093914ad48b35d8ee4ce394940461a9932cf286ed48dc9a23cd43501026d53","findings":["unlisted_local_lock_package"]}
+2026-09-12T02:04:41.3274366Z     exact_candidate_preflight_and_negative_matrix
+2026-09-12T02:04:41.3274845Z test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.09s
