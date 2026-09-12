@@ -118,6 +118,15 @@
       }
     ]
   },
+  "broker_attribution": {
+    "receipt": ".csdlc/evidence/904/local-broker-attribution.json",
+    "receipt_sha256": "0645de4960f4f16f281fe00a1534053f8dfca76c74652ca2e242fbe70bcf33bc",
+    "subscription": "workloads:subscribe",
+    "event": "workloads:upsert",
+    "served_node_field": "workloadInfo.scheduledOn",
+    "single_node_live_probe_passed": true,
+    "raw_node_identity_redacted": true
+  },
   "proof_boundary": {
     "pair_single_node_route_works": true,
     "runtime_pair_route_works": true,

@@ -1,0 +1,27 @@
+{
+  "schema": "adl.pair.broker-attribution-proof.v1",
+  "issue": 904,
+  "candidate_sha": "0451cc909165c13fa1eca51eb80b5c9f8cab933e",
+  "pair_release": "v0.1.1",
+  "pair_source_sha": "13b68115fa2c9c1d94f1ead1358f8d5a527cfecf",
+  "release_archive_sha256": "6080b89e2c8e83e842e5a163f021f4cae5747bc9c9f371af481d95550a175d8f",
+  "broker_version": "0.40.2",
+  "subscription": "workloads:subscribe",
+  "attribution_event": "workloads:upsert",
+  "attribution_field": "workloadInfo.scheduledOn",
+  "output_correct": true,
+  "http_status": 200,
+  "duration_ms": 236,
+  "served_node_identity_present": true,
+  "served_node_identity_sha256": "aabdcf9c68853834ba068304329fa202ecfe746377f88bfe88b50489dfd5e30b",
+  "node_identity_redacted": true,
+  "pair_service_started_by_probe": true,
+  "pair_service_shutdown_cleanly_by_probe": true,
+  "two_node_routing_proven": false,
+  "source_evidence": [
+    "services/ollama-proxy/proxy.go emits the actual committed candidate in workloadInfo.scheduledOn",
+    "services/nvpair-ui-broker/broker.go routes proxy workload events to the workload manager",
+    "services/nvpair-workload-manager/workload.go defines scheduledOn as the routed or scheduled node"
+  ],
+  "proof_boundary": "One real single-node request proves the supported broker attribution channel. A second approved paired node and complete request matrix remain required."
+}
