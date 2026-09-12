@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Bounded harness/accounting implementation started. Actual raw PAIR, Runtime and node-loss experiments not run; no qualification or disposition claimed.
+Partial accounting and bounded raw Ollama collector implemented and independently reviewed. All3review findings corrected; hardware, current Runtime comparison and final experiment disposition remain incomplete.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -110,7 +110,7 @@ Rules:
   - `not_run`
     `No implementation proof attempted`
 - Results:
-  - `8 deterministic local accounting tests passed; 20 receipt mutation subcases plus context/concurrency/two-node/channel/redaction and null/negative benefit checks. Actual PAIR, Runtime and node-loss experiments not run.`
+  - `At8356bf4ee:14 local deterministic accounting and loopback transport tests passed; reviewer independently reran14 PASS. Native cards validate. No actual PAIR/Runtime/two-node/node-loss experiment, server cancellation proof or final disposition.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_accounting_passed_hardware_not_run
+    status: local_partial_gate_passed_full_experiment_not_run
     checks_run:
       - "not_run"
   determinism:
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `8 local deterministic tests passed; no inference or network calls.`
+- Determinism tests executed: `14 tests including20receipt mutation subcases, matrix allocation bound, two-node/concurrency/context drift, raw loopback HTTP, deadline/body cap, explicit sampling/residency and redacted CLI failures.`
 - Fixtures or scripts used: `not_run; implementation has not started`
 - Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
 - Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
@@ -174,5 +174,5 @@ verification_summary:
 - `Planning #5 released903/904/905 setup ownership; native FastWork bind completed. Implementation, hardware execution, model loading/download and service mutations remain outside setup scope.`
 
 ## Follow-ups / Deferred work
-- `Resolve approved compatible nodes and current Runtime/Ollama PAIR collector integration; pin real environment before hardware execution.`
-- `Complete full experiment and independent source/proof review; no closing publication from accounting alone.`
+- `Select two approved compatible nodes and PAIR/model/license/resource scope; establish fair bounded Runtime settings and actual collector integration.`
+- `Complete actual raw/Runtime/node-loss experiment plus independent final review and requiredCI before closing publication.`

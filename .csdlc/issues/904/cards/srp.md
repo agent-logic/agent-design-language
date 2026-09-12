@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/904/cards/sip.md"
   - ".csdlc/issues/904/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
+  findings_status: "addressed"
   recommended_outcome: "block"
-notes: "Independent implementation review required. Current accounting checkpoint has8 passing tests but no real experiment, collectors or disposition; this cannot satisfy source acceptance or closing publication. Reviewer allocation pending concurrency capacity."
+notes: "Reviewer sprint8_909 accepted partial source8356bf4eea0f2652d10302d3af5a395ef8452a7f, independently14testsPASS1.703s anddiffcheckPASS. Partial source acceptance is not issue acceptance: actual server cancellation, two-node PAIR/Runtime route and controlled loss remain unproved. No closingPR authorization or qualification."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Implementation review has not run; no implementation exists from this preparation.
+- Independent partial review found3P2 defects: unbounded matrix allocation, unbounded model residency, and omitted sampling/token controls.
 
 ### Dispositions
 
-- No implementation finding is accepted, resolved or waived by preparation.
+- All3 corrected at8356bf4eea0f2652d10302d3af5a395ef8452a7f:100k pre-allocation cap,0..300second residency with0default, explicit validated Ollama temperature/seed/num_predict.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent implementation review required. Current accounting checkpoint has8 passing tests but no real experiment, collectors or disposition; this cannot satisfy source acceptance or closing publication. Reviewer allocation pending concurrency capacity.
+Reviewer sprint8_909 accepted partial source8356bf4eea0f2652d10302d3af5a395ef8452a7f, independently14testsPASS1.703s anddiffcheckPASS. Partial source acceptance is not issue acceptance: actual server cancellation, two-node PAIR/Runtime route and controlled loss remain unproved. No closingPR authorization or qualification.
