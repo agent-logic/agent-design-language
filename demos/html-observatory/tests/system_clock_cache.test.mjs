@@ -53,7 +53,7 @@ assert.equal(intervals.length, 1, "restarting the clock must not leak another ti
 
 const cssVersion = html.match(/styles\.css\?v=([^"']+)/)?.[1];
 const appVersion = html.match(/app\.js\?v=([^"']+)/)?.[1];
-assert.equal(appVersion, "v0921-wuji-56", "JavaScript must use the corrected cache generation");
+assert.equal(appVersion, "v0922-live-720", "JavaScript must use the corrected cache generation");
 assert.equal(cssVersion, appVersion, "JavaScript and CSS must share one cache generation");
 
 console.log("Observatory advancing System Time and cache generation proof: PASS");

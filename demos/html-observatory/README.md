@@ -1,11 +1,12 @@
 # ADL HTML Observatory
 
-This demo is the v0.91.7 HTML Observatory integrated proof for #4690.
+This is the live HTML Observatory. Historical v0.91.7 proof for #4690 remains repository evidence.
 
 The Observatory is a read-only control room over a live Runtime v3 polis. It
 consumes the runtime-owned `/v1/observatory` feed over an authenticated
-WebSocket plus `/v1/ready`, and falls back to retained evidence when the live
-feed is unavailable. The browser holds no mutation authority: reads are public,
+WebSocket plus `/v1/ready`. Live is the only product mode. If the live feed is
+unavailable, the page keeps an empty shell or explicitly marks the last received
+live snapshot as disconnected; it never loads a retained telemetry substitute. The browser holds no mutation authority: reads are public,
 writes require operator login, and runtime mutation remains signed-command-only
 through `/v1/control`.
 
@@ -225,8 +226,8 @@ authority.
 
 The browser-served dashboard only receives CORS permission when its origin is
 listed in `[observatory].allowed_origins`. If the Runtime v3 API is reachable by
-curl but the browser refuses the cross-origin fetch, the dashboard stays on the
-retained mirror and reports the live fetch failure instead of claiming a live
+curl but the browser refuses the cross-origin fetch, the dashboard retains only its last live snapshot (or empty shell)
+and reports the live fetch failure instead of claiming a live
 Runtime v3 path.
 
 Opening `index.html` directly may show the fallback shell in browsers that block
@@ -274,19 +275,25 @@ node adl/tools/validate_v092_browser_trusted_observatory.mjs \
 
 ## Claim Boundary
 
-The retained validation proves static rendering and contract behavior. It does
-not currently prove an ordinary platform-trusted browser or WSS exchange against
-the real-DNS Runtime endpoint. That live proof remains gated on the browser
-client update described above. The retained evidence proves that the HTML
-Observatory can render an auto-refreshing CSM
-panopticon over retained publishable runtime API responses, and can upgrade to a
-live loopback CSM panopticon when the running CSM API base is supplied. It can
-also consume the public Runtime v3 `/v1/observatory` read feed under its bounded
-historical local contract. It renders the retained
-bounded runtime capture through a polished investor-facing operator UI, while exposing
-CSM API, CSM service, CloudWatch heartbeat, ACIP-SNS projection proof, Runtime
-v3 status, and WP-08 linkage status. Its Operator Channel can submit
-pre-signed commands to `/v1/control`, while Runtime v3 retains signature and
-policy authority. It does not claim browser-owned AWS publish authority, Unity
+Historical validation records describe the earlier retained-packet UI. They do
+not prove current live connectivity. The live product no longer has Published
+or Retained modes, a retained API loader, or the three-second retained poll.
+Navigation and connection failures cannot restore those routes. Historical
+reports and explicitly labelled integration evidence remain available, but are
+not used to seed the current polis, agents, events, or readiness.
+
+The #720 regression uses a real local browser with deterministic Runtime API
+responses. It proves UI behavior, not a deployed Runtime, TLS, or cloud service.
+It does not claim browser-owned AWS publish authority, Unity
 completion, Runtime v2 decommission, full AWS signal
 bridge completion, S3 ObsMem archive completion, or v0.92 runtime completion.
+
+## Historical evidence and live-only regression
+
+The bounded runtime capture, CSM API, CloudWatch, ACIP-SNS and WP-08 reports
+remain historical evidence. They are not a current polis telemetry source.
+Run `node --test demos/html-observatory/tests/*.test.mjs` for local contracts.
+With Playwright and Chrome installed, run
+`node demos/html-observatory/tests/live_only.browser.mjs` for deterministic
+page-level proof. It intercepts all requests and uses simulated Runtime
+responses; no cloud credentials, paid resources or deployment are involved.

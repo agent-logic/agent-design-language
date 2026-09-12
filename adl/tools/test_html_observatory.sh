@@ -372,3 +372,5 @@ grep -q 'symbolic-ref", "HEAD' "${ROOT_DIR}/adl-runtime-kernel/build.rs"
 grep -q 'track_git_path(&manifest_dir, &symbolic_ref)' "${ROOT_DIR}/adl-runtime-kernel/build.rs"
 
 echo "PASS: HTML Observatory Runtime v3, signed command, and roster projection contract"
+
+node --test "${ROOT_DIR}/demos/html-observatory/tests/live_only.test.mjs"
