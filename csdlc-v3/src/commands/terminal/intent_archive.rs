@@ -17,6 +17,7 @@ fn admitted(path: &str, issue: u64) -> bool {
     .iter()
     .any(|prefix| path.starts_with(prefix))
         || path == format!(".csdlc/locks/{issue}.lock")
+        || path == format!(".csdlc/v3/issues/{issue}/state.json")
 }
 fn git_bytes(root: &Path, args: &[&str]) -> Result<Vec<u8>, TerminalFinding> {
     let out = std::process::Command::new("git")
@@ -207,6 +208,7 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
         format!(".csdlc/issues/{issue}"),
         format!(".csdlc/evidence/{issue}"),
         format!(".csdlc/transactions/completed/{issue}"),
+        format!(".csdlc/v3/issues/{issue}/state.json"),
     ] {
         let path = candidate.join(relative);
         // Intermediate symlinks cannot redirect traversal into another tree.
@@ -510,11 +512,11 @@ pub(super) fn execute(
 /// Read-only terminal continuation evidence for a registered target whose index
 /// was already archived before interrupted Git removal. Never restores cards or
 /// authorizes implementation from archived state.
-pub(super) fn retained_index(
+fn retained_archive(
     primary: &Path,
     candidate: &Path,
     issue: u64,
-) -> Result<Option<Value>, TerminalFinding> {
+) -> Result<Option<(Value, Value)>, TerminalFinding> {
     let state = crate::commands::local::operational_state_root(primary).map_err(|_| {
         finding(
             "cleanup_archive_state_root_invalid",
@@ -636,13 +638,50 @@ pub(super) fn retained_index(
                 "archived index has another target",
             ));
         }
-        if accepted.as_ref().is_some_and(|previous| previous != &index) {
+        let identity = json!({"schema":"csdlc.v3.semantic_cleanup_archive_identity.v1",
+            "issue":issue,"candidate":candidate,"inventory_digest":digest,"files":files});
+        let record = (index, identity);
+        if accepted
+            .as_ref()
+            .is_some_and(|previous| previous != &record)
+        {
             return Err(finding(
                 "cleanup_archive_index_ambiguous",
                 "multiple archived issue versions require an explicit operator disposition",
             ));
         }
-        accepted = Some(index);
+        accepted = Some(record);
     }
     Ok(accepted)
+}
+
+pub(super) fn retained_index(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+) -> Result<Option<Value>, TerminalFinding> {
+    retained_archive(primary, candidate, issue).map(|record| record.map(|(index, _)| index))
+}
+
+/// Exact verified archive input identity, reproducible after source removal.
+/// Preview performs no writes. Retained evidence is accepted only after every
+/// archived byte and the original checkout identity have been revalidated.
+pub(super) fn semantic_identity(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+) -> Result<Vec<u8>, TerminalFinding> {
+    let identity = if let Some((_, identity)) = retained_archive(primary, candidate, issue)? {
+        identity
+    } else {
+        let archive = preview(candidate, issue)?;
+        json!({"schema":"csdlc.v3.semantic_cleanup_archive_identity.v1",
+            "issue":issue,"candidate":candidate,"inventory_digest":archive.digest,"files":archive.entries})
+    };
+    serde_json::to_vec(&identity).map_err(|_| {
+        finding(
+            "cleanup_archive_manifest_invalid",
+            "cannot serialize exact archive identity",
+        )
+    })
 }
