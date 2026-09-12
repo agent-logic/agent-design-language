@@ -22,7 +22,7 @@
   "stop_conditions": "Ownership collision; wrong cloud identity; missing required readback; secrets exposure; unauthorized mutation. #910 cannot deploy before #720 accepted output and precise apply/upload approval.",
   "estimate_source_ref": "issue #910",
   "planned_pvf_lane_source": "Issue #910 actual deployed acceptance; public read versus authenticated write truth separated",
-  "step_5_status": "in_progress",
+  "step_5_status": "completed",
   "estimate_confidence": "medium",
   "validation_plan_inline": "24 local UI tests and Terraform prep passed. Actual deployed AWS posture, four versioned uploads/HTTPS hashes, Completed invalidation, rollback reconstruction and unmocked Chrome v3 frame/render/write-gating proof pass. Explicit temporary site LNA permission and documented live-connect URL required for operator-local Runtime.",
   "repo_inputs_inline": "infra/aws/observatory/README.md and readback.sh; #910 live issue; accepted #720 assets; company AWS readbacks.",

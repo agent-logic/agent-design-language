@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar
 Branch: codex/910-observatory-deploy
 Card Status: ready
-Status: deployed_validated_awaiting_final_review_and_pr
+Status: deployed_validated_reviewed_pr_pending
 Generated: 2026-09-12T01:48:44.174761+00:00
 
 Execution:
@@ -37,9 +37,9 @@ Approved no-restart origin append and exact 18-create deployment complete. Four 
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling and read-only cloud preflight`
-- Planned PVF lane: `tooling and read-only cloud preflight`
-- Final PVF lane: `tooling and read-only cloud preflight`
-- Lane change reason: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
+- Planned PVF lane: `cloud operations and live browser acceptance`
+- Final PVF lane: `live cloud deployment and actual browser acceptance; nondeterministic network/cloud/browser resources; required issue gate`
+- Lane change reason: `Approved execution advanced from read-only preparation to bounded deployment; live observations are nondeterministic`
 
 ## Issue Metrics Truth
 - Expected runtime class: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
@@ -76,12 +76,12 @@ Approved no-restart origin append and exact 18-create deployment complete. Four 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/910/cards/sor.md`
 - Tracked implementation artifacts: `.csdlc/evidence/910 and native issue cards only; existing infrastructure and application source unchanged`
-- Additional proof artifacts: `terraform-plan-summary.json, assets.json, upload-manifest.json, named-resource-preflight.json, EXECUTION_RUNBOOK.md`
+- Additional proof artifacts: `deployed-posture.json, runtime-origin-change.json, upload-invalidation.json, https-assets.json, rollback-dry-run.json, browser-proof.json and verify-deployed.cjs`
 
 ## Actions taken
 - `Atomically appended only approved browser origin; watcher hash advanced and process/instance identities unchanged; health/CORS200 and raw WSS101 verified`
 - `Applied saved plan with 18 creates and preserved state backup; uploaded four assets with exact-version SHA256/cache/type checks and index last; exact invalidation Completed`
-- `Deployed posture/HTTPS/rollback and real browser proof pass; initial verifier/LNA failures preserved and resolved without product/CSP changes`
+- `Actual deployment/browser proof and independent evidence review passed; final SOR semantic-tail findings corrected; native publication next`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
@@ -123,51 +123,51 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: preparation checked; deployed proof pending
+    status: passed
     checks_run:
-      - "preparation checked; deployed proof pending"
+      - "Actual deployed posture/content/invalidation/rollback and accepted live v3 frame/render/write-gating checks passed"
   determinism:
-    status: preparation checked; deployed proof pending
-    replay_verified: preparation checked; deployed proof pending
-    ordering_guarantees_verified: preparation checked; deployed proof pending
+    status: not_applicable_to_live_network_observations
+    replay_verified: false
+    ordering_guarantees_verified: true
   security_privacy:
-    status: preparation checked; deployed proof pending
+    status: passed
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: preparation checked; deployed proof pending
-    required_artifacts_present: preparation checked; deployed proof pending
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: preparation checked; deployed proof pending
-      approved: preparation checked; deployed proof pending
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
+- Determinism tests executed: `24 existing local UI tests; deployed network/browser proof is explicitly nondeterministic`
 - Fixtures or scripts used: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
-- Replay verification (same inputs -> same artifacts/order): `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
-- Ordering guarantees (sorting / tie-break rules used): `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
-- Artifact stability notes: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
+- Replay verification (same inputs -> same artifacts/order): `No deterministic Runtime replay claimed; exact-version static asset recovery reconstruction passed`
+- Ordering guarantees (sorting / tie-break rules used): `Apply state backed up before success outputs; each upload verified by exact version/hash before next; index last; invalidate only after four verified uploads; exact invalidation completion observed`
+- Artifact stability notes: `Immutable static content/source hashes verified; live telemetry counts/timestamps may vary`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `public packet fixed-field scan passed`
 - Prompt / tool argument redaction verified: `No credentials or raw cloud response bodies included in public packet`
 - Absolute path leakage check: `Public artifacts use repository-relative or Git-common-relative references`
-- Sandbox / policy invariants preserved: `Business profile only; no cloud writes; private local artifacts preserved`
+- Sandbox / policy invariants preserved: `Approved single origin hot reload and 18-create cloud deployment/four uploads/invalidation only; business profile verified; private state preserved; temporary site browser permission explicitly approved; no destructive changes or Runtime compute`
 
 ## Replay Artifacts
 - Trace bundle path(s): `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
-- Run artifact root: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
-- Replay command used for verification: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
-- Replay result: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
+- Run artifact root: `.csdlc/evidence/910; private raw state/receipts in stable Git-common csdlc-v3/private/910`
+- Replay command used for verification: `Exact-version S3 get-object and SHA256 reconstruction described in EXECUTION_RUNBOOK.md`
+- Replay result: `Static asset reconstruction passed; Runtime replay not claimed`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/910/DEPLOYMENT_PLAN.md`
-- Required artifacts present: `Preparation evidence present; deployed proof remains pending`
+- Required artifacts present: `Actual AWS posture, approved origin change, exact upload/invalidation, HTTPS hashes, rollback reconstruction and real browser proof present`
 - Artifact schema/version checks: `All public JSON parses; native six-card validation passes`
 - Hash/byte-stability checks: `Actual saved plan SHA256 and four upload objects verified; source code bytes unchanged`
-- Missing/optional artifacts and rationale: `No authenticated command execution claimed; historical report objects intentionally absent; final review/PR/checks pending`
+- Missing/optional artifacts and rationale: `No authenticated command execution or universal remote reachability claimed; optional historical report objects absent; PR/checks pending`
 
 ## Decisions / Deviations
 - `Override unavailable package parent hosted zone with existing csm.agent-logic.ai zone`
