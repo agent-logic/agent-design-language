@@ -46,7 +46,7 @@
   "step_1_status": "completed",
   "activation_state": "ready",
   "estimate_elapsed_seconds": "1800",
-  "step_5_status": "in_progress",
+  "step_5_status": "completed",
   "step_4_status": "completed",
   "estimate_data_source": "bounded inventory command count; remote latency uncertain",
   "validation_plan_inline": "python3 .csdlc/evidence/908/inventory.py capture; python3 .csdlc/evidence/908/inventory.py validate; python3 .csdlc/evidence/908/test_inventory.py; independent review of sanitized actual readbacks and delta",

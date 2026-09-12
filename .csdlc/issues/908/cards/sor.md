@@ -17,11 +17,11 @@ Execution Record Requirements:
 
 Task ID: issue-0908
 Run ID: issue-0908
-Version: 1.0.5
+Version: v0.92.2
 Title: [v0.92.2][OPS-AWS] Produce one current AWS inventory packet from the #484 baseline
 Branch: codex/908-aws-inventory
 Card Status: ready
-Status: in_progress
+Status: reviewed
 Generated: 2026-09-12T00:15:50.776833+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Completed sanitized business AWS inventory: 17 enabled regions, 157 census surfaces, 13 buckets, explicit baseline delta and unknown ownership. No cloud mutation.
+Current sanitized business AWS inventory and maintenance packet complete and independently reviewed; PR/hosted checks pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `cloud-operations`
@@ -57,7 +57,7 @@ Completed sanitized business AWS inventory: 17 enabled regions, 157 census surfa
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_review_pending`
+- Completion state: `reviewed_implementation_complete`
 - Issue goal ref: `Active #908 goal for reviewed inventory PR with green checks`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `not_collected`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 .csdlc/evidence/908/inventory.py validate; python3 .csdlc/evidence/908/test_inventory.py`
-    `Fresh packet validates; 13 positive/negative tests passed; independent review and hosted CI remain pending.`
+    `Fresh packet and 13 focused tests passed locally and independently; no Rust or release-wide coverage claim.`
 - Results:
   - `passed_local_13_tests`
 
@@ -175,4 +175,4 @@ verification_summary:
 
 ## Follow-ups / Deferred work
 - `Separately route ownership attestation for frozen-unknown resources; no mutation.`
-- `Refresh weekly and before decisions; timestamps do not prove unused resources.`
+- `Publish closing PR, then verify hosted checks. No cloud mutation or merge authorization.`
