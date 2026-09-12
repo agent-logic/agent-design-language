@@ -176,4 +176,3 @@ test cli_observe_github_fails_before_network_without_an_explicit_credential_name
 test remote_publication_routes_are_typed_and_non_authoritative ... ok
 
 test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
-

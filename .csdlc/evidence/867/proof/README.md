@@ -36,7 +36,8 @@ CLI, one release matrix and 13 remote publication tests. `validation.stdout` and
 `validation.stderr` retain the run. Display-only host prefixes in published logs
 are replaced by `$WORKTREE`/`$PRIMARY`; `index.json` records original and published
 hashes. Original logs remain local. Focused failing regressions in `regressions/`
-show lock creation, Git index refresh, remote runtime storage creation, and the
+have trailing blank lines normalized for diff hygiene; no result text is removed.
+They show lock creation, Git index refresh, remote runtime storage creation, and the
 redaction/truncation boundary before their fixes. Failed runs are not pass evidence.
 
 PVF classification is tracked in

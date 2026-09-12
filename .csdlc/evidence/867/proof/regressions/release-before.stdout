@@ -15,4 +15,3 @@ failures:
     exact_candidate_preflight_and_negative_matrix
 
 test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.79s
-
