@@ -1009,6 +1009,28 @@ fn create_directories(path: &Path, root: &Path) -> Result<(), Error> {
     fs::create_dir_all(path).map_err(io)?;
     sync_chain(path, root)
 }
+#[cfg(test)]
+thread_local! {
+    static FAIL_REBARRIER: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+}
+// Re-establish durability of validated retained files before pointer publication.
+// Readers and previews intentionally never call this mutation-side barrier.
+fn rebarrier(paths: impl IntoIterator<Item = PathBuf>, root: &Path) -> Result<(), Error> {
+    for path in paths {
+        #[cfg(test)]
+        if FAIL_REBARRIER.with(|flag| flag.replace(false)) {
+            return Err(Error::Io("injected retained-file sync failure".into()));
+        }
+        reject_symlinks(&path)?;
+        let file = File::open(&path).map_err(io)?;
+        if !file.metadata().map_err(io)?.is_file() {
+            return Err(Error::UnsafePath);
+        }
+        file.sync_all().map_err(io)?;
+        sync_chain(path.parent().ok_or(Error::UnsafePath)?, root)?;
+    }
+    Ok(())
+}
 fn create_only(path: &Path, bytes: &[u8], root: &Path) -> Result<(), Error> {
     reject_symlinks(path)?;
     let mut file = OpenOptions::new()

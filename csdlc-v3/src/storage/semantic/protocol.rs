@@ -985,6 +985,23 @@ fn attach_locked(
     )?))
 }
 
+pub(super) fn retained_object_paths(directory: &Path, snapshot: &Snapshot) -> Vec<PathBuf> {
+    let mut paths = Vec::new();
+    let mut add =
+        |reference: &EvidenceRef| paths.push(directory.join("objects").join(&reference.object));
+    for done in snapshot.completed() {
+        add(&done.request);
+        add(&done.outcome.evidence);
+    }
+    if let Some(pending) = snapshot.pending() {
+        add(&pending.request);
+        if let Some(outcome) = &pending.observed {
+            add(&outcome.evidence);
+        }
+    }
+    paths
+}
+
 pub(super) fn validate_objects(directory: &Path, snapshot: &Snapshot) -> Result<(), Error> {
     let mut ids = std::collections::BTreeSet::new();
     for done in snapshot.completed() {

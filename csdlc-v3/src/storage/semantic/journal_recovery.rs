@@ -100,6 +100,23 @@ fn describe(directory: &Path, key: &IssueKey) -> Result<Option<JournalRecoveryPr
         digest,
     }))
 }
+fn barrier(
+    directory: &Path,
+    root: &SemanticRoot,
+    snapshot: &Snapshot,
+    pointer: &str,
+) -> Result<(), Error> {
+    protocol::validate_objects(directory, snapshot)?;
+    let mut paths = protocol::retained_object_paths(directory, snapshot);
+    paths.push(directory.join("commits").join(name(snapshot.version())));
+    paths.push(
+        directory
+            .join("intents")
+            .join(format!("{}.json", snapshot.version().generation)),
+    );
+    paths.push(directory.join(pointer));
+    rebarrier(paths, &root.common)
+}
 impl DurableTransactionStore {
     pub fn describe_journal_recovery(
         root: &SemanticRoot,
@@ -124,6 +141,7 @@ impl DurableTransactionStore {
         let _lock = acquire(&directory, true)?;
         if let Ok(current) = read_current(&directory, &preview.key) {
             if current.version() == &preview.target && current.audit_digest == preview.audit {
+                barrier(&directory, root, &current, "current.json")?;
                 return Ok(CommitOutcome::Unchanged(Box::new(current)));
             }
         }
@@ -143,6 +161,8 @@ impl DurableTransactionStore {
                 &root.common,
             )?;
         }
+        let target = load_commit(&directory, &preview.target)?;
+        barrier(&directory, root, &target, "current.next")?;
         fs::rename(next, directory.join("current.json")).map_err(io)?;
         sync_chain(&directory, &root.common)?;
         Ok(CommitOutcome::Committed(Box::new(read_current(
@@ -199,6 +219,23 @@ mod tests {
             .unwrap()
         );
         let approval = JournalRecoveryApproval::from_native_owner(&preview);
+        FAIL_REBARRIER.with(|flag| flag.set(true));
+        assert!(matches!(
+            DurableTransactionStore::execute_journal_recovery(
+                &f.root,
+                preview.clone(),
+                approval.clone()
+            ),
+            Err(Error::Io(_))
+        ));
+        let retained: Pointer =
+            codec::decode(&fs::read(directory.join("current.json")).unwrap()).unwrap();
+        assert_eq!(retained.generation, prior.version().generation);
+        // The failed barrier retained current.next; obtain its exact updated preview.
+        let preview = DurableTransactionStore::describe_journal_recovery(&f.root, &f.key)
+            .unwrap()
+            .unwrap();
+        let approval = JournalRecoveryApproval::from_native_owner(&preview);
         assert!(matches!(
             DurableTransactionStore::execute_journal_recovery(
                 &f.root,
@@ -207,6 +244,15 @@ mod tests {
             )
             .unwrap(),
             CommitOutcome::Committed(_)
+        ));
+        FAIL_REBARRIER.with(|flag| flag.set(true));
+        assert!(matches!(
+            DurableTransactionStore::execute_journal_recovery(
+                &f.root,
+                preview.clone(),
+                approval.clone()
+            ),
+            Err(Error::Io(_))
         ));
         assert!(matches!(
             DurableTransactionStore::execute_journal_recovery(&f.root, preview, approval).unwrap(),

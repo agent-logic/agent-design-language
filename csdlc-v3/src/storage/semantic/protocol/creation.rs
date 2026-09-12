@@ -94,6 +94,9 @@ impl CreationSnapshot {
     pub fn completed_kind(&self) -> Option<OutcomeKind> {
         self.payload.completed.as_ref().map(|o| o.kind)
     }
+    pub fn completed_truth(&self) -> Option<EffectTruth> {
+        self.payload.completed.as_ref().map(|o| o.truth)
+    }
     pub fn observed_truth(&self) -> Option<EffectTruth> {
         self.payload.observed.as_ref().map(|o| o.truth)
     }
@@ -141,11 +144,30 @@ impl VerifiedCreationOutcome {
         })
     }
 }
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct CreationRecoveryPreview {
+    repository: String,
+    action: String,
     id: OperationId,
     generation: u64,
     digest: Digest,
+}
+impl CreationRecoveryPreview {
+    pub fn repository(&self) -> &str {
+        &self.repository
+    }
+    pub fn operation_id(&self) -> &OperationId {
+        &self.id
+    }
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+    pub fn action(&self) -> &str {
+        &self.action
+    }
+    pub fn digest(&self) -> &Digest {
+        &self.digest
+    }
 }
 #[derive(Debug, Clone)]
 pub struct VerifiedCreationRecovery {
@@ -508,6 +530,8 @@ impl DurableTransactionStore {
         let current = read_current(root, id)?;
         Ok(if current.payload.completed.is_none() {
             Some(CreationRecoveryPreview {
+                repository: root.repository.clone(),
+                action: "reconcile_retained_issue_creation".into(),
                 id: id.clone(),
                 generation: current.generation(),
                 digest: current.digest,
@@ -636,6 +660,37 @@ impl CreationJournalApproval {
         }
     }
 }
+fn creation_barrier(
+    directory: &Path,
+    root: &SemanticRoot,
+    target: &CreationSnapshot,
+    pointer: &str,
+) -> Result<(), Error> {
+    validate_objects(root, directory, target, target.operation_id())?;
+    let mut paths = vec![directory
+        .join("objects")
+        .join(&target.payload.request.object)];
+    for outcome in target
+        .payload
+        .observed
+        .iter()
+        .chain(target.payload.completed.iter())
+    {
+        paths.push(directory.join("objects").join(&outcome.evidence.object));
+    }
+    paths.push(
+        directory
+            .join("commits")
+            .join(format!("{}.json", target.generation())),
+    );
+    paths.push(
+        directory
+            .join("intents")
+            .join(format!("{}.json", target.generation())),
+    );
+    paths.push(directory.join(pointer));
+    rebarrier(paths, &root.common)
+}
 fn describe_creation_journal(
     root: &SemanticRoot,
     id: &OperationId,
@@ -729,6 +784,7 @@ impl DurableTransactionStore {
         let _lock = acquire(&directory, true)?;
         if let Ok(current) = read_current(root, &preview.id) {
             if current.digest == preview.target {
+                creation_barrier(&directory, root, &current, "current.json")?;
                 return Ok(current);
             }
         }
@@ -743,6 +799,8 @@ impl DurableTransactionStore {
                 &root.common,
             )?;
         }
+        let target = load_record(&directory, preview.generation)?;
+        creation_barrier(&directory, root, &target, "current.next")?;
         fs::rename(next, directory.join("current.json")).map_err(io)?;
         sync_chain(&directory, &root.common)?;
         read_current(root, &preview.id)
@@ -874,6 +932,16 @@ mod tests {
         )
         .unwrap()
         .unwrap();
+        assert_eq!(preview.repository(), "example/repo");
+        assert_eq!(preview.operation_id(), inspection.ticket().id());
+        assert!(preview.generation() > 0);
+        assert_eq!(preview.action(), "reconcile_retained_issue_creation");
+        let serialized = serde_json::to_value(&preview).unwrap();
+        assert_eq!(
+            serialized["digest"],
+            serde_json::to_value(preview.digest()).unwrap()
+        );
+        assert_eq!(serialized["repository"], preview.repository());
         let approval = VerifiedCreationRecovery::adopt_after_native_reconciliation(&preview);
         let result = DurableTransactionStore::execute_issue_creation_recovery(
             &f.root,
@@ -887,6 +955,7 @@ mod tests {
             panic!()
         };
         assert_eq!(done.created_issue().unwrap().issue(), 999);
+        assert_eq!(done.completed_truth(), Some(EffectTruth::NotPerformed));
         assert!(matches!(
             DurableTransactionStore::execute_issue_creation_recovery(
                 &f.root, preview, outcome, changed, None
@@ -926,6 +995,17 @@ mod tests {
                 .unwrap()
                 .unwrap();
         let approval = CreationJournalApproval::from_native_owner(&preview);
+        FAIL_REBARRIER.with(|flag| flag.set(true));
+        assert!(matches!(
+            DurableTransactionStore::execute_creation_journal_recovery(
+                &f.root,
+                preview.clone(),
+                approval.clone()
+            ),
+            Err(Error::Io(_))
+        ));
+        assert!(!directory.join("current.json").exists());
+        assert_eq!(fs::read(directory.join("current.next")).unwrap(), pointer);
         let recovered = DurableTransactionStore::execute_creation_journal_recovery(
             &f.root,
             preview.clone(),
@@ -933,6 +1013,15 @@ mod tests {
         )
         .unwrap();
         assert_eq!(recovered.generation(), 1);
+        FAIL_REBARRIER.with(|flag| flag.set(true));
+        assert!(matches!(
+            DurableTransactionStore::execute_creation_journal_recovery(
+                &f.root,
+                preview.clone(),
+                approval.clone()
+            ),
+            Err(Error::Io(_))
+        ));
         assert_eq!(
             DurableTransactionStore::execute_creation_journal_recovery(&f.root, preview, approval)
                 .unwrap(),
