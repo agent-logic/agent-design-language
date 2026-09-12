@@ -3601,11 +3601,28 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     };
                     #[cfg(not(test))]
                     let submitted = tokio::time::timeout_at(deadline, submit).await.ok();
-                    if submitted.is_none() {
+                    // Expiring the admitted execution window is a provider failure,
+                    // not an operator cancellation. Record it before propagating
+                    // cancellation to the underlying work; that work may otherwise
+                    // report only "operation cancelled". Queue expiry never enters
+                    // this branch, and an already cancelled operator token wins.
+                    let execution_timed_out =
+                        submitted.is_none() && !dispatch.cancellation.is_cancelled();
+                    if execution_timed_out {
+                        if let Some(agent) = continuation_binding.as_ref() {
+                            self.recorder.provider_usage.observe_execution_timeout(
+                                &dispatch.intent.recipient_id,
+                                &agent.provider,
+                                &agent.model,
+                            );
+                        }
                         dispatch.cancellation.cancel();
                     }
                     match submitted {
-                        None => outcome("timed_out", "conversation_timed_out"),
+                        None if execution_timed_out => {
+                            outcome("timed_out", "conversation_timed_out")
+                        }
+                        None => outcome("cancelled", "conversation_cancelled"),
                         Some(Err(_)) if dispatch.cancellation.is_cancelled() => {
                             outcome("cancelled", "conversation_cancelled")
                         }
@@ -3876,6 +3893,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             &binding.model,
             &prompt,
             &dispatch.cancellation,
+            crate::provider_usage::ProviderCallContext {
+                usage: &self.recorder.provider_usage,
+                agent: &dispatch.intent.recipient_id,
+                reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
+            },
         )
         .await?;
         if output.agent_to_agent.is_some() || output.message.trim().is_empty() {
@@ -6174,6 +6196,8 @@ where
             get(runtime_ready_handler::<C>).options(observatory_preflight_handler::<C>),
         )
         .route(RUNTIME_METRICS_PATH, get(runtime_metrics_handler::<C>))
+        .route("/v1/metrics/providers", get(provider_metrics_handler::<C>))
+        .route("/v1/health/providers", get(provider_health_handler::<C>))
         .route(ACIP_WS_PATH, get(acip_ws_handler::<C>))
         .route(RUNTIME_OPENAPI_PATH, get(runtime_openapi_handler))
         .route(OBSERVATORY_OPENAPI_PATH, get(observatory_openapi_handler))
@@ -6298,6 +6322,18 @@ async fn runtime_ready_handler<C: LifecycleControl + 'static>(
         StatusCode::SERVICE_UNAVAILABLE
     };
     observatory_json(status, report, allowed_origin)
+}
+
+async fn provider_health_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+) -> Response {
+    Json(service.recorder.provider_usage.health_snapshot()).into_response()
+}
+
+async fn provider_metrics_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+) -> Response {
+    Json(service.recorder.provider_usage.snapshot()).into_response()
 }
 
 async fn runtime_metrics_handler<C: LifecycleControl + 'static>(
@@ -10550,6 +10586,145 @@ mod layer8_conversation_ingress_tests {
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
+    // PVF: runtime; actual ingress/agent executor + loopback stalled provider;
+    // virtual deadline, bounded CPU/disk, no external/model calls; required #854.
+    #[tokio::test]
+    async fn admitted_provider_deadline_invalidates_but_operator_cancel_preserves_readiness() {
+        use tokio::io::AsyncReadExt;
+        struct DelayedProductionExecutor(Arc<dyn crate::OperationExecutor>);
+        #[async_trait]
+        impl crate::OperationExecutor for DelayedProductionExecutor {
+            async fn execute(
+                &self,
+                request: &crate::OperationRequest,
+            ) -> Result<Vec<u8>, crate::ExecutorError> {
+                // Model ordinary admitted adapter delay before provider execution.
+                // This separates the outer and inner 900-second deadlines so the
+                // regression cannot pass merely because the inner timeout fired.
+                tokio::time::sleep(Duration::from_secs(2)).await;
+                self.0.execute(request).await
+            }
+        }
+        for operator_cancel in [false, true] {
+            let (mut service, old_kernel, recorder, _, _authority_root) =
+                agent_initiation_service(false, Duration::ZERO).await;
+            old_kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+            let endpoint = format!("http://{}", listener.local_addr().unwrap());
+            let (arrived_tx, arrived_rx) = tokio::sync::oneshot::channel();
+            let provider = tokio::spawn(async move {
+                let (mut stream, _) = listener.accept().await.unwrap();
+                let mut bytes = [0; 4096];
+                assert!(stream.read(&mut bytes).await.unwrap() > 0);
+                arrived_tx.send(()).unwrap();
+                std::future::pending::<()>().await;
+                drop(stream);
+            });
+            for agent in service.dynamic_agents.lock().unwrap().iter_mut() {
+                agent.endpoint = endpoint.clone();
+            }
+            let temp = tempfile::tempdir().unwrap();
+            let executor = crate::build_production_operation_executors_with_recorder(
+                temp.path(),
+                recorder.clone(),
+            )
+            .unwrap()
+            .remove(&crate::AdapterKind::Agent)
+            .unwrap();
+            let adapter = Arc::new(
+                crate::OperationalAdapter::new(
+                    crate::AdapterKind::Agent,
+                    crate::AdapterPolicy {
+                        capacity: 4,
+                        max_in_flight: 2,
+                        shutdown_grace_millis: 1000,
+                        max_attempts: 1,
+                        idempotency_entries: 16,
+                        authority: AuthorityMode::Internal,
+                    },
+                    Arc::new(DelayedProductionExecutor(executor)),
+                )
+                .unwrap(),
+            );
+            let operation = crate::OperationalFactory::new(adapter, vec![]);
+            let ingress = CanonicalIngress::new(
+                4,
+                recorder.clone(),
+                BTreeMap::from([("agent_runtime".to_owned(), operation.clone())]),
+            );
+            Arc::get_mut(&mut service).unwrap().canonical_ingress = Some(ingress.clone());
+            let mut registry = crate::ComponentRegistry::new();
+            registry.register(operation);
+            registry.register(ingress);
+            let kernel = crate::Kernel::new(registry.validate().unwrap(), recorder.clone())
+                .start()
+                .await
+                .unwrap();
+            let usage = &recorder.provider_usage;
+            usage.register_resident_alias("ember", "ember.runtime");
+            usage
+                .begin(
+                    "ember",
+                    "ollama",
+                    "gemma3-local",
+                    crate::provider_usage::ProviderRequestReason::StartupProbe,
+                    "ready",
+                )
+                .success("READY");
+            let readiness = usage.readiness();
+            readiness.mark_ready("ember.runtime");
+            let dispatch = match service.accept_runtime_agent_initiation_intent(
+                &agent_initiation_intent("turn-deadline-proof", "work-deadline-proof"),
+            ) {
+                ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
+                ConversationAcceptance::Response(response) => panic!("{:?}", response.error),
+            };
+            let token = dispatch.cancellation.clone();
+            let task = tokio::spawn({
+                let service = service.clone();
+                async move { service.complete_conversation_dispatch(dispatch).await }
+            });
+            tokio::time::timeout(Duration::from_secs(5), arrived_rx)
+                .await
+                .unwrap()
+                .unwrap();
+            assert_eq!(
+                usage.snapshot().iter().map(|row| row.requests).sum::<u64>(),
+                2
+            );
+            if operator_cancel {
+                token.cancel();
+            } else {
+                tokio::time::pause();
+                tokio::time::advance(AGENT_PROVIDER_EXECUTION_TIMEOUT - Duration::from_secs(1))
+                    .await;
+            }
+            let result = task.await.unwrap();
+            if !operator_cancel {
+                tokio::time::resume();
+            }
+            assert_eq!(
+                result.status,
+                if operator_cancel {
+                    "cancelled"
+                } else {
+                    "timed_out"
+                }
+            );
+            assert_eq!(readiness.is_ready("ember.runtime"), operator_cancel);
+            let health = usage.health_snapshot();
+            assert_eq!(health.len(), 1);
+            assert_eq!(health[0].inference_ready, Some(operator_cancel));
+            assert_eq!(
+                usage.snapshot().iter().map(|row| row.requests).sum::<u64>(),
+                2,
+                "deadline disposition must not count a synthetic provider request"
+            );
+            provider.abort();
+            kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+        }
+    }
+
     #[tokio::test]
     async fn agent_to_agent_initiation_replay_and_conflict_are_explicit() {
         let (service, kernel, _recorder, observed_tasks, _layer8_root) =
@@ -12231,7 +12406,7 @@ async fn verify_ollama_model(request: &AgentAdmissionRequest) -> Result<(), Agen
 
 pub async fn preload_resident_shepherd_model(
     config: &ResidentShepherdInitConfig,
-    orientation: &AgentOrientationResource,
+    _orientation: &AgentOrientationResource,
     cancellation: &CancellationToken,
 ) -> Result<(), &'static str> {
     if !crate::resident_shepherd_provider_is_available(&config.provider) {
@@ -12257,16 +12432,10 @@ pub async fn preload_resident_shepherd_model(
                 | AgentAdmissionFailure::Unavailable(reason) => reason,
             })?;
     }
-    if config.preload.enabled || config.provider != "ollama" {
-        let prompt = orientation.inject_initial_context("Reply with READY.");
-        invoke_resident_shepherd_provider(
-            &config.provider,
-            &config.endpoint,
-            &config.model,
-            &prompt,
-            cancellation,
-        )
-        .await?;
+    // Generated readiness belongs exclusively to the governed probe that follows
+    // this metadata check. A second warmup prompt would bill startup twice.
+    if cancellation.is_cancelled() {
+        return Err("operation cancelled");
     }
     Ok(())
 }
@@ -12457,20 +12626,41 @@ pub(crate) async fn invoke_provider_conversation(
     model: &str,
     prompt: &str,
     cancellation: &CancellationToken,
+    accounting: crate::provider_usage::ProviderCallContext<'_>,
 ) -> Result<ProviderConversationOutput, &'static str> {
     match provider {
-        "ollama" => match invoke_ollama_conversation(endpoint, model, prompt, cancellation).await {
-            Ok(output) => Ok(output),
-            Err("agent_provider_tools_unsupported") => {
-                invoke_ollama_model(endpoint, model, prompt, cancellation)
-                    .await
-                    .map(|message| ProviderConversationOutput {
+        "ollama" => {
+            let usage = accounting.begin(provider, model, prompt);
+            match invoke_ollama_conversation(endpoint, model, prompt, cancellation).await {
+                Ok(output) => {
+                    usage.success(&output.message);
+                    Ok(output)
+                }
+                Err("agent_provider_tools_unsupported") => {
+                    // The rejected chat and compatibility fallback are separate
+                    // provider requests, even though they serve one conversation.
+                    drop(usage);
+                    let fallback = accounting.begin(provider, model, prompt);
+                    let message =
+                        match invoke_ollama_model(endpoint, model, prompt, cancellation).await {
+                            Ok(message) => message,
+                            Err(error) => {
+                                fallback.failure(error);
+                                return Err(error);
+                            }
+                        };
+                    fallback.success(&message);
+                    Ok(ProviderConversationOutput {
                         message,
                         agent_to_agent: None,
                     })
+                }
+                Err(error) => {
+                    usage.failure(error);
+                    Err(error)
+                }
             }
-            Err(error) => Err(error),
-        },
+        }
         "vertex_ai" => {
             validate_vertex_ai_provider_endpoint(endpoint, model)
                 .map_err(|_| "agent_provider_binding_invalid")?;
@@ -12992,17 +13182,28 @@ mod provider_conversation_tool_tests {
             generate.write_all(body).await.unwrap();
         });
 
+        let usage = crate::provider_usage::ProviderUsage::default();
         let output = invoke_provider_conversation(
             "ollama",
             &endpoint,
             "plain-model",
             "answer normally",
             &CancellationToken::new(),
+            crate::provider_usage::ProviderCallContext {
+                usage: &usage,
+                agent: "fixture-agent",
+                reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
+            },
         )
         .await
         .expect("plain generation fallback");
         assert_eq!(output.message, "A normal reply from a model without tools.");
         assert!(output.agent_to_agent.is_none());
+        let counters = usage.snapshot();
+        assert_eq!(counters.len(), 1);
+        assert_eq!(counters[0].requests, 2);
+        assert_eq!(counters[0].failed, 1);
+        assert_eq!(counters[0].succeeded, 1);
         fixture.await.unwrap();
     }
 }
@@ -13371,6 +13572,161 @@ mod orientation_tests {
         }
     }
 
+    // PVF: local loopback cloud-provider fixture, virtual idle time; production
+    // recovery, provider executors and status handlers; required #854 proof.
+    #[tokio::test]
+    async fn cloud_resident_idle_status_and_real_failure_recovery() {
+        use crate::{
+            run_resident_shepherd_recovery, OperationExecutor, ResidentShepherdExecutor,
+            ResidentShepherdProbeExecutor, ResidentShepherdRecoveryPolicy,
+        };
+        use std::sync::atomic::{AtomicUsize, Ordering};
+        use tokio::io::AsyncWriteExt;
+        let calls = Arc::new(AtomicUsize::new(0));
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let endpoint = format!("http://{}", listener.local_addr().unwrap());
+        let fixture_calls = calls.clone();
+        let fixture = tokio::spawn(async move {
+            loop {
+                let (mut stream, _) = listener.accept().await.unwrap();
+                let request = read_http_fixture_request(&mut stream).await;
+                let request = String::from_utf8_lossy(&request);
+                let (status, body) = if request.starts_with("GET /api/tags ") {
+                    ("200 OK", r#"{"models":[{"name":"cloud-model"}]}"#)
+                } else {
+                    fixture_calls.fetch_add(1, Ordering::SeqCst);
+                    if request.starts_with("POST /api/chat ") {
+                        ("503 Service Unavailable", "{}")
+                    } else {
+                        assert!(request.starts_with("POST /api/generate "));
+                        ("200 OK", r#"{"response":"READY"}"#)
+                    }
+                };
+                stream.write_all(format!("HTTP/1.1 {status}\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).as_bytes()).await.unwrap();
+            }
+        });
+        let service = Arc::new(service_with_resident());
+        let usage = service.recorder.provider_usage.clone();
+        let config = ResidentShepherdInitConfig {
+            name: "beacon.axioma".into(),
+            display_name: "Beacon".into(),
+            office: "resident".into(),
+            provider: "ollama".into(),
+            model: "cloud-model".into(),
+            endpoint: endpoint.clone(),
+            preload: Default::default(),
+        };
+        let temp = tempfile::tempdir().unwrap();
+        let native = crate::build_production_operation_executors_with_recorder(
+            temp.path(),
+            service.recorder.clone(),
+        )
+        .unwrap()
+        .remove(&crate::AdapterKind::Shepherd)
+        .unwrap();
+        let executor = Arc::new(
+            ResidentShepherdExecutor::new("orientation-runtime", [config.clone()], native)
+                .with_usage(usage.clone()),
+        );
+        let readiness = executor.readiness();
+        usage.register_resident_alias("shepherd", "beacon.axioma");
+        let probe = Arc::new(ResidentShepherdProbeExecutor::new(executor));
+        let shutdown = CancellationToken::new();
+        let task = tokio::spawn({
+            let readiness = readiness.clone();
+            let shutdown = shutdown.clone();
+            let usage = usage.clone();
+            async move {
+                let mut sequence = 0;
+                run_resident_shepherd_recovery("beacon.axioma", ResidentShepherdRecoveryPolicy {
+                    timeout: Duration::from_secs(5), retry_initial: Duration::from_secs(1), retry_max: Duration::from_secs(4)
+                }, readiness, shutdown, move || {
+                    sequence += 1;
+                    let config = config.clone(); let probe = probe.clone(); let usage = usage.clone();
+                    async move {
+                        let metadata = preload_resident_shepherd_model(&config, &AgentOrientationResource::bundled_default(), &CancellationToken::new()).await;
+                        usage.observe_metadata(&config.name, &config.provider, &config.model, metadata);
+                        metadata?;
+                        probe.execute(&crate::OperationRequest {
+                            schema: crate::OPERATION_REQUEST_SCHEMA.into(), request_id: format!("probe-{sequence}"), idempotency_key: format!("probe-{sequence}"),
+                            principal: if sequence == 1 { "runtime-bootstrap" } else { "runtime-recovery" }.into(),
+                            payload: serde_json::to_vec(&serde_json::json!({"schema":crate::SHEPHERD_REQUEST_SCHEMA,"runtime_id":"orientation-runtime","correlation_id":format!("probe-{sequence}"),"shepherd_name":"beacon.axioma","prompt":"Reply READY"})).unwrap(), permit: None
+                        }).await.map(|_| ()).map_err(|_| "resident_shepherd_governed_probe_failed")
+                    }
+                }, |_| {}).await;
+            }
+        });
+        async fn wait_ready(readiness: &crate::ResidentShepherdReadiness) {
+            tokio::time::timeout(Duration::from_secs(5), async {
+                while !readiness.is_ready("beacon.axioma") {
+                    tokio::task::yield_now().await;
+                }
+            })
+            .await
+            .unwrap();
+        }
+        wait_ready(&readiness).await;
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
+        tokio::time::pause();
+        for _ in 0..100 {
+            let _ = runtime_health_handler(State(service.clone()), HeaderMap::new()).await;
+            let _ = runtime_ready_handler(State(service.clone()), HeaderMap::new()).await;
+            let _ = provider_metrics_handler(State(service.clone())).await;
+            let _ = provider_health_handler(State(service.clone())).await;
+            tokio::time::advance(Duration::from_secs(4)).await;
+            tokio::task::yield_now().await;
+        }
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
+        tokio::time::resume();
+        let failure = invoke_provider_conversation(
+            "ollama",
+            &endpoint,
+            "cloud-model",
+            "operator work",
+            &CancellationToken::new(),
+            crate::provider_usage::ProviderCallContext {
+                usage: &usage,
+                agent: "shepherd",
+                reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
+            },
+        )
+        .await;
+        assert!(failure.is_err());
+        wait_ready(&readiness).await;
+        assert_eq!(calls.load(Ordering::SeqCst), 3);
+        tokio::time::pause();
+        tokio::time::advance(Duration::from_secs(400)).await;
+        tokio::task::yield_now().await;
+        assert_eq!(calls.load(Ordering::SeqCst), 3);
+        let health = usage.health_snapshot();
+        assert_eq!(health.len(), 1);
+        assert_eq!(health[0].agent, "beacon.axioma");
+        assert_eq!(health[0].inference_ready, Some(true));
+        assert_eq!(health[0].provider_reachable, Some(true));
+        assert_eq!(health[0].model_available, Some(true));
+        let counters = usage.snapshot();
+        assert_eq!(counters.iter().map(|r| r.requests).sum::<u64>(), 3);
+        assert_eq!(
+            counters
+                .iter()
+                .filter(|r| r.reason == crate::provider_usage::ProviderRequestReason::StartupProbe)
+                .map(|r| r.requests)
+                .sum::<u64>(),
+            1
+        );
+        assert_eq!(
+            counters
+                .iter()
+                .filter(|r| r.reason == crate::provider_usage::ProviderRequestReason::RecoveryProbe)
+                .map(|r| r.requests)
+                .sum::<u64>(),
+            1
+        );
+        shutdown.cancel();
+        task.await.unwrap();
+        fixture.abort();
+    }
+
     #[test]
     fn dynamic_store_rejects_duplicate_canonical_names_before_roster_mutation() {
         let service = service_with_resident();
@@ -13483,7 +13839,7 @@ mod orientation_tests {
     }
 
     #[tokio::test]
-    async fn resident_shepherd_preload_receives_orientation_before_ready_probe() {
+    async fn resident_shepherd_preload_checks_metadata_without_inference() {
         use tokio::io::AsyncWriteExt;
 
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0")
@@ -13508,38 +13864,8 @@ mod orientation_tests {
             tags.write_all(body).await.expect("tags body write");
             drop(tags);
 
-            let (mut generate, _) = listener.accept().await.expect("generate request");
-            let request_bytes = read_http_fixture_request(&mut generate).await;
-            let request = String::from_utf8_lossy(&request_bytes);
-            assert!(request.starts_with("POST /api/generate HTTP/1.1"));
-            let body_start = request
-                .find("\r\n\r\n")
-                .map(|index| index + 4)
-                .expect("request body starts");
-            let value: serde_json::Value =
-                serde_json::from_slice(&request_bytes[body_start..]).expect("body parses");
-            let prompt = value["prompt"].as_str().expect("prompt is string");
-            let orientation_offset = prompt
-                .find("Axioma Polis Welcome Package")
-                .expect("orientation package present");
-            let ready_offset = prompt
-                .find("Reply with READY.")
-                .expect("ready probe present");
-            assert!(orientation_offset < ready_offset);
-            assert!(prompt.contains("non-authoritative orientation only"));
-
-            let body = br#"{"response":"READY"}"#;
-            generate
-                .write_all(
-                    format!(
-                        "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
-                        body.len()
-                    )
-                    .as_bytes(),
-                )
-                .await
-                .expect("generate headers write");
-            generate.write_all(body).await.expect("generate body write");
+            // Drop the fixture after its one metadata request. Any attempted
+            // generation would fail preload, so success proves zero inference.
         });
 
         preload_resident_shepherd_model(

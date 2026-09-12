@@ -1379,6 +1379,19 @@ impl InProcessOperationExecutor {
                         (None, None, None) => return_output(recipient_id),
                         (Some(provider), Some(model), Some(endpoint)) => {
                             let prompt = provider_conversation_prompt(task, recipient_id, &input);
+                            let reason = if task
+                                .get("sender_id")
+                                .is_none_or(serde_json::Value::is_null)
+                            {
+                                crate::provider_usage::ProviderRequestReason::OperatorConversation
+                            } else {
+                                crate::provider_usage::ProviderRequestReason::AgentToAgent
+                            };
+                            let accounting = crate::provider_usage::ProviderCallContext {
+                                usage: &self.state.recorder.provider_usage,
+                                agent: recipient_id,
+                                reason,
+                            };
                             let response = if task
                                 .get("sender_id")
                                 .is_none_or(serde_json::Value::is_null)
@@ -1389,24 +1402,33 @@ impl InProcessOperationExecutor {
                                     model,
                                     &prompt,
                                     cancellation,
+                                    accounting,
                                 )
                                 .await
                                 .map_err(|error| adapter_error(FailureClass::Retryable, error))?
                             } else {
-                                crate::control::ProviderConversationOutput {
-                                    message: crate::control::invoke_provider_model(
-                                        provider,
-                                        endpoint,
-                                        model,
-                                        &prompt,
-                                        cancellation,
-                                    )
-                                    .await
-                                    .map_err(|error| {
-                                        adapter_error(FailureClass::Retryable, error)
-                                    })?,
+                                let usage = accounting.begin(provider, model, &prompt);
+                                let message = match crate::control::invoke_provider_model(
+                                    provider,
+                                    endpoint,
+                                    model,
+                                    &prompt,
+                                    cancellation,
+                                )
+                                .await
+                                {
+                                    Ok(message) => message,
+                                    Err(error) => {
+                                        usage.failure(error);
+                                        return Err(adapter_error(FailureClass::Retryable, error));
+                                    }
+                                };
+                                let output = crate::control::ProviderConversationOutput {
+                                    message,
                                     agent_to_agent: None,
-                                }
+                                };
+                                usage.success(&output.message);
+                                output
                             };
                             provider_conversation_output(task, recipient_id, response)?
                         }

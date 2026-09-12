@@ -456,6 +456,92 @@ async fn runtime_vector_pipeline_s3_archive_outage_does_not_block_master_log_pro
     pipeline.shutdown().await.unwrap();
 }
 
+// PVF: runtime integration; deterministic loopback S3 failure, local CPU/disk;
+// required existing outage proof. Never retain request headers or source bytes.
+struct FailingS3Endpoint {
+    endpoint: String,
+    requests: std::sync::Arc<std::sync::atomic::AtomicUsize>,
+    stop: std::sync::Arc<std::sync::atomic::AtomicBool>,
+    task: Option<std::thread::JoinHandle<()>>,
+}
+impl FailingS3Endpoint {
+    fn start() -> Self {
+        use std::{
+            io::{Read, Write},
+            sync::{
+                atomic::{AtomicBool, AtomicUsize, Ordering},
+                Arc,
+            },
+        };
+        let listener = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+        listener.set_nonblocking(true).unwrap();
+        let endpoint = format!("http://{}", listener.local_addr().unwrap());
+        let requests = Arc::new(AtomicUsize::new(0));
+        let stop = Arc::new(AtomicBool::new(false));
+        let observed = requests.clone();
+        let stopped = stop.clone();
+        let task = std::thread::spawn(move || {
+            while !stopped.load(Ordering::SeqCst) {
+                let (mut stream, _) = match listener.accept() {
+                    Ok(connection) => connection,
+                    Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                        sleep(Duration::from_millis(10));
+                        continue;
+                    }
+                    Err(_) => break,
+                };
+                stream
+                    .set_read_timeout(Some(Duration::from_secs(1)))
+                    .unwrap();
+                stream
+                    .set_write_timeout(Some(Duration::from_secs(1)))
+                    .unwrap();
+                let mut input = Vec::new();
+                let mut block = [0; 4096];
+                while input.len() <= 64 * 1024 {
+                    match stream.read(&mut block) {
+                        Ok(0) | Err(_) => break,
+                        Ok(count) => input.extend_from_slice(&block[..count]),
+                    }
+                    if let Some(end) = input.windows(4).position(|w| w == b"\r\n\r\n") {
+                        let header = String::from_utf8_lossy(&input[..end]);
+                        let length = header
+                            .lines()
+                            .find_map(|line| {
+                                let (name, value) = line.split_once(':')?;
+                                name.eq_ignore_ascii_case("content-length")
+                                    .then(|| value.trim().parse::<usize>().ok())
+                                    .flatten()
+                            })
+                            .unwrap_or(0);
+                        if input.len() >= end + 4 + length {
+                            observed.fetch_add(1, Ordering::SeqCst);
+                            let body = "<Error><Code>ServiceUnavailable</Code><Message>fixture outage</Message></Error>";
+                            let _ = write!(stream, "HTTP/1.1 503 Service Unavailable\r\nContent-Type: application/xml\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        Self {
+            endpoint,
+            requests,
+            stop,
+            task: Some(task),
+        }
+    }
+    fn request_count(&self) -> usize {
+        self.requests.load(std::sync::atomic::Ordering::SeqCst)
+    }
+}
+impl Drop for FailingS3Endpoint {
+    fn drop(&mut self) {
+        self.stop.store(true, std::sync::atomic::Ordering::SeqCst);
+        self.task.take().unwrap().join().unwrap();
+    }
+}
+
 #[test]
 fn pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses() {
     let root = test_root("s3-archive-vector-outage");
@@ -476,13 +562,14 @@ fn pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresse
             0,
             "INFO",
             "s3_archive_outage_probe",
-            "s3_endpoint_unreachable",
+            "s3_endpoint_unavailable",
             "wp-12",
         )],
     );
 
+    let failed_endpoint = FailingS3Endpoint::start();
     let mut rendered = render_vector_config(&config);
-    rendered["sinks"]["runtime_v3_s3_archive"]["endpoint"] = json!("http://127.0.0.1:9");
+    rendered["sinks"]["runtime_v3_s3_archive"]["endpoint"] = json!(failed_endpoint.endpoint);
     rendered["sinks"]["runtime_v3_s3_archive"]["force_path_style"] = json!(true);
     rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["max_bytes"] = json!(1);
     rendered["sinks"]["runtime_v3_s3_archive"]["batch"]["max_events"] = json!(1);
@@ -516,6 +603,8 @@ fn pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresse
         .env("AWS_ACCESS_KEY_ID", "issue-594-test-access-key")
         .env("AWS_SECRET_ACCESS_KEY", "issue-594-test-secret-key")
         .env("AWS_EC2_METADATA_DISABLED", "true")
+        // Only buffer state diagnostics: never AWS request/signing debug output.
+        .env("VECTOR_LOG", "info,vector_buffers=debug")
         .stdin(Stdio::null())
         .stdout(Stdio::from(stdout))
         .stderr(Stdio::from(stderr))
@@ -543,14 +632,15 @@ fn pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresse
                 && vector_logs.contains("Service call failed. No retries or retries exhausted.")
                 && vector_logs.contains("Events dropped");
         }
-        if master_log_progressed && s3_failure_observed {
+        if master_log_progressed && s3_failure_observed && failed_endpoint.request_count() > 0 {
             break;
         }
         if Instant::now() >= deadline {
             let _ = child.kill();
             let _ = child.wait();
             panic!(
-                "timed out waiting for master log progress ({master_log_progressed}) and s3 failure telemetry ({s3_failure_observed}); stdout: {}; stderr: {}",
+                "timed out waiting for master log progress ({master_log_progressed}) and s3 failure telemetry ({s3_failure_observed}); endpoint requests: {}; stdout: {}; stderr: {}",
+                failed_endpoint.request_count(),
                 fs::read_to_string(&stdout_path).unwrap_or_default(),
                 fs::read_to_string(&stderr_path).unwrap_or_default(),
             );
