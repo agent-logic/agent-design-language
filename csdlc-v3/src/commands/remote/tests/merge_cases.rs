@@ -816,6 +816,7 @@ fn merge_linkage_url_part_of_directives_reject_before_intent_and_dispatch() {
                 "https://github.com/other/repo/issues/506",
                 "<https://github.com/other/repo/issues/506>",
                 "[parent](https://github.com/other/repo/issues/506)",
+                "[other parent](https://github.com/other/repo/issues/506)",
             ] {
                 for canonical_present in [false, true] {
                     let root = mutation_repo("merge-url-part-of", true);
