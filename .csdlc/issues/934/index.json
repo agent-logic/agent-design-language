@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 934,
   "phase": "bound",
-  "generation": 12,
+  "generation": 13,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/934-sprint8-coordination",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-934-sprint8-coordination",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "fc2e978276ba7fc13bb2a96b6dea534744d01270646301825f9805b7b7f8a841"
+  "digest": "49394e575c0e06581c853cd348d56b426cf7af2d138d8fdff3cee236f8398734"
 }
