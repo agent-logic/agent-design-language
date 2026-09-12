@@ -9,7 +9,7 @@
   "bootstrap_plan_exit": 0,
   "organization_plan_exit": 2,
   "platform_plan": "exit0_20_noops_reconstructed_private_candidate",
-  "apply_ready": true,
+  "apply_ready": false,
   "lanes": [
     {
       "name": "static_and_packet",
@@ -47,5 +47,5 @@
       "Replace stale missing-plan/genericapply text with current exact no-op decisions"
     ]
   },
-  "apply_ready_meaning": "Complete reviewed planning deliverable; no execution authority. Future custody/adoption, refreshed plan and application approvals remain explicit prerequisites."
+  "planning_complete": true
 }
