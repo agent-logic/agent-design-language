@@ -24,7 +24,7 @@ variance_threshold_percent: "10"
 estimate_confidence: "low"
 estimate_data_source: "Conservative retest harness/accounting and measurement estimate; hardware elapsed time reestimated after route/resource selection, not operator budget"
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/905"
-issue_goal_ref: "issue-932 setup goal; child #905 implementation goal required before execution"
+issue_goal_ref: "Active child #905 implementation and executed requalification goal under Sprint 6 #932"
 sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
 goal_metrics_rollup_ref: ".csdlc/evidence/905/goal-metrics.json (planned; absent until execution)"
 source_refs:
@@ -74,7 +74,7 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "in_progress"
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "pending"
   - step: "Implement the bounded deliverables only."
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "#864 CLOSED; PR #865 MERGED at f1c4e2a915c215797f0d2708cb8b0568f2b80b32, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Current Runtime speculative route, compatible target/draft model and tokenizer revisions, engine and approved comparison resource ceiling remain unselected. Existing vLLM harness is historical starting material, not demonstrated current Runtime integration."
+notes: "User authorized implementation through #932. Local arm64 default Python lacks vllm/torch; no selected current Runtime speculative route, compatible target/draft/tokenizer revisions or hardware budget. Bounded harness/negative accounting work proceeds; actual comparison remains mandatory and not proved. No shared provider edits, provisioning/download/model loading or service mutation."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -142,7 +142,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
+1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
 2. [pending] Inspect repo inputs and target surfaces before editing.
 3. [pending] Implement the bounded deliverables only.
 4. [pending] Run focused validation and proof gates.
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-#864 CLOSED; PR #865 MERGED at f1c4e2a915c215797f0d2708cb8b0568f2b80b32, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Current Runtime speculative route, compatible target/draft model and tokenizer revisions, engine and approved comparison resource ceiling remain unselected. Existing vLLM harness is historical starting material, not demonstrated current Runtime integration.
+User authorized implementation through #932. Local arm64 default Python lacks vllm/torch; no selected current Runtime speculative route, compatible target/draft/tokenizer revisions or hardware budget. Bounded harness/negative accounting work proceeds; actual comparison remains mandatory and not proved. No shared provider edits, provisioning/download/model loading or service mutation.

@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import hashlib
+import math
 import platform
 import statistics
 import time
@@ -27,6 +29,25 @@ PROMPTS = [
 ]
 
 
+def measured_attempt(call, journal, *, phase: str, prompt_index=None, repeat_index=None):
+    """Retain started and terminal states without copying prompts or exception text."""
+    identity = {"phase": phase, "prompt_index": prompt_index, "repeat_index": repeat_index}
+    def record(**values):
+        journal.write(json.dumps({**identity, **values}, allow_nan=False) + "\n")
+        journal.flush()
+    record(status="started")
+    start = time.perf_counter()
+    try:
+        value = call()
+    except BaseException as error:
+        record(status="failed", elapsed_seconds=time.perf_counter() - start,
+               error_class=type(error).__name__)
+        raise
+    elapsed = time.perf_counter() - start
+    record(status="completed", elapsed_seconds=elapsed)
+    return value, elapsed
+
+
 @dataclass
 class RunResult:
     prompt_index: int
@@ -34,6 +55,54 @@ class RunResult:
     elapsed_seconds: float
     output_tokens: int
     tokens_per_second: float
+    output_sha256: str = ""
+
+
+def nonnegative_counter(value: Any) -> int:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError("counter must be a finite nonnegative integer")
+    if not math.isfinite(value) or value < 0 or int(value) != value:
+        raise ValueError("counter must be a finite nonnegative integer")
+    return int(value)
+
+
+def output_identity(token_ids: list[int]) -> str:
+    if not token_ids:
+        raise ValueError("empty generation cannot establish correctness")
+    for token in token_ids:
+        nonnegative_counter(token)
+    return hashlib.sha256(json.dumps(token_ids, separators=(",", ":")).encode()).hexdigest()
+
+
+def compare_runs(baseline: list[RunResult], speculative: list[RunResult],
+                 *, prompt_count: int, repeats: int) -> dict[str, Any]:
+    """Compare a complete paired corpus; caller must separately prove provenance.
+
+    Token identity equality is applicable only with the same pinned tokenizer,
+    model, corpus and deterministic sampling. This function cannot authenticate
+    a Runtime execution or turn caller-provided records into hardware proof.
+    """
+    summarize(baseline)
+    summarize(speculative)
+    left = {(r.prompt_index, r.repeat_index): r for r in baseline}
+    right = {(r.prompt_index, r.repeat_index): r for r in speculative}
+    if nonnegative_counter(prompt_count) == 0 or nonnegative_counter(repeats) == 0:
+        raise ValueError("declared corpus and repeats must be nonempty")
+    expected = {(p, r) for p in range(prompt_count) for r in range(repeats)}
+    if left.keys() != expected or right.keys() != expected:
+        raise ValueError("paired run denominator mismatch")
+    for key in left:
+        for run in [left[key], right[key]]:
+            if len(run.output_sha256) != 64 or any(c not in "0123456789abcdef" for c in run.output_sha256):
+                raise ValueError("missing or invalid output identity")
+        if left[key].output_sha256 != right[key].output_sha256 or left[key].output_tokens != right[key].output_tokens:
+            raise ValueError("output equivalence failed")
+    baseline_seconds = sum(r.elapsed_seconds for r in baseline)
+    speculative_seconds = sum(r.elapsed_seconds for r in speculative)
+    return {"paired_runs": len(left), "output_identity_equal": True,
+            "baseline_seconds": baseline_seconds, "speculative_seconds": speculative_seconds,
+            "wall_time_speedup": baseline_seconds / speculative_seconds,
+            "proves_current_runtime_route": False}
 
 
 def positive_int(value: str) -> int:
@@ -44,6 +113,19 @@ def positive_int(value: str) -> int:
 
 
 def summarize(runs: list[RunResult]) -> dict[str, Any]:
+    if not runs:
+        raise ValueError("no completed runs")
+    identities = [(run.prompt_index, run.repeat_index) for run in runs]
+    if len(set(identities)) != len(identities):
+        raise ValueError("duplicate measured run")
+    for run in runs:
+        if not math.isfinite(run.elapsed_seconds) or run.elapsed_seconds <= 0:
+            raise ValueError("elapsed time must be finite and positive")
+        if nonnegative_counter(run.output_tokens) == 0:
+            raise ValueError("empty output")
+        expected = run.output_tokens / run.elapsed_seconds
+        if not math.isfinite(run.tokens_per_second) or not math.isclose(run.tokens_per_second, expected):
+            raise ValueError("inconsistent throughput")
     elapsed = [run.elapsed_seconds for run in runs]
     throughput = [run.tokens_per_second for run in runs]
     output_tokens = [run.output_tokens for run in runs]
@@ -83,22 +165,28 @@ def metric_payload(metric: Any) -> dict[str, Any]:
 
 
 def extract_spec_metrics(metrics: list[Any]) -> dict[str, Any]:
+    names = [getattr(metric, "name", "") for metric in metrics
+             if getattr(metric, "name", "").startswith("vllm:spec_decode")]
+    if len(names) != len(set(names)):
+        raise ValueError("ambiguous duplicate speculative metric series")
     by_name = {getattr(metric, "name", ""): metric for metric in metrics}
 
     def counter(name: str) -> int | None:
         metric = by_name.get(name)
         value = getattr(metric, "value", None)
-        return int(value) if value is not None else None
+        return nonnegative_counter(value) if value is not None else None
 
     def vector(name: str) -> list[int] | None:
         metric = by_name.get(name)
         values = getattr(metric, "values", None)
-        return [int(value) for value in values] if values is not None else None
+        return [nonnegative_counter(value) for value in values] if values is not None else None
 
     num_drafts = counter("vllm:spec_decode_num_drafts")
     draft_tokens = counter("vllm:spec_decode_num_draft_tokens")
     accepted_tokens = counter("vllm:spec_decode_num_accepted_tokens")
     accepted_per_pos = vector("vllm:spec_decode_num_accepted_tokens_per_pos")
+    if accepted_tokens is not None and draft_tokens is not None and accepted_tokens > draft_tokens:
+        raise ValueError("accepted tokens exceed proposed tokens")
 
     acceptance_rate = None
     if accepted_tokens is not None and draft_tokens:
@@ -132,6 +220,8 @@ def subtract_spec_metrics(
         after["num_accepted_tokens_per_pos"],
         before["num_accepted_tokens_per_pos"],
     )
+    if accepted_tokens is not None and draft_tokens is not None and accepted_tokens > draft_tokens:
+        raise ValueError("accepted delta exceeds proposed delta")
 
     acceptance_rate = None
     if accepted_tokens is not None and draft_tokens:
@@ -154,7 +244,10 @@ def subtract_spec_metrics(
 def subtract_optional_int(after: int | None, before: int | None) -> int | None:
     if after is None or before is None:
         return None
-    return after - before
+    delta = nonnegative_counter(after) - nonnegative_counter(before)
+    if delta < 0:
+        raise ValueError("counter reset during measured interval")
+    return delta
 
 
 def subtract_optional_vector(
@@ -162,7 +255,9 @@ def subtract_optional_vector(
 ) -> list[int] | None:
     if after is None or before is None:
         return None
-    return [after_value - before_value for after_value, before_value in zip(after, before)]
+    if len(after) != len(before):
+        raise ValueError("counter vector shape changed")
+    return [subtract_optional_int(a, b) for a, b in zip(after, before)]
 
 
 def main() -> int:
@@ -199,9 +294,11 @@ def main() -> int:
             }
         )
 
-    init_started = time.perf_counter()
-    llm = LLM(**llm_kwargs)
-    init_elapsed = time.perf_counter() - init_started
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    # Refuse to erase prior attempts; a retry must use a fresh output identity.
+    journal = out_path.with_suffix(out_path.suffix + ".attempts.jsonl").open("x", encoding="utf-8")
+    llm, init_elapsed = measured_attempt(lambda: LLM(**llm_kwargs), journal, phase="initialization")
 
     sampling = SamplingParams(
         max_tokens=args.max_new_tokens,
@@ -209,22 +306,26 @@ def main() -> int:
         seed=0,
     )
 
-    def generate(prompt: str) -> tuple[int, float]:
+    def generate(prompt: str) -> tuple[int, float, str]:
         start = time.perf_counter()
         outputs = llm.generate([prompt], sampling, use_tqdm=False)
         elapsed = time.perf_counter() - start
         token_ids = outputs[0].outputs[0].token_ids
-        return len(token_ids), elapsed
+        return len(token_ids), elapsed, output_identity(list(token_ids))
 
     for _ in range(args.warmup_runs):
-        generate(selected_prompts[0])
+        measured_attempt(lambda: generate(selected_prompts[0]), journal,
+                         phase="warmup", prompt_index=0, repeat_index=_)
 
     warmup_metrics = extract_spec_metrics(llm.get_metrics())
 
     runs: list[RunResult] = []
     for repeat_index in range(args.repeats):
         for prompt_index, prompt in enumerate(selected_prompts):
-            output_tokens, elapsed = generate(prompt)
+            generated, _ = measured_attempt(lambda: generate(prompt), journal,
+                                           phase="measured", prompt_index=prompt_index,
+                                           repeat_index=repeat_index)
+            output_tokens, elapsed, identity = generated
             runs.append(
                 RunResult(
                     prompt_index=prompt_index,
@@ -232,6 +333,7 @@ def main() -> int:
                     elapsed_seconds=elapsed,
                     output_tokens=output_tokens,
                     tokens_per_second=output_tokens / elapsed if elapsed > 0 else 0.0,
+                    output_sha256=identity,
                 )
             )
 
@@ -282,6 +384,8 @@ def main() -> int:
         "cumulative_speculative_metrics": cumulative_spec_metrics,
         "raw_speculative_metrics": raw_spec_metrics,
         "claims": {
+            "proves_current_runtime_route": False,
+            "proves_output_equivalence": False,
             "proves_vllm_generation": True,
             "proves_vllm_speculative_mode": args.mode == "speculative",
             "speculative_counters_exposed": any(
@@ -291,9 +395,8 @@ def main() -> int:
         },
     }
 
-    out_path = Path(args.out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    out_path.write_text(json.dumps(payload, indent=2, allow_nan=False), encoding="utf-8")
+    journal.close()
     print(out_path)
     return 0
 

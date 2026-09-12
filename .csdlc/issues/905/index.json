@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 905,
   "phase": "bound",
-  "generation": 5,
+  "generation": 6,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/905-v0922-speculative-decoding-retest",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "bc661c29131a8bd130e80cf65d61a734c7adb35f813c9142da5341769b40c397"
+  "digest": "2dc05a18b711db720f56559c0a7559633d304d3cc5ded545d41f90b4821f3abd"
 }
