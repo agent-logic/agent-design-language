@@ -75,7 +75,7 @@ Bounded MLX adapter and actual canonical production-workflow Metal smoke passed.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/903/cards/sor.md`
-- Tracked implementation artifacts: `adl/src/provider/mlx.rs; mlx_tests.rs; provider/substrate/profile/dispatch registration; adl/tests/mlx_provider.rs; evidence903`
+- Tracked implementation artifacts: `adl/src/provider/mlx.rs; adl/src/provider/mlx/tests.rs; provider/substrate/profile/dispatch registration; adl/tests/mlx_provider.rs; .csdlc/evidence/903`
 - Additional proof artifacts: `.csdlc/evidence/903/actual-hardware.json; local-validation.json; source-review.json`
 
 ## Actions taken
@@ -145,7 +145,7 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `12 deterministic protocol negatives,2 public/workflow fixtures,1 inherited reload regression; observational live smoke separately passed1/1`
-- Fixtures or scripts used: `adl/src/provider/mlx_tests.rs; adl/tests/mlx_provider.rs; .csdlc/evidence/903/start_mlx_smoke_server.py`
+- Fixtures or scripts used: `adl/src/provider/mlx/tests.rs; adl/tests/mlx_provider.rs; .csdlc/evidence/903/start_mlx_smoke_server.py`
 - Replay verification (same inputs -> same artifacts/order): `not independently verified as replay proof`
 - Ordering guarantees (sorting / tie-break rules used): `Canonical reload snapshot consumed before execute_sequential_with_provider_reload_handle invocation; no broader concurrency claim`
 - Artifact stability notes: `Private original hardware receipt SHA256 retained; no deterministic generation claim`

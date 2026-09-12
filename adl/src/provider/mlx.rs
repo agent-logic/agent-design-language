@@ -208,5 +208,5 @@ impl Provider for MlxProvider {
 }
 
 #[cfg(test)]
-#[path = "mlx_tests.rs"]
+#[path = "mlx/tests.rs"]
 mod tests;
