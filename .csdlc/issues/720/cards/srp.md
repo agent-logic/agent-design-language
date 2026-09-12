@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "pass"
-notes: "Independent reviewer sprint8_909 inspected 5aacb2e8dd2c99e0fef1a5c50fa849c55c00147c; no actionable findings. Independently ran live-only tests 2/2; full-suite/browser evidence inspected, not independently rerun. Final card-only delta review required before publication."
+notes: "Independent sprint8_909 review found no actionable findings at source head 5aacb2e8dd and final card head 962ea4bfc9. Reviewer ran 2/2 focused tests and inspected broader evidence. Subsequent card-only publication delta receives exact-head review before push."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent reviewer sprint8_909 inspected 5aacb2e8dd2c99e0fef1a5c50fa849c55c00147c; no actionable findings. Independently ran live-only tests 2/2; full-suite/browser evidence inspected, not independently rerun. Final card-only delta review required before publication.
+Independent sprint8_909 review found no actionable findings at source head 5aacb2e8dd and final card head 962ea4bfc9. Reviewer ran 2/2 focused tests and inspected broader evidence. Subsequent card-only publication delta receives exact-head review before push.

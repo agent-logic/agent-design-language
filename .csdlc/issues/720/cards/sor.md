@@ -21,7 +21,7 @@ Version: v0.92.2
 Title: [v0.92.2][Observatory] Remove retained-mode demo hazards
 Branch: codex/720-observatory-live
 Card Status: ready
-Status: local_validation_complete
+Status: IMPLEMENTED
 Generated: 2026-09-12T00:17:18.048072+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Removed retained telemetry loaders, mode controls, static poll and startup packet seeding; Live failure keeps empty shell or marked-stale last live data. Historical artifacts preserved.
+Removed retained telemetry startup/fallback/routes and static polling; locally validated and independently reviewed. Published as PR #939. Current integration and CI status must be read from that PR.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -57,7 +57,7 @@ Removed retained telemetry loaders, mode controls, static poll and startup packe
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `reviewed_pending_publication_and_CI`
+- Completion state: `Local implementation complete; publication and CI truth in PR #939`
 - Issue goal ref: `#720 execution goal created before implementation`
 - Sprint goal ref: `#934 Sprint 8`
 - Goal metrics rollup ref: `not_collected`
@@ -110,7 +110,7 @@ Rules:
   - `node --test demos/html-observatory/tests/*.test.mjs; bash adl/tools/test_html_observatory.sh; bash adl/tools/test_v0917_html_observatory_integrated_proof.sh; node demos/html-observatory/tests/live_only.browser.mjs`
     `Proves empty live shell, absent retained routes, Runtime protocol contracts, HTTPS/WSS behavior, actual Chrome startup and disconnect/navigation behavior with intercepted deterministic requests.`
 - Results:
-  - `Local pass; hosted CI pending publication.`
+  - `Local pass. Hosted CI tracked on exact PR #939 head, not asserted by this local record.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Current baseline already lacked setRuntimeTestStatus and first orphan; remaining two orphan status constants removed.`
 
 ## Follow-ups / Deferred work
-- `Native exact-head review and publication; required hosted CI must pass before session completion.`
+- `PR #939 required checks and merge remain governed by live GitHub state; no merge performed by this task.`
 - `#910 deployment is separate and requires precise approval.`
