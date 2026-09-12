@@ -1,6 +1,8 @@
 //! PVF: deterministic local Git/CLI contract proof, small CPU/disk, required for #856.
 //! Fixtures prove consistency and nonmutation, never live release approval.
 use serde_json::{json, Value};
+#[path = "support/observation.rs"]
+mod observation;
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -115,18 +117,41 @@ impl Fixture {
         self.request["gate_digest"] = hash(&self.root, ".git/gate.json").into();
     }
     fn run(&self, expected: Option<&str>) {
+        self.run_at(&self.root, expected);
+    }
+    fn run_at(&self, checkout: &Path, expected: Option<&str>) {
         fs::write(
             self.root.join(".git/request.json"),
             serde_json::to_vec(&self.request).unwrap(),
         )
         .unwrap();
-        let refs = git(&self.root, &["show-ref"]);
-        let status = git(&self.root, &["status", "--porcelain"]);
-        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-            .current_dir(&self.root)
-            .args(["release-preflight", "--request", ".git/request.json"])
+        let refs = git(checkout, &["show-ref"]);
+        let status = git(checkout, &["status", "--porcelain"]);
+        let candidate = self.root.join(".git/observation-candidate/csdlc");
+        if !candidate.exists() {
+            observation::install_candidate(&candidate);
+        }
+        // Same bytes with new stat metadata expose optional Git index refresh,
+        // which a content-only working-tree status comparison cannot detect.
+        let notes = checkout.join("docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md");
+        fs::write(&notes, fs::read(&notes).unwrap()).unwrap();
+        let before = observation::inventory(&self.root.join(".git"));
+        let output = Command::new(&candidate)
+            .current_dir(checkout)
+            .args(["release-preflight", "--request"])
+            .arg(self.root.join(".git/request.json"))
             .output()
             .unwrap();
+        let after = observation::inventory(&self.root.join(".git"));
+        let changed: std::collections::BTreeSet<_> = before
+            .keys()
+            .chain(after.keys())
+            .filter(|path| before.get(*path) != after.get(*path))
+            .collect();
+        assert!(
+            changed.is_empty(),
+            "release-preflight mutated Git metadata: {changed:?}"
+        );
         let report: Value = serde_json::from_slice(&output.stdout)
             .unwrap_or_else(|_| panic!("{}", String::from_utf8_lossy(&output.stderr)));
         assert_eq!(output.status.success(), expected.is_none(), "{report}");
@@ -142,8 +167,8 @@ impl Fixture {
         } else {
             assert!(output.stderr.is_empty());
         }
-        assert_eq!(refs, git(&self.root, &["show-ref"]));
-        assert_eq!(status, git(&self.root, &["status", "--porcelain"]));
+        assert_eq!(refs, git(checkout, &["show-ref"]));
+        assert_eq!(status, git(checkout, &["status", "--porcelain"]));
     }
     fn commit_input(&mut self) {
         git(&self.root, &["add", "."]);
@@ -172,6 +197,36 @@ impl Drop for Fixture {
 fn exact_candidate_preflight_and_negative_matrix() {
     let mut f = Fixture::new();
     f.run(None);
+    let linked = f.root.with_extension("linked");
+    git(
+        &f.root,
+        &[
+            "worktree",
+            "add",
+            "--quiet",
+            "--detach",
+            linked.to_str().unwrap(),
+            "HEAD",
+        ],
+    );
+    f.run_at(&linked, None);
+    let gate_bytes = fs::read(f.root.join(".git/gate.json")).unwrap();
+    fs::remove_file(f.root.join(".git/gate.json")).unwrap();
+    f.run_at(&linked, Some("native_v3_gate_missing"));
+    fs::write(f.root.join(".git/gate.json"), b"corrupt gate").unwrap();
+    f.request["gate_digest"] = hash(&f.root, ".git/gate.json").into();
+    f.run_at(&linked, Some("native_v3_gate_malformed"));
+    let original_gate = f.gate.clone();
+    f.gate["status"] = "pending_qualification".into();
+    f.write_gate();
+    f.run_at(&linked, Some("native_v3_gate_stale_or_ineligible"));
+    f.gate = original_gate;
+    f.write_gate();
+    assert_eq!(fs::read(f.root.join(".git/gate.json")).unwrap(), gate_bytes);
+    git(
+        &f.root,
+        &["worktree", "remove", "--force", linked.to_str().unwrap()],
+    );
     let original = f.request.clone();
     for (key, value, error) in [
         ("candidate_sha", "abc", "full_candidate_sha_required"),

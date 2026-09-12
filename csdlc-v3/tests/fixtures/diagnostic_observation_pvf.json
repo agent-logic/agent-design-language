@@ -1,0 +1,37 @@
+{
+  "issue": 867,
+  "tests": [
+    "operational_cli_commands::installed_diagnostics_preserve_healthy_missing_corrupt_and_pending_state",
+    "operational_cli_commands::installed_pr_state_observes_fake_remote_without_replaying_pending_mutation",
+    "release_preflight::exact_candidate_preflight_and_negative_matrix",
+    "commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation",
+    "commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation",
+    "operational_cli_commands::baseline_journeys::installed_local_journey_baseline",
+    "operational_cli_commands::baseline_journeys::attempt_recorder_retains_spawn_parse_and_collector_failures",
+    "adapters::tests::observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments",
+    "adapters::tests::observational_transport_preserves_missing_executable_classification"
+  ],
+  "lane": "tooling",
+  "proof_role": "installed observation non-mutation, explicit recovery preservation, retained remote reconciliation integrity, and subprocess error classification",
+  "determinism": "isolated fixed records, deterministic crash point, byte and registration inventories; no timing threshold",
+  "resources": "bounded local CPU/disk and Git, copied candidate executable, no network or paid services",
+  "release_gate": "required issue and SIM-07 input",
+  "denominators": {
+    "local_diagnostics": "5 routes x 4 states x 2 genuine checkout topologies = 40 observations",
+    "helpers": "3 helpers x 4 fixture input states x 2 checkout topologies = 24 observations; helper construction/readiness is separate from issue readiness",
+    "remote_diagnostics": "4 remote states x 2 topologies = 8 observations, plus settled and corrupted-receipt observations after explicit recovery in each topology",
+    "release": "existing exact-candidate negative matrix, plus linked healthy/missing/corrupt/pending qualification gate observations",
+    "merge_evidence": "settled native fake-transport merge, then wrong PR/missing reconciliation/corrupt JSON/altered merge identity, restoring and rechecking valid evidence after each case",
+    "process_launch": "one missing executable classification regression",
+    "created_pr_evidence": "native reconciled create with no request PR and a positive receipt target; reject null/zero receipt targets without confusing historical and currently observed PR numbers",
+    "attempt_corpus": "17 installed attempts from prepare through proof/review/publication checks, fake PR create/readback, terminal finish and clean-control preview/removal; 14 completed, two blocked, one interrupted; no abandonment or censoring in this baseline",
+    "measurement_failures": "separate regressions retain spawn failure and malformed-output consumer failure as failed, and collector interruption as censored",
+    "credential_transport": "stdin payload, argv exclusion, selected credential environment, absence of ambient home/proxy/other token, and redaction before output truncation"
+  },
+  "non_claims": [
+    "Model-only helpers and remote owner unit tests do not establish installed entrypoint purity on their own.",
+    "Review/readback receipt inputs are explicitly synthetic, the remote merge is a declared fixture event, and eligible cleanup uses a separate genuinely registered clean control at the same head; the dirty issue checkout is retained.",
+    "Invocation counts cover installed CLI entrypoints and fake remote transport, excluding internal Git utilities. Injected clock values and measured durations are not causal savings evidence.",
+    "Local fixture proof is distinct from CI integration and production reliability."
+  ]
+}

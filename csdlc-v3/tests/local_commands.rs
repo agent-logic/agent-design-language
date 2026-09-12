@@ -815,8 +815,12 @@ fn local_preparation_cli_rejects_malformed_typed_request() {
     assert!(!output.status.success(), "{output:?}");
 
     let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("typed_contract_invalid_json"));
-    assert!(output.stdout.is_empty());
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout)
+        .expect("structured diagnostic must remain on stdout");
+    assert_eq!(report["findings"][0]["code"], "typed_contract_invalid_json");
+    assert_eq!(report["writes_v3_state"], false);
+    assert!(!stderr.contains("typed_contract_invalid_json"));
+    assert!(stderr.contains("see structured stdout findings"));
 }
 
 fn run_git(root: &Path, args: &[&str]) -> String {
