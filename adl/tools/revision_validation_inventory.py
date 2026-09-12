@@ -19,7 +19,8 @@ import tarfile
 SCHEMA = 'adl.revision_validation_inventory.v1'
 PROFILE = {'manifest': 'adl/Cargo.toml', 'package': 'adl',
            'features': 'default', 'toolchain': '1.92.0',
-           'selection': 'tests', 'test_bodies': 'not_run'}
+           'selection': 'tests', 'test_bodies': 'not_run',
+           'environment': 'configuration_free_allowlist_v1'}
 
 
 def digest(data):
@@ -60,18 +61,27 @@ def target_key(target):
     return ':'.join(target['kind']) + ':' + target['name']
 
 
-def targets_from_metadata(metadata):
+def package_from_metadata(metadata):
     packages = [p for p in metadata['packages'] if p['name'] == PROFILE['package']
                 and p['manifest_path'] == 'SNAPSHOT/adl/Cargo.toml']
     if len(packages) != 1:
         raise ValueError('wrong package or manifest in metadata')
-    package = packages[0]
-    enabled = set(package['features'].get('default', []))
+    return packages[0]
+
+
+def default_features(package):
+    enabled = {'default'} if 'default' in package['features'] else set()
     while True:
         expanded = enabled | {v for f in enabled for v in package['features'].get(f, [])}
         if expanded == enabled:
             break
         enabled = expanded
+    return {f for f in enabled if f in package['features']}
+
+
+def targets_from_metadata(metadata):
+    package = package_from_metadata(metadata)
+    enabled = default_features(package)
     rows = []
     for target in package['targets']:
         reason = None
@@ -121,12 +131,16 @@ def derive(directory, commands):
     for role, argv in expected.items():
         if records[role][0]['argv'] != argv:
             raise ValueError('command/profile mismatch: ' + role)
-    rows = targets_from_metadata(json.loads(metadata_output['stdout']))
+    metadata = json.loads(metadata_output['stdout'])
+    rows = targets_from_metadata(metadata)
+    expected_features = default_features(package_from_metadata(metadata))
     build, output = records['build']
     artifacts = {}
     for line in output['stdout'].splitlines():
         message = json.loads(line)
         if message.get('reason') == 'compiler-artifact' and message.get('profile', {}).get('test') and message.get('executable'):
+            if set(message.get('features', [])) != expected_features:
+                raise ValueError('artifact feature scope mismatch')
             key = target_key(message['target'])
             if key in artifacts:
                 raise ValueError('duplicate built harness')
@@ -185,9 +199,46 @@ def derive(directory, commands):
             'status': 'complete' if not failures else 'incomplete', 'failures': sorted(failures)}
 
 
+def build_environment(snapshot, target, jobs, inherited=None):
+    inherited = os.environ if inherited is None else inherited
+    # Fail closed rather than silently allowing a caller's Cargo config to
+    # choose another compiler, target, wrapper, profile or rustflags.
+    cargo_home = Path(inherited.get('CARGO_HOME', str(Path.home() / '.cargo')))
+    config_roots = [snapshot, *snapshot.parents]
+    config_files = [p / '.cargo' / name for p in config_roots for name in ['config', 'config.toml']]
+    config_files += [cargo_home / name for name in ['config', 'config.toml']]
+    if any(p.exists() for p in config_files):
+        raise ValueError('undeclared Cargo configuration; select a configuration-free invocation root/home')
+    allowed = ['PATH', 'HOME', 'USER', 'TMPDIR', 'TMP', 'TEMP', 'SYSTEMROOT',
+               'RUSTUP_HOME', 'CARGO_HOME', 'SSL_CERT_FILE', 'SSL_CERT_DIR']
+    env = {key: inherited[key] for key in allowed if key in inherited}
+    env.update(CARGO_TARGET_DIR=str(target), CARGO_BUILD_JOBS=str(jobs), LC_ALL='C')
+    return env
+
+
+def verify_snapshot(repo, revision, snapshot):
+    entries = git(repo, 'ls-tree', '-rz', revision).split(b'\0')
+    count = 0
+    for entry in entries:
+        if not entry:
+            continue
+        header, name = entry.split(b'\t', 1)
+        mode, kind, expected = header.decode().split()
+        path = snapshot / os.fsdecode(name)
+        if kind != 'blob':
+            raise ValueError('non-blob snapshot entry needs explicit handling')
+        data = os.fsencode(os.readlink(path)) if mode == '120000' else path.read_bytes()
+        actual = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+        if actual != expected:
+            raise ValueError('snapshot differs from immutable Git blob')
+        count += 1
+    return count
+
+
 def collect(args):
     repo, directory, target = args.repo.resolve(), args.out.resolve(), args.target_dir.resolve()
     identity = revision_identity(repo, args.revision)
+    collector_sha256 = digest(Path(__file__).read_bytes())
     directory.mkdir(parents=True, exist_ok=False)
     commands = []
     snapshot = directory / 'snapshot'
@@ -198,15 +249,15 @@ def collect(args):
         tar.extractall(snapshot, filter='data')
     if archive.wait() != 0:
         raise ValueError('git archive failed')
-    env = os.environ.copy()
-    env['CARGO_TARGET_DIR'] = str(target)
-    env['CARGO_BUILD_JOBS'] = str(args.jobs)
-    # Remove caller build instrumentation so profile identity is explicit.
-    for key in ['RUSTFLAGS', 'CARGO_ENCODED_RUSTFLAGS', 'RUSTC_WRAPPER', 'RUSTC_WORKSPACE_WRAPPER']:
-        env.pop(key, None)
+    snapshot_blobs = verify_snapshot(repo, args.revision, snapshot)
+    for path in snapshot.rglob('*'):
+        if not path.is_symlink():
+            path.chmod(0o555 if path.is_dir() or path.stat().st_mode & 0o111 else 0o444)
+    snapshot.chmod(0o555)
+    env = build_environment(snapshot, target, args.jobs)
 
     def portable(text):
-        return text.replace(str(snapshot), 'SNAPSHOT').replace(str(target), 'TARGET')
+        return text.replace(str(snapshot), 'SNAPSHOT').replace(str(target), 'TARGET').replace(str(Path.home()), 'HOME')
 
     def run(role, argv):
         print('inventory:', args.revision[:12], role, file=sys.stderr, flush=True)
@@ -249,7 +300,10 @@ def collect(args):
             run('list:' + key, [message['executable'], '--list', '--format', 'terse'])
             run('ignored:' + key, [message['executable'], '--list', '--ignored', '--format', 'terse'])
     run('doctest', cargo + ['test'] + shared + ['--package', 'adl', '--doc', '--', '--list'])
+    if verify_snapshot(repo, args.revision, snapshot) != snapshot_blobs:
+        raise ValueError('snapshot inventory changed during measurement')
     result = {'schema': SCHEMA, 'identity': identity, 'profile': PROFILE,
+              'collector_sha256': collector_sha256,
               'rustc': rustc, 'commands': commands,
               'limitations': ['Other packages, benches and examples are outside the selected execution scope.',
                               'Default-feature-disabled cases are not enumerated; required-feature target exclusions are explicit.',
@@ -272,7 +326,9 @@ def verify(repo, path, expected_revision=None):
     if len(rustc_records) != 1 or report['rustc'] != load_transcript(path.parent, rustc_records[0])['stdout']:
         raise ValueError('toolchain transcript mismatch')
     derived = derive(path.parent, report['commands'])
-    allowed = {'schema', 'identity', 'profile', 'rustc', 'commands', 'limitations'} | set(derived)
+    allowed = {'schema', 'identity', 'profile', 'rustc', 'commands', 'limitations', 'collector_sha256'} | set(derived)
+    if report.get('collector_sha256') != digest(Path(__file__).read_bytes()):
+        raise ValueError('collector source differs from measured implementation')
     if set(report) != allowed:
         raise ValueError('unsupported claim or missing report field')
     for key, value in derived.items():

@@ -37,12 +37,12 @@ class InventoryTests(unittest.TestCase):
         shared = ['--manifest-path', 'SNAPSHOT/adl/Cargo.toml', '--locked']
         self.add_command('rustc', ['rustc', '+1.92.0', '-vV'], 'rustc 1.92.0\nhost: fixture-host\n')
         self.add_command('metadata', ['cargo', '+1.92.0', 'metadata'] + shared + ['--no-deps', '--format-version', '1'], json.dumps(metadata))
-        artifact = {'reason': 'compiler-artifact', 'profile': {'test': True}, 'executable': 'TARGET/debug/deps/adl', 'target': target}
+        artifact = {'reason': 'compiler-artifact', 'profile': {'test': True}, 'features': [], 'executable': 'TARGET/debug/deps/adl', 'target': target}
         self.add_command('build', ['cargo', '+1.92.0', 'test'] + shared + ['--package', 'adl', '--tests', '--no-run', '--message-format=json'], json.dumps(artifact)+'\n')
         self.add_command('list:lib:adl', ['TARGET/debug/deps/adl', '--list', '--format', 'terse'], 'unit::one: test\nunit::ignored: test\n')
         self.add_command('ignored:lib:adl', ['TARGET/debug/deps/adl', '--list', '--ignored', '--format', 'terse'], 'unit::ignored: test\n')
         self.add_command('doctest', ['cargo', '+1.92.0', 'test'] + shared + ['--package', 'adl', '--doc', '--', '--list'], 'adl/src/lib.rs - Example (line 1): test\n')
-        self.report = {'schema': I.SCHEMA, 'identity': I.revision_identity(self.root, self.revision), 'profile': I.PROFILE.copy(), 'commands': self.commands, 'rustc': 'rustc 1.92.0\nhost: fixture-host\n', 'limitations': [], **I.derive(self.root, self.commands)}
+        self.report = {'collector_sha256': I.digest(Path(I.__file__).read_bytes()), 'schema': I.SCHEMA, 'identity': I.revision_identity(self.root, self.revision), 'profile': I.PROFILE.copy(), 'commands': self.commands, 'rustc': 'rustc 1.92.0\nhost: fixture-host\n', 'limitations': [], **I.derive(self.root, self.commands)}
 
     def add_command(self, role, argv, stdout):
         n = len(self.commands)
@@ -67,6 +67,21 @@ class InventoryTests(unittest.TestCase):
     def test_valid_measured_fixture(self):
         self.assertEqual(self.verify()['counts']['enumerated_cases'], 2)
         self.assertEqual(self.verify()['counts']['test_bodies_run'], 0)
+
+    def test_cli_stdout_stderr_separation(self):
+        self.verify()
+        command = ['python3', I.__file__, 'verify', '--repo', str(self.root),
+                   '--inventory', str(self.root / 'inventory.json'),
+                   '--expected-revision', self.revision]
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(json.loads(result.stdout)['status'], 'verified')
+        self.assertEqual(result.stderr, '')
+        command[-1] = '0' * 40
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(result.stdout, '')
+        self.assertIn('wrong revision', result.stderr)
 
     def test_wrong_revision(self):
         with self.assertRaisesRegex(ValueError, 'wrong revision'):
@@ -115,6 +130,34 @@ class InventoryTests(unittest.TestCase):
 
     def test_toolchain_substitution(self):
         self.rejected(lambda r: r.update(rustc='invented'), 'toolchain')
+
+    def test_artifact_features_mismatch(self):
+        artifact = json.loads((self.root / '2.stdout').read_text())
+        artifact['features'] = ['slow-proof-tests']
+        data = (json.dumps(artifact) + '\n').encode()
+        (self.root / '2.stdout').write_bytes(data)
+        self.report['commands'][2]['stdout']['sha256'] = I.digest(data)
+        with self.assertRaisesRegex(ValueError, 'artifact feature'):
+            self.verify()
+
+    def test_environment_overrides_removed(self):
+        env = I.build_environment(self.root, self.root / 'target', 2,
+                                  {'PATH': '/bin', 'RUSTC': '/other/rustc',
+                                   'CARGO_BUILD_TARGET': 'other-host', 'CARGO_BUILD_RUSTFLAGS': '--cfg other',
+                                   'RUSTFLAGS': '--cfg other', 'RUSTC_WRAPPER': '/other/wrapper',
+                                   'CARGO_HOME': str(self.root / 'cargo-home')})
+        self.assertNotIn('RUSTC', env)
+        self.assertNotIn('CARGO_BUILD_TARGET', env)
+        self.assertNotIn('CARGO_BUILD_RUSTFLAGS', env)
+        self.assertNotIn('RUSTFLAGS', env)
+        self.assertNotIn('RUSTC_WRAPPER', env)
+
+    def test_external_cargo_config_rejected(self):
+        home = self.root / 'cargo-home'
+        home.mkdir()
+        (home / 'config.toml').write_text('[build]\ntarget="other-host"\n')
+        with self.assertRaisesRegex(ValueError, 'Cargo configuration'):
+            I.build_environment(self.root, self.root / 'target', 2, {'CARGO_HOME': str(home)})
 
     def test_duplicate_case(self):
         with self.assertRaisesRegex(ValueError, 'duplicate'):
