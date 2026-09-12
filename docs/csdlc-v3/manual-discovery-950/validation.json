@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "pvf": "docs_only",
+  "isolated_checks": [
+    {
+      "destination_case": "default",
+      "lookup": "pass",
+      "render": "pass",
+      "matching_pages": 30
+    },
+    {
+      "destination_case": "custom",
+      "lookup": "pass",
+      "render": "pass",
+      "matching_pages": 30
+    }
+  ],
+  "shared_install_modified": false,
+  "shell_profile_modified": false,
+  "source_review_head": "4e816f87d61d11f48c950ededae75c6ca84f6258",
+  "primary_default_install": "absent",
+  "other_installations": "unknown"
+}

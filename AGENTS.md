@@ -18,6 +18,20 @@ cutover. Prepared v3 issue start should be inspectable,
 bindable, and ready for first useful work in three minutes or less once its
 dependencies are satisfied, while preserving typed authority guards and review truth.
 
+## Operator manual
+
+From the selected repository root, install with
+`bash adl/tools/install_owner_binaries.sh --bin csdlc`, then use
+`export MANPATH="$PWD/.adl/bin/native-v3/share/man:${MANPATH:-}"` and
+`man csdlc-workflow` (or `man csdlc` for the overview). For
+`ADL_OWNER_BIN_DIR` or `--stable-bin-dir`, use the actual man directory printed
+by the installer instead of assuming the default; shell startup files are not
+edited. See [the operator manual](docs/csdlc-v3/man/man1/csdlc-workflow.1).
+Reviewed repository pages do not establish the installed manual or binary
+version: check `man -w csdlc-workflow` and compare those page bytes to the
+intended source. Coordinate any shared owner-binary replacement with active
+sessions; documentation lookup alone is not a reason to replace it.
+
 ## Completed C-SDLC tooling changeover
 
 Issue #505 was the sole V3-F transition-decision lane. PR #591 is merged and
