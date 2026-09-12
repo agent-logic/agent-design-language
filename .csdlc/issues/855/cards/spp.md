@@ -78,11 +78,11 @@ codex_plan:
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "in_progress"
+    status: "completed"
   - step: "Run focused validation and proof gates."
     status: "in_progress"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "855-provider-neutral-lifecycle"
 invariants_to_preserve:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "Preserve existing adapter implementations, accepted876 profile expansion and last-known-good atomicity, both Bedrock account hash aliases and URL credential rejection. Avoid package cycle. One kernel config_reload watcher per process. Never buffer streaming and label true streaming. Transport timeouts and bounded calls must outlive cancellation safely without repeated billing."
 test_strategy:
-  - "Local: cargo test --locked --manifest-path adl-provider-core/Cargo.toml; cargo test --locked --manifest-path adl/Cargo.toml --lib provider::; cargo test --locked --manifest-path adl/Cargo.toml --lib provider_substrate::; cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib control::; focused CLI config tests; package fmt/clippy and CI contract checks. Required next: actual installed csm/Guardian/kernel/csmctl five-provider HTTPS fixture lifecycle plus separately operator-authorized finite hosted demo; no paid calls before final revised budget approval. Fixture proofs never substitute hosted proof. Required CI remains distinct."
+  - "Provider 94/94+Runtime mock focused 1/1, kernel control85/85,ADL compatibility18/18,CLI 7/7,OpenAPI 11/11 and Clippy passed; installed five-provider fixture 5/5 plus hosted topology fixture 3/3 passed. Source independent review passedthrough d96. Authorized actual hosted run andrequired CI remain pending; draft publication overlaps waiting withoutclaiming full acceptance."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -144,9 +144,9 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
-3. [in_progress] Implement the bounded deliverables only.
+3. [completed] Implement the bounded deliverables only.
 4. [in_progress] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Local: cargo test --locked --manifest-path adl-provider-core/Cargo.toml; cargo test --locked --manifest-path adl/Cargo.toml --lib provider::; cargo test --locked --manifest-path adl/Cargo.toml --lib provider_substrate::; cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib control::; focused CLI config tests; package fmt/clippy and CI contract checks. Required next: actual installed csm/Guardian/kernel/csmctl five-provider HTTPS fixture lifecycle plus separately operator-authorized finite hosted demo; no paid calls before final revised budget approval. Fixture proofs never substitute hosted proof. Required CI remains distinct.
+- Provider 94/94+Runtime mock focused 1/1, kernel control85/85,ADL compatibility18/18,CLI 7/7,OpenAPI 11/11 and Clippy passed; installed five-provider fixture 5/5 plus hosted topology fixture 3/3 passed. Source independent review passedthrough d96. Authorized actual hosted run andrequired CI remain pending; draft publication overlaps waiting withoutclaiming full acceptance.
 
 ## Execution Handoff
 

@@ -39,7 +39,7 @@ selected_lanes:
 parallel_groups:
   - "Use Sprint2 execution packet shared-path assignments; serialize shared registration/manifests."
 validation_commands:
-  - "Local: cargo test --locked --manifest-path adl-provider-core/Cargo.toml; cargo test --locked --manifest-path adl/Cargo.toml --lib provider::; cargo test --locked --manifest-path adl/Cargo.toml --lib provider_substrate::; cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib control::; focused CLI config tests; package fmt/clippy and CI contract checks. Required next: actual installed csm/Guardian/kernel/csmctl five-provider HTTPS fixture lifecycle plus separately operator-authorized finite hosted demo; no paid calls before final revised budget approval. Fixture proofs never substitute hosted proof. Required CI remains distinct."
+  - "Full leaf94/94 plus one Runtime mock constructor regression; selected kernel control85/85, ADL compatibility18/18, CLI 7/7, API11/11; affectedClippy and CIpath/runtimecontracts pass; installedfixture5/5 and hostedtopologyfixture3/3 at 61095. Actual hosted run approved for six calls per provider,32000UTF8inputbytes percall,256outputtokens,zero retries,stop after first failure,$1 ceiling,30 minutes including cleanup; current Google project and named models fixed. Hosted sandbox preflight failed before calls; permission recovery pending. RequiredCI will run on draft PR."
 failure_policy: "Stop on required proof failure, zero scenarios, stale input or shared ownership conflict; preserve evidence."
 notes: "Prepared only. Child implementation and its review have not run."
 ---
@@ -86,7 +86,7 @@ Verify accepted inputs and ownership; implement complete issue; execute source p
 
 ## Validation Commands
 
-- Local: cargo test --locked --manifest-path adl-provider-core/Cargo.toml; cargo test --locked --manifest-path adl/Cargo.toml --lib provider::; cargo test --locked --manifest-path adl/Cargo.toml --lib provider_substrate::; cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib control::; focused CLI config tests; package fmt/clippy and CI contract checks. Required next: actual installed csm/Guardian/kernel/csmctl five-provider HTTPS fixture lifecycle plus separately operator-authorized finite hosted demo; no paid calls before final revised budget approval. Fixture proofs never substitute hosted proof. Required CI remains distinct.
+- Full leaf94/94 plus one Runtime mock constructor regression; selected kernel control85/85, ADL compatibility18/18, CLI 7/7, API11/11; affectedClippy and CIpath/runtimecontracts pass; installedfixture5/5 and hostedtopologyfixture3/3 at 61095. Actual hosted run approved for six calls per provider,32000UTF8inputbytes percall,256outputtokens,zero retries,stop after first failure,$1 ceiling,30 minutes including cleanup; current Google project and named models fixed. Hosted sandbox preflight failed before calls; permission recovery pending. RequiredCI will run on draft PR.
 
 ## Failure Semantics
 
