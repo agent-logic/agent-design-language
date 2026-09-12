@@ -1,0 +1,55 @@
+{
+  "schema": "adl.shutdown_diagnostic.v1",
+  "source_head": "cf25e273a39499c3d1b699fa7d9e461266024e0c",
+  "source_file_sha256": "a66f7ab0647057921a661b4174224cd3daa6c9e0843ccd695ada7e947484983f",
+  "test_copy_delta": "child exit/stderr retention only; original assertions and production unchanged",
+  "baseline": "pass15.67s",
+  "probe_configuration": {
+    "ADL_OBSERVABILITY_HEARTBEAT_MS": "1",
+    "ADL_OBSERVABILITY_STDERR": "0"
+  },
+  "captured_child_exit": 1,
+  "captured_error": "configured ADL_OTEL_STATUS sink did not acknowledge shutdown_observability_drain",
+  "last_status": {
+    "schema": "adl.otel.monitor_status.v1",
+    "event_count": 5582,
+    "last_event": "csm.csm_daemon",
+    "last_result": "failed",
+    "last_trace_id": "agent.api-agent.daemon",
+    "last_span_id": "daemon:api-agent:failed",
+    "updated_at": "2026-09-12T05:52:25.881948+00:00"
+  },
+  "barrier_neighborhood": [
+    {
+      "name": "csm.csm_daemon",
+      "timestamp": "2026-09-12T05:52:25.746515+00:00",
+      "time_unix_nano": null
+    },
+    {
+      "name": "csm.csm_daemon",
+      "timestamp": "2026-09-12T05:52:25.748344+00:00",
+      "time_unix_nano": null
+    },
+    {
+      "name": "csm.shutdown_observability_drain",
+      "timestamp": "2026-09-12T05:52:25.749886+00:00",
+      "time_unix_nano": null
+    },
+    {
+      "name": "csm.csm_daemon",
+      "timestamp": "2026-09-12T05:52:25.750144+00:00",
+      "time_unix_nano": null
+    },
+    {
+      "name": "csm.csm_daemon",
+      "timestamp": "2026-09-12T05:52:25.751892+00:00",
+      "time_unix_nano": null
+    },
+    {
+      "name": "csm.csm_daemon",
+      "timestamp": "2026-09-12T05:52:25.753643+00:00",
+      "time_unix_nano": null
+    }
+  ],
+  "scope": "independent supported-configuration reproduction; original CI causation not established"
+}

@@ -14,8 +14,28 @@ use std::time::{SystemTime, UNIX_EPOCH};
 const ADL_OBSERVABILITY_EVENT_SCHEMA: &str = "adl.observability.event.v1";
 
 pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&str, &str)]) {
+    let _ = emit_event_with_receipt(command, stage, result, fields);
+}
+
+/// Synchronous acknowledgments for this event's configured local sinks.
+/// These are write results, not claims about remote OTLP delivery or later
+/// contents of the mutable monitor snapshot.
+#[derive(Default)]
+pub(crate) struct EventSinkReceipt {
+    pub(crate) compatibility_log: bool,
+    pub(crate) otel_log: bool,
+    pub(crate) otel_status: bool,
+}
+
+pub(crate) fn emit_event_with_receipt(
+    command: &str,
+    stage: &str,
+    result: &str,
+    fields: &[(&str, &str)],
+) -> EventSinkReceipt {
+    let mut receipt = EventSinkReceipt::default();
     if env::var("ADL_OBSERVABILITY").ok().as_deref() == Some("0") {
-        return;
+        return receipt;
     }
 
     let event = AdlObservabilityEvent::new(command, stage, result, fields);
@@ -26,12 +46,17 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
         eprintln!("{line}");
     }
     if let Some(log_path) = compatibility_log_path() {
-        if let Err(err) = append_to_compatibility_log(&log_path, &line) {
+        let written = append_to_compatibility_log(&log_path, &line);
+        receipt.compatibility_log = written.is_ok();
+        if let Err(err) = written {
             emit_compatibility_sink_failure(command, stage, &log_path, &err, stderr_suppressed);
         }
     }
     if let Some(otel_log_path) = otel_log_path() {
-        if let Err(err) = append_to_otel_log(&otel_log_path, &event) {
+        let written = append_to_otel_log(&otel_log_path, &event);
+        receipt.otel_log = written.is_ok();
+        receipt.otel_status = written.is_ok() && otel_status_path().is_some();
+        if let Err(err) = written {
             emit_otel_sink_failure(
                 command,
                 stage,
@@ -47,7 +72,7 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
         match export_otlp_event(&endpoint, &otel_event) {
             Ok(status_code) => {
                 if let Some(status_path) = otel_status_path() {
-                    let _ = update_otel_export_status(
+                    let written = update_otel_export_status(
                         &status_path,
                         OtelExportStatus {
                             status: "success",
@@ -59,11 +84,12 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
                         result,
                         fields,
                     );
+                    receipt.otel_status |= written.is_ok();
                 }
             }
             Err(err) => {
                 if let Some(status_path) = otel_status_path() {
-                    let _ = update_otel_export_status(
+                    let written = update_otel_export_status(
                         &status_path,
                         OtelExportStatus {
                             status: "failed",
@@ -75,6 +101,7 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
                         result,
                         fields,
                     );
+                    receipt.otel_status |= written.is_ok();
                 }
                 emit_otel_export_failure(
                     command,
@@ -87,6 +114,7 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
             }
         }
     }
+    receipt
 }
 
 #[cfg(test)]
@@ -1011,8 +1039,8 @@ pub(crate) fn test_env_lock() -> MutexGuard<'static, ()> {
 #[cfg(test)]
 mod tests {
     use super::{
-        append_to_compatibility_log, emit_event, format_event_line, heartbeat_interval,
-        sanitize_value, test_env_lock, update_otel_status, ProgressHeartbeat,
+        append_to_compatibility_log, emit_event, emit_event_with_receipt, format_event_line,
+        heartbeat_interval, sanitize_value, test_env_lock, update_otel_status, ProgressHeartbeat,
     };
     use std::env;
     use std::fs;
@@ -1319,6 +1347,58 @@ mod tests {
         assert_eq!(status["event_count"], 1);
         assert_eq!(status["last_event"], "agent.daemon_started");
         assert_eq!(status["last_trace_id"], "trace-1");
+    }
+
+    #[test]
+    fn event_receipt_survives_a_concurrent_status_replacement() {
+        let temp = unique_temp_dir("adl-barrier-receipt");
+        let log = temp.join("otel.jsonl");
+        let status = temp.join("status.json");
+        let _env = MultiEnvGuard::set_all(&[
+            ("ADL_OBSERVABILITY", "1"),
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            ("ADL_OTEL_LOG", log.to_str().unwrap()),
+            ("ADL_OTEL_STATUS", status.to_str().unwrap()),
+            ("ADL_OTEL_EXPORTER_OTLP_ENDPOINT", ""),
+        ]);
+        let receipt = emit_event_with_receipt("csm", "shutdown_barrier", "completed", &[]);
+        // Force the offending interleaving without timing assumptions: another
+        // writer replaces the snapshot before the barrier consumes its receipt.
+        std::thread::spawn(|| emit_event("csm", "csm_daemon", "heartbeat", &[]))
+            .join()
+            .unwrap();
+        let latest: serde_json::Value = serde_json::from_slice(&fs::read(status).unwrap()).unwrap();
+        assert_eq!(latest["last_event"], "csm.csm_daemon");
+        assert!(receipt.otel_log && receipt.otel_status);
+        assert!(fs::read_to_string(log)
+            .unwrap()
+            .contains("csm.shutdown_barrier"));
+    }
+
+    #[test]
+    fn event_receipt_rejects_failed_required_sink_writes() {
+        let temp = unique_temp_dir("adl-barrier-receipt-failure");
+        let log = temp.join("otel.jsonl");
+        let failed_status = temp.join("status-directory");
+        fs::create_dir_all(&failed_status).unwrap();
+        let _env = MultiEnvGuard::set_all(&[
+            ("ADL_OBSERVABILITY", "1"),
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            ("ADL_OBSERVABILITY_LOG", failed_status.to_str().unwrap()),
+            ("ADL_OTEL_LOG", log.to_str().unwrap()),
+            ("ADL_OTEL_STATUS", failed_status.to_str().unwrap()),
+            ("ADL_OTEL_EXPORTER_OTLP_ENDPOINT", ""),
+        ]);
+        let receipt = emit_event_with_receipt("csm", "shutdown_barrier", "completed", &[]);
+        assert!(!receipt.compatibility_log);
+        assert!(!receipt.otel_status);
+        assert!(!receipt.otel_log, "combined log/status publication failed");
+        assert!(
+            fs::read_to_string(log)
+                .unwrap()
+                .contains("csm.shutdown_barrier"),
+            "a successful JSONL append alone must not acknowledge the failed status write"
+        );
     }
 
     #[test]
