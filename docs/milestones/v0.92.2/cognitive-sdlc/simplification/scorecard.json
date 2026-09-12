@@ -1,0 +1,194 @@
+{
+  "schema": "adl.csdlc.simplification_sprint_scorecard.v1",
+  "umbrella_issue": 866,
+  "sprint": "v0.92.2 C-SDLC simplification",
+  "status": "in_progress",
+  "observed_at": "2026-09-12T23:04:06Z",
+  "coordination_revision": "bf198d2d7609626c7dc4a9ff8cbfaa3f08229b11",
+  "summary": {
+    "total_children": 9,
+    "accepted_terminal": 3,
+    "in_progress": 1,
+    "dependency_blocked": 5
+  },
+  "children": [
+    {
+      "id": "SIM-01",
+      "issue": 867,
+      "issue_state": "closed",
+      "outcome": "accepted_terminal",
+      "source_revision": "1c3836c7a612e96836d8c88807ae70f78ce4319c",
+      "pull_request": 948,
+      "pull_request_state": "merged",
+      "merge_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+      "terminal_state": "terminal_closed_out",
+      "cleanup_state": "removed",
+      "evidence": [
+        ".git/csdlc-v3/local/invocations/issue-867-closeout/completion-audit.json",
+        ".git/csdlc-v3/local/evidence/867/terminal-receipt.json",
+        ".git/csdlc-v3/local/archives/867-20260912-closeout"
+      ]
+    },
+    {
+      "id": "SIM-02",
+      "issue": 868,
+      "issue_state": "closed",
+      "outcome": "accepted_terminal",
+      "source_revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+      "pull_request": 958,
+      "pull_request_state": "merged",
+      "merge_commit": "be159210e0a87fdaca246b932d77af28770689a1",
+      "terminal_state": "terminal_closed_out",
+      "cleanup_state": "removed",
+      "evidence": [
+        ".git/csdlc-v3/local/invocations/issue-868-closeout/completion-audit.json",
+        ".git/csdlc-v3/local/evidence/868/terminal-receipt.json",
+        ".git/csdlc-v3/local/archives/868-20260912-closeout"
+      ]
+    },
+    {
+      "id": "SIM-03",
+      "issue": 869,
+      "issue_state": "closed",
+      "outcome": "accepted_terminal",
+      "source_revision": "bd169d5ca7713f3fd4caa7c527aef64683d13bf1",
+      "pull_request": 966,
+      "pull_request_state": "merged",
+      "merge_commit": "bf198d2d7609626c7dc4a9ff8cbfaa3f08229b11",
+      "terminal_state": "terminal_closed_out",
+      "cleanup_state": "removed",
+      "evidence": [
+        ".git/csdlc-v3/local/archives/869-bd169d5ca-closeout/completion-audit.json",
+        ".git/csdlc-v3/local/archives/869-bd169d5ca-closeout/verified-copy/.csdlc/869-linked-finish-final.log"
+      ]
+    },
+    {
+      "id": "SIM-04",
+      "issue": 870,
+      "issue_state": "open",
+      "outcome": "in_progress",
+      "source_revision": "a49225e8fe11844fad21ab7469eb09777c87df54",
+      "pull_request": 969,
+      "pull_request_state": "open_draft",
+      "review_state": "accepted_exact_head",
+      "reviewed_revision": "a49225e8fe11844fad21ab7469eb09777c87df54",
+      "merge_commit": null,
+      "terminal_state": "pending",
+      "cleanup_state": "pending",
+      "current_gate": "remaining required CI, accepted merge, native finish, and cleanup",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/pull/969",
+        ".git/csdlc-v3/local/invocations/issue-870-execution/typed-review-receipt.json"
+      ]
+    },
+    {
+      "id": "SIM-05",
+      "issue": 871,
+      "issue_state": "open",
+      "outcome": "dependency_blocked",
+      "source_revision": null,
+      "pull_request": null,
+      "pull_request_state": "absent",
+      "merge_commit": null,
+      "terminal_state": "not_started",
+      "cleanup_state": "not_started",
+      "current_gate": "accepted merged and terminally reconciled SIM-04 output",
+      "depends_on": [870]
+    },
+    {
+      "id": "SIM-06",
+      "issue": 872,
+      "issue_state": "open",
+      "outcome": "dependency_blocked",
+      "source_revision": null,
+      "pull_request": null,
+      "pull_request_state": "absent",
+      "merge_commit": null,
+      "terminal_state": "not_started",
+      "cleanup_state": "not_started",
+      "current_gate": "accepted merged and terminally reconciled SIM-05 output",
+      "depends_on": [871]
+    },
+    {
+      "id": "SIM-07",
+      "issue": 873,
+      "issue_state": "open",
+      "outcome": "dependency_blocked",
+      "source_revision": null,
+      "pull_request": null,
+      "pull_request_state": "absent",
+      "merge_commit": null,
+      "terminal_state": "not_started",
+      "cleanup_state": "not_started",
+      "current_gate": "accepted merged SIM-06 candidate and complete independent pre-resume qualification",
+      "depends_on": [872]
+    },
+    {
+      "id": "SIM-08",
+      "issue": 874,
+      "issue_state": "open",
+      "outcome": "dependency_blocked",
+      "source_revision": null,
+      "pull_request": null,
+      "pull_request_state": "absent",
+      "merge_commit": null,
+      "terminal_state": "not_started",
+      "cleanup_state": "not_started",
+      "current_gate": "current passing accepted SIM-07 qualification",
+      "depends_on": [873]
+    },
+    {
+      "id": "SIM-09",
+      "issue": 875,
+      "issue_state": "open",
+      "outcome": "dependency_blocked",
+      "source_revision": null,
+      "pull_request": null,
+      "pull_request_state": "absent",
+      "merge_commit": null,
+      "terminal_state": "not_started",
+      "cleanup_state": "not_started",
+      "current_gate": "accepted SIM-08 packet, current SIM-07 qualification, and separate exact-window activation authority",
+      "depends_on": [874, 873],
+      "activation_authority": "required_separately; this scorecard does not grant it"
+    }
+  ],
+  "journey_scorecard": {
+    "status": "pending_complete_candidate_and_sim07_qualification",
+    "rows": [
+      "healthy_prepare_bind_edit_proof_review_publish_finish_clean",
+      "recommendation_coherence",
+      "finite_amendment_and_interruption_recovery",
+      "diagnostic_non_mutation",
+      "projection_invalidation",
+      "remote_uncertainty_and_idempotency",
+      "conversion_and_restore",
+      "installed_command_discovery"
+    ]
+  },
+  "pilot_denominator": {
+    "status": "not_started",
+    "required_consecutive_eligible_journeys": 30,
+    "eligible": null,
+    "attempted": null,
+    "completed": null,
+    "failed": null,
+    "abandoned": null,
+    "censored": null,
+    "excluded": null,
+    "rule": "SIM-08 freezes eligibility before outcomes; SIM-09 retains the first 30 consecutive eligible journeys without replacement or reset"
+  },
+  "closeout": {
+    "status": "blocked_on_unfinished_children",
+    "independent_sprint_review": "not_run",
+    "required_aggregate_ci": "not_settled_for_final_candidate",
+    "umbrella_publication": "not_started",
+    "native_finish": "not_started",
+    "native_cleanup": "not_started"
+  },
+  "non_claims": [
+    "No result is claimed for unfinished SIM-04 through SIM-09 work.",
+    "This coordination artifact does not authorize a writer pause, live conversion, active-binary replacement, Runtime/provider interruption, or SIM-09 activation.",
+    "Local .git evidence references require final portable reconciliation before sprint publication."
+  ]
+}
