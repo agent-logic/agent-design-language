@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim.
+review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure 
 - Goal metrics source ref: `Issue-bound goal service; no issue metrics export collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `correction_review_pending`
+- Completion state: `reviewed_correction_publication_pending`
 - Issue goal ref: `Active #876 passing reviewed PR goal`
 - Sprint goal ref: `Sprint 2 #928 execution goal`
 - Goal metrics rollup ref: `not_collected; parent sprint goal owns rollup`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo test --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot; cargo test --manifest-path adl/Cargo.toml --lib provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
+  - `cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo test --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot; cargo test --manifest-path adl/Cargo.toml --lib provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check 06c0dcd28d5621e4af30742116ba25ac9353f149..99e34042c9abb9fb58cfea5d5f150da651401ea1 -- adl/src/provider/reload.rs adl/src/execute/tests/provider_definitions.rs docs/providers/provider-profile-hot-loading.md`
     `Proved real dispatch, invalid-input/LKG/redaction, reference admission, existing reload/in-flight/profile behavior and lint/format correctness.`
 - Results:
-  - `Current correction:3 definition tests+7 reload compatibility tests, clippy/fmt/diff checks pass. Initial numeric-endpoint case fails against published source. Prior25-test proof and reviews preserved; current-head hosted CI must follow reviewed correction.`
+  - `Correction:3 definition tests+7 reload compatibility tests, strict clippy and formatting pass. Scoped source/doc diff check06c0dcd..99e340 passes. Aggregate diff check includes three retained raw logs with terminal blank lines and is not claimed passing. Original numeric-endpoint failure and prior25-test evidence preserved. Renewed hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "25 focused tests and mutation rejection; see .csdlc/evidence/876/IMPLEMENTATION_PROOF.md"
+      - "10 correction tests, strict clippy/fmt, scoped source/doc diff check; prior25-test/mutation proof retained. Raw log whitespace is intentionally preserved."
   determinism:
     status: passed
     replay_verified: false
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserved initial macOS fixture failure, clippy warning and shadow-filename rejection with corrections; preserved card P2.`
 
 ## Follow-ups / Deferred work
-- `Publish through native routes and verify required current-head CI.`
+- `Publish independently reviewed correction and verify current-head hosted CI.`
 - `Dynamic agent lifecycle remains separately owned by #855; no implementation in this issue.`

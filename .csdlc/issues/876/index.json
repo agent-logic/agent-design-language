@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 876,
   "phase": "bound",
-  "generation": 12,
+  "generation": 13,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/876-provider-definitions",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "eca0b61c9cbef88279a318d5aafa018fd8a93255a8efb64f9f98f54ef814e23f"
+  "digest": "122adbb7323cf5dabc50196aa94efafcafc78bf3c5f939a136fde0de0fb040e6"
 }

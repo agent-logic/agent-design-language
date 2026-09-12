@@ -58,3 +58,14 @@ asserts unchanged generation/digest and performs retained endpoint/model dispatc
 without invoking the malformed replacement. Expanded-invalid-endpoint coverage
 also remains in the loader matrix. Focused proof and renewed review are required
 before updating the PR; prior CI does not approve this correction.
+
+## Correction source review — PASS; whitespace claim correction
+
+review_836 approved exact99e34042c9abb9fb58cfea5d5f150da651401ea1 production
+changes: type guard correct, opaque-config extensibility preserved, and actual
+watcher/LKG proof sufficient. A metadata finding noted that the aggregate
+`git diff --check 06c0dcd..99e340` returns2 for terminal blank lines in three
+retained raw logs. Those raw logs remain unchanged. SOR now identifies the
+executed passing check as the scoped source/doc diff check and explicitly
+discloses the aggregate raw-log whitespace. No source proof was rerun for this
+wording correction; metadata-only final confirmation remains the publication gate.

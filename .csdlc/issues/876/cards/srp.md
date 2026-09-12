@@ -56,8 +56,8 @@ policy_refs:
   - ".csdlc/issues/876/cards/vpp.md"
 review_results:
   findings_status: "findings_present"
-  recommended_outcome: "needs_followup"
-notes: "Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim."
+  recommended_outcome: "pass"
+notes: "review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,12 +127,12 @@ review_results:
 
 ### Dispositions
 
-- Earlier independent reviews remain preserved; correction pending exact-head independent review. No approval transfer from published06c0dcd to changed source.
+- review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending.
 
 ### Recommended Outcome
 
-- needs_followup
+- pass
 
 ## Notes
 
-Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim.
+review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending.
