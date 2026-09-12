@@ -130,6 +130,7 @@ pub fn decide(
                     && facts.current_proof
                     && facts.independent_review
             }
+            MarkMergeReady => from == Published && facts.merge_ready,
             RecordMerge => from == MergeReady && facts.merge_ready,
             Finish => from == Merged,
             FinishWithoutPr => active && facts.no_pr_disposition,

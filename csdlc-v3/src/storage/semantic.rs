@@ -182,7 +182,33 @@ pub struct PlanStep {
 #[serde(deny_unknown_fields)]
 pub struct Validator {
     pub id: String,
-    pub argv: Vec<String>,
+    pub program: String,
+    pub args: Vec<String>,
+    pub success_marker: String,
+    #[serde(default = "default_timeout")]
+    pub timeout_seconds: u64,
+}
+fn default_timeout() -> u64 {
+    300
+}
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Publication {
+    pub base: String,
+    pub title: String,
+    pub body: String,
+    pub draft: bool,
+}
+/// Lossless wire-equivalent of application::intent::IntentPlan. Keeping this DTO
+/// here avoids a storage-to-application dependency; a round-trip test pins parity.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AcceptedIntentPlan {
+    pub schema: String,
+    pub slug: String,
+    pub cards: BTreeMap<String, serde_json::Value>,
+    pub validators: Vec<Validator>,
+    pub publication: Publication,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -196,58 +222,79 @@ pub struct Binding {
 #[serde(deny_unknown_fields)]
 pub struct IssueInputs {
     intent: String,
-    cards: BTreeMap<String, String>,
+    intent_plan: AcceptedIntentPlan,
     plan: Vec<PlanStep>,
-    validation: Vec<Validator>,
     binding: Option<Binding>,
     authority: Digest,
 }
 impl IssueInputs {
     pub fn new(
         intent: String,
-        cards: BTreeMap<String, String>,
+        intent_plan: AcceptedIntentPlan,
         plan: Vec<PlanStep>,
-        validation: Vec<Validator>,
         binding: Option<Binding>,
         authority: Digest,
     ) -> Result<Self, Error> {
         let value = Self {
             intent,
-            cards,
+            intent_plan,
             plan,
-            validation,
             binding,
             authority,
         };
         value.validate()?;
         Ok(value)
     }
+    pub fn from_intent_plan_bytes(
+        intent: String,
+        bytes: &[u8],
+        plan: Vec<PlanStep>,
+        binding: Option<Binding>,
+        authority: Digest,
+    ) -> Result<Self, Error> {
+        Self::new(
+            intent,
+            codec::decode(bytes).map_err(encoding)?,
+            plan,
+            binding,
+            authority,
+        )
+    }
     fn validate(&self) -> Result<(), Error> {
         fn nonempty(v: &str) -> bool {
             !v.trim().is_empty() && !v.contains('\0')
         }
+        let accepted = &self.intent_plan;
         if !nonempty(&self.intent)
-            || self.cards.is_empty()
-            || self.cards.iter().any(|(k, v)| !nonempty(k) || !nonempty(v))
+            || accepted.schema != "csdlc.v3.intent_plan.v1"
+            || accepted.slug.is_empty()
+            || accepted.slug.len() > 100
+            || !accepted
+                .slug
+                .bytes()
+                .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
+            || accepted.cards.len() != 6
+            || ["sip", "stp", "spp", "vpp", "srp", "sor"].iter().any(|k| {
+                !accepted
+                    .cards
+                    .get(*k)
+                    .is_some_and(serde_json::Value::is_object)
+            })
             || self.plan.is_empty()
-            || self.validation.is_empty()
             || self
                 .plan
                 .iter()
                 .any(|p| !nonempty(&p.id) || !nonempty(&p.acceptance))
-            || self.validation.iter().any(|v| {
-                !nonempty(&v.id) || v.argv.is_empty() || v.argv.iter().any(|a| !nonempty(a))
-            })
             || !self.authority.0.starts_with("semantic-authority-v1:")
         {
             return Err(Error::InvalidInput("incomplete issue inputs".into()));
         }
         let plan: std::collections::BTreeSet<_> = self.plan.iter().map(|p| &p.id).collect();
-        let validators: std::collections::BTreeSet<_> =
-            self.validation.iter().map(|p| &p.id).collect();
-        if plan.len() != self.plan.len() || validators.len() != self.validation.len() {
-            return Err(Error::InvalidInput("duplicate input identity".into()));
+        if plan.len() != self.plan.len() {
+            return Err(Error::InvalidInput("duplicate plan identity".into()));
         }
+        // Validator admission/execution rules remain the proof owner's job. Preserve
+        // timeout and marker semantics even when that owner would reject execution.
         if let Some(b) = &self.binding {
             if !b.branch.starts_with("codex/")
                 || b.head.len() != 40
@@ -265,6 +312,27 @@ impl IssueInputs {
     }
     pub fn authority(&self) -> &Digest {
         &self.authority
+    }
+    pub fn accepted_plan(&self) -> &AcceptedIntentPlan {
+        &self.intent_plan
+    }
+    pub fn slug(&self) -> &str {
+        &self.intent_plan.slug
+    }
+    pub fn cards(&self) -> &BTreeMap<String, serde_json::Value> {
+        &self.intent_plan.cards
+    }
+    pub fn plan(&self) -> &[PlanStep] {
+        &self.plan
+    }
+    pub fn validation(&self) -> &[Validator] {
+        &self.intent_plan.validators
+    }
+    pub fn publication(&self) -> &Publication {
+        &self.intent_plan.publication
+    }
+    pub fn binding(&self) -> Option<&Binding> {
+        self.binding.as_ref()
     }
 }
 
@@ -290,8 +358,8 @@ struct Audit {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 enum Schema {
-    #[serde(rename = "csdlc.v3.semantic_commit.v1")]
-    CommitV1,
+    #[serde(rename = "csdlc.v3.semantic_commit.v2")]
+    CommitV2,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -316,6 +384,37 @@ impl Snapshot {
     }
     pub fn phase(&self) -> LifecycleState {
         self.payload.phase
+    }
+    pub fn invalidations(&self) -> &[Invalidation] {
+        &self.payload.invalidations
+    }
+    pub fn audit_identity(&self) -> &Digest {
+        &self.audit_digest
+    }
+    pub fn audit_command(&self) -> SemanticCommand {
+        self.audit.command
+    }
+    /// Stable projection identity: CAS generation and projection acknowledgement are
+    /// deliberately absent, so writing the view of G also describes G+1's content.
+    pub fn projection_bytes(&self) -> Result<Vec<u8>, Error> {
+        #[derive(Serialize)]
+        struct View<'a> {
+            schema: &'static str,
+            key: &'a IssueKey,
+            phase: LifecycleState,
+            inputs: &'a IssueInputs,
+            input_version: &'a EvidenceInputVersion,
+            invalidations: &'a [Invalidation],
+        }
+        codec::bytes(&View {
+            schema: "csdlc.v3.semantic_projection.v1",
+            key: self.key(),
+            phase: self.phase(),
+            inputs: self.inputs(),
+            input_version: self.inputs_version(),
+            invalidations: self.invalidations(),
+        })
+        .map_err(encoding)
     }
     pub fn projection_required(&self) -> bool {
         self.payload.projection_required
@@ -362,7 +461,7 @@ impl Snapshot {
 /// No proof/review/remote outcome can be forged through this API.
 #[derive(Debug, Clone)]
 pub enum LocalChange {
-    AmendCards(BTreeMap<String, String>),
+    AmendCards(BTreeMap<String, serde_json::Value>),
     AmendPlan(Vec<PlanStep>),
     AmendValidation(Vec<Validator>),
     AcknowledgeProjection(ProjectionWriteProof),
@@ -376,7 +475,7 @@ impl ProjectionWriteProof {
     pub fn verify(root: &SemanticRoot, snapshot: &Snapshot) -> Result<Self, Error> {
         let path = root.projection_path(snapshot)?;
         reject_symlinks(&path)?;
-        if fs::read(path).map_err(io)? != snapshot.canonical_bytes()? {
+        if fs::read(path).map_err(io)? != snapshot.projection_bytes()? {
             return Err(Error::InvalidInput(
                 "projection differs from committed view".into(),
             ));
@@ -408,6 +507,7 @@ pub enum Observation {
     Current(Box<Snapshot>),
     RecoveryRequired,
     LegacyMigrationRequired,
+    ProjectionRepairRequired(Box<Snapshot>),
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CommitOutcome {
@@ -415,7 +515,10 @@ pub enum CommitOutcome {
     Unchanged(Box<Snapshot>),
 }
 
-/// Canonical Git-common identity. No constructor creates state or locks.
+/// Validated Git-common location plus caller-supplied repository label.
+/// This is NOT authenticated repository/selector/topology admission. Production
+/// callers must establish those guards in the native owner bridge. No constructor
+/// creates state/locks or consults credentials/network.
 #[derive(Debug, Clone)]
 pub struct SemanticRoot {
     common: PathBuf,
@@ -462,17 +565,9 @@ impl SemanticRoot {
         Ok(path)
     }
     fn legacy(&self, key: &IssueKey) -> Result<bool, Error> {
-        let local = self.common.join("csdlc-v3/local");
-        let issue = key.issue.to_string();
-        let mut paths = vec![
-            local.join("issues").join(&issue),
-            local.join("evidence").join(&issue),
-            local
-                .join("transactions/pending")
-                .join(format!("{issue}.json")),
-        ];
+        let mut roots = vec![self.common.join("csdlc-v3/local")];
         if let Some(primary) = self.common.parent() {
-            paths.push(primary.join(".csdlc/issues").join(&issue));
+            roots.push(primary.join(".csdlc"));
         }
         let registrations = self.common.join("worktrees");
         if registrations.exists() {
@@ -482,18 +577,164 @@ impl SemanticRoot {
                 reject_symlinks(&gitdir)?;
                 let target = fs::read_to_string(gitdir).map_err(io)?;
                 if let Some(checkout) = Path::new(target.trim()).parent() {
-                    paths.push(checkout.join(".csdlc/issues").join(&issue));
+                    roots.push(checkout.join(".csdlc"));
                 }
             }
         }
-        for path in paths {
-            reject_symlinks(&path)?;
-            if path.exists() {
+        for root in roots {
+            if legacy_residue(&root, key.issue)? {
                 return Ok(true);
             }
         }
-        Ok(false)
+        remote_residue(&self.common.join("csdlc-v3/remote"), key)
     }
+}
+
+/// Enumerates issue-scoped native local, preparation, mutation and terminal roots.
+/// Empty directories still count as ambiguous residue. Do not parse a damaged
+/// receipt to decide whether it is safe to overwrite its namespace.
+fn legacy_residue(root: &Path, issue: u64) -> Result<bool, Error> {
+    let exact = [
+        format!("issues/{issue}"),
+        format!("prepared/issues/{issue}"),
+        format!("evidence/{issue}"),
+        format!("v3/issues/{issue}"),
+        format!("bindings/{issue}.json"),
+        format!("transactions/{issue}.json"),
+        format!("transactions/completed/{issue}"),
+        format!("transactions/pending/{issue}.json"),
+    ];
+    for relative in exact {
+        let path = root.join(relative);
+        reject_symlinks(&path)?;
+        if path.try_exists().map_err(io)? {
+            return Ok(true);
+        }
+    }
+    for (parent, prefixes) in [
+        (
+            "issues",
+            vec![format!(".issue-{issue}-"), format!(".issue-{issue}.")],
+        ),
+        (
+            "prepared/issues",
+            vec![format!(".issue-{issue}-"), format!(".issue-{issue}.")],
+        ),
+        ("archives", vec![format!("{issue}-"), format!("{issue}.")]),
+    ] {
+        let parent = root.join(parent);
+        reject_symlinks(&parent)?;
+        if !parent.try_exists().map_err(io)? {
+            continue;
+        }
+        for entry in fs::read_dir(parent).map_err(io)? {
+            let entry = entry.map_err(io)?;
+            let name = entry
+                .file_name()
+                .into_string()
+                .map_err(|_| Error::UnsafePath)?;
+            if name == issue.to_string() || prefixes.iter().any(|prefix| name.starts_with(prefix)) {
+                reject_symlinks(&entry.path())?;
+                return Ok(true);
+            }
+        }
+    }
+    Ok(false)
+}
+
+fn remote_identity(value: &serde_json::Value) -> Result<(String, u64), Error> {
+    let schema = value["schema"].as_str().ok_or(Error::RecoveryRequired)?;
+    let identity = match schema {
+        "csdlc.v3.github_mutation_intent.v1" | "csdlc.v3.merge_intent.v1" => &value["request"],
+        "csdlc.v3.github_mutation_receipt.v1"
+        | "csdlc.v3.github_mutation_receipt.v2"
+        | "csdlc.v3.github_mutation_recovery.v1"
+        | "csdlc.v3.github_mutation_reconciliation.v1" => value,
+        _ => return Err(Error::RecoveryRequired),
+    };
+    let repository = identity["repository"]
+        .as_str()
+        .ok_or(Error::RecoveryRequired)?
+        .to_owned();
+    let issue = identity["issue"].as_u64().ok_or(Error::RecoveryRequired)?;
+    IssueKey::new(repository.clone(), 1).map_err(|_| Error::RecoveryRequired)?;
+    Ok((repository, issue))
+}
+fn read_remote_json(path: &Path) -> Result<serde_json::Value, Error> {
+    reject_symlinks(path)?;
+    if !path.is_file() {
+        return Err(Error::RecoveryRequired);
+    }
+    codec::decode(&fs::read(path).map_err(io)?).map_err(|_| Error::RecoveryRequired)
+}
+fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
+    for namespace in ["intents", "mutations", "recoveries", "merges"] {
+        let directory = remote.join(namespace);
+        reject_symlinks(&directory)?;
+        if !directory.try_exists().map_err(io)? {
+            continue;
+        }
+        for entry in fs::read_dir(&directory).map_err(io)? {
+            let path = entry.map_err(io)?.path();
+            reject_symlinks(&path)?;
+            let name = path
+                .file_name()
+                .and_then(|n| n.to_str())
+                .ok_or(Error::RecoveryRequired)?;
+            if name.ends_with(".lock")
+                && path.is_file()
+                && fs::metadata(&path).map_err(io)?.len() == 0
+            {
+                continue;
+            }
+            let value = read_remote_json(&path)?;
+            let identity = if namespace == "merges"
+                && [
+                    ".target.json",
+                    ".input.json",
+                    ".response.json",
+                    ".dispatch-prestate.json",
+                ]
+                .iter()
+                .any(|suffix| name.ends_with(suffix))
+            {
+                let digest = if name.ends_with(".target.json") {
+                    if value["schema"] != "csdlc.v3.merge_target.v1" {
+                        return Err(Error::RecoveryRequired);
+                    }
+                    value["operation_digest"]
+                        .as_str()
+                        .ok_or(Error::RecoveryRequired)?
+                } else {
+                    name.split('.').next().ok_or(Error::RecoveryRequired)?
+                };
+                if digest.is_empty()
+                    || !digest
+                        .bytes()
+                        .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
+                {
+                    return Err(Error::RecoveryRequired);
+                }
+                let identity = remote_identity(&read_remote_json(
+                    &directory.join(format!("{digest}.intent.json")),
+                )?)?;
+                if name.ends_with(".target.json")
+                    && value["repository"].as_str() != Some(identity.0.as_str())
+                {
+                    return Err(Error::RecoveryRequired);
+                }
+                identity
+            } else {
+                remote_identity(&value)?
+            };
+            // Creation before a positive issue exists is repository-scoped. Never
+            // assign that effect to whichever issue happens to be prepared next.
+            if identity.1 > 0 && identity.1 == key.issue && identity.0 == key.repository {
+                return Ok(true);
+            }
+        }
+    }
+    Ok(false)
 }
 
 // These associated methods deliberately do not construct the historical session,
@@ -515,11 +756,18 @@ impl DurableTransactionStore {
             other => other?,
         };
         let result = read_current(&directory, key);
-        drop(lock);
-        match result {
+        let result = match result {
             Err(Error::RecoveryRequired) => Ok(Observation::RecoveryRequired),
-            other => other.map(|s| Observation::Current(Box::new(s))),
-        }
+            other => other.map(|s| {
+                if !s.projection_required() && ProjectionWriteProof::verify(root, &s).is_err() {
+                    Observation::ProjectionRepairRequired(Box::new(s))
+                } else {
+                    Observation::Current(Box::new(s))
+                }
+            }),
+        };
+        drop(lock);
+        result
     }
     pub fn prepare_issue(
         root: &SemanticRoot,
@@ -598,7 +846,7 @@ impl DurableTransactionStore {
         let mut payload = current.payload.clone();
         let command = match change {
             LocalChange::AmendCards(cards) => {
-                payload.inputs.cards = cards;
+                payload.inputs.intent_plan.cards = cards;
                 SemanticCommand::AmendCards
             }
             LocalChange::AmendPlan(plan) => {
@@ -606,7 +854,7 @@ impl DurableTransactionStore {
                 SemanticCommand::AmendPlan
             }
             LocalChange::AmendValidation(validation) => {
-                payload.inputs.validation = validation;
+                payload.inputs.intent_plan.validators = validation;
                 SemanticCommand::AmendValidation
             }
             LocalChange::AcknowledgeProjection(proof) => {
@@ -670,7 +918,7 @@ fn make_snapshot(
     };
     let audit_digest = hash("semantic-audit-v1", &audit)?;
     let next = Snapshot {
-        schema: Schema::CommitV1,
+        schema: Schema::CommitV2,
         payload,
         audit,
         audit_digest,

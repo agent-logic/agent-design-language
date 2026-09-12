@@ -1021,8 +1021,9 @@ mod semantic_gate_a {
     use super::*;
     use csdlc_v3::lifecycle::semantic::{self, Facts, Outcome, SemanticCommand};
     use csdlc_v3::storage::semantic::{
-        Admission, CommitOutcome, Digest, Error, IssueInputs, IssueKey, LocalChange, Observation,
-        PlanStep, ProjectionWriteProof, SemanticRoot, Snapshot, Validator,
+        AcceptedIntentPlan, Admission, CommitOutcome, Digest, Error, IssueInputs, IssueKey,
+        LocalChange, Observation, PlanStep, ProjectionWriteProof, Publication, SemanticRoot,
+        Snapshot, Validator,
     };
     use std::collections::BTreeMap;
     use std::path::{Path, PathBuf};
@@ -1074,7 +1075,7 @@ mod semantic_gate_a {
         fn project(&self, snapshot: &Snapshot) -> ProjectionWriteProof {
             let path = self.root.projection_path(snapshot).unwrap();
             fs::create_dir_all(path.parent().unwrap()).unwrap();
-            fs::write(path, snapshot.canonical_bytes().unwrap()).unwrap();
+            fs::write(path, snapshot.projection_bytes().unwrap()).unwrap();
             ProjectionWriteProof::verify(&self.root, snapshot).unwrap()
         }
         fn current(&self) -> Snapshot {
@@ -1089,17 +1090,41 @@ mod semantic_gate_a {
             let _ = fs::remove_dir_all(&self.directory);
         }
     }
+    fn accepted_plan() -> AcceptedIntentPlan {
+        AcceptedIntentPlan {
+            schema: "csdlc.v3.intent_plan.v1".into(),
+            slug: "semantic-owner".into(),
+            cards: ["sip", "stp", "spp", "vpp", "srp", "sor"]
+                .into_iter()
+                .map(|k| {
+                    (
+                        k.into(),
+                        serde_json::json!({"task":"typed task", "nested":[1, true]}),
+                    )
+                })
+                .collect(),
+            validators: vec![Validator {
+                id: "transaction".into(),
+                program: "cargo".into(),
+                args: vec!["test".into()],
+                success_marker: "test result: ok.".into(),
+                timeout_seconds: 123,
+            }],
+            publication: Publication {
+                base: "main".into(),
+                title: "semantic owner".into(),
+                body: "Closes #870".into(),
+                draft: true,
+            },
+        }
+    }
     fn inputs() -> IssueInputs {
         IssueInputs::new(
             "bounded semantic work".into(),
-            BTreeMap::from([("stp".into(), "typed task".into())]),
+            accepted_plan(),
             vec![PlanStep {
                 id: "implement".into(),
                 acceptance: "semantic owner".into(),
-            }],
-            vec![Validator {
-                id: "transaction".into(),
-                argv: vec!["cargo".into(), "test".into()],
             }],
             None,
             Digest::authority(b"authority fixture"),
@@ -1114,7 +1139,9 @@ mod semantic_gate_a {
         )
     }
     fn cards(text: &str) -> LocalChange {
-        LocalChange::AmendCards(BTreeMap::from([("stp".into(), text.into())]))
+        let mut cards = accepted_plan().cards;
+        cards.insert("stp".into(), serde_json::json!({"task":text}));
+        LocalChange::AmendCards(cards)
     }
     fn inventory(path: &Path) -> BTreeMap<PathBuf, Vec<u8>> {
         let mut out = BTreeMap::new();
@@ -1274,7 +1301,12 @@ mod semantic_gate_a {
         assert_eq!(second.version().generation(), 2);
         assert_eq!(first.inputs_version(), second.inputs_version());
         assert!(!second.projection_required());
-        let second_proof = fixture.project(&second);
+        assert_eq!(
+            first.projection_bytes().unwrap(),
+            second.projection_bytes().unwrap()
+        );
+        // No rewrite after acknowledgement: G's content is also the view of G+1.
+        let second_proof = ProjectionWriteProof::verify(&fixture.root, &second).unwrap();
         let before = inventory(&fixture.directory);
         assert!(matches!(
             DurableTransactionStore::commit_issue_local(
@@ -1339,6 +1371,208 @@ mod semantic_gate_a {
     }
 
     #[test]
+    fn semantic_native_residue_collision_matrix_is_read_only() {
+        let residues = [
+            "issues/870/index.json",
+            "prepared/issues/870/cards/sip.md",
+            "transactions/870.json",
+            "transactions/completed/870/edit-digest.json",
+            "bindings/870.json",
+            "issues/.issue-870-edit-digest.stage/intent-plan.json",
+            "issues/.issue-870-edit-digest.backup/index.json",
+            "issues/.issue-870.init-123-1/cards/sip.md",
+            "v3/issues/870/terminal.json",
+            "evidence/870/terminal-receipt.json",
+            "archives/870-intent-digest/manifest.json",
+            "archives/870-head-closeout/precleanup-audit.json",
+        ];
+        for base in ["repo/.git/csdlc-v3/local", "repo/.csdlc", "linked/.csdlc"] {
+            for residue in residues {
+                let fixture = Fixture::new();
+                if base.starts_with("linked") {
+                    let registration = fixture.directory.join("repo/.git/worktrees/linked");
+                    fs::create_dir_all(&registration).unwrap();
+                    fs::write(
+                        registration.join("gitdir"),
+                        fixture.directory.join("linked/.git").to_str().unwrap(),
+                    )
+                    .unwrap();
+                }
+                let path = fixture.directory.join(base).join(residue);
+                fs::create_dir_all(path.parent().unwrap()).unwrap();
+                fs::write(path, b"retained or interrupted native state").unwrap();
+                let before = inventory(&fixture.directory);
+                assert_eq!(
+                    DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+                    Observation::LegacyMigrationRequired,
+                    "{base}/{residue}"
+                );
+                assert_eq!(
+                    DurableTransactionStore::prepare_issue(
+                        &fixture.root,
+                        fixture.key.clone(),
+                        inputs()
+                    ),
+                    Err(Error::LegacyMigrationRequired),
+                    "{base}/{residue}"
+                );
+                assert_eq!(before, inventory(&fixture.directory));
+            }
+        }
+        let fixture = Fixture::new();
+        fs::create_dir_all(
+            fixture
+                .directory
+                .join("repo/.git/csdlc-v3/local/archives/8700-other"),
+        )
+        .unwrap();
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::Absent
+        );
+    }
+
+    #[test]
+    fn semantic_intent_plan_roundtrips_native_contract_without_losing_fields() {
+        let plan = accepted_plan();
+        let bytes = serde_json::to_vec(&plan).unwrap();
+        let native: csdlc_v3::application::intent::IntentPlan =
+            serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(
+            serde_json::to_value(&native).unwrap(),
+            serde_json::to_value(&plan).unwrap()
+        );
+        let stored = IssueInputs::from_intent_plan_bytes(
+            "intent".into(),
+            &serde_json::to_vec(&native).unwrap(),
+            inputs().plan().to_vec(),
+            None,
+            Digest::authority(b"authority fixture"),
+        )
+        .unwrap();
+        assert_eq!(stored.accepted_plan(), &plan);
+        assert_eq!(stored.validation()[0].timeout_seconds, 123);
+        assert_eq!(stored.validation()[0].success_marker, "test result: ok.");
+        assert_eq!(
+            stored.cards()["stp"]["nested"],
+            serde_json::json!([1, true])
+        );
+        assert_eq!(stored.slug(), "semantic-owner");
+        assert!(stored.publication().draft);
+        let fixture = Fixture::new();
+        let CommitOutcome::Committed(snapshot) =
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), stored)
+                .unwrap()
+        else {
+            panic!("prepared");
+        };
+        assert_eq!(fixture.current().inputs().accepted_plan(), &plan);
+        assert_eq!(snapshot.audit_command(), SemanticCommand::Prepare);
+        assert!(!snapshot.audit_identity().as_str().is_empty());
+        assert!(snapshot.invalidations().is_empty());
+    }
+
+    #[test]
+    fn semantic_remote_residue_is_repository_issue_scoped_and_ambiguous_fails_closed() {
+        for (namespace, schema, request) in [
+            ("intents", "csdlc.v3.github_mutation_intent.v1", true),
+            ("mutations", "csdlc.v3.github_mutation_receipt.v2", false),
+            ("recoveries", "csdlc.v3.github_mutation_recovery.v1", false),
+            ("merges", "csdlc.v3.merge_intent.v1", true),
+        ] {
+            for (repository, issue, collision) in [
+                ("example/repo", 870, true),
+                ("other/repo", 870, false),
+                ("example/repo", 871, false),
+                ("example/repo", 0, false),
+            ] {
+                let fixture = Fixture::new();
+                let directory = fixture
+                    .directory
+                    .join("repo/.git/csdlc-v3/remote")
+                    .join(namespace);
+                fs::create_dir_all(&directory).unwrap();
+                let identity = serde_json::json!({"repository":repository,"issue":issue});
+                let mut record = if request {
+                    serde_json::json!({"request":identity})
+                } else {
+                    identity
+                };
+                record["schema"] = serde_json::json!(schema);
+                fs::write(
+                    directory.join("retained.json"),
+                    serde_json::to_vec(&record).unwrap(),
+                )
+                .unwrap();
+                let before = inventory(&fixture.directory);
+                assert_eq!(
+                    DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+                    if collision {
+                        Observation::LegacyMigrationRequired
+                    } else {
+                        Observation::Absent
+                    }
+                );
+                assert_eq!(before, inventory(&fixture.directory));
+            }
+        }
+        for bytes in [
+            b"{broken".as_slice(),
+            br#"{"schema":"unknown","repository":"example/repo","issue":870}"#.as_slice(),
+            br#"{"schema":"csdlc.v3.github_mutation_receipt.v2","repository":"example/repo"}"#
+                .as_slice(),
+        ] {
+            let fixture = Fixture::new();
+            let directory = fixture
+                .directory
+                .join("repo/.git/csdlc-v3/remote/mutations");
+            fs::create_dir_all(&directory).unwrap();
+            fs::write(directory.join("damaged.json"), bytes).unwrap();
+            let before = inventory(&fixture.directory);
+            assert_eq!(
+                DurableTransactionStore::observe_issue(&fixture.root, &fixture.key),
+                Err(Error::RecoveryRequired)
+            );
+            assert_eq!(
+                DurableTransactionStore::prepare_issue(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    inputs()
+                ),
+                Err(Error::RecoveryRequired)
+            );
+            assert_eq!(before, inventory(&fixture.directory));
+        }
+    }
+
+    #[test]
+    fn semantic_stale_projection_after_ack_is_observational_repair() {
+        let fixture = Fixture::new();
+        let first = fixture.prepare();
+        let proof = fixture.project(&first);
+        DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            admission(&first),
+            LocalChange::AcknowledgeProjection(proof),
+        )
+        .unwrap();
+        let second = fixture.current();
+        assert!(!second.projection_required());
+        ProjectionWriteProof::verify(&fixture.root, &second).unwrap();
+        fs::write(
+            fixture.root.projection_path(&second).unwrap(),
+            first.canonical_bytes().unwrap(),
+        )
+        .unwrap();
+        let before = inventory(&fixture.directory);
+        assert!(matches!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::ProjectionRepairRequired(_)
+        ));
+        assert_eq!(before, inventory(&fixture.directory));
+    }
+
+    #[test]
     fn semantic_unactivated_intent_is_observational_recovery() {
         let fixture = Fixture::new();
         let snapshot = fixture.prepare();
@@ -1366,6 +1600,7 @@ mod semantic_gate_a {
         use SemanticCommand::*;
         let cases = [
             (Reviewed, Publish),
+            (Published, MarkMergeReady),
             (MergeReady, RecordMerge),
             (Merged, Finish),
             (ClosedOut, RecordCleanup),
@@ -1397,7 +1632,22 @@ mod semantic_gate_a {
                     .phase,
                 phase
             );
-            assert!(semantic::decide(Some(phase), command, Outcome::Success, &facts).is_err());
+            if command != MarkMergeReady {
+                assert!(semantic::decide(Some(phase), command, Outcome::Success, &facts).is_err());
+            }
+            assert!(
+                semantic::decide(
+                    Some(phase),
+                    Reserve,
+                    Outcome::Success,
+                    &Facts {
+                        original_command: Some(command),
+                        ..Default::default()
+                    }
+                )
+                .is_err()
+                    || command == Finish
+            );
         }
     }
 
