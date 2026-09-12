@@ -1,0 +1,55 @@
+{
+  "schema": "adl.issue867.release-input-fixture-proof.v1",
+  "source_revision": "690af2a778bf29638b49ee2fb44b9b0e2809435e",
+  "production_source_unchanged_from": "03c5aead6d1849e30f05e01c095232737999a66a",
+  "source_sha256": {
+    "csdlc-v3/tests/release_preflight.rs": "c4b969ae43d670454bb90e8504c2416144b3c8f3679a719f8151c0e348b8c41f",
+    "csdlc-v3/tests/fixtures/diagnostic_observation_pvf.json": "9893c592569bef33230bea794d93c448767c74576b5085f727e81cbcaf8f3ea7"
+  },
+  "validation": {
+    "focused_release_matrix": "passed 1 test, 53.89 seconds; source bytes tested before source-only commit",
+    "strict_all_target_clippy": "passed",
+    "cargo_fmt_check": "passed",
+    "git_diff_check": "passed",
+    "full_suite": "not rerun; previous 248-test local result remains historical in curl-config supplement",
+    "fresh_ci": "pending publication"
+  },
+  "failure": {
+    "head": "de07d3cb1158f06bc6ca60121ae8feb96a8f4cd8",
+    "run": 34666577805,
+    "finding": "unlisted_local_lock_package"
+  },
+  "logs": [
+    {
+      "path": "release-input-fixture.stdout",
+      "original_sha256": "cd9e98ba114da9e3c19fd46c4aa5001928fbe1fe8dd48fb5cd397a23fac56b68",
+      "published_sha256": "84d944d2b523d2ba60aa3071fd401d330ed0c8abb86b9270ce4d49e7d63016b5",
+      "excerpt": false
+    },
+    {
+      "path": "release-input-fixture.stderr",
+      "original_sha256": "f72cdc123fffc628a5eb77e64eb7400e45670ba36a2e6ca3cc89668acc812e89",
+      "published_sha256": "535d3765370071290f1cf41b58ac11b6afe853fab5d32b3a8df0993d226f9f9c",
+      "excerpt": false
+    },
+    {
+      "path": "release-input-clippy.stdout",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "excerpt": false
+    },
+    {
+      "path": "release-input-clippy.stderr",
+      "original_sha256": "eba27e6d246bffab710d57a1b84dfb21a267a2f59e6eb8bcef848047ac58bf2e",
+      "published_sha256": "d731253516fc01a35f8e82056a349768559384c5b7dc37a7f62f27d7f7d4cf50",
+      "excerpt": false
+    },
+    {
+      "path": "release-fixture-ci-failure.log",
+      "original_sha256": "7b3fb128075eac138d033be4f5db268b188f5bf6371dbd6e1e29dcdd21b21eb6",
+      "published_sha256": "3db2edf5a41cbb56a0f79adfe6fa8da699088cad78cc9b26940bf513f5a44c4c",
+      "excerpt": true
+    }
+  ],
+  "normalization": "Host path prefixes and trailing blank lines normalized; failure log is an explicitly selected excerpt. Original and published hashes retained."
+}

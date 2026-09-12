@@ -16,6 +16,14 @@ use csdlc_v3::commands::{
 };
 use serde_json::json;
 
+#[path = "support/attempt_corpus.rs"]
+mod attempt_corpus;
+#[path = "support/baseline_journeys.rs"]
+mod baseline_journeys;
+#[path = "support/observation.rs"]
+mod observation;
+use observation::inventory as observation_inventory;
+
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
@@ -258,6 +266,469 @@ fn initialize_operational_fixture(fixture: &mut OperationalFixture) -> String {
     )
     .unwrap();
     digest
+}
+
+fn copy_observation_templates(source: &Path, destination: &Path) {
+    fs::create_dir_all(destination).unwrap();
+    for entry in fs::read_dir(source).unwrap() {
+        let entry = entry.unwrap();
+        let target = destination.join(entry.file_name());
+        if entry.file_type().unwrap().is_dir() {
+            copy_observation_templates(&entry.path(), &target);
+        } else {
+            fs::copy(entry.path(), target).unwrap();
+        }
+    }
+}
+
+#[test]
+fn installed_diagnostics_preserve_healthy_missing_corrupt_and_pending_state() {
+    for linked in [false, true] {
+        for state in ["healthy", "missing", "corrupt", "pending"] {
+            let mut fixture = operational_fixture(&format!("observation-{linked}-{state}"));
+            let primary = fixture.root.clone();
+            copy_observation_templates(
+                &repo_root().join("docs/templates/prompts/1.0.5"),
+                &primary.join("docs/templates/prompts/1.0.5"),
+            );
+            fs::create_dir_all(primary.join("docs/csdlc-v3")).unwrap();
+            for name in [
+                "CONTRACT.md",
+                "predecessor-coverage.json",
+                "proportional-lifecycle.json",
+            ] {
+                fs::copy(
+                    repo_root().join("docs/csdlc-v3").join(name),
+                    primary.join("docs/csdlc-v3").join(name),
+                )
+                .unwrap();
+            }
+            git(&primary, &["add", "docs"]);
+            git(
+                &primary,
+                &["commit", "--quiet", "-m", "isolated observation templates"],
+            );
+            let head = git(&primary, &["rev-parse", "HEAD"]);
+            git(&primary, &["update-ref", "refs/remotes/origin/main", &head]);
+            if linked || state != "missing" {
+                initialize_operational_fixture(&mut fixture);
+            }
+            if linked {
+                let bound = run_operational(&fixture, "bind", None);
+                assert!(bound.status.success(), "{bound:?}");
+                let result: serde_json::Value = serde_json::from_slice(&bound.stdout).unwrap();
+                fixture.request.expected_lifecycle_digest =
+                    Some(result["result"]["digest"].as_str().unwrap().to_owned());
+                fixture.root = PathBuf::from(&fixture.request.worktree);
+            }
+            let storage = if linked {
+                fixture.root.join(".csdlc")
+            } else {
+                fixture.root.join(".git/csdlc-v3/local")
+            };
+            fixture.request.schedule_readiness = Some(
+                serde_json::from_value(json!({
+                    "phase_ready":true,"cards_ready":true,"design_ready":true,
+                    "dependencies_ready":true,"paths_clear":true,"budget_available":true
+                }))
+                .unwrap(),
+            );
+            fixture.request.shepherd_routing = Some(
+                serde_json::from_value(json!({
+                    "validation":"passed"
+                }))
+                .unwrap(),
+            );
+            if state == "pending" {
+                fixture
+                    .request
+                    .card_updates
+                    .insert("sip".into(), json!({"title":"Pending edit"}));
+            }
+            fs::write(
+                &fixture.request_path,
+                serde_json::to_vec(&fixture.request).unwrap(),
+            )
+            .unwrap();
+            if state == "pending" {
+                let crashed = run_operational(&fixture, "edit", Some("after_backup_rename"));
+                assert_eq!(crashed.status.code(), Some(91), "{crashed:?}");
+            } else if state == "corrupt" {
+                fs::write(storage.join("issues/505/index.json"), b"corrupt-index").unwrap();
+            } else if linked && state == "missing" {
+                fs::remove_dir_all(storage.join("issues/505")).unwrap();
+            }
+            // Remove an existing fixture lock so an otherwise byte-identical
+            // diagnostic cannot hide creation behind setup's earlier mutation.
+            if storage.join("locks").exists() {
+                fs::remove_dir_all(storage.join("locks")).unwrap();
+            }
+            let installed = primary.join("candidate/bin/csdlc");
+            observation::install_candidate(&installed);
+            let before = observation_inventory(&primary);
+            let registrations = git(&primary, &["worktree", "list", "--porcelain"]);
+            for route in ["doctor", "eligibility", "validate", "schedule", "shepherd"] {
+                let output = Command::new(&installed)
+                    .current_dir(&fixture.root)
+                    .arg(route)
+                    .arg("--request")
+                    .arg(&fixture.request_path)
+                    .arg("--registry")
+                    .arg(repo_root().join("docs/templates/prompts/current.json"))
+                    .arg("--registrations")
+                    .arg(&fixture.registrations_path)
+                    // Native v3 does not implement the legacy observability
+                    // overrides. They must not redirect machine JSON or cause
+                    // an implicit log artifact during observation.
+                    .env("ADL_OBSERVABILITY_STDERR", "0")
+                    .env("ADL_OBSERVABILITY_LOG", primary.join("legacy-compat.log"))
+                    .output()
+                    .unwrap();
+                let after = observation_inventory(&primary);
+                assert!(!primary.join("legacy-compat.log").exists());
+                let changed: std::collections::BTreeSet<_> = before
+                    .keys()
+                    .chain(after.keys())
+                    .filter(|path| before.get(*path) != after.get(*path))
+                    .collect();
+                assert!(
+                    changed.is_empty(),
+                    "{route} changed {state} lifecycle/Git storage; linked={linked}: {changed:?}"
+                );
+                assert_eq!(
+                    git(&primary, &["worktree", "list", "--porcelain"]),
+                    registrations
+                );
+                if state == "healthy" {
+                    assert!(output.status.success(), "{route}: {output:?}");
+                    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+                    assert_eq!(report["operational_authority"], true);
+                    assert_eq!(report["writes_v3_state"], false);
+                } else {
+                    assert!(
+                        !output.status.success(),
+                        "{route} accepted {state}: {output:?}"
+                    );
+                    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+                    assert_eq!(report["writes_v3_state"], false);
+                    let failed = report["findings"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .any(|finding| finding["status"] == "failed");
+                    assert_eq!(report["status"], if failed { "failed" } else { "blocked" });
+                    assert!(!String::from_utf8_lossy(&output.stderr).contains("\"findings\""));
+                    assert!(
+                        !output.stderr.is_empty(),
+                        "legacy quiet override changed native error channel"
+                    );
+                    if state == "pending" {
+                        assert!(
+                            String::from_utf8_lossy(&output.stdout).contains("recovery_required"),
+                            "pending transaction needs explicit recovery finding: {output:?}"
+                        );
+                    }
+                }
+            }
+            // Helpers have separate semantics: foundation observes repository
+            // contracts, local is a non-authoritative plan, sprint consumes
+            // explicit issue readbacks. None acquires issue repair authority.
+            let helper_dir = fixture.root.join(".csdlc/evidence/observation-helpers");
+            fs::create_dir_all(&helper_dir).unwrap();
+            let local_request = helper_dir.join("local.json");
+            let local_plan = fixture.request.clone();
+            fs::write(&local_request, serde_json::to_vec(&local_plan).unwrap()).unwrap();
+            let helper_registrations = helper_dir.join("registrations.json");
+            let observed: Vec<_> = git(&primary, &["worktree", "list", "--porcelain"])
+                .split("\n\n")
+                .filter_map(|block| {
+                    let path = block
+                        .lines()
+                        .find_map(|line| line.strip_prefix("worktree "))?;
+                    let branch = block
+                        .lines()
+                        .find_map(|line| line.strip_prefix("branch refs/heads/"))?;
+                    Some(
+                        json!({"branch":branch,"worktree":path,"primary":Path::new(path)==primary}),
+                    )
+                })
+                .collect();
+            fs::write(
+                &helper_registrations,
+                serde_json::to_vec(&observed).unwrap(),
+            )
+            .unwrap();
+            let umbrella = helper_dir.join("umbrella.json");
+            let child = helper_dir.join("child.json");
+            fs::write(&umbrella, serde_json::to_vec(&json!({"issue":{
+                "repository":"agent-logic/agent-design-language","number":866,"title":"fixture sprint",
+                "state":"open","body":"- Membership version: `1`\n## Child issues\n- #867\n"
+            }})).unwrap()).unwrap();
+            fs::write(&child, serde_json::to_vec(&json!({"issue":{
+                "repository":"agent-logic/agent-design-language","number":867,"title":"fixture child",
+                "state":"open","body":"fixture"
+            }})).unwrap()).unwrap();
+            let sprint_request = helper_dir.join("sprint.json");
+            fs::write(&sprint_request, serde_json::to_vec(&json!({
+                "repository":"agent-logic/agent-design-language","version":"v0.92.2",
+                "sprints":[{"sprint":1,"umbrella_issue":866,"title":"fixture sprint",
+                    "execution_mode":"sequential","serial_gates":["accepted predecessor"],
+                    "umbrella_readback_ref":".csdlc/evidence/observation-helpers/umbrella.json",
+                    "child_readback_refs":{"867":".csdlc/evidence/observation-helpers/child.json"}}]
+            })).unwrap()).unwrap();
+            let contract_path = fixture.root.join("docs/csdlc-v3/CONTRACT.md");
+            let contract = fs::read(&contract_path).unwrap();
+            if state == "missing" {
+                fs::remove_file(&contract_path).unwrap();
+                fs::remove_file(&child).unwrap();
+            } else if state == "corrupt" {
+                fs::write(&contract_path, "invalid contract").unwrap();
+                fs::write(&child, "invalid-json").unwrap();
+            }
+            for helper in ["foundation", "local", "sprint"] {
+                let before_helper = observation_inventory(&primary);
+                let mut cmd = Command::new(&installed);
+                cmd.current_dir(&fixture.root).arg(helper);
+                if helper == "foundation" || helper == "sprint" {
+                    cmd.arg("--repo-root").arg(&fixture.root);
+                }
+                if helper == "local" {
+                    cmd.arg("--request")
+                        .arg(&local_request)
+                        .arg("--registry")
+                        .arg(repo_root().join("docs/templates/prompts/current.json"))
+                        .arg("--registrations")
+                        .arg(&helper_registrations);
+                } else if helper == "sprint" {
+                    cmd.arg("--request").arg(&sprint_request);
+                }
+                let output = cmd.output().unwrap();
+                assert_eq!(
+                    observation_inventory(&primary),
+                    before_helper,
+                    "{helper} wrote inspected storage"
+                );
+                // The retained local construction helper requires a registered
+                // target even for its preview. Preserve that baseline refusal
+                // on primary; never fabricate a future registration to pass.
+                let expected_success = if helper == "local" {
+                    linked
+                } else {
+                    !matches!(state, "missing" | "corrupt")
+                };
+                assert_eq!(
+                    output.status.success(),
+                    expected_success,
+                    "{helper}, {state}: {output:?}"
+                );
+                if output.status.success() && helper != "foundation" {
+                    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+                    assert_eq!(report["read_only"], true);
+                    assert_eq!(report["operational_authority"], false);
+                }
+            }
+            fs::write(contract_path, contract).unwrap();
+            if state == "pending" {
+                if linked {
+                    let mut different = fixture.request.clone();
+                    different.title = "not the original interrupted request".into();
+                    fs::write(
+                        &fixture.request_path,
+                        serde_json::to_vec(&different).unwrap(),
+                    )
+                    .unwrap();
+                    let before_retry = observation_inventory(&primary);
+                    let rejected = run_operational(&fixture, "edit", None);
+                    assert!(
+                        !rejected.status.success(),
+                        "different request recovered pending edit"
+                    );
+                    assert_eq!(observation_inventory(&primary), before_retry);
+                    fs::write(
+                        &fixture.request_path,
+                        serde_json::to_vec(&fixture.request).unwrap(),
+                    )
+                    .unwrap();
+                }
+                // The recovery operation advertised by diagnostics must work
+                // in the actual linked checkout as well as the primary.
+                let recovered = run_operational(&fixture, "edit", None);
+                assert!(
+                    recovered.status.success(),
+                    "advertised recovery failed: {recovered:?}"
+                );
+                assert!(!storage.join("transactions/505.json").exists());
+                let values: serde_json::Value = serde_json::from_slice(
+                    &fs::read(storage.join("issues/505/cards/sip.values.json")).unwrap(),
+                )
+                .unwrap();
+                assert_eq!(values["title"], "Pending edit");
+            }
+        }
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn installed_pr_state_observes_fake_remote_without_replaying_pending_mutation() {
+    use csdlc_v3::commands::remote::{typed_review_receipt_payload_digest, TypedReviewReceipt};
+    use std::os::unix::fs::PermissionsExt;
+    for linked in [false, true] {
+        for state in ["healthy", "missing", "corrupt", "pending"] {
+            let mut fixture = operational_fixture(&format!("remote-observation-{linked}-{state}"));
+            let primary = fixture.root.clone();
+            initialize_operational_fixture(&mut fixture);
+            if linked {
+                let bound = run_operational(&fixture, "bind", None);
+                assert!(bound.status.success(), "{bound:?}");
+                fixture.root = PathBuf::from(&fixture.request.worktree);
+            }
+            let head = git(&fixture.root, &["rev-parse", "HEAD"]);
+            let inputs = fixture.root.join(".csdlc/evidence/505/remote-observation");
+            fs::create_dir_all(&inputs).unwrap();
+            let review = TypedReviewReceipt {
+                schema: "csdlc.v3.typed_review_receipt.v1".into(),
+                repository: "agent-logic/agent-design-language".into(),
+                issue: 505,
+                implementer: "fixture-author".into(),
+                reviewer: "fixture-reviewer".into(),
+                reviewed_revision: head.clone(),
+                expected_head_sha: head.clone(),
+                evidence_digest: "fixture-review-evidence".into(),
+            };
+            let review_path = inputs.join("review.json");
+            fs::write(&review_path, serde_json::to_vec(&review).unwrap()).unwrap();
+            let request_path = inputs.join("pr-state.json");
+            fs::write(&request_path,serde_json::to_vec(&json!({
+                "repository":"agent-logic/agent-design-language","issue":505,"pull_request":639,
+                "actor":"fixture-author","implementer":"fixture-author","reviewer":"fixture-reviewer",
+                "review_revision":head,"expected_head_sha":head,"head_sha":head,
+                "mode":"closing","title":"fixture PR","body":"Closes #505","review_present":true,
+                "typed_review_receipt_path":review_path,"typed_review_receipt_digest":typed_review_receipt_payload_digest(&review),
+                "credential_names":["GITHUB_TOKEN"]
+            })).unwrap()).unwrap();
+            let installed = inputs.join("candidate/csdlc");
+            observation::install_candidate(&installed);
+            let fake_bin = inputs.join("fake-bin");
+            fs::create_dir_all(&fake_bin).unwrap();
+            let curl = fake_bin.join("curl");
+            let response = json!({"number":639,"node_id":"PR_fixture_639","head":{"sha":head},
+                "draft":true,"title":"fixture PR","body":"Closes #505"})
+            .to_string();
+            // Any write attempt fails visibly. No URL can escape this fake
+            // transport, and the diagnostic's fixture token is never real.
+            let read_response = match state {
+                "missing" => "exit 22".to_owned(),
+                "corrupt" => "printf '%s' 'not-json-SIM01_SECRET_SENTINEL'".to_owned(),
+                _ => format!("printf '%s' '{response}'"),
+            };
+            fs::write(&curl, format!("#!/bin/sh\ncase \"$*\" in *'--config -'*) cat >/dev/null;; esac\ncase \"$*\" in\n *graphql*|*POST*|*PATCH*|*PUT*|*DELETE*) exit 7;;\n *api.github.com/repos/agent-logic/agent-design-language/pulls/639*) {read_response};;\n *) exit 9;;\nesac\n")).unwrap();
+            fs::set_permissions(&curl, fs::Permissions::from_mode(0o700)).unwrap();
+            let path = format!(
+                "{}:{}",
+                fake_bin.display(),
+                std::env::var("PATH").unwrap_or_default()
+            );
+            let token = inputs.join("token");
+            fs::write(&token, "SIM01_SECRET_SENTINEL").unwrap();
+            let command = |route: &str, request: &Path, flag: &str| {
+                let mut cmd = Command::new(&installed);
+                cmd.current_dir(&fixture.root)
+                    .arg(route)
+                    .arg("--request")
+                    .arg(request)
+                    .arg(flag)
+                    .env("GITHUB_TOKEN", "SIM01_SECRET_SENTINEL")
+                    .env("ADL_GITHUB_TOKEN_FILE", &token)
+                    .env("PATH", &path);
+                cmd.output().unwrap()
+            };
+            if state == "pending" {
+                let mutation_path = inputs.join("pending-ready.json");
+                let mutation = OperationalRemoteDispatchRequest {
+                    expected_lifecycle_digest: canonical_authority_selector_digest(&fixture.root)
+                        .unwrap(),
+                    exact_review_sha: head.clone(),
+                    operation: OperationalRemoteOperation::GithubMutation(GithubMutationRequest {
+                        repository: "agent-logic/agent-design-language".into(),
+                        issue: 505,
+                        pull_request: Some(639),
+                        cutover_issue: Some(505),
+                        operator_approval: Some("isolated fake pending fixture".into()),
+                        expected_head_sha: head.clone(),
+                        credential_names: vec!["GITHUB_TOKEN".into()],
+                        recovery: None,
+                        mutation: GithubMutation::PullRequestReady,
+                    }),
+                };
+                fs::write(&mutation_path, serde_json::to_vec(&mutation).unwrap()).unwrap();
+                let failed = command("github-pr", &mutation_path, "--execute");
+                assert!(!failed.status.success());
+                assert!(
+                    String::from_utf8_lossy(&failed.stderr).contains("uncertain"),
+                    "{failed:?}"
+                );
+            }
+            let before = observation_inventory(&primary);
+            let output = command("pr-state", &request_path, "--observe-github");
+            let after = observation_inventory(&primary);
+            let changed: std::collections::BTreeSet<_> = before
+                .keys()
+                .chain(after.keys())
+                .filter(|path| before.get(*path) != after.get(*path))
+                .collect();
+            assert!(
+                changed.is_empty(),
+                "pr-state changed pending/evidence storage: {changed:?}"
+            );
+            assert!(!String::from_utf8_lossy(&output.stdout).contains("SIM01_SECRET_SENTINEL"));
+            assert!(!String::from_utf8_lossy(&output.stderr).contains("SIM01_SECRET_SENTINEL"));
+            if state == "healthy" {
+                assert!(output.status.success(), "{output:?}");
+                let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+                assert_eq!(report["read_only"], true);
+                assert_eq!(report["result"]["status"], "ready");
+            } else if state == "pending" {
+                let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+                assert_ne!(
+                    report["result"]["status"], "ready",
+                    "pending remote intent was hidden by ready observation"
+                );
+                // Explicit retry observes that the fake remote has become ready;
+                // the mutator, not pr-state, may now retain reconciliation.
+                let settled_response = response.replace("\"draft\":true", "\"draft\":false");
+                fs::write(&curl, format!("#!/bin/sh\ncase \"$*\" in *'--config -'*) cat >/dev/null;; esac\ncase \"$*\" in *graphql*|*POST*|*PATCH*|*PUT*|*DELETE*) exit 7;;\n *api.github.com/repos/agent-logic/agent-design-language/pulls/639*) printf '%s' '{settled_response}';;\n *) exit 9;; esac\n")).unwrap();
+                let settled = command("github-pr", &inputs.join("pending-ready.json"), "--execute");
+                assert!(settled.status.success(), "{settled:?}");
+                let before = observation_inventory(&primary);
+                let observed = command("pr-state", &request_path, "--observe-github");
+                assert!(observed.status.success(), "{observed:?}");
+                let report: serde_json::Value = serde_json::from_slice(&observed.stdout).unwrap();
+                assert_eq!(report["result"]["status"], "ready");
+                assert_eq!(before, observation_inventory(&primary));
+                let receipt_path = fs::read_dir(primary.join(".git/csdlc-v3/remote/mutations"))
+                    .unwrap()
+                    .next()
+                    .unwrap()
+                    .unwrap()
+                    .path();
+                let mut receipt: serde_json::Value =
+                    serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+                receipt["pull_request"] = json!(640);
+                fs::write(&receipt_path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+                let before = observation_inventory(&primary);
+                let observed = command("pr-state", &request_path, "--observe-github");
+                let report: serde_json::Value = serde_json::from_slice(&observed.stdout).unwrap();
+                assert_ne!(report["result"]["status"], "ready");
+                assert_eq!(before, observation_inventory(&primary));
+            } else {
+                assert!(!output.status.success(), "{output:?}");
+                let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+                assert_eq!(report["writes_v3_state"], false);
+                assert!(!String::from_utf8_lossy(&output.stderr).contains("\"code\""));
+            }
+        }
+    }
 }
 
 #[test]

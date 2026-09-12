@@ -316,6 +316,18 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
                 truncated: false,
             };
         }
+        if invocation.program == GITHUB_READ_ONLY_ADAPTER {
+            let curl = match github_read_only_curl_invocation(&invocation) {
+                Ok(curl) => curl,
+                Err(output) => return output,
+            };
+            return run_observational_curl(
+                &curl,
+                (&credential_name, &credential_value),
+                self.max_output_bytes,
+            )
+            .redact_secret(&credential_value);
+        }
         let (process_invocation, curl_config_required) = match invocation.program.as_str() {
             GITHUB_READ_ONLY_ADAPTER => match github_read_only_curl_invocation(&invocation) {
                 Ok(curl) => (curl, true),
@@ -756,6 +768,74 @@ fn run_process(
     }
 }
 
+/// A read-only adapter must not create a credential file or its lifecycle
+/// runtime directory, even transiently. Curl reads its private config from
+/// stdin; argv and diagnostics contain no credential value.
+fn run_observational_curl(
+    invocation: &CommandInvocation,
+    credential: (&str, &str),
+    max_output_bytes: usize,
+) -> ProcessOutput {
+    use std::{io::Write, process::Stdio};
+    let mut command = Command::new(&invocation.program);
+    // Curl still loads its default config with --config -. Disable that lookup
+    // before every other argument, including account-database home discovery.
+    command
+        .arg("-q")
+        .args(invocation.argv())
+        .args(["--config", "-"]);
+    apply_minimal_child_environment(&mut command);
+    command.env(credential.0, credential.1);
+    command
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let mut child = match command.spawn() {
+        Ok(child) => child,
+        Err(error) => {
+            return ProcessOutput {
+                status: ProcessStatus::Exit(127),
+                stdout: String::new(),
+                stderr: format!("process execution failed: {error}"),
+                truncated: false,
+            }
+        }
+    };
+    let result = (|| -> std::io::Result<std::process::Output> {
+        let config = format!("header = \"Authorization: Bearer {}\"\n", credential.1);
+        let written = child
+            .stdin
+            .take()
+            .expect("piped stdin")
+            .write_all(config.as_bytes());
+        if let Err(error) = written {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err(error);
+        }
+        child.wait_with_output()
+    })();
+    match result {
+        Ok(mut output) => {
+            // Redact before bounding output: truncating first can retain a
+            // credential prefix that a subsequent exact replacement misses.
+            output.stdout = String::from_utf8_lossy(&output.stdout)
+                .replace(credential.1, "[REDACTED]")
+                .into_bytes();
+            output.stderr = String::from_utf8_lossy(&output.stderr)
+                .replace(credential.1, "[REDACTED]")
+                .into_bytes();
+            process_output(output, max_output_bytes)
+        }
+        Err(_) => ProcessOutput {
+            status: ProcessStatus::Exit(126),
+            stdout: String::new(),
+            stderr: "read-only credential transport failed".into(),
+            truncated: false,
+        },
+    }
+}
+
 /// Child processes run without ambient parent credentials or shell startup
 /// state. `PATH` is retained only as the explicit executable lookup trust
 /// boundary, and `LC_ALL=C` fixes locale-sensitive output. `HOME`, proxy
@@ -1159,6 +1239,145 @@ mod tests {
         assert!(!output.stdout.contains("HOME=/tmp/adl-home-must-not-leak"));
         assert!(output.stdout.contains("LC_ALL=C"));
         assert!(output.stdout.contains("PATH="));
+    }
+
+    // PVF: deterministic credential transport; local executable fixture, no network.
+    #[cfg(unix)]
+    #[test]
+    fn observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments() {
+        use std::os::unix::fs::PermissionsExt;
+        let script = r#"#!/bin/sh
+IFS= read -r config
+test "$config" = 'header = "Authorization: Bearer synthetic-sim01-secret"' || exit 11
+test "$GITHUB_TOKEN" = 'synthetic-sim01-secret' || exit 12
+test -z "${HOME+x}${HTTPS_PROXY+x}${GH_TOKEN+x}" || exit 13
+test "$LC_ALL" = C || exit 14
+test "$1" = -q && test "$2" = --config && test "$3" = - && test "$#" = 3 || exit 15
+printf 'stdin-and-scope-verified'
+"#;
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/sim01-stdin-contract")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let helper = root.join("curl-fixture");
+        fs::write(&helper, script).unwrap();
+        fs::set_permissions(&helper, fs::Permissions::from_mode(0o700)).unwrap();
+        let invocation =
+            CommandInvocation::new(helper.to_str().unwrap(), std::iter::empty::<&str>()).unwrap();
+        let output = run_observational_curl(
+            &invocation,
+            ("GITHUB_TOKEN", "synthetic-sim01-secret"),
+            1024,
+        );
+        assert_eq!(output.status, ProcessStatus::Exit(0), "{output:?}");
+        assert_eq!(output.stdout, "stdin-and-scope-verified");
+        assert!(output.stderr.is_empty());
+        fs::write(&helper, "#!/bin/sh\ncat >/dev/null\nprintf '%s' \"$GITHUB_TOKEN\"\nprintf '%s' \"$GITHUB_TOKEN\" >&2\n").unwrap();
+        let output =
+            run_observational_curl(&invocation, ("GITHUB_TOKEN", "synthetic-sim01-secret"), 8);
+        assert!(output.truncated);
+        assert!(
+            output.stdout.starts_with("[REDACT"),
+            "truncation exposed a credential prefix"
+        );
+        assert!(
+            output.stderr.starts_with("[REDACT"),
+            "truncation exposed a credential prefix"
+        );
+    }
+
+    // PVF: real curl over file://, isolated CURL_HOME and local output sentinel;
+    // no network, live credential, or operator configuration is read.
+    #[cfg(unix)]
+    #[test]
+    fn observational_curl_disables_default_config_before_other_arguments() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/sim01-default-curl-config")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let payload = root.join("payload.txt");
+        let redirected = root.join("unexpected-output.txt");
+        fs::write(&payload, "isolated curl payload").unwrap();
+        fs::write(
+            root.join(".curlrc"),
+            format!(
+                "output = {}\n",
+                serde_json::to_string(redirected.to_str().unwrap()).unwrap()
+            ),
+        )
+        .unwrap();
+        let quote = |value: &str| format!("'{}'", value.replace('\'', "'\\''"));
+        let wrapper = root.join("curl-fixture");
+        // The wrapper sets only the synthetic config location after the adapter
+        // clears its environment. Curl's actual default-config parser is tested.
+        fs::write(
+            &wrapper,
+            format!(
+                "#!/bin/sh\nexport CURL_HOME={}\nexec curl \"$@\"\n",
+                quote(root.to_str().unwrap())
+            ),
+        )
+        .unwrap();
+        fs::set_permissions(&wrapper, fs::Permissions::from_mode(0o700)).unwrap();
+        let encoded: String = payload
+            .to_str()
+            .unwrap()
+            .bytes()
+            .map(|byte| {
+                if byte.is_ascii_alphanumeric() || b"/.-_~".contains(&byte) {
+                    (byte as char).to_string()
+                } else {
+                    format!("%{byte:02X}")
+                }
+            })
+            .collect();
+        let url = format!("file://{encoded}");
+        let control = Command::new(&wrapper)
+            .args(["--silent", "--show-error", &url])
+            .output()
+            .unwrap();
+        assert!(control.status.success(), "{control:?}");
+        assert!(control.stdout.is_empty());
+        assert_eq!(
+            fs::read_to_string(&redirected).unwrap(),
+            "isolated curl payload"
+        );
+        fs::remove_file(&redirected).unwrap();
+        let invocation = CommandInvocation::new(
+            wrapper.to_str().unwrap(),
+            ["--silent", "--show-error", &url],
+        )
+        .unwrap();
+        let output = run_observational_curl(
+            &invocation,
+            ("GITHUB_TOKEN", "synthetic-sim01-secret"),
+            1024,
+        );
+        assert_eq!(output.status, ProcessStatus::Exit(0), "{output:?}");
+        assert!(
+            !redirected.exists(),
+            "default curl configuration wrote a file during observation"
+        );
+        assert_eq!(output.stdout, "isolated curl payload");
+        assert!(output.stderr.is_empty());
+    }
+
+    // PVF: deterministic local process-launch classification; no network or files.
+    #[test]
+    fn observational_transport_preserves_missing_executable_classification() {
+        let invocation =
+            CommandInvocation::new("/nonexistent-csdlc-sim01/curl", std::iter::empty::<&str>())
+                .unwrap();
+        let output = run_observational_curl(
+            &invocation,
+            ("GITHUB_TOKEN", "synthetic-sim01-secret"),
+            1024,
+        );
+        assert_eq!(output.status, ProcessStatus::Exit(127));
+        assert!(output.stderr.starts_with("process execution failed:"));
+        assert!(!output.stderr.contains("synthetic-sim01-secret"));
+        assert!(output.stdout.is_empty());
     }
 
     // PVF: deterministic local subprocess credential-scope/redaction contract; no network.

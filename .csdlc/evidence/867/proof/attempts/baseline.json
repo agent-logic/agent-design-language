@@ -1,0 +1,2783 @@
+{
+  "schema": "csdlc.sim01.attempt_corpus.v1",
+  "provenance": {
+    "source_head": "40c068b11a2cca7303f5fcaed01d33b2614db743",
+    "tracked_diff_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+    "source_and_tests_inventory_blake3": "12d58442998cded7c3cfe502d76cc9ca5f147c0f71136c59375c95b44797867b",
+    "binary_blake3": "ecdb9fb6efd92bfb9215d521bcbd2edf91540826149aef283fc94a4d42e7ef2a",
+    "os": "macos",
+    "architecture": "aarch64",
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+    "git": "git version 2.54.0",
+    "transport": "isolated fake remote; no live credentials or network",
+    "clock": "injected synthetic fixture clock; actual subprocess duration recorded separately",
+    "scope": "installed fixture attempts, not production reliability or causal timing savings"
+  },
+  "denominators": {
+    "abandoned": 0,
+    "attempted": 17,
+    "censored": 0,
+    "completed": 14,
+    "eligible": 17
+  },
+  "outcomes": {
+    "blocked": 2,
+    "completed": 14,
+    "interrupted": 1
+  },
+  "attempts": [
+    {
+      "correlation_id": "local-01",
+      "route": "issue",
+      "scenario": "healthy_prepare",
+      "checkout": "",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "installed operation completed",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 10,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "state": "missing"
+      },
+      "issue_version_after": {
+        "generation": 1,
+        "digest": "6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f",
+        "phase": "ready"
+      },
+      "effects": [
+        {
+          "path": ".git/csdlc-v3",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sip.md",
+          "before": null,
+          "after": "file:d47fad426d80c98828bcc38e3565a386297a59f19c1253c5e5b5ae12fb102eb8"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sip.values.json",
+          "before": null,
+          "after": "file:24a003f2ad80061dcd5e81aff098e97ecddfd58b8eb1c9270bb6ea3e75c8be4c"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sor.md",
+          "before": null,
+          "after": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sor.values.json",
+          "before": null,
+          "after": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/spp.md",
+          "before": null,
+          "after": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/spp.values.json",
+          "before": null,
+          "after": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/srp.md",
+          "before": null,
+          "after": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/srp.values.json",
+          "before": null,
+          "after": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/stp.md",
+          "before": null,
+          "after": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/stp.values.json",
+          "before": null,
+          "after": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/vpp.md",
+          "before": null,
+          "after": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/vpp.values.json",
+          "before": null,
+          "after": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/index.json",
+          "before": null,
+          "after": "file:8f2fe09875b5c280f988572a78a5358ef9050feeb7f742dd7d6e184992a813d8"
+        },
+        {
+          "path": ".git/csdlc-v3/local/locks",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/locks/505.lock",
+          "before": null,
+          "after": "file:af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262"
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.operational_local.v1",
+        "command": "issue",
+        "read_only": false,
+        "operational_read_only": false,
+        "operational_authority": true,
+        "writes_v3_state": true,
+        "result": {
+          "route": "issue",
+          "issue": 505,
+          "mutated": true,
+          "phase": "ready",
+          "generation": 1,
+          "digest": "6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f",
+          "next_route": "bind",
+          "findings": []
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_local.v1\",\"command\":\"issue\",\"read_only\":false,\"operational_read_only\":false,\"operational_authority\":true,\"writes_v3_state\":true,\"result\":{\"route\":\"issue\",\"issue\":505,\"mutated\":true,\"phase\":\"ready\",\"generation\":1,\"digest\":\"6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f\",\"next_route\":\"bind\",\"findings\":[]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800000,
+      "wall_end_millis": 1789084800010,
+      "monotonic_start_millis": 0,
+      "monotonic_end_millis": 10,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 204889
+    },
+    {
+      "correlation_id": "local-01-inspect",
+      "route": "doctor",
+      "scenario": "primary_discovery",
+      "checkout": "",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "installed operation completed",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 10,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 1,
+        "digest": "6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f",
+        "phase": "ready"
+      },
+      "issue_version_after": {
+        "generation": 1,
+        "digest": "6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f",
+        "phase": "ready"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.operational_local.v1",
+        "command": "doctor",
+        "read_only": true,
+        "operational_read_only": true,
+        "operational_authority": true,
+        "writes_v3_state": false,
+        "result": {
+          "route": "doctor",
+          "issue": 505,
+          "mutated": false,
+          "phase": "ready",
+          "generation": 1,
+          "digest": "6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f",
+          "next_route": "bind",
+          "findings": [
+            {
+              "status": "passed",
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state"
+            },
+            {
+              "status": "passed",
+              "code": "six_card_validation_passed",
+              "message": "issue #505 has valid values, renders, structures, and digest"
+            }
+          ]
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_local.v1\",\"command\":\"doctor\",\"read_only\":true,\"operational_read_only\":true,\"operational_authority\":true,\"writes_v3_state\":false,\"result\":{\"route\":\"doctor\",\"issue\":505,\"mutated\":false,\"phase\":\"ready\",\"generation\":1,\"digest\":\"6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f\",\"next_route\":\"bind\",\"findings\":[{\"status\":\"passed\",\"code\":\"lifecycle_digest_valid\",\"message\":\"lifecycle digest matches canonical state\"},{\"status\":\"passed\",\"code\":\"six_card_validation_passed\",\"message\":\"issue #505 has valid values, renders, structures, and digest\"}]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800020,
+      "wall_end_millis": 1789084800030,
+      "monotonic_start_millis": 20,
+      "monotonic_end_millis": 30,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 90804
+    },
+    {
+      "correlation_id": "local-02",
+      "route": "bind",
+      "scenario": "healthy_bind",
+      "checkout": "",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "installed operation completed",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 10,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 1,
+        "digest": "6e0a5f81895a9ab747b67942feae10ff7f43f6356b62e604e48aff4d9716f23f",
+        "phase": "ready"
+      },
+      "issue_version_after": {
+        "generation": 2,
+        "digest": "7c55dacece9f4e1e2bea2f0f0ef24deae89c66120715059cc4d775c1c1549013",
+        "phase": "bound"
+      },
+      "effects": [
+        {
+          "path": ".git/csdlc-v3/local/bindings",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/bindings/505.json",
+          "before": null,
+          "after": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53"
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sip.md",
+          "before": "file:d47fad426d80c98828bcc38e3565a386297a59f19c1253c5e5b5ae12fb102eb8",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sip.values.json",
+          "before": "file:24a003f2ad80061dcd5e81aff098e97ecddfd58b8eb1c9270bb6ea3e75c8be4c",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sor.md",
+          "before": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/sor.values.json",
+          "before": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/spp.md",
+          "before": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/spp.values.json",
+          "before": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/srp.md",
+          "before": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/srp.values.json",
+          "before": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/stp.md",
+          "before": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/stp.values.json",
+          "before": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/vpp.md",
+          "before": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/cards/vpp.values.json",
+          "before": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/issues/505/index.json",
+          "before": "file:8f2fe09875b5c280f988572a78a5358ef9050feeb7f742dd7d6e184992a813d8",
+          "after": null
+        },
+        {
+          "path": ".git/csdlc-v3/local/transactions",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/logs/refs/heads/codex",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/logs/refs/heads/codex/505-attempt-baseline-local",
+          "before": null,
+          "after": "file:2484d805d5f52a647e8f1385119ee00b02bab0eeb880fef0c9641dc2014c94df"
+        },
+        {
+          "path": ".git/refs/heads/codex",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/refs/heads/codex/505-attempt-baseline-local",
+          "before": null,
+          "after": "file:86749cd2bce3e95b3a522713b5f3a4b54d12523576a8d8750b0414767e86c3dc"
+        },
+        {
+          "path": ".git/worktrees",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/worktrees/issue-505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/worktrees/issue-505/HEAD",
+          "before": null,
+          "after": "file:c383b4916af063f10c3b2685c4f6e7cb510f04a4daae164ebd6b62ba985e8809"
+        },
+        {
+          "path": ".git/worktrees/issue-505/ORIG_HEAD",
+          "before": null,
+          "after": "file:86749cd2bce3e95b3a522713b5f3a4b54d12523576a8d8750b0414767e86c3dc"
+        },
+        {
+          "path": ".git/worktrees/issue-505/commondir",
+          "before": null,
+          "after": "file:f14ca8f2ae585b18c950cedc63cb6419a4b769f0d96e7b2fe6ebcbc7c13fc7d5"
+        },
+        {
+          "path": ".git/worktrees/issue-505/gitdir",
+          "before": null,
+          "after": "file:9803526c8db373a61eb87af647de06080c87136587da9f4cfc6e6daf920fac24"
+        },
+        {
+          "path": ".git/worktrees/issue-505/index",
+          "before": null,
+          "after": "file:93a3832edc5ad262a2a51471d3d2aea424307910d853c38463204a116d7cf860"
+        },
+        {
+          "path": ".git/worktrees/issue-505/logs",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/worktrees/issue-505/logs/HEAD",
+          "before": null,
+          "after": "file:a56fc37a9b78d729a014a583c0c973a8e2ef088d8a55e18b36e40e5a01515d5d"
+        },
+        {
+          "path": ".git/worktrees/issue-505/refs",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.adl",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.adl/worktree-policy.json",
+          "before": null,
+          "after": "file:4130f1270b8b6c8ea577fe89b37b58a50060c255daa8bce3fa4402e237c2ca9e"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/evidence",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/evidence/505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/evidence/505/terminal-receipt.json",
+          "before": null,
+          "after": "file:b29d73adbb6f366329ff88ccd76eb78c96f7da67cd957db2f2babf46823e3857"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/binding.json",
+          "before": null,
+          "after": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.md",
+          "before": null,
+          "after": "file:d47fad426d80c98828bcc38e3565a386297a59f19c1253c5e5b5ae12fb102eb8"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.values.json",
+          "before": null,
+          "after": "file:24a003f2ad80061dcd5e81aff098e97ecddfd58b8eb1c9270bb6ea3e75c8be4c"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sor.md",
+          "before": null,
+          "after": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sor.values.json",
+          "before": null,
+          "after": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/spp.md",
+          "before": null,
+          "after": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/spp.values.json",
+          "before": null,
+          "after": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/srp.md",
+          "before": null,
+          "after": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/srp.values.json",
+          "before": null,
+          "after": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/stp.md",
+          "before": null,
+          "after": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/stp.values.json",
+          "before": null,
+          "after": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/vpp.md",
+          "before": null,
+          "after": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/vpp.values.json",
+          "before": null,
+          "after": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/index.json",
+          "before": null,
+          "after": "file:ed989638e029cf2383aae0a999c62bce13fda2131f6a56d53991e72e3eb4e78e"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions/completed",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions/completed/505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions/completed/505/bind-b8af02101c4d3ab698aeba759c5f5507fe8ea0d422c4cd60f1946d65c0001a8d.json",
+          "before": null,
+          "after": "file:caff7d8837d186c99e87a35d431adf2f00a01fdbba1deb1a68575d6394587da2"
+        },
+        {
+          "path": "worktrees/issue-505/.git",
+          "before": null,
+          "after": "file:8e58514b1c26a3905cc7e274898df2e4adf600b355a9935bdd2b63a1d250b3ee"
+        },
+        {
+          "path": "worktrees/issue-505/csdlc-v3",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/csdlc-v3/operator",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/csdlc-v3/operator/authority-selector.json",
+          "before": null,
+          "after": "file:8b27bd7be6f1dba7f933f9376991aa3ee4b39a0696e96e9bc2fd03890c09a108"
+        },
+        {
+          "path": "worktrees/issue-505/csdlc-v3/operator/native-authority-pr-observation.json",
+          "before": null,
+          "after": "file:6a666e194af53d3056668af05afd6abce97e612297d3c24eff2932788de9672b"
+        },
+        {
+          "path": "worktrees/issue-505/csdlc-v3/operator/native-authority-receipt.json",
+          "before": null,
+          "after": "file:8e673c7813c1dbab1f899762a91f9d50ed000017f159cb74885e0276a1b074a8"
+        },
+        {
+          "path": "worktrees/issue-505/docs",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/pvf_lane_policy.json",
+          "before": null,
+          "after": "file:c5daacc8b657eec5a94900bffc1793bf5e86de7bbdc3c01a891b4699193066b5"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/schemas",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+          "before": null,
+          "after": "file:827125ded90d4433f7871c0524e7bbe99c2e71f015bfdd3bf51b018cb3b7a9fd"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+          "before": null,
+          "after": "file:9a1e2c23d1de7de504baa66bb5bf30d796f5af7c266e2a3c896d3c48d83cdc7b"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+          "before": null,
+          "after": "file:7bf89d93c5bbdbefbbdf097707ed9d87e7f8300be762cd5bf996abb704c7da38"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+          "before": null,
+          "after": "file:757454220721374f49224e14171c7115485f516589f2925cfd80406a5831455b"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+          "before": null,
+          "after": "file:bc80fa1443696d9027d79fde70eaf079bc3483ca325ad76f9b623d766d25b07d"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+          "before": null,
+          "after": "file:95e34bfc13a81e4645a57e814c2976219a486f8817a88f55780621d51c2e11ec"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/sip.md",
+          "before": null,
+          "after": "file:dbc0571ce516a6ffb8afb996f5f052dfb969018450680dd99847b1573fea540f"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/sor.md",
+          "before": null,
+          "after": "file:8c621d154086e44d5cb9f70be2fc87b925202859c1b36b629461a13c1979386d"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/spp.md",
+          "before": null,
+          "after": "file:58e3c5231f073a413eef55fdcfcc2cf035f4cec91d5a47fc97771f4a3c0d5191"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/srp.md",
+          "before": null,
+          "after": "file:73c60d56cef7a5ead2184efc927191b9004fcf0651380f6ca115725297d880da"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/stp.md",
+          "before": null,
+          "after": "file:46213058fc760bd4c11dcdbe4d4e49ade1096e09ee4ffdad4ef5ec868f61e8d6"
+        },
+        {
+          "path": "worktrees/issue-505/docs/templates/prompts/1.0.5/vpp.md",
+          "before": null,
+          "after": "file:e6a10780f7fb526d7a9b2a56267267532661f0f8242a81f600ea50ca9e16a3b1"
+        },
+        {
+          "path": "worktrees/issue-505/tracked",
+          "before": null,
+          "after": "file:2b77d24eb18add9ed20566b460dfb8235a98a2d5c23d853f7bb615e0b1797fdb"
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.operational_local.v1",
+        "command": "bind",
+        "read_only": false,
+        "operational_read_only": false,
+        "operational_authority": true,
+        "writes_v3_state": true,
+        "result": {
+          "route": "bind",
+          "issue": 505,
+          "mutated": true,
+          "phase": "bound",
+          "generation": 2,
+          "digest": "7c55dacece9f4e1e2bea2f0f0ef24deae89c66120715059cc4d775c1c1549013",
+          "next_route": "edit",
+          "findings": []
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_local.v1\",\"command\":\"bind\",\"read_only\":false,\"operational_read_only\":false,\"operational_authority\":true,\"writes_v3_state\":true,\"result\":{\"route\":\"bind\",\"issue\":505,\"mutated\":true,\"phase\":\"bound\",\"generation\":2,\"digest\":\"7c55dacece9f4e1e2bea2f0f0ef24deae89c66120715059cc4d775c1c1549013\",\"next_route\":\"edit\",\"findings\":[]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800040,
+      "wall_end_millis": 1789084800050,
+      "monotonic_start_millis": 40,
+      "monotonic_end_millis": 50,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 219451
+    },
+    {
+      "correlation_id": "local-03",
+      "route": "edit",
+      "scenario": "healthy_edit",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "installed operation completed",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 11,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "card_updates.sip.title",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 2,
+        "digest": "7c55dacece9f4e1e2bea2f0f0ef24deae89c66120715059cc4d775c1c1549013",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 3,
+        "digest": "7d1865676d02a7fbdb824f091061300dae76814af3d83549f7e98619fc4d9c1c",
+        "phase": "bound"
+      },
+      "effects": [
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.md",
+          "before": "file:d47fad426d80c98828bcc38e3565a386297a59f19c1253c5e5b5ae12fb102eb8",
+          "after": "file:05ecf7f097c822f9986e49801a36408cc1f13c51b91950cb3bd99616050efc65"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.values.json",
+          "before": "file:24a003f2ad80061dcd5e81aff098e97ecddfd58b8eb1c9270bb6ea3e75c8be4c",
+          "after": "file:d76faeda52a4f409ba8781162fe47618138a9b89a4f962fb1512216b3193f86f"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/index.json",
+          "before": "file:ed989638e029cf2383aae0a999c62bce13fda2131f6a56d53991e72e3eb4e78e",
+          "after": "file:94e47ef26d924df4cb1cb91a7478dd635ad1d18b62e19fa5a0f53b54457d7fca"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/locks",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/locks/505.lock",
+          "before": null,
+          "after": "file:af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions/completed/505/edit-917deb17ea4ea4d5f08b18380f5973f82da2fa2019972bf9770ba2a70c844914.json",
+          "before": null,
+          "after": "file:a18ce89f6733bc6b5a910b65d9ad7971d6928a5255011ec9f771f63d16de6333"
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.operational_local.v1",
+        "command": "edit",
+        "read_only": false,
+        "operational_read_only": false,
+        "operational_authority": true,
+        "writes_v3_state": true,
+        "result": {
+          "route": "edit",
+          "issue": 505,
+          "mutated": true,
+          "phase": "bound",
+          "generation": 3,
+          "digest": "7d1865676d02a7fbdb824f091061300dae76814af3d83549f7e98619fc4d9c1c",
+          "next_route": "validate",
+          "findings": []
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_local.v1\",\"command\":\"edit\",\"read_only\":false,\"operational_read_only\":false,\"operational_authority\":true,\"writes_v3_state\":true,\"result\":{\"route\":\"edit\",\"issue\":505,\"mutated\":true,\"phase\":\"bound\",\"generation\":3,\"digest\":\"7d1865676d02a7fbdb824f091061300dae76814af3d83549f7e98619fc4d9c1c\",\"next_route\":\"validate\",\"findings\":[]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800060,
+      "wall_end_millis": 1789084800070,
+      "monotonic_start_millis": 60,
+      "monotonic_end_millis": 70,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 175344
+    },
+    {
+      "correlation_id": "local-04",
+      "route": "edit",
+      "scenario": "interrupted_edit",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": false,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 91,
+      "outcome": "interrupted",
+      "reason": "injected process exit between directory swaps",
+      "redaction_violation": false,
+      "invalidation_cause": "pending local transaction",
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 11,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "card_updates.sip.title",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 3,
+        "digest": "7d1865676d02a7fbdb824f091061300dae76814af3d83549f7e98619fc4d9c1c",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "state": "missing"
+      },
+      "effects": [
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/binding.json",
+          "before": null,
+          "after": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sip.md",
+          "before": null,
+          "after": "file:05ecf7f097c822f9986e49801a36408cc1f13c51b91950cb3bd99616050efc65"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sip.values.json",
+          "before": null,
+          "after": "file:d76faeda52a4f409ba8781162fe47618138a9b89a4f962fb1512216b3193f86f"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sor.md",
+          "before": null,
+          "after": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sor.values.json",
+          "before": null,
+          "after": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/spp.md",
+          "before": null,
+          "after": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/spp.values.json",
+          "before": null,
+          "after": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/srp.md",
+          "before": null,
+          "after": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/srp.values.json",
+          "before": null,
+          "after": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/stp.md",
+          "before": null,
+          "after": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/stp.values.json",
+          "before": null,
+          "after": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/vpp.md",
+          "before": null,
+          "after": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/vpp.values.json",
+          "before": null,
+          "after": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/index.json",
+          "before": null,
+          "after": "file:94e47ef26d924df4cb1cb91a7478dd635ad1d18b62e19fa5a0f53b54457d7fca"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/binding.json",
+          "before": null,
+          "after": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sip.md",
+          "before": null,
+          "after": "file:1ff973d735dc4e8c0119d0e38e2f726b9a90cd5f766f2880a246a421c5165ec9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sip.values.json",
+          "before": null,
+          "after": "file:81c237fd8ff5ba92674a0b843709157965625b2baa8afdee8fd414e7da075128"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sor.md",
+          "before": null,
+          "after": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sor.values.json",
+          "before": null,
+          "after": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/spp.md",
+          "before": null,
+          "after": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/spp.values.json",
+          "before": null,
+          "after": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/srp.md",
+          "before": null,
+          "after": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/srp.values.json",
+          "before": null,
+          "after": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/stp.md",
+          "before": null,
+          "after": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/stp.values.json",
+          "before": null,
+          "after": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/vpp.md",
+          "before": null,
+          "after": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/vpp.values.json",
+          "before": null,
+          "after": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/index.json",
+          "before": null,
+          "after": "file:a7603b7a1c51bb8370382c0dbeb4ded395321b45a64b61196d4ec501002a3b35"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/binding.json",
+          "before": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.md",
+          "before": "file:05ecf7f097c822f9986e49801a36408cc1f13c51b91950cb3bd99616050efc65",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.values.json",
+          "before": "file:d76faeda52a4f409ba8781162fe47618138a9b89a4f962fb1512216b3193f86f",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sor.md",
+          "before": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sor.values.json",
+          "before": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/spp.md",
+          "before": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/spp.values.json",
+          "before": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/srp.md",
+          "before": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/srp.values.json",
+          "before": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/stp.md",
+          "before": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/stp.values.json",
+          "before": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/vpp.md",
+          "before": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/vpp.values.json",
+          "before": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/index.json",
+          "before": "file:94e47ef26d924df4cb1cb91a7478dd635ad1d18b62e19fa5a0f53b54457d7fca",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions/505.json",
+          "before": null,
+          "after": "file:fade08348b53790124633a33eec8e4880b5e53e51bfba9fc1842a92a6481e5e8"
+        }
+      ],
+      "stdout": null,
+      "stdout_text": "",
+      "stderr": "",
+      "wall_start_millis": 1789084800080,
+      "wall_end_millis": 1789084800090,
+      "monotonic_start_millis": 80,
+      "monotonic_end_millis": 90,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 167623
+    },
+    {
+      "correlation_id": "local-05",
+      "route": "doctor",
+      "scenario": "pending_observation",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": false,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 2,
+      "outcome": "blocked",
+      "reason": "local_transaction_recovery_required",
+      "redaction_violation": false,
+      "invalidation_cause": "pending local transaction",
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 11,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "card_updates.sip.title",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "state": "missing"
+      },
+      "issue_version_after": {
+        "state": "missing"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.operational_diagnostic.v1",
+        "command": "doctor",
+        "status": "blocked",
+        "read_only": true,
+        "writes_v3_state": false,
+        "findings": [
+          {
+            "status": "blocked",
+            "code": "local_transaction_recovery_required",
+            "message": "a pending local journal requires explicit recovery: inspect its bind/edit identity and reissue the exact original mutating request; diagnostics never replay it"
+          }
+        ]
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_diagnostic.v1\",\"command\":\"doctor\",\"status\":\"blocked\",\"read_only\":true,\"writes_v3_state\":false,\"findings\":[{\"status\":\"blocked\",\"code\":\"local_transaction_recovery_required\",\"message\":\"a pending local journal requires explicit recovery: inspect its bind/edit identity and reissue the exact original mutating request; diagnostics never replay it\"}]}\n",
+      "stderr": "csdlc: read-only route blocked; see structured stdout findings\n",
+      "wall_start_millis": 1789084800100,
+      "wall_end_millis": 1789084800110,
+      "monotonic_start_millis": 100,
+      "monotonic_end_millis": 110,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 97715
+    },
+    {
+      "correlation_id": "local-06",
+      "route": "edit",
+      "scenario": "explicit_recovery",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "installed operation completed",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 11,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "card_updates.sip.title",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "state": "missing"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/binding.json",
+          "before": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sip.md",
+          "before": "file:05ecf7f097c822f9986e49801a36408cc1f13c51b91950cb3bd99616050efc65",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sip.values.json",
+          "before": "file:d76faeda52a4f409ba8781162fe47618138a9b89a4f962fb1512216b3193f86f",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sor.md",
+          "before": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/sor.values.json",
+          "before": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/spp.md",
+          "before": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/spp.values.json",
+          "before": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/srp.md",
+          "before": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/srp.values.json",
+          "before": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/stp.md",
+          "before": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/stp.values.json",
+          "before": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/vpp.md",
+          "before": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/cards/vpp.values.json",
+          "before": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.backup/index.json",
+          "before": "file:94e47ef26d924df4cb1cb91a7478dd635ad1d18b62e19fa5a0f53b54457d7fca",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/binding.json",
+          "before": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sip.md",
+          "before": "file:1ff973d735dc4e8c0119d0e38e2f726b9a90cd5f766f2880a246a421c5165ec9",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sip.values.json",
+          "before": "file:81c237fd8ff5ba92674a0b843709157965625b2baa8afdee8fd414e7da075128",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sor.md",
+          "before": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/sor.values.json",
+          "before": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/spp.md",
+          "before": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/spp.values.json",
+          "before": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/srp.md",
+          "before": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/srp.values.json",
+          "before": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/stp.md",
+          "before": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/stp.values.json",
+          "before": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/vpp.md",
+          "before": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/cards/vpp.values.json",
+          "before": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/.issue-505-edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.stage/index.json",
+          "before": "file:a7603b7a1c51bb8370382c0dbeb4ded395321b45a64b61196d4ec501002a3b35",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/binding.json",
+          "before": null,
+          "after": "file:f554e0237ab354c77286fe036877810e3dfde56cc80ce638f6210e5aaccb7b53"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.md",
+          "before": null,
+          "after": "file:1ff973d735dc4e8c0119d0e38e2f726b9a90cd5f766f2880a246a421c5165ec9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sip.values.json",
+          "before": null,
+          "after": "file:81c237fd8ff5ba92674a0b843709157965625b2baa8afdee8fd414e7da075128"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sor.md",
+          "before": null,
+          "after": "file:76852fb1c739f1a7f3bd68f6ed65fcd849a14c3a9e28aa4134c921abc185e73b"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/sor.values.json",
+          "before": null,
+          "after": "file:ee925f1142621288711b2327e196305e3fb968944dd0add8816fffcc3e7f4de9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/spp.md",
+          "before": null,
+          "after": "file:03f78f37a76cced6edeb36ae3e2924754a7d7ecbc99cc348befaf97a521b1286"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/spp.values.json",
+          "before": null,
+          "after": "file:86be722139accc26a70697d55228c81c4f86d8eafd91772a3fedd8df2be6882f"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/srp.md",
+          "before": null,
+          "after": "file:fd75bf36a9fcd22abb0d2b36ab4c30047386ff9ed2b60b3efc99e6733a18f930"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/srp.values.json",
+          "before": null,
+          "after": "file:6ceb21a086869687008241f6bb2216cc5f20a42cbefdd83c9e68dd4fe12bb59d"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/stp.md",
+          "before": null,
+          "after": "file:88ce23784a9a936b2b2af2c07ac3d994f6d34ecb5437800f20c3740e9b504e74"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/stp.values.json",
+          "before": null,
+          "after": "file:11618b6d7f6f6657eb10afa3b59465ab219e522a706be29e5ff8b8a96801efe3"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/vpp.md",
+          "before": null,
+          "after": "file:e30d2ea2ee48ea313a12068f17c720395d0367aeb16ad0dca35dae1d256bc2e9"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/cards/vpp.values.json",
+          "before": null,
+          "after": "file:b59e6a1c4817e6c99ee8e59304c683245f6c09c8b6ef60976be7a76f6c5e4ca5"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/issues/505/index.json",
+          "before": null,
+          "after": "file:a7603b7a1c51bb8370382c0dbeb4ded395321b45a64b61196d4ec501002a3b35"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions/505.json",
+          "before": "file:fade08348b53790124633a33eec8e4880b5e53e51bfba9fc1842a92a6481e5e8",
+          "after": null
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/transactions/completed/505/edit-b016b5e12bda18b8e06df6c62f76d9b0f4c7b7e045089e47de89f497566d603f.json",
+          "before": null,
+          "after": "file:c4bd80a4a5ee96086e4be26b3f0c04a69010b653b4629f9a4e1e7d3da943171b"
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.operational_local.v1",
+        "command": "edit",
+        "read_only": false,
+        "operational_read_only": false,
+        "operational_authority": true,
+        "writes_v3_state": true,
+        "result": {
+          "route": "edit",
+          "issue": 505,
+          "mutated": true,
+          "phase": "bound",
+          "generation": 4,
+          "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+          "next_route": "validate",
+          "findings": []
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_local.v1\",\"command\":\"edit\",\"read_only\":false,\"operational_read_only\":false,\"operational_authority\":true,\"writes_v3_state\":true,\"result\":{\"route\":\"edit\",\"issue\":505,\"mutated\":true,\"phase\":\"bound\",\"generation\":4,\"digest\":\"6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191\",\"next_route\":\"validate\",\"findings\":[]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800120,
+      "wall_end_millis": 1789084800130,
+      "monotonic_start_millis": 120,
+      "monotonic_end_millis": 130,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 145802
+    },
+    {
+      "correlation_id": "local-07",
+      "route": "doctor",
+      "scenario": "nonprimary_discovery",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "installed operation completed",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 11,
+      "manual_input_fields": [
+        "issue",
+        "title",
+        "repository",
+        "branch",
+        "worktree",
+        "registry_version",
+        "expected_lifecycle_digest",
+        "commands",
+        "card_updates.sip.title",
+        "schedule_readiness",
+        "shepherd_routing"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.operational_local.v1",
+        "command": "doctor",
+        "read_only": true,
+        "operational_read_only": true,
+        "operational_authority": true,
+        "writes_v3_state": false,
+        "result": {
+          "route": "doctor",
+          "issue": 505,
+          "mutated": false,
+          "phase": "bound",
+          "generation": 4,
+          "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+          "next_route": "shepherd",
+          "findings": [
+            {
+              "status": "passed",
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state"
+            },
+            {
+              "status": "passed",
+              "code": "six_card_validation_passed",
+              "message": "issue #505 has valid values, renders, structures, and digest"
+            },
+            {
+              "status": "passed",
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live"
+            }
+          ]
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_local.v1\",\"command\":\"doctor\",\"read_only\":true,\"operational_read_only\":true,\"operational_authority\":true,\"writes_v3_state\":false,\"result\":{\"route\":\"doctor\",\"issue\":505,\"mutated\":false,\"phase\":\"bound\",\"generation\":4,\"digest\":\"6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191\",\"next_route\":\"shepherd\",\"findings\":[{\"status\":\"passed\",\"code\":\"lifecycle_digest_valid\",\"message\":\"lifecycle digest matches canonical state\"},{\"status\":\"passed\",\"code\":\"six_card_validation_passed\",\"message\":\"issue #505 has valid values, renders, structures, and digest\"},{\"status\":\"passed\",\"code\":\"binding_live\",\"message\":\"exact Git worktree registration is live\"}]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800140,
+      "wall_end_millis": 1789084800150,
+      "monotonic_start_millis": 140,
+      "monotonic_end_millis": 150,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 107596
+    },
+    {
+      "correlation_id": "local-08",
+      "route": "proof",
+      "scenario": "healthy_bound_proof",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "native bound proof outcome",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 24,
+      "manual_input_fields": [
+        "issue",
+        "repository",
+        "binding.worktree",
+        "binding.branch",
+        "binding.exact_head",
+        "binding.git_common_dir",
+        "binding.generation",
+        "binding.lifecycle_digest",
+        "evidence_root",
+        "proof.manifest_id",
+        "proof.lane",
+        "proof.deterministic",
+        "proof.evidence_ref",
+        "proof.evidence_digest",
+        "proof.observed_digest",
+        "proof.stale",
+        "proof.normalization",
+        "proof.command.generation",
+        "proof.command.binary_ref",
+        "proof.command.argv",
+        "proof.command.request_ref",
+        "proof.command.timeout_millis",
+        "proof.command.side_effect_boundary_refs",
+        "proof.command.provider_side_effects"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 1,
+      "nested_transport_count": 0,
+      "nested_cli_count": 1,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [
+        {
+          "path": "worktrees/issue-505/.csdlc/evidence/505/v3-proof",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": "worktrees/issue-505/.csdlc/evidence/505/v3-proof/sim01-installed-doctor.json",
+          "before": null,
+          "after": "file:ed9ec3891b5ec95c56f8a072b5ec069f336df8b0f340d1ca5665d56921c05c64"
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.proof_route.v1",
+        "route": "proof",
+        "classification": "operational",
+        "issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "read_only": false,
+        "operational_authority": true,
+        "performed_mutation": true,
+        "evidence_refs": [
+          ".csdlc/evidence/505/v3-proof/sim01-installed-doctor.json"
+        ],
+        "status": "ready",
+        "findings": []
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.proof_route.v1\",\"route\":\"proof\",\"classification\":\"operational\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"read_only\":false,\"operational_authority\":true,\"performed_mutation\":true,\"evidence_refs\":[\".csdlc/evidence/505/v3-proof/sim01-installed-doctor.json\"],\"status\":\"ready\",\"findings\":[]}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800160,
+      "wall_end_millis": 1789084800170,
+      "monotonic_start_millis": 160,
+      "monotonic_end_millis": 170,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 454065
+    },
+    {
+      "correlation_id": "remote-01",
+      "route": "review",
+      "scenario": "healthy_review_validation",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "native review validation of fixture principals; not human review",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 17,
+      "manual_input_fields": [
+        "expected_lifecycle_digest",
+        "exact_review_sha",
+        "operation.kind",
+        "operation.request.repository",
+        "operation.request.issue",
+        "operation.request.pull_request",
+        "operation.request.actor",
+        "operation.request.implementer",
+        "operation.request.reviewer",
+        "operation.request.review_revision",
+        "operation.request.expected_head_sha",
+        "operation.request.head_sha",
+        "operation.request.mode",
+        "operation.request.title",
+        "operation.request.body",
+        "operation.request.review_present",
+        "operation.request.credential_names"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.operational_remote.v1",
+        "command": "review",
+        "read_only": true,
+        "operational_authority": true,
+        "cutover_issue": 505,
+        "result": {
+          "schema": "csdlc.v3.operational_remote_dispatch.v1",
+          "authority": {
+            "schema": "csdlc.v3.canonical_authority_evidence.v1",
+            "selector_path": "csdlc-v3/operator/authority-selector.json",
+            "selector_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269",
+            "authority_issue": 505,
+            "exact_review_sha": "01ae555daa7c23d6b17be5a55cafd755a4efea94",
+            "readiness_evidence_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269",
+            "approval_evidence_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269"
+          },
+          "outcome": {
+            "kind": "review",
+            "result": {
+              "route": "review",
+              "issue": 505,
+              "repository": "agent-logic/agent-design-language",
+              "status": "ready",
+              "findings": [],
+              "redacted_credentials": [
+                "GITHUB_TOKEN=<redacted>"
+              ]
+            }
+          }
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_remote.v1\",\"command\":\"review\",\"read_only\":true,\"operational_authority\":true,\"cutover_issue\":505,\"result\":{\"schema\":\"csdlc.v3.operational_remote_dispatch.v1\",\"authority\":{\"schema\":\"csdlc.v3.canonical_authority_evidence.v1\",\"selector_path\":\"csdlc-v3/operator/authority-selector.json\",\"selector_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\",\"authority_issue\":505,\"exact_review_sha\":\"01ae555daa7c23d6b17be5a55cafd755a4efea94\",\"readiness_evidence_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\",\"approval_evidence_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\"},\"outcome\":{\"kind\":\"review\",\"result\":{\"route\":\"review\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"status\":\"ready\",\"findings\":[],\"redacted_credentials\":[\"GITHUB_TOKEN=<redacted>\"]}}}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800180,
+      "wall_end_millis": 1789084800190,
+      "monotonic_start_millis": 180,
+      "monotonic_end_millis": 190,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 39179
+    },
+    {
+      "correlation_id": "remote-02",
+      "route": "publish",
+      "scenario": "publication_guard_missing_readback",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": false,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "blocked",
+      "reason": "publication requires authenticated readback before acceptance",
+      "redaction_violation": false,
+      "invalidation_cause": "readback not yet retained",
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 19,
+      "manual_input_fields": [
+        "expected_lifecycle_digest",
+        "exact_review_sha",
+        "operation.kind",
+        "operation.request.repository",
+        "operation.request.issue",
+        "operation.request.pull_request",
+        "operation.request.actor",
+        "operation.request.implementer",
+        "operation.request.reviewer",
+        "operation.request.review_revision",
+        "operation.request.expected_head_sha",
+        "operation.request.head_sha",
+        "operation.request.mode",
+        "operation.request.title",
+        "operation.request.body",
+        "operation.request.review_present",
+        "operation.request.credential_names",
+        "operation.request.typed_review_receipt_path",
+        "operation.request.typed_review_receipt_digest"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.operational_remote.v1",
+        "command": "publish",
+        "read_only": true,
+        "operational_authority": true,
+        "cutover_issue": 505,
+        "result": {
+          "schema": "csdlc.v3.operational_remote_dispatch.v1",
+          "authority": {
+            "schema": "csdlc.v3.canonical_authority_evidence.v1",
+            "selector_path": "csdlc-v3/operator/authority-selector.json",
+            "selector_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269",
+            "authority_issue": 505,
+            "exact_review_sha": "01ae555daa7c23d6b17be5a55cafd755a4efea94",
+            "readiness_evidence_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269",
+            "approval_evidence_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269"
+          },
+          "outcome": {
+            "kind": "publish",
+            "result": {
+              "route": "publish",
+              "issue": 505,
+              "repository": "agent-logic/agent-design-language",
+              "status": "blocked",
+              "findings": [
+                {
+                  "code": "caller_forged_readback",
+                  "message": "PR state must come from authenticated GitHub readback"
+                },
+                {
+                  "code": "github_readback_receipt_missing",
+                  "message": "PR state requires a repo-contained GitHub readback receipt over the observed PR fields"
+                },
+                {
+                  "code": "authenticated_github_adapter_missing",
+                  "message": "PR state requires a repo-contained authenticated adapter receipt bound to the readback receipt"
+                },
+                {
+                  "code": "missing_closing_readback",
+                  "message": "GitHub readback must expose the closing issue relation"
+                }
+              ],
+              "redacted_credentials": [
+                "GITHUB_TOKEN=<redacted>"
+              ]
+            }
+          }
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_remote.v1\",\"command\":\"publish\",\"read_only\":true,\"operational_authority\":true,\"cutover_issue\":505,\"result\":{\"schema\":\"csdlc.v3.operational_remote_dispatch.v1\",\"authority\":{\"schema\":\"csdlc.v3.canonical_authority_evidence.v1\",\"selector_path\":\"csdlc-v3/operator/authority-selector.json\",\"selector_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\",\"authority_issue\":505,\"exact_review_sha\":\"01ae555daa7c23d6b17be5a55cafd755a4efea94\",\"readiness_evidence_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\",\"approval_evidence_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\"},\"outcome\":{\"kind\":\"publish\",\"result\":{\"route\":\"publish\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"status\":\"blocked\",\"findings\":[{\"code\":\"caller_forged_readback\",\"message\":\"PR state must come from authenticated GitHub readback\"},{\"code\":\"github_readback_receipt_missing\",\"message\":\"PR state requires a repo-contained GitHub readback receipt over the observed PR fields\"},{\"code\":\"authenticated_github_adapter_missing\",\"message\":\"PR state requires a repo-contained authenticated adapter receipt bound to the readback receipt\"},{\"code\":\"missing_closing_readback\",\"message\":\"GitHub readback must expose the closing issue relation\"}],\"redacted_credentials\":[\"GITHUB_TOKEN=<redacted>\"]}}}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800200,
+      "wall_end_millis": 1789084800210,
+      "monotonic_start_millis": 200,
+      "monotonic_end_millis": 210,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 38440
+    },
+    {
+      "correlation_id": "remote-03",
+      "route": "github-pr",
+      "scenario": "healthy_fake_pr_create",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "native PR create with fake authenticated reconciliation",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 17,
+      "manual_input_fields": [
+        "expected_lifecycle_digest",
+        "exact_review_sha",
+        "operation.kind",
+        "operation.request.repository",
+        "operation.request.issue",
+        "operation.request.pull_request",
+        "operation.request.cutover_issue",
+        "operation.request.operator_approval",
+        "operation.request.expected_head_sha",
+        "operation.request.credential_names",
+        "operation.request.recovery",
+        "operation.request.mutation.action",
+        "operation.request.mutation.base",
+        "operation.request.mutation.head",
+        "operation.request.mutation.title",
+        "operation.request.mutation.body",
+        "operation.request.mutation.draft"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 2,
+      "nested_transport_count": 2,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [
+        {
+          "path": ".git/csdlc-v3/remote",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/remote/intents",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/remote/intents/90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345.json",
+          "before": null,
+          "after": "file:096ec483296c473b84b5b584c9dab6852d7788cee3a805942474b403078182b6"
+        },
+        {
+          "path": ".git/csdlc-v3/remote/mutations",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/remote/mutations/90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345.json",
+          "before": null,
+          "after": "file:926d6a01b5fb44cbd947ba583b69d1afc04b4abf5de649069bc6cc89f7d313c2"
+        },
+        {
+          "path": ".git/csdlc-v3/runtime",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/journey-remote/published",
+          "before": null,
+          "after": "file:af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262"
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.operational_remote.v1",
+        "command": "github-pr",
+        "read_only": false,
+        "operational_authority": true,
+        "cutover_issue": 505,
+        "result": {
+          "schema": "csdlc.v3.operational_remote_dispatch.v1",
+          "authority": {
+            "schema": "csdlc.v3.canonical_authority_evidence.v1",
+            "selector_path": "csdlc-v3/operator/authority-selector.json",
+            "selector_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269",
+            "authority_issue": 505,
+            "exact_review_sha": "01ae555daa7c23d6b17be5a55cafd755a4efea94",
+            "readiness_evidence_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269",
+            "approval_evidence_digest": "c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269"
+          },
+          "outcome": {
+            "kind": "github_mutation",
+            "result": {
+              "receipt": {
+                "schema": "csdlc.v3.github_mutation_receipt.v2",
+                "repository": "agent-logic/agent-design-language",
+                "issue": 505,
+                "pull_request": 639,
+                "expected_head_sha": "01ae555daa7c23d6b17be5a55cafd755a4efea94",
+                "operation_digest": "90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345",
+                "response_digest": "16ce3813dc7c28f3bbb02f55355c3fe2ab3fd4ab7eb7ae798d17fa8d1354e436",
+                "readback_digest": "5a515b765033e9aad0412edc04929500ae4d9b360c6cb10867f95c000bbd0903",
+                "intent_digest": "37f3194db2f083ff6d943e6fb919f49591241661ba6697d5a59d5c639f270d15",
+                "reconciliation_digest": "1ff9a890a43c6cc06887c1117650749030c22fd2b4ecc82640edf0f056297792",
+                "adapter": "github-api-operational",
+                "authenticated": true,
+                "idempotent_replay": false
+              },
+              "reconciliation": {
+                "schema": "csdlc.v3.github_mutation_reconciliation.v1",
+                "operation_digest": "90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345",
+                "operation_marker": "<!-- csdlc-v3-operation:90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345 -->",
+                "repository": "agent-logic/agent-design-language",
+                "issue": 505,
+                "pull_request": 639,
+                "remote_object_id": 639,
+                "expected_head_sha": "01ae555daa7c23d6b17be5a55cafd755a4efea94",
+                "readback_digest": "5a515b765033e9aad0412edc04929500ae4d9b360c6cb10867f95c000bbd0903",
+                "observed_by": "github-api-read-only",
+                "authenticated": true
+              }
+            }
+          }
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.operational_remote.v1\",\"command\":\"github-pr\",\"read_only\":false,\"operational_authority\":true,\"cutover_issue\":505,\"result\":{\"schema\":\"csdlc.v3.operational_remote_dispatch.v1\",\"authority\":{\"schema\":\"csdlc.v3.canonical_authority_evidence.v1\",\"selector_path\":\"csdlc-v3/operator/authority-selector.json\",\"selector_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\",\"authority_issue\":505,\"exact_review_sha\":\"01ae555daa7c23d6b17be5a55cafd755a4efea94\",\"readiness_evidence_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\",\"approval_evidence_digest\":\"c756c61c29f9856b376004b3917ce1542a535afcfc08bb76aa70fad1ae7a9269\"},\"outcome\":{\"kind\":\"github_mutation\",\"result\":{\"receipt\":{\"schema\":\"csdlc.v3.github_mutation_receipt.v2\",\"repository\":\"agent-logic/agent-design-language\",\"issue\":505,\"pull_request\":639,\"expected_head_sha\":\"01ae555daa7c23d6b17be5a55cafd755a4efea94\",\"operation_digest\":\"90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345\",\"response_digest\":\"16ce3813dc7c28f3bbb02f55355c3fe2ab3fd4ab7eb7ae798d17fa8d1354e436\",\"readback_digest\":\"5a515b765033e9aad0412edc04929500ae4d9b360c6cb10867f95c000bbd0903\",\"intent_digest\":\"37f3194db2f083ff6d943e6fb919f49591241661ba6697d5a59d5c639f270d15\",\"reconciliation_digest\":\"1ff9a890a43c6cc06887c1117650749030c22fd2b4ecc82640edf0f056297792\",\"adapter\":\"github-api-operational\",\"authenticated\":true,\"idempotent_replay\":false},\"reconciliation\":{\"schema\":\"csdlc.v3.github_mutation_reconciliation.v1\",\"operation_digest\":\"90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345\",\"operation_marker\":\"<!-- csdlc-v3-operation:90a1c8a03432cd6d46f6d1ca3a877591000ce58d1236160f3422ebe357656345 -->\",\"repository\":\"agent-logic/agent-design-language\",\"issue\":505,\"pull_request\":639,\"remote_object_id\":639,\"expected_head_sha\":\"01ae555daa7c23d6b17be5a55cafd755a4efea94\",\"readback_digest\":\"5a515b765033e9aad0412edc04929500ae4d9b360c6cb10867f95c000bbd0903\",\"observed_by\":\"github-api-read-only\",\"authenticated\":true}}}}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800220,
+      "wall_end_millis": 1789084800230,
+      "monotonic_start_millis": 220,
+      "monotonic_end_millis": 230,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 99621
+    },
+    {
+      "correlation_id": "remote-04",
+      "route": "pr-state",
+      "scenario": "published_pr_readback",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "installed authenticated fake PR readback",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 16,
+      "manual_input_fields": [
+        "repository",
+        "issue",
+        "pull_request",
+        "actor",
+        "implementer",
+        "reviewer",
+        "review_revision",
+        "expected_head_sha",
+        "head_sha",
+        "mode",
+        "title",
+        "body",
+        "review_present",
+        "credential_names",
+        "typed_review_receipt_path",
+        "typed_review_receipt_digest"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 1,
+      "nested_transport_count": 1,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.remote_publication.v1",
+        "command": "pr-state",
+        "read_only": true,
+        "operational_authority": false,
+        "cutover_issue": 505,
+        "result": {
+          "route": "pr-state",
+          "issue": 505,
+          "repository": "agent-logic/agent-design-language",
+          "status": "ready",
+          "findings": [],
+          "redacted_credentials": [
+            "GITHUB_TOKEN=<redacted>"
+          ]
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.remote_publication.v1\",\"command\":\"pr-state\",\"read_only\":true,\"operational_authority\":false,\"cutover_issue\":505,\"result\":{\"route\":\"pr-state\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"status\":\"ready\",\"findings\":[],\"redacted_credentials\":[\"GITHUB_TOKEN=<redacted>\"]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800240,
+      "wall_end_millis": 1789084800250,
+      "monotonic_start_millis": 240,
+      "monotonic_end_millis": 250,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 10765
+    },
+    {
+      "correlation_id": "remote-05",
+      "route": "publish",
+      "scenario": "healthy_publication_validation",
+      "checkout": "worktrees/issue-505",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "publication accepts fixture review and native fake-transport readback",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 16,
+      "manual_input_fields": [
+        "repository",
+        "issue",
+        "pull_request",
+        "actor",
+        "implementer",
+        "reviewer",
+        "review_revision",
+        "expected_head_sha",
+        "head_sha",
+        "mode",
+        "title",
+        "body",
+        "review_present",
+        "credential_names",
+        "typed_review_receipt_path",
+        "typed_review_receipt_digest"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 1,
+      "nested_transport_count": 1,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.remote_publication.v1",
+        "command": "publish",
+        "read_only": true,
+        "operational_authority": false,
+        "cutover_issue": 505,
+        "result": {
+          "route": "publish",
+          "issue": 505,
+          "repository": "agent-logic/agent-design-language",
+          "status": "ready",
+          "findings": [],
+          "redacted_credentials": [
+            "GITHUB_TOKEN=<redacted>"
+          ]
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.remote_publication.v1\",\"command\":\"publish\",\"read_only\":true,\"operational_authority\":false,\"cutover_issue\":505,\"result\":{\"route\":\"publish\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"status\":\"ready\",\"findings\":[],\"redacted_credentials\":[\"GITHUB_TOKEN=<redacted>\"]}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800260,
+      "wall_end_millis": 1789084800270,
+      "monotonic_start_millis": 260,
+      "monotonic_end_millis": 270,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 9796,
+      "external_event_after": {
+        "kind": "simulated_remote_merge",
+        "actor": "fixture",
+        "scope": "fake PR639; no real merge command",
+        "wait_duration": "not measured"
+      }
+    },
+    {
+      "correlation_id": "terminal-01",
+      "route": "finish",
+      "scenario": "healthy_fake_finish",
+      "checkout": "",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "native finish persists authenticated fake terminal observation",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 9,
+      "manual_input_fields": [
+        "repository",
+        "issue",
+        "pull_request",
+        "expected_head_sha",
+        "mode",
+        "credential_names",
+        "terminal_state.repository_root",
+        "terminal_state.state_path",
+        "terminal_state.receipt_path"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 2,
+      "nested_transport_count": 2,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [
+        {
+          "path": ".git/csdlc-v3/local/evidence",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/evidence/505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/evidence/505/terminal-receipt.json",
+          "before": null,
+          "after": "file:f1c2e5b05dea60d43a7e0a86763b8a03f0b0dd4a069c9b26963cc6843712700e"
+        },
+        {
+          "path": ".git/csdlc-v3/local/v3",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/v3/issues",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/v3/issues/505",
+          "before": null,
+          "after": "directory"
+        },
+        {
+          "path": ".git/csdlc-v3/local/v3/issues/505/terminal.json",
+          "before": null,
+          "after": "file:70ca29b63dad098ba06511ad2b8e18e05956dca07a327549756ee375e5545169"
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1",
+        "command": "finish",
+        "read_only": false,
+        "requested_mutation": false,
+        "performed_mutation": true,
+        "operational_authority": true,
+        "cutover_issue": 505,
+        "result": {
+          "route": "finish",
+          "issue": 505,
+          "repository": "agent-logic/agent-design-language",
+          "status": "ready",
+          "operational_authority": true,
+          "findings": [],
+          "finish": {
+            "decision": "terminal_closed_out",
+            "pull_request": 639,
+            "issue": 505,
+            "head_sha": "01ae555daa7c23d6b17be5a55cafd755a4efea94"
+          }
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.terminal_cleanup_cutover.v1\",\"command\":\"finish\",\"read_only\":false,\"requested_mutation\":false,\"performed_mutation\":true,\"operational_authority\":true,\"cutover_issue\":505,\"result\":{\"route\":\"finish\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"status\":\"ready\",\"operational_authority\":true,\"findings\":[],\"finish\":{\"decision\":\"terminal_closed_out\",\"pull_request\":639,\"issue\":505,\"head_sha\":\"01ae555daa7c23d6b17be5a55cafd755a4efea94\"}}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800280,
+      "wall_end_millis": 1789084800290,
+      "monotonic_start_millis": 280,
+      "monotonic_end_millis": 290,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 62303
+    },
+    {
+      "correlation_id": "terminal-02",
+      "route": "clean",
+      "scenario": "eligible_cleanup_preview",
+      "checkout": "",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "clean registered control preview; original dirty issue checkout retained",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 14,
+      "manual_input_fields": [
+        "repository",
+        "issue",
+        "pull_request",
+        "expected_head_sha",
+        "mode",
+        "credential_names",
+        "terminal_state",
+        "cleanup.approved_parent",
+        "cleanup.repository_root",
+        "cleanup.candidate_path",
+        "cleanup.remove",
+        "cleanup.terminal_receipt",
+        "cleanup.terminal_receipt_path",
+        "cleanup.terminal_receipt_digest"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [],
+      "stdout": {
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1",
+        "command": "clean",
+        "read_only": true,
+        "requested_mutation": false,
+        "performed_mutation": false,
+        "operational_authority": false,
+        "cutover_issue": 505,
+        "result": {
+          "route": "clean",
+          "issue": 505,
+          "repository": "agent-logic/agent-design-language",
+          "status": "ready",
+          "operational_authority": false,
+          "findings": [],
+          "cleanup": {
+            "decision": "removable",
+            "path": "$FIXTURE/worktrees/cleanup-control",
+            "receipt_digest": "f0d4a9a0367c7fdcf20a5390e9eb2c150f60425736d31262c6807887f7da9168"
+          }
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.terminal_cleanup_cutover.v1\",\"command\":\"clean\",\"read_only\":true,\"requested_mutation\":false,\"performed_mutation\":false,\"operational_authority\":false,\"cutover_issue\":505,\"result\":{\"route\":\"clean\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"status\":\"ready\",\"operational_authority\":false,\"findings\":[],\"cleanup\":{\"decision\":\"removable\",\"path\":\"$FIXTURE/worktrees/cleanup-control\",\"receipt_digest\":\"f0d4a9a0367c7fdcf20a5390e9eb2c150f60425736d31262c6807887f7da9168\"}}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800300,
+      "wall_end_millis": 1789084800310,
+      "monotonic_start_millis": 300,
+      "monotonic_end_millis": 310,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 48538
+    },
+    {
+      "correlation_id": "terminal-03",
+      "route": "clean",
+      "scenario": "eligible_cleanup_remove",
+      "checkout": "",
+      "eligible": true,
+      "attempted": true,
+      "completed": true,
+      "abandoned": false,
+      "censored": false,
+      "process_exit": 0,
+      "outcome": "completed",
+      "reason": "native removal of the exact previewed clean fixture registration",
+      "redaction_violation": false,
+      "invalidation_cause": null,
+      "wait_owner": "installed subprocess",
+      "manual_input_field_count": 15,
+      "manual_input_fields": [
+        "repository",
+        "issue",
+        "pull_request",
+        "expected_head_sha",
+        "mode",
+        "credential_names",
+        "terminal_state",
+        "cleanup.approved_parent",
+        "cleanup.repository_root",
+        "cleanup.candidate_path",
+        "cleanup.remove",
+        "cleanup.terminal_receipt",
+        "cleanup.terminal_receipt_path",
+        "cleanup.terminal_receipt_digest",
+        "cleanup.preview_receipt_digest"
+      ],
+      "manual_input_source": "fixture supplied request fields, not measured human typing",
+      "operator_invocation_count": 1,
+      "nested_invocation_count": 0,
+      "nested_transport_count": 0,
+      "nested_cli_count": 0,
+      "invocation_count_scope": "installed CLI entrypoints and fake remote transport; internal Git utilities excluded",
+      "issue_version_before": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "issue_version_after": {
+        "generation": 4,
+        "digest": "6e46ddd163cccc19dafbba9cdc0a9e695bf3c081d79ac270d822862a7b65a191",
+        "phase": "bound"
+      },
+      "effects": [
+        {
+          "path": ".git/worktrees/cleanup-control",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/HEAD",
+          "before": "file:86749cd2bce3e95b3a522713b5f3a4b54d12523576a8d8750b0414767e86c3dc",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/ORIG_HEAD",
+          "before": "file:86749cd2bce3e95b3a522713b5f3a4b54d12523576a8d8750b0414767e86c3dc",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/commondir",
+          "before": "file:f14ca8f2ae585b18c950cedc63cb6419a4b769f0d96e7b2fe6ebcbc7c13fc7d5",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/gitdir",
+          "before": "file:7bafc2efeb6411856ec3284999bec1d9cce57f53a7bdc7e367169335cda6a405",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/index",
+          "before": "file:811e45bf82c2e0129b165df2dfb444c39024428f2df99cb518a515faa787ef0a",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/logs",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/logs/HEAD",
+          "before": "file:5240c9cb9d3bc098794abd5b3d474a061136c60853500a4013c27dcfd391cfff",
+          "after": null
+        },
+        {
+          "path": ".git/worktrees/cleanup-control/refs",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/.adl",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/.adl/worktree-policy.json",
+          "before": "file:4130f1270b8b6c8ea577fe89b37b58a50060c255daa8bce3fa4402e237c2ca9e",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/.csdlc",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/.csdlc/evidence",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/.csdlc/evidence/505",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/.csdlc/evidence/505/terminal-receipt.json",
+          "before": "file:b29d73adbb6f366329ff88ccd76eb78c96f7da67cd957db2f2babf46823e3857",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/.git",
+          "before": "file:cf7505b85738f1c4d7c1fa92a03bf32e971aa939055a38aa61ab16f5576aa76b",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/csdlc-v3",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/csdlc-v3/operator",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/csdlc-v3/operator/authority-selector.json",
+          "before": "file:8b27bd7be6f1dba7f933f9376991aa3ee4b39a0696e96e9bc2fd03890c09a108",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/csdlc-v3/operator/native-authority-pr-observation.json",
+          "before": "file:6a666e194af53d3056668af05afd6abce97e612297d3c24eff2932788de9672b",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/csdlc-v3/operator/native-authority-receipt.json",
+          "before": "file:8e673c7813c1dbab1f899762a91f9d50ed000017f159cb74885e0276a1b074a8",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/pvf_lane_policy.json",
+          "before": "file:c5daacc8b657eec5a94900bffc1793bf5e86de7bbdc3c01a891b4699193066b5",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/schemas",
+          "before": "directory",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+          "before": "file:827125ded90d4433f7871c0524e7bbe99c2e71f015bfdd3bf51b018cb3b7a9fd",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+          "before": "file:9a1e2c23d1de7de504baa66bb5bf30d796f5af7c266e2a3c896d3c48d83cdc7b",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+          "before": "file:7bf89d93c5bbdbefbbdf097707ed9d87e7f8300be762cd5bf996abb704c7da38",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+          "before": "file:757454220721374f49224e14171c7115485f516589f2925cfd80406a5831455b",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+          "before": "file:bc80fa1443696d9027d79fde70eaf079bc3483ca325ad76f9b623d766d25b07d",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+          "before": "file:95e34bfc13a81e4645a57e814c2976219a486f8817a88f55780621d51c2e11ec",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/sip.md",
+          "before": "file:dbc0571ce516a6ffb8afb996f5f052dfb969018450680dd99847b1573fea540f",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/sor.md",
+          "before": "file:8c621d154086e44d5cb9f70be2fc87b925202859c1b36b629461a13c1979386d",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/spp.md",
+          "before": "file:58e3c5231f073a413eef55fdcfcc2cf035f4cec91d5a47fc97771f4a3c0d5191",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/srp.md",
+          "before": "file:73c60d56cef7a5ead2184efc927191b9004fcf0651380f6ca115725297d880da",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/stp.md",
+          "before": "file:46213058fc760bd4c11dcdbe4d4e49ade1096e09ee4ffdad4ef5ec868f61e8d6",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/docs/templates/prompts/1.0.5/vpp.md",
+          "before": "file:e6a10780f7fb526d7a9b2a56267267532661f0f8242a81f600ea50ca9e16a3b1",
+          "after": null
+        },
+        {
+          "path": "worktrees/cleanup-control/tracked",
+          "before": "file:2b77d24eb18add9ed20566b460dfb8235a98a2d5c23d853f7bb615e0b1797fdb",
+          "after": null
+        }
+      ],
+      "stdout": {
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1",
+        "command": "clean",
+        "read_only": false,
+        "requested_mutation": true,
+        "performed_mutation": true,
+        "operational_authority": false,
+        "cutover_issue": 505,
+        "result": {
+          "route": "clean",
+          "issue": 505,
+          "repository": "agent-logic/agent-design-language",
+          "status": "ready",
+          "operational_authority": false,
+          "findings": [],
+          "cleanup": {
+            "decision": "removed",
+            "path": "$FIXTURE/worktrees/cleanup-control",
+            "receipt_digest": "f0d4a9a0367c7fdcf20a5390e9eb2c150f60425736d31262c6807887f7da9168"
+          }
+        }
+      },
+      "stdout_text": "{\"schema\":\"csdlc.v3.terminal_cleanup_cutover.v1\",\"command\":\"clean\",\"read_only\":false,\"requested_mutation\":true,\"performed_mutation\":true,\"operational_authority\":false,\"cutover_issue\":505,\"result\":{\"route\":\"clean\",\"issue\":505,\"repository\":\"agent-logic/agent-design-language\",\"status\":\"ready\",\"operational_authority\":false,\"findings\":[],\"cleanup\":{\"decision\":\"removed\",\"path\":\"$FIXTURE/worktrees/cleanup-control\",\"receipt_digest\":\"f0d4a9a0367c7fdcf20a5390e9eb2c150f60425736d31262c6807887f7da9168\"}}}\n",
+      "stderr": "",
+      "wall_start_millis": 1789084800320,
+      "wall_end_millis": 1789084800330,
+      "monotonic_start_millis": 320,
+      "monotonic_end_millis": 330,
+      "fixture_duration_millis": 10,
+      "wall_duration_millis": 10,
+      "observed_subprocess_duration_micros": 68688
+    }
+  ]
+}

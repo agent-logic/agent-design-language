@@ -95,6 +95,9 @@ fn git(root: &Path, args: &[&str]) -> Result<Vec<u8>, String> {
         .arg("-C")
         .arg(root)
         .args(args)
+        // Even `git status` can refresh index metadata by default. Candidate
+        // observation must not take optional write locks or persist that refresh.
+        .env("GIT_OPTIONAL_LOCKS", "0")
         .output()
         .map_err(|_| "git_unavailable")?;
     if !out.status.success() {

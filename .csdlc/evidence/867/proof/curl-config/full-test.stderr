@@ -1,0 +1,17 @@
+   Compiling csdlc-v3 v0.1.0 ($WORKTREE/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.86s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-2c655f17dfb3bda1)
+fatal: Not a valid object name 1111111111111111111111111111111111111111^{commit}
+     Running unittests src/main.rs (csdlc-v3/target/debug/deps/csdlc-4e7bbad0f3e252f2)
+     Running tests/command_manifest.rs (csdlc-v3/target/debug/deps/command_manifest-2aff122b882719d2)
+     Running tests/foundation.rs (csdlc-v3/target/debug/deps/foundation-e86ceed5d7db4f14)
+     Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-080f1f2b1e2b0457)
+     Running tests/operational_cli_commands.rs (csdlc-v3/target/debug/deps/operational_cli_commands-fbc16a7170c8ac31)
+     Running tests/proof_parity_install_commands.rs (csdlc-v3/target/debug/deps/proof_parity_install_commands-2dde2773e654e70e)
+     Running tests/proof_worktree_binding.rs (csdlc-v3/target/debug/deps/proof_worktree_binding-e92bf2f812c6c524)
+     Running tests/real_issue_canary.rs (csdlc-v3/target/debug/deps/real_issue_canary-a0041edf42a8127f)
+     Running tests/release_preflight.rs (csdlc-v3/target/debug/deps/release_preflight-9e0fea54aa7a3715)
+     Running tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-3f432919e1360b3e)
+     Running tests/terminal_cleanup_cutover_commands.rs (csdlc-v3/target/debug/deps/terminal_cleanup_cutover_commands-ca59fecfc7b747df)
+     Running tests/transactions.rs (csdlc-v3/target/debug/deps/transactions-8865bb1679401510)
+   Doc-tests csdlc_v3
