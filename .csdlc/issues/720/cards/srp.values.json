@@ -5,9 +5,21 @@
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/720",
   "title": "[v0.92.2][Observatory] Remove retained-mode demo hazards",
   "branch": "codex/720-observatory-live",
-  "version": "1.0.5",
+  "version": "v0.92.2",
   "card": "srp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-720-observatory-live"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-720-observatory-live",
+  "recommended_outcome": "pass",
+  "stp_card": ".csdlc/issues/720/cards/stp.md",
+  "spp_card": ".csdlc/issues/720/cards/spp.md",
+  "findings_status": "no_findings",
+  "slug": "720-observatory-live",
+  "timestamp": "2026-09-12T00:17:18.048072+00:00",
+  "vpp_card": ".csdlc/issues/720/cards/vpp.md",
+  "review_dispositions": "No repairs requested; late-generation guard verified.",
+  "review_findings": "No actionable findings in bounded source/test review.",
+  "sip_card": ".csdlc/issues/720/cards/sip.md",
+  "sor_card": ".csdlc/issues/720/cards/sor.md",
+  "review_notes": "Independent reviewer sprint8_909 inspected 5aacb2e8dd2c99e0fef1a5c50fa849c55c00147c; no actionable findings. Independently ran live-only tests 2/2; full-suite/browser evidence inspected, not independently rerun. Final card-only delta review required before publication."
 }

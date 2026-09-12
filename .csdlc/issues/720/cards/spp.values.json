@@ -24,9 +24,9 @@
   "estimate_total_tokens": "unknown",
   "non_goals_inline": "No cloud deployment, SDK refactor, UI redesign, historical evidence deletion, or merge.",
   "notes_risks_inline": "Disconnected live values must be explicitly stale; initialization must not seed telemetry from an old packet. Historical integration evidence may remain labelled separately.",
-  "step_5_status": "pending",
+  "step_5_status": "completed",
   "estimate_confidence": "medium",
-  "step_4_status": "pending",
+  "step_4_status": "completed",
   "planned_pvf_lane": "tooling",
   "repo_inputs_inline": "Issue #720; demos/html-observatory/app.js and index.html; current regression tests.",
   "estimate_elapsed_seconds": "unknown",
@@ -45,10 +45,10 @@
   "plan_summary": "Remove retained telemetry loaders, switches and timers; initialize an empty live shell, retain last-known live snapshot on disconnection with stale notice; preserve separately labelled historical evidence; prove transitions and publish reviewed change.",
   "acceptance_criteria_inline": "No Published/Retained controls; startup, navigation and failure never read retained API telemetry; no retained timer; orphan assignments removed; functional live regression proof; truthful documentation.",
   "timestamp": "2026-09-12T00:09:24.617447+00:00",
-  "step_2_status": "pending",
+  "step_2_status": "completed",
   "estimate_data_source": "issue-local estimate",
-  "step_1_status": "pending",
+  "step_1_status": "completed",
   "risks_inline": "Disconnected live values must be explicitly stale; initialization must not seed telemetry from an old packet. Historical integration evidence may remain labelled separately.",
   "estimate_validation_seconds": "1800",
-  "step_3_status": "pending"
+  "step_3_status": "completed"
 }
