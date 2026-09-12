@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 849,
   "phase": "bound",
-  "generation": 7,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/849-v0922-merge-linkage-admission",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-849-v0922-merge-linkage-admission",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "de3335e212eea58e375e95d7e36cbfd7a6baf2fa32d3c2cb7c22fcf3d10e8036"
+  "digest": "20aa2de66d996c226f29f298305066f3721deabfea16130ffa6bfe9b6b5e21c8"
 }

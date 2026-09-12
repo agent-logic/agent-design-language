@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/849/cards/sip.md"
   - ".csdlc/issues/849/cards/vpp.md"
 review_results:
-  findings_status: "addressed_pending_recheck"
-  recommended_outcome: "block"
+  findings_status: "addressed"
+  recommended_outcome: "accept"
 notes: "Reviewer independently reran 16 merge cases and one qualified numeric adapter test; inspected exact review linkage digest, qualified issue/mode, initial/fresh/postmerge relation and state, complete-page fail-closed checks, durable intent/target guard and replay. Evidence .csdlc/evidence/849/VALIDATION.md. No live merge proof, no CI pass claim."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Implementation0264f321ac: no actionable source/test findings. Metadata1f30b810: reviewer found P2 stale unbound/unstarted notes in SIP/STP/SPP and P2 stale not-run claims in SOR. Both corrected via native edits; exact final metadata review pending. Full-suite baseline release inventory failure remains separately recorded, not waived.
+- Independent sprint8_909 accepted implementation0264f321ac with no source/test findings. Metadata review1f30b810 raised two P2 stale lifecycle/proof truth findings; native edits corrected them. Reviewer30e6f545 confirmed substantive corrections, then two residual owner/artifact phrases were corrected. Final exact-head review is required before publication.
 
 ### Dispositions
 
-- Two metadata truth findings corrected: current #849 binding/owner readiness notes and actual PVF/determinism/replay/privacy/artifact checks now reflect observed work. No source repair requested. Preserve pending #948 delta and separate inventory blocker.
+- Both metadata findings addressed through native field edits; unbound/unstarted and unassigned owner/absent execution claims replaced by observed #849 execution truth. Full-suite release-preflight failure remains disclosed and not waived; no independent source findings.
 
 ### Recommended Outcome
 
-- block
+- accept
 
 ## Notes
 

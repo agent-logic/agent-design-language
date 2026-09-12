@@ -25,7 +25,7 @@ Status: IN_PROGRESS
 Generated: 2026-09-12T00:22:05.416044+00:00
 
 Execution:
-- Actor: `unassigned implementation owner`
+- Actor: `Planning #7 / delegated sprint8_720; native issue #849 bound worktree`
 - Model: `unknown`
 - Provider: `unknown`
 - Start Time: `2026-09-12T01:48:57+00:00`
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: failed_full_suite_known_baseline
     checks_run:
-      - "not_run"
+      - "Native six-card values/render/structure/digest validation passed gen7; exact current validation repeated before publication"
   determinism:
     status: passed_focused
     replay_verified: true
@@ -134,10 +134,10 @@ verification_summary:
     status: bounded_adapter_tests_and_packet_inspection_passed
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
-    absolute_path_leakage_detected: not_run
+    absolute_path_leakage_detected: false
   artifacts:
     status: six_native_cards_and_local_proof_present
-    required_artifacts_present: not_run
+    required_artifacts_present: true
     schema_changes:
       present: true
       approved: Issue #849 requires bounded review/intent/linkage type change; no authority-generation change
@@ -167,7 +167,7 @@ verification_summary:
 - Required artifacts present: `six native-generated cards, local proof packet and operator documentation`
 - Artifact schema/version checks: `Native validate gen5 passed all six values/renders/structures/digest; manual inventory and30 rendered pages verified`
 - Hash/byte-stability checks: `Review digest and durable intent/reconciliation identity tamper and replay tests passed; baseline release input blob equality recorded`
-- Missing/optional artifacts and rationale: `Execution artifacts are absent because this is preparation, not completed delivery`
+- Missing/optional artifacts and rationale: `No live merge or deployment proof is required or claimed. Hosted CI has not run. Final session timing/token metrics remain unknown until collection. Local test logs and tracked proof packet exist.`
 
 ## Decisions / Deviations
 - `No recursive size-reduction accounting: issue adds behavior and tests and makes no size-reduction claim.`
