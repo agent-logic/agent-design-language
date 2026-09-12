@@ -658,3 +658,94 @@ async fn metadata_publication_preserves_newer_inference_and_replacement() {
         }
     }
 }
+
+// PVF: release-required local watcher/registry integration; no network or paid
+// calls. Explicit parser observation bounds waiting; no inference is dispatched.
+#[tokio::test]
+async fn invalid_runtime_limits_preserve_reloaded_provider_generation() {
+    use crate::config_reload::{
+        start_config_reload_with_applier_and_shutdown, ConfigApplier, ConfigParser,
+        ConfigReloadError, ConfigReloadOptions,
+    };
+    use adl_provider_core::candidate::{
+        parse_validated_provider_sidecar, ValidatedProviderCandidate,
+    };
+    let root = tempfile::tempdir().unwrap();
+    let path = root.path().join("providers.yaml");
+    let render = |config: serde_json::Value| {
+        serde_json::json!({
+            "providers": {"fixture": {"type":"mock", "default_model":"fixture", "config":config}}
+        })
+        .to_string()
+    };
+    std::fs::write(&path, render(serde_json::json!({}))).unwrap();
+    let registry = Arc::new(adl_provider_core::registry::ProviderRegistry::standard());
+    let rejected = Arc::new(AtomicUsize::new(0));
+    let observed = Arc::clone(&rejected);
+    let parser: ConfigParser<ValidatedProviderCandidate> = Arc::new(move |raw| {
+        parse_validated_provider_sidecar(raw).map_err(|_| {
+            observed.fetch_add(1, Ordering::SeqCst);
+            ConfigReloadError::validation("candidate rejected")
+        })
+    });
+    let target = Arc::clone(&registry);
+    let applier: ConfigApplier<ValidatedProviderCandidate> = Arc::new(move |next| {
+        target
+            .replace_definitions(next.providers.clone(), next.digest.clone())
+            .map_err(|_| ConfigReloadError::validation("registry rejected"))
+    });
+    let owner = start_config_reload_with_applier_and_shutdown(
+        path.clone(),
+        parser,
+        Some(applier),
+        ConfigReloadOptions {
+            poll_interval: Duration::from_millis(5),
+            debounce: Duration::from_millis(5),
+        },
+        CancellationToken::new(),
+    )
+    .await
+    .unwrap();
+    let mut handle = owner.handle();
+    let generation = registry.definition_generation();
+    let original = handle.current();
+    let binding = ProviderBinding {
+        provider: "fixture".into(),
+        model: "fixture".into(),
+        ..Default::default()
+    };
+    let digest = registry
+        .prepare(&binding)
+        .unwrap()
+        .projection
+        .definition_digest;
+    for (index, invalid) in [
+        serde_json::json!({"runtime_max_calls":0,"runtime_max_input_bytes":100}),
+        serde_json::json!({"runtime_max_calls":1,"runtime_max_input_bytes":0}),
+        serde_json::json!({"runtime_max_calls":1025,"runtime_max_input_bytes":100}),
+        serde_json::json!({"runtime_max_calls":1,"runtime_max_input_bytes":1000001}),
+        serde_json::json!({"runtime_max_calls":1}),
+        serde_json::json!({"runtime_max_calls":1,"runtime_max_input_bytes":100,"runtime_stop_after_failure":"true"}),
+        serde_json::json!({"runtime_max_attempts":2}),
+        serde_json::json!({"runtime_max_output_tokens":0}),
+    ].into_iter().enumerate() {
+        std::fs::write(&path, render(invalid)).unwrap();
+        tokio::time::timeout(Duration::from_secs(2), async {
+            while rejected.load(Ordering::SeqCst) <= index {
+                tokio::time::sleep(Duration::from_millis(5)).await;
+            }
+        }).await.expect("watcher must actually reject candidate");
+        assert_eq!(registry.definition_generation(), generation);
+        assert_eq!(handle.current().generation(), original.generation());
+        assert_eq!(registry.prepare(&binding).unwrap().projection.definition_digest, digest);
+    }
+    std::fs::write(&path, render(serde_json::json!({"runtime_max_calls":2,"runtime_max_input_bytes":100,
+        "runtime_stop_after_failure":true,"runtime_max_attempts":1,"runtime_max_output_tokens":256}))).unwrap();
+    tokio::time::timeout(Duration::from_secs(2), handle.changed())
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(registry.definition_generation(), generation + 1);
+    assert!(registry.prepare(&binding).is_ok());
+    owner.shutdown().await.unwrap();
+}

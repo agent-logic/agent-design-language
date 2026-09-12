@@ -31,7 +31,7 @@ mod http_family;
 mod local;
 use crate::profiles;
 #[path = "runtime_limits.rs"]
-mod runtime_limits;
+pub(crate) mod runtime_limits;
 use runtime_limits::{
     bound_output_tokens, bounded_auth_output, runtime_bounded_calls, runtime_output_cap,
 };

@@ -1,7 +1,7 @@
 //! Runtime-only limits. Absence preserves the existing ADL adapter defaults.
 use super::*;
 
-pub(super) fn runtime_bounded_calls(cfg: &HashMap<String, Value>) -> Result<bool> {
+pub(crate) fn runtime_bounded_calls(cfg: &HashMap<String, Value>) -> Result<bool> {
     match cfg.get("runtime_max_attempts") {
         None => Ok(false),
         Some(value) if value.as_u64() == Some(1) => Ok(true),
@@ -11,7 +11,7 @@ pub(super) fn runtime_bounded_calls(cfg: &HashMap<String, Value>) -> Result<bool
         )),
     }
 }
-pub(super) fn runtime_output_cap(cfg: &HashMap<String, Value>) -> Result<Option<u64>> {
+pub(crate) fn runtime_output_cap(cfg: &HashMap<String, Value>) -> Result<Option<u64>> {
     match cfg.get("runtime_max_output_tokens") {
         None => Ok(None),
         Some(value) => match value.as_u64() {

@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_present"
   recommended_outcome: "pass"
-notes: "Independent source review complete through d96f90ecc7bcea702605f73814d9fce02486df28; final card and proof document changes awaiting root acknowledgment. Actual hosted demo authorized butpending gcloud preflight. Preserve required CI and hosted boundaries."
+notes: "Old CI34679673500 failed runtime coverage and dependent aggregates; source tests and workspace coverage passed. Root approved corrected source delta after focused LKG proof session3497. Fresh installed proof and new-head CI remain pending. Live02 consumed3 OpenAI requests; paid retry remains on hold."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Source findings at 3734: local CLI deadline/cap, asynchronous health publication race, and premature action success accounting. All corrected and independently reviewed at 41e5. Follow-on Runtime mock delay bound independently reviewed at d96f90; no actionable source findings remain. Full hosted and remoteCI proof remains pending.
+- Prior CLI deadline, health race, action accounting and mock bound findings resolved. Live02 category-loss remediation and CI TLS repair reviewed at f162669; actual live continuation cause remains unknown. User P2 zero-cap candidate finding resolved by shared strict Runtime-limit validation before generation promotion. Actual reload regression rejects eight invalid replacements while retaining previous generation/digest, then accepts valid recovery. No actionable source findings remain; refreshed installed proof, current CI and full hosted acceptance remain incomplete.
 
 ### Dispositions
 
-- review_804 independently approved corrected Rust 41e5 and narrow mock delta d96f90. Root approved 61095 harnesscleanup-timer delta and exactsource finding dispositions. PASS applies to truthful draft publication only; no full acceptance/merge readiness claim.
+- review_804 independently reviewed continuation remediation; root reviewed TLS repair and shared candidate-limit validation plus actual LKG regression. Focused continuation1/1, prompt2/2, TLS22/22 and reload1/1 pass. Review supports corrected draft update only; no hosted recovery or merge readiness claimed.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent source review complete through d96f90ecc7bcea702605f73814d9fce02486df28; final card and proof document changes awaiting root acknowledgment. Actual hosted demo authorized butpending gcloud preflight. Preserve required CI and hosted boundaries.
+Old CI34679673500 failed runtime coverage and dependent aggregates; source tests and workspace coverage passed. Root approved corrected source delta after focused LKG proof session3497. Fresh installed proof and new-head CI remain pending. Live02 consumed3 OpenAI requests; paid retry remains on hold.

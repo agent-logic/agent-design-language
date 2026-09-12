@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented provider-neutral dynamic agent lifecycle and published draft PR #964 against main. Local installed five-provider and hosted-topology fixtures passed. Actual hosted live02 dispatched three OpenAI requests: operator reply and signed A2A/peer reply succeeded, continuation failed; Anthropic and Vertex were not called. Original continuation category was discarded, so underlying live failure remains unknown. Bounded category propagation and prompt phase clarification pass deterministic regression. Required CI runtime coverage failed and is under bounded repair. Full hosted acceptance and current CI remain incomplete; no merge readiness claim.
+Implemented canonical provider-neutral lifecycle with source and installed fixture proof. Draft PR964 is published. Live02 operator and signed A2A/peer reply succeeded but continuation failed; underlying cause unknown. Corrected safe-category reporting, continuation phase, Runtime TLS selection and strict candidate limit validation pass focused proofs. New-head CI and refreshed installed proof remain pending, and no paid retry or full acceptance is claimed.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -110,7 +110,7 @@ Rules:
   - `See adl-provider-core/PROOF_INVENTORY.md for precise cargo commands and PVF classification; .adl/issue855 contains append-only per-attempt logs.`
     `Full leaf94/94 plus one Runtime mock constructor regression; selected kernel control85/85, ADL compatibility18/18, CLI 7/7, API11/11; affectedClippy and CIpath/runtimecontracts pass; installedfixture5/5 and hostedtopologyfixture3/3 at 61095.`
 - Results:
-  - `Continuation remediation: actual production dispatch regression 1/1, prompt contracts 2/2 and kernel Clippy pass. Prior fixture and source proofs retained. PR964 CI runtime coverage failed; other observed completed checks passed, remaining jobs pending. Actual hosted live02 failed after 3 OpenAI requests; no paid retry performed.`
+  - `Focused remediation passes: continuation dispatch1/1, prompt2/2, TLS22/22, actual reload/LKG1/1 covering eight invalid replacements and valid recovery. Old CI failed runtime coverage only plus aggregates; new CI pending. Hosted live02 failed after3 OpenAIrequests, no other hosted vendors called.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Local deterministic provider transport and lifecycle tests; full matrix draft fixture 5/5, final binary proof pending.`
+- Determinism tests executed: `Installed09 five-provider5/5 and hosted-fixture03 three-provider3/3 passed at61095; newer continuation regression1/1 and prompt2/2 passed at f162 source. Refreshed installed proof awaits current candidate validation fix; no hosted recovery claimed.`
 - Fixtures or scripts used: `adl/tools/issue855_provider_lifecycle.py; provider-core and kernel fixtures`
 - Replay verification (same inputs -> same artifacts/order): `Not claimed: randomized ephemeral TLS and runtime identities produce different artifact bytes.`
 - Ordering guarantees (sorting / tie-break rules used): `Canonical signed sender/recipient names and actual A2A work identity; generation-guarded definition/health publication.`
@@ -174,5 +174,5 @@ verification_summary:
 - `Provider capabilities are conservative; explicit operator retries recover dynamic failed inference; healthy metadata checks never issue completion calls.`
 
 ## Follow-ups / Deferred work
-- `Complete reviewed CI repair and continuation remediation; reconcile explicit retry authorization before any further hosted calls.`
+- `Publish reviewed corrected draft and run current CI/refreshed installed fixtures. Obtain reconciled bounded authorization before further hosted calls.`
 - `Finalize independent review, native review/publication and required CI; root coordinates any merge.`

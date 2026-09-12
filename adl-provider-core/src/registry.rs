@@ -386,33 +386,12 @@ impl ProviderRegistry {
             return Err(ProviderFailure::UnsupportedCapability);
         }
         let mut prepared = adapter.prepare(&binding.provider, &spec, binding)?;
-        let has_budget = [
-            "runtime_max_calls",
-            "runtime_max_input_bytes",
-            "runtime_stop_after_failure",
-        ]
-        .iter()
-        .any(|key| spec.config.contains_key(*key));
-        if has_budget {
-            let max_calls = spec
-                .config
-                .get("runtime_max_calls")
-                .and_then(|v| v.as_u64())
-                .ok_or(ProviderFailure::InvalidConfiguration)?;
-            let stop_after_failure = match spec.config.get("runtime_stop_after_failure") {
-                None => false,
-                Some(value) => value
-                    .as_bool()
-                    .ok_or(ProviderFailure::InvalidConfiguration)?,
-            };
-            let input_bytes = spec
-                .config
-                .get("runtime_max_input_bytes")
-                .and_then(|v| v.as_u64())
-                .ok_or(ProviderFailure::InvalidConfiguration)?;
-            if max_calls == 0 || max_calls > 1024 || input_bytes == 0 || input_bytes > 1_000_000 {
-                return Err(ProviderFailure::InvalidConfiguration);
-            }
+        if let Some(RuntimeBudgetLimits {
+            max_calls,
+            input_bytes,
+            stop_after_failure,
+        }) = runtime_budget_limits(&spec.config)?
+        {
             let budget = self
                 .budgets
                 .lock()
@@ -449,6 +428,46 @@ impl ProviderRegistry {
         projections.insert(key, prepared.projection.clone());
         Ok(prepared)
     }
+}
+
+pub(crate) struct RuntimeBudgetLimits {
+    pub(crate) max_calls: u64,
+    pub(crate) input_bytes: u64,
+    pub(crate) stop_after_failure: bool,
+}
+
+pub(crate) fn runtime_budget_limits(
+    config: &HashMap<String, serde_json::Value>,
+) -> Result<Option<RuntimeBudgetLimits>, ProviderFailure> {
+    if ![
+        "runtime_max_calls",
+        "runtime_max_input_bytes",
+        "runtime_stop_after_failure",
+    ]
+    .iter()
+    .any(|key| config.contains_key(*key))
+    {
+        return Ok(None);
+    }
+    let max_calls = config
+        .get("runtime_max_calls")
+        .and_then(|v| v.as_u64())
+        .filter(|v| (1..=1024).contains(v))
+        .ok_or(ProviderFailure::InvalidConfiguration)?;
+    let input_bytes = config
+        .get("runtime_max_input_bytes")
+        .and_then(|v| v.as_u64())
+        .filter(|v| (1..=1_000_000).contains(v))
+        .ok_or(ProviderFailure::InvalidConfiguration)?;
+    let stop_after_failure = match config.get("runtime_stop_after_failure") {
+        None => false,
+        Some(v) => v.as_bool().ok_or(ProviderFailure::InvalidConfiguration)?,
+    };
+    Ok(Some(RuntimeBudgetLimits {
+        max_calls,
+        input_bytes,
+        stop_after_failure,
+    }))
 }
 
 #[derive(Default)]

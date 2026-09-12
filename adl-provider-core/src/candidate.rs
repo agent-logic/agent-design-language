@@ -65,6 +65,11 @@ pub fn validate_provider_candidate(providers: &ProviderMap) -> Result<ProviderMa
 }
 pub fn validate_provider_specs(providers: &HashMap<String, ProviderSpec>) -> Result<()> {
     for (provider_id, spec) in providers {
+        // Admission and dispatch share the same strict optional-limit parsers.
+        // Reject an invalid replacement before the watcher promotes its generation.
+        crate::registry::runtime_budget_limits(&spec.config)?;
+        crate::provider::runtime_limits::runtime_bounded_calls(&spec.config)?;
+        crate::provider::runtime_limits::runtime_output_cap(&spec.config)?;
         provider_substrate::provider_substrate_v1(provider_id, spec)
             .with_context(|| format!("validate provider reload spec '{provider_id}'"))?;
         // Constructors validate adapter configuration without performing inference,
