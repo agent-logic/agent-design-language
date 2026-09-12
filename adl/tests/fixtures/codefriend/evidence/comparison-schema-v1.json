@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "baseline_run",
+    "current_run",
+    "baseline_version",
+    "current_version",
+    "finding_id",
+    "outcome",
+    "reason"
+  ],
+  "properties": {
+    "schema": {
+      "const": "codefriend.contracts.v1"
+    },
+    "baseline_run": {
+      "type": "string"
+    },
+    "current_run": {
+      "type": "string"
+    },
+    "baseline_version": {
+      "type": "string"
+    },
+    "current_version": {
+      "type": "string"
+    },
+    "finding_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "added",
+        "resolved",
+        "changed",
+        "unchanged",
+        "not_comparable"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
