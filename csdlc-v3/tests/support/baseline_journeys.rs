@@ -496,69 +496,21 @@ fn remote_terminal_baseline(
     );
     corpus.write(&corpus_file("baseline.json"));
     assert!(completed, "readback {output:?}");
-    // Native observation returns a plan, not exported receipt files. These
-    // explicitly synthetic receipt inputs describe the fake response just
-    // checked by the installed observer; they are not live authentication.
-    use csdlc_v3::commands::remote::{
-        github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
-        GithubAdapterReceipt, GithubReadbackReceipt, RemoteReadbackSource,
-    };
-    let readback = GithubReadbackReceipt {
-        schema: "csdlc.v3.github_readback_receipt.v1".into(),
-        repository: fixture.request.repository.clone(),
-        issue: 505,
-        pull_request: 639,
-        title: Some("Baseline fixture".into()),
-        head_sha: head.clone(),
-        closes_issue: Some(505),
-        closing_issues: vec![505],
-        part_of_issue: None,
-        source: RemoteReadbackSource::Github,
-        observed_by: "github-api-read-only".into(),
-    };
-    let readback_digest = github_readback_receipt_payload_digest(&readback);
-    let adapter = GithubAdapterReceipt {
-        schema: "csdlc.v3.github_adapter_receipt.v1".into(),
-        repository: fixture.request.repository.clone(),
-        issue: 505,
-        pull_request: 639,
-        head_sha: head.clone(),
-        readback_receipt_digest: readback_digest.clone(),
-        credential_names: vec!["GITHUB_TOKEN".into()],
-        adapter: "github-api-read-only".into(),
-        authenticated: true,
-    };
-    let readback_path = fixture
-        .root
-        .join(".csdlc/evidence/505/journey/readback.json");
-    let adapter_path = fixture
-        .root
-        .join(".csdlc/evidence/505/journey/adapter.json");
-    fs::write(&readback_path, serde_json::to_vec(&readback).unwrap()).unwrap();
-    fs::write(&adapter_path, serde_json::to_vec(&adapter).unwrap()).unwrap();
-    review_request["readback_source"] = json!("github");
-    review_request["readback_receipt_path"] = json!(readback_path);
-    review_request["readback_receipt_digest"] = json!(readback_digest);
-    review_request["adapter_receipt_path"] = json!(adapter_path);
-    review_request["adapter_receipt_digest"] =
-        json!(github_adapter_receipt_payload_digest(&adapter));
-    review_request["closes_issue"] = json!(505);
-    review_request["closing_issues"] = json!([505]);
-    let publication = json!({"expected_lifecycle_digest":digest,"exact_review_sha":head,"operation":{"kind":"publish","request":review_request}});
+    // Publication consumes authenticated fake readback through the same
+    // native observation path as operator publication, without forged files.
     let (output, report) = invoke(
         corpus,
         "remote-05",
         "publish",
         "healthy_publication_validation",
-        &publication,
-        Some("--execute"),
+        &review_request,
+        Some("--observe-github"),
         &fixture.root,
     );
-    let completed =
-        output.status.success() && report["result"]["outcome"]["result"]["status"] == "ready";
+    let completed = output.status.success() && report["result"]["status"] == "ready";
     corpus.classify(
         if completed { "completed" } else { "failed" },
-        "publication accepts matching fake review and remote evidence",
+        "publication accepts fixture review and native fake-transport readback",
         completed,
         None,
     );

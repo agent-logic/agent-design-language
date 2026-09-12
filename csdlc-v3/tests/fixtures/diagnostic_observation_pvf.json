@@ -30,7 +30,7 @@
   },
   "non_claims": [
     "Model-only helpers and remote owner unit tests do not establish installed entrypoint purity on their own.",
-    "Review/readback receipt inputs are explicitly synthetic, the remote merge is a declared fixture event, and eligible cleanup uses a separate genuinely registered clean control at the same head; the dirty issue checkout is retained.",
+    "Review receipt inputs are explicitly synthetic; readback is produced by native observation over fake transport. The remote merge is a declared fixture event, and eligible cleanup uses a separate genuinely registered clean control at the same head; the dirty issue checkout is retained.",
     "Invocation counts cover installed CLI entrypoints and fake remote transport, excluding internal Git utilities. Injected clock values and measured durations are not causal savings evidence.",
     "Local fixture proof is distinct from CI integration and production reliability."
   ]
