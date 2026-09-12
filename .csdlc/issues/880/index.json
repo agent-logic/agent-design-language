@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 880,
+  "phase": "bound",
+  "generation": 8,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/880-ci-ingestion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-880-ci-ingestion",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "72c729fd62dc47879b6b69272f76d5ddf8b76ef2360c84402542d98246c3f5f5"
+}

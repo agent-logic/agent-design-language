@@ -8,6 +8,9 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
         return Ok(());
     }
     ensure!(args.len() >= 2, "{USAGE}");
+    if args[0] == "ingest" && args[1] == "ci" {
+        return super::codefriend_ci_cmd::run(&args[2..]);
+    }
     let read = args[0] == "packet" && args[1] == "read";
     ensure!(
         read || (args[0] == "ingest" && args[1] == "local"),
