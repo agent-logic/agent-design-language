@@ -4,7 +4,7 @@ use serde_json::{json, Value};
 #[path = "support/observation.rs"]
 mod observation;
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     fs,
     path::{Path, PathBuf},
     process::Command,
@@ -108,6 +108,94 @@ impl Fixture {
         }
         assert!(!later_package.join("Cargo.toml").exists());
         assert!(!later_package.join("Cargo.lock").exists());
+        // Exercise future drift in an existing package, workspace declaration,
+        // and shared lock even when the current checkout has not changed them.
+        fs::write(
+            root.join("adl/Cargo.toml"),
+            "[package]\nname = 'future-adl'\nversion = '9.9.9'\n",
+        )
+        .unwrap();
+        fs::write(
+            root.join("adl-v2/Cargo.toml"),
+            "[workspace.package]\nversion = '9.9.9'\n",
+        )
+        .unwrap();
+        fs::write(
+            root.join("adl/Cargo.lock"),
+            "version = 4\n[[package]]\nname = 'fixture-later-local'\nversion = '9.9.9'\n",
+        )
+        .unwrap();
+        let mut workspaces: BTreeMap<String, (String, Vec<String>)> = BTreeMap::new();
+        for package in declared["packages"].as_array().unwrap() {
+            let manifest = package["manifest"].as_str().unwrap();
+            let version = package["version"].as_str().unwrap();
+            let version_field = if let Some(workspace) = package["workspace"].as_str() {
+                let parent = Path::new(workspace).parent().unwrap();
+                let member = Path::new(manifest)
+                    .parent()
+                    .unwrap()
+                    .strip_prefix(parent)
+                    .unwrap();
+                let entry = workspaces
+                    .entry(workspace.to_owned())
+                    .or_insert_with(|| (version.to_owned(), Vec::new()));
+                assert_eq!(entry.0, version, "fixture workspace versions disagree");
+                entry.1.push(member.to_str().unwrap().to_owned());
+                "version.workspace = true".to_owned()
+            } else {
+                format!("version = {}", package["version"])
+            };
+            fs::write(
+                root.join(manifest),
+                format!(
+                    "[package]\nname = {}\n{version_field}\nedition = \"2021\"\n",
+                    package["package"]
+                ),
+            )
+            .unwrap();
+        }
+        for (path, (version, members)) in workspaces {
+            fs::write(
+                root.join(path),
+                format!(
+                    "[workspace]\nmembers = {}\n[workspace.package]\nversion = {}\n",
+                    json!(members),
+                    json!(version)
+                ),
+            )
+            .unwrap();
+        }
+        // Lockfile package records are synthetic release-metadata inputs. Do
+        // not inherit later local packages through today's shared lockfiles;
+        // this fixture does not prove Cargo dependency resolution.
+        for lock in declared["lockfiles"].as_array().unwrap() {
+            let lock = lock.as_str().unwrap();
+            let owner = lock.strip_suffix("Cargo.lock").unwrap().to_owned() + "Cargo.toml";
+            let owners: Vec<_> = declared["packages"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .filter(|package| {
+                    package["manifest"].as_str() == Some(&owner)
+                        || package["workspace"].as_str() == Some(&owner)
+                })
+                .collect();
+            assert!(
+                !owners.is_empty(),
+                "fixture lock has no declared owner: {lock}"
+            );
+            let mut text = String::from("version = 4\n\n[[package]]\nname = \"fixture-registry-dependency\"\nversion = \"1.0.0\"\nsource = \"registry+https://example.invalid/index\"\n");
+            for package in owners {
+                text.push_str(&format!(
+                    "\n[[package]]\nname = {}\nversion = {}\n",
+                    package["package"], package["version"]
+                ));
+            }
+            fs::write(root.join(lock), text).unwrap();
+        }
+        assert!(!fs::read_to_string(root.join("adl/Cargo.lock"))
+            .unwrap()
+            .contains("fixture-later-local"));
         fs::copy(
             source.join("adl/tools/release_ceremony.sh"),
             root.join("adl/tools/release_ceremony.sh"),
@@ -245,6 +333,18 @@ fn exact_candidate_preflight_and_negative_matrix() {
     f.commit_input();
     f.run(Some("release_inventory_omits_manifest"));
     fs::remove_dir_all(unlisted).unwrap();
+    f.commit_input();
+    f.run(None);
+    let shared_lock = f.root.join("adl/Cargo.lock");
+    let declared_lock = fs::read_to_string(&shared_lock).unwrap();
+    fs::write(
+        &shared_lock,
+        format!("{declared_lock}\n[[package]]\nname = \"fixture-unlisted\"\nversion = \"0.1.0\"\n"),
+    )
+    .unwrap();
+    f.commit_input();
+    f.run(Some("unlisted_local_lock_package"));
+    fs::write(shared_lock, declared_lock).unwrap();
     f.commit_input();
     f.run(None);
     let linked = f.root.with_extension("linked");
