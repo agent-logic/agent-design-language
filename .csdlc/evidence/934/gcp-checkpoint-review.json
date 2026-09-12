@@ -1,0 +1,20 @@
+{
+  "issue": 909,
+  "head": "e7cd268a71cd9b5b99143c5dbdc997473196e68c",
+  "reviewer": "sprint8_908",
+  "result": "no_actionable_findings_in_incomplete_packet",
+  "verified": [
+    "20 effective policies",
+    "113 quotas per project",
+    "plan projected before and after fields and hashes",
+    "bootstrap private state digest and remote generation",
+    "gcloud 403/404 ambiguity",
+    "plan specific application and rollback procedures"
+  ],
+  "acceptance": "incomplete",
+  "unresolved": [
+    "platform state and reconciled platform plan",
+    "intended corporate group verification"
+  ],
+  "apply_authorized": false
+}
