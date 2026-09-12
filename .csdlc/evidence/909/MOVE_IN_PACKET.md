@@ -90,68 +90,32 @@ These checks prove formatting/schema consistency only. During these static check
 
 **All three packages have real plans.** Bootstrap uses a private read-only copy of remote serial 4 and has two no-ops. Organization has exactly five creates and no update/delete/replacement, justified by live absence of its managed memberships/budget/dataset. Platform uses the approved reconstructed local serial 36 and has 20 no-ops; all 20 identities were verified before and after recovery and all readback values were unchanged. Eight historical-state refresh entries are empty-collection normalization, IAM etag and bucket update timestamps; none proposes a configuration change. Exact actions/values and provenance are retained in `platform-plan-summary.json` and `local-recovery-receipt.json`. No remote backend was initialized, locked or changed. The original post-apply platform state remains unavailable; the candidate is explicitly reconstructed, not asserted to be that original state.
 
-To finish the remaining platform plan gate:
+## Exact future application and rollback decisions
 
-1. Name the current state custodian and exact existing backend/state for each
-   package. Read existing metadata and address inventory without writing or
-   migrating state. If no authoritative state can be located, stop and obtain
-   ownership resolution; do not import or create a backend under #909.
-2. Pin the source revision, provider lock, target variables and selected existing
-   state. Use short-lived approved company credentials and an isolated local
-   working directory; preserve secret/raw state and plan material outside tracked
-   evidence. Do not initialize an ambiguous backend or invoke recovery scripts
-   that include apply/destroy as part of their proof.
-3. Prepare the read-only plan against the verified state, with no backend/state
-   mutation. Review whether the chosen backend's normal plan lock writes require
-   a separately approved mechanism; `-lock=false` is only appropriate with a
-   custodian-confirmed quiescent state and serial/generation comparison before
-   and after. Do not weaken concurrency protection silently.
-4. Record every actual address/action, before/after identity, cost/control
-   effect and dependency. Retain raw plan privately, with digest and redacted
-   review evidence. No-op, proposed change, incomplete and failed are distinct.
-5. Reject unexpected source-project changes, replacement/deletion, broad IAM,
-   public access, data movement, missing owners or state drift. Reconcile and
-   independently review the same inventory, plan, application and rollback set.
+`APPLICATION_CHECKLIST.md` is the current ordered application procedure. Daniel,
+`daniel@agent-logic.ai`, owns approval, billing and state/data custody decisions.
+Before future execution he must approve durable custody/adoption of the
+reconstructed candidate, backup location/executor, fresh plan digests and spend
+bounds. The operator-confirmed corporate group must pass the application identity
+preflight. These future approvals are not supplied by #909 planning completion.
 
-## Application and rollback gates
+- Bootstrap: two no-op addresses. No apply or cloud rollback is needed.
+- Platform: 20 no-op addresses. Preserve all existing resources; no apply or
+  cloud rollback is needed. The performed local reconstruction can be retired
+  without cloud edits, preserving the immutable snapshot and receipt. Any later
+  non-no-op action stops for fresh review and separate approval.
+- Organization: exactly three corporate project IAM memberships, one filtered
+  budget and one empty BigQuery dataset are proposed creates. Apply only a fresh
+  independently reviewed saved plan with explicit execution approval; verify all
+  five exact resulting identities and budget/notification settings afterward.
+  Dataset creation does not activate export.
 
-The order below is grounded in the three packages but **cannot be the final
-exact application procedure until the real plan and live ownership are known**.
-Responsible roles require named acceptance before application: company operator
-(identity and authorization), Terraform/state custodian (plan and recovery),
-billing owner (notification/charge controls), and data owners (retention/cleanup).
-No role acceptance is inferred from the existence of an IAM binding.
-
-1. Operator verifies company hierarchy, host project and billing identity again;
-   custodian verifies clean exact source, plan digest/expiry, state serial and
-   unchanged variables; billing owner accepts the exact spend envelope. A changed
-   plan, missing state, expired credentials or unanswered inventory gap is no-go.
-2. Reuse the accepted bootstrap backend. If a bootstrap change is proposed,
-   establish recoverable state generation and independent custodian access before
-   approving it. Never delete or replace an adopted backend automatically.
-3. Apply only separately approved organization/billing plan actions. Verify each
-   corporate role, exact budget filter/notification destination and dataset
-   ownership. Verify export activation separately; dataset creation alone does
-   not activate billing export.
-4. Apply only separately approved platform plan actions. Verify VPC/subnet
-   identities, private API access, three firewall rules, OS Login and operator
-   grants, dedicated workload SA, five bucket owners and logging metric.
-   No workload launch is included or needed to claim this planning deliverable.
-5. Independent reviewer checks readbacks against the approved plan and records
-   residual ownership/cost. Preserve state, audit and data-retention evidence.
-
-Rollback follows affected dependencies in reverse and requires its own reviewed
-plan, never a blind `terraform destroy`: stop dependent work; inventory and
-preserve retained bucket/object generations; remove only newly introduced
-workload bucket grants and project log-writer grant; remove a new workload SA
-only when no consumers remain; remove newly introduced metric and eligible
-empty buckets; then remove newly introduced operator grants/metadata only after
-comparison with pre-change values; remove owned firewall rules, subnet and VPC
-only after zero dependent interfaces/resources are proven. Organization IAM
-changes restore exact pre-change membership, never revoke the last independent
-company administrator. Billing datasets and adopted state remain retained until
-explicit data-owner disposition. Review actual Terraform dependency ordering
-against the saved rollback plan; this narrative is not a substitute.
+If a separately approved organization application is partial, reconcile actual
+created identities first. Roll back only newly added memberships (never the
+whole IAM policy or last independent administrator), the newly created budget,
+and the empty new dataset if the data owner agrees. An exported/populated dataset
+must be preserved pending explicit data disposition. The exact rollback saved
+plan requires its own review and authorization; no broad destroy is permitted.
 
 Irreversible boundaries include object-version deletion, dataset/table deletion,
 state-history loss, log expiry and loss of the last administrative identity.
