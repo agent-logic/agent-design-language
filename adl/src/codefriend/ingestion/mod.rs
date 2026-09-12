@@ -5,6 +5,7 @@ use anyhow::{bail, ensure, Result};
 use serde::{Deserialize, Serialize};
 use std::{fs::File, io::Read, path::Path};
 pub mod ci;
+pub mod github;
 pub mod local;
 
 pub const SCHEMA: &str = "codefriend.repository_packet.v1";

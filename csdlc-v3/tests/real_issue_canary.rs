@@ -294,7 +294,7 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
         assert_eq!(value["writes_v3_state"], false);
         assert_eq!(
             std::str::from_utf8(&output.stderr).unwrap(),
-            "csdlc: read-only route blocked; see structured stdout findings\n"
+            format!("csdlc: {expected_code}; see structured stdout findings\n")
         );
         let findings = value["findings"].as_array().expect("finding array");
         assert_eq!(findings.len(), 1, "{findings:?}");
@@ -594,6 +594,7 @@ fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_withou
     let mut request = observed.request;
     let receipts = RemoteRouteReceipts {
         typed_review: Some(TypedReviewReceipt {
+            publication_linkage: None,
             schema: "csdlc.v3.typed_review_receipt.v1".into(),
             repository: request.repository.clone(),
             issue: request.issue,

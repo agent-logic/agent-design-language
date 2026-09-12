@@ -1,0 +1,10 @@
+{
+  "schema": "codefriend.contracts.v1",
+  "baseline_run": "57c1a9b483aa375f93d78f6b28b287b92e6b43c3c0133a1cb560fb8041150be4",
+  "current_run": "57c1a9b483aa375f93d78f6b28b287b92e6b43c3c0133a1cb560fb8041150be4",
+  "baseline_version": "codefriend.contracts.v1",
+  "current_version": "codefriend.contracts.v1",
+  "finding_id": "f9baee545ff3d0c4b15f5245887d88e614001ba8b79594395b24ee0f3c95c4c0",
+  "outcome": "unchanged",
+  "reason": "same canonical fixture"
+}

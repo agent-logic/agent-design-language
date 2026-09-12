@@ -1,0 +1,43 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "593d53aacdc1b4a6ee020b8aeacc0d41b0d6d2412f869967d27f98780e648da2",
+  "card_updates": {
+    "srp": {
+      "status": "changes_required",
+      "status_inline": "changes_required",
+      "recommended_outcome": "needs_followup",
+      "recommended_outcome_inline": "needs_followup",
+      "review_findings": "Original card P2 resolved. Completion audit P2: numeric endpoint was accepted and selected fallback. Failure reproduced through production loader; bounded type repair and real watcher/LKG regression implemented. See REVIEW.md.",
+      "review_findings_inline": "Original card P2 resolved; numeric-endpoint P2 repaired locally, renewed review pending.",
+      "review_dispositions": "Earlier independent reviews remain preserved; correction pending exact-head independent review. No approval transfer from published06c0dcd to changed source.",
+      "review_dispositions_inline": "Correction pending renewed exact-head review.",
+      "review_notes": "Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim.",
+      "review_notes_inline": "Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim."
+    },
+    "sor": {
+      "summary": "Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim.",
+      "summary_inline": "Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim.",
+      "completion_state": "correction_review_pending",
+      "completion_state_inline": "correction_review_pending",
+      "validation_result": "Current correction:3 definition tests+7 reload compatibility tests, clippy/fmt/diff checks pass. Initial numeric-endpoint case fails against published source. Prior25-test proof and reviews preserved; current-head hosted CI must follow reviewed correction.",
+      "validation_result_inline": "Current correction10 focused tests and lint pass; renewed review and corrected-head CI pending.",
+      "integration_result": "PR953 open at06c0dcd; correction remains local pending review/publication.",
+      "integration_result_inline": "PR953 open; correction local pending review/publication."
+    }
+  }
+}

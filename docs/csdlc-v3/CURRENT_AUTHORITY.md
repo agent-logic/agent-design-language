@@ -13,9 +13,36 @@ Authorized exact-head PR merge uses the native `github-pr` `pull_request_merge`
 request documented in [Native pull-request merge](PULL_REQUEST_MERGE.md). It
 requires authenticated review/policy/check admission and durable reconciliation;
 `finish --observe-github` then observes terminal truth without a second mutation.
-Retained construction and proof routes do not independently authorize mutation.
+`proof` and `install` are guarded native operational routes; their typed request
+and authority checks determine whether an invocation may mutate. `shadow` and
+`soak` retain historical inspection contracts with execution retired. Explicit
+`local` construction inspection is non-operational; operational routes fail closed
+when their authority context is unavailable and do not fall back to it.
 V2 is permitted only for an explicitly authorized rollback or bounded transition
 remediation, never as an automatic fallback for missing v3 proof.
+
+## Command discovery and result interpretation
+
+The command contract built from `v3-command-manifest.json` is available through
+`csdlc --contract`; `csdlc <command> --describe` returns that command's descriptor.
+These discovery responses describe inputs, effects and result schema; they do not
+grant authority or execute the described route. Verify discovery against the
+binary selected for the invocation. A source change or isolated candidate build
+does not establish that the active installed binary has been upgraded.
+
+JSON command results retain their owner-specific fields and add `/envelope` with
+schema `csdlc.v3.command_result.v1`. Successful descriptor discovery returns its
+contract directly; help remains text. Read process outcome, owner status,
+authority and effect outcome separately: exit success or a `ready` classification
+alone is not mutation, publication or terminal authority. An unknown effect or
+unreported evidence invalidation must not be interpreted as proof of no effect.
+Use the underlying owner result and durable receipts for lifecycle decisions.
+
+The observation routes `doctor`, `validate`, `eligibility`, `schedule` and
+`shepherd` inspect without creating a lifecycle lock or replaying interrupted
+transactions. Recovery-required state must remain visible for an explicit
+mutation/recovery route. This diagnostic guarantee does not extend to every
+command grouped with local preparation, such as `issue`, `edit` or `bind`.
 
 ## Historical evidence
 

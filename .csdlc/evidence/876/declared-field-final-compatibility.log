@@ -1,0 +1,14 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-804da21c198759d7)
+
+running 7 tests
+test provider::reload::tests::provider_reload_sidecar_rejects_raw_credential_values_under_neutral_keys ... ok
+test provider::reload::tests::provider_reload_sidecar_rejects_credential_values ... ok
+test provider::reload::tests::provider_reload_sidecar_allows_env_reference_fields ... ok
+test provider::reload::tests::provider_reload_sidecar_digest_is_stable_and_redacted ... ok
+test provider::reload::tests::global_provider_reload_guard_only_clears_owned_registration ... ok
+test execute::tests::execute_sequential_provider_reload_handles_are_run_scoped_across_overlap_and_shutdown ... ok
+test execute::tests::execute_sequential_consumes_provider_reload_snapshots_without_restart ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 1863 filtered out; finished in 0.12s
+

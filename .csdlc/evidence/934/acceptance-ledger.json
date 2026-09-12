@@ -1,0 +1,312 @@
+{
+  "umbrella": 934,
+  "rows": [
+    {
+      "issue": 720,
+      "id": "720-AC-1",
+      "requirement": "No retained/published controls",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/720/terminal-receipt.json"
+      ],
+      "qualification": "Local browser regression includes mocked network; actual deployed-browser evidence belongs to #910."
+    },
+    {
+      "issue": 720,
+      "id": "720-AC-2",
+      "requirement": "No startup or navigation historical telemetry replacement",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/720/terminal-receipt.json"
+      ],
+      "qualification": "Local browser regression includes mocked network; actual deployed-browser evidence belongs to #910."
+    },
+    {
+      "issue": 720,
+      "id": "720-AC-3",
+      "requirement": "No retained polling timer",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/720/terminal-receipt.json"
+      ],
+      "qualification": "Local browser regression includes mocked network; actual deployed-browser evidence belongs to #910."
+    },
+    {
+      "issue": 720,
+      "id": "720-AC-4",
+      "requirement": "Remove unused assignments",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/720/terminal-receipt.json"
+      ],
+      "qualification": "Local browser regression includes mocked network; actual deployed-browser evidence belongs to #910."
+    },
+    {
+      "issue": 720,
+      "id": "720-AC-5",
+      "requirement": "Live route regression proof",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/720/terminal-receipt.json"
+      ],
+      "qualification": "Local browser regression includes mocked network; actual deployed-browser evidence belongs to #910."
+    },
+    {
+      "issue": 720,
+      "id": "720-AC-6",
+      "requirement": "Historical evidence preserved and distinguished",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/720/terminal-receipt.json"
+      ],
+      "qualification": "Local browser regression includes mocked network; actual deployed-browser evidence belongs to #910."
+    },
+    {
+      "issue": 908,
+      "id": "908-AC-1",
+      "requirement": "Business identity verified",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/inventory.json",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/MAINTENANCE.md",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/VALIDATION.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/independent-review-908.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/final-green-908.json",
+        ".git/csdlc-v3/local/evidence/908/terminal-receipt.json"
+      ],
+      "qualification": "Tracked validation records CI pending at commit time; final CI is recorded separately against exact reviewed head8108. Inventory is a dated bounded census, not an all-service audit or ownership authorization."
+    },
+    {
+      "issue": 908,
+      "id": "908-AC-2",
+      "requirement": "Current regional/global denominator and baseline delta",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/inventory.json",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/MAINTENANCE.md",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/VALIDATION.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/independent-review-908.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/final-green-908.json",
+        ".git/csdlc-v3/local/evidence/908/terminal-receipt.json"
+      ],
+      "qualification": "Tracked validation records CI pending at commit time; final CI is recorded separately against exact reviewed head8108. Inventory is a dated bounded census, not an all-service audit or ownership authorization."
+    },
+    {
+      "issue": 908,
+      "id": "908-AC-3",
+      "requirement": "Ownership/staleness and read failures explicit",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/inventory.json",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/MAINTENANCE.md",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/VALIDATION.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/independent-review-908.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/final-green-908.json",
+        ".git/csdlc-v3/local/evidence/908/terminal-receipt.json"
+      ],
+      "qualification": "Tracked validation records CI pending at commit time; final CI is recorded separately against exact reviewed head8108. Inventory is a dated bounded census, not an all-service audit or ownership authorization."
+    },
+    {
+      "issue": 908,
+      "id": "908-AC-4",
+      "requirement": "Maintenance owner/cadence/retention",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/inventory.json",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/MAINTENANCE.md",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/VALIDATION.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/independent-review-908.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/final-green-908.json",
+        ".git/csdlc-v3/local/evidence/908/terminal-receipt.json"
+      ],
+      "qualification": "Tracked validation records CI pending at commit time; final CI is recorded separately against exact reviewed head8108. Inventory is a dated bounded census, not an all-service audit or ownership authorization."
+    },
+    {
+      "issue": 908,
+      "id": "908-AC-5",
+      "requirement": "Completeness/redaction negative checks",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/inventory.json",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/MAINTENANCE.md",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/VALIDATION.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/independent-review-908.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/final-green-908.json",
+        ".git/csdlc-v3/local/evidence/908/terminal-receipt.json"
+      ],
+      "qualification": "Tracked validation records CI pending at commit time; final CI is recorded separately against exact reviewed head8108. Inventory is a dated bounded census, not an all-service audit or ownership authorization."
+    },
+    {
+      "issue": 908,
+      "id": "908-AC-6",
+      "requirement": "Independent actual-readback review",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/inventory.json",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/MAINTENANCE.md",
+        "2c09eca135808fb6385a6613f7317088b01ffeab:.csdlc/evidence/908/VALIDATION.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/independent-review-908.json",
+        ".git/csdlc-v3/requests/sprint-8-v0922/final-green-908.json",
+        ".git/csdlc-v3/local/evidence/908/terminal-receipt.json"
+      ],
+      "qualification": "Tracked validation records CI pending at commit time; final CI is recorded separately against exact reviewed head8108. Inventory is a dated bounded census, not an all-service audit or ownership authorization."
+    },
+    {
+      "issue": 909,
+      "id": "909-AC-1",
+      "requirement": "Company hierarchy/project/billing and complete inventory",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/909/terminal-receipt.json"
+      ],
+      "qualification": "See review for exact code/test scope and proof provenance; #909 planning completion does not authorize GCP apply or remote-state adoption."
+    },
+    {
+      "issue": 909,
+      "id": "909-AC-2",
+      "requirement": "Existing Terraform reused with real bounded plan",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/909/terminal-receipt.json"
+      ],
+      "qualification": "See review for exact code/test scope and proof provenance; #909 planning completion does not authorize GCP apply or remote-state adoption."
+    },
+    {
+      "issue": 909,
+      "id": "909-AC-3",
+      "requirement": "Exact ordered apply and rollback procedures",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/909/terminal-receipt.json"
+      ],
+      "qualification": "See review for exact code/test scope and proof provenance; #909 planning completion does not authorize GCP apply or remote-state adoption."
+    },
+    {
+      "issue": 909,
+      "id": "909-AC-4",
+      "requirement": "Billing/resource limits/cleanup/residual controls",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/909/terminal-receipt.json"
+      ],
+      "qualification": "See review for exact code/test scope and proof provenance; #909 planning completion does not authorize GCP apply or remote-state adoption."
+    },
+    {
+      "issue": 909,
+      "id": "909-AC-5",
+      "requirement": "Independent packet and plan consistency review",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        ".csdlc/evidence/934/review/MERGED_CHILDREN_ACCEPTANCE.md",
+        ".csdlc/evidence/934/review/observations.json",
+        ".git/csdlc-v3/local/evidence/909/terminal-receipt.json"
+      ],
+      "qualification": "See review for exact code/test scope and proof provenance; #909 planning completion does not authorize GCP apply or remote-state adoption."
+    },
+    {
+      "issue": 910,
+      "id": "910-AC-1",
+      "requirement": "Precise plan/apply/upload authorization",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/DEPLOYMENT_PLAN.md",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/runtime-origin-change.json",
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
+      ]
+    },
+    {
+      "issue": 910,
+      "id": "910-AC-2",
+      "requirement": "Reviewed exact Terraform and versioned assets",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/terraform-plan-summary.json",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/assets.json",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/upload-manifest.json",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/upload-invalidation.json",
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
+      ]
+    },
+    {
+      "issue": 910,
+      "id": "910-AC-3",
+      "requirement": "Authenticated private S3/OAC/logging/headers/DNS/certificate proof",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/deployed-posture.json",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/https-assets.json",
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
+      ]
+    },
+    {
+      "issue": 910,
+      "id": "910-AC-4",
+      "requirement": "Browser HTTPS and live Runtime WSS using existing authentication boundary",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/browser-proof.json",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/verify-deployed.cjs",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/browser-diagnosis.json",
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
+      ],
+      "qualification": "Actual public-read v3 feed rendered with unauthenticated write controls gated; no authenticated write exercise. Temporary site permission required for operator-local Runtime. Live connection explicitly requested."
+    },
+    {
+      "issue": 910,
+      "id": "910-AC-5",
+      "requirement": "Invalidation and rollback/cost ownership",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/upload-invalidation.json",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/rollback-dry-run.json",
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/DEPLOYMENT_PLAN.md",
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
+      ]
+    },
+    {
+      "issue": 910,
+      "id": "910-AC-6",
+      "requirement": "Independent actual deployment evidence reconciliation",
+      "status": "verified_merged_terminal",
+      "evidence": [
+        "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/DEPLOYMENT_PLAN.md",
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
+      ],
+      "qualification": "Final deployment review accepted; green PR954 merged, all-four ancestry verified, native closed_out and exact cleanup completed."
+    }
+  ],
+  "completion_gate": "All source issue obligations plus exact-head review, applicable green checks and merged ancestry or explicit operator disposition. This ledger summarizes and does not supersede issue text.",
+  "updated_at": "2026-09-12T04:56:27.773156+00:00"
+}

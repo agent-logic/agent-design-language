@@ -1,0 +1,101 @@
+---
+schema_version: "0.1"
+artifact_type: "structured_validation_planning_prompt"
+name: "v0922-merge-linkage-admission-validation-plan"
+issue: 849
+task_id: "issue-0849"
+run_id: "issue-0849"
+version: "0.92.2"
+title: "[v0.92.2][C-SDLC v3][P2] Preserve publication linkage during native PR merge"
+branch: "codex/849-v0922-merge-linkage-admission"
+generated_at: "2026-09-12T00:22:05.416044+00:00"
+card_status: "ready"
+status: "planned"
+initial_pvf_lane: "tooling"
+planned_pvf_lane: "tooling"
+lane_registry_path: "docs/validation/pvf_lanes.json"
+lane_registry_template_set: "1.0.5"
+validation_runtime_class: "bounded_local"
+validation_resource_profile: "local CPU/Rust/Python/Git/filesystem, isolated authenticated fixtures or immutable revision snapshots; no paid/live effects"
+validation_family: "merge_linkage_admission"
+validation_size_split: "focused per source acceptance; no reflexive full workspace suite"
+expected_proof_cost: "2400 seconds and 7000 tokens estimated deterministic proof; required CI queue time separate from local proof"
+planned_validation_seconds: "2400"
+planned_validation_tokens: "7000"
+issue_goal_ref: "Issue #849 session active: reviewed implementation and truthful PR publication through green CI; no merge authorization"
+sprint_goal_ref: "v0.92.2 Sprint 7 umbrella #933"
+goal_metrics_rollup_ref: ".csdlc/evidence/849/goal-metrics.json (planned; absent until execution)"
+source_refs:
+  - kind: "issue"
+    ref: "https://github.com/agent-logic/agent-design-language/issues/849"
+  - kind: "stp"
+    ref: ".csdlc/issues/849/cards/stp.md"
+  - kind: "sip"
+    ref: ".csdlc/issues/849/cards/sip.md"
+  - kind: "spp"
+    ref: ".csdlc/issues/849/cards/spp.md"
+selected_lanes:
+  - "tooling; PVF: required deterministic native C-SDLC owner contract; local Git/filesystem and fake authenticated transport; small CPU; no paid cloud resources or live destructive merge required. Add same-head body-drift negative cases and valid Closing/PartOf cases in the existing merge tests. Assert no mutation dispatch for rejected inputs. Run focused remote tests and the native C-SDLC suite appropriate to the final diff; keep live GitHub proof separate from fake-transport proof. Affected retained criteria: `V3-A:retained-161-ac-8`, `V3-E:retained-175-ac-10`, `V3-E:retained-175-ac-11`, `V3-E:retained-177-ac-3`. Historical `V3-E:V3-E-ac-2` remains qualified when extended to merge admission. Planned commands: cargo test --manifest-path csdlc-v3/Cargo.toml --lib -- --list to enumerate actual merge_cases tests; run exact registered module/filter with nonzero same-head drift, qualified Closing/PartOf, malformed/mixed/wrong-target/repository and uncertain-reconciliation cases. Assert zero mutation dispatch on rejected inputs. Run cargo test --manifest-path csdlc-v3/Cargo.toml --test remote_publication_commands and --test operational_cli_commands for affected public route coverage, cargo fmt --manifest-path csdlc-v3/Cargo.toml --check and git diff --check. Extend scope only to touched semantic owner regressions, then required CI. Fake authenticated transport proves contract semantics; no live destructive merge is required or authorized. Record exact fixture denominators and coupled tooling-PVF role/determinism/local CPU/Git/process resource/release-gate inventory."
+parallel_groups:
+  - "serial within this issue; independent fixtures may parallelize only with isolated state"
+validation_commands:
+  - "cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_cases; cargo test --manifest-path csdlc-v3/Cargo.toml --all-targets -- --test-threads=1; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; python3 docs/csdlc-v3/man/render.py --check"
+failure_policy: "Required failures, skipped or zero-test proof block acceptance. Preserve guards; record durable anomalies; repair and rerun affected proof and independent exact-head review. CI evidence is separate from local proof."
+notes: "Full owner suite remains required. Existing release inventory omission adl-uts/Cargo.toml is recorded separately; a diagnostic skip is not a passed gate. No live merge, shared binary installation or paid resource required."
+---
+
+Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
+
+# Structured Validation Planning Prompt
+
+## Validation Planning Summary
+
+Recheck current merge source and SIM/remote-owner edits against MERGE-LINKAGE-001; bind reviewed qualified PublicationLinkage and publication mode into admission and durable intent; authenticate current PR body relation and reject same-head drift or missing/mixed/ambiguous/wrong-target/repository/mode mismatch before dispatch; preserve valid Closing and PartOf checkpoint/terminal distinctions, uncertain replay and authenticated reconciliation; execute fake-transport rejection/no-dispatch and positive merge fixtures, update affected current mappings while retaining historical failure evidence, and document the remaining body/base/policy race beyond head CAS before independent exact-head review.
+
+## Lane Registry Inputs
+
+- Registry path: `docs/validation/pvf_lanes.json`
+- Registry template set: `1.0.5`
+- Initial PVF lane from issue creation: `tooling`
+- Planned PVF lane for execution: `tooling`
+
+## Selected Validation Lanes
+
+- tooling; PVF: required deterministic native C-SDLC owner contract; local Git/filesystem and fake authenticated transport; small CPU; no paid cloud resources or live destructive merge required. Add same-head body-drift negative cases and valid Closing/PartOf cases in the existing merge tests. Assert no mutation dispatch for rejected inputs. Run focused remote tests and the native C-SDLC suite appropriate to the final diff; keep live GitHub proof separate from fake-transport proof. Affected retained criteria: `V3-A:retained-161-ac-8`, `V3-E:retained-175-ac-10`, `V3-E:retained-175-ac-11`, `V3-E:retained-177-ac-3`. Historical `V3-E:V3-E-ac-2` remains qualified when extended to merge admission. Planned commands: cargo test --manifest-path csdlc-v3/Cargo.toml --lib -- --list to enumerate actual merge_cases tests; run exact registered module/filter with nonzero same-head drift, qualified Closing/PartOf, malformed/mixed/wrong-target/repository and uncertain-reconciliation cases. Assert zero mutation dispatch on rejected inputs. Run cargo test --manifest-path csdlc-v3/Cargo.toml --test remote_publication_commands and --test operational_cli_commands for affected public route coverage, cargo fmt --manifest-path csdlc-v3/Cargo.toml --check and git diff --check. Extend scope only to touched semantic owner regressions, then required CI. Fake authenticated transport proves contract semantics; no live destructive merge is required or authorized. Record exact fixture denominators and coupled tooling-PVF role/determinism/local CPU/Git/process resource/release-gate inventory.
+
+## Parallelization Plan
+
+- Parallel groups: serial within this issue; independent fixtures may parallelize only with isolated state
+- Validation runtime class: `bounded_local`
+- Validation resource profile: `local CPU/Rust/Python/Git/filesystem, isolated authenticated fixtures or immutable revision snapshots; no paid/live effects`
+- Validation family: `merge_linkage_admission`
+- Validation size split: `focused per source acceptance; no reflexive full workspace suite`
+
+## Goal Accounting Hooks
+
+- Issue goal ref: `Issue #849 session active: reviewed implementation and truthful PR publication through green CI; no merge authorization`
+- Sprint goal ref: `v0.92.2 Sprint 7 umbrella #933`
+- Goal metrics rollup ref: `.csdlc/evidence/849/goal-metrics.json (planned; absent until execution)`
+
+## Proof Cost / Runtime Expectations
+
+- Expected proof cost: `2400 seconds and 7000 tokens estimated deterministic proof; required CI queue time separate from local proof`
+- Planned validation seconds: `2400`
+- Planned validation token budget: `7000`
+- Unknown-value rule: record `unknown`, never `0`, when the estimate is unavailable or intentionally deferred.
+
+## Validation Commands
+
+- cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_cases; cargo test --manifest-path csdlc-v3/Cargo.toml --all-targets -- --test-threads=1; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; python3 docs/csdlc-v3/man/render.py --check
+
+## Failure Semantics
+
+- Required failures, skipped or zero-test proof block acceptance. Preserve guards; record durable anomalies; repair and rerun affected proof and independent exact-head review. CI evidence is separate from local proof.
+
+## Handoff
+
+Use this VPP to bridge planning and execution. Keep lane assignment fail-closed, keep blocked or skipped states explicit, and update `SOR` if actual validation differs materially from this plan.
+
+## Notes
+
+Full owner suite remains required. Existing release inventory omission adl-uts/Cargo.toml is recorded separately; a diagnostic skip is not a passed gate. No live merge, shared binary installation or paid resource required.

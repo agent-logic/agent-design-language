@@ -320,22 +320,42 @@ fn request_governed_stop_and_wait(spec: &std::path::Path, child: &mut std::proce
 }
 
 fn wait_for_governed_shutdown_child(child: &mut std::process::Child) {
+    let stderr = child.stderr.take().map(|mut pipe| {
+        std::thread::spawn(move || {
+            use std::io::Read;
+            let mut retained = Vec::new();
+            let mut chunk = [0_u8; 4096];
+            while let Ok(count) = pipe.read(&mut chunk) {
+                if count == 0 {
+                    break;
+                }
+                retained.extend_from_slice(&chunk[..count]);
+                if retained.len() > 65536 {
+                    retained.drain(..retained.len() - 65536);
+                }
+            }
+            String::from_utf8_lossy(&retained).into_owned()
+        })
+    });
     let started = std::time::Instant::now();
     let timeout = std::time::Duration::from_secs(CSM_CONTROL_PLANE_FIRST_REQUEST_TIMEOUT_SECS);
-    loop {
-        if child
-            .try_wait()
-            .expect("check governed CSM daemon child")
-            .is_some()
-        {
-            break;
+    let status = loop {
+        if let Some(status) = child.try_wait().expect("check governed CSM daemon child") {
+            break status;
         }
         if started.elapsed() > timeout {
             let _ = child.kill();
             panic!("CSM daemon did not exit after governed stop request");
         }
         std::thread::sleep(std::time::Duration::from_millis(100));
-    }
+    };
+    let stderr = stderr
+        .map(|thread| thread.join().expect("retain daemon stderr"))
+        .unwrap_or_default();
+    assert!(
+        status.success(),
+        "CSM daemon exited {status}; stderr:\n{stderr}"
+    );
 }
 
 fn write_shutdown_probe_spec(root: &std::path::Path, agent_id: &str) -> std::path::PathBuf {

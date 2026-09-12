@@ -4,6 +4,8 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 .SH SYNOPSIS
 .nf
 \&csdlc \-\-help
+\&csdlc \-\-contract
+\&csdlc COMMAND \-\-describe
 \&csdlc COMMAND \-\-help
 \&man csdlc\-COMMAND
 \&man csdlc\-requests
@@ -13,6 +15,8 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 \&C\-SDLC v3 is the current lifecycle authority after #505 / PR #591 only when canonical origin/main selector, authenticated native receipt, terminal reconciliation and Git objects validate. Missing or stale proof suspends authority. A printed plan, a construction report, an install, or a boolean in a request cannot grant it.
 .PP
 \&This suite documents the committed native command contract. It includes all help\-listed commands plus the supported rollback alias and github\-issue create/close forms. The active simplification issues may change future behavior; rerun command/option parity after integration. Historical v1 wrappers and retained v2 binaries are not routine operational routes.
+.PP
+\&Discovery is compiled from the current command manifest: \-\-contract returns the raw full descriptor manifest and COMMAND \-\-describe returns the raw command descriptor, including input contract, effect class and result schema. These global discovery forms do not execute the route and are separate from owner\-specific parser options. The selected binary must support this contract; source or isolated candidate validation does not prove that the active installation has been upgraded.
 .SH INSTALLATION
 .nf
 \&bash adl/tools/install_owner_binaries.sh \-\-bin csdlc
@@ -33,6 +37,8 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 \&\-\-help and \-h are standalone help arguments, not global options mixed into another invocation. There is no \-\-version, \-\-json, \-\-quiet, \-\-root or global \-\-repo option. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc\-requests(1).
 .PP
 \&Local commands accept \-\-repo\-root for discovery and \-\-v3\-state\-root for retained construction storage. Ordinary operations should run from clean primary main during preparation, then from the native\-bound issue checkout. Do not use alternate roots to bypass ownership. Exact SHA means the full 40\-hex Git revision. Local lifecycle digests and remote canonical selector digests are different values.
+.PP
+\&Machine command results preserve legacy owner payload fields and add /envelope with schema csdlc.v3.command_result.v1. Successful \-\-contract and COMMAND \-\-describe responses return their descriptor directly; help remains text. Process outcome, lifecycle status, authority and effects are separate. A successful exit or ready report does not prove mutation, publication or terminal delivery. Unknown effects and unreported evidence invalidation are not no\-effect evidence; inspect owner results and durable receipts.
 .SH CREDENTIALS
 \&Select credential names, never credential values, in credential_names or \-\-credential\-name. The default simple\-issue name is GITHUB_TOKEN. The current native resolver first reads the selected environment variable; if absent, GITHUB_TOKEN or GH_TOKEN may use the explicitly set ADL_GITHUB_TOKEN_FILE. A set\-but\-empty variable fails; it does not fall back. Other credential names require their corresponding environment variable.
 .PP
@@ -62,6 +68,6 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 .PP
 \&uncertain remote mutation/reconciliation: preserve request and intent bytes, then reissue the identical native request to reconcile authenticated remote state. Do not change IDs, delete receipts or repeat a raw write. Only explicitly supported creation/ready absence recovery may request its one\-shot retry. Merge and issue\-edit uncertain retries are observation\-only.
 .PP
-\&Current local diagnostic execution can initialize lock directories and participate in interrupted local transaction recovery; doctor/eligibility can return a non\-authoritative construction report on certain topology errors. Inspect operational_authority and findings. Strict observation\-only behavior is being addressed by #867 and is not claimed by this manual before that change integrates.
+\&Doctor, validate, eligibility, schedule and shepherd observe without creating lifecycle locks or replaying interrupted transactions. Reported recovery\-required state must be handled by an explicit mutation/recovery route. Operational local routes fail closed when authority context is unavailable; only explicit local selects the non\-operational construction helper. This guarantee does not make issue, edit or bind observational.
 .SH SEE ALSO
 \&csdlc\-workflow(1), csdlc\-requests(1), csdlc\-doctor(1), csdlc\-github\-pr(1), csdlc\-finish(1), csdlc\-clean(1). Repository policy: AGENTS.md, docs/csdlc\-v3/CURRENT_AUTHORITY.md, docs/csdlc\-v3/CONTRACT.md and docs/csdlc\-v3/PULL_REQUEST_MERGE.md.

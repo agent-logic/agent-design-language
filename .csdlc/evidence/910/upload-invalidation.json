@@ -1,0 +1,55 @@
+{
+  "captured_at": "2026-09-12T02:03:22.599430+00:00",
+  "status": "Completed",
+  "paths": [
+    "/index.html",
+    "/runtime-v3.config.json",
+    "/"
+  ],
+  "verified_uploads": [
+    {
+      "key": "app.327288d52ff025b5.js",
+      "sha256": "327288d52ff025b548ebf4031c57de1acdc2bbf403711417e150f6322c3af91b",
+      "content_type": "application/javascript",
+      "cache_control": "public,max-age=31536000,immutable",
+      "verified": true
+    },
+    {
+      "key": "styles.fb5a4cb483c419b7.css",
+      "sha256": "fb5a4cb483c419b74a9b96aff68bb7ba982d24671c6380dd47b84c5aa192a787",
+      "content_type": "text/css",
+      "cache_control": "public,max-age=31536000,immutable",
+      "verified": true
+    },
+    {
+      "key": "runtime-v3.config.json",
+      "sha256": "69d17ab7fa27678f27c5758103129e12f4911176794736e59947b7833dfa860d",
+      "content_type": "application/json",
+      "cache_control": "no-cache,no-store,must-revalidate",
+      "verified": true
+    },
+    {
+      "key": "index.html",
+      "sha256": "3f0cf15b5bd4cdd3bf37f3094108d93b790e809eafc8f0e9cedc87d828ea19b8",
+      "content_type": "text/html",
+      "cache_control": "no-cache,no-store,must-revalidate",
+      "verified": true
+    }
+  ],
+  "completion_reconciliation": {
+    "observed_at": "2026-09-12T02:21:20.694505+00:00",
+    "operation": "cloudfront get-invalidation",
+    "profile": "agent-logic-admin",
+    "exact_created_invalidation_id_matched": true,
+    "invalidation_id_sha256": "46bf826157c7fb848cbf2ea66efd8256b2be2acced5628becc0099ab953f3e91",
+    "private_raw_receipt_sha256": "12f45ec408caefe32eb7c0c5663ab41e5dbc3540f0cf21c0d5af55965f03b42c",
+    "private_receipt": "csdlc-v3/private/910/invalidation-completed.json",
+    "status": "Completed",
+    "paths": [
+      "/index.html",
+      "/runtime-v3.config.json",
+      "/"
+    ],
+    "new_invalidation_created": false
+  }
+}

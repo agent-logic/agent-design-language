@@ -731,3 +731,5 @@ mod tests {
             .expect("environment lock")
     }
 }
+
+mod codefriend_evidence_cmd;

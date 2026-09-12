@@ -1,0 +1,27 @@
+{
+  "observed_at": "2026-09-12T05:23:32.888357+00:00",
+  "candidate_base": "ef9d0d2582fc51e9a8c7dfe305a30f5a128e18d6",
+  "children": [
+    {
+      "issue": 720,
+      "merge_commit": "9c583cec78d396527798e592082595f316c67ce2",
+      "ancestor": true
+    },
+    {
+      "issue": 908,
+      "merge_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+      "ancestor": true
+    },
+    {
+      "issue": 909,
+      "merge_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+      "ancestor": true
+    },
+    {
+      "issue": 910,
+      "merge_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
+      "ancestor": true
+    }
+  ],
+  "closing_pr_merge": "pending"
+}

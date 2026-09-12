@@ -1,0 +1,60 @@
+{
+  "status": "diagnosed",
+  "cause": "Chrome Local Network Access permission denied for loopback address space",
+  "runtime_requests_blocked": [
+    {
+      "host": "wuji.dev.csm.agent-logic.ai:20997",
+      "path": "/v1/observatory",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "host": "wuji.dev.csm.agent-logic.ai:20997",
+      "path": "/v1/ready",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "host": "wuji.dev.csm.agent-logic.ai:20997",
+      "path": "/v1/health",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "host": "wuji.dev.csm.agent-logic.ai:20997",
+      "path": "/v1/observatory",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "host": "wuji.dev.csm.agent-logic.ai:20997",
+      "path": "/v1/ready",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "host": "wuji.dev.csm.agent-logic.ai:20997",
+      "path": "/v1/health",
+      "error": "net::ERR_FAILED"
+    }
+  ],
+  "ui": {
+    "connection": "disconnected",
+    "status": "Runtime v3 CSM runtime mirror",
+    "websocket": "disconnected",
+    "stale": "No live snapshot has been received yet."
+  },
+  "static_403_paths": [
+    "/docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md",
+    "/docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json",
+    "/docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json",
+    "/docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json",
+    "/docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md",
+    "/docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json",
+    "/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json"
+  ],
+  "proposed_resolution": "Explicit site-scoped browser permission to access operator-local Runtime; no network security disabling or application/runtime change",
+  "console_evidence": "Permission was denied for this request to access the `loopback` address space.",
+  "permission_documentation": "https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions",
+  "chrome_documentation": "https://developer.chrome.com/blog/local-network-access",
+  "host_scope": "Current Runtime resolves into loopback address space on operator host; proof must disclose this local reachability requirement.",
+  "subsequent_permission_granted_result": "Bare URL successfully renders live-read snapshot; WSS remains idle by intentional explicit-connect behavior",
+  "verifier_defect": "Waited for connected WSS on bare URL, which invokes refreshLive instead of connectLive. Use documented ?runtime=v3&live=1.",
+  "cloudflare_csp_warning": "Optional infra DNS display request caught as lookup unavailable; not a live-feed trust guard or WSS blocker. No CSP change.",
+  "resolution": "browser-proof.json PASS with approved isolated site LNA permission and ?runtime=v3&live=1; no product/Runtime/CSP change"
+}

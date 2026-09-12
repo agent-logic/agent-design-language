@@ -1,0 +1,45 @@
+{
+  "captured_at": "2026-09-12T02:06:49.429264+00:00",
+  "mode": "nonmutating exact-version recovery reconstruction",
+  "deployment": "initial; no prior deployed target version exists",
+  "version_count": 4,
+  "copy_operations_executed": 0,
+  "rollback_invalidations_executed": 0,
+  "private_version_manifest_preserved": true,
+  "objects": [
+    {
+      "key": "app.327288d52ff025b5.js",
+      "sha256": "327288d52ff025b548ebf4031c57de1acdc2bbf403711417e150f6322c3af91b",
+      "version_receipt_present": true,
+      "exact_version_readback_matches": true
+    },
+    {
+      "key": "styles.fb5a4cb483c419b7.css",
+      "sha256": "fb5a4cb483c419b74a9b96aff68bb7ba982d24671c6380dd47b84c5aa192a787",
+      "version_receipt_present": true,
+      "exact_version_readback_matches": true
+    },
+    {
+      "key": "runtime-v3.config.json",
+      "sha256": "69d17ab7fa27678f27c5758103129e12f4911176794736e59947b7833dfa860d",
+      "version_receipt_present": true,
+      "exact_version_readback_matches": true
+    },
+    {
+      "key": "index.html",
+      "sha256": "3f0cf15b5bd4cdd3bf37f3094108d93b790e809eafc8f0e9cedc87d828ea19b8",
+      "version_receipt_present": true,
+      "exact_version_readback_matches": true
+    }
+  ],
+  "future_restore_order": [
+    "runtime-v3.config.json",
+    "index.html"
+  ],
+  "future_invalidation_paths": [
+    "/",
+    "/index.html",
+    "/runtime-v3.config.json"
+  ],
+  "infrastructure_rollback": "separate reviewed plan against preserved stable state; no destroy executed"
+}

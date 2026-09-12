@@ -1,0 +1,21 @@
+{
+  "before_sha256": "2018be97e256a68e40505f9a41026d422ff09405faf948014e8a604237e8377c",
+  "after_sha256": "ea1112f5891160e98b0c6cc5853f8f81355502a1e3b5f1d7e1115df6ffe28a7f",
+  "before_active_blake3": "dae54d2b1b1083d1308a0cd41ca64e4706ac1700f50d43715a48a5de1868668a",
+  "after_active_blake3": "f7962c6c914f93a04f0d2ecb395df2d8fb5504045fea1a71160683b50af17b92",
+  "added_origin": "https://observatory.csm.agent-logic.ai",
+  "mode_preserved": true,
+  "owner_preserved": true,
+  "only_replacement": true,
+  "captured_at": "2026-09-12T01:57:01.438790+00:00",
+  "runtime_pid_unchanged": true,
+  "guardian_pid_unchanged": true,
+  "runtime_instance_unchanged": true,
+  "active_hash_matches_new_bytes": true,
+  "health_with_origin_status": 200,
+  "cors_allowed_origin": "https://observatory.csm.agent-logic.ai",
+  "wss_upgrade_status": 101,
+  "wss_data_received": true,
+  "wss_probe_boundary": "Three-second bounded probe then client timeout; no authentication exercise yet",
+  "restart_performed": false
+}

@@ -115,6 +115,32 @@ fn installed_local_journey_baseline() {
         &corpus_file("baseline.json"),
     );
     let mut index = primary.join(".git/csdlc-v3/local/issues/505/index.json");
+    for (id, args, scenario) in [
+        ("contract-01", vec!["--help"], "installed_help"),
+        ("contract-02", vec!["--contract"], "installed_contract"),
+        (
+            "contract-03",
+            vec!["issue", "--describe"],
+            "installed_prepared_start_schema",
+        ),
+    ] {
+        let output = corpus.run(
+            (id, args[0], scenario),
+            &primary,
+            (&index, &index),
+            &json!({}),
+            Command::new(&installed).current_dir(&primary).args(&args),
+        );
+        let valid = output.status.success() && !output.stdout.is_empty();
+        corpus.classify(
+            if valid { "completed" } else { "failed" },
+            "installed discovery completed",
+            valid,
+            None,
+        );
+        assert!(valid, "{output:?}");
+    }
+
     for (id, route, scenario, crash) in [
         ("local-01", "issue", "healthy_prepare", None),
         ("local-01-inspect", "doctor", "primary_discovery", None),
@@ -337,7 +363,7 @@ fn remote_terminal_baseline(
     };
     let marker = github_mutation_operation_marker(&github_mutation_operation_digest(&mutation));
     let pr = json!({"number":639,"id":639,"title":"Baseline fixture","body":format!("Closes #505\n\n{marker}"),
-        "draft":true,"merged":false,"head":{"sha":head,"ref":fixture.request.branch},"base":{"ref":"main"}});
+        "node_id":"PR_ready639","draft":true,"merged":false,"head":{"sha":head,"ref":fixture.request.branch},"base":{"ref":"main"}});
     let pr_state = inputs.join("pr-state.json");
     fs::write(&pr_state, serde_json::to_vec(&pr).unwrap()).unwrap();
     let quote = |s: &str| format!("'{}'", s.replace('\'', "'\\''"));
@@ -345,6 +371,26 @@ fn remote_terminal_baseline(
     // explicit remote effect, separately visible in the attempt byte inventory.
     let script = format!("#!/bin/sh\ncase \"$*\" in *'--config -'*) cat >/dev/null;; esac\ncase \"$*\" in\n *POST*api.github.com/repos/agent-logic/agent-design-language/pulls*) touch {}; printf '%s' {};;\n *api.github.com/repos/agent-logic/agent-design-language/pulls\\?*) if test -f {}; then printf '%s' {}; else printf '[]'; fi;;\n *api.github.com/repos/agent-logic/agent-design-language/pulls/639*) cat {};;\n *api.github.com/repos/agent-logic/agent-design-language/issues/505*) printf '%s' '{{\"number\":505,\"state\":\"closed\"}}';;\n *) exit 9;; esac\n",
         quote(remote_flag.to_str().unwrap()),quote(&pr.to_string()),quote(remote_flag.to_str().unwrap()),quote(&json!([pr]).to_string()),quote(pr_state.to_str().unwrap()));
+    let ready_state = inputs.join("ready.json");
+    let mut ready_pr = pr.clone();
+    ready_pr["draft"] = json!(false);
+    fs::write(&ready_state, serde_json::to_vec(&ready_pr).unwrap()).unwrap();
+    let uncertain_flag = inputs.join("uncertain-ready-effect");
+    let uncertain_pr =
+        json!({"number":640,"node_id":"PR_uncertain640","head":{"sha":head},"draft":true});
+    let ready_graphql = json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"number":639,"headRefOid":head,"isDraft":false}}}});
+    let uncertain_mode = inputs.join("uncertain-mode");
+    let reconciled_mode = inputs.join("reconciled-mode");
+    let mut reconciled_pr = uncertain_pr.clone();
+    reconciled_pr["draft"] = json!(false);
+    let uncertain_graphql = json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"number":640,"headRefOid":head,"isDraft":false}}}});
+    let extra_cases = format!(" *api.github.com/graphql*) if test -f {}; then touch {}; printf '%s' {}; else cp {} {}; printf '%s' {}; fi;;\n *api.github.com/repos/agent-logic/agent-design-language/pulls/640*) if test -f {}; then printf '%s' {}; else printf '%s' {}; fi;;\n",
+        quote(uncertain_mode.to_str().unwrap()), quote(uncertain_flag.to_str().unwrap()), quote(&uncertain_graphql.to_string()), quote(ready_state.to_str().unwrap()), quote(pr_state.to_str().unwrap()), quote(&ready_graphql.to_string()), quote(reconciled_mode.to_str().unwrap()), quote(&reconciled_pr.to_string()), quote(&uncertain_pr.to_string()));
+    let script = script.replacen(
+        "case \"$*\" in\n",
+        &format!("case \"$*\" in\n{extra_cases}"),
+        1,
+    );
     let script = script.replacen(
         "#!/bin/sh\n",
         &format!(
@@ -413,6 +459,7 @@ fn remote_terminal_baseline(
     corpus.write(&corpus_file("baseline.json"));
     assert!(completed, "review {output:?}");
     let review = TypedReviewReceipt {
+        publication_linkage: None,
         schema: "csdlc.v3.typed_review_receipt.v1".into(),
         repository: fixture.request.repository.clone(),
         issue: 505,
@@ -504,6 +551,121 @@ fn remote_terminal_baseline(
     );
     corpus.write(&corpus_file("baseline.json"));
     assert!(completed, "publish {output:?}");
+    // SIM-02: the installed executable drives both confirmed ready and an
+    // uncertain outcome against independent fake PR identities. An uncertain
+    // mutation remains pending; the harness never manufactures reconciliation.
+    for (id, issue, pull_request, expected) in [
+        ("remote-06", 505, 639, "performed"),
+        ("remote-07", 825, 640, "unknown"),
+    ] {
+        if pull_request == 640 {
+            fs::write(&uncertain_mode, b"fake remote uncertain mode").unwrap();
+        }
+        let ready_request = json!({"expected_lifecycle_digest":digest,"exact_review_sha":head,"operation":{"kind":"github_mutation","request":{
+            "repository":fixture.request.repository,"issue":issue,"pull_request":pull_request,"cutover_issue":505,"operator_approval":"isolated ready journey", "expected_head_sha":head,"credential_names":["GITHUB_TOKEN"],"mutation":{"action":"pull_request_ready"}
+        }}});
+        let (output, report) = invoke(
+            corpus,
+            id,
+            "github-pr",
+            if pull_request == 639 {
+                "draft_to_ready"
+            } else {
+                "uncertain_remote_response"
+            },
+            &ready_request,
+            Some("--execute"),
+            &fixture.root,
+        );
+        let valid = report["envelope"]["effects"]["outcome"] == expected
+            && if pull_request == 639 {
+                output.status.success()
+            } else {
+                !output.status.success()
+                    && report["envelope"]["status"] == "recovery_required"
+                    && uncertain_flag.exists()
+            };
+        corpus.classify(
+            if valid {
+                if pull_request == 639 {
+                    "completed"
+                } else {
+                    "blocked"
+                }
+            } else {
+                "failed"
+            },
+            "installed ready effect and authenticated reconciliation distinction",
+            pull_request == 639 && valid,
+            if pull_request == 640 {
+                Some("pending authenticated reconciliation")
+            } else {
+                None
+            },
+        );
+        assert!(valid, "ready journey: {output:?}");
+        if pull_request == 640 {
+            fs::write(
+                &reconciled_mode,
+                b"simulated authenticated ready state after uncertain response",
+            )
+            .unwrap();
+        }
+        let (replay_output, replay_report) = invoke(
+            corpus,
+            if pull_request == 639 {
+                "remote-06-replay"
+            } else {
+                "remote-07-reconcile"
+            },
+            "github-pr",
+            if pull_request == 639 {
+                "existing_receipt_noop"
+            } else {
+                "retained_intent_receipt_write"
+            },
+            &ready_request,
+            Some("--execute"),
+            &fixture.root,
+        );
+        let replay_valid = replay_output.status.success()
+            && replay_report["result"]["outcome"]["result"]["receipt"]["idempotent_replay"] == true
+            && replay_report["envelope"]["effects"]["outcome"]
+                == if pull_request == 639 {
+                    "none"
+                } else {
+                    "performed"
+                }
+            && (pull_request == 640 || replay_report["envelope"]["status"] == "expected_noop");
+        corpus.classify(
+            if replay_valid { "completed" } else { "failed" },
+            "distinguish existing receipt observation from retained-intent local receipt write",
+            replay_valid,
+            None,
+        );
+        assert!(replay_valid, "replay outcome: {replay_output:?}");
+        let effects = corpus.attempts.last().unwrap()["effects"]
+            .as_array()
+            .unwrap();
+        if pull_request == 639 {
+            assert!(
+                effects.is_empty(),
+                "existing receipt replay wrote files: {effects:?}"
+            );
+        } else {
+            let digest = replay_report["result"]["outcome"]["result"]["receipt"]
+                ["operation_digest"]
+                .as_str()
+                .unwrap();
+            assert_eq!(effects.len(), 1, "reconciliation effects: {effects:?}");
+            assert_eq!(
+                effects[0]["path"],
+                format!(".git/csdlc-v3/remote/mutations/{digest}.json")
+            );
+            assert!(effects[0]["before"].is_null());
+            assert!(!effects[0]["after"].is_null());
+        }
+    }
     let mut merged_pr = pr.clone();
     merged_pr["draft"] = json!(false);
     merged_pr["merged"] = json!(true);
@@ -532,6 +694,7 @@ fn remote_terminal_baseline(
     );
     corpus.write(&corpus_file("baseline.json"));
     assert!(completed, "finish {output:?}");
+    assert_eq!(report["envelope"]["effects"]["outcome"], "performed");
     // Keep dirty in-progress issue evidence intact. The eligible-cleanup control
     // is a separately registered clean checkout at the same terminal head.
     let clean = primary.join("worktrees/cleanup-control");
@@ -572,6 +735,7 @@ fn remote_terminal_baseline(
     );
     corpus.write(&corpus_file("baseline.json"));
     assert!(completed, "clean preview {output:?}");
+    assert_eq!(report["envelope"]["effects"]["outcome"], "none");
     cleanup["cleanup"]["remove"] = json!(true);
     cleanup["cleanup"]["preview_receipt_digest"] =
         report["result"]["cleanup"]["receipt_digest"].clone();
@@ -594,4 +758,24 @@ fn remote_terminal_baseline(
     );
     corpus.write(&corpus_file("baseline.json"));
     assert!(completed, "clean remove {output:?}");
+    assert_eq!(report["envelope"]["effects"]["outcome"], "performed");
+    let (output, report) = invoke(
+        corpus,
+        "terminal-04",
+        "clean",
+        "already_removed_expected_noop",
+        &cleanup,
+        None,
+        primary,
+    );
+    let noop = output.status.success()
+        && report["envelope"]["status"] == "expected_noop"
+        && report["envelope"]["effects"]["outcome"] == "none";
+    corpus.classify(
+        if noop { "completed" } else { "failed" },
+        "repeat cleanup observes already removed without repeating effects",
+        noop,
+        None,
+    );
+    assert!(noop, "cleanup noop {output:?}");
 }

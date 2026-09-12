@@ -1,0 +1,149 @@
+{
+  "schema": "adl.sprint.execution.v1",
+  "umbrella": 934,
+  "version": "v0.92.2",
+  "sprint": 8,
+  "updated_at": "2026-09-12T05:24:08.214602+00:00",
+  "mode": "hybrid",
+  "members": [
+    720,
+    908,
+    909,
+    910
+  ],
+  "lanes": [
+    {
+      "issue": 720,
+      "worker": "sprint8_720",
+      "state": "terminal_closed_out",
+      "scope": "Live Observatory UI and focused tests",
+      "reviewed_head": "9b469bdf5efb9d4786b612897696c78d0b9fb7bb",
+      "reviewer": "sprint8_909",
+      "review_findings": [],
+      "pr": 939,
+      "merge_commit": "9c583cec78d396527798e592082595f316c67ce2",
+      "ci_run": 34661369817,
+      "ci_conclusion": "success",
+      "cleanup": "removed",
+      "terminal_receipt": ".git/csdlc-v3/local/evidence/720/terminal-receipt.json"
+    },
+    {
+      "issue": 908,
+      "worker": "sprint8_908",
+      "state": "terminal_closed_out",
+      "scope": "AWS inventory delta and maintenance record; read-only cloud",
+      "worker_report": {
+        "validation_tests": 13,
+        "census_surfaces": 157,
+        "regions": 17,
+        "buckets": 13,
+        "baseline_preserved": true,
+        "independently_verified": true
+      },
+      "reviewer": "sprint8_909 implementation; root final metadata",
+      "pr": 940,
+      "reviewed_head": "8108b9b42260c0ccc2470ff4327796370d366349",
+      "merge_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+      "merged_at": "2026-09-12T00:29:57Z",
+      "review_findings": [],
+      "cleanup": "removed",
+      "terminal_receipt": ".git/csdlc-v3/local/evidence/908/terminal-receipt.json"
+    },
+    {
+      "issue": 909,
+      "worker": "sprint8_909",
+      "state": "terminal_closed_out",
+      "scope": "Company GCP move-in packet; inventory and read-only Terraform plan",
+      "worker_report": {
+        "platform_plan": "20 no-op resources, exit0; reconstructed local candidate",
+        "cloud_pre_post": "20 identity readbacks unchanged",
+        "independently_verified": true
+      },
+      "candidate_head": "fd734c660b8a687fcc93aa6867f3ef801923e503",
+      "reviewer": "sprint8_908 raw proof; root final documentation and metadata",
+      "review_findings": [],
+      "review_boundary": "Planning acceptance verified by independent raw-proof and final metadata reviews; apply_ready remains false; no authoritative state adoption.",
+      "operator_confirmation": {
+        "corporate_group": "gcp-admins@agent-logic.ai confirmed intended",
+        "local_recovery": "Approved exactly three local imports from reviewed partial snapshot and read-only plan; no cloud changes, remote state write or authoritative adoption"
+      },
+      "pr": 949,
+      "reviewed_head": "fd734c660b8a687fcc93aa6867f3ef801923e503",
+      "merge_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+      "private_custody": ".git/csdlc-v3/private-custody/909/checkpoint-fd734c660b",
+      "cleanup": "removed",
+      "terminal_receipt": ".git/csdlc-v3/local/evidence/909/terminal-receipt.json",
+      "private_custody_verified_files": 124
+    },
+    {
+      "issue": 910,
+      "worker": "sprint8_908",
+      "state": "terminal_closed_out",
+      "scope": "Exact static Observatory deployment",
+      "gates": [
+        "accepted #720 output",
+        "reviewed exact plan and asset revision",
+        "explicit business-account apply/upload authorization"
+      ],
+      "accepted_dependency_merge": "9c583cec78d396527798e592082595f316c67ce2",
+      "operator_approval": "User approved intended static Observatory deployment; exact plan review precedes execution; destructive or expanded scope excluded",
+      "configured_runtime_origin": "https://wuji.dev.csm.agent-logic.ai:20997",
+      "runtime_availability": "Real Chrome HTTPS/WSS accepted live v3 feed and rendered 3 agents; temporary site-scoped local-network access explicitly authorized; live-connect URL used.",
+      "preparation_review": {
+        "reviewer": "sprint8_909",
+        "result": "pass",
+        "plan_sha256": "0aa4a1d558cafe4de27eee3acc7e1c00249b2ed2219e9f109410b00037af9fec",
+        "creates": 18,
+        "updates": 0,
+        "deletes": 0,
+        "named_resource_collision_finding": "resolved"
+      },
+      "runtime_origin_approval": "User explicitly approved adding Observatory origin without restart",
+      "deployment_approval": "User previously explicitly approved intended static deployment; exact18createplan independently reviewed",
+      "apply_report": {
+        "exit_code": 0,
+        "creates": 18,
+        "errors": 0,
+        "private_state_backup": "preserved before output capture",
+        "independent_deployed_review": "passed"
+      },
+      "asset_verification": {
+        "https_assets": 4,
+        "status": 200,
+        "sha256_and_headers": "verified",
+        "anonymous_direct_s3_status": 403,
+        "invalidation": "Completed",
+        "rollback": "nonmutating exact-version reconstruction passed; initial deployment has no prior release"
+      },
+      "browser_proof": {
+        "captured_at": "2026-09-12T04:50:12.009Z",
+        "sha256": "bb48dcb6e175cc06f14f99d8a7b7b403fdee8d4ed6d9935f4a6632a66948d38d",
+        "url": "https://observatory.csm.agent-logic.ai/?runtime=v3&live=1",
+        "accepted_schema": "adl.runtime_v3.observatory_feed.v3",
+        "rendered_agent_count": 3,
+        "public_read": true,
+        "unauthenticated_writes_gated": true,
+        "authenticated_write_claim": false,
+        "network_interception": false,
+        "persistent_browser_setting_changed": false
+      },
+      "pr": 954,
+      "reviewed_head": "35dd2078617c69c8b60a6ce008c6c5c27433b565",
+      "review_findings": [],
+      "reviewer": "sprint8_909",
+      "ci_run": 34674381718,
+      "ci_conclusion": "success",
+      "merge_authorization": "Operator merged PR954; live result verified",
+      "merge_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
+      "merged_at": "2026-09-12T05:10:05Z",
+      "cleanup": "removed",
+      "terminal_receipt": ".git/csdlc-v3/local/evidence/910/terminal-receipt.json",
+      "terminal_state_digest": "b766edc0c72d1d0f0c868fa6bda49bf98c6eaa65861b5e98e2b54c6e57e81d7e",
+      "terminal_receipt_sha256": "ac4be0e3ddfde61a878f752f11ebe125da4a3e72b28f882c6468d28b3dbdd7e7"
+    }
+  ],
+  "review": "four-child source and integration acceptance passed; final umbrella tail review pending",
+  "completion": "in_progress",
+  "merge_authorization": "not_inferred",
+  "no_new_cloud_mutation_authority": true
+}

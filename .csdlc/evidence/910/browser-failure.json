@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "page_url": "https://observatory.csm.agent-logic.ai/",
+  "http_status": 200,
+  "failure": "60-second timeout waiting for .observatory[data-live-connection=connected]",
+  "confirmed_session": 60174,
+  "session_terminal_exit_code": 1,
+  "diagnostic_launch": "escalation approval aborted by user before result; no exec session or diagnostic file returned",
+  "diagnostic_output_present": false,
+  "cause": "not established; no application/Runtime mutation authorized by this failure",
+  "passed_separate_proof": [
+    "public HTTPS asset hashes and headers",
+    "private S3 anonymous denial",
+    "exact-version rollback reconstruction",
+    "curl Runtime Origin health200/CORS",
+    "curl Runtime WSS101"
+  ],
+  "disposition": "Historical failed attempt; superseded by browser-proof.json after explicit temporary site permission and corrected documented Connect URL"
+}

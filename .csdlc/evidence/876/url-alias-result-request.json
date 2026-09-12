@@ -1,0 +1,55 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "e7cc1dd093bc73557f172c23b1fdd1ca4047dfcab29fea330e930dab4d4c161e",
+  "card_updates": {
+    "spp": {
+      "step_3_status": "completed",
+      "step_3_status_inline": "completed",
+      "step_4_status": "completed",
+      "step_4_status_inline": "completed",
+      "step_5_status": "in_progress",
+      "step_5_status_inline": "in_progress"
+    },
+    "srp": {
+      "recommended_outcome": "needs_followup",
+      "recommended_outcome_inline": "needs_followup",
+      "review_dispositions": "Implemented both user P2 corrections; 11 focused tests pass. Prior reviews do not approve this changed source. Awaiting independent exact-head review.",
+      "review_dispositions_inline": "Implemented both user P2 corrections; 11 focused tests pass. Prior reviews do not approve this changed source. Awaiting independent exact-head review.",
+      "review_notes": "Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim.",
+      "review_notes_inline": "Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim."
+    },
+    "sor": {
+      "summary": "Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim.",
+      "summary_inline": "Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim.",
+      "execution_actor": "review_836",
+      "execution_actor_inline": "review_836",
+      "completion_state": "repair_review_pending",
+      "completion_state_inline": "repair_review_pending",
+      "validation_command": "cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check -- adl/src/provider/reload.rs adl/src/execute/tests/provider_definitions.rs docs/providers/provider-profile-hot-loading.md",
+      "validation_command_inline": "cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check -- adl/src/provider/reload.rs adl/src/execute/tests/provider_definitions.rs docs/providers/provider-profile-hot-loading.md",
+      "validation_result": "4 definition tests +7 reload compatibility tests pass; strict clippy and formatting pass. Scoped source/doc whitespace check passes; raw retained logs include terminal blank lines. Initial unsupported explicit-Bedrock test-fixture failures preserved and corrected to supported profile loader. Independent review/current-head CI pending.",
+      "validation_result_inline": "4 definition tests +7 reload compatibility tests pass; strict clippy and formatting pass. Scoped source/doc whitespace check passes; raw retained logs include terminal blank lines. Initial unsupported explicit-Bedrock test-fixture failures preserved and corrected to supported profile loader. Independent review/current-head CI pending.",
+      "verification_check_1": "11 focused tests, clippy, formatting and scoped source/doc whitespace; see url-alias-final3-tests.log, url-alias-compatibility.log and url-alias-clippy.log.",
+      "verification_check_1_inline": "11 focused tests, clippy, formatting and scoped source/doc whitespace; see url-alias-final3-tests.log, url-alias-compatibility.log and url-alias-clippy.log.",
+      "follow_up_1": "Independent changed-source review, native publication of repair and current-head CI required.",
+      "follow_up_1_inline": "Independent changed-source review, native publication of repair and current-head CI required.",
+      "integration_result": "PR953 remains open; URL/alias correction local pending independent review and publication.",
+      "integration_result_inline": "PR953 remains open; URL/alias correction local pending independent review and publication."
+    }
+  }
+}

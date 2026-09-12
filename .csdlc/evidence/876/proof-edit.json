@@ -1,0 +1,29 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "594fd1711da52cc14c662b7f38c737f20549e1899c7dce2a8fdb6f29590d9660",
+  "card_updates": {
+    "sor": {
+      "execution_summary": "Implemented profile expansion/admission ordering, recursive credential rejection and bounded diagnostics. Final local proof: 3 new definition regressions, 7 reload compatibility, 1 existing in-flight and 14 profile tests pass (25 total), plus clippy with warnings denied, formatting and diff checks. Restoring original ordering and scalar-traversal defects makes two new regressions fail; restoration passes. Constructor admission performs no completion, credential resolution or shadow evidence writes. Worktree only; independent exact-head review and PR CI pending. Evidence: .csdlc/evidence/876/IMPLEMENTATION_PROOF.md.",
+      "execution_summary_inline": "25 focused tests, clippy and formatting pass; original-defect mutation fails as expected. Independent review and PR CI pending."
+    },
+    "vpp": {
+      "notes_risks": "Required plan: deterministic production definition integration and negative contract tests; existing reload/in-flight/profile compatibility and focused lint. Use only local loopback; no paid provider or deployment. Actual outcomes belong in SOR and IMPLEMENTATION_PROOF.md.",
+      "notes_risks_inline": "Required deterministic local provider integration/contract and focused compatibility/lint; actual outcomes belong in SOR."
+    }
+  }
+}

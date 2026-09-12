@@ -1,0 +1,120 @@
+{
+  "plan_sha256": "0aa4a1d558cafe4de27eee3acc7e1c00249b2ed2219e9f109410b00037af9fec",
+  "actions": [
+    {
+      "address": "aws_acm_certificate.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_acm_certificate_validation.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_cloudfront_distribution.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_cloudfront_origin_access_control.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_cloudfront_response_headers_policy.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_route53_record.certificate_validation[\"observatory.csm.agent-logic.ai\"]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_route53_record.site_a",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_route53_record.site_aaaa",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket.logs",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_acl.logs",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_lifecycle_configuration.logs",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_ownership_controls.logs",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_ownership_controls.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_policy.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_public_access_block.logs",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_public_access_block.site",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "aws_s3_bucket_versioning.site",
+      "actions": [
+        "create"
+      ]
+    }
+  ],
+  "create_count": 18,
+  "update_count": 0,
+  "delete_count": 0,
+  "backend": "isolated local; existing package declares no remote backend",
+  "state_before": "no prior state for target; no matching target DNS/distribution or Observatory state object found",
+  "terraform_version": "1.15.3",
+  "provider": "hashicorp/aws 5.100.0"
+}
