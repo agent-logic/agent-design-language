@@ -2689,3 +2689,5 @@ fn runner_validation_covers_called_workflow_and_delegation_paths() {
     enforce_delegation_policy_for_step_actions_requires_approval_for_remote_exec();
     delegation_lifecycle_events_follow_remote_step_shape();
 }
+
+mod provider_definitions;

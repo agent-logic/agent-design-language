@@ -140,24 +140,26 @@ fn parse_provider_reload_snapshot(
     diagnostic: &Arc<Mutex<Option<ProviderReloadDiagnostic>>>,
     generation: &Arc<AtomicU64>,
 ) -> std::result::Result<ProviderReloadSnapshot, ConfigReloadError> {
-    let sidecar: ProviderReloadSidecar = serde_yaml::from_str(raw).map_err(|error| {
+    let sidecar: ProviderReloadSidecar = serde_yaml::from_str(raw).map_err(|_| {
         record_diagnostic(
             diagnostic,
             generation.load(Ordering::SeqCst),
             "parse_error",
-            error.to_string(),
+            "provider sidecar parse rejected; input details <redacted>",
         );
-        ConfigReloadError::parse(error.to_string())
+        ConfigReloadError::parse("provider sidecar parse rejected; input details <redacted>")
     })?;
     materialize_provider_reload_snapshot(source, sidecar, active_document, diagnostic, generation)
-        .map_err(|error| {
+        .map_err(|_| {
             record_diagnostic(
                 diagnostic,
                 generation.load(Ordering::SeqCst),
                 "validation_error",
-                error.to_string(),
+                "provider sidecar validation rejected; input details <redacted>",
             );
-            ConfigReloadError::validation(error.to_string())
+            ConfigReloadError::validation(
+                "provider sidecar validation rejected; input details <redacted>",
+            )
         })
 }
 
@@ -177,7 +179,6 @@ fn materialize_provider_reload_snapshot(
         return Err(anyhow!("provider reload sidecar must declare providers"));
     }
     reject_credential_values(&sidecar.providers)?;
-    validate_provider_specs(&sidecar.providers)?;
 
     let mut active = active_document
         .lock()
@@ -199,6 +200,7 @@ fn materialize_provider_reload_snapshot(
                 .unwrap_or_else(|| "provider reload candidate rejected".to_string())
         ));
     }
+    validate_provider_specs(&activation.document.providers)?;
     *active = activation.document;
     if let Ok(mut slot) = diagnostic.lock() {
         *slot = None;
@@ -218,34 +220,94 @@ fn validate_provider_specs(providers: &HashMap<String, adl::ProviderSpec>) -> Re
     for (provider_id, spec) in providers {
         provider_substrate::provider_substrate_v1(provider_id, spec)
             .with_context(|| format!("validate provider reload spec '{provider_id}'"))?;
+        // Constructors validate adapter configuration without performing inference,
+        // resolving credential values, launching processes or creating resources.
+        // Keep this before promotion so dispatch cannot discover an invalid endpoint
+        // only after the last-known-good definition has already been replaced.
+        let _ = super::build_provider_for_id(provider_id, spec, None)?;
     }
     Ok(())
 }
 
 fn reject_credential_values(providers: &HashMap<String, adl::ProviderSpec>) -> Result<()> {
-    let value = serde_json::to_value(providers).context("serialize provider reload sidecar")?;
-    reject_credential_value_at("$", &value)
+    for spec in providers.values() {
+        // Typed identity fields may be long model/profile names, but not raw keys.
+        for value in [
+            spec.id.as_deref(),
+            spec.profile.as_deref(),
+            spec.base_url.as_deref(),
+            spec.default_model.as_deref(),
+            Some(spec.kind.as_str()),
+        ]
+        .into_iter()
+        .flatten()
+        {
+            if has_credential_marker(value) {
+                return Err(anyhow!("provider reload sidecar contains credential value"));
+            }
+        }
+        let value =
+            serde_json::to_value(&spec.config).context("serialize provider reload config")?;
+        reject_credential_value_at(&[], &value)?;
+    }
+    Ok(())
 }
 
-fn reject_credential_value_at(path: &str, value: &Value) -> Result<()> {
+fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
     match value {
         Value::Object(map) => {
             for (key, value) in map {
-                let next = format!("{path}.{key}");
                 if credential_value_key(key) {
-                    return Err(anyhow!(
-                        "provider reload sidecar contains credential value at {next}"
-                    ));
+                    return Err(anyhow!("provider reload sidecar contains credential value"));
                 }
-                if credential_value_container_key(key) {
-                    reject_raw_credential_scalar(&next, value)?;
-                }
+                let mut next = path.to_vec();
+                next.push(key);
                 reject_credential_value_at(&next, value)?;
             }
         }
         Value::Array(values) => {
-            for (idx, value) in values.iter().enumerate() {
-                reject_credential_value_at(&format!("{path}[{idx}]"), value)?;
+            let mut next = path.to_vec();
+            next.push("[]");
+            for value in values {
+                reject_credential_value_at(&next, value)?;
+            }
+        }
+        Value::String(raw) => {
+            if path == ["expected_account_sha256"] {
+                if raw.len() != 64 || !raw.bytes().all(|b| b.is_ascii_hexdigit()) {
+                    return Err(anyhow!(
+                        "provider reload sidecar has invalid public account digest"
+                    ));
+                }
+                return Ok(());
+            }
+            let reference = matches!(
+                path,
+                ["auth", "env"] | ["api_key_env"] | ["auth_env"] | ["token_env"]
+            );
+            if reference {
+                let valid = !raw.is_empty()
+                    && raw.bytes().enumerate().all(|(i, b)| {
+                        b == b'_' || b.is_ascii_alphabetic() || (i > 0 && b.is_ascii_digit())
+                    });
+                if !valid || has_credential_marker(raw) {
+                    return Err(anyhow!(
+                        "provider reload sidecar has invalid credential reference"
+                    ));
+                }
+            } else {
+                let declared_data = matches!(
+                    path,
+                    ["provider_model_id"]
+                        | ["model"]
+                        | ["local_shadow_model"]
+                        | ["local_shadow_evidence_path"]
+                        | ["local_shadow_rule_set"]
+                );
+                if has_credential_marker(raw) || (!declared_data && looks_like_raw_credential(raw))
+                {
+                    return Err(anyhow!("provider reload sidecar contains credential value"));
+                }
             }
         }
         _ => {}
@@ -271,37 +333,22 @@ fn credential_value_key(key: &str) -> bool {
     )
 }
 
-fn credential_value_container_key(key: &str) -> bool {
-    let normalized = key.to_ascii_lowercase();
-    matches!(
-        normalized.as_str(),
-        "value" | "raw" | "header" | "authorization" | "bearer"
-    )
-}
-
-fn reject_raw_credential_scalar(path: &str, value: &Value) -> Result<()> {
-    if let Some(raw) = value.as_str() {
-        if looks_like_raw_credential(raw) {
-            return Err(anyhow!(
-                "provider reload sidecar contains credential value at {path}"
-            ));
-        }
-    }
-    Ok(())
-}
-
 fn looks_like_raw_credential(raw: &str) -> bool {
     let trimmed = raw.trim();
-    let lower = trimmed.to_ascii_lowercase();
-    trimmed.starts_with("sk-")
-        || lower.starts_with("bearer ")
-        || lower.contains("-----begin private key-----")
-        || lower.contains("-----begin rsa private key-----")
-        || lower.contains("-----begin ec private key-----")
+    has_credential_marker(raw)
         || (trimmed.len() >= 32
             && trimmed
                 .chars()
                 .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '_' | '-' | '.')))
+}
+
+fn has_credential_marker(raw: &str) -> bool {
+    let lower = raw.trim().to_ascii_lowercase();
+    lower.starts_with("sk-")
+        || lower.starts_with("bearer ")
+        || lower.contains("-----begin private key-----")
+        || lower.contains("-----begin rsa private key-----")
+        || lower.contains("-----begin ec private key-----")
 }
 
 fn redacted_provider_digest(providers: &HashMap<String, adl::ProviderSpec>) -> Result<String> {
@@ -519,6 +566,121 @@ providers:
         providers.insert("primary".to_string(), provider);
 
         reject_credential_values(&providers).expect("env reference field accepted");
+    }
+
+    // #876 PVF: deterministic loader contract; bounded filesystem/CPU; required
+    // provider-platform security and last-known-good gate, no network or secrets.
+    #[test]
+    fn provider_definitions_reject_nested_credentials_and_redact_loader_errors() {
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        let base = unique_temp_path("adl-provider-definitions-negatives");
+        std::fs::create_dir_all(&base).unwrap();
+        let path = base.join("providers.yaml");
+        let secret = "sk-fixture-only-012345678901234567890123456789";
+        let cases = [
+            format!("providers: {{primary: {{type: mock, config: {{neutral: [{{nested: '{secret}'}}]}}}}}}"),
+            format!("providers: {{primary: {{type: mock, config: {{neutral: {{config: {{model: '{secret}'}}}}}}}}}}"),
+            "providers: {primary: {type: mock, config: {neutral: [ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890]}}}".to_string(),
+            format!("providers: {{primary: {{type: mock, config: {{auth: {{env: '{secret}'}}}}}}}}"),
+            format!("providers: {{primary: {{type: mock, unknown: '{secret}'}}}}"),
+            format!("providers: {{primary: {{type: ['{secret}']}}}}"),
+            "schema: unsupported\nproviders: {}".to_string(),
+            "providers: {primary: {type: unsupported}}".to_string(),
+            "providers: {primary: {}}".to_string(),
+            "providers: {primary: {type: http}}".to_string(),
+            "providers: {primary: {type: mock, config: {neutral: {model: ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890}}}}".to_string(),
+            "providers: {primary: {type: mock, config: {local_shadow_model: echo, local_shadow_evidence_path: /absolute/forbidden.jsonl}}}".to_string(),
+            "providers: {primary: {type: mock, config: {local_shadow_model: echo, local_shadow_evidence_path: ../forbidden.jsonl}}}".to_string(),
+            "providers: {primary: {profile: 'ollama:phi4-mini', config: {endpoint: invalid}}}".to_string(),
+            "providers: {primary: {type: http, config: {endpoint: 'http://127.0.0.1:1', auth: {type: unsupported, env: ADL_FIXTURE_TOKEN}}}}".to_string(),
+            "providers: {primary: {profile: 'unknown:profile'}}".to_string(),
+            "providers: {primary: {profile: 'ollama:phi4-mini', config: {temperature: 9}}}".to_string(),
+        ];
+        for candidate in cases {
+            std::fs::write(&path, &candidate).unwrap();
+            let error = match runtime.block_on(ProviderReloadOwner::start(
+                path.clone(),
+                provider_doc("base"),
+                ConfigReloadOptions::default(),
+            )) {
+                Err(error) => error.to_string(),
+                Ok(_) => panic!("invalid initial definition accepted"),
+            };
+            assert!(!error.contains(secret));
+            assert!(error.len() < 256);
+            // The identical parser used by the watcher must preserve its whole
+            // active document and generation, including on deserialization errors.
+            let active = Arc::new(Mutex::new(provider_doc("retained")));
+            let diagnostic = Arc::new(Mutex::new(None));
+            let generation = Arc::new(AtomicU64::new(7));
+            assert!(parse_provider_reload_snapshot(
+                &path,
+                &candidate,
+                &active,
+                &diagnostic,
+                &generation
+            )
+            .is_err());
+            assert_eq!(generation.load(Ordering::SeqCst), 7);
+            assert_eq!(
+                active.lock().unwrap().providers["primary"]
+                    .default_model
+                    .as_deref(),
+                Some("retained")
+            );
+            let diagnostic = diagnostic.lock().unwrap().clone().unwrap();
+            assert!(!diagnostic.redacted_message.contains(secret));
+            assert!(diagnostic.redacted_message.len() < 128);
+        }
+        let mut compatible = provider("mock");
+        compatible.default_model =
+            Some("legitimate-long-model-identifier-version-20260912".to_string());
+        compatible.config.insert("auth".to_string(), serde_json::json!({"type":"bearer", "env":"ADL_VERY_LONG_APPROVED_PROVIDER_TOKEN_ENVIRONMENT"}));
+        reject_credential_values(&HashMap::from([("primary".to_string(), compatible)])).unwrap();
+        std::fs::remove_dir_all(base).unwrap();
+    }
+
+    #[test]
+    fn provider_definitions_validate_references_without_resolving_or_writing_them() {
+        // #876 PVF: deterministic admission compatibility, bounded filesystem;
+        // no dispatch, secret resolution, shadow evidence, or network request.
+        let base = unique_temp_path("adl-provider-definitions-references");
+        std::fs::create_dir_all(&base).unwrap();
+        let path = base.join("providers.yaml");
+        std::fs::write(
+            &path,
+            r#"providers:
+  primary:
+    type: http
+    default_model: legitimate-long-model-identifier-version-20260912
+    config:
+      endpoint: http://127.0.0.1:1/unused
+      auth:
+        type: bearer
+        env: ADL_876_UNSET_PROVIDER_REFERENCE_FOR_ADMISSION_TEST
+      local_shadow_model: echo
+      local_shadow_provider_kind: mock
+      local_shadow_evidence_path: never-written-876-admission.jsonl
+"#,
+        )
+        .unwrap();
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        let owner = runtime
+            .block_on(ProviderReloadOwner::start(
+                path,
+                provider_doc("base"),
+                ConfigReloadOptions::default(),
+            ))
+            .expect("construction must not resolve auth or contact endpoint");
+        assert!(!Path::new("never-written-876-admission.jsonl").exists());
+        runtime.block_on(owner.shutdown()).unwrap();
+        let mut spec = provider("mock");
+        spec.config.insert(
+            "expected_account_sha256".to_string(),
+            Value::String("a".repeat(64)),
+        );
+        reject_credential_values(&HashMap::from([("primary".to_string(), spec)])).unwrap();
+        std::fs::remove_dir_all(base).unwrap();
     }
 
     #[test]

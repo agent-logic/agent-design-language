@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 876,
+  "issue_padded": "0876",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/876",
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "branch": "codex/876-provider-definitions",
+  "version": "v0.92.2",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "version_inline": "v0.92.2",
+  "execution_summary": "Implemented profile expansion/admission ordering, recursive credential rejection and bounded diagnostics. Final local proof: 3 new definition regressions, 7 reload compatibility, 1 existing in-flight and 14 profile tests pass (25 total), plus clippy with warnings denied, formatting and diff checks. Restoring original ordering and scalar-traversal defects makes two new regressions fail; restoration passes. Constructor admission performs no completion, credential resolution or shadow evidence writes. Worktree only; independent exact-head review and PR CI pending. Evidence: .csdlc/evidence/876/IMPLEMENTATION_PROOF.md.",
+  "execution_summary_inline": "25 focused tests, clippy and formatting pass; original-defect mutation fails as expected. Independent review and PR CI pending.",
+  "integration_state": "worktree_only",
+  "validation_status": "local_focused_passed"
+}
