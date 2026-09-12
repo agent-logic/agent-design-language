@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 910,
   "phase": "bound",
-  "generation": 6,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/910-observatory-deploy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-910-observatory-deploy",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "9edda8525bb90f8f4b5dd0f042689cb6f1c4e1fc54d830b612d99a0c5a426c07"
+  "digest": "a4f7d440d8ebf537018ef844d0a5ac59a85d9b8a1264a530d36519f4ddd5fdc9"
 }

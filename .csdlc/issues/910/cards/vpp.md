@@ -22,7 +22,7 @@ validation_size_split: "Focused local scripts/Terraform and external read-only A
 expected_proof_cost: "Read-only API calls and local CPU during preparation; deployment cost approval pending exact plan."
 planned_validation_seconds: "1800"
 planned_validation_tokens: "12000"
-issue_goal_ref: "Active #910 preparation goal: exact reviewed deployment approval handoff; no cloud writes"
+issue_goal_ref: "Active #910 full-delivery goal: approved origin hot reload, exact static deployment, live browser proof and reviewed PR; no destructive changes or Runtime compute"
 sprint_goal_ref: "Sprint 8 umbrella #934"
 goal_metrics_rollup_ref: "not_collected"
 source_refs:
@@ -73,7 +73,7 @@ Prepare exact reviewed Observatory assets/infrastructure deployment and approval
 
 ## Goal Accounting Hooks
 
-- Issue goal ref: `Active #910 preparation goal: exact reviewed deployment approval handoff; no cloud writes`
+- Issue goal ref: `Active #910 full-delivery goal: approved origin hot reload, exact static deployment, live browser proof and reviewed PR; no destructive changes or Runtime compute`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `not_collected`
 

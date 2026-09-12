@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar
 Branch: codex/910-observatory-deploy
 Card Status: ready
-Status: preparation_complete_deployment_blocked
+Status: deployed_validated_awaiting_final_review_and_pr
 Generated: 2026-09-12T01:48:44.174761+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Prepared and independently reviewed exact 18-create static deployment plan, four assets, private state custody, costs and rollback. No apply/upload/invalidation executed; Runtime target Origin returns 403 and operator requested wait.
+Approved no-restart origin append and exact 18-create deployment complete. Four versioned assets, HTTPS headers/hashes, exact Completed invalidation, private AWS posture and rollback reconstruction verified. Real Chrome accepted v3 frame/render/WSS and unauthenticated write gating pass with approved temporary site permission and documented Connect URL.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling and read-only cloud preflight`
@@ -57,8 +57,8 @@ Prepared and independently reviewed exact 18-create static deployment plan, four
 - Goal metrics source ref: `not separately measured for preparation`
 - Data-source confidence: `not separately measured for preparation`
 - Estimate error percent: `not separately measured for preparation`
-- Completion state: `preparation handoff ready; issue deployment incomplete`
-- Issue goal ref: `Issue #910 preparation and operator approval handoff goal`
+- Completion state: `Deployed acceptance evidence complete; final independent review and PR/checks pending`
+- Issue goal ref: `Active #910 full-delivery goal: approved origin hot reload, exact static deployment, live browser proof and reviewed PR; no destructive changes or Runtime compute`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
 - Validation planning prompt: `.csdlc/issues/910/cards/vpp.md`
@@ -79,20 +79,20 @@ Prepared and independently reviewed exact 18-create static deployment plan, four
 - Additional proof artifacts: `terraform-plan-summary.json, assets.json, upload-manifest.json, named-resource-preflight.json, EXECUTION_RUNBOOK.md`
 
 ## Actions taken
-- `Verified business AWS identity, DNS/certificate/distribution/state inventory and exact Runtime origin 200 without Origin / 403 with target Origin`
-- `Saved real 18-create plan and four exact asset hashes; preserved mode-restricted private plan/config outside worktree cleanup`
-- `Independent #909 plan/assets/custody and final command review passed; all actionable findings resolved. No deployment executed.`
+- `Atomically appended only approved browser origin; watcher hash advanced and process/instance identities unchanged; health/CORS200 and raw WSS101 verified`
+- `Applied saved plan with 18 creates and preserved state backup; uploaded four assets with exact-version SHA256/cache/type checks and index last; exact invalidation Completed`
+- `Deployed posture/HTTPS/rollback and real browser proof pass; initial verifier/LNA failures preserved and resolved without product/CSP changes`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
-- Worktree-only paths remaining: `Prepared tracked artifacts uncommitted; raw private plan/assets remain ignored; stable plan custody outside worktree`
-- Integration state: `not integrated; no PR or cloud deployment`
-- Verification scope: `preparation checked; deployed proof pending`
-- Integration method used: `none`
+- Worktree-only paths remaining: `Deployment evidence/native cards in issue worktree; private Terraform state/asset/version receipts preserved in stable Git-common custody`
+- Integration state: `AWS deployment applied; repository PR not opened`
+- Verification scope: `Actual deployed AWS/HTTPS/rollback plus accepted live v3 frame/render and unauthenticated write gating; no mocks or privileged commands`
+- Integration method used: `Approved saved Terraform plan and guarded S3 uploads/invalidation`
 - Verification performed:
-  - `git status --short --branch; saved local plan/readbacks`
-    `Confirms current preparation-only state`
-- Result: `No PR, merge, apply or upload`
+  - `Authenticated AWS fixed-projection reads and exact-version readbacks; public HTTPS SHA256/header checks; Chrome diagnostic`
+    `Deployed infrastructure/content and operator-local browser read acceptance proven`
+- Result: `18 creates, zero updates/deletes; four objects verified; CloudFront Deployed; no repository PR`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `node --test demos/html-observatory/tests/*.test.mjs; terraform fmt -check; terraform validate; terraform plan; native validate`
-    `Preparation proof only; no deployed acceptance`
+    `Actual deployment/browser evidence verified for operator-local Runtime; no authenticated-write or universal remote-reachability claim`
 - Results:
-  - `24 UI tests pass; Terraform valid with zero errors/warnings; plan exit 2 with 18 creates; native six-card validation passed`
+  - `24 local UI tests pass; real deployed AWS/content/invalidation/rollback proof pass; unmocked Chrome public-read v3 frame/render/WSS and disabled unauth write controls PASS`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -167,12 +167,12 @@ verification_summary:
 - Required artifacts present: `Preparation evidence present; deployed proof remains pending`
 - Artifact schema/version checks: `All public JSON parses; native six-card validation passes`
 - Hash/byte-stability checks: `Actual saved plan SHA256 and four upload objects verified; source code bytes unchanged`
-- Missing/optional artifacts and rationale: `Deployed AWS/browser/WSS proof absent by explicit execution gate`
+- Missing/optional artifacts and rationale: `No authenticated command execution claimed; historical report objects intentionally absent; final review/PR/checks pending`
 
 ## Decisions / Deviations
 - `Override unavailable package parent hosted zone with existing csm.agent-logic.ai zone`
 - `Use operator-approved stable private Git-common local state custody; no remote backend change`
 
 ## Follow-ups / Deferred work
-- `Await exact Runtime allowed-origin remediation and operator wait release before apply`
-- `Complete live deployment, WSS/auth/browser proof, rollback dry-run and final review before issue acceptance`
+- `Final independent exact-candidate review and native review/publication`
+- `Monitor exact-head PR checks; preserve private state on merge/worktree cleanup`

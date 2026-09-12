@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "needs_followup"
-notes: "Independent #909 actual plan/assets/custody and final command review PASS; root reviewed command corrections. Deployment acceptance remains pending Origin 403 remediation and operator wait release."
+notes: "#909 independently reviewed plan/assets/state/version/invalidation and root doc corrections. Final candidate includes actual unmocked browser success and truthful local permission/reachability boundary; awaiting final review."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Preparation review passed after named OAC/header-policy absence evidence; root runbook apply status/backup and invalidation-completion findings resolved
+- Preparation/deployment receipt findings resolved; initial browser failures diagnosed as LNA permission and bare-URL verifier error. Actual corrected browser proof now passes.
 
 ### Dispositions
 
-- All preparation and command-review findings resolved, including named-resource absence, apply backup/status guard, invalidation completion and upload failure/version/hash ordering.
+- All discovered implementation/proof findings corrected; final exact candidate review requested before publication.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent #909 actual plan/assets/custody and final command review PASS; root reviewed command corrections. Deployment acceptance remains pending Origin 403 remediation and operator wait release.
+#909 independently reviewed plan/assets/state/version/invalidation and root doc corrections. Final candidate includes actual unmocked browser success and truthful local permission/reachability boundary; awaiting final review.

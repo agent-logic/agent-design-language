@@ -1,6 +1,6 @@
-# #910 exact deployment preflight
+# #910 deployment plan and observed result
 
-Status: infrastructure and assets prepared; **not deployed**. User approved intended static deployment through root; actual execution remains stopped until independent review and Runtime origin policy resolution. Existing `observatory.wuji.dev.csm.agent-logic.ai` is untouched.
+Status: the reviewed 18-create plan was applied and all four static objects uploaded. Infrastructure and content readbacks pass; actual browser live connection and unauthenticated write-gating proof now pass (`browser-proof.json`). See `deployed-posture.json`, `https-assets.json`, `rollback-dry-run.json` and `browser-failure.json`. The exact final invalidation observation is retained in `upload-invalidation.json` and has passed independent ID, status, path and hash reconciliation. Existing `observatory.wuji.dev.csm.agent-logic.ai` is untouched. The plan and preparation observations below retain their pre-apply time boundary.
 
 ## Exact action set
 
@@ -16,7 +16,7 @@ Live STS matches the approved business baseline with profile `agent-logic-admin`
 
 ## Live Runtime gate
 
-Configured endpoint is `https://wuji.dev.csm.agent-logic.ai:20997`, WSS same host/port. Health without Origin returned 200; identical request with `Origin: https://observatory.csm.agent-logic.ai` returned 403. Runtime currently rejects the required browser origin. WSS, authenticated browser flow, and live telemetry are not yet proven. Root coordinates bounded origin remediation separately. Deployment is paused at this explicit gate.
+Configured endpoint is `https://wuji.dev.csm.agent-logic.ai:20997`, WSS same host/port. During preflight, health without Origin returned 200 and the request with `Origin: https://observatory.csm.agent-logic.ai` returned 403. The operator subsequently approved appending that exact origin without restart. `runtime-origin-change.json` records unchanged Runtime/guardian processes, health 200 with matching CORS, and a raw WSS 101 response with data. This supersedes the origin-rejection deployment gate. The initial Chrome check failed because local-network permission was absent, then the verifier waited for WSS on a bare URL that intentionally reads only a snapshot. After explicit temporary site-scoped permission approval and using the documented `?runtime=v3&live=1` Connect URL, `browser-proof.json` records real accepted v3 telemetry, matching rendered agent count, connected WSS and disabled unauthenticated write controls. No authenticated write or remote-client reachability is claimed; this Runtime resolves to operator-local loopback. Historical failure/diagnosis artifacts remain as provenance.
 
 ## State custody and rollback
 
@@ -32,8 +32,10 @@ Sources checked 2026-09-12: [CloudFront pricing](https://aws.amazon.com/cloudfro
 
 ## Validation and remaining acceptance
 
-24/24 local UI tests pass. Terraform fmt and validate pass; actual plan exits 2 (changes), all 18 managed actions create. Native six-card validation passes generation 4. These prove preparation only. Independent exact packet review, origin remediation verification, saved-plan apply, sanitized AWS posture readbacks, content hash/headers readback, real HTTPS/WSS browser evidence, rollback dry-run and final review remain required before issue acceptance.
+24/24 local UI tests pass. Terraform fmt and validate pass; actual plan exits 2 (changes), all 18 managed actions create. Native six-card validation passes generation 4. Those checks prove preparation only. Subsequent evidence records saved-plan apply, origin remediation, sanitized AWS posture, HTTPS object hashes/headers, and a nonmutating exact-version rollback reconstruction. The exact-invalidation receipt reconciliation now passes. Actual HTTPS/WSS browser evidence now passes with the explicit operator-local permission boundary. Final independent review and native PR publication/checks remain pending.
 
-Preparation review: independent Sprint 8 #909 reviewer verified the actual saved plan, all 18 create actions, exact source/asset hashes and index-only transformation, and stable private custody. Initial named-resource collision evidence finding was resolved by `named-resource-preflight.json`: both exact OAC/header-policy names absent. Preparation review passed; this is not final implementation/deployment acceptance. Runtime origin 403 remains the execution gate.
+Preparation review: independent Sprint 8 #909 reviewer verified the actual saved plan, all 18 create actions, exact source/asset hashes and index-only transformation, and stable private custody. Initial named-resource collision evidence finding was resolved by `named-resource-preflight.json`: both exact OAC/header-policy names absent. Preparation review passed; this is not final implementation/deployment acceptance. The historical origin 403 gate was subsequently resolved as recorded above.
 
-Final independent command review passed after explicit upload failure guards and per-object version/hash checks; apply failure backup and invalidation completion checks were also verified. No execution was performed.
+Final independent command review passed after explicit upload failure guards and per-object version/hash checks; apply failure backup and invalidation completion checks were also verified. No execution had been performed at that preparation-review checkpoint; the subsequent execution results are recorded above.
+
+Optional historical integration/report links were not uploaded and return 403; optional Cloudflare DNS display is blocked by the deliberately narrow CSP and degrades to lookup unavailable. Neither supplies live telemetry or prevents the proven v3 feed. No extra application/CSP/cloud mutation was performed to hide these limits.

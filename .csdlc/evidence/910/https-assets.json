@@ -1,0 +1,42 @@
+{
+  "captured_at": "2026-09-12T02:06:48.715335+00:00",
+  "assets": [
+    {
+      "key": "app.327288d52ff025b5.js",
+      "http_status": 200,
+      "sha256": "327288d52ff025b548ebf4031c57de1acdc2bbf403711417e150f6322c3af91b",
+      "cache_control": "public,max-age=31536000,immutable",
+      "content_type": "application/javascript",
+      "content_security_policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://wuji.dev.csm.agent-logic.ai:20997 wss://wuji.dev.csm.agent-logic.ai:20997",
+      "strict_transport_security": "max-age=31536000; includeSubDomains; preload"
+    },
+    {
+      "key": "styles.fb5a4cb483c419b7.css",
+      "http_status": 200,
+      "sha256": "fb5a4cb483c419b74a9b96aff68bb7ba982d24671c6380dd47b84c5aa192a787",
+      "cache_control": "public,max-age=31536000,immutable",
+      "content_type": "text/css",
+      "content_security_policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://wuji.dev.csm.agent-logic.ai:20997 wss://wuji.dev.csm.agent-logic.ai:20997",
+      "strict_transport_security": "max-age=31536000; includeSubDomains; preload"
+    },
+    {
+      "key": "index.html",
+      "http_status": 200,
+      "sha256": "3f0cf15b5bd4cdd3bf37f3094108d93b790e809eafc8f0e9cedc87d828ea19b8",
+      "cache_control": "no-cache,no-store,must-revalidate",
+      "content_type": "text/html",
+      "content_security_policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://wuji.dev.csm.agent-logic.ai:20997 wss://wuji.dev.csm.agent-logic.ai:20997",
+      "strict_transport_security": "max-age=31536000; includeSubDomains; preload"
+    },
+    {
+      "key": "runtime-v3.config.json",
+      "http_status": 200,
+      "sha256": "69d17ab7fa27678f27c5758103129e12f4911176794736e59947b7833dfa860d",
+      "cache_control": "no-cache,no-store,must-revalidate",
+      "content_type": "application/json",
+      "content_security_policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://wuji.dev.csm.agent-logic.ai:20997 wss://wuji.dev.csm.agent-logic.ai:20997",
+      "strict_transport_security": "max-age=31536000; includeSubDomains; preload"
+    }
+  ],
+  "anonymous_direct_s3_status": 403
+}

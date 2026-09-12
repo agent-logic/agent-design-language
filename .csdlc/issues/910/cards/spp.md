@@ -15,7 +15,7 @@ activation_state: "ready_for_preparation"
 plan_revision: 1
 initial_pvf_lane: "cloud-operations"
 planned_pvf_lane: "cloud-operations"
-planned_pvf_lane_source: "Issue #910 acceptance and bounded predeployment handoff"
+planned_pvf_lane_source: "Issue #910 actual deployed acceptance; public read versus authenticated write truth separated"
 estimate_elapsed_seconds: "1800"
 estimate_total_tokens: "15000"
 estimate_validation_seconds: "900"
@@ -24,7 +24,7 @@ variance_threshold_percent: "50"
 estimate_confidence: "medium"
 estimate_data_source: "Bounded existing Terraform/static package; cloud endpoint discovery uncertain"
 estimate_source_ref: "issue #910"
-issue_goal_ref: "Active #910 preparation goal: exact reviewed deployment approval handoff; no cloud writes"
+issue_goal_ref: "Active #910 full-delivery goal: approved origin hot reload, exact static deployment, live browser proof and reviewed PR; no destructive changes or Runtime compute"
 sprint_goal_ref: "Sprint 8 umbrella #934"
 goal_metrics_rollup_ref: "not_collected"
 source_refs:
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Prepare exact reviewed Observatory assets/infrastructure deployment and approval packet; after explicit precise approval deploy and prove live HTTPS/WSS. This preparation phase performs no cloud writes."
+plan_summary: "Approved exact static deployment and single Runtime origin append executed; finish actual browser proof and independently reviewed evidence/PR."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "910-observatory-deploy"
 invariants_to_preserve:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "Live Runtime endpoint unavailable; wrong DNS authority; unknown Terraform state; privacy exposure; destructive plan."
 test_strategy:
-  - "Existing Observatory Terraform/static validator; exact static asset hash/secret checks; explicit read-only business AWS/DNS/Runtime preflight; isolated backend-disabled Terraform fmt/validate/plan; independent plan/evidence review. No apply/upload/invalidation."
+  - "24 local UI tests and Terraform prep passed. Actual deployed AWS posture, four versioned uploads/HTTPS hashes, Completed invalidation, rollback reconstruction and unmocked Chrome v3 frame/render/write-gating proof pass. Explicit temporary site LNA permission and documented live-connect URL required for operator-local Runtime."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -115,13 +115,13 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar`.
 
-Prepare exact reviewed Observatory assets/infrastructure deployment and approval packet; after explicit precise approval deploy and prove live HTTPS/WSS. This preparation phase performs no cloud writes.
+Approved exact static deployment and single Runtime origin append executed; finish actual browser proof and independently reviewed evidence/PR.
 
 ## PVF Lane Plan
 
 - Initial PVF lane from issue creation: `cloud-operations`
 - Planned PVF lane for execution: `cloud-operations`
-- Planning lane source: `Issue #910 acceptance and bounded predeployment handoff`
+- Planning lane source: `Issue #910 actual deployed acceptance; public read versus authenticated write truth separated`
 - Revision rule: change `planned_pvf_lane` only when planning discovers a better explicit lane; keep `needs_planning_lane_assignment` fail-closed until that happens.
 
 ## Estimate Plan
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Existing Observatory Terraform/static validator; exact static asset hash/secret checks; explicit read-only business AWS/DNS/Runtime preflight; isolated backend-disabled Terraform fmt/validate/plan; independent plan/evidence review. No apply/upload/invalidation.
+- 24 local UI tests and Terraform prep passed. Actual deployed AWS posture, four versioned uploads/HTTPS hashes, Completed invalidation, rollback reconstruction and unmocked Chrome v3 frame/render/write-gating proof pass. Explicit temporary site LNA permission and documented live-connect URL required for operator-local Runtime.
 
 ## Execution Handoff
 

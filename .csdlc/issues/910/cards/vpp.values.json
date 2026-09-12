@@ -12,7 +12,7 @@
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-910-observatory-deploy",
   "status": "prepared",
   "slug": "910-observatory-deploy",
-  "issue_goal_ref": "Active #910 preparation goal: exact reviewed deployment approval handoff; no cloud writes",
+  "issue_goal_ref": "Active #910 full-delivery goal: approved origin hot reload, exact static deployment, live browser proof and reviewed PR; no destructive changes or Runtime compute",
   "sprint_goal_ref": "Sprint 8 umbrella #934",
   "goal_metrics_rollup_ref": "not_collected",
   "demo_required": "false",
