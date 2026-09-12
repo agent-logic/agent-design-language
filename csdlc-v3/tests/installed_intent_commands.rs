@@ -1,7 +1,11 @@
 //! PVF: installed integration proof, deterministic local Git and synthetic transport.
 //! Required #869/SIM-07 lane; fixture bootstrap is not issue execution evidence.
 use serde_json::{json, Value};
-use std::{fs, path::Path, process::Output};
+use std::{
+    fs,
+    path::Path,
+    process::{Command, Output},
+};
 #[path = "support/intent_fixture.rs"]
 mod intent_fixture;
 use intent_fixture::{git, Fixture};
@@ -474,6 +478,417 @@ fn installed_proof_runs_real_validator_and_rejects_zero_test_success() {
             );
         }
     }
+}
+
+#[test]
+fn installed_proof_rejects_marker_only_custom_test_harness() {
+    let mut fixture = Fixture::new("marker-only-custom-harness");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    fs::write(
+        linked.join("fixture-proof/src/lib.rs"),
+        "pub const MARKER_ONLY_FIXTURE: bool = true;\n",
+    )
+    .unwrap();
+    fs::create_dir_all(linked.join("fixture-proof/tests")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/tests/marker_only.rs"),
+        r#"fn main() {
+    println!("test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out");
+}
+"#,
+    )
+    .unwrap();
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[[test]]\nname = \"marker_only\"\npath = \"tests/marker_only.rs\"\nharness = false\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    git(
+        &linked,
+        &[
+            "add",
+            "fixture-proof/Cargo.toml",
+            "fixture-proof/src/lib.rs",
+            "fixture-proof/tests/marker_only.rs",
+        ],
+    );
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track marker-only custom harness",
+        ],
+    );
+    let before = intent_fixture::inventory(&primary);
+    let output = fixture.run(&linked, &["proof", "505"]);
+    assert!(
+        !output.status.success(),
+        "marker-only custom harness established passing proof: {output:?}"
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout)
+            .contains("intent_validator_custom_harness_not_admitted"),
+        "unexpected custom-harness refusal: {output:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert!(!linked.join("target/intent-validation").exists());
+    assert!(!linked
+        .join(".csdlc/evidence/505/intent-proof.json")
+        .exists());
+}
+
+#[test]
+fn installed_proof_rejects_marker_only_harness_in_nonvirtual_workspace_member() {
+    let mut fixture = Fixture::new("marker-only-nonvirtual-workspace");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[workspace]\nmembers = [\"marker-member\"]\ndefault-members = [\"marker-member\"]\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    fs::create_dir_all(linked.join("fixture-proof/marker-member/tests")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/marker-member/Cargo.toml"),
+        "[package]\nname = \"marker-member\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[[test]]\nname = \"marker_only\"\npath = \"tests/marker_only.rs\"\nharness = false\n",
+    )
+    .unwrap();
+    fs::write(
+        linked.join("fixture-proof/marker-member/tests/marker_only.rs"),
+        r#"fn main() {
+    println!("test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out");
+}
+"#,
+    )
+    .unwrap();
+    git(&linked, &["add", "fixture-proof"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track marker-only nonvirtual workspace member",
+        ],
+    );
+    let before = intent_fixture::inventory(&primary);
+    let output = fixture.run(&linked, &["proof", "505"]);
+    assert!(
+        !output.status.success(),
+        "workspace member custom harness established passing proof: {output:?}"
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout)
+            .contains("intent_validator_custom_harness_not_admitted"),
+        "unexpected workspace custom-harness refusal: {output:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert!(!linked.join("target/intent-validation").exists());
+    assert!(!linked
+        .join(".csdlc/evidence/505/intent-proof.json")
+        .exists());
+}
+
+#[test]
+fn installed_proof_rejects_marker_only_harness_in_selected_sibling_member() {
+    let mut fixture = Fixture::new("marker-only-sibling-workspace-member");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[workspace]\nmembers = [\"../marker-member\"]\ndefault-members = [\"../marker-member\"]\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    fs::create_dir_all(linked.join("marker-member/tests")).unwrap();
+    fs::write(
+        linked.join("marker-member/Cargo.toml"),
+        "[package]\nname = \"marker-member\"\nversion = \"0.1.0\"\nedition = \"2021\"\nworkspace = \"../fixture-proof\"\n\n[[test]]\nname = \"marker_only\"\npath = \"tests/marker_only.rs\"\nharness = false\n",
+    )
+    .unwrap();
+    fs::write(
+        linked.join("marker-member/tests/marker_only.rs"),
+        r#"fn main() {
+    println!("test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out");
+}
+"#,
+    )
+    .unwrap();
+    git(
+        &linked,
+        &["add", "fixture-proof/Cargo.toml", "marker-member"],
+    );
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track marker-only sibling workspace member",
+        ],
+    );
+    let before = intent_fixture::inventory(&primary);
+    let output = fixture.run(&linked, &["proof", "505"]);
+    assert!(
+        !output.status.success(),
+        "sibling custom harness established passing proof: {output:?}"
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout)
+            .contains("intent_validator_custom_harness_not_admitted"),
+        "unexpected sibling custom-harness refusal: {output:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert!(!linked.join("target/intent-validation").exists());
+}
+
+#[test]
+fn installed_proof_rejects_marker_only_example_opted_into_default_tests() {
+    let mut fixture = Fixture::new("marker-only-opted-in-example");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    fs::write(
+        linked.join("fixture-proof/src/lib.rs"),
+        "pub const MARKER_ONLY_EXAMPLE_FIXTURE: bool = true;\n",
+    )
+    .unwrap();
+    fs::create_dir_all(linked.join("fixture-proof/examples")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/examples/marker_only.rs"),
+        r#"fn main() {
+    println!("test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out");
+}
+"#,
+    )
+    .unwrap();
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[[example]]\nname = \"marker_only\"\npath = \"examples/marker_only.rs\"\ntest = true\nharness = false\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    git(&linked, &["add", "fixture-proof"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track marker-only opted-in example",
+        ],
+    );
+    let before = intent_fixture::inventory(&primary);
+    let output = fixture.run(&linked, &["proof", "505"]);
+    assert!(
+        !output.status.success(),
+        "opted-in example custom harness established passing proof: {output:?}"
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout)
+            .contains("intent_validator_custom_harness_not_admitted"),
+        "unexpected opted-in example refusal: {output:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert!(!linked.join("target/intent-validation").exists());
+}
+
+#[test]
+fn installed_proof_default_selection_ignores_member_and_bench_custom_harnesses() {
+    let mut fixture = Fixture::new("unselected-workspace-and-bench-harnesses");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[workspace]\nmembers = [\"unselected-member\"]\n\n[[bench]]\nname = \"unselected_bench\"\npath = \"benches/unselected.rs\"\nharness = false\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    fs::create_dir_all(linked.join("fixture-proof/benches")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/benches/unselected.rs"),
+        "fn main() { panic!(\"unselected custom benchmark executed\"); }\n",
+    )
+    .unwrap();
+    fs::create_dir_all(linked.join("fixture-proof/tests")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/tests/disabled.rs"),
+        "fn main() { panic!(\"disabled custom test executed\"); }\n",
+    )
+    .unwrap();
+    content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[[test]]\nname = \"disabled\"\npath = \"tests/disabled.rs\"\ntest = false\nharness = false\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    fs::create_dir_all(linked.join("fixture-proof/unselected-member/tests")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/unselected-member/Cargo.toml"),
+        "[package]\nname = \"unselected-member\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[[test]]\nname = \"unselected\"\npath = \"tests/unselected.rs\"\nharness = false\n",
+    )
+    .unwrap();
+    fs::write(
+        linked.join("fixture-proof/unselected-member/tests/unselected.rs"),
+        "fn main() { panic!(\"unselected workspace member executed\"); }\n",
+    )
+    .unwrap();
+    let lock = Command::new("cargo")
+        .current_dir(&linked)
+        .args([
+            "generate-lockfile",
+            "--offline",
+            "--manifest-path",
+            "fixture-proof/Cargo.toml",
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        lock.status.success(),
+        "workspace lock refresh failed: {lock:?}"
+    );
+    git(&linked, &["add", "fixture-proof"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track unselected workspace and benchmark harnesses",
+        ],
+    );
+    let proof = success(fixture.run(&linked, &["proof", "505"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    assert_eq!(proof["proof"]["validators"][0]["tests_passed"], 1);
+}
+
+#[test]
+fn installed_proof_allows_lib_when_unselected_test_uses_custom_harness() {
+    let mut fixture = Fixture::new("unselected-custom-test-harness");
+    let primary = fixture.root.clone();
+    let mut lib_plan = plan();
+    lib_plan["validators"][0]["args"] = json!([
+        "test",
+        "--manifest-path",
+        "fixture-proof/Cargo.toml",
+        "--offline",
+        "--lib"
+    ]);
+    let input = fixture.write_json("lib-plan.json", &lib_plan);
+    success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    fs::create_dir_all(linked.join("fixture-proof/tests")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/tests/unselected.rs"),
+        "fn main() { panic!(\"unselected custom harness executed\"); }\n",
+    )
+    .unwrap();
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[[test]]\nname = \"unselected\"\npath = \"tests/unselected.rs\"\nharness = false\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    git(&linked, &["add", "fixture-proof"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track unselected custom test harness",
+        ],
+    );
+    let proof = success(fixture.run(&linked, &["proof", "505"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    assert_eq!(proof["proof"]["validators"][0]["tests_passed"], 1);
+}
+
+#[test]
+fn installed_proof_rejects_custom_harness_selected_after_standard_test() {
+    let mut fixture = Fixture::new("custom-harness-second-selector");
+    let primary = fixture.root.clone();
+    let mut repeated_test_plan = plan();
+    repeated_test_plan["validators"][0]["args"] = json!([
+        "test",
+        "--manifest-path",
+        "fixture-proof/Cargo.toml",
+        "--offline",
+        "--test",
+        "empty_standard",
+        "--test",
+        "marker_only"
+    ]);
+    let input = fixture.write_json("repeated-test-plan.json", &repeated_test_plan);
+    success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    fs::write(
+        linked.join("fixture-proof/src/lib.rs"),
+        "pub const REPEATED_SELECTOR_FIXTURE: bool = true;\n",
+    )
+    .unwrap();
+    fs::create_dir_all(linked.join("fixture-proof/tests")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/tests/empty_standard.rs"),
+        "// The standard harness runs zero tests.\n",
+    )
+    .unwrap();
+    fs::write(
+        linked.join("fixture-proof/tests/marker_only.rs"),
+        r#"fn main() {
+    println!("test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out");
+}
+"#,
+    )
+    .unwrap();
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[[test]]\nname = \"empty_standard\"\npath = \"tests/empty_standard.rs\"\n\n[[test]]\nname = \"marker_only\"\npath = \"tests/marker_only.rs\"\nharness = false\n",
+    );
+    fs::write(&manifest, content).unwrap();
+    git(&linked, &["add", "fixture-proof"]);
+    git(
+        &linked,
+        &["commit", "--quiet", "-m", "Track repeated test selectors"],
+    );
+    let before = intent_fixture::inventory(&primary);
+    let output = fixture.run(&linked, &["proof", "505"]);
+    assert!(
+        !output.status.success(),
+        "second selected custom harness established passing proof: {output:?}"
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout)
+            .contains("intent_validator_custom_harness_not_admitted"),
+        "unexpected repeated-selector refusal: {output:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert!(!linked.join("target/intent-validation").exists());
+    assert!(!linked
+        .join(".csdlc/evidence/505/intent-proof.json")
+        .exists());
 }
 
 #[test]

@@ -499,13 +499,14 @@ fn manifest_inputs(root: &Path, validators: &[Validator]) -> Result<(), String> 
     };
     let mut queue = Vec::new();
     for validator in validators {
+        let selection = ValidatorTargetSelection::from_args(&validator.args);
         let manifest = validator
             .args
             .windows(2)
             .find(|pair| pair[0] == "--manifest-path")
             .map(|pair| root.join(&pair[1]))
             .unwrap_or_else(|| root.join("Cargo.toml"));
-        queue.push(require(&manifest)?);
+        queue.push((require(&manifest)?, Some(selection.clone())));
         // Cargo resolves inherited dependencies and patches from ancestor
         // workspace manifests, even when --manifest-path selects one member.
         for ancestor in manifest.parent().into_iter().flat_map(Path::ancestors) {
@@ -514,13 +515,13 @@ fn manifest_inputs(root: &Path, validators: &[Validator]) -> Result<(), String> 
             }
             let workspace = ancestor.join("Cargo.toml");
             if workspace.is_file() {
-                queue.push(require(&workspace)?);
+                queue.push((require(&workspace)?, None));
             }
         }
     }
     let mut seen = std::collections::BTreeSet::new();
-    while let Some(manifest) = queue.pop() {
-        if !seen.insert(manifest.clone()) {
+    while let Some((manifest, selection)) = queue.pop() {
+        if !seen.insert((manifest.clone(), selection.clone())) {
             continue;
         }
         let directory = manifest
@@ -530,12 +531,80 @@ fn manifest_inputs(root: &Path, validators: &[Validator]) -> Result<(), String> 
             &fs::read_to_string(&manifest).map_err(|_| "intent_validator_manifest_unreadable")?,
         )
         .map_err(|_| "intent_validator_manifest_invalid")?;
-        if value.get("package").is_none() && value.get("workspace").is_some() {
-            for path in &tracked {
-                if path.ends_with("Cargo.toml") && root.join(path).starts_with(directory) {
-                    queue.push(require(&root.join(path))?);
+        let mut selected_here = selection.is_some();
+        if let (Some(workspace), Some(selection)) = (value.get("workspace"), selection.as_ref()) {
+            selected_here = false;
+            let member_key = if workspace.get("default-members").is_some() {
+                "default-members"
+            } else if value.get("package").is_some() {
+                ""
+            } else {
+                "members"
+            };
+            let members = if member_key.is_empty() {
+                vec![".".to_owned()]
+            } else {
+                workspace
+                    .get(member_key)
+                    .and_then(toml::Value::as_array)
+                    .ok_or("intent_validator_workspace_selection_not_admitted")?
+                    .iter()
+                    .map(|member| {
+                        member
+                            .as_str()
+                            .map(str::to_owned)
+                            .ok_or("intent_validator_workspace_selection_not_admitted")
+                    })
+                    .collect::<Result<Vec<_>, _>>()?
+            };
+            let excluded = workspace
+                .get("exclude")
+                .and_then(toml::Value::as_array)
+                .map(|members| {
+                    members
+                        .iter()
+                        .map(|member| {
+                            member
+                                .as_str()
+                                .map(str::to_owned)
+                                .ok_or("intent_validator_workspace_selection_not_admitted")
+                        })
+                        .collect::<Result<std::collections::BTreeSet<_>, _>>()
+                })
+                .transpose()?
+                .unwrap_or_default();
+            for member in members {
+                if member.contains(['*', '?', '[', ']'])
+                    || excluded
+                        .iter()
+                        .any(|path| path.contains(['*', '?', '[', ']']))
+                {
+                    return Err("intent_validator_workspace_selection_not_admitted".into());
+                }
+                if excluded.contains(&member) {
+                    continue;
+                }
+                let member = directory.join(member);
+                let member_manifest = if member.file_name().is_some_and(|name| name == "Cargo.toml")
+                {
+                    member
+                } else {
+                    member.join("Cargo.toml")
+                };
+                let member_manifest = require(&member_manifest)?;
+                if member_manifest == manifest {
+                    selected_here = true;
+                } else {
+                    queue.push((member_manifest, Some(selection.clone())));
                 }
             }
+        }
+        if selected_here
+            && selection.as_ref().is_some_and(|selection| {
+                manifest_declares_selected_custom_harness(&value, selection)
+            })
+        {
+            return Err("intent_validator_custom_harness_not_admitted".into());
         }
         for default in ["src/lib.rs", "src/main.rs", "build.rs"] {
             let path = directory.join(default);
@@ -552,7 +621,7 @@ fn manifest_inputs(root: &Path, validators: &[Validator]) -> Result<(), String> 
                             if let Some(path) = value.as_str() {
                                 let path = directory.join(path);
                                 if path.is_dir() {
-                                    queue.push(require(&path.join("Cargo.toml"))?);
+                                    queue.push((require(&path.join("Cargo.toml"))?, None));
                                 } else {
                                     require(&path)?;
                                 }
@@ -572,6 +641,99 @@ fn manifest_inputs(root: &Path, validators: &[Validator]) -> Result<(), String> 
         }
     }
     Ok(())
+}
+
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+struct ValidatorTargetSelection {
+    all_targets: bool,
+    default_targets: bool,
+    lib: bool,
+    tests: Vec<String>,
+}
+
+impl ValidatorTargetSelection {
+    fn from_args(args: &[String]) -> Self {
+        let lib = args.iter().any(|arg| arg == "--lib");
+        let tests = args
+            .windows(2)
+            .filter(|pair| pair[0] == "--test")
+            .map(|pair| pair[1].clone())
+            .collect::<Vec<_>>();
+        Self {
+            all_targets: args.iter().any(|arg| arg == "--all-targets"),
+            default_targets: !lib
+                && tests.is_empty()
+                && !args.iter().any(|arg| arg == "--all-targets"),
+            lib,
+            tests,
+        }
+    }
+}
+
+fn manifest_declares_selected_custom_harness(
+    manifest: &toml::Value,
+    selection: &ValidatorTargetSelection,
+) -> bool {
+    let custom =
+        |target: &toml::Value| target.get("harness").and_then(toml::Value::as_bool) == Some(false);
+    if selection.all_targets {
+        return ["lib", "bin", "example", "test", "bench"]
+            .into_iter()
+            .filter_map(|kind| manifest.get(kind))
+            .any(|targets| match targets {
+                toml::Value::Table(target) => {
+                    target.get("harness").and_then(toml::Value::as_bool) == Some(false)
+                }
+                toml::Value::Array(targets) => targets.iter().any(custom),
+                _ => false,
+            });
+    }
+    if selection.default_targets {
+        return [
+            ("lib", true),
+            ("bin", true),
+            ("example", false),
+            ("test", true),
+            ("bench", false),
+        ]
+        .into_iter()
+        .filter_map(|(kind, default_test)| manifest.get(kind).map(|value| (value, default_test)))
+        .any(|(targets, default_test)| match targets {
+            toml::Value::Table(target) => {
+                target
+                    .get("test")
+                    .and_then(toml::Value::as_bool)
+                    .unwrap_or(default_test)
+                    && target.get("harness").and_then(toml::Value::as_bool) == Some(false)
+            }
+            toml::Value::Array(targets) => targets.iter().any(|target| {
+                target
+                    .get("test")
+                    .and_then(toml::Value::as_bool)
+                    .unwrap_or(default_test)
+                    && custom(target)
+            }),
+            _ => false,
+        });
+    }
+    let custom_lib = selection.lib
+        && manifest
+            .get("lib")
+            .is_some_and(|target| target.is_table() && custom(target));
+    let custom_test = !selection.tests.is_empty()
+        && manifest
+            .get("test")
+            .and_then(toml::Value::as_array)
+            .is_some_and(|targets| {
+                targets.iter().any(|target| {
+                    target
+                        .get("name")
+                        .and_then(toml::Value::as_str)
+                        .is_some_and(|name| selection.tests.iter().any(|selected| selected == name))
+                        && custom(target)
+                })
+            });
+    custom_lib || custom_test
 }
 
 // Rust dependency records expose #[path], include! and include_bytes! inputs

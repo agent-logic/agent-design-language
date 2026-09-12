@@ -83,7 +83,9 @@ A bounded validator declaration has this shape:
 The proof owner admits bounded Cargo test arguments, verifies issue/worktree
 ownership and requires successful output with a nonzero passed-test count.
 An empty validator set, an exit-zero marker-only process or stale candidate
-bytes does not establish proof. The owner bounds output and runtime and records actual results. Each validator
+bytes does not establish proof. Cargo targets selected by the validator and
+declaring `harness = false` are not admitted because their arbitrary stdout
+cannot establish Rust test-harness execution. The owner bounds output and runtime and records actual results. Each validator
 runs in its own Unix process group. Nonblocking output capture remains bounded
 when descendants retain output handles after Cargo exits. Timeout or scoped
 SIGINT/SIGTERM cancellation terminates that owned group, with at most two seconds
