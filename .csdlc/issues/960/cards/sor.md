@@ -29,7 +29,7 @@ Execution:
 - Model: `unknown`
 - Provider: `OpenAI`
 - Start Time: `See retained native issue960 preparation and diagnostic timestamps`
-- End Time: `Local validation complete; publication and CI pending`
+- End Time: `PR #962 open; CI and merge are not claimed complete`
 
 ## Summary
 
@@ -57,7 +57,7 @@ Implemented and locally validated event-specific local sink acknowledgment, fail
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `local_proof_passed_final_review_publication_pending`
+- Completion state: `published_required_ci_and_merge_pending`
 - Issue goal ref: `Worker #10 task 01a0924e-4813-7101-ac5c-a1a9ac80f4f8 issue #960 goal: reviewed repair, focused proof, native publication and required CI; merge not authorized.`
 - Sprint goal ref: `Sprint2 umbrella928`
 - Goal metrics rollup ref: `not_collected`
@@ -86,13 +86,13 @@ Implemented and locally validated event-specific local sink acknowledgment, fail
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; bound worktree only`
 - Worktree-only paths remaining: `All issue960 implementation and proof records`
-- Integration state: `worktree_only`
-- Verification scope: `Bound source revision and focused local proof; GitHub integration pending`
-- Integration method used: `Native bind and local implementation; no merge`
+- Integration state: `pr_open`
+- Verification scope: `Focused local proof and independent source/record review; GitHub CI recorded separately for the actual head`
+- Integration method used: `Native github-pr publication and authenticated publish readback after independent exact-head review.`
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD`
-    `Verified issue-bound execution context; no primary edits`
-- Result: `No PR published; no main-repo integration claimed`
+    `PR base main, exact reviewed head and closing issue #960 confirmed by live readback.`
+- Result: `PR #962 published through authenticated native github-pr; base main, Closes #960 verified. Not merged. Current CI observations are retained separately in native readback and local PR status evidence.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: pass
     checks_run:
-      - "Focused local proof passed; required GitHub CI deferred until publication"
+      - "Focused local proof passed; current-head GitHub integration results must be inspected separately."
   determinism:
     status: pass
     replay_verified: false
@@ -164,10 +164,10 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/960/VALIDATION.md`
-- Required artifacts present: `Local proof and native cards present; CI and final exact-head acknowledgement pending`
+- Required artifacts present: `Sanitized reproduction, local proof logs, native cards and independent review present; live CI/terminal evidence tracked separately`
 - Artifact schema/version checks: `Native six-card validation required after this update; no production schema changes`
-- Hash/byte-stability checks: `Verified seven original proof-log digests and recorded four source-file SHA-256 values in LOCAL_PROOF.json.`
-- Missing/optional artifacts and rationale: `Required GitHub CI pending publication; no remote OTLP delivery proof claimed`
+- Hash/byte-stability checks: `Four source hashes and seven retained log hashes verified by independent review; unchanged source after publication records update.`
+- Missing/optional artifacts and rationale: `No remote OTLP delivery or local broad coverage proof claimed; required CI remains a separate gate`
 
 ## Decisions / Deviations
 - `unknown`
