@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "addressed"
   recommended_outcome: "accept"
-notes: "Reviewer independently reran 16 merge cases and one qualified numeric adapter test; inspected exact review linkage digest, qualified issue/mode, initial/fresh/postmerge relation and state, complete-page fail-closed checks, durable intent/target guard and replay. Evidence .csdlc/evidence/849/VALIDATION.md. No live merge proof, no CI pass claim."
+notes: "Independent sprint8_909 reviewed implementation0264f321ac, reran16merge+1adapter, and accepted final card correction e6de80fcbf. Native review ready and PR952 created on main with Closes #849; native publish observation ready. Full native owner suite baseline failure remains disclosed; diagnostic253passed1filtered is partial; CI running, not accepted."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Independent sprint8_909 accepted implementation0264f321ac with no source/test findings. Metadata review1f30b810 raised two P2 stale lifecycle/proof truth findings; native edits corrected them. Reviewer30e6f545 confirmed substantive corrections, then two residual owner/artifact phrases were corrected. Final exact-head review is required before publication.
+- No source/test findings. Two P2card truth findings and residual owner/artifact phrases corrected through native editors and independently accepted at e6de80fcbf. Publication-only metadata delta requires exact renewal; no new implementation.
 
 ### Dispositions
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Reviewer independently reran 16 merge cases and one qualified numeric adapter test; inspected exact review linkage digest, qualified issue/mode, initial/fresh/postmerge relation and state, complete-page fail-closed checks, durable intent/target guard and replay. Evidence .csdlc/evidence/849/VALIDATION.md. No live merge proof, no CI pass claim.
+Independent sprint8_909 reviewed implementation0264f321ac, reran16merge+1adapter, and accepted final card correction e6de80fcbf. Native review ready and PR952 created on main with Closes #849; native publish observation ready. Full native owner suite baseline failure remains disclosed; diagnostic253passed1filtered is partial; CI running, not accepted.

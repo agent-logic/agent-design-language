@@ -86,13 +86,13 @@ Repair native merge admission with reviewed qualified publication linkage, authe
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `Issue #849 code, tests, docs, six cards and proof packet`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `Bounded merge-linkage implementation and focused owner proofs`
-- Integration method used: `local commit; publication pending`
+- Integration method used: `Native review --execute; native github-pr authenticated create; native publish --observe-github ready result`
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD; gh pr view 948 --repo agent-logic/agent-design-language --json state,headRefOid,mergeCommit (read-only)`
-    `Bound branch verified; PR not yet created; #948 OPEN at03c5aead, integration pending`
-- Result: `Implementation committed locally; PR publication pending; no merge or terminal closeout`
+    `Authenticated create receipt PR952 plus read-only base main/head e6de80fcbf/closing issue849 observation; no CI acceptance, merge or terminal claim`
+- Result: `PR #952 open/non-draft on main at independently reviewed e6de80fcbf; correct Closes #849 read back; CI started, no merge`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -175,4 +175,4 @@ verification_summary:
 
 ## Follow-ups / Deferred work
 - `Route separate UTS release inventory omission introduced by #877; do not waive full owner suite`
-- `Renew exact final-card review; native review/publication with Closes #849; monitor CI; preserve #948 source when accepted; no merge authorization`
+- `Shepherd PR952 CI, renew exact publication metadata review, preserve accepted #948 delta on integration; no merge authorization`
