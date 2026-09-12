@@ -166,7 +166,7 @@ PVF: deterministic local schema/package/Runtime integration; role: installabilit
 
 ## Notes / Risks
 
-Prepared only. Child implementation and its review have not run.
+Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded.
 
 ## Instructions to the Agent
 - Read this file.

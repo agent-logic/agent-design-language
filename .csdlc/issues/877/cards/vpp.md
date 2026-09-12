@@ -41,7 +41,7 @@ parallel_groups:
 validation_commands:
   - "cargo test --locked --manifest-path adl-uts/Cargo.toml (after package creation); execute actual Runtime ACC dispatch and named-consumer parity per source issue."
 failure_policy: "Stop on required proof failure, zero scenarios, stale input or shared ownership conflict; preserve evidence."
-notes: "Prepared only. Child implementation and its review have not run."
+notes: "Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Prepared only. Child implementation and its review have not run.
+Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded.

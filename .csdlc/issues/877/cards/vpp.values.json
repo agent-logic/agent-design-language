@@ -36,7 +36,7 @@
   "spp_card_inline": ".csdlc/issues/877/cards/spp.md",
   "validation_size_split": "local focused proof then required hosted integration",
   "validation_size_split_inline": "local focused proof then required hosted integration",
-  "notes_risks_inline": "Prepared only. Child implementation and its review have not run.",
+  "notes_risks_inline": "Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded.",
   "sprint_goal_ref": "Current v0.92.2 Sprint2 execution-readiness preparation goal",
   "sprint_goal_ref_inline": "Current v0.92.2 Sprint2 execution-readiness preparation goal",
   "stp_card": ".csdlc/issues/877/cards/stp.md",
@@ -76,5 +76,6 @@
   "lane_registry_template_set": "1.0.5",
   "lane_registry_template_set_inline": "1.0.5",
   "validation_runtime_class": "focused",
-  "validation_runtime_class_inline": "focused"
+  "validation_runtime_class_inline": "focused",
+  "notes_risks": "Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded."
 }

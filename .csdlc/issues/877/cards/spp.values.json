@@ -37,7 +37,7 @@
   "step_5_status": "in_progress",
   "estimate_confidence": "unestimated",
   "estimate_confidence_inline": "unestimated",
-  "notes_risks_inline": "Prepared only. Child implementation and its review have not run.",
+  "notes_risks_inline": "Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded.",
   "sprint_goal_ref": "Current v0.92.2 Sprint2 execution-readiness preparation goal",
   "sprint_goal_ref_inline": "Current v0.92.2 Sprint2 execution-readiness preparation goal",
   "stp_card": ".csdlc/issues/877/cards/stp.md",
@@ -84,5 +84,6 @@
   "step_2_status_inline": "completed",
   "step_3_status_inline": "completed",
   "step_4_status_inline": "completed",
-  "step_5_status_inline": "in_progress"
+  "step_5_status_inline": "in_progress",
+  "notes_risks": "Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded."
 }

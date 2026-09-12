@@ -83,7 +83,7 @@ Use only numeric prerequisites from source issue; no sprint-wide or closeout dep
 
 ## Notes
 
-Prepared only. Child implementation and its review have not run.
+Implementation and independent source review completed; native publication and hosted CI pending. Full v1.1 proposal implementation and external registry publication remain excluded.
 
 ## Tooling Notes
 
