@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Repair native merge admission with reviewed qualified publication linkage, authenticated body/closing relation and issue-state checks, and durable linkage reconciliation. Independent implementation review passed; full native suite remains blocked by pre-existing release inventory omission.
+Native merge preserves reviewed qualified publication linkage. User-reported URL-form PartOf ambiguity repaired at01488a4687 with32focused cases; independent source renewal accepted. Separate release inventory failure remains unapproved/unrepaired.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -76,7 +76,7 @@ Repair native merge admission with reviewed qualified publication linkage, authe
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/849/cards/sor.md`
 - Tracked implementation artifacts: `csdlc-v3/src/commands/remote/{mod,merge,merge_linkage}.rs; csdlc-v3/src/adapters/mod.rs; merge tests and receipt fixtures; operator documentation/man pages and #849 criterion map`
-- Additional proof artifacts: `.csdlc/evidence/849/release-preflight-baseline-defect.json; docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md`
+- Additional proof artifacts: `.csdlc/evidence/849/URL_PART_OF_REPAIR.md; .csdlc/evidence/849/VALIDATION.md; .csdlc/evidence/849/release-preflight-baseline-defect.json`
 
 ## Actions taken
 - `Bound existing #849 gen2 preparation natively, created issue goal, and normalized bound planning truth under Sprint7 #933.`
@@ -110,7 +110,7 @@ Rules:
   - `See .csdlc/evidence/849/VALIDATION.md for exact commands and outcomes`
     `Proves bounded local merge behavior and unaffected tested owner surfaces; excludes full-suite/CI/live-merge success`
 - Results:
-  - `16 merge tests pass; clippy/fmt/manual parity pass; full suite FAILED known baseline release-preflight omission; diagnostic remaining suite253passed1filtered`
+  - `17merge tests pass10.60s including32URLregressions; clippy passes3.37s; fmt/diff check pass. Prior full-suite inventory failure remains; no broad rerun or waiver.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `16 merge cases passed; reviewer independently passed16merge plus1adapter; full diagnostic owner253passed1filtered`
+- Determinism tests executed: `17merge cases passed at01488a4687; new32-case URL matrix proves URL-only/conflicting-parent/mixed-mode rejection before intent/PUT; prior253partial suite remains historical proof with1filtered`
 - Fixtures or scripts used: `remote/tests/merge_cases.rs and adapters/mod.rs fake transport/local Git fixtures; full native suite with known baseline failure recorded`
 - Replay verification (same inputs -> same artifacts/order): `Successful and uncertain merge replay paths exercised; no automatic second PUT; linkage/issue-state drift rejected`
 - Ordering guarantees (sorting / tie-break rules used): `Durable target guard and intent precede dispatch; authenticated fresh linkage/policy checked before PUT; poststate and replay tests passed`
@@ -175,4 +175,4 @@ verification_summary:
 
 ## Follow-ups / Deferred work
 - `Route separate UTS release inventory omission introduced by #877; do not waive full owner suite`
-- `Shepherd PR952 CI, renew exact publication metadata review, preserve accepted #948 delta on integration; no merge authorization`
+- `Complete independent renewal and native review, push repair to existing PR952 and reobserve exacthead; separate inventory repair still awaits explicit approval; no merge/shared install.`

@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "addressed"
   recommended_outcome: "accept"
-notes: "Independent sprint8_909 reviewed implementation0264f321ac, reran16merge+1adapter, and accepted final card correction e6de80fcbf. Native review ready and PR952 created on main with Closes #849; native publish observation ready. Full native owner suite baseline failure remains disclosed; diagnostic253passed1filtered is partial; CI running, not accepted."
+notes: "Independent sprint8_909 accepted exact source01488a46877fdaf045929847223fc2b285a50a49: no actionable source findings;32URLcases and17-test log including canonical/splitrepo positives inspected. Detection broadens only PartOf reference recognition; canonical admission and qualification unchanged. Separate inventory failure not waived. Final metadata tail must receive exact review before push."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- No source/test findings. Two P2card truth findings and residual owner/artifact phrases corrected through native editors and independently accepted at e6de80fcbf. Publication-only metadata delta requires exact renewal; no new implementation.
+- User review of5b68a266 found P2 URL-form PartOf directives bypass ambiguity/mixed-mode checks. Reproduced canonical PartOf plus conflicting URL before repair. Source01488a4687 detects URL and Markdown-wrapped directives, retaining canonical-only admission. Two earlier P2 metadata findings remain corrected.
 
 ### Dispositions
 
-- Both metadata findings addressed through native field edits; unbound/unstarted and unassigned owner/absent execution claims replaced by observed #849 execution truth. Full-suite release-preflight failure remains disclosed and not waived; no independent source findings.
+- URL ambiguity repaired with32fake-transport cases: Part of/Part-of, both modes, plain/angle/Markdown URLs including spaced labels, with or without a canonical directive. Every rejection precedes intent and PUT. Independent source review accepted01488a4687; final metadata review retained before publication.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent sprint8_909 reviewed implementation0264f321ac, reran16merge+1adapter, and accepted final card correction e6de80fcbf. Native review ready and PR952 created on main with Closes #849; native publish observation ready. Full native owner suite baseline failure remains disclosed; diagnostic253passed1filtered is partial; CI running, not accepted.
+Independent sprint8_909 accepted exact source01488a46877fdaf045929847223fc2b285a50a49: no actionable source findings;32URLcases and17-test log including canonical/splitrepo positives inspected. Detection broadens only PartOf reference recognition; canonical admission and qualification unchanged. Separate inventory failure not waived. Final metadata tail must receive exact review before push.
