@@ -1,0 +1,50 @@
+{
+  "schema": "codefriend.github_ingestion_proof.v1",
+  "source_commit": "b91ace4be5c67e00455df62dd6ea4f3b5afb5787",
+  "platform": "macOS arm64",
+  "predecessor": "#878 / PR944 merged;3fa601a888a8ba90541fd2d092802a9291b78ae9 ancestor of baseline5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+  "github_tests": 8,
+  "inherited_local_tests": 10,
+  "installed_candidate_tests": 8,
+  "transport_failure_cases": 17,
+  "commands": [
+    "cargo test --manifest-path adl/Cargo.toml --test codefriend_github_ingestion --test codefriend_ingestion (initial7+10 pass)",
+    "cargo test --manifest-path adl/Cargo.toml --test codefriend_github_ingestion (final8 pass)",
+    "bash adl/tools/install_owner_binaries.sh --bin adl --no-build --source-bin-dir adl/target/debug",
+    "ADL_CODEFRIEND_TEST_BINARY=<bound-worktree>/.adl/bin/adl <candidate-integration-test-executable> (8 pass)",
+    "cargo clippy --manifest-path adl/Cargo.toml --lib --bin adl --test codefriend_github_ingestion -- -D warnings",
+    "cargo fmt --manifest-path adl/Cargo.toml --check"
+  ],
+  "installed_binary_sha256": "bcf5fcba682becfa2026f7e2255d6ec2361853959ff43e9af8dc34ccb17830c7",
+  "owner_source_hash": "1b4551b4f8f01f23dc98fe4b3193cfadad9fc6b23f195f5f894e2d4b2d41912f",
+  "pvf": {
+    "lane": "runtime",
+    "role": "exact pinning, actual Git-data HTTP/installed-command acquisition and packet parity; fail-closed negatives",
+    "determinism": "isolated actual Git objects and controlled loopback HTTP",
+    "resources": "local CPU/disk/loopback",
+    "release_gate": "required Beta ingestion"
+  },
+  "claims": {
+    "production_cli_and_reader_executed": true,
+    "git_fixture_commits_and_blobs_real": true,
+    "packet_and_object_identity_equal_to_local": true,
+    "pr_and_fork_provenance_executed": true,
+    "no_provider_calls": true,
+    "live_github_executed": false,
+    "vector_downloaded_or_executed": false,
+    "linux_qualification": "deferred to required CI",
+    "independent_review": "source approved by review_836 at edc4d0a7df7b3c55c20f65d6a08c9a53affaa502; publication-card correction awaiting record-only acknowledgement",
+    "ci": "not yet published"
+  },
+  "obligations": {
+    "pinned_revision_packet_consumed": "commit/PR CLI write and actual AdmissionInput plus receipt readback",
+    "local_contract_parity": "complete Packet equality including identity for commit/PR/fork and omitted unsafe/binary inputs",
+    "portable_paths": "unchanged shared packet schema; receipt lacks host paths; fixed canonical GitHub identity",
+    "bounded_inputs": "source/file/path bounds;2MiB metadata;8MiB cumulative responses;4096requests;120sdeadline;aggregate test",
+    "partial_state_explicit": "missing/unsafe/binary disposition and partial parity",
+    "wrong_revision_rejected": "wrong commit/PR head/fork metadata, changed PR head and invalid revision cases",
+    "credential_capture_rejected": "unsafe source omitted; source credentials/URL userinfo rejected;fixture never resolves token;error/stdout/log sentinel absent",
+    "negative_inputs": "17 actual HTTP failures plus path/symlink/scope/token/receipt negatives",
+    "portability": "macOS installed proof; shared transport-independent packet equality;Linux CI pending"
+  }
+}

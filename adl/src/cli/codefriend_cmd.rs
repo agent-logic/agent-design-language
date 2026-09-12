@@ -1,13 +1,18 @@
+#[path = "codefriend_github_cmd.rs"]
+mod github_command;
 use adl::codefriend::ingestion::{local, AdmissionInput, Scope};
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
 const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
+    if args.len() >= 2 && args[0] == "ingest" && args[1] == "github" {
+        return github_command::run(&args[2..]);
+    }
     if args.first().is_some_and(|arg| arg == "evidence") {
         return super::codefriend_evidence_cmd::evidence(&args[1..]);
     }
     if args.is_empty() || matches!(args[0].as_str(), "--help" | "-h") {
-        println!("{USAGE}");
+        println!("{USAGE}\n{}", github_command::USAGE);
         return Ok(());
     }
     ensure!(args.len() >= 2, "{USAGE}");
