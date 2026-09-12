@@ -476,14 +476,26 @@ impl Snapshot {
     }
 }
 
-/// Gate A only supports local amendments and projection acknowledgements.
+/// Local amendments and projection acknowledgements.
 /// No proof/review/remote outcome can be forged through this API.
 #[derive(Debug, Clone)]
 pub enum LocalChange {
     AmendCards(BTreeMap<String, serde_json::Value>),
     AmendPlan(Vec<PlanStep>),
     AmendValidation(Vec<Validator>),
+    AmendBinding(VerifiedBindingAmendment),
     AcknowledgeProjection(ProjectionWriteProof),
+}
+/// Native owner attests the exact replacement binding after topology validation.
+/// Parsing a binding does not grant this capability.
+#[derive(Debug, Clone)]
+pub struct VerifiedBindingAmendment {
+    binding: Binding,
+}
+impl VerifiedBindingAmendment {
+    pub(crate) fn from_native_owner(binding: Binding) -> Self {
+        Self { binding }
+    }
 }
 /// Readback proof of the exact generated view. Rechecked under the mutation lock.
 #[derive(Debug, Clone)]
@@ -869,6 +881,7 @@ impl DurableTransactionStore {
             return Err(Error::InvalidInput("authority changed".into()));
         }
         let mut payload = current.payload.clone();
+        let mut facts = policy::Facts::default();
         let command = match change {
             LocalChange::AmendCards(cards) => {
                 payload.inputs.intent_plan.cards = cards;
@@ -881,6 +894,11 @@ impl DurableTransactionStore {
             LocalChange::AmendValidation(validation) => {
                 payload.inputs.intent_plan.validators = validation;
                 SemanticCommand::AmendValidation
+            }
+            LocalChange::AmendBinding(verified) => {
+                payload.inputs.binding = Some(verified.binding);
+                facts.topology = true;
+                SemanticCommand::AmendBinding
             }
             LocalChange::AcknowledgeProjection(proof) => {
                 if proof.version != *current.version() {
@@ -899,7 +917,7 @@ impl DurableTransactionStore {
             Some(payload.phase),
             command,
             policy::Outcome::Success,
-            &policy::Facts::default(),
+            &facts,
         )
         .map_err(|_| Error::InvalidInput("local transition rejected".into()))?;
         payload.generation = payload

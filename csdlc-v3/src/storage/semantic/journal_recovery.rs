@@ -2,14 +2,32 @@
 //! Incomplete/torn immutable objects are refused; this path does not delete or
 //! fabricate evidence, rewrite a commit, or rerun an external operation.
 use super::*;
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct JournalRecoveryPreview {
+    action: String,
     key: IssueKey,
     before: Option<SemanticVersion>,
     target: SemanticVersion,
     audit: Digest,
     next_present: bool,
     digest: Digest,
+}
+impl JournalRecoveryPreview {
+    pub fn key(&self) -> &IssueKey {
+        &self.key
+    }
+    pub fn before(&self) -> Option<&SemanticVersion> {
+        self.before.as_ref()
+    }
+    pub fn target(&self) -> &SemanticVersion {
+        &self.target
+    }
+    pub fn action(&self) -> &str {
+        &self.action
+    }
+    pub fn digest(&self) -> &Digest {
+        &self.digest
+    }
 }
 #[derive(Debug, Clone)]
 pub struct JournalRecoveryApproval {
@@ -92,6 +110,7 @@ fn describe(directory: &Path, key: &IssueKey) -> Result<Option<JournalRecoveryPr
         &(key, &before, &target, &snapshot.audit_digest, next_present),
     )?;
     Ok(Some(JournalRecoveryPreview {
+        action: "activate_retained_issue_commit".into(),
         key: key.clone(),
         before,
         target,
@@ -218,6 +237,14 @@ mod tests {
             })
             .unwrap()
         );
+        assert_eq!(preview.key(), &f.key);
+        assert_eq!(preview.before(), Some(prior.version()));
+        assert_eq!(preview.target(), staged.version());
+        assert_eq!(preview.action(), "activate_retained_issue_commit");
+        assert_eq!(
+            serde_json::to_value(&preview).unwrap()["digest"],
+            serde_json::to_value(preview.digest()).unwrap()
+        );
         let approval = JournalRecoveryApproval::from_native_owner(&preview);
         FAIL_REBARRIER.with(|flag| flag.set(true));
         assert!(matches!(
@@ -235,6 +262,14 @@ mod tests {
         let preview = DurableTransactionStore::describe_journal_recovery(&f.root, &f.key)
             .unwrap()
             .unwrap();
+        assert_eq!(preview.key(), &f.key);
+        assert_eq!(preview.before(), Some(prior.version()));
+        assert_eq!(preview.target(), staged.version());
+        assert_eq!(preview.action(), "activate_retained_issue_commit");
+        assert_eq!(
+            serde_json::to_value(&preview).unwrap()["digest"],
+            serde_json::to_value(preview.digest()).unwrap()
+        );
         let approval = JournalRecoveryApproval::from_native_owner(&preview);
         assert!(matches!(
             DurableTransactionStore::execute_journal_recovery(

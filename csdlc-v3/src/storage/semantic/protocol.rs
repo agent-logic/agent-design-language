@@ -238,6 +238,7 @@ pub enum EvidenceKind {
     Request,
     BindReceipt,
     ProofRun,
+    ReviewReceipt,
     GithubReadback,
     CleanupReceipt,
     AdministrativeReceipt,
@@ -246,6 +247,9 @@ fn evidence_kind(command: SemanticCommand) -> EvidenceKind {
     match command {
         SemanticCommand::Bind => EvidenceKind::BindReceipt,
         SemanticCommand::RecordProof => EvidenceKind::ProofRun,
+        SemanticCommand::AssignReview
+        | SemanticCommand::RecordReviewPass
+        | SemanticCommand::RecoverReview => EvidenceKind::ReviewReceipt,
         SemanticCommand::RecordCleanup => EvidenceKind::CleanupReceipt,
         SemanticCommand::RecordInstall
         | SemanticCommand::RecordCutover
@@ -1224,6 +1228,103 @@ pub(super) mod tests {
             let _ = fs::remove_dir_all(&self.path);
         }
     }
+    #[test]
+    fn review_routes_retain_operations_and_binding_amendment_invalidates_inputs() {
+        let f = Fixture::new();
+        f.bind();
+        for (command, expected) in [
+            (SemanticCommand::RecordProof, LifecycleState::Implemented),
+            (SemanticCommand::AssignReview, LifecycleState::Implemented),
+            (SemanticCommand::RecordReviewPass, LifecycleState::Reviewed),
+            (SemanticCommand::RecoverReview, LifecycleState::Implemented),
+        ] {
+            let request = EffectRequest::new(
+                command,
+                NativeIdentity::new("review-owner".into(), format!("{command:?}")).unwrap(),
+                EffectOrigin::bound(f.snapshot().inputs().binding().unwrap().clone()),
+                b"{}",
+            )
+            .unwrap();
+            let mut admission = f.admission(&request);
+            if command != SemanticCommand::RecordProof {
+                admission.facts = policy::Facts::default();
+                let before = f.snapshot().version().clone();
+                assert!(DurableTransactionStore::reserve_effect(
+                    &f.root,
+                    admission.clone(),
+                    request.clone()
+                )
+                .is_err());
+                assert_eq!(f.snapshot().version(), &before);
+            }
+            admission.facts.current_proof = true;
+            admission.facts.independent_review = true;
+            admission.facts.recovery_provenance = true;
+            let Reservation::Reserved(ticket) =
+                DurableTransactionStore::reserve_effect(&f.root, admission, request.clone())
+                    .unwrap()
+            else {
+                panic!()
+            };
+            let mut outcome = f.outcome(
+                &request,
+                OutcomeKind::Success,
+                EffectTruth::NotPerformed,
+                b"verified local review receipt",
+            );
+            outcome.facts.independent_review = true;
+            outcome.facts.recovery_provenance = true;
+            DurableTransactionStore::attach_outcome(
+                &f.root,
+                ticket.clone(),
+                outcome.clone(),
+                f.observed(&request),
+            )
+            .unwrap();
+            assert_eq!(f.snapshot().phase(), expected);
+            assert!(matches!(
+                DurableTransactionStore::attach_outcome(
+                    &f.root,
+                    ticket,
+                    outcome,
+                    f.observed(&request)
+                )
+                .unwrap(),
+                Attachment::AlreadyCompleted(_)
+            ));
+            let inspection = DurableTransactionStore::inspect_effect(
+                &f.root,
+                &f.key,
+                &operation_id(&f.key, &request).unwrap(),
+            )
+            .unwrap();
+            assert_eq!(
+                inspection.evidence(),
+                Some(b"verified local review receipt".as_slice())
+            );
+        }
+        let before = f.snapshot();
+        let mut replacement = before.inputs().binding().unwrap().clone();
+        replacement.head = "c".repeat(40);
+        DurableTransactionStore::commit_issue_local(
+            &f.root,
+            Admission::new(
+                f.key.clone(),
+                before.version().clone(),
+                before.inputs().authority().clone(),
+            ),
+            LocalChange::AmendBinding(VerifiedBindingAmendment::from_native_owner(
+                replacement.clone(),
+            )),
+        )
+        .unwrap();
+        let after = f.snapshot();
+        assert_eq!(after.inputs().binding(), Some(&replacement));
+        assert_ne!(after.inputs_version(), before.inputs_version());
+        assert!(after.invalidations().contains(&policy::Invalidation::Proof));
+        assert_eq!(after.audit_command(), SemanticCommand::AmendBinding);
+    }
+
     #[test]
     fn pending_restart_and_completed_replay_survive_later_commits() {
         let f = Fixture::new();

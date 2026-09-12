@@ -641,13 +641,39 @@ fn attach_locked(
     })
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct CreationJournalPreview {
+    repository: String,
+    action: String,
+    digest: Digest,
     id: OperationId,
     before: Option<Digest>,
     generation: u64,
     target: Digest,
     next_present: bool,
+}
+impl CreationJournalPreview {
+    pub fn repository(&self) -> &str {
+        &self.repository
+    }
+    pub fn operation_id(&self) -> &OperationId {
+        &self.id
+    }
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+    pub fn target(&self) -> &Digest {
+        &self.target
+    }
+    pub fn before(&self) -> Option<&Digest> {
+        self.before.as_ref()
+    }
+    pub fn action(&self) -> &str {
+        &self.action
+    }
+    pub fn digest(&self) -> &Digest {
+        &self.digest
+    }
 }
 #[derive(Debug, Clone)]
 pub struct CreationJournalApproval {
@@ -752,7 +778,21 @@ fn describe_creation_journal(
             return Err(Error::InvalidDigest);
         }
     }
+    let digest = hash(
+        "semantic-recovery-v1",
+        &(
+            &root.repository,
+            id,
+            previous.as_ref().map(|s| &s.digest),
+            generation,
+            &target.digest,
+            next_present,
+        ),
+    )?;
     Ok(Some(CreationJournalPreview {
+        repository: root.repository.clone(),
+        action: "activate_retained_creation_commit".into(),
+        digest,
         id: id.clone(),
         before: previous.map(|s| s.digest),
         generation,
@@ -761,6 +801,17 @@ fn describe_creation_journal(
     }))
 }
 impl DurableTransactionStore {
+    /// Derive the retained repository operation identity even before current exists.
+    /// This is read-only and grants no reservation or recovery authority.
+    pub(crate) fn issue_creation_id_from_native(
+        root: &SemanticRoot,
+        native: &NativeIdentity,
+    ) -> Result<OperationId, Error> {
+        Ok(OperationId(hash(
+            "semantic-operation-v1",
+            &(&root.repository, native),
+        )?))
+    }
     pub fn describe_creation_journal_recovery(
         root: &SemanticRoot,
         id: &OperationId,
@@ -990,10 +1041,30 @@ mod tests {
         )
         .unwrap();
         assert_eq!(fs::read(directory.join("current.next")).unwrap(), pointer);
+        let restarted_id = DurableTransactionStore::issue_creation_id_from_native(
+            &f.root,
+            &NativeIdentity::new("github".into(), "journal-create".into()).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(&restarted_id, ticket.id());
         let preview =
-            DurableTransactionStore::describe_creation_journal_recovery(&f.root, ticket.id())
+            DurableTransactionStore::describe_creation_journal_recovery(&f.root, &restarted_id)
                 .unwrap()
                 .unwrap();
+        assert_eq!(preview.repository(), "example/repo");
+        assert_eq!(preview.operation_id(), ticket.id());
+        assert_eq!(preview.generation(), 1);
+        assert!(preview.before().is_none());
+        assert_eq!(preview.action(), "activate_retained_creation_commit");
+        let serialized = serde_json::to_value(&preview).unwrap();
+        assert_eq!(
+            serialized["digest"],
+            serde_json::to_value(preview.digest()).unwrap()
+        );
+        assert_eq!(
+            serialized["target"],
+            serde_json::to_value(preview.target()).unwrap()
+        );
         let approval = CreationJournalApproval::from_native_owner(&preview);
         FAIL_REBARRIER.with(|flag| flag.set(true));
         assert!(matches!(

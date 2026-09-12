@@ -125,6 +125,13 @@ pub fn decide(
         let allowed = match original {
             Bind => from == Ready && facts.bind_target,
             RecordProof => executable,
+            AssignReview => from == Implemented && facts.current_proof,
+            RecordReviewPass => {
+                from == Implemented && facts.current_proof && facts.independent_review
+            }
+            RecoverReview => {
+                matches!(from, Reviewed | Published | MergeReady) && facts.recovery_provenance
+            }
             Publish => {
                 matches!(from, Reviewed | Published)
                     && facts.current_proof
