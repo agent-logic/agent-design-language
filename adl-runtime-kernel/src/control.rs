@@ -3964,14 +3964,20 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 return Err(error.code());
             }
         };
-        usage.success(&message);
-        let output = ProviderConversationOutput {
-            message,
-            agent_to_agent: None,
-        };
+        let output = normalize_registered_conversation(message.clone()).inspect_err(|error| {
+            usage.failure(error);
+            self.recorder
+                .providers
+                .record_response_failure(&binding.provider);
+        })?;
         if output.agent_to_agent.is_some() || output.message.trim().is_empty() {
+            usage.failure("agent_result_continuation_invalid");
+            self.recorder
+                .providers
+                .record_response_failure(&binding.provider);
             return Err("agent_result_continuation_invalid");
         }
+        usage.success(&message);
         Ok(output.message)
     }
 
@@ -4756,18 +4762,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             }
             let task_declaration = declaration.clone();
             let providers = Arc::clone(&self.recorder.providers);
-            let inference = self
-                .recorder
-                .provider_usage
-                .health_snapshot()
-                .iter()
-                .find(|h| {
-                    (h.agent == declaration.name || h.agent == declaration.id)
-                        && h.provider == declaration.provider
-                        && h.model == declaration.model
-                })
-                .and_then(|h| h.inference_ready);
-            let observed_failure = inference == Some(false);
             #[cfg(test)]
             let forced_failure = self
                 .dynamic_agent_health_task_failures
@@ -4786,27 +4780,31 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     }
                     None => {}
                 }
+                let definition_generation = Some(providers.definition_generation());
                 let (readiness, failure_reason) =
                     match verify_registered_provider(providers, provider_binding(&declaration))
                         .await
                     {
-                        Ok(_) if observed_failure => (
-                            InferenceReadinessState::Failed,
-                            Some("inference_failure_requires_generated_recovery".to_owned()),
+                        Ok(projection) => (
+                            if projection.capabilities.model_validation {
+                                InferenceReadinessState::Ready
+                            } else {
+                                InferenceReadinessState::Configured
+                            },
+                            None,
                         ),
-                        Ok(projection)
-                            if inference != Some(true)
-                                && !projection.capabilities.model_validation =>
-                        {
-                            (InferenceReadinessState::Configured, None)
-                        }
-                        Ok(_) => (InferenceReadinessState::Ready, None),
                         Err(failure) => (
                             inference_readiness_from_agent_admission_failure(&failure),
                             Some(agent_admission_failure_reason(&failure).to_owned()),
                         ),
                     };
-                (declaration, readiness, failure_reason, now_unix_millis())
+                (
+                    declaration,
+                    readiness,
+                    failure_reason,
+                    now_unix_millis(),
+                    definition_generation,
+                )
             });
             declarations_by_task.insert(handle.id(), task_declaration);
             #[cfg(test)]
@@ -4815,10 +4813,22 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             }
         }
         while let Some(result) = checks.join_next_with_id().await {
-            let (declaration, readiness, failure_reason, observed_at_unix_millis) = match result {
+            let (
+                declaration,
+                mut readiness,
+                mut failure_reason,
+                observed_at_unix_millis,
+                definition_generation,
+            ) = match result {
                 Ok((
                     task_id,
-                    (declaration, readiness, failure_reason, observed_at_unix_millis),
+                    (
+                        declaration,
+                        readiness,
+                        failure_reason,
+                        observed_at_unix_millis,
+                        definition_generation,
+                    ),
                 )) => {
                     declarations_by_task.remove(&task_id);
                     (
@@ -4826,6 +4836,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         readiness,
                         failure_reason,
                         observed_at_unix_millis,
+                        definition_generation,
                     )
                 }
                 Err(error) => {
@@ -4844,9 +4855,30 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         InferenceReadinessState::Failed,
                         Some(reason.to_owned()),
                         now_unix_millis(),
+                        None,
                     )
                 }
             };
+            // Serialize publication against replacement/removal; metadata from an
+            // old declaration must never be applied to its successor.
+            let _admission = self
+                .dynamic_agent_admission
+                .lock()
+                .expect("dynamic admission state poisoned");
+            if !self
+                .dynamic_agents
+                .lock()
+                .expect("dynamic agents state poisoned")
+                .iter()
+                .any(|active| active == &declaration)
+            {
+                continue;
+            }
+            if let Some(generation) = definition_generation {
+                if self.recorder.providers.definition_generation() != generation {
+                    continue;
+                }
+            }
             let mut population = self
                 .agent_population
                 .write()
@@ -4858,6 +4890,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             else {
                 continue;
             };
+            // Read inference after the awaited metadata operation and after the
+            // population lock, so recovery/failure observed during verification wins.
+            let inference = self
+                .recorder
+                .provider_usage
+                .health_snapshot()
+                .iter()
+                .find(|h| {
+                    (h.agent == declaration.name || h.agent == declaration.id)
+                        && h.provider == declaration.provider
+                        && h.model == declaration.model
+                })
+                .and_then(|h| h.inference_ready);
+            if inference == Some(false) {
+                readiness = InferenceReadinessState::Failed;
+                failure_reason = Some("inference_failure_requires_generated_recovery".into());
+            } else if inference == Some(true) && readiness == InferenceReadinessState::Configured {
+                readiness = InferenceReadinessState::Ready;
+            }
             sample.observed_at_unix_millis = observed_at_unix_millis;
             sample.freshness_deadline_unix_millis =
                 observed_at_unix_millis.saturating_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS);
@@ -11367,6 +11418,12 @@ mod layer8_conversation_ingress_tests {
                 if call == 1 {
                     return Ok("Recovered by explicit operator request.".into());
                 }
+                if prompt.contains("malformed action") {
+                    return Ok(
+                        r#"{"schema":"adl.runtime.provider_agent_action.v1","message":"invalid"}"#
+                            .into(),
+                    );
+                }
                 if prompt.contains("A governed agent-to-agent action you initiated") {
                     return Ok("Operator received the verified peer response.".into());
                 }
@@ -11549,6 +11606,45 @@ mod layer8_conversation_ingress_tests {
                 .inference_readiness,
             InferenceReadinessState::Ready
         );
+        intent.conversation_id = "malformed-action".into();
+        intent.turn_id = "malformed-action".into();
+        intent.message = Some("malformed action".into());
+        let failed_before = recorder
+            .provider_usage
+            .snapshot()
+            .iter()
+            .map(|c| c.failed)
+            .sum::<u64>();
+        let malformed = match service.accept_conversation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                service.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!("unexpected malformed request refusal {:?}", response.error)
+            }
+        };
+        assert_ne!(malformed.status, "delivered");
+        assert!(
+            malformed.initiated_work_id.is_none(),
+            "invalid action cannot dispatch signed work"
+        );
+        assert_eq!(
+            recorder
+                .provider_usage
+                .snapshot()
+                .iter()
+                .map(|c| c.failed)
+                .sum::<u64>(),
+            failed_before + 1
+        );
+        service.refresh_dynamic_agent_health().await;
+        assert_eq!(
+            service
+                .agent_roster_detail("beacon")
+                .unwrap()
+                .inference_readiness,
+            InferenceReadinessState::Failed
+        );
         recorder
             .providers
             .replace_definitions(
@@ -11602,7 +11698,7 @@ mod layer8_conversation_ingress_tests {
         }
         assert_eq!(
             actual_calls.load(std::sync::atomic::Ordering::SeqCst),
-            6,
+            7,
             "first failed bounded call prevents an explicit operator retry from dispatching again"
         );
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();

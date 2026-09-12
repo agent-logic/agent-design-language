@@ -1421,10 +1421,17 @@ impl InProcessOperationExecutor {
                                     return Err(adapter_error(FailureClass::Fatal, error.code()));
                                 }
                             };
-                            usage.success(&message);
                             let response =
-                                crate::control::normalize_registered_conversation(message)
-                                    .map_err(|error| adapter_error(FailureClass::Fatal, error))?;
+                                crate::control::normalize_registered_conversation(message.clone())
+                                    .map_err(|error| {
+                                        usage.failure(error);
+                                        self.state
+                                            .recorder
+                                            .providers
+                                            .record_response_failure(provider);
+                                        adapter_error(FailureClass::Fatal, error)
+                                    })?;
+                            usage.success(&message);
                             provider_conversation_output(task, recipient_id, response)?
                         }
                         _ => {

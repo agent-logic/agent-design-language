@@ -510,3 +510,151 @@ providers:
     assert!(projection.capabilities.credentials);
     drop(svc);
 }
+
+// PVF: deterministic blocked-metadata interleaving, bounded local threads,
+// release-required health/publication ordering regression for #855.
+#[tokio::test]
+async fn metadata_publication_preserves_newer_inference_and_replacement() {
+    struct Blocking {
+        gate: Arc<std::sync::atomic::AtomicBool>,
+        fail: Arc<std::sync::atomic::AtomicBool>,
+        entered: std::sync::mpsc::Sender<()>,
+        release: Mutex<std::sync::mpsc::Receiver<()>>,
+    }
+    impl RuntimeProviderAdapter for Blocking {
+        fn capabilities(&self) -> AdapterCapabilities {
+            AdapterCapabilities::text(false)
+        }
+        fn prepare(
+            &self,
+            id: &str,
+            spec: &adl_provider_core::ProviderSpec,
+            b: &ProviderBinding,
+        ) -> Result<PreparedProvider, ProviderFailure> {
+            Fixture(Arc::new(AtomicUsize::new(0))).prepare(id, spec, b)
+        }
+        fn verify(&self, _: &PreparedProvider) -> Result<(), ProviderFailure> {
+            if self.gate.swap(false, Ordering::SeqCst) {
+                self.entered.send(()).unwrap();
+                self.release
+                    .lock()
+                    .unwrap()
+                    .recv_timeout(Duration::from_secs(5))
+                    .unwrap();
+            }
+            if self.fail.load(Ordering::SeqCst) {
+                return Err(ProviderFailure::Credentials);
+            }
+            Ok(())
+        }
+    }
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/issue855");
+    fs::create_dir_all(&root).unwrap();
+    let temp = tempfile::tempdir_in(root).unwrap();
+    let svc = Arc::new(service(
+        temp.path().join("admissions.json"),
+        Arc::new(AtomicUsize::new(0)),
+    ));
+    let (entered_tx, entered_rx) = std::sync::mpsc::channel();
+    let (release_tx, release_rx) = std::sync::mpsc::channel();
+    let gate = Arc::new(std::sync::atomic::AtomicBool::new(false));
+    let fail = Arc::new(std::sync::atomic::AtomicBool::new(false));
+    svc.recorder
+        .providers
+        .register(
+            "blocked",
+            Arc::new(Blocking {
+                gate: gate.clone(),
+                fail: fail.clone(),
+                entered: entered_tx,
+                release: Mutex::new(release_rx),
+            }),
+        )
+        .unwrap();
+    let mut request = binding();
+    request.provider = "blocked".into();
+    svc.admit_agent(request.clone()).await.unwrap();
+    let entered_rx = Arc::new(Mutex::new(entered_rx));
+    for mode in 0..4 {
+        let usage = svc.recorder.provider_usage.begin(
+            &request.name,
+            &request.provider,
+            &request.model,
+            crate::provider_usage::ProviderRequestReason::OperatorConversation,
+            "fixture",
+        );
+        if mode == 0 {
+            usage.failure("provider_credentials");
+        } else {
+            usage.success("generated");
+        }
+        gate.store(true, Ordering::SeqCst);
+        let service = svc.clone();
+        let check = tokio::spawn(async move {
+            service.refresh_dynamic_agent_health().await;
+        });
+        let entered = entered_rx.clone();
+        tokio::task::spawn_blocking(move || {
+            entered
+                .lock()
+                .unwrap()
+                .recv_timeout(Duration::from_secs(5))
+                .unwrap()
+        })
+        .await
+        .unwrap();
+        if mode == 3 {
+            fail.store(true, Ordering::SeqCst);
+            svc.recorder
+                .providers
+                .replace_definitions(
+                    std::collections::HashMap::from([(
+                        "blocked".into(),
+                        adl_provider_core::ProviderSpec {
+                            id: None,
+                            profile: None,
+                            kind: "blocked".into(),
+                            base_url: None,
+                            default_model: None,
+                            config: Default::default(),
+                        },
+                    )]),
+                    "new-definition".into(),
+                )
+                .unwrap();
+        } else if mode == 2 {
+            request.model = "replacement-model".into();
+            assert_eq!(
+                svc.admit_agent(request.clone()).await.unwrap().status,
+                "replaced"
+            );
+        } else {
+            let usage = svc.recorder.provider_usage.begin(
+                &request.name,
+                &request.provider,
+                &request.model,
+                crate::provider_usage::ProviderRequestReason::OperatorConversation,
+                "fixture",
+            );
+            if mode == 0 {
+                usage.success("recovered");
+            } else {
+                usage.failure("provider_timeout");
+            }
+        }
+        release_tx.send(()).unwrap();
+        check.await.unwrap();
+        let detail = svc.agent_roster_detail(&request.id).unwrap();
+        assert_eq!(
+            detail.inference_readiness,
+            match mode {
+                0 => InferenceReadinessState::Ready,
+                1 => InferenceReadinessState::Failed,
+                _ => InferenceReadinessState::ModelLoading,
+            }
+        );
+        if mode == 2 {
+            assert_eq!(detail.model.as_deref(), Some("replacement-model"));
+        }
+    }
+}

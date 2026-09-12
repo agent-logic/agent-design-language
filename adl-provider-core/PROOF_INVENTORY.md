@@ -105,7 +105,7 @@ adapters report configuration validation without claiming model availability.
 
 ## Runtime registry and lifecycle proof
 
-`adl-runtime-kernel/src/control/provider_registry_tests.rs` contains seven bounded,
+`adl-runtime-kernel/src/control/provider_registry_tests.rs` contains eight bounded,
 deterministic, release-required provider-lane tests. Their resource profile is
 local CPU/disk with generated fixture text and no network or paid calls:
 
@@ -139,3 +139,30 @@ provider-core dependency's unit tests.
 The `registered_provider_contract_has_no_vendor_admission_allowlist` OpenAPI test is a release-required, deterministic CPU-only API contract proof: provider-neutral admission, reference-only credentials, and redacted capability/health projection. The optional bounded demonstration envelope rejects concurrent same-provider dispatch without queuing, counts complete prompts, and stops future dispatch after transport or invalid-output failure. It does not actively cancel an already dispatched HTTP call.
 
 The real signed sixth-provider dispatch regression also proves failed inference → authenticated operator retry → generated success → restored A2A eligibility, and first-failure demo budget refusal without another transport call. Health polling never performs this retry. `named_local_http_definition_admits_without_hosted_vendor_policy` preserves #876 named generic HTTP definitions through shared candidate validation and actual ControlService admission; CPU-only numeric-loopback construction, no generated request. Malformed or incomplete optional budget keys fail closed.
+
+`metadata_publication_preserves_newer_inference_and_replacement` is a deterministic, release-required blocked-metadata ordering test (bounded local threads, no network). It proves current success/failure wins over stale asynchronous checks and replacement identity cannot be overwritten. The signed sixth-provider test also rejects malformed declared actions before success accounting or signed dispatch. Continuations normalize the same protocol and reject a second action; semantic failures trip any configured first-failure demonstration stop.
+
+## Runtime local CLI review-fix proof
+
+Four new `provider::local::tests::runtime_cli_*` tests raise the observed Unix
+leaf denominator from 90 to 94 (94 passed, zero failures/ignored/filtered).
+All four are deterministic, release-required provider-lane regression proofs.
+Their resource profile is bounded local CPU, pipes, temporary files and fake
+subprocesses; no Ollama installation, model, credentials, network or paid calls.
+
+- Constructor proof preserves the public legacy Ollama struct literal and
+  non-Runtime factory behavior, enforces Runtime timeout configuration, and
+  rejects a declared token-output cap with `unsupported_capability`.
+- Stalled-stdin proof supplies 1 MiB (larger than pipe capacity) to a subprocess
+  that never reads it and observes the 100 ms deadline within a 2 s upper bound.
+- Descendant proof observes timeout after the group leader exits, checks that
+  the leader is reaped, and proves the background child cannot create its marker.
+- Pipe/output proof round-trips UTF-8 input, rejects output above the production
+  4 MiB limit, and checks that failed-child stderr is absent from diagnostics.
+
+Focused command: `CARGO_TARGET_DIR=adl/target cargo test --manifest-path adl-provider-core/Cargo.toml --locked --offline --lib provider::local::tests::runtime_cli` (4/4 passed).
+Compatibility command: `CARGO_TARGET_DIR=adl/target cargo test --manifest-path adl-provider-core/Cargo.toml --locked --offline --lib` (94/94 passed).
+These library proofs establish Runtime CLI supervision on Unix and preserved
+legacy construction, not installed-binary or hosted inference qualification.
+
+The existing Vertex thinking configuration test now accepts documented `thinking_budget: 0` (disabled thinking) and still rejects malformed/negative values. The five-adapter transport matrix asserts actual Vertex `thinkingBudget: 0` together with the 256-token output cap. Model support follows the provider contract: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/thinking . This supports the approved Gemini 2.5 Flash demonstration without expanding its model or spending bounds. Final post-fix local leaf run: 94/94 and all-targets Clippy pass.

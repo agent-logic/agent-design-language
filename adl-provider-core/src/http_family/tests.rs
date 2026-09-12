@@ -288,13 +288,13 @@ fn vertex_ai_thinking_level_and_budget_are_mutually_exclusive() {
 
 #[test]
 fn vertex_ai_thinking_budget_fails_closed_on_invalid_values() {
-    for invalid in [json!(0), json!(-1), json!("not-a-number"), json!(true)] {
+    for invalid in [json!(-1), json!("not-a-number"), json!(true), Value::Null] {
         let cfg = HashMap::from([("thinking_budget".to_string(), invalid)]);
         let err = vertex_ai_thinking_config_from_config(&cfg)
             .expect_err("invalid thinking_budget should fail closed");
         assert!(err
             .to_string()
-            .contains("config.thinking_budget must be a positive integer"));
+            .contains("config.thinking_budget must be a non-negative integer"));
     }
 }
 
@@ -2390,6 +2390,7 @@ fn five_adapter_transport_matrix_serializes_generates_and_classifies_failures() 
             spec.config.insert("runtime_max_output_tokens".into(), json!(256));
             spec.config.insert("auth".into(), json!({"type":"bearer","env":TOKEN_ENV}));
             if kind == "vertex_ai_gemini" {
+                spec.config.insert("thinking_budget".into(), json!(0));
                 spec.config.insert("project".into(), json!("fixture"));
                 spec.config.insert("location".into(), json!("us-central1"));
             }
@@ -2411,6 +2412,7 @@ fn five_adapter_transport_matrix_serializes_generates_and_classifies_failures() 
                 "vertex_ai_gemini" => "/generationConfig/maxOutputTokens", "ollama" => "/options/num_predict", _ => unreachable!(),
             };
             assert_eq!(body.pointer(cap_pointer).and_then(Value::as_u64), Some(256), "{kind}: actual serialized cap");
+            if kind == "vertex_ai_gemini" { assert_eq!(body.pointer("/generationConfig/thinkingConfig/thinkingBudget").and_then(Value::as_u64), Some(0)); }
         }
     }
     if let Some(value) = prior_token {

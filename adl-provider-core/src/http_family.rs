@@ -1606,7 +1606,19 @@ fn vertex_ai_tools_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Va
 
 fn vertex_ai_thinking_config_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Value>> {
     let thinking_level = cfg_string(cfg, "thinking_level");
-    let thinking_budget = cfg_u64_strict(cfg, "thinking_budget", "vertex_ai_gemini")?;
+    // Gemini 2.5 Flash documents zero as disabled thinking; output remains
+    // bounded independently by maxOutputTokens.
+    let thinking_budget = cfg
+        .get("thinking_budget")
+        .map(|value| {
+            value.as_u64().ok_or_else(|| {
+                invalid_config(
+                    "vertex_ai_gemini",
+                    "config.thinking_budget must be a non-negative integer",
+                )
+            })
+        })
+        .transpose()?;
     let include_thoughts = cfg_bool_opt(cfg, "include_thoughts", "vertex_ai_gemini")?;
 
     if thinking_level.is_some() && thinking_budget.is_some() {

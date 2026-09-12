@@ -239,6 +239,166 @@ impl OllamaProvider {
     }
 }
 
+/// Runtime-only CLI execution. The public legacy `OllamaProvider` layout stays
+/// unchanged, including its literal-construction and streaming compatibility.
+pub(super) struct RuntimeOllamaProvider {
+    model: String,
+    deadline: Duration,
+}
+const RUNTIME_CLI_MAX_OUTPUT_BYTES: usize = 4_194_304;
+
+impl RuntimeOllamaProvider {
+    pub(super) fn from_target(
+        spec: &adl::ProviderSpec,
+        target: &ProviderInvocationTargetV1,
+    ) -> Result<Self> {
+        if runtime_output_cap(&spec.config)?.is_some() {
+            return Err(unsupported_capability_error(
+                "local_ollama",
+                "the local CLI cannot enforce a Runtime token-output cap",
+            ));
+        }
+        let seconds = match spec.config.get("timeout_secs") {
+            None => 30,
+            Some(value) => value
+                .as_u64()
+                .filter(|seconds| *seconds > 0)
+                .ok_or_else(|| {
+                    invalid_config(
+                        "local_ollama",
+                        "Runtime CLI timeout_secs must be a positive integer",
+                    )
+                })?
+                .min(30),
+        };
+        Ok(Self {
+            model: target.provider_model_id.clone(),
+            deadline: Duration::from_secs(seconds),
+        })
+    }
+
+    fn complete_with_command(
+        &self,
+        mut command: Command,
+        prompt: &str,
+        output_limit: usize,
+    ) -> Result<String> {
+        // A caller cannot make the worker allocate arbitrarily large stdin copies.
+        if prompt.len() > RUNTIME_CLI_MAX_OUTPUT_BYTES {
+            return Err(invalid_config(
+                "local_ollama",
+                "Runtime CLI input exceeds byte limit",
+            ));
+        }
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        command
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null());
+        let runtime = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .map_err(|_| runtime_error("local_ollama", "Runtime CLI supervisor unavailable"))?;
+        runtime.block_on(async {
+            use tokio::io::{AsyncReadExt, AsyncWriteExt};
+            let mut child = tokio::process::Command::from(command)
+                .kill_on_drop(true)
+                .spawn()
+                .map_err(|_| runtime_error("local_ollama", "Runtime CLI process unavailable"))?;
+            // Keep the group identity even if the leader exits before descendants.
+            let process_group = child.id();
+            let mut stdin = child.stdin.take().expect("piped Runtime CLI stdin");
+            let stdout = child.stdout.take().expect("piped Runtime CLI stdout");
+            let input = prompt.as_bytes().to_vec();
+            let mut writer =
+                tokio::spawn(async move {
+                    stdin.write_all(&input).await.map_err(|_| {
+                        runtime_error("local_ollama", "Runtime CLI input write failed")
+                    })?;
+                    stdin.shutdown().await.map_err(|_| {
+                        runtime_error("local_ollama", "Runtime CLI input close failed")
+                    })
+                });
+            let mut reader = tokio::spawn(async move {
+                let mut output = Vec::new();
+                stdout
+                    .take(output_limit as u64 + 1)
+                    .read_to_end(&mut output)
+                    .await
+                    .map_err(|_| runtime_error("local_ollama", "Runtime CLI output read failed"))?;
+                if output.len() > output_limit {
+                    return Err(runtime_error_non_retryable(
+                        "local_ollama",
+                        "Runtime CLI output exceeds byte limit",
+                    ));
+                }
+                Ok(output)
+            });
+            // Both pipes are independently scheduled under the SAME deadline.
+            // A child which never reads stdin cannot block before the timer starts.
+            let result = tokio::time::timeout(self.deadline, async {
+                let output = (&mut reader)
+                    .await
+                    .map_err(|_| runtime_error("local_ollama", "Runtime CLI reader failed"))??;
+                (&mut writer)
+                    .await
+                    .map_err(|_| runtime_error("local_ollama", "Runtime CLI writer failed"))??;
+                let status = child
+                    .wait()
+                    .await
+                    .map_err(|_| runtime_error("local_ollama", "Runtime CLI wait failed"))?;
+                if !status.success() {
+                    return Err(runtime_error_non_retryable(
+                        "local_ollama",
+                        "Runtime CLI exited unsuccessfully; stderr redacted",
+                    ));
+                }
+                String::from_utf8(output).map_err(|_| {
+                    runtime_error_non_retryable("local_ollama", "Runtime CLI output is not UTF-8")
+                })
+            })
+            .await;
+            writer.abort();
+            reader.abort();
+            // Clean up descendants on success too: background children must not
+            // survive a completed Runtime invocation. No unrelated process scans.
+            #[cfg(unix)]
+            if let Some(pid) = process_group {
+                // SAFETY: CommandExt created this invocation's isolated process group.
+                unsafe {
+                    libc::kill(-(pid as i32), libc::SIGKILL);
+                }
+            }
+            let _ = child.kill().await;
+            // Await cancellation of both pipe tasks before releasing the worker.
+            if !writer.is_finished() {
+                let _ = writer.await;
+            }
+            if !reader.is_finished() {
+                let _ = reader.await;
+            }
+            match result {
+                Err(_) => Err(timeout_error(
+                    "local_ollama",
+                    "Runtime CLI deadline exceeded",
+                )),
+                Ok(result) => result,
+            }
+        })
+    }
+}
+impl Provider for RuntimeOllamaProvider {
+    fn complete(&self, prompt: &str) -> Result<String> {
+        let mut command = Command::new(ollama_bin());
+        command.arg("run").arg(&self.model);
+        self.complete_with_command(command, prompt, RUNTIME_CLI_MAX_OUTPUT_BYTES)
+    }
+}
+
 fn emit_valid_utf8_chunks(pending: &mut Vec<u8>, chunk: &[u8], on_chunk: &mut dyn FnMut(&str)) {
     pending.extend_from_slice(chunk);
     loop {
@@ -303,6 +463,144 @@ pub(crate) fn cfg_f32(cfg: &HashMap<String, Value>, key: &str) -> Option<f32> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // PVF: deterministic, release-required local CLI safety proof for #855.
+    // Fake local subprocesses only; no Ollama executable, provider credentials,
+    // network calls or hosted inference. Unix group cleanup is exercised below.
+    #[test]
+    fn runtime_cli_constructor_rejects_token_cap_and_preserves_legacy_literal_api() {
+        let mut spec = adl::ProviderSpec {
+            id: None,
+            profile: None,
+            kind: "local_ollama".into(),
+            base_url: None,
+            default_model: Some("fixture".into()),
+            config: HashMap::new(),
+        };
+        let _legacy = OllamaProvider {
+            model: "fixture".into(),
+            temperature: None,
+        };
+        spec.config.insert("runtime_max_attempts".into(), 1.into());
+        spec.config.insert("timeout_secs".into(), 1.into());
+        let target =
+            provider_substrate::provider_invocation_target_v1("fixture", &spec, None).unwrap();
+        assert_eq!(
+            RuntimeOllamaProvider::from_target(&spec, &target)
+                .unwrap()
+                .deadline,
+            Duration::from_secs(1)
+        );
+        spec.config
+            .insert("runtime_max_output_tokens".into(), 256.into());
+        let error = build_provider_for_id("fixture", &spec, None)
+            .err()
+            .expect("CLI must not claim token enforcement");
+        assert_eq!(failure_category(&error), "unsupported_capability");
+        spec.config.remove("runtime_max_output_tokens");
+        spec.config.insert("timeout_secs".into(), 0.into());
+        assert!(build_provider_for_id("fixture", &spec, None).is_err());
+        spec.config.remove("runtime_max_attempts");
+        assert!(
+            build_provider_for_id("fixture", &spec, None).is_ok(),
+            "legacy constructor behavior remains intact"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn runtime_cli_deadline_covers_stalled_stdin_larger_than_pipe_capacity() {
+        let provider = RuntimeOllamaProvider {
+            model: "fixture".into(),
+            deadline: Duration::from_millis(100),
+        };
+        let mut command = Command::new("/bin/sh");
+        command.args(["-c", "sleep 30"]);
+        let started = Instant::now();
+        let error = provider
+            .complete_with_command(
+                command,
+                &"x".repeat(1_048_576),
+                RUNTIME_CLI_MAX_OUTPUT_BYTES,
+            )
+            .unwrap_err();
+        assert_eq!(failure_category(&error), "timeout");
+        assert!(
+            started.elapsed() < Duration::from_secs(2),
+            "stdin write must be inside the deadline"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn runtime_cli_kills_descendants_after_the_group_leader_exits_and_reaps_leader() {
+        let dir = tempfile::tempdir().unwrap();
+        let escaped = dir.path().join("escaped");
+        let leader_path = dir.path().join("leader-pid");
+        let provider = RuntimeOllamaProvider {
+            model: "fixture".into(),
+            deadline: Duration::from_millis(100),
+        };
+        let mut command = Command::new("/bin/sh");
+        command
+            .args([
+                "-c",
+                "printf '%s' $$ > \"$2\"; (sleep 0.4; printf escaped > \"$1\") & exit 0",
+                "fixture",
+            ])
+            .arg(&escaped)
+            .arg(&leader_path);
+        let error = provider
+            .complete_with_command(command, "", RUNTIME_CLI_MAX_OUTPUT_BYTES)
+            .unwrap_err();
+        assert_eq!(failure_category(&error), "timeout");
+        let leader: i32 = fs::read_to_string(leader_path).unwrap().parse().unwrap();
+        // SAFETY: exact child PID emitted by this test's fixture, no host process scan.
+        assert_eq!(
+            unsafe { libc::waitpid(leader, std::ptr::null_mut(), libc::WNOHANG) },
+            -1,
+            "supervisor must reap its child"
+        );
+        thread::sleep(Duration::from_millis(500));
+        assert!(
+            !escaped.exists(),
+            "a descendant must not execute after the invocation deadline"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn runtime_cli_buffers_success_bounds_output_and_redacts_stderr() {
+        let provider = RuntimeOllamaProvider {
+            model: "fixture".into(),
+            deadline: Duration::from_secs(2),
+        };
+        let prompt = "snow ☃\n".repeat(16_384);
+        assert_eq!(
+            provider
+                .complete_with_command(
+                    Command::new("/bin/cat"),
+                    &prompt,
+                    RUNTIME_CLI_MAX_OUTPUT_BYTES
+                )
+                .unwrap(),
+            prompt
+        );
+        let mut oversized = Command::new("/bin/sh");
+        oversized.args(["-c", "head -c 4194305 /dev/zero"]);
+        let error = provider
+            .complete_with_command(oversized, "", RUNTIME_CLI_MAX_OUTPUT_BYTES)
+            .unwrap_err();
+        assert_eq!(failure_category(&error), "invalid_response");
+        assert!(error.to_string().contains("output exceeds byte limit"));
+        let mut failed = Command::new("/bin/sh");
+        failed.args(["-c", "printf 'SECRET-CLI-STDERR' >&2; exit 9"]);
+        let error = provider
+            .complete_with_command(failed, "", RUNTIME_CLI_MAX_OUTPUT_BYTES)
+            .unwrap_err();
+        assert!(!error.to_string().contains("SECRET-CLI-STDERR"));
+        assert_eq!(failure_category(&error), "invalid_response");
+    }
 
     #[test]
     fn ollama_streaming_buffers_split_multibyte_utf8() {

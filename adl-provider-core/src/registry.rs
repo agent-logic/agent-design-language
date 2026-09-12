@@ -224,6 +224,24 @@ impl ProviderRegistry {
         entries.insert(id.into(), adapter);
         Ok(())
     }
+    /// Report a generated response rejected by the Runtime action protocol.
+    pub fn record_response_failure(&self, provider: &str) {
+        if let Ok(budgets) = self.budgets.lock() {
+            if let Some(budget) = budgets.get(provider) {
+                budget
+                    .failed
+                    .store(true, std::sync::atomic::Ordering::SeqCst);
+            }
+        }
+    }
+
+    pub fn definition_generation(&self) -> u64 {
+        self.definitions
+            .read()
+            .expect("provider snapshot")
+            .generation
+    }
+
     pub fn catalog(&self) -> Vec<serde_json::Value> {
         let snapshot = self.definitions.read().expect("provider snapshot").clone();
         let adapters = self.adapters.read().expect("provider adapters");

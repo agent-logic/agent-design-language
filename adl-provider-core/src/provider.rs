@@ -626,6 +626,12 @@ fn runtime_error_non_retryable(provider: &str, message: impl Into<String>) -> an
     ProviderError::runtime_non_retryable(provider, message).into()
 }
 
+fn unsupported_capability_error(provider: &str, message: impl Into<String>) -> anyhow::Error {
+    let mut error = ProviderError::runtime_non_retryable(provider, message);
+    error.category = "unsupported_capability";
+    error.into()
+}
+
 fn timeout_error(provider: &str, message: impl Into<String>) -> anyhow::Error {
     ProviderError::timeout(provider, message).into()
 }
@@ -748,7 +754,12 @@ pub fn build_provider_for_id(
         | provider_substrate::ProviderTransportV1::InProcess => match target.provider_kind.as_str()
         {
             "ollama" | "local_ollama" => {
-                Box::new(OllamaProvider::from_target(spec, &target)?) as Box<dyn Provider>
+                if runtime_bounded_calls(&spec.config)? {
+                    Box::new(local::RuntimeOllamaProvider::from_target(spec, &target)?)
+                        as Box<dyn Provider>
+                } else {
+                    Box::new(OllamaProvider::from_target(spec, &target)?) as Box<dyn Provider>
+                }
             }
             "mock" => Box::new(MockProvider::from_target(spec, &target)),
             other => return Err(unknown_kind(other)),
