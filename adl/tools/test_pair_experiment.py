@@ -89,6 +89,42 @@ class AccountingTests(unittest.TestCase):
         self.assertTrue(all(row["throughput_ratio"] == 1 for row in summary["comparisons"]))
         self.assertEqual(summary, pair.summarize(plan, packet, provider))
 
+    def test_bounded_batch_runs_concurrently_and_preserves_exact_outputs(self):
+        corpus = [
+            dict(id="alpha", prompt="Return alpha", expected_text="alpha"),
+            dict(id="beta", prompt="Return beta", expected_text="beta"),
+        ]
+        barrier = threading.Barrier(2)
+
+        def collect(_endpoint, _model, prompt, _sampling, _timeout, _residency):
+            barrier.wait(1)
+            output = prompt.removeprefix("Return ")
+            return dict(schema="adl.pair.ollama_observation.v1", elapsed_seconds=0.1,
+                        prompt_sha256=pair.text_digest(prompt), output=output,
+                        output_sha256=pair.text_digest(output), response_sha256="a" * 64,
+                        route_identity="not_verified", serving_node="not_verified")
+
+        with patch.object(pair, "collect_ollama", side_effect=collect):
+            result = pair.collect_ollama_batch(
+                "http://127.0.0.1:1", "fixture", corpus, SAMPLING, 2, 2, 1, 0)
+        self.assertEqual(result["attempts"], 4)
+        self.assertTrue(all(row["correct"] for row in result["records"]))
+        self.assertEqual(result["qualification"], "not_established_by_collection")
+        self.assertEqual(result["route_identity"], "not_verified")
+
+    def test_batch_rejects_unbounded_or_duplicate_work_before_collection(self):
+        corpus = [dict(id="same", prompt="x", expected_text="x")] * 2
+        with patch.object(pair, "collect_ollama") as collect:
+            with self.assertRaisesRegex(pair.InvalidExperiment, "batch_corpus_id"):
+                pair.collect_ollama_batch(
+                    "http://127.0.0.1:1", "fixture", corpus, SAMPLING, 1, 1)
+            collect.assert_not_called()
+        corpus = [dict(id=f"q{i}", prompt="x", expected_text="x") for i in range(1000)]
+        with patch.object(pair, "MAX_MATRIX_RECORDS", 99_999):
+            with self.assertRaisesRegex(pair.InvalidExperiment, "batch_resource_bound"):
+                pair.collect_ollama_batch(
+                    "http://127.0.0.1:1", "fixture", corpus, SAMPLING, 100, 1)
+
     def test_failures_retained_in_denominator(self):
         plan, packet, provider = fixture()
         row = packet["records"][-1]

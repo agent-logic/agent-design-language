@@ -7,6 +7,7 @@ harness gate. Real two-node raw/Runtime execution is a separate required gate.
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import hashlib
 import http.client
 import ipaddress
@@ -297,6 +298,56 @@ def collect_ollama(endpoint, model, prompt, sampling, timeout_seconds=30, keep_a
             response.close()
         if connection is not None:
             connection.close()
+
+
+def collect_ollama_batch(endpoint, model, corpus, sampling, repetitions, concurrency,
+                         timeout_seconds=30, keep_alive_seconds=0):
+    """Collect a bounded same-corpus batch; route/node claims remain unverified.
+
+    The caller selects an already verified baseline or PAIR loopback endpoint.
+    Output text is retained so private evidence can prove exact correctness;
+    publish only a redacted projection with content hashes.
+    """
+    require(isinstance(corpus, list) and 1 <= len(corpus) <= 1000, "batch_corpus")
+    require(type(repetitions) is int and 1 <= repetitions <= 100, "batch_repetitions")
+    require(type(concurrency) is int and 1 <= concurrency <= 64
+            and concurrency <= len(corpus), "batch_concurrency")
+    require(len(corpus) * repetitions <= MAX_MATRIX_RECORDS, "batch_resource_bound")
+    seen = set()
+    for row in corpus:
+        exact_fields(row, "id prompt expected_text", "batch_corpus_fields")
+        require(isinstance(row["id"], str) and ID.fullmatch(row["id"])
+                and row["id"] not in seen, "batch_corpus_id")
+        seen.add(row["id"])
+        for key in ("prompt", "expected_text"):
+            require(isinstance(row[key], str) and 0 < len(row[key]) <= 65536,
+                    f"batch_{key}")
+    records = []
+    batches = []
+    for repetition in range(repetitions):
+        batch_started = time.monotonic()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as executor:
+            futures = [
+                (row, executor.submit(collect_ollama, endpoint, model, row["prompt"], sampling,
+                                      timeout_seconds, keep_alive_seconds))
+                for row in corpus
+            ]
+            for row, future in futures:
+                observation = future.result()
+                records.append(dict(
+                    repetition=repetition,
+                    request_id=row["id"],
+                    correct=observation["output"].strip() == row["expected_text"],
+                    **observation,
+                ))
+        batches.append(dict(repetition=repetition,
+                            elapsed_seconds=time.monotonic() - batch_started))
+    return dict(schema="adl.pair.ollama_batch.v1", model=model,
+                corpus_sha256=digest(corpus), sampling=sampling,
+                repetitions=repetitions, concurrency=concurrency,
+                attempts=len(records), records=records, batches=batches,
+                route_identity="not_verified", serving_nodes="not_verified",
+                qualification="not_established_by_collection")
 
 
 def main(argv=None):
