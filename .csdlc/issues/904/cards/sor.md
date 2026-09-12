@@ -75,13 +75,13 @@ PAIR and the canonical Runtime route work on the approved local Apple M4 Pro nod
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/904/cards/sor.md`
-- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md; .csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node.json`
-- Additional proof artifacts: `.csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node.json`
+- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md; .csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json`
+- Additional proof artifacts: `.csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json`
 
 ## Actions taken
 - `Verified native bound context, current issue and accepted #876; created child #904 implementation goal under #932.`
 - `Verified NVIDIA-signed PAIR v0.1.1, ran all workers, pinned Ollama 0.32.14 and llama3.2:3b, and completed same-corpus direct/raw PAIR measurements.`
-- `Added and executed a create-only content-redacted Runtime live probe through canonical provider definitions; second-node pairing, node loss, resource proof and final decision remain pending.`
+- `Added and executed create-only content-redacted repeated Runtime live probes through canonical provider definitions at concurrency one and two; second-node pairing, node loss, resource proof and final decision remain pending.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
@@ -110,7 +110,7 @@ Rules:
   - `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_actual_runtime_workflow -- --ignored --exact --nocapture with pinned ADL_PAIR inputs; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
     `Partial accounting and loopback transport correctness established; no actual PAIR/Runtime/hardware qualification.`
 - Results:
-  - `Sixteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 2 of 2 concurrent exact-output requests at source 8d1609c68c7ecec4aee5a5ba146cd6d38d5f13b1. Strict Clippy and diff checks passed. After equal explicit prewarming, the raw local preflight passed 24 of 24 requests and measured PAIR/baseline throughput ratios of 0.9763 at concurrency one and 0.7682 at concurrency two. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved.`
+  - `Sixteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 12 of 12 exact-output requests across three batches each at concurrency one and two at source 29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48. Strict Clippy and diff checks passed. After equal explicit prewarming, the raw local preflight passed 24 of 24 requests and measured PAIR/baseline throughput ratios of 0.9763 at concurrency one and 0.7682 at concurrency two. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -145,7 +145,7 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `14 tests including20receipt mutation subcases, matrix allocation bound, two-node/concurrency/context drift, raw loopback HTTP, deadline/body cap, explicit sampling/residency and redacted CLI failures.`
-- Fixtures or scripts used: `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider; operator-attended verified NVIDIA PAIR v0.1.1 service; exact two-request local corpus`
+- Fixtures or scripts used: `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider; operator-attended verified NVIDIA PAIR v0.1.1 service; exact two-request local corpus; three Runtime repetitions at concurrency one and two`
 - Replay verification (same inputs -> same artifacts/order): `Local fixture only; no actual Runtime replay`
 - Ordering guarantees (sorting / tie-break rules used): `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
 - Artifact stability notes: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
