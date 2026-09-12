@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 879,
+  "issue_padded": "0879",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/879",
+  "title": "[v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet",
+  "branch": "codex/879-github-ingestion",
+  "version": "v0.92.2",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-879-github-ingestion",
+  "version_inline": "v0.92.2",
+  "execution_summary": "Implemented pinned GitHub commit/PR acquisition, unchanged packet parity, separate fork/PR provenance, bounded transport and credential-safe errors.8 GitHub tests,10 inherited tests and8 installed candidate tests pass; focused clippy/fmt pass. Independent review, publication and required CI pending.",
+  "execution_summary_inline": "Implementation and focused local/installed proof passed; independent review/publication/CI pending.",
+  "validation": "See .csdlc/evidence/879/PROOF.json. macOS candidate and installed HTTP/CLI proof passed; no live GitHub/provider execution. Full integration andLinux proof deferred to required CI.",
+  "artifacts": "adl/src/codefriend/ingestion/github.rs; adl/src/cli/codefriend_github_cmd.rs; adl/tests/codefriend_github_ingestion.rs; docs/codefriend/GITHUB_INGESTION.md; .csdlc/evidence/879/PROOF.json; .csdlc/evidence/879/REVIEW.md",
+  "status": "implemented; independent review pending"
+}

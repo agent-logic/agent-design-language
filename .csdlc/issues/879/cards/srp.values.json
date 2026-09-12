@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 879,
+  "issue_padded": "0879",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/879",
+  "title": "[v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet",
+  "branch": "codex/879-github-ingestion",
+  "version": "v0.92.2",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-879-github-ingestion",
+  "version_inline": "v0.92.2",
+  "review_summary": "Independent review pending at source b91ace4be5c67e00455df62dd6ea4f3b5afb5787. Early root R1 cumulative metadata bound fixed and preserved in .csdlc/evidence/879/REVIEW.md; local proof passes.",
+  "review_summary_inline": "Independent review pending; early root R1 fixed and preserved. Local proof passes.",
+  "review_findings": "R1: cumulative tree metadata could exceed practical bounds. Fixed with8MiB aggregate response cap and actual HTTP regression; independent disposition pending. See .csdlc/evidence/879/REVIEW.md."
+}
