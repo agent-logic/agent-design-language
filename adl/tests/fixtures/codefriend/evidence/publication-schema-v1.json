@@ -1,0 +1,107 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "run_digest",
+    "finding_set_digest",
+    "artifact_manifest",
+    "manifest_digest",
+    "renderer_versions",
+    "scope_digest",
+    "target",
+    "claims",
+    "nonclaims",
+    "state",
+    "approval"
+  ],
+  "properties": {
+    "schema": {
+      "const": "codefriend.contracts.v1"
+    },
+    "run_digest": {
+      "type": "string"
+    },
+    "finding_set_digest": {
+      "type": "string"
+    },
+    "artifact_manifest": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "digest"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "manifest_digest": {
+      "type": "string"
+    },
+    "renderer_versions": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "scope_digest": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "nonclaims": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "state": {
+      "enum": [
+        "withheld",
+        "approved",
+        "invalidated"
+      ]
+    },
+    "approval": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "binding_digest",
+            "actor"
+          ],
+          "properties": {
+            "binding_digest": {
+              "type": "string"
+            },
+            "actor": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

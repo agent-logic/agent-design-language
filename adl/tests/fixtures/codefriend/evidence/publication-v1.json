@@ -1,0 +1,25 @@
+{
+  "schema": "codefriend.contracts.v1",
+  "run_digest": "60c6d5f3a378f5d55941cf8eba192e55d33b23d1518a37f28c8c8f85e68420a0",
+  "finding_set_digest": "d6d4d1ea51beb0a566ad6a77ec10a861a7fca21d4e64e25c02cca4bd5d4be78c",
+  "artifact_manifest": [
+    {
+      "path": "report.md",
+      "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "manifest_digest": "e66b541740f0d8aa56c6e543127e894940c01f05c93e535e200ffa172a94510a",
+  "renderer_versions": {
+    "markdown": "v1"
+  },
+  "scope_digest": "7dd3791df6fd1ddcebab125e7770972aa4d58b72f2ed08a214841e19ffa2dc1d",
+  "target": "local-report",
+  "claims": [
+    "bounded fixture"
+  ],
+  "nonclaims": [
+    "No publication performed"
+  ],
+  "state": "withheld",
+  "approval": null
+}
