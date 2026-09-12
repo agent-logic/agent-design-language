@@ -1,4 +1,5 @@
 //! ADL compatibility facade for the shared provider adapter owner.
+pub use adl_provider_core::profiles::provider_profile_names;
 pub(crate) use adl_provider_core::profiles::{
     is_allowed_ollama_endpoint, is_allowed_remote_endpoint,
 };

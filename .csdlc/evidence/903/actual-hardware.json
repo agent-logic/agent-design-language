@@ -1,0 +1,21 @@
+{
+  "schema": "adl.mlx.production-smoke.v1",
+  "result": "pass",
+  "dispatch": "execute_sequential_with_provider_reload_handle",
+  "model": "mlx-community/Llama-3.2-3B-Instruct-4bit@7f0dc925e0d0afb0322d96f9255cfddf2ba5636e",
+  "sidecar_sha256": "55c1bd89f59a2f086bc7469b19e6b05dc5f6e34c061d90cbc14a47a74f986159",
+  "elapsed_ms": 1242,
+  "output_bytes": 6,
+  "output_sha256": "334d016f755cd6dc58c53a86e183882f8ec14f52fb05345887c8a5edd42c87b7",
+  "snapshot_digest": "710bcf9b36966f13cf1ff9adac00f97f2a8606c853bcc68d33133b4382f057d3",
+  "server_cancellation_proven": false,
+  "private_receipt_sha256": "8bcf6007724dd8f7a5591bebc66fbb2feb5e709b91d0cc6f37041ffcc17f86ac",
+  "source_candidate": "3374315d3",
+  "tests": {
+    "passed": 1,
+    "failed": 0,
+    "filtered_out": 2
+  },
+  "owned_server_termination": "180-second supervisor alarm; observed exit 142",
+  "scope": "real canonical reload through production workflow Runtime; not resident kernel"
+}

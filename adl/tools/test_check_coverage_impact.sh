@@ -73,6 +73,11 @@ provider_http_family_filters="$TMP/provider-http-family-filters.txt"
 bash "$SCRIPT" --changed-files "$provider_http_family_changed" --print-risk-filters >"$provider_http_family_filters"
 grep -Fx "provider_hardening" "$provider_http_family_filters" >/dev/null
 
+provider_validation_changed="$TMP/provider-validation-changed.txt"
+printf 'M\tadl/src/adl/validation.rs\n' >"$provider_validation_changed"
+provider_validation_expression="$(bash "$SCRIPT" --changed-files "$provider_validation_changed" --print-risk-nextest-expression)"
+grep -F "test(/^adl::tests::validate_provider/)" <<<"$provider_validation_expression" >/dev/null
+
 provider_setup_and_local_changed="$TMP/provider-setup-and-local-changed.txt"
 cat >"$provider_setup_and_local_changed" <<'EOF'
 M	adl/src/cli/provider_cmd.rs

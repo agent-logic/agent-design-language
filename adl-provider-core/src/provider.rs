@@ -29,6 +29,8 @@ mod deepgram;
 mod http_family;
 #[path = "local.rs"]
 mod local;
+#[path = "provider/mlx.rs"]
+mod mlx;
 use crate::profiles;
 #[path = "runtime_limits.rs"]
 pub(crate) mod runtime_limits;
@@ -47,6 +49,7 @@ pub use http_family::{
 };
 pub use http_family::{DeepSeekProvider, KimiProvider, OpenRouterProvider};
 pub use local::{MockProvider, OllamaProvider};
+pub use mlx::MlxProvider;
 pub use profiles::{
     activate_provider_profile_candidate, expand_provider_profiles,
     provider_profile_materialization_projection, provider_profile_names,
@@ -723,9 +726,10 @@ pub fn build_provider_for_id(
     model_override: Option<&str>,
 ) -> Result<Box<dyn Provider>> {
     match spec.kind.trim() {
-        "http" | "http_remote" | "ollama" | "local_ollama" | "mock" | "openai" | "anthropic"
-        | "deepseek" | "kimi" | "moonshot" | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai"
-        | "zai" | "zhipu" | "vertex_ai_gemini" | "vertex_ai" | "vertex" => {}
+        "mlx" | "http" | "http_remote" | "ollama" | "local_ollama" | "mock" | "openai"
+        | "anthropic" | "deepseek" | "kimi" | "moonshot" | "openrouter" | "bedrock"
+        | "aws_bedrock" | "z_ai" | "zai" | "zhipu" | "vertex_ai_gemini" | "vertex_ai"
+        | "vertex" => {}
         other => return Err(unknown_kind(other)),
     }
 
@@ -738,6 +742,7 @@ pub fn build_provider_for_id(
                 Box::new(HttpProvider::from_target(spec, &target)?) as Box<dyn Provider>
             }
             "ollama" => Box::new(OllamaHttpProvider::from_target(spec, &target)?),
+            "mlx" => Box::new(MlxProvider::from_target(spec, &target)?),
             "openai" => Box::new(OpenAiProvider::from_target(spec, &target)?),
             "anthropic" => Box::new(AnthropicProvider::from_target(spec, &target)?),
             "deepseek" => Box::new(DeepSeekProvider::from_target(spec, &target)?),

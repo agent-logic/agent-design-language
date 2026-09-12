@@ -1,0 +1,41 @@
+{
+  "schema": "adl.mlx.local-validation.v1",
+  "issue": 903,
+  "commands": [
+    {
+      "command": "cargo test --locked --manifest-path adl-provider-core/Cargo.toml provider::mlx::tests",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "command": "cargo test --locked --manifest-path adl/Cargo.toml --test mlx_provider",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 1,
+      "ignored_reason": "actual hardware requires explicit bounded-run approval; not proving"
+    },
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml --lib editable_provider_definitions_drive_real_dispatch_and_atomic_reload",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "command": "cargo clippy --locked --manifest-path adl-provider-core/Cargo.toml --lib -- -D warnings; cargo clippy --locked --manifest-path adl/Cargo.toml --lib --test mlx_provider -- -D warnings",
+      "result": "pass"
+    },
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml --test mlx_provider mlx_actual_hardware_production_workflow -- --ignored --exact --nocapture (explicit ADL_MLX_* inputs)",
+      "passed": 1,
+      "failed": 0,
+      "proof": "actual-hardware.json"
+    }
+  ],
+  "actual_hardware": "pass: actual-hardware.json",
+  "ci": "not_run",
+  "review": "bounded corrected source pass; provider-core integration review pending exact merge head",
+  "remaining": [
+    "matched review comparison completed non-proving because both engines failed quality gate",
+    "required CI",
+    "native PR and operator merge"
+  ]
+}
