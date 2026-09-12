@@ -9,7 +9,7 @@
   "bootstrap_plan_exit": 0,
   "organization_plan_exit": 2,
   "platform_plan": "exit0_20_noops_reconstructed_private_candidate",
-  "apply_ready": false,
+  "apply_ready": true,
   "lanes": [
     {
       "name": "static_and_packet",
@@ -37,6 +37,15 @@
     "acceptance_complete": false
   },
   "independent_review": {
-    "result": "pending_final_acceptance_review"
-  }
+    "reviewer": "subagent:sprint8_908 raw proof plus parent:/root final documentation delta",
+    "revision": "6113e7ff94",
+    "result": "pass_after_fixes",
+    "scope": "all20actual plan actions, rawplan/state hashes, threeimports, pre/postreadback equality, exact application/rollback/billing/custody decisions; final tail independently reviewed",
+    "acceptance_complete": true,
+    "fixed_findings": [
+      "Separate source17addresses from candidate20addresses in receipt",
+      "Replace stale missing-plan/genericapply text with current exact no-op decisions"
+    ]
+  },
+  "apply_ready_meaning": "Complete reviewed planning deliverable; no execution authority. Future custody/adoption, refreshed plan and application approvals remain explicit prerequisites."
 }

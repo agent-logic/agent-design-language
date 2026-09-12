@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress"
+    status: "completed"
 affected_areas:
   - "909-gcp-move-in"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Approved exact3localimports succeeded; reconstructed private serial36 yields20noops. Original authoritative state unavailable; future adoption/custody/application requires separate approval. Operator confirmed corporate group. Final independent acceptance review pending."
+notes: "All local implementation/proof and independent acceptance review passed. Future custody/adoption/application remain separately approved prerequisites. Publication/CI/merge not complete."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Approved exact3localimports succeeded; reconstructed private serial36 yields20noops. Original authoritative state unavailable; future adoption/custody/application requires separate approval. Operator confirmed corporate group. Final independent acceptance review pending.
+All local implementation/proof and independent acceptance review passed. Future custody/adoption/application remain separately approved prerequisites. Publication/CI/merge not complete.

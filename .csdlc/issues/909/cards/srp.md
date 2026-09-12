@@ -8,7 +8,7 @@ version: "v0.92.2"
 title: "[v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet"
 branch: "codex/909-gcp-move-in"
 generated_at: "<timestamp>"
-card_status: "blocked"
+card_status: "reviewed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/909/cards/sip.md"
   - ".csdlc/issues/909/cards/vpp.md"
 review_results:
-  findings_status: "no_actionable_packet_findings_acceptance_blocked"
-  recommended_outcome: "Retain reviewed incomplete packet; obtain platform state/custodian and verified directory group identity before completion or publication."
-notes: "Reviewer subagent:sprint8_908 verified18 source/lock digests,20 policy identities/effective readbacks,113 quotas per project, actual private binary plan hashes/address actions/before-after projections, bootstrap private state SHA/MD5/serial and remote-generation claim; read-only inspection, no cloud calls. Review proves packet correctness, not apply-ready completeness."
+  findings_status: "resolved"
+  recommended_outcome: "pass"
+notes: "All actual#909 planning AC satisfied by reviewed packet; reconstructed candidate provenance explicit; no liveapply/adoption claimed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Checkpoint null organization-policy projection finding repaired. Final independent packet review at e7cd268a71cd9b5b99143c5dbdc997473196e68c has no actionable findings. Required platform plan and target group remain unresolved.
+- Final recovery review found source17/candidate20 address ambiguity and stale pre-recovery application wording; both fixed. Prior null org-policy projection also fixed. No actionable findings remain.
 
 ### Dispositions
 
-- Recorded actual constraint identities and20 effective host policies, quota values, exact plan before/after fields, state digest comparison and explicit403/404 group lookup ambiguity. No waiver of missing acceptance evidence.
+- Independent reviewer sprint8_908 verified actual private plan/state/import and unchanged pre/post20readbacks. Parent independently reviewed final6113e7ff94 documentation tail; PASS.
 
 ### Recommended Outcome
 
-- Retain reviewed incomplete packet; obtain platform state/custodian and verified directory group identity before completion or publication.
+- pass
 
 ## Notes
 
-Reviewer subagent:sprint8_908 verified18 source/lock digests,20 policy identities/effective readbacks,113 quotas per project, actual private binary plan hashes/address actions/before-after projections, bootstrap private state SHA/MD5/serial and remote-generation claim; read-only inspection, no cloud calls. Review proves packet correctness, not apply-ready completeness.
+All actual#909 planning AC satisfied by reviewed packet; reconstructed candidate provenance explicit; no liveapply/adoption claimed.

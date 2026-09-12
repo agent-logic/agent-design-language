@@ -1,6 +1,6 @@
 # Company GCP move-in packet — #909 / Sprint 8 #934
 
-Status: **complete planning candidate, pending final independent review**.
+Status: **complete independently reviewed planning deliverable**.
 Actual plans cover all three selected packages: bootstrap two no-ops, platform
 20 no-ops, organization five creates. The platform plan uses an explicitly
 approved reconstructed private candidate; custody/adoption remains a separately
@@ -158,7 +158,7 @@ non-selected workloads are outside cleanup scope. Do not invoke the historical
 | Terraform fmt/validate | `static-checks.json` | All nine commands passed |
 | Real plan and exact application/rollback consistency | Three package plan summaries and `APPLICATION_CHECKLIST.md` | Bootstrap2noops, platform20noops, organization5creates; exact rollback and custody prerequisite explicit |
 | Billing and cleanup controls | Source gaps recorded above | Daniel owns approval/cleanup; exact filter limitations, no-launch limits and future charge/readback gates explicit |
-| Independent review and source/link/redaction checks | Local checks pass; first review found null policy projection | Repaired with constraint identities and20 effective readbacks; final delta review pending |
+| Independent review and source/link/redaction checks | Local checks pass; first review found null policy projection | Repaired with constraint identities and20effective readbacks; final recovery/packet review passed after two precision fixes |
 
 Umbrella #934 owns sprint routing; #864 remains the accepted planning dependency.
 Preserve all seven milestone planning tasks. This gap report does not defer or

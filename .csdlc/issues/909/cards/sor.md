@@ -20,7 +20,7 @@ Run ID: issue-0909
 Version: v0.92.2
 Title: [v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet
 Branch: codex/909-gcp-move-in
-Card Status: in_progress
+Card Status: completed
 Status: IN_PROGRESS
 Generated: <timestamp>
 
@@ -57,7 +57,7 @@ Company identity/inventory captured; bootstrap no-op and organization five-creat
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `implementation_complete_review_pending`
+- Completion state: `implementation_complete`
 - Issue goal ref: `Issue #909 active session goal created before implementation`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -81,18 +81,18 @@ Company identity/inventory captured; bootstrap no-op and organization five-creat
 ## Actions taken
 - `Reused unchanged source/locks; verified company organization/project/billing plus32census/20effectivepolicy observations and113quotas per project.`
 - `Produced2bootstrapnoops and5organizationcreates; approved isolated recovery serial33→36 produced20platformnoops; no cloud or remote state changes.`
-- `Completed exact future apply/rollback/cost/cleanup/custody controls; final independent review pending; no PR/apply/merge yet.`
+- `Complete reviewed packet includes exact application/rollback/cost/cleanup and futurecustody prerequisites. No cloud changes/remote state writes/apply/merge.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `.csdlc/evidence/909; .csdlc/issues/909; .csdlc/transactions/completed/909`
-- Integration state: `not_published`
+- Integration state: `ready_for_publication`
 - Verification scope: `bound issue worktree and approved company identity readback attempt`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `No PR or merge; not complete`
+- Result: `Not published yet; native closingPR publication and liveCI pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `Terraform fmt/init-backend-false/validate for three packages; read-only gcloud company census; isolated bootstrap and organization plans; focused source/hash/link/redaction checks`
     `Proves actual company inventory and all3package plans:2bootstrapnoops,20platformnoops,5organizationcreates. Platform candidate reconstructed under explicit approval; future adoption/application separate.`
 - Results:
-  - `All focused local checks PASS; exactly3localimports exit0, platform plan exit0 with20noops, pre/post20identity values unchanged. Historical state refresh8entries documented. Independent final review pending.`
+  - `Nine static checks and all company readbacks passed. Bootstrap2noops, platform20noops, organization5creates. Exactly3approvedlocalimports; pre/postvaluesunchanged. Independent final acceptance review PASS after precisionfixes.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_pass_review_pending
+    status: passed_local_and_independent_review
     checks_run:
       - "<verification_check_1>"
   determinism:
