@@ -7,3 +7,6 @@ pub mod release;
 pub mod remote;
 pub mod sprint;
 pub mod terminal;
+
+pub mod contract;
+pub mod result;

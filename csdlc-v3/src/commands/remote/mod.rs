@@ -360,6 +360,9 @@ pub struct GithubMutationReceipt {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GithubMutationResult {
+    /// Per-invocation effects, not whether a historical receipt exists.
+    /// None preserves uncertainty for owners without effect instrumentation.
+    pub performed_mutation: Option<bool>,
     pub receipt: GithubMutationReceipt,
     pub reconciliation: GithubMutationReconciliationReceipt,
     pub invocation: CommandInvocation,
@@ -393,6 +396,7 @@ pub struct CanonicalV3AuthorityEvidence {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct OperationalGithubMutationResult {
+    pub performed_mutation: Option<bool>,
     pub receipt: GithubMutationReceipt,
     pub reconciliation: GithubMutationReconciliationReceipt,
 }
@@ -1199,6 +1203,7 @@ pub fn dispatch_operational_remote(
             }
             let result = execute_github_mutation(repo_root, request, process)?;
             OperationalRemoteOutcome::GithubMutation(Box::new(OperationalGithubMutationResult {
+                performed_mutation: result.performed_mutation,
                 receipt: result.receipt,
                 reconciliation: result.reconciliation,
             }))
@@ -1311,6 +1316,7 @@ pub fn execute_github_mutation(
         }
         receipt.idempotent_replay = true;
         return Ok(GithubMutationResult {
+            performed_mutation: Some(false),
             receipt,
             reconciliation,
             invocation,
@@ -1391,6 +1397,7 @@ pub fn execute_github_mutation(
         );
         persist_json_create_new(&receipt_path, &receipt)?;
         return Ok(GithubMutationResult {
+            performed_mutation: Some(true),
             receipt,
             reconciliation,
             invocation,
@@ -1416,6 +1423,7 @@ pub fn execute_github_mutation(
         );
         persist_json_create_new(&receipt_path, &receipt)?;
         return Ok(GithubMutationResult {
+            performed_mutation: Some(true),
             receipt,
             reconciliation,
             invocation,
@@ -1458,6 +1466,7 @@ pub fn execute_github_mutation(
     );
     persist_json_create_new(&receipt_path, &receipt)?;
     Ok(GithubMutationResult {
+        performed_mutation: Some(true),
         receipt,
         reconciliation,
         invocation,

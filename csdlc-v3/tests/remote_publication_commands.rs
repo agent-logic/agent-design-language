@@ -380,7 +380,9 @@ fn cli_observe_github_fails_before_network_without_an_explicit_credential_name()
         serde_json::from_slice(&output.stdout).expect("structured observation failure on stdout");
     assert_eq!(report["findings"][0]["code"], "github_credential_missing");
     assert_eq!(report["writes_v3_state"], false);
-    assert!(!stderr.contains("github_credential_missing"));
+    assert!(stderr.contains("github_credential_missing"));
+    assert!(!stderr.contains("\"findings\""));
+    assert_eq!(report["envelope"]["effects"]["outcome"], "none");
     assert!(stderr.contains("see structured stdout findings"));
 }
 

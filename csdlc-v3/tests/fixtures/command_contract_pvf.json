@@ -1,0 +1,31 @@
+{
+  "issue": 868,
+  "lane": "tooling",
+  "proof_role": "descriptor and installed entrypoint/result conformance; negative admission and outcome truth",
+  "determinism": "isolated Git repositories, synthetic transport; real elapsed durations recorded but no thresholds",
+  "resources": "local CPU/Rust/Git/disk only; isolated copied build executable; no network in fixture routes",
+  "release_gate": "required issue #868 and SIM-07 qualification input",
+  "required_targets": [
+    "command_manifest",
+    "installed_command_contract",
+    "result_envelope",
+    "operational_cli_commands",
+    "proof_parity_install_commands",
+    "proof_worktree_binding",
+    "terminal_cleanup_cutover_commands",
+    "remote_publication_commands",
+    "operator_man_pages"
+  ],
+  "denominators": {
+    "command_dispositions": "26 current commands plus typed rollback alias; historical full-replacement denominator unchanged",
+    "installed_journey": "25 attempts: 21 completed, 3 blocked, 1 intentional process interruption; 21 common machine envelopes, 3 explicit discovery outputs, 1 crash without result. Includes existing-receipt no-op and retained-intent new receipt write despite both historical replay flags.",
+    "shepherd_states": "5 installed owner states mapped into versioned status with unchanged owner payload and byte inventory",
+    "schema_validation": "full Draft2020-12 validation of actual installed envelopes plus required-field and discriminated identity/effect/status/timing negatives",
+    "helper_results": "release string findings plus sprint empty-list completion mapping and invalid readback findings; helper output classification only, not completed sprint delivery"
+  },
+  "non_claims": [
+    "No active binary replacement, live GitHub effects, real pilot or release approval.",
+    "Copied fixture installation must bind exact source and independently expected build digest; metadata by itself does not prove source.",
+    "Retained 867 baseline proofs remain historical; new corpus extends rather than rewrites their evidence."
+  ]
+}
