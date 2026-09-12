@@ -22,7 +22,7 @@
   "tracked_implementation_artifacts": ".csdlc/evidence/909/MOVE_IN_PACKET.md; PLATFORM_STATE_GAP.md; source-inventory.json; live-inventory.json; foundation-controls.json; static-checks.json; bootstrap-plan-summary.json; organization-plan-summary.json",
   "validation_command": "Terraform fmt/init-backend-false/validate for three packages; read-only gcloud company census; isolated bootstrap and organization plans; focused source/hash/link/redaction checks",
   "validation_effect": "Proves static consistency, company identity/current metadata and two exact plan action sets; does not prove platform plan or apply-ready completeness.",
-  "validation_result": "Nine static checks,32 census reads,20 effective-policy reads and local source/redaction checks pass; bootstrap plan exit0, organization plan exit2. Platform plan missing; directory-group lookup ambiguous403/404. Independent checkpoint finding repaired; final review pending.",
+  "validation_result": "Nine static checks,32 first-census reads and20effective policy reads pass. Bootstrap plan exit0; organization plan exit2; source/redaction checks and independent incomplete-packet review pass. Platform state/plan and directory group identity remain missing; no PR or apply-ready claim.",
   "verification_validation_status": "partial",
   "verification_scope": "bound issue worktree and approved company identity readback attempt",
   "integration_result": "No PR or merge; not complete",

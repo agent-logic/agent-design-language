@@ -5,9 +5,20 @@
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/909",
   "title": "[v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet",
   "branch": "codex/909-gcp-move-in",
-  "version": "1.0.5",
+  "version": "v0.92.2",
   "card": "srp",
-  "card_status": "ready",
+  "card_status": "blocked",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-909-gcp-move-in"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-909-gcp-move-in",
+  "slug": "909-gcp-move-in",
+  "findings_status": "no_actionable_packet_findings_acceptance_blocked",
+  "recommended_outcome": "Retain reviewed incomplete packet; obtain platform state/custodian and verified directory group identity before completion or publication.",
+  "review_findings": "Checkpoint null organization-policy projection finding repaired. Final independent packet review at e7cd268a71cd9b5b99143c5dbdc997473196e68c has no actionable findings. Required platform plan and target group remain unresolved.",
+  "review_dispositions": "Recorded actual constraint identities and20 effective host policies, quota values, exact plan before/after fields, state digest comparison and explicit403/404 group lookup ambiguity. No waiver of missing acceptance evidence.",
+  "review_notes": "Reviewer subagent:sprint8_908 verified18 source/lock digests,20 policy identities/effective readbacks,113 quotas per project, actual private binary plan hashes/address actions/before-after projections, bootstrap private state SHA/MD5/serial and remote-generation claim; read-only inspection, no cloud calls. Review proves packet correctness, not apply-ready completeness.",
+  "sip_card": ".csdlc/issues/909/cards/sip.md",
+  "stp_card": ".csdlc/issues/909/cards/stp.md",
+  "spp_card": ".csdlc/issues/909/cards/spp.md",
+  "vpp_card": ".csdlc/issues/909/cards/vpp.md",
+  "sor_card": ".csdlc/issues/909/cards/sor.md"
 }

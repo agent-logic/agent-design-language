@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "909-gcp-move-in-review-prompt"
 issue: 909
 task_id: "issue-0909"
-version: "1.0.5"
+version: "v0.92.2"
 title: "[v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet"
 branch: "codex/909-gcp-move-in"
 generated_at: "<timestamp>"
-card_status: "ready"
+card_status: "blocked"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/909"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/909/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/909/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/909/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/909/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/909/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/909/cards/stp.md"
+  - ".csdlc/issues/909/cards/sip.md"
+  - ".csdlc/issues/909/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/909/cards/stp.md"
+  - ".csdlc/issues/909/cards/sip.md"
+  - ".csdlc/issues/909/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "no_actionable_packet_findings_acceptance_blocked"
+  recommended_outcome: "Retain reviewed incomplete packet; obtain platform state/custodian and verified directory group identity before completion or publication."
+notes: "Reviewer subagent:sprint8_908 verified18 source/lock digests,20 policy identities/effective readbacks,113 quotas per project, actual private binary plan hashes/address actions/before-after projections, bootstrap private state SHA/MD5/serial and remote-generation claim; read-only inspection, no cloud calls. Review proves packet correctness, not apply-ready completeness."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/909/cards/stp.md
+- .csdlc/issues/909/cards/sip.md
+- .csdlc/issues/909/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Checkpoint null organization-policy projection finding repaired. Final independent packet review at e7cd268a71cd9b5b99143c5dbdc997473196e68c has no actionable findings. Required platform plan and target group remain unresolved.
 
 ### Dispositions
 
-- <review_dispositions>
+- Recorded actual constraint identities and20 effective host policies, quota values, exact plan before/after fields, state digest comparison and explicit403/404 group lookup ambiguity. No waiver of missing acceptance evidence.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- Retain reviewed incomplete packet; obtain platform state/custodian and verified directory group identity before completion or publication.
 
 ## Notes
 
-<review_notes>
+Reviewer subagent:sprint8_908 verified18 source/lock digests,20 policy identities/effective readbacks,113 quotas per project, actual private binary plan hashes/address actions/before-after projections, bootstrap private state SHA/MD5/serial and remote-generation claim; read-only inspection, no cloud calls. Review proves packet correctness, not apply-ready completeness.
