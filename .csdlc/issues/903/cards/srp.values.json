@@ -13,13 +13,13 @@
   "slug": "v0922-mlx-metal-provider",
   "timestamp": "2026-09-12T00:18:14.454312+00:00",
   "spp_card": ".csdlc/issues/903/cards/spp.md",
-  "review_dispositions": "No implementation findings have been accepted or waived.",
-  "review_findings": "Implementation review has not run; no implementation exists from this preparation.",
+  "review_dispositions": "Prior explicit-model, capability and seed defects were repaired before3374315d3. Root separately reviewed and executed reviewer-authored integration fixture. SOR stale placeholders corrected and independently rechecked. SRP stale preparation claims corrected by this native edit; updated metadata needs final rereview.",
+  "review_findings": "Independent exact-head review at838f06669a7bf6a23d47256db2128a6818f410f4 found no new source defects. Seven source hashes match the earlier corrected implementation review. Hardware public/private measurement hashes match. P2: stale SRP preparation-only claims require correction in this update.",
   "vpp_card": ".csdlc/issues/903/cards/vpp.md",
-  "findings_status": "review_unavailable",
+  "findings_status": "changes_requested",
   "stp_card": ".csdlc/issues/903/cards/stp.md",
   "sor_card": ".csdlc/issues/903/cards/sor.md",
   "recommended_outcome": "block",
-  "review_notes": "Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication.",
+  "review_notes": "Reviewer sprint8_908 bounded implementation/evidence review; source unchanged since prior accepted corrected source. Full issue acceptance is not established: required CI and successful matched real-review comparison remain incomplete. Do not treat failed model reviews or direct endpoint timing as production-workflow proof.",
   "sip_card": ".csdlc/issues/903/cards/sip.md"
 }

@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/903/cards/sip.md"
   - ".csdlc/issues/903/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
+  findings_status: "changes_requested"
   recommended_outcome: "block"
-notes: "Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication."
+notes: "Reviewer sprint8_908 bounded implementation/evidence review; source unchanged since prior accepted corrected source. Full issue acceptance is not established: required CI and successful matched real-review comparison remain incomplete. Do not treat failed model reviews or direct endpoint timing as production-workflow proof."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Implementation review has not run; no implementation exists from this preparation.
+- Independent exact-head review at838f06669a7bf6a23d47256db2128a6818f410f4 found no new source defects. Seven source hashes match the earlier corrected implementation review. Hardware public/private measurement hashes match. P2: stale SRP preparation-only claims require correction in this update.
 
 ### Dispositions
 
-- No implementation findings have been accepted or waived.
+- Prior explicit-model, capability and seed defects were repaired before3374315d3. Root separately reviewed and executed reviewer-authored integration fixture. SOR stale placeholders corrected and independently rechecked. SRP stale preparation claims corrected by this native edit; updated metadata needs final rereview.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication.
+Reviewer sprint8_908 bounded implementation/evidence review; source unchanged since prior accepted corrected source. Full issue acceptance is not established: required CI and successful matched real-review comparison remain incomplete. Do not treat failed model reviews or direct endpoint timing as production-workflow proof.

@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 903,
   "phase": "bound",
-  "generation": 11,
+  "generation": 12,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/903-v0922-mlx-metal-provider",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-903-v0922-mlx-metal-provider",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "2e09cb14d4fce3e133f2a71afcf6732ae1caa786066e8e5643b4503cc191eafc"
+  "digest": "3af458de0f5498ecf57f426518f79bfc379a2c367039a7559a9d8c899ea7e2d9"
 }
