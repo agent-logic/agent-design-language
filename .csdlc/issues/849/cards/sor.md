@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Native merge linkage and publication-only fixture compatibility are repaired. Hosted CI subsequently exposed Linux ETXTBSY in a dynamically written curl fixture; immutable executable test fixtures remove those concurrent writes while retaining every assertion.
+Native merge linkage and publication receipt fixtures repaired. Linux test fixes use immutable curl scripts and consume stdin configuration before CLI fake-curl response; production transport is unchanged.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -110,7 +110,7 @@ Rules:
   - `See .csdlc/evidence/849/VALIDATION.md for exact commands and outcomes`
     `Proves bounded local merge behavior and unaffected tested owner surfaces; excludes full-suite/CI/live-merge success`
 - Results:
-  - `At 94a39db15: full all-target native suite 262 passed without exclusions. Subsequent test-fixture-only source a2a05c7c7: default-parallel library suite 92 passed without exclusions (13.49s), strict all-target Clippy passed (1.74s), diff check passed. Hosted run 34675094214 at aa7 failed ETXTBSY; final successor hosted CI remains separate.`
+  - `Full native262 passed at94a39db15; parallel library92 passed after immutable fixtures at a2a05c7c7. Hosted34675308863 passed library92 but CLI ready readback failed. Successor488c3d92b adds missing fake-curl stdin drain: parallel operational18 passed22.48s; focused strictClippy0.24s, fmt/diff passed. Final hosted successor CI remains separate.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -157,7 +157,7 @@ verification_summary:
 - Sandbox / policy invariants preserved: `All issue edits in exact native-bound FastWork worktree; primary clean main; no live merge/cloud changes or shared binary install`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.adl/runs/849/ci-repair-all-targets.log; .adl/runs/849/ci-repair-first-failure.log; .adl/runs/849/parallel-lib-repair.log; .adl/runs/849/parallel-fixture-clippy.log`
+- Trace bundle path(s): `.adl/runs/849/ci-repair-all-targets.log; .adl/runs/849/parallel-lib-repair.log; .adl/runs/849/ci-parallel-second-failure.log; .adl/runs/849/cli-stdin-repair.log`
 - Run artifact root: `.adl/runs/849`
 - Replay command used for verification: `cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_cases`
 - Replay result: `Positive replay does not dispatch a second PUT; uncertain/mismatched issue-state replay rejects`

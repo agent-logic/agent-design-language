@@ -14,7 +14,7 @@
   "slug": "v0922-merge-linkage-admission",
   "findings_status": "addressed",
   "sor_card": ".csdlc/issues/849/cards/sor.md",
-  "review_notes": "Independent sprint8_909 accepted aa7f806558a51b23ec89ad342abd56373c68ec71 source and metadata. Subsequent Linux ETXTBSY fixture repair a2a05c7c7 is undergoing exact source and metadata renewal before native publication.",
+  "review_notes": "Independent sprint8_909 accepted8bbac35e726b421f50c19f1421076f268a0b242b. Subsequent two-line fake-curl stdin drain488c3d92b undergoes source and metadata renewal before publication; no production transport change.",
   "vpp_card": ".csdlc/issues/849/cards/vpp.md",
   "review_dispositions": "URL ambiguity repaired with32fake-transport cases: Part of/Part-of, both modes, plain/angle/Markdown URLs including spaced labels, with or without a canonical directive. Every rejection precedes intent and PUT. Independent source review accepted01488a4687; final metadata review retained before publication.",
   "spp_card": ".csdlc/issues/849/cards/spp.md",

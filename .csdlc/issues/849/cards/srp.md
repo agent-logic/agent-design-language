@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "addressed"
   recommended_outcome: "accept"
-notes: "Independent sprint8_909 accepted aa7f806558a51b23ec89ad342abd56373c68ec71 source and metadata. Subsequent Linux ETXTBSY fixture repair a2a05c7c7 is undergoing exact source and metadata renewal before native publication."
+notes: "Independent sprint8_909 accepted8bbac35e726b421f50c19f1421076f268a0b242b. Subsequent two-line fake-curl stdin drain488c3d92b undergoes source and metadata renewal before publication; no production transport change."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent sprint8_909 accepted aa7f806558a51b23ec89ad342abd56373c68ec71 source and metadata. Subsequent Linux ETXTBSY fixture repair a2a05c7c7 is undergoing exact source and metadata renewal before native publication.
+Independent sprint8_909 accepted8bbac35e726b421f50c19f1421076f268a0b242b. Subsequent two-line fake-curl stdin drain488c3d92b undergoes source and metadata renewal before publication; no production transport change.

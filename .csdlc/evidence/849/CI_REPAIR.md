@@ -21,3 +21,9 @@ Hosted run 34675094214 at `aa7f806558a51b23ec89ad342abd56373c68ec71` compiled su
 Successor `a2a05c7c7` moves the two unchanged shell behaviors into tracked mode-100755 fixtures. The test no longer writes or replaces executable files while parallel tests launch child processes. The stdin, minimal environment, first-argument `-q`, secret-free argv, redaction and truncation assertions are retained. No production retry, test serialization, skipped checks or release guard change is introduced. Existing deterministic local subprocess PVF classification applies to both fixtures.
 
 Successor validation: default-parallel `cargo test --manifest-path csdlc-v3/Cargo.toml --lib` passed all 92 tests, zero ignored/filtered (13.49 seconds); strict all-target Clippy passed (1.74 seconds); diff hygiene passed. The earlier 262-test full result remains attributed to its source candidate; unchanged integration tests were not rerun for this fixture-only delta. Final hosted successor CI is still required.
+
+## CLI fake curl stdin completion
+
+Hosted run 34675308863 at `8bbac35e726b421f50c19f1421076f268a0b242b` passed all 92 library tests, then failed the CLI ready positive in job 103504101289 (17/18 passed) with authenticated reconciliation unavailable. Its fake curl returned without reading `--config -` stdin, allowing an early-exit race with the parent's configuration write. Successor `488c3d92b` adds the same conditional stdin drain used by the sibling fake readback scripts; all state/GraphQL/readback assertions and production transport remain unchanged.
+
+Default-parallel operational CLI suite: 18 passed, zero exclusions (22.48 seconds). Focused strict Clippy passed (0.24 seconds); format and diff checks passed. Earlier proof retains its source attribution. The final hosted successor remains the required Linux integration gate.
