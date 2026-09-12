@@ -4265,6 +4265,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         // Keep the last live snapshot; never replace it with historical telemetry.
       }
     }
+    if (!isCurrentLiveGeneration(requestGeneration)) return;
     setText("statusbar-websocket", "disconnected");
     setLiveConnectionState("disconnected");
     setWriteAccess(false, "disconnected", "Reconnect to the Runtime before sending commands.");

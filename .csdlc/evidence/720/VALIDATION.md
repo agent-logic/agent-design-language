@@ -7,7 +7,7 @@ PVF: tooling lane; deterministic UI and contract regressions; local CPU and brow
 - `node --test demos/html-observatory/tests/*.test.mjs`: 24 tests pass.
 - `bash adl/tools/test_html_observatory.sh`: pass; exercises Runtime v3 read, signed-command and roster projection and live-only route regressions.
 - `node demos/html-observatory/tests/live_only.browser.mjs`: pass in local headless Chrome with installed Playwright. Proves successful live startup, initial outage, disconnect preserving last live count with stale notice, navigation, absent retained controls, zero historical telemetry fetches and zero retained timers.
-- Integrated Observatory shell proof is being completed before publication. Hosted CI is pending publication, not claimed here.
+- `bash adl/tools/test_v0917_html_observatory_integrated_proof.sh`: pass, including HTTPS public-read and WSS read/login Rust tests. Hosted CI is pending publication, not claimed here.
 
 The source baseline already had no `setRuntimeTestStatus` function or first orphan assignment. The remaining published-status and live-status orphan constants are removed together with unused runtime-kind/config locals. This is the current-source reconciliation of the issue's older line references.
 
