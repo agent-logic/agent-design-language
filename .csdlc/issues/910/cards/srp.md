@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "pass"
-notes: "Actual saved plan/state18resources/four object versions/exact invalidation/real v3 browser frame/render/write-gating proof reviewed by #909. Operator-local site permission and Connect URL disclosed. No application/CSP changes."
+notes: "Independent #909 full deployed/browser review and exact metadata-tail review at28fbf649a258a89509fbd56a024ecff43c06e0b2 PASS; native review READY and PR #954 created. Publication-only SOR tail does not change actual evidence; final tail readback requested."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- All actionable findings resolved, including SOR actual-artifact/approved-write/PVF/verification fields. Final metadata tail review requested.
+- All actionable findings resolved; actual deployment/browser evidence unchanged at publication.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Actual saved plan/state18resources/four object versions/exact invalidation/real v3 browser frame/render/write-gating proof reviewed by #909. Operator-local site permission and Connect URL disclosed. No application/CSP changes.
+Independent #909 full deployed/browser review and exact metadata-tail review at28fbf649a258a89509fbd56a024ecff43c06e0b2 PASS; native review READY and PR #954 created. Publication-only SOR tail does not change actual evidence; final tail readback requested.

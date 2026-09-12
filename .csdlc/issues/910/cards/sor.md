@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar
 Branch: codex/910-observatory-deploy
 Card Status: ready
-Status: deployed_validated_reviewed_pr_pending
+Status: deployed_validated_reviewed_pr_open
 Generated: 2026-09-12T01:48:44.174761+00:00
 
 Execution:
@@ -57,7 +57,7 @@ Approved no-restart origin append and exact 18-create deployment complete. Four 
 - Goal metrics source ref: `not separately measured for preparation`
 - Data-source confidence: `not separately measured for preparation`
 - Estimate error percent: `not separately measured for preparation`
-- Completion state: `Deployed acceptance evidence complete; final independent review and PR/checks pending`
+- Completion state: `Actual deployment and independent review complete; PR #954 open, CI pending at publication`
 - Issue goal ref: `Active #910 full-delivery goal: approved origin hot reload, exact static deployment, live browser proof and reviewed PR; no destructive changes or Runtime compute`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `Not claimed in preparation handoff; see .csdlc/evidence/910/DEPLOYMENT_PLAN.md`
@@ -86,13 +86,13 @@ Approved no-restart origin append and exact 18-create deployment complete. Four 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `Deployment evidence/native cards in issue worktree; private Terraform state/asset/version receipts preserved in stable Git-common custody`
-- Integration state: `AWS deployment applied; repository PR not opened`
+- Integration state: `AWS deployed; PR #954 OPEN/non-draft/base main, not merged`
 - Verification scope: `Actual deployed AWS/HTTPS/rollback plus accepted live v3 frame/render and unauthenticated write gating; no mocks or privileged commands`
 - Integration method used: `Approved saved Terraform plan and guarded S3 uploads/invalidation`
 - Verification performed:
   - `Authenticated AWS fixed-projection reads and exact-version readbacks; public HTTPS SHA256/header checks; Chrome diagnostic`
     `Deployed infrastructure/content and operator-local browser read acceptance proven`
-- Result: `18 creates, zero updates/deletes; four objects verified; CloudFront Deployed; no repository PR`
+- Result: `18 creates/four verified objects and completed invalidation; native PR #954 created and authenticated reconciliation succeeded`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -167,12 +167,12 @@ verification_summary:
 - Required artifacts present: `Actual AWS posture, approved origin change, exact upload/invalidation, HTTPS hashes, rollback reconstruction and real browser proof present`
 - Artifact schema/version checks: `All public JSON parses; native six-card validation passes`
 - Hash/byte-stability checks: `Actual saved plan SHA256 and four upload objects verified; source code bytes unchanged`
-- Missing/optional artifacts and rationale: `No authenticated command execution or universal remote reachability claimed; optional historical report objects absent; PR/checks pending`
+- Missing/optional artifacts and rationale: `No authenticated commands or universal remote reachability claimed; optional historical reports absent; hosted CI pending at publication`
 
 ## Decisions / Deviations
 - `Override unavailable package parent hosted zone with existing csm.agent-logic.ai zone`
 - `Use operator-approved stable private Git-common local state custody; no remote backend change`
 
 ## Follow-ups / Deferred work
-- `Final independent exact-candidate review and native review/publication`
-- `Monitor exact-head PR checks; preserve private state on merge/worktree cleanup`
+- `Observe exact final PR #954 head checks; no merge authorization assumed`
+- `After authorized merge use native finish then exact cleanup while preserving stable private state`
