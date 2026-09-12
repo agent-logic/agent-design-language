@@ -45,7 +45,23 @@ The PR number is illustrative, not an authorized target. Resolve the actual
 number, head, base and authorization before execution. The review is the existing
 `csdlc.v3.typed_review_receipt.v1` contract: matching repository, issue, reviewed
 revision/current head and payload digest, nonempty evidence and separate
-implementer/reviewer identities. This change does not introduce a stronger
+implementer/reviewer identities. Issue #849 adds required merge linkage to that
+review receipt (publication-only legacy receipts remain readable):
+
+```json
+"publication_linkage": {
+  "repository": "agent-logic/agent-design-language",
+  "issue": 844,
+  "mode": "closing"
+}
+```
+
+The issue repository is explicit even when it equals the PR repository. It may
+differ for split repositories. The existing review payload digest remains
+unchanged when linkage is absent; with linkage it is the stable NUL-delimited
+digest of that legacy digest, issue repository, decimal issue number and mode.
+Use the `operator_manual review-digest` helper; do not reuse an old digest or
+invent a review. Merge refuses absent or mismatched linkage. This change does not introduce a stronger
 review-signature authority. The canonical native selector/receipt and current
 Git head are also checked. The approval string records authorization; it does
 not create authorization on the operator's behalf.
@@ -57,6 +73,22 @@ linear-history rules, mandatory queues, and unsupported active rule types fail
 closed rather than using a bypass or silently choosing another method.
 
 ## Admission and recovery
+
+Merge authenticates the PR body, complete `closingIssuesReferences`, and the
+qualified issue URL/repository/number/state. The body must contain exactly one
+canonical whole-line closing keyword (for example `Closes owner/repo#844`) or
+`Part of owner/repo#844` / `Part-Of owner/repo#844`, matching the reviewed mode.
+Same-repository `#844` is accepted; cross-repository short references are not.
+Ambiguous, mixed, duplicate or wrong-target directives fail closed. Ordinary
+prose such as “fix formatting” is not a closing directive. Closing mode requires
+exactly the target issue in the complete GitHub relation set; PartOf requires
+an empty closing relation set, including manually linked issues. Missing or
+partial readback never substitutes for an empty relation. Both modes require
+the qualified issue OPEN before dispatch.
+
+The generated read-only `pull-request-merge-linkage` query admits only a numeric
+PR and qualified issue target, never caller GraphQL. It observes the issue in
+the same authenticated response using a separately qualified repository alias.
 
 Authenticated GraphQL observation binds repository, PR URL/number, exact head,
 base name and commit, non-draft OPEN state, MERGEABLE/CLEAN status, review
@@ -78,7 +110,8 @@ A per-repository/PR file lock excludes concurrent local dispatch. A durable
 target guard also binds the PR to its original attempt, so an alternate review
 receipt path or other changed request cannot bypass an uncertain intent. Replay
 the original request; do not remove the guard. A create-only,
-fsynced intent binds request, selector, review digest, observed policy and base
+fsynced intent binds request, selector, review digest, qualified publication
+linkage/mode, observed policy and base
 before the narrow REST `PUT /repos/{owner}/{repo}/pulls/{number}/merge` executes.
 New receipt directories and every linking ancestor through Git control are
 synced before dispatch. Policy and PR eligibility are read again immediately
@@ -86,11 +119,11 @@ before dispatch, and that fresh pre-state is retained. The REST
 body contains only the reviewed `sha` and explicit `merge_method`. Credentials
 use the shared resolver and never enter argv, receipts or logs.
 
-GitHub's REST SHA condition protects the head, **not an atomic snapshot of base
+GitHub's REST SHA condition protects the head, **not an atomic snapshot of body, base
 or policy**. Server protections remain required. A base change after the last
 read can be detected only after the irreversible operation: reconciliation
 rejects any first-parent mismatch and must not claim success. This route neither
-claims base/policy compare-and-swap nor attempts to undo a remote merge.
+claims body/base/policy compare-and-swap nor attempts to undo a remote merge.
 
 Every retry after durable intent creation is observation-only, including an
 intent whose process died before dispatch. An uncertain or still-open remote
@@ -99,19 +132,26 @@ allowed. Do not delete or rewrite intent to bypass this boundary. A matching
 already-merged PR succeeds without mutation, provided its authenticated merge
 commit has exactly two ordered parents, the second is the reviewed head, and
 any retained pre-state's first parent matches. A changed merge identity cannot
-replace a retained reconciliation receipt.
+replace a retained reconciliation receipt. Post-merge linkage and issue state
+are revalidated: Closing requires CLOSED and PartOf requires OPEN. Late body
+or issue-state drift blocks success; preflight cannot prevent every remote race.
+Pre-#849 intents or merge reconciliations lacking linkage cannot be silently
+upgraded or replayed as new proof; preserve them and seek a reviewed recovery.
 
 Intent and reconciliation live under resolved Git metadata at
 `csdlc-v3/remote/merges/`; the common mutation receipt remains under
 `csdlc-v3/remote/mutations/`. The returned `reconciliation.merge` identifies
-repository, PR, exact head, base name/commit, method and resulting merge commit.
+repository, PR, exact head, base name/commit, method, resulting merge commit,
+qualified `publication_linkage` and authenticated `issue_state`. This distinguishes
+a PartOf checkpoint from a Closing result without granting terminal authority.
 No PR body/comment marker mutation is needed to identify a merge.
 
 ## Finish and validation
 
 After successful authenticated merge reconciliation, run the existing native
 `finish --request finish-request.json --observe-github`. Finish must independently
-observe the merged PR, matching head/closing relation and closed issue; a merge
+observe the merged PR, matching head and relation, and closed issue for terminal
+Closing completion (or the open parent for a PartOf checkpoint); a merge
 receipt alone does not manufacture terminal truth. Cleanup remains a separate
 native `clean` operation for the registered worktree. No terminal schema or
 second remote mutation is added by this change.
@@ -139,3 +179,7 @@ API sources: [GitHub merge endpoint](https://docs.github.com/en/rest/pulls/pulls
 [GraphQL PR/check semantics](https://docs.github.com/en/graphql/reference/pulls),
 [branch protection](https://docs.github.com/en/graphql/reference/branches), and
 [effective active branch rules](https://docs.github.com/en/rest/repos/rules#get-rules-for-a-branch).
+
+Issue #849 release-criterion correction mapping is recorded separately in
+[MERGE_LINKAGE_849.md](../milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md).
+Earlier #835/#844 and #522/#833 failed evidence remains historical evidence.

@@ -1,0 +1,26 @@
+{
+  "issue": 849,
+  "baseline": "57a82b08bf687afd0b1573fd8d78f4b2b2268dba",
+  "candidate": "0264f321ac0e19fb9ae957b4f05b6dfb2f7c63b2",
+  "failure": "release_inventory_omits_manifest: adl-uts/Cargo.toml",
+  "test": "exact_candidate_preflight_and_negative_matrix",
+  "input_blobs": {
+    "csdlc-v3/src/commands/release.rs": {
+      "baseline": "ec2108336f14d1b01e76e08132e689456ad9bd53",
+      "candidate": "ec2108336f14d1b01e76e08132e689456ad9bd53"
+    },
+    "csdlc-v3/tests/release_preflight.rs": {
+      "baseline": "d0589577c714c42a19303e7f1b5f74e19e365357",
+      "candidate": "d0589577c714c42a19303e7f1b5f74e19e365357"
+    },
+    "docs/milestones/v0.92.1/RELEASE_ARTIFACTS.json": {
+      "baseline": "de7cd6f9bf6c2346d4aa5123ddeeb0de6eb478ed",
+      "candidate": "de7cd6f9bf6c2346d4aa5123ddeeb0de6eb478ed"
+    },
+    "adl-uts/Cargo.toml": {
+      "baseline": "eb8d1f8dbdb216088571aa53b37eb5e0997ff991",
+      "candidate": "eb8d1f8dbdb216088571aa53b37eb5e0997ff991"
+    }
+  },
+  "classification": "Existing baseline inventory rejection: production guard, fixture and omitted manifest bytes unchanged by #849. Not repaired or waived. Full-suite failure retained in .adl/runs/849/native-tests-release-preflight-failed.log."
+}

@@ -19,6 +19,8 @@ pub struct MergedIdentity {
     pub base_sha: String,
     pub method: MergeMethod,
     pub merge_commit: String,
+    pub publication_linkage: PublicationLinkage,
+    pub issue_state: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -26,6 +28,7 @@ struct MergeIntent {
     schema: String,
     request: GithubMutationRequest,
     selector_digest: String,
+    publication_linkage: PublicationLinkage,
     pre_state: Value,
     rules: Value,
     base_sha: String,
@@ -35,7 +38,8 @@ pub fn merge_state_query(owner: &str, name: &str, number: &str) -> String {
     // Parameters are admitted by the narrow read-only adapter, never caller query text.
     format!(
         r#"query {{ repository(owner:"{owner}", name:"{name}") {{ nameWithOwner mergeCommitAllowed
-      pullRequest(number:{number}) {{ number url headRefOid baseRefName baseRefOid state merged isDraft mergeable mergeStateStatus reviewDecision
+      pullRequest(number:{number}) {{ number url headRefOid baseRefName baseRefOid state merged isDraft mergeable mergeStateStatus reviewDecision body
+        closingIssuesReferences(first:100) {{ nodes {{ number url repository {{ nameWithOwner }} }} pageInfo {{ hasNextPage }} }}
         baseRef {{ branchProtectionRule {{ requiresStatusChecks requiresApprovingReviews requiresLinearHistory requiredStatusChecks {{ context app {{ databaseId }} }} }} }}
         mergeCommit {{ oid parents(first:3) {{ nodes {{ oid }} pageInfo {{ hasNextPage }} }} }}
         reviewThreads(first:100) {{ nodes {{ isResolved }} pageInfo {{ hasNextPage }} }}
@@ -112,8 +116,10 @@ fn eligibility(
     rules: &Value,
     request: &GithubMutationRequest,
     base: &str,
+    linkage: &PublicationLinkage,
 ) -> Result<String, RemoteRouteFinding> {
     let pr = identity(value, request, base)?;
+    linkage.validate(value, request, false)?;
     ensure(
         value["data"]["repository"]["mergeCommitAllowed"] == true,
         "merge commits disabled",
@@ -278,12 +284,14 @@ fn merged(
     request: &GithubMutationRequest,
     base: &str,
     expected_base: Option<&str>,
+    linkage: &PublicationLinkage,
 ) -> Result<MergedIdentity, RemoteRouteFinding> {
     let pr = identity(value, request, base)?;
     ensure(
         pr["state"] == "MERGED" && pr["merged"] == true,
         "merge not yet authenticated; reconciliation only",
     )?;
+    let issue_state = linkage.validate(value, request, true)?;
     let commit = text(&pr["mergeCommit"], "oid")?;
     ensure(is_full_git_sha(commit), "merged commit missing")?;
     let parents = complete_nodes(&pr["mergeCommit"]["parents"])?;
@@ -304,6 +312,8 @@ fn merged(
         base_sha: base_sha.into(),
         method: MergeMethod::Merge,
         merge_commit: commit.into(),
+        publication_linkage: linkage.clone(),
+        issue_state,
     })
 }
 
@@ -355,6 +365,11 @@ pub(super) fn execute(
             && typed_review_receipt_payload_digest(&review) == *review_receipt_digest,
         "stale or invalid exact-head review",
     )?;
+    let linkage = review
+        .publication_linkage
+        .as_ref()
+        .filter(|l| l.valid_for(request))
+        .ok_or_else(|| reject("merge requires reviewed qualified publication linkage"))?;
     preflight_github_credential(&mutation_credential_name(request)?, process)?;
     let digest = github_mutation_operation_digest(request);
     let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
@@ -405,8 +420,8 @@ pub(super) fn execute(
 
     let (observation, mut invocation) = observe(
         request,
-        "pull-request-merge-state",
-        request.pull_request.unwrap_or_default().to_string(),
+        "pull-request-merge-linkage",
+        linkage.observation_target(request),
         process,
     )?;
     let pr = identity(&observation, request, base)?;
@@ -418,7 +433,8 @@ pub(super) fn execute(
         ensure(
             saved.schema == "csdlc.v3.merge_intent.v1"
                 && saved.request == *request
-                && saved.selector_digest == selector_digest,
+                && saved.selector_digest == selector_digest
+                && saved.publication_linkage == *linkage,
             "merge intent identity mismatch",
         )?;
         saved
@@ -426,17 +442,18 @@ pub(super) fn execute(
         let (rules, base_sha) = if pr["merged"] == true {
             (
                 Value::Null,
-                merged(&observation, request, base, None)?.base_sha,
+                merged(&observation, request, base, None, linkage)?.base_sha,
             )
         } else {
             let (rules, _) = observe(request, "branch-merge-rules", base.clone(), process)?;
-            let base_sha = eligibility(&observation, &rules, request, base)?;
+            let base_sha = eligibility(&observation, &rules, request, base, linkage)?;
             (rules, base_sha)
         };
         let saved = MergeIntent {
             schema: "csdlc.v3.merge_intent.v1".into(),
             request: request.clone(),
             selector_digest: selector_digest.into(),
+            publication_linkage: linkage.clone(),
             pre_state: observation.clone(),
             rules,
             base_sha,
@@ -453,15 +470,15 @@ pub(super) fn execute(
     let mut response_digest = None;
     let mut response_sha = None;
     let identity = if replay || pr["merged"] == true {
-        merged(&observation, request, base, Some(&intent.base_sha))?
+        merged(&observation, request, base, Some(&intent.base_sha), linkage)?
     } else {
         // Repeat authenticated policy and PR checks immediately before dispatch.
-        // REST SHA provides head CAS, not base/policy CAS; poststate proves base parent.
+        // REST SHA provides head CAS, not body/base/policy CAS; poststate proves base parent.
         let (fresh_rules, _) = observe(request, "branch-merge-rules", base.clone(), process)?;
         let (fresh, _) = observe(
             request,
-            "pull-request-merge-state",
-            request.pull_request.unwrap_or_default().to_string(),
+            "pull-request-merge-linkage",
+            linkage.observation_target(request),
             process,
         )?;
         ensure(
@@ -469,7 +486,7 @@ pub(super) fn execute(
                 && fresh["data"]["repository"]["pullRequest"]["baseRef"]["branchProtectionRule"]
                     == intent.pre_state["data"]["repository"]["pullRequest"]["baseRef"]
                         ["branchProtectionRule"]
-                && eligibility(&fresh, &fresh_rules, request, base)? == intent.base_sha,
+                && eligibility(&fresh, &fresh_rules, request, base, linkage)? == intent.base_sha,
             "base or policy changed before dispatch",
         )?;
         persist_json_create_new(
@@ -515,11 +532,11 @@ pub(super) fn execute(
         // Nonzero, timeout, cancellation and truncated responses never authorize retry.
         let (after, _) = observe(
             request,
-            "pull-request-merge-state",
-            request.pull_request.unwrap_or_default().to_string(),
+            "pull-request-merge-linkage",
+            linkage.observation_target(request),
             process,
         )?;
-        merged(&after, request, base, Some(&intent.base_sha))?
+        merged(&after, request, base, Some(&intent.base_sha), linkage)?
     };
     let response_path = dir.join(format!("{digest}.response.json"));
     if response_path.exists() {

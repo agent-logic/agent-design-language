@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 849,
+  "phase": "bound",
+  "generation": 13,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/849-v0922-merge-linkage-admission",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-849-v0922-merge-linkage-admission",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "1551a2f76d8dadf4d027b7e5b385f7246d6a4a91f6ccc8c435eaa35021999a76"
+}

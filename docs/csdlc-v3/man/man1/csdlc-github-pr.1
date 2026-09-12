@@ -42,3 +42,5 @@ csdlc\-github\-pr \- create, update, ready or merge a reviewed PR
 \&Admission observes exact PR/head/base and effective branch policy. The SHA conditional protects the head, not an atomic base/policy snapshot. Reconciliation requires the authenticated merge commit to have two ordered parents, matching retained base then reviewed head. A base race after dispatch can only be detected afterward; never claim atomic policy compare\-and\-swap or automatic rollback.
 .PP
 \&After successful merge reconciliation run finish \-\-observe\-github independently. A merge receipt is not terminal issue\-close evidence.
+.SH MERGE LINKAGE
+\&Merge requires reviewed publication_linkage, one canonical whole\-line Closes owner/repository#issue or Part of owner/repository#issue relation, complete authenticated closingIssuesReferences and a qualified OPEN issue before dispatch. Same\-repository #issue is supported; split\-repository references must be qualified. Closing poststate requires CLOSED, PartOf requires OPEN. Head CAS does not freeze body, base or policy; late drift blocks reconciliation and never authorizes another PUT. See docs/csdlc\-v3/PULL_REQUEST_MERGE.md.
