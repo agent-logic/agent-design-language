@@ -1,0 +1,126 @@
+{
+  "schema": "issue911.adr_relationships.v1",
+  "relationships": [
+    {
+      "candidate": "ADR-CF-01",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-02",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-03",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-04",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-05",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-06",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-07",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-07",
+      "source_record": "0058",
+      "source_path": "docs/adr/0058-memory-palace-context-handoff-architecture.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-08",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "source_record": "0025",
+      "source_path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-PLAT-01",
+      "source_record": "0004",
+      "source_path": "docs/adr/0004-provider-profiles.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-PLAT-01",
+      "source_record": "0041",
+      "source_path": "docs/adr/0041-provider-model-suitability-boundary-v2.md",
+      "relation": "proposed_refinement",
+      "source_status": "accepted",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-PLAT-01",
+      "source_record": "0075",
+      "source_path": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+      "relation": "proposed_refinement",
+      "source_status": "proposed",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CSDLC-01",
+      "source_record": "0072",
+      "source_path": "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+      "relation": "proposed_refinement",
+      "source_status": "proposed",
+      "supersession_enacted": false
+    },
+    {
+      "candidate": "ADR-CSDLC-02",
+      "source_record": "0072",
+      "source_path": "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+      "relation": "proposed_refinement",
+      "source_status": "proposed",
+      "supersession_enacted": false
+    }
+  ],
+  "supersessions": []
+}

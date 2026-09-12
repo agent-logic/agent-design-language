@@ -56,3 +56,7 @@ all eight planned topics. Candidates below are tracked by issue #745; none is ac
 - [0074: Runtime generation source ownership](0074-runtime-generation-source-ownership.md)
 - [0075: Provider profile and shadow authority](0075-provider-profile-and-shadow-authority.md)
 - [0069: Observatory](0069-observatory-governed-runtime-consumer-boundary.md) retains Deferred status with an added v0.92.1 disposition.
+
+## v0.92.2 proposed decision set
+
+[Issue #911 candidate set](issue-911/README.md) contains twelve complete proposed records covering CodeFriend, shared providers and the C-SDLC simplification. [The milestone packet](../../milestones/v0.92.2/adr/issue-911/README.md) accounts for all 69 core tasks, prior decisions, source revisions and unresolved acceptance. No candidate is accepted or allocated an accepted numeric ADR by this index.
