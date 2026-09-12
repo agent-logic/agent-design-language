@@ -33,8 +33,8 @@
   "step_1_status": "completed",
   "step_2_status": "completed",
   "step_3_status": "completed",
-  "step_4_status": "in_progress",
-  "step_5_status": "pending",
+  "step_4_status": "completed",
+  "step_5_status": "in_progress",
   "estimate_confidence": "unestimated",
   "estimate_confidence_inline": "unestimated",
   "notes_risks_inline": "Prepared only. Child implementation and its review have not run.",
@@ -83,6 +83,6 @@
   "step_1_status_inline": "completed",
   "step_2_status_inline": "completed",
   "step_3_status_inline": "completed",
-  "step_4_status_inline": "in_progress",
-  "step_5_status_inline": "pending"
+  "step_4_status_inline": "completed",
+  "step_5_status_inline": "in_progress"
 }

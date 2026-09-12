@@ -14,3 +14,13 @@ Commit `9d81e470fd4369847ec9a3252238ac100df5241b` moves the block exclusively to
 contract executes the actual workflow block with six required/result cases and
 asserts that the path-policy job contains no package-result gate. Local contract
 passes. Final exact-head independent review remains pending.
+
+## Final substantive review
+
+Reviewer `fix_941_ci` approved exact head
+`a5bd7feabfaf3aa5f1e1f51d68f60b443d5a3c67`. The reviewer independently exercised
+the six-case actual-shell CI regression, inspected package ownership, loader
+compatibility, real governed dispatch and matching repeated installation reports.
+The original P1 is resolved; no remaining actionable findings. Subsequent record
+updates contain this disposition only; publication still requires exact-head
+native review reconciliation.

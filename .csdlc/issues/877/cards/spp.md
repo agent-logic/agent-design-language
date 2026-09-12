@@ -80,9 +80,9 @@ codex_plan:
   - step: "Implement the bounded deliverables only."
     status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "in_progress"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "877-uts-package"
 invariants_to_preserve:
@@ -145,8 +145,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
-4. [in_progress] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 

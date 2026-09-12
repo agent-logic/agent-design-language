@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/877/cards/sip.md"
   - ".csdlc/issues/877/cards/vpp.md"
 review_results:
-  findings_status: "pending independent implementation review"
-  recommended_outcome: "pending review"
-notes: "Review actual governed dispatch, package installation, compatibility and CI denominator. Prepared review prompt is not approval."
+  findings_status: "resolved; no open actionable findings"
+  recommended_outcome: "approved for native publication; hosted CI and merge pending"
+notes: "Package canonical ownership, both declaration versions, real Runtime ACC-governed dispatch, isolated installation and repeat artifact equality inspected. No external publication or full v1.1 proposal implementation claim."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent review pending
+- Initial P1: UTS result aggregation ran in path-policy without required env. Preserved in REVIEW.md.
 
 ### Dispositions
 
-- No implementation review findings received yet; do not infer approval
+- Resolved by 9d81e470fd: gate moved to adl-ci; six actual-shell outcomes and placement checks pass. Reviewer approved a5bd7feabfaf3aa5f1e1f51d68f60b443d5a3c67.
 
 ### Recommended Outcome
 
-- pending review
+- approved for native publication; hosted CI and merge pending
 
 ## Notes
 
-Review actual governed dispatch, package installation, compatibility and CI denominator. Prepared review prompt is not approval.
+Package canonical ownership, both declaration versions, real Runtime ACC-governed dispatch, isolated installation and repeat artifact equality inspected. No external publication or full v1.1 proposal implementation claim.

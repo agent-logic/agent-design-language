@@ -21,7 +21,7 @@ Version: v0.92.2
 Title: [v0.92.2][PLAT-UTS] Install a versioned UTS package consumed by Runtime tool dispatch
 Branch: codex/877-uts-package
 Card Status: ready
-Status: implementation validated locally; independent review and publication pending
+Status: reviewed; publication pending
 Generated: 2026-09-12T00:53:52.824952+00:00
 
 Execution:
@@ -57,7 +57,7 @@ adl-uts 0.1.0 owns the existing UTS declaration contract. Runtime registry loads
 - Goal metrics source ref: `.csdlc/evidence/877/consumer-parity.json; local .adl/877-proof command logs`
 - Data-source confidence: `partial: test counts and command outcomes observed; time/token totals not yet finalized`
 - Estimate error percent: `Not separately measured; no numerical estimate or total claimed`
-- Completion state: `implementation validated locally; independent review and publication pending`
+- Completion state: `implementation and independent review complete; native publication and hosted CI pending`
 - Issue goal ref: `Active issue #877 implementation goal in execute_877 agent; parent Sprint 2/#928 goal remains active`
 - Sprint goal ref: `Sprint 2 umbrella #928`
 - Goal metrics rollup ref: `Active issue #877 implementation goal in execute_877 agent; parent Sprint 2/#928 goal remains active`
@@ -76,7 +76,7 @@ adl-uts 0.1.0 owns the existing UTS declaration contract. Runtime registry loads
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/877/cards/sor.md`
 - Tracked implementation artifacts: `adl-uts/; adl/src/uts.rs; adl/src/tool_registry.rs; adl/src/resident_tool_execution.rs; adl/examples/uts_package_runtime.rs; docs/specs/uts/PACKAGE.md`
-- Additional proof artifacts: `.csdlc/evidence/877/consumer-parity.json, runtime-dispatch.json, install-proof.json; docs/validation/issue877_uts_package.json`
+- Additional proof artifacts: `.csdlc/evidence/877/consumer-parity.json, runtime-dispatch.json, install-proof.json, install-repeat-proof.json, REVIEW.md; docs/validation/issue877_uts_package.json`
 
 ## Actions taken
 - `Extracted existing types/validators into adl-uts 0.1.0 with bundled assets and compatibility reexport; preserved original 18 unit tests`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --locked --manifest-path adl-uts/Cargo.toml; focused ADL unit filters uts/tool_registry/governed_executor/resident_tool_execution; production resident tick test; cargo run --locked --manifest-path adl/Cargo.toml --example uts_package_runtime; package and consumer clippy; verify_install.py; test_ci_runtime_contracts.sh`
     `20 package tests, 70 retained UTS-filtered tests, 10 registry, 25 governed, 8 resident; 1 Runtime tick; 11 dispatch scenarios; isolated artifact consumed; strict clippy and CI contracts pass`
 - Results:
-  - `passed local focused proof; hosted CI pending`
+  - `passed local focused proof and independent review; hosted CI pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -148,7 +148,7 @@ verification_summary:
 - Fixtures or scripts used: `adl-uts/tools/verify_install.py; uts_package_runtime example; existing UTS conformance and named-consumer tests`
 - Replay verification (same inputs -> same artifacts/order): `Replay denial exercised: previously handled proposal caused zero adapter calls`
 - Ordering guarantees (sorting / tie-break rules used): `Fixed scenario order; BTreeMap/BTreeSet contract behavior unchanged`
-- Artifact stability notes: `Clean source package SHA-256 recorded in install-proof.json; compatibility schema mirrors byte-equal; proof source revision retained`
+- Artifact stability notes: `Repeated clean installation at a5bd7feabf produced byte-identical reports and identical package SHA256 86a93d153cd0d7d020a71f3ce2f1c334171139011bf5b00b6c748781338306d1. Original earlier artifact proof retained.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `Reviewed retained proof: synthetic proposal and aggregate-only observation, no credentials/private payloads; portable evidence paths`
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserve adl::uts source compatibility and schema mirrors; canonical implementation resides in package`
 
 ## Follow-ups / Deferred work
-- `Independent exact-head review, native publication and required CI`
+- `Native exact-head review reconciliation, PR publication and required CI`
 - `Merge and terminal closeout are not claimed by this active implementation record`
