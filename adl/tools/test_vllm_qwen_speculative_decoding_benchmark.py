@@ -5,12 +5,68 @@ contract proof, no engine import, model load, hardware or Runtime execution.
 import unittest
 import io
 import json
+import tempfile
+from pathlib import Path
+from unittest.mock import patch, Mock
 from types import SimpleNamespace
 
 import vllm_qwen_speculative_decoding_benchmark as bench
 
 
 class AccountingTests(unittest.TestCase):
+    def test_raw_engine_request_does_not_claim_speculative_activation(self):
+        scratch = Path(__file__).resolve().parents[2] / '.adl/runs/905'
+        scratch.mkdir(parents=True, exist_ok=True)
+        llm = Mock()
+        llm.generate.return_value = [SimpleNamespace(outputs=[SimpleNamespace(token_ids=[1, 2])])]
+        llm.get_metrics.return_value = []
+        engine = SimpleNamespace(__version__='fixture', LLM=Mock(return_value=llm), SamplingParams=lambda **kw: kw)
+        torch = SimpleNamespace(__version__='fixture', cuda=SimpleNamespace(is_available=lambda: False))
+        with tempfile.TemporaryDirectory(dir=scratch) as directory:
+            output = Path(directory) / 'result.json'
+            with patch('sys.argv', ['bench', '--mode', 'speculative', '--out', str(output)]), \
+                    patch.dict('sys.modules', {'torch': torch, 'vllm': engine}), patch('sys.stdout', io.StringIO()):
+                self.assertEqual(bench.main(), 0)
+            result = json.loads(output.read_text())
+            self.assertTrue(result['claims']['speculative_mode_requested'])
+            self.assertFalse(result['claims']['proves_vllm_speculative_mode'])
+            self.assertFalse(result['claims']['proves_current_runtime_route'])
+            self.assertIsNone(result['runtime']['container_image'])
+            self.assertFalse(result['provenance']['model_revisions_verified'])
+            self.assertEqual(result['summary']['runs'], 6)
+            self.assertTrue(all(len(r['output_sha256']) == 64 for r in result['runs']))
+
+    def test_missing_dependency_retains_failed_setup(self):
+        scratch = Path(__file__).resolve().parents[2] / '.adl/runs/905'
+        scratch.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as directory:
+            output = Path(directory) / 'result.json'
+            with patch('sys.argv', ['bench', '--mode', 'target_only', '--out', str(output)]), \
+                    patch.dict('sys.modules', {'torch': None}):
+                with self.assertRaises(ModuleNotFoundError):
+                    bench.main()
+            records = [json.loads(line) for line in output.with_suffix('.json.attempts.jsonl').read_text().splitlines()]
+            self.assertEqual([r['status'] for r in records], ['started', 'failed'])
+            self.assertEqual(records[-1]['phase'], 'dependency_setup')
+            self.assertEqual(output.read_text(), '')
+
+    def test_existing_result_or_journal_refuses_before_engine_initialization(self):
+        scratch = Path(__file__).resolve().parents[2] / '.adl/runs/905'
+        scratch.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as directory:
+            for name in ['result.json', 'result.json.attempts.jsonl']:
+                output = Path(directory) / 'result.json'
+                retained = Path(directory) / name
+                retained.write_text('immutable prior evidence')
+                engine = Mock()
+                with patch('sys.argv', ['bench', '--mode', 'target_only', '--out', str(output)]), \
+                        patch.dict('sys.modules', {'torch': Mock(), 'vllm': engine}):
+                    with self.assertRaises(FileExistsError):
+                        bench.main()
+                engine.LLM.assert_not_called()
+                self.assertEqual(retained.read_text(), 'immutable prior evidence')
+                retained.unlink()
+
     def test_attempts_retain_failure_without_secret_error_text(self):
         journal = io.StringIO()
         def fail():

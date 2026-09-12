@@ -16,6 +16,7 @@ import platform
 import statistics
 import time
 from dataclasses import asdict, dataclass
+from contextlib import ExitStack
 from pathlib import Path
 from typing import Any
 
@@ -275,130 +276,149 @@ def main() -> int:
     parser.add_argument("--gpu-memory-utilization", type=float, default=0.50)
     args = parser.parse_args()
 
-    import torch
-    import vllm
-    from vllm import LLM, SamplingParams
+    with ExitStack() as stack:
+        out_path = Path(args.out)
+        journal_path = out_path.with_suffix(out_path.suffix + ".attempts.jsonl")
+        # Historical results may predate journals. Refuse either occupied identity
+        # before importing/loading an engine; exclusive opens also reject races.
+        if out_path.exists() or journal_path.exists():
+            raise FileExistsError("benchmark output identity already exists")
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        result_stream = stack.enter_context(out_path.open("x", encoding="utf-8"))
+        journal = stack.enter_context(journal_path.open("x", encoding="utf-8"))
 
-    selected_prompts = PROMPTS[: min(args.prompt_limit, len(PROMPTS))]
-    llm_kwargs: dict[str, Any] = {
-        "model": args.target_model,
-        "max_model_len": 512,
-        "gpu_memory_utilization": args.gpu_memory_utilization,
-        "disable_log_stats": False,
-    }
-    if args.mode == "speculative":
-        llm_kwargs.update(
-            {
-                "spec_model": args.draft_model,
-                "spec_tokens": args.spec_tokens,
-            }
-        )
+        def load_engine():
+            import torch
+            import vllm
+            from vllm import LLM, SamplingParams
+            return torch, vllm, LLM, SamplingParams
+        (torch, vllm, LLM, SamplingParams), _ = measured_attempt(
+            load_engine, journal, phase="dependency_setup")
 
-    out_path = Path(args.out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    # Refuse to erase prior attempts; a retry must use a fresh output identity.
-    journal = out_path.with_suffix(out_path.suffix + ".attempts.jsonl").open("x", encoding="utf-8")
-    llm, init_elapsed = measured_attempt(lambda: LLM(**llm_kwargs), journal, phase="initialization")
-
-    sampling = SamplingParams(
-        max_tokens=args.max_new_tokens,
-        temperature=0.0,
-        seed=0,
-    )
-
-    def generate(prompt: str) -> tuple[int, float, str]:
-        start = time.perf_counter()
-        outputs = llm.generate([prompt], sampling, use_tqdm=False)
-        elapsed = time.perf_counter() - start
-        token_ids = outputs[0].outputs[0].token_ids
-        return len(token_ids), elapsed, output_identity(list(token_ids))
-
-    for _ in range(args.warmup_runs):
-        measured_attempt(lambda: generate(selected_prompts[0]), journal,
-                         phase="warmup", prompt_index=0, repeat_index=_)
-
-    warmup_metrics = extract_spec_metrics(llm.get_metrics())
-
-    runs: list[RunResult] = []
-    for repeat_index in range(args.repeats):
-        for prompt_index, prompt in enumerate(selected_prompts):
-            generated, _ = measured_attempt(lambda: generate(prompt), journal,
-                                           phase="measured", prompt_index=prompt_index,
-                                           repeat_index=repeat_index)
-            output_tokens, elapsed, identity = generated
-            runs.append(
-                RunResult(
-                    prompt_index=prompt_index,
-                    repeat_index=repeat_index,
-                    elapsed_seconds=elapsed,
-                    output_tokens=output_tokens,
-                    tokens_per_second=output_tokens / elapsed if elapsed > 0 else 0.0,
-                    output_sha256=identity,
-                )
+        selected_prompts = PROMPTS[: min(args.prompt_limit, len(PROMPTS))]
+        llm_kwargs: dict[str, Any] = {
+            "model": args.target_model,
+            "max_model_len": 512,
+            "gpu_memory_utilization": args.gpu_memory_utilization,
+            "disable_log_stats": False,
+        }
+        if args.mode == "speculative":
+            llm_kwargs.update(
+                {
+                    "spec_model": args.draft_model,
+                    "spec_tokens": args.spec_tokens,
+                }
             )
 
-    metrics = llm.get_metrics()
-    cumulative_spec_metrics = extract_spec_metrics(metrics)
-    measured_spec_metrics = subtract_spec_metrics(
-        cumulative_spec_metrics, warmup_metrics
-    )
-    raw_spec_metrics = [
-        metric_payload(metric)
-        for metric in metrics
-        if getattr(metric, "name", "").startswith("vllm:spec_decode")
-    ]
+        llm, init_elapsed = measured_attempt(lambda: LLM(**llm_kwargs), journal, phase="initialization")
 
-    payload = {
-        "schema_version": "adl.vllm_qwen_speculative_decoding_benchmark.v1",
-        "issue_number": 4653,
-        "measured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "runtime": {
-            "platform": platform.platform(),
-            "python": platform.python_version(),
-            "torch": torch.__version__,
-            "vllm": vllm.__version__,
-            "cuda_available": torch.cuda.is_available(),
-            "cuda_device": torch.cuda.get_device_name(0)
-            if torch.cuda.is_available()
-            else None,
-            "container_image": "vllm/vllm-openai:latest",
-        },
-        "mode": args.mode,
-        "models": {
-            "target": args.target_model,
-            "draft": args.draft_model if args.mode == "speculative" else None,
-            "same_family": args.model_family,
-        },
-        "benchmark": {
-            "init_elapsed_seconds": init_elapsed,
-            "max_new_tokens": args.max_new_tokens,
-            "warmup_runs": args.warmup_runs,
-            "repeats": args.repeats,
-            "prompt_count": len(selected_prompts),
-            "spec_tokens": args.spec_tokens if args.mode == "speculative" else 0,
-        },
-        "summary": summarize(runs),
-        "runs": [asdict(run) for run in runs],
-        "speculative_metrics": measured_spec_metrics,
-        "warmup_speculative_metrics": warmup_metrics,
-        "cumulative_speculative_metrics": cumulative_spec_metrics,
-        "raw_speculative_metrics": raw_spec_metrics,
-        "claims": {
-            "proves_current_runtime_route": False,
-            "proves_output_equivalence": False,
-            "proves_vllm_generation": True,
-            "proves_vllm_speculative_mode": args.mode == "speculative",
-            "speculative_counters_exposed": any(
-                value is not None for value in measured_spec_metrics.values()
-            ),
-            "proves_dspark_backend": False,
-        },
-    }
+        sampling = SamplingParams(
+            max_tokens=args.max_new_tokens,
+            temperature=0.0,
+            seed=0,
+        )
 
-    out_path.write_text(json.dumps(payload, indent=2, allow_nan=False), encoding="utf-8")
-    journal.close()
-    print(out_path)
-    return 0
+        def generate(prompt: str) -> tuple[int, float, str]:
+            start = time.perf_counter()
+            outputs = llm.generate([prompt], sampling, use_tqdm=False)
+            elapsed = time.perf_counter() - start
+            token_ids = outputs[0].outputs[0].token_ids
+            return len(token_ids), elapsed, output_identity(list(token_ids))
+
+        for _ in range(args.warmup_runs):
+            measured_attempt(lambda: generate(selected_prompts[0]), journal,
+                             phase="warmup", prompt_index=0, repeat_index=_)
+
+        warmup_metrics = extract_spec_metrics(llm.get_metrics())
+
+        runs: list[RunResult] = []
+        for repeat_index in range(args.repeats):
+            for prompt_index, prompt in enumerate(selected_prompts):
+                generated, _ = measured_attempt(lambda: generate(prompt), journal,
+                                               phase="measured", prompt_index=prompt_index,
+                                               repeat_index=repeat_index)
+                output_tokens, elapsed, identity = generated
+                runs.append(
+                    RunResult(
+                        prompt_index=prompt_index,
+                        repeat_index=repeat_index,
+                        elapsed_seconds=elapsed,
+                        output_tokens=output_tokens,
+                        tokens_per_second=output_tokens / elapsed if elapsed > 0 else 0.0,
+                        output_sha256=identity,
+                    )
+                )
+
+        metrics = llm.get_metrics()
+        cumulative_spec_metrics = extract_spec_metrics(metrics)
+        measured_spec_metrics = subtract_spec_metrics(
+            cumulative_spec_metrics, warmup_metrics
+        )
+        raw_spec_metrics = [
+            metric_payload(metric)
+            for metric in metrics
+            if getattr(metric, "name", "").startswith("vllm:spec_decode")
+        ]
+
+        payload = {
+            "schema_version": "adl.vllm_qwen_speculative_decoding_benchmark.v1",
+            "issue_number": 905,
+            "provenance": {
+                "harness_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                "corpus_sha256": hashlib.sha256(json.dumps(selected_prompts, separators=(",", ":")).encode()).hexdigest(),
+                "model_revisions_verified": False,
+                "sampling": {"temperature": 0.0, "seed": 0, "max_tokens": args.max_new_tokens},
+            },
+            "measured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "runtime": {
+                "platform": platform.platform(),
+                "python": platform.python_version(),
+                "torch": torch.__version__,
+                "vllm": vllm.__version__,
+                "cuda_available": torch.cuda.is_available(),
+                "cuda_device": torch.cuda.get_device_name(0)
+                if torch.cuda.is_available()
+                else None,
+                "container_image": None,
+            },
+            "mode": args.mode,
+            "models": {
+                "target": args.target_model,
+                "draft": args.draft_model if args.mode == "speculative" else None,
+                "same_family": args.model_family,
+            },
+            "benchmark": {
+                "init_elapsed_seconds": init_elapsed,
+                "max_new_tokens": args.max_new_tokens,
+                "warmup_runs": args.warmup_runs,
+                "repeats": args.repeats,
+                "prompt_count": len(selected_prompts),
+                "spec_tokens": args.spec_tokens if args.mode == "speculative" else 0,
+            },
+            "summary": summarize(runs),
+            "runs": [asdict(run) for run in runs],
+            "speculative_metrics": measured_spec_metrics,
+            "warmup_speculative_metrics": warmup_metrics,
+            "cumulative_speculative_metrics": cumulative_spec_metrics,
+            "raw_speculative_metrics": raw_spec_metrics,
+            "claims": {
+                "proves_current_runtime_route": False,
+                "proves_output_equivalence": False,
+                "proves_vllm_generation": True,
+                "proves_vllm_speculative_mode": False,
+                "speculative_mode_requested": args.mode == "speculative",
+                "speculative_counters_exposed": any(
+                    value is not None for value in measured_spec_metrics.values()
+                ),
+                "proves_dspark_backend": False,
+            },
+        }
+
+        result_stream.write(json.dumps(payload, indent=2, allow_nan=False))
+        result_stream.close()
+        journal.close()
+        print(out_path)
+        return 0
 
 
 if __name__ == "__main__":
