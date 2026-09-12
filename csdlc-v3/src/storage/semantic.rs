@@ -2,6 +2,7 @@
 //! Constructors validate data, not operational authority. Native authority/topology
 //! bridges must admit production callers before invoking these storage primitives.
 //! Effect reservation/attachment and executable recovery belong to later slices.
+pub mod protocol;
 use super::{codec, DurableTransactionStore};
 use crate::lifecycle::{
     semantic::{self as policy, Invalidation, SemanticCommand},
@@ -27,6 +28,10 @@ pub enum Error {
     RecoveryRequired,
     UnsafePath,
     ExhaustedVersion,
+    PendingOperation,
+    ConflictingReplay,
+    EvidenceMismatch,
+    AdmissionChanged,
     Io(String),
 }
 fn io(e: std::io::Error) -> Error {
@@ -49,6 +54,10 @@ impl TryFrom<String> for Digest {
                 | "semantic-state-v1"
                 | "semantic-audit-v1"
                 | "semantic-authority-v1"
+                | "semantic-operation-v1"
+                | "semantic-request-v1"
+                | "semantic-evidence-v1"
+                | "semantic-recovery-v1"
         ) || hex.len() != 64
             || !hex
                 .bytes()
@@ -346,6 +355,8 @@ struct Payload {
     input_version: EvidenceInputVersion,
     invalidations: Vec<Invalidation>,
     projection_required: bool,
+    pending: Option<protocol::PendingOperation>,
+    completed: Vec<protocol::CompletedOperation>,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -354,12 +365,13 @@ struct Audit {
     after: SemanticVersion,
     previous: Option<Digest>,
     command: SemanticCommand,
+    operation: Option<protocol::OperationId>,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 enum Schema {
-    #[serde(rename = "csdlc.v3.semantic_commit.v2")]
-    CommitV2,
+    #[serde(rename = "csdlc.v3.semantic_commit.v3")]
+    CommitV3,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -384,6 +396,12 @@ impl Snapshot {
     }
     pub fn phase(&self) -> LifecycleState {
         self.payload.phase
+    }
+    pub fn pending(&self) -> Option<&protocol::PendingOperation> {
+        self.payload.pending.as_ref()
+    }
+    pub fn completed(&self) -> &[protocol::CompletedOperation] {
+        &self.payload.completed
     }
     pub fn invalidations(&self) -> &[Invalidation] {
         &self.payload.invalidations
@@ -596,6 +614,7 @@ impl SemanticRoot {
 fn legacy_residue(root: &Path, issue: u64) -> Result<bool, Error> {
     let exact = [
         format!("issues/{issue}"),
+        format!("locks/{issue}.lock"),
         format!("prepared/issues/{issue}"),
         format!("evidence/{issue}"),
         format!("v3/issues/{issue}"),
@@ -817,6 +836,8 @@ impl DurableTransactionStore {
             input_version,
             invalidations: vec![],
             projection_required: true,
+            pending: None,
+            completed: Vec::new(),
         };
         let next = make_snapshot(payload, None, SemanticCommand::Prepare)?;
         activate(&directory, &root.common, &next)?;
@@ -837,6 +858,9 @@ impl DurableTransactionStore {
         }
         let _lock = acquire(&directory, true)?;
         let current = read_current(&directory, &admission.key)?;
+        if current.payload.pending.is_some() {
+            return Err(Error::PendingOperation);
+        }
         if current.version() != &admission.expected {
             return Err(Error::StaleVersion);
         }
@@ -915,10 +939,11 @@ fn make_snapshot(
         after,
         previous: previous.map(|s| s.audit_digest.clone()),
         command,
+        operation: None,
     };
     let audit_digest = hash("semantic-audit-v1", &audit)?;
     let next = Snapshot {
-        schema: Schema::CommitV2,
+        schema: Schema::CommitV3,
         payload,
         audit,
         audit_digest,
@@ -1097,6 +1122,7 @@ fn read_current(directory: &Path, key: &IssueKey) -> Result<Snapshot, Error> {
             return Err(Error::RecoveryRequired);
         }
     }
+    protocol::validate_objects(directory, &newest)?;
     Ok(newest)
 }
 fn load_commit(directory: &Path, version: &SemanticVersion) -> Result<Snapshot, Error> {

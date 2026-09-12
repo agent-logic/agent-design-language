@@ -1373,6 +1373,7 @@ mod semantic_gate_a {
     #[test]
     fn semantic_native_residue_collision_matrix_is_read_only() {
         let residues = [
+            "locks/870.lock",
             "issues/870/index.json",
             "prepared/issues/870/cards/sip.md",
             "transactions/870.json",
@@ -1570,6 +1571,42 @@ mod semantic_gate_a {
             Observation::ProjectionRepairRequired(_)
         ));
         assert_eq!(before, inventory(&fixture.directory));
+    }
+
+    #[test]
+    fn semantic_held_native_issue_lock_is_collision_without_unlink() {
+        let fixture = Fixture::new();
+        let directory = fixture.directory.join("repo/.git/csdlc-v3/local/locks");
+        fs::create_dir_all(&directory).unwrap();
+        let path = directory.join("870.lock");
+        let file = fs::OpenOptions::new()
+            .write(true)
+            .read(true)
+            .create_new(true)
+            .open(&path)
+            .unwrap();
+        fs2::FileExt::lock_exclusive(&file).unwrap();
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::LegacyMigrationRequired
+        );
+        assert_eq!(
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs()),
+            Err(Error::LegacyMigrationRequired)
+        );
+        assert!(path.is_file());
+        fs2::FileExt::unlock(&file).unwrap();
+        drop(file);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::LegacyMigrationRequired
+        );
+        fs::remove_file(path).unwrap();
+        fs::write(directory.join("871.lock"), b"").unwrap();
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::Absent
+        );
     }
 
     #[test]
