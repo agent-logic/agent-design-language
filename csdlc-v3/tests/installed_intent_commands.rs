@@ -935,7 +935,7 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
     let preview = success(fixture.run(&primary, &["finish", "505", "--preview", "plan"]));
     assert_eq!(preview["envelope"]["effects"]["outcome"], "none");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
-    success(fixture.run(&primary, &["finish", "505"]));
+    success(fixture.run(&linked, &["finish", "505"]));
     let terminal = primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json");
     assert!(terminal.is_file(), "native terminal evidence missing");
     for residue in ["foreign-note.txt", "tracked"] {
