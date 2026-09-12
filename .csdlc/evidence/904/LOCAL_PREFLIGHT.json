@@ -2,7 +2,7 @@
   "schema": "adl.pair.local-preflight.v1",
   "issue": 904,
   "status": "partial_not_qualified",
-  "candidate_sha": "f7e57a0856f7f71d932ba4eb6f092811df44a173",
+  "candidate_sha": "ed679abfa8c8f7dbbc8c5d477dfb7c9ea8c3ecc3",
   "pair": {
     "release": "v0.1.1",
     "release_archive": "service-binaries-mac-arm64.zip",
@@ -45,7 +45,7 @@
     "baseline_remained_healthy_after_shutdown": true
   },
   "raw_same_corpus_comparison": {
-    "raw_private_receipt_sha256": "0320f7679fc9094ad00ab8c0db616286ab4773e856650b17d7596fe332fa02c6",
+    "raw_private_receipt_sha256": "ccde03aef17dd9cfc7eab76c1128d667eacaf84fa57ac64922d0256e6d5b4a93",
     "sampling": {
       "temperature": 0,
       "seed": 7,
@@ -60,34 +60,34 @@
         "route": "baseline",
         "concurrency": 1,
         "batches": 3,
-        "median_batch_seconds": 0.435217541991733,
-        "completed_requests_per_second": 4.390082084032747
+        "median_batch_seconds": 0.414917082991451,
+        "completed_requests_per_second": 4.8081873856093225
       },
       {
         "route": "raw_pair",
         "concurrency": 1,
         "batches": 3,
-        "median_batch_seconds": 0.42841612501069903,
-        "completed_requests_per_second": 4.566938618488228
+        "median_batch_seconds": 0.42595858400454745,
+        "completed_requests_per_second": 4.694343777157591
       },
       {
         "route": "baseline",
         "concurrency": 2,
         "batches": 3,
-        "median_batch_seconds": 0.29530004202388227,
-        "completed_requests_per_second": 6.780901301126684
+        "median_batch_seconds": 0.2918245000182651,
+        "completed_requests_per_second": 7.096734006630235
       },
       {
         "route": "raw_pair",
         "concurrency": 2,
         "batches": 3,
-        "median_batch_seconds": 0.2855681250221096,
-        "completed_requests_per_second": 6.665475524187991
+        "median_batch_seconds": 0.3986610000138171,
+        "completed_requests_per_second": 5.451639150948928
       }
     ],
     "single_node_pair_to_baseline_throughput_ratio": {
-      "concurrency_1": 1.0402854732713838,
-      "concurrency_2": 0.9829778119732381
+      "concurrency_1": 0.9763229676130218,
+      "concurrency_2": 0.7681898667549959
     }
   },
   "runtime": {
