@@ -21,7 +21,7 @@ Version: v0.92.2
 Title: [v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet
 Branch: codex/879-github-ingestion
 Card Status: ready
-Status: CONFLICT_REPAIR_VALIDATING
+Status: MERGE_RESOLUTION_APPROVED
 Generated: 2026-09-12T05:03:33.504300+00:00
 
 Execution:
@@ -57,7 +57,7 @@ Delivered production GET-only GitHub Git-data acquisition for pinned commits and
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `merge_resolution_validation_review_pending`
+- Completion state: `reviewed_resolution_push_ci_pending`
 - Issue goal ref: `Active #879 execution goal: reviewed passing PR; no merge or cleanup.`
 - Sprint goal ref: `Sprint 2 umbrella #928`
 - Goal metrics rollup ref: `not_collected`
@@ -92,7 +92,7 @@ Delivered production GET-only GitHub Git-data acquisition for pinned commits and
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD; git merge-base --is-ancestor 3fa601a888a8ba90541fd2d092802a9291b78ae9 HEAD`
     `Confirmed clean bound branch and accepted prerequisite ancestry; no claim of merge or primary-tree integration.`
-- Result: `PR955 oldhead1cdfbe7312 remains published; bound worktree merges current origin/main. One conflict in codefriend_cmd.rs resolved preserving GitHub/evidence dispatch; focused route tests and independent exact-head review required before push. Old CI34674795360 does not prove new merge candidate.`
+- Result: `PR955 merge-resolution source5d15ea31f2 independently approved. GitHub and evidence production route tests pass; fmt/scoped diff checks pass. Final metadata acknowledgement, push/native reconciliation and new CI pending. Prior CI34674795360 belongs only to old1cdfhead.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_github_ingestion --test codefriend_ingestion; final GitHub target rerun; installed .adl/bin/adl repeat via ADL_CODEFRIEND_TEST_BINARY; cargo clippy --manifest-path adl/Cargo.toml --lib --bin adl --test codefriend_github_ingestion -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; native csdlc validate.`
     `Proved actual HTTP and installed command/reader execution, packet and evidence identity parity, bounded and sanitized failures, compatibility logging, existing local contract preservation and native six-card structural validity.`
 - Results:
-  - `Final8 GitHub tests passed;10 inherited local tests passed;8 tests repeated against installed candidate passed. Focused clippy/fmt/native validation passed. Full CI andLinux qualification pending.`
+  - `Conflict-focused GitHub installed-command transport/readback test passed (1); evidence local-admit/restart/read/delete CLI test passed (1); fmt and scoped diff check passed. Original broad proofs retained; no broad tests rerun for this additive dispatch resolution.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserved R1 cumulative metadata finding and R2 rendered publication-card P2 with dispositions. Corrected native semantic fields rather than hand-editing Markdown or weakening source proof.`
 
 ## Follow-ups / Deferred work
-- `Obtain record-only acknowledgement, then native review and PR publication with Closes #879.`
-- `Shepherd required CI to passing; do not merge or clean this issue worktree.`
+- `Final metadata-only acknowledgement, then push reviewed merge and native publication reconciliation.`
+- `Verify new-head checks start; user owns PR merge.`
