@@ -15,11 +15,11 @@ Execution Record Requirements:
 - Every command listed must include both what was run and what it verified.
 - If something is not applicable, include a one-line justification.
 
-Task ID: issue-not_collected
-Run ID: issue-not_collected
-Version: not_collected
-Title: not_collected
-Branch: not_collected
+Task ID: issue-0855
+Run ID: issue-0855
+Version: v0.92.2
+Title: [v0.92.2][RT-PROVIDER] Provider-neutral dynamic agent lifecycle
+Branch: codex/855-provider-neutral-lifecycle
 Card Status: ready
 Status: IN_PROGRESS
 Generated: 2026-09-12

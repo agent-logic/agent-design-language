@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 855,
   "phase": "bound",
-  "generation": 9,
+  "generation": 10,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/855-provider-neutral-lifecycle",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-855-provider-neutral-lifecycle",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "559c59391139526e058ba1657c6061dbe6f0c11e3b3acb515741347810e2d548"
+  "digest": "d5439d6103db86195fe46a666f5746f49ce164efca1dab7fe224b1395672d977"
 }
