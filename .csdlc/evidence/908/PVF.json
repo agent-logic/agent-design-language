@@ -1,0 +1,11 @@
+{
+  "issue": 908,
+  "umbrella": 934,
+  "lanes": [
+    {"name":"live-aws-inventory","proof_role":"business identity and current scoped inventory","determinism":"external mutable state","resource_profile":"read-only AWS APIs, six concurrent regional requests, sequential S3 metadata","release_gate":false,"issue_gate":true,"command":"python3 .csdlc/evidence/908/inventory.py capture"},
+    {"name":"inventory-contract","proof_role":"denominator, baseline hash, delta, freshness and redaction","determinism":"deterministic with explicit reference time; live validation uses current clock","resource_profile":"local CPU","release_gate":false,"issue_gate":true,"command":"python3 .csdlc/evidence/908/inventory.py validate"},
+    {"name":"inventory-negatives","proof_role":"wrong-account, missing-surface, stale-evidence, privacy, response shape, delta and mutation rejection","determinism":"deterministic at recorded capture-end time","resource_profile":"local CPU; no network","release_gate":false,"issue_gate":true,"command":"python3 .csdlc/evidence/908/test_inventory.py"},
+    {"name":"independent-evidence-review","proof_role":"actual readbacks and uncertainty review","determinism":"human/agent judgment","resource_profile":"source and sanitized evidence inspection","release_gate":false,"issue_gate":true}
+  ],
+  "not_claimed":["full Rust coverage","cloud mutation","deployment","resource deletion proof","ownership from naming alone"]
+}
