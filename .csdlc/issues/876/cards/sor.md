@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim.
+Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ Repaired user Bedrock account alias and URL credential P2s. Both public hash ali
 - Goal metrics source ref: `Issue-bound goal service; no issue metrics export collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `repair_review_pending`
+- Completion state: `ci_pending`
 - Issue goal ref: `Active #876 passing reviewed PR goal`
 - Sprint goal ref: `Sprint 2 #928 execution goal`
 - Goal metrics rollup ref: `not_collected; parent sprint goal owns rollup`
@@ -92,7 +92,7 @@ Repaired user Bedrock account alias and URL credential P2s. Both public hash ali
 - Verification performed:
   - `git status --short --branch; git merge-base --is-ancestor for prerequisite merges`
     `Confirmed bound branch, clean primary main and accepted dependency ancestry.`
-- Result: `PR953 remains open; URL/alias correction local pending independent review and publication.`
+- Result: `PR953 open; source 754ea5f pushed and native body update authenticated. Final metadata confirmation and corrected-head CI pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check -- adl/src/provider/reload.rs adl/src/execute/tests/provider_definitions.rs docs/providers/provider-profile-hot-loading.md`
     `Proved real dispatch, invalid-input/LKG/redaction, reference admission, existing reload/in-flight/profile behavior and lint/format correctness.`
 - Results:
-  - `4 definition tests +7 reload compatibility tests pass; strict clippy and formatting pass. Scoped source/doc whitespace check passes; raw retained logs include terminal blank lines. Initial unsupported explicit-Bedrock test-fixture failures preserved and corrected to supported profile loader. Independent review/current-head CI pending.`
+  - `Four definition and seven compatibility tests, strict clippy and formatting pass. Independent reviewer reran all four definitions: PASS. Raw historical logs retained with disclosed trailing blank lines; scoped source/doc whitespace check passes. Current corrected-head CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserved initial macOS fixture failure, clippy warning and shadow-filename rejection with corrections; preserved card P2.`
 
 ## Follow-ups / Deferred work
-- `Independent changed-source review, native publication of repair and current-head CI required.`
+- `Bounded metadata confirmation, native publication and current-head hosted CI; merge is separate.`
 - `Dynamic agent lifecycle remains separately owned by #855; no implementation in this issue.`

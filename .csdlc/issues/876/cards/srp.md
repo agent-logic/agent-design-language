@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/876/cards/sip.md"
   - ".csdlc/issues/876/cards/vpp.md"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "needs_followup"
-notes: "Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim."
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- User review at9495c0e: P2 supported expected-account-sha256 alias rejects public64hex unlike underscore; P2 endpoint/base_url userinfo and credential query values bypass rejection. Both findings require repair; prior reviews remain historical.
+- Historical user findings at 9495c0e: P2 supported expected-account-sha256 public digest rejected; P2 endpoint/base_url userinfo and credential query bypass. Both resolved in independently approved source 754ea5f; original findings preserved in REVIEW.md. No actionable findings remain.
 
 ### Dispositions
 
-- Implemented both user P2 corrections; 11 focused tests pass. Prior reviews do not approve this changed source. Awaiting independent exact-head review.
+- Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.
 
 ### Recommended Outcome
 
-- needs_followup
+- pass
 
 ## Notes
 
-Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim.
+Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.
