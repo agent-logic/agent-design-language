@@ -464,7 +464,7 @@ def execute(args):
     try:
         guardian = subprocess.Popen([str(install / 'current/bin/adl-runtime-guardian'), '--init', str(init)], stdout=guardian_log, stderr=subprocess.STDOUT, env=env, start_new_session=True)
         report.update(guardian_pid=guardian.pid, owned_process_group=guardian.pid)
-        expiry = threading.Timer(1800, stop_owned_group)
+        expiry = threading.Timer(1775, stop_owned_group)
         expiry.start()
         deadline = time.monotonic() + 45
         initial = None
@@ -577,7 +577,7 @@ def execute(args):
             require(all(count <= 6 for count in totals.values()), 'approved per-provider call cap exceeded')
             report['hosted_provider_request_counts'] = totals
             report['paid_calls'] = sum(totals.values()) if args.hosted_approved else 0
-            report['approved_bounds'] = dict(calls_per_provider=6, input_bytes_per_request=32000, output_tokens_per_request=256, retries=0, total_cost_ceiling_usd=1, runtime_seconds=1800, project=APPROVED_PROJECT, models=HOSTED_MODELS)
+            report['approved_bounds'] = dict(calls_per_provider=6, input_bytes_per_request=32000, output_tokens_per_request=256, retries=0, total_cost_ceiling_usd=1, runtime_seconds=1800, teardown_reserved_seconds=25, graceful_shutdown_starts_seconds=1775, project=APPROVED_PROJECT, models=HOSTED_MODELS)
             if args.hosted_fixture:
                 hosted_wires = [call for call in fixture.calls if not call['path'].endswith('/generate')]
                 require(all(call['wire_output_cap'] == 256 and call['prompt_bytes'] <= 32000 for call in hosted_wires), 'hosted wire caps were not enforced')
