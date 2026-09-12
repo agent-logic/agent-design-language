@@ -29,14 +29,14 @@ def main():
     dest.mkdir(parents=True, exist_ok=True)
     snapshot = dest / 'snapshot'
     snapshot.mkdir(exist_ok=True)
-    archive = subprocess.check_output(['git', 'archive', head, 'adl-uts', 'adl-spec/schemas/uts'], cwd=ROOT)
+    archive = subprocess.check_output(['git', 'archive', head, '.gitignore', 'adl-uts', 'adl-spec/schemas/uts'], cwd=ROOT)
     with tarfile.open(fileobj=io.BytesIO(archive)) as tar:
         tar.extractall(snapshot, filter='data')
     for path in (snapshot / 'adl-uts/schemas').rglob('*.schema.json'):
         assert path.read_bytes() == (snapshot / 'adl-spec/schemas/uts' / path.relative_to(snapshot / 'adl-uts/schemas')).read_bytes(), path
     # Do not let the standalone Cargo package discover the enclosing worktree Git root.
     run(['git', 'init', '--quiet'], snapshot)
-    run(['git', 'add', 'adl-uts', 'adl-spec'], snapshot)
+    run(['git', 'add', '.gitignore', 'adl-uts', 'adl-spec'], snapshot)
     source_epoch = run(['git', 'show', '-s', '--format=%ct', head], ROOT).strip()
     identity_env = {**os.environ, 'GIT_AUTHOR_DATE': f'{source_epoch} +0000', 'GIT_COMMITTER_DATE': f'{source_epoch} +0000'}
     # Repeat invocation at the same revision reuses the immutable snapshot commit.
