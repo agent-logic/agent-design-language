@@ -2,7 +2,7 @@
   "schema": "adl.pair.local-preflight.v1",
   "issue": 904,
   "status": "partial_not_qualified",
-  "candidate_sha": "ed679abfa8c8f7dbbc8c5d477dfb7c9ea8c3ecc3",
+  "candidate_sha": "8d1609c68c7ecec4aee5a5ba146cd6d38d5f13b1",
   "pair": {
     "release": "v0.1.1",
     "release_archive": "service-binaries-mac-arm64.zip",
@@ -92,11 +92,11 @@
   },
   "runtime": {
     "receipt": ".csdlc/evidence/904/local-runtime-single-node.json",
-    "receipt_sha256": "161a1aad58c12bd5a2e3b5e1ceeece002408183ccd162404de62f7373cdb72fc",
+    "receipt_sha256": "86b40b97bf4ebca417d3736985a5e82d8135f4eb689192646e0c88d2d71f5702",
     "route": "canonical provider reload owner to production concurrent workflow executor to ollama provider to PAIR loopback proxy",
     "attempts": 2,
     "correct": 2,
-    "elapsed_ms": 451
+    "elapsed_ms": 502
   },
   "proof_boundary": {
     "pair_single_node_route_works": true,
