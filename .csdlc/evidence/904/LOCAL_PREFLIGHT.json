@@ -2,7 +2,7 @@
   "schema": "adl.pair.local-preflight.v1",
   "issue": 904,
   "status": "partial_not_qualified",
-  "candidate_sha": "8d1609c68c7ecec4aee5a5ba146cd6d38d5f13b1",
+  "candidate_sha": "29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48",
   "pair": {
     "release": "v0.1.1",
     "release_archive": "service-binaries-mac-arm64.zip",
@@ -91,12 +91,32 @@
     }
   },
   "runtime": {
-    "receipt": ".csdlc/evidence/904/local-runtime-single-node.json",
-    "receipt_sha256": "86b40b97bf4ebca417d3736985a5e82d8135f4eb689192646e0c88d2d71f5702",
+    "receipts": {
+      "concurrency_1": ".csdlc/evidence/904/local-runtime-single-node-c1.json",
+      "concurrency_2": ".csdlc/evidence/904/local-runtime-single-node-c2.json"
+    },
+    "receipt_sha256": {
+      "concurrency_1": "fd0cf3c7ae0f2f878de1e432e164a77e57bab7895ac42805079940ff9cd43ce4",
+      "concurrency_2": "70edc9d05f9d72ebb8d9d077ea89f6da92423f47354d57db54cad44564ef7c30"
+    },
     "route": "canonical provider reload owner to production concurrent workflow executor to ollama provider to PAIR loopback proxy",
-    "attempts": 2,
-    "correct": 2,
-    "elapsed_ms": 502
+    "repetitions_per_concurrency": 3,
+    "attempts": 12,
+    "correct": 12,
+    "summaries": [
+      {
+        "concurrency": 1,
+        "batches": 3,
+        "median_batch_ms": 758,
+        "completed_requests_per_second": 2.649006622516556
+      },
+      {
+        "concurrency": 2,
+        "batches": 3,
+        "median_batch_ms": 481,
+        "completed_requests_per_second": 2.1921812203142124
+      }
+    ]
   },
   "proof_boundary": {
     "pair_single_node_route_works": true,
