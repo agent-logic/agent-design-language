@@ -10,7 +10,15 @@ The operator requires a successful real review from both matched providers befor
 - General Qwen3 8B and14B qualification and Qwen3-Coder30B qualification also produced no accepted review result. The 8B thinking trial exhausted4096 generated tokens without delivering a review. These are failed qualification attempts, not evidence of a successful matched benchmark.
 - Historical #3501 and #3415/#3503 packets distinguish general Qwen models from local qwen3-coder:30b. Their useful bounded worker/checklist result is not broad review-quality acceptance. Retain that distinction when reusing their settings.
 
-## Required remaining work
+## Final bounded qualification outcome
+
+The shared Qwen3-8B FP16 MLX trial completed but missed the known PR952 defect, returning No actionable findings. Ollama import of the same export failed with unsupported architecture Qwen3ForCausalLM before an equal-weight pair could be established. The download completed and failed attempts remain retained privately. The owned MLX server was stopped.
+
+Separately, installed Qwen3.6:27b via Ollama completed a4096-token-ceiling run in388.268seconds and ultimately identified the real Closing plus URL-form PartOf bypass. Independent review classified this one defect discovery as qualified with limits because of extensive retracted errors and self-dialogue. That single-engine result is not an MLX comparison or clean broad-review acceptance.
+
+No successful matched review pair and no review-speed advantage are established. Model trials are paused after this bounded result. Adapter publication may report its independently proved scope without a benchmark claim; the operator-requested successful-review comparison remains unresolved.
+
+## Remaining comparison work
 
 Qualify a real review against independent ground truth, then compare identical model weights, rendered inputs, effective generation controls, and review budgets across MLX and non-MLX. Preserve failed trials, complete responses, input hashes, timing, resource differences, and cold/warm status. Run order and output lengths must be reported. No acceleration or successful-review claim is currently established.
 

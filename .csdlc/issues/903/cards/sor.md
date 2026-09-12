@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Adapter and actual canonical-reload production-workflow Metal proof passed locally. Sanitized hardware receipt retained. Operator-requested successful-review comparison, updated exact-head review, CI/publication and merge remain outstanding.
+Bounded MLX adapter and actual canonical production-workflow Metal smoke passed. Independent source/evidence review found no new source defects; staleSOR/SRP corrected. Supplemental successful-review comparison not established, trials paused with failures retained. RequiredCI, publication, operator merge and native closeout remain.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -81,7 +81,7 @@ Adapter and actual canonical-reload production-workflow Metal proof passed local
 ## Actions taken
 - `Implemented mlx adapter and narrow canonical dispatch/profile/substrate registration in903worktree; coordinated #855 extraction seam.`
 - `12 protocol negatives,2 public/workflow fixtures,1 inherited reload regression passed; explicit real Metal workflow test also passed1/1 at3374315d3 with immutable local output/sidecar hashes. Strict Clippy passed.`
-- `Corrected adapter source independently reviewed; source unchanged during comparison. Real review trials with matched Llama3.2 learned weights failed quality on both engines and are not evidence of successful-review performance. Stronger model qualification underway.`
+- `Independent exacthead review confirms sourcehashes unchanged since reviewed3374315d3; realworkflow receipt matches. Modelcomparison failure and singleengine qualified-with-limits result recorded in COMPARISON_STATUS.md. No paired-review acceleration claim.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
@@ -174,5 +174,5 @@ verification_summary:
 - `Operator approved local execution and matching-model download. Real Metal workflow smoke passed. Additional successful-review comparison remains in progress; failed model reviews are non-proving for useful-review acceleration.`
 
 ## Follow-ups / Deferred work
-- `Complete successful-review matched-provider experiment, correct remaining review findings and publish only after current exact-head review.`
+- `Current finalmetadata/source review and native publication, then requiredCI. Supplemental comparison remains unresolved; do not hide failure or claim success.`
 - `Updated independent exact-head review, CI, operator merge, native finish and exact cleanup`
