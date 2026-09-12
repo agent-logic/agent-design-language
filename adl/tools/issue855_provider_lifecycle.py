@@ -343,13 +343,16 @@ def identity(snapshot):
     return {key: snapshot[key] for key in ('runtime_incarnation_id', 'runtime_process_id')}
 
 
-def conversation(api_port, context, token, agent_id, message):
+def conversation(api_port, context, token, agent_id, message, requested_agent_action=None):
     ws = WebSocket(api_port, context, 'https://localhost:8765')
     try:
         ws.send(dict(schema='adl.runtime_v3.observatory_ws_auth.v1', bearer_token=token))
         ws.until(lambda x: x.get('status') == 'authenticated')
         turn = secrets.token_hex(8)
-        ws.send(dict(schema='adl.runtime_v3.observatory_conversation_intent.v1', conversation_id='fixture-' + turn, turn_id=turn, recipient_id=agent_id, correlation_id=secrets.token_hex(16), message=message, message_parts=[]))
+        intent = dict(schema='adl.runtime_v3.observatory_conversation_intent.v1', conversation_id='fixture-' + turn, turn_id=turn, recipient_id=agent_id, correlation_id=secrets.token_hex(16), message=message, message_parts=[])
+        if requested_agent_action is not None:
+            intent['requested_agent_action'] = requested_agent_action
+        ws.send(intent)
         result = ws.until(lambda x: x.get('schema') == 'adl.runtime_v3.observatory_conversation_result.v1' and x.get('turn_id') == turn and x.get('status') not in ('accepted', 'pending'))
         require(result.get('status') == 'delivered', f'conversation failed: {result}')
         require(result.get('reply'), 'missing generated operator reply')
@@ -523,11 +526,10 @@ def execute(args):
             detail = await_agent(ident)
             await_agent(peer_id)
             operator = conversation(api_port, ctx, tokens['observatory'], ident, 'Give a bounded local operator reply.')
-            peer_prompt = f'ISSUE855_A2A:{peer_name} Ask the peer for a bounded reply.'
-            if args.hosted_approved:
-                peer_prompt = 'Initiate the governed agent-to-agent action now. Return only this JSON object, without Markdown: ' + json.dumps({'schema': 'adl.runtime.provider_agent_action.v1', 'message': 'I will ask Beacon for a greeting.', 'action': {'recipient_name': peer_name, 'message': 'Please give a brief greeting.', 'message_parts': []}})
-            peer = conversation(api_port, ctx, tokens['observatory'], ident, peer_prompt)
-            require(peer.get('initiated_recipient_name') == peer_name and peer.get('initiated_reply'), 'canonical generated A2A reply missing')
+            peer_prompt = 'The Runtime will send my requested greeting to the peer after your reply. Briefly acknowledge this request in plain text; do not emit an additional action.'
+            requested_action = dict(recipient_name=peer_name, message='Please give a brief greeting.', message_parts=[])
+            peer = conversation(api_port, ctx, tokens['observatory'], ident, peer_prompt, requested_action)
+            require(peer.get('initiated_recipient_name') == peer_name and peer.get('initiated_reply'), 'canonical governed A2A reply missing')
             checkpoint = root / f'{ident}-checkpoint.json'
             csmctl('checkpoint', '--init', init, '--id', ident, '--out', checkpoint)
             require(checkpoint.is_file(), 'checkpoint not durable')
