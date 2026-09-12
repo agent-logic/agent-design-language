@@ -54,14 +54,22 @@ fn effect_result(
     let mut result = result.unwrap_or_else(
         |code| json!({"status":"recovery_required","effects_unknown":true,"error":code}),
     );
-    let truth = match result["performed_mutation"].as_bool() {
-        Some(true) => EffectTruth::Performed,
-        Some(false) => EffectTruth::NotPerformed,
-        None => EffectTruth::Unknown,
+    // Invocation writes and the retained operation's historical effect are distinct.
+    // Verified receipt/archive reconciliation supplies history even when this call
+    // only attaches the already-performed result.
+    let truth = if let Some(value) = result.get("historical_effect_truth") {
+        serde_json::from_value(value.clone()).map_err(|_| "intent_terminal_effect_truth_invalid")?
+    } else {
+        match result["performed_mutation"].as_bool() {
+            Some(true) => EffectTruth::Performed,
+            Some(false) => EffectTruth::NotPerformed,
+            None => EffectTruth::Unknown,
+        }
     };
     let attachment = semantic.fresh_for_effect(ticket.id());
     let fresh = attachment.is_ok();
-    let kind = if !fresh || truth == EffectTruth::Unknown {
+    let kind = if !fresh || truth == EffectTruth::Unknown || result["status"] == "recovery_required"
+    {
         OutcomeKind::Unresolved
     } else if matches!(
         result["status"].as_str(),
@@ -198,13 +206,47 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         let bound_path = binding["worktree"]
             .as_str()
             .ok_or("intent_cleanup_binding_invalid")?;
-        if topology
+        let candidate = PathBuf::from(bound_path);
+        let registered = topology
             .lines()
             .filter_map(|line| line.strip_prefix("worktree "))
-            .any(|path| path == bound_path)
-            || PathBuf::from(bound_path).exists()
-        {
-            return Err("cleanup_archive_recovery_required".into());
+            .any(|path| path == bound_path);
+        if registered || candidate.exists() {
+            // A missing source index does not mean Git removal completed. Resume
+            // only the exact registered checkout backed by verified archive bytes
+            // and the retained semantic cleanup reservation.
+            if !registered || !candidate.exists() {
+                return Err("cleanup_archive_recovery_required".into());
+            }
+            let retained = retained_cleanup_index(&context.primary, &candidate, context.issue)
+                .map_err(|finding| finding.code)?
+                .ok_or("cleanup_archive_recovery_required")?;
+            let (root, key) = context.semantic_root_key()?;
+            let snapshot = match DurableTransactionStore::observe_issue(&root, &key)
+                .map_err(semantic_error)?
+            {
+                semantic::Observation::Current(snapshot)
+                | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
+                _ => return Err("intent_cleanup_semantic_state_required".into()),
+            };
+            if !snapshot
+                .pending()
+                .is_some_and(|pending| pending.command() == SemanticCommand::RecordCleanup)
+                || snapshot
+                    .inputs()
+                    .binding()
+                    .is_none_or(|binding| binding.worktree != candidate)
+            {
+                return Err("intent_cleanup_pending_identity_required".into());
+            }
+            let recovered = Context::load(&candidate, context.issue)?;
+            if !recovered.cleanup_pending
+                || recovered.root != candidate
+                || recovered.index != retained
+            {
+                return Err("cleanup_archive_recovery_required".into());
+            }
+            return run(&recovered, request);
         }
         context.fresh()?;
         let (root, key) = context.semantic_root_key()?;
@@ -265,14 +307,14 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 .ticket()
                 .ok_or("intent_cleanup_pending_ticket_missing")?
                 .clone();
-            semantic.fresh_for_effect(ticket.id())?;
+            // No native dispatch occurs here; effect_result authenticates attachment.
             return effect_result(
                 context,
                 &semantic,
                 ticket,
                 operation,
                 Ok(
-                    json!({"status":"expected_noop","read_only":false,"performed_mutation":false,"reconciled_removal":packet}),
+                    json!({"status":"expected_noop","read_only":false,"performed_mutation":false,"historical_effect_truth":"performed","reconciled_removal":packet}),
                 ),
                 Facts {
                     terminal_receipt: true,
@@ -433,14 +475,14 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                         ticket,
                         &operation,
                         Ok(
-                            json!({"status":"expected_noop","read_only":false,"performed_mutation":false,"retained_receipt":receipt}),
+                            json!({"status":"expected_noop","read_only":false,"performed_mutation":false,"historical_effect_truth":"performed","retained_receipt":receipt}),
                         ),
                         facts,
                     );
                 }
                 Reservation::Reserved(ticket) => ticket,
             };
-            semantic.fresh_for_effect(ticket.id())?;
+            semantic.admit_before_effect(ticket.id())?;
             native.terminal_state = Some(TerminalStateWriteRequest {
                 repository_root: context.primary.clone(),
                 state_path,
@@ -610,18 +652,23 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             };
             // The exact user-approved native preview is re-admitted on recovery;
             // retained semantic request and archive identity are never regenerated.
-            semantic.fresh_for_effect(ticket.id())?;
+            semantic.admit_before_effect(ticket.id())?;
             let result = match prepare_intent_cleanup(&native) {
                 Ok(result) => result,
                 Err(finding) => {
+                    let archived =
+                        retained_cleanup_index(&context.primary, &context.root, context.issue)
+                            .is_ok_and(|index| index.is_some());
                     return effect_result(
                         context,
                         &semantic,
                         ticket,
                         &operation,
-                        Err(finding.code),
+                        Ok(json!({"status":"recovery_required","error":finding.code,
+                            "performed_mutation":if archived{Some(true)}else{None},
+                            "effects_unknown":!archived})),
                         facts,
-                    )
+                    );
                 }
             };
             let removed = matches!(result.cleanup, Some(CleanupDecision::Removed { .. }));
@@ -636,7 +683,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 &operation,
                 Ok(
                     json!({"status":if removed {"completed"}else if noop {"expected_noop"}else{"blocked"},"read_only":false,"operational_authority":removed,
-                "performed_mutation":if removed{Some(true)}else if noop{Some(false)}else{None},"effects_unknown":!removed&&!noop,"result":result}),
+                "performed_mutation":if removed{Some(true)}else if noop{Some(false)}else{None},
+                "historical_effect_truth":if removed||context.cleanup_pending {EffectTruth::Performed}else if noop {EffectTruth::NotPerformed}else{EffectTruth::Unknown},
+                "effects_unknown":!removed&&!noop,"result":result}),
                 ),
                 facts,
             )

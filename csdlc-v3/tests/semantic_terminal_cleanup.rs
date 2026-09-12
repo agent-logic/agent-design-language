@@ -87,6 +87,27 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         other => panic!("{other:?}"),
     };
     assert!(!snapshot.completed().is_empty());
+    assert_eq!(
+        snapshot.completed().last().unwrap().truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::Performed
+    );
+    let replay = success(fixture.run(
+        &linked,
+        &[
+            "finish",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    assert_eq!(
+        replay["performed_mutation"], false,
+        "replay dispatched terminal writer"
+    );
+    assert_eq!(
+        replay["semantic"]["effect_truth"], "performed",
+        "replay erased historical write"
+    );
     let before = intent_fixture::inventory(&primary);
     let preview = success(fixture.run(&linked, &["clean", "505", "--preview", "plan"]));
     assert_eq!(
@@ -132,6 +153,16 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         other => panic!("{other:?}"),
     };
     assert!(after.pending().is_none());
+    assert_eq!(
+        after
+            .completed()
+            .iter()
+            .find(|done| done.id() == &operation)
+            .unwrap()
+            .truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::Performed,
+        "archive/removal history was replaced by reconciliation no-op truth"
+    );
     assert!(
         after.completed().iter().any(|done| done.id() == &operation),
         "recovery replaced original operation identity"
