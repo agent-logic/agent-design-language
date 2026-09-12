@@ -93,9 +93,13 @@ fn pair_actual_runtime_workflow() {
     let concurrency: usize = required("ADL_PAIR_CONCURRENCY")
         .parse()
         .expect("ADL_PAIR_CONCURRENCY must be an integer");
+    let repetitions: usize = required("ADL_PAIR_REPETITIONS")
+        .parse()
+        .expect("ADL_PAIR_REPETITIONS must be an integer");
     assert!(source.is_absolute() && corpus_path.is_absolute() && evidence.is_absolute());
     assert!(evidence.is_dir());
     assert!((1..=16).contains(&concurrency));
+    assert!((2..=100).contains(&repetitions));
     let receipt_path = evidence.join("pair-runtime-smoke.json");
     assert!(
         !receipt_path.exists(),
@@ -166,42 +170,54 @@ fn pair_actual_runtime_workflow() {
     assert!(matches!(parsed.host_str(), Some("127.0.0.1") | Some("::1")));
     assert!(parsed.port().is_some());
 
-    let started = Instant::now();
-    let mut trace = adl::trace::Trace::new("pair-runtime-smoke", &resolved.workflow_id, "0.3");
-    let result = adl::execute::execute_sequential_with_provider_reload_handle(
-        &resolved,
-        &mut trace,
-        false,
-        false,
-        run.path(),
-        run.path(),
-        &handle,
-    );
-    let elapsed = started.elapsed();
-    runtime
-        .block_on(owner.shutdown())
-        .expect("settle provider reload owner");
-    let result = result.expect("actual Runtime workflow through PAIR");
-    assert_eq!(result.outputs.len(), rows.len());
     let expected = rows
         .iter()
         .map(|row| (row.id.as_str(), row.expected_text.as_str()))
         .collect::<BTreeMap<_, _>>();
     let mut outputs = Vec::new();
-    for output in &result.outputs {
-        let expected_text = expected
-            .get(output.step_id.as_str())
-            .expect("Runtime returned an unknown step id");
-        assert_eq!(output.model_output.trim(), *expected_text);
-        outputs.push(json!({
-            "id": output.step_id,
-            "output_bytes": output.model_output.len(),
-            "output_sha256": format!("{:x}", Sha256::digest(output.model_output.as_bytes()))
-        }));
+    let mut batches = Vec::new();
+    for repetition in 0..repetitions {
+        let repetition_dir = run.path().join(format!("repetition-{repetition}"));
+        fs::create_dir(&repetition_dir).expect("create bounded repetition directory");
+        let started = Instant::now();
+        let mut trace = adl::trace::Trace::new("pair-runtime-smoke", &resolved.workflow_id, "0.3");
+        let result = adl::execute::execute_sequential_with_provider_reload_handle(
+            &resolved,
+            &mut trace,
+            false,
+            false,
+            &repetition_dir,
+            &repetition_dir,
+            &handle,
+        )
+        .expect("actual Runtime workflow through PAIR");
+        let elapsed = started.elapsed();
+        assert_eq!(result.outputs.len(), rows.len());
+        for output in &result.outputs {
+            let expected_text = expected
+                .get(output.step_id.as_str())
+                .expect("Runtime returned an unknown step id");
+            assert_eq!(output.model_output.trim(), *expected_text);
+            outputs.push(json!({
+                "repetition": repetition,
+                "id": output.step_id,
+                "output_bytes": output.model_output.len(),
+                "output_sha256": format!("{:x}", Sha256::digest(output.model_output.as_bytes()))
+            }));
+        }
+        batches.push(json!({"repetition": repetition, "elapsed_ms": elapsed.as_millis()}));
     }
-    outputs.sort_by(|left, right| left["id"].as_str().cmp(&right["id"].as_str()));
+    runtime
+        .block_on(owner.shutdown())
+        .expect("settle provider reload owner");
+    outputs.sort_by(|left, right| {
+        left["repetition"]
+            .as_u64()
+            .cmp(&right["repetition"].as_u64())
+            .then_with(|| left["id"].as_str().cmp(&right["id"].as_str()))
+    });
     let receipt = json!({
-        "schema": "adl.pair.runtime-smoke.v1",
+        "schema": "adl.pair.runtime-batch.v1",
         "result": "pass",
         "candidate_sha": candidate_sha,
         "dispatch": "execute_sequential_with_provider_reload_handle",
@@ -211,8 +227,9 @@ fn pair_actual_runtime_workflow() {
         "corpus_sha256": format!("{:x}", Sha256::digest(&corpus_bytes)),
         "snapshot_digest": snapshot.digest,
         "concurrency": concurrency,
-        "attempts": rows.len(),
-        "elapsed_ms": elapsed.as_millis(),
+        "repetitions": repetitions,
+        "attempts": rows.len() * repetitions,
+        "batches": batches,
         "outputs": outputs,
         "pair_service_started_by_probe": false,
         "serving_node_proven_by_probe": false
