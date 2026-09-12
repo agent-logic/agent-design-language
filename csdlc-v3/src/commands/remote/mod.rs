@@ -1,7 +1,9 @@
 #![allow(dead_code)]
 
 mod merge;
+mod merge_linkage;
 pub use merge::{merge_state_query, MergeMethod};
+pub use merge_linkage::{merge_linkage_query, PublicationLinkage};
 
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use crate::publication::{
@@ -99,6 +101,9 @@ pub struct TypedReviewReceipt {
     pub reviewed_revision: String,
     pub expected_head_sha: String,
     pub evidence_digest: String,
+    /// Required by merge admission; older publication-only receipts remain readable.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub publication_linkage: Option<PublicationLinkage>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -763,7 +768,7 @@ fn remote_finding(code: &str, message: &str) -> RemoteRouteFinding {
 }
 
 pub fn typed_review_receipt_payload_digest(receipt: &TypedReviewReceipt) -> String {
-    stable_digest(&[
+    let legacy = stable_digest(&[
         &receipt.schema,
         &receipt.repository,
         &receipt.issue.to_string(),
@@ -772,7 +777,19 @@ pub fn typed_review_receipt_payload_digest(receipt: &TypedReviewReceipt) -> Stri
         &receipt.reviewed_revision,
         &receipt.expected_head_sha,
         &receipt.evidence_digest,
-    ])
+    ]);
+    match &receipt.publication_linkage {
+        Some(linkage) => stable_digest(&[
+            &legacy,
+            &linkage.repository,
+            &linkage.issue.to_string(),
+            match linkage.mode {
+                RemotePublicationMode::Closing => "closing",
+                RemotePublicationMode::PartOf => "part_of",
+            },
+        ]),
+        None => legacy,
+    }
 }
 
 pub fn github_readback_receipt_payload_digest(receipt: &GithubReadbackReceipt) -> String {

@@ -121,6 +121,7 @@ fn receipts_for(request: &RemoteRouteRequest) -> RemoteRouteReceipts {
     };
     RemoteRouteReceipts {
         typed_review: Some(TypedReviewReceipt {
+            publication_linkage: None,
             schema: "csdlc.v3.typed_review_receipt.v1".into(),
             repository: request.repository.clone(),
             issue: request.issue,

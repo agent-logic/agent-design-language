@@ -688,6 +688,11 @@
           "name": "evidence_digest",
           "type": "String",
           "optional": false
+        },
+        {
+          "name": "publication_linkage",
+          "type": "Option<PublicationLinkage>",
+          "optional": true
         }
       ]
     },
@@ -1577,6 +1582,28 @@
         {
           "name": "gate_digest",
           "type": "String",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "PublicationLinkage",
+      "rust_name": "PublicationLinkage",
+      "source": "csdlc-v3/src/commands/remote/merge_linkage.rs",
+      "fields": [
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "mode",
+          "type": "RemotePublicationMode",
           "optional": false
         }
       ]

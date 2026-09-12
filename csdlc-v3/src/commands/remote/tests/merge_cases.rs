@@ -7,6 +7,11 @@ use serde_json::{json, Value};
 fn request(root: &std::path::Path) -> super::super::GithubMutationRequest {
     let head = mutation_head(root);
     let receipt = TypedReviewReceipt {
+        publication_linkage: Some(super::super::PublicationLinkage {
+            repository: "agent-logic/agent-design-language".into(),
+            issue: 505,
+            mode: super::super::RemotePublicationMode::Closing,
+        }),
         schema: "csdlc.v3.typed_review_receipt.v1".into(),
         repository: "agent-logic/agent-design-language".into(),
         issue: 505,
@@ -34,6 +39,7 @@ fn request(root: &std::path::Path) -> super::super::GithubMutationRequest {
 fn state(request: &super::super::GithubMutationRequest, merged: bool) -> Value {
     let checks = json!({"nodes":[{"__typename":"CheckRun","name":"ci","status":"COMPLETED","conclusion":"SUCCESS","isRequired":true,"checkSuite":{"app":{"databaseId":42}}}],"pageInfo":{"hasNextPage":false}});
     json!({"data":{"repository":{"nameWithOwner":request.repository,"mergeCommitAllowed":true,"pullRequest":{
+        "body":"Closes #505", "closingIssuesReferences":{"nodes":[{"number":505,"url":"https://github.com/agent-logic/agent-design-language/issues/505","repository":{"nameWithOwner":request.repository}}],"pageInfo":{"hasNextPage":false}},
         "number":844,"url":"https://github.com/agent-logic/agent-design-language/pull/844", "headRefOid":request.expected_head_sha,
         "baseRefName":"main","baseRefOid":"1111111111111111111111111111111111111111","state":if merged {"MERGED"} else {"OPEN"},
         "merged":merged,"isDraft":false,"mergeable":"MERGEABLE","mergeStateStatus":"CLEAN","reviewDecision":null,
@@ -41,7 +47,7 @@ fn state(request: &super::super::GithubMutationRequest, merged: bool) -> Value {
         "latestReviews":{"nodes":[],"pageInfo":{"hasNextPage":false}},
         "commits":{"nodes":[{"commit":{"oid":request.expected_head_sha,"statusCheckRollup":{"state":"SUCCESS","contexts":checks}}}]},
         "mergeCommit":if merged {json!({"oid":"2222222222222222222222222222222222222222","parents":{"nodes":[{"oid":"1111111111111111111111111111111111111111"},{"oid":request.expected_head_sha}],"pageInfo":{"hasNextPage":false}}})} else {Value::Null}
-    }}}})
+    }},"linkedRepository":{"nameWithOwner":request.repository,"issue":{"number":505,"url":"https://github.com/agent-logic/agent-design-language/issues/505","state":if merged {"CLOSED"} else {"OPEN"}}}}})
 }
 fn rules() -> Value {
     json!([{"type":"required_status_checks","parameters":{"required_status_checks":[{"context":"ci","integration_id":42}]}}])
@@ -524,4 +530,277 @@ fn merge_alternate_review_path_cannot_bypass_uncertain_target_guard() {
     assert_eq!(put_count(&p), 0);
     assert!(p.invocations.is_empty());
     std::fs::remove_dir_all(root).unwrap();
+}
+
+fn reviewed_linkage(
+    root: &std::path::Path,
+    r: &mut super::super::GithubMutationRequest,
+    repository: &str,
+    mode: super::super::RemotePublicationMode,
+) {
+    if let GithubMutation::PullRequestMerge {
+        review_receipt_path,
+        review_receipt_digest,
+        ..
+    } = &mut r.mutation
+    {
+        let mut receipt: TypedReviewReceipt =
+            serde_json::from_slice(&std::fs::read(&*review_receipt_path).unwrap()).unwrap();
+        receipt.publication_linkage = Some(super::super::PublicationLinkage {
+            repository: repository.into(),
+            issue: r.issue,
+            mode,
+        });
+        *review_receipt_digest = super::super::typed_review_receipt_payload_digest(&receipt);
+        std::fs::write(
+            root.join(&*review_receipt_path),
+            serde_json::to_vec(&receipt).unwrap(),
+        )
+        .unwrap();
+    }
+}
+
+fn linkage_state(
+    r: &super::super::GithubMutationRequest,
+    repository: &str,
+    mode: super::super::RemotePublicationMode,
+    merged: bool,
+) -> Value {
+    let mut value = state(r, merged);
+    let closing = mode == super::super::RemotePublicationMode::Closing;
+    let issue = json!({"number":r.issue,"url":format!("https://github.com/{repository}/issues/{}",r.issue),"repository":{"nameWithOwner":repository}});
+    let pr = &mut value["data"]["repository"]["pullRequest"];
+    pr["body"] = json!(format!(
+        "{} {repository}#{}",
+        if closing { "Closes" } else { "Part of" },
+        r.issue
+    ));
+    pr["closingIssuesReferences"]["nodes"] = if closing { json!([issue]) } else { json!([]) };
+    value["data"]["linkedRepository"] = json!({"nameWithOwner":repository,"issue":{"number":r.issue,"url":format!("https://github.com/{repository}/issues/{}",r.issue),"state":if closing && merged {"CLOSED"} else {"OPEN"}}});
+    value
+}
+
+#[test]
+fn merge_linkage_positive_modes_and_qualified_split_repository_replay() {
+    for repository in ["agent-logic/agent-design-language", "agent-logic/planning"] {
+        for mode in [
+            super::super::RemotePublicationMode::Closing,
+            super::super::RemotePublicationMode::PartOf,
+        ] {
+            let root = mutation_repo("merge-linkage-positive", true);
+            let mut r = request(&root);
+            reviewed_linkage(&root, &mut r, repository, mode);
+            let before = linkage_state(&r, repository, mode, false);
+            let after = linkage_state(&r, repository, mode, true);
+            let mut p = adapter(
+                &root,
+                &r,
+                vec![
+                    out(before.clone()),
+                    out(rules()),
+                    out(rules()),
+                    out(before),
+                    out(json!({"merged":true,"sha":"2222222222222222222222222222222222222222"})),
+                    out(after.clone()),
+                ],
+            );
+            let result = super::super::execute_github_mutation(&root, &r, &mut p).unwrap();
+            assert_eq!(put_count(&p), 1);
+            let identity = result.reconciliation.merge.unwrap();
+            assert_eq!(identity.publication_linkage.repository, repository);
+            assert_eq!(identity.publication_linkage.mode, mode);
+            assert_eq!(
+                identity.issue_state,
+                if mode == super::super::RemotePublicationMode::Closing {
+                    "CLOSED"
+                } else {
+                    "OPEN"
+                }
+            );
+            let mut p = adapter(&root, &r, vec![out(after)]);
+            assert!(
+                super::super::execute_github_mutation(&root, &r, &mut p)
+                    .unwrap()
+                    .receipt
+                    .idempotent_replay
+            );
+            assert_eq!(put_count(&p), 0);
+            std::fs::remove_dir_all(root).unwrap();
+        }
+    }
+}
+
+#[test]
+fn merge_linkage_negative_matrix_rejects_before_intent_and_dispatch() {
+    for case in [
+        "missing",
+        "mixed",
+        "wrong_target",
+        "wrong_repository",
+        "duplicate",
+        "closing_removed",
+        "part_of_to_closing",
+        "split_unqualified",
+        "manual_other_close",
+        "link_page",
+        "missing_graph",
+        "wrong_graph",
+        "missing_issue",
+        "wrong_issue_repo",
+        "closed_parent",
+    ] {
+        let root = mutation_repo("merge-linkage-negative", true);
+        let mut r = request(&root);
+        let mode = if case == "part_of_to_closing" {
+            super::super::RemotePublicationMode::PartOf
+        } else {
+            super::super::RemotePublicationMode::Closing
+        };
+        let repo = if case == "split_unqualified" {
+            "agent-logic/planning"
+        } else {
+            "agent-logic/agent-design-language"
+        };
+        reviewed_linkage(&root, &mut r, repo, mode);
+        let mut before = linkage_state(&r, repo, mode, false);
+        let pr = &mut before["data"]["repository"]["pullRequest"];
+        match case {
+            "missing" => {
+                pr.as_object_mut().unwrap().remove("body");
+            }
+            "mixed" => pr["body"] = json!("Closes #505\nPart of #505"),
+            "wrong_target" => pr["body"] = json!("Closes #506"),
+            "wrong_repository" => pr["body"] = json!("Closes other/repo#505"),
+            "duplicate" => pr["body"] = json!("Closes #505\nCloses #505"),
+            "closing_removed" => pr["body"] = json!("Related #505"),
+            "part_of_to_closing" | "split_unqualified" => pr["body"] = json!("Closes #505"),
+            "manual_other_close" => pr["closingIssuesReferences"]["nodes"]
+                .as_array_mut()
+                .unwrap()
+                .push(json!({"number":506})),
+            "link_page" => pr["closingIssuesReferences"]["pageInfo"]["hasNextPage"] = json!(true),
+            "missing_graph" => {
+                pr.as_object_mut()
+                    .unwrap()
+                    .remove("closingIssuesReferences");
+            }
+            "wrong_graph" => {
+                pr["closingIssuesReferences"]["nodes"][0]["repository"]["nameWithOwner"] =
+                    json!("other/repo")
+            }
+            "missing_issue" => before["data"]["linkedRepository"]["issue"] = Value::Null,
+            "wrong_issue_repo" => {
+                before["data"]["linkedRepository"]["nameWithOwner"] = json!("other/repo")
+            }
+            "closed_parent" => {
+                before["data"]["linkedRepository"]["issue"]["state"] = json!("CLOSED")
+            }
+            _ => unreachable!(),
+        }
+        let mut p = adapter(&root, &r, vec![out(before), out(rules())]);
+        assert!(
+            super::super::execute_github_mutation(&root, &r, &mut p).is_err(),
+            "{case}"
+        );
+        assert_eq!(put_count(&p), 0, "{case}");
+        assert!(!p.intent_path.as_ref().unwrap().exists(), "{case}");
+        std::fs::remove_dir_all(root).unwrap();
+    }
+}
+
+#[test]
+fn merge_linkage_same_head_drift_before_dispatch_and_after_uncertain_result() {
+    for mode in [
+        super::super::RemotePublicationMode::PartOf,
+        super::super::RemotePublicationMode::Closing,
+    ] {
+        let root = mutation_repo("merge-linkage-drift", true);
+        let mut r = request(&root);
+        let repo = "agent-logic/agent-design-language";
+        reviewed_linkage(&root, &mut r, repo, mode);
+        let before = linkage_state(&r, repo, mode, false);
+        let mut drift = before.clone();
+        drift["data"]["repository"]["pullRequest"]["body"] =
+            json!(if mode == super::super::RemotePublicationMode::PartOf {
+                "Closes #505"
+            } else {
+                "Part of #505"
+            });
+        let mut p = adapter(
+            &root,
+            &r,
+            vec![out(before.clone()), out(rules()), out(rules()), out(drift)],
+        );
+        assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+        assert_eq!(put_count(&p), 0);
+        assert!(p.intent_path.as_ref().unwrap().exists());
+        // A retained intent is reconciliation-only even after pre-dispatch rejection.
+        let mut p = adapter(&root, &r, vec![out(before)]);
+        assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+        assert_eq!(put_count(&p), 0);
+        std::fs::remove_dir_all(root).unwrap();
+
+        let root = mutation_repo("merge-linkage-poststate", true);
+        let mut r = request(&root);
+        reviewed_linkage(&root, &mut r, repo, mode);
+        let before = linkage_state(&r, repo, mode, false);
+        let mut after = linkage_state(&r, repo, mode, true);
+        after["data"]["linkedRepository"]["issue"]["state"] =
+            json!(if mode == super::super::RemotePublicationMode::PartOf {
+                "CLOSED"
+            } else {
+                "OPEN"
+            });
+        let mut p = adapter(
+            &root,
+            &r,
+            vec![
+                out(before.clone()),
+                out(rules()),
+                out(rules()),
+                out(before),
+                process_output(crate::adapters::ProcessStatus::TimedOut, json!({})),
+                out(after.clone()),
+            ],
+        );
+        assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+        assert_eq!(put_count(&p), 1);
+        let mut p = adapter(&root, &r, vec![out(after)]);
+        assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+        assert_eq!(put_count(&p), 0);
+        std::fs::remove_dir_all(root).unwrap();
+    }
+}
+
+#[test]
+fn merge_linkage_review_digest_prevents_missing_or_changed_review_linkage() {
+    for change in ["missing", "mode", "repository", "issue"] {
+        let root = mutation_repo("merge-linkage-review", true);
+        let r = request(&root);
+        if let GithubMutation::PullRequestMerge {
+            review_receipt_path,
+            ..
+        } = &r.mutation
+        {
+            let mut receipt: TypedReviewReceipt =
+                serde_json::from_slice(&std::fs::read(review_receipt_path).unwrap()).unwrap();
+            match change {
+                "missing" => receipt.publication_linkage = None,
+                "mode" => {
+                    receipt.publication_linkage.as_mut().unwrap().mode =
+                        super::super::RemotePublicationMode::PartOf
+                }
+                "repository" => {
+                    receipt.publication_linkage.as_mut().unwrap().repository = "other/repo".into()
+                }
+                "issue" => receipt.publication_linkage.as_mut().unwrap().issue += 1,
+                _ => unreachable!(),
+            }
+            std::fs::write(review_receipt_path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+        }
+        let mut p = adapter(&root, &r, vec![]);
+        assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+        assert!(p.invocations.is_empty());
+        std::fs::remove_dir_all(root).unwrap();
+    }
 }

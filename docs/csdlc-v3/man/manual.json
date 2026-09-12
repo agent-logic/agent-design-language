@@ -568,6 +568,9 @@
           "mutation.action pull_request_merge requires base, method \"merge\", review_receipt_path and review_receipt_digest. Squash/rebase, queues, unsupported active rules, incomplete pagination, missing/wrong-app checks, skipped required checks, unresolved threads and changes-requested reviews fail closed.",
           "Admission observes exact PR/head/base and effective branch policy. The SHA conditional protects the head, not an atomic base/policy snapshot. Reconciliation requires the authenticated merge commit to have two ordered parents, matching retained base then reviewed head. A base race after dispatch can only be detected afterward; never claim atomic policy compare-and-swap or automatic rollback.",
           "After successful merge reconciliation run finish --observe-github independently. A merge receipt is not terminal issue-close evidence."
+        ],
+        "MERGE LINKAGE": [
+          "Merge requires reviewed publication_linkage, one canonical whole-line Closes owner/repository#issue or Part of owner/repository#issue relation, complete authenticated closingIssuesReferences and a qualified OPEN issue before dispatch. Same-repository #issue is supported; split-repository references must be qualified. Closing poststate requires CLOSED, PartOf requires OPEN. Head CAS does not freeze body, base or policy; late drift blocks reconciliation and never authorizes another PUT. See docs/csdlc-v3/PULL_REQUEST_MERGE.md."
         ]
       }
     },
@@ -1245,7 +1248,8 @@
           "reviewer: String; required.",
           "reviewed_revision: String; required.",
           "expected_head_sha: String; required.",
-          "evidence_digest: String; required."
+          "evidence_digest: String; required.",
+          "publication_linkage: Option<PublicationLinkage>; required for merge, optional for publication-only compatibility. Its qualified repository, issue and mode enter the typed review payload digest. A pre-linkage merge receipt cannot authorize a new merge."
         ],
         "GITHUBREADBACKRECEIPT": [
           "schema: String; required.",
@@ -1436,6 +1440,11 @@
           "notes_digest: String; required.",
           "gate_path: String; required.",
           "gate_digest: String; required."
+        ],
+        "PUBLICATIONLINKAGE": [
+          "repository: String; required qualified owner/repository of the issue, which may differ from the PR code repository.",
+          "issue: u64; required positive issue number matching the merge request.",
+          "mode: RemotePublicationMode; required closing or part_of. The reviewed mode controls both authenticated pre-dispatch relation and post-merge issue state."
         ]
       }
     },

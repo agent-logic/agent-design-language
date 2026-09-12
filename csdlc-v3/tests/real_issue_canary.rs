@@ -614,6 +614,7 @@ fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_withou
     let mut request = observed.request;
     let receipts = RemoteRouteReceipts {
         typed_review: Some(TypedReviewReceipt {
+            publication_linkage: None,
             schema: "csdlc.v3.typed_review_receipt.v1".into(),
             repository: request.repository.clone(),
             issue: request.issue,
