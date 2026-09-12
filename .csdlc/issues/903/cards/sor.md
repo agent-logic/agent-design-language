@@ -81,7 +81,7 @@ Bounded MLX adapter and actual canonical production-workflow Metal smoke passed.
 ## Actions taken
 - `Implemented mlx adapter and narrow canonical dispatch/profile/substrate registration in903worktree; coordinated #855 extraction seam.`
 - `12 protocol negatives,2 public/workflow fixtures,1 inherited reload regression passed; explicit real Metal workflow test also passed1/1 at3374315d3 with immutable local output/sidecar hashes. Strict Clippy passed.`
-- `Independent exacthead review confirms sourcehashes unchanged since reviewed3374315d3; realworkflow receipt matches. Modelcomparison failure and singleengine qualified-with-limits result recorded in COMPARISON_STATUS.md. No paired-review acceleration claim.`
+- `Bounded publication review passed at9e9803b66; unchanged source/hardware proof verified. Supplemental model trials paused after failed matched qualification; singleengine Qwen3.6 discovery qualifiedwithlimits. No paired-review acceleration claim.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`

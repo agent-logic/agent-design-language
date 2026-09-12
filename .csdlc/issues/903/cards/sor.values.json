@@ -13,7 +13,7 @@
   "slug": "v0922-mlx-metal-provider",
   "variance_analysis_required": "unknown",
   "verification_validation_status": "partial",
-  "actions_taken_line_3": "Independent exacthead review confirms sourcehashes unchanged since reviewed3374315d3; realworkflow receipt matches. Modelcomparison failure and singleengine qualified-with-limits result recorded in COMPARISON_STATUS.md. No paired-review acceleration claim.",
+  "actions_taken_line_3": "Bounded publication review passed at9e9803b66; unchanged source/hardware proof verified. Supplemental model trials paused after failed matched qualification; singleengine Qwen3.6 discovery qualifiedwithlimits. No paired-review acceleration claim.",
   "expected_runtime_class": "local CPU fixtures plus observational Apple Metal GPU smoke",
   "decision_or_deviation_2": "Operator approved local execution and matching-model download. Real Metal workflow smoke passed. Additional successful-review comparison remains in progress; failed model reviews are non-proving for useful-review acceleration.",
   "execution_actor": "Planning #7: #903 implementation; sibling908 bounded design review and workflow test authoring",
