@@ -1,0 +1,7 @@
+{
+  "head": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+  "reviewer": "root",
+  "source_review": "review_804 PASS through d96f90ecc7bcea702605f73814d9fce02486df28",
+  "metadata_review": "root PASS exact 189aff00ff58bb0bfd78e2603b7da794fcfcae4b; five SOR identity fields restored; native six-card validation passed",
+  "boundary": "draft publication only; actual hosted and current CI pending"
+}

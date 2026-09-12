@@ -1,4 +1,4 @@
-use crate::adl;
+use crate as adl;
 use reqwest::blocking::{Client, Response};
 use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION, CONTENT_TYPE};
 use reqwest::{StatusCode, Url};
@@ -271,6 +271,7 @@ impl DeepgramSpeechProvider {
             ));
         }
         let client = Client::builder()
+            .redirect(reqwest::redirect::Policy::none())
             .timeout(Duration::from_secs(timeout_secs))
             .build()
             .map_err(|_| {

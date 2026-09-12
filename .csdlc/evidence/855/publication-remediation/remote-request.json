@@ -1,0 +1,23 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "issue": 855,
+  "pull_request": 964,
+  "implementer": "execute_855",
+  "reviewer": "root",
+  "review_revision": "d329b40608fe8e39279ff48b6de62ccfb89eefc4",
+  "expected_head_sha": "d329b40608fe8e39279ff48b6de62ccfb89eefc4",
+  "head_sha": "d329b40608fe8e39279ff48b6de62ccfb89eefc4",
+  "mode": "closing",
+  "body": "Route dynamic agent admission, replacement and conversation execution through the canonical process-owned provider registry. Preserve existing ADL adapters and validated profile reloads while exposing safe model, capability and health projections. Operator and signed A2A execution, checkpoint/migration/rehydration and removal work without Runtime restart.\n\nLocal proof includes the installed five-provider fixture matrix and three-provider hosted-topology fixture. Independent review resolved deadline/cancellation, health publication, action accounting and bounded adapter findings. Follow-up remediation preserves safe continuation failure categories and selects an explicit Rustls provider under unified dependency features. Shared strict limit validation rejects invalid definitions before promotion; the actual reload regression preserves last-known-good generation/digest across eight invalid replacements. Focused continuation, TLS and reload regressions pass; the refreshed installed matrix and new-head CI remain pending.\n\nActual hosted live02 stopped after three OpenAI requests: two succeeded and the continuation failed. No Anthropic or Vertex requests were made, and no complete hosted row passed. The underlying continuation cause is unknown because the prior result discarded its category. The failed report is retained; no hosted recovery or full acceptance is claimed. The prior CI failed runtime coverage; current CI must validate the repair. This PR remains draft.\n\nCloses #855\nPart of #928.\n",
+  "review_present": true,
+  "credential_names": [
+    "GITHUB_TOKEN"
+  ],
+  "typed_review_receipt_path": ".csdlc/evidence/855/publication-remediation/typed-review-receipt.json",
+  "typed_review_receipt_digest": "f8a7ec63dd6d82e5a2ee5f0822f530c146fdb926ce272b6e0f0e16cc176bc7cf",
+  "closes_issue": 855,
+  "closing_issues": [
+    855
+  ],
+  "part_of_issue": 928
+}

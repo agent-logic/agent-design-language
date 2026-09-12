@@ -12,6 +12,7 @@ use std::process::Command;
 use std::thread;
 use std::time::Duration;
 
+#[path = "http_family/config.rs"]
 mod config;
 
 use config::{
@@ -67,6 +68,55 @@ fn invocation_artifact_lock_timeout() -> Duration {
         .and_then(|raw| raw.parse::<u64>().ok())
         .map(Duration::from_millis)
         .unwrap_or(INVOCATION_ARTIFACT_LOCK_TIMEOUT)
+}
+
+/// Process-owner trust bundle; never read from provider/agent configuration.
+fn provider_http_client_builder(runtime_bounded: bool) -> Result<reqwest::blocking::ClientBuilder> {
+    let owner_ca = env::var_os("ADL_PROVIDER_CA_FILE").map(PathBuf::from);
+    provider_http_client_builder_with_ca(runtime_bounded, owner_ca.as_deref())
+}
+fn provider_http_client_builder_with_ca(
+    runtime_bounded: bool,
+    owner_ca: Option<&Path>,
+) -> Result<reqwest::blocking::ClientBuilder> {
+    let mut builder =
+        reqwest::blocking::Client::builder().redirect(reqwest::redirect::Policy::none());
+    if runtime_bounded {
+        builder = builder.retry(reqwest::retry::never());
+    }
+    if let Some(path) = owner_ca {
+        let mut bytes = Vec::new();
+        File::open(path)
+            .and_then(|file| file.take(65_537).read_to_end(&mut bytes))
+            .map_err(|_| {
+                invalid_config(
+                    "provider",
+                    "operator CA bundle could not be read; details redacted",
+                )
+            })?;
+        if bytes.len() > 65_536 {
+            return Err(invalid_config(
+                "provider",
+                "operator CA bundle exceeds 64 KiB",
+            ));
+        }
+        let certificates = reqwest::Certificate::from_pem_bundle(&bytes).map_err(|_| {
+            invalid_config(
+                "provider",
+                "operator CA bundle could not be parsed; details redacted",
+            )
+        })?;
+        if certificates.is_empty() {
+            return Err(invalid_config(
+                "provider",
+                "operator CA bundle contains no certificates",
+            ));
+        }
+        for certificate in certificates {
+            builder = builder.add_root_certificate(certificate);
+        }
+    }
+    Ok(builder)
 }
 
 /// Maximum number of provider error-body characters kept for inline request-failure messages.
@@ -136,23 +186,7 @@ fn provider_http_response(
     };
 
     if !resp.status().is_success() {
-        let status = resp.status();
-        let text = resp.text().unwrap_or_default();
-        let class = if status.is_client_error() {
-            "client_error"
-        } else if status.is_server_error() {
-            "server_error"
-        } else {
-            "http_error"
-        };
-        let msg = format!(
-            "kind={class} status={status} body={}",
-            truncate_provider_body(&text)
-        );
-        if status.is_client_error() {
-            return Err(runtime_error_non_retryable(provider_label, msg));
-        }
-        return Err(runtime_error(provider_label, msg));
+        return Err(http_status_error(provider_label, resp.status()));
     }
     Ok(resp)
 }
@@ -476,6 +510,7 @@ fn extract_bedrock_nova_output_text(json: &Value) -> Option<String> {
 #[derive(Debug, Clone)]
 /// OpenAI-compatible provider backed by HTTP/requests API.
 pub struct OpenAiProvider {
+    runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
     model: String,
@@ -500,10 +535,14 @@ impl OpenAiProvider {
             &["api.openai.com"],
         )?;
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_output_tokens: cfg_u64(&spec.config, "max_output_tokens").unwrap_or(220),
+            max_output_tokens: bound_output_tokens(
+                &spec.config,
+                cfg_u64(&spec.config, "max_output_tokens").unwrap_or(220),
+            )?,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
         })
     }
@@ -517,7 +556,7 @@ impl Provider for OpenAiProvider {
                 format!("missing required auth env var '{}'", self.auth_env),
             )
         })?;
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -545,6 +584,7 @@ impl Provider for OpenAiProvider {
 #[derive(Debug, Clone)]
 /// Anthropic-compatible provider using the messages API format.
 pub struct AnthropicProvider {
+    runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
     model: String,
@@ -569,12 +609,16 @@ impl AnthropicProvider {
             &["api.anthropic.com"],
         )?;
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: cfg_u64(&spec.config, "max_tokens")
-                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                .unwrap_or(220),
+            max_tokens: bound_output_tokens(
+                &spec.config,
+                cfg_u64(&spec.config, "max_tokens")
+                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
+                    .unwrap_or(220),
+            )?,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
         })
     }
@@ -588,7 +632,7 @@ impl Provider for AnthropicProvider {
                 format!("missing required auth env var '{}'", self.auth_env),
             )
         })?;
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -618,6 +662,7 @@ impl Provider for AnthropicProvider {
 #[derive(Debug, Clone)]
 /// DeepSeek native provider using the chat completions API format.
 pub struct DeepSeekProvider {
+    runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
     model: String,
@@ -643,12 +688,16 @@ impl DeepSeekProvider {
             &["api.deepseek.com"],
         )?;
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: cfg_u64(&spec.config, "max_tokens")
-                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                .unwrap_or(220),
+            max_tokens: bound_output_tokens(
+                &spec.config,
+                cfg_u64(&spec.config, "max_tokens")
+                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
+                    .unwrap_or(220),
+            )?,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
         })
     }
@@ -662,7 +711,7 @@ impl Provider for DeepSeekProvider {
                 format!("missing required auth env var '{}'", self.auth_env),
             )
         })?;
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -692,6 +741,7 @@ impl Provider for DeepSeekProvider {
 #[derive(Debug, Clone)]
 /// Kimi/Moonshot native provider using the OpenAI-compatible chat completions API format.
 pub struct KimiProvider {
+    runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
     model: String,
@@ -744,12 +794,16 @@ impl KimiProvider {
             None => (target.provider_model_id == "kimi-k3").then(|| "max".to_string()),
         };
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: cfg_u64(&spec.config, "max_tokens")
-                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                .unwrap_or(220),
+            max_tokens: bound_output_tokens(
+                &spec.config,
+                cfg_u64(&spec.config, "max_tokens")
+                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
+                    .unwrap_or(220),
+            )?,
             reasoning_effort,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
         })
@@ -764,7 +818,7 @@ impl Provider for KimiProvider {
                 format!("missing required auth env var '{}'", self.auth_env),
             )
         })?;
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -798,6 +852,7 @@ impl Provider for KimiProvider {
 #[derive(Debug, Clone)]
 /// OpenRouter native provider using the OpenAI-compatible chat completions format.
 pub struct OpenRouterProvider {
+    runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
     model: String,
@@ -827,12 +882,16 @@ impl OpenRouterProvider {
             &["openrouter.ai"],
         )?;
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: cfg_u64(&spec.config, "max_tokens")
-                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                .unwrap_or(220),
+            max_tokens: bound_output_tokens(
+                &spec.config,
+                cfg_u64(&spec.config, "max_tokens")
+                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
+                    .unwrap_or(220),
+            )?,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
         })
     }
@@ -846,7 +905,7 @@ impl Provider for OpenRouterProvider {
                 format!("missing required auth env var '{}'", self.auth_env),
             )
         })?;
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -880,6 +939,7 @@ const BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV: &str = "ADL_AWS_BEDROCK_ACCOUNT_SHA25
 #[derive(Debug, Clone)]
 /// AWS Bedrock native provider using Bedrock Runtime InvokeModel.
 pub struct AwsBedrockProvider {
+    runtime_bounded: bool,
     model: String,
     region: String,
     profile: String,
@@ -946,13 +1006,17 @@ impl AwsBedrockProvider {
             validate_sha256_hex(expected).map_err(|err| invalid_config("bedrock", err))?;
         }
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             model: target.provider_model_id.clone(),
             region,
             profile,
             expected_account_sha256,
-            max_tokens: cfg_u64(&spec.config, "max_tokens")
-                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                .unwrap_or(220),
+            max_tokens: bound_output_tokens(
+                &spec.config,
+                cfg_u64(&spec.config, "max_tokens")
+                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
+                    .unwrap_or(220),
+            )?,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
         })
     }
@@ -966,12 +1030,23 @@ impl AwsBedrockProvider {
         if let Some(secs) = self.timeout_secs {
             timeout_config = timeout_config.operation_attempt_timeout(Duration::from_secs(secs));
         }
-        let shared_config = aws_config::defaults(BehaviorVersion::latest())
+        if self.runtime_bounded {
+            reject_runtime_credential_process(&self.profile).await?;
+        }
+        let mut loader = aws_config::defaults(BehaviorVersion::latest())
             .region(region_provider)
             .profile_name(&self.profile)
-            .timeout_config(timeout_config.build())
-            .load()
-            .await;
+            .timeout_config(timeout_config.build());
+        if self.runtime_bounded {
+            loader = loader
+                .retry_config(runtime_bedrock_retry_config())
+                .identity_cache(
+                    aws_config::identity::IdentityCache::lazy()
+                        .load_timeout(Duration::from_secs(10))
+                        .build(),
+                );
+        }
+        let shared_config = loader.load().await;
         let identity = sts::Client::new(&shared_config)
             .get_caller_identity()
             .send()
@@ -1017,6 +1092,50 @@ impl AwsBedrockProvider {
         })?;
         Ok(output)
     }
+}
+
+fn runtime_bedrock_retry_config() -> aws_config::retry::RetryConfig {
+    aws_config::retry::RetryConfig::standard().with_max_attempts(1)
+}
+
+async fn reject_runtime_credential_process(profile: &str) -> Result<()> {
+    let profiles = aws_config::profile::load(
+        &aws_types::os_shim_internal::Fs::real(),
+        &aws_types::os_shim_internal::Env::real(),
+        &Default::default(),
+        Some(profile.to_owned().into()),
+    )
+    .await
+    .map_err(|_| {
+        invalid_config(
+            "bedrock",
+            "runtime credential profile could not be validated",
+        )
+    })?;
+    reject_profile_credential_process(&profiles, profile)
+}
+fn reject_profile_credential_process(
+    profiles: &aws_config::profile::ProfileSet,
+    profile: &str,
+) -> Result<()> {
+    let mut name = profile;
+    let mut seen = std::collections::HashSet::new();
+    while let Some(profile) = profiles.get_profile(name) {
+        if !seen.insert(name) || seen.len() > 32 {
+            return Err(invalid_config(
+                "bedrock",
+                "runtime credential profile chain is invalid",
+            ));
+        }
+        if profile.get("credential_process").is_some() {
+            return Err(invalid_config("bedrock", "runtime credential_process is unsupported because the SDK cannot terminate it on timeout"));
+        }
+        match profile.get("source_profile") {
+            Some(source) => name = source,
+            None => break,
+        }
+    }
+    Ok(())
 }
 
 fn validate_sha256_hex(value: &str) -> std::result::Result<(), String> {
@@ -1066,13 +1185,31 @@ impl Provider for AwsBedrockProvider {
             .enable_all()
             .build()
             .map_err(|err| runtime_error("bedrock", format!("failed to build runtime: {err}")))?
-            .block_on(self.complete_async(prompt))
+            .block_on(async {
+                if self.runtime_bounded {
+                    tokio::time::timeout(
+                        Duration::from_secs(self.timeout_secs.unwrap_or(30)),
+                        self.complete_async(prompt),
+                    )
+                    .await
+                    .map_err(|_| {
+                        timeout_error(
+                            "bedrock",
+                            "runtime authentication/request deadline exceeded",
+                        )
+                    })?
+                } else {
+                    self.complete_async(prompt).await
+                }
+            })
     }
 }
 
 #[derive(Debug, Clone)]
 /// Google Vertex AI Gemini provider using the generateContent API format.
 pub struct VertexAiGeminiProvider {
+    runtime_bounded: bool,
+    runtime_auth_timeout: Option<Duration>,
     endpoint: String,
     auth: VertexAiAuth,
     model: String,
@@ -1095,10 +1232,16 @@ impl VertexAiGeminiProvider {
         });
         validate_vertex_ai_endpoint(spec, &endpoint)?;
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
+            runtime_auth_timeout: runtime_bounded_calls(&spec.config)?
+                .then_some(Duration::from_secs(10)),
             endpoint,
             auth: vertex_ai_auth_from_config(spec)?,
             model: target.provider_model_id.clone(),
-            max_output_tokens: cfg_u64(&spec.config, "max_output_tokens").unwrap_or(1024),
+            max_output_tokens: bound_output_tokens(
+                &spec.config,
+                cfg_u64(&spec.config, "max_output_tokens").unwrap_or(1024),
+            )?,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
             tools: vertex_ai_tools_from_config(&spec.config)?,
             thinking_config: vertex_ai_thinking_config_from_config(&spec.config)?,
@@ -1111,8 +1254,8 @@ impl VertexAiGeminiProvider {
         streaming: bool,
         mut on_chunk: Option<&mut dyn FnMut(&str)>,
     ) -> Result<String> {
-        let token = self.auth.resolve_token()?;
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let token = self.auth.resolve_token(self.runtime_auth_timeout)?;
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -1185,14 +1328,14 @@ enum VertexAiAuth {
 }
 
 impl VertexAiAuth {
-    fn resolve_token(&self) -> Result<String> {
+    fn resolve_token(&self, timeout: Option<Duration>) -> Result<String> {
         match self {
             Self::BearerEnv { env } => vertex_ai_env_token(env),
             Self::Adc { env_override } => {
-                vertex_ai_env_token(env_override).or_else(|_| vertex_ai_gcloud_adc_token())
+                vertex_ai_env_token(env_override).or_else(|_| vertex_ai_gcloud_adc_token(timeout))
             }
             Self::WorkloadIdentity { env_override } => vertex_ai_env_token(env_override)
-                .or_else(|_| vertex_ai_metadata_workload_identity_token()),
+                .or_else(|_| vertex_ai_metadata_workload_identity_token(timeout.is_some())),
         }
     }
 }
@@ -1263,7 +1406,25 @@ fn vertex_ai_env_token(env_key: &str) -> Result<String> {
     Ok(trimmed.to_string())
 }
 
-fn vertex_ai_gcloud_adc_token() -> Result<String> {
+fn vertex_ai_gcloud_adc_token(timeout: Option<Duration>) -> Result<String> {
+    if let Some(timeout) = timeout {
+        let mut command = Command::new("gcloud");
+        command.args(["auth", "print-access-token", "--quiet"]);
+        let bytes = bounded_auth_output(command, timeout)?;
+        let token = String::from_utf8(bytes).map_err(|_| {
+            invalid_config(
+                "vertex_ai_gemini",
+                "ADC token acquisition produced non-UTF-8 output",
+            )
+        })?;
+        if token.trim().is_empty() {
+            return Err(invalid_config(
+                "vertex_ai_gemini",
+                "ADC token acquisition produced an empty token",
+            ));
+        }
+        return Ok(token.trim().to_owned());
+    }
     let output = Command::new("gcloud")
         .args(["auth", "print-access-token", "--quiet"])
         .output()
@@ -1295,8 +1456,8 @@ fn vertex_ai_gcloud_adc_token() -> Result<String> {
     Ok(trimmed.to_string())
 }
 
-fn vertex_ai_metadata_workload_identity_token() -> Result<String> {
-    let client = reqwest::blocking::Client::builder()
+fn vertex_ai_metadata_workload_identity_token(runtime_bounded: bool) -> Result<String> {
+    let client = provider_http_client_builder(runtime_bounded)?
         .timeout(Duration::from_secs(2))
         .build()
         .context("failed to build Vertex AI workload identity metadata client")
@@ -1445,7 +1606,19 @@ fn vertex_ai_tools_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Va
 
 fn vertex_ai_thinking_config_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Value>> {
     let thinking_level = cfg_string(cfg, "thinking_level");
-    let thinking_budget = cfg_u64_strict(cfg, "thinking_budget", "vertex_ai_gemini")?;
+    // Gemini 2.5 Flash documents zero as disabled thinking; output remains
+    // bounded independently by maxOutputTokens.
+    let thinking_budget = cfg
+        .get("thinking_budget")
+        .map(|value| {
+            value.as_u64().ok_or_else(|| {
+                invalid_config(
+                    "vertex_ai_gemini",
+                    "config.thinking_budget must be a non-negative integer",
+                )
+            })
+        })
+        .transpose()?;
     let include_thoughts = cfg_bool_opt(cfg, "include_thoughts", "vertex_ai_gemini")?;
 
     if thinking_level.is_some() && thinking_budget.is_some() {
@@ -1702,6 +1875,7 @@ fn sha256_hex(value: &str) -> String {
 #[derive(Debug, Clone)]
 /// Z.ai native provider using the OpenAI-compatible chat completions API format.
 pub struct ZAiProvider {
+    runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
     model: String,
@@ -1738,6 +1912,7 @@ impl ZAiProvider {
             Some(value) => value,
             None => cfg_u64_strict(&spec.config, "max_output_tokens", "z_ai")?.unwrap_or(220),
         };
+        let max_tokens = bound_output_tokens(&spec.config, max_tokens)?;
         if target.provider_model_id == "glm-5.3-flash" && max_tokens > 131_072 {
             return Err(invalid_config(
                 "z_ai",
@@ -1803,6 +1978,7 @@ impl ZAiProvider {
             }
         }
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
@@ -1824,7 +2000,7 @@ impl Provider for ZAiProvider {
                 format!("missing required auth env var '{}'", self.auth_env),
             )
         })?;
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -1868,6 +2044,7 @@ impl Provider for ZAiProvider {
 #[derive(Debug, Clone)]
 /// Generic HTTP provider for configurable endpoint + optional bearer auth.
 pub struct HttpProvider {
+    runtime_bounded: bool,
     endpoint: String,
     auth: Option<HttpAuth>,
     headers: HashMap<String, String>,
@@ -1875,11 +2052,14 @@ pub struct HttpProvider {
     vendor: String,
     model: String,
     chat_mode: bool,
+    runtime_output_cap: Option<u64>,
 }
 
 #[derive(Debug, Clone)]
 /// Ollama-specific HTTP provider with prompt/model serialization.
 pub struct OllamaHttpProvider {
+    runtime_bounded: bool,
+    runtime_output_cap: Option<u64>,
     endpoint: String,
     model: String,
     temperature: Option<f32>,
@@ -1897,6 +2077,8 @@ impl OllamaHttpProvider {
             None => timeout_secs().map_err(|err| invalid_config("ollama", err.to_string()))?,
         };
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
+            runtime_output_cap: runtime_output_cap(&spec.config)?,
             endpoint: ollama_generate_endpoint(spec)?,
             model: target.provider_model_id.clone(),
             temperature: super::local::cfg_f32(&spec.config, "temperature"),
@@ -1906,8 +2088,51 @@ impl OllamaHttpProvider {
 }
 
 impl Provider for OllamaHttpProvider {
+    fn verify_model_metadata(&self) -> Result<bool> {
+        let mut endpoint = reqwest::Url::parse(&self.endpoint)
+            .map_err(|_| invalid_config("ollama", "invalid metadata endpoint"))?;
+        endpoint.set_path("/api/tags");
+        endpoint.set_query(None);
+        endpoint.set_fragment(None);
+        let client = provider_http_client_builder(self.runtime_bounded)?
+            .connect_timeout(Duration::from_secs(2))
+            .timeout(Duration::from_secs(self.timeout_secs.unwrap_or(10).min(10)))
+            .build()
+            .map_err(|_| runtime_error("ollama", "metadata client unavailable"))?;
+        let response = provider_http_response("ollama", client.get(endpoint))?;
+        let mut bytes = Vec::new();
+        response
+            .take(1_048_577)
+            .read_to_end(&mut bytes)
+            .map_err(|_| runtime_error("ollama", "metadata response read failed"))?;
+        if bytes.len() > 1_048_576 {
+            return Err(runtime_error_non_retryable(
+                "ollama",
+                "metadata response exceeds limit",
+            ));
+        }
+        let value: Value = serde_json::from_slice(&bytes).map_err(|_| {
+            runtime_error_non_retryable("ollama", "metadata response was not valid JSON")
+        })?;
+        let models = value
+            .get("models")
+            .and_then(Value::as_array)
+            .ok_or_else(|| {
+                runtime_error_non_retryable("ollama", "metadata response missing models")
+            })?;
+        if !models.iter().any(|model| {
+            model.get("name").and_then(Value::as_str) == Some(self.model.as_str())
+                || model.get("model").and_then(Value::as_str) == Some(self.model.as_str())
+        }) {
+            let mut error =
+                ProviderError::runtime_non_retryable("ollama", "requested model is not installed");
+            error.category = "model_unavailable";
+            return Err(error.into());
+        }
+        Ok(true)
+    }
     fn complete(&self, prompt: &str) -> Result<String> {
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -1923,6 +2148,12 @@ impl Provider for OllamaHttpProvider {
         });
         if let Some(temperature) = self.temperature {
             body["options"] = serde_json::json!({ "temperature": temperature });
+        }
+        if let Some(cap) = self.runtime_output_cap {
+            if body.get("options").is_none() {
+                body["options"] = serde_json::json!({});
+            }
+            body["options"]["num_predict"] = cap.into();
         }
 
         let req = client
@@ -1981,24 +2212,59 @@ impl HttpProvider {
         // Existing user-configured HTTP endpoints retain the legacy `{prompt}`
         // contract. Only profiles with a declared chat-completions contract
         // opt into vendor/model-aware payloads.
-        let chat_mode = target
-            .profile
-            .as_deref()
-            .and_then(|profile| profile.split(':').next())
-            .is_some_and(|family| {
-                matches!(
-                    family,
-                    "kimi"
-                        | "minimax"
-                        | "qwen"
-                        | "xai"
-                        | "mistral"
-                        | "cohere"
-                        | "deepseek"
-                        | "gemini"
-                )
+        let explicit_chat_mode = match cfg.get("api_format") {
+            None => false,
+            Some(Value::String(format)) if format == "openai_chat_completions" => true,
+            Some(_) => {
+                return Err(invalid_config(
+                    "http",
+                    "config.api_format must be openai_chat_completions when provided",
+                ))
+            }
+        };
+        let chat_mode = explicit_chat_mode
+            || target
+                .profile
+                .as_deref()
+                .and_then(|profile| profile.split(':').next())
+                .is_some_and(|family| {
+                    matches!(
+                        family,
+                        "kimi"
+                            | "minimax"
+                            | "qwen"
+                            | "xai"
+                            | "mistral"
+                            | "cohere"
+                            | "deepseek"
+                            | "gemini"
+                    )
+                });
+        if runtime_output_cap(&spec.config)?.is_some() && !chat_mode {
+            return Err(invalid_config(
+                "http",
+                "runtime output cap requires a declared chat API format",
+            ));
+        }
+        let private_chat_endpoint = explicit_chat_mode
+            && reqwest::Url::parse(&endpoint).is_ok_and(|url| {
+                url.scheme() == "http"
+                    && url.username().is_empty()
+                    && url.password().is_none()
+                    && url.query().is_none()
+                    && url.fragment().is_none()
+                    && url.host_str().is_some_and(|host| {
+                        host.trim_matches(['[', ']'])
+                            .parse::<std::net::IpAddr>()
+                            .is_ok_and(|ip| match ip {
+                                std::net::IpAddr::V4(ip) => ip.is_loopback() || ip.is_private(),
+                                std::net::IpAddr::V6(ip) => {
+                                    ip.is_loopback() || ip.is_unique_local()
+                                }
+                            })
+                    })
             });
-        if !is_allowed_remote_endpoint(&endpoint) {
+        if !is_allowed_remote_endpoint(&endpoint) && !private_chat_endpoint {
             return Err(invalid_config(
                 "http",
                 "config.endpoint must use https://; plaintext http:// is only allowed for localhost/loopback test endpoints",
@@ -2049,6 +2315,7 @@ impl HttpProvider {
         }
 
         Ok(Self {
+            runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth,
             headers,
@@ -2056,13 +2323,14 @@ impl HttpProvider {
             vendor: target.vendor.clone(),
             model: target.provider_model_id.clone(),
             chat_mode,
+            runtime_output_cap: runtime_output_cap(&spec.config)?,
         })
     }
 }
 
 impl Provider for HttpProvider {
     fn complete(&self, prompt: &str) -> Result<String> {
-        let mut client_builder = reqwest::blocking::Client::builder();
+        let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
         }
@@ -2092,7 +2360,7 @@ impl Provider for HttpProvider {
             req = req.bearer_auth(token);
         }
 
-        let body = if !self.chat_mode {
+        let mut body = if !self.chat_mode {
             serde_json::json!({ "prompt": prompt })
         } else if self.vendor == "google" {
             serde_json::json!({
@@ -2105,6 +2373,13 @@ impl Provider for HttpProvider {
             })
         };
 
+        if let Some(cap) = self.runtime_output_cap {
+            if self.chat_mode && self.vendor == "google" {
+                body["generationConfig"] = serde_json::json!({"maxOutputTokens": cap});
+            } else if self.chat_mode {
+                body["max_tokens"] = cap.into();
+            }
+        }
         let resp = match req.json(&body).send() {
             Ok(resp) => resp,
             Err(err) => {
@@ -2129,23 +2404,7 @@ impl Provider for HttpProvider {
         };
 
         if !resp.status().is_success() {
-            let status = resp.status();
-            let text = resp.text().unwrap_or_default();
-            let class = if status.is_client_error() {
-                "client_error"
-            } else if status.is_server_error() {
-                "server_error"
-            } else {
-                "http_error"
-            };
-            let msg = format!(
-                "kind={class} status={status} body={}",
-                truncate_provider_body(&text)
-            );
-            if status.is_client_error() {
-                return Err(runtime_error_non_retryable("http", msg));
-            }
-            return Err(runtime_error("http", msg));
+            return Err(http_status_error("http", resp.status()));
         }
 
         let json: serde_json::Value = resp
@@ -2180,4 +2439,5 @@ impl Provider for HttpProvider {
 }
 
 #[cfg(test)]
+#[path = "http_family/tests.rs"]
 mod tests;

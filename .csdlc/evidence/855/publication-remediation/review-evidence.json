@@ -1,0 +1,5 @@
+{
+  "reviewer": "root",
+  "head": "d329b40608fe8e39279ff48b6de62ccfb89eefc4",
+  "review": "Root approved combined TLS/continuation source and strict candidate/LKG remediation; reviewer804 independently reviewed continuation; focused proof and native six-card validation pass. Draft update only; hosted and current CI incomplete."
+}

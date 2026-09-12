@@ -20,6 +20,7 @@ impl LifecycleControl for NoopLifecycle {
 #[test]
 fn agent_sample_api_serializes_backing_model_and_continuity_truth() {
     let sample = adl_runtime_kernel::AgentSample {
+        provider_binding: None,
         id: "ember".to_owned(),
         name: "ember.axioma".to_owned(),
         label: "Ember Axioma".to_owned(),
@@ -235,6 +236,7 @@ fn inference_readiness_taxonomy_is_the_provider_backed_roster_denominator() {
         assert_eq!(encoded, format!("\"{}\"", readiness.as_str()));
 
         let sample = adl_runtime_kernel::AgentSample {
+            provider_binding: None,
             id: "shepherd".to_owned(),
             name: "beacon.axioma".to_owned(),
             label: "Beacon".to_owned(),

@@ -288,13 +288,13 @@ fn vertex_ai_thinking_level_and_budget_are_mutually_exclusive() {
 
 #[test]
 fn vertex_ai_thinking_budget_fails_closed_on_invalid_values() {
-    for invalid in [json!(0), json!(-1), json!("not-a-number"), json!(true)] {
+    for invalid in [json!(-1), json!("not-a-number"), json!(true), Value::Null] {
         let cfg = HashMap::from([("thinking_budget".to_string(), invalid)]);
         let err = vertex_ai_thinking_config_from_config(&cfg)
             .expect_err("invalid thinking_budget should fail closed");
         assert!(err
             .to_string()
-            .contains("config.thinking_budget must be a positive integer"));
+            .contains("config.thinking_budget must be a non-negative integer"));
     }
 }
 
@@ -2252,4 +2252,225 @@ fn native_invocation_artifact_create_dir_failure_is_non_retryable_partial_succes
 
     restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
     std::fs::remove_dir_all(&temp_root).expect("cleanup temp root");
+}
+
+// PVF: deterministic local transport/contract proof, loopback only, bounded CPU;
+// no hosted model calls. Release gate tracked in issue 855 proof inventory.
+#[test]
+fn explicit_openai_chat_format_uses_existing_adapter_payload_and_parser() {
+    let (endpoint, captured, handle) = spawn_json_server(
+        200,
+        r#"{"choices":[{"message":{"content":"local response"}}]}"#,
+    )
+    .expect("loopback server required for proof");
+    let mut spec = provider_spec(
+        "http",
+        &format!("{endpoint}/v1/chat/completions"),
+        None,
+        &[],
+    );
+    spec.default_model = Some("local-model".into());
+    spec.config
+        .insert("api_format".into(), json!("openai_chat_completions"));
+    spec.config.insert("timeout_secs".into(), json!(5));
+    let provider = crate::build_provider_for_id("local", &spec, None).unwrap();
+    assert_eq!(provider.complete("hello").unwrap(), "local response");
+    handle.join().unwrap();
+    let body: Value =
+        serde_json::from_str(&captured.lock().unwrap().as_ref().unwrap().body).unwrap();
+    assert_eq!(body["model"], "local-model");
+    assert_eq!(body["messages"][0]["content"], "hello");
+    assert!(body.get("prompt").is_none());
+}
+#[test]
+fn native_http_failure_categories_never_include_remote_body() {
+    for (status, expected) in [
+        (401, "credentials"),
+        (403, "credentials"),
+        (429, "quota"),
+        (404, "model_unavailable"),
+        (503, "transport"),
+    ] {
+        let (endpoint, _, handle) = spawn_json_server(status, "SECRET-REMOTE-ERROR-BODY")
+            .expect("loopback server required for proof");
+        let error = provider_http_json("openai", reqwest::blocking::Client::new().post(endpoint))
+            .unwrap_err();
+        handle.join().unwrap();
+        assert_eq!(crate::failure_category(&error), expected);
+        assert!(!error.to_string().contains("SECRET-REMOTE-ERROR-BODY"));
+    }
+}
+#[test]
+fn adapter_does_not_follow_endpoint_redirects() {
+    let server = Server::http("127.0.0.1:0").unwrap();
+    let endpoint = format!("http://{}", server.server_addr());
+    let handle = thread::spawn(move || {
+        let request = server.recv().unwrap();
+        request
+            .respond(Response::empty(302).with_header(
+                Header::from_bytes("Location", "http://127.0.0.1:9/forbidden").unwrap(),
+            ))
+            .unwrap();
+    });
+    let mut spec = provider_spec("http", &endpoint, None, &[]);
+    spec.config.insert("timeout_secs".into(), json!(5));
+    let error = HttpProvider::from_spec(&spec)
+        .unwrap()
+        .complete("hello")
+        .unwrap_err();
+    handle.join().unwrap();
+    assert!(error.to_string().contains("status=302"));
+    assert!(!error.to_string().contains("request_failed"));
+}
+
+#[test]
+fn ollama_metadata_verification_checks_installed_model_without_generation() {
+    for (body, present) in [
+        (r#"{"models":[{"name":"local:latest"}]}"#, true),
+        (r#"{"models":[{"model":"other:latest"}]}"#, false),
+    ] {
+        let (endpoint, captured, handle) =
+            spawn_json_server(200, body).expect("loopback metadata proof server");
+        let mut spec = provider_spec("ollama", &endpoint, None, &[]);
+        spec.default_model = Some("local:latest".into());
+        let provider = crate::build_provider_for_id("local", &spec, None).unwrap();
+        let result = provider.verify_model_metadata();
+        if present {
+            assert!(result.unwrap());
+        } else {
+            assert_eq!(
+                crate::failure_category(&result.unwrap_err()),
+                "model_unavailable"
+            );
+        }
+        handle.join().unwrap();
+        let request = captured.lock().unwrap().clone().unwrap();
+        assert_eq!(request.url, "/api/tags");
+        assert!(request.body.is_empty());
+    }
+}
+
+#[test]
+fn explicit_chat_format_allows_only_numeric_private_plaintext_targets() {
+    for (endpoint, accepted) in [
+        ("http://192.168.1.5/v1/chat/completions", true),
+        ("http://8.8.8.8/v1/chat/completions", false),
+        ("http://unresolved-private-name/v1/chat/completions", false),
+    ] {
+        let mut spec = provider_spec("http", endpoint, None, &[]);
+        spec.config
+            .insert("api_format".into(), json!("openai_chat_completions"));
+        assert_eq!(HttpProvider::from_spec(&spec).is_ok(), accepted);
+    }
+}
+
+#[test]
+fn five_adapter_transport_matrix_serializes_generates_and_classifies_failures() {
+    let _guard = env_lock();
+    const TOKEN_ENV: &str = "ADL_PROVIDER_855_FAKE_TEST_TOKEN";
+    let prior_token = env::var_os(TOKEN_ENV);
+    let prior_record = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    env::set_var(TOKEN_ENV, "local-fixture-token-not-a-credential");
+    env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH");
+    for (kind, path, response, input_pointer) in [
+        ("openai", "/v1/responses", r#"{"output_text":"matrix reply"}"#, "/input"),
+        ("anthropic", "/v1/messages", r#"{"content":[{"type":"text","text":"matrix reply"}]}"#, "/messages/0/content"),
+        ("vertex_ai_gemini", "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-fixture:generateContent", r#"{"candidates":[{"content":{"parts":[{"text":"matrix reply"}]}}]}"#, "/contents/0/parts/0/text"),
+        ("ollama", "/api/generate", r#"{"response":"matrix reply"}"#, "/prompt"),
+        ("http", "/v1/chat/completions", r#"{"choices":[{"message":{"content":"matrix reply"}}]}"#, "/messages/0/content"),
+    ] {
+        for (status, body, expected_category) in [(200, response, None), (429, "untrusted quota body", Some("quota")), (200, "{}", Some("invalid_response"))] {
+            let (endpoint, captured, handle) = spawn_json_server(status, body).expect("loopback server required for five-provider proof");
+            let mut spec = provider_spec(kind, &format!("{endpoint}{path}"), None, &[]);
+            spec.default_model = Some("fixture-model".into());
+            spec.config.insert("timeout_secs".into(), json!(5));
+            spec.config.insert("runtime_max_attempts".into(), json!(1));
+            spec.config.insert("max_tokens".into(), json!(1024));
+            spec.config.insert("max_output_tokens".into(), json!(1024));
+            spec.config.insert("runtime_max_output_tokens".into(), json!(256));
+            spec.config.insert("auth".into(), json!({"type":"bearer","env":TOKEN_ENV}));
+            if kind == "vertex_ai_gemini" {
+                spec.config.insert("thinking_budget".into(), json!(0));
+                spec.config.insert("project".into(), json!("fixture"));
+                spec.config.insert("location".into(), json!("us-central1"));
+            }
+            if kind == "http" {spec.config.insert("api_format".into(), json!("openai_chat_completions"));}
+            let provider = crate::build_provider_for_id(kind, &spec, None).unwrap();
+            let result = provider.complete("matrix prompt");
+            if let Some(category) = expected_category {
+                let error = result.unwrap_err();
+                assert_eq!(crate::failure_category(&error), category, "{kind}");
+                assert!(!error.to_string().contains("untrusted quota body"));
+            } else {assert_eq!(result.unwrap(), "matrix reply", "{kind}");}
+            handle.join().unwrap();
+            let request = captured.lock().unwrap().clone().unwrap();
+            assert_eq!(request.url, path, "{kind}");
+            let body: Value = serde_json::from_str(&request.body).unwrap();
+            assert_eq!(body.pointer(input_pointer).and_then(Value::as_str), Some("matrix prompt"), "{kind}");
+            let cap_pointer = match kind {
+                "openai" => "/max_output_tokens", "anthropic" | "http" => "/max_tokens",
+                "vertex_ai_gemini" => "/generationConfig/maxOutputTokens", "ollama" => "/options/num_predict", _ => unreachable!(),
+            };
+            assert_eq!(body.pointer(cap_pointer).and_then(Value::as_u64), Some(256), "{kind}: actual serialized cap");
+            if kind == "vertex_ai_gemini" { assert_eq!(body.pointer("/generationConfig/thinkingConfig/thinkingBudget").and_then(Value::as_u64), Some(0)); }
+        }
+    }
+    if let Some(value) = prior_token {
+        env::set_var(TOKEN_ENV, value)
+    } else {
+        env::remove_var(TOKEN_ENV)
+    }
+    if let Some(value) = prior_record {
+        env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", value)
+    } else {
+        env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH")
+    }
+}
+
+#[test]
+fn runtime_bedrock_sets_one_attempt_and_rejects_external_credential_process_chains() {
+    assert_eq!(runtime_bedrock_retry_config().max_attempts(), 1);
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .unwrap();
+    for (config, accepted) in [
+        ("[profile agent-logic-admin]\nregion=us-west-2\n", true),
+        ("[profile agent-logic-admin]\ncredential_process=DO-NOT-EXECUTE\n", false),
+        ("[profile agent-logic-admin]\nsource_profile=source\n[profile source]\ncredential_process=DO-NOT-EXECUTE\n", false),
+        ("[profile agent-logic-admin]\nsource_profile=agent-logic-admin\n", false),
+    ] {
+        let profiles = runtime.block_on(aws_config::profile::load(
+            &aws_types::os_shim_internal::Fs::from_slice(&[("/fixture/.aws/config", config)]),
+            &aws_types::os_shim_internal::Env::from_slice(&[("HOME", "/fixture")]),
+            &Default::default(), Some("agent-logic-admin".into()),
+        )).unwrap();
+        assert_eq!(reject_profile_credential_process(&profiles,"agent-logic-admin").is_ok(), accepted);
+    }
+}
+
+#[test]
+fn operator_ca_errors_are_bounded_and_redacted() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("do-not-expose-owner-path.pem");
+    let missing = provider_http_client_builder_with_ca(true, Some(&path))
+        .expect_err("missing owner trust source must fail closed");
+    assert!(!missing.to_string().contains("do-not-expose-owner-path"));
+    fs::write(&path, vec![b'x'; 65_537]).unwrap();
+    let oversized = provider_http_client_builder_with_ca(true, Some(&path))
+        .expect_err("oversized bundle must fail closed");
+    assert!(oversized.to_string().contains("64 KiB"));
+    fs::write(
+        &path,
+        b"not a certificate; owner input must not appear in errors",
+    )
+    .unwrap();
+    let invalid = provider_http_client_builder_with_ca(true, Some(&path))
+        .expect_err("invalid bundle must fail closed");
+    assert!(!invalid.to_string().contains("owner input"));
+    assert!(!invalid.to_string().contains("do-not-expose-owner-path"));
+    assert!(provider_http_client_builder_with_ca(true, None)
+        .unwrap()
+        .build()
+        .is_ok());
 }

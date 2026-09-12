@@ -6,7 +6,8 @@
 //! resolution. Credential values and executable workflow/authority surfaces are
 //! rejected before activation.
 
-use std::collections::{BTreeMap, HashMap};
+#[cfg(test)]
+use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
@@ -17,12 +18,10 @@ use adl_runtime_kernel::config_reload::{
     HotReloadHandle,
 };
 use anyhow::{anyhow, Context, Result};
-use serde::Deserialize;
+#[cfg(test)]
 use serde_json::Value;
-use sha2::{Digest, Sha256};
 
 use crate::adl;
-use crate::provider_substrate;
 
 use super::activate_provider_profile_candidate;
 
@@ -122,16 +121,7 @@ impl ProviderReloadOwner {
     }
 }
 
-#[derive(Debug, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct ProviderReloadSidecar {
-    #[serde(default)]
-    schema: Option<String>,
-    #[serde(default)]
-    version: Option<String>,
-    #[serde(default)]
-    providers: HashMap<String, adl::ProviderSpec>,
-}
+use adl_provider_core::candidate::ProviderReloadSidecar;
 
 fn parse_provider_reload_snapshot(
     source: &Path,
@@ -216,205 +206,9 @@ fn materialize_provider_reload_snapshot(
     })
 }
 
-fn validate_provider_specs(providers: &HashMap<String, adl::ProviderSpec>) -> Result<()> {
-    for (provider_id, spec) in providers {
-        provider_substrate::provider_substrate_v1(provider_id, spec)
-            .with_context(|| format!("validate provider reload spec '{provider_id}'"))?;
-        // Constructors validate adapter configuration without performing inference,
-        // resolving credential values, launching processes or creating resources.
-        // Keep this before promotion so dispatch cannot discover an invalid endpoint
-        // only after the last-known-good definition has already been replaced.
-        let _ = super::build_provider_for_id(provider_id, spec, None)?;
-    }
-    Ok(())
-}
-
-fn reject_credential_values(providers: &HashMap<String, adl::ProviderSpec>) -> Result<()> {
-    for spec in providers.values() {
-        // These declared strings select transport, identity or credential references.
-        // Adapter cfg_str helpers treat malformed values as absent; admission must
-        // reject them before that fallback can silently change dispatch behavior.
-        for key in [
-            "endpoint",
-            "provider_model_id",
-            "model",
-            "vendor",
-            "local_shadow_model",
-            "local_shadow_provider_kind",
-            "local_shadow_rule_set",
-            "local_shadow_evidence_path",
-            "api_key_env",
-            "auth_env",
-            "token_env",
-        ] {
-            if spec.config.get(key).is_some_and(|value| !value.is_string()) {
-                return Err(anyhow!(
-                    "provider reload sidecar has invalid declared string field"
-                ));
-            }
-        }
-        // Typed identity fields may be long model/profile names, but not raw keys.
-        for value in [
-            spec.id.as_deref(),
-            spec.profile.as_deref(),
-            spec.base_url.as_deref(),
-            spec.default_model.as_deref(),
-            Some(spec.kind.as_str()),
-        ]
-        .into_iter()
-        .flatten()
-        {
-            if has_credential_marker(value) {
-                return Err(anyhow!("provider reload sidecar contains credential value"));
-            }
-        }
-        let value =
-            serde_json::to_value(&spec.config).context("serialize provider reload config")?;
-        reject_credential_value_at(&[], &value)?;
-    }
-    Ok(())
-}
-
-fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
-    if matches!(
-        path,
-        ["expected_account_sha256"] | ["expected-account-sha256"]
-    ) {
-        let valid = value
-            .as_str()
-            .is_some_and(|raw| raw.len() == 64 && raw.bytes().all(|b| b.is_ascii_hexdigit()));
-        if !valid {
-            return Err(anyhow!(
-                "provider reload sidecar has invalid public account digest"
-            ));
-        }
-        return Ok(());
-    }
-    if path == ["auth", "env"] && !value.is_string() {
-        return Err(anyhow!(
-            "provider reload sidecar has invalid credential reference"
-        ));
-    }
-    match value {
-        Value::Object(map) => {
-            for (key, value) in map {
-                if credential_value_key(key) {
-                    return Err(anyhow!("provider reload sidecar contains credential value"));
-                }
-                let mut next = path.to_vec();
-                next.push(key);
-                reject_credential_value_at(&next, value)?;
-            }
-        }
-        Value::Array(values) => {
-            let mut next = path.to_vec();
-            next.push("[]");
-            for value in values {
-                reject_credential_value_at(&next, value)?;
-            }
-        }
-        Value::String(raw) => {
-            let reference = matches!(
-                path,
-                ["auth", "env"] | ["api_key_env"] | ["auth_env"] | ["token_env"]
-            );
-            if reference {
-                let valid = !raw.is_empty()
-                    && raw.bytes().enumerate().all(|(i, b)| {
-                        b == b'_' || b.is_ascii_alphabetic() || (i > 0 && b.is_ascii_digit())
-                    });
-                if !valid || has_credential_marker(raw) {
-                    return Err(anyhow!(
-                        "provider reload sidecar has invalid credential reference"
-                    ));
-                }
-            } else {
-                let declared_data = matches!(
-                    path,
-                    ["provider_model_id"]
-                        | ["model"]
-                        | ["local_shadow_model"]
-                        | ["local_shadow_evidence_path"]
-                        | ["local_shadow_rule_set"]
-                );
-                if has_credential_marker(raw) || (!declared_data && looks_like_raw_credential(raw))
-                {
-                    return Err(anyhow!("provider reload sidecar contains credential value"));
-                }
-            }
-        }
-        _ => {}
-    }
-    Ok(())
-}
-
-fn credential_value_key(key: &str) -> bool {
-    let normalized = key.to_ascii_lowercase();
-    matches!(
-        normalized.as_str(),
-        "api_key"
-            | "apikey"
-            | "token"
-            | "secret"
-            | "credential"
-            | "credentials"
-            | "password"
-            | "client_secret"
-            | "private_key"
-            | "access_token"
-            | "refresh_token"
-    )
-}
-
-fn looks_like_raw_credential(raw: &str) -> bool {
-    let trimmed = raw.trim();
-    has_credential_marker(raw)
-        || (trimmed.len() >= 32
-            && trimmed
-                .chars()
-                .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '_' | '-' | '.')))
-}
-
-fn has_credential_marker(raw: &str) -> bool {
-    url_contains_credentials(raw) || explicit_credential_marker(raw)
-}
-
-fn explicit_credential_marker(raw: &str) -> bool {
-    let lower = raw.trim().to_ascii_lowercase();
-    lower.starts_with("sk-")
-        || lower.starts_with("bearer ")
-        || lower.contains("-----begin private key-----")
-        || lower.contains("-----begin rsa private key-----")
-        || lower.contains("-----begin ec private key-----")
-}
-
-// URL parsing decodes query names before policy matching. Ordinary paths and
-// query parameters remain instance data; credentials belong in references.
-fn url_contains_credentials(raw: &str) -> bool {
-    let Ok(url) = reqwest::Url::parse(raw.trim()) else {
-        return false;
-    };
-    !url.username().is_empty()
-        || url.password().is_some()
-        || url.query_pairs().any(|(name, value)| {
-            let normalized = name.to_ascii_lowercase().replace('-', "_");
-            explicit_credential_marker(&value)
-                || credential_value_key(&normalized)
-                || matches!(
-                    normalized.as_str(),
-                    "key" | "auth" | "authorization" | "bearer" | "auth_token" | "passwd"
-                )
-        })
-}
-
-fn redacted_provider_digest(providers: &HashMap<String, adl::ProviderSpec>) -> Result<String> {
-    let ordered = providers
-        .iter()
-        .map(|(provider_id, spec)| (provider_id.clone(), spec.clone()))
-        .collect::<BTreeMap<_, _>>();
-    let bytes = serde_json::to_vec(&ordered).context("serialize redacted provider digest input")?;
-    Ok(format!("{:x}", Sha256::digest(bytes)))
-}
+use adl_provider_core::candidate::{
+    redacted_provider_digest, reject_credential_values, validate_provider_specs,
+};
 
 fn record_diagnostic(
     diagnostic: &Arc<Mutex<Option<ProviderReloadDiagnostic>>>,
