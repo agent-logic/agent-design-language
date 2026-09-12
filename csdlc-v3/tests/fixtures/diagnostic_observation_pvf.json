@@ -21,7 +21,7 @@
     "local_diagnostics": "5 routes x 4 states x 2 genuine checkout topologies = 40 observations",
     "helpers": "3 helpers x 4 fixture input states x 2 checkout topologies = 24 observations; helper construction/readiness is separate from issue readiness",
     "remote_diagnostics": "4 remote states x 2 topologies = 8 observations, plus settled and corrupted-receipt observations after explicit recovery in each topology",
-    "release": "existing exact-candidate negative matrix, plus linked healthy/missing/corrupt/pending qualification gate observations",
+    "release": "historical inventory-scoped fixture explicitly isolates later Cargo inputs, then rejects an introduced unlisted package; exact-candidate negative matrix plus linked healthy/missing/corrupt/pending qualification gate observations",
     "merge_evidence": "settled native fake-transport merge, then wrong PR/missing reconciliation/corrupt JSON/altered merge identity, restoring and rechecking valid evidence after each case",
     "process_launch": "one missing executable classification regression",
     "created_pr_evidence": "native reconciled create with no request PR and a positive receipt target; reject null/zero receipt targets without confusing historical and currently observed PR numbers",

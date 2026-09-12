@@ -4,6 +4,7 @@ use serde_json::{json, Value};
 #[path = "support/observation.rs"]
 mod observation;
 use std::{
+    collections::BTreeSet,
     fs,
     path::{Path, PathBuf},
     process::Command,
@@ -72,6 +73,41 @@ impl Fixture {
         }
         let inventory = "docs/milestones/v0.92.1/RELEASE_ARTIFACTS.json";
         fs::copy(source.join(inventory), root.join(inventory)).unwrap();
+        // This is a historical release fixture, not a claim that today's merge
+        // checkout is releasable as v0.92.1. Exercise post-release package drift
+        // on every host, then retain only the inventory's declared Cargo inputs.
+        let later_package = root.join("fixture-post-release");
+        fs::create_dir_all(&later_package).unwrap();
+        fs::write(
+            later_package.join("Cargo.toml"),
+            "[package]\nname = 'fixture-post-release'\nversion = '0.1.0'\n",
+        )
+        .unwrap();
+        fs::write(later_package.join("Cargo.lock"), "version = 4\n").unwrap();
+        git(&root, &["add", "fixture-post-release"]);
+        let declared: Value =
+            serde_json::from_slice(&fs::read(root.join(inventory)).unwrap()).unwrap();
+        let mut retained = BTreeSet::new();
+        for package in declared["packages"].as_array().unwrap() {
+            retained.insert(package["manifest"].as_str().unwrap());
+            if let Some(workspace) = package["workspace"].as_str() {
+                retained.insert(workspace);
+            }
+        }
+        for lock in declared["lockfiles"].as_array().unwrap() {
+            retained.insert(lock.as_str().unwrap());
+        }
+        for lock in declared["historical_lockfiles"].as_array().unwrap() {
+            retained.insert(lock["path"].as_str().unwrap());
+        }
+        for path in git(&root, &["ls-files"]).lines().filter(|path| {
+            (path.ends_with("Cargo.toml") || path.ends_with("Cargo.lock"))
+                && !retained.contains(path)
+        }) {
+            fs::remove_file(root.join(path)).unwrap();
+        }
+        assert!(!later_package.join("Cargo.toml").exists());
+        assert!(!later_package.join("Cargo.lock").exists());
         fs::copy(
             source.join("adl/tools/release_ceremony.sh"),
             root.join("adl/tools/release_ceremony.sh"),
@@ -196,6 +232,20 @@ impl Drop for Fixture {
 #[test]
 fn exact_candidate_preflight_and_negative_matrix() {
     let mut f = Fixture::new();
+    f.run(None);
+    // Isolation must not weaken the production omission guard. A new package
+    // introduced after fixture setup is still rejected without an inventory row.
+    let unlisted = f.root.join("fixture-unlisted");
+    fs::create_dir_all(&unlisted).unwrap();
+    fs::write(
+        unlisted.join("Cargo.toml"),
+        "[package]\nname = 'fixture-unlisted'\nversion = '0.1.0'\n",
+    )
+    .unwrap();
+    f.commit_input();
+    f.run(Some("release_inventory_omits_manifest"));
+    fs::remove_dir_all(unlisted).unwrap();
+    f.commit_input();
     f.run(None);
     let linked = f.root.with_extension("linked");
     git(
