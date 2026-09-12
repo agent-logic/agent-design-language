@@ -1,0 +1,18 @@
+
+running 1 test
+test installed_pr_state_observes_fake_remote_without_replaying_pending_mutation ... FAILED
+
+failures:
+
+---- installed_pr_state_observes_fake_remote_without_replaying_pending_mutation stdout ----
+
+thread 'installed_pr_state_observes_fake_remote_without_replaying_pending_mutation' (7317711) panicked at tests/operational_cli_commands.rs:588:13:
+pr-state changed pending/evidence storage: {".git/csdlc-v3/runtime"}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    installed_pr_state_observes_fake_remote_without_replaying_pending_mutation
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.59s
+

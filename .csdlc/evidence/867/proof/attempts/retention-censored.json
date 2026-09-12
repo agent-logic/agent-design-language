@@ -1,0 +1,48 @@
+{
+  "schema": "csdlc.sim01.attempt_corpus.v1",
+  "provenance": {
+    "source_head": "40c068b11a2cca7303f5fcaed01d33b2614db743",
+    "tracked_diff_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+    "source_and_tests_inventory_blake3": "12d58442998cded7c3cfe502d76cc9ca5f147c0f71136c59375c95b44797867b",
+    "binary_blake3": "ecdb9fb6efd92bfb9215d521bcbd2edf91540826149aef283fc94a4d42e7ef2a",
+    "os": "macos",
+    "architecture": "aarch64",
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+    "git": "git version 2.54.0",
+    "transport": "isolated fake remote; no live credentials or network",
+    "clock": "injected synthetic fixture clock; actual subprocess duration recorded separately",
+    "scope": "installed fixture attempts, not production reliability or causal timing savings"
+  },
+  "denominators": {
+    "abandoned": 0,
+    "attempted": 1,
+    "censored": 1,
+    "completed": 0,
+    "eligible": 1
+  },
+  "outcomes": {
+    "censored": 1
+  },
+  "attempts": [
+    {
+      "correlation_id": "collector",
+      "route": "printf",
+      "scenario": "collection_interrupted",
+      "eligible": true,
+      "attempted": true,
+      "completed": false,
+      "abandoned": false,
+      "censored": true,
+      "outcome": "censored",
+      "reason": "started; subprocess outcome not yet retained",
+      "manual_input_fields": [],
+      "operator_invocation_count": 1,
+      "issue_version_before": {
+        "state": "missing"
+      },
+      "wall_start_millis": 100,
+      "monotonic_start_millis": 0,
+      "wait_owner": "installed subprocess"
+    }
+  ]
+}

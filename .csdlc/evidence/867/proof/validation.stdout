@@ -1,0 +1,179 @@
+
+running 85 tests
+test authority::tests::immutable_identifiers_require_exact_lower_hex ... ok
+test commands::proof::shadow_diagnostic_category_is_redacted_and_stable ... ok
+test adapters::tests::github_read_only_adapter_rejects_unsafe_pull_request_head ... ok
+test adapters::tests::github_read_only_adapter_supports_pull_request_head_reconciliation ... ok
+test adapters::tests::observational_transport_preserves_missing_executable_classification ... ok
+test commands::remote::merge::directory_tests::directory_sync_orders_every_link_and_propagates_faults ... ok
+test adapters::tests::comment_page_argv_is_bounded_and_reaches_curl_url ... ok
+test adapters::tests::branch_query_preserves_special_characters ... ok
+test adapters::tests::github_operational_adapter_supports_only_the_typed_ready_graphql_mutation ... ok
+test commands::remote::tests::accepted_review_requires_typed_evidence_digest_and_scope ... ok
+test commands::remote::tests::already_removed_cleanup_still_requires_terminal_and_preview_gates ... ok
+test adapters::merge_adapter_tests::merge_put_is_narrow_and_readback_cannot_supply_arbitrary_query ... ok
+test commands::proof::tests::shadow_paths_reject_symlink_escapes_for_existing_and_future_targets ... ok
+test commands::proof::tests::native_install_denies_unbound_internal_execution ... ok
+test commands::remote::tests::finish_derives_terminal_truth_from_remote_readback_not_local_claims ... ok
+test commands::remote::tests::cleanup_constructor_rejects_self_made_git_directory_registration ... ok
+test commands::remote::tests::cleanup_requires_committed_closed_out_state_and_receipt ... ok
+test adapters::tests::scoped_child_process_receives_only_selected_credential_and_minimal_environment ... ok
+test commands::remote::tests::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
+test adapters::tests::unscoped_child_process_does_not_inherit_parent_credentials_or_home ... ok
+test commands::remote::tests::cleanup_removal_executes_and_distinguishes_removed_states ... ok
+test commands::remote::tests::issue_metadata_readback_requires_exact_requested_sets_and_clear ... ok
+test commands::remote::tests::issue_metadata_resolves_add_remove_and_preserves_body_before_intent ... ok
+test commands::remote::tests::cleanup_is_separate_preview_first_and_path_exact ... ok
+test adapters::tests::observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments ... ok
+test commands::remote::tests::invalid_pr_branch_is_rejected_before_intent_or_dispatch ... ok
+test commands::remote::tests::issue_close_rejects_missing_rationale_duplicate_owner_and_completion_reason ... ok
+test commands::remote::tests::issue_metadata_omission_clear_and_legacy_serialization_are_distinct ... ok
+test commands::remote::tests::issue_close_restart_reconciles_without_replaying_mutation ... ok
+test commands::remote::tests::legacy_ready_intent_ready_during_resolution_reconciles_without_retry ... ok
+test commands::remote::tests::issue_create_mutation_posts_and_reconciles_assigned_issue_number ... ok
+test commands::remote::tests::issue_close_mutation_patches_closed_not_planned_and_reconciles ... ok
+test commands::remote::tests::comment_pagination_allows_explicit_retry_only_after_complete_absence ... ok
+test commands::proof::tests::active_install_authority_uses_only_the_canonical_generation_selector ... ok
+test commands::remote::tests::legacy_ready_intent_recovers_without_rewriting_original_intent ... ok
+test commands::remote::tests::issue_metadata_invalid_baseline_cannot_create_intent_or_write ... ok
+test commands::remote::tests::issue_metadata_uncertain_write_reuses_retained_target_and_rejects_drift ... ok
+test commands::remote::tests::legacy_ready_intent_uncertain_retry_cannot_dispatch_twice ... ok
+test commands::remote::tests::merge_cases::merge_lock_blocks_concurrent_dispatch ... ok
+test commands::remote::tests::merge_cases::merge_alternate_review_path_cannot_bypass_uncertain_target_guard ... ok
+test commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation ... ok
+test commands::remote::tests::merge_cases::merge_result_is_consumed_by_existing_finish_observation_without_mutation ... ok
+test commands::remote::tests::merge_cases::merge_review_and_method_guards_before_network ... ok
+test commands::remote::tests::merge_cases::merge_response_disagreement_stays_blocked_on_replay ... ok
+test commands::remote::tests::part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup ... ok
+test commands::remote::tests::part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority ... ok
+test commands::remote::tests::publication_modes_require_exact_relation ... ok
+test commands::remote::tests::merge_cases::merge_already_merged_and_wrong_parent_or_result ... ok
+test commands::remote::tests::merge_cases::merge_checks_base_again_and_rejects_postmerge_parent_drift ... ok
+test commands::remote::tests::merge_cases::merge_partial_response_reconciles_from_authenticated_state ... ok
+test commands::remote::tests::reconciliation_matches_issue_edit_pr_update_and_ready_exact_state ... ok
+test commands::remote::tests::remote_delivery_rejects_unverified_or_wrong_source_observations ... ok
+test commands::remote::tests::remote_workflow_refuses_missing_pvf_and_revision_mismatch ... ok
+test commands::remote::tests::missing_credential_fails_before_persisting_mutation_intent ... ok
+test commands::remote::tests::operational_dispatcher_rejects_forged_exact_review_sha ... ok
+test commands::remote::tests::mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles ... ok
+test commands::remote::tests::review_binds_exact_scope_revision_reviewer_and_findings ... ok
+test commands::remote::tests::same_principal_cannot_self_authorize_publication ... ok
+test commands::remote::tests::v3e_denominator_is_exact ... ok
+test commands::remote::tests::verified_receipt_must_match_the_exact_subject_value ... ok
+test commands::remote::tests::whitespace_variant_principal_cannot_self_authorize_publication ... ok
+test commands::sprint::tests::sprint_readiness_parses_live_membership_style ... ok
+test commands::sprint::tests::sprint_readiness_parses_v3_h_child_issue_heading ... ok
+test commands::sprint::tests::sprint_readiness_rejects_escaping_evidence_ref ... ok
+test commands::sprint::tests::sprint_readiness_rejects_missing_child_readback ... ok
+test commands::sprint::tests::sprint_readiness_reports_terminal_v3_h_without_cutover_authority ... ok
+test commands::terminal::tests::terminal_verified_readback_can_derive_closeout_inside_adapter_boundary ... ok
+test commands::terminal::tests::terminal_verified_readback_denies_stale_nonmerged_and_open_issue ... ok
+test tests::architecture_boundary ... ok
+test commands::remote::tests::merge_cases::merge_uncertain_transport_is_reconciliation_only ... ok
+test tests::predecessor_coverage ... ok
+test tests::proportional_lifecycle ... ok
+test commands::remote::tests::operational_dispatcher_fails_pre_cutover_and_serializes_review_result ... ok
+test tests::contract_schema ... ok
+test commands::remote::tests::pull_request_ready_uses_graphql_and_reconciles_exact_pr_head_and_state ... ok
+test commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation ... ok
+test commands::remote::tests::retained_intent_with_unavailable_readback_stays_fail_closed_even_with_recovery ... ok
+test commands::remote::tests::retained_intent_requires_explicit_authenticated_absence_recovery_before_retry ... ok
+test commands::remote::tests::legacy_ready_intent_rejects_unverified_recovery_before_mutation ... ok
+test commands::remote::tests::pull_request_ready_distinguishes_rejection_still_draft_and_bad_identity ... ok
+test commands::remote::tests::comment_pagination_reuses_later_match_and_rejects_incomplete_or_ambiguous_scan ... ok
+test commands::remote::tests::pull_request_ready_is_idempotent_and_authenticated_absence_recovery_is_one_shot ... ok
+test commands::remote::tests::merge_cases::merge_same_principal_and_malformed_review_policy_rejected ... ok
+test commands::remote::tests::merge_cases::merge_eligibility_negative_matrix_never_writes_intent_or_dispatches ... ok
+test authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone ... ok
+
+test result: ok. 85 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.64s
+
+
+running 37 tests
+test contract_rejects_malformed_repository_identity ... ok
+test contract_commands_are_typed_and_non_authoritative ... ok
+test card_roundtrip_uses_active_registry_denominator ... ok
+test doctor_plan_preserves_distinct_outcome_states ... ok
+test local_lifecycle_readiness_rejects_malformed_index ... ok
+test local_lifecycle_readiness_requires_supported_phase_and_all_cards ... ok
+test local_lifecycle_readiness_rejects_post_execution_phase ... ok
+test eligibility_route_consumes_lifecycle_observation ... ok
+test local_route_status_codes_are_route_specific ... ok
+test local_preparation_cli_rejects_malformed_typed_request ... ok
+test local_routes_fail_closed_without_observed_lifecycle_state ... ok
+test local_preparation_cli_emits_machine_readable_non_authoritative_plan ... ok
+test issue_route_requires_expected_digest_before_overwriting_existing_v3_state ... ok
+test local_routes_reject_stale_lifecycle_digest ... ok
+test missing_local_lifecycle_state_is_explicit_and_repairable ... ok
+test issue_route_rejects_expected_digest_before_writing_v3_state ... ok
+test local_routes_reject_unsupported_transitions_from_observed_phase ... ok
+test issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it ... ok
+test implemented_local_routes_have_distinct_typed_non_authoritative_statuses ... ok
+test operational_context_rejects_legacy_boolean_and_forged_fields ... ok
+test operational_local_authority_rejects_state_root_symlink_escape ... ok
+test operational_local_authority_rejects_stale_selector_approval_and_head_digests ... ok
+test operational_initialization_failure_never_publishes_partial_issue_root ... ok
+test topology_bind_requires_exact_registered_worktree ... ok
+test canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initialization ... ok
+test operational_issue_lock_serializes_competing_initializers ... ok
+test current_registry_versioned_templates_resolve_all_structure_schemas ... ok
+test operational_local_cas_recomputes_card_bytes_before_mutation ... ok
+test operational_local_authority_rejects_stale_lifecycle_digest ... ok
+test pre_cutover_v2_selector_denies_every_operational_local_route ... ok
+test operational_schedule_preserves_the_six_dimension_readiness_denominator ... ok
+test edit_rejects_nested_completion_symlinks_before_mutation ... ok
+test operational_shepherd_preserves_v2_state_priority_and_operations ... ok
+test bind_transaction_recovers_into_bound_checkout_after_restart ... ok
+test legacy_primary_state_is_preserved_without_any_route_writes ... ok
+test metadata_symlinks_cannot_redirect_preparation_into_primary ... ok
+test bound_checkout_owns_local_cards_without_primary_checkout_writes ... ok
+
+test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.59s
+
+
+running 18 tests
+test simple_issue_close_emits_typed_duplicate_close_dispatch ... ok
+test proof_and_rollback_commands_reach_real_handlers ... ok
+test simple_issue_close_rejects_ambiguous_or_invalid_input ... ok
+test simple_issue_create_projects_github_style_flags_into_typed_dispatch ... ok
+test remote_operational_dispatch_is_reachable_and_fails_closed_under_v2_selector ... ok
+test v2_selector_keeps_named_local_cli_in_construction_mode ... ok
+test simple_issue_create_execute_fails_closed_under_v2_authority ... ok
+test simple_issue_create_supports_body_file_and_rejects_ambiguous_or_invalid_input ... ok
+test executable_github_routes_reject_wrong_mutation_family_before_dispatch ... ok
+test executable_merge_is_owned_only_by_github_pr ... ok
+test executable_github_pr_ready_uses_graphql_and_authenticated_readback ... ok
+test baseline_journeys::attempt_recorder_retains_spawn_parse_and_collector_failures ... ok
+test edit_recovers_after_process_exit_between_directory_swaps ... ok
+test bind_recovers_after_process_exit_following_git_side_effect ... ok
+test bind_recovers_after_branch_creation_before_worktree_registration ... ok
+test installed_pr_state_observes_fake_remote_without_replaying_pending_mutation ... ok
+test baseline_journeys::installed_local_journey_baseline ... ok
+test installed_diagnostics_preserve_healthy_missing_corrupt_and_pending_state ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 21.62s
+
+
+running 1 test
+test exact_candidate_preflight_and_negative_matrix ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 57.59s
+
+
+running 13 tests
+test review_route_rejects_self_review_even_with_whitespace ... ok
+test github_pr_receipt_rejects_titleless_request_and_receipt_pair ... ok
+test pr_state_rejects_unexpected_observed_closing_issue_references ... ok
+test github_pr_receipt_binds_observed_title_not_caller_title ... ok
+test publication_rejects_unexpected_closing_issue_references ... ok
+test authenticated_github_observation_requires_title_readback_for_pr_identity ... ok
+test authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json ... ok
+test pr_state_route_rejects_caller_forged_readback ... ok
+test publish_route_requires_current_review_and_closing_relation ... ok
+test cli_receipt_loader_rejects_disposable_target_receipts ... ok
+test existing_issue_help_describes_metadata_omission_and_clear ... ok
+test cli_observe_github_fails_before_network_without_an_explicit_credential_name ... ok
+test remote_publication_routes_are_typed_and_non_authoritative ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+

@@ -1,0 +1,18 @@
+
+running 1 test
+test installed_diagnostics_preserve_healthy_missing_corrupt_and_pending_state ... FAILED
+
+failures:
+
+---- installed_diagnostics_preserve_healthy_missing_corrupt_and_pending_state stdout ----
+
+thread 'installed_diagnostics_preserve_healthy_missing_corrupt_and_pending_state' (7203961) panicked at tests/operational_cli_commands.rs:349:17:
+doctor changed healthy lifecycle/Git storage; linked=false: {".git/csdlc-v3/local/locks", ".git/csdlc-v3/local/locks/505.lock"}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    installed_diagnostics_preserve_healthy_missing_corrupt_and_pending_state
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.71s
+
