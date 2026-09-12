@@ -317,7 +317,7 @@ fn transport_pin_and_incomplete_failures_are_sanitized() {
         .to_string();
         assert_eq!(err, expected, "{fault}");
         assert!(!err.contains("ghp_"));
-        assert!(server.requests.lock().unwrap().len() > 0);
+        assert!(!server.requests.lock().unwrap().is_empty());
     }
 }
 #[test]
