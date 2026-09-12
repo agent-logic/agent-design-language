@@ -21,11 +21,11 @@ Version: 0.92.2
 Title: [v0.92.2][SPEC-RETEST] Speculative-decoding requalification
 Branch: codex/905-v0922-speculative-decoding-retest
 Card Status: draft
-Status: NOT_STARTED
+Status: partial_implementation_environment_gated
 Generated: 2026-09-12T00:18:14.558347+00:00
 
 Execution:
-- Actor: `Planning #7 / sprint8_720: setup only; implementation owner not assigned`
+- Actor: `Planning #7 / sprint8_909; bounded #905 implementation under #932`
 - Model: `unknown`
 - Provider: `unknown`
 - Start Time: `not_started`
@@ -33,12 +33,12 @@ Execution:
 
 ## Summary
 
-Issue #905 setup refreshed against accepted prerequisites under #932. Implementation, acceptance proof and implementation review remain not run.
+Partial retest accounting/output identity/attempt preservation implemented and independently reviewed at ec4c1c3ba2e8fa005a476f575280c0ca3cf867cc. Thirteen deterministic tests pass. Actual current Runtime baseline/speculative comparison and draft failure/fallback remain unexecuted; no keep/repair/retire conclusion or PR.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
-- Final PVF lane: `not_run`
+- Final PVF lane: `deterministic local accounting and correctness negatives; real Runtime/hardware lane pending`
 - Lane change reason: `not_run; implementation has not started`
 
 ## Issue Metrics Truth
@@ -57,8 +57,8 @@ Issue #905 setup refreshed against accepted prerequisites under #932. Implementa
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `not_started`
-- Issue goal ref: `issue-932 setup goal; child #905 execution goal not yet created`
+- Completion state: `incomplete_actual_runtime_proof_pending`
+- Issue goal ref: `Active #905 full implementation and executed requalification goal under Sprint 6 #932`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/905/goal-metrics.json (planned; absent until execution)`
 - Validation planning prompt: `.csdlc/issues/905/cards/vpp.md`
@@ -75,19 +75,19 @@ Issue #905 setup refreshed against accepted prerequisites under #932. Implementa
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/905/cards/sor.md`
-- Tracked implementation artifacts: `none; implementation not started`
+- Tracked implementation artifacts: `adl/tools/vllm_qwen_speculative_decoding_benchmark.py; adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; .csdlc/evidence/905/RETEST_STATUS.md`
 - Additional proof artifacts: `none; acceptance proof not started`
 
 ## Actions taken
-- `Source issue reviewed for native preparation`
-- `Existing six-card identity reused, natively bound and normalized for Sprint 6 setup`
-- `Prerequisite accepted; implementation and hardware acceptance proof remain not started.`
+- `Verified bound native doctor and created child905 full goal; mapped actual kernel Ollama-only generation route and missing speculative controls`
+- `Implemented fail-closed counters/summary/pair comparison and output identities; preserved all observed setup/generation attempts without raw exception text`
+- `Independent source review found historical output overwrite; exclusive result/journal reservation corrected and13tests independently pass`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
 - Worktree-only paths remaining: `.csdlc/issues/905/cards; native bound setup only`
-- Integration state: `not_started`
-- Verification scope: `not_run`
+- Integration state: `worktree_only`
+- Verification scope: `Bounded deterministic accounting/correctness, complete declared grid, output identity, exclusive artifact preservation and redacted failure journaling; raw fake engine tests do not prove inference.`
 - Integration method used: `not_run; implementation has not started`
 - Verification performed:
   - `not_run; implementation has not started`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
+  - `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; git diff --check; native validate`
     `No implementation proof attempted`
 - Results:
-  - `not_run`
+  - `13 deterministic tests passed locally and independently; diff hygiene passed. No hardware/engine/Runtime/CI proof.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -154,25 +154,25 @@ verification_summary:
 - Secret leakage scan performed: `not_run; implementation has not started`
 - Prompt / tool argument redaction verified: `not_run; implementation has not started`
 - Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Sandbox / policy invariants preserved: `Bound worktree only; no cloud/service/model/credential mutation; source changes confined to retest harness/tests`
 
 ## Replay Artifacts
 - Trace bundle path(s): `not_run; implementation has not started`
-- Run artifact root: `.csdlc/evidence/905 (planned)`
+- Run artifact root: `.adl/runs/905`
 - Replay command used for verification: `not_run; implementation has not started`
 - Replay result: `not_run; implementation has not started`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/905 (planned)`
+- Primary proof surface: `.csdlc/evidence/905/RETEST_STATUS.md`
 - Required artifacts present: `not_run; implementation has not started`
 - Artifact schema/version checks: `not_run; implementation has not started`
 - Hash/byte-stability checks: `not_run; implementation has not started`
-- Missing/optional artifacts and rationale: `No implementation or hardware run has started, so execution artifacts and metrics are not available.`
+- Missing/optional artifacts and rationale: `Actual Runtime comparison, hardware resource/cost and fallback evidence are required but unavailable; not optional or waived`
 
 ## Decisions / Deviations
 - `#864 CLOSED; PR #865 MERGED at f1c4e2a915c215797f0d2708cb8b0568f2b80b32, ancestor of selected main`
 - `Planning #5 released903/904/905 setup ownership; native FastWork bind completed. Implementation, hardware execution, model loading/download and service mutations remain outside setup scope.`
 
 ## Follow-ups / Deferred work
-- `Assign child implementation owner/goal and authorize execution; resolve runtime/model/resource gates before hardware proof.`
-- `Execute VPP and independent exact-head review, then native publication, terminal finish and separate cleanup`
+- `Select approved engine/model/tokenizer/hardware and actual current Runtime route for paired modes; no provider integration or acquisition silently authorized`
+- `Execute comparable real routes and controlled draft failure/fallback before final disposition/closingPR`
