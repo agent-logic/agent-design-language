@@ -770,3 +770,110 @@ pub fn dispatch_intent_mutation(
     }
     dispatch_operational_remote(root, dispatch, process)
 }
+
+/// Explicit owner mapping: repository creation must never reserve an issue-zero
+/// transaction or borrow the invoking issue's generation.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SemanticMutationTarget {
+    RepositoryCreation,
+    Issue(crate::lifecycle::semantic::SemanticCommand),
+}
+
+pub fn semantic_mutation_target(
+    request: &GithubMutationRequest,
+) -> Result<SemanticMutationTarget, RemoteRouteFinding> {
+    use crate::lifecycle::semantic::SemanticCommand;
+    validate_repository_name(&request.repository)?;
+    validate_mutation(request)?;
+    Ok(match &request.mutation {
+        GithubMutation::IssueCreate { .. } => SemanticMutationTarget::RepositoryCreation,
+        GithubMutation::IssueComment { .. }
+        | GithubMutation::IssueEdit { .. }
+        | GithubMutation::IssueClose { .. } => {
+            SemanticMutationTarget::Issue(SemanticCommand::RecordIssueMutation)
+        }
+        GithubMutation::PullRequestCreate { .. } | GithubMutation::PullRequestUpdate { .. } => {
+            SemanticMutationTarget::Issue(SemanticCommand::Publish)
+        }
+        GithubMutation::PullRequestReady => {
+            SemanticMutationTarget::Issue(SemanticCommand::MarkMergeReady)
+        }
+        GithubMutation::PullRequestMerge { .. } => {
+            SemanticMutationTarget::Issue(SemanticCommand::RecordMerge)
+        }
+    })
+}
+
+/// Repository admission is minted only after the existing native authority owner
+/// verifies this repository and exact revision. It creates no semantic issue.
+pub(crate) fn semantic_creation_admission(
+    root: &Path,
+    request: &GithubMutationRequest,
+) -> Result<crate::storage::semantic::protocol::creation::RepositoryAdmission, RemoteRouteFinding> {
+    if semantic_mutation_target(request)? != SemanticMutationTarget::RepositoryCreation {
+        return Err(remote_finding(
+            "semantic_creation_scope_invalid",
+            "repository creation requires native issue zero",
+        ));
+    }
+    verify_canonical_v3_authority(root, None, &request.expected_head_sha)?;
+    let common = git_control_dir(root)
+        .and_then(|path| {
+            if path.join("commondir").exists() {
+                git_common_dir(&path)
+            } else {
+                Some(path)
+            }
+        })
+        .ok_or_else(|| {
+            remote_finding(
+                "semantic_repository_unavailable",
+                "canonical Git-common metadata is required",
+            )
+        })?;
+    let common = common.canonicalize().map_err(|_| {
+        remote_finding(
+            "semantic_repository_unavailable",
+            "canonical Git-common metadata is required",
+        )
+    })?;
+    crate::storage::semantic::protocol::creation::RepositoryAdmission::from_native_owner(
+        request.repository.clone(),
+        crate::storage::semantic::Digest::authority(&read_canonical_authority_selector(root)?),
+        common,
+        request.expected_head_sha.clone(),
+    )
+    .map_err(|_| {
+        remote_finding(
+            "semantic_creation_admission_invalid",
+            "native repository admission is invalid",
+        )
+    })
+}
+
+/// Preserve native uncertainty as durable, sanitized evidence. This cannot grant
+/// a success transition and does not claim that the transport made no effect.
+pub(crate) fn semantic_uncertain_outcome(
+    native: crate::storage::semantic::protocol::NativeIdentity,
+    finding: &RemoteRouteFinding,
+) -> Result<crate::storage::semantic::protocol::VerifiedOutcome, RemoteRouteFinding> {
+    use crate::storage::semantic::protocol::{EffectTruth, OutcomeKind, VerifiedOutcome};
+    let evidence = serde_json::to_vec(&serde_json::json!({
+        "schema":"csdlc.v3.semantic_remote_uncertainty.v1", "code":finding.code,
+        "effects":"unknown", "recovery":"reconcile_original_native_operation"
+    }))
+    .map_err(|_| remote_finding("semantic_outcome_encoding_failed", "cannot encode outcome"))?;
+    VerifiedOutcome::from_native_owner(
+        OutcomeKind::Unresolved,
+        EffectTruth::Unknown,
+        evidence,
+        crate::lifecycle::semantic::Facts::default(),
+        native,
+    )
+    .map_err(|_| {
+        remote_finding(
+            "semantic_outcome_invalid",
+            "cannot retain native uncertainty",
+        )
+    })
+}
