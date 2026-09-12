@@ -89,6 +89,18 @@
       "check": "mandoc",
       "pages": 30,
       "passed": true
+    },
+    {
+      "check": "existing-owner-install-regression",
+      "command": [
+        "bash",
+        "adl/tools/test_owner_binary_install.sh"
+      ],
+      "environment": "TMPDIR set to ignored issue-local target/owner-install-regression",
+      "exit_code": 0,
+      "passed": true,
+      "log": "validation/owner-install-regression.log",
+      "prior_failure": "exit127 missing new manual helper in miniature fixture; corrected required fixture inputs and installed-page assertion"
     }
   ]
 }

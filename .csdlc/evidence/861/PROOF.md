@@ -20,6 +20,10 @@ logs normalize only the absolute issue-checkout prefix for publication.
 - Focused Clippy with warnings denied and crate formatting check pass.
 - `render.py --check` and all 30 `mandoc -Tlint -Wwarning` checks pass.
 - `git diff --check` passes.
+- The existing `adl/tools/test_owner_binary_install.sh` regression passes after
+  its miniature native-owner fixture includes the newly required manual helper
+  and pages. The initial run exposed the missing fixture helper with exit 127;
+  the correction adds those inputs and verifies the installed overview.
 
 ## Installation proof
 

@@ -54,6 +54,7 @@ Validation:
 cargo test --manifest-path csdlc-v3/Cargo.toml --test operator_man_pages
 cargo test --manifest-path csdlc-v3/Cargo.toml --example operator_manual
 bash docs/csdlc-v3/man/test_install.sh
+TMPDIR="$PWD/target" bash adl/tools/test_owner_binary_install.sh
 git diff --check
 ```
 

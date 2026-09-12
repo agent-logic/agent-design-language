@@ -10,6 +10,10 @@
       "sha256": "c97501b20b12d7f2b9a1f0fda33d600a0a722781ea4e818a70df3691ebcedcfc"
     },
     {
+      "path": "adl/tools/test_owner_binary_install.sh",
+      "sha256": "6876ede175079b4c0bcabcd5306f5a471f23e10945013365a804bae60d2b0da2"
+    },
+    {
       "path": "csdlc-v3/examples/operator_manual.rs",
       "sha256": "b7b182b1a250b06177a604e32b483ed603e43ca7b4dcda78cdadc544388787c0"
     },
@@ -19,7 +23,7 @@
     },
     {
       "path": "docs/csdlc-v3/man/README.md",
-      "sha256": "e3a96384315f902174298dbe538dbb0c66aac215cd48b9bd2154076955b31eb3"
+      "sha256": "d2779d45e4839ed2e98511375875b744cbc259251d31cd8a59d9c6a64858bb23"
     },
     {
       "path": "docs/csdlc-v3/man/examples/clean.json",
@@ -223,7 +227,7 @@
     },
     {
       "path": "docs/csdlc-v3/man/pvf.json",
-      "sha256": "3fa5c03516143b76f3d29025807cd32c65f27076d200bb8f59e5314856164107"
+      "sha256": "7bdde96ffef5881f5804099fbf584d5bacc431039037458297423bfd67de8916"
     },
     {
       "path": "docs/csdlc-v3/man/render.py",
