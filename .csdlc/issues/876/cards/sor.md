@@ -107,7 +107,7 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --lib <filter>; filters provider_definitions, provider_reload, execute_sequential_retains_starting_provider_snapshot, provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
+  - `cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo test --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot; cargo test --manifest-path adl/Cargo.toml --lib provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
     `Proved real dispatch, invalid-input/LKG/redaction, reference admission, existing reload/in-flight/profile behavior and lint/format correctness.`
 - Results:
   - `25 focused tests passed (3+7+1+14); clippy, formatting and whitespace passed. Current-head hosted CI pending.`
