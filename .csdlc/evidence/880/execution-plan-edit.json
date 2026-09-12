@@ -1,0 +1,27 @@
+{
+  "issue": 880,
+  "title": "[v0.92.2][CF-ADAPTER-CI] Ingest CI repository inputs into a repository packet",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/880-ci-ingestion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-880-ci-ingestion",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "ad862ef0e71fdf31c6b9bfdb76e35e68bfe2e8ce1b00f1b00238f08593fa6a1a",
+  "card_updates": {
+    "spp": {
+      "plan_summary": "Implement CI acquisition by reusing local immutable Git capture and AdmissionInput readback. Keep allowlisted run metadata in a separate packet-bound receipt; explicit source and candidate revisions remain distinct. Add independent ingest/ci CLI dispatch. Required codefriend-ci-acquisition hosted job installs the candidate, consumes a bounded fixture, uploads proof with error-on-missing and validates artifact digest. Wire selection and success/skip into adl-ci. Focused negative/parity tests precede independent exact-head review and native publication; hosted proof remains pending until actual run.",
+      "plan_summary_inline": "Implement CI acquisition by reusing local immutable Git capture and AdmissionInput readback. Keep allowlisted run metadata in a separate packet-bound receipt; explicit source and candidate revisions remain distinct. Add independent ingest/ci CLI dispatch. Required codefriend-ci-acquisition hosted job installs the candidate, consumes a bounded fixture, uploads proof with error-on-missing and validates artifact digest. Wire selection and success/skip into adl-ci. Focused negative/parity tests precede independent exact-head review and native publication; hosted proof remains pending until actual run.",
+      "status": "in_progress",
+      "status_inline": "in_progress"
+    }
+  }
+}

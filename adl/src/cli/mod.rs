@@ -4,6 +4,7 @@ use std::process::Command;
 
 mod agent_cmd;
 mod artifact_cmd;
+mod codefriend_ci_cmd;
 mod codefriend_cmd;
 mod commands;
 mod csm_cmd;
