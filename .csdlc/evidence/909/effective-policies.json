@@ -1,0 +1,568 @@
+{
+  "issue": 909,
+  "scope": "Effective host-project policy for all20 constraints returned by company organization listing; no all-possible-constraints claim",
+  "observations": [
+    {
+      "constraint": "iam.allowedPolicyMemberDomains",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "iam.allowedPolicyMemberDomains",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:10.543911+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/iam.allowedPolicyMemberDomains",
+        "spec": {
+          "rules": [
+            {
+              "values": {
+                "allowedValues": [
+                  "C04h3s36w"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.disableSerialPortAccess",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.disableSerialPortAccess",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:11.335592+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.disableSerialPortAccess",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "iam.disableServiceAccountKeyCreation",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "iam.disableServiceAccountKeyCreation",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:12.147951+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/iam.disableServiceAccountKeyCreation",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "storage.uniformBucketLevelAccess",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "storage.uniformBucketLevelAccess",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:12.935202+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/storage.uniformBucketLevelAccess",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "essentialcontacts.allowedContactDomains",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "essentialcontacts.allowedContactDomains",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:13.737084+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/essentialcontacts.allowedContactDomains",
+        "spec": {
+          "rules": [
+            {
+              "values": {
+                "allowedValues": [
+                  "@agent-logic.ai"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.requireOsLogin",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.requireOsLogin",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:14.527300+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.requireOsLogin",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.disableNestedVirtualization",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.disableNestedVirtualization",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:15.319844+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.disableNestedVirtualization",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "iam.managed.disableServiceAccountKeyCreation",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "iam.managed.disableServiceAccountKeyCreation",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:16.133030+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/iam.managed.disableServiceAccountKeyCreation",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "iam.automaticIamGrantsForDefaultServiceAccounts",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "iam.automaticIamGrantsForDefaultServiceAccounts",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:16.952366+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/iam.automaticIamGrantsForDefaultServiceAccounts",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.setNewProjectDefaultToZonalDNSOnly",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.setNewProjectDefaultToZonalDNSOnly",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:17.748138+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.setNewProjectDefaultToZonalDNSOnly",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "sql.restrictAuthorizedNetworks",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "sql.restrictAuthorizedNetworks",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:19.142809+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/sql.restrictAuthorizedNetworks",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.disableVpcExternalIpv6",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.disableVpcExternalIpv6",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:20.939349+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.disableVpcExternalIpv6",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.restrictProtocolForwardingCreationForTypes",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.restrictProtocolForwardingCreationForTypes",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:21.727670+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.restrictProtocolForwardingCreationForTypes",
+        "spec": {
+          "rules": [
+            {
+              "values": {
+                "allowedValues": [
+                  "INTERNAL"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "essentialcontacts.managed.allowedContactDomains",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "essentialcontacts.managed.allowedContactDomains",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:22.456552+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/essentialcontacts.managed.allowedContactDomains",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true,
+              "parameters": {
+                "allowedDomains": [
+                  "@agent-logic.ai"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "storage.publicAccessPrevention",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "storage.publicAccessPrevention",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:23.229040+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/storage.publicAccessPrevention",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "sql.restrictPublicIp",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "sql.restrictPublicIp",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:24.132118+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/sql.restrictPublicIp",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.vmExternalIpAccess",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.vmExternalIpAccess",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:24.845851+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.vmExternalIpAccess",
+        "spec": {
+          "rules": [
+            {
+              "denyAll": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.managed.restrictProtocolForwardingCreationForTypes",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.managed.restrictProtocolForwardingCreationForTypes",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:25.639232+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.managed.restrictProtocolForwardingCreationForTypes",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true,
+              "parameters": {
+                "allowedSchemes": [
+                  "INTERNAL"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "iam.disableServiceAccountKeyUpload",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "iam.disableServiceAccountKeyUpload",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:26.431626+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/iam.disableServiceAccountKeyUpload",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "constraint": "compute.restrictXpnProjectLienRemoval",
+      "command": [
+        "gcloud",
+        "org-policies",
+        "describe",
+        "compute.restrictXpnProjectLienRemoval",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--effective",
+        "--format=json",
+        "--quiet"
+      ],
+      "observed_at": "2026-09-12T00:38:27.232359+00:00",
+      "exit_code": 0,
+      "policy": {
+        "name": "projects/27581932047/policies/compute.restrictXpnProjectLienRemoval",
+        "spec": {
+          "rules": [
+            {
+              "enforce": true
+            }
+          ]
+        }
+      },
+      "error": null
+    }
+  ]
+}

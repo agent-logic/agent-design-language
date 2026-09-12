@@ -11,31 +11,110 @@
       "address": "google_bigquery_dataset.billing_export",
       "actions": [
         "create"
-      ]
+      ],
+      "before": null,
+      "after": {
+        "project": "cs-host-377d41e71a824f92802120",
+        "dataset_id": "adl_gcp_c_billing_export",
+        "location": "us-west2",
+        "labels": {
+          "app": "adl",
+          "issue": "492",
+          "lane": "gcp-c",
+          "managed_by": "terraform",
+          "milestone": "v0-92-1"
+        },
+        "delete_contents_on_destroy": false,
+        "default_table_expiration_ms": null
+      }
     },
     {
       "address": "google_billing_budget.host_project_guardrail",
       "actions": [
         "create"
-      ]
+      ],
+      "before": null,
+      "after": {
+        "billing_account": "billingAccounts/01FA88-CC4968-ADF817",
+        "display_name": "ADL v0.92.1 GCP-C host-project budget",
+        "amount": [
+          {
+            "last_period_amount": null,
+            "specified_amount": [
+              {
+                "currency_code": "USD",
+                "nanos": null,
+                "units": "20"
+              }
+            ]
+          }
+        ],
+        "budget_filter": [
+          {
+            "calendar_period": null,
+            "credit_types_treatment": "INCLUDE_ALL_CREDITS",
+            "custom_period": [],
+            "labels": {
+              "issue": "492"
+            },
+            "projects": [
+              "projects/27581932047"
+            ],
+            "resource_ancestors": null
+          }
+        ],
+        "threshold_rules": [
+          {
+            "spend_basis": "CURRENT_SPEND",
+            "threshold_percent": 0.5
+          },
+          {
+            "spend_basis": "CURRENT_SPEND",
+            "threshold_percent": 0.9
+          },
+          {
+            "spend_basis": "CURRENT_SPEND",
+            "threshold_percent": 1
+          }
+        ],
+        "all_updates_rule": []
+      }
     },
     {
       "address": "google_project_iam_member.corporate_owner_project_roles[\"roles/iam.securityReviewer\"]",
       "actions": [
         "create"
-      ]
+      ],
+      "before": null,
+      "after": {
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/iam.securityReviewer",
+        "member": "group:gcp-admins@agent-logic.ai"
+      }
     },
     {
       "address": "google_project_iam_member.corporate_owner_project_roles[\"roles/owner\"]",
       "actions": [
         "create"
-      ]
+      ],
+      "before": null,
+      "after": {
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/owner",
+        "member": "group:gcp-admins@agent-logic.ai"
+      }
     },
     {
       "address": "google_project_iam_member.corporate_owner_project_roles[\"roles/viewer\"]",
       "actions": [
         "create"
-      ]
+      ],
+      "before": null,
+      "after": {
+        "project": "cs-host-377d41e71a824f92802120",
+        "role": "roles/viewer",
+        "member": "group:gcp-admins@agent-logic.ai"
+      }
     }
   ],
   "remote_state_mutation": false,

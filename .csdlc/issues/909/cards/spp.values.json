@@ -32,7 +32,7 @@
   "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/909",
   "stp_card": ".csdlc/issues/909/cards/stp.md",
   "sip_card": ".csdlc/issues/909/cards/sip.md",
-  "notes_risks_inline": "Company authentication resolved and inventory captured. Bootstrap/organization plans produced; platform Terraform state not located. No import/state recovery authority; preserve exact original state if supplied.",
+  "notes_risks_inline": "No platform state found in bounded inspected locations; no import/recovery authority. Target corporate group lookup unresolved because CLI conflates403/404. Company auth works; missing custody/group evidence blocks complete acceptance.",
   "initial_pvf_lane": "cloud-operations",
   "planned_pvf_lane": "cloud-operations",
   "planned_pvf_lane_source": "#909 acceptance",

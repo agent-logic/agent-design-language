@@ -11,13 +11,73 @@
       "address": "google_storage_bucket.terraform_state",
       "actions": [
         "no-op"
-      ]
+      ],
+      "before": {
+        "name": "adl-tf-state-cs-host-377d41e71a824f92802120",
+        "project": "cs-host-377d41e71a824f92802120",
+        "location": "US-WEST2",
+        "force_destroy": false,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "enforced",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:34:04.395Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "labels": {
+          "app": "adl",
+          "issue": "730",
+          "lane": "gcp-b1",
+          "milestone": "v0-92-1"
+        }
+      },
+      "after": {
+        "name": "adl-tf-state-cs-host-377d41e71a824f92802120",
+        "project": "cs-host-377d41e71a824f92802120",
+        "location": "US-WEST2",
+        "force_destroy": false,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "enforced",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "soft_delete_policy": [
+          {
+            "effective_time": "2026-09-08T09:34:04.395Z",
+            "retention_duration_seconds": 604800
+          }
+        ],
+        "labels": {
+          "app": "adl",
+          "issue": "730",
+          "lane": "gcp-b1",
+          "milestone": "v0-92-1"
+        }
+      }
     },
     {
       "address": "google_storage_bucket_iam_member.terraform_state_admin",
       "actions": [
         "no-op"
-      ]
+      ],
+      "before": {
+        "bucket": "b/adl-tf-state-cs-host-377d41e71a824f92802120",
+        "role": "roles/storage.admin",
+        "member": "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+      },
+      "after": {
+        "bucket": "b/adl-tf-state-cs-host-377d41e71a824f92802120",
+        "role": "roles/storage.admin",
+        "member": "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+      }
     }
   ],
   "remote_state_mutation": false,
@@ -25,5 +85,7 @@
   "command": "terraform -chdir=.adl/runs/909/bootstrap plan -input=false -lock=false -no-color -out=.adl/runs/909/bootstrap.tfplan -detailed-exitcode",
   "path_note": "Invocation supplied absolute paths to ignored local plan outputs; recorded paths are repository-relative.",
   "exit_code": 0,
-  "credential_handling": "Explicit company gcloud account; access token process-local only, not persisted"
+  "credential_handling": "Explicit company gcloud account; access token process-local only, not persisted",
+  "post_plan_remote_state_content_match": true,
+  "post_plan_remote_generation": "1788860115181967"
 }

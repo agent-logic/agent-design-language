@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Company authentication resolved and inventory captured. Bootstrap/organization plans produced; platform Terraform state not located. No import/state recovery authority; preserve exact original state if supplied."
+notes: "No platform state found in bounded inspected locations; no import/recovery authority. Target corporate group lookup unresolved because CLI conflates403/404. Company auth works; missing custody/group evidence blocks complete acceptance."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Company authentication resolved and inventory captured. Bootstrap/organization plans produced; platform Terraform state not located. No import/state recovery authority; preserve exact original state if supplied.
+No platform state found in bounded inspected locations; no import/recovery authority. Target corporate group lookup unresolved because CLI conflates403/404. Company auth works; missing custody/group evidence blocks complete acceptance.

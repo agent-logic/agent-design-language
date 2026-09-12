@@ -40,7 +40,7 @@ The accepted company hierarchy is now verified by live read-only observations in
 | Destination host project | `cs-host-377d41e71a824f92802120` | Verified live describe |
 | Billing | `billingAccounts/01FA88-CC4968-ADF817` | Verified live enabled company billing |
 | Region | `us-west2`, US residency | Region readback passed; policy readback tracked separately |
-| Human read-only identity | `daniel@agent-logic.ai` in approved repo Git-common configuration | Verified normal authenticated company context |
+| Human read-only identity | `daniel@agent-logic.ai` in normal authenticated company gcloud configuration | Verified normal authenticated company context |
 | Bootstrap identity | `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com` | Bootstrap provider impersonation succeeded in read-only state-backed plan |
 | Corporate owner | `group:gcp-admins@agent-logic.ai` | Corporate group not observed in current project IAM; proposed reconciliation required |
 
@@ -83,12 +83,11 @@ Terraform 1.15.3 on darwin_arm64 ran `fmt -check`, `init -backend=false
 Unmodified `.tf` files plus each tracked provider lock were copied into ignored
 issue-local directories. `static-checks.json` records exact commands and exits;
 local logs are `.adl/runs/909/{organization,bootstrap,platform}-*.log`.
-These checks prove formatting/schema consistency only. No backend configuration
-or existing state was copied, initialized, migrated, locked or changed.
+These checks prove formatting/schema consistency only. During these static checks, no backend configuration or existing state was copied, initialized, migrated, locked or changed. Subsequent bootstrap planning separately downloaded a private read-only copy of the existing state.
 
 **Bootstrap has a real state-backed plan; platform plan remains unresolved.** `bootstrap-plan-summary.json` records exit 0 and no-op for both bootstrap resources, using a private local copy of the existing remote state (serial 4). This did not initialize, lock or modify the remote backend. The live platform exists, but its authoritative Terraform state has not been located. The platform state bucket is empty and the accepted backend lists bootstrap/canary state only. An empty-state platform plan would misleadingly propose recreation and is not a replacement. Organization live readbacks found no budget, no dataset and no corporate-group IAM memberships, so a fresh local plan is valid for those absent managed identities. `organization-plan-summary.json` records exit 2 with exactly five creates and no update/delete/replacement; no existing state was overwritten.
 
-To finish this gate after current inventory succeeds:
+To finish the remaining platform plan gate:
 
 1. Name the current state custodian and exact existing backend/state for each
    package. Read existing metadata and address inventory without writing or
@@ -192,7 +191,7 @@ non-selected workloads are outside cleanup scope. Do not invoke the historical
 | Terraform fmt/validate | `static-checks.json` | All nine commands passed |
 | Real plan and exact application/rollback consistency | `bootstrap-plan-summary.json`, `organization-plan-summary.json` | Bootstrap no-op and organization five-create plan; platform state/plan unresolved; custodian / #909 |
 | Billing and cleanup controls | Source gaps recorded above | Named owners, actual charges/filters/readbacks pending #909 |
-| Independent review and source/link/redaction checks | Pending | Required before publication |
+| Independent review and source/link/redaction checks | Local checks pass; first review found null policy projection | Repaired with constraint identities and20 effective readbacks; final delta review pending |
 
 Umbrella #934 owns sprint routing; #864 remains the accepted planning dependency.
 Preserve all seven milestone planning tasks. This gap report does not defer or
@@ -202,3 +201,7 @@ six-resident qualification and Observatory work remain separate owners/issues.
 ## Concrete remaining platform recovery gate
 
 See `PLATFORM_STATE_GAP.md` for inspected locations, the native historical cleanup lead, and non-mutating recovery options. Cleanup loss is only a hypothesis. The current live POC has one instance and one disk; the host has zero instances/disks but its foundation remains. Preserve both projects and all data. `foundation-controls.json` records supplementary bucket/IAM/OS Login/logging/policy/dataset metadata.
+
+`APPLICATION_CHECKLIST.md` provides exact completed-plan decisions, responsible approval contacts, ordered saved-plan commands and rollback/cost boundaries. Corporate directory lookup is a second unresolved identity gate (`corporate-group-check.json`); no group is created or replaced here.
+
+Policy projection now retains actual constraint names; `effective-policies.json` contains all20 effective host-policy readbacks for the observed organization constraints. Region quota values are retained in `live-inventory.json`. Both are current metadata evidence, not workload launch capacity or authorization.

@@ -682,26 +682,106 @@
         "supersedes": "initial invalid mutually exclusive project/org flag attempt"
       },
       "policies": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        {
+          "constraint": "iam.allowedPolicyMemberDomains",
+          "booleanPolicy": "-",
+          "listPolicy": "SET"
+        },
+        {
+          "constraint": "compute.disableSerialPortAccess",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "iam.disableServiceAccountKeyCreation",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "storage.uniformBucketLevelAccess",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "essentialcontacts.allowedContactDomains",
+          "booleanPolicy": "-",
+          "listPolicy": "SET"
+        },
+        {
+          "constraint": "compute.requireOsLogin",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "compute.disableNestedVirtualization",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "iam.managed.disableServiceAccountKeyCreation",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "iam.automaticIamGrantsForDefaultServiceAccounts",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "compute.setNewProjectDefaultToZonalDNSOnly",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "sql.restrictAuthorizedNetworks",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "compute.disableVpcExternalIpv6",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "compute.restrictProtocolForwardingCreationForTypes",
+          "booleanPolicy": "-",
+          "listPolicy": "SET"
+        },
+        {
+          "constraint": "essentialcontacts.managed.allowedContactDomains",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "storage.publicAccessPrevention",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "sql.restrictPublicIp",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "compute.vmExternalIpAccess",
+          "booleanPolicy": "-",
+          "listPolicy": "SET"
+        },
+        {
+          "constraint": "compute.managed.restrictProtocolForwardingCreationForTypes",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "iam.disableServiceAccountKeyUpload",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        },
+        {
+          "constraint": "compute.restrictXpnProjectLienRemoval",
+          "booleanPolicy": "SET",
+          "listPolicy": "-"
+        }
       ]
     },
     {

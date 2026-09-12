@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Company org/folder/host/billing identity verified in current authenticated company context. Read-only inventory and supplementary controls captured. Bootstrap real state-backed plan no-op; organization actual plan exactly five creates. Platform state missing from inspected locations, so complete packet and apply-ready acceptance remain blocked.
+Company identity/inventory captured; bootstrap no-op and organization five-create plans produced. Application, rollback, owner/cost controls and suspected platform-state-location gap documented. Platform state and target corporate-group identity/visibility remain unresolved; not apply-ready.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -57,7 +57,7 @@ Company org/folder/host/billing identity verified in current authenticated compa
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `incomplete_platform_state_required`
+- Completion state: `incomplete_platform_state_and_group_identity_required`
 - Issue goal ref: `Issue #909 active session goal created before implementation`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -110,7 +110,7 @@ Rules:
   - `Terraform fmt/init-backend-false/validate for three packages; read-only gcloud company census; isolated bootstrap and organization plans; focused source/hash/link/redaction checks`
     `Proves static consistency, company identity/current metadata and two exact plan action sets; does not prove platform plan or apply-ready completeness.`
 - Results:
-  - `Nine static checks pass; live company inventory passes; bootstrap plan exit0; organization plan exit2; platform plan not run pending authoritative state.`
+  - `Nine static checks,32 census reads,20 effective-policy reads and local source/redaction checks pass; bootstrap plan exit0, organization plan exit2. Platform plan missing; directory-group lookup ambiguous403/404. Independent checkpoint finding repaired; final review pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

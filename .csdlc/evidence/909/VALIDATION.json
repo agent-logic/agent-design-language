@@ -10,7 +10,7 @@
   "organization_plan_exit": 2,
   "platform_plan": "not_run_missing_authoritative_state",
   "apply_ready": false,
-  "independent_review": "pending",
+  "independent_review": "Checkpoint1925497 reviewed: null policy projection found and repaired; final delta review pending",
   "lanes": [
     {
       "name": "static_and_packet",
@@ -26,5 +26,7 @@
       "issue_gate": true,
       "release_gate": false
     }
-  ]
+  ],
+  "corporate_group": "unresolved existence/visibility; CLI conflates403and404",
+  "effective_policy_readbacks": 20
 }
