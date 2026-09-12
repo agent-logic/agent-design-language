@@ -105,7 +105,7 @@
         "creates": 18,
         "errors": 0,
         "private_state_backup": "preserved before output capture",
-        "independent_deployed_review": "pending"
+        "independent_deployed_review": "passed"
       },
       "asset_verification": {
         "https_assets": 4,
@@ -131,7 +131,7 @@
       "reviewed_head": "35dd2078617c69c8b60a6ce008c6c5c27433b565",
       "review_findings": [],
       "reviewer": "sprint8_909",
-      "ci_run": 34674270192,
+      "ci_run": 34674381718,
       "ci_conclusion": "success",
       "merge_authorization": "Operator merged PR954; live result verified",
       "merge_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
@@ -142,7 +142,7 @@
       "terminal_receipt_sha256": "ac4be0e3ddfde61a878f752f11ebe125da4a3e72b28f882c6468d28b3dbdd7e7"
     }
   ],
-  "review": "pending",
+  "review": "four-child source and integration acceptance passed; final umbrella tail review pending",
   "completion": "in_progress",
   "merge_authorization": "not_inferred",
   "no_new_cloud_mutation_authority": true

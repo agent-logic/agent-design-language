@@ -91,7 +91,7 @@ All four Sprint 8 child PRs merged with reviewed source-specific proof. Actual A
 - Integration method used: `Child PR merges and native terminal receipts; umbrella integration pending`
 - Verification performed:
   - `Git owned-source comparisons and exact GitHub observations recorded in review/observations.json`
-    `Three child merged outputs reconciled; #910 and closing revision pending`
+    `All four merged child outputs and terminal receipts reconciled; all four merge commits are ancestors of the umbrella candidate. Only umbrella PR/CI/merge/closeout remains.`
 - Result: `All four child PRs merged and natively closed out; all four merges are ancestors of umbrella candidate. Umbrella PR and final closeout pending.`
 
 Rules:
@@ -151,9 +151,9 @@ verification_summary:
 - Artifact stability notes: `Exact Git artifact references retained; observations are time-bound`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `Private/public boundaries independently reviewed in child packets; final umbrella publication scan pending`
-- Prompt / tool argument redaction verified: `Final umbrella scan pending; no credentials included in declared public evidence`
-- Absolute path leakage check: `Final umbrella check pending; generated worktree identity fields remain operational metadata`
+- Secret leakage scan performed: `Independent umbrella review checked credential/account patterns and issue scope; no leaks found.`
+- Prompt / tool argument redaction verified: `Independent packet privacy review passed; private cloud state and credentials excluded.`
+- Absolute path leakage check: `Independent review passed; generated worktree identity fields are explicit operational metadata.`
 - Sandbox / policy invariants preserved: `Root main inspection-only; issue changes in bound worktrees. Cloud apply, uploads, Runtime origin and temporary site permission separately authorized.`
 
 ## Replay Artifacts

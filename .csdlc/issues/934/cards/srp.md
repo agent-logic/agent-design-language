@@ -56,7 +56,7 @@ policy_refs:
   - ".csdlc/issues/934/cards/vpp.md"
 review_results:
   findings_status: "addressed"
-  recommended_outcome: "Continue; full sprint acceptance awaits deployed #910 evidence and final independent synthesis."
+  recommended_outcome: "Approve reviewed four-child acceptance packet for umbrella publication; final umbrella CI/merge/terminal steps remain."
 notes: "See .csdlc/evidence/934/review/COMBINED_SPRINT_ACCEPTANCE.md and DEPLOYED_CHILD_910_REVIEW.md. Local child tests, actual cloud/browser observations, CI selection and merge/terminal receipts remain distinct proof surfaces."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Combined source/evidence review accepts all four child deliverables. No remaining source finding; #910 final PR merge, terminal closeout and umbrella closing ancestry remain pending integration gates.
+- Two P2 record findings corrected: stale #910 pending fields and final-head CI association. All four children are reviewed, green, merged and natively closed out; all-four ancestry verified.
 
 ### Dispositions
 
-- Browser proof established accepted live v3 feed and UI rendering with explicit live-connect URL and approved temporary site permission. Documentation and invalidation receipt findings resolved.
+- Source, browser, invalidation and metadata findings resolved. Final #910 CI is run34674381718 at35dd207861; earlier run34674270192 belongs to28fbf649.
 
 ### Recommended Outcome
 
-- Continue; full sprint acceptance awaits deployed #910 evidence and final independent synthesis.
+- Approve reviewed four-child acceptance packet for umbrella publication; final umbrella CI/merge/terminal steps remain.
 
 ## Notes
 
