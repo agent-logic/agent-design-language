@@ -14,7 +14,7 @@
   "sip_card": ".csdlc/issues/904/cards/sip.md",
   "recommended_outcome": "block",
   "slug": "v0922-pair-multinode-experiment",
-  "review_notes": "Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication.",
+  "review_notes": "Independent implementation review required. Current accounting checkpoint has8 passing tests but no real experiment, collectors or disposition; this cannot satisfy source acceptance or closing publication. Reviewer allocation pending concurrency capacity.",
   "findings_status": "review_unavailable",
   "review_dispositions": "No implementation finding is accepted, resolved or waived by preparation.",
   "stp_card": ".csdlc/issues/904/cards/stp.md",

@@ -200,7 +200,7 @@ Deliver one complete result with required tests, failure handling and documentat
 
 ## Notes
 
-#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Two approved NVIDIA nodes, supported PAIR implementation/version, licensed model, transport, resource/cost ceiling and controlled node-loss scope remain unselected. Local Apple hardware does not satisfy multi-node NVIDIA proof.
+Implementation of bounded harness/accounting and deterministic negatives authorized under #932. Native bound goal active for #904. Real experiment remains blocked on two approved compatible nodes, installed PAIR version/model and current Runtime route. Upstream PAIR supports macOS as well as Windows/Linux; NVIDIA-only node restriction is not part of issue acceptance. No paid provisioning, downloads or service mutation authorized.
 
 ## Tooling Notes
 

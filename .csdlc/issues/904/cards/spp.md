@@ -24,7 +24,7 @@ variance_threshold_percent: "10"
 estimate_confidence: "low"
 estimate_data_source: "local harness/negative-test estimate only; two-node experiment profile duration and cost must be separately approved after prerequisites are available"
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/904"
-issue_goal_ref: "issue-932 setup goal; child #904 implementation goal required before execution"
+issue_goal_ref: "Sprint #932 child #904 active implementation goal"
 sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
 goal_metrics_rollup_ref: ".csdlc/evidence/904/goal-metrics.json (planned, absent until execution)"
 source_refs:
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "After accepted #876 and current shared-provider owner review, select a supported PAIR implementation/version, licensed pinned model, two approved nodes and bounded transport/resource/cost profile; define one same-request-corpus baseline and correctness/accounting rules; implement a reproducible harness using canonical provider definitions without a new provider type; execute actual raw PAIR and Runtime v3 routes with repeated baseline, concurrency, controlled node-loss/recovery and complete per-request measurements; independently review null/negative/positive benefit data and issue one evidence-bound keep/repair/retire decision without production rollout."
+plan_summary: "Resolve pinned upstream PAIR and approved node/model/Runtime provenance; implement deterministic complete-matrix accounting and bounded local-endpoint collection in pair_experiment.py, with no new provider type or provider-policy bypass. Require matching provider-definition bytes, corpus/model/tokenizer/sampling/warmth/concurrency across baseline/raw-PAIR/Runtime routes. Preserve all failures/exclusions and node-loss observations. Add focused negative tests, then wire the confirmed current Runtime production route and execute real approved two-node comparisons before reviewed keep/repair/retire disposition. Harness-only work remains incomplete."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -74,7 +74,7 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "in_progress"
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "pending"
   - step: "Implement the bounded deliverables only."
@@ -89,7 +89,7 @@ invariants_to_preserve:
   - "Keep SPP issue-local; do not turn it into sprint orchestration."
   - "Keep VPP as validation-planning truth, SRP as review-result truth, and SOR as output truth."
 risks_and_edge_cases:
-  - "#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Two approved NVIDIA nodes, supported PAIR implementation/version, licensed model, transport, resource/cost ceiling and controlled node-loss scope remain unselected. Local Apple hardware does not satisfy multi-node NVIDIA proof."
+  - "Implementation of bounded harness/accounting and deterministic negatives authorized under #932. Native bound goal active for #904. Real experiment remains blocked on two approved compatible nodes, installed PAIR version/model and current Runtime route. Upstream PAIR supports macOS as well as Windows/Linux; NVIDIA-only node restriction is not part of issue acceptance. No paid provisioning, downloads or service mutation authorized."
 test_strategy:
   - "1. Before experiment execution, pin supported PAIR implementation/version, licensed model revision, two available approved nodes, transport, concurrency levels, baseline route, request corpus, time/memory/resource bounds and cost ceiling in the issue plan. These execution facts are not claimed selected merely by creating this issue. Missing suitable resources is a visible blocker, never synthetic success. 2. Run a real bounded raw PAIR route and the same requests through current Runtime v3 using canonical provider definitions. Retain exact code/model/hardware, per-request result, correctness/response checks, latency/throughput and resource measurements, startup and failure data. Repeat the declared same-corpus baseline for a fair comparison. 3. Exercise concurrent requests and actual controlled node-loss/unavailability with bounded recovery or declared fallback. Record failures, exclusions, cache/warmth and null/no-benefit outcomes; no caller-set success flags or reference trace substitutes for execution. 4. Produce one reviewed keep/repair/retire decision justified by complete observed data, including negative results. A negative benefit result can complete the experiment; missing raw or Runtime execution cannot. Separate this experimental decision from production readiness and preserve all evidence. PVF: deterministic harness/accounting/negative contracts plus hardware-dependent integration/measurement; resources restricted to explicitly approved nodes/network and budget, required milestone experiment gate. No automatic paid provisioning, model sharding, pooled-VRAM claim, production rollout or public benchmark marketing. Returned deficiencies become scoped follow-up work rather than unbounded repairs in this experiment. All 69 milestone issues must be created and reviewed before any implementation begins, as directed by the operator. Creation/review batches add no execution dependencies beyond that global startup gate and each task's declared prerequisites. Use native C-SDLC v3, current authority/readiness, a bound FastWork worktree and issue-bound goal. Reconcile actual owners before shared-path edits. Preserve repository/provider credentials and inspected source; stdout carries machine output and stderr redacted human diagnostics, including tested compatibility logging when relevant. Deliver one complete result with required tests, failure handling and documentation; no schema/scaffold/unused library/zero-test or authored-packet-only completion. Classify every new proof case by lane, role, determinism, resources and release gate; distinguish local fixture proof, actual hardware/provider runs and required CI. Required proof not executed remains not proved, even when issue creation succeeds. No implementation, paid execution, activation or remote mutation is performed by this issue-creation batch. Proposed harness `adl/tools/pair_experiment.py` does not exist at preparation. Add its bounded deterministic contract tests at proposed `adl/tools/test_pair_experiment.py`; run `python3 adl/tools/test_pair_experiment.py` after authoring. Fixtures reject omitted requests, mismatched corpus/model/warmth/concurrency, fabricated success, missing Runtime or raw route, absent node-loss effects and invalid latency/resource accounting. These are local harness proofs, not hardware measurements. Resolve the implemented harness argv and exact approved environment only after #876 lands, then execute both real routes and same-corpus baseline with complete results and a current independent review. Do not guess a PAIR version, node identity, model license or performance result now. Use focused existing provider/profile tests only if their production owners are touched; inspect registered names first. Source currently routes through build_provider_for_id and provider_profile_materialization_projection; no PAIR provider type exists or is authorized. Keep ordinary provider behavior unchanged. Required raw/runtime/node-loss and null-benefit evidence cannot be replaced by test-only transports or a zero-match Rust filter. `git diff --check` accompanies focused proof. Required qualification harness repairs and scenario proofs are future work; existing source alone is not acceptance. Install the issue candidate through the approved installer only at execution with current provenance; do not replace a shared binary during preparation."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Two approved NVIDIA nodes, supported PAIR implementation/version, licensed model, transport, resource/cost ceiling and controlled node-loss scope remain unselected. Local Apple hardware does not satisfy multi-node NVIDIA proof."
+notes: "Implementation of bounded harness/accounting and deterministic negatives authorized under #932. Native bound goal active for #904. Real experiment remains blocked on two approved compatible nodes, installed PAIR version/model and current Runtime route. Upstream PAIR supports macOS as well as Windows/Linux; NVIDIA-only node restriction is not part of issue acceptance. No paid provisioning, downloads or service mutation authorized."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][PLAT-PAIR] NVIDIA PAIR multi-node local-inference experiment`.
 
-After accepted #876 and current shared-provider owner review, select a supported PAIR implementation/version, licensed pinned model, two approved nodes and bounded transport/resource/cost profile; define one same-request-corpus baseline and correctness/accounting rules; implement a reproducible harness using canonical provider definitions without a new provider type; execute actual raw PAIR and Runtime v3 routes with repeated baseline, concurrency, controlled node-loss/recovery and complete per-request measurements; independently review null/negative/positive benefit data and issue one evidence-bound keep/repair/retire decision without production rollout.
+Resolve pinned upstream PAIR and approved node/model/Runtime provenance; implement deterministic complete-matrix accounting and bounded local-endpoint collection in pair_experiment.py, with no new provider type or provider-policy bypass. Require matching provider-definition bytes, corpus/model/tokenizer/sampling/warmth/concurrency across baseline/raw-PAIR/Runtime routes. Preserve all failures/exclusions and node-loss observations. Add focused negative tests, then wire the confirmed current Runtime production route and execute real approved two-node comparisons before reviewed keep/repair/retire disposition. Harness-only work remains incomplete.
 
 ## PVF Lane Plan
 
@@ -142,7 +142,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
+1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
 2. [pending] Inspect repo inputs and target surfaces before editing.
 3. [pending] Implement the bounded deliverables only.
 4. [pending] Run focused validation and proof gates.
@@ -171,7 +171,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Risks And Edge Cases
 
-- #876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Two approved NVIDIA nodes, supported PAIR implementation/version, licensed model, transport, resource/cost ceiling and controlled node-loss scope remain unselected. Local Apple hardware does not satisfy multi-node NVIDIA proof.
+- Implementation of bounded harness/accounting and deterministic negatives authorized under #932. Native bound goal active for #904. Real experiment remains blocked on two approved compatible nodes, installed PAIR version/model and current Runtime route. Upstream PAIR supports macOS as well as Windows/Linux; NVIDIA-only node restriction is not part of issue acceptance. No paid provisioning, downloads or service mutation authorized.
 
 ## Test Strategy
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Two approved NVIDIA nodes, supported PAIR implementation/version, licensed model, transport, resource/cost ceiling and controlled node-loss scope remain unselected. Local Apple hardware does not satisfy multi-node NVIDIA proof.
+Implementation of bounded harness/accounting and deterministic negatives authorized under #932. Native bound goal active for #904. Real experiment remains blocked on two approved compatible nodes, installed PAIR version/model and current Runtime route. Upstream PAIR supports macOS as well as Windows/Linux; NVIDIA-only node restriction is not part of issue acceptance. No paid provisioning, downloads or service mutation authorized.

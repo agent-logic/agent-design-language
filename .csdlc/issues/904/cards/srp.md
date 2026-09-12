@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "review_unavailable"
   recommended_outcome: "block"
-notes: "Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication."
+notes: "Independent implementation review required. Current accounting checkpoint has8 passing tests but no real experiment, collectors or disposition; this cannot satisfy source acceptance or closing publication. Reviewer allocation pending concurrency capacity."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication.
+Independent implementation review required. Current accounting checkpoint has8 passing tests but no real experiment, collectors or disposition; this cannot satisfy source acceptance or closing publication. Reviewer allocation pending concurrency capacity.

@@ -32,7 +32,7 @@
   "goal_metrics_rollup_ref": ".csdlc/evidence/904/goal-metrics.json (planned, absent until execution)",
   "lane_registry_path": "docs/validation/pvf_lanes.json",
   "planned_validation_seconds": "1200",
-  "notes_risks_inline": "#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Two approved NVIDIA nodes, supported PAIR implementation/version, licensed model, transport, resource/cost ceiling and controlled node-loss scope remain unselected. Local Apple hardware does not satisfy multi-node NVIDIA proof.",
+  "notes_risks_inline": "Local accounting/negative gate implemented and run; observational actual raw PAIR/Runtime/node-loss gates not run. PAIR supports compatible macOS/Linux/Windows nodes; two approved nodes and exact model/transport/resource choices remain unresolved. No new provider type or production provider policy change.",
   "spp_card": ".csdlc/issues/904/cards/spp.md",
   "issue_goal_ref": "not_created; required before implementation",
   "status": "planned"

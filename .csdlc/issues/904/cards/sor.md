@@ -21,11 +21,11 @@ Version: 0.92.2
 Title: [v0.92.2][PLAT-PAIR] NVIDIA PAIR multi-node local-inference experiment
 Branch: codex/904-v0922-pair-multinode-experiment
 Card Status: draft
-Status: NOT_STARTED
+Status: IN_PROGRESS
 Generated: 2026-09-12T00:18:16.017452+00:00
 
 Execution:
-- Actor: `Planning #7 / sprint8_720: setup only; implementation owner not assigned`
+- Actor: `Planning #7 / sprint8_720`
 - Model: `unknown`
 - Provider: `unknown`
 - Start Time: `not_started`
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Issue #904 setup refreshed against accepted prerequisites under #932. Implementation, acceptance proof and implementation review remain not run.
+Bounded harness/accounting implementation started. Actual raw PAIR, Runtime and node-loss experiments not run; no qualification or disposition claimed.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -58,7 +58,7 @@ Issue #904 setup refreshed against accepted prerequisites under #932. Implementa
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
 - Completion state: `not_started`
-- Issue goal ref: `issue-932 setup goal; child #904 execution goal not yet created`
+- Issue goal ref: `Sprint #932 child #904 active implementation goal`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/904/goal-metrics.json (planned, absent until execution)`
 - Validation planning prompt: `.csdlc/issues/904/cards/vpp.md`
@@ -75,13 +75,13 @@ Issue #904 setup refreshed against accepted prerequisites under #932. Implementa
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/904/cards/sor.md`
-- Tracked implementation artifacts: `none; implementation not started`
-- Additional proof artifacts: `none; acceptance proof not started`
+- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md`
+- Additional proof artifacts: `.csdlc/evidence/904/IMPLEMENTATION_STATUS.md`
 
 ## Actions taken
-- `Live source issue inspected for bounded preparation`
-- `Existing six-card identity reused, natively bound and normalized for Sprint 6 setup`
-- `Prerequisite accepted; implementation and hardware acceptance proof remain not started.`
+- `Verified native bound context, current issue and accepted #876; created child #904 implementation goal under #932.`
+- `Implemented pair_experiment.py accounting component and focused deterministic tests; verified upstream PAIR0.1.1 identity and macOS support.`
+- `Real collector integration, two approved nodes, model/license/resource choices and experiment remain incomplete.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
@@ -110,7 +110,7 @@ Rules:
   - `not_run`
     `No implementation proof attempted`
 - Results:
-  - `not_run`
+  - `8 deterministic local accounting tests passed; 20 receipt mutation subcases plus context/concurrency/two-node/channel/redaction and null/negative benefit checks. Actual PAIR, Runtime and node-loss experiments not run.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: local_accounting_passed_hardware_not_run
     checks_run:
       - "not_run"
   determinism:
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
+- Determinism tests executed: `8 local deterministic tests passed; no inference or network calls.`
 - Fixtures or scripts used: `not_run; implementation has not started`
 - Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
 - Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
@@ -157,7 +157,7 @@ verification_summary:
 - Sandbox / policy invariants preserved: `not_run; implementation has not started`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.adl/runs/904/accounting-tests.log`
 - Run artifact root: `.csdlc/evidence/904 (planned)`
 - Replay command used for verification: `not_run; implementation has not started`
 - Replay result: `not_run; implementation has not started`
@@ -174,5 +174,5 @@ verification_summary:
 - `Planning #5 released903/904/905 setup ownership; native FastWork bind completed. Implementation, hardware execution, model loading/download and service mutations remain outside setup scope.`
 
 ## Follow-ups / Deferred work
-- `Assign child implementation owner/goal and authorize execution; resolve runtime/model/resource gates before hardware proof.`
-- `Implement complete source contract, execute VPP, obtain independent exact-head review and use native publication/finish/clean`
+- `Resolve approved compatible nodes and current Runtime/Ollama PAIR collector integration; pin real environment before hardware execution.`
+- `Complete full experiment and independent source/proof review; no closing publication from accounting alone.`
