@@ -231,6 +231,28 @@ fn validate_provider_specs(providers: &HashMap<String, adl::ProviderSpec>) -> Re
 
 fn reject_credential_values(providers: &HashMap<String, adl::ProviderSpec>) -> Result<()> {
     for spec in providers.values() {
+        // These declared strings select transport, identity or credential references.
+        // Adapter cfg_str helpers treat malformed values as absent; admission must
+        // reject them before that fallback can silently change dispatch behavior.
+        for key in [
+            "endpoint",
+            "provider_model_id",
+            "model",
+            "vendor",
+            "local_shadow_model",
+            "local_shadow_provider_kind",
+            "local_shadow_rule_set",
+            "local_shadow_evidence_path",
+            "api_key_env",
+            "auth_env",
+            "token_env",
+        ] {
+            if spec.config.get(key).is_some_and(|value| !value.is_string()) {
+                return Err(anyhow!(
+                    "provider reload sidecar has invalid declared string field"
+                ));
+            }
+        }
         // Typed identity fields may be long model/profile names, but not raw keys.
         for value in [
             spec.id.as_deref(),
@@ -254,6 +276,11 @@ fn reject_credential_values(providers: &HashMap<String, adl::ProviderSpec>) -> R
 }
 
 fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
+    if path == ["auth", "env"] && !value.is_string() {
+        return Err(anyhow!(
+            "provider reload sidecar has invalid credential reference"
+        ));
+    }
     match value {
         Value::Object(map) => {
             for (key, value) in map {
@@ -588,6 +615,14 @@ providers:
             "providers: {primary: {type: unsupported}}".to_string(),
             "providers: {primary: {}}".to_string(),
             "providers: {primary: {type: http}}".to_string(),
+            "providers: {primary: {profile: 'ollama:phi4-mini', config: {endpoint: 123}}}".to_string(),
+            "providers: {primary: {profile: 'ollama:phi4-mini', config: {endpoint: null}}}".to_string(),
+            "providers: {primary: {profile: 'ollama:phi4-mini', config: {endpoint: false}}}".to_string(),
+            "providers: {primary: {profile: 'ollama:phi4-mini', config: {endpoint: []}}}".to_string(),
+            "providers: {primary: {type: mock, config: {model: 123}}}".to_string(),
+            "providers: {primary: {type: mock, config: {provider_model_id: false}}}".to_string(),
+            "providers: {primary: {type: mock, config: {auth: {env: 123}}}}".to_string(),
+            "providers: {primary: {type: mock, config: {local_shadow_model: 123}}}".to_string(),
             "providers: {primary: {type: mock, config: {neutral: {model: ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890}}}}".to_string(),
             "providers: {primary: {type: mock, config: {local_shadow_model: echo, local_shadow_evidence_path: /absolute/forbidden.jsonl}}}".to_string(),
             "providers: {primary: {type: mock, config: {local_shadow_model: echo, local_shadow_evidence_path: ../forbidden.jsonl}}}".to_string(),

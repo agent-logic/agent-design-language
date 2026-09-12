@@ -40,3 +40,21 @@ review_836 independently approved exact
 commands and uncollected telemetry truthful, pending CI/merge preserved, source
 unchanged. No actionable findings remain. Native approval fields now record
 that observed result; this update changes records only.
+
+## Completion audit P2 — Malformed declared endpoint silently selects fallback
+
+After publication at 06c0dcd, the completion audit added a numeric endpoint case
+through the production loader. `config.endpoint: 123` under an Ollama profile
+was accepted: adapter string accessors interpreted it as absent, permitting CLI
+fallback. The previous independent reviews and proof above remain accurate
+records of their scope, but did not include this case.
+
+The new initial-loader case fails on the published source with `invalid initial
+definition accepted` (numeric-endpoint-audit.log). Correction checks the existing
+explicit endpoint/model/vendor/reference/shadow string fields before expansion,
+rejecting non-string values while retaining existing empty-string/default rules. Opaque future adapter config remains
+extensible. The real watcher/dispatch fixture now rejects a numeric endpoint,
+asserts unchanged generation/digest and performs retained endpoint/model dispatch
+without invoking the malformed replacement. Expanded-invalid-endpoint coverage
+also remains in the loader matrix. Focused proof and renewed review are required
+before updating the PR; prior CI does not approve this correction.

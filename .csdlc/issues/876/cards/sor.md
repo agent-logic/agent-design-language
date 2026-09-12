@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Editable provider definitions now expand and validate before atomic promotion, reject nested credentials and retain bounded diagnostics. 25 focused tests, mutation proof, clippy and formatting pass. Independent review_836 PASS at 892242a33de94d47d4847839c01b0c5cbb7f137a resolves original card P2. Native publication and current-head CI pending; no merge claim.
+Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ Editable provider definitions now expand and validate before atomic promotion, r
 - Goal metrics source ref: `Issue-bound goal service; no issue metrics export collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `reviewed_publication_pending`
+- Completion state: `correction_review_pending`
 - Issue goal ref: `Active #876 passing reviewed PR goal`
 - Sprint goal ref: `Sprint 2 #928 execution goal`
 - Goal metrics rollup ref: `not_collected; parent sprint goal owns rollup`
@@ -92,7 +92,7 @@ Editable provider definitions now expand and validate before atomic promotion, r
 - Verification performed:
   - `git status --short --branch; git merge-base --is-ancestor for prerequisite merges`
     `Confirmed bound branch, clean primary main and accepted dependency ancestry.`
-- Result: `Worktree implementation committed; PR not yet published.`
+- Result: `PR953 open at06c0dcd; correction remains local pending review/publication.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo test --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot; cargo test --manifest-path adl/Cargo.toml --lib provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
     `Proved real dispatch, invalid-input/LKG/redaction, reference admission, existing reload/in-flight/profile behavior and lint/format correctness.`
 - Results:
-  - `25 focused tests passed (3+7+1+14); clippy, formatting and whitespace passed. Current-head hosted CI pending.`
+  - `Current correction:3 definition tests+7 reload compatibility tests, clippy/fmt/diff checks pass. Initial numeric-endpoint case fails against published source. Prior25-test proof and reviews preserved; current-head hosted CI must follow reviewed correction.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

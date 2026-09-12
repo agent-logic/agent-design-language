@@ -56,8 +56,8 @@ policy_refs:
   - ".csdlc/issues/876/cards/vpp.md"
 review_results:
   findings_status: "findings_present"
-  recommended_outcome: "pass"
-notes: "Independent production and corrected-card reviews passed. Original P2 and tooling reproduction retained in .csdlc/evidence/876/REVIEW.md. Hosted CI and merge remain pending."
+  recommended_outcome: "needs_followup"
+notes: "Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- P2: accepted preparation values did not populate required rendered SRP/SOR fields; publication card truth was incomplete.
+- Original card P2 resolved. Completion audit P2: numeric endpoint was accepted and selected fallback. Failure reproduced through production loader; bounded type repair and real watcher/LKG regression implemented. See REVIEW.md.
 
 ### Dispositions
 
-- P2 rendered card placeholders resolved through native semantic edits; review_836 independently confirmed exact 892242a33de94d47d4847839c01b0c5cbb7f137a with no actionable findings. Production approval at e0dc293dca remains applicable; source unchanged.
+- Earlier independent reviews remain preserved; correction pending exact-head independent review. No approval transfer from published06c0dcd to changed source.
 
 ### Recommended Outcome
 
-- pass
+- needs_followup
 
 ## Notes
 
-Independent production and corrected-card reviews passed. Original P2 and tooling reproduction retained in .csdlc/evidence/876/REVIEW.md. Hosted CI and merge remain pending.
+Completion audit confirmed numeric endpoint admission at published06c0dcd. Pure known selector/model/reference/shadow type checks now reject malformed values before expansion or default fallback; existing empty-string/default and opaque-config semantics remain with adapters. Three current definition tests and seven reload compatibility tests plus strict clippy/fmt pass. Original published-head CI is historical; renewed independent review and corrected-head CI pending. PR953 remains open; no merge claim.

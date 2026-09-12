@@ -46,7 +46,14 @@ registry, watcher, or schema is introduced. `schema` may be omitted for legacy
 sidecars; when present it must match that value. `version` is optional, and
 `providers` must be nonempty. Each provider accepts the existing `id`, `profile`,
 `type` (or `kind`), `base_url`, `default_model`, and `config` fields. Unknown
-provider or top-level fields fail closed. A profile-only definition is expanded
+provider or top-level fields fail closed. Declared endpoint, model, vendor, credential-reference and local-shadow selector
+fields must contain strings when present; existing adapter rules still govern
+empty strings and defaults. Numeric, null, boolean or
+container values are rejected before adapter helpers can treat them as absent
+and choose a different transport or model default. Other adapter config remains
+extensible; this does not introduce a universal config schema.
+
+A profile-only definition is expanded
 before its concrete substrate and adapter constructor are validated. Profile and explicit identity
 fields cannot be mixed; bounded profile overrides remain under `config`.
 
@@ -98,7 +105,7 @@ The deterministic #876 proof is
 it calls the production execution runner and reload owner, holds one real local
 HTTP request at a channel barrier, replaces both endpoint and profile, observes
 the new model/temperature on a second endpoint, then dispatches again against the
-last-known-good snapshot after invalid profile expansion. Concurrent readers
+last-known-good snapshot after a malformed numeric endpoint replacement. Concurrent readers
 check the complete two-provider map, and endpoint request counts exclude hidden
 probe calls. The complementary
 `provider::reload::tests::provider_definitions_reject_nested_credentials_and_redact_loader_errors`

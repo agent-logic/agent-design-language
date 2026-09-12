@@ -183,7 +183,7 @@ fn editable_provider_definitions_drive_real_dispatch_and_atomic_reload() {
     old.release.send(()).unwrap();
     assert_eq!(old_request.join().unwrap(), "phi4-mini");
     // Invalid expanded candidate must not partially promote the replacement map.
-    let invalid = sidecar("invalid-endpoint", "ollama:phi4-mini", 0.0);
+    let invalid = sidecar("123", "ollama:phi4-mini", 0.0);
     std::fs::write(&path, invalid).unwrap();
     let deadline = Instant::now() + Duration::from_secs(5);
     while handle.last_diagnostic().is_none() {
