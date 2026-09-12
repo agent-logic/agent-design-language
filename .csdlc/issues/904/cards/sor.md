@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-PAIR and the canonical Runtime route work on the approved local Apple M4 Pro node. The warm single-node proxy result was performance-neutral: 1.0403x baseline at concurrency one and 0.9830x at concurrency two. This does not establish multi-node benefit. A second approved trusted node and controlled node-loss run are still required before the keep/repair/retire decision.
+PAIR and the canonical Runtime route work on the approved local Apple M4 Pro node. After equal explicit prewarming, the small single-node comparison measured lower PAIR throughput: 0.9763x baseline at concurrency one and 0.7682x at concurrency two. This does not establish multi-node behavior. A second approved trusted node and controlled node-loss run are still required before the keep/repair/retire decision.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -110,7 +110,7 @@ Rules:
   - `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_actual_runtime_workflow -- --ignored --exact --nocapture with pinned ADL_PAIR inputs; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
     `Partial accounting and loopback transport correctness established; no actual PAIR/Runtime/hardware qualification.`
 - Results:
-  - `Fourteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 2 of 2 concurrent exact-output requests at source f7e57a0856f7f71d932ba4eb6f092811df44a173. Strict Clippy and diff checks passed. The raw local preflight passed 24 of 24 requests. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved.`
+  - `Sixteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 2 of 2 concurrent exact-output requests at source 8d1609c68c7ecec4aee5a5ba146cd6d38d5f13b1. Strict Clippy and diff checks passed. After equal explicit prewarming, the raw local preflight passed 24 of 24 requests and measured PAIR/baseline throughput ratios of 0.9763 at concurrency one and 0.7682 at concurrency two. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
