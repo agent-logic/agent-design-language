@@ -1,0 +1,61 @@
+{
+  "schema": "adl.sprint_review.v1",
+  "umbrella_issue": 928,
+  "status": "reviewed_with_residuals",
+  "review_revision": "866a6b07937387443906a5f9e4cf1949699fba39",
+  "original_child_denominator": 9,
+  "child_issues": [848, 854, 855, 876, 877, 878, 879, 880, 881],
+  "children": [
+    {"issue":848,"pull_request":943,"accepted_head":"38299a26703d07650bb75c1b3b7707b353c61b58","merge_commit":"b5219c8bb742ba5c42ff2c2def299cd03bacd76f","ci_run":34663180319,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":854,"pull_request":941,"accepted_head":"224c61a84f715ee4e65898277e0e04efb44d636f","merge_commit":"57a82b08bf687afd0b1573fd8d78f4b2b2268dba","ci_run":34665455993,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":855,"pull_request":964,"accepted_head":"9c471d41a5606a5b2dd564f486d92dd819f19624","merge_commit":"cfd865bda539529372ca6e9954102b158410d6dc","ci_run":34681562177,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":876,"pull_request":953,"accepted_head":"c5cf2ca3de32a5f242fb938a7355aab06d6b15d8","merge_commit":"b6d110c84e11253b392d0bb078f2fb33a36b9a0c","ci_run":34674513977,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":877,"pull_request":946,"accepted_head":"6eda895616aeb814734b997cc904512483d99f72","merge_commit":"15c476fe497ad975cabe4c73f729930d20a302d9","ci_run":34663607654,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":878,"pull_request":944,"accepted_head":"3fa601a888a8ba90541fd2d092802a9291b78ae9","merge_commit":"b9b16707f0bf3b95138fd4019f208734c7522ec6","ci_run":34666687387,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":879,"pull_request":955,"accepted_head":"d3202466dbb3d775c42ceddb4d036fd85fdcebf6","merge_commit":"79325e981a446c7967bbf9b1ee9b320292c0904a","ci_run":34676476137,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":880,"pull_request":957,"accepted_head":"884f18c47c88d2a3e0bbc34eb0b1b462cd281e15","merge_commit":"7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09","ci_run":34679142512,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true},
+    {"issue":881,"pull_request":956,"accepted_head":"067bc4316030cbdfe3e95bdfb254ada3016d339e","merge_commit":"41aa503e80a31250ce8d1df05c46d16d99c843bf","ci_run":34674928669,"issue_closed":true,"pr_merged_to_main":true,"applicable_checks_passed":true,"ancestor_of_review_revision":true}
+  ],
+  "corrective_followups": [{
+    "issue": 967,
+    "pull_request": 968,
+    "purpose": "Post-merge corrective follow-up to #855 for deterministic hosted A2A initiation across provider output formats",
+    "accepted_head": "9d7d828e96c5e639711d9bfeb2ac1b3e4e678a02",
+    "merge_commit": "866a6b07937387443906a5f9e4cf1949699fba39",
+    "ci_run": 34711079509,
+    "issue_closed": true,
+    "pr_merged_to_main": true,
+    "applicable_checks_passed": true,
+    "ancestor_of_review_revision": true,
+    "hosted_proof": "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json",
+    "hosted_proof_source_revision": "6d7bc805e5714050c85c80d5e9351e40cd10d635",
+    "hosted_result": "pass",
+    "paid_provider_requests": 16,
+    "local_ollama_requests": 5,
+    "provider_rows_passed": 3
+  }],
+  "required_lanes": ["gap_analysis","code","docs","tests","evidence_and_closeout","synthesis","review_quality"],
+  "lane_results": {
+    "gap_analysis": "pass_with_residuals",
+    "code": "pass_with_p3_residual",
+    "docs": "pass_with_followup",
+    "tests": "pass_with_limitation",
+    "evidence_and_closeout": "pass_with_async_closeout_debt",
+    "synthesis": "pass_with_residuals",
+    "review_quality": "pass"
+  },
+  "residuals": [
+    "P3: public CodeFriend CLI help omits CI and evidence commands and those handlers reject --help.",
+    "No retained combined end-to-end test takes GitHub or CI acquisition output through durable evidence-store admission.",
+    "The nine child C-SDLC records retain pre-terminal state; native finish and cleanup remain asynchronous accounting debt.",
+    "#848 is a reviewed decomposition decision and plan, not proof that repository extraction has occurred.",
+    "The #967 hosted packet proves bounded request outcomes, not vendor-billed token totals or invoice cost."
+  ],
+  "completion_gate": "Satisfied for combined Sprint 2 review: all nine original children plus separately accounted corrective #967 are reviewed, green, merged, and ancestral to the review revision; all seven review lanes are recorded; no unresolved P1/P2 product finding remains.",
+  "non_claims": [
+    "This review does not claim native terminal closeout for child lifecycle records.",
+    "The #967 hosted result remains separate from the earlier #855 merge and is not retroactive #855 qualification.",
+    "Future CodeFriend consumers and repository extraction are not qualified by this sprint review.",
+    "This packet does not authorize merge, release, or public publication."
+  ]
+}
