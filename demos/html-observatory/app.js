@@ -5,7 +5,7 @@ const FALLBACK_PACKET = {
   source: {
     mode: "fallback",
     evidence_level: "fallback_only",
-    claim_boundary: "The retained runtime packet did not load; this fallback only preserves the static UI shell."
+    claim_boundary: "No live Runtime snapshot has been received; this empty shell is not telemetry."
   },
   manifold: {
     manifold_id: "unknown",
@@ -34,7 +34,7 @@ const FALLBACK_PACKET = {
     disabled_actions: [
       {
         action: "runtime_mutation",
-        reason: "Disabled unless a retained ADL runtime packet is loaded."
+        reason: "Disabled until a live Runtime connection is authenticated."
       }
     ]
   },
@@ -73,7 +73,6 @@ function formatCurrentTimestampLabel() {
 }
 
 let livePollTimer = null;
-let retainedPollTimer = null;
 let systemClockTimer = null;
 
 function refreshSystemClock() {
@@ -1911,30 +1910,6 @@ function conversationTranscriptRenderKey(speaker, turnId) {
   return baseTurnId ? `${conversationTranscriptRoleKey(speaker)}:${baseTurnId}` : "";
 }
 
-async function fetchRetainedRuntimeSnapshot(refs = {}) {
-  const [status, health, ready, metrics, events] = await Promise.all([
-    loadJson(refs.statusRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "status load failed" })),
-    loadJson(refs.healthRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "health load failed" })),
-    loadJson(refs.readyRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "ready load failed" })),
-    loadJson(refs.metricsRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "metrics load failed" })),
-    loadJson(refs.eventsRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "events load failed" }))
-  ]);
-  return {
-    mode: "published",
-    fetchedAt: new Date().toISOString(),
-    status,
-    health,
-    ready,
-    metrics,
-    events,
-    errors: Object.fromEntries(
-      Object.entries({ status, health, ready, metrics, events })
-        .filter(([, value]) => value?.__load_error)
-        .map(([key, value]) => [key, value.__load_error])
-    )
-  };
-}
-
 function flattenStatusRows(value, prefix = "", rows = []) {
   if (rows.length >= 14 || value == null) {
     return rows;
@@ -3422,7 +3397,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   }
   const modeSelect = document.getElementById("top-mode-select");
   if (modeSelect) {
-    modeSelect.value = vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
+    modeSelect.value = "live";
   }
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
@@ -3824,14 +3799,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       weather_freshness: readiness?.weather_freshness
     };
   };
-  const refs = {
-    statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
-    healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
-    readyRef: document.querySelector(".observatory")?.dataset.csmReadyRef || "",
-    metricsRef: document.querySelector(".observatory")?.dataset.csmMetricsRef || "",
-    eventsRef: document.querySelector(".observatory")?.dataset.csmEventsRef || ""
-  };
-
   const mirrorApiBase = (base) => {
     if (communicationBase && base && !communicationBase.value) {
       communicationBase.value = base;
@@ -4252,11 +4219,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     // snapshot, so say so rather than letting stale numbers read as live.
     const banner = document.getElementById("stale-banner");
     if (banner) {
-      // Use the operator-facing mode tab, not #top-mode-select: the select is
-      // rewritten to "published" whenever a fallback snapshot renders, which is
-      // exactly the situation the banner needs to report on.
-      const liveIntent = document.querySelector(".mode-tab.active")?.dataset.mode === "live";
-      const showBanner = liveIntent && state !== "connected" && state !== "stopped";
+      const showBanner = state !== "connected";
       banner.hidden = !showBanner;
       if (showBanner) {
         const reconnecting = state === "connecting";
@@ -4272,40 +4235,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
   mirrorApiBase(getQueryApiBase());
-
-  const renderMinimalFallback = (error) => {
-    renderPanopticon({
-      mode: "retained",
-      fetchedAt: new Date().toISOString(),
-      errors: {
-        retained: error instanceof Error ? error.message : "unknown retained mirror error"
-      }
-    }, packet);
-  };
-
-  const refreshRetained = async (extraErrors = {}, requestGeneration = nextLiveGeneration()) => {
-    try {
-      const snapshot = await fetchRetainedRuntimeSnapshot(refs);
-      if (!isCurrentLiveGeneration(requestGeneration)) {
-        return;
-      }
-      const mergedSnapshot = {
-        ...snapshot,
-        errors: {
-          ...(snapshot.errors || {}),
-          ...(lastLiveError ? { live: lastLiveError } : {}),
-          ...extraErrors
-        }
-      };
-      renderPanopticon(mergedSnapshot, packet);
-      const status = Object.keys(mergedSnapshot.errors || {}).length ? "published partial" : "published runtime mirror";
-    } catch (error) {
-      if (!isCurrentLiveGeneration(requestGeneration)) {
-        return;
-      }
-      renderMinimalFallback(error);
-    }
-  };
 
   const renderLiveError = async (error, requestGeneration) => {
     if (!isCurrentLiveGeneration(requestGeneration)) {
@@ -4327,17 +4256,18 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
           }
         };
         renderPanopticon(mergedSnapshot, packet);
+        hasReceivedLiveSnapshot = true;
         setText("statusbar-websocket", "disconnected");
         setLiveConnectionState("live-read");
         setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
         return;
       } catch (_refreshError) {
-        // Fall through to retained evidence only when the Runtime v3 GET feed is also unavailable.
+        // Keep the last live snapshot; never replace it with historical telemetry.
       }
     }
-    await refreshRetained({
-      live: lastLiveError
-    }, requestGeneration);
+    setText("statusbar-websocket", "disconnected");
+    setLiveConnectionState("disconnected");
+    setWriteAccess(false, "disconnected", "Reconnect to the Runtime before sending commands.");
   };
 
   const refreshLive = async () => {
@@ -4345,10 +4275,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     const base = readApiBase();
     if (!base) {
       runtimeBaseActive = false;
-      await refreshRetained({}, requestGeneration);
+      await renderLiveError(new Error("No live Runtime API base configured."), requestGeneration);
       return;
     }
     runtimeBaseActive = true;
+    setLiveConnectionState("connecting");
     if (communicationBase && base && !communicationBase.value) {
       communicationBase.value = base;
     }
@@ -4370,9 +4301,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       lastLiveError = null;
       if (snapshot.runtimeSelection !== "runtime_v3_explicit_opt_in" || acceptRuntimeRosterSnapshot(snapshot)) {
         renderPanopticon(snapshot, packet);
+        hasReceivedLiveSnapshot = true;
+        setLiveConnectionState("live-read");
       }
-      const status = Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback";
-      const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
       setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
     } catch (error) {
       if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
@@ -4393,10 +4324,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (livePollTimer) {
       clearInterval(livePollTimer);
       livePollTimer = null;
-    }
-    if (retainedPollTimer) {
-      clearInterval(retainedPollTimer);
-      retainedPollTimer = null;
     }
     if (liveReconnectTimer) {
       clearTimeout(liveReconnectTimer);
@@ -4723,41 +4650,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   });
 
-  // Wire topbar mode-tab buttons to the hidden modeSelect
-  document.querySelectorAll(".mode-tab[data-mode]").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const mode = tab.dataset.mode;
-      document.querySelectorAll(".mode-tab").forEach((t) => {
-        t.classList.toggle("active", t === tab);
-        t.setAttribute("aria-selected", t === tab ? "true" : "false");
-      });
-      if (modeSelect) {
-        modeSelect.value = mode;
-        modeSelect.dispatchEvent(new Event("change"));
-      }
-    });
-  });
-
+  // Live is the only product mode, including stale embedded mode requests.
   modeSelect?.addEventListener("change", () => {
-    if (modeSelect.value === "live") {
-      connectLive();
-      return;
-    }
-    stopPolling();
-    if (modeSelect.value === "published") {
-      refreshRetained();
-      return;
-    }
-    renderPanopticon({
-      mode: "retained",
-      fetchedAt: new Date().toISOString(),
-      status: {},
-      health: {},
-      ready: {},
-      metrics: {},
-      events: [],
-      errors: {}
-    }, packet);
+    modeSelect.value = "live";
+    connectLive();
+  });
+  document.querySelectorAll('.mode-tab[data-mode="live"]').forEach((tab) => {
+    tab.addEventListener("click", () => connectLive());
   });
   operatorLogin?.addEventListener("click", () => {
     const token = operatorToken?.value.trim() || "";
@@ -4927,17 +4826,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   });
 
-  const queryApiBase = getQueryApiBase();
-  if (queryApiBase) {
-    refreshLive();
-  } else {
-    refreshRetained();
-  }
-  if (queryApiBase && shouldAutoConnectLive()) {
+  // Always read the selected live endpoint. Failure remains visibly disconnected.
+  if (shouldAutoConnectLive()) {
     connectLive();
-  }
-  if (!retainedPollTimer && !runtimeBaseActive && !queryApiBase) {
-    retainedPollTimer = setInterval(refreshRetained, 3000);
+  } else {
+    refreshLive();
   }
 }
 
@@ -4969,7 +4862,6 @@ async function loadRuntimeV3Config(root) {
 async function bootObservatory() {
   startSystemClock();
   const root = document.querySelector(".observatory");
-  const packetRef = root?.dataset.packetRef || "";
   const reportRef = root?.dataset.reportRef || "";
   const csmServiceRef = root?.dataset.csmServiceRef || "";
   const csmApiRef = root?.dataset.csmApiRef || "";
@@ -4977,14 +4869,10 @@ async function bootObservatory() {
   const cloudwatchEventsRef = root?.dataset.cloudwatchEventsRef || "";
   const acipSnsRef = root?.dataset.acipSnsRef || "";
   const snsResourceRef = root?.dataset.snsResourceRef || "";
-  const runtimeConfig = await loadRuntimeV3Config(root);
-  const runtimeApiBase = getQueryApiBase();
-  if (requestedRuntimeSelection() === "v3" && runtimeApiBase) {
-  }
+  await loadRuntimeV3Config(root);
 
   try {
-    const [packet, reportText, serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary] = await Promise.all([
-      loadJson(packetRef),
+    const [reportText, serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary] = await Promise.all([
       loadText(reportRef).catch(() => ""),
       loadJson(csmServiceRef).catch(() => ({})),
       loadText(csmApiRef).catch(() => ""),
@@ -4993,7 +4881,10 @@ async function bootObservatory() {
       loadJson(acipSnsRef).catch(() => ({})),
       loadJson(snsResourceRef).catch(() => ({}))
     ]);
-    renderObservatory(packet, reportText, "ok");
+    // Historical reports may be read as evidence, never as current telemetry.
+    const packet = FALLBACK_PACKET;
+    renderObservatory(packet, reportText, "fallback");
+    renderPanopticon({ mode: "live" }, packet);
     renderIntegrations({ serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary });
     renderLayer8DeliveryPanel(packet.layer8_delivery_states || packet.layer8_acknowledgements || []);
     renderOperatorAttentionInbox(packet);
@@ -5005,6 +4896,7 @@ async function bootObservatory() {
     bindInspector();
   } catch (_error) {
     renderObservatory(FALLBACK_PACKET, "", "fallback");
+    renderPanopticon({ mode: "live" }, FALLBACK_PACKET);
     renderIntegrations();
     renderLayer8DeliveryPanel([]);
     renderOperatorAttentionInbox(FALLBACK_PACKET);
@@ -5081,7 +4973,6 @@ globalThis.AdlHtmlObservatory = {
   operatorAttentionActionPayload,
   renderOperatorAttentionInbox,
   hasForbiddenLayer8Disclosure,
-  fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
   getRuntimeV3Config,
   applyRuntimeV3Config,

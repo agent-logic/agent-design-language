@@ -76,8 +76,8 @@ assert.match(app, /keyFromHash/, "initial navigation must honor the requested su
 assert.match(app, /function refreshSystemClock\(\)[\s\S]*rail-capture-time/, "System Time must have a dedicated refresh path");
 assert.match(app, /typeof setInterval === "function"[\s\S]*setInterval\(refreshSystemClock, 1000\)/, "System Time must refresh when browser timers are available without breaking timer-free validation sandboxes");
 assert.match(app, /async function bootObservatory\(\) \{\s*startSystemClock\(\);/, "System Time refresh must start during Observatory boot");
-assert.match(html, /styles\.css\?v=v0921-wuji-56/, "stylesheet cache key must match the current Observatory release");
-assert.match(html, /app\.js\?v=v0921-wuji-56/, "script cache key must invalidate pre-rebase Observatory JavaScript");
+assert.match(html, /styles\.css\?v=v0922-live-720/, "stylesheet cache key must match the current Observatory release");
+assert.match(html, /app\.js\?v=v0922-live-720/, "script cache key must invalidate pre-rebase Observatory JavaScript");
 
 assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/, "reduced-motion users need explicit static behavior");
 assert.match(css, /scroll-behavior:\s*auto/, "reduced-motion mode must disable smooth scrolling");

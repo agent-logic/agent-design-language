@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 720,
+  "issue_padded": "0720",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/720",
+  "title": "[v0.92.2][Observatory] Remove retained-mode demo hazards",
+  "branch": "codex/720-observatory-live",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-720-observatory-live"
+}
