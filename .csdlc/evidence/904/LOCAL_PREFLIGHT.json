@@ -1,0 +1,111 @@
+{
+  "schema": "adl.pair.local-preflight.v1",
+  "issue": 904,
+  "status": "partial_not_qualified",
+  "candidate_sha": "f7e57a0856f7f71d932ba4eb6f092811df44a173",
+  "pair": {
+    "release": "v0.1.1",
+    "release_archive": "service-binaries-mac-arm64.zip",
+    "release_archive_sha256": "6080b89e2c8e83e842e5a163f021f4cae5747bc9c9f371af481d95550a175d8f",
+    "archive_sha256_matches_published_release": true,
+    "manifest_product": "0.91.7",
+    "manifest_source_fingerprint": "a36564f8782c03a91727309eec67a6b616a1cd26ff3cdde24c68c8c6ee7dce21",
+    "tui_version": "0.7.2",
+    "broker_version": "0.40.2",
+    "codesign_team_identifier": "6KR3T733EC",
+    "codesign_authority": "Developer ID Application: NVIDIA Corporation (6KR3T733EC)",
+    "all_fourteen_archive_files_listed": true,
+    "all_thirteen_binaries_passed_strict_codesign_verification": true
+  },
+  "host": {
+    "architecture": "arm64",
+    "macos_version": "26.5.2",
+    "macos_build": "25F84",
+    "machine_model": "Mac16,11",
+    "chip": "Apple M4 Pro",
+    "memory": "64 GB",
+    "node_identity_redacted": true
+  },
+  "engine": {
+    "kind": "ollama",
+    "version": "0.32.14",
+    "model": "llama3.2:3b",
+    "model_blob_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "license": "Llama 3.2 Community License Agreement",
+    "baseline_endpoint": "http://127.0.0.1:11434",
+    "pair_endpoint": "http://127.0.0.1:11435"
+  },
+  "service_observation": {
+    "all_ten_workers_healthy_after_normal_app_data_access": true,
+    "cluster_manager_healthy": true,
+    "discovered_node_count": 1,
+    "cluster_member_count": 0,
+    "pair_workload_completed": true,
+    "pair_shutdown_proven": true,
+    "baseline_remained_healthy_after_shutdown": true
+  },
+  "raw_same_corpus_comparison": {
+    "raw_private_receipt_sha256": "0320f7679fc9094ad00ab8c0db616286ab4773e856650b17d7596fe332fa02c6",
+    "sampling": {
+      "temperature": 0,
+      "seed": 7,
+      "max_tokens": 8
+    },
+    "warmth": "warm",
+    "requests": 24,
+    "correct": 24,
+    "failed": 0,
+    "summaries": [
+      {
+        "route": "baseline",
+        "concurrency": 1,
+        "batches": 3,
+        "median_batch_seconds": 0.435217541991733,
+        "completed_requests_per_second": 4.390082084032747
+      },
+      {
+        "route": "raw_pair",
+        "concurrency": 1,
+        "batches": 3,
+        "median_batch_seconds": 0.42841612501069903,
+        "completed_requests_per_second": 4.566938618488228
+      },
+      {
+        "route": "baseline",
+        "concurrency": 2,
+        "batches": 3,
+        "median_batch_seconds": 0.29530004202388227,
+        "completed_requests_per_second": 6.780901301126684
+      },
+      {
+        "route": "raw_pair",
+        "concurrency": 2,
+        "batches": 3,
+        "median_batch_seconds": 0.2855681250221096,
+        "completed_requests_per_second": 6.665475524187991
+      }
+    ],
+    "single_node_pair_to_baseline_throughput_ratio": {
+      "concurrency_1": 1.0402854732713838,
+      "concurrency_2": 0.9829778119732381
+    }
+  },
+  "runtime": {
+    "receipt": ".csdlc/evidence/904/local-runtime-single-node.json",
+    "receipt_sha256": "161a1aad58c12bd5a2e3b5e1ceeece002408183ccd162404de62f7373cdb72fc",
+    "route": "canonical provider reload owner to production concurrent workflow executor to ollama provider to PAIR loopback proxy",
+    "attempts": 2,
+    "correct": 2,
+    "elapsed_ms": 451
+  },
+  "proof_boundary": {
+    "pair_single_node_route_works": true,
+    "runtime_pair_route_works": true,
+    "two_node_routing_proven": false,
+    "controlled_node_loss_proven": false,
+    "serving_node_per_request_proven": false,
+    "resource_comparison_complete": false,
+    "keep_repair_retire_decision_ready": false,
+    "qualification": "not_established"
+  }
+}

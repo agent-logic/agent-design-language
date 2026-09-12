@@ -1,6 +1,10 @@
 # #904 PAIR implementation checkpoint
 
-The accounting component is implemented; the full experiment is **not complete**.
+The accounting component and a real single-node preflight are implemented; the full experiment is **not complete**.
+
+The verified NVIDIA v0.1.1 macOS arm64 headless archive started successfully with normal app-data access. All ten workers were healthy, including the cluster manager. Direct Ollama stayed on loopback port 11434 and PAIR safely selected loopback port 11435. A same-corpus warm comparison completed 24 of 24 raw requests correctly at concurrency one and two. At one node, PAIR throughput was effectively neutral: 1.0403x baseline at concurrency one and 0.9830x at concurrency two. This is a local transport/preflight result, not the required multi-node benefit result.
+
+The new ignored `adl/tests/pair_provider.rs` live gate also ran two concurrent exact-output requests through the canonical provider reload owner, the production workflow executor, the existing `ollama` provider kind and PAIR's loopback proxy. Both passed at source `f7e57a0856f7f71d932ba4eb6f092811df44a173`; the content-redacted receipt is `local-runtime-single-node.json`. `LOCAL_PREFLIGHT.json` binds artifact, platform, model, raw-comparison and Runtime receipt hashes without retaining the local host name, LAN address, prompts or response content.
 
 `adl/tools/pair_experiment.py` validates a pinned complete baseline/raw-PAIR/Runtime × healthy/node-loss × concurrency × repetition × request matrix. It derives denominators, failure counts, latency and completed-request throughput, compares against same-scenario baseline, and retains null/negative benefits. It checks declared two-node serving and concurrency overlap, rejects plan/provider/corpus drift, incorrect outputs, malformed resource references and absent node-loss observations. Every output explicitly says accounting does not establish qualification; untrusted measurement hashes do not authenticate a run.
 
@@ -11,7 +15,7 @@ Focused proof: `python3 adl/tools/test_pair_experiment.py` passes fourteen deter
 - NVIDIA Personal AI Router v0.1.1, tag object `13b68115fa2c9c1d94f1ead1358f8d5a527cfecf`, resolved read-only with `git ls-remote`.
 - [Official release](https://github.com/NVIDIA/Personal-AI-Router/releases/tag/v0.1.1).
 - [Official getting started](https://docs.nvidia.com/local-ai/nvpair/getting-started/) documents local-only Ollama/OpenAI-compatible inference and macOS, Linux and Windows packages. PAIR routes independent requests; it does not shard a model or pool VRAM. The earlier setup restriction to NVIDIA-only nodes was too narrow; actual acceptance requires two approved compatible nodes.
-- No PAIR installation, second approved node, selected model/license, endpoint, pairing state, resource ceiling or controlled failure scope has been verified. No network discovery, installation, model download or service mutation was performed.
+- PAIR v0.1.1, Ollama 0.32.14, the Llama 3.2 3B blob, its community license and both loopback endpoints are pinned for the local preflight. One approved node is present. A second approved node, pairing state, final resource ceiling and controlled failure scope remain unverified. No model was downloaded and no paid or cloud resource was used.
 
 ## Current production integration boundary
 
@@ -23,7 +27,7 @@ Independent reviewer sprint8_909 found an oversized plan could allocate millions
 
 `collect_ollama` now makes one actual HTTP POST to an explicit numeric loopback Ollama-compatible endpoint, using explicit model/prompt/stream, plan sampling controls and bounded model residency. It does not parse or bypass canonical provider validation, identify a PAIR installation, invent a serving node or claim a Runtime route. An orchestration caller must obtain endpoint/model through the verified canonical configuration and capture route/node provenance. The function uses no HTTP proxy or redirects; a deadline interrupts stalled socket/header reads, and response bytes are capped at 1 MiB. Tests use actual loopback sockets with fake responses to prove argv-equivalent request bytes, output identity, rejection, deadline and resource behavior, not inference. Review also found that mirroring Runtime keep_alive=-1 and omitted sampling would violate bounded/comparable raw collection. The collector now requires temperature=0, seed and positive bounded max_tokens, transmits Ollama options, defaults residency to zero and permits only explicit 0..300-second residency. Current Runtime still omits these controls and sends keep_alive=-1; actual Runtime comparison therefore needs an approved equivalent effective-setting/resource strategy or a separately scoped repair. No Runtime equivalence is inferred.
 
-No batch Runtime collector or hardware orchestration is implemented yet; the single-request transport and accounting are building blocks, not a finished experiment.
+The live Runtime probe covers an actual bounded concurrent batch through canonical definitions. Full hardware orchestration and authenticated per-request serving-node evidence are not implemented yet; the collector, Runtime probe and accounting remain building blocks until a second approved node is paired and the complete matrix runs.
 
 ## Remaining required work
 
