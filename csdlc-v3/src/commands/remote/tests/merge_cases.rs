@@ -804,3 +804,57 @@ fn merge_linkage_review_digest_prevents_missing_or_changed_review_linkage() {
         std::fs::remove_dir_all(root).unwrap();
     }
 }
+
+#[test]
+fn merge_linkage_url_part_of_directives_reject_before_intent_and_dispatch() {
+    for mode in [
+        super::super::RemotePublicationMode::PartOf,
+        super::super::RemotePublicationMode::Closing,
+    ] {
+        for directive in ["Part of", "Part-of"] {
+            for reference in [
+                "https://github.com/other/repo/issues/506",
+                "<https://github.com/other/repo/issues/506>",
+                "[parent](https://github.com/other/repo/issues/506)",
+            ] {
+                for canonical_present in [false, true] {
+                    let root = mutation_repo("merge-url-part-of", true);
+                    let mut r = request(&root);
+                    let repository = "agent-logic/agent-design-language";
+                    reviewed_linkage(&root, &mut r, repository, mode);
+                    let mut before = linkage_state(&r, repository, mode, false);
+                    let body = &mut before["data"]["repository"]["pullRequest"]["body"];
+                    let extra = format!("{directive} {reference}");
+                    *body = if canonical_present {
+                        json!(format!("{}\n{extra}", body.as_str().unwrap()))
+                    } else {
+                        json!(extra)
+                    };
+                    let mut after = linkage_state(&r, repository, mode, true);
+                    after["data"]["repository"]["pullRequest"]["body"] = body.clone();
+                    let mut p = adapter(
+                        &root,
+                        &r,
+                        vec![
+                            out(before.clone()),
+                            out(rules()),
+                            out(rules()),
+                            out(before),
+                            out(
+                                json!({"merged":true,"sha":"2222222222222222222222222222222222222222"}),
+                            ),
+                            out(after),
+                        ],
+                    );
+                    assert!(
+                        super::super::execute_github_mutation(&root, &r, &mut p).is_err(),
+                        "{mode:?} {directive} {reference} canonical={canonical_present}"
+                    );
+                    assert_eq!(put_count(&p), 0);
+                    assert!(!p.intent_path.as_ref().unwrap().exists());
+                    std::fs::remove_dir_all(root).unwrap();
+                }
+            }
+        }
+    }
+}

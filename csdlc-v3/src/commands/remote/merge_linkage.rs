@@ -100,13 +100,18 @@ impl PublicationLinkage {
                     closing += 1;
                 }
             }
+            // Detection is broader than admission: URL forms (including Markdown
+            // wrappers) must count as directives even though only canonical
+            // issue references below can authorize a merge.
+            let part_of_reference =
+                |reference: &str| reference.contains('#') || reference.contains("://");
             part_of += words
                 .windows(3)
-                .filter(|w| w[..2] == ["part", "of"] && w[2].contains('#'))
+                .filter(|w| w[..2] == ["part", "of"] && part_of_reference(w[2]))
                 .count()
                 + words
                     .windows(2)
-                    .filter(|w| w[0] == "part-of" && w[1].contains('#'))
+                    .filter(|w| w[0] == "part-of" && part_of_reference(w[1]))
                     .count();
             let original: Vec<_> = line.split_whitespace().collect();
             let relation = match self.mode {
