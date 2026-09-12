@@ -50,3 +50,35 @@ recreation, apply, deletion or forced cleanup is authorized by this packet.
 A fresh empty-state creation plan for existing platform resources is rejected.
 The completed bootstrap no-op and organization five-create plans remain valid
 bounded observations, not substitutes for this missing platform gate.
+
+## Historical custody investigation after operator follow-up
+
+The operator confirmed the intended `gcp-admins` group and requested historical
+issue investigation rather than another request to locate files. #731/PR #739,
+its remediation PR #742, foundation #493/PR #587, hierarchy #490 and separate
+bootstrap #730/#740 were inspected. #731 and PRs #739/#742 had no comments
+providing an alternate state location. PR #739 explicitly kept local Terraform
+state out of its PR. The applied foundation remained deployed after disposal
+of the temporary workload.
+
+The historical command used `terraform -chdir=infra/gcp/platform init
+-backend=false`; the original local state path was the removed #731 worktree's
+`infra/gcp/platform/terraform.tfstate`. Parent investigation of the executing
+session independently found post-apply reads of that same local path. No
+migration or backup command was found in that bounded execution history.
+
+A partial recovery source **does exist** in Git: at commit
+`78490bd7bc8f0815914469fb4c0323d23437dd13`,
+`.csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan` has SHA-256
+`e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df`,
+matching the final applied-plan evidence. Its embedded pre-apply `tfstate` has
+serial **33**, lineage **85034bc7-32bd-e807-1798-81537b9eec28** and **17 managed
+resources**. The final plan adds exactly the three addresses listed in
+`RECOVERY_PROPOSAL.md`. It is not the final post-apply 20-resource state.
+The earlier plan at `2e6f4d288b99da969e067154414b5ccaab4c2648` contains empty
+state. All available tracked #731/#742/platform history contains only these
+two binary-plan versions and no later state/backup or alternative saved plan.
+Archives were inspected in memory; no embedded state was restored or imported.
+
+This narrows the gap to the final local state or a separately authorized,
+reviewed reconstruction. It does not prove why that final state is unavailable.

@@ -1,7 +1,9 @@
 # Exact application preparation for #909
 
 Status: **not executable yet**. This is a reviewable procedure, not an approval.
-`PLATFORM_STATE_GAP.md` and `corporate-group-check.json` are outstanding gates.
+`PLATFORM_STATE_GAP.md` is the outstanding platform-plan gate. The operator
+confirmed the intended `gcp-admins` group; directory API visibility remains
+unproven and must be checked before any separately approved application.
 No command in this document has been executed unless explicitly listed as a
 completed read-only check in the evidence JSON.
 
@@ -14,7 +16,7 @@ completed read-only check in the evidence JSON.
   `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com`.
   Bootstrap read-only plan exercised configured impersonation successfully.
 - Intended long-term company admin group: `gcp-admins@agent-logic.ai`, required
-  by reviewed #492 source. Directory lookup did not resolve it; the installed CLI maps both HTTP403 and404 to the same message, so absence is not proven. A verified
+  by reviewed #492 source and now explicitly confirmed by the operator ("gcp-admins is fine"). Directory lookup did not resolve it; the installed CLI maps both HTTP403 and404 to the same message, so absence is not proven. A verified
   existing replacement or group creation requires explicit owner direction;
   #909 does not create groups or silently substitute an individual binding.
 - State/data cleanup custodian: must be identified with the retained #731 state.
@@ -32,7 +34,7 @@ objects and all cloud credentials are outside application and cleanup scope.
 | Package | Actual plan result | Required decision |
 | --- | --- | --- |
 | Bootstrap | Exit 0, two no-op addresses; private local copy of remote serial 4 | No apply is needed. Retain existing adopted backend and bucket IAM. Never recreate it from an empty state. |
-| Organization | Exit 2, exactly five creates, no update/delete/replacement | Hold until the exact group resolves and operator approves the plan/control limitations. Refresh plan after any input or identity correction. |
+| Organization | Exit 2, exactly five creates, no update/delete/replacement | Intended group is operator-confirmed; verify API visibility and obtain operator approval for the plan/control limitations before application. Refresh plan after any input or identity correction. |
 | Platform | No plan; live resources exist and state is not located | Hold; do not create/import/reconstruct state under this issue. |
 
 The organization plan's five addresses are:
@@ -46,7 +48,7 @@ The organization plan's five addresses are:
 The company group was not in host project IAM, the billing-account budget list
 was empty, and the host dataset list was empty during this capture. Those
 observations justified a fresh organization plan; they do not resolve the
-missing directory group. Planned values are in `organization-plan-summary.json`.
+unproven directory API visibility. Planned values are in `organization-plan-summary.json`.
 
 ## Ordered procedure once missing evidence is supplied
 
@@ -81,7 +83,7 @@ missing directory group. Planned values are in `organization-plan-summary.json`.
 
    Supply process-scoped approved short-lived credentials, with shell tracing
    disabled. No credential value or raw state is logged in tracked evidence.
-   Do not run this against today's unresolved-group plan.
+   Do not run this without the new exact application approval and directory verification.
 6. Read back the three exact group memberships, created budget identity/filter/
    thresholds/notification recipients, and dataset ownership/location. Enable
    billing export only through an explicitly approved separate exact operation;
