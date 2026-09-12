@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: yes: package, migration docs, parity, actual Runtime dispatch and installed artifact evidence
     schema_changes:
       present: Package ownership/loader added; existing wire types/schema bytes retained
-      approved: Within #877 explicit package/compatibility scope; independent review pending
+      approved: Within #877 explicit package/compatibility scope; independent source review approved a5bd7feabfaf3aa5f1e1f51d68f60b443d5a3c67; final record reconciliation before publication.
 ```
 
 ## Determinism Evidence
