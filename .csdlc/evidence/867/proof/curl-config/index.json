@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.sim01.curl_config_proof.v1",
+  "issue": 867,
+  "pull_request": 948,
+  "source_revision": "735659b0c8a4bd2b84f2010c23c4be7a08c63377",
+  "source_tree": "9577db37c7441b2935961c325facea7d67f13836",
+  "tested_base_revision": "6ebfbd7c5226f536d86a317ebcf9db7f5147aca3",
+  "tested_working_diff_blake3": "64419af2dd051ee6557f52778d2c06d9525e9fc88f5d7a578585e19b4f32c973",
+  "test_binding": "Tests and strict Clippy ran against the unchanged working repair subsequently committed as source_revision; corpus preserves base HEAD and working diff.",
+  "changed_source_sha256": {
+    "csdlc-v3/src/adapters/mod.rs": "20b9410c8b95679cdb79ab69cd5989005fa42d3a81fd7195a50cabeaf617557e",
+    "csdlc-v3/tests/fixtures/diagnostic_observation_pvf.json": "6d8a2741b8e1a0fb4813b3ab9abb3181b2279ab434204272e1752345e409ec74"
+  },
+  "candidate_blake3": "06ac63d2ab1c712a5e8e75bd9875d1b640f0251b4d1a20d2520db0497dff3a00",
+  "curl_version": "curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.68.1",
+  "full_test_pass_counts": [
+    86,
+    0,
+    10,
+    13,
+    37,
+    18,
+    1,
+    1,
+    6,
+    1,
+    13,
+    36,
+    26,
+    0
+  ],
+  "full_test_total": 248,
+  "commands": [
+    "cargo test --manifest-path csdlc-v3/Cargo.toml",
+    "cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings",
+    "cargo fmt --manifest-path csdlc-v3/Cargo.toml --check",
+    "git diff --check"
+  ],
+  "local_result": "passed",
+  "ci_result": "pending new-head publication and CI; prior green revision is superseded by this finding",
+  "regression": "real curl default configuration writes isolated file before fix; first -q prevents file and keeps stdout payload after fix",
+  "official_reference": "https://curl.se/docs/manpage.html#-q",
+  "artifacts": [
+    {
+      "path": "before.stdout",
+      "sha256": "fb6f308cb2e5dc5e650dfaa56b3b9ee579784ad563eb58105cb2a99bdb31c8a3",
+      "original_sha256": "8a05e1b1987d24f295206dc456716d0c6cedee45873f5653e753be2b9f1544bf",
+      "display_normalized": true
+    },
+    {
+      "path": "before.stderr",
+      "sha256": "4a546a30cb17b3110ee695b024c8198d9e304a431e79a8d7e78d535c3bc4f1a6",
+      "original_sha256": "326018e99df360a502f1f12ae5688102d8c881c16b0eb980db1038a55e5e3a6c",
+      "display_normalized": true
+    },
+    {
+      "path": "focused.stdout",
+      "sha256": "c09b19bd6e08e7cbbbdeaf67b8b1ace7e6387e7d9f53620fb2599a83365af722",
+      "original_sha256": "bdd40a460532aeeec19f08b570907c3e6e8fee1eb9c5e980e69e4aeacb88f10d",
+      "display_normalized": true
+    },
+    {
+      "path": "focused.stderr",
+      "sha256": "730c77943dd8030edede6859b72ec5b00445a865d055db6a453243a867a5aa08",
+      "original_sha256": "c24855a1fc858915d03044ba4174050f8ca84ac17fb32f9ba4596dcb9aeb3fe3",
+      "display_normalized": true
+    },
+    {
+      "path": "full-test.stdout",
+      "sha256": "7bbdf38ffbdba92062de107326dc02ca4593704ef6e6ab12112ebdf66ca94ba1",
+      "original_sha256": "087684c92c9e89159f356f65bed95028fb4041f6aa9eefe410d56822ba2419bf",
+      "display_normalized": true
+    },
+    {
+      "path": "full-test.stderr",
+      "sha256": "83723e92ec6f4a887c4516ca494dd47d07898b5c13b1558f21d58976121c1b65",
+      "original_sha256": "0edb8c0eae3a8e41e02d3229b6c5019d24f9c2667fa365b5e3c05326ca46ec34",
+      "display_normalized": true
+    },
+    {
+      "path": "clippy.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "display_normalized": false
+    },
+    {
+      "path": "clippy.stderr",
+      "sha256": "8a4a548975b7de256af27a95b5c2d5197adcf170acb3161222762920175030f4",
+      "original_sha256": "a0eb65c467e76f14f70710b85af087ff5dc175a27ec5bdde379ecb4e6a777aa3",
+      "display_normalized": true
+    },
+    {
+      "path": "baseline.json",
+      "sha256": "b4a66aa9ccd9bbc7baaaabb25a47c781c37d9ca67615edb8a9041e5f2c66dbb4",
+      "original_sha256": "d72549a88a63b7eb328392ce10f94bc1f89a249a086b149a9b29cf934847bc04",
+      "display_normalized": true
+    },
+    {
+      "path": "retention-negative.json",
+      "sha256": "8d5d7379614253b515d62a5c6e3bcdc4c599bb917c8c174e9bd06dba156878b7",
+      "original_sha256": "037f8db959847bbf6da1a669f27ff46c14b4e77b7a07f1572d140e9c583cbd47",
+      "display_normalized": true
+    },
+    {
+      "path": "retention-censored.json",
+      "sha256": "e1fc10e7b6a75143460717f11b50974a8c2172890515a255494b39eaea877ac9",
+      "original_sha256": "5071bac78238fa8f68cbfcb97a9bd1d5a276d2df65c7e55e5d5603067498d285",
+      "display_normalized": true
+    }
+  ]
+}
