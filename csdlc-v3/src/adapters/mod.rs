@@ -778,7 +778,12 @@ fn run_observational_curl(
 ) -> ProcessOutput {
     use std::{io::Write, process::Stdio};
     let mut command = Command::new(&invocation.program);
-    command.args(invocation.argv()).args(["--config", "-"]);
+    // Curl still loads its default config with --config -. Disable that lookup
+    // before every other argument, including account-database home discovery.
+    command
+        .arg("-q")
+        .args(invocation.argv())
+        .args(["--config", "-"]);
     apply_minimal_child_environment(&mut command);
     command.env(credential.0, credential.1);
     command
@@ -1247,7 +1252,7 @@ test "$config" = 'header = "Authorization: Bearer synthetic-sim01-secret"' || ex
 test "$GITHUB_TOKEN" = 'synthetic-sim01-secret' || exit 12
 test -z "${HOME+x}${HTTPS_PROXY+x}${GH_TOKEN+x}" || exit 13
 test "$LC_ALL" = C || exit 14
-test "$1" = --config && test "$2" = - && test "$#" = 2 || exit 15
+test "$1" = -q && test "$2" = --config && test "$3" = - && test "$#" = 3 || exit 15
 printf 'stdin-and-scope-verified'
 "#;
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -1279,6 +1284,83 @@ printf 'stdin-and-scope-verified'
             output.stderr.starts_with("[REDACT"),
             "truncation exposed a credential prefix"
         );
+    }
+
+    // PVF: real curl over file://, isolated CURL_HOME and local output sentinel;
+    // no network, live credential, or operator configuration is read.
+    #[cfg(unix)]
+    #[test]
+    fn observational_curl_disables_default_config_before_other_arguments() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/sim01-default-curl-config")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let payload = root.join("payload.txt");
+        let redirected = root.join("unexpected-output.txt");
+        fs::write(&payload, "isolated curl payload").unwrap();
+        fs::write(
+            root.join(".curlrc"),
+            format!(
+                "output = {}\n",
+                serde_json::to_string(redirected.to_str().unwrap()).unwrap()
+            ),
+        )
+        .unwrap();
+        let quote = |value: &str| format!("'{}'", value.replace('\'', "'\\''"));
+        let wrapper = root.join("curl-fixture");
+        // The wrapper sets only the synthetic config location after the adapter
+        // clears its environment. Curl's actual default-config parser is tested.
+        fs::write(
+            &wrapper,
+            format!(
+                "#!/bin/sh\nexport CURL_HOME={}\nexec curl \"$@\"\n",
+                quote(root.to_str().unwrap())
+            ),
+        )
+        .unwrap();
+        fs::set_permissions(&wrapper, fs::Permissions::from_mode(0o700)).unwrap();
+        let encoded: String = payload
+            .to_str()
+            .unwrap()
+            .bytes()
+            .map(|byte| {
+                if byte.is_ascii_alphanumeric() || b"/.-_~".contains(&byte) {
+                    (byte as char).to_string()
+                } else {
+                    format!("%{byte:02X}")
+                }
+            })
+            .collect();
+        let url = format!("file://{encoded}");
+        let control = Command::new(&wrapper)
+            .args(["--silent", "--show-error", &url])
+            .output()
+            .unwrap();
+        assert!(control.status.success(), "{control:?}");
+        assert!(control.stdout.is_empty());
+        assert_eq!(
+            fs::read_to_string(&redirected).unwrap(),
+            "isolated curl payload"
+        );
+        fs::remove_file(&redirected).unwrap();
+        let invocation = CommandInvocation::new(
+            wrapper.to_str().unwrap(),
+            ["--silent", "--show-error", &url],
+        )
+        .unwrap();
+        let output = run_observational_curl(
+            &invocation,
+            ("GITHUB_TOKEN", "synthetic-sim01-secret"),
+            1024,
+        );
+        assert_eq!(output.status, ProcessStatus::Exit(0), "{output:?}");
+        assert!(
+            !redirected.exists(),
+            "default curl configuration wrote a file during observation"
+        );
+        assert_eq!(output.stdout, "isolated curl payload");
+        assert!(output.stderr.is_empty());
     }
 
     // PVF: deterministic local process-launch classification; no network or files.
