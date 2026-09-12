@@ -31,11 +31,17 @@ The existing Runtime API now also exposes:
 These reads, ordinary health and readiness reads do not invoke models. Null
 means no observation; a metadata success does not prove generated inference.
 Signals retain last-observed evidence, not a continuous connectivity guarantee.
+Health rows are keyed by the complete agent/provider/model identity. If a
+resident ID is removed and re-admitted with a different provider or model, its
+new observations have a separate row; the previous row remains historical
+evidence. A late completion from the old model cannot overwrite the new row.
 
 Reasons are `operator_conversation`, `agent_to_agent`, `startup_probe` and
 `recovery_probe`. Compatibility fallback from tool chat to plain generation is
 counted as two provider attempts. Failed or cancelled attempts remain counted;
-a cancellation does not by itself request recovery. Explicit provider failures
+an operator cancellation does not by itself request recovery. An admitted
+conversation's execution deadline is a failure and wakes recovery even when
+the deadline cancels the underlying provider future. Explicit provider failures
 in both conversation and Shepherd routes invalidate shared resident readiness.
 
 Token estimates are UTF-8 bytes divided by four, rounded up. They are labeled

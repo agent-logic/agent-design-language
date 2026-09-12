@@ -3601,11 +3601,28 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     };
                     #[cfg(not(test))]
                     let submitted = tokio::time::timeout_at(deadline, submit).await.ok();
-                    if submitted.is_none() {
+                    // Expiring the admitted execution window is a provider failure,
+                    // not an operator cancellation. Record it before propagating
+                    // cancellation to the underlying work; that work may otherwise
+                    // report only "operation cancelled". Queue expiry never enters
+                    // this branch, and an already cancelled operator token wins.
+                    let execution_timed_out =
+                        submitted.is_none() && !dispatch.cancellation.is_cancelled();
+                    if execution_timed_out {
+                        if let Some(agent) = continuation_binding.as_ref() {
+                            self.recorder.provider_usage.observe_execution_timeout(
+                                &dispatch.intent.recipient_id,
+                                &agent.provider,
+                                &agent.model,
+                            );
+                        }
                         dispatch.cancellation.cancel();
                     }
                     match submitted {
-                        None => outcome("timed_out", "conversation_timed_out"),
+                        None if execution_timed_out => {
+                            outcome("timed_out", "conversation_timed_out")
+                        }
+                        None => outcome("cancelled", "conversation_cancelled"),
                         Some(Err(_)) if dispatch.cancellation.is_cancelled() => {
                             outcome("cancelled", "conversation_cancelled")
                         }
@@ -10567,6 +10584,145 @@ mod layer8_conversation_ingress_tests {
             "public sender impersonation must not enqueue recipient work"
         );
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    // PVF: runtime; actual ingress/agent executor + loopback stalled provider;
+    // virtual deadline, bounded CPU/disk, no external/model calls; required #854.
+    #[tokio::test]
+    async fn admitted_provider_deadline_invalidates_but_operator_cancel_preserves_readiness() {
+        use tokio::io::AsyncReadExt;
+        struct DelayedProductionExecutor(Arc<dyn crate::OperationExecutor>);
+        #[async_trait]
+        impl crate::OperationExecutor for DelayedProductionExecutor {
+            async fn execute(
+                &self,
+                request: &crate::OperationRequest,
+            ) -> Result<Vec<u8>, crate::ExecutorError> {
+                // Model ordinary admitted adapter delay before provider execution.
+                // This separates the outer and inner 900-second deadlines so the
+                // regression cannot pass merely because the inner timeout fired.
+                tokio::time::sleep(Duration::from_secs(2)).await;
+                self.0.execute(request).await
+            }
+        }
+        for operator_cancel in [false, true] {
+            let (mut service, old_kernel, recorder, _, _authority_root) =
+                agent_initiation_service(false, Duration::ZERO).await;
+            old_kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+            let endpoint = format!("http://{}", listener.local_addr().unwrap());
+            let (arrived_tx, arrived_rx) = tokio::sync::oneshot::channel();
+            let provider = tokio::spawn(async move {
+                let (mut stream, _) = listener.accept().await.unwrap();
+                let mut bytes = [0; 4096];
+                assert!(stream.read(&mut bytes).await.unwrap() > 0);
+                arrived_tx.send(()).unwrap();
+                std::future::pending::<()>().await;
+                drop(stream);
+            });
+            for agent in service.dynamic_agents.lock().unwrap().iter_mut() {
+                agent.endpoint = endpoint.clone();
+            }
+            let temp = tempfile::tempdir().unwrap();
+            let executor = crate::build_production_operation_executors_with_recorder(
+                temp.path(),
+                recorder.clone(),
+            )
+            .unwrap()
+            .remove(&crate::AdapterKind::Agent)
+            .unwrap();
+            let adapter = Arc::new(
+                crate::OperationalAdapter::new(
+                    crate::AdapterKind::Agent,
+                    crate::AdapterPolicy {
+                        capacity: 4,
+                        max_in_flight: 2,
+                        shutdown_grace_millis: 1000,
+                        max_attempts: 1,
+                        idempotency_entries: 16,
+                        authority: AuthorityMode::Internal,
+                    },
+                    Arc::new(DelayedProductionExecutor(executor)),
+                )
+                .unwrap(),
+            );
+            let operation = crate::OperationalFactory::new(adapter, vec![]);
+            let ingress = CanonicalIngress::new(
+                4,
+                recorder.clone(),
+                BTreeMap::from([("agent_runtime".to_owned(), operation.clone())]),
+            );
+            Arc::get_mut(&mut service).unwrap().canonical_ingress = Some(ingress.clone());
+            let mut registry = crate::ComponentRegistry::new();
+            registry.register(operation);
+            registry.register(ingress);
+            let kernel = crate::Kernel::new(registry.validate().unwrap(), recorder.clone())
+                .start()
+                .await
+                .unwrap();
+            let usage = &recorder.provider_usage;
+            usage.register_resident_alias("ember", "ember.runtime");
+            usage
+                .begin(
+                    "ember",
+                    "ollama",
+                    "gemma3-local",
+                    crate::provider_usage::ProviderRequestReason::StartupProbe,
+                    "ready",
+                )
+                .success("READY");
+            let readiness = usage.readiness();
+            readiness.mark_ready("ember.runtime");
+            let dispatch = match service.accept_runtime_agent_initiation_intent(
+                &agent_initiation_intent("turn-deadline-proof", "work-deadline-proof"),
+            ) {
+                ConversationAcceptance::Dispatch { dispatch, .. } => dispatch,
+                ConversationAcceptance::Response(response) => panic!("{:?}", response.error),
+            };
+            let token = dispatch.cancellation.clone();
+            let task = tokio::spawn({
+                let service = service.clone();
+                async move { service.complete_conversation_dispatch(dispatch).await }
+            });
+            tokio::time::timeout(Duration::from_secs(5), arrived_rx)
+                .await
+                .unwrap()
+                .unwrap();
+            assert_eq!(
+                usage.snapshot().iter().map(|row| row.requests).sum::<u64>(),
+                2
+            );
+            if operator_cancel {
+                token.cancel();
+            } else {
+                tokio::time::pause();
+                tokio::time::advance(AGENT_PROVIDER_EXECUTION_TIMEOUT - Duration::from_secs(1))
+                    .await;
+            }
+            let result = task.await.unwrap();
+            if !operator_cancel {
+                tokio::time::resume();
+            }
+            assert_eq!(
+                result.status,
+                if operator_cancel {
+                    "cancelled"
+                } else {
+                    "timed_out"
+                }
+            );
+            assert_eq!(readiness.is_ready("ember.runtime"), operator_cancel);
+            let health = usage.health_snapshot();
+            assert_eq!(health.len(), 1);
+            assert_eq!(health[0].inference_ready, Some(operator_cancel));
+            assert_eq!(
+                usage.snapshot().iter().map(|row| row.requests).sum::<u64>(),
+                2,
+                "deadline disposition must not count a synthetic provider request"
+            );
+            provider.abort();
+            kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+        }
     }
 
     #[tokio::test]

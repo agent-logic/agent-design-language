@@ -31,10 +31,11 @@ pub struct ProviderUsageCounter {
 }
 
 type Key = (String, String, String, ProviderRequestReason);
+type HealthKey = (String, String, String);
 #[derive(Clone, Debug, Default)]
 pub struct ProviderUsage(
     Arc<Mutex<BTreeMap<Key, ProviderUsageCounter>>>,
-    Arc<Mutex<BTreeMap<String, ProviderHealthSignals>>>,
+    Arc<Mutex<BTreeMap<HealthKey, ProviderHealthSignals>>>,
     pub(crate) crate::ResidentShepherdReadiness,
     Arc<Mutex<BTreeMap<String, String>>>,
 );
@@ -51,6 +52,15 @@ pub struct ProviderHealthSignals {
 }
 
 impl ProviderUsage {
+    fn canonical_agent(&self, agent: &str) -> String {
+        self.3
+            .lock()
+            .expect("provider alias lock poisoned")
+            .get(agent)
+            .cloned()
+            .unwrap_or_else(|| agent.to_owned())
+    }
+
     pub fn register_resident_alias(&self, alias: &str, name: &str) {
         self.2.register_alias(alias, name);
         self.3
@@ -79,9 +89,10 @@ impl ProviderUsage {
         model: &str,
         result: Result<(), &'static str>,
     ) {
+        let agent = self.canonical_agent(agent);
         let mut health = self.1.lock().expect("provider health lock poisoned");
         let signals = health
-            .entry(agent.to_owned())
+            .entry((agent.clone(), provider.to_owned(), model.to_owned()))
             .or_insert_with(|| ProviderHealthSignals {
                 agent: agent.to_owned(),
                 provider: provider.to_owned(),
@@ -115,7 +126,7 @@ impl ProviderUsage {
     fn observe_inference(&self, key: &Key, success: bool) {
         let mut health = self.1.lock().expect("provider health lock poisoned");
         let signals = health
-            .entry(key.0.clone())
+            .entry((key.0.clone(), key.1.clone(), key.2.clone()))
             .or_insert_with(|| ProviderHealthSignals {
                 agent: key.0.clone(),
                 provider: key.1.clone(),
@@ -127,6 +138,23 @@ impl ProviderUsage {
             signals.provider_reachable = Some(true);
             signals.model_available = Some(true);
         }
+    }
+
+    /// The outer execution deadline can cancel a provider future before it
+    /// reports its own timeout. Preserve that failure without counting a second
+    /// provider attempt. Operator cancellation must not call this method.
+    pub(crate) fn observe_execution_timeout(&self, agent: &str, provider: &str, model: &str) {
+        let agent = self.canonical_agent(agent);
+        self.observe_inference(
+            &(
+                agent.clone(),
+                provider.to_owned(),
+                model.to_owned(),
+                ProviderRequestReason::OperatorConversation,
+            ),
+            false,
+        );
+        self.2.mark_unready(&agent);
     }
 
     pub fn snapshot(&self) -> Vec<ProviderUsageCounter> {
@@ -147,13 +175,8 @@ impl ProviderUsage {
         reason: ProviderRequestReason,
         prompt: &str,
     ) -> ProviderUsageRequest {
-        let canonical = self
-            .3
-            .lock()
-            .expect("provider alias lock poisoned")
-            .get(agent)
-            .cloned();
-        let agent = canonical.as_deref().unwrap_or(agent);
+        let canonical = self.canonical_agent(agent);
+        let agent = canonical.as_str();
         let key = (
             agent.to_owned(),
             provider.to_owned(),
@@ -256,6 +279,57 @@ fn estimate(text: &str) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // PVF: deterministic local Runtime health-identity contract; no network;
+    // required #854 regression for reusing an admitted resident ID.
+    #[test]
+    fn reused_resident_identity_does_not_inherit_or_overwrite_other_model_health() {
+        for (new_provider, new_model) in
+            [("ollama", "new-model"), ("openai-compatible", "old-model")]
+        {
+            let usage = ProviderUsage::default();
+            usage.register_resident_alias("resident-id", "resident");
+            let old_request = usage.begin(
+                "resident-id",
+                "ollama",
+                "old-model",
+                ProviderRequestReason::OperatorConversation,
+                "old input",
+            );
+            usage.observe_metadata("resident", "ollama", "old-model", Ok(()));
+            usage.observe_metadata("resident-id", new_provider, new_model, Ok(()));
+            let new_request = usage.begin(
+                "resident-id",
+                new_provider,
+                new_model,
+                ProviderRequestReason::StartupProbe,
+                "new input",
+            );
+            new_request.failure("provider request failed");
+            drop(new_request);
+
+            // An old in-flight completion after re-admission belongs only to
+            // its original provider/model, regardless of completion ordering.
+            old_request.success("old reply");
+            let rows = usage.health_snapshot();
+            assert_eq!(rows.len(), 2);
+            assert!(rows.iter().all(|row| row.agent == "resident"));
+            let old = rows
+                .iter()
+                .find(|row| row.provider == "ollama" && row.model == "old-model")
+                .unwrap();
+            assert_eq!(old.inference_ready, Some(true));
+            let new = rows
+                .iter()
+                .find(|row| row.provider == new_provider && row.model == new_model)
+                .unwrap();
+            assert_eq!(new.inference_ready, Some(false));
+            if new_provider == "openai-compatible" {
+                assert_eq!(new.provider_reachable, None);
+                assert_eq!(new.model_available, None);
+            }
+        }
+    }
 
     // PVF: deterministic local Runtime contract; no provider/network; required
     // issue854 accounting proof. Exercises counters, cancellation and redaction.
