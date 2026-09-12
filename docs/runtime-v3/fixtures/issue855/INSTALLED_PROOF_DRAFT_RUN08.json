@@ -1,0 +1,414 @@
+{
+  "schema": "adl.issue855.installed_lifecycle_proof.v1",
+  "status": "draft_pass_pending_final_source_refresh",
+  "source_revision": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+  "source_checkout_dirty": true,
+  "source_revision_boundary": "base commit plus separately reviewed worktree changes; binary hashes identify executed bytes",
+  "binary_sha256": {
+    "csm": "15581b9f41072a788804ec27bf602bc69a32f2a7ec6c3bcd1cb61b47504d5cec",
+    "csmctl": "78f4ae95ef75ac7a8744e5851232dbdc082fa5b75f8594a47e9b3f0097550fb8",
+    "kernel": "8d6f018e6919f14e641139c061d06398b57f79638b83707ace994c00fd7ed8bd",
+    "guardian": "e320897843acf0657304e5f1e13fcc5f21dcb1fc9d42c5695dae0cbf402edc02",
+    "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+  },
+  "raw_report_sha256": "838434dcd202808ad52c85a71c81c7b482368d173bb5eda1c2e14ac84a9babb3",
+  "raw_report_location": ".adl/issue855/installed-run-08/report.json",
+  "fixture_only": true,
+  "paid_calls": 0,
+  "runtime_identity": {
+    "runtime_incarnation_id": "0922fd8e-f1c3-43fd-a01c-55934fa5fa72",
+    "runtime_process_id": 56107
+  },
+  "guardian_pid": 56106,
+  "init_sha256": "e9ed5d40c3410d852461e3744911a813a48382eebd32255a71f21f4093e7f693",
+  "provider_request_count": 31,
+  "calls_outside_rows": 1,
+  "maximum_complete_prompt_bytes": 9808,
+  "rows": [
+    {
+      "provider": "openai",
+      "result": "pass",
+      "identity": {
+        "runtime_incarnation_id": "0922fd8e-f1c3-43fd-a01c-55934fa5fa72",
+        "runtime_process_id": 56107
+      },
+      "calls": [
+        {
+          "path": "/v1/responses",
+          "model": "fixture-model",
+          "prompt_bytes": 9779,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/responses",
+          "model": "fixture-model",
+          "prompt_bytes": 9805,
+          "answer_digest": "9db987e8ac456a3ef4cf26199c7f87b9deddb0ef3d7cca45116e8d653c2510bf"
+        },
+        {
+          "path": "/v1/responses",
+          "model": "fixture-model",
+          "prompt_bytes": 9808,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/responses",
+          "model": "fixture-model",
+          "prompt_bytes": 9543,
+          "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+        },
+        {
+          "path": "/v1/responses",
+          "model": "fixture-model",
+          "prompt_bytes": 9777,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/responses",
+          "model": "replacement-model",
+          "prompt_bytes": 9784,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        }
+      ],
+      "complete_prompt_bytes": 58496,
+      "admission_provider_binding": {
+        "adapter": "openai",
+        "capabilities": {
+          "agent_to_agent": true,
+          "conversation": true,
+          "credentials": true,
+          "health_checks": false,
+          "model_discovery": false,
+          "model_validation": false,
+          "streaming": false,
+          "token_accounting": false,
+          "tools": false
+        },
+        "definition_digest": "d98e3c44fb9437837c758665d070245e9e3f33bb8da6a72a5479b3411b845156",
+        "definition_generation": 1,
+        "endpoint_class": "https",
+        "health": "configuration_validated_inference_unverified",
+        "model_ref": "fixture-model",
+        "provider": "openai",
+        "provider_model_id": "fixture-model"
+      },
+      "operator_status": "delivered",
+      "a2a_status": "delivered",
+      "a2a_recipient": "beacon.fixture0",
+      "a2a_work_id": "a2a-work-fe5b1222b4c56c70",
+      "a2a_reply": "Fixture generated response for the requested local lifecycle proof.",
+      "post_restore_status": "delivered",
+      "replacement_model": "replacement-model",
+      "replacement_reply_status": "delivered"
+    },
+    {
+      "provider": "anthropic",
+      "result": "pass",
+      "identity": {
+        "runtime_incarnation_id": "0922fd8e-f1c3-43fd-a01c-55934fa5fa72",
+        "runtime_process_id": 56107
+      },
+      "calls": [
+        {
+          "path": "/v1/messages",
+          "model": "fixture-model",
+          "prompt_bytes": 9779,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/messages",
+          "model": "fixture-model",
+          "prompt_bytes": 9805,
+          "answer_digest": "16fec2a0eb5c9b3fcd88bf8e847bd87d8dd0eeafabf509b29ae59cc7a075b88d"
+        },
+        {
+          "path": "/v1/messages",
+          "model": "fixture-model",
+          "prompt_bytes": 9808,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/messages",
+          "model": "fixture-model",
+          "prompt_bytes": 9543,
+          "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+        },
+        {
+          "path": "/v1/messages",
+          "model": "fixture-model",
+          "prompt_bytes": 9777,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/messages",
+          "model": "replacement-model",
+          "prompt_bytes": 9784,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        }
+      ],
+      "complete_prompt_bytes": 58496,
+      "admission_provider_binding": {
+        "adapter": "anthropic",
+        "capabilities": {
+          "agent_to_agent": true,
+          "conversation": true,
+          "credentials": true,
+          "health_checks": false,
+          "model_discovery": false,
+          "model_validation": false,
+          "streaming": false,
+          "token_accounting": false,
+          "tools": false
+        },
+        "definition_digest": "d98e3c44fb9437837c758665d070245e9e3f33bb8da6a72a5479b3411b845156",
+        "definition_generation": 1,
+        "endpoint_class": "https",
+        "health": "configuration_validated_inference_unverified",
+        "model_ref": "fixture-model",
+        "provider": "anthropic",
+        "provider_model_id": "fixture-model"
+      },
+      "operator_status": "delivered",
+      "a2a_status": "delivered",
+      "a2a_recipient": "beacon.fixture1",
+      "a2a_work_id": "a2a-work-4a54dd0fb17e00b5",
+      "a2a_reply": "Fixture generated response for the requested local lifecycle proof.",
+      "post_restore_status": "delivered",
+      "replacement_model": "replacement-model",
+      "replacement_reply_status": "delivered"
+    },
+    {
+      "provider": "vertex_ai",
+      "result": "pass",
+      "identity": {
+        "runtime_incarnation_id": "0922fd8e-f1c3-43fd-a01c-55934fa5fa72",
+        "runtime_process_id": 56107
+      },
+      "calls": [
+        {
+          "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+          "model": "fixture-model",
+          "prompt_bytes": 9779,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+          "model": "fixture-model",
+          "prompt_bytes": 9805,
+          "answer_digest": "8b13408bbe76f0cae86af577a18084f2a3d4b54a75cdd365785bd771c5ded5ce"
+        },
+        {
+          "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+          "model": "fixture-model",
+          "prompt_bytes": 9808,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+          "model": "fixture-model",
+          "prompt_bytes": 9543,
+          "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+        },
+        {
+          "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+          "model": "fixture-model",
+          "prompt_bytes": 9777,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/replacement-model:generateContent",
+          "model": "replacement-model",
+          "prompt_bytes": 9784,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        }
+      ],
+      "complete_prompt_bytes": 58496,
+      "admission_provider_binding": {
+        "adapter": "vertex_ai_gemini",
+        "capabilities": {
+          "agent_to_agent": true,
+          "conversation": true,
+          "credentials": true,
+          "health_checks": false,
+          "model_discovery": false,
+          "model_validation": false,
+          "streaming": false,
+          "token_accounting": false,
+          "tools": false
+        },
+        "definition_digest": "d98e3c44fb9437837c758665d070245e9e3f33bb8da6a72a5479b3411b845156",
+        "definition_generation": 1,
+        "endpoint_class": "https",
+        "health": "configuration_validated_inference_unverified",
+        "model_ref": "fixture-model",
+        "provider": "vertex_ai",
+        "provider_model_id": "fixture-model"
+      },
+      "operator_status": "delivered",
+      "a2a_status": "delivered",
+      "a2a_recipient": "beacon.fixture2",
+      "a2a_work_id": "a2a-work-9125e5e6a7c647f2",
+      "a2a_reply": "Fixture generated response for the requested local lifecycle proof.",
+      "post_restore_status": "delivered",
+      "replacement_model": "replacement-model",
+      "replacement_reply_status": "delivered"
+    },
+    {
+      "provider": "ollama",
+      "result": "pass",
+      "identity": {
+        "runtime_incarnation_id": "0922fd8e-f1c3-43fd-a01c-55934fa5fa72",
+        "runtime_process_id": 56107
+      },
+      "calls": [
+        {
+          "path": "/api/generate",
+          "model": "fixture-model",
+          "prompt_bytes": 9779,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/api/generate",
+          "model": "fixture-model",
+          "prompt_bytes": 9805,
+          "answer_digest": "972a3e5d017ae269286d1b2fadf11e6fa4397ae18cca70b46097dd0418b040ea"
+        },
+        {
+          "path": "/api/generate",
+          "model": "fixture-model",
+          "prompt_bytes": 9808,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/api/generate",
+          "model": "fixture-model",
+          "prompt_bytes": 9543,
+          "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+        },
+        {
+          "path": "/api/generate",
+          "model": "fixture-model",
+          "prompt_bytes": 9777,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/api/generate",
+          "model": "replacement-model",
+          "prompt_bytes": 9784,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        }
+      ],
+      "complete_prompt_bytes": 58496,
+      "admission_provider_binding": {
+        "adapter": "ollama",
+        "capabilities": {
+          "agent_to_agent": true,
+          "conversation": true,
+          "credentials": false,
+          "health_checks": false,
+          "model_discovery": false,
+          "model_validation": true,
+          "streaming": false,
+          "token_accounting": false,
+          "tools": false
+        },
+        "definition_digest": "d98e3c44fb9437837c758665d070245e9e3f33bb8da6a72a5479b3411b845156",
+        "definition_generation": 1,
+        "endpoint_class": "https",
+        "health": "metadata_verified_inference_unverified",
+        "model_ref": "fixture-model",
+        "provider": "ollama",
+        "provider_model_id": "fixture-model"
+      },
+      "operator_status": "delivered",
+      "a2a_status": "delivered",
+      "a2a_recipient": "beacon.fixture3",
+      "a2a_work_id": "a2a-work-100baa8933c4e871",
+      "a2a_reply": "Fixture generated response for the requested local lifecycle proof.",
+      "post_restore_status": "delivered",
+      "replacement_model": "replacement-model",
+      "replacement_reply_status": "delivered"
+    },
+    {
+      "provider": "openai-compatible",
+      "result": "pass",
+      "identity": {
+        "runtime_incarnation_id": "0922fd8e-f1c3-43fd-a01c-55934fa5fa72",
+        "runtime_process_id": 56107
+      },
+      "calls": [
+        {
+          "path": "/v1/chat/completions",
+          "model": "fixture-model",
+          "prompt_bytes": 9779,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/chat/completions",
+          "model": "fixture-model",
+          "prompt_bytes": 9805,
+          "answer_digest": "1ab110bb55c044e8c82ea935cc46cc09988a5374bf827e515fdb66dacf2e5dd6"
+        },
+        {
+          "path": "/v1/chat/completions",
+          "model": "fixture-model",
+          "prompt_bytes": 9808,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/chat/completions",
+          "model": "fixture-model",
+          "prompt_bytes": 9543,
+          "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+        },
+        {
+          "path": "/v1/chat/completions",
+          "model": "fixture-model",
+          "prompt_bytes": 9777,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        },
+        {
+          "path": "/v1/chat/completions",
+          "model": "replacement-model",
+          "prompt_bytes": 9784,
+          "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+        }
+      ],
+      "complete_prompt_bytes": 58496,
+      "admission_provider_binding": {
+        "adapter": "http",
+        "capabilities": {
+          "agent_to_agent": true,
+          "conversation": true,
+          "credentials": true,
+          "health_checks": false,
+          "model_discovery": false,
+          "model_validation": false,
+          "streaming": false,
+          "token_accounting": false,
+          "tools": false
+        },
+        "definition_digest": "d98e3c44fb9437837c758665d070245e9e3f33bb8da6a72a5479b3411b845156",
+        "definition_generation": 1,
+        "endpoint_class": "https",
+        "health": "configuration_validated_inference_unverified",
+        "model_ref": "fixture-model",
+        "provider": "openai-compatible",
+        "provider_model_id": "fixture-model"
+      },
+      "operator_status": "delivered",
+      "a2a_status": "delivered",
+      "a2a_recipient": "beacon.fixture4",
+      "a2a_work_id": "a2a-work-460b0d7ccd07c943",
+      "a2a_reply": "Fixture generated response for the requested local lifecycle proof.",
+      "post_restore_status": "delivered",
+      "replacement_model": "replacement-model",
+      "replacement_reply_status": "delivered"
+    }
+  ],
+  "limits": [
+    "Local synthetic TLS fixture proves production adapter transport and installed lifecycle wiring, not hosted provider availability or model quality.",
+    "Final source refresh and additional Observatory/removal assertions remain pending in this draft.",
+    "No merge, publication, CI, remote OTLP delivery or terminal closeout claim."
+  ]
+}

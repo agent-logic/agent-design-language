@@ -1,0 +1,39 @@
+{
+  "issue": 852,
+  "scope": "local runtime regression; production ingress and authenticated WSS with test executor",
+  "library_enumerated": 222,
+  "wss_tests_passed": 1,
+  "ingress_tests_passed": 7,
+  "governed_operations_enumerated_not_executed": 28,
+  "fmt": "passed",
+  "diff_check": "passed",
+  "stdout_stderr_separation": "passed",
+  "private_error_canary_absent_from_stderr": true,
+  "ci": "pending",
+  "artifacts": {
+    "wss-final.stdout": {
+      "sha256": "0e6a34d70a672635bdb32d1c999ebf211640ca1b36b7b4e24dae6fdb6f84c67c",
+      "location": "issue-local .csdlc/evidence/852/wss-final.stdout"
+    },
+    "wss-final.stderr": {
+      "sha256": "74ce3b112e490047d3db559b37bc1d0b23ca6701a64ff9ea4f379965f81ed0bf",
+      "location": "issue-local .csdlc/evidence/852/wss-final.stderr"
+    },
+    "ingress-tests.stdout": {
+      "sha256": "a8b935e654eae652f83bc458c02e859d07e1c04cc5b2ff15dcfb9e4e2afabddf",
+      "location": "issue-local .csdlc/evidence/852/ingress-tests.stdout"
+    },
+    "ingress-tests.stderr": {
+      "sha256": "3c30d6f17202f41d1bae50291826ffcc1508e6b2901f543cb05536d654d8210a",
+      "location": "issue-local .csdlc/evidence/852/ingress-tests.stderr"
+    },
+    "lib-tests-list.txt": {
+      "sha256": "e430312ef25d0cb0aba5fb31b75e73503a78368b13f171f51a3182e995b6991e",
+      "location": "issue-local .csdlc/evidence/852/lib-tests-list.txt"
+    },
+    "governed-list.stdout": {
+      "sha256": "d5dc571dd94e079db9f68e70f34939c7811badfda396a4b0bdf35cc0806653e4",
+      "location": "issue-local .csdlc/evidence/852/governed-list.stdout"
+    }
+  }
+}

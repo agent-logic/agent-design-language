@@ -72,6 +72,7 @@ pub enum RuntimeEvent {
     ClockAuthorityUpdated,
     ControlCommandCompleted,
     DomainWorkCompleted,
+    DomainWorkFailed,
     AgentToAgentInitiated,
     AgentToAgentCompleted,
     AgentToAgentFailed,
@@ -90,6 +91,7 @@ impl RuntimeEvent {
             Self::ClockAuthorityUpdated => "clock_authority_updated".to_owned(),
             Self::ControlCommandCompleted => "control_command_completed".to_owned(),
             Self::DomainWorkCompleted => "domain_work_completed".to_owned(),
+            Self::DomainWorkFailed => "domain_work_failed".to_owned(),
             Self::AgentToAgentInitiated => "agent_to_agent_initiated".to_owned(),
             Self::AgentToAgentCompleted => "agent_to_agent_completed".to_owned(),
             Self::AgentToAgentFailed => "agent_to_agent_failed".to_owned(),
@@ -185,6 +187,8 @@ struct RecorderState {
 
 #[derive(Clone, Debug)]
 pub struct RuntimeRecorder {
+    /// Shared registry used by admission, lifecycle and executor composition.
+    pub providers: Arc<adl_provider_core::registry::ProviderRegistry>,
     pub provider_usage: crate::provider_usage::ProviderUsage,
     started: Instant,
     capacity: usize,
@@ -199,6 +203,7 @@ impl RuntimeRecorder {
         );
         Self {
             provider_usage: Default::default(),
+            providers: Arc::new(Default::default()),
             started: Instant::now(),
             capacity: startup_capacity,
             state: Arc::new(Mutex::new(RecorderState {

@@ -1,0 +1,52 @@
+{
+  "baseline": {
+    "commit": "a71d699d52831b32bb68ed9c7c7e837925949de4",
+    "lock_sha256": "ba3ec138cc86a92834b5ef0bba275a5dbb25aa3f4a51eccc0ae4329456a07c6f",
+    "manifest_sha256": "3b09090cee99e7ab2b97b50a7602a79674c941f830c9922b5aaf4d862a77ff51",
+    "tree": "efee814333490faac0afe9b04f6b9add0a52d510"
+  },
+  "baseline_counts": {
+    "enumerated_cases": 2483,
+    "ignored_cases": 2,
+    "listed_targets": 33,
+    "registered_targets": 33,
+    "selected_targets": 33,
+    "test_bodies_run": 0
+  },
+  "behavior_reduction": "not_claimed",
+  "candidate": {
+    "commit": "e986de6d06aacd385de93dd033def77a718c1581",
+    "lock_sha256": "ba3ec138cc86a92834b5ef0bba275a5dbb25aa3f4a51eccc0ae4329456a07c6f",
+    "manifest_sha256": "3b09090cee99e7ab2b97b50a7602a79674c941f830c9922b5aaf4d862a77ff51",
+    "tree": "3f4a2dd47d0923368c623a3d8569453290629fcf"
+  },
+  "candidate_counts": {
+    "enumerated_cases": 2487,
+    "ignored_cases": 2,
+    "listed_targets": 33,
+    "registered_targets": 33,
+    "selected_targets": 33,
+    "test_bodies_run": 0
+  },
+  "cases_added": [
+    "lib:adl::resilience::tests::bulkhead_shared_instantiation_covers_disabled_admitted_and_recovery_dispositions",
+    "lib:adl::resilience::tests::circuit_breaker_shared_instantiation_covers_all_lifecycle_states",
+    "lib:adl::resilience::tests::fallback_shared_instantiation_covers_every_policy_outcome",
+    "lib:adl::resilience::tests::timeout_shared_instantiation_covers_success_failure_breach_and_cancellation"
+  ],
+  "cases_removed": [],
+  "moves": "not inferred; changed target-qualified names appear as additions/removals",
+  "profile": {
+    "environment": "configuration_free_allowlist_v1",
+    "features": "default",
+    "manifest": "adl/Cargo.toml",
+    "package": "adl",
+    "selection": "tests",
+    "test_bodies": "not_run",
+    "toolchain": "1.92.0"
+  },
+  "runtime_qualification": "not_claimed",
+  "schema": "adl.revision_validation_comparison.v1",
+  "targets_added": [],
+  "targets_removed": []
+}

@@ -3,17 +3,32 @@
 csdlc\-edit \- edit declared card values transactionally
 .SH SYNOPSIS
 .nf
+\&csdlc edit ISSUE \-\-changes CHANGES.json
+.fi
+.nf
 \&csdlc edit \-\-request REQUEST \-\-registry REGISTRY \-\-registrations REGISTRATIONS
 \&  [\-\-repo\-root ROOT] [\-\-v3\-state\-root ROOT]
 \&csdlc edit \-\-help
 .fi
+.SH ISSUE INTENT FORM
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&Apply strict csdlc.v3.intent_changes.v1 content with schema and cards semantic values through the native editor. Unsupported preview/execute flags fail before dispatch.
+.PP
+\&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
 .SH DESCRIPTION
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&card_updates maps sip/stp/spp/vpp/srp/sor to semantic field values. The native renderer validates locked template shape and commits the transaction. Use the appropriate editor skill to determine truthful fields; never patch generated Markdown. Compare\-and\-swap expected_lifecycle_digest binds the existing issue generation.
 .SH EFFECTS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Mutates issue values, renders, index and transaction records.
 .PP
 \&Do not interpret read_only in an older report as a byte\-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected\-binary discovery and the primary/linked path distinction.
 .SH OPTIONS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP
 \&\-\-registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.
@@ -28,8 +43,11 @@ csdlc\-edit \- edit declared card values transactionally
 .PP
 \&\-h: Show standalone help; do not combine with execution options.
 .SH REQUEST
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc\-requests(1). Example source: docs/csdlc\-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use.
 .SH EXAMPLES
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
 .nf
 \&csdlc edit \-\-request local\-request.json \e
 \&  \-\-registry docs/templates/prompts/current.json \e
@@ -38,6 +56,8 @@ csdlc\-edit \- edit declared card values transactionally
 .PP
 \&The checked\-in example is fixture\-validated. A JSON\-valid example does not grant an operational binding or assert dependency readiness. Use csdlc\-workflow(1) to prepare and refresh these inputs from real state.
 .SH RECOVERY
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand\-edit transaction stages/backups or stale digest guards.
 .SH SEE ALSO
 \&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

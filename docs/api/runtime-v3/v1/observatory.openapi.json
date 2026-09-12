@@ -25,51 +25,195 @@
     }
   ],
   "paths": {
+    "/v1/providers": {
+      "get": {
+        "operationId": "readProviderRegistry",
+        "tags": [
+          "observatory"
+        ],
+        "summary": "Read registered provider definitions and declared adapter capabilities",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Redacted process-owned provider catalog. Per-agent binding and health are exposed in roster projections.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "schema",
+                    "providers"
+                  ],
+                  "properties": {
+                    "schema": {
+                      "const": "adl.runtime.provider_registry.v1"
+                    },
+                    "providers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "provider",
+                          "capabilities",
+                          "definition_generation",
+                          "definition_digest"
+                        ],
+                        "properties": {
+                          "provider": {
+                            "type": "string"
+                          },
+                          "capabilities": {
+                            "$ref": "#/components/schemas/ProviderCapabilities"
+                          },
+                          "definition_generation": {
+                            "type": "integer"
+                          },
+                          "definition_digest": {
+                            "type": "string"
+                          },
+                          "adapter": {
+                            "type": "string"
+                          },
+                          "model_ref": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "provider_model_id": {}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/agents": {
       "get": {
         "operationId": "readAgentRosterPage",
-        "tags": ["observatory"],
+        "tags": [
+          "observatory"
+        ],
         "summary": "Read one policy-filtered local Runtime roster page",
         "security": [],
         "parameters": [
-          {"name": "page_size", "in": "query", "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 50}},
-          {"name": "page_token", "in": "query", "schema": {"type": "string", "maxLength": 1024}},
-          {"name": "filter", "in": "query", "schema": {"type": "string", "maxLength": 64}},
-          {"name": "event_cursor", "in": "query", "schema": {"type": "string", "maxLength": 1024}}
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 1024
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          },
+          {
+            "name": "event_cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 1024
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "Current policy-filtered roster page.",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentPopulationFeed"}}}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentPopulationFeed"
+                }
+              }
+            }
           },
-          "400": {"description": "Invalid, stale, cross-policy, or tampered roster query."},
-          "403": {"$ref": "#/components/responses/OriginForbidden"}
+          "400": {
+            "description": "Invalid, stale, cross-policy, or tampered roster query."
+          },
+          "403": {
+            "$ref": "#/components/responses/OriginForbidden"
+          }
         }
       },
       "post": {
         "operationId": "admitDynamicAgent",
-        "tags": ["runtime-control"],
-        "summary": "Verify and durably admit an Ollama-backed agent without restart",
-        "security": [{"AcipWriteBearer": []}],
+        "tags": [
+          "runtime-control"
+        ],
+        "summary": "Verify and durably admit or replace a registered-provider agent without restart",
+        "security": [
+          {
+            "AcipWriteBearer": []
+          }
+        ],
         "requestBody": {
           "required": true,
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentAdmissionRequest"}}}
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentAdmissionRequest"
+              }
+            }
+          }
         },
         "responses": {
-          "200": {"description": "Agent admitted or identical declaration already present.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentAdmissionResponse"}}}},
-          "401": {"description": "Missing or invalid Runtime write credential."},
-          "409": {"description": "The agent id is already bound to another declaration."},
-          "422": {"description": "Invalid declaration or requested model is not installed."},
-          "503": {"description": "Provider verification or durable persistence is unavailable."}
+          "200": {
+            "description": "Agent admitted, same-name binding replaced, or identical declaration already present.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentAdmissionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid Runtime write credential."
+          },
+          "409": {
+            "description": "The agent id is already bound to another declaration."
+          },
+          "422": {
+            "description": "Invalid declaration, unavailable model, or unsupported provider capability."
+          },
+          "503": {
+            "description": "Provider verification or durable persistence is unavailable."
+          }
         }
       },
       "options": {
         "operationId": "agentRosterCorsPreflight",
-        "tags": ["observatory"],
+        "tags": [
+          "observatory"
+        ],
         "summary": "Validate an allowed roster origin",
         "responses": {
-          "204": {"description": "Allowed origin preflight."},
-          "403": {"$ref": "#/components/responses/OriginForbidden"}
+          "204": {
+            "description": "Allowed origin preflight."
+          },
+          "403": {
+            "$ref": "#/components/responses/OriginForbidden"
+          }
         }
       }
     },
@@ -813,31 +957,199 @@
           }
         }
       },
+      "ProviderCapabilities": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "conversation",
+          "agent_to_agent",
+          "tools",
+          "streaming",
+          "credentials",
+          "model_discovery",
+          "model_validation",
+          "token_accounting",
+          "health_checks"
+        ],
+        "properties": {
+          "conversation": {
+            "type": "boolean"
+          },
+          "agent_to_agent": {
+            "type": "boolean"
+          },
+          "tools": {
+            "type": "boolean"
+          },
+          "streaming": {
+            "type": "boolean"
+          },
+          "credentials": {
+            "type": "boolean"
+          },
+          "model_discovery": {
+            "type": "boolean"
+          },
+          "model_validation": {
+            "type": "boolean"
+          },
+          "token_accounting": {
+            "type": "boolean"
+          },
+          "health_checks": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProviderProjection": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "provider",
+          "adapter",
+          "model_ref",
+          "provider_model_id",
+          "endpoint_class",
+          "definition_digest",
+          "health",
+          "definition_generation",
+          "capabilities"
+        ],
+        "properties": {
+          "provider": {
+            "type": "string"
+          },
+          "adapter": {
+            "type": "string"
+          },
+          "model_ref": {
+            "type": "string"
+          },
+          "provider_model_id": {
+            "type": "string"
+          },
+          "endpoint_class": {
+            "type": "string"
+          },
+          "definition_digest": {
+            "type": "string"
+          },
+          "health": {
+            "type": "string"
+          },
+          "definition_generation": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "capabilities": {
+            "$ref": "#/components/schemas/ProviderCapabilities"
+          }
+        }
+      },
       "AgentAdmissionRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["schema", "id", "name", "display_name", "office", "provider", "model", "endpoint"],
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "display_name",
+          "office",
+          "provider",
+          "model",
+          "endpoint"
+        ],
         "properties": {
-          "schema": {"const": "adl.runtime_v3.agent_admission.v1"},
-          "id": {"type": "string", "minLength": 1, "maxLength": 128},
-          "name": {"type": "string", "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$", "description": "Canonical two-part neutral agent name; segments may not end in a hyphen."},
-          "display_name": {"type": "string", "minLength": 1, "maxLength": 128},
-          "office": {"type": "string", "minLength": 1, "maxLength": 128},
-          "role": {"type": "string", "maxLength": 128, "deprecated": true, "description": "Legacy persisted declaration field; new admissions use office."},
-          "provider": {"const": "ollama"},
-          "model": {"type": "string", "minLength": 1, "maxLength": 128},
-          "endpoint": {"type": "string", "format": "uri", "description": "Credential-free private HTTP Ollama endpoint."}
+          "schema": {
+            "const": "adl.runtime_v3.agent_admission.v1"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$",
+            "description": "Canonical two-part neutral agent name; segments may not end in a hyphen."
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "office": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "role": {
+            "type": "string",
+            "maxLength": 128,
+            "deprecated": true,
+            "description": "Legacy persisted declaration field; new admissions use office."
+          },
+          "provider": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Registered provider definition identifier."
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "endpoint": {
+            "type": "string",
+            "description": "Optional credential-free endpoint override. Empty uses the provider definition; hosted routes require HTTPS and plaintext routes require verified private network addresses."
+          },
+          "credential_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^env:[A-Z_][A-Z0-9_]*$",
+            "description": "Environment reference only; never a credential value."
+          },
+          "required_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          }
         }
       },
       "AgentAdmissionResponse": {
         "type": "object",
-        "required": ["schema", "status", "agent_id", "model", "roster_path"],
+        "required": [
+          "schema",
+          "status",
+          "agent_id",
+          "model",
+          "roster_path"
+        ],
         "properties": {
-          "schema": {"const": "adl.runtime_v3.agent_admission.v1"},
-          "status": {"type": "string", "enum": ["admitted", "already_present"]},
-          "agent_id": {"type": "string"},
-          "model": {"type": "string"},
-          "roster_path": {"const": "/v1/agents"}
+          "schema": {
+            "const": "adl.runtime_v3.agent_admission.v1"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "admitted",
+              "already_present",
+              "replaced"
+            ]
+          },
+          "agent_id": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "roster_path": {
+            "const": "/v1/agents"
+          }
         }
       },
       "AgentCheckpoint": {
@@ -929,32 +1241,170 @@
       },
       "AgentRosterEntry": {
         "type": "object",
-        "required": ["schema", "id", "name", "label", "role", "provider", "model", "last_snapshot_at_unix_millis", "last_archive_at_unix_millis", "snapshot_sequence", "pending_archive_count", "snapshot_state", "archive_state", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "required": [
+          "schema",
+          "id",
+          "name",
+          "label",
+          "role",
+          "provider",
+          "model",
+          "last_snapshot_at_unix_millis",
+          "last_archive_at_unix_millis",
+          "snapshot_sequence",
+          "pending_archive_count",
+          "snapshot_state",
+          "archive_state",
+          "presence",
+          "health",
+          "availability",
+          "activity",
+          "capabilities",
+          "location",
+          "communication_eligible",
+          "observed_at_unix_millis",
+          "freshness_deadline_unix_millis",
+          "source_revision",
+          "provenance"
+        ],
         "properties": {
-          "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
-          "id": {"type": "string"},
-          "name": {"type": "string", "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"},
-          "label": {"type": "string"},
-          "role": {"type": "string"},
-          "provider": {"type": ["string", "null"]},
-          "model": {"type": ["string", "null"]},
-          "last_snapshot_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
-          "last_archive_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
-          "snapshot_sequence": {"type": ["integer", "null"], "minimum": 1},
-          "pending_archive_count": {"type": "integer", "minimum": 0},
-          "snapshot_state": {"type": "string", "enum": ["never_snapshotted", "current", "overdue", "failed"]},
-          "archive_state": {"type": "string", "enum": ["disabled", "current", "pending", "degraded", "spool_saturated"]},
-          "presence": {"type": "string", "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]},
-          "health": {"type": "string"},
-          "availability": {"type": "string"},
-          "activity": {"type": ["string", "null"]},
-          "capabilities": {"type": "array", "maxItems": 32, "items": {"type": "string"}},
-          "location": {"type": ["string", "null"]},
-          "communication_eligible": {"type": "boolean"},
-          "observed_at_unix_millis": {"type": "integer", "minimum": 1},
-          "freshness_deadline_unix_millis": {"type": "integer", "minimum": 1},
-          "source_revision": {"type": "string"},
-          "provenance": {"type": "string"}
+          "schema": {
+            "const": "adl.runtime_v3.agent_roster_entry.v1"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "provider": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "model": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "last_snapshot_at_unix_millis": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "last_archive_at_unix_millis": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "snapshot_sequence": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "pending_archive_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "snapshot_state": {
+            "type": "string",
+            "enum": [
+              "never_snapshotted",
+              "current",
+              "overdue",
+              "failed"
+            ]
+          },
+          "archive_state": {
+            "type": "string",
+            "enum": [
+              "disabled",
+              "current",
+              "pending",
+              "degraded",
+              "spool_saturated"
+            ]
+          },
+          "presence": {
+            "type": "string",
+            "enum": [
+              "ready",
+              "busy",
+              "sleeping",
+              "degraded",
+              "unreachable",
+              "migrating",
+              "unknown"
+            ]
+          },
+          "health": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "string"
+          },
+          "activity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "capabilities": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "string"
+            }
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "communication_eligible": {
+            "type": "boolean"
+          },
+          "observed_at_unix_millis": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "freshness_deadline_unix_millis": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_revision": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "provider_binding": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderProjection"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Safe registered binding projection; hosted configuration alone does not prove generated inference readiness."
+          }
         }
       },
       "AgentSample": {
@@ -999,17 +1449,73 @@
           "role": {
             "type": "string"
           },
-          "provider": {"type": ["string", "null"]},
-          "model": {"type": ["string", "null"]},
-          "last_snapshot_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
-          "last_archive_at_unix_millis": {"type": ["integer", "null"], "minimum": 1},
-          "snapshot_sequence": {"type": ["integer", "null"], "minimum": 1},
-          "pending_archive_count": {"type": "integer", "minimum": 0},
-          "snapshot_state": {"type": "string", "enum": ["never_snapshotted", "current", "overdue", "failed"]},
-          "archive_state": {"type": "string", "enum": ["disabled", "current", "pending", "degraded", "spool_saturated"]},
+          "provider": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "model": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "last_snapshot_at_unix_millis": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "last_archive_at_unix_millis": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "snapshot_sequence": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "pending_archive_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "snapshot_state": {
+            "type": "string",
+            "enum": [
+              "never_snapshotted",
+              "current",
+              "overdue",
+              "failed"
+            ]
+          },
+          "archive_state": {
+            "type": "string",
+            "enum": [
+              "disabled",
+              "current",
+              "pending",
+              "degraded",
+              "spool_saturated"
+            ]
+          },
           "state": {
             "type": "string",
-            "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]
+            "enum": [
+              "ready",
+              "busy",
+              "sleeping",
+              "degraded",
+              "unreachable",
+              "migrating",
+              "unknown"
+            ]
           },
           "detail": {
             "type": "string"
@@ -1021,15 +1527,24 @@
             "type": "string"
           },
           "activity": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "capabilities": {
             "type": "array",
             "maxItems": 32,
-            "items": { "type": "string", "maxLength": 128 }
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            }
           },
           "location": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "communication_eligible": {
             "type": "boolean"
@@ -1047,6 +1562,17 @@
           },
           "provenance": {
             "type": "string"
+          },
+          "provider_binding": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProviderProjection"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Safe registered binding projection; hosted configuration alone does not prove generated inference readiness."
           }
         }
       },

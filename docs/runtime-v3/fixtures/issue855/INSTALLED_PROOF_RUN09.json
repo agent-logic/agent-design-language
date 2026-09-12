@@ -1,0 +1,563 @@
+{
+  "schema": "adl.issue855.installed_lifecycle_proof.v1",
+  "status": "pass_at_recorded_source_pending_later_mock_bound_refresh",
+  "runs": [
+    {
+      "schema": "adl.issue855.installed_provider_lifecycle.v1",
+      "source_revision": "61095e10b2bfcdd27a7f8a537529ed75d972686e",
+      "source_checkout_dirty": false,
+      "binary_sha256": {
+        "csm": "2815dd8be4b495d989ff5adf4bb8d48e015bffa78c84cd8a5dcfaa1c2ef418ae",
+        "csmctl": "3c7b79684467be3a1f89459915bc89c69bda9aad0b64ccc809c8c213fa3af455",
+        "kernel": "b48d1d004ae3befa1fb123bf69f921ce3bc80fb589950363ebcc93ce7d0c77a2",
+        "guardian": "792100b190511f48e48f20ab1f02c9cfc7219889499767953877af2f4b5c8769",
+        "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+      },
+      "fixture_only": true,
+      "paid_calls": 0,
+      "mode": "five_provider_fixture",
+      "runtime_identity": {
+        "runtime_incarnation_id": "99c67f48-f2a5-420e-86f1-3a8d37632042",
+        "runtime_process_id": 91415
+      },
+      "init_sha256": "0d5995df00cb7c1e82681955406505f9270d04d6717ac3c1dde9cb1391c2fcaf",
+      "provider_request_count": 31,
+      "cleanup_owned_process_groups": [
+        91414,
+        91415
+      ],
+      "raw_report_location": ".adl/issue855/installed-run-09/report.json",
+      "raw_report_sha256": "355e096af22bf1be5870f50c1ee84ac49f96d40a90206fa65e2537470f191327",
+      "rows": [
+        {
+          "provider": "openai",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58496,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.fixture0",
+          "a2a_work_id": "a2a-work-2c6e709d8349430f",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "openai",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "9db987e8ac456a3ef4cf26199c7f87b9deddb0ef3d7cca45116e8d653c2510bf"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9543,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "anthropic",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58496,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.fixture1",
+          "a2a_work_id": "a2a-work-7eb243ab4e1a40cf",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "anthropic",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "16fec2a0eb5c9b3fcd88bf8e847bd87d8dd0eeafabf509b29ae59cc7a075b88d"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9543,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "vertex_ai",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58496,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.fixture2",
+          "a2a_work_id": "a2a-work-845e033b6b0a2c34",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "vertex_ai",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "8b13408bbe76f0cae86af577a18084f2a3d4b54a75cdd365785bd771c5ded5ce"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9543,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/replacement-model:generateContent",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "ollama",
+          "result": "pass",
+          "runtime_provider_request_count": 7,
+          "local_fixture_prompt_bytes": 58496,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.fixture3",
+          "a2a_work_id": "a2a-work-b6be1358ae28b958",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "ollama",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "972a3e5d017ae269286d1b2fadf11e6fa4397ae18cca70b46097dd0418b040ea"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9543,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/api/generate",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "openai-compatible",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58496,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.fixture4",
+          "a2a_work_id": "a2a-work-d0af30ada445411a",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "openai-compatible",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "1ab110bb55c044e8c82ea935cc46cc09988a5374bf827e515fdb66dacf2e5dd6"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9543,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        }
+      ],
+      "maximum_complete_prompt_bytes": 9808
+    },
+    {
+      "schema": "adl.issue855.installed_provider_lifecycle.v1",
+      "source_revision": "61095e10b2bfcdd27a7f8a537529ed75d972686e",
+      "source_checkout_dirty": false,
+      "binary_sha256": {
+        "csm": "2815dd8be4b495d989ff5adf4bb8d48e015bffa78c84cd8a5dcfaa1c2ef418ae",
+        "csmctl": "3c7b79684467be3a1f89459915bc89c69bda9aad0b64ccc809c8c213fa3af455",
+        "kernel": "b48d1d004ae3befa1fb123bf69f921ce3bc80fb589950363ebcc93ce7d0c77a2",
+        "guardian": "792100b190511f48e48f20ab1f02c9cfc7219889499767953877af2f4b5c8769",
+        "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+      },
+      "fixture_only": true,
+      "paid_calls": 0,
+      "mode": "hosted_fixture",
+      "runtime_identity": {
+        "runtime_incarnation_id": "13a00497-f9af-46a1-b4b8-29e7b903003a",
+        "runtime_process_id": 94267
+      },
+      "init_sha256": "d320792c461ab93b4ec5261d90fea231314215b19c90e902baeebee185bc2a59",
+      "provider_request_count": 19,
+      "cleanup_owned_process_groups": [
+        94266,
+        94267
+      ],
+      "raw_report_location": ".adl/issue855/hosted-fixture-03/report.json",
+      "raw_report_sha256": "5305b66ba28a91ed2f719636ad64e616bc0b81e78228b5d83842e5c0660a10f8",
+      "rows": [
+        {
+          "provider": "openai",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "local_fixture_prompt_bytes": 58389,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.axioma",
+          "a2a_work_id": "a2a-work-1eb4f303511bf3bb",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "openai",
+          "observatory_model": "gpt-5.4-mini",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9762,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9786,
+              "wire_output_cap": 256,
+              "answer_digest": "10bd8356dee1d67e8d80443f68fcdcb8da6a4b060f7f1b1e7951dbabf5c6755f"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9785,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9529,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9760,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9767,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "anthropic",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "local_fixture_prompt_bytes": 58389,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.axioma",
+          "a2a_work_id": "a2a-work-95cf6332234ae845",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "anthropic",
+          "observatory_model": "claude-haiku-4-5-20251001",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9762,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9786,
+              "wire_output_cap": 256,
+              "answer_digest": "10bd8356dee1d67e8d80443f68fcdcb8da6a4b060f7f1b1e7951dbabf5c6755f"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9785,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9529,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9760,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9767,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "vertex_ai",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "local_fixture_prompt_bytes": 58389,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient": "beacon.axioma",
+          "a2a_work_id": "a2a-work-1de527c0dd39c576",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "vertex_ai",
+          "observatory_model": "gemini-2.5-flash",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9762,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9786,
+              "wire_output_cap": 256,
+              "answer_digest": "10bd8356dee1d67e8d80443f68fcdcb8da6a4b060f7f1b1e7951dbabf5c6755f"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9785,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9529,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9760,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9767,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        }
+      ],
+      "hosted_provider_request_counts": {
+        "openai": 5,
+        "anthropic": 5,
+        "vertex_ai": 5
+      },
+      "approved_bounds": {
+        "calls_per_provider": 6,
+        "input_bytes_per_request": 32000,
+        "output_tokens_per_request": 256,
+        "retries": 0,
+        "total_cost_ceiling_usd": 1,
+        "runtime_seconds": 1800,
+        "teardown_reserved_seconds": 25,
+        "graceful_shutdown_starts_seconds": 1775,
+        "project": "cs-host-377d41e71a824f92802120",
+        "models": {
+          "openai": "gpt-5.4-mini",
+          "anthropic": "claude-haiku-4-5-20251001",
+          "vertex_ai": "gemini-2.5-flash"
+        }
+      },
+      "maximum_complete_prompt_bytes": 9786
+    }
+  ],
+  "limits": [
+    "Local fixture proof only; no paid requests, vendor availability, CI, publication or merge claim.",
+    "Later Runtime mock sleep bound correction requires refreshed binary provenance before hosted execution."
+  ]
+}

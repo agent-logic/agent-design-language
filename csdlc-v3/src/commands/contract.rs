@@ -35,6 +35,12 @@ pub fn root_help() -> String {
             help.push_str("\nExplicit historical / administrative commands (no alternate operational authority):\n");
         }
         for row in descriptors().filter(|row| row["discovery_group"] == group) {
+            if row["intent_usage"]
+                .as_str()
+                .is_some_and(|usage| Some(usage) != row["usage"].as_str())
+            {
+                help.push_str(&format!("  {}\n", row["intent_usage"].as_str().unwrap()));
+            }
             help.push_str(&format!("  {}\n", row["usage"].as_str().unwrap()));
         }
     }

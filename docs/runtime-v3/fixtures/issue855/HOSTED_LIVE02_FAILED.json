@@ -1,0 +1,63 @@
+{
+  "schema": "adl.issue855.installed_provider_lifecycle.v1",
+  "result": "failed",
+  "fixture_only": false,
+  "paid_calls": 3,
+  "mode": "hosted",
+  "rows": [],
+  "binary_sha256": {
+    "csm": "05d0d6e53cddca46a053ed3de902f21b90e35f6d614af52660b3a1ff7bde7c91",
+    "csmctl": "ec9ea5d090825249c118f02d15de590f8c97bd7c6965130ed6d4e9e8610b0b25",
+    "kernel": "13af88ff7675e745fee889bd8ecb3ab0369785b3109e8ef68b5ce7568ceab0f8",
+    "guardian": "3f87b884cfe219619f83a73da6f742be71b6465a7ecbc4a02a7da942202e2ad2",
+    "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+  },
+  "source_revision": "d96f90ecc7bcea702605f73814d9fce02486df28",
+  "error": "conversation failed: {'schema': 'adl.runtime_v3.observatory_conversation_result.v1', 'status': 'failed', 'conversation_id': 'fixture-0e9bbd8df3b2568b', 'turn_id': '0e9bbd8df3b2568b', 'recipient_id': 'fixture-0', 'correlation_id': '9a2054119872cdb852d725cb1ff17931', 'sender_id': 'fixture-0', 'sender_name': 'ember.fixture0', 'initiated_recipient_id': 'shepherd', 'initiated_recipient_name': 'beacon.axioma', 'initiated_conversation_id': 'a2a-fixture-0-shepherd-3e3105a5bbe8f1e0', 'initiated_turn_id': 'turn-a2a-7caaae8c187a4858', 'initiated_correlation_id': '3e3105a5bbe8f1e07caaae8c187a4858', 'initiated_work_id': 'a2a-work-a34da16ebd0c081a', 'initiated_message': 'Please give a brief greeting.', 'initiated_reply': 'Fixture generated response for the requested local lifecycle proof.', 'reply': 'I will ask Beacon for a greeting.', 'accepted_sequence': 3, 'turn_sequence': 1, 'error': 'agent_result_continuation_failed'}",
+  "provider_metrics": [
+    {
+      "agent": "beacon.axioma",
+      "provider": "ollama",
+      "model": "fixture-model",
+      "reason": "agent_to_agent",
+      "requests": 1,
+      "succeeded": 1,
+      "failed": 0,
+      "estimated_input_tokens": 2445,
+      "estimated_output_tokens": 17,
+      "token_accounting": "estimate_utf8_bytes_div_4_rounded_up_not_billing"
+    },
+    {
+      "agent": "beacon.axioma",
+      "provider": "ollama",
+      "model": "fixture-model",
+      "reason": "startup_probe",
+      "requests": 1,
+      "succeeded": 1,
+      "failed": 0,
+      "estimated_input_tokens": 2175,
+      "estimated_output_tokens": 17,
+      "token_accounting": "estimate_utf8_bytes_div_4_rounded_up_not_billing"
+    },
+    {
+      "agent": "fixture-0",
+      "provider": "openai",
+      "model": "gpt-5.4-mini",
+      "reason": "operator_conversation",
+      "requests": 3,
+      "succeeded": 2,
+      "failed": 1,
+      "estimated_input_tokens": 7394,
+      "estimated_output_tokens": 64,
+      "token_accounting": "estimate_utf8_bytes_div_4_rounded_up_not_billing"
+    }
+  ],
+  "cleanup_owned_process_groups": [
+    39837,
+    39838
+  ],
+  "retained_report_sha256": "51275c04e2c7144666ca9f4184f6af43a99bf575af7c1628bdaae72ae5694db7",
+  "source_revision_boundary": "Executed d96f90 Rust binaries at draft189aff metadata; exact binary hashes identify executed bytes.",
+  "underlying_continuation_failure": "unknown; prior result discarded safe category and no raw vendor response was retained",
+  "follow_up": "Deterministic category propagation and prompt-phase clarification; no paid retry claimed."
+}

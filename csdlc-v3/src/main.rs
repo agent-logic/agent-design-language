@@ -81,12 +81,19 @@ fn main() {
             println!("{output}");
         }
     } else {
-        let payload = serde_json::from_str(&output).unwrap_or_else(|_| {
+        let mut payload = serde_json::from_str(&output).unwrap_or_else(|_| {
             serde_json::json!({
                 "schema":"csdlc.v3.command_failure.v1", "status":"failed",
                 "findings":[{"code": output.split(':').next().filter(|code| !code.is_empty() && code.chars().all(|c| c.is_ascii_alphanumeric() || c == '_')).unwrap_or("command_input_or_execution_failed"), "message":output}]
             })
         });
+        if args
+            .first()
+            .is_some_and(|command| csdlc_v3::application::intent::selected(command, &args[1..]))
+            && payload.is_object()
+        {
+            payload["resolution_metrics"] = csdlc_v3::application::intent::read_metrics();
+        }
         let report = envelope(payload, &invocation, failed);
         println!("{report}");
         if failed {
@@ -115,10 +122,21 @@ fn run(args: Vec<String>) -> Result<String, String> {
             .map(|row| row.to_string())
             .ok_or_else(|| format!("unknown_command: {command}"));
     }
+    if csdlc_v3::application::intent::selected(command, rest) {
+        return csdlc_v3::application::intent::run(command, rest).map(|value| value.to_string());
+    }
     contract::validate_required_inputs(command, rest)?;
     let family = contract::descriptor(command)
         .and_then(|row| row["family"].as_str())
         .unwrap_or("");
+    if family == "intent" && (rest == ["--help"] || rest == ["-h"]) {
+        return Ok(format!(
+            "usage: csdlc {}\n\nauthority: {AUTHORITY_HELP}",
+            contract::descriptor(command).unwrap()["usage"]
+                .as_str()
+                .unwrap()
+        ));
+    }
     match command.as_str() {
         "--help" | "-h" => Ok(contract::root_help()),
         "foundation" => run_foundation(rest),

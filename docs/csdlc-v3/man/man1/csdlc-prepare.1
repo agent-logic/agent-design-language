@@ -1,0 +1,33 @@
+.TH "CSDLC-PREPARE" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-prepare \- prepare an authenticated issue from a declared plan
+.SH SYNOPSIS
+.nf
+\&csdlc prepare ISSUE \-\-plan PLAN.json [\-\-repo\-root ROOT] [\-\-json]
+\&csdlc prepare ISSUE \-\-plan PLAN.json \-\-emit\-request
+\&csdlc prepare \-\-intent\-request REQUEST.json
+.fi
+.SH DESCRIPTION
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&Authenticate the existing source issue and resolve title/repository/worktree policy and template registry. Prepare the strict csdlc.v3.intent_plan.v1 through the local owner, retaining its plan atomically with native issue initialization.
+.PP
+\&Plan fields are schema, slug, cards, validators and publication. Cards contains all six active\-template values objects. Validators declare bounded Cargo tests; publication declares base/title/body/draft and the canonical closing relation. Identity fields are derived by the owner and cannot be overridden by card prose.
+.PP
+\&The command writes preparation state in resolved primary Git metadata. It does not bind the issue worktree, execute proof, publish or install the candidate. Existing initialization conflicts or interrupted transactions are refused for explicit recovery. Preview/execute overrides are unsupported.
+.PP
+\&The generated wrapper emitted by \-\-emit\-request can be passed directly to \-\-intent\-request; the inner request is also accepted.
+.SH OUTPUT
+\&Machine JSON uses the common command\-result envelope. Interpret status, authority, effects and findings independently. An emitted request is a snapshot, not execution. Foreign\-platform snapshot rejection is not non\-Unix execution proof.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1), docs/csdlc\-v3/INTENT_COMMANDS.md.
+.SH OPTIONS
+\&Supported candidate intent options: \-\-emit\-request, \-\-help, \-\-intent\-request, \-\-json, \-\-plan, \-\-repo\-root, \-h. Positional ISSUE is positive; \-\-help and \-h are standalone discovery. Unsupported combinations fail closed.
+.SH EXAMPLES
+.nf
+\&csdlc prepare ISSUE \-\-plan PLAN.json [\-\-repo\-root ROOT] [\-\-json]
+\&csdlc prepare ISSUE \-\-plan PLAN.json \-\-emit\-request
+\&csdlc prepare \-\-intent\-request REQUEST.json
+.fi
+.PP
+\&These forms require a supporting selected candidate; they do not upgrade the active binary or authorize activation.

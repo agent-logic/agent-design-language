@@ -53,12 +53,17 @@ fn installed_discovery_preserves_all_frozen_dispositions_and_rejects_drift() {
         .iter()
         .chain(observed["aliases"].as_array().unwrap())
         .collect();
-    assert_eq!(rows.len(), 27);
+    // Preserve the complete SIM-02 denominator while adding three ordinary
+    // intent entrypoints; their successful journeys have separate SIM-03 proof.
+    assert_eq!(rows.len(), 30);
     assert_eq!(
         rows.iter()
             .map(|r| r["command"].as_str().unwrap())
             .collect::<BTreeSet<_>>(),
-        FROZEN.into_iter().collect()
+        FROZEN
+            .into_iter()
+            .chain(["status", "prepare", "recover"])
+            .collect()
     );
     for row in rows {
         let name = row["command"].as_str().unwrap();
@@ -415,6 +420,7 @@ fn every_frozen_installed_route_dispatches_and_required_flags_are_enforced() {
         .unwrap()
         .iter()
         .chain(contract["aliases"].as_array().unwrap())
+        .filter(|row| FROZEN.contains(&row["command"].as_str().unwrap()))
     {
         let name = row["command"].as_str().unwrap();
         let variant = &row["input_variants"][0];

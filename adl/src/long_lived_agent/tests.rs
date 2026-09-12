@@ -16,6 +16,56 @@ use std::time::{Duration, Instant};
 static TEMP_SEQ: AtomicU64 = AtomicU64::new(0);
 
 #[test]
+fn shutdown_barrier_requires_its_own_status_write_acknowledgment() {
+    let fixtures = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/shutdown-barrier-tests");
+    fs::create_dir_all(&fixtures).unwrap();
+    let root = tempfile::tempdir_in(fixtures).unwrap();
+    let log = root.path().join("otel.jsonl");
+    let compatibility = root.path().join("events.log");
+    let status = root.path().join("status");
+    fs::create_dir(&status).unwrap();
+    let _env = MultiEnvGuard::set_all(&[
+        ("ADL_CSM_DISK_FLOOR_BYTES", "0"),
+        ("ADL_CSM_TEST_AVAILABLE_BYTES", "1073741824"),
+        ("ADL_OBSERVABILITY", "1"),
+        ("ADL_OBSERVABILITY_STDERR", "0"),
+        ("ADL_OBSERVABILITY_LOG", compatibility.to_str().unwrap()),
+        ("ADL_OTEL_LOG", log.to_str().unwrap()),
+        ("ADL_OTEL_STATUS", status.to_str().unwrap()),
+        ("ADL_OTEL_EXPORTER_OTLP_ENDPOINT", ""),
+    ]);
+    let loaded = load_spec(&write_spec(root.path())).unwrap();
+    ensure_state_root(&loaded).unwrap();
+    let context = CsmRuntimeContext::new(&loaded).unwrap();
+    let failed = verify_shutdown_observability_barrier(
+        &context,
+        &loaded,
+        "shutdown_test_barrier",
+        0,
+        "shutdown-fixture",
+    )
+    .unwrap_err();
+    assert!(failed.to_string().contains("did not acknowledge"));
+    assert!(fs::read_to_string(&log)
+        .unwrap()
+        .contains("csm.shutdown_test_barrier"));
+    fs::remove_dir(&status).unwrap();
+    let acknowledged = verify_shutdown_observability_barrier(
+        &context,
+        &loaded,
+        "shutdown_test_barrier",
+        0,
+        "shutdown-fixture",
+    )
+    .unwrap();
+    assert!(acknowledged["sinks"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|sink| sink["sink"] == "ADL_OTEL_STATUS" && sink["status"] == "acknowledged"));
+}
+
+#[test]
 fn governed_stop_requires_spec_bound_ed25519_authorization() {
     let signing_key = SigningKey::from_bytes(&[7_u8; 32]);
     let state_root = temp_dir("signed-stop-policy");

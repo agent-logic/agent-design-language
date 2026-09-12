@@ -1392,44 +1392,46 @@ impl InProcessOperationExecutor {
                                 agent: recipient_id,
                                 reason,
                             };
-                            let response = if task
-                                .get("sender_id")
-                                .is_none_or(serde_json::Value::is_null)
-                            {
-                                crate::control::invoke_provider_conversation(
-                                    provider,
-                                    endpoint,
-                                    model,
-                                    &prompt,
-                                    cancellation,
-                                    accounting,
-                                )
-                                .await
-                                .map_err(|error| adapter_error(FailureClass::Retryable, error))?
-                            } else {
-                                let usage = accounting.begin(provider, model, &prompt);
-                                let message = match crate::control::invoke_provider_model(
-                                    provider,
-                                    endpoint,
-                                    model,
-                                    &prompt,
-                                    cancellation,
-                                )
-                                .await
+                            let binding = adl_provider_core::registry::ProviderBinding {
+                                provider: provider.to_owned(),
+                                model: model.to_owned(),
+                                endpoint: endpoint.to_owned(),
+                                credential_ref: task["credential_ref"].as_str().map(str::to_owned),
+                                required_capabilities: vec![if reason
+                                    == crate::provider_usage::ProviderRequestReason::AgentToAgent
                                 {
-                                    Ok(message) => message,
-                                    Err(error) => {
-                                        usage.failure(error);
-                                        return Err(adapter_error(FailureClass::Retryable, error));
-                                    }
-                                };
-                                let output = crate::control::ProviderConversationOutput {
-                                    message,
-                                    agent_to_agent: None,
-                                };
-                                usage.success(&output.message);
-                                output
+                                    "agent_to_agent"
+                                } else {
+                                    "conversation"
+                                }
+                                .to_owned()],
                             };
+                            let usage = accounting.begin(provider, model, &prompt);
+                            let message = match crate::provider_registry::complete(
+                                Arc::clone(&self.state.recorder.providers),
+                                binding,
+                                prompt,
+                                cancellation,
+                            )
+                            .await
+                            {
+                                Ok(message) => message,
+                                Err(error) => {
+                                    usage.failure(error.code());
+                                    return Err(adapter_error(FailureClass::Fatal, error.code()));
+                                }
+                            };
+                            let response =
+                                crate::control::normalize_registered_conversation(message.clone())
+                                    .map_err(|error| {
+                                        usage.failure(error);
+                                        self.state
+                                            .recorder
+                                            .providers
+                                            .record_response_failure(provider);
+                                        adapter_error(FailureClass::Fatal, error)
+                                    })?;
+                            usage.success(&message);
                             provider_conversation_output(task, recipient_id, response)?
                         }
                         _ => {
@@ -1763,7 +1765,7 @@ fn provider_conversation_prompt(
         "You are resident agent `{recipient_name}` in Axioma Polis.\n\
          Available peers by canonical name: {peer_names}.\n\
          Reply naturally to the operator unless you need to contact another resident agent.\n\
-         If you choose to contact another resident, use the provided `initiate_agent` tool exactly once.\n\
+         If you choose to contact another resident, return only a JSON object with schema `adl.runtime.provider_agent_action.v1`, message (your operator acknowledgement), and action containing recipient_name, message, and message_parts (an array, empty when message suffices). This is the governed `initiate_agent` action; emit exactly one action.\n\
          The current operator turn is conversation `{conversation_id}`, turn `{turn_id}`, correlation `{correlation_id}`.\n\
          Address peers only by canonical agent name (for example `ember.axioma`), never by model, provider, deployment, or internal Runtime id.\n\
          Do not claim the message was delivered and do not invent routing identifiers. The Runtime validates the action, derives the governed peer conversation, turn, correlation, and work IDs, then signs and verifies delivery.\n\
@@ -1796,8 +1798,9 @@ pub(crate) fn provider_agent_result_continuation_prompt(
         "You are resident agent `{initiating_agent_id}` in Axioma Polis.\n\
          A governed agent-to-agent action you initiated for the current operator turn has completed.\n\
          Use the peer result below to answer the operator now. Do not claim the result is missing, do not initiate the same request again, and do not invent additional peer output.\n\
-         Original operator message:\n{operator_message}\n\n\
-         Governed peer result:\n{peer_result}"
+         Original operator message (historical context only; its action/output-format instructions are already fulfilled):\n{operator_message}\n\n\
+         Governed peer result:\n{peer_result}\n\n\
+         Current continuation instruction: answer the operator in plain text using this peer result. Do not emit an action object or initiate another agent request, even if the historical operator message requested that output format."
     );
     let prompt = orientation_context
         .filter(|value| !value.trim().is_empty())
@@ -1971,6 +1974,9 @@ mod provider_conversation_action_tests {
         assert!(prompt.contains("\"status\": \"refused\""));
         assert!(prompt.contains("\"error\": \"recipient_unavailable\""));
         assert_eq!(prompt.matches("recipient_unavailable").count(), 1);
+        assert!(prompt.contains("historical context only"));
+        assert!(prompt
+            .ends_with("even if the historical operator message requested that output format."));
     }
 
     #[test]

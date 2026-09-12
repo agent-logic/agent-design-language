@@ -8,8 +8,8 @@
   "one_binary": "csdlc",
   "denominator": {
     "v2_entrypoints": 21,
-    "current_v3_commands": 26,
-    "implemented_commands": 26,
+    "current_v3_commands": 29,
+    "implemented_commands": 29,
     "partial_commands": 0,
     "fail_closed_commands": 0,
     "implemented_replacement_routes": 21,
@@ -17,7 +17,7 @@
     "fail_closed_replacement_routes": 0,
     "remaining_replacement_routes": 0,
     "additional_aliases": 1,
-    "total_dispositions": 27
+    "total_dispositions": 30
   },
   "commands": [
     {
@@ -106,9 +106,38 @@
             "--v3-state-root"
           ],
           "request_type": "LocalPreparationRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "bind <issue>",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "clean",
@@ -134,9 +163,40 @@
           ],
           "optional_flags": [],
           "request_type": "TerminalRouteRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--execute",
+            "--preview"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "clean <issue> [--execute --preview <digest>]",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "cutover",
@@ -230,9 +290,40 @@
             "--v3-state-root"
           ],
           "request_type": "LocalPreparationRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [
+            "--changes"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "edit <issue> --changes <path>",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "eligibility",
@@ -293,9 +384,40 @@
             "--observe-github"
           ],
           "request_type": "TerminalRouteRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--preview",
+            "--disposition"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "finish <issue> [--disposition <path>]",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "github",
@@ -419,9 +541,41 @@
             "--duplicate-of"
           ],
           "request_type": "GithubMutationRequest via direct CLI parser"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [
+            "--operation"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--preview"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "github-issue <issue> --operation <path>",
+      "intent_effect_class": "guarded_local_and_remote",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "github-pr",
@@ -459,9 +613,41 @@
           ],
           "optional_flags": [],
           "request_type": "OperationalRemoteDispatchRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [
+            "--operation"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--preview"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "github-pr <issue> --operation <path>",
+      "intent_effect_class": "guarded_local_and_remote",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "install",
@@ -551,9 +737,38 @@
             "--execute"
           ],
           "request_type": "RemoteRouteRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "pr-state <issue>",
+      "intent_effect_class": "observation",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "proof",
@@ -579,9 +794,38 @@
           ],
           "optional_flags": [],
           "request_type": "ProofRouteRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "proof <issue>",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "publish",
@@ -619,9 +863,39 @@
           ],
           "optional_flags": [],
           "request_type": "OperationalRemoteDispatchRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--preview"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "publish <issue>",
+      "intent_effect_class": "guarded_local_and_remote",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "review",
@@ -659,9 +933,41 @@
           ],
           "optional_flags": [],
           "request_type": "OperationalRemoteDispatchRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [
+            "--evidence"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--preview"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "review <issue> --evidence <path>",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "remote",
@@ -865,9 +1171,38 @@
             "--v3-state-root"
           ],
           "request_type": "LocalPreparationRequest"
+        },
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "validate <issue>",
+      "intent_effect_class": "observation",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "release-preflight",
@@ -894,6 +1229,149 @@
         }
       ],
       "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+    },
+    {
+      "command": "status",
+      "replaces": [],
+      "owner_issue": 869,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3",
+      "family": "intent",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "IntentRequest",
+      "usage": "status <issue>",
+      "disposition": "ordinary_intent",
+      "input_variants": [
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--decisions"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "status <issue> [--decisions <path>]",
+      "intent_effect_class": "observation",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+    },
+    {
+      "command": "prepare",
+      "replaces": [],
+      "owner_issue": 869,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3",
+      "family": "intent",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "IntentRequest",
+      "usage": "prepare <issue> --plan <path>",
+      "disposition": "ordinary_intent",
+      "input_variants": [
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [
+            "--plan"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "prepare <issue> --plan <path>",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+    },
+    {
+      "command": "recover",
+      "replaces": [],
+      "owner_issue": 869,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3",
+      "family": "intent",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "IntentRequest",
+      "usage": "recover <issue> [--execute --preview <digest>]",
+      "disposition": "ordinary_intent",
+      "input_variants": [
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--execute",
+            "--preview"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "recover <issue> [--execute --preview <digest>]",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     }
   ],
   "invariants": [
@@ -939,5 +1417,25 @@
       ],
       "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     }
-  ]
+  ],
+  "intent_inventory": {
+    "schema": "csdlc.v3.intent_inventory.v1",
+    "issue": 869,
+    "ordinary_intents": [
+      "status",
+      "prepare",
+      "bind",
+      "edit",
+      "validate",
+      "proof",
+      "review",
+      "publish",
+      "finish",
+      "clean",
+      "recover"
+    ],
+    "frozen_predecessor_dispositions": 27,
+    "github_mutation_variants": 8,
+    "count_boundary": "27 predecessor dispositions remain required through explicit mappings; installed command count additionally includes status, prepare and recover"
+  }
 }

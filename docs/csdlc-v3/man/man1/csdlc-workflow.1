@@ -1,6 +1,24 @@
 .TH "CSDLC-WORKFLOW" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
 .SH NAME
 csdlc\-workflow \- prepare, execute, publish and reconcile one issue
+.SH CANDIDATE ISSUE INTENT SEQUENCE
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.nf
+\&csdlc status ISSUE
+\&csdlc prepare ISSUE \-\-plan PLAN.json
+\&csdlc bind ISSUE
+\&csdlc edit ISSUE \-\-changes CHANGES.json
+\&csdlc validate ISSUE
+\&csdlc proof ISSUE
+\&csdlc review ISSUE \-\-evidence REVIEW.json
+\&csdlc publish ISSUE
+\&# Merge only after explicit exact\-target authorization and native admission.
+\&csdlc finish ISSUE
+\&csdlc clean ISSUE
+\&csdlc clean ISSUE \-\-execute \-\-preview TOKEN
+.fi
+.PP
+\&Supply issue\-specific six\-card values from the active templates, admitted validators and canonical publication content. Independent review is external evidence, never an automatically generated approval. Finish requires already merged/closed remote truth; cleanup is a separate token\-bound operation. The request\-based workflow below remains supported.
 .SH PRECONDITIONS
 \&Use an existing tracked issue, accepted prerequisites and a reviewed issue\-specific plan. Check clean primary main and actual registrations; preserve another session's checkout. Commands below are templates using your own reviewed request files, not permission to mutate example IDs. Use the active installed binary by absolute path after changing checkouts.
 .PP

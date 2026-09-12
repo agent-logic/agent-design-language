@@ -41,7 +41,15 @@
         "-h"
       ],
       "family": "local",
-      "example": "local.json"
+      "example": "local.json",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "edit",
@@ -55,7 +63,16 @@
         "-h"
       ],
       "family": "local",
-      "example": "local.json"
+      "example": "local.json",
+      "intent_options": [
+        "--changes",
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "validate",
@@ -69,7 +86,15 @@
         "-h"
       ],
       "family": "local",
-      "example": "local.json"
+      "example": "local.json",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "doctor",
@@ -149,7 +174,17 @@
         "-h"
       ],
       "family": "remote",
-      "example": "mutation.json"
+      "example": "mutation.json",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--operation",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "github-issue create",
@@ -201,7 +236,17 @@
         "-h"
       ],
       "family": "remote",
-      "example": "pr-create.json"
+      "example": "pr-create.json",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--operation",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "pr-state",
@@ -213,7 +258,15 @@
         "-h"
       ],
       "family": "remote",
-      "example": "remote.json"
+      "example": "remote.json",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "publish",
@@ -225,7 +278,16 @@
         "-h"
       ],
       "family": "remote",
-      "example": "remote.json"
+      "example": "remote.json",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "review",
@@ -237,7 +299,17 @@
         "-h"
       ],
       "family": "remote",
-      "example": "review.json"
+      "example": "review.json",
+      "intent_options": [
+        "--emit-request",
+        "--evidence",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "finish",
@@ -248,7 +320,17 @@
         "-h"
       ],
       "family": "terminal",
-      "example": "finish.json"
+      "example": "finish.json",
+      "intent_options": [
+        "--disposition",
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "clean",
@@ -258,7 +340,17 @@
         "-h"
       ],
       "family": "terminal",
-      "example": "clean.json"
+      "example": "clean.json",
+      "intent_options": [
+        "--emit-request",
+        "--execute",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "cutover",
@@ -290,7 +382,15 @@
         "-h"
       ],
       "family": "proof",
-      "example": "proof.json"
+      "example": "proof.json",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "install",
@@ -361,6 +461,74 @@
       ],
       "family": "release",
       "example": "release.json"
+    },
+    {
+      "command": "status",
+      "options": [
+        "--decisions",
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ],
+      "family": "intent",
+      "intent_options": [
+        "--decisions",
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ]
+    },
+    {
+      "command": "prepare",
+      "options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--plan",
+        "--repo-root",
+        "-h"
+      ],
+      "family": "intent",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--plan",
+        "--repo-root",
+        "-h"
+      ]
+    },
+    {
+      "command": "recover",
+      "options": [
+        "--emit-request",
+        "--execute",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ],
+      "family": "intent",
+      "intent_options": [
+        "--emit-request",
+        "--execute",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--preview",
+        "--repo-root",
+        "-h"
+      ]
     }
   ],
   "request_types": [
@@ -1607,6 +1775,146 @@
           "optional": false
         }
       ]
+    },
+    {
+      "name": "Validator",
+      "rust_name": "Validator",
+      "source": "csdlc-v3/src/application/intent/mod.rs",
+      "fields": [
+        {
+          "name": "id",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "program",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "args",
+          "type": "Vec<String>",
+          "optional": false
+        },
+        {
+          "name": "success_marker",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "timeout_seconds",
+          "type": "u64",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "Publication",
+      "rust_name": "Publication",
+      "source": "csdlc-v3/src/application/intent/mod.rs",
+      "fields": [
+        {
+          "name": "base",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "body",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "draft",
+          "type": "bool",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "IntentPlan",
+      "rust_name": "IntentPlan",
+      "source": "csdlc-v3/src/application/intent/mod.rs",
+      "fields": [
+        {
+          "name": "schema",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "slug",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "cards",
+          "type": "BTreeMap<String, Value>",
+          "optional": false
+        },
+        {
+          "name": "validators",
+          "type": "Vec<Validator>",
+          "optional": false
+        },
+        {
+          "name": "publication",
+          "type": "Publication",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "IntentRequest",
+      "rust_name": "IntentRequest",
+      "source": "csdlc-v3/src/application/intent/mod.rs",
+      "fields": [
+        {
+          "name": "schema",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "command",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "content",
+          "type": "Value",
+          "optional": false
+        },
+        {
+          "name": "execute",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "preview",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "snapshot",
+          "type": "Snapshot",
+          "optional": false
+        }
+      ]
     }
-  ]
+  ],
+  "coverage": {
+    "installed_root_commands": 29,
+    "supported_aliases": 1,
+    "root_and_alias_dispositions": 30,
+    "frozen_sim03_predecessor_dispositions": 27,
+    "additional_intents": [
+      "status",
+      "prepare",
+      "recover"
+    ],
+    "simple_issue_subforms": 2
+  }
 }

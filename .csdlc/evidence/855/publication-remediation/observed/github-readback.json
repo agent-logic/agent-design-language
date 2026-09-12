@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.github_readback_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 855,
+  "pull_request": 964,
+  "title": "Runtime: support provider-neutral dynamic agent lifecycle",
+  "head_sha": "d329b40608fe8e39279ff48b6de62ccfb89eefc4",
+  "closes_issue": 855,
+  "closing_issues": [
+    855
+  ],
+  "part_of_issue": null,
+  "source": "github",
+  "observed_by": "github-api-read-only"
+}

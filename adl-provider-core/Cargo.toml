@@ -1,0 +1,26 @@
+[package]
+name = "adl-provider-core"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.92"
+license = "MIT OR Apache-2.0"
+description = "Provider transport adapters and validated definition contracts"
+[dependencies]
+anyhow = "1.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+schemars = "0.8"
+sha2 = "0.10"
+reqwest = { version = "0.12", default-features = false, features = ["json", "blocking", "rustls-tls"] }
+aws-config = "1"
+aws-types = "1"
+libc = "0.2"
+aws-sdk-bedrockruntime = "1"
+aws-sdk-sts = "1"
+fs2 = "0.4"
+tokio = { version = "1", features = ["rt", "time", "process", "io-util"] }
+zeroize = "1"
+[dev-dependencies]
+tiny_http = "0.12"
+tempfile = "3"

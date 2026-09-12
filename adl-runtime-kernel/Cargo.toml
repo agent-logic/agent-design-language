@@ -10,6 +10,7 @@ description = "Independent supervised component runtime kernel proof for ADL"
 test-support = ["dep:tempfile"]
 
 [dependencies]
+adl-provider-core = { path = "../adl-provider-core" }
 fs2 = "0.4"
 async-trait = "0.1"
 axum = { version = "0.8", features = ["ws"] }
@@ -57,6 +58,7 @@ windows-sys = { version = "0.61.2", features = [
 ] }
 
 [dev-dependencies]
+anyhow = "1.0"
 tokio = { version = "1", features = ["test-util"] }
 rand = "0.8"
 rcgen = "0.14"

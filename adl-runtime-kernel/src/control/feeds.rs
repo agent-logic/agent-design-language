@@ -114,6 +114,7 @@ impl AgentPopulationFeed {
             let readiness = InferenceReadinessState::ModelLoading;
             let projection = readiness.projection();
             feed.sample.push(AgentSample {
+                provider_binding: None,
                 id: id.clone(),
                 name: config.name.clone(),
                 label: config.display_name.clone(),
@@ -164,6 +165,7 @@ impl AgentPopulationFeed {
     ) -> Self {
         Self {
             sample: vec![AgentSample {
+                provider_binding: None,
                 id: "shepherd".to_owned(),
                 name: name.into(),
                 label: label.into(),
@@ -488,6 +490,7 @@ impl From<AgentRosterEntry> for AgentSample {
                 .unwrap_or_else(|| "unknown".to_owned())
         };
         Self {
+            provider_binding: agent.provider_binding,
             id: agent.id,
             name: agent.name,
             label: agent.label,
@@ -520,6 +523,8 @@ impl From<AgentRosterEntry> for AgentSample {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentSample {
+    #[serde(default)]
+    pub provider_binding: Option<adl_provider_core::registry::ProviderProjection>,
     pub id: String,
     pub name: String,
     pub label: String,

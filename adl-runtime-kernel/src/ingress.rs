@@ -354,10 +354,10 @@ impl Component for CanonicalIngressComponent {
                             pending.cancellation,
                         )
                         .await;
-                    if result.is_ok() {
-                        self.ingress.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
-                            RuntimeEvent::DomainWorkCompleted, Some(&envelope.correlation_id));
-                    }
+                    // Fixed event codes preserve the failure without exposing provider errors.
+                    let event = if result.is_ok() { RuntimeEvent::DomainWorkCompleted } else { RuntimeEvent::DomainWorkFailed };
+                    self.ingress.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
+                        event, Some(&envelope.correlation_id));
                     let _ = pending.reply.send(result);
                 }
             }

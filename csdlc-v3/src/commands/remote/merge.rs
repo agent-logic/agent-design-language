@@ -374,6 +374,7 @@ pub(super) fn execute(
     let digest = github_mutation_operation_digest(request);
     let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
     let dir = control.join("csdlc-v3/remote/merges");
+    let mut performed_mutation = !dir.exists();
     fs::create_dir_all(&dir).map_err(|_| reject("merge receipt directory unavailable"))?;
     sync_directory_ancestry(&dir, &control, |path| fs::File::open(path)?.sync_all())
         .map_err(|_| reject("merge directory ancestry not durable"))?;
@@ -384,12 +385,13 @@ pub(super) fn execute(
             &request.pull_request.unwrap_or_default().to_string()
         ])
     ));
+    performed_mutation |= !lock_path.exists();
     let lock = fs::OpenOptions::new()
         .create(true)
         .truncate(false)
         .read(true)
         .write(true)
-        .open(lock_path)
+        .open(&lock_path)
         .map_err(|_| reject("merge lock unavailable"))?;
     lock.try_lock_exclusive()
         .map_err(|_| reject("another merge invocation owns this PR"))?;
@@ -397,6 +399,9 @@ pub(super) fn execute(
     let reconciliation_path = dir.join(format!("{digest}.reconciliation.json"));
     let receipt_path = github_mutation_receipt_path(root, &digest)?;
     let replay = intent_path.exists();
+    // A new intent necessarily persists effects; a settled replay only observes
+    // already durable paths and leaves its stored receipt bytes untouched.
+    performed_mutation |= !replay;
     let target_path = dir.join(format!(
         "{}.target.json",
         stable_digest(&[
@@ -579,6 +584,7 @@ pub(super) fn execute(
         )?;
     } else {
         persist_json_create_new(&reconciliation_path, &reconciliation)?;
+        performed_mutation = true;
     }
     let receipt = if receipt_path.exists() {
         let mut receipt = load_mutation_receipt(&receipt_path, &digest)?;
@@ -600,12 +606,11 @@ pub(super) fn execute(
             replay || pr["merged"] == true,
         );
         persist_json_create_new(&receipt_path, &receipt)?;
+        performed_mutation = true;
         receipt
     };
     Ok(GithubMutationResult {
-        // This owner opens durable coordination paths even on replay; it does
-        // not yet expose per-invocation effect accounting.
-        performed_mutation: None,
+        performed_mutation: Some(performed_mutation),
         receipt,
         reconciliation,
         invocation,

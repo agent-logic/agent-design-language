@@ -65,12 +65,63 @@ fn function_flags(source: &str, function: &str) -> BTreeSet<String> {
     result.insert("-h".into());
     result
 }
+fn descriptor_intent_flags(command: &str) -> BTreeSet<String> {
+    let descriptor =
+        csdlc_v3::commands::contract::descriptor(command).expect("documented descriptor");
+    let mut options: BTreeSet<String> = descriptor["input_variants"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|variant| variant["request_type"] == "IntentRequest")
+        .flat_map(|variant| {
+            variant["required_flags"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .chain(variant["optional_flags"].as_array().unwrap())
+        })
+        .map(|flag| flag.as_str().unwrap().to_owned())
+        .collect();
+    if !options.is_empty() {
+        options.extend(["--help".into(), "-h".into()]);
+    }
+    options
+}
+
+fn intent_parity(inventory: &Value, source: &str) -> Result<(), String> {
+    let mut documented_union = BTreeSet::new();
+    for row in inventory["commands"].as_array().unwrap() {
+        let command = row["command"].as_str().unwrap();
+        if command.contains(' ') {
+            continue;
+        }
+        let required = descriptor_intent_flags(command);
+        let documented: BTreeSet<String> = row["intent_options"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .map(|flag| flag.as_str().unwrap().to_owned())
+            .collect();
+        if required != documented {
+            return Err(format!("{command} intent descriptor options differ"));
+        }
+        documented_union.extend(documented);
+    }
+    documented_union.remove("--help");
+    documented_union.remove("-h");
+    if documented_union != flags(source) {
+        return Err("intent parser options differ".into());
+    }
+    Ok(())
+}
+
 fn parity(inventory: &Value, source: &str) -> Result<(), String> {
     let mut expected: BTreeSet<String> = LOCAL_ROUTE_NAMES
         .iter()
         .chain(PROOF_ROUTE_NAMES.iter())
         .chain(REMOTE_PUBLICATION_ROUTE_NAMES.iter())
         .chain(TERMINAL_ROUTE_NAMES.iter())
+        .chain(csdlc_v3::application::intent::INTENTS.iter())
         .map(|s| (*s).into())
         .collect();
     expected.extend(
@@ -98,6 +149,7 @@ fn parity(inventory: &Value, source: &str) -> Result<(), String> {
         let command = row["command"].as_str().unwrap();
         let family = row["family"].as_str().unwrap();
         let mut required = match family {
+            "intent" => descriptor_intent_flags(command),
             "local" => parser_flags(source, "LocalArgs"),
             "remote" => parser_flags(source, "RemoteArgs"),
             "terminal" => parser_flags(source, "TerminalArgs"),
@@ -143,6 +195,14 @@ fn command_and_parser_option_inventory_is_complete() {
     let inventory = json_file("inventory.json");
     let source = fs::read_to_string(root().join("csdlc-v3/src/main.rs")).unwrap();
     parity(&inventory, &source).unwrap();
+    let intent_source =
+        fs::read_to_string(root().join("csdlc-v3/src/application/intent/mod.rs")).unwrap();
+    intent_parity(&inventory, &intent_source).unwrap();
+    assert_eq!(inventory["coverage"]["installed_root_commands"], 29);
+    assert_eq!(
+        inventory["coverage"]["frozen_sim03_predecessor_dispositions"],
+        27
+    );
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
         .arg("--help")
         .output()
@@ -158,7 +218,7 @@ fn command_and_parser_option_inventory_is_complete() {
     for line in help.lines().filter(|line| line.starts_with("  ")) {
         let command = line
             .split_whitespace()
-            .take_while(|part| !part.starts_with("--"))
+            .take_while(|part| !part.starts_with("--") && !part.starts_with('<'))
             .collect::<Vec<_>>()
             .join(" ");
         assert!(
@@ -180,7 +240,12 @@ fn command_and_parser_option_inventory_is_complete() {
             .find(|p| p["name"] == page_name)
             .unwrap();
         let prose = serde_json::to_string(page).unwrap();
-        for option in row["options"].as_array().unwrap() {
+        for option in row["options"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .chain(row["intent_options"].as_array().into_iter().flatten())
+        {
             assert!(
                 prose.contains(option.as_str().unwrap()),
                 "{page_name} lacks {option}"
@@ -240,6 +305,25 @@ fn parity_rejects_new_command_or_option_without_manual_coverage() {
     assert!(parity(&missing, &source)
         .unwrap_err()
         .contains("denominator"));
+    let intent_source =
+        fs::read_to_string(root().join("csdlc-v3/src/application/intent/mod.rs")).unwrap();
+    let changed_intent = format!("{intent_source}\n// parser extension \"--new-intent-option\"\n");
+    assert!(intent_parity(&inventory, &changed_intent)
+        .unwrap_err()
+        .contains("parser options differ"));
+    let mut missing_intent = inventory.clone();
+    missing_intent["commands"]
+        .as_array_mut()
+        .unwrap()
+        .iter_mut()
+        .find(|row| row["command"] == "status")
+        .unwrap()["intent_options"]
+        .as_array_mut()
+        .unwrap()
+        .pop();
+    assert!(intent_parity(&missing_intent, &intent_source)
+        .unwrap_err()
+        .contains("descriptor options differ"));
     let mut invented = inventory;
     invented["commands"]
         .as_array_mut()

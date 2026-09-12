@@ -1,3 +1,4 @@
+pub mod intent;
 use crate::repository::RepositoryContext;
 use markdown::{to_mdast, ParseOptions};
 use serde_json::Value;

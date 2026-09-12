@@ -6,6 +6,7 @@ version = 4
 name = "adl"
 version = "0.92.1"
 dependencies = [
+ "adl-provider-core",
  "adl-runtime",
  "adl-runtime-kernel",
  "adl-uts",
@@ -79,6 +80,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "adl-provider-core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aws-config",
+ "aws-sdk-bedrockruntime",
+ "aws-sdk-sts",
+ "aws-types",
+ "fs2",
+ "libc",
+ "reqwest 0.12.28",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2 0.10.9",
+ "tokio",
+ "zeroize",
+]
+
+[[package]]
 name = "adl-resilience"
 version = "0.92.1"
 dependencies = [
@@ -127,6 +149,7 @@ dependencies = [
 name = "adl-runtime-kernel"
 version = "0.92.1"
 dependencies = [
+ "adl-provider-core",
  "async-trait",
  "axum 0.8.9",
  "axum-server",

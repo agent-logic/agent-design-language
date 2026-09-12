@@ -1480,6 +1480,7 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
             rendered_sample_count: 2,
             sample: vec![
                 adl_runtime_kernel::AgentSample {
+                    provider_binding: None,
                     id: "agent-00001".to_owned(),
                     name: "agent-00001.runtime".to_owned(),
                     label: "Runtime agent 1".to_owned(),
@@ -1508,6 +1509,7 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     provenance: "test_fixture".to_owned(),
                 },
                 adl_runtime_kernel::AgentSample {
+                    provider_binding: None,
                     id: "agent-00002".to_owned(),
                     name: "agent-00002.runtime".to_owned(),
                     label: "Runtime agent 2".to_owned(),

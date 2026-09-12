@@ -1,0 +1,14 @@
+{
+  "baseline": {
+    "archive": "baseline.tar.gz",
+    "sha256": "40a04c82ed006bfa90a42a574c42ccc193795723ed7fd4abc93b357855b4e97d",
+    "inventory_sha256": "239bd453bd5c11d42c0cf33f6d3777623d93ff91160a3acbe602c71c0a49dcb5",
+    "files": 142
+  },
+  "candidate": {
+    "archive": "candidate.tar.gz",
+    "sha256": "6d7db2a09de88a0b07ba6b7ca0ead1e60b3cf55dfd8f89c766fbb1f522bad3d4",
+    "inventory_sha256": "8c9bf1a87bdfdf13ba33b43b9c846766fe76998a3fa3a3fb9ba9e35c4fc538ae",
+    "files": 142
+  }
+}

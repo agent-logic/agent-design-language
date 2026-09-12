@@ -1,0 +1,33 @@
+.TH "CSDLC-STATUS" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-status \- observe one issue without running its validators
+.SH SYNOPSIS
+.nf
+\&csdlc status ISSUE [\-\-decisions DECISIONS.json] [\-\-repo\-root ROOT] [\-\-json]
+\&csdlc status ISSUE \-\-emit\-request
+\&csdlc status \-\-intent\-request REQUEST.json
+.fi
+.SH DESCRIPTION
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&Resolve the canonical issue, bound checkout, authority and version; call the existing doctor, eligibility, schedule and shepherd owners. Report actual validation findings, proof currency and allowed next intents without executing validators.
+.PP
+\&Dependency completion and budget acceptance remain explicit operator decisions. A report is not authorization to begin a later sprint child. Missing or ambiguous identity fails closed; observation does not replay a pending transaction.
+.PP
+\&The generated wrapper emitted by \-\-emit\-request can be passed directly to \-\-intent\-request; the inner request is also accepted.
+.PP
+\&Status invokes doctor, eligibility, schedule and shepherd observation owners. Optional \-\-decisions contains strict optional design_ready/dependencies_ready/budget_available booleans plus retryable_failure and operator_decision_needed booleans defaulting false. Absent design/dependency/budget decisions require explicit operator input, never inferred completion.
+.SH OUTPUT
+\&Machine JSON uses the common command\-result envelope. Interpret status, authority, effects and findings independently. An emitted request is a snapshot, not execution. Foreign\-platform snapshot rejection is not non\-Unix execution proof.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1), docs/csdlc\-v3/INTENT_COMMANDS.md.
+.SH OPTIONS
+\&Supported candidate intent options: \-\-decisions, \-\-emit\-request, \-\-help, \-\-intent\-request, \-\-json, \-\-repo\-root, \-h. Positional ISSUE is positive; \-\-help and \-h are standalone discovery.
+.SH EXAMPLES
+.nf
+\&csdlc status ISSUE [\-\-repo\-root ROOT] [\-\-json]
+\&csdlc status ISSUE \-\-emit\-request
+\&csdlc status \-\-intent\-request REQUEST.json
+.fi
+.PP
+\&These forms require a supporting selected candidate; they do not upgrade the active binary or authorize activation.

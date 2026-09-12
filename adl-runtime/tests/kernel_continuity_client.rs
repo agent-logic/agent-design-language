@@ -752,27 +752,38 @@ fn actual_tls13_mtls_round_trip() -> TlsBehaviorProof {
 
         let mut roots = RootCertStore::empty();
         roots.add(authority.der().clone()).unwrap();
-        let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
-            .build()
-            .unwrap();
+        let verifier = WebPkiClientVerifier::builder_with_provider(
+            Arc::new(roots.clone()),
+            Arc::new(rustls::crypto::aws_lc_rs::default_provider()),
+        )
+        .build()
+        .unwrap();
         let server_config = Arc::new(
-            ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
-                .with_client_cert_verifier(verifier)
-                .with_single_cert(
-                    vec![server.certificate.clone()],
-                    private_key(&server.private_key),
-                )
-                .unwrap(),
+            ServerConfig::builder_with_provider(Arc::new(
+                rustls::crypto::aws_lc_rs::default_provider(),
+            ))
+            .with_protocol_versions(&[&rustls::version::TLS13])
+            .unwrap()
+            .with_client_cert_verifier(verifier)
+            .with_single_cert(
+                vec![server.certificate.clone()],
+                private_key(&server.private_key),
+            )
+            .unwrap(),
         );
 
         let client_config = Arc::new(
-            ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
-                .with_root_certificates(roots.clone())
-                .with_client_auth_cert(
-                    vec![guardian.certificate.clone()],
-                    private_key(&guardian.private_key),
-                )
-                .unwrap(),
+            ClientConfig::builder_with_provider(Arc::new(
+                rustls::crypto::aws_lc_rs::default_provider(),
+            ))
+            .with_protocol_versions(&[&rustls::version::TLS13])
+            .unwrap()
+            .with_root_certificates(roots.clone())
+            .with_client_auth_cert(
+                vec![guardian.certificate.clone()],
+                private_key(&guardian.private_key),
+            )
+            .unwrap(),
         );
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let address = listener.local_addr().unwrap();
@@ -821,30 +832,41 @@ fn actual_tls13_mtls_round_trip() -> TlsBehaviorProof {
             ExtendedKeyUsagePurpose::ClientAuth,
         );
         let older_client = Arc::new(
-            ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS12])
-                .with_root_certificates(roots.clone())
-                .with_client_auth_cert(
-                    vec![valid_guardian.certificate.clone()],
-                    private_key(&valid_guardian.private_key),
-                )
-                .unwrap(),
+            ClientConfig::builder_with_provider(Arc::new(
+                rustls::crypto::aws_lc_rs::default_provider(),
+            ))
+            .with_protocol_versions(&[&rustls::version::TLS12])
+            .unwrap()
+            .with_root_certificates(roots.clone())
+            .with_client_auth_cert(
+                vec![valid_guardian.certificate.clone()],
+                private_key(&valid_guardian.private_key),
+            )
+            .unwrap(),
         );
-        let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
-            .build()
-            .unwrap();
+        let verifier = WebPkiClientVerifier::builder_with_provider(
+            Arc::new(roots.clone()),
+            Arc::new(rustls::crypto::aws_lc_rs::default_provider()),
+        )
+        .build()
+        .unwrap();
         let tls13_server = tls_leaf(
             &authority,
             "kernel-control",
             ExtendedKeyUsagePurpose::ServerAuth,
         );
         let tls13_server = Arc::new(
-            ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
-                .with_client_cert_verifier(verifier)
-                .with_single_cert(
-                    vec![tls13_server.certificate],
-                    private_key(&tls13_server.private_key),
-                )
-                .unwrap(),
+            ServerConfig::builder_with_provider(Arc::new(
+                rustls::crypto::aws_lc_rs::default_provider(),
+            ))
+            .with_protocol_versions(&[&rustls::version::TLS13])
+            .unwrap()
+            .with_client_cert_verifier(verifier)
+            .with_single_cert(
+                vec![tls13_server.certificate],
+                private_key(&tls13_server.private_key),
+            )
+            .unwrap(),
         );
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let address = listener.local_addr().unwrap();
@@ -869,26 +891,37 @@ fn actual_tls13_mtls_round_trip() -> TlsBehaviorProof {
             "kernel-control",
             ExtendedKeyUsagePurpose::ClientAuth,
         );
-        let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
-            .build()
-            .unwrap();
+        let verifier = WebPkiClientVerifier::builder_with_provider(
+            Arc::new(roots.clone()),
+            Arc::new(rustls::crypto::aws_lc_rs::default_provider()),
+        )
+        .build()
+        .unwrap();
         let bad_server = Arc::new(
-            ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
-                .with_client_cert_verifier(verifier)
-                .with_single_cert(
-                    vec![bad_server.certificate],
-                    private_key(&bad_server.private_key),
-                )
-                .unwrap(),
+            ServerConfig::builder_with_provider(Arc::new(
+                rustls::crypto::aws_lc_rs::default_provider(),
+            ))
+            .with_protocol_versions(&[&rustls::version::TLS13])
+            .unwrap()
+            .with_client_cert_verifier(verifier)
+            .with_single_cert(
+                vec![bad_server.certificate],
+                private_key(&bad_server.private_key),
+            )
+            .unwrap(),
         );
         let valid_client = Arc::new(
-            ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
-                .with_root_certificates(roots.clone())
-                .with_client_auth_cert(
-                    vec![valid_guardian.certificate],
-                    private_key(&valid_guardian.private_key),
-                )
-                .unwrap(),
+            ClientConfig::builder_with_provider(Arc::new(
+                rustls::crypto::aws_lc_rs::default_provider(),
+            ))
+            .with_protocol_versions(&[&rustls::version::TLS13])
+            .unwrap()
+            .with_root_certificates(roots.clone())
+            .with_client_auth_cert(
+                vec![valid_guardian.certificate],
+                private_key(&valid_guardian.private_key),
+            )
+            .unwrap(),
         );
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let address = listener.local_addr().unwrap();
@@ -911,30 +944,38 @@ fn actual_tls13_mtls_round_trip() -> TlsBehaviorProof {
         let mut denied_results = Vec::new();
         for denied in [server_only, unknown] {
             let client = Arc::new(
-                ClientConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
-                    .with_root_certificates(roots.clone())
-                    .with_client_auth_cert(
-                        vec![denied.certificate],
-                        private_key(&denied.private_key),
-                    )
-                    .unwrap(),
+                ClientConfig::builder_with_provider(Arc::new(
+                    rustls::crypto::aws_lc_rs::default_provider(),
+                ))
+                .with_protocol_versions(&[&rustls::version::TLS13])
+                .unwrap()
+                .with_root_certificates(roots.clone())
+                .with_client_auth_cert(vec![denied.certificate], private_key(&denied.private_key))
+                .unwrap(),
             );
-            let verifier = WebPkiClientVerifier::builder(Arc::new(roots.clone()))
-                .build()
-                .unwrap();
+            let verifier = WebPkiClientVerifier::builder_with_provider(
+                Arc::new(roots.clone()),
+                Arc::new(rustls::crypto::aws_lc_rs::default_provider()),
+            )
+            .build()
+            .unwrap();
             let server_leaf = tls_leaf(
                 &authority,
                 "kernel-control",
                 ExtendedKeyUsagePurpose::ServerAuth,
             );
             let server = Arc::new(
-                ServerConfig::builder_with_protocol_versions(&[&rustls::version::TLS13])
-                    .with_client_cert_verifier(verifier)
-                    .with_single_cert(
-                        vec![server_leaf.certificate],
-                        private_key(&server_leaf.private_key),
-                    )
-                    .unwrap(),
+                ServerConfig::builder_with_provider(Arc::new(
+                    rustls::crypto::aws_lc_rs::default_provider(),
+                ))
+                .with_protocol_versions(&[&rustls::version::TLS13])
+                .unwrap()
+                .with_client_cert_verifier(verifier)
+                .with_single_cert(
+                    vec![server_leaf.certificate],
+                    private_key(&server_leaf.private_key),
+                )
+                .unwrap(),
             );
             let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
             let address = listener.local_addr().unwrap();

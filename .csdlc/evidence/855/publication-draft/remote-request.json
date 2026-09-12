@@ -1,0 +1,23 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "issue": 855,
+  "pull_request": 964,
+  "implementer": "execute_855",
+  "reviewer": "root",
+  "review_revision": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+  "expected_head_sha": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+  "head_sha": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+  "mode": "closing",
+  "body": "Route dynamic agent admission, replacement and conversation execution through the process-owned canonical provider registry. The new provider core preserves existing ADL adapters and validated profile reloads while exposing safe model, capability and health projections. Operator and signed A2A execution, checkpoint/migration/rehydration and removal work without Runtime restart.\n\nLocal validation: 94 provider-core tests plus the focused Runtime mock-bound test; 85 kernel control tests; 18 ADL compatibility tests; seven CLI lifecycle tests; eleven API contracts; affected Clippy and CI routing checks. The installed five-provider fixture matrix and three-provider hosted-topology fixture pass. Independent review findings on cancellation/deadlines, health publication and action accounting are resolved. Proof records distinguish source and installed-binary revisions.\n\nThis is a draft: actual hosted qualification is authorized but pending Google authentication setup, and required CI has not yet run. The failed hosted preflight dispatched no model requests. Fixtures are not claimed as live vendor proof; no merge readiness or issue completion is claimed.\n\nCloses #855\nPart of #928.\n",
+  "review_present": true,
+  "credential_names": [
+    "GITHUB_TOKEN"
+  ],
+  "typed_review_receipt_path": ".csdlc/evidence/855/publication-draft/typed-review-receipt.json",
+  "typed_review_receipt_digest": "a4cf521fa3f83e30eb031a0d43f77c830d020bb4446a1d8185343d8c9d8ae73f",
+  "closes_issue": 855,
+  "closing_issues": [
+    855
+  ],
+  "part_of_issue": 928
+}
