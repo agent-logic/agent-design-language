@@ -17,7 +17,7 @@ fn admitted(path: &str, issue: u64) -> bool {
     .iter()
     .any(|prefix| path.starts_with(prefix))
         || path == format!(".csdlc/locks/{issue}.lock")
-        || path == format!(".csdlc/v3/issues/{issue}/state.json")
+        || path.starts_with(&format!(".csdlc/v3/issues/{issue}/"))
 }
 fn git_bytes(root: &Path, args: &[&str]) -> Result<Vec<u8>, TerminalFinding> {
     let out = std::process::Command::new("git")
@@ -208,7 +208,7 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
         format!(".csdlc/issues/{issue}"),
         format!(".csdlc/evidence/{issue}"),
         format!(".csdlc/transactions/completed/{issue}"),
-        format!(".csdlc/v3/issues/{issue}/state.json"),
+        format!(".csdlc/v3/issues/{issue}"),
     ] {
         let path = candidate.join(relative);
         // Intermediate symlinks cannot redirect traversal into another tree.
@@ -472,6 +472,7 @@ pub(super) fn execute(
     let index = format!(".csdlc/issues/{issue}/index.json");
     let mut paths: Vec<_> = archive.entries.keys().collect();
     paths.sort_by_key(|path| *path == &index);
+    let mut removed_non_index = false;
     for relative in paths {
         let source = candidate.join(relative);
         if fingerprint(&source)? != archive.entries[relative] {
@@ -486,6 +487,15 @@ pub(super) fn execute(
                 "removal interrupted; all original bytes remain in the verified archive",
             )
         })?;
+        if relative != &index && !removed_non_index {
+            removed_non_index = true;
+            #[cfg(debug_assertions)]
+            if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+                == Ok("cleanup_after_first_source_removal")
+            {
+                std::process::exit(91);
+            }
+        }
         let mut parent = source.parent();
         while let Some(directory) = parent {
             if directory == candidate || directory == candidate.join(".csdlc") {
@@ -516,6 +526,7 @@ fn retained_archive(
     primary: &Path,
     candidate: &Path,
     issue: u64,
+    expected_digest: Option<&str>,
 ) -> Result<Option<(Value, Value)>, TerminalFinding> {
     let state = crate::commands::local::operational_state_root(primary).map_err(|_| {
         finding(
@@ -541,6 +552,9 @@ fn retained_archive(
         let name = entry.file_name();
         let name = name.to_string_lossy();
         if !name.starts_with(&format!("{issue}-intent-")) {
+            continue;
+        }
+        if expected_digest.is_some_and(|digest| name != format!("{issue}-intent-{digest}")) {
             continue;
         }
         let directory = entry.path();
@@ -660,7 +674,52 @@ pub(super) fn retained_index(
     candidate: &Path,
     issue: u64,
 ) -> Result<Option<Value>, TerminalFinding> {
-    retained_archive(primary, candidate, issue).map(|record| record.map(|(index, _)| index))
+    retained_archive(primary, candidate, issue, None).map(|record| record.map(|(index, _)| index))
+}
+
+pub(super) fn matching_retained_index(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+    digest: &str,
+) -> Result<Option<Value>, TerminalFinding> {
+    retained_archive(primary, candidate, issue, Some(digest))
+        .map(|record| record.map(|(index, _)| index))
+}
+
+pub(super) fn matching_retained_semantic_identity(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+    expected: &[u8],
+) -> Result<Option<Vec<u8>>, TerminalFinding> {
+    let expected: Value = serde_json::from_slice(expected).map_err(|_| {
+        finding(
+            "cleanup_archive_manifest_invalid",
+            "retained semantic archive identity is invalid",
+        )
+    })?;
+    let digest = expected["inventory_digest"].as_str().ok_or_else(|| {
+        finding(
+            "cleanup_archive_manifest_invalid",
+            "retained semantic archive digest is missing",
+        )
+    })?;
+    let Some((_, identity)) = retained_archive(primary, candidate, issue, Some(digest))? else {
+        return Ok(None);
+    };
+    if identity != expected {
+        return Err(finding(
+            "cleanup_archive_verification_failed",
+            "retained archive does not match the pending semantic identity",
+        ));
+    }
+    serde_json::to_vec(&identity).map(Some).map_err(|_| {
+        finding(
+            "cleanup_archive_manifest_invalid",
+            "cannot serialize retained archive identity",
+        )
+    })
 }
 
 /// Exact verified archive input identity, reproducible after source removal.
@@ -671,7 +730,12 @@ pub(super) fn semantic_identity(
     candidate: &Path,
     issue: u64,
 ) -> Result<Vec<u8>, TerminalFinding> {
-    let identity = if let Some((_, identity)) = retained_archive(primary, candidate, issue)? {
+    let live_index = candidate.join(format!(".csdlc/issues/{issue}/index.json"));
+    let identity = if live_index.exists() {
+        let archive = preview(candidate, issue)?;
+        json!({"schema":"csdlc.v3.semantic_cleanup_archive_identity.v1",
+            "issue":issue,"candidate":candidate,"inventory_digest":archive.digest,"files":archive.entries})
+    } else if let Some((_, identity)) = retained_archive(primary, candidate, issue, None)? {
         identity
     } else {
         let archive = preview(candidate, issue)?;

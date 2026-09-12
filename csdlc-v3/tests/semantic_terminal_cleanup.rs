@@ -7,6 +7,7 @@ use csdlc_v3::storage::{
 use serde_json::{json, Value};
 use std::{fs, process::Output};
 #[path = "support/intent_fixture.rs"]
+#[allow(dead_code)]
 mod intent_fixture;
 use intent_fixture::Fixture;
 
@@ -25,17 +26,17 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
     let primary = fixture.root.clone();
     let plan = fixture.write_json("semantic-plan.json", &json!({
         "schema":"csdlc.v3.intent_plan.v1","slug":"semantic-terminal-cleanup",
-        "cards":{"sip":{},"stp":{},"spp":{},"vpp":{},"srp":{},"sor":{}},
+        "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"terminal cleanup","deliverables_inline":"Record terminal state and remove the checkout","validation_plan_inline":"Installed terminal recovery journey","acceptance_criteria_inline":"Exact interrupted cleanup resumes once","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
         "validators":[{"id":"fixture-proof","program":"cargo","args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline"],"success_marker":"test result: ok."}],
-        "publication":{"base":"main","title":"Semantic terminal fixture","body":"Closes #505","draft":true}
+        "publication":{"base":"main","title":"Semantic terminal fixture","body":"Closes #870","draft":true}
     }));
     success(fixture.run(
         &primary,
-        &["prepare", "505", "--plan", plan.to_str().unwrap()],
+        &["prepare", "870", "--plan", plan.to_str().unwrap()],
     ));
-    success(fixture.run(&primary, &["bind", "505"]));
+    success(fixture.run(&primary, &["bind", "870"]));
     let binding: Value = serde_json::from_slice(
-        &fs::read(primary.join(".git/csdlc-v3/local/bindings/505.json")).unwrap(),
+        &fs::read(primary.join(".git/csdlc-v3/local/bindings/870.json")).unwrap(),
     )
     .unwrap();
     let linked = std::path::PathBuf::from(binding["worktree"].as_str().unwrap());
@@ -54,7 +55,7 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         &linked,
         &[
             "finish",
-            "505",
+            "870",
             "--disposition",
             disposition.to_str().unwrap(),
             "--preview",
@@ -70,18 +71,18 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         &linked,
         &[
             "finish",
-            "505",
+            "870",
             "--disposition",
             disposition.to_str().unwrap(),
         ],
     ));
     // Use authenticated fixture repository identity from the native binding/card.
     let index: Value =
-        serde_json::from_slice(&fs::read(linked.join(".csdlc/issues/505/index.json")).unwrap())
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/issues/870/index.json")).unwrap())
             .unwrap();
     let repository = index["repository"].as_str().unwrap();
     let root = SemanticRoot::from_git_common(primary.join(".git"), repository).unwrap();
-    let key = IssueKey::new(repository, 505).unwrap();
+    let key = IssueKey::new(repository, 870).unwrap();
     let snapshot = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
         Observation::Current(s) | Observation::ProjectionRepairRequired(s) => s,
         other => panic!("{other:?}"),
@@ -95,7 +96,7 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         &linked,
         &[
             "finish",
-            "505",
+            "870",
             "--disposition",
             disposition.to_str().unwrap(),
         ],
@@ -109,7 +110,7 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         "replay erased historical write"
     );
     let before = intent_fixture::inventory(&primary);
-    let preview = success(fixture.run(&linked, &["clean", "505", "--preview", "plan"]));
+    let preview = success(fixture.run(&linked, &["clean", "870", "--preview", "plan"]));
     assert_eq!(
         before,
         intent_fixture::inventory(&primary),
@@ -119,13 +120,26 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         .as_str()
         .or_else(|| preview["preview_token"].as_str())
         .expect("cleanup token");
-    let interrupted = fixture.interrupt_clean_after_index_removal(
+    let interrupted = fixture.run_with_env(
         &primary,
-        &["clean", "505", "--execute", "--preview", token],
+        &["clean", "870", "--execute", "--preview", token],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "cleanup_after_first_source_removal",
+        )],
     );
-    assert!(!interrupted.status.success());
+    assert_eq!(interrupted.status.code(), Some(91));
     assert!(linked.exists());
-    assert!(!linked.join(".csdlc/issues/505/index.json").exists());
+    assert!(linked.join(".csdlc/issues/870/index.json").exists());
+    assert!(primary
+        .join(".git/csdlc-v3/local/archives")
+        .read_dir()
+        .unwrap()
+        .any(|entry| entry
+            .unwrap()
+            .file_name()
+            .to_string_lossy()
+            .starts_with("870-intent-")));
     let pending = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
         Observation::Current(s) | Observation::ProjectionRepairRequired(s) => s,
         other => panic!("{other:?}"),
@@ -136,7 +150,7 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         .id()
         .clone();
     let before = intent_fixture::inventory(&primary);
-    let resumed = success(fixture.run(&primary, &["clean", "505"]));
+    let resumed = success(fixture.run(&primary, &["clean", "870"]));
     assert_eq!(
         before,
         intent_fixture::inventory(&primary),
@@ -145,7 +159,7 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
     let resumed_token = resumed["preview_token"].as_str().expect("recovery token");
     success(fixture.run(
         &primary,
-        &["clean", "505", "--execute", "--preview", resumed_token],
+        &["clean", "870", "--execute", "--preview", resumed_token],
     ));
     assert!(!linked.exists());
     let after = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
@@ -172,7 +186,7 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         "removal lost semantic outcome"
     );
     let before = intent_fixture::inventory(&primary);
-    success(fixture.run(&primary, &["clean", "505"]));
+    success(fixture.run(&primary, &["clean", "870"]));
     assert_eq!(
         before,
         intent_fixture::inventory(&primary),

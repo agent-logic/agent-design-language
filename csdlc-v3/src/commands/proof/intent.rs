@@ -37,6 +37,77 @@ impl ProofExecution {
             "execution_finding":self.execution_finding})
     }
 }
+
+pub(crate) fn receipt_from_semantic_execution(
+    context: &Context,
+    execution: &Value,
+) -> Result<Value, String> {
+    if execution["schema"] != "csdlc.v3.validator_effect_outcome.v1"
+        || !execution["validators"].is_array()
+        || !execution["inputs_unchanged"].is_boolean()
+    {
+        return Err("intent_semantic_proof_execution_invalid".into());
+    }
+    let passed = execution["passed"] == true;
+    let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1",
+        "issue":context.issue,"repository":context.repository,"head":context.head,
+        "issue_digest":context.index["digest"],"validators":execution["validators"],
+        "status":if passed{"passed"}else{"failed"},
+        "inputs_unchanged":execution["inputs_unchanged"],
+        "input_revalidation":execution["input_revalidation"],
+        "execution_finding":execution["execution_finding"]});
+    receipt["payload_digest"] = blake3::hash(&canonical_json(&receipt))
+        .to_hex()
+        .to_string()
+        .into();
+    Ok(receipt)
+}
+
+/// Observe output confinement before reserving or launching validator effects.
+/// The write owner repeats this guard when publishing the eventual projection.
+pub(crate) fn admit_semantic_proof_projection(context: &Context) -> Result<(), String> {
+    confined_output_file(
+        &context.root,
+        &format!(".csdlc/v3/issues/{}/proof.json", context.issue),
+    )
+    .map(|_| ())
+    .map_err(|finding| finding.code.to_owned())
+}
+
+pub(crate) fn write_semantic_proof_projection(
+    context: &Context,
+    receipt: &Value,
+) -> Result<String, String> {
+    let binding = ProofWorktreeBinding {
+        worktree: context.root.clone(),
+        branch: context.branch.clone(),
+        exact_head: context.head.clone(),
+        git_common_dir: context.git_common.clone(),
+        generation: context.index["generation"]
+            .as_u64()
+            .ok_or("intent_issue_generation_missing")?,
+        lifecycle_digest: context.index["digest"]
+            .as_str()
+            .ok_or("intent_issue_digest_missing")?
+            .into(),
+    };
+    let request = ProofRouteRequest {
+        issue: context.issue,
+        repository: context.repository.clone(),
+        binding: Some(binding),
+        cutover_issue: None,
+        operator_approval: None,
+        evidence_root: Some(context.root.to_string_lossy().into_owned()),
+        proof: None,
+        shadow: None,
+        soak: None,
+        install: None,
+    };
+    authorize_worktree(&request, Some(&context.root)).map_err(|finding| finding.code)?;
+    let reference = format!(".csdlc/v3/issues/{}/proof.json", context.issue);
+    write_canonical_evidence(&request, &reference, receipt).map_err(|finding| finding.code)?;
+    Ok(reference)
+}
 /// Missing cleanup testimony is also unresolved; performed work remains performed.
 pub(crate) fn cleanup_complete(records: &[Value]) -> bool {
     records

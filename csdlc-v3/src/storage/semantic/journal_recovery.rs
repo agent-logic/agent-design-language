@@ -34,6 +34,13 @@ pub struct JournalRecoveryApproval {
     digest: Digest,
 }
 impl JournalRecoveryApproval {
+    #[cfg_attr(
+        not(test),
+        expect(
+            dead_code,
+            reason = "reserved for the explicit native journal recovery route"
+        )
+    )]
     pub(crate) fn from_native_owner(preview: &JournalRecoveryPreview) -> Self {
         Self {
             digest: preview.digest.clone(),

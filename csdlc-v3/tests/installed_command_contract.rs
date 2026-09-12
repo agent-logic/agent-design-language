@@ -212,7 +212,12 @@ fn installed_bad_requests_in_primary_and_real_linked_checkout_never_fall_back() 
             assert!(!output.status.success(), "{route}: {output:?}");
             let report: Value = serde_json::from_slice(&output.stdout).unwrap();
             assert_eq!(
-                report["envelope"]["reason_code"], "typed_contract_invalid_json",
+                report["envelope"]["reason_code"],
+                if matches!(route, "issue" | "bind" | "edit") {
+                    "legacy_writer_retired"
+                } else {
+                    "typed_contract_invalid_json"
+                },
                 "{route}: {report}"
             );
             assert_eq!(report["envelope"]["process_status"], "failed");
@@ -378,6 +383,10 @@ fn installed_valid_local_input_rejects_stale_authority_but_explicit_inspection_i
                 assert!(output.status.success(), "{report}");
                 assert_eq!(report["operational_authority"], false);
                 assert_eq!(report["envelope"]["effects"]["outcome"], "none");
+            } else if route == "issue" {
+                assert!(!output.status.success(), "{report}");
+                assert_eq!(report["envelope"]["reason_code"], "legacy_writer_retired");
+                assert_eq!(report["envelope"]["effects"]["outcome"], "none");
             } else {
                 assert!(!output.status.success(), "{report}");
                 assert_eq!(
@@ -434,6 +443,8 @@ fn every_frozen_installed_route_dispatches_and_required_flags_are_enforced() {
                     historical.to_str().unwrap().into()
                 }
                 "--request" => request.to_str().unwrap().into(),
+                "--plan" | "--changes" | "--evidence" | "--operation" | "--decisions"
+                | "--disposition" => request.to_str().unwrap().into(),
                 "--registry" => registry.to_str().unwrap().into(),
                 "--registrations" => registrations.to_str().unwrap().into(),
                 "--repo-root" if name == "foundation" => install
@@ -457,16 +468,14 @@ fn every_frozen_installed_route_dispatches_and_required_flags_are_enforced() {
             assert_eq!(report["envelope"]["command"], name);
             let rendered = report.to_string();
             let expected = match name {
-                "local" | "issue" | "bind" | "edit" | "doctor" | "validate" | "eligibility"
-                | "schedule" | "shepherd" => "typed_contract_invalid_json",
+                "issue" | "bind" | "edit" | "proof" | "github" | "github-issue" | "github-pr"
+                | "review" | "publish" | "finish" | "clean" | "install" | "cutover"
+                | "rollback" => "legacy_writer_retired",
+                "local" | "doctor" | "validate" | "eligibility" | "schedule" | "shepherd" => {
+                    "typed_contract_invalid_json"
+                }
                 "shadow" | "soak" => "historical_route_disabled",
-                "install" | "proof" => "invalid request json",
-                "github" | "github-issue" | "github-pr" | "pr-state" | "review" | "publish" => {
-                    "typed_remote_request_invalid_json"
-                }
-                "finish" | "clean" | "cutover" | "rollback" => {
-                    "typed_terminal_request_invalid_json"
-                }
+                "pr-state" => "typed_remote_request_invalid_json",
                 "sprint" => "RequestInvalidJson",
                 "release-preflight" => "release request malformed",
                 "foundation" => "absent-repository",
@@ -493,8 +502,29 @@ fn every_frozen_installed_route_dispatches_and_required_flags_are_enforced() {
             let output = install.run(&install.root, &missing);
             assert!(!output.status.success(), "{name} accepted missing {}", flag);
             let report: Value = serde_json::from_slice(&output.stdout).unwrap();
+            let expected = if matches!(
+                name,
+                "issue"
+                    | "bind"
+                    | "edit"
+                    | "proof"
+                    | "github"
+                    | "github-issue"
+                    | "github-pr"
+                    | "review"
+                    | "publish"
+                    | "finish"
+                    | "clean"
+                    | "install"
+                    | "cutover"
+                    | "rollback"
+            ) {
+                "legacy_writer_retired"
+            } else {
+                "usage:"
+            };
             assert!(
-                report.to_string().contains("usage:"),
+                report.to_string().contains(expected),
                 "{name} missingflag stage: {report}"
             );
             assert_eq!(installed_contract::inventory(&install.root), before);
@@ -512,4 +542,107 @@ fn every_frozen_installed_route_dispatches_and_required_flags_are_enforced() {
         }
     }
     assert_eq!(installed_contract::inventory(&install.root), before);
+}
+
+/// PVF #870: required deterministic installed tooling guard; local disk only.
+/// Instrument every subprocess candidate so refusal cannot conceal remote dispatch.
+#[test]
+fn installed_legacy_writers_are_retired_before_request_or_transport_effects() {
+    let install = Installation::new();
+    let rows: Value =
+        serde_json::from_slice(&install.run(&install.root, &["--contract"]).stdout).unwrap();
+    let retired = [
+        "issue",
+        "bind",
+        "edit",
+        "proof",
+        "github",
+        "github-issue",
+        "github-pr",
+        "review",
+        "publish",
+        "finish",
+        "clean",
+    ];
+    let selected: BTreeSet<_> = rows["commands"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .chain(rows["aliases"].as_array().unwrap())
+        .filter_map(|row| row["command"].as_str())
+        .filter(|name| retired.contains(name))
+        .collect();
+    assert_eq!(selected, retired.into_iter().collect());
+    let traps = install.root.join("traps");
+    fs::create_dir(&traps).unwrap();
+    let marker = install.root.join("subprocess-effect");
+    #[cfg(unix)]
+    for name in ["git", "curl", "gh", "cargo"] {
+        use std::os::unix::fs::PermissionsExt;
+        let path = traps.join(name);
+        fs::write(
+            &path,
+            "#!/bin/sh\nprintf invoked > \"$CSDLC_GUARD_MARKER\"\nexit 97\n",
+        )
+        .unwrap();
+        fs::set_permissions(path, fs::Permissions::from_mode(0o755)).unwrap();
+    }
+    let request = install.root.join("request.json");
+    fs::write(
+        &request,
+        br#"{"execute":true,"remove":true,"commands":["issue","bind","edit"]}"#,
+    )
+    .unwrap();
+    let before = installed_contract::inventory(&install.root);
+    for name in selected {
+        for flags in [
+            vec![name, "--request", request.to_str().unwrap()],
+            vec![
+                name,
+                "--request",
+                request.to_str().unwrap(),
+                "--execute",
+                "--observe-github",
+            ],
+            vec![
+                name,
+                "--request",
+                "unreadable-request",
+                "--v3-state-root",
+                "must-not-exist",
+            ],
+        ] {
+            let output = std::process::Command::new(&install.binary)
+                .current_dir(&install.root)
+                .args(flags)
+                .env_clear()
+                .env("PATH", &traps)
+                .env("CSDLC_GUARD_MARKER", &marker)
+                .output()
+                .unwrap();
+            assert!(!output.status.success(), "{name}: {output:?}");
+            let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+            assert_eq!(
+                value["envelope"]["reason_code"], "legacy_writer_retired",
+                "{name}: {value}"
+            );
+            assert_eq!(value["envelope"]["effects"]["outcome"], "none");
+            assert_eq!(value["performed_mutation"], false);
+            assert_eq!(before, installed_contract::inventory(&install.root));
+            assert!(!marker.exists(), "{name} launched an external owner");
+        }
+        for discovery in ["--help", "-h", "--describe"] {
+            assert!(install
+                .run(&install.root, &[name, discovery])
+                .status
+                .success());
+        }
+    }
+    for action in ["create", "close"] {
+        let output = install.run(&install.root, &["github-issue", action, "--execute"]);
+        assert!(!output.status.success());
+        let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(value["envelope"]["reason_code"], "legacy_writer_retired");
+        assert_eq!(before, installed_contract::inventory(&install.root));
+    }
 }

@@ -279,6 +279,10 @@ pub fn review_path(issue: u64, head: &str) -> String {
     format!(".csdlc/evidence/{issue}/intent-review/{head}.json")
 }
 
+pub fn semantic_proof_path(issue: u64) -> String {
+    format!(".csdlc/v3/issues/{issue}/proof.json")
+}
+
 pub fn verify_external_review(
     root: &Path,
     repository: &str,
@@ -310,14 +314,15 @@ pub fn verify_external_review(
             "independent exact-head external review and publication linkage are required",
         ));
     }
-    let expected = format!(".csdlc/evidence/{issue}/intent-proof.json");
-    if evidence.proof_path != expected {
+    let legacy = format!(".csdlc/evidence/{issue}/intent-proof.json");
+    let semantic = semantic_proof_path(issue);
+    if evidence.proof_path != legacy && evidence.proof_path != semantic {
         return Err(remote_finding(
             "intent_review_proof_path_mismatch",
             "review must reference the canonical issue proof",
         ));
     }
-    let proof_path = root.join(&expected);
+    let proof_path = root.join(&evidence.proof_path);
     let canonical = proof_path.canonicalize().map_err(|_| {
         remote_finding("intent_review_proof_missing", "canonical proof is required")
     })?;
@@ -327,7 +332,9 @@ pub fn verify_external_review(
             "repository root is unavailable",
         )
     })?;
-    if !canonical.starts_with(root_canonical.join(".csdlc/evidence")) {
+    if !canonical.starts_with(root_canonical.join(".csdlc/evidence"))
+        && !canonical.starts_with(root_canonical.join(".csdlc/v3/issues"))
+    {
         return Err(remote_finding(
             "intent_review_proof_path_escape",
             "proof must remain within repository evidence",

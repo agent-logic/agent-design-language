@@ -575,8 +575,17 @@ impl SemanticRoot {
     }
     pub fn projection_path(&self, snapshot: &Snapshot) -> Result<PathBuf, Error> {
         self.directory(snapshot.key())?;
+        let cleaned = protocol::has_performed_successful_command(
+            self,
+            snapshot,
+            SemanticCommand::RecordCleanup,
+        )?;
         let base = if let Some(binding) = &snapshot.inputs().binding {
-            binding.worktree.join(".csdlc/v3/issues")
+            if cleaned {
+                self.common.join("csdlc-v3/local/projections")
+            } else {
+                binding.worktree.join(".csdlc/v3/issues")
+            }
         } else {
             self.common.join("csdlc-v3/local/projections")
         };
@@ -629,7 +638,6 @@ fn legacy_residue(root: &Path, issue: u64) -> Result<bool, Error> {
         format!("issues/{issue}"),
         format!("locks/{issue}.lock"),
         format!("prepared/issues/{issue}"),
-        format!("evidence/{issue}"),
         format!("v3/issues/{issue}"),
         format!("bindings/{issue}.json"),
         format!("transactions/{issue}.json"),
@@ -640,6 +648,39 @@ fn legacy_residue(root: &Path, issue: u64) -> Result<bool, Error> {
         let path = root.join(relative);
         reject_symlinks(&path)?;
         if path.try_exists().map_err(io)? {
+            return Ok(true);
+        }
+    }
+    let evidence = root.join(format!("evidence/{issue}"));
+    reject_symlinks(&evidence)?;
+    if evidence.try_exists().map_err(io)? {
+        let mut entries = fs::read_dir(&evidence)
+            .map_err(io)?
+            .map(|entry| entry.map_err(io).map(|entry| entry.file_name()))
+            .collect::<Result<Vec<_>, _>>()?;
+        entries.sort();
+        let authority_only = entries == [std::ffi::OsString::from("terminal-receipt.json")]
+            && root.file_name().and_then(|name| name.to_str()) == Some(".csdlc")
+            && root.parent().is_some_and(|repository| {
+                let selector =
+                    fs::read(repository.join("csdlc-v3/operator/authority-selector.json"))
+                        .ok()
+                        .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+                selector.is_some_and(|selector| {
+                    selector["authority_issue"].as_u64() == Some(issue)
+                        && fs::read(
+                            repository.join("csdlc-v3/operator/native-authority-receipt.json"),
+                        )
+                        .ok()
+                        .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
+                        .is_some_and(|receipt| {
+                            receipt["authority_issue"].as_u64() == Some(issue)
+                                && receipt["terminal_receipt_path"]
+                                    == format!(".csdlc/evidence/{issue}/terminal-receipt.json")
+                        })
+                })
+            });
+        if !authority_only {
             return Ok(true);
         }
     }
@@ -677,7 +718,9 @@ fn legacy_residue(root: &Path, issue: u64) -> Result<bool, Error> {
 fn remote_identity(value: &serde_json::Value) -> Result<(String, u64), Error> {
     let schema = value["schema"].as_str().ok_or(Error::RecoveryRequired)?;
     let identity = match schema {
-        "csdlc.v3.github_mutation_intent.v1" | "csdlc.v3.merge_intent.v1" => &value["request"],
+        "csdlc.v3.github_mutation_intent.v1"
+        | "csdlc.v3.github_mutation_intent.v2"
+        | "csdlc.v3.merge_intent.v1" => &value["request"],
         "csdlc.v3.github_mutation_receipt.v1"
         | "csdlc.v3.github_mutation_receipt.v2"
         | "csdlc.v3.github_mutation_recovery.v1"
@@ -772,6 +815,54 @@ fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
 // These associated methods deliberately do not construct the historical session,
 // whose retained construction API holds a lock for its lifetime.
 impl DurableTransactionStore {
+    /// Durably materialize the current read-only projection. Semantic activation
+    /// remains authoritative; acknowledgement is a separate CAS mutation.
+    pub fn write_issue_projection(
+        root: &SemanticRoot,
+        snapshot: &Snapshot,
+    ) -> Result<ProjectionWriteProof, Error> {
+        let directory = root.directory(snapshot.key())?;
+        let _lock = acquire(&directory, false)?;
+        let current = read_current(&directory, snapshot.key())?;
+        if current.version() != snapshot.version() {
+            return Err(Error::StaleVersion);
+        }
+        let path = root.projection_path(snapshot)?;
+        reject_symlinks(&path)?;
+        let parent = path.parent().ok_or(Error::UnsafePath)?;
+        let projection_root = if path.starts_with(&root.common) {
+            root.common.clone()
+        } else {
+            snapshot
+                .inputs()
+                .binding()
+                .map(|binding| binding.worktree.join(".csdlc"))
+                .ok_or(Error::UnsafePath)?
+        };
+        create_directories(parent, &projection_root)?;
+        let bytes = snapshot.projection_bytes()?;
+        let suffix = snapshot
+            .version()
+            .digest()
+            .as_str()
+            .rsplit(':')
+            .next()
+            .ok_or(Error::InvalidDigest)?;
+        let staged = parent.join(format!(".state-{suffix}.next"));
+        reject_symlinks(&staged)?;
+        if staged.try_exists().map_err(io)? {
+            if fs::read(&staged).map_err(io)? != bytes {
+                return Err(Error::EvidenceMismatch);
+            }
+            rebarrier([staged.clone()], &projection_root)?;
+        } else {
+            create_only(&staged, &bytes, &projection_root)?;
+        }
+        fs::rename(&staged, &path).map_err(io)?;
+        rebarrier([path], &projection_root)?;
+        ProjectionWriteProof::verify(root, snapshot)
+    }
+
     pub fn observe_issue(root: &SemanticRoot, key: &IssueKey) -> Result<Observation, Error> {
         let directory = root.directory(key)?;
         if !directory.exists() {
@@ -822,7 +913,21 @@ impl DurableTransactionStore {
         create_directories(parent, &root.common)?;
         let _parent = acquire(parent, true)?;
         if directory.exists() {
-            return Err(Error::AlreadyExists);
+            // Read under the existing issue lock without creating missing lock
+            // state: partial preparation must remain an explicit recovery case.
+            let _lock = acquire(&directory, false)?;
+            let current = read_current(&directory, &key)?;
+            if current.phase() != LifecycleState::Ready
+                || current.inputs() != &inputs
+                || current.pending().is_some()
+                || !current.completed().is_empty()
+            {
+                return Err(Error::AlreadyExists);
+            }
+            if !current.projection_required() {
+                ProjectionWriteProof::verify(root, &current)?;
+            }
+            return Ok(CommitOutcome::Unchanged(Box::new(current)));
         }
         fs::create_dir(&directory).map_err(io)?;
         sync_chain(&directory, &root.common)?;
@@ -1183,4 +1288,124 @@ fn load_commit(directory: &Path, version: &SemanticVersion) -> Result<Snapshot, 
         return Err(Error::InvalidDigest);
     }
     Ok(snapshot)
+}
+
+#[cfg(test)]
+mod prepare_retry_tests {
+    // PVF: deterministic tooling/unit, isolated disk, required semantic replay guard.
+    use super::protocol::tests::Fixture;
+    use super::*;
+
+    fn current(f: &Fixture) -> Snapshot {
+        read_current(&f.root.directory(&f.key).unwrap(), &f.key).unwrap()
+    }
+
+    #[test]
+    fn prepare_retry_identical_snapshot_is_unchanged() {
+        let f = Fixture::new();
+        let before = current(&f);
+        let result =
+            DurableTransactionStore::prepare_issue(&f.root, f.key.clone(), before.inputs().clone())
+                .unwrap();
+        let CommitOutcome::Unchanged(after) = result else {
+            panic!("retry committed");
+        };
+        assert_eq!(
+            after.canonical_bytes().unwrap(),
+            before.canonical_bytes().unwrap()
+        );
+        assert_eq!(
+            current(&f).canonical_bytes().unwrap(),
+            before.canonical_bytes().unwrap()
+        );
+    }
+
+    #[test]
+    fn prepare_retry_mismatched_inputs_are_rejected() {
+        let f = Fixture::new();
+        let before = current(&f);
+        let mut changed = before.inputs().clone();
+        changed.intent_plan.publication.title = "different title".into();
+        assert!(matches!(
+            DurableTransactionStore::prepare_issue(&f.root, f.key.clone(), changed),
+            Err(Error::AlreadyExists)
+        ));
+        assert_eq!(
+            current(&f).canonical_bytes().unwrap(),
+            before.canonical_bytes().unwrap()
+        );
+    }
+
+    #[test]
+    fn prepare_retry_partial_activation_requires_recovery() {
+        let f = Fixture::new();
+        let before = current(&f);
+        let directory = f.root.directory(&f.key).unwrap();
+        fs::write(directory.join("current.next"), b"interrupted pointer").unwrap();
+        assert!(matches!(
+            DurableTransactionStore::prepare_issue(&f.root, f.key.clone(), before.inputs().clone()),
+            Err(Error::RecoveryRequired)
+        ));
+        assert_eq!(
+            fs::read(directory.join("current.next")).unwrap(),
+            b"interrupted pointer"
+        );
+    }
+
+    #[test]
+    fn prepare_retry_damaged_snapshot_is_rejected() {
+        let f = Fixture::new();
+        let before = current(&f);
+        let path = f
+            .root
+            .directory(&f.key)
+            .unwrap()
+            .join("commits")
+            .join(name(before.version()));
+        fs::write(&path, b"damaged snapshot").unwrap();
+        assert!(DurableTransactionStore::prepare_issue(
+            &f.root,
+            f.key.clone(),
+            before.inputs().clone()
+        )
+        .is_err());
+        assert_eq!(fs::read(path).unwrap(), b"damaged snapshot");
+    }
+
+    #[test]
+    fn prepare_retry_busy_store_is_not_observed_unlocked() {
+        let f = Fixture::new();
+        let before = current(&f);
+        let _lock = acquire(&f.root.directory(&f.key).unwrap(), true).unwrap();
+        assert!(matches!(
+            DurableTransactionStore::prepare_issue(&f.root, f.key.clone(), before.inputs().clone()),
+            Err(Error::Busy)
+        ));
+    }
+
+    #[test]
+    fn v2_remote_intent_residue_is_scoped_to_its_exact_issue() {
+        let f = Fixture::new();
+        let directory = f.root.common.join("csdlc-v3/remote/intents");
+        fs::create_dir_all(&directory).unwrap();
+        fs::write(
+            directory.join("retained-v2.json"),
+            serde_json::to_vec(&serde_json::json!({
+                "schema":"csdlc.v3.github_mutation_intent.v2",
+                "request":{"repository":"example/repo","issue":99}
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let unrelated = IssueKey::new("example/repo", 98).unwrap();
+        let retained = IssueKey::new("example/repo", 99).unwrap();
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&f.root, &unrelated).unwrap(),
+            Observation::Absent
+        );
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&f.root, &retained).unwrap(),
+            Observation::LegacyMigrationRequired
+        );
+    }
 }

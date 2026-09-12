@@ -383,6 +383,7 @@ pub struct StagedGithubMutation {
     resolved_ready_target: Option<GithubReadyTarget>,
     merge: Option<merge::StagedMerge>,
     preexisting: bool,
+    recovery: Option<GithubMutationRecovery>,
 }
 
 impl StagedGithubMutation {
@@ -422,11 +423,48 @@ impl StagedGithubMutation {
         &self,
         result: &GithubMutationResult,
     ) -> Result<(), RemoteRouteFinding> {
+        let reconciliation = &result.reconciliation;
+        let expected_issue = if matches!(self.request.mutation, GithubMutation::IssueCreate { .. })
+        {
+            reconciliation.issue > 0
+        } else {
+            reconciliation.issue == self.request.issue
+        };
+        let expected_pull_request = match self.request.mutation {
+            GithubMutation::PullRequestCreate { .. } => {
+                reconciliation.pull_request.is_some_and(|number| number > 0)
+            }
+            GithubMutation::PullRequestUpdate { .. }
+            | GithubMutation::PullRequestReady
+            | GithubMutation::PullRequestMerge { .. } => {
+                reconciliation.pull_request == self.request.pull_request
+                    && reconciliation.pull_request.is_some()
+            }
+            _ => reconciliation.pull_request.is_none(),
+        };
         if result.receipt.operation_digest != self.operation_digest
             || result.receipt.intent_digest != self.intent_digest
             || result.receipt.repository != self.request.repository
             || result.receipt.expected_head_sha != self.request.expected_head_sha
             || !result.receipt.authenticated
+            || result.receipt.schema != "csdlc.v3.github_mutation_receipt.v2"
+            || result.receipt.adapter != GITHUB_OPERATIONAL_ADAPTER
+            || reconciliation.schema != "csdlc.v3.github_mutation_reconciliation.v1"
+            || reconciliation.operation_digest != self.operation_digest
+            || reconciliation.operation_marker != self.operation_marker
+            || reconciliation.repository != self.request.repository
+            || reconciliation.expected_head_sha != self.request.expected_head_sha
+            || reconciliation.observed_by != GITHUB_READ_ONLY_ADAPTER
+            || !reconciliation.authenticated
+            || !expected_issue
+            || !expected_pull_request
+            || result.receipt.issue != reconciliation.issue
+            || result.receipt.pull_request
+                != reconciliation.pull_request.or(self.request.pull_request)
+            || result.receipt.readback_digest.as_deref()
+                != Some(reconciliation.readback_digest.as_str())
+            || result.receipt.reconciliation_digest
+                != github_mutation_reconciliation_digest(reconciliation)
         {
             return Err(remote_finding(
                 "semantic_outcome_identity_mismatch",
@@ -482,12 +520,7 @@ impl StagedGithubMutation {
             creation::VerifiedCreationOutcome, EffectTruth, OutcomeKind,
         };
         self.validate_result_identity(result)?;
-        let number = result.reconciliation.remote_object_id.ok_or_else(|| {
-            remote_finding(
-                "semantic_creation_identity_missing",
-                "authenticated issue creation readback lacks issue identity",
-            )
-        })?;
+        let number = result.reconciliation.issue;
         let issue =
             crate::storage::semantic::IssueKey::new(self.request.repository.clone(), number)
                 .map_err(|_| {
@@ -1418,10 +1451,11 @@ pub fn stage_github_mutation(
             "merge retries are reconciliation only",
         ));
     }
+    let recovery = request.recovery.clone();
     let mut effective_request = request.clone();
     effective_request.recovery = None;
     let mut resolved_ready_target = None;
-    let mut intent_digest = operation_digest.clone();
+    let intent_digest;
     let mut preexisting = false;
 
     let staged_merge = if is_merge {
@@ -1506,6 +1540,7 @@ pub fn stage_github_mutation(
         resolved_ready_target,
         merge: staged_merge,
         preexisting,
+        recovery,
     })
 }
 
@@ -1538,12 +1573,64 @@ pub fn execute_staged_github_mutation(
     }
     let receipt_path = github_mutation_receipt_path(repo_root, &staged.operation_digest)?;
     if receipt_path.exists() || reconciliation_only || staged.preexisting {
-        let (reconciliation, invocation) = reconcile_github_mutation(
+        let reconciled = reconcile_github_mutation(
             request,
             &staged.operation_digest,
             &staged.operation_marker,
             process,
-        )?;
+        );
+        let (reconciliation, invocation, response_digest, idempotent_replay) = match reconciled {
+            Ok((reconciliation, invocation)) => (reconciliation, invocation, None, true),
+            Err(finding)
+                if finding.code == "github_mutation_not_reconciled"
+                    && !receipt_path.exists()
+                    && !matches!(request.mutation, GithubMutation::IssueEdit { .. })
+                    && staged.recovery
+                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
+            {
+                ensure_recovery_available(repo_root, &staged.operation_digest)?;
+                if staged
+                    .resolved_ready_target
+                    .as_ref()
+                    .is_some_and(|target| !target.draft)
+                {
+                    let (reconciliation, invocation) = reconcile_github_mutation(
+                        request,
+                        &staged.operation_digest,
+                        &staged.operation_marker,
+                        process,
+                    )?;
+                    (reconciliation, invocation, None, true)
+                } else {
+                    let (response_digest, invocation) = dispatch_github_mutation_after_intent(
+                        repo_root,
+                        request,
+                        GithubMutationDispatchContext {
+                            operation_digest: &staged.operation_digest,
+                            operation_marker: &staged.operation_marker,
+                            credential_name: &staged.credential_name,
+                            ready_target: staged.resolved_ready_target.as_ref(),
+                            recovery_intent_digest: Some(&staged.intent_digest),
+                        },
+                        process,
+                    )?;
+                    let (reconciliation, _) = reconcile_github_mutation(
+                        request,
+                        &staged.operation_digest,
+                        &staged.operation_marker,
+                        process,
+                    )
+                    .map_err(|finding| {
+                        remote_finding(
+                            "github_mutation_reconciliation_pending",
+                            &format!("mutation outcome is uncertain after explicit recovery retry; durable intent forbids another replay until authenticated reconciliation succeeds: {}", finding.code),
+                        )
+                    })?;
+                    (reconciliation, invocation, response_digest, false)
+                }
+            }
+            Err(finding) => return Err(finding),
+        };
         let mut receipt = if receipt_path.exists() {
             load_mutation_receipt(&receipt_path, &staged.operation_digest)?
         } else {
@@ -1551,9 +1638,9 @@ pub fn execute_staged_github_mutation(
                 request,
                 &staged.operation_digest,
                 &staged.intent_digest,
-                None,
+                response_digest,
                 &reconciliation,
-                true,
+                idempotent_replay,
             );
             persist_json_create_new(&receipt_path, &receipt)?;
             receipt
@@ -1567,9 +1654,9 @@ pub fn execute_staged_github_mutation(
                 "existing mutation receipt does not match authenticated reconciliation",
             ));
         }
-        receipt.idempotent_replay = true;
+        receipt.idempotent_replay = idempotent_replay;
         return Ok(GithubMutationResult {
-            performed_mutation: Some(false),
+            performed_mutation: Some(!idempotent_replay),
             receipt,
             reconciliation,
             invocation,

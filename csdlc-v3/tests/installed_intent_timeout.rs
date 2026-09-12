@@ -49,7 +49,7 @@ mod tests {
 fn prepare(timeout: u64, label: &str) -> (Fixture, PathBuf) {
     let mut fixture = Fixture::new(label);
     let plan = json!({"schema":"csdlc.v3.intent_plan.v1","slug":"installed-timeout",
-        "cards":{"sip":{},"stp":{},"spp":{},"vpp":{},"srp":{},"sor":{}},
+        "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked timeout fixture inputs","target_files_surfaces_inline":"fixture-proof","deliverables_inline":"Supervise the installed validator process group","validation_plan_inline":"Declared bounded Cargo validator","acceptance_criteria_inline":"Timeout and cancellation terminate owned descendants","notes_risks_inline":"Isolated local fixture only"},"vpp":{},"srp":{},"sor":{}},
         "validators":[{"id":"owned-process-proof","program":"cargo","args":["test","--offline","--manifest-path","fixture-proof/Cargo.toml"],"success_marker":"test result: ok.","timeout_seconds":timeout}],
         "publication":{"base":"main","title":"Timeout fixture","body":"Closes #505","draft":true}});
     let plan_path = fixture.write_json("timeout-plan.json", &plan);
@@ -245,7 +245,8 @@ fn exercise(timeout: u64, cancel: bool) {
     );
     let result: Value = serde_json::from_slice(&fs::read(&stdout).unwrap()).unwrap();
     let receipt: Value =
-        serde_json::from_slice(&fs::read(evidence.join("intent-proof.json")).unwrap()).unwrap();
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/proof.json")).unwrap())
+            .unwrap();
     assert_eq!(receipt["status"], "failed");
     assert_eq!(result["envelope"]["effects"]["outcome"], "performed");
     let validator = &receipt["validators"][0];

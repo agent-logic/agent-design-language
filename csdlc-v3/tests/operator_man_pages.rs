@@ -394,10 +394,10 @@ fn examples_parse_current_native_requests_and_preserve_guard_truth() {
         .arg(manual().join("examples/review.json"))
         .output()
         .unwrap();
-    assert!(native_review.status.success());
+    assert!(!native_review.status.success());
     let report: Value = serde_json::from_slice(&native_review.stdout).unwrap();
-    assert_eq!(report["result"]["status"], "ready");
-    assert_eq!(report["operational_authority"], false);
+    assert_eq!(report["envelope"]["reason_code"], "legacy_writer_retired");
+    assert_eq!(report["performed_mutation"], false);
     // A schema fixture must not impersonate authenticated publication evidence.
     let publication = prepare_remote_publication_route("publish", &remote).unwrap();
     assert_eq!(publication.status, RemoteRouteStatus::Blocked);

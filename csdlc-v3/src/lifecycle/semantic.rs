@@ -123,6 +123,8 @@ pub fn decide(
             command
         };
         let allowed = match original {
+            AmendCards | AmendPlan | AmendValidation => active,
+            AmendBinding => executable && facts.topology,
             Bind => from == Ready && facts.bind_target,
             RecordProof => executable,
             AssignReview => from == Implemented && facts.current_proof,

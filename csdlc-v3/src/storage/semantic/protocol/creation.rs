@@ -102,6 +102,10 @@ impl CreationSnapshot {
     }
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[expect(
+    clippy::large_enum_variant,
+    reason = "reservation outcomes retain complete typed snapshots for exact replay"
+)]
 pub enum CreationReservation {
     Reserved(CreationTicket),
     AlreadyPending(CreationTicket),
@@ -174,6 +178,13 @@ pub struct VerifiedCreationRecovery {
     preview: CreationRecoveryPreview,
 }
 impl VerifiedCreationRecovery {
+    #[cfg_attr(
+        not(test),
+        expect(
+            dead_code,
+            reason = "reserved for authenticated native creation reconciliation"
+        )
+    )]
     pub(crate) fn adopt_after_native_reconciliation(preview: &CreationRecoveryPreview) -> Self {
         Self {
             preview: preview.clone(),
@@ -208,7 +219,7 @@ fn validate_objects(
     id: &OperationId,
 ) -> Result<(), Error> {
     let request: Request =
-        codec::decode(&read_blob(&directory, &current.payload.request)?).map_err(encoding)?;
+        codec::decode(&read_blob(directory, &current.payload.request)?).map_err(encoding)?;
     if request.repository != root.repository
         || request.native != current.payload.native
         || OperationId(hash(
@@ -237,7 +248,7 @@ fn validate_objects(
         {
             return Err(Error::EvidenceMismatch);
         }
-        read_blob(&directory, &outcome.evidence)?;
+        read_blob(directory, &outcome.evidence)?;
     }
     let expected_inputs = EvidenceInputVersion {
         revision: 1,
@@ -491,6 +502,13 @@ impl DurableTransactionStore {
             root, &directory, current, supplied, outcome, admission, false,
         )
     }
+    #[cfg_attr(
+        not(test),
+        expect(
+            dead_code,
+            reason = "reserved for the explicit native creation recovery route"
+        )
+    )]
     pub(crate) fn inspect_issue_creation_by_native(
         root: &SemanticRoot,
         native: &NativeIdentity,
@@ -589,14 +607,14 @@ fn attach_locked(
         if done.kind != outcome.kind
             || done.truth != outcome.truth
             || done.issue != outcome.issue
-            || read_blob(&directory, &done.evidence)? != outcome.evidence
+            || read_blob(directory, &done.evidence)? != outcome.evidence
         {
             return Err(Error::ConflictingReplay);
         }
         return Ok(CreationAttachment::AlreadyCompleted(current));
     }
     let evidence = persist_blob(
-        &directory,
+        directory,
         &root.common,
         &outcome.evidence,
         "semantic-evidence-v1",
@@ -633,7 +651,7 @@ fn attach_locked(
         payload.completed = Some(retained);
     }
     let next = record(payload)?;
-    activate(root, &directory, &next)?;
+    activate(root, directory, &next)?;
     Ok(if unresolved {
         CreationAttachment::RecoveryRequired(next)
     } else {
@@ -680,6 +698,13 @@ pub struct CreationJournalApproval {
     preview: CreationJournalPreview,
 }
 impl CreationJournalApproval {
+    #[cfg_attr(
+        not(test),
+        expect(
+            dead_code,
+            reason = "reserved for the explicit native creation journal recovery route"
+        )
+    )]
     pub(crate) fn from_native_owner(preview: &CreationJournalPreview) -> Self {
         Self {
             preview: preview.clone(),
@@ -803,6 +828,13 @@ fn describe_creation_journal(
 impl DurableTransactionStore {
     /// Derive the retained repository operation identity even before current exists.
     /// This is read-only and grants no reservation or recovery authority.
+    #[cfg_attr(
+        not(test),
+        expect(
+            dead_code,
+            reason = "reserved for exact native creation recovery lookup"
+        )
+    )]
     pub(crate) fn issue_creation_id_from_native(
         root: &SemanticRoot,
         native: &NativeIdentity,

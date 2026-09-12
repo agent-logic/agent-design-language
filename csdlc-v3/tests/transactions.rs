@@ -1218,7 +1218,7 @@ mod semantic_gate_a {
             Observation::Absent
         );
         assert_eq!(before, inventory(&fixture.directory));
-        fixture.prepare();
+        let prepared = fixture.prepare();
         assert!(DurableTransactionStore::create(
             fixture.issue_dir(),
             StateRecord::new(LifecycleState::Ready)
@@ -1226,10 +1226,13 @@ mod semantic_gate_a {
         .is_err());
         assert!(DurableTransactionStore::open(fixture.issue_dir()).is_err());
         let before = inventory(&fixture.directory);
-        assert_eq!(
-            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs()),
-            Err(Error::AlreadyExists)
-        );
+        let repeated =
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs())
+                .unwrap();
+        let CommitOutcome::Unchanged(repeated) = repeated else {
+            panic!("identical ready preparation must be unchanged");
+        };
+        assert_eq!(repeated.version(), prepared.version());
         fixture.current();
         assert_eq!(before, inventory(&fixture.directory));
         fs::write(

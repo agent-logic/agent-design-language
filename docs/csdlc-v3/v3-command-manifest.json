@@ -89,24 +89,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "LocalPreparationRequest",
-      "usage": "bind --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "bind <issue>",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--registry",
-            "--registrations"
-          ],
-          "optional_flags": [
-            "--repo-root",
-            "--v3-state-root"
-          ],
-          "request_type": "LocalPreparationRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -137,7 +123,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "bind <issue>",
       "intent_effect_class": "guarded_local",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "bind --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "clean",
@@ -151,19 +139,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "TerminalRouteRequest",
-      "usage": "clean --request <path>",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "clean <issue> [--execute --preview <digest>]",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
-          "optional_flags": [],
-          "request_type": "TerminalRouteRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -196,7 +175,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "clean <issue> [--execute --preview <digest>]",
       "intent_effect_class": "guarded_local",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "clean --request <path>",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "cutover",
@@ -210,23 +191,46 @@
       "discovery_group": "historical_administrative",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "TerminalRouteRequest",
-      "usage": "cutover --request <path> [--observe-github]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "cutover <issue> --operation <path> [--execute]",
+      "disposition": "administrative_intent",
       "input_variants": [
         {
-          "name": "request",
-          "positional_prefix": [],
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
           "required_flags": [
-            "--request"
+            "--operation"
           ],
           "optional_flags": [
-            "--observe-github"
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--execute"
           ],
-          "request_type": "TerminalRouteRequest"
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "legacy_usage": "cutover --request <path> [--observe-github]",
+      "legacy_disposition": "retired_writer_discovery_only",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "cutover <issue> --operation <path> [--execute]",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "doctor",
@@ -273,24 +277,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "LocalPreparationRequest",
-      "usage": "edit --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "edit <issue> --changes <path>",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--registry",
-            "--registrations"
-          ],
-          "optional_flags": [
-            "--repo-root",
-            "--v3-state-root"
-          ],
-          "request_type": "LocalPreparationRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -323,7 +313,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "edit <issue> --changes <path>",
       "intent_effect_class": "guarded_local",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "edit --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "eligibility",
@@ -370,21 +362,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "TerminalRouteRequest",
-      "usage": "finish --request <path> [--observe-github]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "finish <issue> [--disposition <path>]",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
-          "optional_flags": [
-            "--observe-github"
-          ],
-          "request_type": "TerminalRouteRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -417,7 +398,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "finish <issue> [--disposition <path>]",
       "intent_effect_class": "guarded_local",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "finish --request <path> [--observe-github]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "github",
@@ -426,38 +409,30 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3",
+      "authority_status": "retired_writer",
       "family": "remote",
-      "discovery_group": "operational",
-      "effect_class": "guarded_local_and_remote",
+      "discovery_group": "historical_administrative",
+      "effect_class": "observation",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
-      "usage": "github --request <path> [--observe-github] [--execute]",
-      "disposition": "guarded_current_route",
+      "input_contract": "discovery_only",
+      "usage": "github --help",
+      "disposition": "retired_writer_discovery_only",
       "input_variants": [
         {
-          "name": "request",
+          "name": "discovery",
           "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
+          "required_flags": [],
           "optional_flags": [
-            "--observe-github"
+            "--help",
+            "-h",
+            "--describe"
           ],
-          "request_type": "RemoteRouteRequest"
-        },
-        {
-          "name": "execute",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--execute"
-          ],
-          "optional_flags": [],
-          "request_type": "OperationalRemoteDispatchRequest"
+          "request_type": "none"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "legacy_usage": "github --request <path> [--observe-github] [--execute]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "github-issue",
@@ -471,77 +446,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local_and_remote",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
-      "usage": "github-issue --request <path> [--observe-github] [--execute]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "github-issue <issue> --operation <path>",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
-          "optional_flags": [
-            "--observe-github"
-          ],
-          "request_type": "RemoteRouteRequest"
-        },
-        {
-          "name": "execute",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--execute"
-          ],
-          "optional_flags": [],
-          "request_type": "OperationalRemoteDispatchRequest"
-        },
-        {
-          "name": "create",
-          "positional_prefix": [
-            "create"
-          ],
-          "required_flags": [
-            "--repo",
-            "--expected-head",
-            "--title"
-          ],
-          "exactly_one_of": [
-            "--body",
-            "--body-file"
-          ],
-          "optional_flags": [
-            "--execute",
-            "--credential-name",
-            "--label",
-            "--assignee",
-            "--milestone"
-          ],
-          "request_type": "GithubMutationRequest via direct CLI parser"
-        },
-        {
-          "name": "close",
-          "positional_prefix": [
-            "close"
-          ],
-          "required_flags": [
-            "--repo",
-            "--expected-head",
-            "--issue",
-            "--disposition",
-            "--rationale"
-          ],
-          "exactly_one_of": [
-            "--body",
-            "--body-file"
-          ],
-          "optional_flags": [
-            "--execute",
-            "--credential-name",
-            "--duplicate-of"
-          ],
-          "request_type": "GithubMutationRequest via direct CLI parser"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -575,7 +483,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "github-issue <issue> --operation <path>",
       "intent_effect_class": "guarded_local_and_remote",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "github-issue --request <path> [--observe-github] [--execute]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "github-pr",
@@ -589,31 +499,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local_and_remote",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
-      "usage": "github-pr --request <path> [--observe-github] [--execute]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "github-pr <issue> --operation <path>",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
-          "optional_flags": [
-            "--observe-github"
-          ],
-          "request_type": "RemoteRouteRequest"
-        },
-        {
-          "name": "execute",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--execute"
-          ],
-          "optional_flags": [],
-          "request_type": "OperationalRemoteDispatchRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -647,7 +536,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "github-pr <issue> --operation <path>",
       "intent_effect_class": "guarded_local_and_remote",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "github-pr --request <path> [--observe-github] [--execute]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "install",
@@ -661,21 +552,46 @@
       "discovery_group": "historical_administrative",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "ProofRouteRequest",
-      "usage": "install --request <path>",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "install <issue> --operation <path> [--execute]",
+      "disposition": "administrative_intent",
       "input_variants": [
         {
-          "name": "request",
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [
+            "--operation"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--execute"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
           "positional_prefix": [],
           "required_flags": [
-            "--request"
+            "--intent-request"
           ],
-          "optional_flags": [],
-          "request_type": "ProofRouteRequest"
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "legacy_usage": "install --request <path>",
+      "legacy_disposition": "retired_writer_discovery_only",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "install <issue> --operation <path> [--execute]",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     },
     {
       "command": "issue",
@@ -684,31 +600,30 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3",
+      "authority_status": "retired_writer",
       "family": "local",
-      "discovery_group": "operational",
-      "effect_class": "guarded_local",
+      "discovery_group": "historical_administrative",
+      "effect_class": "observation",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "LocalPreparationRequest",
-      "usage": "issue --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
-      "disposition": "guarded_current_route",
+      "input_contract": "discovery_only",
+      "usage": "issue --help",
+      "disposition": "retired_writer_discovery_only",
       "input_variants": [
         {
-          "name": "request",
+          "name": "discovery",
           "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--registry",
-            "--registrations"
-          ],
+          "required_flags": [],
           "optional_flags": [
-            "--repo-root",
-            "--v3-state-root"
+            "--help",
+            "-h",
+            "--describe"
           ],
-          "request_type": "LocalPreparationRequest"
+          "request_type": "none"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "legacy_usage": "issue --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "pr-state",
@@ -782,19 +697,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "ProofRouteRequest",
-      "usage": "proof --request <path>",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "proof <issue>",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
-          "optional_flags": [],
-          "request_type": "ProofRouteRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -825,7 +731,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "proof <issue>",
       "intent_effect_class": "guarded_local",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "proof --request <path>",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "publish",
@@ -839,31 +747,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local_and_remote",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
-      "usage": "publish --request <path> [--observe-github] [--execute]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "publish <issue>",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
-          "optional_flags": [
-            "--observe-github"
-          ],
-          "request_type": "RemoteRouteRequest"
-        },
-        {
-          "name": "execute",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--execute"
-          ],
-          "optional_flags": [],
-          "request_type": "OperationalRemoteDispatchRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -895,7 +782,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "publish <issue>",
       "intent_effect_class": "guarded_local_and_remote",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "publish --request <path> [--observe-github] [--execute]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "review",
@@ -909,31 +798,10 @@
       "discovery_group": "operational",
       "effect_class": "guarded_local_and_remote",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
-      "usage": "review --request <path> [--observe-github] [--execute]",
-      "disposition": "guarded_current_route",
+      "input_contract": "IntentRequest",
+      "usage": "review <issue> --evidence <path>",
+      "disposition": "ordinary_intent",
       "input_variants": [
-        {
-          "name": "request",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request"
-          ],
-          "optional_flags": [
-            "--observe-github"
-          ],
-          "request_type": "RemoteRouteRequest"
-        },
-        {
-          "name": "execute",
-          "positional_prefix": [],
-          "required_flags": [
-            "--request",
-            "--execute"
-          ],
-          "optional_flags": [],
-          "request_type": "OperationalRemoteDispatchRequest"
-        },
         {
           "name": "intent",
           "positional_prefix": [
@@ -967,7 +835,9 @@
       "intent_contract": "csdlc.v3.intent_request.v1",
       "intent_usage": "review <issue> --evidence <path>",
       "intent_effect_class": "guarded_local",
-      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json",
+      "legacy_usage": "review --request <path> [--observe-github] [--execute]",
+      "legacy_disposition": "retired_writer_discovery_only"
     },
     {
       "command": "remote",
@@ -1399,23 +1269,46 @@
       "discovery_group": "historical_administrative",
       "effect_class": "guarded_local",
       "result_schema": "csdlc.v3.command_result.v1",
-      "input_contract": "TerminalRouteRequest",
-      "usage": "rollback --request <path> [--observe-github]",
-      "disposition": "typed_rollback_alias_only",
+      "input_contract": "IntentRequest",
+      "usage": "rollback <issue> --operation <path> [--execute]",
+      "disposition": "administrative_intent",
       "input_variants": [
         {
-          "name": "request",
-          "positional_prefix": [],
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
           "required_flags": [
-            "--request"
+            "--operation"
           ],
           "optional_flags": [
-            "--observe-github"
+            "--repo-root",
+            "--json",
+            "--emit-request",
+            "--execute"
           ],
-          "request_type": "TerminalRouteRequest"
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
         }
       ],
-      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "legacy_usage": "rollback --request <path> [--observe-github]",
+      "legacy_disposition": "retired_writer_discovery_only",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "rollback <issue> --operation <path> [--execute]",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
     }
   ],
   "intent_inventory": {

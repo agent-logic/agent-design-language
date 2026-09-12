@@ -129,16 +129,16 @@ emit_prepare_command() {
   local phase="$1" issue="$2" slug="$3" version="$4" title="$5" paths="$6"
   case "$phase" in
     init)
-      printf '.adl/bin/native-v3/csdlc issue --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
+      printf '.adl/bin/native-v3/csdlc prepare %s --plan <plan.json>\n' "$issue"
       ;;
     doctor-ready)
       printf '.adl/bin/native-v3/csdlc doctor --request <request-%s.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n' "$issue"
       ;;
     run)
-      printf '.adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
+      printf '.adl/bin/native-v3/csdlc bind %s\n' "$issue"
       ;;
     finish)
-      printf '.adl/bin/native-v3/csdlc validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
+      printf '.adl/bin/native-v3/csdlc validate %s\n' "$issue"
       ;;
     *) die "--phase must be one of: init, doctor-ready, run, finish" ;;
   esac

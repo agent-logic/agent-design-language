@@ -124,6 +124,18 @@ impl EffectOrigin {
     pub(crate) fn cleanup(binding: Binding, identity: CleanupIdentity) -> Self {
         Self(OriginData::Cleanup { binding, identity })
     }
+    pub(crate) fn with_bind_target(&self, target: Binding) -> Result<Self, Error> {
+        match &self.0 {
+            OriginData::Prepared { source } => Ok(Self::bind(source.clone(), target)),
+            _ => Err(Error::AdmissionChanged),
+        }
+    }
+    pub(crate) fn bind_target(&self) -> Option<&Binding> {
+        match &self.0 {
+            OriginData::Bind { target, .. } => Some(target),
+            _ => None,
+        }
+    }
     fn source_head(&self) -> &str {
         match &self.0 {
             OriginData::Bind { source, .. } | OriginData::Prepared { source } => &source.head,
@@ -237,6 +249,7 @@ impl EffectAdmission {
 pub enum EvidenceKind {
     Request,
     BindReceipt,
+    LocalMutationReceipt,
     ProofRun,
     ReviewReceipt,
     GithubReadback,
@@ -246,6 +259,10 @@ pub enum EvidenceKind {
 fn evidence_kind(command: SemanticCommand) -> EvidenceKind {
     match command {
         SemanticCommand::Bind => EvidenceKind::BindReceipt,
+        SemanticCommand::AmendCards
+        | SemanticCommand::AmendPlan
+        | SemanticCommand::AmendValidation
+        | SemanticCommand::AmendBinding => EvidenceKind::LocalMutationReceipt,
         SemanticCommand::RecordProof => EvidenceKind::ProofRun,
         SemanticCommand::AssignReview
         | SemanticCommand::RecordReviewPass
@@ -445,6 +462,13 @@ pub struct VerifiedRecoveryResolution {
     preview: Digest,
 }
 impl VerifiedRecoveryResolution {
+    #[cfg_attr(
+        not(test),
+        expect(
+            dead_code,
+            reason = "reserved for authenticated native outcome reconciliation"
+        )
+    )]
     pub(crate) fn adopt_observed_after_native_reconciliation(preview: &RecoveryPreview) -> Self {
         Self {
             preview: preview.digest.clone(),
@@ -542,6 +566,25 @@ fn read_blob(directory: &Path, reference: &EvidenceRef) -> Result<Vec<u8>, Error
         return Err(Error::EvidenceMismatch);
     }
     Ok(bytes)
+}
+
+pub(super) fn has_performed_successful_command(
+    root: &SemanticRoot,
+    snapshot: &Snapshot,
+    command: SemanticCommand,
+) -> Result<bool, Error> {
+    let directory = root.directory(snapshot.key())?;
+    for completed in snapshot.completed() {
+        let request: EffectRequest =
+            codec::decode(&read_blob(&directory, &completed.request)?).map_err(encoding)?;
+        if request.command == command
+            && completed.outcome() == OutcomeKind::Success
+            && completed.truth() == EffectTruth::Performed
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
 }
 fn operation_id(key: &IssueKey, request: &EffectRequest) -> Result<OperationId, Error> {
     Ok(OperationId(hash("semantic-operation-v1", &(key, request))?))
@@ -846,6 +889,8 @@ fn attach_locked(
     }
     let pending = current.pending().ok_or(Error::ConflictingReplay)?.clone();
     check_ticket(directory, &current, &ticket, &pending)?;
+    let effect_request: EffectRequest =
+        codec::decode(&read_blob(directory, &pending.request)?).map_err(encoding)?;
     if outcome.native != pending.native {
         return Err(Error::ConflictingReplay);
     }
@@ -950,6 +995,16 @@ fn attach_locked(
             return Err(Error::AdmissionChanged);
         };
         payload.inputs.binding = Some(target.clone());
+        payload.inputs.validate()?;
+    }
+    if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendCards {
+        let content: serde_json::Value =
+            codec::decode(&effect_request.canonical_content()?).map_err(encoding)?;
+        if content["schema"] != "csdlc.v3.semantic_edit_request.v1" {
+            return Err(Error::EvidenceMismatch);
+        }
+        payload.inputs.intent_plan.cards = serde_json::from_value(content["cards"].clone())
+            .map_err(|error| encoding(error.to_string()))?;
         payload.inputs.validate()?;
     }
     if payload.inputs != current.payload.inputs {
@@ -1538,6 +1593,78 @@ pub(super) mod tests {
         .unwrap();
         assert_eq!(f.snapshot().phase(), LifecycleState::ClosedOut);
         assert!(f.snapshot().pending().is_none());
+    }
+    #[test]
+    fn cleanup_projection_moves_only_after_successful_performed_cleanup() {
+        fn attach_cleanup(
+            kind: OutcomeKind,
+            truth: EffectTruth,
+            native_id: &str,
+        ) -> (Fixture, Binding, Snapshot) {
+            let f = Fixture::new();
+            f.bind();
+            let current = f.snapshot();
+            let mut payload = current.payload.clone();
+            payload.phase = LifecycleState::ClosedOut;
+            payload.generation += 1;
+            let closed =
+                make_snapshot(payload, Some(&current), SemanticCommand::FinishWithoutPr).unwrap();
+            activate(&f.root.directory(&f.key).unwrap(), &f.root.common, &closed).unwrap();
+            let binding = closed.inputs().binding().unwrap().clone();
+            let request = EffectRequest::new(
+                SemanticCommand::RecordCleanup,
+                NativeIdentity::new("cleanup".into(), native_id.into()).unwrap(),
+                EffectOrigin::cleanup(
+                    binding.clone(),
+                    CleanupIdentity::from_native_owner(
+                        b"terminal".to_vec(),
+                        b"preview".to_vec(),
+                        b"archive".to_vec(),
+                    )
+                    .unwrap(),
+                ),
+                br#"{"preview":"exact"}"#,
+            )
+            .unwrap();
+            let ticket = f.reserve(&request);
+            DurableTransactionStore::attach_outcome(
+                &f.root,
+                ticket,
+                f.outcome(&request, kind, truth, b"verified cleanup outcome"),
+                f.observed(&request),
+            )
+            .unwrap();
+            let snapshot = f.snapshot();
+            (f, binding, snapshot)
+        }
+
+        let (failed, failed_binding, failed_snapshot) = attach_cleanup(
+            OutcomeKind::Failure,
+            EffectTruth::NotPerformed,
+            "failed-cleanup",
+        );
+        assert_eq!(
+            failed.root.projection_path(&failed_snapshot).unwrap(),
+            failed_binding
+                .worktree
+                .join(".csdlc/v3/issues/870/state.json")
+        );
+
+        let (successful, _, successful_snapshot) = attach_cleanup(
+            OutcomeKind::Success,
+            EffectTruth::Performed,
+            "successful-cleanup",
+        );
+        assert_eq!(
+            successful
+                .root
+                .projection_path(&successful_snapshot)
+                .unwrap(),
+            successful
+                .root
+                .common
+                .join("csdlc-v3/local/projections/870/state.json")
+        );
     }
     #[test]
     fn prepared_noop_success_and_restart_inspection_are_truthful() {

@@ -225,6 +225,7 @@ impl Fixture {
         fs::write(&script, r#"#!/bin/sh
 case "$*" in *'--config -'*) cat >/dev/null;; esac
 case "$*" in
+ *api.github.com/repos/agent-logic/agent-design-language/issues/870*) printf '%s' '{"number":870,"title":"Installed intent fixture","body":"Fixture issue","state":"open","labels":[],"assignees":[],"milestone":null}' ;;
  *api.github.com/repos/agent-logic/agent-design-language/issues/505*) printf '%s' '{"number":505,"title":"Installed intent fixture","body":"Fixture issue","state":"open","labels":[],"assignees":[],"milestone":null}' ;;
  *) exit 9 ;;
 esac
@@ -457,7 +458,7 @@ case "$method:$url" in
  GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/505/comments*)
   if test -f "$base/remote-comment.json"; then printf '['; cat "$base/remote-comment.json"; printf ']'; else printf '[]'; fi ;;
  POST:https://api.github.com/repos/agent-logic/agent-design-language/issues)
-  data=$(cat "$payload"); printf '{"number":506,"state":"open",%s' "${data#\{}" > "$base/remote-created.json"
+  data=$(cat "$payload"); printf '{"id":12345,"number":506,"state":"open",%s' "${data#\{}" > "$base/remote-created.json"
   printf 'create\n' >> "$base/remote-effects"; cat "$base/remote-created.json" ;;
  GET:https://api.github.com/search/issues*)
   printf '{"items":['; if test -f "$base/remote-created.json"; then cat "$base/remote-created.json"; fi; printf ']}' ;;
@@ -466,6 +467,7 @@ case "$method:$url" in
   printf '%s,%s' "${previous%\}}" "${data#\{}" > "$base/remote-issue.json"
   printf 'edit-or-close\n' >> "$base/remote-effects"; cat "$base/remote-issue.json" ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/505) cat "$base/remote-issue.json" ;;
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/870) sed 's/"number":505/"number":870/' "$base/remote-issue.json" ;;
  *) exit 9 ;;
 esac
 "#).unwrap();
@@ -671,6 +673,10 @@ impl Fixture {
             .map(PathBuf::from)
             .find(|path| path != &self.root)
             .unwrap();
+        let issue = args
+            .iter()
+            .find_map(|value| value.parse::<u64>().ok())
+            .expect("cleanup issue argument");
         fs::write(
             &gate,
             format!(
@@ -680,7 +686,9 @@ impl Fixture {
                 } else {
                     "after-archive-manifest"
                 },
-                linked.join(".csdlc/issues/505/index.json").display()
+                linked
+                    .join(format!(".csdlc/issues/{issue}/index.json"))
+                    .display()
             ),
         )
         .unwrap();

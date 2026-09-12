@@ -190,9 +190,11 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .lines()
             .filter_map(|line| line.strip_prefix("worktree "))
         {
-            if PathBuf::from(worktree)
-                .join(format!(".csdlc/issues/{}/index.json", context.issue))
-                .exists()
+            let worktree = PathBuf::from(worktree);
+            if worktree != context.root
+                && worktree
+                    .join(format!(".csdlc/issues/{}/index.json", context.issue))
+                    .exists()
             {
                 return Err("intent_cleanup_registration_ambiguous".into());
             }
@@ -211,6 +213,13 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .lines()
             .filter_map(|line| line.strip_prefix("worktree "))
             .any(|path| path == bound_path);
+        let (root, key) = context.semantic_root_key()?;
+        let snapshot =
+            match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
+                semantic::Observation::Current(snapshot)
+                | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
+                _ => return Err("intent_cleanup_semantic_state_required".into()),
+            };
         if registered || candidate.exists() {
             // A missing source index does not mean Git removal completed. Resume
             // only the exact registered checkout backed by verified archive bytes
@@ -218,24 +227,46 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             if !registered || !candidate.exists() {
                 return Err("cleanup_archive_recovery_required".into());
             }
-            let retained = retained_cleanup_index(&context.primary, &candidate, context.issue)
-                .map_err(|finding| finding.code)?
-                .ok_or("cleanup_archive_recovery_required")?;
-            let (root, key) = context.semantic_root_key()?;
-            let snapshot = match DurableTransactionStore::observe_issue(&root, &key)
-                .map_err(semantic_error)?
-            {
-                semantic::Observation::Current(snapshot)
-                | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
-                _ => return Err("intent_cleanup_semantic_state_required".into()),
-            };
-            if !snapshot
+            let Some(pending) = snapshot
                 .pending()
-                .is_some_and(|pending| pending.command() == SemanticCommand::RecordCleanup)
+                .filter(|pending| pending.command() == SemanticCommand::RecordCleanup)
+            else {
+                return Err("intent_cleanup_pending_identity_required".into());
+            };
+            if snapshot
+                .inputs()
+                .binding()
+                .is_none_or(|binding| binding.worktree != candidate)
+            {
+                return Err("intent_cleanup_pending_identity_required".into());
+            }
+            let inspection = DurableTransactionStore::inspect_effect(&root, &key, pending.id())
+                .map_err(semantic_error)?;
+            let content: Value = serde_json::from_slice(
+                &inspection
+                    .request()
+                    .canonical_content()
+                    .map_err(semantic_error)?,
+            )
+            .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+            let digest = content["archive_identity"]["inventory_digest"]
+                .as_str()
+                .ok_or("intent_cleanup_archive_identity_invalid")?;
+            let retained = matching_retained_cleanup_index(
+                &context.primary,
+                &candidate,
+                context.issue,
+                digest,
+            )
+            .map_err(|finding| finding.code)?
+            .ok_or("cleanup_archive_recovery_required")?;
+            if snapshot
+                .inputs()
+                .binding()
+                .is_none_or(|binding| binding.worktree != candidate)
                 || snapshot
-                    .inputs()
-                    .binding()
-                    .is_none_or(|binding| binding.worktree != candidate)
+                    .pending()
+                    .is_none_or(|current| current.id() != pending.id())
             {
                 return Err("intent_cleanup_pending_identity_required".into());
             }
@@ -249,13 +280,6 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             return run(&recovered, request);
         }
         context.fresh()?;
-        let (root, key) = context.semantic_root_key()?;
-        let snapshot =
-            match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
-                semantic::Observation::Current(snapshot)
-                | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
-                _ => return Err("intent_cleanup_semantic_state_required".into()),
-            };
         let mut selected = snapshot.pending().map(|pending| pending.id().clone());
         if selected.is_none() {
             for done in snapshot.completed().iter().rev() {
@@ -269,10 +293,27 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         }
         let selected = selected.ok_or("intent_cleanup_semantic_completion_required")?;
         let semantic = context.semantic_recovery_context(&selected)?;
-        let candidate = PathBuf::from(bound_path);
-        let archive =
-            semantic_cleanup_archive_identity(&context.primary, &candidate, context.issue)
-                .map_err(|finding| finding.code)?;
+        let inspection = DurableTransactionStore::inspect_effect(&root, &key, &selected)
+            .map_err(semantic_error)?;
+        if inspection.request().command() != SemanticCommand::RecordCleanup {
+            return Err("intent_cleanup_semantic_completion_required".into());
+        }
+        let retained: Value = serde_json::from_slice(
+            &inspection
+                .request()
+                .canonical_content()
+                .map_err(semantic_error)?,
+        )
+        .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+        let expected = encode(&retained["archive_identity"])?;
+        let archive = semantic_matching_retained_cleanup_archive_identity(
+            &context.primary,
+            &candidate,
+            context.issue,
+            &expected,
+        )
+        .map_err(|finding| finding.code)?
+        .ok_or("cleanup_archive_recovery_required")?;
         if let Some(pending) = semantic.snapshot.pending() {
             if pending.command() != SemanticCommand::RecordCleanup {
                 return Err("intent_cleanup_other_operation_pending".into());
@@ -284,9 +325,6 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             )
             .map_err(semantic_error)?;
             let operation = inspection.request();
-            let retained: Value =
-                serde_json::from_slice(&operation.canonical_content().map_err(semantic_error)?)
-                    .map_err(|_| "intent_cleanup_retained_request_invalid")?;
             let identity: Value = serde_json::from_slice(&archive)
                 .map_err(|_| "intent_cleanup_archive_identity_invalid")?;
             if retained["archive_identity"] != identity {
@@ -329,7 +367,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .iter()
             .find(|done| done.id() == &selected)
             .ok_or("intent_cleanup_semantic_completion_required")?;
-        if completed.outcome() != OutcomeKind::Success {
+        if completed.outcome() != OutcomeKind::Success
+            || completed.truth() != EffectTruth::Performed
+        {
             return Err("intent_cleanup_semantic_success_required".into());
         }
         return Ok(
@@ -571,9 +611,49 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             cleanup.remove = true;
             cleanup.preview_receipt_digest = Some(native_digest);
             let semantic = semantic_for(context, SemanticCommand::RecordCleanup)?;
-            let archive =
+            let archive = if semantic
+                .snapshot
+                .pending()
+                .is_some_and(|pending| pending.command() == SemanticCommand::RecordCleanup)
+            {
+                let pending = semantic
+                    .snapshot
+                    .pending()
+                    .expect("checked pending cleanup");
+                let retained = DurableTransactionStore::inspect_effect(
+                    &semantic.root,
+                    &semantic.key,
+                    pending.id(),
+                )
+                .map_err(semantic_error)?;
+                let content: Value = serde_json::from_slice(
+                    &retained
+                        .request()
+                        .canonical_content()
+                        .map_err(semantic_error)?,
+                )
+                .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+                let expected = encode(&content["archive_identity"])?;
+                match semantic_matching_retained_cleanup_archive_identity(
+                    &context.primary,
+                    &context.root,
+                    context.issue,
+                    &expected,
+                )
+                .map_err(|finding| finding.code)?
+                {
+                    Some(retained) => retained,
+                    None => semantic_cleanup_archive_identity(
+                        &context.primary,
+                        &context.root,
+                        context.issue,
+                    )
+                    .map_err(|finding| finding.code)?,
+                }
+            } else {
                 semantic_cleanup_archive_identity(&context.primary, &context.root, context.issue)
-                    .map_err(|finding| finding.code)?;
+                    .map_err(|finding| finding.code)?
+            };
             let archive_identity: Value = serde_json::from_slice(&archive)
                 .map_err(|_| "intent_cleanup_archive_identity_invalid")?;
             let facts = Facts {

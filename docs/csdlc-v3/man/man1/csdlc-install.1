@@ -3,28 +3,53 @@
 csdlc\-install \- validate or execute an issue\-bound binary installation
 .SH SYNOPSIS
 .nf
-\&csdlc install \-\-request REQUEST
+\&csdlc install ISSUE \-\-operation OPERATION.json [\-\-execute]
+\&csdlc install \-\-intent\-request REQUEST.json
 \&csdlc install \-\-help
 .fi
+.SH ISSUE INTENT FORM
+\&The semantic issue intent form is the current operational interface. It derives current binding and authority inputs, reserves RecordInstall before the effect and retains the exact native witness.
+.PP
+\&OPERATION.json is an InstallPlanInput. The owner builds the native ProofRouteRequest from authenticated issue context. \-\-execute controls mutation; the operation content alone does not authorize installation.
+.PP
+\&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share provenance, identity and mutation guards.
 .SH DESCRIPTION
-\&Validates source provenance, selected binary and selector metadata digests plus stable destination. Executes only when install.executes_install is true, current bound issue ownership validates, and explicit exact\-head cutover approval proof matches. Executing destination is exactly .adl/bin/csdlc in the bound checkout. This is separate from adl/tools/install_owner_binaries.sh, which installs operational owners and man pages to .adl/bin/native\-v3.
+\&The legacy \-\-request writer syntax is retired. It remains visible only through \-\-help and \-\-describe for migration discovery; execution fails before request parsing or effects. The semantic issue form above is the current administrative interface.
+.PP
+\&Validates source provenance, selected binary and selector metadata digests plus the stable destination. Execution requires current bound issue ownership and matching explicit exact\-head cutover approval proof. The destination is exactly .adl/bin/csdlc in the bound checkout. This is separate from adl/tools/install_owner_binaries.sh, which installs operational owners and man pages to .adl/bin/native\-v3.
 .SH OPTIONS
-\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+\&\-\-operation: Required path to explicit operation content. The owner derives repository and issue identity from the semantic context.
+.PP
+\&\-\-execute: Request the guarded administrative effect. Omit it for read\-only preview.
+.PP
+\&\-\-intent\-request: Execute an exact generated csdlc.v3.intent_request.v1 request or its generated wrapper; stale snapshots fail closed.
+.PP
+\&\-\-repo\-root: Select repository discovery; it cannot override bound issue identity.
+.PP
+\&\-\-json: Retain machine\-readable JSON output.
+.PP
+\&\-\-emit\-request: Emit the generated semantic request without executing it.
+.PP
+\&\-\-request: Retired direct\-writer input retained only for migration discovery.
 .PP
 \&\-\-help: Show standalone help; \-h is equivalent.
 .PP
 \&\-h: Show standalone help; do not combine with execution options.
-.SH REQUEST
-\&ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc\-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations.
+.SH OPERATION
+\&InstallPlanInput containing the selected binary, selector metadata, digests and approval evidence required by the native installer. See csdlc\-requests(1) for the underlying proof/install fields.
 .SH EFFECTS
-\&Preview checks; admitted executing install copies the verified binary, sets executable permissions and retains receipt. A validated install plan alone performs no deployment.
+\&Preview validates the admitted preimage without deployment. An admitted \-\-execute invocation copies the verified binary, sets executable permissions and retains the exact install receipt.
 .SH EXAMPLES
+\&The legacy \-\-request writer syntax is retired. It remains visible only through \-\-help and \-\-describe for migration discovery; execution fails before request parsing or effects. The semantic issue form above is the current administrative interface.
 .nf
-\&csdlc install \-\-request install\-request.json
+\&csdlc install 870 \-\-operation install\-operation.json
+\&csdlc install 870 \-\-operation install\-operation.json \-\-execute
 .fi
 .PP
-\&Fixture examples are parse\-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success.
+\&Fixture operation content does not establish current binding, provenance or approval proof.
+.SH RECOVERY
+\&A pending installation is inspected and reconciled from the exact retained request. Resume requires the current recovery preview digest; partial or foreign destinations remain recovery\-required.
 .SH DIAGNOSTICS
-\&Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete.
+\&Blocked output identifies stale binding, provenance, destination, approval or retained transaction evidence. Preview success is not installation proof.
 .SH SEE ALSO
-\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).
+\&csdlc(1), csdlc\-proof(1), csdlc\-requests(1), csdlc\-workflow(1).

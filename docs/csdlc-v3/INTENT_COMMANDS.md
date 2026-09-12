@@ -1,17 +1,19 @@
 # Issue intent commands
 
-This page describes the #869 candidate interface in
-`csdlc-v3/src/application/intent/`. Candidate implementation and isolated tests
-are not installation or sprint activation. Exact-head review, complete required
-validation and release acceptance remain separate evidence. The active operator
-binary has not been replaced by this work. Check the selected executable's help
-and descriptors before using these forms.
+This page describes the current issue interface in
+`csdlc-v3/src/application/intent/`. Exact-head review, complete required
+validation, installation provenance, and release acceptance remain separate
+evidence. Check the selected executable's help and descriptors before using
+these forms.
 
-The existing native command owners remain responsible for lifecycle writes,
-authenticated remote operations, proof, terminal records and cleanup. Existing
-`--request` command forms remain available under their existing contracts;
-this issue does not remove legacy request schemas or activate a replacement
-installation. Explicit `local` remains a historical, non-operational route.
+The native command owners remain responsible for lifecycle writes,
+authenticated remote operations, proof, terminal records and cleanup behind
+the semantic transaction owner. Direct writer `--request` forms for `issue`,
+`bind`, `edit`, `proof`, `github`, `github-issue`, `github-pr`, `review`,
+`publish`, `finish`, and `clean` are retired. Their command names remain
+available through `--help` and `--describe` for migration discovery. Advanced
+execution uses an exact generated `--intent-request`. Explicit `local` remains
+a historical, non-operational route.
 
 ## Ordinary operation
 
@@ -42,6 +44,28 @@ remain discovery, not execution. No ordinary command requires an operator to
 assemble internal registry, registration, adapter or lifecycle receipt inputs.
 External plan, edits, independent review and explicit operation content remain
 intentional user inputs.
+
+## Administrative authority operations
+
+The guarded administrative owners also use the semantic issue interface:
+
+| Intent | Preview form | Executing form |
+| --- | --- | --- |
+| Install | `csdlc install ISSUE --operation OPERATION.json` | `csdlc install ISSUE --operation OPERATION.json --execute` |
+| Cutover | `csdlc cutover 505 --operation OPERATION.json` | `csdlc cutover 505 --operation OPERATION.json --execute` |
+| Rollback | `csdlc rollback 505 --operation OPERATION.json` | `csdlc rollback 505 --operation OPERATION.json --execute` |
+
+These routes are for explicit installation or authority administration, not
+ordinary issue lifecycle work. `install` accepts an `InstallPlanInput` as its
+operation content. `cutover` and `rollback` accept a complete
+`TerminalRouteRequest`; the nested cutover operation, repository, issue,
+primary repository root and execute value must match the semantic invocation.
+Cutover and rollback remain restricted to issue 505 and require their existing
+approval and proof inputs. Omitting `--execute` is read-only preview; adding it
+requests the guarded effect. The legacy administrative `--request` and
+`--observe-github` forms remain visible only for migration discovery and are
+retired for execution. Exact generated `--intent-request` snapshots are the
+advanced interface.
 
 Status runs the native doctor, eligibility, schedule and shepherd observation
 owners. It does not infer dependency completion, budget acceptance or permission

@@ -68,6 +68,68 @@ pub fn recovery_source(
     Ok(Some(selected))
 }
 
+pub fn pending_bind_identity(
+    state_root: &Path,
+    issue: u64,
+) -> Result<Option<(String, PathBuf)>, Vec<DoctorFinding>> {
+    let path = state_root.join(format!("transactions/{issue}.json"));
+    if !path.exists() {
+        return Ok(None);
+    }
+    if path
+        .symlink_metadata()
+        .is_ok_and(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_invalid",
+            "lifecycle mutation journal must be a regular file",
+        )]);
+    }
+    let journal: LocalMutationJournal = serde_json::from_slice(
+        &fs::read(path).map_err(io_finding("local_transaction_journal_read_failed"))?,
+    )
+    .map_err(|_| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_invalid",
+            "lifecycle mutation journal identity is invalid",
+        )]
+    })?;
+    if journal.schema != "csdlc.v3.local_mutation_journal.v1"
+        || journal.issue != issue
+        || journal.request_digest.len() != 64
+        || !journal
+            .request_digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_mismatch",
+            "lifecycle mutation journal identity is invalid",
+        )]);
+    }
+    if journal.route != "bind" {
+        return Ok(None);
+    }
+    let branch = journal.bind_branch.ok_or_else(|| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_bind_identity_missing",
+            "bind recovery requires its exact branch identity",
+        )]
+    })?;
+    let worktree = journal.bind_worktree.ok_or_else(|| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_bind_identity_missing",
+            "bind recovery requires its exact worktree identity",
+        )]
+    })?;
+    Ok(Some((branch, worktree)))
+}
+
 pub fn prepare(
     request: &LocalPreparationRequest,
     registry: &PromptRegistry,
@@ -279,11 +341,7 @@ pub(crate) fn prepare_semantic(
     validate_context("issue", request, context)?;
     match crate::storage::DurableTransactionStore::prepare_issue(root, key, inputs) {
         Ok(crate::storage::semantic::CommitOutcome::Committed(snapshot)) => Ok(*snapshot),
-        Ok(crate::storage::semantic::CommitOutcome::Unchanged(_)) => Err(vec![finding(
-            PlanStatus::Blocked,
-            "semantic_prepare_not_created",
-            "prepare must create exactly one new issue",
-        )]),
+        Ok(crate::storage::semantic::CommitOutcome::Unchanged(snapshot)) => Ok(*snapshot),
         Err(error) => Err(vec![finding(
             PlanStatus::Blocked,
             "semantic_prepare_refused",
