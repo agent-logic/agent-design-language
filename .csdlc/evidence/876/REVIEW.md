@@ -32,3 +32,11 @@ rendered Markdown. This is unknown semantic-field acceptance plus incomplete
 render validation, not evidence of completed card authoring. The correction uses
 the actual template fields. No lifecycle-tooling source was edited in #876 and
 no new issue was created from this note.
+
+## Metadata re-review — PASS
+
+review_836 independently approved exact
+`892242a33de94d47d4847839c01b0c5cbb7f137a`: P2 resolved, concrete validation
+commands and uncollected telemetry truthful, pending CI/merge preserved, source
+unchanged. No actionable findings remain. Native approval fields now record
+that observed result; this update changes records only.

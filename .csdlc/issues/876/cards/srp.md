@@ -56,8 +56,8 @@ policy_refs:
   - ".csdlc/issues/876/cards/vpp.md"
 review_results:
   findings_status: "findings_present"
-  recommended_outcome: "needs_followup"
-notes: "review_836 reviewed e0dc293dca: no actionable production findings. P2 rendered SRP/SOR placeholders prevented publication. Native field correction completed; metadata-only exact-head confirmation pending. See .csdlc/evidence/876/REVIEW.md."
+  recommended_outcome: "pass"
+notes: "Independent production and corrected-card reviews passed. Original P2 and tooling reproduction retained in .csdlc/evidence/876/REVIEW.md. Hosted CI and merge remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,12 +127,12 @@ review_results:
 
 ### Dispositions
 
-- Corrected all rendered SRP/SOR placeholders through native edits and validation; production source unchanged. Awaiting independent metadata confirmation.
+- P2 rendered card placeholders resolved through native semantic edits; review_836 independently confirmed exact 892242a33de94d47d4847839c01b0c5cbb7f137a with no actionable findings. Production approval at e0dc293dca remains applicable; source unchanged.
 
 ### Recommended Outcome
 
-- needs_followup
+- pass
 
 ## Notes
 
-review_836 reviewed e0dc293dca: no actionable production findings. P2 rendered SRP/SOR placeholders prevented publication. Native field correction completed; metadata-only exact-head confirmation pending. See .csdlc/evidence/876/REVIEW.md.
+Independent production and corrected-card reviews passed. Original P2 and tooling reproduction retained in .csdlc/evidence/876/REVIEW.md. Hosted CI and merge remain pending.
