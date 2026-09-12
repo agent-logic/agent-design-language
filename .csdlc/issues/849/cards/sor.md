@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Native merge preserves reviewed qualified linkage, including URL-form PartOf ambiguity rejection. Current CI compilation failure repaired by adding publication_linkage: None to two publication-only fixtures after accepted-main integration. Full native suite now passes.
+Native merge linkage and publication-only fixture compatibility are repaired. Hosted CI subsequently exposed Linux ETXTBSY in a dynamically written curl fixture; immutable executable test fixtures remove those concurrent writes while retaining every assertion.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -110,7 +110,7 @@ Rules:
   - `See .csdlc/evidence/849/VALIDATION.md for exact commands and outcomes`
     `Proves bounded local merge behavior and unaffected tested owner surfaces; excludes full-suite/CI/live-merge success`
 - Results:
-  - `At source 94a39db15fe6e4555c6cc3c201da5409665a3b86: all-target native suite 262 passed, zero failed/ignored/filtered across 15 groups; strict all-target Clippy passed. Release preflight also passed separately (1 test, 67.71 seconds). Final hosted CI acceptance must be observed for the pushed PR head.`
+  - `At 94a39db15: full all-target native suite 262 passed without exclusions. Subsequent test-fixture-only source a2a05c7c7: default-parallel library suite 92 passed without exclusions (13.49s), strict all-target Clippy passed (1.74s), diff check passed. Hosted run 34675094214 at aa7 failed ETXTBSY; final successor hosted CI remains separate.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `262 all-target tests passed with zero ignored/filtered, including 17 merge tests and the 32-case URL directive matrix.`
+- Determinism tests executed: `Full 262-test proof at 94a39db15; after immutable curl fixture repair, all 92 library tests pass with default parallel scheduling. Unchanged integration tests retain earlier proof.`
 - Fixtures or scripts used: `remote/tests/merge_cases.rs and adapters/mod.rs fake transport/local Git fixtures; full native suite with known baseline failure recorded`
 - Replay verification (same inputs -> same artifacts/order): `Successful and uncertain merge replay paths exercised; no automatic second PUT; linkage/issue-state drift rejected`
 - Ordering guarantees (sorting / tie-break rules used): `Durable target guard and intent precede dispatch; authenticated fresh linkage/policy checked before PUT; poststate and replay tests passed`
@@ -157,7 +157,7 @@ verification_summary:
 - Sandbox / policy invariants preserved: `All issue edits in exact native-bound FastWork worktree; primary clean main; no live merge/cloud changes or shared binary install`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.adl/runs/849/ci-repair-all-targets.log; .adl/runs/849/ci-repair-clippy.log; .adl/runs/849/inventory-before.log; historical failure logs retained`
+- Trace bundle path(s): `.adl/runs/849/ci-repair-all-targets.log; .adl/runs/849/ci-repair-first-failure.log; .adl/runs/849/parallel-lib-repair.log; .adl/runs/849/parallel-fixture-clippy.log`
 - Run artifact root: `.adl/runs/849`
 - Replay command used for verification: `cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_cases`
 - Replay result: `Positive replay does not dispatch a second PUT; uncertain/mismatched issue-state replay rejects`
@@ -175,4 +175,4 @@ verification_summary:
 
 ## Follow-ups / Deferred work
 - `Historical release-preflight drift was resolved by accepted #948 fixture normalization. No production inventory, release guard or historical receipt hashes changed in this repair.`
-- `Complete exact independent metadata review and native review; push to existing PR #952, observe publication and exact-head CI. Stop before merge.`
+- `Complete independent successor review, native review and push to existing PR #952; observe exact-head CI. No merge.`
