@@ -1,0 +1,9 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "version": "v0.92.1",
+  "candidate_sha": "1111111111111111111111111111111111111111",
+  "notes_path": "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+  "notes_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "gate_path": ".csdlc/evidence/861/release-gate.json",
+  "gate_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

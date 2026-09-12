@@ -1,0 +1,30 @@
+.TH "CSDLC-INSTALL" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-install \- validate or execute an issue\-bound binary installation
+.SH SYNOPSIS
+.nf
+\&csdlc install \-\-request REQUEST
+\&csdlc install \-\-help
+.fi
+.SH DESCRIPTION
+\&Validates source provenance, selected binary and selector metadata digests plus stable destination. Executes only when install.executes_install is true, current bound issue ownership validates, and explicit exact\-head cutover approval proof matches. Executing destination is exactly .adl/bin/csdlc in the bound checkout. This is separate from adl/tools/install_owner_binaries.sh, which installs operational owners and man pages to .adl/bin/native\-v3.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc\-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations.
+.SH EFFECTS
+\&Preview checks; admitted executing install copies the verified binary, sets executable permissions and retains receipt. A validated install plan alone performs no deployment.
+.SH EXAMPLES
+.nf
+\&csdlc install \-\-request install\-request.json
+.fi
+.PP
+\&Fixture examples are parse\-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success.
+.SH DIAGNOSTICS
+\&Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

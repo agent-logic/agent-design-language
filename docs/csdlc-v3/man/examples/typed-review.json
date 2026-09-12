@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.v3.typed_review_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 861,
+  "implementer": "fixture-implementer",
+  "reviewer": "fixture-independent-reviewer",
+  "reviewed_revision": "1111111111111111111111111111111111111111",
+  "expected_head_sha": "1111111111111111111111111111111111111111",
+  "evidence_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

@@ -1,0 +1,30 @@
+.TH "CSDLC-PROOF" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-proof \- execute and retain an issue\-bound proof manifest
+.SH SYNOPSIS
+.nf
+\&csdlc proof \-\-request REQUEST
+\&csdlc proof \-\-help
+.fi
+.SH DESCRIPTION
+\&Runs the declared deterministic V3 command through bounded argv/request/evidence paths, normalizes its result and retains proof evidence. Requires authenticated invoking linked worktree ownership and exact generation/digest/head/common\-Git binding. Provider side effects, stale evidence and unsupported normalization fail closed. This is focused command proof, not broad semantic equivalence.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc\-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations.
+.SH EFFECTS
+\&Executes declared subprocess and writes canonical proof artifacts on admitted execution; blocked proof is not successful validation.
+.SH EXAMPLES
+.nf
+\&csdlc proof \-\-request proof\-request.json
+.fi
+.PP
+\&Fixture examples are parse\-checked; historical shadow/soak examples intentionally exercise their blocked behavior. Proof/install require actual current binding and valid referenced artifacts for success.
+.SH DIAGNOSTICS
+\&Blocked reports use schema csdlc.v3.proof_route.v1 on stdout and a short stderr message with exit 2. Missing/stale binding, path escape, artifact digest mismatch and unauthorized execution remain blockers. Inspect status and findings before calling a proof complete.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

@@ -1,0 +1,24 @@
+{
+  "expected_lifecycle_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "exact_review_sha": "1111111111111111111111111111111111111111",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 861,
+      "pull_request": 1234,
+      "expected_head_sha": "1111111111111111111111111111111111111111",
+      "credential_names": [
+        "GITHUB_TOKEN"
+      ],
+      "mutation": {
+        "action": "pull_request_create",
+        "base": "main",
+        "head": "codex/861-operator-manual-example",
+        "title": "Operator manual example",
+        "body": "Closes #861",
+        "draft": true
+      }
+    }
+  }
+}

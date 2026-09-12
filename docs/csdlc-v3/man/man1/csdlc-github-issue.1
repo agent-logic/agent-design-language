@@ -1,0 +1,55 @@
+.TH "CSDLC-GITHUB-ISSUE" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-github\-issue \- create, comment, edit or administratively close GitHub issues
+.SH SYNOPSIS
+.nf
+\&csdlc github\-issue \-\-request REQUEST [\-\-observe\-github] [\-\-execute]
+\&csdlc github\-issue \-\-help
+.fi
+.SH DESCRIPTION
+\&With \-\-execute owns only issue_create, issue_comment, issue_edit and issue_close. Creation returns the assigned GitHub number and durable receipt. Administrative duplicate/superseded/no\-op closure is not delivery; completed closure is rejected. Use the simple forms documented below or the typed dispatch.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
+.PP
+\&\-\-execute: Select typed operational dispatch, not a generic force flag. Cannot combine with \-\-observe\-github on non\-pr\-state remote routes.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&Without \-\-execute: RemoteRouteRequest, including typed review/readback receipt references when required. With \-\-execute on non\-pr\-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc\-requests(1).
+.PP
+\&Non\-pr\-state \-\-execute plus \-\-observe\-github is rejected. \-\-observe\-github without \-\-execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode.
+.SH EFFECTS
+\&Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request.
+.SH EXAMPLES
+.nf
+\&csdlc github\-issue \-\-request github\-dispatch.json \-\-execute
+.fi
+.PP
+\&Request fixtures are in docs/csdlc\-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc\-workflow(1) for the full live sequence.
+.SH RECOVERY
+\&After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.
+.PP
+\&Issue\-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one\-shot. Merge retries are always read\-only; a still\-open or uncertain PR remains blocked.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1), csdlc\-finish(1).
+.SH SIMPLE FORMS
+.nf
+\&csdlc github\-issue create \-\-repo OWNER/REPO \-\-title TITLE \e
+\&  (\-\-body BODY | \-\-body\-file PATH) \-\-expected\-head SHA \e
+\&  [\-\-label LABEL]... [\-\-assignee LOGIN]... [\-\-milestone NUMBER] \e
+\&  [\-\-credential\-name NAME] [\-\-execute]
+\&csdlc github\-issue close \-\-repo OWNER/REPO \-\-issue NUMBER \e
+\&  \-\-disposition duplicate|superseded|no\-op \-\-rationale TEXT \e
+\&  (\-\-body CURRENT_BODY | \-\-body\-file PATH) \-\-expected\-head SHA \e
+\&  [\-\-duplicate\-of NUMBER] [\-\-credential\-name NAME] [\-\-execute]
+.fi
+.PP
+\&Without \-\-execute these forms print the same typed dispatch for inspection; \-\-expected\-head is still a full exact SHA and canonical selector discovery must succeed. \-\-body/\-\-body\-file are mutually exclusive and one is required. \-\-label/\-\-assignee repeat; other duplicate flags fail. \-\-milestone, \-\-issue and \-\-duplicate\-of are positive numeric IDs. Duplicate close requires \-\-duplicate\-of. \-\-disposition also accepts no_op. \-\-credential\-name selects an environment name (default GITHUB_TOKEN), never a token value.
+.PP
+\&Close appends rationale and disposition to the authenticated current issue body, sets closed/not_planned, and retains the operation marker. A supplied current body containing an existing native operation marker is rejected by the current simple form; use a reviewed typed request preserving exact provenance rather than removing markers opportunistically.
+.PP
+\&issue_edit optional metadata: omitted title/body/labels/assignees/milestone preserves the corresponding remote value. labels is {operation:add|remove|replace,names:[...]}; replacement [] clears. assignees [] clears. milestone is {operation:set,number:N} or {operation:clear}. Bare null metadata fails; explicit empty body clears prose while retaining native marker. Deltas are resolved once and intent/readback binds the resolved target.

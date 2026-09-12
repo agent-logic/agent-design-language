@@ -1,0 +1,27 @@
+.TH "CSDLC-RELEASE-PREFLIGHT" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-release\-preflight \- check exact release\-candidate consistency
+.SH SYNOPSIS
+.nf
+\&csdlc release\-preflight \-\-request REQUEST
+.fi
+.SH DESCRIPTION
+\&Checks exact candidate revision, release notes bytes, gate/inventory/evidence digests and package/lockfile consistency. Gate evidence is an input, never release authorization. This route does not tag, publish or mutate GitHub. Current Git status inspection may refresh index metadata; byte\-level observation hardening is pending #867.
+.PP
+\&The current route is explicitly limited to repository agent\-logic/agent\-design\-language and version v0.92.1; other versions report unsupported_release_identity. Do not claim v0.92.2 release readiness from this older bounded checker.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&Release preflight Request; see csdlc\-requests(1) and docs/csdlc\-v3/man/examples/release.json.
+.SH EFFECTS
+\&Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted.
+.SH EXAMPLES
+.nf
+\&csdlc release\-preflight \-\-request release\-preflight\-request.json
+.fi
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1).

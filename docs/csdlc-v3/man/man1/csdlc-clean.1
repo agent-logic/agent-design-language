@@ -1,0 +1,32 @@
+.TH "CSDLC-CLEAN" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-clean \- preview and remove an eligible registered worktree
+.SH SYNOPSIS
+.nf
+\&csdlc clean \-\-request REQUEST
+\&csdlc clean \-\-help
+.fi
+.SH DESCRIPTION
+\&Requires durable terminal receipt identity and digest, actual registered candidate, approved parent, exact matching head and clean non\-live checkout. First use cleanup.remove false; inspect Removable and save returned receipt_digest. Then use remove true with that preview_receipt_digest and unchanged target identity. Removal is separate from finish. Dirty/live/unregistered/protected paths are not permission to delete manually.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc\-requests(1). Examples under docs/csdlc\-v3/man/examples use fixture identities and are not permission to mutate those targets.
+.SH EFFECTS
+\&Preview inspects; remove true may remove exactly the registered candidate after repeated guards. It does not authorize broad branch/worktree cleanup.
+.SH FILES
+\&Primary terminal paths: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations.
+.SH EXAMPLES
+.nf
+\&csdlc clean \-\-request clean\-request.json
+.fi
+.PP
+\&Use csdlc\-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization.
+.SH RECOVERY
+\&Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

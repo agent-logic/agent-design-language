@@ -1,0 +1,26 @@
+{
+  "issue": 861,
+  "title": "Operator manual example",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/861-operator-manual-example",
+  "worktree": "/approved/worktrees/issue-861-example",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "schedule_readiness": {
+    "phase_ready": true,
+    "cards_ready": true,
+    "design_ready": true,
+    "dependencies_ready": true,
+    "paths_clear": true,
+    "budget_available": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "issue": 861,
+  "pull_request": 1234,
+  "expected_head_sha": "1111111111111111111111111111111111111111",
+  "cleanup": {
+    "approved_parent": "/approved/worktrees",
+    "repository_root": "/repository/primary",
+    "candidate_path": "/approved/worktrees/issue-861-example",
+    "remove": false,
+    "terminal_receipt": true,
+    "terminal_receipt_path": ".git/csdlc-v3/local/evidence/861/terminal-receipt.json",
+    "terminal_receipt_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }
+}

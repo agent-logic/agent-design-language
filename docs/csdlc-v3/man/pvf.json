@@ -1,0 +1,10 @@
+{
+  "issue": 861,
+  "lane": "tooling",
+  "proof_role": "operator documentation parity, fixture semantics, rendering and installation discovery",
+  "determinism": "deterministic source and isolated local fixtures; platform lookup output is normalized only for assertions",
+  "resources": "small CPU/filesystem/Git; existing local Linux container for separate platform proof; no paid services or live GitHub writes",
+  "release_gate": "required for issue 861",
+  "surfaces": ["operator_man_pages", "operator_manual example tests", "test_install.sh", "render.py --check"],
+  "non_claims": ["No lifecycle semantics change", "No live deployment proof", "Schema validity does not grant operational authority"]
+}

@@ -1,0 +1,23 @@
+.TH "CSDLC-REMOTE" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-remote \- list remote command routes
+.SH SYNOPSIS
+.nf
+\&csdlc remote \-\-help
+.fi
+.SH DESCRIPTION
+\&Read\-only overview of github, github\-issue, github\-pr, pr\-state, publish and review. No request is accepted; invocation with no arguments also prints help. See each command page for its actual mutation boundary.
+.SH OPTIONS
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&No JSON request.
+.SH EFFECTS
+\&Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted.
+.SH EXAMPLES
+.nf
+\&csdlc remote \-\-help
+.fi
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1).

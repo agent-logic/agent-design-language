@@ -1,0 +1,27 @@
+.TH "CSDLC-SPRINT" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-sprint \- inspect sprint readiness from retained issue readbacks
+.SH SYNOPSIS
+.nf
+\&csdlc sprint \-\-repo\-root ROOT \-\-request REQUEST
+.fi
+.SH DESCRIPTION
+\&Read\-only helper consumes typed retained issue readbacks, explicit membership and sequential/parallel/hybrid scheduling. It does not authenticate new remote state, bind child worktrees or launch workers. Its retained task\-artifact layout is not a substitute for native six\-card readiness of current issues.
+.SH OPTIONS
+\&\-\-repo\-root: Explicit repository discovery root. Required by foundation/sprint; optional for local\-family commands. It does not override authenticated binding guards.
+.PP
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&SprintReadinessRequest; see csdlc\-requests(1) and docs/csdlc\-v3/man/examples/sprint.json.
+.SH EFFECTS
+\&Observation or static model only. Read findings/status, not just process exit status; no release or lifecycle activation authority is granted.
+.SH EXAMPLES
+.nf
+\&csdlc sprint \-\-repo\-root . \-\-request sprint\-request.json
+.fi
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1).

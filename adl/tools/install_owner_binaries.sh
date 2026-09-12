@@ -19,6 +19,8 @@ Usage:
 
 Installs ADL owner binaries into a stable repo-local generated directory outside
 Cargo target. Use --bin csdlc for the native v3 owner (installed in .adl/bin/native-v3).
+The csdlc install also places man pages in <stable-bin-dir>/share/man and prints
+MANPATH discovery instructions. It never edits shell startup files.
 Re-running without relevant source changes is a no-op and does
 not replace binaries.
 EOF
@@ -89,6 +91,12 @@ install_vector_component() {
   fi
 }
 
+install_csdlc_manual() {
+  if [[ "$SOURCE_COMPONENT" == "csdlc-v3" ]]; then
+    bash "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" --stable-bin-dir "$STABLE_BIN_DIR"
+  fi
+}
+
 source_hash() {
   if git -C "$ROOT_DIR" rev-parse --show-toplevel >/dev/null 2>&1; then
     (
@@ -133,6 +141,7 @@ done
 
 if [[ "${#BUILD_BINS[@]}" -eq 0 ]]; then
   install_vector_component
+  install_csdlc_manual
   echo "owner-binary install: all requested binaries are current"
   exit 0
 fi
@@ -185,3 +194,4 @@ if [[ "${#MISSING_BINS[@]}" -gt 0 ]]; then
 fi
 
 install_vector_component
+install_csdlc_manual
