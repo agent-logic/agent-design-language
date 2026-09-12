@@ -7,12 +7,13 @@
       "sections": {
         "SYNOPSIS": [
           {
-            "code": "csdlc --help\ncsdlc COMMAND --help\nman csdlc-COMMAND\nman csdlc-requests\nman csdlc-workflow"
+            "code": "csdlc --help\ncsdlc --contract\ncsdlc COMMAND --describe\ncsdlc COMMAND --help\nman csdlc-COMMAND\nman csdlc-requests\nman csdlc-workflow"
           }
         ],
         "DESCRIPTION": [
           "C-SDLC v3 is the current lifecycle authority after #505 / PR #591 only when canonical origin/main selector, authenticated native receipt, terminal reconciliation and Git objects validate. Missing or stale proof suspends authority. A printed plan, a construction report, an install, or a boolean in a request cannot grant it.",
-          "This suite documents the committed native command contract. It includes all help-listed commands plus the supported rollback alias and github-issue create/close forms. The active simplification issues may change future behavior; rerun command/option parity after integration. Historical v1 wrappers and retained v2 binaries are not routine operational routes."
+          "This suite documents the committed native command contract. It includes all help-listed commands plus the supported rollback alias and github-issue create/close forms. The active simplification issues may change future behavior; rerun command/option parity after integration. Historical v1 wrappers and retained v2 binaries are not routine operational routes.",
+          "Discovery is compiled from the current command manifest: --contract returns the raw full descriptor manifest and COMMAND --describe returns the raw command descriptor, including input contract, effect class and result schema. These global discovery forms do not execute the route and are separate from owner-specific parser options. The selected binary must support this contract; source or isolated candidate validation does not prove that the active installation has been upgraded."
         ],
         "INSTALLATION": [
           {
@@ -27,7 +28,8 @@
         ],
         "CONVENTIONS": [
           "--help and -h are standalone help arguments, not global options mixed into another invocation. There is no --version, --json, --quiet, --root or global --repo option. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc-requests(1).",
-          "Local commands accept --repo-root for discovery and --v3-state-root for retained construction storage. Ordinary operations should run from clean primary main during preparation, then from the native-bound issue checkout. Do not use alternate roots to bypass ownership. Exact SHA means the full 40-hex Git revision. Local lifecycle digests and remote canonical selector digests are different values."
+          "Local commands accept --repo-root for discovery and --v3-state-root for retained construction storage. Ordinary operations should run from clean primary main during preparation, then from the native-bound issue checkout. Do not use alternate roots to bypass ownership. Exact SHA means the full 40-hex Git revision. Local lifecycle digests and remote canonical selector digests are different values.",
+          "Machine command results preserve legacy owner payload fields and add /envelope with schema csdlc.v3.command_result.v1. Successful --contract and COMMAND --describe responses return their descriptor directly; help remains text. Process outcome, lifecycle status, authority and effects are separate. A successful exit or ready report does not prove mutation, publication or terminal delivery. Unknown effects and unreported evidence invalidation are not no-effect evidence; inspect owner results and durable receipts."
         ],
         "CREDENTIALS": [
           "Select credential names, never credential values, in credential_names or --credential-name. The default simple-issue name is GITHUB_TOKEN. The current native resolver first reads the selected environment variable; if absent, GITHUB_TOKEN or GH_TOKEN may use the explicitly set ADL_GITHUB_TOKEN_FILE. A set-but-empty variable fails; it does not fall back. Other credential names require their corresponding environment variable.",
@@ -50,7 +52,7 @@
           "incorrect checkout topology/invalid_operational_roots: inspect git status --short --branch and git worktree list --porcelain. Return to the exact registered branch and native-bound checkout; preserve existing work. Do not hand-edit index binding or register fake worktrees.",
           "finish without --observe-github: a caller-provided public_adapter_receipt is not authentication. Use native finish --observe-github with numeric PR, expected head and closing mode; a still-open issue or unmerged PR remains blocked.",
           "uncertain remote mutation/reconciliation: preserve request and intent bytes, then reissue the identical native request to reconcile authenticated remote state. Do not change IDs, delete receipts or repeat a raw write. Only explicitly supported creation/ready absence recovery may request its one-shot retry. Merge and issue-edit uncertain retries are observation-only.",
-          "Current local diagnostic execution can initialize lock directories and participate in interrupted local transaction recovery; doctor/eligibility can return a non-authoritative construction report on certain topology errors. Inspect operational_authority and findings. Strict observation-only behavior is being addressed by #867 and is not claimed by this manual before that change integrates."
+          "Doctor, validate, eligibility, schedule and shepherd observe without creating lifecycle locks or replaying interrupted transactions. Reported recovery-required state must be handled by an explicit mutation/recovery route. Operational local routes fail closed when authority context is unavailable; only explicit local selects the non-operational construction helper. This guarantee does not make issue, edit or bind observational."
         ],
         "SEE ALSO": [
           "csdlc-workflow(1), csdlc-requests(1), csdlc-doctor(1), csdlc-github-pr(1), csdlc-finish(1), csdlc-clean(1). Repository policy: AGENTS.md, docs/csdlc-v3/CURRENT_AUTHORITY.md, docs/csdlc-v3/CONTRACT.md and docs/csdlc-v3/PULL_REQUEST_MERGE.md."
@@ -71,7 +73,7 @@
         ],
         "EFFECTS": [
           "Read-only helper; no operational authority.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -113,7 +115,7 @@
         ],
         "EFFECTS": [
           "Mutates local issue state after authority checks.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -155,7 +157,7 @@
         ],
         "EFFECTS": [
           "Mutates Git branch/worktree and local issue state.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -197,7 +199,7 @@
         ],
         "EFFECTS": [
           "Mutates issue values, renders, index and transaction records.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -238,8 +240,8 @@
           "Checks values, rendered structures and index digest against the active registry. A missing or malformed bundle blocks; this is structural validation, not implementation or semantic proof. The route uses the request's plan_pvf capability mapping, not a fictional validate command enum."
         ],
         "EFFECTS": [
-          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Observation-only diagnostic route; does not create lifecycle lock metadata or replay a pending transaction. Pending transaction recovery is reported as local_transaction_recovery_required and must use an explicit mutation/recovery route.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -277,11 +279,11 @@
           }
         ],
         "DESCRIPTION": [
-          "Checks the native lifecycle and six cards, returns findings and next_route. Some invalid operational roots currently fall back to non-authoritative construction reporting. Check operational_authority and full findings before considering binding. It does not establish independent implementation review."
+          "Checks the native lifecycle and six cards, returns findings and next_route. Missing or invalid operational authority context fails closed; only explicit local selects non-authoritative construction inspection. Check operational_authority and full findings before considering binding. It does not establish independent implementation review."
         ],
         "EFFECTS": [
-          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Observation-only diagnostic route; does not create lifecycle lock metadata or replay a pending transaction. Pending transaction recovery is reported as local_transaction_recovery_required and must use an explicit mutation/recovery route.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -319,11 +321,11 @@
           }
         ],
         "DESCRIPTION": [
-          "Inspects native issue state and eligibility under current authority. Retained --v3-state-root observation and topology fallback can produce non-authoritative construction reports. Eligibility is not permission to execute a different issue or override dependency gates."
+          "Inspects native issue state and eligibility under current authority. Operational context discovery fails closed instead of selecting a construction report; use explicit local only for historical construction inspection. Eligibility is not permission to execute a different issue or override dependency gates."
         ],
         "EFFECTS": [
-          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Observation-only diagnostic route; does not create lifecycle lock metadata or replay a pending transaction. Pending transaction recovery is reported as local_transaction_recovery_required and must use an explicit mutation/recovery route.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -364,8 +366,8 @@
           "Requires schedule_readiness with phase_ready, cards_ready, design_ready, dependencies_ready, paths_clear and budget_available. All six must be truthfully supported. Reports eligible operations and blockers; it does not launch children or remove dependency edges."
         ],
         "EFFECTS": [
-          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Observation-only diagnostic route; does not create lifecycle lock metadata or replay a pending transaction. Pending transaction recovery is reported as local_transaction_recovery_required and must use an explicit mutation/recovery route.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -406,8 +408,8 @@
           "Consumes shepherd_routing validation/dependency_wait/retryable_failure/repair_needed/operator_decision_needed and native phase. Returns routing state and eligible operations. It does not create workers, dispatch tasks or perform the suggested next operation."
         ],
         "EFFECTS": [
-          "Diagnostic route; current implementation may create lock metadata or recover a pending transaction.",
-          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction."
+          "Observation-only diagnostic route; does not create lifecycle lock metadata or replay a pending transaction. Pending transaction recovery is reported as local_transaction_recovery_required and must use an explicit mutation/recovery route.",
+          "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
@@ -568,6 +570,9 @@
           "mutation.action pull_request_merge requires base, method \"merge\", review_receipt_path and review_receipt_digest. Squash/rebase, queues, unsupported active rules, incomplete pagination, missing/wrong-app checks, skipped required checks, unresolved threads and changes-requested reviews fail closed.",
           "Admission observes exact PR/head/base and effective branch policy. The SHA conditional protects the head, not an atomic base/policy snapshot. Reconciliation requires the authenticated merge commit to have two ordered parents, matching retained base then reviewed head. A base race after dispatch can only be detected afterward; never claim atomic policy compare-and-swap or automatic rollback.",
           "After successful merge reconciliation run finish --observe-github independently. A merge receipt is not terminal issue-close evidence."
+        ],
+        "MERGE LINKAGE": [
+          "Merge requires reviewed publication_linkage, one canonical whole-line Closes owner/repository#issue or Part of owner/repository#issue relation, complete authenticated closingIssuesReferences and a qualified OPEN issue before dispatch. Same-repository #issue is supported; split-repository references must be qualified. Closing poststate requires CLOSED, PartOf requires OPEN. Head CAS does not freeze body, base or policy; late drift blocks reconciliation and never authorizes another PUT. See docs/csdlc-v3/PULL_REQUEST_MERGE.md."
         ]
       }
     },
@@ -1114,7 +1119,7 @@
           }
         ],
         "DESCRIPTION": [
-          "Checks exact candidate revision, release notes bytes, gate/inventory/evidence digests and package/lockfile consistency. Gate evidence is an input, never release authorization. This route does not tag, publish or mutate GitHub. Current Git status inspection may refresh index metadata; byte-level observation hardening is pending #867.",
+          "Checks exact candidate revision, release notes bytes, gate/inventory/evidence digests and package/lockfile consistency. Gate evidence is an input, never release authorization. This route does not tag, publish or mutate GitHub. Git status inspection disables optional locks to avoid index refresh; this observation does not grant release or mutation authority.",
           "The current route is explicitly limited to repository agent-logic/agent-design-language and version v0.92.1; other versions report unsupported_release_identity. Do not claim v0.92.2 release readiness from this older bounded checker."
         ],
         "OPTIONS": [
@@ -1245,7 +1250,8 @@
           "reviewer: String; required.",
           "reviewed_revision: String; required.",
           "expected_head_sha: String; required.",
-          "evidence_digest: String; required."
+          "evidence_digest: String; required.",
+          "publication_linkage: Option<PublicationLinkage>; required for merge, optional for publication-only compatibility. Its qualified repository, issue and mode enter the typed review payload digest. A pre-linkage merge receipt cannot authorize a new merge."
         ],
         "GITHUBREADBACKRECEIPT": [
           "schema: String; required.",
@@ -1436,6 +1442,11 @@
           "notes_digest: String; required.",
           "gate_path: String; required.",
           "gate_digest: String; required."
+        ],
+        "PUBLICATIONLINKAGE": [
+          "repository: String; required qualified owner/repository of the issue, which may differ from the PR code repository.",
+          "issue: u64; required positive issue number matching the merge request.",
+          "mode: RemotePublicationMode; required closing or part_of. The reviewed mode controls both authenticated pre-dispatch relation and post-merge issue state."
         ]
       }
     },

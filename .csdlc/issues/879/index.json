@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 879,
+  "phase": "bound",
+  "generation": 10,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/879-github-ingestion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-879-github-ingestion",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "b0eb8418973b467e816a0333d9ae61506814e0debf3350b95fbb1053d9206d7f"
+}

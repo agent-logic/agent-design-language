@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.53s
+     Running tests/cli_smoke.rs (adl/target/debug/deps/cli_smoke-a8b78e070d31f915)
+
+running 1 test
+test agent::csm_runtime_api_serves_status_health_ready_metrics_and_events ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 107 filtered out; finished in 15.89s
+

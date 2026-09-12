@@ -436,6 +436,7 @@ fn github_read_only_curl_invocation(
         operation.as_str(),
         "pull-request"
             | "pull-request-merge-state"
+            | "pull-request-merge-linkage"
             | "branch-merge-rules"
             | "pull-requests-by-head"
             | "issue"
@@ -443,7 +444,10 @@ fn github_read_only_curl_invocation(
             | "issues-by-marker"
     ) || (!matches!(
         operation.as_str(),
-        "issues-by-marker" | "pull-requests-by-head" | "branch-merge-rules"
+        "issues-by-marker"
+            | "pull-requests-by-head"
+            | "branch-merge-rules"
+            | "pull-request-merge-linkage"
     ) && number.parse::<u64>().is_err())
         || (operation == "issues-by-marker"
             && (number.is_empty()
@@ -485,7 +489,10 @@ fn github_read_only_curl_invocation(
             format!("https://api.github.com/repos/{repository}/rules/branches/{}?per_page=100&page=1", encode_query_value(number)),
         ]).map_err(|_| ProcessOutput { status: ProcessStatus::Exit(2), stdout: String::new(), stderr: "invalid rule observation".into(), truncated: false });
     }
-    if operation == "pull-request-merge-state" {
+    if matches!(
+        operation.as_str(),
+        "pull-request-merge-state" | "pull-request-merge-linkage"
+    ) {
         let Some((owner, name)) = repository.split_once('/') else {
             return Err(ProcessOutput {
                 status: ProcessStatus::Exit(2),
@@ -506,7 +513,18 @@ fn github_read_only_curl_invocation(
                 truncated: false,
             });
         }
-        let query = crate::commands::remote::merge_state_query(owner, name, number);
+        let query = if operation == "pull-request-merge-linkage" {
+            crate::commands::remote::merge_linkage_query(repository, number).ok_or_else(|| {
+                ProcessOutput {
+                    status: ProcessStatus::Exit(2),
+                    stdout: String::new(),
+                    stderr: "invalid qualified merge linkage target".into(),
+                    truncated: false,
+                }
+            })?
+        } else {
+            crate::commands::remote::merge_state_query(owner, name, number)
+        };
         return CommandInvocation::new(
             "curl",
             [
@@ -1245,23 +1263,10 @@ mod tests {
     #[cfg(unix)]
     #[test]
     fn observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments() {
-        use std::os::unix::fs::PermissionsExt;
-        let script = r#"#!/bin/sh
-IFS= read -r config
-test "$config" = 'header = "Authorization: Bearer synthetic-sim01-secret"' || exit 11
-test "$GITHUB_TOKEN" = 'synthetic-sim01-secret' || exit 12
-test -z "${HOME+x}${HTTPS_PROXY+x}${GH_TOKEN+x}" || exit 13
-test "$LC_ALL" = C || exit 14
-test "$1" = -q && test "$2" = --config && test "$3" = - && test "$#" = 3 || exit 15
-printf 'stdin-and-scope-verified'
-"#;
-        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("target/sim01-stdin-contract")
-            .join(std::process::id().to_string());
-        fs::create_dir_all(&root).unwrap();
-        let helper = root.join("curl-fixture");
-        fs::write(&helper, script).unwrap();
-        fs::set_permissions(&helper, fs::Permissions::from_mode(0o700)).unwrap();
+        // Immutable executable fixtures avoid Linux ETXTBSY when another test
+        // forks while a newly written executable still has an inherited writer.
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
+        let helper = root.join("curl_stdin_contract.sh");
         let invocation =
             CommandInvocation::new(helper.to_str().unwrap(), std::iter::empty::<&str>()).unwrap();
         let output = run_observational_curl(
@@ -1272,7 +1277,12 @@ printf 'stdin-and-scope-verified'
         assert_eq!(output.status, ProcessStatus::Exit(0), "{output:?}");
         assert_eq!(output.stdout, "stdin-and-scope-verified");
         assert!(output.stderr.is_empty());
-        fs::write(&helper, "#!/bin/sh\ncat >/dev/null\nprintf '%s' \"$GITHUB_TOKEN\"\nprintf '%s' \"$GITHUB_TOKEN\" >&2\n").unwrap();
+        let redaction_helper = root.join("curl_redaction_contract.sh");
+        let invocation = CommandInvocation::new(
+            redaction_helper.to_str().unwrap(),
+            std::iter::empty::<&str>(),
+        )
+        .unwrap();
         let output =
             run_observational_curl(&invocation, ("GITHUB_TOKEN", "synthetic-sim01-secret"), 8);
         assert!(output.truncated);
@@ -1404,6 +1414,41 @@ printf 'stdin-and-scope-verified'
 #[cfg(test)]
 mod merge_adapter_tests {
     use super::*;
+    #[test]
+    fn merge_linkage_readback_admits_only_qualified_numeric_targets() {
+        for (target, allowed) in [
+            ("844:agent-logic/planning#505", true),
+            ("844:agent-logic/agent-design-language#505", true),
+            ("844:#505", false),
+            ("844:agent-logic/planning#0", false),
+            ("0:agent-logic/planning#505", false),
+            ("844:agent-logic/planning/extra#505", false),
+            ("844:agent-logic/planning#505) { viewer { login } }", false),
+            ("844:agent-logic/planning\"#505", false),
+        ] {
+            let request = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [
+                    "pull-request-merge-linkage",
+                    "agent-logic/agent-design-language",
+                    target,
+                ],
+            )
+            .unwrap();
+            let result = github_read_only_curl_invocation(&request);
+            assert_eq!(result.is_ok(), allowed, "{target}");
+            if let Ok(curl) = result {
+                let query = curl
+                    .argv
+                    .iter()
+                    .find(|arg| arg.starts_with("query="))
+                    .unwrap();
+                assert!(query.contains("closingIssuesReferences(first:100)"));
+                assert!(query.contains("linkedRepository: repository"));
+                assert!(query.contains("issue(number:505) { number url state }"));
+            }
+        }
+    }
     // PVF: required deterministic owner adapter contract, small local CPU/filesystem.
     #[test]
     fn merge_put_is_narrow_and_readback_cannot_supply_arbitrary_query() {

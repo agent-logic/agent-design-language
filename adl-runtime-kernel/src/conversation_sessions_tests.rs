@@ -199,9 +199,16 @@ impl OperationExecutor for ShepherdConversationExecutor {
             })?;
         let task_content = runtime_delivered_task_content(&work.prompt);
         if task_content == "provider failure" {
+            // Exercise a real failing provider process, not a caller-supplied failure flag.
+            let output = tokio::process::Command::new("/bin/sh")
+                .args(["-c", "printf private-provider-failure-canary >&2; exit 42"])
+                .output()
+                .await
+                .unwrap();
+            assert_eq!(output.status.code(), Some(42));
             return Err(ExecutorError {
                 class: FailureClass::Retryable,
-                message: "configured provider failed".to_owned(),
+                message: String::from_utf8(output.stderr).unwrap(),
             });
         }
         if task_content == "delay" {
@@ -633,6 +640,21 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
         "0123456789abcdef0123456789abcdef"
     );
     assert!(!delivered.to_string().contains("adapter_secret"));
+    let success_events = recorder.events();
+    assert_eq!(
+        success_events
+            .iter()
+            .filter(|event| event.event == "domain_work_completed"
+                && event.correlation_id.as_deref() == Some("0123456789abcdef0123456789abcdef")
+                && event.component.as_ref().map(ComponentId::as_str) == Some("canonical_ingress"))
+            .count(),
+        1
+    );
+    assert!(!success_events
+        .iter()
+        .any(|event| event.event == "domain_work_failed"
+            && event.correlation_id.as_deref() == Some("0123456789abcdef0123456789abcdef")));
+
     assert_eq!(dispatches.load(Ordering::SeqCst), 4);
 
     socket
@@ -1197,6 +1219,100 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
         failed["reply"].is_null(),
         "provider failure must not synthesize a reply: {failed}"
     );
+
+    assert_eq!(failed["correlation_id"], "99999999999999999999999999999999");
+    assert_eq!(failed["accepted_sequence"], accepted["accepted_sequence"]);
+    let events = recorder.events();
+    let failure_events = events
+        .iter()
+        .filter(|event| {
+            event.event == "domain_work_failed"
+                && event.correlation_id.as_deref() == Some("99999999999999999999999999999999")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(
+        failure_events.len(),
+        1,
+        "exactly one Runtime-owned failure event: {events:?}"
+    );
+    assert!(!events
+        .iter()
+        .any(|event| event.event == "domain_work_completed"
+            && event.correlation_id.as_deref() == Some("99999999999999999999999999999999")));
+    assert_eq!(
+        failure_events[0]
+            .component
+            .as_ref()
+            .map(ComponentId::as_str),
+        Some("canonical_ingress")
+    );
+    // Observe the same Runtime event through the already authenticated TLS websocket.
+    let projected = tokio::time::timeout(Duration::from_secs(2), async {
+        loop {
+            let feed = next_frame_with_schema(&mut socket, PREVIOUS_OBSERVATORY_FEED_SCHEMA).await;
+            if feed["events"].as_array().unwrap().iter().any(|event| {
+                event["event"] == "domain_work_failed"
+                    && event["correlation_id"] == "99999999999999999999999999999999"
+            }) {
+                break feed;
+            }
+        }
+    })
+    .await
+    .expect("Runtime failure event did not reach authenticated Observatory WSS");
+    let expected_event = serde_json::to_value(failure_events[0]).unwrap();
+    assert_eq!(
+        projected["events"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|event| **event == expected_event)
+            .count(),
+        1,
+        "WSS must project the exact recorded event, including component and sequence"
+    );
+
+    for public_value in [
+        failed.to_string(),
+        serde_json::to_string(&events).unwrap(),
+        projected.to_string(),
+    ] {
+        assert!(!public_value.contains("private-provider-failure-canary"));
+        assert!(!public_value.contains(TOKEN));
+        assert!(!public_value.contains(ROTATED_TOKEN));
+    }
+
+    // An authenticated client still cannot publish Runtime events or attach a
+    // different correlation identity to an already accepted failing turn.
+    for forged in [
+        serde_json::json!({"schema": "adl.runtime.event.v1", "event": "domain_work_failed",
+            "component": "canonical_ingress", "correlation_id": "fedcfedcfedcfedcfedcfedcfedcfedc"}),
+        serde_json::json!({"schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+            "conversation_id": "forged-event", "turn_id": "forged-event",
+            "recipient_id": "shepherd", "correlation_id": "fedcfedcfedcfedcfedcfedcfedcfedc",
+            "message": "Hello", "event": "domain_work_failed"}),
+    ] {
+        socket
+            .send(Message::Text(forged.to_string().into()))
+            .await
+            .unwrap();
+        let rejected =
+            next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+        assert_eq!(rejected["status"], "rejected", "{rejected}");
+        assert_eq!(rejected["error"], "invalid_request", "{rejected}");
+    }
+    socket.send(Message::Text(serde_json::json!({
+        "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+        "conversation_id": "conversation-provider-failure", "turn_id": "turn-provider-failure",
+        "recipient_id": "shepherd", "correlation_id": "fedcfedcfedcfedcfedcfedcfedcfedc",
+        "message": "provider failure"
+    }).to_string().into())).await.unwrap();
+    let mismatched = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
+    assert_eq!(mismatched["error"], "conversation_conflict", "{mismatched}");
+    assert!(!recorder
+        .events()
+        .iter()
+        .any(|event| event.correlation_id.as_deref() == Some("fedcfedcfedcfedcfedcfedcfedcfedc")));
 
     socket.close(None).await.unwrap();
     server.abort();

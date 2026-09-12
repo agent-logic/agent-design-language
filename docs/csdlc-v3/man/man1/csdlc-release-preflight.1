@@ -6,7 +6,7 @@ csdlc\-release\-preflight \- check exact release\-candidate consistency
 \&csdlc release\-preflight \-\-request REQUEST
 .fi
 .SH DESCRIPTION
-\&Checks exact candidate revision, release notes bytes, gate/inventory/evidence digests and package/lockfile consistency. Gate evidence is an input, never release authorization. This route does not tag, publish or mutate GitHub. Current Git status inspection may refresh index metadata; byte\-level observation hardening is pending #867.
+\&Checks exact candidate revision, release notes bytes, gate/inventory/evidence digests and package/lockfile consistency. Gate evidence is an input, never release authorization. This route does not tag, publish or mutate GitHub. Git status inspection disables optional locks to avoid index refresh; this observation does not grant release or mutation authority.
 .PP
 \&The current route is explicitly limited to repository agent\-logic/agent\-design\-language and version v0.92.1; other versions report unsupported_release_identity. Do not claim v0.92.2 release readiness from this older bounded checker.
 .SH OPTIONS

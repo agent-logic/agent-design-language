@@ -1,0 +1,124 @@
+{
+  "admission": {
+    "schema": "codefriend.evidence.v1",
+    "packet": {
+      "schema": "codefriend.repository_packet.v1",
+      "repository": "https://example.com/fixture/evidence",
+      "revision": "78ae8d21ff698df81187b4fbad2cf0ba3ce07606",
+      "object_format": "sha1",
+      "scope": {
+        "analysis": [
+          "lib.rs"
+        ],
+        "context": [
+          "LICENSE"
+        ],
+        "max_files": 10,
+        "max_bytes": 10000,
+        "max_file_bytes": 10000
+      },
+      "scope_digest": "7dd3791df6fd1ddcebab125e7770972aa4d58b72f2ed08a214841e19ffa2dc1d",
+      "objects": [
+        {
+          "path": "LICENSE",
+          "source_object": "c58fa3f60752dfae28baaa55fc6f9721a9279c9e",
+          "source_bytes": 20,
+          "content_digest": "dd28e151d757359d44f9020d4103892aad30451291d25a5092538978dc8c36b6",
+          "content": "MIT fixture license\n",
+          "disposition": "included",
+          "analysis_support": "context_or_unsupported_analysis"
+        },
+        {
+          "path": "lib.rs",
+          "source_object": "ace84d377189729fae1c115571908c75c45f519a",
+          "source_bytes": 20,
+          "content_digest": "cc85de51d4b68ab96c71badb85335ee0edaaf40d3a261dd0c9d8607c438aba11",
+          "content": "pub fn fixture() {}\n",
+          "disposition": "included",
+          "analysis_support": "rust_source_not_yet_analyzed"
+        }
+      ],
+      "excluded_surfaces": "all_paths_outside_declared_scope",
+      "checkout_policy": "committed_blobs_only_dirty_and_untracked_excluded",
+      "review_state": "not_reviewed",
+      "completeness": "complete_scoped_acquisition",
+      "packet_id": "2e90c646b5b35ef08c808ba2bd0daff26b4ee39a76c4fc6ae2064e533ed421de"
+    },
+    "evidence": [
+      {
+        "schema": "codefriend.evidence.v1",
+        "id": "ea3c42d71d338f6934c3577b18b3f17e11ebd6ee332ca7f9b45a7566e2cef86a",
+        "repository": "https://example.com/fixture/evidence",
+        "revision": "78ae8d21ff698df81187b4fbad2cf0ba3ce07606",
+        "path": "LICENSE",
+        "source_object": "c58fa3f60752dfae28baaa55fc6f9721a9279c9e",
+        "content_digest": "dd28e151d757359d44f9020d4103892aad30451291d25a5092538978dc8c36b6",
+        "redaction": "known_unsafe_whole_object_omission_v1",
+        "trust": "untrusted_repository_text"
+      },
+      {
+        "schema": "codefriend.evidence.v1",
+        "id": "4f4a5409e264b40cc59e4fe89050a2640036d6c201fa305e09538e48d834d2f2",
+        "repository": "https://example.com/fixture/evidence",
+        "revision": "78ae8d21ff698df81187b4fbad2cf0ba3ce07606",
+        "path": "lib.rs",
+        "source_object": "ace84d377189729fae1c115571908c75c45f519a",
+        "content_digest": "cc85de51d4b68ab96c71badb85335ee0edaaf40d3a261dd0c9d8607c438aba11",
+        "redaction": "known_unsafe_whole_object_omission_v1",
+        "trust": "untrusted_repository_text"
+      }
+    ],
+    "retention": {
+      "seconds": 86400
+    },
+    "admitted_at": 1789188922,
+    "expires_at": 1789275322,
+    "digest": "164c74b802025d1f56248ee773f2d14b21515c1edef5662e91d998ee16742511"
+  },
+  "run": {
+    "schema": "codefriend.contracts.v1",
+    "id": "57c1a9b483aa375f93d78f6b28b287b92e6b43c3c0133a1cb560fb8041150be4",
+    "repository": "https://example.com/fixture/evidence",
+    "revision": "78ae8d21ff698df81187b4fbad2cf0ba3ce07606",
+    "scope_digest": "7dd3791df6fd1ddcebab125e7770972aa4d58b72f2ed08a214841e19ffa2dc1d",
+    "included": [
+      "LICENSE",
+      "lib.rs"
+    ],
+    "excluded": [
+      "all_paths_outside_declared_scope"
+    ],
+    "packet_id": "2e90c646b5b35ef08c808ba2bd0daff26b4ee39a76c4fc6ae2064e533ed421de",
+    "admission_digest": "164c74b802025d1f56248ee773f2d14b21515c1edef5662e91d998ee16742511",
+    "lane_versions": {
+      "security": "v1"
+    },
+    "provider_route": "local.no-provider",
+    "completion": "complete",
+    "failures": []
+  },
+  "findings": [
+    {
+      "schema": "codefriend.contracts.v1",
+      "id": "f9baee545ff3d0c4b15f5245887d88e614001ba8b79594395b24ee0f3c95c4c0",
+      "repository": "https://example.com/fixture/evidence",
+      "perspective": "security",
+      "rule": "CF001",
+      "semantic_anchor": "crate::fixture",
+      "title": "canonical fixture finding",
+      "severity": "low",
+      "rationale": "bounded fixture rationale",
+      "confidence": {
+        "state": "unknown"
+      },
+      "evidence": [
+        "ea3c42d71d338f6934c3577b18b3f17e11ebd6ee332ca7f9b45a7566e2cef86a"
+      ],
+      "inference": "fixture interpretation",
+      "scope_digest": "7dd3791df6fd1ddcebab125e7770972aa4d58b72f2ed08a214841e19ffa2dc1d",
+      "limitations": [
+        "No actual review performed"
+      ]
+    }
+  ]
+}

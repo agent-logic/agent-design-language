@@ -2076,6 +2076,13 @@ emit "optional_workflows_status" "$optional_workflows_status"
 emit "optional_workflows_reason" "$optional_workflows_reason"
 emit "soak_workflows_status" "$soak_workflows_status"
 emit "soak_workflows_reason" "$soak_workflows_reason"
+# CI acquisition owns one installed smoke; unknown routing fails closed.
+codefriend_ci_required=true
+if [ "$event_name" = pull_request ] && [ "$fail_closed" = false ] && [ -n "${changed_files:-}" ]; then
+  codefriend_ci_required="$(printf '%s\n' "$changed_files" | python3 "$ROOT_DIR/adl/tools/codefriend/ci_select.py")"
+fi
+emit "codefriend_ci_required" "$codefriend_ci_required"
+
 emit "duplicate_head_status" "$duplicate_head_status"
 emit "duplicate_head_reason" "$duplicate_head_reason"
 

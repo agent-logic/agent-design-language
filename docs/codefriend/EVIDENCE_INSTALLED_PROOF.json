@@ -1,0 +1,209 @@
+{
+  "schema": "codefriend.evidence_installed_proof.v1",
+  "issue": 881,
+  "platform": "Darwin-arm64",
+  "binary_sha256": "59a9ef09925a85f9d65a4c09627c6e0ae2805225381c1c3cd0fc0c5de9f2bc21",
+  "installation_provenance": "38c0714e7d584b8eda81087392b949250eac9e286e7b3632506ff8d228fd5ddf",
+  "fixtures": [
+    {
+      "fixture": "vector",
+      "repository": "https://github.com/vectordotdev/vector",
+      "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+      "packet_id": "6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f",
+      "admission_digest": "5c5595996769932d6e147a22f977a7670408b82be4df3926d45517c9e8080b40",
+      "evidence": [
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "a96efc6ab86545847a34875fd99c2b241462d94506cb9466bd2fb3feb0e6f40f",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "Cargo.lock",
+          "source_object": "fcbddca1e684024ccc5de86f4e5988045ab3a354",
+          "content_digest": "54d3e364160340e9959316ab1f0b5679a7f995afda62a14e76da53b1839e46ac",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "a18d8331956112e95d611678c0a6406a465ce8280ad8ae103b60937404ffc67b",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "Cargo.toml",
+          "source_object": "391ab9c4394ba16c5abe2951b4a48902dd91417d",
+          "content_digest": "d8e3210bc8f2753c0e1a178fadcc7b3700a81a4ee025e71a711a0d64c6c38070",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "fbdf91b0081939a9123b140a26dc6abea048c071568439af5a4654685981af98",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "LICENSE",
+          "source_object": "e87a115e462e1f5fee7905ea914c72e24d2eee42",
+          "content_digest": "902ac1eb2a62c5bdb5dd1e3b340fc926c6f347708a5e8a5b8814884e542b38fe",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "c4c0d96572e1e8e9e0cda9a6f32f0898482beb61985ec38b473d6c1f657cddeb",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "lib/dnsmsg-parser/Cargo.toml",
+          "source_object": "f3aeb2c2d91b3acba818fa0c34b30e312d5b72d5",
+          "content_digest": "1d31c6ea6577d08b7c968c7e67140355553919eed66de29beb0141c1d81271e9",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "63cd2a99fb096468040664c9e04cac7dcbc1c4412532d5e1d8a3d3cdd31ac14c",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "lib/dnsmsg-parser/LICENSE",
+          "source_object": "c96f86d941f1b99741e2992fa4327360ed8d53ac",
+          "content_digest": "d5fa54fb0603eefed4065c0ae17b2e3bc3e107e7b904e7e8566971ca1db08630",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "91342f7821a7127520bb05e2f431bd652a04e67c935494d8846569ffb6667377",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "lib/dnsmsg-parser/benches/benches.rs",
+          "source_object": "f307aef7e1463c776aba37bc2705f51c52d6d95a",
+          "content_digest": "0391a7e4c8aa452a852868a1104b96545b2141e528f37837eaf659132e2b1fe1",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "a993dc62a8392670ae6667bb1a4bf994b0a57343f958a3d9bd36f16a78b10573",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "lib/dnsmsg-parser/src/dns_message.rs",
+          "source_object": "fd0cc8f613dcfa867dd088ef9f09c65a11eb0013",
+          "content_digest": "8cf178237232852f48ba40b476ae0555256495f70bf0d9f0ef81bcd79673f53d",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "7a2ddd28d244bbc06e57794ecd30f15fe296dbc6cc6bf048755fa5f09cff6538",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "lib/dnsmsg-parser/src/dns_message_parser.rs",
+          "source_object": "a22b630ffaca4178b12323319a7c9d24015acb72",
+          "content_digest": "9846e49ae486e0d441f1638413105719d00d542d15a378cd317fe0d27b2c3a97",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "930432b766c0819523d477bf06381045ec033de16cb8f122e1e3a48df6b02dee",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "lib/dnsmsg-parser/src/ede.rs",
+          "source_object": "26bd22ed008ea45e9ba9408b2c774099747e043a",
+          "content_digest": "da956b15be82632c4ebb1030ad70a80587df0f541d93b437384a7010e058ecaa",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "db94da083fff8cf9fbb26358962393152ba1e86fb6d03774039d3d93ff9e50a2",
+          "repository": "https://github.com/vectordotdev/vector",
+          "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+          "path": "lib/dnsmsg-parser/src/lib.rs",
+          "source_object": "3d1fcd46a129c0acae8d0601a36dd8f550818c56",
+          "content_digest": "eb5a567d5e73686a09fac9a38461befc680604c5e92ff8b509c49c480a1b5dd8",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        }
+      ],
+      "source_bytes": 520777,
+      "scope": {
+        "analysis": [
+          "lib/dnsmsg-parser/Cargo.toml",
+          "lib/dnsmsg-parser/LICENSE",
+          "lib/dnsmsg-parser/benches/benches.rs",
+          "lib/dnsmsg-parser/src/dns_message.rs",
+          "lib/dnsmsg-parser/src/dns_message_parser.rs",
+          "lib/dnsmsg-parser/src/ede.rs",
+          "lib/dnsmsg-parser/src/lib.rs"
+        ],
+        "context": [
+          "Cargo.lock",
+          "Cargo.toml",
+          "LICENSE"
+        ],
+        "max_files": 10,
+        "max_bytes": 614400,
+        "max_file_bytes": 409600
+      },
+      "same_admission_on_repeat": true,
+      "production_restart_readback": true,
+      "explicit_delete_executed": true,
+      "deleted_raw_record_absent": true,
+      "post_delete_retrieval_denied": true,
+      "source_status_unchanged": true
+    },
+    {
+      "fixture": "adl",
+      "repository": "https://github.com/agent-logic/agent-design-language",
+      "revision": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+      "packet_id": "5e472e892c6256548f21766b77b0f6cbccf9b6da620a5e50084194e44d2829dc",
+      "admission_digest": "3797bd1810b4f31aadb42873beafe32c1ba749a3cefe8d6d8d0e9e7bdfdba38f",
+      "evidence": [
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "c7112d8dfbb51b67eed17e4fb1c865ec9eb9d2630f10724f77a9c2028b2d9772",
+          "repository": "https://github.com/agent-logic/agent-design-language",
+          "revision": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "path": "adl/Cargo.toml",
+          "source_object": "fbe6206ca0abdb9b993a01b6d508550b3b9e13df",
+          "content_digest": "6d741ac7e6c986a1e04d1da6a6a528918dbda3f0fce2eba6ea4fe846c19d3ff5",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "c5b61019f46149f468dcc706eb4c36f2a5f0ac3331c4226d71062a4b7723dabc",
+          "repository": "https://github.com/agent-logic/agent-design-language",
+          "revision": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "path": "adl/src/uts.rs",
+          "source_object": "1ba571ad6c61302bf53304fae97ec99f3b69caad",
+          "content_digest": "f2d288b03b63450ff2db0634215a132dd5fdccd30f78bccbd1252919cb35eb94",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        }
+      ],
+      "source_bytes": 4291,
+      "scope": {
+        "analysis": [
+          "adl/src/uts.rs"
+        ],
+        "context": [
+          "adl/Cargo.toml"
+        ],
+        "max_files": 2,
+        "max_bytes": 614400,
+        "max_file_bytes": 409600
+      },
+      "same_admission_on_repeat": true,
+      "production_restart_readback": true,
+      "explicit_delete_executed": true,
+      "deleted_raw_record_absent": true,
+      "post_delete_retrieval_denied": true,
+      "source_status_unchanged": true
+    }
+  ],
+  "nonclaims": [
+    "No review, matching or publication execution",
+    "No provider/cloud calls",
+    "No Vector build or execution",
+    "Linux qualification deferred to required hosted CI"
+  ]
+}

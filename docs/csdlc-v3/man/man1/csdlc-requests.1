@@ -159,6 +159,8 @@ csdlc\-requests \- native request fields, enums and digest contracts
 \&expected_head_sha: String; required.
 .PP
 \&evidence_digest: String; required.
+.PP
+\&publication_linkage: Option<PublicationLinkage>; required for merge, optional for publication\-only compatibility. Its qualified repository, issue and mode enter the typed review payload digest. A pre\-linkage merge receipt cannot authorize a new merge.
 .SH GITHUBREADBACKRECEIPT
 \&schema: String; required.
 .PP
@@ -459,3 +461,9 @@ csdlc\-requests \- native request fields, enums and digest contracts
 \&gate_path: String; required.
 .PP
 \&gate_digest: String; required.
+.SH PUBLICATIONLINKAGE
+\&repository: String; required qualified owner/repository of the issue, which may differ from the PR code repository.
+.PP
+\&issue: u64; required positive issue number matching the merge request.
+.PP
+\&mode: RemotePublicationMode; required closing or part_of. The reviewed mode controls both authenticated pre\-dispatch relation and post\-merge issue state.

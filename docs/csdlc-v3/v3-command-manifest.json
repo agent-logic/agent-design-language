@@ -15,7 +15,9 @@
     "implemented_replacement_routes": 21,
     "partial_replacement_routes": 0,
     "fail_closed_replacement_routes": 0,
-    "remaining_replacement_routes": 0
+    "remaining_replacement_routes": 0,
+    "additional_aliases": 1,
+    "total_dispositions": 27
   },
   "commands": [
     {
@@ -23,14 +25,57 @@
       "replaces": [],
       "owner_issue": 501,
       "implementation_status": "implemented",
-      "authority_status": "read_only_helper"
+      "authority_status": "read_only_helper",
+      "family": "foundation",
+      "discovery_group": "historical_administrative",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "repository_path",
+      "usage": "foundation --repo-root <path>",
+      "disposition": "read_only_helper",
+      "input_variants": [
+        {
+          "name": "discovery",
+          "positional_prefix": [],
+          "required_flags": [
+            "--repo-root"
+          ],
+          "optional_flags": [],
+          "request_type": "repository_path"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "local",
       "replaces": [],
       "owner_issue": 503,
       "implementation_status": "implemented",
-      "authority_status": "read_only_helper"
+      "authority_status": "read_only_helper",
+      "family": "local",
+      "discovery_group": "historical_administrative",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "local --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "explicit_construction_inspection",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "bind",
@@ -39,7 +84,31 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "bind --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "clean",
@@ -48,7 +117,26 @@
       ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "terminal",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "TerminalRouteRequest",
+      "usage": "clean --request <path>",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [],
+          "request_type": "TerminalRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "cutover",
@@ -57,7 +145,28 @@
       ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "terminal",
+      "discovery_group": "historical_administrative",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "TerminalRouteRequest",
+      "usage": "cutover --request <path> [--observe-github]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "TerminalRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "doctor",
@@ -66,7 +175,31 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "doctor --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "edit",
@@ -75,7 +208,31 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "edit --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "eligibility",
@@ -84,7 +241,31 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "eligibility --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "finish",
@@ -93,7 +274,28 @@
       ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "terminal",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "TerminalRouteRequest",
+      "usage": "finish --request <path> [--observe-github]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "TerminalRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "github",
@@ -102,7 +304,38 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "remote",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local_and_remote",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
+      "usage": "github --request <path> [--observe-github] [--execute]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "RemoteRouteRequest"
+        },
+        {
+          "name": "execute",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--execute"
+          ],
+          "optional_flags": [],
+          "request_type": "OperationalRemoteDispatchRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "github-issue",
@@ -111,7 +344,84 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "remote",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local_and_remote",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
+      "usage": "github-issue --request <path> [--observe-github] [--execute]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "RemoteRouteRequest"
+        },
+        {
+          "name": "execute",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--execute"
+          ],
+          "optional_flags": [],
+          "request_type": "OperationalRemoteDispatchRequest"
+        },
+        {
+          "name": "create",
+          "positional_prefix": [
+            "create"
+          ],
+          "required_flags": [
+            "--repo",
+            "--expected-head",
+            "--title"
+          ],
+          "exactly_one_of": [
+            "--body",
+            "--body-file"
+          ],
+          "optional_flags": [
+            "--execute",
+            "--credential-name",
+            "--label",
+            "--assignee",
+            "--milestone"
+          ],
+          "request_type": "GithubMutationRequest via direct CLI parser"
+        },
+        {
+          "name": "close",
+          "positional_prefix": [
+            "close"
+          ],
+          "required_flags": [
+            "--repo",
+            "--expected-head",
+            "--issue",
+            "--disposition",
+            "--rationale"
+          ],
+          "exactly_one_of": [
+            "--body",
+            "--body-file"
+          ],
+          "optional_flags": [
+            "--execute",
+            "--credential-name",
+            "--duplicate-of"
+          ],
+          "request_type": "GithubMutationRequest via direct CLI parser"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "github-pr",
@@ -120,7 +430,38 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "remote",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local_and_remote",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
+      "usage": "github-pr --request <path> [--observe-github] [--execute]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "RemoteRouteRequest"
+        },
+        {
+          "name": "execute",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--execute"
+          ],
+          "optional_flags": [],
+          "request_type": "OperationalRemoteDispatchRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "install",
@@ -128,8 +469,27 @@
         "csdlc-install"
       ],
       "owner_issue": 631,
-      "implementation_status": "implemented_construction",
-      "authority_status": "proof_only"
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3",
+      "family": "proof",
+      "discovery_group": "historical_administrative",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "ProofRouteRequest",
+      "usage": "install --request <path>",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [],
+          "request_type": "ProofRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "issue",
@@ -138,7 +498,31 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "issue --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "pr-state",
@@ -147,7 +531,29 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "remote",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
+      "usage": "pr-state --request <path> [--observe-github] [--execute]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github",
+            "--execute"
+          ],
+          "request_type": "RemoteRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "proof",
@@ -155,8 +561,27 @@
         "csdlc-proof"
       ],
       "owner_issue": 631,
-      "implementation_status": "implemented_construction",
-      "authority_status": "proof_only"
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3",
+      "family": "proof",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "ProofRouteRequest",
+      "usage": "proof --request <path>",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [],
+          "request_type": "ProofRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "publish",
@@ -165,7 +590,38 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "remote",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local_and_remote",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
+      "usage": "publish --request <path> [--observe-github] [--execute]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "RemoteRouteRequest"
+        },
+        {
+          "name": "execute",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--execute"
+          ],
+          "optional_flags": [],
+          "request_type": "OperationalRemoteDispatchRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "review",
@@ -174,14 +630,62 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "remote",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local_and_remote",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "RemoteRouteRequest | OperationalRemoteDispatchRequest",
+      "usage": "review --request <path> [--observe-github] [--execute]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "RemoteRouteRequest"
+        },
+        {
+          "name": "execute",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--execute"
+          ],
+          "optional_flags": [],
+          "request_type": "OperationalRemoteDispatchRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "remote",
       "replaces": [],
       "owner_issue": 504,
       "implementation_status": "implemented",
-      "authority_status": "read_only_helper"
+      "authority_status": "read_only_helper",
+      "family": "remote_overview",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "none",
+      "usage": "remote --help",
+      "disposition": "read_only_helper",
+      "input_variants": [
+        {
+          "name": "discovery",
+          "positional_prefix": [],
+          "required_flags": [],
+          "optional_flags": [],
+          "request_type": "none"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "schedule",
@@ -190,7 +694,31 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "schedule --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "shadow",
@@ -199,7 +727,26 @@
       ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
-      "authority_status": "proof_only"
+      "authority_status": "proof_only",
+      "family": "proof",
+      "discovery_group": "historical_administrative",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "ProofRouteRequest",
+      "usage": "shadow --request <path>",
+      "disposition": "retired_execution_inspection_only",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [],
+          "request_type": "ProofRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "shepherd",
@@ -208,7 +755,31 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "shepherd --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "soak",
@@ -217,14 +788,53 @@
       ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
-      "authority_status": "proof_only"
+      "authority_status": "proof_only",
+      "family": "proof",
+      "discovery_group": "historical_administrative",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "ProofRouteRequest",
+      "usage": "soak --request <path>",
+      "disposition": "retired_execution_inspection_only",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [],
+          "request_type": "ProofRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "sprint",
       "replaces": [],
       "owner_issue": 632,
       "implementation_status": "implemented",
-      "authority_status": "read_only_helper"
+      "authority_status": "read_only_helper",
+      "family": "sprint",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "SprintReadinessRequest",
+      "usage": "sprint --repo-root <path> --request <path>",
+      "disposition": "read_only_helper",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--repo-root",
+            "--request"
+          ],
+          "optional_flags": [],
+          "request_type": "SprintReadinessRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "validate",
@@ -233,14 +843,57 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "authenticated_v3"
+      "authority_status": "authenticated_v3",
+      "family": "local",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "LocalPreparationRequest",
+      "usage": "validate --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]",
+      "disposition": "guarded_current_route",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request",
+            "--registry",
+            "--registrations"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--v3-state-root"
+          ],
+          "request_type": "LocalPreparationRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
       "command": "release-preflight",
       "replaces": [],
       "owner_issue": 856,
       "implementation_status": "implemented",
-      "authority_status": "read_only_helper"
+      "authority_status": "read_only_helper",
+      "family": "release-preflight",
+      "discovery_group": "operational",
+      "effect_class": "observation",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "commands::release::Request",
+      "usage": "release-preflight --request <path>",
+      "disposition": "read_only_helper",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [],
+          "request_type": "commands::release::Request"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     }
   ],
   "invariants": [
@@ -250,8 +903,41 @@
     "Retained construction and bridge proof is not operational authority.",
     "Visible helpers remain in the command denominator but do not grant mutation authority.",
     "Command owner_issue fields retain construction provenance; current execution follows authenticated native authority.",
-    "install/proof/shadow/soak retain their construction-proof role after cutover; they do not independently authorize lifecycle mutation.",
-    "The separate full-replacement-denominator.json is immutable pre-cutover evidence. Its historical cutover_ready=false is not current routing policy."
+    "The separate full-replacement-denominator.json is immutable pre-cutover evidence. Its historical cutover_ready=false is not current routing policy.",
+    "proof/install are authenticated bound-worktree operations; shadow/soak execution is retired, and local is explicit construction inspection only."
   ],
-  "authority_condition": "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority."
+  "authority_condition": "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.",
+  "contract_schema": "csdlc.v3.command_contract.v1",
+  "result_envelope_schema": "csdlc.v3.command_result.v1",
+  "aliases": [
+    {
+      "command": "rollback",
+      "alias_for": "cutover",
+      "replaces": [],
+      "owner_issue": 868,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3",
+      "family": "terminal",
+      "discovery_group": "historical_administrative",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "TerminalRouteRequest",
+      "usage": "rollback --request <path> [--observe-github]",
+      "disposition": "typed_rollback_alias_only",
+      "input_variants": [
+        {
+          "name": "request",
+          "positional_prefix": [],
+          "required_flags": [
+            "--request"
+          ],
+          "optional_flags": [
+            "--observe-github"
+          ],
+          "request_type": "TerminalRouteRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
+    }
+  ]
 }

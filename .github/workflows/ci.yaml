@@ -22,6 +22,7 @@ jobs:
       contents: read
       pull-requests: read
     outputs:
+      codefriend_ci_required: ${{ steps.path-policy.outputs.codefriend_ci_required }}
       reason: ${{ steps.path-policy.outputs.reason }}
       change_class: ${{ steps.path-policy.outputs.change_class }}
       pvf_lane: ${{ steps.path-policy.outputs.pvf_lane }}
@@ -452,6 +453,51 @@ jobs:
       - name: Provider core clippy
         run: cargo clippy --locked --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings
 
+  codefriend_ci_acquisition:
+    name: codefriend-ci-acquisition
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.codefriend_ci_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+      - name: Build and install candidate
+        run: |
+          cargo build --locked --manifest-path adl/Cargo.toml --bin adl
+          bash adl/tools/install_owner_binaries.sh --bin adl --no-build
+      - name: Installed CI acquisition and packet readback
+        env:
+          CANDIDATE_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
+          ACQUISITION_RUN_ID: ${{ github.run_id }}
+          ACQUISITION_RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python3 adl/tools/codefriend/ci_smoke.py --binary .adl/bin/adl --candidate-revision "$CANDIDATE_REVISION" --output .adl/ci-acquisition-proof --run-id "$ACQUISITION_RUN_ID" --run-attempt "$ACQUISITION_RUN_ATTEMPT" --job codefriend-ci-acquisition
+          ruby adl/tools/codefriend/test_ci_contract.rb
+      - name: Upload acquired artifacts and candidate/source proof
+        id: acquisition-upload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: codefriend-ci-acquisition
+          path: .adl/ci-acquisition-proof/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+      - name: Require confirmed artifact transport
+        env:
+          ARTIFACT_ID: ${{ steps.acquisition-upload.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.acquisition-upload.outputs.artifact-digest }}
+        run: |
+          test -n "$ARTIFACT_ID"
+          test -n "$ARTIFACT_DIGEST"
+          printf 'Artifact %s digest %s\n' "$ARTIFACT_ID" "$ARTIFACT_DIGEST" >> "$GITHUB_STEP_SUMMARY"
+
   adl_uts_package:
     name: adl-uts-package
     needs: adl_path_policy
@@ -741,6 +787,7 @@ jobs:
       - adl_tooling_contracts
       - adl_runtime_v3_fast
       - adl_uts_package
+      - codefriend_ci_acquisition
       - adl_rust_fmt_clippy
       - adl_rust_tests
       - adl_provider_core
@@ -770,6 +817,8 @@ jobs:
           ADL_V2_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.adl_v2_standalone_required }}
           ADL_V2_STANDALONE_RESULT: ${{ needs.adl_v2_standalone.result }}
           PROVIDER_CORE_RESULT: ${{ needs.adl_provider_core.result }}
+          CODEFRIEND_CI_REQUIRED: ${{ needs.adl_path_policy.outputs.codefriend_ci_required }}
+          CODEFRIEND_CI_RESULT: ${{ needs.codefriend_ci_acquisition.result }}
           UTS_PACKAGE_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' }}
           UTS_PACKAGE_RESULT: ${{ needs.adl_uts_package.result }}
           DEMO_REQUIRED: ${{ needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' }}
@@ -780,6 +829,12 @@ jobs:
           else
             [ "$PROVIDER_CORE_RESULT" = skipped ] || { echo "::error::unselected provider core lane was not skipped"; exit 1; }
           fi
+          # BEGIN CI acquisition aggregate contract
+          case "$CODEFRIEND_CI_REQUIRED:$CODEFRIEND_CI_RESULT" in
+            true:success|false:skipped) ;;
+            *) echo "::error::CI acquisition selection/result mismatch"; exit 1 ;;
+          esac
+          # END CI acquisition aggregate contract
           if [ "$UTS_PACKAGE_REQUIRED" = true ]; then
             [ "$UTS_PACKAGE_RESULT" = success ] || { echo "::error::UTS package proof did not pass"; exit 1; }
           else

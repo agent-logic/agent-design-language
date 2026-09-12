@@ -1,0 +1,43 @@
+{
+  "schema": "adl.sprint.completion_audit.v1",
+  "umbrella": 934,
+  "complete": false,
+  "requirements": [
+    {
+      "requirement": "Account for each child exactly once",
+      "evidence": "acceptance-ledger.json",
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
+    },
+    {
+      "requirement": "Passing source-specific acceptance with independent review for all four children",
+      "evidence": "review/MERGED_CHILDREN_ACCEPTANCE.md",
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
+    },
+    {
+      "requirement": "Reviewed heads, passing checks and merges ancestral to sprint closing revision",
+      "evidence": "review/observations.json",
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
+    },
+    {
+      "requirement": "Independent combined integration and test adequacy review",
+      "evidence": "review/MERGED_CHILDREN_ACCEPTANCE.md",
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
+    },
+    {
+      "requirement": "Record downstream deliveries and remaining limitations",
+      "evidence": "execution-state.json",
+      "status": "passed; combined review records delivered outputs and persistent limits"
+    },
+    {
+      "requirement": "Native reviewed green umbrella publication, operator merge, finish and exact cleanup",
+      "status": "pending umbrella exact review/publication, CI, operator merge, finish and clean"
+    }
+  ],
+  "scope_preserved": [
+    720,
+    908,
+    909,
+    910
+  ],
+  "parallel_849_in_sprint_roster": false
+}

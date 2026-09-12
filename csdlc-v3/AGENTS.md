@@ -7,6 +7,11 @@ remain immutable evidence; they do not prohibit the approved native v3 routes.
 
 - Keep lifecycle decisions deterministic, typed, explicit and independently testable.
 - Preserve exact repository, branch, worktree, revision and digest checks.
+- Inspect `csdlc --contract` and `csdlc <command> --describe` for the selected binary's declared input/effect/result contract. Descriptor discovery is not operational admission, and a candidate build is not evidence of active installation.
+- Preserve legacy owner result fields when evolving the additive `/envelope` (`csdlc.v3.command_result.v1`). Keep process status, lifecycle status, authority, effects and evidence distinct; unknown or unreported values must not become no-effect claims.
+- Keep operational local routes fail-closed when authority context is unavailable. Only explicit `local` selects historical construction inspection; never use it as automatic fallback.
+- Keep `doctor`, `validate`, `eligibility`, `schedule` and `shepherd` observational: no lifecycle lock creation or interrupted-transaction replay. Report recovery-required state instead.
+- Treat `proof` and `install` as guarded current native routes. `shadow` and `soak` retain inspection contracts with execution retired; historical grouping does not grant authority.
 - Never replace a failed guard with a raw GitHub write or handwritten state.
 - Preserve argv, status, stdout/stderr, timeout, cancellation, truncation and redaction distinctions at adapter boundaries.
 - Cards and evidence views are generated projections. Use typed editors and validation, never direct Markdown/state edits.

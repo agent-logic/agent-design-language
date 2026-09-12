@@ -587,6 +587,7 @@ fn installed_pr_state_observes_fake_remote_without_replaying_pending_mutation() 
             let inputs = fixture.root.join(".csdlc/evidence/505/remote-observation");
             fs::create_dir_all(&inputs).unwrap();
             let review = TypedReviewReceipt {
+                publication_linkage: None,
                 schema: "csdlc.v3.typed_review_receipt.v1".into(),
                 repository: "agent-logic/agent-design-language".into(),
                 issue: 505,
@@ -664,8 +665,11 @@ fn installed_pr_state_observes_fake_remote_without_replaying_pending_mutation() 
                 fs::write(&mutation_path, serde_json::to_vec(&mutation).unwrap()).unwrap();
                 let failed = command("github-pr", &mutation_path, "--execute");
                 assert!(!failed.status.success());
+                let failure: serde_json::Value = serde_json::from_slice(&failed.stdout).unwrap();
+                assert_eq!(failure["envelope"]["status"], "recovery_required");
+                assert_eq!(failure["envelope"]["effects"]["outcome"], "unknown");
                 assert!(
-                    String::from_utf8_lossy(&failed.stderr).contains("uncertain"),
+                    String::from_utf8_lossy(&failed.stdout).contains("uncertain"),
                     "{failed:?}"
                 );
             }
@@ -847,7 +851,7 @@ fn edit_recovers_after_process_exit_between_directory_swaps() {
 }
 
 #[test]
-fn v2_selector_keeps_named_local_cli_in_construction_mode() {
+fn v2_selector_denies_operational_local_but_allows_explicit_construction_inspection() {
     let fixture = fixture("local-v2-fence");
     let request = LocalPreparationRequest {
         issue: 505,
@@ -895,10 +899,33 @@ fn v2_selector_keeps_named_local_cli_in_construction_mode() {
         &repo_root(),
     );
 
-    assert!(output.status.success(), "{output:?}");
+    assert!(!output.status.success(), "{output:?}");
     let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
-    assert_eq!(report["operational_authority"], false);
-    assert_eq!(report["writes_v3_state"], false);
+    assert_eq!(report["envelope"]["status"], "blocked");
+    assert_eq!(
+        report["envelope"]["reason_code"],
+        "operational_context_required"
+    );
+    assert!(!fixture.join(".csdlc").exists());
+    let historical = run(
+        &[
+            "local",
+            "--request",
+            request_path.to_str().unwrap(),
+            "--registry",
+            registry.to_str().unwrap(),
+            "--registrations",
+            registrations_path.to_str().unwrap(),
+            "--repo-root",
+            fixture.to_str().unwrap(),
+        ],
+        &repo_root(),
+    );
+    assert!(historical.status.success(), "{historical:?}");
+    let historical: serde_json::Value = serde_json::from_slice(&historical.stdout).unwrap();
+    assert_eq!(historical["operational_authority"], false);
+    assert_eq!(historical["writes_v3_state"], false);
+    assert_eq!(historical["envelope"]["effects"]["outcome"], "none");
 }
 
 #[test]
@@ -1388,6 +1415,8 @@ fn executable_github_pr_ready_uses_graphql_and_authenticated_readback() {
     let curl_path = fake_bin.join("curl");
     let script = format!(
         r#"#!/bin/sh
+# Complete the adapter's stdin configuration write before returning a response.
+case "$*" in *'--config -'*) cat >/dev/null;; esac
 case "$*" in
   *api.github.com/graphql*)
     : > {marker}
@@ -1508,13 +1537,9 @@ fn proof_and_rollback_commands_reach_real_handlers() {
         !rollback.status.success(),
         "blocked rollback must return nonzero"
     );
-    let rollback_json: serde_json::Value = serde_json::from_slice(
-        String::from_utf8_lossy(&rollback.stderr)
-            .strip_prefix("csdlc: ")
-            .unwrap()
-            .as_bytes(),
-    )
-    .unwrap();
+    let rollback_json: serde_json::Value = serde_json::from_slice(&rollback.stdout).unwrap();
+    assert_eq!(rollback_json["envelope"]["status"], "blocked");
+    assert_eq!(rollback_json["envelope"]["effects"]["outcome"], "none");
     assert_eq!(rollback_json["command"], "rollback");
     assert_eq!(rollback_json["result"]["status"], "blocked");
     assert_eq!(rollback_json["performed_mutation"], false);
@@ -1546,7 +1571,8 @@ fn executable_merge_is_owned_only_by_github_pr() {
             String::from_utf8_lossy(&output.stderr).contains("operational_remote_route_mismatch"),
             "{route}: {output:?}"
         );
-        assert!(output.stdout.is_empty());
+        let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(report["envelope"]["process_status"], "failed");
     }
     let output = run(
         &[
@@ -1559,4 +1585,169 @@ fn executable_merge_is_owned_only_by_github_pr() {
     );
     assert!(!output.status.success());
     assert!(!String::from_utf8_lossy(&output.stderr).contains("operational_remote_route_mismatch"));
+}
+
+// PVF: required SIM-02/SIM-07 installed result routing; deterministic local
+// CPU/Git fixtures; all effects observed, no network or live owner activation.
+#[test]
+fn installed_shepherd_result_states_preserve_owner_routing() {
+    let fixture = operational_fixture("sim02-shepherd-envelope");
+    copy_observation_templates(
+        &repo_root().join("docs/templates/prompts/1.0.5"),
+        &fixture.root.join("docs/templates/prompts/1.0.5"),
+    );
+    let installed = fixture.root.join(".git/installed-candidate/csdlc");
+    observation::install_candidate(&installed);
+    let invoke = |route: &str| {
+        Command::new(&installed)
+            .current_dir(&fixture.root)
+            .args([route, "--request"])
+            .arg(&fixture.request_path)
+            .arg("--registry")
+            .arg(repo_root().join("docs/templates/prompts/current.json"))
+            .arg("--registrations")
+            .arg(&fixture.registrations_path)
+            .output()
+            .unwrap()
+    };
+    let prepared = invoke("issue");
+    assert!(prepared.status.success(), "{prepared:?}");
+    let prepared: serde_json::Value = serde_json::from_slice(&prepared.stdout).unwrap();
+    let mut request = serde_json::to_value(&fixture.request).unwrap();
+    request["expected_lifecycle_digest"] = prepared["result"]["digest"].clone();
+    let mut reports = Vec::new();
+    for (field, owner_state, common) in [
+        ("operator_decision_needed", "operator_required", "blocked"),
+        ("repair_needed", "repair_required", "blocked"),
+        ("retryable_failure", "retryable", "failed"),
+        ("dependency_wait", "waiting", "deferred"),
+        ("none", "ready", "ready"),
+    ] {
+        let mut routing = json!({"validation":"passed"});
+        if field != "none" {
+            routing[field] = json!(true);
+        }
+        request["shepherd_routing"] = routing;
+        fs::write(&fixture.request_path, serde_json::to_vec(&request).unwrap()).unwrap();
+        let before = observation_inventory(&fixture.root);
+        let output = invoke("shepherd");
+        assert!(output.status.success(), "{output:?}");
+        let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(report["result"]["routing"]["state"], owner_state);
+        assert_eq!(report["envelope"]["status"], common);
+        assert_eq!(report["envelope"]["effects"]["outcome"], "none");
+        assert_eq!(
+            report["envelope"]["wait_owner"],
+            if common == "ready" {
+                "none"
+            } else {
+                "operator"
+            }
+        );
+        assert_eq!(before, observation_inventory(&fixture.root));
+        reports.push(report);
+    }
+    let evidence = repo_root().join("csdlc-v3/target/sim02-envelope-samples");
+    fs::create_dir_all(&evidence).unwrap();
+    fs::write(
+        evidence.join("shepherd.json"),
+        serde_json::to_vec_pretty(&reports).unwrap(),
+    )
+    .unwrap();
+}
+
+// PVF: required installed heterogeneous helper-envelope contract; deterministic
+// local JSON/filesystem observations, no network or operational authority.
+#[test]
+fn installed_helper_envelopes_normalize_release_and_sprint_reports() {
+    let fixture = operational_fixture("sim02-helper-envelope");
+    let installed = fixture.root.join(".git/installed-candidate/csdlc");
+    observation::install_candidate(&installed);
+    fs::write(
+        fixture.root.join("invalid-readback.json"),
+        b"{\"issue\":{}}",
+    )
+    .unwrap();
+    let mut reports = Vec::new();
+    for (name, route, request, status) in [
+        (
+            "release",
+            "release-preflight",
+            json!({"repository":"agent-logic/agent-design-language","version":"v0.92.2","candidate_sha":"0".repeat(40),"notes_path":"missing.md","notes_digest":"0".repeat(64),"gate_path":"missing.json","gate_digest":"0".repeat(64)}),
+            "failed",
+        ),
+        (
+            "sprint-empty-completion-mapping",
+            "sprint",
+            json!({"repository":"agent-logic/agent-design-language","version":"v0.92.2","sprints":[]}),
+            "completed",
+        ),
+        (
+            "sprint-invalid",
+            "sprint",
+            json!({"repository":"agent-logic/agent-design-language","version":"v0.92.2","sprints":[{"sprint":1,"umbrella_issue":866,"title":"Missing readback fixture","execution_mode":"sequential","serial_gates":[],"umbrella_readback_ref":"invalid-readback.json","child_readback_refs":{}}]}),
+            "failed",
+        ),
+    ] {
+        let path = fixture.root.join(format!("{name}.json"));
+        fs::write(&path, serde_json::to_vec(&request).unwrap()).unwrap();
+        let before = observation_inventory(&fixture.root);
+        let mut command = Command::new(&installed);
+        command.current_dir(&fixture.root).arg(route);
+        if route == "sprint" {
+            command.arg("--repo-root").arg(&fixture.root);
+        }
+        command.arg("--request").arg(&path);
+        let output = command.output().unwrap();
+        let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(report["envelope"]["status"], status, "{output:?}");
+        assert_eq!(report["envelope"]["effects"]["outcome"], "none");
+        assert_eq!(
+            report["envelope"]["authority_status"],
+            if route == "sprint" {
+                "non_operational"
+            } else {
+                "not_established"
+            }
+        );
+        assert!(report["envelope"]["findings"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(serde_json::Value::is_object));
+        if route == "release-preflight" {
+            assert!(!output.status.success());
+            assert_eq!(report["findings"], json!(["unsupported_release_identity"]));
+            assert_eq!(
+                report["envelope"]["findings"],
+                json!([{"code":"unsupported_release_identity","message":"unsupported_release_identity"}])
+            );
+            assert_eq!(
+                report["envelope"]["reason_code"],
+                "unsupported_release_identity"
+            );
+        } else {
+            assert!(
+                output.status.success(),
+                "sprint classification preserves legacy exit semantics"
+            );
+            assert_eq!(report["envelope"]["process_status"], "succeeded");
+            if name == "sprint-invalid" {
+                assert_eq!(report["status"], "invalid");
+                assert!(report["envelope"]["findings"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .any(|finding| finding["code"] == "serial_gates_missing"));
+                assert_eq!(report["envelope"]["reason_code"], "serial_gates_missing");
+            } else {
+                assert_eq!(report["status"], "complete_not_cutover_authority");
+            }
+        }
+        assert_eq!(before, observation_inventory(&fixture.root));
+        reports.push(json!({"label":name,"envelope":report["envelope"]}));
+    }
+    let path = repo_root().join("csdlc-v3/target/sim02-envelope-samples/helpers.json");
+    fs::create_dir_all(path.parent().unwrap()).unwrap();
+    fs::write(path, serde_json::to_vec_pretty(&reports).unwrap()).unwrap();
 }
