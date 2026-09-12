@@ -1,0 +1,11 @@
+   Compiling adl v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.36s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-804da21c198759d7)
+
+running 3 tests
+test provider::reload::tests::provider_definitions_validate_references_without_resolving_or_writing_them ... ok
+test provider::reload::tests::provider_definitions_reject_nested_credentials_and_redact_loader_errors ... ok
+test execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 1867 filtered out; finished in 0.45s
+

@@ -1,0 +1,59 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "b0dd02e747f57b6caf1dddeaee1292fb1ff3af46ca7bb39db4d4a7b6bae2e85c",
+  "card_updates": {
+    "sip": {
+      "notes_risks": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim.",
+      "notes_risks_inline": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim."
+    },
+    "stp": {
+      "notes_risks": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim.",
+      "notes_risks_inline": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim."
+    },
+    "spp": {
+      "notes_risks": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim.",
+      "notes_risks_inline": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim.",
+      "issue_goal_ref": "Active issue-bound #876 implementation and passing reviewed PR goal",
+      "issue_goal_ref_inline": "Active issue-bound #876 implementation and passing reviewed PR goal",
+      "sprint_goal_ref": "Sprint 2 #928 execution goal",
+      "sprint_goal_ref_inline": "Sprint 2 #928 execution goal",
+      "status": "in_progress",
+      "status_inline": "in_progress"
+    },
+    "vpp": {
+      "notes_risks": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim.",
+      "notes_risks_inline": "Bound implementation and focused local proof recorded in .csdlc/evidence/876/IMPLEMENTATION_PROOF.md. Independent exact-head review and PR CI remain required; no merge or closeout claim.",
+      "issue_goal_ref": "Active issue-bound #876 implementation and passing reviewed PR goal",
+      "issue_goal_ref_inline": "Active issue-bound #876 implementation and passing reviewed PR goal",
+      "sprint_goal_ref": "Sprint 2 #928 execution goal",
+      "sprint_goal_ref_inline": "Sprint 2 #928 execution goal",
+      "status": "in_progress",
+      "status_inline": "in_progress"
+    },
+    "srp": {
+      "review_summary": "Bounded review requested after local proof; no independent approval yet. Review profile expansion before promotion, adapter-constructor effects, nested credential/reference boundaries, real endpoint/model/profile barriers and whole-map LKG behavior. Preserve all findings in IMPLEMENTATION_PROOF.md.",
+      "review_summary_inline": "Independent exact-head implementation review pending."
+    },
+    "sor": {
+      "execution_summary": "Implemented profile expansion/admission ordering, recursive credential rejection and bounded diagnostics, with real loopback dispatch/atomic reload/LKG and reference compatibility proof. Three focused tests pass and two regressions fail under original-defect mutation. Existing reload checks initially 7/7; final lint/compatibility checks pending. Worktree only; independent review and CI pending. Evidence: .csdlc/evidence/876/IMPLEMENTATION_PROOF.md.",
+      "execution_summary_inline": "Implementation and three focused regression tests pass; independent review, final lint and PR CI pending.",
+      "integration_state": "worktree_only",
+      "validation_status": "local_focused_passed"
+    }
+  }
+}

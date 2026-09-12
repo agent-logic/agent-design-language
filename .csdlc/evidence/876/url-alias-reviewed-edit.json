@@ -1,0 +1,47 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "04119e5d31301ca71eb706579169415223e8b7c705f4b411d14b2c3e0bd30982",
+  "card_updates": {
+    "srp": {
+      "findings_status": "no_findings",
+      "findings_status_inline": "no_findings",
+      "recommended_outcome": "pass",
+      "recommended_outcome_inline": "pass",
+      "review_findings": "Historical user findings at 9495c0e: P2 supported expected-account-sha256 public digest rejected; P2 endpoint/base_url userinfo and credential query bypass. Both resolved in independently approved source 754ea5f; original findings preserved in REVIEW.md. No actionable findings remain.",
+      "review_findings_inline": "Historical user findings at 9495c0e: P2 supported expected-account-sha256 public digest rejected; P2 endpoint/base_url userinfo and credential query bypass. Both resolved in independently approved source 754ea5f; original findings preserved in REVIEW.md. No actionable findings remain.",
+      "review_dispositions": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.",
+      "review_dispositions_inline": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.",
+      "review_notes": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.",
+      "review_notes_inline": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.",
+      "review_summary": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.",
+      "review_summary_inline": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation."
+    },
+    "sor": {
+      "summary": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.",
+      "summary_inline": "Independent reviewer fix_941_ci approved exact source 754ea5f02534258f8a29644591133331c28a7059 and independently reran all four provider-definition tests, including seven rejected watcher updates with retained generation/digest and real dispatch. Both user P2s resolved; all original findings and failed fixture logs preserved. Native PR953 body update and source push completed; corrected-head CI and merge remain pending. Final record-only delta requires bounded metadata confirmation.",
+      "completion_state": "ci_pending",
+      "completion_state_inline": "ci_pending",
+      "validation_result": "Four definition and seven compatibility tests, strict clippy and formatting pass. Independent reviewer reran all four definitions: PASS. Raw historical logs retained with disclosed trailing blank lines; scoped source/doc whitespace check passes. Current corrected-head CI pending.",
+      "validation_result_inline": "Four definition and seven compatibility tests, strict clippy and formatting pass. Independent reviewer reran all four definitions: PASS. Raw historical logs retained with disclosed trailing blank lines; scoped source/doc whitespace check passes. Current corrected-head CI pending.",
+      "integration_result": "PR953 open; source 754ea5f pushed and native body update authenticated. Final metadata confirmation and corrected-head CI pending.",
+      "integration_result_inline": "PR953 open; source 754ea5f pushed and native body update authenticated. Final metadata confirmation and corrected-head CI pending.",
+      "follow_up_1": "Bounded metadata confirmation, native publication and current-head hosted CI; merge is separate.",
+      "follow_up_1_inline": "Bounded metadata confirmation, native publication and current-head hosted CI; merge is separate."
+    }
+  }
+}

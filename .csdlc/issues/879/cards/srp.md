@@ -56,8 +56,8 @@ policy_refs:
   - ".csdlc/issues/879/cards/vpp.md"
 review_results:
   findings_status: "findings_present"
-  recommended_outcome: "pass"
-notes: "Independent reviewer review_836 approved source at edc4d0a7df7b3c55c20f65d6a08c9a53affaa502 with no actionable production findings. R2 publication-card placeholders corrected in this record-only revision; final metadata acknowledgement is required before native publication. Source proof unchanged; CI pending."
+  recommended_outcome: "needs_followup"
+notes: "Original1cdfbe7312 review/CI retained. Current main merge resolves one additive CLI dispatch conflict by preserving GitHub and evidence routes; independent resolution review pending. Prior R1/R2 findings remain preserved."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -131,8 +131,8 @@ review_results:
 
 ### Recommended Outcome
 
-- pass
+- needs_followup
 
 ## Notes
 
-Independent reviewer review_836 approved source at edc4d0a7df7b3c55c20f65d6a08c9a53affaa502 with no actionable production findings. R2 publication-card placeholders corrected in this record-only revision; final metadata acknowledgement is required before native publication. Source proof unchanged; CI pending.
+Original1cdfbe7312 review/CI retained. Current main merge resolves one additive CLI dispatch conflict by preserving GitHub and evidence routes; independent resolution review pending. Prior R1/R2 findings remain preserved.

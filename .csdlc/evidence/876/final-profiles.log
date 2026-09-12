@@ -1,0 +1,21 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-804da21c198759d7)
+
+running 14 tests
+test provider::tests::provider_mod_profile_endpoint_validation_rejects_hostless_https ... ok
+test provider::tests::provider_mod_profile_endpoint_validation_rejects_plain_http ... ok
+test provider::tests::provider_mod_profile_endpoint_validation_allows_loopback_http_for_local_harnesses ... ok
+test provider::tests::provider_mod_profile_endpoint_validation_rejects_loopback_prefix_confusion ... ok
+test provider::tests::provider_mod_profile_endpoint_validation_rejects_placeholder_and_invalid_hosts ... ok
+test provider::tests::provider_mod_profile_expansion_rejects_non_deterministic_ollama_seed ... ok
+test provider::tests::provider_mod_profile_state_rejects_unknown_last_known_good ... ok
+test provider::tests::provider_mod_profile_expansion_rejects_malformed_identity_config ... ok
+test provider::tests::provider_mod_profile_expansion_rejects_provider_model_id_conflicts ... ok
+test provider::tests::provider_mod_profile_expansion_materializes_bounded_inference_defaults ... ok
+test provider::tests::provider_mod_profile_state_retains_previous_last_known_good ... ok
+test provider::tests::provider_mod_profile_expansion_rejects_malformed_inference_values ... ok
+test provider::tests::provider_mod_profile_materialization_projection_is_stable_and_redacted ... ok
+test provider::tests::provider_mod_profile_activation_preserves_active_materialization_on_invalid_candidate ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 1856 filtered out; finished in 0.00s
+

@@ -1,0 +1,103 @@
+{
+  "captured_at": "2026-09-12T02:02:53.237807+00:00",
+  "profile": "agent-logic-admin",
+  "distribution": {
+    "status": "Deployed",
+    "enabled": true,
+    "aliases": [
+      "observatory.csm.agent-logic.ai"
+    ],
+    "domain": "d1c1dusn17tsz3.cloudfront.net",
+    "minimum_tls": "TLSv1.2_2021",
+    "logging_enabled": true,
+    "logging_cookies": false,
+    "logging_prefix": "cloudfront/",
+    "https_redirect": "redirect-to-https",
+    "oac": {
+      "Name": "adl-observatory",
+      "Description": "Managed by Terraform",
+      "SigningProtocol": "sigv4",
+      "SigningBehavior": "always",
+      "OriginAccessControlOriginType": "s3"
+    },
+    "security_headers": {
+      "XSSProtection": {},
+      "FrameOptions": {
+        "Override": true,
+        "FrameOption": "DENY"
+      },
+      "ReferrerPolicy": {
+        "Override": true,
+        "ReferrerPolicy": "no-referrer"
+      },
+      "ContentSecurityPolicy": {
+        "Override": true,
+        "ContentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://wuji.dev.csm.agent-logic.ai:20997 wss://wuji.dev.csm.agent-logic.ai:20997"
+      },
+      "ContentTypeOptions": {
+        "Override": true
+      },
+      "StrictTransportSecurity": {
+        "Override": true,
+        "IncludeSubdomains": true,
+        "Preload": true,
+        "AccessControlMaxAgeSec": 31536000
+      }
+    }
+  },
+  "site": {
+    "name": "adl-observatory-20260912015745439100000001",
+    "public_access_block": {
+      "BlockPublicAcls": true,
+      "IgnorePublicAcls": true,
+      "BlockPublicPolicy": true,
+      "RestrictPublicBuckets": true
+    },
+    "policy_public": false,
+    "ownership": "BucketOwnerEnforced",
+    "versioning": "Enabled"
+  },
+  "logs": {
+    "name": "adl-observatory-logs-20260912015745439600000002",
+    "public_access_block": {
+      "BlockPublicAcls": true,
+      "IgnorePublicAcls": true,
+      "BlockPublicPolicy": true,
+      "RestrictPublicBuckets": true
+    },
+    "lifecycle": [
+      {
+        "Expiration": {
+          "Days": 90
+        },
+        "ID": "expire-cloudfront-access-logs",
+        "Filter": {
+          "Prefix": ""
+        },
+        "Status": "Enabled"
+      }
+    ]
+  },
+  "certificate": {
+    "domain": "observatory.csm.agent-logic.ai",
+    "status": "ISSUED",
+    "type": "AMAZON_ISSUED"
+  },
+  "dns": [
+    {
+      "name": "observatory.csm.agent-logic.ai.",
+      "type": "A",
+      "target": "d1c1dusn17tsz3.cloudfront.net."
+    },
+    {
+      "name": "observatory.csm.agent-logic.ai.",
+      "type": "AAAA",
+      "target": "d1c1dusn17tsz3.cloudfront.net."
+    }
+  ],
+  "state_sha256": "a18adc190e5da16c24a4224f768c1e332699bdc112522db7bdbbc5cc8d39ca12",
+  "apply_result": "success",
+  "create_count": 18,
+  "update_count": 0,
+  "delete_count": 0
+}

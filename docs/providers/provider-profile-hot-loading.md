@@ -38,3 +38,90 @@ before building the provider for a local step. That means:
 The reload owner is deliberately provider-scoped. It does not reload signing
 keys, database pools, model weights, workflow authority, tools, or executable
 workflow content.
+
+## Editable definition compatibility and proof (#876)
+
+The existing `adl.provider_reload_sidecar.v1` format is retained; no second
+registry, watcher, or schema is introduced. `schema` may be omitted for legacy
+sidecars; when present it must match that value. `version` is optional, and
+`providers` must be nonempty. Each provider accepts the existing `id`, `profile`,
+`type` (or `kind`), `base_url`, `default_model`, and `config` fields. Unknown
+provider or top-level fields fail closed. Declared endpoint, model, vendor, credential-reference and local-shadow selector
+fields must contain strings when present; existing adapter rules still govern
+empty strings and defaults. Numeric, null, boolean or
+container values are rejected before adapter helpers can treat them as absent
+and choose a different transport or model default. Other adapter config remains
+extensible; this does not introduce a universal config schema.
+
+A profile-only definition is expanded
+before its concrete substrate and adapter constructor are validated. Profile and explicit identity
+fields cannot be mixed; bounded profile overrides remain under `config`.
+
+For example, the existing local HTTP adapter can consume:
+
+```yaml
+schema: adl.provider_reload_sidecar.v1
+providers:
+  primary:
+    profile: ollama:phi4-mini
+    config:
+      endpoint: http://127.0.0.1:11434/api/generate
+      temperature: 0.0
+```
+
+The endpoint is instance data. No special provider ID or host branch selects
+this definition. The Ollama HTTP adapter sends the expanded model and temperature;
+other profile settings retain their existing adapter-specific semantics. This
+change does not make every profile setting executable on every adapter (for
+example, the local Ollama CLI does not transmit temperature).
+
+Free-form config strings are checked recursively, including arrays and neutral
+nested keys. Raw key prefixes, bearer values, private-key markers and opaque
+credential-shaped strings are rejected. This conservative opaque-string check
+can reject long arbitrary config strings; it is not a general secret detector.
+Declared model identities and local-shadow model, rule-set and evidence-path
+fields retain their existing length range, but still reject explicit credential
+markers. Shadow evidence paths also retain constructor rejection of absolute
+and traversal paths. Only the existing `auth.env`, `api_key_env`,
+`auth_env`, and `token_env` reference locations bypass the opaque-string check,
+and their values must be environment-variable names. This validation does not
+add a new authentication mechanism or resolve credentials during reload. The
+public `expected_account_sha256` field remains a validated 64-digit hexadecimal
+account digest, not a credential value.
+
+Initial parse/validation failure and rejected replacement diagnostics carry
+bounded category messages with redacted input details. Raw parser exceptions,
+provider IDs, paths, unknown fields and candidate values are not propagated into
+these diagnostic messages. A rejection preserves the complete prior document,
+provider generation and digest. Admission reuses existing adapter constructors
+(including local-shadow configuration validation); it does not call completion,
+resolve token/ADC values, launch a provider process or write shadow evidence.
+Existing non-secret runtime defaults, such as timeout or AWS region/profile
+configuration, retain their constructor validation behavior. Editing definitions performs no inference or
+health probes; actual requests remain explicit dispatch work.
+
+The deterministic #876 proof is
+`execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload`:
+it calls the production execution runner and reload owner, holds one real local
+HTTP request at a channel barrier, replaces both endpoint and profile, observes
+the new model/temperature on a second endpoint, then dispatches again against the
+last-known-good snapshot after a malformed numeric endpoint replacement. Concurrent readers
+check the complete two-provider map, and endpoint request counts exclude hidden
+probe calls. The complementary
+`provider::reload::tests::provider_definitions_reject_nested_credentials_and_redact_loader_errors`
+executes initial loader rejection and the watcher parser against malformed,
+unsupported, incomplete and nested credential inputs, preserving generation and
+bounded redacted diagnostics. A third admission compatibility test verifies credential references and shadow
+configuration without dispatch or evidence creation. These are required provider-platform PVF integration
+or contract gates using bounded local CPU, filesystem and loopback only; they
+provide no hosted-provider qualification or paid-cloud evidence.
+
+Both Bedrock account-hash spellings, `expected_account_sha256` and
+`expected-account-sha256`, accept only string values of 64 hexadecimal digits.
+The adapter's existing underscore-first precedence is unchanged. URL userinfo
+and credential query names are rejected in endpoint/base URL strings, including
+percent-encoded query names. This includes `key`, authorization/bearer selectors
+and the recognized credential-key names; ordinary routing/version query values
+remain supported. URL validation does not contact the endpoint.
+Explicit credential markers in decoded query values are also rejected without
+applying opaque-string length checks to ordinary URL parameters.

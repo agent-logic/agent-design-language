@@ -8,6 +8,9 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     if args.len() >= 2 && args[0] == "ingest" && args[1] == "github" {
         return github_command::run(&args[2..]);
     }
+    if args.first().is_some_and(|arg| arg == "evidence") {
+        return super::codefriend_evidence_cmd::evidence(&args[1..]);
+    }
     if args.is_empty() || matches!(args[0].as_str(), "--help" | "-h") {
         println!("{USAGE}\n{}", github_command::USAGE);
         return Ok(());

@@ -21,7 +21,7 @@ Version: v0.92.2
 Title: [v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet
 Branch: codex/879-github-ingestion
 Card Status: ready
-Status: source reviewed; publication-card acknowledgement and CI pending
+Status: CONFLICT_REPAIR_VALIDATING
 Generated: 2026-09-12T05:03:33.504300+00:00
 
 Execution:
@@ -57,7 +57,7 @@ Delivered production GET-only GitHub Git-data acquisition for pinned commits and
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `source_reviewed_publication_and_ci_pending`
+- Completion state: `merge_resolution_validation_review_pending`
 - Issue goal ref: `Active #879 execution goal: reviewed passing PR; no merge or cleanup.`
 - Sprint goal ref: `Sprint 2 umbrella #928`
 - Goal metrics rollup ref: `not_collected`
@@ -92,7 +92,7 @@ Delivered production GET-only GitHub Git-data acquisition for pinned commits and
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD; git merge-base --is-ancestor 3fa601a888a8ba90541fd2d092802a9291b78ae9 HEAD`
     `Confirmed clean bound branch and accepted prerequisite ancestry; no claim of merge or primary-tree integration.`
-- Result: `not_integrated; publication and required CI pending`
+- Result: `PR955 oldhead1cdfbe7312 remains published; bound worktree merges current origin/main. One conflict in codefriend_cmd.rs resolved preserving GitHub/evidence dispatch; focused route tests and independent exact-head review required before push. Old CI34674795360 does not prove new merge candidate.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.

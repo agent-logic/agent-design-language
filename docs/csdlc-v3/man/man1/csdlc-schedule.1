@@ -10,9 +10,9 @@ csdlc\-schedule \- check six\-dimensional issue readiness
 .SH DESCRIPTION
 \&Requires schedule_readiness with phase_ready, cards_ready, design_ready, dependencies_ready, paths_clear and budget_available. All six must be truthfully supported. Reports eligible operations and blockers; it does not launch children or remove dependency edges.
 .SH EFFECTS
-\&Diagnostic route; current implementation may create lock metadata or recover a pending transaction.
+\&Observation\-only diagnostic route; does not create lifecycle lock metadata or replay a pending transaction. Pending transaction recovery is reported as local_transaction_recovery_required and must use an explicit mutation/recovery route.
 .PP
-\&Do not interpret read_only in an older report as a byte\-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction.
+\&Do not interpret read_only in an older report as a byte\-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected\-binary discovery and the primary/linked path distinction.
 .SH OPTIONS
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP

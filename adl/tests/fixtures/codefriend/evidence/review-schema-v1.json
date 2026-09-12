@@ -1,0 +1,426 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "admission",
+    "run",
+    "findings"
+  ],
+  "properties": {
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "packet",
+        "evidence",
+        "retention",
+        "admitted_at",
+        "expires_at",
+        "digest"
+      ],
+      "properties": {
+        "schema": {
+          "type": "string"
+        },
+        "packet": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema",
+            "repository",
+            "revision",
+            "object_format",
+            "scope",
+            "scope_digest",
+            "objects",
+            "excluded_surfaces",
+            "checkout_policy",
+            "review_state",
+            "completeness",
+            "packet_id"
+          ],
+          "properties": {
+            "schema": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            },
+            "revision": {
+              "type": "string"
+            },
+            "object_format": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "analysis",
+                "context",
+                "max_files",
+                "max_bytes",
+                "max_file_bytes"
+              ],
+              "properties": {
+                "analysis": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "context": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "max_files": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "max_bytes": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "max_file_bytes": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "scope_digest": {
+              "type": "string"
+            },
+            "objects": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "path",
+                  "source_object",
+                  "source_bytes",
+                  "content_digest",
+                  "content",
+                  "disposition",
+                  "analysis_support"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "source_object": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "source_bytes": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "content_digest": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "content": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "disposition": {
+                    "type": "string"
+                  },
+                  "analysis_support": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "excluded_surfaces": {
+              "type": "string"
+            },
+            "checkout_policy": {
+              "type": "string"
+            },
+            "review_state": {
+              "type": "string"
+            },
+            "completeness": {
+              "type": "string"
+            },
+            "packet_id": {
+              "type": "string"
+            }
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schema",
+              "id",
+              "repository",
+              "revision",
+              "path",
+              "source_object",
+              "content_digest",
+              "redaction",
+              "trust"
+            ],
+            "properties": {
+              "schema": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "revision": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "source_object": {
+                "type": "string"
+              },
+              "content_digest": {
+                "type": "string"
+              },
+              "redaction": {
+                "type": "string"
+              },
+              "trust": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "retention": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "seconds"
+          ],
+          "properties": {
+            "seconds": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "admitted_at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expires_at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "digest": {
+          "type": "string"
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "id",
+        "repository",
+        "revision",
+        "scope_digest",
+        "included",
+        "excluded",
+        "packet_id",
+        "admission_digest",
+        "lane_versions",
+        "provider_route",
+        "completion",
+        "failures"
+      ],
+      "properties": {
+        "schema": {
+          "const": "codefriend.contracts.v1"
+        },
+        "id": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "scope_digest": {
+          "type": "string"
+        },
+        "included": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "packet_id": {
+          "type": "string"
+        },
+        "admission_digest": {
+          "type": "string"
+        },
+        "lane_versions": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "provider_route": {
+          "type": "string"
+        },
+        "completion": {
+          "enum": [
+            "complete",
+            "incomplete",
+            "failed",
+            "cancelled",
+            "withheld"
+          ]
+        },
+        "failures": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "id",
+          "repository",
+          "perspective",
+          "rule",
+          "semantic_anchor",
+          "title",
+          "severity",
+          "rationale",
+          "confidence",
+          "evidence",
+          "inference",
+          "scope_digest",
+          "limitations"
+        ],
+        "properties": {
+          "schema": {
+            "const": "codefriend.contracts.v1"
+          },
+          "id": {
+            "type": "string"
+          },
+          "repository": {
+            "type": "string"
+          },
+          "perspective": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "string"
+          },
+          "semantic_anchor": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low",
+              "info"
+            ]
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "confidence": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "state"
+                ],
+                "properties": {
+                  "state": {
+                    "const": "unknown"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "state",
+                  "percent"
+                ],
+                "properties": {
+                  "state": {
+                    "const": "known"
+                  },
+                  "percent": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              }
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "inference": {
+            "type": "string"
+          },
+          "scope_digest": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:codefriend:review-record:v1",
+  "description": "Structural projection for canonical fixtures. Rust semantic validators are authoritative for identity, provenance, scope, policy and consumer invariants."
+}
