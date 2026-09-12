@@ -33,13 +33,13 @@ Execution:
 
 ## Summary
 
-Native merge preserves reviewed qualified publication linkage. User-reported URL-form PartOf ambiguity repaired at01488a4687 with32focused cases; independent source renewal accepted. Separate release inventory failure remains unapproved/unrepaired.
+Native merge preserves reviewed qualified linkage, including URL-form PartOf ambiguity rejection. Current CI compilation failure repaired by adding publication_linkage: None to two publication-only fixtures after accepted-main integration. Full native suite now passes.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
 - Planned PVF lane: `tooling`
 - Final PVF lane: `tooling`
-- Lane change reason: `No lane change; full native owner gate remains failed by baseline inventory omission`
+- Lane change reason: `No lane change. Required native owner tests ran without filtering; historical baseline failure remains preserved as earlier evidence.`
 
 ## Issue Metrics Truth
 - Expected runtime class: `Deterministic local Git/filesystem and fake authenticated transport, small CPU; no paid runtime`
@@ -76,7 +76,7 @@ Native merge preserves reviewed qualified publication linkage. User-reported URL
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/849/cards/sor.md`
 - Tracked implementation artifacts: `csdlc-v3/src/commands/remote/{mod,merge,merge_linkage}.rs; csdlc-v3/src/adapters/mod.rs; merge tests and receipt fixtures; operator documentation/man pages and #849 criterion map`
-- Additional proof artifacts: `.csdlc/evidence/849/URL_PART_OF_REPAIR.md; .csdlc/evidence/849/VALIDATION.md; .csdlc/evidence/849/release-preflight-baseline-defect.json`
+- Additional proof artifacts: `.csdlc/evidence/849/CI_REPAIR.md; .csdlc/evidence/849/URL_PART_OF_REPAIR.md; .csdlc/evidence/849/VALIDATION.md; .csdlc/evidence/849/release-preflight-baseline-defect.json`
 
 ## Actions taken
 - `Bound existing #849 gen2 preparation natively, created issue goal, and normalized bound planning truth under Sprint7 #933.`
@@ -110,7 +110,7 @@ Rules:
   - `See .csdlc/evidence/849/VALIDATION.md for exact commands and outcomes`
     `Proves bounded local merge behavior and unaffected tested owner surfaces; excludes full-suite/CI/live-merge success`
 - Results:
-  - `17merge tests pass10.60s including32URLregressions; clippy passes3.37s; fmt/diff check pass. Prior full-suite inventory failure remains; no broad rerun or waiver.`
+  - `At source 94a39db15fe6e4555c6cc3c201da5409665a3b86: all-target native suite 262 passed, zero failed/ignored/filtered across 15 groups; strict all-target Clippy passed. Release preflight also passed separately (1 test, 67.71 seconds). Final hosted CI acceptance must be observed for the pushed PR head.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,11 +123,11 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: failed_full_suite_known_baseline
+    status: local_full_suite_passed_ci_separate
     checks_run:
       - "Native six-card values/render/structure/digest validation passed gen7; exact current validation repeated before publication"
   determinism:
-    status: passed_focused
+    status: passed_full_native_suite
     replay_verified: true
     ordering_guarantees_verified: true
   security_privacy:
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `17merge cases passed at01488a4687; new32-case URL matrix proves URL-only/conflicting-parent/mixed-mode rejection before intent/PUT; prior253partial suite remains historical proof with1filtered`
+- Determinism tests executed: `262 all-target tests passed with zero ignored/filtered, including 17 merge tests and the 32-case URL directive matrix.`
 - Fixtures or scripts used: `remote/tests/merge_cases.rs and adapters/mod.rs fake transport/local Git fixtures; full native suite with known baseline failure recorded`
 - Replay verification (same inputs -> same artifacts/order): `Successful and uncertain merge replay paths exercised; no automatic second PUT; linkage/issue-state drift rejected`
 - Ordering guarantees (sorting / tie-break rules used): `Durable target guard and intent precede dispatch; authenticated fresh linkage/policy checked before PUT; poststate and replay tests passed`
@@ -157,7 +157,7 @@ verification_summary:
 - Sandbox / policy invariants preserved: `All issue edits in exact native-bound FastWork worktree; primary clean main; no live merge/cloud changes or shared binary install`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.adl/runs/849/native-tests-release-preflight-failed.log; .adl/runs/849/native-tests-excluding-known-failure.log; .adl/runs/849/clippy.log`
+- Trace bundle path(s): `.adl/runs/849/ci-repair-all-targets.log; .adl/runs/849/ci-repair-clippy.log; .adl/runs/849/inventory-before.log; historical failure logs retained`
 - Run artifact root: `.adl/runs/849`
 - Replay command used for verification: `cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_cases`
 - Replay result: `Positive replay does not dispatch a second PUT; uncertain/mismatched issue-state replay rejects`
@@ -174,5 +174,5 @@ verification_summary:
 - `Read-only GitHub query smoke proved schema on already-merged939/720; all merge dispatch tests remain fake transport.`
 
 ## Follow-ups / Deferred work
-- `Route separate UTS release inventory omission introduced by #877; do not waive full owner suite`
-- `Complete independent renewal and native review, push repair to existing PR952 and reobserve exacthead; separate inventory repair still awaits explicit approval; no merge/shared install.`
+- `Historical release-preflight drift was resolved by accepted #948 fixture normalization. No production inventory, release guard or historical receipt hashes changed in this repair.`
+- `Complete exact independent metadata review and native review; push to existing PR #952, observe publication and exact-head CI. Stop before merge.`

@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "#864 prerequisite accepted via merged #865 and all69 startup gate passed. Native bound #849 worktree and active goal under Sprint7 #933. Planning #4.4 confirmed shared remote paths available; preserve unmerged #948 pending-receipt assertions and latest03c5aead adapter curl-config guard when integrating. Implementation0264f321ac independently reviewed, local focused proof passed; full owner suite has separately recorded UTS release-inventory failure. No live merge or shared binary installation authorized."
+notes: "#849 remains bound under Sprint 7 #933. Accepted origin/main integrated at 900f1bf107; merged #948 pending-receipt assertions and curl configuration guard preserved. Source 94a39db15 fixes two publication-only receipt fixtures. Full native suite passes 262 tests with zero ignored/filtered; hosted CI remains a separate exact pushed-head gate. No merge or shared binary installation authorized."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-#864 prerequisite accepted via merged #865 and all69 startup gate passed. Native bound #849 worktree and active goal under Sprint7 #933. Planning #4.4 confirmed shared remote paths available; preserve unmerged #948 pending-receipt assertions and latest03c5aead adapter curl-config guard when integrating. Implementation0264f321ac independently reviewed, local focused proof passed; full owner suite has separately recorded UTS release-inventory failure. No live merge or shared binary installation authorized.
+#849 remains bound under Sprint 7 #933. Accepted origin/main integrated at 900f1bf107; merged #948 pending-receipt assertions and curl configuration guard preserved. Source 94a39db15 fixes two publication-only receipt fixtures. Full native suite passes 262 tests with zero ignored/filtered; hosted CI remains a separate exact pushed-head gate. No merge or shared binary installation authorized.

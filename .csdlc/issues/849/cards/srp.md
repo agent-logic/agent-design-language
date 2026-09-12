@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "addressed"
   recommended_outcome: "accept"
-notes: "Independent sprint8_909 accepted exact source01488a46877fdaf045929847223fc2b285a50a49: no actionable source findings;32URLcases and17-test log including canonical/splitrepo positives inspected. Detection broadens only PartOf reference recognition; canonical admission and qualification unchanged. Separate inventory failure not waived. Final metadata tail must receive exact review before push."
+notes: "Independent source review requested for 94a39db15fe6e4555c6cc3c201da5409665a3b86, including accepted-main ancestry, #948 guards, and two publication-only None fixtures. Earlier independent URL repair review remains accepted. Final metadata tail review required before push."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent sprint8_909 accepted exact source01488a46877fdaf045929847223fc2b285a50a49: no actionable source findings;32URLcases and17-test log including canonical/splitrepo positives inspected. Detection broadens only PartOf reference recognition; canonical admission and qualification unchanged. Separate inventory failure not waived. Final metadata tail must receive exact review before push.
+Independent source review requested for 94a39db15fe6e4555c6cc3c201da5409665a3b86, including accepted-main ancestry, #948 guards, and two publication-only None fixtures. Earlier independent URL repair review remains accepted. Final metadata tail review required before push.
