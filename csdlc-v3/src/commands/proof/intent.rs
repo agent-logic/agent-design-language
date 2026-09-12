@@ -37,6 +37,13 @@ impl ProofExecution {
             "execution_finding":self.execution_finding})
     }
 }
+/// Missing cleanup testimony is also unresolved; performed work remains performed.
+pub(crate) fn cleanup_complete(records: &[Value]) -> bool {
+    records
+        .iter()
+        .all(|record| record["cleanup_complete"] == true)
+}
+
 pub(crate) fn admit_validators(
     root: &Path,
     validators: &[Validator],
@@ -220,7 +227,7 @@ fn execute_unix(context: &Context, validators: &[Validator]) -> Result<Value, St
         context.fresh_integrity()?;
         authorize_worktree(&request, Some(&context.root))
             .map(|_| ())
-            .map_err(|finding| finding.code)
+            .map_err(|finding| finding.code.to_owned())
     });
     let passed = executed.passed;
     let outcomes = &executed.validators;

@@ -79,6 +79,16 @@ fn installed_local_proof_uses_one_history_and_replays_without_validator_effects(
     assert!(proven.pending().is_none());
     assert!(proven.completed().len() > before.completed().len());
     let inventory = fixture::inventory(&primary);
+    assert!(!Path::new(&linked)
+        .join(".csdlc/evidence/505/intent-proof.json")
+        .exists());
+    let status = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(status["evidence"]["proof_current"], true);
+    assert_eq!(
+        inventory,
+        fixture::inventory(&primary),
+        "semantic proof status wrote state"
+    );
     let replay = success(fixture.run(&linked, &["proof", "505"]));
     assert_eq!(replay["status"], "expected_noop");
     assert_eq!(snapshot(&primary).version(), proven.version());

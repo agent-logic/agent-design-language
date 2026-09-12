@@ -82,14 +82,7 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
             serde_json::from_value(intent.content.clone())
                 .map_err(|_| "intent_status_decisions_invalid")?
         };
-        let proof = read_json(&context.root.join(format!(
-            ".csdlc/evidence/{}/intent-proof.json",
-            context.issue
-        )))
-        .ok();
-        let proof_current = proof.as_ref().is_some_and(|value| {
-            crate::commands::proof::intent::verify_current_inputs(&context.root, value).is_ok()
-        });
+        let proof_current = semantic_proof_current(context)?;
         output["evidence"] = json!({"proof_current":proof_current,"validators_run":false});
         let unknown = decisions.design_ready.is_none()
             || decisions.dependencies_ready.is_none()
@@ -346,7 +339,10 @@ fn semantic_proof(context: &Context) -> Result<Value, String> {
         admitted_context.admit_before_effect(ticket.id())
     });
     let final_admission = admitted_context.fresh_for_effect(ticket.id());
-    let kind = if final_admission.is_err() || execution.effect_truth == EffectTruth::Unknown {
+    let kind = if final_admission.is_err()
+        || execution.effect_truth == EffectTruth::Unknown
+        || !crate::commands::proof::intent::cleanup_complete(&execution.validators)
+    {
         OutcomeKind::Unresolved
     } else if execution.passed {
         OutcomeKind::Success
@@ -401,9 +397,81 @@ fn semantic_error(error: crate::storage::semantic::Error) -> String {
     format!("semantic_owner_error: {error:?}")
 }
 
+fn proof_status(
+    kind: crate::storage::semantic::protocol::OutcomeKind,
+    replay: bool,
+) -> &'static str {
+    use crate::storage::semantic::protocol::OutcomeKind;
+    match (kind, replay) {
+        (OutcomeKind::Success, true) => "expected_noop",
+        (OutcomeKind::Success, false) => "completed",
+        (OutcomeKind::Failure, _) => "failed",
+        (OutcomeKind::Unresolved, _) => "recovery_required",
+    }
+}
+
+fn semantic_proof_current(context: &Context) -> Result<bool, String> {
+    use crate::lifecycle::semantic::SemanticCommand;
+    use crate::storage::{semantic::protocol::OutcomeKind, DurableTransactionStore};
+    let admitted = context.semantic_context()?;
+    if admitted
+        .snapshot
+        .pending()
+        .is_some_and(|p| p.command() == SemanticCommand::RecordProof)
+    {
+        return Ok(false);
+    }
+    for completed in admitted.snapshot.completed().iter().rev() {
+        let inspection =
+            DurableTransactionStore::inspect_effect(&admitted.root, &admitted.key, completed.id())
+                .map_err(semantic_error)?;
+        if inspection.request().command() != SemanticCommand::RecordProof {
+            continue;
+        }
+        if completed.outcome() != OutcomeKind::Success {
+            return Ok(false);
+        }
+        let Some(bytes) = inspection.evidence() else {
+            return Ok(false);
+        };
+        let evidence: Value =
+            serde_json::from_slice(bytes).map_err(|_| "intent_retained_proof_invalid")?;
+        if evidence["schema"] != "csdlc.v3.semantic_proof_evidence.v1"
+            || evidence["repository"] != context.repository
+            || evidence["issue"] != context.issue
+            || evidence["head"] != context.head
+            || evidence["inputs"]
+                != serde_json::to_value(admitted.snapshot.inputs_version())
+                    .map_err(|_| "intent_input_version_invalid")?
+        {
+            return Ok(false);
+        }
+        let validators = admitted
+            .snapshot
+            .inputs()
+            .validation()
+            .iter()
+            .map(|v| super::Validator {
+                id: v.id.clone(),
+                program: v.program.clone(),
+                args: v.args.clone(),
+                success_marker: v.success_marker.clone(),
+                timeout_seconds: v.timeout_seconds,
+            })
+            .collect::<Vec<_>>();
+        return Ok(crate::commands::proof::intent::verify_execution_inputs(
+            &context.root,
+            &validators,
+            &evidence["execution"],
+        )
+        .is_ok());
+    }
+    Ok(false)
+}
+
 fn completed_proof(done: &crate::storage::semantic::protocol::Completion, replay: bool) -> Value {
     use crate::storage::semantic::protocol::OutcomeKind;
-    json!({"status":if replay {"expected_noop"} else if done.outcome_kind() == OutcomeKind::Success {"completed"} else {"failed"},
+    json!({"status":proof_status(done.outcome_kind(), replay),
         "read_only":replay,"performed_mutation":!replay,"operational_authority":true,
         "operation_id":done.operation_id().as_str(),"native_effect_truth":done.truth(),
         "semantic_outcome":done.outcome_kind(),"committed_at":done.original_version(),"current_version":done.current_version()})
@@ -464,6 +532,16 @@ pub(crate) fn recover_semantic_proof(
         return Ok(Some(
             json!({"status":"recovery_required","read_only":true,"performed_mutation":false,
             "operation_id":id.as_str(),"reason":"proof_effect_unknown_requires_native_reconciliation"}),
+        ));
+    }
+    let records = evidence["execution"]["validators"]
+        .as_array()
+        .ok_or("intent_retained_proof_validators_missing")?;
+    if !crate::commands::proof::intent::cleanup_complete(records) {
+        return Ok(Some(
+            json!({"status":"recovery_required","read_only":true,"performed_mutation":false,
+            "operation_id":id.as_str(),"native_effect_truth":truth,
+            "reason":"proof_cleanup_unresolved_requires_native_reconciliation"}),
         ));
     }
     let passed = evidence["execution"]["passed"] == true;
@@ -545,4 +623,35 @@ fn finish_proof_projection(
         }
     }
     Ok(value)
+}
+
+#[cfg(test)]
+mod semantic_proof_regressions {
+    // PVF: tooling/unit; deterministic in-memory outcome mapping; required local guard proof.
+    use super::*;
+    use crate::storage::semantic::protocol::OutcomeKind;
+    #[test]
+    fn failed_proof_replay_preserves_failure() {
+        assert_eq!(proof_status(OutcomeKind::Failure, true), "failed");
+        assert_eq!(proof_status(OutcomeKind::Success, true), "expected_noop");
+        assert_eq!(
+            proof_status(OutcomeKind::Unresolved, true),
+            "recovery_required"
+        );
+    }
+    #[test]
+    fn every_validator_requires_explicit_cleanup_witness() {
+        let complete = json!({"cleanup_complete":true});
+        assert!(crate::commands::proof::intent::cleanup_complete(&[
+            complete.clone()
+        ]));
+        assert!(!crate::commands::proof::intent::cleanup_complete(&[
+            complete.clone(),
+            json!({"cleanup_complete":false})
+        ]));
+        assert!(!crate::commands::proof::intent::cleanup_complete(&[
+            complete,
+            json!({})
+        ]));
+    }
 }
