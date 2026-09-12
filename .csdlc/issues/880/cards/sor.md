@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.
+Merged origin/main 9b5aae0ca0f8d53d67850238b25b955af1b4ccd9 into existing issue branch at 2adcc3352d9caa29037a5762cb2172fbd426db08. Sole manual conflict retains both CI and GitHub ingestion modules. Root independent exact-source review passed; focused CI ingestion and CI/UTS/workflow contracts passed. Updated-head hosted CI and native publication reconciliation remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830d
 - Goal metrics source ref: `Issue goal service`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `publication_pending`
+- Completion state: `current_head_ci_pending`
 - Issue goal ref: `Active issue880 passing reviewed PR goal`
 - Sprint goal ref: `Sprint2 #928`
 - Goal metrics rollup ref: `Parent sprint goal; not exported`
@@ -86,9 +86,9 @@ Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830d
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; primary main remains inspection-only.`
 - Worktree-only paths remaining: `All issue880 changes until reviewed publication.`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `Bound local Git fixtures and actual CLI; hosted execution pending`
-- Integration method used: `Native reviewed PR publication planned; no merge`
+- Integration method used: `Existing PR #957 branch refreshed by local merge; no PR merge`
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD`
     `Confirmed bound issue880 on accepted merged predecessor baseline`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --locked --manifest-path adl/Cargo.toml --test codefriend_ci_ingestion; python3 adl/tools/codefriend/ci_smoke.py --binary .adl/bin/adl --candidate-revision EXACT_SHA --output NEW_DIRECTORY; ruby adl/tools/codefriend/test_ci_contract.rb; ruby adl-uts/tools/test_ci_contract.rb; ruby adl/tools/validate_ci_workflow_policy.rb`
     `Ten local production-route cases, receipt tamper guards, actual aggregate outcomes and installed path proof`
 - Results:
-  - `Final integration test passes: ten production CLI cases plus receipt tampering and false delivery rejection. Strict clippy passes. 12 aggregate outcomes, five path selections, six UTS outcomes and workflow policy pass. Local installed smoke passes; hosted proof remains pending.`
+  - `Source merge: codefriend_ci_ingestion 1/1 conformance test passes (ten production CLI cases); CI contract 12 aggregate outcomes and five path selections pass; UTS six outcomes pass; workflow policy passes; resolution-only diff hygiene passes. Incoming main evidence blank EOF warnings were not rewritten. Run 34675098052 attempt 2 passed on old cf25e273a39499c3d1b699fa7d9e461266024e0c only; not current-head proof.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Upload is separate transport proof; acquisition receipts explicitly not_established`
 
 ## Follow-ups / Deferred work
-- `Native publication and required installed hosted acquisition/upload smoke plus current-head CI. Merge remains separate.`
+- `Final metadata delta review, native current-head review/publication reconciliation and hosted CI; no automatic merge.`
 - `No merge or closeout in this task`

@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "pass"
-notes: "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending."
+notes: "Root independently reviewed exact 2adcc3352d9caa29037a5762cb2172fbd426db08 using remerge-diff: sole manual resolution retains both modules; CI implementation/test unchanged from cf25e273. No actionable findings. Metadata-only follow-up needs final delta acknowledgment; hosted checks remain pending for refreshed head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- No actionable findings at independently reviewed source dbc66f20d8d6ec06cbdc64e5e99f3830db907908.
+- No actionable source findings at 2adcc3352d9caa29037a5762cb2172fbd426db08.
 
 ### Dispositions
 
-- Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.
+- Root independently reviewed exact 2adcc3352d9caa29037a5762cb2172fbd426db08 using remerge-diff: sole manual resolution retains both modules; CI implementation/test unchanged from cf25e273. No actionable findings. Metadata-only follow-up needs final delta acknowledgment; hosted checks remain pending for refreshed head.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.
+Root independently reviewed exact 2adcc3352d9caa29037a5762cb2172fbd426db08 using remerge-diff: sole manual resolution retains both modules; CI implementation/test unchanged from cf25e273. No actionable findings. Metadata-only follow-up needs final delta acknowledgment; hosted checks remain pending for refreshed head.
