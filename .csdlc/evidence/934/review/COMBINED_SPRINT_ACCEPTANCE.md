@@ -1,6 +1,6 @@
 # Sprint 8 #934 combined source and evidence review
 
-**PASS for the four child implementation deliverables; integration and umbrella closeout pending.** No actionable source/evidence findings remain after the recorded corrections. This is an independent synthesis of the bounded reviews below, not new cloud/browser execution or merge authorization.
+**PASS for all four merged child implementation deliverables; #910 native closeout and umbrella publication/closeout remain separately tracked.** No actionable source/evidence findings remain after the recorded corrections. This is an independent synthesis of the bounded reviews below, not new cloud/browser execution or merge authorization.
 
 ## Exact reviewed delivery
 
@@ -9,7 +9,7 @@
 | #720 / PR939 | `9b469bdf5efb9d4786b612897696c78d0b9fb7bb` | Merged `9c583cec78d396527798e592082595f316c67ce2`; native closed_out |
 | #908 / PR940 | `8108b9b42260c0ccc2470ff4327796370d366349` | Merged `2c09eca135808fb6385a6613f7317088b01ffeab`; native closed_out |
 | #909 / PR949 | `fd734c660b8a687fcc93aa6867f3ef801923e503` | Merged `52027fe7b6a5b84379f338378aaed4e658cfa7ea`; native closed_out |
-| #910 / PR954 | `28fbf649a258a89509fbd56a024ecff43c06e0b2` | OPEN on main, exact closing reference #910; merge commit absent |
+| #910 / PR954 | `28fbf649a258a89509fbd56a024ecff43c06e0b2` | Merged `7ba22ac49359d621dcf704db0874aa54c0207796` at 2026-09-12T05:10:05Z; final publication head `35dd2078617c69c8b60a6ce008c6c5c27433b565` reviewed by root |
 
 [MERGED_CHILDREN_ACCEPTANCE.md](MERGED_CHILDREN_ACCEPTANCE.md) contains the 16 criterion mappings and actual implementation inspection for the first three children. Its #910-pending statements are historical and superseded for source/evidence acceptance by [DEPLOYED_CHILD_910_REVIEW.md](DEPLOYED_CHILD_910_REVIEW.md) and this combined record. Its merge and terminal observations remain preserved, not silently recaptured.
 
@@ -37,3 +37,9 @@ Git ancestry checks show the #720 and #908 merge commits are ancestors of review
 - #908 is a timestamped scoped census with unknown ownership; prior identifiers missing from census do not prove deletion. Historical freshness is not perpetual freshness.
 - #909 is planning_complete, apply_ready false. Its platform state is an authorized reconstructed private candidate, not adopted authoritative state. Independent raw recovery review was sibling908 and final metadata root review; this synthesis does not relabel reviewer909's own implementation as independently reviewed by itself.
 - No cloud/browser/test reruns in this synthesis. Numerical coverage N/A; inherited proof and review boundaries remain explicit. Remaining work is PR954 merge/terminal delivery and root-owned closing-candidate/umbrella lifecycle verification.
+
+## Merged-delivery renewal
+
+Live PR954 readback confirms MERGED at 2026-09-12T05:10:05Z, merge `7ba22ac49359d621dcf704db0874aa54c0207796`, final publication head `35dd2078617c69c8b60a6ce008c6c5c27433b565`. Earlier OPEN/merge-pending observations above are historical and superseded here. Root independently accepted the publication metadata tail. Reviewer independently verified no differences in #910 evidence, application or infrastructure between accepted implementation head28fbf649 and merge, and no differences in those paths or issue cards between final publication head35dd207861 and merge.
+
+All four recorded child merge commits independently pass Git ancestor checks against actual #934 candidate base `ef9d0d2582fc51e9a8c7dfe305a30f5a128e18d6`, agreeing with `../merged-ancestry.json`. This resolves the prior all-four-child inclusion gate for that base. #910 worker is performing native finish/cleanup; this review does not claim that operation completed. Root still owns #934 final cards, PR, checks, eventual closing merge and terminal authority. Renew ancestry if the closing candidate changes in a way that could remove accepted child work. No cloud/browser reruns.

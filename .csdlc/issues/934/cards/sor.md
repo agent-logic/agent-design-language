@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Three children merged and natively closed out. Authorized #910 deployment and actual Chrome live-feed proof pass; final review and integration remain pending.
+All four Sprint 8 child PRs merged with reviewed source-specific proof. Actual AWS deployment and live Chrome/WSS proof pass. Umbrella publication/closeout remains pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `local sprint reconciliation plus separate child evidence`
@@ -81,18 +81,18 @@ Three children merged and natively closed out. Authorized #910 deployment and ac
 ## Actions taken
 - `Coordinated independent #720/#908/#909 implementation, review, green integration and native closeout.`
 - `Preserved reconstructed GCP state in private stable custody; separately authorized Runtime origin update and #910 deployment.`
-- `Verified real browser evidence with approved temporary site-local permission and live-connect URL; kept #849 separate from sprint roster.`
+- `Integrated origin/main and verified all four accepted child merges in umbrella candidate; #849 remains separate authorized parallel work.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none by umbrella; child changes integrated through PRs #939/#940/#949`
 - Worktree-only paths remaining: `.csdlc/evidence/934; .csdlc/issues/934; native transactions`
-- Integration state: `worktree_only`
+- Integration state: `all four child PRs merged; umbrella branch only`
 - Verification scope: `Exact four-child sprint roster, declared source-specific proof and integration truth`
 - Integration method used: `Child PR merges and native terminal receipts; umbrella integration pending`
 - Verification performed:
   - `Git owned-source comparisons and exact GitHub observations recorded in review/observations.json`
     `Three child merged outputs reconciled; #910 and closing revision pending`
-- Result: `Umbrella not published or closed; #910 deployment not yet accepted`
+- Result: `All four child PRs merged and natively closed out; all four merges are ancestors of umbrella candidate. Umbrella PR and final closeout pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `Native validate; exact GitHub and terminal observations; independent child implementation and evidence review`
     `Source-specific child proof and native six-card structure/digest validated; no broad Rust rerun by umbrella`
 - Results:
-  - `Three child acceptance surfaces reviewed; #910 real HTTPS/WSS accepted v3 feed renders 3 agents with unauthenticated writes gated. Final exact-head review and sprint integration pending.`
+  - `All four child deliverables independently accepted; all four merge commits are ancestors of umbrella candidate ef9d0d2582. Child terminal receipts reconciled separately. Native six-card validation passes.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,21 +123,21 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: partial
+    status: passed_child_acceptance
     checks_run:
-      - "Three merged child acceptance reviews plus actual #910 deployment/browser proof; final integration pending"
+      - "Four reviewed merged terminal children; actual cloud/browser proof; all-four ancestry; native card validation. Umbrella hosted CI remains pending publication."
   determinism:
     status: not_applicable
     replay_verified: false
     ordering_guarantees_verified: false
   security_privacy:
-    status: partial
+    status: reviewed_child_packets
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: partial
-    required_artifacts_present: false
+    status: passed
+    required_artifacts_present: true
     schema_changes:
       present: false
       approved: false
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `acceptance-ledger.json and independently reviewed child source/evidence`
-- Required artifacts present: `Child proof present; #910 final review/publication/merge and umbrella closeout remain pending`
+- Required artifacts present: `Four-child evidence, combined review, exact merge ancestry and six native cards present; umbrella publication and terminal closeout outstanding.`
 - Artifact schema/version checks: `Native validate passes for six cards; evidence references resolve to Git objects`
 - Hash/byte-stability checks: `Child owned-path merge comparisons and #910 exact version hashes retained; final closing ancestry pending`
 - Missing/optional artifacts and rationale: `No numerical coverage or reliable consolidated timing breakdown claimed; final integration is required and remains outstanding`
@@ -174,5 +174,5 @@ verification_summary:
 - `GCP planning acceptance does not authorize apply or authoritative remote-state adoption`
 
 ## Follow-ups / Deferred work
-- `Complete #910 final independent review, native publication, CI and operator-controlled merge.`
-- `Complete full sprint review and native umbrella publication/closeout after all children accepted.`
+- `All four child native terminal receipts and exact cleanup verified; preserve protected private deployment custody.`
+- `Complete exact umbrella review/publication, CI, operator merge and native finish/clean.`

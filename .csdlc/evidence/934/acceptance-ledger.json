@@ -227,47 +227,55 @@
       "issue": 910,
       "id": "910-AC-1",
       "requirement": "Precise plan/apply/upload authorization",
-      "status": "reviewed_green_awaiting_merge",
+      "status": "verified_merged_terminal",
       "evidence": [
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/DEPLOYMENT_PLAN.md",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/runtime-origin-change.json",
-        "https://github.com/agent-logic/agent-design-language/pull/954"
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
       ]
     },
     {
       "issue": 910,
       "id": "910-AC-2",
       "requirement": "Reviewed exact Terraform and versioned assets",
-      "status": "reviewed_green_awaiting_merge",
+      "status": "verified_merged_terminal",
       "evidence": [
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/terraform-plan-summary.json",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/assets.json",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/upload-manifest.json",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/upload-invalidation.json",
-        "https://github.com/agent-logic/agent-design-language/pull/954"
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
       ]
     },
     {
       "issue": 910,
       "id": "910-AC-3",
       "requirement": "Authenticated private S3/OAC/logging/headers/DNS/certificate proof",
-      "status": "reviewed_green_awaiting_merge",
+      "status": "verified_merged_terminal",
       "evidence": [
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/deployed-posture.json",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/https-assets.json",
-        "https://github.com/agent-logic/agent-design-language/pull/954"
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
       ]
     },
     {
       "issue": 910,
       "id": "910-AC-4",
       "requirement": "Browser HTTPS and live Runtime WSS using existing authentication boundary",
-      "status": "reviewed_green_awaiting_merge",
+      "status": "verified_merged_terminal",
       "evidence": [
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/browser-proof.json",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/verify-deployed.cjs",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/browser-diagnosis.json",
-        "https://github.com/agent-logic/agent-design-language/pull/954"
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
       ],
       "qualification": "Actual public-read v3 feed rendered with unauthenticated write controls gated; no authenticated write exercise. Temporary site permission required for operator-local Runtime. Live connection explicitly requested."
     },
@@ -275,24 +283,28 @@
       "issue": 910,
       "id": "910-AC-5",
       "requirement": "Invalidation and rollback/cost ownership",
-      "status": "reviewed_green_awaiting_merge",
+      "status": "verified_merged_terminal",
       "evidence": [
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/upload-invalidation.json",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/rollback-dry-run.json",
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/DEPLOYMENT_PLAN.md",
-        "https://github.com/agent-logic/agent-design-language/pull/954"
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
       ]
     },
     {
       "issue": 910,
       "id": "910-AC-6",
       "requirement": "Independent actual deployment evidence reconciliation",
-      "status": "reviewed_green_awaiting_merge",
+      "status": "verified_merged_terminal",
       "evidence": [
         "35dd2078617c69c8b60a6ce008c6c5c27433b565:.csdlc/evidence/910/DEPLOYMENT_PLAN.md",
-        "https://github.com/agent-logic/agent-design-language/pull/954"
+        "https://github.com/agent-logic/agent-design-language/pull/954",
+        ".csdlc/evidence/934/merged-ancestry.json",
+        ".git/csdlc-v3/local/evidence/910/terminal-receipt.json"
       ],
-      "qualification": "Final bounded independent review accepted28fbf649; CI, merge ancestry and terminal closeout remain separate pending gates."
+      "qualification": "Final deployment review accepted; green PR954 merged, all-four ancestry verified, native closed_out and exact cleanup completed."
     }
   ],
   "completion_gate": "All source issue obligations plus exact-head review, applicable green checks and merged ancestry or explicit operator disposition. This ledger summarizes and does not supersede issue text.",

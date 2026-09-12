@@ -56,11 +56,11 @@
     {
       "issue": 910,
       "pull_request": 954,
-      "pr_state": "OPEN",
+      "pr_state": "MERGED",
       "reviewed_head": "28fbf649a258a89509fbd56a024ecff43c06e0b2",
       "base": "main",
       "closing_issue": 910,
-      "merge_commit": null,
+      "merge_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
       "implementation_review": "PASS",
       "ci_run": 34674270192,
       "ci_success": [
@@ -74,7 +74,10 @@
         "720": true,
         "908": true,
         "909": false
-      }
+      },
+      "final_publication_head": "35dd2078617c69c8b60a6ce008c6c5c27433b565",
+      "merged_at": "2026-09-12T05:10:05Z",
+      "owned_source_matches_reviewed_head": true
     }
   ],
   "inspection": [
@@ -111,6 +114,9 @@
   "combined_review_observed_at": "2026-09-12T04:57:22.297770+00:00",
   "combined_source_evidence_review_complete": true,
   "integration_complete": false,
-  "pending_child_reason": "PR954 merge and native terminal closeout pending; implementation review passed",
-  "combined_packet_sha256": "50d0c549e665632982cd8a98d99f2053bca8c97f44d31630de438517f93993a9"
+  "pending_child_reason": "All child PRs merged; #910 native finish/clean and #934 publication/closing lifecycle separately pending",
+  "combined_packet_sha256": "8dbb70ce012ae296dd35691def1348bd521d89ce84a5a08add701d0b63bf0f4b",
+  "merged_renewal_observed_at": "2026-09-12T05:24:39.551326+00:00",
+  "all_children_merged": true,
+  "all_child_merges_ancestor_of_candidate_base": "ef9d0d2582fc51e9a8c7dfe305a30f5a128e18d6"
 }

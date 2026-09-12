@@ -6,31 +6,31 @@
     {
       "requirement": "Account for each child exactly once",
       "evidence": "acceptance-ledger.json",
-      "status": "partial; 720, 908, 909 accepted, 910 pending"
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
     },
     {
       "requirement": "Passing source-specific acceptance with independent review for all four children",
       "evidence": "review/MERGED_CHILDREN_ACCEPTANCE.md",
-      "status": "partial; deployed browser acceptance and final 910 review pending"
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
     },
     {
       "requirement": "Reviewed heads, passing checks and merges ancestral to sprint closing revision",
       "evidence": "review/observations.json",
-      "status": "partial; three child merges recorded, closing revision not yet established"
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
     },
     {
       "requirement": "Independent combined integration and test adequacy review",
       "evidence": "review/MERGED_CHILDREN_ACCEPTANCE.md",
-      "status": "partial; final 910 integration not reviewed"
+      "status": "passed; see final child review, ledger, merge ancestry and terminal receipts"
     },
     {
       "requirement": "Record downstream deliveries and remaining limitations",
       "evidence": "execution-state.json",
-      "status": "in progress; final synthesis pending"
+      "status": "passed; combined review records delivered outputs and persistent limits"
     },
     {
       "requirement": "Native reviewed green umbrella publication, operator merge, finish and exact cleanup",
-      "status": "pending"
+      "status": "pending umbrella exact review/publication, CI, operator merge, finish and clean"
     }
   ],
   "scope_preserved": [

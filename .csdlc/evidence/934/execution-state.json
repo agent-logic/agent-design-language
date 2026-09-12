@@ -3,7 +3,7 @@
   "umbrella": 934,
   "version": "v0.92.2",
   "sprint": 8,
-  "updated_at": "2026-09-12T05:00:14.413206+00:00",
+  "updated_at": "2026-09-12T05:24:08.214602+00:00",
   "mode": "hybrid",
   "members": [
     720,
@@ -78,7 +78,7 @@
     {
       "issue": 910,
       "worker": "sprint8_908",
-      "state": "reviewed_green_awaiting_operator_merge",
+      "state": "terminal_closed_out",
       "scope": "Exact static Observatory deployment",
       "gates": [
         "accepted #720 output",
@@ -133,7 +133,13 @@
       "reviewer": "sprint8_909",
       "ci_run": 34674270192,
       "ci_conclusion": "success",
-      "merge_authorization": "pending user response"
+      "merge_authorization": "Operator merged PR954; live result verified",
+      "merge_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
+      "merged_at": "2026-09-12T05:10:05Z",
+      "cleanup": "removed",
+      "terminal_receipt": ".git/csdlc-v3/local/evidence/910/terminal-receipt.json",
+      "terminal_state_digest": "b766edc0c72d1d0f0c868fa6bda49bf98c6eaa65861b5e98e2b54c6e57e81d7e",
+      "terminal_receipt_sha256": "ac4be0e3ddfde61a878f752f11ebe125da4a3e72b28f882c6468d28b3dbdd7e7"
     }
   ],
   "review": "pending",
