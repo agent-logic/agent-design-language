@@ -75,13 +75,13 @@ PAIR and the canonical Runtime route work on the approved local Apple M4 Pro nod
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/904/cards/sor.md`
-- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md; .csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json`
-- Additional proof artifacts: `.csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json`
+- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md; .csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json; .csdlc/evidence/904/local-broker-attribution.json`
+- Additional proof artifacts: `.csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json; .csdlc/evidence/904/local-broker-attribution.json`
 
 ## Actions taken
 - `Verified native bound context, current issue and accepted #876; created child #904 implementation goal under #932.`
 - `Verified NVIDIA-signed PAIR v0.1.1, ran all workers, pinned Ollama 0.32.14 and llama3.2:3b, and completed same-corpus direct/raw PAIR measurements.`
-- `Added and executed create-only content-redacted repeated Runtime live probes through canonical provider definitions at concurrency one and two; second-node pairing, node loss, resource proof and final decision remain pending.`
+- `Added and executed create-only content-redacted repeated Runtime live probes through canonical provider definitions at concurrency one and two, and proved broker scheduledOn attribution with a real request; second-node pairing, node loss, resource proof and final decision remain pending.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
@@ -110,7 +110,7 @@ Rules:
   - `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_actual_runtime_workflow -- --ignored --exact --nocapture with pinned ADL_PAIR inputs; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
     `Partial accounting and loopback transport correctness established; no actual PAIR/Runtime/hardware qualification.`
 - Results:
-  - `Sixteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 12 of 12 exact-output requests across three batches each at concurrency one and two at source 29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48. Strict Clippy and diff checks passed. After equal explicit prewarming, the raw local preflight passed 24 of 24 requests and measured PAIR/baseline throughput ratios of 0.9763 at concurrency one and 0.7682 at concurrency two. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved.`
+  - `Sixteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 12 of 12 exact-output requests across three batches each at concurrency one and two at source 29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48. Strict Clippy and diff checks passed. After equal explicit prewarming, the raw local preflight passed 24 of 24 requests and measured PAIR/baseline throughput ratios of 0.9763 at concurrency one and 0.7682 at concurrency two. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved. A real broker workloads:subscribe probe returned the exact expected output and a nonempty scheduledOn node identity, retained only by hash.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
