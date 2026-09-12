@@ -11,6 +11,7 @@ from pathlib import Path
 import subprocess
 import tarfile
 import io
+import os
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -36,7 +37,11 @@ def main():
     # Do not let the standalone Cargo package discover the enclosing worktree Git root.
     run(['git', 'init', '--quiet'], snapshot)
     run(['git', 'add', 'adl-uts', 'adl-spec'], snapshot)
-    run(['git', '-c', 'user.name=UTS package proof', '-c', 'user.email=uts-proof@example.invalid', 'commit', '--quiet', '-m', 'Exact source snapshot'], snapshot)
+    source_epoch = run(['git', 'show', '-s', '--format=%ct', head], ROOT).strip()
+    identity_env = {**os.environ, 'GIT_AUTHOR_DATE': f'{source_epoch} +0000', 'GIT_COMMITTER_DATE': f'{source_epoch} +0000'}
+    # Repeat invocation at the same revision reuses the immutable snapshot commit.
+    if run(['git', 'status', '--porcelain'], snapshot).strip():
+        subprocess.run(['git', '-c', 'user.name=UTS package proof', '-c', 'user.email=uts-proof@example.invalid', 'commit', '--quiet', '-m', 'Exact source snapshot'], cwd=snapshot, env=identity_env, check=True, capture_output=True)
     run(['cargo', 'package', '--offline', '--locked', '--manifest-path', 'adl-uts/Cargo.toml'], snapshot)
     artifact = snapshot / 'adl-uts/target/package/adl-uts-0.1.0.crate'
     vendor = dest / 'vendor'
