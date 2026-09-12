@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "877-uts-package-review-prompt"
 issue: 877
 task_id: "issue-0877"
 version: "v0.92.2"
 title: "[v0.92.2][PLAT-UTS] Install a versioned UTS package consumed by Runtime tool dispatch"
 branch: "codex/877-uts-package"
-generated_at: "<timestamp>"
+generated_at: "2026-09-12T00:53:52.824952+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/877"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/877/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/877/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/877/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/877/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/877/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/877/cards/stp.md"
+  - ".csdlc/issues/877/cards/sip.md"
+  - ".csdlc/issues/877/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/877/cards/stp.md"
+  - ".csdlc/issues/877/cards/sip.md"
+  - ".csdlc/issues/877/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "pending independent implementation review"
+  recommended_outcome: "pending review"
+notes: "Review actual governed dispatch, package installation, compatibility and CI denominator. Prepared review prompt is not approval."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/877/cards/stp.md
+- .csdlc/issues/877/cards/sip.md
+- .csdlc/issues/877/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Independent review pending
 
 ### Dispositions
 
-- <review_dispositions>
+- No implementation review findings received yet; do not infer approval
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- pending review
 
 ## Notes
 
-<review_notes>
+Review actual governed dispatch, package installation, compatibility and CI denominator. Prepared review prompt is not approval.
