@@ -1,0 +1,148 @@
+{
+  "schema": "adl.repository_boundary_inventory.v1",
+  "source_revision": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+  "tracked_path_count": 30843,
+  "top_level_path_counts": {
+    ".adl": 2,
+    ".csdlc": 21140,
+    ".gitattributes": 1,
+    ".github": 18,
+    ".gitignore": 1,
+    "AGENTS.md": 1,
+    "CHANGELOG.md": 1,
+    "CONTRIBUTING.md": 1,
+    "CSMctl": 1,
+    "LICENSE": 1,
+    "README.md": 1,
+    "REVIEW.md": 1,
+    "SECURITY.md": 1,
+    "adl": 1769,
+    "adl-characterization": 189,
+    "adl-resilience": 3,
+    "adl-runtime": 125,
+    "adl-runtime-kernel": 127,
+    "adl-spec": 39,
+    "adl-v2": 95,
+    "csdlc-v2": 111,
+    "csdlc-v3": 38,
+    "demos": 347,
+    "design": 2,
+    "docs": 6553,
+    "infra": 260,
+    "rust-toolchain.toml": 1,
+    "start_CSM.sh": 1,
+    "tools": 13
+  },
+  "tracked_cargo_manifests": [
+    ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+    ".csdlc/prepared/issues/522/blake3-file/Cargo.toml",
+    ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+    ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+    "adl-characterization/Cargo.toml",
+    "adl-resilience/Cargo.toml",
+    "adl-runtime-kernel/Cargo.toml",
+    "adl-runtime/Cargo.toml",
+    "adl-v2/Cargo.toml",
+    "adl-v2/crates/adl-adapters/Cargo.toml",
+    "adl-v2/crates/adl-cli/Cargo.toml",
+    "adl-v2/crates/adl-compiler/Cargo.toml",
+    "adl-v2/crates/adl-engine/Cargo.toml",
+    "adl-v2/crates/adl-language/Cargo.toml",
+    "adl-v2/crates/adl-records/Cargo.toml",
+    "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+    "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+    "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+    "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+    "adl/Cargo.toml",
+    "csdlc-v2/Cargo.toml",
+    "csdlc-v3/Cargo.toml",
+    "demos/transpiler_demo/Cargo.toml",
+    "tools/aws_remote_validation/Cargo.toml",
+    "tools/remote_validation/Cargo.toml"
+  ],
+  "selected_product_manifests": [
+    {
+      "path": "adl/Cargo.toml",
+      "present": true,
+      "sha256": "ac49fac176c35c8c2067f1c3738d1ba0143561b1a7df901db87712a3d0ea5f3d",
+      "package": "adl",
+      "path_dependencies": [
+        {
+          "section": "dependencies",
+          "dependency": "adl-runtime",
+          "path": "../adl-runtime"
+        },
+        {
+          "section": "dependencies",
+          "dependency": "adl-runtime-kernel",
+          "path": "../adl-runtime-kernel"
+        },
+        {
+          "section": "dev-dependencies",
+          "dependency": "adl-runtime-kernel",
+          "path": "../adl-runtime-kernel"
+        }
+      ]
+    },
+    {
+      "path": "adl-runtime/Cargo.toml",
+      "present": true,
+      "sha256": "b71e7bb336d1efd035e49032483c56e4df1eae43087ec7c8ac4c57d7b9e89685",
+      "package": "adl-runtime",
+      "path_dependencies": [
+        {
+          "section": "dependencies",
+          "dependency": "adl-resilience",
+          "path": "../adl-resilience"
+        },
+        {
+          "section": "dependencies",
+          "dependency": "adl-runtime-kernel",
+          "path": "../adl-runtime-kernel"
+        }
+      ]
+    },
+    {
+      "path": "adl-runtime-kernel/Cargo.toml",
+      "present": true,
+      "sha256": "a2eb39f6857cb4b075ca06ebf3d1dfc4bff448ed2b5c4f4200b30f5870eef52f",
+      "package": "adl-runtime-kernel",
+      "path_dependencies": []
+    },
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "present": true,
+      "sha256": "95de576c2de0bed2b89f48bf8b241a6cfe01d050eff87d447496447133758f7d",
+      "package": "adl-resilience",
+      "path_dependencies": []
+    },
+    {
+      "path": "adl-v2/Cargo.toml",
+      "present": true,
+      "sha256": "50c77da79b86e11c7bad90245e7674732cf0b4fe8730ad8c46751173543e2ed8",
+      "package": null,
+      "path_dependencies": []
+    },
+    {
+      "path": "csdlc-v2/Cargo.toml",
+      "present": true,
+      "sha256": "a4947407dc0ce43a9ecdbb67ce0faebcba34a467c80be65506af71b5b1eaa73d",
+      "package": "csdlc-v2",
+      "path_dependencies": [
+        {
+          "section": "dependencies",
+          "dependency": "adl-resilience",
+          "path": "../adl-resilience"
+        }
+      ]
+    },
+    {
+      "path": "csdlc-v3/Cargo.toml",
+      "present": true,
+      "sha256": "de2b6d78ee120b337a3e9670f969b156e2d90ca0b6817fb0473e2705fc898acc",
+      "package": "csdlc-v3",
+      "path_dependencies": []
+    }
+  ],
+  "scope": "Current Git tracked-path and selected product manifest inventory; not the complete RD-01 ownership/dependency audit. Counts do not measure code reduction or independent builds."
+}
