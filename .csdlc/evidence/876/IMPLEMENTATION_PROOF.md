@@ -52,3 +52,28 @@ required provider-platform gate. No paid inference, deployment, hosted-provider
 qualification, lifecycle rewrite, second registry or second watcher. Existing
 logging destinations remain unchanged; loader rejection text excludes candidate
 values and paths. Independent review and current-head GitHub CI remain required.
+
+## PR953 user URL/Bedrock alias repair
+
+User findings at `9495c0e94e325c4e9d24050ab2c7213eb91b4f51` are retained
+in REVIEW.md. Both account digest aliases now share string/64-hex validation;
+constructor precedence is unchanged. URL parsing rejects userinfo, decoded
+credential query names and explicit credential markers in decoded values.
+Ordinary query values do not receive the opaque-length heuristic. No endpoint
+is contacted during validation and no credential value is resolved.
+
+Four current provider-definition tests pass (`url-alias-final3-tests.log`):
+production profile-loader admission of both Bedrock aliases; malformed digest
+negatives; initial endpoint/base URL rejection and safe URL positives; seven
+actual rejected watcher updates with unchanged generation/digest and real
+last-known-good dispatch after every rejection. Existing reference and nested
+credential tests remain included. Initial alias fixture attempts incorrectly
+used explicit Bedrock type unsupported by the document validator; failed logs
+are preserved in url-alias-final-tests.log and url-alias-final2-tests.log. The
+fixture now uses supported bedrock:nova-lite-v1, without changing production
+provider compatibility. Earlier passing four-test run is url-alias-tests.log.
+
+PVF remains bounded local provider integration/contract. No AWS, paid inference,
+external provider qualification or model-health probes were performed. Logs are
+retained raw, including trailing blank lines; whitespace checks apply to changed
+source/docs only. Independent exact-head review and current-head CI are pending.

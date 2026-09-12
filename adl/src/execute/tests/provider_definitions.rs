@@ -183,19 +183,34 @@ fn editable_provider_definitions_drive_real_dispatch_and_atomic_reload() {
     old.release.send(()).unwrap();
     assert_eq!(old_request.join().unwrap(), "phi4-mini");
     // Invalid expanded candidate must not partially promote the replacement map.
-    let invalid = sidecar("123", "ollama:phi4-mini", 0.0);
-    std::fs::write(&path, invalid).unwrap();
-    let deadline = Instant::now() + Duration::from_secs(5);
-    while handle.last_diagnostic().is_none() {
-        assert!(Instant::now() < deadline);
-        std::thread::sleep(Duration::from_millis(2));
+    let bad_urls = [
+        "http://user:password@127.0.0.1:1/api/generate",
+        "http://127.0.0.1:1/api/generate?api_key=sk-fixture",
+        "http://127.0.0.1:1/api/generate?api%5Fkey=fixture",
+    ];
+    let mut invalids = vec![sidecar("123", "ollama:phi4-mini", 0.0)];
+    for url in bad_urls {
+        invalids.push(sidecar(url, "ollama:phi4-mini", 0.0));
+        invalids.push(format!("providers:\n  p1: &definition\n    type: ollama\n    base_url: {url}\n    default_model: phi4-mini\n  p2: *definition\n"));
     }
-    assert_eq!(handle.current_snapshot().generation, 1);
-    assert_eq!(handle.current_snapshot().digest, changed.digest);
-    let retained = dispatch(&resolved, &base.join("retained"), &handle);
-    new.request("qwen2.5:7b", 0.5);
-    new.release.send(()).unwrap();
-    assert_eq!(retained.join().unwrap(), "qwen2.5:7b");
+    for invalid in &invalids {
+        let previous = handle.last_diagnostic();
+        std::fs::write(&path, invalid).unwrap();
+        let deadline = Instant::now() + Duration::from_secs(5);
+        while handle.last_diagnostic() == previous {
+            assert!(Instant::now() < deadline);
+            std::thread::sleep(Duration::from_millis(2));
+        }
+        let diagnostic = handle.last_diagnostic().unwrap();
+        assert!(!diagnostic.redacted_message.contains("password"));
+        assert!(!diagnostic.redacted_message.contains("sk-fixture"));
+        assert_eq!(handle.current_snapshot().generation, 1);
+        assert_eq!(handle.current_snapshot().digest, changed.digest);
+        let retained = dispatch(&resolved, &base.join("retained"), &handle);
+        new.request("qwen2.5:7b", 0.5);
+        new.release.send(()).unwrap();
+        assert_eq!(retained.join().unwrap(), "qwen2.5:7b");
+    }
     reading.store(false, Ordering::SeqCst);
     assert!(reader.join().unwrap() > 0);
     let outcome = runtime.block_on(owner.shutdown()).unwrap();
@@ -204,7 +219,7 @@ fn editable_provider_definitions_drive_real_dispatch_and_atomic_reload() {
     assert_eq!(old.count.load(Ordering::SeqCst), 1);
     assert_eq!(
         new.count.load(Ordering::SeqCst),
-        2,
+        1 + invalids.len(),
         "reload introduces no probe requests"
     );
     std::fs::remove_dir_all(base).unwrap();

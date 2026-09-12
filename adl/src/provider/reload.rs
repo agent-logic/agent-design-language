@@ -276,6 +276,20 @@ fn reject_credential_values(providers: &HashMap<String, adl::ProviderSpec>) -> R
 }
 
 fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
+    if matches!(
+        path,
+        ["expected_account_sha256"] | ["expected-account-sha256"]
+    ) {
+        let valid = value
+            .as_str()
+            .is_some_and(|raw| raw.len() == 64 && raw.bytes().all(|b| b.is_ascii_hexdigit()));
+        if !valid {
+            return Err(anyhow!(
+                "provider reload sidecar has invalid public account digest"
+            ));
+        }
+        return Ok(());
+    }
     if path == ["auth", "env"] && !value.is_string() {
         return Err(anyhow!(
             "provider reload sidecar has invalid credential reference"
@@ -300,14 +314,6 @@ fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
             }
         }
         Value::String(raw) => {
-            if path == ["expected_account_sha256"] {
-                if raw.len() != 64 || !raw.bytes().all(|b| b.is_ascii_hexdigit()) {
-                    return Err(anyhow!(
-                        "provider reload sidecar has invalid public account digest"
-                    ));
-                }
-                return Ok(());
-            }
             let reference = matches!(
                 path,
                 ["auth", "env"] | ["api_key_env"] | ["auth_env"] | ["token_env"]
@@ -370,12 +376,35 @@ fn looks_like_raw_credential(raw: &str) -> bool {
 }
 
 fn has_credential_marker(raw: &str) -> bool {
+    url_contains_credentials(raw) || explicit_credential_marker(raw)
+}
+
+fn explicit_credential_marker(raw: &str) -> bool {
     let lower = raw.trim().to_ascii_lowercase();
     lower.starts_with("sk-")
         || lower.starts_with("bearer ")
         || lower.contains("-----begin private key-----")
         || lower.contains("-----begin rsa private key-----")
         || lower.contains("-----begin ec private key-----")
+}
+
+// URL parsing decodes query names before policy matching. Ordinary paths and
+// query parameters remain instance data; credentials belong in references.
+fn url_contains_credentials(raw: &str) -> bool {
+    let Ok(url) = reqwest::Url::parse(raw.trim()) else {
+        return false;
+    };
+    !url.username().is_empty()
+        || url.password().is_some()
+        || url.query_pairs().any(|(name, value)| {
+            let normalized = name.to_ascii_lowercase().replace('-', "_");
+            explicit_credential_marker(&value)
+                || credential_value_key(&normalized)
+                || matches!(
+                    normalized.as_str(),
+                    "key" | "auth" | "authorization" | "bearer" | "auth_token" | "passwd"
+                )
+        })
 }
 
 fn redacted_provider_digest(providers: &HashMap<String, adl::ProviderSpec>) -> Result<String> {
@@ -715,6 +744,103 @@ providers:
             Value::String("a".repeat(64)),
         );
         reject_credential_values(&HashMap::from([("primary".to_string(), spec)])).unwrap();
+        std::fs::remove_dir_all(base).unwrap();
+    }
+
+    // #876 PVF: local admission contract; no inference, AWS calls or credentials.
+    #[test]
+    fn provider_definitions_account_aliases_and_embedded_url_credentials() {
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        let base = unique_temp_path("adl-provider-url-alias");
+        std::fs::create_dir_all(&base).unwrap();
+        let path = base.join("providers.yaml");
+        let hash = "a".repeat(64);
+        for key in ["expected_account_sha256", "expected-account-sha256"] {
+            let mut spec = provider("bedrock");
+            spec.config
+                .insert("region".into(), Value::String("us-west-2".into()));
+            spec.config.insert(key.into(), Value::String(hash.clone()));
+            // Prove the existing Bedrock constructor consumes each public alias.
+            reject_credential_values(&HashMap::from([("primary".into(), spec.clone())])).unwrap();
+            super::super::build_provider_for_id("primary", &spec, None).unwrap();
+            std::fs::write(&path, format!("providers: {{primary: {{profile: 'bedrock:nova-lite-v1', config: {{region: us-west-2, {key}: '{hash}'}}}}}}" )).unwrap();
+            let owner = runtime
+                .block_on(ProviderReloadOwner::start(
+                    path.clone(),
+                    provider_doc("base"),
+                    ConfigReloadOptions::default(),
+                ))
+                .unwrap();
+            assert_eq!(
+                owner.handle().current_document().providers["primary"].config[key],
+                hash
+            );
+            runtime.block_on(owner.shutdown()).unwrap();
+
+            for value in [
+                Value::Null,
+                serde_json::json!(123),
+                serde_json::json!(false),
+                serde_json::json!([]),
+                serde_json::json!("bad"),
+                Value::String("g".repeat(64)),
+            ] {
+                spec.config.insert(key.into(), value);
+                assert!(reject_credential_values(&HashMap::from([(
+                    "primary".into(),
+                    spec.clone()
+                )]))
+                .is_err());
+            }
+        }
+        let urls = [
+            "http://user:password@127.0.0.1:1/api/generate",
+            "http://127.0.0.1:1/api/generate?api_key=sk-fixture",
+            "http://127.0.0.1:1/api/generate?api%5Fkey=fixture",
+            "https://example.invalid/v1?%61uthorization=fixture",
+            "https://example.invalid/v1?key=fixture",
+            "https://example.invalid/v1?route=%73k-fixture",
+        ];
+        for url in urls {
+            for field in [
+                format!("base_url: '{url}'"),
+                format!("config: {{endpoint: '{url}'}}"),
+            ] {
+                std::fs::write(
+                    &path,
+                    format!("providers: {{primary: {{type: http, {field}}}}}"),
+                )
+                .unwrap();
+                let error = runtime
+                    .block_on(ProviderReloadOwner::start(
+                        path.clone(),
+                        provider_doc("base"),
+                        ConfigReloadOptions::default(),
+                    ))
+                    .unwrap_err();
+                let message = error.to_string();
+                assert!(!message.contains(url));
+                assert!(!message.contains("sk-fixture"));
+            }
+        }
+        for url in [
+            "http://127.0.0.1:1/api/generate?version=1&model=ordinary",
+            "https://example.invalid/a%20b?route=chat&api-version=2026-01",
+        ] {
+            std::fs::write(
+                &path,
+                format!("providers: {{primary: {{type: http, config: {{endpoint: '{url}'}}}}}}"),
+            )
+            .unwrap();
+            let owner = runtime
+                .block_on(ProviderReloadOwner::start(
+                    path.clone(),
+                    provider_doc("base"),
+                    ConfigReloadOptions::default(),
+                ))
+                .unwrap();
+            runtime.block_on(owner.shutdown()).unwrap();
+        }
         std::fs::remove_dir_all(base).unwrap();
     }
 

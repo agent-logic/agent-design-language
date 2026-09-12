@@ -69,3 +69,19 @@ retained raw logs. Those raw logs remain unchanged. SOR now identifies the
 executed passing check as the scoped source/doc diff check and explicitly
 discloses the aggregate raw-log whitespace. No source proof was rerun for this
 wording correction; metadata-only final confirmation remains the publication gate.
+
+## User review at 9495c0e — Bedrock alias and URL credentials (P2)
+
+- Supported Bedrock `expected-account-sha256` alias with a 64-character public
+  hash was rejected as an opaque credential while `expected_account_sha256`
+  was exempt. Both aliases must receive identical string/64-hex validation and
+  compatibility proof; adapter precedence remains unchanged.
+- Endpoint/base URL `user:password@` userinfo and query
+  `?api_key=sk-fixture` bypassed string credential checks and generic HTTP
+  scheme/host validation. Reject embedded credentials and decoded credential
+  query names before activation; prove actual watcher last-known-good retention.
+
+The user reviewed exact `9495c0e94e325c4e9d24050ab2c7213eb91b4f51`;
+10 focused tests, formatting and scoped diff checks were green, with no external
+changes. Those checks did not establish the missing cases above. Prior proof and
+findings remain preserved. This repair uses synthetic fixture values only.

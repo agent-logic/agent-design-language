@@ -25,7 +25,7 @@ Status: IN_PROGRESS
 Generated: 2026-09-12T02:15:09.413701+00:00
 
 Execution:
-- Actor: `fix_941_ci`
+- Actor: `review_836`
 - Model: `GPT-6`
 - Provider: `OpenAI`
 - Start Time: `not_collected`
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending.
+Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150
 - Goal metrics source ref: `Issue-bound goal service; no issue metrics export collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `reviewed_correction_publication_pending`
+- Completion state: `repair_review_pending`
 - Issue goal ref: `Active #876 passing reviewed PR goal`
 - Sprint goal ref: `Sprint 2 #928 execution goal`
 - Goal metrics rollup ref: `not_collected; parent sprint goal owns rollup`
@@ -92,7 +92,7 @@ review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150
 - Verification performed:
   - `git status --short --branch; git merge-base --is-ancestor for prerequisite merges`
     `Confirmed bound branch, clean primary main and accepted dependency ancestry.`
-- Result: `PR953 open at06c0dcd; correction remains local pending review/publication.`
+- Result: `PR953 remains open; URL/alias correction local pending independent review and publication.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo test --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot; cargo test --manifest-path adl/Cargo.toml --lib provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check 06c0dcd28d5621e4af30742116ba25ac9353f149..99e34042c9abb9fb58cfea5d5f150da651401ea1 -- adl/src/provider/reload.rs adl/src/execute/tests/provider_definitions.rs docs/providers/provider-profile-hot-loading.md`
+  - `cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check -- adl/src/provider/reload.rs adl/src/execute/tests/provider_definitions.rs docs/providers/provider-profile-hot-loading.md`
     `Proved real dispatch, invalid-input/LKG/redaction, reference admission, existing reload/in-flight/profile behavior and lint/format correctness.`
 - Results:
-  - `Correction:3 definition tests+7 reload compatibility tests, strict clippy and formatting pass. Scoped source/doc diff check06c0dcd..99e340 passes. Aggregate diff check includes three retained raw logs with terminal blank lines and is not claimed passing. Original numeric-endpoint failure and prior25-test evidence preserved. Renewed hosted CI pending.`
+  - `4 definition tests +7 reload compatibility tests pass; strict clippy and formatting pass. Scoped source/doc whitespace check passes; raw retained logs include terminal blank lines. Initial unsupported explicit-Bedrock test-fixture failures preserved and corrected to supported profile loader. Independent review/current-head CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "10 correction tests, strict clippy/fmt, scoped source/doc diff check; prior25-test/mutation proof retained. Raw log whitespace is intentionally preserved."
+      - "11 focused tests, clippy, formatting and scoped source/doc whitespace; see url-alias-final3-tests.log, url-alias-compatibility.log and url-alias-clippy.log."
   determinism:
     status: passed
     replay_verified: false
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserved initial macOS fixture failure, clippy warning and shadow-filename rejection with corrections; preserved card P2.`
 
 ## Follow-ups / Deferred work
-- `Publish independently reviewed correction and verify current-head hosted CI.`
+- `Independent changed-source review, native publication of repair and current-head CI required.`
 - `Dynamic agent lifecycle remains separately owned by #855; no implementation in this issue.`

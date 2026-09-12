@@ -115,3 +115,13 @@ bounded redacted diagnostics. A third admission compatibility test verifies cred
 configuration without dispatch or evidence creation. These are required provider-platform PVF integration
 or contract gates using bounded local CPU, filesystem and loopback only; they
 provide no hosted-provider qualification or paid-cloud evidence.
+
+Both Bedrock account-hash spellings, `expected_account_sha256` and
+`expected-account-sha256`, accept only string values of 64 hexadecimal digits.
+The adapter's existing underscore-first precedence is unchanged. URL userinfo
+and credential query names are rejected in endpoint/base URL strings, including
+percent-encoded query names. This includes `key`, authorization/bearer selectors
+and the recognized credential-key names; ordinary routing/version query values
+remain supported. URL validation does not contact the endpoint.
+Explicit credential markers in decoded query values are also rejected without
+applying opaque-string length checks to ordinary URL parameters.

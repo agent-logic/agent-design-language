@@ -56,8 +56,8 @@ policy_refs:
   - ".csdlc/issues/876/cards/vpp.md"
 review_results:
   findings_status: "findings_present"
-  recommended_outcome: "pass"
-notes: "review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending."
+  recommended_outcome: "needs_followup"
+notes: "Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Original card P2 resolved. Completion audit P2: numeric endpoint was accepted and selected fallback. Failure reproduced through production loader; bounded type repair and real watcher/LKG regression implemented. See REVIEW.md.
+- User review at9495c0e: P2 supported expected-account-sha256 alias rejects public64hex unlike underscore; P2 endpoint/base_url userinfo and credential query values bypass rejection. Both findings require repair; prior reviews remain historical.
 
 ### Dispositions
 
-- review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending.
+- Implemented both user P2 corrections; 11 focused tests pass. Prior reviews do not approve this changed source. Awaiting independent exact-head review.
 
 ### Recommended Outcome
 
-- pass
+- needs_followup
 
 ## Notes
 
-review_836 independently approved correction source99e34042c9abb9fb58cfea5d5f150da651401ea1: declared-type guard, extensibility and real LKG proof pass. Original findings preserved. Review also identified blanket diff-check wording: retained raw logs have terminal blank lines; source-only diff check passes. Wording corrected without altering those logs. Corrected-head publication/CI and merge remain pending.
+Repaired user Bedrock account alias and URL credential P2s. Both public hash aliases validate identically; parsed userinfo and decoded credential query names/markers reject before activation. Four definition plus seven compatibility tests, strict clippy and formatting pass. Prior failed fixture logs preserved. Changed-source independent review and corrected-head CI pending; no merge claim.

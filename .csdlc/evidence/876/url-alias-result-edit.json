@@ -1,0 +1,1 @@
+{"schema":"csdlc.v3.operational_local.v1","command":"edit","read_only":false,"operational_read_only":false,"operational_authority":true,"writes_v3_state":true,"result":{"route":"edit","issue":876,"mutated":true,"phase":"bound","generation":15,"digest":"04119e5d31301ca71eb706579169415223e8b7c705f4b411d14b2c3e0bd30982","next_route":"validate","findings":[]}}

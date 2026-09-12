@@ -11,7 +11,7 @@ branch: "codex/876-provider-definitions"
 generated_at: "2026-09-11T23:55:23.353658+00:00"
 card_status: "ready"
 status: "in_progress"
-activation_state: "not_activated"
+activation_state: "bound"
 plan_revision: 1
 initial_pvf_lane: "provider"
 planned_pvf_lane: "provider"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Extend the existing provider reload owner; reject credential-shaped nested values without rejecting legitimate model identifiers or approved credential references. Prove real loopback endpoint/model/profile consumption, barrier-synchronized old in-flight and new dispatch, whole-map atomicity, and last-known-good dispatch after invalid edits. Run focused provider tests, preserve diagnostics evidence, obtain exact-head independent review and publish a passing PR."
+plan_summary: "Repair PR953 user P2s: validate both Bedrock account digest aliases identically; reject URL userinfo and decoded credential query keys before activation; prove initial rejection, actual watcher last-known-good retention and safe URL/alias compatibility. Preserve prior proof and obtain independent review before publication."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -78,11 +78,11 @@ codex_plan:
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "pending"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "876-provider-definitions"
 invariants_to_preserve:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions`.
 
-Extend the existing provider reload owner; reject credential-shaped nested values without rejecting legitimate model identifiers or approved credential references. Prove real loopback endpoint/model/profile consumption, barrier-synchronized old in-flight and new dispatch, whole-map atomicity, and last-known-good dispatch after invalid edits. Run focused provider tests, preserve diagnostics evidence, obtain exact-head independent review and publish a passing PR.
+Repair PR953 user P2s: validate both Bedrock account digest aliases identically; reject URL userinfo and decoded credential query keys before activation; prove initial rejection, actual watcher last-known-good retention and safe URL/alias compatibility. Preserve prior proof and obtain independent review before publication.
 
 ## PVF Lane Plan
 
@@ -144,9 +144,9 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. [pending] Confirm dependencies and starting state from the source issue prompt.
 2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
