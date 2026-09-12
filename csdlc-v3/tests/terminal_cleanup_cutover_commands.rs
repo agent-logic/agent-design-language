@@ -954,8 +954,11 @@ fn clean_cli_reports_requested_but_unperformed_mutation_before_cutover() {
     );
     let stderr = String::from_utf8_lossy(&output.stderr);
     let value: serde_json::Value =
-        serde_json::from_str(stderr.strip_prefix("csdlc: ").unwrap_or(&stderr).trim())
-            .expect("machine-readable clean JSON on stderr");
+        serde_json::from_slice(&output.stdout).expect("machine-readable clean JSON on stdout");
+    assert!(!stderr.contains("\"result\""));
+    assert!(stderr.contains("see structured stdout findings"));
+    assert_eq!(value["envelope"]["status"], "blocked");
+    assert_eq!(value["envelope"]["effects"]["outcome"], "none");
     assert_eq!(value["read_only"], true);
     assert_eq!(value["requested_mutation"], true);
     assert_eq!(value["performed_mutation"], false);

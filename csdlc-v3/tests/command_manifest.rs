@@ -126,8 +126,22 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     }
     for command in IMPLEMENTED_CONSTRUCTION_COMMANDS {
         let row = command_row(commands, command);
-        assert_eq!(row["implementation_status"], "implemented_construction");
-        assert_eq!(row["authority_status"], "proof_only");
+        assert_eq!(
+            row["implementation_status"],
+            if matches!(*command, "proof" | "install") {
+                "implemented"
+            } else {
+                "implemented_construction"
+            }
+        );
+        assert_eq!(
+            row["authority_status"],
+            if matches!(*command, "proof" | "install") {
+                "authenticated_v3"
+            } else {
+                "proof_only"
+            }
+        );
     }
     for command in IMPLEMENTED_HELPER_COMMANDS {
         let row = command_row(commands, command);

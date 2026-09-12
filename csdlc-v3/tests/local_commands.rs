@@ -3,8 +3,9 @@ use std::collections::BTreeSet;
 use std::process::Command;
 
 use csdlc_v3::commands::local::{
-    authorize_bind, execute_operational_local_route, grants_operational_authority,
-    inspect_local_lifecycle_state, local_route_command, local_route_status, plan_cards,
+    authorize_bind, execute_local_route, execute_operational_local_route,
+    grants_operational_authority, initialize_v3_local_state, inspect_local_lifecycle_state,
+    inspect_v3_local_state, local_route_command, local_route_status, plan_cards,
     prepare_local_workflow, required_local_commands, validate_contract, LocalPreparationRequest,
     OperationalLocalContext, PlanStatus, PromptRegistry, ScheduleReadinessInput,
     ShepherdRoutingInput, WorktreeRegistration, LOCAL_ROUTE_NAMES,
@@ -300,6 +301,7 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
 
     for route in LOCAL_ROUTE_NAMES {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .current_dir(&dir)
             .arg(route)
             .arg("--help")
             .output()
@@ -312,6 +314,7 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
         assert!(help_stdout.contains("Missing or stale proof suspends authority"));
 
         let mut output = Command::new(env!("CARGO_BIN_EXE_csdlc"));
+        output.current_dir(&dir);
         output
             .arg(route)
             .arg("--request")
@@ -332,24 +335,51 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
             }
         }
         let output = output.output().expect("run local route");
-        assert!(output.status.success(), "{route} failed: {output:?}");
-        let value: serde_json::Value =
-            serde_json::from_slice(&output.stdout).expect("machine-readable json");
-        assert_eq!(value["command"], route);
-        assert_eq!(value["read_only"], route != "issue");
-        assert_eq!(value["operational_read_only"], true);
-        assert_eq!(value["operational_authority"], false);
-        assert_eq!(value["writes_v3_state"], route == "issue");
-        assert_eq!(value["result"]["issue"], 503);
-        assert_eq!(value["route_status"]["route"], route);
-        assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
-        assert_eq!(value["route_result"]["issue"], 503);
-        assert_eq!(
-            value["route_result"]["kind"],
-            expected_route_result_kind(route)
+        assert_context_denied(&output, route);
+        assert!(
+            !state_root.exists(),
+            "denied issue route wrote construction state"
         );
-        assert!(output.stderr.is_empty());
+        // Historical model semantics remain tested through their explicit library API.
+        let observed = if route == "shepherd" {
+            inspect_local_lifecycle_state(&bound_root, 503)
+        } else {
+            inspect_local_lifecycle_state(&ready_root, 503)
+        };
+        let status = local_route_status(route, Some(&observed)).unwrap();
+        assert_eq!(status.route, route);
+        assert_eq!(status.issue_start_minutes_max, 3);
+        let result = execute_local_route(
+            route,
+            &request(),
+            &registry(),
+            &registrations(),
+            Some(observed),
+        )
+        .expect("retained construction model");
+        let value = serde_json::to_value(result).unwrap();
+        assert_eq!(value["issue"], 503);
+        assert_eq!(value["kind"], expected_route_result_kind(route));
     }
+}
+
+// PVF: deterministic local CLI/library regression, small CPU/Git fixtures; required
+// #868 and SIM-07 contract proof. Constructor proof never establishes CLI authority.
+fn assert_context_denied(output: &std::process::Output, route: &str) {
+    assert!(!output.status.success(), "{route}: {output:?}");
+    let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(value["envelope"]["command"], route);
+    assert_eq!(value["envelope"]["status"], "blocked");
+    assert_eq!(
+        value["envelope"]["reason_code"],
+        "operational_context_required"
+    );
+    assert_ne!(value["envelope"]["authority_status"], "verified");
+    assert_ne!(value["envelope"]["effects"]["outcome"], "performed");
+    assert!(
+        value["route_result"].is_null(),
+        "implicit construction fallback"
+    );
 }
 
 fn expected_route_result_kind(route: &str) -> &'static str {
@@ -444,6 +474,7 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
     .expect("write registrations fixture");
 
     let issue_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("issue")
         .arg("--request")
         .arg(&request_path)
@@ -455,20 +486,26 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
         .arg(&state_root)
         .output()
         .expect("run v3 issue initialization route");
-    assert!(issue_output.status.success(), "{issue_output:?}");
-    let issue_value: serde_json::Value =
-        serde_json::from_slice(&issue_output.stdout).expect("issue route JSON");
-    assert_eq!(issue_value["route_result"]["kind"], "issue_initialization");
-    assert_eq!(issue_value["read_only"], false);
-    assert_eq!(issue_value["operational_read_only"], true);
-    assert_eq!(issue_value["operational_authority"], false);
-    assert_eq!(issue_value["writes_v3_state"], true);
+    assert_context_denied(&issue_output, "issue");
+    assert!(!state_root.exists());
+    // The retained constructor is library proof, never implicit operational CLI fallback.
+    let observation = initialize_v3_local_state(&state_root, &request(), &registry()).unwrap();
+    assert_eq!(observation.code, "local_lifecycle_state_ready");
+    let issue_result = execute_local_route(
+        "issue",
+        &request(),
+        &registry(),
+        &registrations(),
+        Some(observation.clone()),
+    )
+    .unwrap();
     assert_eq!(
-        issue_value["route_result"]["initialized_state"]["code"],
-        "local_lifecycle_state_ready"
+        serde_json::to_value(issue_result).unwrap()["kind"],
+        "issue_initialization"
     );
 
     let eligibility_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("eligibility")
         .arg("--request")
         .arg(&request_path)
@@ -480,25 +517,27 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
         .arg(&state_root)
         .output()
         .expect("run v3 eligibility route");
-    assert!(
-        eligibility_output.status.success(),
-        "{eligibility_output:?}"
-    );
-    let eligibility_value: serde_json::Value =
-        serde_json::from_slice(&eligibility_output.stdout).expect("eligibility route JSON");
+    assert_context_denied(&eligibility_output, "eligibility");
+    let observed = inspect_v3_local_state(&state_root, 503);
     assert_eq!(
-        eligibility_value["route_status"]["code"],
-        "ready_to_execute"
+        observed, observation,
+        "denied CLI must preserve library fixture"
     );
-    assert_eq!(eligibility_value["read_only"], true);
-    assert_eq!(eligibility_value["operational_read_only"], true);
-    assert_eq!(eligibility_value["writes_v3_state"], false);
-    assert_eq!(eligibility_value["route_result"]["kind"], "eligibility");
-    assert_eq!(eligibility_value["route_result"]["ready_to_execute"], true);
+    let result = execute_local_route(
+        "eligibility",
+        &request(),
+        &registry(),
+        &registrations(),
+        Some(observed),
+    )
+    .unwrap();
+    let value = serde_json::to_value(result).unwrap();
+    assert_eq!(value["kind"], "eligibility");
+    assert_eq!(value["ready_to_execute"], true);
     assert_eq!(
-        eligibility_value["route_result"]["lifecycle_state"]["cards_present"]
+        value["lifecycle_state"]["cards_present"]
             .as_array()
-            .expect("cards_present is an array")
+            .unwrap()
             .len(),
         6
     );
@@ -525,6 +564,7 @@ fn issue_route_rejects_expected_digest_before_writing_v3_state() {
     .expect("write registrations fixture");
 
     let missing_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("issue")
         .arg("--request")
         .arg(&request_path)
@@ -537,9 +577,18 @@ fn issue_route_rejects_expected_digest_before_writing_v3_state() {
         .output()
         .expect("run v3 issue route with missing state");
     assert!(!missing_output.status.success(), "{missing_output:?}");
-    assert!(
-        String::from_utf8_lossy(&missing_output.stderr).contains("local_lifecycle_digest_missing")
-    );
+    assert_context_denied(&missing_output, "issue");
+    let denied = execute_local_route(
+        "issue",
+        &stale,
+        &registry(),
+        &registrations(),
+        Some(inspect_v3_local_state(&missing_state_root, 503)),
+    )
+    .unwrap_err();
+    assert!(denied
+        .iter()
+        .any(|finding| finding.code == "local_lifecycle_digest_missing"));
     assert!(!missing_state_root.join("issues/503").exists());
 
     let stale_issue_root = stale_state_root.join("issues/503");
@@ -550,6 +599,7 @@ fn issue_route_rejects_expected_digest_before_writing_v3_state() {
     )
     .expect("write stale v3 index");
     let stale_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("issue")
         .arg("--request")
         .arg(&request_path)
@@ -562,7 +612,18 @@ fn issue_route_rejects_expected_digest_before_writing_v3_state() {
         .output()
         .expect("run v3 issue route with stale digest");
     assert!(!stale_output.status.success(), "{stale_output:?}");
-    assert!(String::from_utf8_lossy(&stale_output.stderr).contains("stale_local_lifecycle_digest"));
+    assert_context_denied(&stale_output, "issue");
+    let denied = execute_local_route(
+        "issue",
+        &stale,
+        &registry(),
+        &registrations(),
+        Some(inspect_v3_local_state(&stale_state_root, 503)),
+    )
+    .unwrap_err();
+    assert!(denied
+        .iter()
+        .any(|finding| finding.code == "stale_local_lifecycle_digest"));
     assert!(!stale_issue_root.join("cards").exists());
 }
 
@@ -591,6 +652,7 @@ fn issue_route_requires_expected_digest_before_overwriting_existing_v3_state() {
     .expect("write registrations fixture");
 
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("issue")
         .arg("--request")
         .arg(&request_path)
@@ -603,8 +665,23 @@ fn issue_route_requires_expected_digest_before_overwriting_existing_v3_state() {
         .output()
         .expect("run v3 issue route with existing state and no digest");
     assert!(!output.status.success(), "{output:?}");
-    assert!(String::from_utf8_lossy(&output.stderr).contains("v3_local_state_digest_required"));
+    assert_context_denied(&output, "issue");
+    assert_eq!(
+        fs::read(issue_root.join("index.json")).unwrap(),
+        br#"{"phase":"ready","generation":7,"digest":"actual-digest"}"#
+    );
     assert!(!issue_root.join("cards").exists());
+    // Preserve the existing-state CAS invariant at its current authenticated owner.
+    let (_, _, context, registry) = operational_authority_fixture("existing-digest-required", "v3");
+    execute_operational_local_route("issue", &request(), &registry, &context).unwrap();
+    let retained = fs::read(context.state_root.join("issues/503/index.json")).unwrap();
+    let findings = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect_err("existing issue requires a digest even under valid authority");
+    assert_eq!(findings[0].code, "local_lifecycle_digest_required");
+    assert_eq!(
+        fs::read(context.state_root.join("issues/503/index.json")).unwrap(),
+        retained
+    );
 }
 
 #[test]
@@ -690,6 +767,7 @@ fn local_routes_fail_closed_without_observed_lifecycle_state() {
     .expect("write registrations fixture");
 
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("bind")
         .arg("--request")
         .arg(&request_path)
@@ -700,8 +778,12 @@ fn local_routes_fail_closed_without_observed_lifecycle_state() {
         .output()
         .expect("run local bind route");
     assert!(!output.status.success(), "{output:?}");
-    let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("lifecycle_observation_missing"));
+    assert_context_denied(&output, "bind");
+    let denied =
+        execute_local_route("bind", &request(), &registry(), &registrations(), None).unwrap_err();
+    assert!(denied
+        .iter()
+        .any(|finding| finding.code == "lifecycle_observation_missing"));
 }
 
 #[test]
@@ -723,6 +805,7 @@ fn local_routes_reject_unsupported_transitions_from_observed_phase() {
     .expect("write registrations fixture");
 
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("shepherd")
         .arg("--request")
         .arg(&request_path)
@@ -735,8 +818,18 @@ fn local_routes_reject_unsupported_transitions_from_observed_phase() {
         .output()
         .expect("run local shepherd route");
     assert!(!output.status.success(), "{output:?}");
-    let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("unsupported_local_route_transition"));
+    assert_context_denied(&output, "shepherd");
+    let denied = execute_local_route(
+        "shepherd",
+        &request(),
+        &registry(),
+        &registrations(),
+        Some(inspect_local_lifecycle_state(&ready_root, 503)),
+    )
+    .unwrap_err();
+    assert!(denied
+        .iter()
+        .any(|finding| finding.code == "unsupported_local_route_transition"));
 }
 
 #[test]
@@ -760,6 +853,7 @@ fn local_routes_reject_stale_lifecycle_digest() {
     .expect("write registrations fixture");
 
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .current_dir(&dir)
         .arg("bind")
         .arg("--request")
         .arg(&request_path)
@@ -772,8 +866,18 @@ fn local_routes_reject_stale_lifecycle_digest() {
         .output()
         .expect("run local bind route");
     assert!(!output.status.success(), "{output:?}");
-    let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("stale_local_lifecycle_digest"));
+    assert_context_denied(&output, "bind");
+    let denied = execute_local_route(
+        "bind",
+        &stale,
+        &registry(),
+        &registrations(),
+        Some(inspect_local_lifecycle_state(&ready_root, 503)),
+    )
+    .unwrap_err();
+    assert!(denied
+        .iter()
+        .any(|finding| finding.code == "stale_local_lifecycle_digest"));
 }
 
 #[test]
@@ -819,7 +923,11 @@ fn local_preparation_cli_rejects_malformed_typed_request() {
         .expect("structured diagnostic must remain on stdout");
     assert_eq!(report["findings"][0]["code"], "typed_contract_invalid_json");
     assert_eq!(report["writes_v3_state"], false);
-    assert!(!stderr.contains("typed_contract_invalid_json"));
+    assert!(stderr.contains("typed_contract_invalid_json"));
+    assert!(
+        !stderr.contains("{\""),
+        "structured payload belongs on stdout"
+    );
     assert!(stderr.contains("see structured stdout findings"));
 }
 

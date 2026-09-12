@@ -8,11 +8,11 @@ csdlc\-eligibility \- inspect lifecycle eligibility
 \&csdlc eligibility \-\-help
 .fi
 .SH DESCRIPTION
-\&Inspects native issue state and eligibility under current authority. Retained \-\-v3\-state\-root observation and topology fallback can produce non\-authoritative construction reports. Eligibility is not permission to execute a different issue or override dependency gates.
+\&Inspects native issue state and eligibility under current authority. Operational context discovery fails closed instead of selecting a construction report; use explicit local only for historical construction inspection. Eligibility is not permission to execute a different issue or override dependency gates.
 .SH EFFECTS
 \&Diagnostic route; current implementation may create lock metadata or recover a pending transaction.
 .PP
-\&Do not interpret read_only in an older report as a byte\-level filesystem guarantee. See csdlc(1) for the committed diagnostic limitation and primary/linked path distinction.
+\&Do not interpret read_only in an older report as a byte\-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected\-binary discovery and the primary/linked path distinction.
 .SH OPTIONS
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP

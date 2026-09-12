@@ -7,32 +7,28 @@ use csdlc_v3::{
         discover_operational_local_context, execute_local_route, execute_operational_local_route,
         finding, initialize_v3_local_state, inspect_local_lifecycle_state, inspect_v3_local_state,
         local_route_command, local_route_status, prepare_local_workflow, LocalPreparationRequest,
-        PlanStatus, WorktreeRegistration, LOCAL_ROUTE_NAMES,
+        PlanStatus, WorktreeRegistration,
     },
-    commands::proof::{classify_route, ProofRouteRequest, ProofRouteStatus, PROOF_ROUTE_NAMES},
+    commands::proof::{classify_route, ProofRouteRequest, ProofRouteStatus},
     commands::remote::{
         canonical_authority_selector_digest, dispatch_operational_remote,
         load_remote_route_receipts, observe_github_pr_readback,
         prepare_remote_publication_route_with_receipts, GithubMutation, GithubMutationRequest,
         IssueCloseDisposition, IssueCloseStateReason, OperationalRemoteDispatchRequest,
         OperationalRemoteOperation, RemoteRouteReceipts, RemoteRouteRequest,
-        REMOTE_PUBLICATION_ROUTE_NAMES,
     },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     commands::terminal::{
         prepare_terminal_cutover_with_github_observation,
         prepare_terminal_finish_with_github_observation, prepare_terminal_route, CleanupDecision,
         CutoverOperation, FinishDecision, TerminalRouteRequest, TerminalRouteStatus,
-        TERMINAL_ROUTE_NAMES,
     },
     repository::RepositoryContext,
 };
 use serde::Serialize;
 
-const AUTHORITY_HELP: &str = "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.";
+use csdlc_v3::commands::contract::{self, AUTHORITY_HELP};
 
-const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue close --repo <owner/name> --issue <number> --disposition <duplicate|superseded|no-op> --rationale <text> (--body <current-body>|--body-file <path>) --expected-head <sha> [--duplicate-of <number>] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  release-preflight --request <path>\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -43,57 +39,107 @@ const TERMINAL_USAGE: &str =
 const SPRINT_USAGE: &str = "usage: csdlc sprint --repo-root <path> --request <path>";
 
 fn main() {
-    match run(env::args().skip(1).collect()) {
-        Ok(output) => {
-            if !output.is_empty() {
-                println!("{output}");
-            }
+    use csdlc_v3::commands::result::{envelope, Invocation};
+    let args: Vec<String> = env::args().skip(1).collect();
+    let start = std::time::Instant::now();
+    let wall = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_millis();
+    // Envelope identity comes from the owner result, never a separate request
+    // file read that could race with the bytes actually parsed and executed.
+    let request = serde_json::Value::Null;
+    let mut invocation = Invocation {
+        command: args.first().cloned().unwrap_or_else(|| "discovery".into()),
+        request,
+        execute: args.iter().any(|arg| arg == "--execute"),
+        correlation: format!("{}-{wall}", std::process::id()),
+        started_unix_ms: wall,
+        elapsed_ms: 0,
+    };
+    let result = run(args.clone());
+    invocation.elapsed_ms = start.elapsed().as_millis();
+    let failed = result.is_err();
+    let mut output = match result {
+        Ok(output) | Err(output) => output,
+    };
+    if !failed && args.len() == 2 && matches!(args[1].as_str(), "--help" | "-h") {
+        if let Some(descriptor) = contract::descriptor(&args[0]) {
+            let details = output
+                .split_once('\n')
+                .map(|(_, details)| details)
+                .unwrap_or("");
+            output = format!(
+                "usage: csdlc {}\n{details}",
+                descriptor["usage"].as_str().unwrap()
+            );
         }
-        Err(error) => {
-            if serde_json::from_str::<serde_json::Value>(&error).is_ok_and(|value| {
-                matches!(
-                    value["schema"].as_str(),
-                    Some(
-                        "csdlc.v3.proof_route.v1"
-                            | "csdlc.v3.release_preflight.v1"
-                            | "csdlc.v3.operational_diagnostic.v1"
-                            | "csdlc.v3.remote_diagnostic.v1"
-                    )
-                )
-            }) {
-                println!("{error}");
-                eprintln!("csdlc: read-only route blocked; see structured stdout findings");
-            } else {
-                eprintln!("csdlc: {error}");
-            }
-            std::process::exit(2);
+    }
+    let discovery = args == ["--contract"] || args.get(1).is_some_and(|arg| arg == "--describe");
+    if !failed && (discovery || serde_json::from_str::<serde_json::Value>(&output).is_err()) {
+        if !output.is_empty() {
+            println!("{output}");
         }
+    } else {
+        let payload = serde_json::from_str(&output).unwrap_or_else(|_| {
+            serde_json::json!({
+                "schema":"csdlc.v3.command_failure.v1", "status":"failed",
+                "findings":[{"code": output.split(':').next().filter(|code| !code.is_empty() && code.chars().all(|c| c.is_ascii_alphanumeric() || c == '_')).unwrap_or("command_input_or_execution_failed"), "message":output}]
+            })
+        });
+        let report = envelope(payload, &invocation, failed);
+        println!("{report}");
+        if failed {
+            eprintln!(
+                "csdlc: {}; see structured stdout findings",
+                report["envelope"]["reason_code"]
+                    .as_str()
+                    .unwrap_or("command_failed")
+            );
+        }
+    }
+    if failed {
+        std::process::exit(2);
     }
 }
 
 fn run(args: Vec<String>) -> Result<String, String> {
     let Some((command, rest)) = args.split_first() else {
-        return Err(ROOT_USAGE.into());
+        return Err(contract::root_help());
     };
+    if command == "--contract" && rest.is_empty() {
+        return Ok(contract::manifest().to_string());
+    }
+    if rest == ["--describe"] {
+        return contract::descriptor(command)
+            .map(|row| row.to_string())
+            .ok_or_else(|| format!("unknown_command: {command}"));
+    }
+    contract::validate_required_inputs(command, rest)?;
+    let family = contract::descriptor(command)
+        .and_then(|row| row["family"].as_str())
+        .unwrap_or("");
     match command.as_str() {
-        "--help" | "-h" => Ok(format!("{ROOT_USAGE}\n\nauthority: {AUTHORITY_HELP}")),
+        "--help" | "-h" => Ok(contract::root_help()),
         "foundation" => run_foundation(rest),
         "local" => run_local(rest),
         "remote" => run_remote_overview(rest),
         "sprint" => run_sprint(rest),
         "release-preflight" => run_release_preflight(rest),
-        route if PROOF_ROUTE_NAMES.contains(&route) => run_proof_route(route, rest),
-        route if LOCAL_ROUTE_NAMES.contains(&route) => run_local_route(route, rest),
+        route if family == "proof" => run_proof_route(route, rest),
+        route if family == "local" => run_local_route(route, rest),
         "github-issue" if rest.first().is_some_and(|arg| arg == "create") => {
             run_simple_issue_create(&rest[1..])
         }
         "github-issue" if rest.first().is_some_and(|arg| arg == "close") => {
             run_simple_issue_close(&rest[1..])
         }
-        route if REMOTE_PUBLICATION_ROUTE_NAMES.contains(&route) => run_remote(route, rest),
-        route if TERMINAL_ROUTE_NAMES.contains(&route) => run_terminal(route, rest),
-        "rollback" => run_terminal("rollback", rest),
-        _ => Err(format!("{ROOT_USAGE}; unexpected command {command}")),
+        route if family == "remote" => run_remote(route, rest),
+        route if family == "terminal" => run_terminal(route, rest),
+        _ => Err(format!(
+            "{}; unexpected command {command}",
+            contract::root_help()
+        )),
     }
 }
 
@@ -171,6 +217,8 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                 return serde_json::to_string(&serde_json::json!({
                     "schema": "csdlc.v3.operational_local.v1",
                     "command": route,
+                    "request_issue": request.issue,
+                    "request_expected_lifecycle_digest": request.expected_lifecycle_digest,
                     "read_only": !operational.mutated,
                     "operational_read_only": !operational.mutated,
                     "operational_authority": true,
@@ -179,7 +227,12 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                 }))
                 .map_err(|error| error.to_string());
             }
-            Ok(None) => {}
+            Ok(None) => {
+                return Err(local_route_failure(route, &[finding(
+                    PlanStatus::Blocked, "operational_context_required",
+                    "operational discovery found no authority context; use explicit local construction inspection only for historical proof",
+                )]));
+            }
             Err(findings) => {
                 return Err(local_route_failure(route, &findings));
             }
@@ -280,6 +333,8 @@ fn run_local_construction_report(
     };
     let report = LocalCommandReport {
         schema: "csdlc.v3.local_preparation.v1",
+        request_issue: request.issue,
+        request_expected_lifecycle_digest: request.expected_lifecycle_digest.clone(),
         command: route.to_owned(),
         read_only: !writes_v3_state,
         operational_read_only: true,
@@ -711,6 +766,8 @@ fn run_sprint(args: &[String]) -> Result<String, String> {
 
 #[derive(Debug, Serialize)]
 struct LocalCommandReport<T> {
+    request_issue: u64,
+    request_expected_lifecycle_digest: Option<String>,
     schema: &'static str,
     command: String,
     read_only: bool,
