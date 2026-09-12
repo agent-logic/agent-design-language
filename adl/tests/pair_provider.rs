@@ -70,7 +70,9 @@ fn pair_workflow_shape_is_bounded_and_concurrent() {
 #[ignore = "requires an operator-attended PAIR service and preloaded model"]
 fn pair_actual_runtime_workflow() {
     use sha2::{Digest, Sha256};
-    use std::{collections::BTreeMap, fs, io::Write, path::PathBuf, time::Instant};
+    use std::{
+        collections::BTreeMap, fs, io::Write, path::PathBuf, process::Command, time::Instant,
+    };
 
     assert_eq!(
         std::env::var("ADL_PAIR_LIVE").as_deref(),
@@ -119,6 +121,16 @@ fn pair_actual_runtime_workflow() {
         assert!(!row.prompt.is_empty() && row.prompt.len() <= 16 * 1024);
         assert!(!row.expected_text.is_empty() && row.expected_text.len() <= 16 * 1024);
     }
+    let git = Command::new("git")
+        .args(["-C", env!("CARGO_MANIFEST_DIR"), "rev-parse", "HEAD"])
+        .output()
+        .expect("resolve candidate git revision");
+    assert!(git.status.success() && git.stdout.len() <= 65);
+    let candidate_sha = String::from_utf8(git.stdout)
+        .expect("git revision is UTF-8")
+        .trim()
+        .to_owned();
+    assert_eq!(candidate_sha.len(), 40);
 
     let run = tempfile::Builder::new()
         .prefix("pair-runtime-proof-")
@@ -191,6 +203,7 @@ fn pair_actual_runtime_workflow() {
     let receipt = json!({
         "schema": "adl.pair.runtime-smoke.v1",
         "result": "pass",
+        "candidate_sha": candidate_sha,
         "dispatch": "execute_sequential_with_provider_reload_handle",
         "provider_kind": "ollama",
         "model": model,
