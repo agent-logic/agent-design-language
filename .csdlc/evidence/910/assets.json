@@ -1,0 +1,27 @@
+{
+  "source_head": "b5219c8bb742ba5c42ff2c2def299cd03bacd76f",
+  "accepted_720_merge": "9c583cec78d396527798e592082595f316c67ce2",
+  "artifact_version": "b5219c8bb742",
+  "assets": [
+    {
+      "path": "demos/html-observatory/index.html",
+      "sha256": "bb55dc675f26700eca3508d7a926f416d9af86dac01e3d5bed3af23bc28ecbd5",
+      "bytes": 34095
+    },
+    {
+      "path": "demos/html-observatory/app.js",
+      "sha256": "327288d52ff025b548ebf4031c57de1acdc2bbf403711417e150f6322c3af91b",
+      "bytes": 207669
+    },
+    {
+      "path": "demos/html-observatory/styles.css",
+      "sha256": "fb5a4cb483c419b74a9b96aff68bb7ba982d24671c6380dd47b84c5aa192a787",
+      "bytes": 73802
+    },
+    {
+      "path": "demos/html-observatory/runtime-v3.config.json",
+      "sha256": "69d17ab7fa27678f27c5758103129e12f4911176794736e59947b7833dfa860d",
+      "bytes": 826
+    }
+  ]
+}

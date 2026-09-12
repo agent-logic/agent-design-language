@@ -1,0 +1,39 @@
+{
+  "captured_at": "2026-09-12T04:50:12.009Z",
+  "url": "https://observatory.csm.agent-logic.ai/?runtime=v3&live=1",
+  "http_status": 200,
+  "network_interception": false,
+  "temporary_site_permission": "local-network-access",
+  "permission_origin": "https://observatory.csm.agent-logic.ai",
+  "persistent_browser_setting_changed": false,
+  "public_read_verified": true,
+  "authenticated_write_claim": false,
+  "ui": {
+    "liveConnection": "connected",
+    "staleBannerHidden": true,
+    "sendMessageDisabled": true,
+    "sendRoomTurnDisabled": true,
+    "sendSignedCommandDisabled": true,
+    "loginAvailable": true,
+    "localStorageEntryCount": 0,
+    "displayedAgentCount": 3,
+    "websocketStatus": "connected"
+  },
+  "websocket_count": 1,
+  "received_frames": 1,
+  "frame_schemas": [
+    "adl.runtime_v3.observatory_feed.v3"
+  ],
+  "accepted_schema": "adl.runtime_v3.observatory_feed.v3",
+  "accepted_live_agent_counts": [
+    3
+  ],
+  "runtime_responses": [
+    {
+      "path": "/v1/ready",
+      "status": 200
+    }
+  ],
+  "page_errors": 0,
+  "write_requests": 0
+}
