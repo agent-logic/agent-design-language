@@ -382,6 +382,10 @@ assert_lock_restored_after_build "$tmpdir/user-lock.before" 0 "$tmpdir/dependenc
 echo "owner binary stable install: ok"
 
 # PVF #856: native owner selection, source provenance and no-op installation.
+# The native owner flow also installs the reviewed operator manual (#861).
+cp "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" "$repo/adl/tools/"
+mkdir -p "$repo/docs/csdlc-v3/man"
+cp -R "$ROOT_DIR/docs/csdlc-v3/man/man1" "$repo/docs/csdlc-v3/man/"
 mkdir -p "$repo/csdlc-v3/src"
 printf '[package]\nname = "csdlc-v3"\nversion = "0.1.0"\n' >"$repo/csdlc-v3/Cargo.toml"
 printf '# native fixture lock\n' >"$repo/csdlc-v3/Cargo.lock"
@@ -392,6 +396,7 @@ chmod +x "$source_bin_dir/csdlc"
 native_bin="$repo/.adl/bin/native-v3/csdlc"
 native_provenance="$repo/.adl/bin/native-v3/.provenance/csdlc.sha256"
 [[ -x "$native_bin" && -f "$native_provenance" ]]
+[[ -f "$repo/.adl/bin/native-v3/share/man/man1/csdlc.1" ]]
 native_hash="$(cat "$native_provenance")"
 printf '// unrelated ADL change\n' >>"$repo/adl/src/lib.rs"
 noop="$("$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build)"

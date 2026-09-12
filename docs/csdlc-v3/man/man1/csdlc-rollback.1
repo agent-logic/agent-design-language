@@ -1,0 +1,34 @@
+.TH "CSDLC-ROLLBACK" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-rollback \- invoke the typed rollback transition
+.SH SYNOPSIS
+.nf
+\&csdlc rollback \-\-request REQUEST [\-\-observe\-github]
+\&csdlc rollback \-\-help
+.fi
+.SH DESCRIPTION
+\&Supported alias of cutover requiring cutover.operation rollback. It is not listed in root help. Exact explicit operator authorization and retained rollback proof remain mandatory; it does not automatically enable v2 when v3 authority fails. \-\-observe\-github obtains authenticated transition evidence; cutover.execute controls requested mutation.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc\-requests(1). Examples under docs/csdlc\-v3/man/examples use fixture identities and are not permission to mutate those targets.
+.SH EFFECTS
+\&May replace selected binary/authority selector or retain rollback receipt only through the explicitly authorized transition. Preview and proof do not authorize execution.
+.SH FILES
+\&Primary terminal paths: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations.
+.SH EXAMPLES
+.nf
+\&csdlc rollback \-\-request rollback\-request.json
+.fi
+.PP
+\&Use csdlc\-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization.
+.SH RECOVERY
+\&Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

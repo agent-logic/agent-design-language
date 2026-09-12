@@ -1,0 +1,22 @@
+
+running 6 tests
+test parity_rejects_new_command_or_option_without_manual_coverage ... ok
+test request_field_inventory_matches_current_source_and_operator_reference ... ok
+test examples_parse_current_native_requests_and_preserve_guard_truth ... ok
+test generated_pages_match_reviewed_manual_source ... ok
+test command_and_parser_option_inventory_is_complete ... ok
+test primary_cleanup_requires_primary_durable_receipt_location ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+
+running 2 tests
+test tests::helper_digests_use_native_contracts ... ok
+test tests::registration_helper_observes_invoking_checkout_without_claiming_it_is_primary ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Compiling csdlc-v3 v0.1.0 (<issue-worktree>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.26s
+     Running tests/operator_man_pages.rs (csdlc-v3/target/debug/deps/operator_man_pages-3b87ae15b6746e69)
+     Running unittests examples/operator_manual.rs (csdlc-v3/target/debug/examples/operator_manual-95931955787a9251)

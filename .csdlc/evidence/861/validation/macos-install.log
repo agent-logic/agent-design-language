@@ -1,0 +1,8 @@
+owner-binary installed: csdlc -> <issue-worktree>/target/operator-man-install.Moy8xA/prefix with spaces/csdlc
+csdlc manual installed: <issue-worktree>/target/operator-man-install.Moy8xA/prefix with spaces/share/man
+Manual lookup: MANPATH="<issue-worktree>/target/operator-man-install.Moy8xA/prefix with spaces/share/man:${MANPATH:-}" man csdlc
+owner-binary unchanged: csdlc
+csdlc manual installed: <issue-worktree>/target/operator-man-install.Moy8xA/prefix with spaces/share/man
+Manual lookup: MANPATH="<issue-worktree>/target/operator-man-install.Moy8xA/prefix with spaces/share/man:${MANPATH:-}" man csdlc
+owner-binary install: all requested binaries are current
+operator manual clean install, all-page lookup/render, docs refresh and missing-source denial passed on Darwin

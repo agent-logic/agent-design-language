@@ -1,0 +1,38 @@
+.TH "CSDLC-PR-STATE" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-pr\-state \- observe PR state and publication linkage
+.SH SYNOPSIS
+.nf
+\&csdlc pr\-state \-\-request REQUEST [\-\-observe\-github] [\-\-execute]
+\&csdlc pr\-state \-\-help
+.fi
+.SH DESCRIPTION
+\&Without \-\-observe\-github validates supplied retained receipts; with it obtains authenticated exact PR readback. No remote write is dispatched. The shared parser accepts \-\-execute but pr\-state ignores that selection and remains on its readback path; do not use it as a mutation switch. Current transport can create temporary local runtime metadata.
+.SH OPTIONS
+\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+.PP
+\&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
+.PP
+\&\-\-execute: Select typed operational dispatch, not a generic force flag. Cannot combine with \-\-observe\-github on non\-pr\-state remote routes.
+.PP
+\&\-\-help: Show standalone help; \-h is equivalent.
+.PP
+\&\-h: Show standalone help; do not combine with execution options.
+.SH REQUEST
+\&Without \-\-execute: RemoteRouteRequest, including typed review/readback receipt references when required. With \-\-execute on non\-pr\-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc\-requests(1).
+.PP
+\&Non\-pr\-state \-\-execute plus \-\-observe\-github is rejected. \-\-observe\-github without \-\-execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode.
+.SH EFFECTS
+\&Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request.
+.SH EXAMPLES
+.nf
+\&csdlc pr\-state \-\-request remote\-request.json \-\-observe\-github
+.fi
+.PP
+\&Request fixtures are in docs/csdlc\-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc\-workflow(1) for the full live sequence.
+.SH RECOVERY
+\&After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.
+.PP
+\&Issue\-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one\-shot. Merge retries are always read\-only; a still\-open or uncertain PR remains blocked.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1), csdlc\-finish(1).

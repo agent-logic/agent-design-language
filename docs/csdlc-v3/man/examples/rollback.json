@@ -1,0 +1,17 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "issue": 505,
+  "expected_head_sha": "1111111111111111111111111111111111111111",
+  "credential_names": [
+    "GITHUB_TOKEN"
+  ],
+  "cutover": {
+    "operator": "fixture-operator",
+    "approval": "fixture-only; no execution authorization",
+    "selected_binary_provenance": "fixture source",
+    "rollback_evidence": "fixture retained rollback",
+    "undo_boundary": "fixture-only",
+    "execute": false,
+    "operation": "rollback"
+  }
+}

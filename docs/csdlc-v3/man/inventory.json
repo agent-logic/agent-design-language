@@ -1,0 +1,1585 @@
+{
+  "schema": "csdlc.operator_manual_inventory.v1",
+  "commands": [
+    {
+      "command": "local",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "issue",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "bind",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "edit",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "validate",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "doctor",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "eligibility",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "schedule",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "shepherd",
+      "options": [
+        "--request",
+        "--registry",
+        "--registrations",
+        "--repo-root",
+        "--v3-state-root",
+        "--help",
+        "-h"
+      ],
+      "family": "local",
+      "example": "local.json"
+    },
+    {
+      "command": "github",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "remote",
+      "example": "mutation.json"
+    },
+    {
+      "command": "github-issue",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "remote",
+      "example": "mutation.json"
+    },
+    {
+      "command": "github-issue create",
+      "options": [
+        "--repo",
+        "--title",
+        "--body",
+        "--body-file",
+        "--expected-head",
+        "--label",
+        "--assignee",
+        "--milestone",
+        "--credential-name",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "simple-issue",
+      "page": "csdlc-github-issue",
+      "example": "mutation.json"
+    },
+    {
+      "command": "github-issue close",
+      "options": [
+        "--repo",
+        "--issue",
+        "--disposition",
+        "--rationale",
+        "--body",
+        "--body-file",
+        "--expected-head",
+        "--duplicate-of",
+        "--credential-name",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "simple-issue",
+      "page": "csdlc-github-issue",
+      "example": "mutation.json"
+    },
+    {
+      "command": "github-pr",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "remote",
+      "example": "pr-create.json"
+    },
+    {
+      "command": "pr-state",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "remote",
+      "example": "remote.json"
+    },
+    {
+      "command": "publish",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "remote",
+      "example": "remote.json"
+    },
+    {
+      "command": "review",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--execute",
+        "--help",
+        "-h"
+      ],
+      "family": "remote",
+      "example": "review.json"
+    },
+    {
+      "command": "finish",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--help",
+        "-h"
+      ],
+      "family": "terminal",
+      "example": "finish.json"
+    },
+    {
+      "command": "clean",
+      "options": [
+        "--request",
+        "--help",
+        "-h"
+      ],
+      "family": "terminal",
+      "example": "clean.json"
+    },
+    {
+      "command": "cutover",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--help",
+        "-h"
+      ],
+      "family": "terminal",
+      "example": "cutover.json"
+    },
+    {
+      "command": "rollback",
+      "options": [
+        "--request",
+        "--observe-github",
+        "--help",
+        "-h"
+      ],
+      "family": "terminal",
+      "example": "rollback.json"
+    },
+    {
+      "command": "proof",
+      "options": [
+        "--request",
+        "--help",
+        "-h"
+      ],
+      "family": "proof",
+      "example": "proof.json"
+    },
+    {
+      "command": "install",
+      "options": [
+        "--request",
+        "--help",
+        "-h"
+      ],
+      "family": "proof",
+      "example": "install.json"
+    },
+    {
+      "command": "shadow",
+      "options": [
+        "--request",
+        "--help",
+        "-h"
+      ],
+      "family": "proof",
+      "example": "shadow.json"
+    },
+    {
+      "command": "soak",
+      "options": [
+        "--request",
+        "--help",
+        "-h"
+      ],
+      "family": "proof",
+      "example": "soak.json"
+    },
+    {
+      "command": "foundation",
+      "options": [
+        "--repo-root",
+        "--help",
+        "-h"
+      ],
+      "family": "none",
+      "example": null
+    },
+    {
+      "command": "remote",
+      "options": [
+        "--help",
+        "-h"
+      ],
+      "family": "none",
+      "example": null
+    },
+    {
+      "command": "sprint",
+      "options": [
+        "--repo-root",
+        "--request",
+        "--help",
+        "-h"
+      ],
+      "family": "sprint",
+      "example": "sprint.json"
+    },
+    {
+      "command": "release-preflight",
+      "options": [
+        "--request",
+        "--help",
+        "-h"
+      ],
+      "family": "release",
+      "example": "release.json"
+    }
+  ],
+  "request_types": [
+    {
+      "name": "LocalPreparationRequest",
+      "rust_name": "LocalPreparationRequest",
+      "source": "csdlc-v3/src/commands/local/mod.rs",
+      "fields": [
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "branch",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "worktree",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "registry_version",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "expected_lifecycle_digest",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "commands",
+          "type": "Vec<LocalCommand>",
+          "optional": false
+        },
+        {
+          "name": "card_updates",
+          "type": "BTreeMap<String, Value>",
+          "optional": true
+        },
+        {
+          "name": "schedule_readiness",
+          "type": "Option<ScheduleReadinessInput>",
+          "optional": true
+        },
+        {
+          "name": "shepherd_routing",
+          "type": "Option<ShepherdRoutingInput>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "ScheduleReadinessInput",
+      "rust_name": "ScheduleReadinessInput",
+      "source": "csdlc-v3/src/commands/local/mod.rs",
+      "fields": [
+        {
+          "name": "phase_ready",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "cards_ready",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "design_ready",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "dependencies_ready",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "paths_clear",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "budget_available",
+          "type": "bool",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "ShepherdRoutingInput",
+      "rust_name": "ShepherdRoutingInput",
+      "source": "csdlc-v3/src/commands/local/mod.rs",
+      "fields": [
+        {
+          "name": "validation",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "dependency_wait",
+          "type": "bool",
+          "optional": true
+        },
+        {
+          "name": "retryable_failure",
+          "type": "bool",
+          "optional": true
+        },
+        {
+          "name": "repair_needed",
+          "type": "bool",
+          "optional": true
+        },
+        {
+          "name": "operator_decision_needed",
+          "type": "bool",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "WorktreeRegistration",
+      "rust_name": "WorktreeRegistration",
+      "source": "csdlc-v3/src/commands/local/mod.rs",
+      "fields": [
+        {
+          "name": "branch",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "worktree",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "primary",
+          "type": "bool",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "RemoteRouteRequest",
+      "rust_name": "RemoteRouteRequest",
+      "source": "csdlc-v3/src/commands/remote/mod.rs",
+      "fields": [
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "pull_request",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "actor",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "implementer",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "reviewer",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "review_revision",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "expected_head_sha",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "head_sha",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "mode",
+          "type": "Option<RemotePublicationMode>",
+          "optional": true
+        },
+        {
+          "name": "title",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "body",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "review_present",
+          "type": "bool",
+          "optional": true
+        },
+        {
+          "name": "typed_review_receipt_path",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "typed_review_receipt_digest",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "readback_source",
+          "type": "Option<RemoteReadbackSource>",
+          "optional": true
+        },
+        {
+          "name": "readback_receipt_path",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "readback_receipt_digest",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "adapter_receipt_path",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "adapter_receipt_digest",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "closes_issue",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "closing_issues",
+          "type": "Vec<u64>",
+          "optional": true
+        },
+        {
+          "name": "part_of_issue",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "credential_names",
+          "type": "Vec<String>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "TypedReviewReceipt",
+      "rust_name": "TypedReviewReceipt",
+      "source": "csdlc-v3/src/commands/remote/mod.rs",
+      "fields": [
+        {
+          "name": "schema",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "implementer",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "reviewer",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "reviewed_revision",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "expected_head_sha",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "evidence_digest",
+          "type": "String",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "GithubReadbackReceipt",
+      "rust_name": "GithubReadbackReceipt",
+      "source": "csdlc-v3/src/commands/remote/mod.rs",
+      "fields": [
+        {
+          "name": "schema",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "pull_request",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "title",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "head_sha",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "closes_issue",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "closing_issues",
+          "type": "Vec<u64>",
+          "optional": true
+        },
+        {
+          "name": "part_of_issue",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "source",
+          "type": "RemoteReadbackSource",
+          "optional": false
+        },
+        {
+          "name": "observed_by",
+          "type": "String",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "GithubAdapterReceipt",
+      "rust_name": "GithubAdapterReceipt",
+      "source": "csdlc-v3/src/commands/remote/mod.rs",
+      "fields": [
+        {
+          "name": "schema",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "pull_request",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "head_sha",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "readback_receipt_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "credential_names",
+          "type": "Vec<String>",
+          "optional": false
+        },
+        {
+          "name": "adapter",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "authenticated",
+          "type": "bool",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "GithubMutationRequest",
+      "rust_name": "GithubMutationRequest",
+      "source": "csdlc-v3/src/commands/remote/mod.rs",
+      "fields": [
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": true
+        },
+        {
+          "name": "pull_request",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "cutover_issue",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "operator_approval",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "expected_head_sha",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "credential_names",
+          "type": "Vec<String>",
+          "optional": false
+        },
+        {
+          "name": "recovery",
+          "type": "Option<GithubMutationRecovery>",
+          "optional": true
+        },
+        {
+          "name": "mutation",
+          "type": "GithubMutation",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "OperationalRemoteDispatchRequest",
+      "rust_name": "OperationalRemoteDispatchRequest",
+      "source": "csdlc-v3/src/commands/remote/mod.rs",
+      "fields": [
+        {
+          "name": "expected_lifecycle_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "exact_review_sha",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "operation",
+          "type": "OperationalRemoteOperation",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "TerminalRouteRequest",
+      "rust_name": "TerminalRouteRequest",
+      "source": "csdlc-v3/src/commands/terminal.rs",
+      "fields": [
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "pull_request",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "expected_head_sha",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "mode",
+          "type": "Option<TerminalPublicationMode>",
+          "optional": true
+        },
+        {
+          "name": "public_adapter_receipt",
+          "type": "Option<AdapterReceipt>",
+          "optional": true
+        },
+        {
+          "name": "terminal_state",
+          "type": "Option<TerminalStateWriteRequest>",
+          "optional": true
+        },
+        {
+          "name": "no_pr_closeout",
+          "type": "Option<NoPrCloseout>",
+          "optional": true
+        },
+        {
+          "name": "cleanup",
+          "type": "Option<CleanupRouteRequest>",
+          "optional": true
+        },
+        {
+          "name": "cutover",
+          "type": "Option<CutoverDecisionRequest>",
+          "optional": true
+        },
+        {
+          "name": "credential_names",
+          "type": "Vec<String>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "NoPrCloseout",
+      "rust_name": "NoPrCloseout",
+      "source": "csdlc-v3/src/commands/terminal.rs",
+      "fields": [
+        {
+          "name": "disposition",
+          "type": "NoPrDisposition",
+          "optional": false
+        },
+        {
+          "name": "operator",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "rationale",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "evidence_refs",
+          "type": "Vec<String>",
+          "optional": false
+        },
+        {
+          "name": "expected_issue_updated_at",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "expected_issue_closed_at",
+          "type": "String",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "AdapterReceipt",
+      "rust_name": "AdapterReceipt",
+      "source": "csdlc-v3/src/commands/terminal.rs",
+      "fields": [
+        {
+          "name": "producer",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "digest",
+          "type": "String",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "CleanupRouteRequest",
+      "rust_name": "CleanupRouteRequest",
+      "source": "csdlc-v3/src/commands/terminal.rs",
+      "fields": [
+        {
+          "name": "approved_parent",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "repository_root",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "candidate_path",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "remove",
+          "type": "bool",
+          "optional": true
+        },
+        {
+          "name": "terminal_receipt",
+          "type": "bool",
+          "optional": true
+        },
+        {
+          "name": "terminal_receipt_path",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "terminal_receipt_digest",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "preview_receipt_digest",
+          "type": "Option<String>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "TerminalStateWriteRequest",
+      "rust_name": "TerminalStateWriteRequest",
+      "source": "csdlc-v3/src/commands/terminal.rs",
+      "fields": [
+        {
+          "name": "repository_root",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "state_path",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "receipt_path",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "expected_state_digest",
+          "type": "Option<String>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "CutoverDecisionRequest",
+      "rust_name": "CutoverDecisionRequest",
+      "source": "csdlc-v3/src/commands/terminal.rs",
+      "fields": [
+        {
+          "name": "operator",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "approval",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "selected_binary_provenance",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "rollback_evidence",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "undo_boundary",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "operation",
+          "type": "CutoverOperation",
+          "optional": true
+        },
+        {
+          "name": "execute",
+          "type": "bool",
+          "optional": true
+        },
+        {
+          "name": "repository_root",
+          "type": "Option<PathBuf>",
+          "optional": true
+        },
+        {
+          "name": "selected_binary_path",
+          "type": "Option<PathBuf>",
+          "optional": true
+        },
+        {
+          "name": "authority_selector_path",
+          "type": "Option<PathBuf>",
+          "optional": true
+        },
+        {
+          "name": "install_destination_path",
+          "type": "Option<PathBuf>",
+          "optional": true
+        },
+        {
+          "name": "rollback_receipt_path",
+          "type": "Option<PathBuf>",
+          "optional": true
+        },
+        {
+          "name": "readiness_evidence_path",
+          "type": "Option<PathBuf>",
+          "optional": true
+        },
+        {
+          "name": "readiness_evidence_digest",
+          "type": "Option<String>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "ProofRouteRequest",
+      "rust_name": "ProofRouteRequest",
+      "source": "csdlc-v3/src/commands/proof.rs",
+      "fields": [
+        {
+          "name": "issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "binding",
+          "type": "Option<ProofWorktreeBinding>",
+          "optional": true
+        },
+        {
+          "name": "cutover_issue",
+          "type": "Option<u64>",
+          "optional": true
+        },
+        {
+          "name": "operator_approval",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "evidence_root",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "proof",
+          "type": "Option<ProofManifest>",
+          "optional": true
+        },
+        {
+          "name": "shadow",
+          "type": "Option<ShadowComparison>",
+          "optional": true
+        },
+        {
+          "name": "soak",
+          "type": "Option<SoakEvidence>",
+          "optional": true
+        },
+        {
+          "name": "install",
+          "type": "Option<InstallPlanInput>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "ProofWorktreeBinding",
+      "rust_name": "ProofWorktreeBinding",
+      "source": "csdlc-v3/src/commands/proof.rs",
+      "fields": [
+        {
+          "name": "worktree",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "branch",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "exact_head",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "git_common_dir",
+          "type": "PathBuf",
+          "optional": false
+        },
+        {
+          "name": "generation",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "lifecycle_digest",
+          "type": "String",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "ProofManifest",
+      "rust_name": "ProofManifest",
+      "source": "csdlc-v3/src/commands/proof.rs",
+      "fields": [
+        {
+          "name": "manifest_id",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "lane",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "deterministic",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "evidence_ref",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "evidence_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "observed_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "stale",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "normalization",
+          "type": "ShadowNormalizationContract",
+          "optional": false
+        },
+        {
+          "name": "command",
+          "type": "ShadowCommandSpec",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "ShadowComparison",
+      "rust_name": "ShadowComparison",
+      "source": "csdlc-v3/src/commands/proof.rs",
+      "fields": [
+        {
+          "name": "normalization",
+          "type": "ShadowNormalizationContract",
+          "optional": false
+        },
+        {
+          "name": "v2",
+          "type": "ShadowCommandSpec",
+          "optional": false
+        },
+        {
+          "name": "v3",
+          "type": "ShadowCommandSpec",
+          "optional": false
+        },
+        {
+          "name": "broad_equivalence_claim",
+          "type": "bool",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "SoakEvidence",
+      "rust_name": "SoakEvidence",
+      "source": "csdlc-v3/src/commands/proof.rs",
+      "fields": [
+        {
+          "name": "normalization",
+          "type": "ShadowNormalizationContract",
+          "optional": false
+        },
+        {
+          "name": "command",
+          "type": "ShadowCommandSpec",
+          "optional": false
+        },
+        {
+          "name": "duration_millis",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "sample_interval_millis",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "hidden_state",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "provider_side_effects",
+          "type": "bool",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "ShadowCommandSpec",
+      "rust_name": "ShadowCommandSpec",
+      "source": "csdlc-v3/src/commands/proof.rs",
+      "fields": [
+        {
+          "name": "generation",
+          "type": "ShadowGeneration",
+          "optional": false
+        },
+        {
+          "name": "binary_ref",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "argv",
+          "type": "Vec<String>",
+          "optional": false
+        },
+        {
+          "name": "request_ref",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "timeout_millis",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "side_effect_boundary_refs",
+          "type": "Vec<String>",
+          "optional": false
+        },
+        {
+          "name": "provider_side_effects",
+          "type": "bool",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "InstallPlanInput",
+      "rust_name": "InstallPlanInput",
+      "source": "csdlc-v3/src/commands/proof.rs",
+      "fields": [
+        {
+          "name": "artifact_name",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "artifact_ref",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "source_provenance_ref",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "selector_metadata_ref",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "source_provenance",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "selected_binary_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "observed_binary_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "selector_metadata_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "destination",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "stable_destination",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "executes_install",
+          "type": "bool",
+          "optional": false
+        },
+        {
+          "name": "exact_head",
+          "type": "String",
+          "optional": true
+        },
+        {
+          "name": "cutover_approval_ref",
+          "type": "Option<String>",
+          "optional": true
+        },
+        {
+          "name": "cutover_approval_digest",
+          "type": "Option<String>",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "name": "SprintReadinessRequest",
+      "rust_name": "SprintReadinessRequest",
+      "source": "csdlc-v3/src/commands/sprint.rs",
+      "fields": [
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "version",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "sprints",
+          "type": "Vec<SprintReadinessTarget>",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "SprintReadinessTarget",
+      "rust_name": "SprintReadinessTarget",
+      "source": "csdlc-v3/src/commands/sprint.rs",
+      "fields": [
+        {
+          "name": "sprint",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "umbrella_issue",
+          "type": "u64",
+          "optional": false
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "execution_mode",
+          "type": "SprintExecutionMode",
+          "optional": false
+        },
+        {
+          "name": "serial_gates",
+          "type": "Vec<String>",
+          "optional": false
+        },
+        {
+          "name": "umbrella_readback_ref",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "child_readback_refs",
+          "type": "BTreeMap<String, String>",
+          "optional": false
+        }
+      ]
+    },
+    {
+      "name": "ReleaseRequest",
+      "rust_name": "Request",
+      "source": "csdlc-v3/src/commands/release.rs",
+      "fields": [
+        {
+          "name": "repository",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "version",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "candidate_sha",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "notes_path",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "notes_digest",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "gate_path",
+          "type": "String",
+          "optional": false
+        },
+        {
+          "name": "gate_digest",
+          "type": "String",
+          "optional": false
+        }
+      ]
+    }
+  ]
+}
