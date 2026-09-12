@@ -1039,8 +1039,8 @@ pub(crate) fn test_env_lock() -> MutexGuard<'static, ()> {
 #[cfg(test)]
 mod tests {
     use super::{
-        append_to_compatibility_log, emit_event, format_event_line, heartbeat_interval,
-        sanitize_value, test_env_lock, update_otel_status, ProgressHeartbeat,
+        append_to_compatibility_log, emit_event, emit_event_with_receipt, format_event_line,
+        heartbeat_interval, sanitize_value, test_env_lock, update_otel_status, ProgressHeartbeat,
     };
     use std::env;
     use std::fs;

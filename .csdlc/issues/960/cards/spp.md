@@ -24,7 +24,7 @@ variance_threshold_percent: "unknown; no estimate recorded"
 estimate_confidence: "unknown"
 estimate_data_source: "not estimated"
 estimate_source_ref: "none"
-issue_goal_ref: "issue960 within root Sprint2 goal"
+issue_goal_ref: "Worker #10 task 01a0924e-4813-7101-ac5c-a1a9ac80f4f8 issue #960 goal: reviewed repair, focused proof, native publication and required CI; merge not authorized."
 sprint_goal_ref: "#928"
 goal_metrics_rollup_ref: "unknown; not yet collected"
 source_refs:
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and installed local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization."
+plan_summary: "1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and Cargo-built local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "960-shutdown-barrier"
 invariants_to_preserve:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `Fix Runtime shutdown barrier acknowledgment race (v0.92.2)`.
 
-1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and installed local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization.
+1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and Cargo-built local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization.
 
 ## PVF Lane Plan
 
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 

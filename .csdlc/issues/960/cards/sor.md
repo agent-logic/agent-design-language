@@ -1,4 +1,4 @@
-# <slug>
+# 960-shutdown-barrier
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -21,78 +21,78 @@ Version: 1.0.5
 Title: Fix Runtime shutdown barrier acknowledgment race (v0.92.2)
 Branch: codex/960-shutdown-barrier
 Card Status: ready
-Status: <status>
-Generated: <timestamp>
+Status: LOCAL_VALIDATION_PASSED
+Generated: 2026-09-12T06:12:47.245031+00:00
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `Worker #10 after explicit handoff from Planning #5`
+- Model: `unknown`
+- Provider: `OpenAI`
+- Start Time: `See retained native issue960 preparation and diagnostic timestamps`
+- End Time: `Local validation complete; publication and CI pending`
 
 ## Summary
 
-Diagnostic reproduction and separate issue routing complete; implementation and validation pending.
+Implemented and locally validated event-specific local sink acknowledgment, fail-closed shutdown consumer, and bounded daemon stderr/exit diagnostics.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `runtime`
+- Planned PVF lane: `runtime`
+- Final PVF lane: `runtime`
+- Lane change reason: `none`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `focused local runtime and CLI proof`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `unknown`
+- Actual active work seconds: `unknown`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `unknown`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `unknown`
+- Actual PR wait seconds: `unknown`
+- Actual CI wait seconds: `unknown`
+- Budget source: `Worker #10 issue-bound goal created after operator handoff; earlier implementation used the preserved Sprint 2 goal. No explicit token cap.`
+- Goal metrics data source: `not_collected`
+- Goal metrics source ref: `not_collected`
+- Data-source confidence: `unknown`
+- Estimate error percent: `unknown`
+- Completion state: `local_proof_passed_final_review_publication_pending`
+- Issue goal ref: `Worker #10 task 01a0924e-4813-7101-ac5c-a1a9ac80f4f8 issue #960 goal: reviewed repair, focused proof, native publication and required CI; merge not authorized.`
+- Sprint goal ref: `Sprint2 umbrella928`
+- Goal metrics rollup ref: `not_collected`
+- Validation planning prompt: `.csdlc/issues/960/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `unknown`
+- Variance analysis completed: `false`
+- Variance category: `unknown`
+- Variance note: `No invented aggregate metrics; per-command outcomes are retained separately.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Local ignored output-card scaffold at `.csdlc/issues/960/cards/sor.md`
+- Tracked implementation artifacts: `adl/src/cli/observability.rs; adl/src/long_lived_agent.rs; adl/src/long_lived_agent/tests.rs; adl/tests/cli_smoke/agent.rs`
+- Additional proof artifacts: `.csdlc/evidence/960/VALIDATION.md; LOCAL_PROOF.json; REPRODUCTION.json; sanitized logs/`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `unknown`
+- `unknown`
+- `unknown`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Main-repo paths updated: `none; bound worktree only`
+- Worktree-only paths remaining: `All issue960 implementation and proof records`
+- Integration state: `worktree_only`
+- Verification scope: `Bound source revision and focused local proof; GitHub integration pending`
+- Integration method used: `Native bind and local implementation; no merge`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git status --short --branch; git rev-parse HEAD`
+    `Verified issue-bound execution context; no primary edits`
+- Result: `No PR published; no main-repo integration claimed`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path adl/Cargo.toml --lib observability::tests; focused shutdown consumer and cli_smoke tests; scoped cargo clippy`
+    `Proved exact event acknowledgment, fail-closed sink handling, existing redaction and normal plus1ms-heartbeat CLI notice/disposition`
 - Results:
-  - `<validation_result>`
+  - `17 observability tests;1 actual barrier consumer test;3 CLI executions across normal,1ms-heartbeat and continuity/publication failure cases; scoped Clippy passed. See LOCAL_PROOF.json.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: pass
     checks_run:
-      - "<verification_check_1>"
+      - "Focused local proof passed; required GitHub CI deferred until publication"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: pass
+    replay_verified: false
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: pass
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: pass
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: false
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Explicit concurrent-writer interleaving; failed status path despite successful JSONL then repaired sink`
+- Fixtures or scripts used: `Existing local runtime context and loopback CLI smoke fixtures; directory-at-file-path sink failure`
+- Replay verification (same inputs -> same artifacts/order): `Not claimed; mutable monitor status and timestamps intentionally vary`
+- Ordering guarantees (sorting / tie-break rules used): `Receipt reflects its own synchronous write under existing status lock; later heartbeat may replace snapshot`
+- Artifact stability notes: `No unbounded history, durable remote delivery or power-loss guarantee claimed`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Scoped source/record diff reviewed; existing observability secret-redaction tests passed; no credentials used`
+- Prompt / tool argument redaction verified: `Existing observability redaction tests pass; no new event payload fields`
+- Absolute path leakage check: `New proof uses repo-relative paths; bound-worktree identity is intentional native metadata`
+- Sandbox / policy invariants preserved: `Bound worktree; no primary issue artifacts; no paid calls`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `.adl/960-diagnosis; .adl/960-*.log`
+- Run artifact root: `.adl`
+- Replay command used for verification: `Focused commands in VALIDATION.md`
+- Replay result: `Original CI cause unknown; supported-heartbeat diagnostic failure preserved; repaired heartbeat CLI passes`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `.csdlc/evidence/960/VALIDATION.md`
+- Required artifacts present: `Local proof and native cards present; CI and final exact-head acknowledgement pending`
+- Artifact schema/version checks: `Native six-card validation required after this update; no production schema changes`
+- Hash/byte-stability checks: `Verified seven original proof-log digests and recorded four source-file SHA-256 values in LOCAL_PROOF.json.`
+- Missing/optional artifacts and rationale: `Required GitHub CI pending publication; no remote OTLP delivery proof claimed`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `unknown`
+- `unknown`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `unknown`
+- `unknown`

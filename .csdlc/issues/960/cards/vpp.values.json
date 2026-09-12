@@ -20,7 +20,7 @@
   "selected_lanes_inline": "runtime",
   "validation_commands": "Focused deterministic unit race and sink-error tests; actual local CLI shutdown smoke. Local CPU/disk/mock control plane only, no paid calls. Required runtime regression proof; broader CI integration deferred.",
   "validation_commands_inline": "Focused deterministic unit race and sink-error tests; actual local CLI shutdown smoke. Local CPU/disk/mock control plane only, no paid calls. Required runtime regression proof; broader CI integration deferred.",
-  "plan_summary": "1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and installed local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization.",
+  "plan_summary": "1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and Cargo-built local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization.",
   "goal_metrics_rollup_ref": "unknown; not yet collected",
   "validation_runtime_class": "runtime",
   "planned_validation_seconds": "unknown; no estimate recorded",
@@ -30,7 +30,7 @@
   "slug": "960-shutdown-barrier",
   "notes_risks_inline": "Supported heartbeat race proven; original CI cause unknown. Local sink acknowledgment is not remote OTLP delivery.",
   "timestamp": "2026-09-12T05:59:59.590095+00:00",
-  "issue_goal_ref": "issue960 within root Sprint2 goal",
+  "issue_goal_ref": "Worker #10 task 01a0924e-4813-7101-ac5c-a1a9ac80f4f8 issue #960 goal: reviewed repair, focused proof, native publication and required CI; merge not authorized.",
   "lane_registry_template_set": "1.0.5",
   "status": "planned",
   "stp_card": ".csdlc/issues/960/cards/stp.md",
@@ -40,5 +40,7 @@
   "validation_family": "regression",
   "sip_card": ".csdlc/issues/960/cards/sip.md",
   "planned_validation_tokens": "unknown; no estimate recorded",
-  "sprint_goal_ref": "#928"
+  "sprint_goal_ref": "#928",
+  "issue_goal_ref_inline": "Worker #10 task 01a0924e-4813-7101-ac5c-a1a9ac80f4f8 issue #960 goal: reviewed repair, focused proof, native publication and required CI; merge not authorized.",
+  "plan_summary_inline": "1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and Cargo-built local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization."
 }

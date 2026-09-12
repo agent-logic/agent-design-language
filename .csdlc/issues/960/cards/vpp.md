@@ -22,7 +22,7 @@ validation_size_split: "focused"
 expected_proof_cost: "unknown; no estimate recorded"
 planned_validation_seconds: "unknown; no estimate recorded"
 planned_validation_tokens: "unknown; no estimate recorded"
-issue_goal_ref: "issue960 within root Sprint2 goal"
+issue_goal_ref: "Worker #10 task 01a0924e-4813-7101-ac5c-a1a9ac80f4f8 issue #960 goal: reviewed repair, focused proof, native publication and required CI; merge not authorized."
 sprint_goal_ref: "#928"
 goal_metrics_rollup_ref: "unknown; not yet collected"
 source_refs:
@@ -50,7 +50,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Planning Summary
 
-1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and installed local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization.
+1. Preserve source cf25e273a39499c3d1b699fa7d9e461266024e0c diagnostic packet. 2. Add compatible synchronous event-specific sink receipt under publication lock. 3. Consume receipt at shutdown and retain child diagnostics. 4. Run focused deterministic race/failure and Cargo-built local CLI proof. 5. Independent exact-head review, native publication and required CI; no merge authorization.
 
 ## Lane Registry Inputs
 
@@ -73,7 +73,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Goal Accounting Hooks
 
-- Issue goal ref: `issue960 within root Sprint2 goal`
+- Issue goal ref: `Worker #10 task 01a0924e-4813-7101-ac5c-a1a9ac80f4f8 issue #960 goal: reviewed repair, focused proof, native publication and required CI; merge not authorized.`
 - Sprint goal ref: `#928`
 - Goal metrics rollup ref: `unknown; not yet collected`
 
