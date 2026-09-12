@@ -224,9 +224,9 @@ fn infer_transport(spec: &adl::ProviderSpec) -> Result<ProviderTransportV1> {
                 Ok(ProviderTransportV1::LocalCli)
             }
         }
-        "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "kimi" | "moonshot"
-        | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai" | "zai" | "zhipu" | "deepgram"
-        | "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(ProviderTransportV1::Http),
+        "mlx" | "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "kimi"
+        | "moonshot" | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai" | "zai" | "zhipu"
+        | "deepgram" | "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(ProviderTransportV1::Http),
         "local_ollama" => Ok(ProviderTransportV1::LocalCli),
         "mock" => Ok(ProviderTransportV1::InProcess),
         other => Err(anyhow!(
@@ -245,6 +245,7 @@ fn normalized_provider_kind(kind: &str) -> String {
 fn transport_surface_label(vendor: &str, transport: &ProviderTransportV1) -> &'static str {
     match (vendor, transport) {
         ("ollama", ProviderTransportV1::Http) => "ollama_http",
+        ("mlx", ProviderTransportV1::Http) => "mlx_http",
         (_, ProviderTransportV1::Http) => "hosted_http",
         (_, ProviderTransportV1::LocalCli) => "local_cli",
         (_, ProviderTransportV1::InProcess) => "in_process",
@@ -321,7 +322,7 @@ fn infer_capability_defaults(
         };
     }
 
-    if matches!(transport, ProviderTransportV1::Http) && vendor == "generic_http" {
+    if matches!(transport, ProviderTransportV1::Http) && matches!(vendor, "generic_http" | "mlx") {
         return ProviderCapabilitiesV1 {
             tool_calling: CapabilitySupportV1 {
                 supported: false,
@@ -501,6 +502,20 @@ pub fn provider_invocation_target_v1(
     let substrate = provider_substrate_v1(provider_id, spec)?;
     let transport = substrate.transport.clone();
     let vendor = substrate.vendor.clone();
+    if spec.kind.trim() == "mlx"
+        && model_override
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+            .is_none()
+        && default_model_ref(spec)
+            .filter(|s| !s.trim().is_empty())
+            .is_none()
+        && default_provider_model_id(spec)
+            .filter(|s| !s.trim().is_empty())
+            .is_none()
+    {
+        return Err(anyhow!("mlx requires an explicit model identity"));
+    }
     let model_ref = model_override
         .map(str::trim)
         .filter(|v| !v.is_empty())

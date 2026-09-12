@@ -160,7 +160,7 @@ fn inference_profile_for(preset: ProviderProfilePreset) -> ProviderInferenceProf
         return GLM_5_3_FLASH_INFERENCE_PROFILE;
     }
     match preset.kind {
-        "ollama" => DETERMINISTIC_OLLAMA_INFERENCE_PROFILE,
+        "ollama" | "mlx" => DETERMINISTIC_OLLAMA_INFERENCE_PROFILE,
         _ => DEFAULT_INFERENCE_PROFILE,
     }
 }
@@ -581,6 +581,16 @@ pub fn redacted_provider_profile_projection(provider_id: &str, spec: &adl::Provi
 
 pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProfilePreset> {
     let mut m = BTreeMap::new();
+    // MLX is local-only; endpoint/model/resource limits are checked by its adapter.
+    m.insert(
+        "mlx:llama-3.2-3b",
+        ProviderProfilePreset {
+            kind: "mlx",
+            default_model: Some("mlx-community/Llama-3.2-3B-Instruct-4bit"),
+            provider_model_id: None,
+            endpoint: Some("http://127.0.0.1:8080/v1/chat/completions"),
+        },
+    );
     // Ollama / local presets
     m.insert(
         "ollama:phi4-mini",

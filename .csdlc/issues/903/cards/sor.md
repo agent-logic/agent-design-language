@@ -21,11 +21,11 @@ Version: 0.92.2
 Title: [v0.92.2][PLAT-MLX] Bounded MLX and Apple Metal provider adapter
 Branch: codex/903-v0922-mlx-metal-provider
 Card Status: draft
-Status: NOT_STARTED
+Status: IN_PROGRESS
 Generated: 2026-09-12T00:18:14.454312+00:00
 
 Execution:
-- Actor: `Planning #7 / sprint8_720: setup only; implementation owner not assigned`
+- Actor: `Planning #7: #903 implementation; sibling908 bounded design review and workflow test authoring`
 - Model: `unknown`
 - Provider: `unknown`
 - Start Time: `not_started`
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Issue #903 setup refreshed against accepted prerequisites under #932. Implementation, acceptance proof and implementation review remain not run.
+MLX adapter and canonical registration implemented with reviewed local proof: 15 passing checks and strict Clippy. Actual Metal smoke approval/execution and required CI remain outstanding; no PR or full acceptance claim.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -58,7 +58,7 @@ Issue #903 setup refreshed against accepted prerequisites under #932. Implementa
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
 - Completion state: `not_started`
-- Issue goal ref: `issue-932 setup goal; child #903 execution goal not yet created`
+- Issue goal ref: `Active issue903 implementation goal under Sprint6 #932, created before source edits`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/903/goal-metrics.json (planned; absent until execution)`
 - Validation planning prompt: `.csdlc/issues/903/cards/vpp.md`
@@ -79,14 +79,14 @@ Issue #903 setup refreshed against accepted prerequisites under #932. Implementa
 - Additional proof artifacts: `none; acceptance proof not started`
 
 ## Actions taken
-- `Source issue reviewed for native preparation`
-- `Existing six-card identity reused, natively bound and normalized for Sprint 6 setup`
-- `Prerequisite accepted; implementation and hardware acceptance proof remain not started.`
+- `Implemented mlx adapter and narrow canonical dispatch/profile/substrate registration in903worktree; coordinated #855 extraction seam.`
+- `12 focused protocol/negative tests, 2 public/production-workflow fixture tests and 1 inherited atomic reload regression passed. Actual Metal test ignored and not proved. Strict Clippy passed.`
+- `Independent corrected adapter source review passed; root reviewed and executed reviewer-authored workflow fixture, repaired schema/admission issues and redundant lint assertion.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
 - Worktree-only paths remaining: `.csdlc/issues/903/cards; native bound setup only`
-- Integration state: `not_started`
+- Integration state: `worktree_only`
 - Verification scope: `not_run`
 - Integration method used: `not_run; implementation has not started`
 - Verification performed:
@@ -110,7 +110,7 @@ Rules:
   - `not_run`
     `No implementation proof attempted`
 - Results:
-  - `not_run`
+  - `partial`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -167,12 +167,12 @@ verification_summary:
 - Required artifacts present: `not_run; implementation has not started`
 - Artifact schema/version checks: `not_run; implementation has not started`
 - Hash/byte-stability checks: `not_run; implementation has not started`
-- Missing/optional artifacts and rationale: `No implementation or hardware run has started, so execution artifacts and metrics are not available.`
+- Missing/optional artifacts and rationale: `No actual Metal run or CI/PR exists yet; missing real execution proof remains mandatory and explicitly unproved.`
 
 ## Decisions / Deviations
 - `#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main`
-- `Planning #5 released903/904/905 setup ownership; native FastWork bind completed. Implementation, hardware execution, model loading/download and service mutations remain outside setup scope.`
+- `Preparation ended when user authorized Sprint6 implementation. Real smoke plan selects cached 3B model/offline isolated server; bounded local hardware approval requested and pending.`
 
 ## Follow-ups / Deferred work
-- `Assign child implementation owner/goal and authorize execution; resolve runtime/model/resource gates before hardware proof.`
+- `Finish final deterministic validation/review; execute approved real workflow Metal smoke after resource approval; then required CI/native PR before operator merge.`
 - `Execute VPP and independent exact-head review, then native publication, terminal finish and separate cleanup`

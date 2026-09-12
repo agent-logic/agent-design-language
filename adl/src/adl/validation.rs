@@ -330,7 +330,7 @@ pub(super) fn validate_provider(provider_id: &str, provider: &ProviderSpec) -> R
             }
             Ok(())
         }
-        "mock" | "openai" | "anthropic" | "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(()),
+        "mlx" | "mock" | "openai" | "anthropic" | "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(()),
         "http" | "http_remote" => {
             let endpoint = provider
                 .base_url

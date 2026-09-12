@@ -24,8 +24,8 @@ variance_threshold_percent: "10"
 estimate_confidence: "low"
 estimate_data_source: "Conservative planning estimate for bounded adapter and deterministic fixtures with warm cache; real hardware/model provisioning and observation excluded pending available environment; not an imposed token budget"
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/903"
-issue_goal_ref: "issue-932 setup goal; child #903 implementation goal required before execution"
-sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
+issue_goal_ref: "Active Planning #7 goal: Sprint6 #932 child903 full implementation, hardware proof, reviewed green PR and post-merge native closeout"
+sprint_goal_ref: "issue-932 Sprint6 implementation"
 goal_metrics_rollup_ref: ".csdlc/evidence/903/goal-metrics.json (planned; absent until execution)"
 source_refs:
   - kind: "issue"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Verify accepted #876 editable-definition and reload/cost contracts, inspect current local provider conventions and resolve shared provider owners; pin an available compatible model, MLX/Metal versions, Apple-silicon/macOS environment and approved CPU/GPU/memory bounds before real execution; implement one canonical-definition-consuming MLX adapter and register it through Runtime production dispatch without duplicating registry/reload policy; execute invalid definition, missing service/model, malformed output, timeout/cancellation and unsupported-platform negatives with redacted diagnostics; run separately identified real supported-hardware nonempty-generation smoke through Runtime, retain input/output/candidate/version/resource identity and focused CI, document exact prerequisites and limitations, then independently review exact implementation head."
+plan_summary: "Implement bounded registered MLX adapter using canonical provider definition and HTTP substrate, then focused negatives and real Runtime Metal smoke; preserve shared extraction/reload/cost boundaries."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Local Apple M4 Pro 64 GiB and mlx 0.32.0 observed by root. mlx-lm absent from default Python; complete model snapshot and compatible serving transport not yet verified. These facts establish platform candidacy, not an executable MLX Runtime route. Read-only cache candidate: mlx-community/Llama-3.2-3B-Instruct-4bit snapshot 7f0dc925e0d0afb0322d96f9255cfddf2ba5636e; 6 files, one safetensors of 1,807,496,278 bytes, config/tokenizer present, no broken links observed. Presence only, not load, shard-completeness or compatibility proof; candidate remains unselected."
+notes: "User authorized Sprint6 implementation after reviewed setup. Root Planning #7 owns903; dedicated child goal active. Implement dedicated mlx HTTP adapter over canonical ProviderInvocationTargetV1 with literal loopback endpoint, strict model and request limits, no redirect/proxy/fallback, explicit Apple-silicon platform gate. Reuse existing profile/reload/cost controls. #855 concurrently extracts provider core in separate worktree; narrow registration changes coordinated with owner and must reconcile before final integration. Real Metal proof remains mandatory and separate from deterministic HTTP fixture proof; select/pin local serving version/model/resource bound before experiment."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][PLAT-MLX] Bounded MLX and Apple Metal provider adapter`.
 
-Verify accepted #876 editable-definition and reload/cost contracts, inspect current local provider conventions and resolve shared provider owners; pin an available compatible model, MLX/Metal versions, Apple-silicon/macOS environment and approved CPU/GPU/memory bounds before real execution; implement one canonical-definition-consuming MLX adapter and register it through Runtime production dispatch without duplicating registry/reload policy; execute invalid definition, missing service/model, malformed output, timeout/cancellation and unsupported-platform negatives with redacted diagnostics; run separately identified real supported-hardware nonempty-generation smoke through Runtime, retain input/output/candidate/version/resource identity and focused CI, document exact prerequisites and limitations, then independently review exact implementation head.
+Implement bounded registered MLX adapter using canonical provider definition and HTTP substrate, then focused negatives and real Runtime Metal smoke; preserve shared extraction/reload/cost boundaries.
 
 ## PVF Lane Plan
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Local Apple M4 Pro 64 GiB and mlx 0.32.0 observed by root. mlx-lm absent from default Python; complete model snapshot and compatible serving transport not yet verified. These facts establish platform candidacy, not an executable MLX Runtime route. Read-only cache candidate: mlx-community/Llama-3.2-3B-Instruct-4bit snapshot 7f0dc925e0d0afb0322d96f9255cfddf2ba5636e; 6 files, one safetensors of 1,807,496,278 bytes, config/tokenizer present, no broken links observed. Presence only, not load, shard-completeness or compatibility proof; candidate remains unselected.
+User authorized Sprint6 implementation after reviewed setup. Root Planning #7 owns903; dedicated child goal active. Implement dedicated mlx HTTP adapter over canonical ProviderInvocationTargetV1 with literal loopback endpoint, strict model and request limits, no redirect/proxy/fallback, explicit Apple-silicon platform gate. Reuse existing profile/reload/cost controls. #855 concurrently extracts provider core in separate worktree; narrow registration changes coordinated with owner and must reconcile before final integration. Real Metal proof remains mandatory and separate from deterministic HTTP fixture proof; select/pin local serving version/model/resource bound before experiment.

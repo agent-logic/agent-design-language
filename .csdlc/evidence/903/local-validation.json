@@ -1,0 +1,35 @@
+{
+  "schema": "adl.mlx.local-validation.v1",
+  "issue": 903,
+  "commands": [
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml --lib provider::mlx::tests",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml --test mlx_provider",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 1,
+      "ignored_reason": "actual hardware requires explicit bounded-run approval; not proving"
+    },
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml --lib editable_provider_definitions_drive_real_dispatch_and_atomic_reload",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "command": "cargo clippy --manifest-path adl/Cargo.toml --lib --test mlx_provider -- -D warnings",
+      "result": "pass"
+    }
+  ],
+  "actual_hardware": "not_run",
+  "ci": "not_run",
+  "review": "bounded corrected source pass; integration separately reviewed/executed by root",
+  "remaining": [
+    "Metal smoke approval and actual execution",
+    "required CI",
+    "native PR and operator merge"
+  ]
+}

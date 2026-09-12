@@ -1,0 +1,24 @@
+{
+  "schema": "adl.bounded-source-review.v1",
+  "issue": 903,
+  "reviewer": "subagent:sprint8_908",
+  "result": "pass",
+  "review_boundary": "adapter and registration source; reviewer authored workflow test, separately inspected and executed by root",
+  "findings_resolved": [
+    "native capability overclaim",
+    "dropped deterministic seed",
+    "explicit model fallback"
+  ],
+  "root_integration_review": "AgentSpec pins model; sidecar reload replaces mock provider; deterministic production workflow fixture passed; live opt-in gate remains ignored; strict Clippy redundant cfg assertion removed; platform still fails through production constructor before I/O",
+  "source_sha256": {
+    "adl/src/provider/mlx.rs": "863fce265dfe3cb9ad9e3c2cfb39a56f3a3342263f444cd6481f697ad8ac9ce0",
+    "adl/src/provider/mlx_tests.rs": "be82db98795f778ab3b8d8b30083c2c81bbcea454a1de7fad1d4ed86a660d9d3",
+    "adl/src/provider/mod.rs": "4ead5517592582c02da5332a925d117ba9c68885e0abf4a82e2316feae74e3f3",
+    "adl/src/provider/profiles.rs": "1d1e7cacc764c8619a53befcf1a9afc08beb98d2386d21a48375291bfb06544d",
+    "adl/src/provider_substrate.rs": "eeb0f74b568bc31a975cc31cfa0e76e3d679ba61519e9f9667542355e1146653",
+    "adl/src/adl/validation.rs": "a8b477938b56e8c71e218af01d6a00f8f86ff3b5138b30e4b8dd2ca05cef43e9",
+    "adl/tests/mlx_provider.rs": "b50eb4208063c7c154f419463b373555c504f7311c4b3e1b43a72bf5278f59da"
+  },
+  "actual_hardware_proof": false,
+  "ci": "not_run"
+}
