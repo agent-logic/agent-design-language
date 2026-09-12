@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 908,
   "phase": "bound",
-  "generation": 10,
+  "generation": 11,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/908-aws-inventory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-908-aws-inventory",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "b5d4fe2f20fc8b8c45bf6286d6db4b2df3610b1ecd0286e3b6cdbadc0018373c"
+  "digest": "1413d9b955025c4b0dc47d2d157d7e3b081db071334007642e6631c8c0ec1051"
 }

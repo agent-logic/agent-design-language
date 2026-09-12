@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Current sanitized business AWS inventory and maintenance packet complete and independently reviewed; PR/hosted checks pending.
+Current sanitized AWS inventory and maintenance packet independently reviewed and published as PR #940; hosted checks pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `cloud-operations`
@@ -57,7 +57,7 @@ Current sanitized business AWS inventory and maintenance packet complete and ind
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `reviewed_implementation_complete`
+- Completion state: `published_ci_pending`
 - Issue goal ref: `Active #908 goal for reviewed inventory PR with green checks`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `not_collected`
@@ -86,13 +86,13 @@ Current sanitized business AWS inventory and maintenance packet complete and ind
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `.csdlc/evidence/908/; .csdlc/issues/908/; docs/operations/cloud/aws/inventory/README.md`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `Issue #908 current sanitized inventory only`
-- Integration method used: `No publication yet`
+- Integration method used: `Native v3 authenticated github-pr creation and readback`
 - Verification performed:
-  - `git status --short --branch`
-    `Issue worktree only`
-- Result: `not_merged`
+  - `Native github-pr authenticated receipt for PR #940`
+    `Published reviewed issue branch; hosted CI pending`
+- Result: `PR #940 open against main; not merged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -175,4 +175,4 @@ verification_summary:
 
 ## Follow-ups / Deferred work
 - `Separately route ownership attestation for frozen-unknown resources; no mutation.`
-- `Publish closing PR, then verify hosted checks. No cloud mutation or merge authorization.`
+- `Monitor PR #940 to green; preserve no merge/deployment boundary.`
