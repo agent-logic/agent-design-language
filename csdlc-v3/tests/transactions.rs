@@ -1014,3 +1014,588 @@ fn adapter_branch_observation_never_authorizes_lifecycle_work() {
     assert_eq!(observation.branch, "codex/502");
     assert!(!observation.authorizes_lifecycle);
 }
+
+// PVF: deterministic local CPU/disk/process protocol qualification; required Gate A
+// proof, no network/credentials. Process death proves lock release, not power-loss durability.
+mod semantic_gate_a {
+    use super::*;
+    use csdlc_v3::lifecycle::semantic::{self, Facts, Outcome, SemanticCommand};
+    use csdlc_v3::storage::semantic::{
+        Admission, CommitOutcome, Digest, Error, IssueInputs, IssueKey, LocalChange, Observation,
+        PlanStep, ProjectionWriteProof, SemanticRoot, Snapshot, Validator,
+    };
+    use std::collections::BTreeMap;
+    use std::path::{Path, PathBuf};
+    use std::sync::atomic::{AtomicU64, Ordering};
+    use std::time::{Duration, Instant};
+
+    static NEXT: AtomicU64 = AtomicU64::new(0);
+    struct Fixture {
+        directory: PathBuf,
+        root: SemanticRoot,
+        key: IssueKey,
+    }
+    impl Fixture {
+        fn new() -> Self {
+            let directory = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("target")
+                .join(format!(
+                    "semantic-gate-a-{}-{}",
+                    std::process::id(),
+                    NEXT.fetch_add(1, Ordering::Relaxed)
+                ));
+            fs::create_dir_all(directory.join("repo/.git/objects")).unwrap();
+            fs::write(directory.join("repo/.git/HEAD"), "ref: refs/heads/main\n").unwrap();
+            fs::write(
+                directory.join("repo/.git/config"),
+                "[core]\nrepositoryformatversion = 0\n",
+            )
+            .unwrap();
+            let root =
+                SemanticRoot::from_git_common(directory.join("repo/.git"), "example/repo").unwrap();
+            Self {
+                directory,
+                root,
+                key: IssueKey::new("example/repo", 870).unwrap(),
+            }
+        }
+        fn issue_dir(&self) -> PathBuf {
+            self.directory
+                .join("repo/.git/csdlc-v3/semantic/issues/870")
+        }
+        fn prepare(&self) -> Snapshot {
+            match DurableTransactionStore::prepare_issue(&self.root, self.key.clone(), inputs())
+                .unwrap()
+            {
+                CommitOutcome::Committed(s) => *s,
+                _ => panic!("new issue must commit"),
+            }
+        }
+        fn project(&self, snapshot: &Snapshot) -> ProjectionWriteProof {
+            let path = self.root.projection_path(snapshot).unwrap();
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, snapshot.canonical_bytes().unwrap()).unwrap();
+            ProjectionWriteProof::verify(&self.root, snapshot).unwrap()
+        }
+        fn current(&self) -> Snapshot {
+            match DurableTransactionStore::observe_issue(&self.root, &self.key).unwrap() {
+                Observation::Current(s) => *s,
+                other => panic!("unexpected {other:?}"),
+            }
+        }
+    }
+    impl Drop for Fixture {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.directory);
+        }
+    }
+    fn inputs() -> IssueInputs {
+        IssueInputs::new(
+            "bounded semantic work".into(),
+            BTreeMap::from([("stp".into(), "typed task".into())]),
+            vec![PlanStep {
+                id: "implement".into(),
+                acceptance: "semantic owner".into(),
+            }],
+            vec![Validator {
+                id: "transaction".into(),
+                argv: vec!["cargo".into(), "test".into()],
+            }],
+            None,
+            Digest::authority(b"authority fixture"),
+        )
+        .unwrap()
+    }
+    fn admission(snapshot: &Snapshot) -> Admission {
+        Admission::new(
+            snapshot.key().clone(),
+            snapshot.version().clone(),
+            snapshot.inputs().authority().clone(),
+        )
+    }
+    fn cards(text: &str) -> LocalChange {
+        LocalChange::AmendCards(BTreeMap::from([("stp".into(), text.into())]))
+    }
+    fn inventory(path: &Path) -> BTreeMap<PathBuf, Vec<u8>> {
+        let mut out = BTreeMap::new();
+        if path.is_dir() {
+            for entry in fs::read_dir(path).unwrap() {
+                let p = entry.unwrap().path();
+                if p.is_dir() {
+                    out.extend(inventory(&p));
+                } else {
+                    out.insert(p.clone(), fs::read(p).unwrap());
+                }
+            }
+        }
+        out
+    }
+
+    #[test]
+    fn semantic_schema_canonical_order_duplicate_unknown_and_tamper() {
+        let fixture = Fixture::new();
+        let snapshot = fixture.prepare();
+        let bytes = snapshot.canonical_bytes().unwrap();
+        assert_eq!(Snapshot::from_bytes(&bytes).unwrap(), snapshot);
+        let original: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+        let mut reversed = serde_json::Map::new();
+        for (k, v) in original.as_object().unwrap().iter().rev() {
+            reversed.insert(k.clone(), v.clone());
+        }
+        assert_eq!(
+            Snapshot::from_bytes(&serde_json::to_vec(&reversed).unwrap())
+                .unwrap()
+                .canonical_bytes()
+                .unwrap(),
+            bytes
+        );
+        for field in ["schema", "unknown"] {
+            let mut changed = original.clone();
+            changed[field] = serde_json::json!("unrecognized");
+            assert!(Snapshot::from_bytes(&serde_json::to_vec(&changed).unwrap()).is_err());
+        }
+        let text = String::from_utf8(bytes.clone()).unwrap();
+        let duplicate = text.replacen("{", "{\"schema\":\"csdlc.v3.semantic_commit.v1\",", 1);
+        assert!(Snapshot::from_bytes(duplicate.as_bytes()).is_err());
+        let mut changed = original.clone();
+        changed["payload"]["inputs"]["intent"] = serde_json::json!("tampered");
+        assert_eq!(
+            Snapshot::from_bytes(&serde_json::to_vec(&changed).unwrap()),
+            Err(Error::InvalidDigest)
+        );
+        let mut changed = original;
+        changed["payload"]["key"]["issue"] = serde_json::json!(0);
+        assert!(Snapshot::from_bytes(&serde_json::to_vec(&changed).unwrap()).is_err());
+        assert!(snapshot
+            .version()
+            .digest()
+            .as_str()
+            .starts_with("semantic-state-v1:"));
+        assert!(snapshot
+            .inputs_version()
+            .digest()
+            .as_str()
+            .starts_with("semantic-input-v1:"));
+        assert_ne!(
+            snapshot.version().digest(),
+            snapshot.inputs_version().digest()
+        );
+    }
+
+    #[test]
+    fn semantic_create_only_and_observation_do_not_repair_or_mutate() {
+        let fixture = Fixture::new();
+        let before = inventory(&fixture.directory);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::Absent
+        );
+        assert_eq!(before, inventory(&fixture.directory));
+        fixture.prepare();
+        assert!(DurableTransactionStore::create(
+            fixture.issue_dir(),
+            StateRecord::new(LifecycleState::Ready)
+        )
+        .is_err());
+        assert!(DurableTransactionStore::open(fixture.issue_dir()).is_err());
+        let before = inventory(&fixture.directory);
+        assert_eq!(
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs()),
+            Err(Error::AlreadyExists)
+        );
+        fixture.current();
+        assert_eq!(before, inventory(&fixture.directory));
+        fs::write(
+            fixture.issue_dir().join("current.next"),
+            b"interrupted pointer",
+        )
+        .unwrap();
+        let before = inventory(&fixture.directory);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::RecoveryRequired
+        );
+        assert_eq!(before, inventory(&fixture.directory));
+    }
+
+    #[test]
+    fn semantic_projection_acknowledgement_rechecks_exact_view() {
+        let fixture = Fixture::new();
+        let snapshot = fixture.prepare();
+        assert!(ProjectionWriteProof::verify(&fixture.root, &snapshot).is_err());
+        let proof = fixture.project(&snapshot);
+        fs::write(
+            fixture.root.projection_path(&snapshot).unwrap(),
+            b"tampered view",
+        )
+        .unwrap();
+        let before = inventory(&fixture.directory);
+        assert!(DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            admission(&snapshot),
+            LocalChange::AcknowledgeProjection(proof)
+        )
+        .is_err());
+        assert_eq!(before, inventory(&fixture.directory));
+        assert_eq!(fixture.current().version(), snapshot.version());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn semantic_symlink_store_is_refused_without_following_writer() {
+        let fixture = Fixture::new();
+        let parent = fixture.directory.join("repo/.git/csdlc-v3/semantic");
+        fs::create_dir_all(&parent).unwrap();
+        let external = fixture.directory.join("external");
+        fs::create_dir(&external).unwrap();
+        std::os::unix::fs::symlink(&external, parent.join("issues")).unwrap();
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key),
+            Err(Error::UnsafePath)
+        );
+        assert_eq!(
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs()),
+            Err(Error::UnsafePath)
+        );
+        assert_eq!(fs::read_dir(external).unwrap().count(), 0);
+    }
+
+    #[test]
+    fn semantic_bookkeeping_preserves_evidence_inputs_and_amendments_advance_them() {
+        let fixture = Fixture::new();
+        let first = fixture.prepare();
+        DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            admission(&first),
+            LocalChange::AcknowledgeProjection(fixture.project(&first)),
+        )
+        .unwrap();
+        let second = fixture.current();
+        assert_eq!(second.version().generation(), 2);
+        assert_eq!(first.inputs_version(), second.inputs_version());
+        assert!(!second.projection_required());
+        let second_proof = fixture.project(&second);
+        let before = inventory(&fixture.directory);
+        assert!(matches!(
+            DurableTransactionStore::commit_issue_local(
+                &fixture.root,
+                admission(&second),
+                LocalChange::AcknowledgeProjection(second_proof)
+            )
+            .unwrap(),
+            CommitOutcome::Unchanged(_)
+        ));
+        assert_eq!(before, inventory(&fixture.directory));
+        DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            admission(&second),
+            cards("changed typed task"),
+        )
+        .unwrap();
+        let third = fixture.current();
+        assert_eq!(third.version().generation(), 3);
+        assert_eq!(third.inputs_version().revision(), 2);
+        assert_ne!(
+            third.inputs_version().digest(),
+            second.inputs_version().digest()
+        );
+        assert!(third.projection_required());
+        assert_eq!(
+            DurableTransactionStore::commit_issue_local(
+                &fixture.root,
+                admission(&second),
+                cards("stale")
+            ),
+            Err(Error::StaleVersion)
+        );
+    }
+
+    #[test]
+    fn semantic_legacy_residue_refuses_conversion_and_foreign_identity() {
+        let fixture = Fixture::new();
+        fs::create_dir_all(
+            fixture
+                .directory
+                .join("repo/.git/csdlc-v3/local/issues/870"),
+        )
+        .unwrap();
+        let before = inventory(&fixture.directory);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::LegacyMigrationRequired
+        );
+        assert_eq!(
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs()),
+            Err(Error::LegacyMigrationRequired)
+        );
+        assert_eq!(before, inventory(&fixture.directory));
+        assert_eq!(
+            DurableTransactionStore::observe_issue(
+                &fixture.root,
+                &IssueKey::new("foreign/repo", 870).unwrap()
+            ),
+            Err(Error::WrongRepository)
+        );
+    }
+
+    #[test]
+    fn semantic_unactivated_intent_is_observational_recovery() {
+        let fixture = Fixture::new();
+        let snapshot = fixture.prepare();
+        let bytes = fs::read(fixture.issue_dir().join("intents/1.json")).unwrap();
+        fs::write(fixture.issue_dir().join("intents/2.json"), bytes).unwrap();
+        let before = inventory(&fixture.directory);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::RecoveryRequired
+        );
+        assert_eq!(
+            DurableTransactionStore::commit_issue_local(
+                &fixture.root,
+                admission(&snapshot),
+                cards("must not activate")
+            ),
+            Err(Error::RecoveryRequired)
+        );
+        assert_eq!(before, inventory(&fixture.directory));
+    }
+
+    #[test]
+    fn semantic_reservation_and_failure_do_not_require_success_witnesses() {
+        use LifecycleState::*;
+        use SemanticCommand::*;
+        let cases = [
+            (Reviewed, Publish),
+            (MergeReady, RecordMerge),
+            (Merged, Finish),
+            (ClosedOut, RecordCleanup),
+            (Ready, RecordInstall),
+            (Ready, RecordCutover),
+            (Ready, RecordRollback),
+            (Ready, FinishWithoutPr),
+        ];
+        for (phase, command) in cases {
+            let facts = Facts {
+                current_proof: true,
+                independent_review: true,
+                merge_ready: true,
+                terminal_receipt: true,
+                administrative: true,
+                no_pr_disposition: true,
+                original_command: Some(command),
+                ..Default::default()
+            };
+            assert_eq!(
+                semantic::decide(Some(phase), Reserve, Outcome::Success, &facts)
+                    .unwrap()
+                    .phase,
+                phase
+            );
+            assert_eq!(
+                semantic::decide(Some(phase), command, Outcome::Failure, &facts)
+                    .unwrap()
+                    .phase,
+                phase
+            );
+            assert!(semantic::decide(Some(phase), command, Outcome::Success, &facts).is_err());
+        }
+    }
+
+    #[test]
+    fn semantic_no_pr_policy_and_amendment_invalidation() {
+        use SemanticCommand::*;
+        let facts = Facts {
+            terminal: true,
+            no_pr_disposition: true,
+            ..Default::default()
+        };
+        assert_eq!(
+            semantic::decide(
+                Some(LifecycleState::Ready),
+                FinishWithoutPr,
+                Outcome::Success,
+                &facts
+            )
+            .unwrap()
+            .phase,
+            LifecycleState::ClosedOut
+        );
+        assert!(semantic::decide(
+            Some(LifecycleState::Ready),
+            Finish,
+            Outcome::Success,
+            &facts
+        )
+        .is_err());
+        assert!(semantic::decide(
+            Some(LifecycleState::Ready),
+            FinishWithoutPr,
+            Outcome::Success,
+            &Facts::default()
+        )
+        .is_err());
+        let amendment = semantic::decide(
+            Some(LifecycleState::Reviewed),
+            AmendPlan,
+            Outcome::Success,
+            &Facts::default(),
+        )
+        .unwrap();
+        assert_eq!(amendment.phase, LifecycleState::Reviewed);
+        assert!(amendment
+            .invalidations
+            .contains(&semantic::Invalidation::Proof));
+        assert!(semantic::decide(
+            Some(LifecycleState::ClosedOut),
+            AmendPlan,
+            Outcome::Success,
+            &Facts::default()
+        )
+        .is_err());
+    }
+
+    fn wait_for(path: &Path) {
+        let until = Instant::now() + Duration::from_secs(10);
+        while !path.exists() {
+            assert!(Instant::now() < until, "child handshake timeout");
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    }
+    fn child(fixture: &Fixture, role: &str) -> std::process::Child {
+        std::process::Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "semantic_gate_a::semantic_process_child",
+                "--nocapture",
+            ])
+            .env("CSDLC_GATE_A_CHILD", role)
+            .env("CSDLC_GATE_A_FIXTURE", &fixture.directory)
+            .spawn()
+            .unwrap()
+    }
+    #[test]
+    fn semantic_process_child() {
+        let Ok(role) = std::env::var("CSDLC_GATE_A_CHILD") else {
+            return;
+        };
+        let dir = PathBuf::from(std::env::var_os("CSDLC_GATE_A_FIXTURE").unwrap());
+        let root = SemanticRoot::from_git_common(dir.join("repo/.git"), "example/repo").unwrap();
+        let key = IssueKey::new("example/repo", 870).unwrap();
+        if role == "lock" {
+            let file = fs::OpenOptions::new()
+                .read(true)
+                .write(true)
+                .open(dir.join("repo/.git/csdlc-v3/semantic/issues/870/state.lock"))
+                .unwrap();
+            fs2::FileExt::lock_exclusive(&file).unwrap();
+            fs::write(dir.join("lock-ready"), b"ready").unwrap();
+            loop {
+                std::thread::park();
+            }
+        }
+        let Observation::Current(snapshot) =
+            DurableTransactionStore::observe_issue(&root, &key).unwrap()
+        else {
+            panic!("current snapshot")
+        };
+        fs::write(dir.join(format!("{role}-ready")), b"ready").unwrap();
+        wait_for(&dir.join("go"));
+        let until = Instant::now() + Duration::from_secs(10);
+        let result = loop {
+            match DurableTransactionStore::commit_issue_local(
+                &root,
+                admission(&snapshot),
+                cards(&role),
+            ) {
+                Err(Error::Busy) if Instant::now() < until => {
+                    std::thread::sleep(Duration::from_millis(5))
+                }
+                other => break other,
+            }
+        };
+        let label = match result {
+            Ok(CommitOutcome::Committed(_)) => "committed",
+            Err(Error::StaleVersion) => "stale",
+            other => panic!("unexpected {other:?}"),
+        };
+        fs::write(dir.join(format!("{role}-result")), label).unwrap();
+    }
+    #[test]
+    fn semantic_two_process_cas_and_crash_releasing_lock() {
+        let fixture = Fixture::new();
+        fixture.prepare();
+        let mut holder = child(&fixture, "lock");
+        wait_for(&fixture.directory.join("lock-ready"));
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key),
+            Err(Error::Busy)
+        );
+        holder.kill().unwrap();
+        holder.wait().unwrap();
+        fixture.current();
+        let mut a = child(&fixture, "writer-a");
+        let mut b = child(&fixture, "writer-b");
+        wait_for(&fixture.directory.join("writer-a-ready"));
+        wait_for(&fixture.directory.join("writer-b-ready"));
+        fs::write(fixture.directory.join("go"), b"start").unwrap();
+        assert!(a.wait().unwrap().success());
+        assert!(b.wait().unwrap().success());
+        let mut results = vec![
+            fs::read_to_string(fixture.directory.join("writer-a-result")).unwrap(),
+            fs::read_to_string(fixture.directory.join("writer-b-result")).unwrap(),
+        ];
+        results.sort();
+        assert_eq!(results, ["committed", "stale"]);
+        assert_eq!(fixture.current().version().generation(), 2);
+    }
+
+    #[test]
+    fn semantic_readers_observe_only_coherent_commit_boundaries() {
+        let fixture = Fixture::new();
+        fixture.prepare();
+        std::thread::scope(|scope| {
+            let root = &fixture.root;
+            let key = &fixture.key;
+            let writer = scope.spawn(move || {
+                for index in 0..12 {
+                    loop {
+                        let snapshot = match DurableTransactionStore::observe_issue(root, key) {
+                            Ok(Observation::Current(s)) => s,
+                            Err(Error::Busy) => {
+                                std::thread::yield_now();
+                                continue;
+                            }
+                            other => panic!("{other:?}"),
+                        };
+                        match DurableTransactionStore::commit_issue_local(
+                            root,
+                            admission(&snapshot),
+                            cards(&format!("revision {index}")),
+                        ) {
+                            Ok(_) => break,
+                            Err(Error::Busy) => std::thread::yield_now(),
+                            other => panic!("{other:?}"),
+                        }
+                    }
+                }
+            });
+            let mut observed = 0;
+            while !writer.is_finished() {
+                match DurableTransactionStore::observe_issue(root, key) {
+                    Ok(Observation::Current(s)) => {
+                        assert_eq!(
+                            Snapshot::from_bytes(&s.canonical_bytes().unwrap()).unwrap(),
+                            *s
+                        );
+                        observed += 1;
+                    }
+                    Err(Error::Busy) => std::thread::yield_now(),
+                    other => panic!("incoherent observation {other:?}"),
+                }
+            }
+            writer.join().unwrap();
+            assert!(observed > 0);
+        });
+        assert_eq!(fixture.current().version().generation(), 13);
+    }
+}

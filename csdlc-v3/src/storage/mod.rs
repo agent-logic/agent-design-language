@@ -1,3 +1,6 @@
+mod codec;
+pub mod semantic;
+
 use crate::lifecycle::{
     decide, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
     ReviewRecoveryProvenance, TransitionOutcome,
@@ -255,6 +258,7 @@ pub struct DurableTransactionStore {
 impl DurableTransactionStore {
     pub fn create(directory: impl AsRef<Path>, initial: StateRecord) -> Result<Self, StoreError> {
         let directory = directory.as_ref().to_path_buf();
+        refuse_semantic_namespace(&directory)?;
         fs::create_dir_all(&directory).map_err(io_error)?;
         let lock = StoreLock::acquire(&directory)?;
         let store = TransactionStore::new(initial)?;
@@ -269,6 +273,7 @@ impl DurableTransactionStore {
 
     pub fn open(directory: impl AsRef<Path>) -> Result<Self, StoreError> {
         let directory = directory.as_ref().to_path_buf();
+        refuse_semantic_namespace(&directory)?;
         let lock = StoreLock::acquire(&directory)?;
         let committed = read_state(&directory)?;
         let journal = read_intents(&directory)?;
@@ -379,6 +384,22 @@ impl DurableTransactionStore {
         }
         Ok(())
     }
+}
+
+// Historical construction entrypoints cannot become a second semantic writer.
+fn refuse_semantic_namespace(directory: &Path) -> Result<(), StoreError> {
+    if directory.ancestors().any(|path| {
+        path.file_name().is_some_and(|name| name == "semantic")
+            && path
+                .parent()
+                .and_then(Path::file_name)
+                .is_some_and(|name| name == "csdlc-v3")
+    }) {
+        return Err(StoreError::Io(
+            "semantic namespace requires issue-scoped admission".into(),
+        ));
+    }
+    Ok(())
 }
 
 fn classify_open_recovery(
