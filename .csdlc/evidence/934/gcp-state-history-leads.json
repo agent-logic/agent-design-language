@@ -1,0 +1,17 @@
+{
+  "issue": 909,
+  "operator_group_confirmation": "gcp-admins is fine",
+  "historical_owner_task": "019ff744-06a3-71b2-8d63-9e5456d1d21c",
+  "historical_platform_state": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal/infra/gcp/platform/terraform.tfstate",
+  "evidence": "Historical owner execution calls33925,33931 and post-apply script change34881 reference local state; plan setup33112 uses init -backend=false. Historical worktree now absent.",
+  "retained_plan_lead": {
+    "revision": "cf8bc136a69501d9fd1e2f9cb5776b28f22ca763",
+    "path": ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+    "serial": 33,
+    "managed_resources": 17,
+    "status": "partial pre-apply state, not authoritative completed state"
+  },
+  "excluded_candidate": "issue494 quarantine serial18 empty and serial13 four resources use unrelated lineage",
+  "no_state_restore_or_import": true,
+  "search_status": "later saved plans and backup investigation ongoing"
+}

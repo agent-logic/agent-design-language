@@ -1,0 +1,116 @@
+{
+  "schema": "adl.sprint934.partial_acceptance_review.v1",
+  "observed_at": "2026-09-12T01:59:49.631958+00:00",
+  "umbrella": 934,
+  "umbrella_state": "OPEN",
+  "scope": [
+    720,
+    908,
+    909,
+    910
+  ],
+  "pending_child": 910,
+  "pending_child_state": "OPEN",
+  "overall_sprint_review_complete": false,
+  "new_actionable_findings": [],
+  "children": [
+    {
+      "issue": 720,
+      "pull_request": 939,
+      "issue_state": "CLOSED",
+      "pr_state": "MERGED",
+      "reviewed_head": "9b469bdf5efb9d4786b612897696c78d0b9fb7bb",
+      "merge_commit": "9c583cec78d396527798e592082595f316c67ce2",
+      "owned_source_matches_reviewed_head": true,
+      "terminal_disposition": "closed_out",
+      "terminal_receipt_path": ".git/csdlc-v3/local/evidence/720/terminal-receipt.json",
+      "terminal_receipt_sha256": "af61ece8db31f6284216a0bfe28ef70cc5163029e210b61109a091feac6345a2",
+      "terminal_state_digest": "193a76f93da0f6639f116bdd786e9157d0e29928cd28c770b874a01847bb99fc"
+    },
+    {
+      "issue": 908,
+      "pull_request": 940,
+      "issue_state": "CLOSED",
+      "pr_state": "MERGED",
+      "reviewed_head": "8108b9b42260c0ccc2470ff4327796370d366349",
+      "merge_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+      "owned_source_matches_reviewed_head": true,
+      "terminal_disposition": "closed_out",
+      "terminal_receipt_path": ".git/csdlc-v3/local/evidence/908/terminal-receipt.json",
+      "terminal_receipt_sha256": "bc8cb94191f258ce04de2934805c99cddd6d3c054358e230f7d9d34dae88c36f",
+      "terminal_state_digest": "3ea9682cf974093ae24226de50cf5d0008324cbac9a20bf17115f4b3553e964f"
+    },
+    {
+      "issue": 909,
+      "pull_request": 949,
+      "issue_state": "CLOSED",
+      "pr_state": "MERGED",
+      "reviewed_head": "fd734c660b8a687fcc93aa6867f3ef801923e503",
+      "merge_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+      "owned_source_matches_reviewed_head": true,
+      "terminal_disposition": "closed_out",
+      "terminal_receipt_path": ".git/csdlc-v3/local/evidence/909/terminal-receipt.json",
+      "terminal_receipt_sha256": "912ddb224375bfdbce5679791258387c3f9fb1933d61b22d46742ab752e6720c",
+      "terminal_state_digest": "f0c26d9928af920132c263a6f7fa5753194a675e269a5d4c62aeb6ab09369f84"
+    },
+    {
+      "issue": 910,
+      "pull_request": 954,
+      "pr_state": "OPEN",
+      "reviewed_head": "28fbf649a258a89509fbd56a024ecff43c06e0b2",
+      "base": "main",
+      "closing_issue": 910,
+      "merge_commit": null,
+      "implementation_review": "PASS",
+      "ci_run": 34674270192,
+      "ci_success": [
+        "adl-path-policy",
+        "adl-ci",
+        "adl-coverage"
+      ],
+      "other_ci_lanes": "SKIPPED",
+      "terminal_disposition": "pending",
+      "ancestry_from_child_merges": {
+        "720": true,
+        "908": true,
+        "909": false
+      }
+    }
+  ],
+  "inspection": [
+    "actual merged UI startup/error/generation/timer source",
+    "actual AWS collector/response projector/delta/validator/test source",
+    "actual #909 plan/recovery/custody proof from prior independent review",
+    "live GitHub issue/PR state and native terminal receipts"
+  ],
+  "checks_performed_this_review": [
+    "reviewed-head versus merge owned-source comparison",
+    "146 baseline hashes",
+    "13 bucket listing completeness and5NoSuchTagSet classification",
+    "source AC mapping and proof boundary review"
+  ],
+  "tests_rerun_this_review": 0,
+  "new_cloud_calls": 0,
+  "numerical_coverage": null,
+  "coverage_reason": "N/A: no line/branch coverage measured; path-policy aggregation is not numerical proof",
+  "review_independence": {
+    "720": "Prior subagent exact-head review plus current merged-source inspection",
+    "908": "Prior independent exact-head actual census/test review plus current collector inspection",
+    "909": "Current reviewer implemented #909; independent raw proof was sprint8_908 and final metadata parent review, reused explicitly",
+    "910": "Independent actual plan/private receipts/verifier/browser-result inspection and exact metadata renewal; no cloud/browser reruns"
+  },
+  "private_custody909": {
+    "path": ".git/csdlc-v3/private-custody/909/checkpoint-fd734c660b/MANIFEST.json",
+    "file_count": 124,
+    "manifest_sha256": "ab4a32522db1b9f43308934aa2e5d90294c5afcecd43cd7da8193ced6ec3b642",
+    "source_and_destination_hashes_verified_before_cleanup": true,
+    "destination_hashes_verified_after_cleanup": true,
+    "authoritative_adoption": false
+  },
+  "packet_sha256": "89ef4893c9b8ef74003214df4159d966edc0eb0216a9e9986e83e20323502dd0",
+  "combined_review_observed_at": "2026-09-12T04:57:22.297770+00:00",
+  "combined_source_evidence_review_complete": true,
+  "integration_complete": false,
+  "pending_child_reason": "PR954 merge and native terminal closeout pending; implementation review passed",
+  "combined_packet_sha256": "50d0c549e665632982cd8a98d99f2053bca8c97f44d31630de438517f93993a9"
+}

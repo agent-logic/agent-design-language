@@ -1,0 +1,15 @@
+{
+  "operator_request": "wait for the review, carry on with other issues",
+  "additional_issue": 849,
+  "sprint_owner": 933,
+  "worker": "sprint8_720",
+  "scope": "Preserve reviewed publication linkage during native PR merge",
+  "readiness": "WP01 accepted; no issue worktree or open PR at dispatch; worker must check shared SIM path ownership before editing",
+  "sprint8_roster_unchanged": [
+    720,
+    908,
+    909,
+    910
+  ],
+  "live_runtime_configuration": "not authorized or changed"
+}
