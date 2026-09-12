@@ -28,8 +28,8 @@ Execution:
 - Actor: `unassigned implementation owner`
 - Model: `unknown`
 - Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Start Time: `2026-09-12T01:48:57+00:00`
+- End Time: `in_progress`
 
 ## Summary
 
@@ -38,11 +38,11 @@ Repair native merge admission with reviewed qualified publication linkage, authe
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
 - Planned PVF lane: `tooling`
-- Final PVF lane: `not_run`
-- Lane change reason: `not_run; implementation has not started`
+- Final PVF lane: `tooling`
+- Lane change reason: `No lane change; full native owner gate remains failed by baseline inventory omission`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `Deterministic local Git/filesystem and fake authenticated transport, small CPU; no paid runtime`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -75,7 +75,7 @@ Repair native merge admission with reviewed qualified publication linkage, authe
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/849/cards/sor.md`
-- Tracked implementation artifacts: `none; implementation not started`
+- Tracked implementation artifacts: `csdlc-v3/src/commands/remote/{mod,merge,merge_linkage}.rs; csdlc-v3/src/adapters/mod.rs; merge tests and receipt fixtures; operator documentation/man pages and #849 criterion map`
 - Additional proof artifacts: `.csdlc/evidence/849/release-preflight-baseline-defect.json; docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md`
 
 ## Actions taken
@@ -90,8 +90,8 @@ Repair native merge admission with reviewed qualified publication linkage, authe
 - Verification scope: `Bounded merge-linkage implementation and focused owner proofs`
 - Integration method used: `local commit; publication pending`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `git status --short --branch; git rev-parse HEAD; gh pr view 948 --repo agent-logic/agent-design-language --json state,headRefOid,mergeCommit (read-only)`
+    `Bound branch verified; PR not yet created; #948 OPEN at03c5aead, integration pending`
 - Result: `Implementation committed locally; PR publication pending; no merge or terminal closeout`
 
 Rules:
@@ -127,46 +127,46 @@ verification_summary:
     checks_run:
       - "not_run"
   determinism:
-    status: not_run
+    status: passed_focused
     replay_verified: true
-    ordering_guarantees_verified: not_run
+    ordering_guarantees_verified: true
   security_privacy:
-    status: No credentials or PR body retained in public proof
-    secrets_leakage_detected: not_run
-    prompt_or_tool_arg_leakage_detected: not_run
+    status: bounded_adapter_tests_and_packet_inspection_passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: not_run
   artifacts:
-    status: not_run
+    status: six_native_cards_and_local_proof_present
     required_artifacts_present: not_run
     schema_changes:
-      present: not_run
-      approved: not_run
+      present: true
+      approved: Issue #849 requires bounded review/intent/linkage type change; no authority-generation change
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
-- Artifact stability notes: `not_run; implementation has not started`
+- Determinism tests executed: `16 merge cases passed; reviewer independently passed16merge plus1adapter; full diagnostic owner253passed1filtered`
+- Fixtures or scripts used: `remote/tests/merge_cases.rs and adapters/mod.rs fake transport/local Git fixtures; full native suite with known baseline failure recorded`
+- Replay verification (same inputs -> same artifacts/order): `Successful and uncertain merge replay paths exercised; no automatic second PUT; linkage/issue-state drift rejected`
+- Ordering guarantees (sorting / tie-break rules used): `Durable target guard and intent precede dispatch; authenticated fresh linkage/policy checked before PUT; poststate and replay tests passed`
+- Artifact stability notes: `Implementation commit0264f321ac; native card values/render/schema validation passed; final metadata review renewed before publication`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Secret leakage scan performed: `Reviewed tracked proof packet for credential values and raw bodies; none retained; ignored local logs are not public proof`
+- Prompt / tool argument redaction verified: `Native adapter credential-isolation and machine-channel tests passed within253-test diagnostic suite; no secret values stored in issue evidence`
+- Absolute path leakage check: `Proof packet uses repo-relative paths; generated SIP binding intentionally records exact approved FastWork identity`
+- Sandbox / policy invariants preserved: `All issue edits in exact native-bound FastWork worktree; primary clean main; no live merge/cloud changes or shared binary install`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.adl/runs/849/native-tests-release-preflight-failed.log; .adl/runs/849/native-tests-excluding-known-failure.log; .adl/runs/849/clippy.log`
 - Run artifact root: `.adl/runs/849`
-- Replay command used for verification: `not_run; implementation has not started`
+- Replay command used for verification: `cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_cases`
 - Replay result: `Positive replay does not dispatch a second PUT; uncertain/mismatched issue-state replay rejects`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/849/VALIDATION.md`
 - Required artifacts present: `six native-generated cards, local proof packet and operator documentation`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
+- Artifact schema/version checks: `Native validate gen5 passed all six values/renders/structures/digest; manual inventory and30 rendered pages verified`
+- Hash/byte-stability checks: `Review digest and durable intent/reconciliation identity tamper and replay tests passed; baseline release input blob equality recorded`
 - Missing/optional artifacts and rationale: `Execution artifacts are absent because this is preparation, not completed delivery`
 
 ## Decisions / Deviations

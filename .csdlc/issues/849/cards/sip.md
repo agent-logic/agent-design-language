@@ -238,13 +238,7 @@ Repair merge linkage only. No authority-generation change, blanket release appro
 
 ## Notes / Risks
 
-Planning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.
-
-The operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.
-
-#864 WP-01 prerequisite delivered by merged PR #865; all69 identity/creation reviews completed. Recheck accepted evidence and current path ownership before bind; no dependency on entire earlier sprints is added.
-
-Preparation only: proposed branch/worktree unbound; implementation and proof unstarted. #926 owns all-eleven umbrella management only. Preserve active SIM changes and do not replace stable installed writers or change lifecycle authority. For #906, registered .worktrees/adl-process-status-fanout at branch codex/reduce-process-status-fanout contains dirty process_cmd.rs and cli_smoke/process_status.rs plus unrelated finish files. Preserve all bytes and resolve both source/test owners before any extraction/reuse. For #849, resolve remote merge/types/test ownership with current SIM and #907 work; no live merge is authorized. Shared-path readiness remains unchecked/unresolved, not a new semantic dependency.
+#864 prerequisite accepted via merged #865 and all69 startup gate passed. Native bound #849 worktree and active goal under Sprint7 #933. Planning #4.4 confirmed shared remote paths available; preserve unmerged #948 pending-receipt assertions and latest03c5aead adapter curl-config guard when integrating. Implementation0264f321ac independently reviewed, local focused proof passed; full owner suite has separately recorded UTS release-inventory failure. No live merge or shared binary installation authorized.
 
 ## Instructions to the Agent
 - Read this file.

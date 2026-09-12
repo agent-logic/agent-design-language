@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/849/cards/sip.md"
   - ".csdlc/issues/849/cards/vpp.md"
 review_results:
-  findings_status: "no_actionable_findings"
-  recommended_outcome: "accept"
+  findings_status: "addressed_pending_recheck"
+  recommended_outcome: "block"
 notes: "Reviewer independently reran 16 merge cases and one qualified numeric adapter test; inspected exact review linkage digest, qualified issue/mode, initial/fresh/postmerge relation and state, complete-page fail-closed checks, durable intent/target guard and replay. Evidence .csdlc/evidence/849/VALIDATION.md. No live merge proof, no CI pass claim."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Independent sprint8_909 reviewed implementation 0264f321ac0e19fb9ae957b4f05b6dfb2f7c63b2: no actionable source/test findings. Final card and any integration delta require renewal. Full-suite release-preflight baseline failure remains a separate blocker, not waived.
+- Implementation0264f321ac: no actionable source/test findings. Metadata1f30b810: reviewer found P2 stale unbound/unstarted notes in SIP/STP/SPP and P2 stale not-run claims in SOR. Both corrected via native edits; exact final metadata review pending. Full-suite baseline release inventory failure remains separately recorded, not waived.
 
 ### Dispositions
 
-- No implementation findings to repair. Preserve separate release inventory failure and #948 pending owner delta.
+- Two metadata truth findings corrected: current #849 binding/owner readiness notes and actual PVF/determinism/replay/privacy/artifact checks now reflect observed work. No source repair requested. Preserve pending #948 delta and separate inventory blocker.
 
 ### Recommended Outcome
 
-- accept
+- block
 
 ## Notes
 

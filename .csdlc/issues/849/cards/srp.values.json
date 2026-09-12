@@ -10,16 +10,16 @@
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-849-v0922-merge-linkage-admission",
-  "review_findings": "Independent sprint8_909 reviewed implementation 0264f321ac0e19fb9ae957b4f05b6dfb2f7c63b2: no actionable source/test findings. Final card and any integration delta require renewal. Full-suite release-preflight baseline failure remains a separate blocker, not waived.",
+  "review_findings": "Implementation0264f321ac: no actionable source/test findings. Metadata1f30b810: reviewer found P2 stale unbound/unstarted notes in SIP/STP/SPP and P2 stale not-run claims in SOR. Both corrected via native edits; exact final metadata review pending. Full-suite baseline release inventory failure remains separately recorded, not waived.",
   "slug": "v0922-merge-linkage-admission",
-  "findings_status": "no_actionable_findings",
+  "findings_status": "addressed_pending_recheck",
   "sor_card": ".csdlc/issues/849/cards/sor.md",
   "review_notes": "Reviewer independently reran 16 merge cases and one qualified numeric adapter test; inspected exact review linkage digest, qualified issue/mode, initial/fresh/postmerge relation and state, complete-page fail-closed checks, durable intent/target guard and replay. Evidence .csdlc/evidence/849/VALIDATION.md. No live merge proof, no CI pass claim.",
   "vpp_card": ".csdlc/issues/849/cards/vpp.md",
-  "review_dispositions": "No implementation findings to repair. Preserve separate release inventory failure and #948 pending owner delta.",
+  "review_dispositions": "Two metadata truth findings corrected: current #849 binding/owner readiness notes and actual PVF/determinism/replay/privacy/artifact checks now reflect observed work. No source repair requested. Preserve pending #948 delta and separate inventory blocker.",
   "spp_card": ".csdlc/issues/849/cards/spp.md",
   "sip_card": ".csdlc/issues/849/cards/sip.md",
   "timestamp": "2026-09-12T00:22:05.416044+00:00",
   "stp_card": ".csdlc/issues/849/cards/stp.md",
-  "recommended_outcome": "accept"
+  "recommended_outcome": "block"
 }
