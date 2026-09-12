@@ -4,6 +4,7 @@ use std::process::Command;
 
 mod agent_cmd;
 mod artifact_cmd;
+mod codefriend_cmd;
 mod commands;
 mod csm_cmd;
 mod csm_runtime_v3_cmd;
@@ -183,6 +184,7 @@ fn dispatch_args(args: &[String]) -> Result<()> {
     );
 
     match args.first().map(|s| s.as_str()) {
+        Some("codefriend") => codefriend_cmd::real_codefriend(&args[1..]),
         Some("artifact") => real_artifact(&args[1..]),
         Some("agent") => real_agent(&args[1..]),
         Some("csm") => real_csm(&args[1..]),

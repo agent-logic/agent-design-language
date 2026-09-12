@@ -1,0 +1,19 @@
+{
+  "analysis": [
+    "lib/dnsmsg-parser/Cargo.toml",
+    "lib/dnsmsg-parser/LICENSE",
+    "lib/dnsmsg-parser/benches/benches.rs",
+    "lib/dnsmsg-parser/src/dns_message.rs",
+    "lib/dnsmsg-parser/src/dns_message_parser.rs",
+    "lib/dnsmsg-parser/src/ede.rs",
+    "lib/dnsmsg-parser/src/lib.rs"
+  ],
+  "context": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "LICENSE"
+  ],
+  "max_files": 10,
+  "max_bytes": 614400,
+  "max_file_bytes": 409600
+}
