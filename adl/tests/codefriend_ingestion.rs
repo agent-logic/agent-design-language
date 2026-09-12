@@ -417,59 +417,63 @@ fn subsequent_nested_array_and_escaped_credentials_never_enter_packets() {
         "]".repeat(140)
     );
     let malformed = r#"{"client_secr\u0065t":"opaque-value""#;
-    for content in cases.into_iter().chain([too_deep.as_str(), malformed]) {
-        let mut f = Fixture::new();
-        fs::write(f.root.join("config.json"), content).unwrap();
-        git(&f.root, &["add", "config.json"]);
-        git(
-            &f.root,
-            &[
-                "-c",
-                "user.name=fixture",
-                "-c",
-                "user.email=fixture@example.com",
-                "commit",
-                "-m",
-                "credential fixture",
-            ],
-        );
-        f.revision = git(&f.root, &["rev-parse", "HEAD"]);
-        let mut scope = f.scope();
-        scope.analysis = vec!["config.json".into()];
-        let acquired = f.run(&scope, &f.out());
-        assert!(acquired.status.success());
-        let mut packet = AdmissionInput::read(&f.out()).unwrap().packet().clone();
-        assert_eq!(packet.completeness, "partial");
-        let object = packet
-            .objects
-            .iter_mut()
-            .find(|o| o.path == "config.json")
-            .unwrap();
-        assert_eq!(object.disposition, "omitted_unsafe");
-        assert!(object.content.is_none());
-        assert!(!fs::read_to_string(f.out())
-            .unwrap()
-            .contains("opaque-value"));
-        // Restore the exact Git content and valid digests. Only the admission
-        // safety check can reject this otherwise internally consistent forgery.
-        object.disposition = "included".into();
-        object.content = Some(content.into());
-        object.content_digest = Some(adl::codefriend::ingestion::digest(content.as_bytes()));
-        packet.completeness = "complete_scoped_acquisition".into();
-        reseal_packet(&mut packet);
-        fs::write(f.out(), serde_json::to_vec(&packet).unwrap()).unwrap();
-        assert_eq!(
-            AdmissionInput::read(&f.out()).err().unwrap().to_string(),
-            "unsafe_object_content"
-        );
-        let read = Command::new(env!("CARGO_BIN_EXE_adl"))
-            .args(["codefriend", "packet", "read", "--input"])
-            .arg(f.out())
-            .output()
-            .unwrap();
-        assert!(!read.status.success());
-        assert!(read.stdout.is_empty());
-        assert!(!String::from_utf8_lossy(&read.stderr).contains("opaque-value"));
+    let toml_secret = r#"[settings]
+"client_secr\u0065t"="opaque-value"
+"#;
+    for path in ["config.json", "config.toml"] {
+        for content in cases
+            .into_iter()
+            .chain([too_deep.as_str(), malformed, toml_secret])
+        {
+            let mut f = Fixture::new();
+            fs::write(f.root.join(path), content).unwrap();
+            git(&f.root, &["add", path]);
+            git(
+                &f.root,
+                &[
+                    "-c",
+                    "user.name=fixture",
+                    "-c",
+                    "user.email=fixture@example.com",
+                    "commit",
+                    "-m",
+                    "credential fixture",
+                ],
+            );
+            f.revision = git(&f.root, &["rev-parse", "HEAD"]);
+            let mut scope = f.scope();
+            scope.analysis = vec![path.into()];
+            let acquired = f.run(&scope, &f.out());
+            assert!(acquired.status.success());
+            let mut packet = AdmissionInput::read(&f.out()).unwrap().packet().clone();
+            assert_eq!(packet.completeness, "partial");
+            let object = packet.objects.iter_mut().find(|o| o.path == path).unwrap();
+            assert_eq!(object.disposition, "omitted_unsafe");
+            assert!(object.content.is_none());
+            assert!(!fs::read_to_string(f.out())
+                .unwrap()
+                .contains("opaque-value"));
+            // Restore the exact Git content and valid digests. Only the admission
+            // safety check can reject this otherwise internally consistent forgery.
+            object.disposition = "included".into();
+            object.content = Some(content.into());
+            object.content_digest = Some(adl::codefriend::ingestion::digest(content.as_bytes()));
+            packet.completeness = "complete_scoped_acquisition".into();
+            reseal_packet(&mut packet);
+            fs::write(f.out(), serde_json::to_vec(&packet).unwrap()).unwrap();
+            assert_eq!(
+                AdmissionInput::read(&f.out()).err().unwrap().to_string(),
+                "unsafe_object_content"
+            );
+            let read = Command::new(env!("CARGO_BIN_EXE_adl"))
+                .args(["codefriend", "packet", "read", "--input"])
+                .arg(f.out())
+                .output()
+                .unwrap();
+            assert!(!read.status.success());
+            assert!(read.stdout.is_empty());
+            assert!(!String::from_utf8_lossy(&read.stderr).contains("opaque-value"));
+        }
     }
 }
 fn reseal_packet(packet: &mut adl::codefriend::ingestion::Packet) {
@@ -532,30 +536,36 @@ fn git_sha1_and_sha256_blob_identity_is_verified_by_production_reader() {
 
 #[test]
 fn ordinary_json_values_duplicate_parents_and_toml_remain_admissible() {
-    let mut f = Fixture::new();
-    let content =
-        r#"{"name":"fixture","settings":{"values":[null,true,false,1,-2,1.25]},"settings":{}}"#;
-    fs::write(f.root.join("config.json"), content).unwrap();
-    fs::write(f.root.join("Cargo.toml"), "[package]\nname=\"fixture\"\n").unwrap();
-    git(&f.root, &["add", "config.json", "Cargo.toml"]);
-    git(
-        &f.root,
-        &[
-            "-c",
-            "user.name=fixture",
-            "-c",
-            "user.email=fixture@example.com",
-            "commit",
-            "-m",
-            "ordinary config",
-        ],
-    );
-    f.revision = git(&f.root, &["rev-parse", "HEAD"]);
-    let mut scope = f.scope();
-    scope.analysis = vec!["config.json".into()];
-    scope.context = vec!["Cargo.toml".into()];
-    assert!(f.run(&scope, &f.out()).status.success());
-    let input = AdmissionInput::read(&f.out()).unwrap();
-    assert_eq!(input.packet().completeness, "complete_scoped_acquisition");
-    assert_eq!(input.packet().objects[1].content.as_deref(), Some(content));
+    for header in ["[package]", "[[package]]", "[true_settings]"] {
+        let mut f = Fixture::new();
+        let content =
+            r#"{"name":"fixture","settings":{"values":[null,true,false,1,-2,1.25]},"settings":{}}"#;
+        fs::write(f.root.join("config.json"), content).unwrap();
+        fs::write(
+            f.root.join("Cargo.toml"),
+            format!("{header}\nname=\"fixture\"\n"),
+        )
+        .unwrap();
+        git(&f.root, &["add", "config.json", "Cargo.toml"]);
+        git(
+            &f.root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.com",
+                "commit",
+                "-m",
+                "ordinary config",
+            ],
+        );
+        f.revision = git(&f.root, &["rev-parse", "HEAD"]);
+        let mut scope = f.scope();
+        scope.analysis = vec!["config.json".into()];
+        scope.context = vec!["Cargo.toml".into()];
+        assert!(f.run(&scope, &f.out()).status.success());
+        let input = AdmissionInput::read(&f.out()).unwrap();
+        assert_eq!(input.packet().completeness, "complete_scoped_acquisition");
+        assert_eq!(input.packet().objects[1].content.as_deref(), Some(content));
+    }
 }

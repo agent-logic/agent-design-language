@@ -269,6 +269,16 @@ impl<'de> Deserialize<'de> for JsonCredentialScan {
     }
 }
 
+fn toml_credential(value: &toml::Value) -> bool {
+    match value {
+        toml::Value::Table(table) => table
+            .iter()
+            .any(|(key, value)| credential_key(key) || toml_credential(value)),
+        toml::Value::Array(values) => values.iter().any(toml_credential),
+        _ => false,
+    }
+}
+
 /// Conservative omission policy, deliberately not a universal secret detector.
 /// Known credential files, credential assignments/markers and local host paths are
 /// never emitted. Unknown credentials require operator scope review.
@@ -308,7 +318,12 @@ pub fn unsafe_content(path: &str, content: &str) -> bool {
         Ok(scan) => scan.0,
         // A parse/depth failure must not downgrade JSON to a raw scan that
         // cannot decode escaped keys. Malformed JSON is omitted, not retained.
-        Err(_) => name.ends_with(".json") || candidate.starts_with('{') || json_array,
+        Err(_) => match toml::from_str::<toml::Value>(content) {
+            // A complete TOML parse disambiguates array-table and literal-like
+            // section headers. Decoded keys remain subject to the same policy.
+            Ok(value) if !name.ends_with(".json") => toml_credential(&value),
+            _ => name.ends_with(".json") || candidate.starts_with('{') || json_array,
+        },
     };
     let credential_assignment = text
         .split_inclusive(['=', ':'])

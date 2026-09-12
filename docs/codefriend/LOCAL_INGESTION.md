@@ -100,7 +100,7 @@ object and array member is checked before duplicate members can overwrite earlie
 ones. Escaped keys under duplicate parents therefore remain visible. JSON input
 that fails parsing (including the bounded parser's depth limit) is omitted; it never
 falls back to a raw-text scan that cannot decode its keys. `.json` files and text
-beginning with a JSON object/array value are treated as JSON for this fail-closed policy. TOML section headers are not classified as JSON arrays. Other text is scanned linearly at
+beginning with a JSON object/array value are treated as JSON for this fail-closed policy. After an unsuccessful JSON parse, a complete TOML parse disambiguates valid section and array-table headers; its decoded keys are also checked. A `.toml` extension alone grants no exemption. Other text is scanned linearly at
 every `=` or `:` delimiter, not just the first assignment on a line. Unsupported or
 unrecognized secret formats still require operator scope review. The policy
 favors omission over trying to rewrite
@@ -161,3 +161,9 @@ credential matrix, including overwritten escaped keys, excessive JSON nesting an
 malformed JSON. Streaming scanning retains no JSON tree and keeps parser depth
 limits. `LOCAL_INGESTION_STREAMING_PROOF.json` records the renewed installed proof;
 the original and first-repair proofs remain unchanged.
+
+The TOML classification correction adds production positives for ordinary sections,
+array tables, and literal-like section names. The credential matrix also checks
+JSON renamed to `.toml` and escaped TOML credential keys through acquisition and
+forged packet readback. `LOCAL_INGESTION_TOML_PROOF.json` records separately renewed
+installed proof; all earlier proof artifacts remain unchanged.
