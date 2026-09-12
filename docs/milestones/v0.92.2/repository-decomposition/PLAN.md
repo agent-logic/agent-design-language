@@ -1,6 +1,6 @@
 # Repository decomposition plan — v0.92.2 / #848
 
-Status: candidate for independent review under #848. No extraction, repository
+Status: externally reviewed candidate under #848; operator decision pending. No extraction, repository
 creation, visibility change or v0.93 implementation is authorized.
 
 Source: the operator-provided TBD candidate, reconciled with the tracked v0.93
@@ -527,11 +527,9 @@ The source candidate reported fourteen OpenAI review dispositions but did not
 include the referenced review artifacts in its source directory. Those claims
 are historical candidate context, not verified review approval for this version.
 The preserved candidate remains available to the operator; this version requires
-fresh Claude and Gemini review plus the repository's independent pre-PR review.
+fresh Claude and Gemini review plus the repository's independent pre-PR review. The completed external reviews and correction are retained in [FINDINGS.md](FINDINGS.md).
 
-New reviews and finding dispositions will be recorded beside this plan, bound
-to the candidate hash and source revision. Until those reviews finish, this plan
-is not decision-ready.
+Claude Fable 5 approved the corrected candidate, and Gemini 3.8 Flash independently recommended RD-01-only approval. [REVIEW_INPUTS.json](REVIEW_INPUTS.json) binds them to the reviewed candidate commit and content hash. This is review evidence, not operator authorization.
 
 ## Decision requested
 
