@@ -4,7 +4,7 @@ The accounting component is implemented; the full experiment is **not complete**
 
 `adl/tools/pair_experiment.py` validates a pinned complete baseline/raw-PAIR/Runtime × healthy/node-loss × concurrency × repetition × request matrix. It derives denominators, failure counts, latency and completed-request throughput, compares against same-scenario baseline, and retains null/negative benefits. It checks declared two-node serving and concurrency overlap, rejects plan/provider/corpus drift, incorrect outputs, malformed resource references and absent node-loss observations. Every output explicitly says accounting does not establish qualification; untrusted measurement hashes do not authenticate a run.
 
-Focused proof: `python3 adl/tools/test_pair_experiment.py` passes eight deterministic tests, including 20 receipt mutations and context, two-node, concurrency, no-benefit/failure and CLI channel/redaction cases. PVF: required local deterministic harness gate; small CPU/filesystem, no network, model, GPU or credentials. Existing provider code is unchanged. Compatibility log-file routing is not implemented or claimed. Output JSON is stdout; sanitized rejection diagnostics are stderr.
+Focused proof: `python3 adl/tools/test_pair_experiment.py` passes thirteen deterministic tests, including 20 receipt mutations and context, two-node, concurrency, no-benefit/failure, matrix-allocation bound, CLI channel/redaction and local HTTP collector cases. PVF: required local deterministic harness gate; small CPU/filesystem, no network, model, GPU or credentials. Existing provider code is unchanged. Compatibility log-file routing is not implemented or claimed. Output JSON is stdout; sanitized rejection diagnostics are stderr.
 
 ## Upstream identity and corrected environment boundary
 
@@ -16,6 +16,14 @@ Focused proof: `python3 adl/tools/test_pair_experiment.py` passes eight determin
 ## Current production integration boundary
 
 Current Runtime kernel `assembly.rs` routes conversation work into `control::invoke_provider_conversation` / `invoke_provider_model`. The live model route presently supports Ollama; PAIR exposes an Ollama-compatible local proxy, which is a candidate integration path, not executed proof. `adl-provider-adapter` CLI alone is not the Runtime admission/conversation path and cannot satisfy that criterion. Canonical editable provider definitions from #876 must still be consumed through their actual validation/dispatch owner; accounting only binds their byte digest and does not replace that validation.
+
+## Review correction and collector component
+
+Independent reviewer sprint8_909 found an oversized plan could allocate millions of matrix keys before rejection. Plan admission now caps the matrix at 100,000 records before creating any Cartesian product. A regression replaces product allocation with a failing sentinel and verifies oversized input rejects first.
+
+`collect_ollama` now makes one actual HTTP POST to an explicit numeric loopback Ollama-compatible endpoint, using the same model/prompt/stream/keep_alive payload as current Runtime's generate path. It does not parse or bypass canonical provider validation, identify a PAIR installation, invent a serving node or claim a Runtime route. An orchestration caller must obtain endpoint/model through the verified canonical configuration and capture route/node provenance. The function uses no HTTP proxy or redirects; a deadline interrupts stalled socket/header reads, and response bytes are capped at 1 MiB. Tests use actual loopback sockets with fake responses to prove argv-equivalent request bytes, output identity, rejection, deadline and resource behavior, not inference. Provider payload sampling is not explicitly set by the current Runtime path, so effective engine settings must be independently pinned and matched for fair real comparison.
+
+No batch Runtime collector or hardware orchestration is implemented yet; the single-request transport and accounting are building blocks, not a finished experiment.
 
 ## Remaining required work
 

@@ -3,11 +3,15 @@
 import copy
 import hashlib
 import itertools
+import threading
+from contextlib import contextmanager
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 import pair_experiment as pair
@@ -38,6 +42,37 @@ def fixture():
                   node_events=[dict(node="beta", available=False, at_seconds=50,
                                     evidence_sha256="f"*64)])
     return plan, packet, provider
+
+
+@contextmanager
+def endpoint(response_body=b'{"done":true,"response":"0"}', status=200, stall=False):
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_POST(self):
+            self.server.requests.append((self.path, json.loads(self.rfile.read(int(self.headers["Content-Length"])))))
+            if stall:
+                self.server.release.wait(2)
+            self.send_response(status)
+            self.send_header("Content-Length", str(len(response_body)))
+            self.end_headers()
+            try:
+                self.wfile.write(response_body)
+            except (BrokenPipeError, ConnectionResetError):
+                pass
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+    server.requests = []
+    server.release = threading.Event()
+    worker = threading.Thread(target=server.serve_forever, daemon=True)
+    worker.start()
+    try:
+        yield f"http://127.0.0.1:{server.server_port}", server
+    finally:
+        server.release.set()
+        server.shutdown()
+        server.server_close()
+        worker.join(2)
 
 
 class AccountingTests(unittest.TestCase):
@@ -135,6 +170,48 @@ class AccountingTests(unittest.TestCase):
                         row["ended_seconds"] -= 1
                 with self.assertRaises(pair.InvalidExperiment):
                     pair.summarize(plan, packet, provider)
+
+    def test_oversized_matrix_rejects_before_product_allocation(self):
+        plan, packet, provider = fixture()
+        plan["repetitions"] = 100
+        plan["concurrency"] = list(range(1, 65))
+        plan["corpus"] = [dict(id=f"q{i}", prompt="Return 1", expected_text="1")
+                          for i in range(1000)]
+        with patch.object(pair.itertools, "product", side_effect=AssertionError("must not allocate")):
+            with self.assertRaisesRegex(pair.InvalidExperiment, "matrix_resource_bound"):
+                pair.summarize(plan, packet, provider)
+
+    def test_collector_sends_real_ollama_request_without_runtime_claim(self):
+        with endpoint() as (url, server):
+            observed = pair.collect_ollama(url, "fixture-model", "Return 0", 1)
+            self.assertEqual(server.requests, [("/api/generate", dict(model="fixture-model",
+                             prompt="Return 0", stream=False, keep_alive=-1))])
+            self.assertEqual(observed["output"], "0")
+            self.assertEqual(observed["route_identity"], "not_verified")
+            self.assertEqual(observed["serving_node"], "not_verified")
+            self.assertGreater(observed["elapsed_seconds"], 0)
+
+    def test_collector_rejects_redirect_malformed_and_oversized_response(self):
+        for body, status in [(b"{}", 200), (b"secret-error", 302),
+                             (b"x"*(1024*1024+1), 200)]:
+            with self.subTest(status=status, size=len(body)), endpoint(body, status) as (url, _):
+                with self.assertRaises(pair.InvalidExperiment):
+                    pair.collect_ollama(url, "model", "prompt", 1)
+
+    def test_collector_deadline_interrupts_stalled_headers(self):
+        with endpoint(stall=True) as (url, _):
+            start = pair.time.monotonic()
+            with self.assertRaises(pair.InvalidExperiment):
+                pair.collect_ollama(url, "model", "prompt", 0.05)
+            self.assertLess(pair.time.monotonic() - start, 1)
+
+    def test_collector_rejects_nonlocal_or_credential_endpoints_before_socket(self):
+        with patch.object(pair.socket, "create_connection", side_effect=AssertionError("no dispatch")):
+            for url in ["http://example.com:8080", "http://192.168.1.2:8080",
+                        "http://user:secret@127.0.0.1:8080", "https://127.0.0.1:8080",
+                        "http://127.0.0.1:8080/api/generate", "http://127.0.0.1:8080?token=secret"]:
+                with self.subTest(url=url), self.assertRaises(pair.InvalidExperiment):
+                    pair.collect_ollama(url, "model", "prompt")
 
     def test_cli_machine_channel_and_redacted_failure(self):
         plan, packet, provider = fixture()

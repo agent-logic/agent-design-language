@@ -8,16 +8,24 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
+import ipaddress
 import itertools
 import json
 import math
 import re
 import statistics
+import socket
 import sys
+import time
+import threading
+from urllib.parse import urlsplit
 from pathlib import Path
 
 ROUTES = ("baseline", "raw_pair", "runtime")
 SCENARIOS = ("healthy", "node_loss")
+# Small-CPU accounting gate: reject oversized matrices before constructing keys.
+MAX_MATRIX_RECORDS = 100_000
 HEX = re.compile(r"[0-9a-f]{64}\Z")
 ID = re.compile(r"[a-zA-Z0-9_.-]{1,100}\Z")
 
@@ -87,6 +95,8 @@ def validate_plan(plan):
         for key in ("prompt", "expected_text"):
             require(isinstance(request[key], str) and 0 < len(request[key]) <= 65536, key)
     require(len(corpus) >= max(concurrency), "insufficient_concurrent_requests")
+    cardinality = len(ROUTES) * len(SCENARIOS) * len(concurrency) * plan["repetitions"] * len(corpus)
+    require(cardinality <= MAX_MATRIX_RECORDS, "matrix_resource_bound")
     return digest(plan)
 
 
@@ -197,6 +207,85 @@ def summarize(plan, packet, provider_bytes):
     return dict(schema="adl.pair.accounting.v1", plan_sha256=plan_digest,
                 measurement_sha256=digest(packet), attempts=len(records), summaries=summaries, comparisons=comparisons,
                 qualification="not_established_by_accounting", disposition="requires_independent_real_run_review")
+
+
+def collect_ollama(endpoint, model, prompt, timeout_seconds=30):
+    """Collect one actual local Ollama-compatible response, without route claims.
+
+    PAIR's application proxy is local-only. No proxies, redirects, DNS, model
+    acquisition, configuration changes or inferred Runtime/node identity.
+    """
+    positive(timeout_seconds, "collector_timeout")
+    require(timeout_seconds <= 120, "collector_timeout")
+    require(isinstance(model, str) and 0 < len(model) <= 256, "collector_model")
+    require(isinstance(prompt, str) and 0 < len(prompt) <= 65536, "collector_prompt")
+    url = urlsplit(endpoint)
+    require(url.scheme == "http" and not url.username and not url.password
+            and not url.query and not url.fragment and url.path in ("", "/"), "collector_endpoint")
+    try:
+        address = ipaddress.ip_address(url.hostname)
+        port = url.port
+    except (ValueError, TypeError):
+        raise InvalidExperiment("collector_endpoint") from None
+    require(address.is_loopback and port is not None and 0 < port < 65536, "collector_endpoint")
+    payload = json.dumps(dict(model=model, prompt=prompt, stream=False, keep_alive=-1)).encode()
+    started = time.monotonic()
+    deadline = started + timeout_seconds
+    connection = None
+    response = None
+    timer = None
+    try:
+        connection = socket.create_connection((str(address), port), timeout=timeout_seconds)
+        def interrupt():
+            try:
+                connection.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+        timer = threading.Timer(max(0, deadline - time.monotonic()), interrupt)
+        timer.daemon = True
+        timer.start()
+        host = f"[{address}]:{port}" if address.version == 6 else f"{address}:{port}"
+        headers = (f"POST /api/generate HTTP/1.1\r\nHost: {host}\r\n"
+                   f"Connection: close\r\nContent-Type: application/json\r\n"
+                   f"Accept: application/json\r\nContent-Length: {len(payload)}\r\n\r\n")
+        connection.sendall(headers.encode() + payload)
+        connection.settimeout(max(0.001, deadline - time.monotonic()))
+        response = http.client.HTTPResponse(connection)
+        response.begin()
+        require(response.status == 200, "collector_http_status")
+        # read1 avoids waiting for an entire requested-size buffer on slow peers.
+        chunks = []
+        size = 0
+        while True:
+            remaining = deadline - time.monotonic()
+            require(remaining > 0, "collector_timeout")
+            connection.settimeout(remaining)
+            chunk = response.read1(min(65536, 1024 * 1024 + 1 - size))
+            if not chunk:
+                break
+            size += len(chunk)
+            require(size <= 1024 * 1024, "collector_response_bound")
+            chunks.append(chunk)
+        decoded = json.loads(b"".join(chunks))
+        require(isinstance(decoded, dict) and decoded.get("done") is True
+                and isinstance(decoded.get("response"), str) and decoded["response"].strip()
+                and not decoded.get("error"), "collector_response")
+        elapsed = time.monotonic() - started
+        require(elapsed <= timeout_seconds, "collector_timeout")
+        return dict(schema="adl.pair.ollama_observation.v1", elapsed_seconds=elapsed,
+                    prompt_sha256=text_digest(prompt), output=decoded["response"],
+                    output_sha256=text_digest(decoded["response"]),
+                    response_sha256=hashlib.sha256(b"".join(chunks)).hexdigest(),
+                    route_identity="not_verified", serving_node="not_verified")
+    except (OSError, ValueError, http.client.HTTPException, AttributeError):
+        raise InvalidExperiment("collector_transport_or_response") from None
+    finally:
+        if timer is not None:
+            timer.cancel()
+        if response is not None:
+            response.close()
+        if connection is not None:
+            connection.close()
 
 
 def main(argv=None):
