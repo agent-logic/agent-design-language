@@ -1,4 +1,4 @@
-# <slug>
+# issue-876-provider-definitions
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -21,78 +21,78 @@ Version: v0.92.2
 Title: [v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions
 Branch: codex/876-provider-definitions
 Card Status: ready
-Status: <status>
-Generated: <timestamp>
+Status: IN_PROGRESS
+Generated: 2026-09-12T02:15:09.413701+00:00
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `fix_941_ci`
+- Model: `GPT-6`
+- Provider: `OpenAI`
+- Start Time: `not_collected`
+- End Time: `not_finished`
 
 ## Summary
 
-<summary>
+Editable definitions expand profiles and validate concrete adapters before atomic promotion. Recursive neutral nested credentials are rejected; bounded diagnostics preserve last-known-good state. Twenty-five focused tests, mutation proof, clippy and formatting pass. Production review passed at e0dc293dca; card P2 corrected here, pending metadata review and PR CI. No merge or closeout claim.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `provider`
+- Planned PVF lane: `provider`
+- Final PVF lane: `provider`
+- Lane change reason: `none; bounded local provider integration and contract proof`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `focused-production-integration`
+- Estimated elapsed seconds: `not_collected`
+- Actual elapsed seconds: `not_collected`
+- Actual active work seconds: `not_collected`
+- Estimated total tokens: `not_collected`
+- Actual total tokens: `not_collected`
+- Estimated validation seconds: `not_collected`
+- Actual validation seconds: `not_collected`
+- Actual PR wait seconds: `not_collected`
+- Actual CI wait seconds: `not_collected`
+- Budget source: `No explicit token budget requested`
+- Goal metrics data source: `not_collected`
+- Goal metrics source ref: `Issue-bound goal service; no issue metrics export collected`
+- Data-source confidence: `unknown`
+- Estimate error percent: `not_collected`
+- Completion state: `implementation_reviewed_card_review_pending`
+- Issue goal ref: `Active #876 passing reviewed PR goal`
+- Sprint goal ref: `Sprint 2 #928 execution goal`
+- Goal metrics rollup ref: `not_collected; parent sprint goal owns rollup`
+- Validation planning prompt: `.csdlc/issues/876/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `unknown`
+- Variance analysis completed: `false`
+- Variance category: `not_applicable`
+- Variance note: `No complete estimated/actual metric pair; no invented precision.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Local ignored output-card scaffold at `.csdlc/issues/876/cards/sor.md`
+- Tracked implementation artifacts: `adl/src/provider/reload.rs; adl/src/execute/tests.rs; adl/src/execute/tests/provider_definitions.rs; docs/providers/provider-profile-hot-loading.md`
+- Additional proof artifacts: `.csdlc/evidence/876/IMPLEMENTATION_PROOF.md`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Reused the existing reload owner, immutable snapshots and production runner.`
+- `Moved adapter admission after profile expansion and before promotion; preserved credential-reference and shadow-path behavior.`
+- `Executed production loopback/concurrency/LKG proof, negative matrix, compatibility tests and mutation check.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
+- Main-repo paths updated: `None; primary main remains clean and inspection-only.`
+- Worktree-only paths remaining: `All #876 implementation and card/evidence paths until PR merge.`
 - Integration state: `worktree_only`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Verification scope: `Bound issue worktree and controlled loopback endpoints.`
+- Integration method used: `Issue branch commit, followed by native reviewed PR publication; merge pending.`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git status --short --branch; git merge-base --is-ancestor for prerequisite merges`
+    `Confirmed bound branch, clean primary main and accepted dependency ancestry.`
+- Result: `Worktree implementation committed; PR not yet published.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path adl/Cargo.toml --lib <filter>; filters provider_definitions, provider_reload, execute_sequential_retains_starting_provider_snapshot, provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
+    `Proved real dispatch, invalid-input/LKG/redaction, reference admission, existing reload/in-flight/profile behavior and lint/format correctness.`
 - Results:
-  - `<validation_result>`
+  - `25 focused tests passed (3+7+1+14); clippy, formatting and whitespace passed. Current-head hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - "25 focused tests and mutation rejection; see .csdlc/evidence/876/IMPLEMENTATION_PROOF.md"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: false
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: false
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Three definition tests, seven reload tests, one in-flight and fourteen profile tests.`
+- Fixtures or scripts used: `Production ProviderReloadOwner and runner with loopback HTTP request/release channels; provider reload invalid-input matrix.`
+- Replay verification (same inputs -> same artifacts/order): `Artifact replay not claimed; immutable snapshot/digest retention and original-defect mutation were executed.`
+- Ordering guarantees (sorting / tie-break rules used): `Old request arrival barrier precedes reload; new dispatch follows observed snapshot publication. Concurrent readers compare both providers.`
+- Artifact stability notes: `Snapshot digest remains equal after invalid replacement; existing profile stability tests pass.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Synthetic credential marker absence asserted in initial-loader errors and watcher diagnostics; no real credential values loaded.`
+- Prompt / tool argument redaction verified: `Candidate input details excluded from rejection text; no broad provider-prompt logging change claimed.`
+- Absolute path leakage check: `SOR uses repository-relative references. Raw local compiler/backtrace logs retain host paths as diagnostic provenance, not provider output.`
+- Sandbox / policy invariants preserved: `Bound FastWork worktree only; no paid provider calls, process launches, deployment or main writes.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `not_applicable; no replay trace-bundle claim`
+- Run artifact root: `.csdlc/evidence/876`
+- Replay command used for verification: `not_applicable; mutation regression proof is not artifact replay`
+- Replay result: `not_claimed`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `.csdlc/evidence/876/IMPLEMENTATION_PROOF.md`
+- Required artifacts present: `Implementation, tests, docs, all six native cards and preserved proof logs present.`
+- Artifact schema/version checks: `Existing sidecar schema unchanged; native six-card values/render/structure validation passed.`
+- Hash/byte-stability checks: `Invalid reload retains generation and digest; existing profile projection stability tests pass.`
+- Missing/optional artifacts and rationale: `No hosted qualification, paid inference or replay trace required for this local contract.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `Used existing adapter constructors for admission; verified they retain references without completing inference or writing shadow evidence.`
+- `Preserved initial macOS fixture failure, clippy warning and shadow-filename rejection with corrections; preserved card P2.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Obtain metadata-only exact-head review, native publication and required CI.`
+- `Dynamic agent lifecycle remains separately owned by #855; no implementation in this issue.`

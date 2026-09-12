@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "issue-876-provider-definitions-review-prompt"
 issue: 876
 task_id: "issue-0876"
 version: "v0.92.2"
 title: "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions"
 branch: "codex/876-provider-definitions"
-generated_at: "<timestamp>"
+generated_at: "2026-09-12T02:15:09.413701+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/876"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/876/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/876/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/876/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/876/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/876/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/876/cards/stp.md"
+  - ".csdlc/issues/876/cards/sip.md"
+  - ".csdlc/issues/876/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/876/cards/stp.md"
+  - ".csdlc/issues/876/cards/sip.md"
+  - ".csdlc/issues/876/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "findings_present"
+  recommended_outcome: "needs_followup"
+notes: "review_836 reviewed e0dc293dca: no actionable production findings. P2 rendered SRP/SOR placeholders prevented publication. Native field correction completed; metadata-only exact-head confirmation pending. See .csdlc/evidence/876/REVIEW.md."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/876/cards/stp.md
+- .csdlc/issues/876/cards/sip.md
+- .csdlc/issues/876/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- P2: accepted preparation values did not populate required rendered SRP/SOR fields; publication card truth was incomplete.
 
 ### Dispositions
 
-- <review_dispositions>
+- Corrected all rendered SRP/SOR placeholders through native edits and validation; production source unchanged. Awaiting independent metadata confirmation.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- needs_followup
 
 ## Notes
 
-<review_notes>
+review_836 reviewed e0dc293dca: no actionable production findings. P2 rendered SRP/SOR placeholders prevented publication. Native field correction completed; metadata-only exact-head confirmation pending. See .csdlc/evidence/876/REVIEW.md.
