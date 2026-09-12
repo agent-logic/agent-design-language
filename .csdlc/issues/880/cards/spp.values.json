@@ -37,7 +37,7 @@
   "step_5_status": "pending",
   "estimate_confidence": "unestimated",
   "estimate_confidence_inline": "unestimated",
-  "notes_risks_inline": "Prepared only. Child implementation and its review have not run.",
+  "notes_risks_inline": "Implementation and local proof complete; independent source review passed. Required hosted proof and publication remain pending.",
   "sprint_goal_ref": "Current v0.92.2 Sprint2 execution-readiness preparation goal",
   "sprint_goal_ref_inline": "Current v0.92.2 Sprint2 execution-readiness preparation goal",
   "stp_card": ".csdlc/issues/880/cards/stp.md",
@@ -79,5 +79,6 @@
   "activation_state_inline": "not_activated",
   "estimate_data_source": "No child execution baseline measured",
   "estimate_data_source_inline": "No child execution baseline measured",
-  "plan_summary_inline": "Implement CI acquisition by reusing local immutable Git capture and AdmissionInput readback. Keep allowlisted run metadata in a separate packet-bound receipt; explicit source and candidate revisions remain distinct. Add independent ingest/ci CLI dispatch. Required codefriend-ci-acquisition hosted job installs the candidate, consumes a bounded fixture, uploads proof with error-on-missing and validates artifact digest. Wire selection and success/skip into adl-ci. Focused negative/parity tests precede independent exact-head review and native publication; hosted proof remains pending until actual run."
+  "plan_summary_inline": "Implement CI acquisition by reusing local immutable Git capture and AdmissionInput readback. Keep allowlisted run metadata in a separate packet-bound receipt; explicit source and candidate revisions remain distinct. Add independent ingest/ci CLI dispatch. Required codefriend-ci-acquisition hosted job installs the candidate, consumes a bounded fixture, uploads proof with error-on-missing and validates artifact digest. Wire selection and success/skip into adl-ci. Focused negative/parity tests precede independent exact-head review and native publication; hosted proof remains pending until actual run.",
+  "notes_risks": "Implementation and local proof complete; independent source review passed. Required hosted proof and publication remain pending."
 }

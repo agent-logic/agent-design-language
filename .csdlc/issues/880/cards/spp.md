@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Prepared only. Child implementation and its review have not run."
+notes: "Implementation and local proof complete; independent source review passed. Required hosted proof and publication remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Prepared only. Child implementation and its review have not run.
+Implementation and local proof complete; independent source review passed. Required hosted proof and publication remain pending.

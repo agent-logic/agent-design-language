@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Production CI acquisition, separate bounded receipt, independent CLI dispatch and required installed hosted smoke are implemented. Local ten-case CLI/installed smoke, receipt tamper/false-delivery guards, strict clippy and CI contract checks pass. Independent exact-head review and required hosted proof remain pending.
+Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Production CI acquisition, separate bounded receipt, independent CLI dispatch an
 - Goal metrics source ref: `Issue goal service`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `review_pending`
+- Completion state: `publication_pending`
 - Issue goal ref: `Active issue880 passing reviewed PR goal`
 - Sprint goal ref: `Sprint2 #928`
 - Goal metrics rollup ref: `Parent sprint goal; not exported`
@@ -92,7 +92,7 @@ Production CI acquisition, separate bounded receipt, independent CLI dispatch an
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD`
     `Confirmed bound issue880 on accepted merged predecessor baseline`
-- Result: `No issue880 PR yet`
+- Result: `Implementation independently approved; PR publication and hosted CI pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: false
     schema_changes:
       present: true
-      approved: false
+      approved: true
 ```
 
 ## Determinism Evidence
@@ -174,5 +174,5 @@ verification_summary:
 - `Upload is separate transport proof; acquisition receipts explicitly not_established`
 
 ## Follow-ups / Deferred work
-- `Independent exact-head review, native publication and required current-head hosted smoke/CI.`
+- `Native publication and required installed hosted acquisition/upload smoke plus current-head CI. Merge remains separate.`
 - `No merge or closeout in this task`
