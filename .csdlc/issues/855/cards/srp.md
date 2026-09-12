@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_present"
   recommended_outcome: "pass"
-notes: "Old CI34679673500 failed runtime coverage and dependent aggregates; source tests and workspace coverage passed. Root approved corrected source delta after focused LKG proof session3497. Fresh installed proof and new-head CI remain pending. Live02 consumed3 OpenAI requests; paid retry remains on hold."
+notes: "Source and merge review PASS through114d143fdfc7668848e5e45065fb7c9fdb7a558b. Refreshed installed10 passed5/5 and hosted-fixture04 passed3/3 with zero paidcalls, exact binary/report hashes retained. Current CI34681209235 remains pending. Live02 remains failed after3 OpenAIrequests; further paid execution awaits reconciled authorization. Proof-only metadata update requires final acknowledgment."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- review_804 independently reviewed continuation remediation; root reviewed TLS repair and shared candidate-limit validation plus actual LKG regression. Focused continuation1/1, prompt2/2, TLS22/22 and reload1/1 pass. Review supports corrected draft update only; no hosted recovery or merge readiness claimed.
+- review_804 reviewed continuation remediation; root reviewed TLS, strict candidate/LKG validation and exact114d merge preserving both CI jobs. Focused regressions and refreshed installed fixture proof pass. No known actionable source findings remain; full hosted acceptance and current CI are incomplete. Draft publication only.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Old CI34679673500 failed runtime coverage and dependent aggregates; source tests and workspace coverage passed. Root approved corrected source delta after focused LKG proof session3497. Fresh installed proof and new-head CI remain pending. Live02 consumed3 OpenAI requests; paid retry remains on hold.
+Source and merge review PASS through114d143fdfc7668848e5e45065fb7c9fdb7a558b. Refreshed installed10 passed5/5 and hosted-fixture04 passed3/3 with zero paidcalls, exact binary/report hashes retained. Current CI34681209235 remains pending. Live02 remains failed after3 OpenAIrequests; further paid execution awaits reconciled authorization. Proof-only metadata update requires final acknowledgment.

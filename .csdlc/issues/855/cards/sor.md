@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented canonical provider-neutral lifecycle with source and installed fixture proof. Draft PR964 is published. Live02 operator and signed A2A/peer reply succeeded but continuation failed; underlying cause unknown. Corrected safe-category reporting, continuation phase, Runtime TLS selection and strict candidate limit validation pass focused proofs. New-head CI and refreshed installed proof remain pending, and no paid retry or full acceptance is claimed.
+Implemented provider-neutral dynamic lifecycle, corrected all known source findings and merged main with both CI jobs preserved. Refreshed installed10 five-provider5/5 and hosted-fixture04 three-provider3/3 pass at114d143 with zero paidcalls and verified cleanup. Draft PR964 is published and mergeable; current CI34681209235 is running. Actual live02 remains failed after3 OpenAIrequests, underlying continuation cause unknown; no hosted recovery or full acceptance claimed.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -90,7 +90,7 @@ Implemented canonical provider-neutral lifecycle with source and installed fixtu
 - Verification scope: `bound_worktree`
 - Integration method used: `not_collected`
 - Verification performed:
-  - `Native review, authenticated github-pr draft creation and publish reconciliation passed for PR964 at189aff00; base main and draft status verified.`
+  - `Native review/github-pr/publish authenticated reconciliation passed for PR964 at114d143, base main, draft and mergeable verified. Proof metadata update pending exact-head review.`
     `not_collected`
 - Result: `not_collected`
 
@@ -110,7 +110,7 @@ Rules:
   - `See adl-provider-core/PROOF_INVENTORY.md for precise cargo commands and PVF classification; .adl/issue855 contains append-only per-attempt logs.`
     `Full leaf94/94 plus one Runtime mock constructor regression; selected kernel control85/85, ADL compatibility18/18, CLI 7/7, API11/11; affectedClippy and CIpath/runtimecontracts pass; installedfixture5/5 and hostedtopologyfixture3/3 at 61095.`
 - Results:
-  - `Focused remediation passes: continuation dispatch1/1, prompt2/2, TLS22/22, actual reload/LKG1/1 covering eight invalid replacements and valid recovery. Old CI failed runtime coverage only plus aggregates; new CI pending. Hosted live02 failed after3 OpenAIrequests, no other hosted vendors called.`
+  - `Refreshed local fixture proof passes at114d143. Current CI34681209235 pending; old runtimecoverage failure repaired and locally tested. Actual hosted live02 remains failed after3 OpenAIrequests with2success1failure and no Anthropic/Vertex calls.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Installed09 five-provider5/5 and hosted-fixture03 three-provider3/3 passed at61095; newer continuation regression1/1 and prompt2/2 passed at f162 source. Refreshed installed proof awaits current candidate validation fix; no hosted recovery claimed.`
+- Determinism tests executed: `Installed10 five-provider5/5 and hosted-fixture04 three-provider3/3 passed at114d143 using rebuilt binaries. Hosted fixtures used five requests per vendor under256 outputtokens and32000 inputbytes perrequest; all calls local. Focused continuation1/1, prompt2/2, TLS22/22 and LKG1/1 also pass.`
 - Fixtures or scripts used: `adl/tools/issue855_provider_lifecycle.py; provider-core and kernel fixtures`
 - Replay verification (same inputs -> same artifacts/order): `Not claimed: randomized ephemeral TLS and runtime identities produce different artifact bytes.`
 - Ordering guarantees (sorting / tie-break rules used): `Canonical signed sender/recipient names and actual A2A work identity; generation-guarded definition/health publication.`
@@ -174,5 +174,5 @@ verification_summary:
 - `Provider capabilities are conservative; explicit operator retries recover dynamic failed inference; healthy metadata checks never issue completion calls.`
 
 ## Follow-ups / Deferred work
-- `Publish reviewed corrected draft and run current CI/refreshed installed fixtures. Obtain reconciled bounded authorization before further hosted calls.`
+- `Complete current CI; reconcile bounded authorization before additional actual hosted execution. Preserve failed live02 and do not claim fixture proof as vendor acceptance.`
 - `Finalize independent review, native review/publication and required CI; root coordinates any merge.`
