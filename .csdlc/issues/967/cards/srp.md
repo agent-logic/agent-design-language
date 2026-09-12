@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "Independent read-only review covered the full Runtime source, regression, OpenAPI schema, and lifecycle harness. Focused Runtime proof passed 1/1 and OpenAPI contracts passed 11/11. Exact-source zero-paid lifecycle reports pass 5/5 and 3/3. Paid hosted acceptance and CI remain pending and are outside this review result."
+notes: "Independent source review covered Runtime behavior, regression, OpenAPI schema, and harness. Focused proof passed 1/1 and 11/11; zero-paid lifecycle reports passed 5/5 and 3/3. Required CI run 34685454688 is green. Hosted acceptance report SHA256 77eed554c7d06a3f5d130d16079d5b7a2f494ad67a21487a6b40ad2399d70152 passed 3/3 under configured limits. Runtime counters prove request counts, not vendor-billed token totals or invoice cost. A current exact-head review/publication refresh follows this metadata commit; merge remains operator-controlled."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- No actionable findings at source revision 4d28de627cffc7c529de5082f0b883f9ab8f083c. The earlier replay-evidence overstatement was resolved by adding omitted-field wire-shape, identical typed-action replay, and changed-action conflict assertions.
+- No actionable source findings at revision 4d28de627cffc7c529de5082f0b883f9ab8f083c. The earlier replay-evidence overstatement was fixed. Independent read-only review of the hosted report bound to clean source head 6d7bc805e5714050c85c80d5e9351e40cd10d635 and its separate tracked summary found no factual mismatch, overclaim, or credential/response leakage.
 
 ### Dispositions
 
-- Initial OpenAPI boundary finding and replay-evidence finding were fixed. Independent exact-source re-review at 4d28de627cffc7c529de5082f0b883f9ab8f083c found no remaining actionable findings.
+- Initial OpenAPI boundary and replay-evidence findings were fixed. The separately authorized hosted acceptance passed all three provider rows; independent review verified 16 paid requests, five local Ollama requests, canonical beacon.axioma delivery, stable Runtime identity, binary hashes, configured caps, and cleanup. The zero-paid packet and failed #855 evidence remain unchanged.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent read-only review covered the full Runtime source, regression, OpenAPI schema, and lifecycle harness. Focused Runtime proof passed 1/1 and OpenAPI contracts passed 11/11. Exact-source zero-paid lifecycle reports pass 5/5 and 3/3. Paid hosted acceptance and CI remain pending and are outside this review result.
+Independent source review covered Runtime behavior, regression, OpenAPI schema, and harness. Focused proof passed 1/1 and 11/11; zero-paid lifecycle reports passed 5/5 and 3/3. Required CI run 34685454688 is green. Hosted acceptance report SHA256 77eed554c7d06a3f5d130d16079d5b7a2f494ad67a21487a6b40ad2399d70152 passed 3/3 under configured limits. Runtime counters prove request counts, not vendor-billed token totals or invoice cost. A current exact-head review/publication refresh follows this metadata commit; merge remains operator-controlled.

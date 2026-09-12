@@ -21,7 +21,7 @@ Version: v0.92.2
 Title: [v0.92.2][RT-PROVIDER][corrective] Make hosted A2A initiation deterministic across provider output formats
 Branch: codex/967-deterministic-hosted-a2a
 Card Status: ready
-Status: in_progress
+Status: ready
 Generated: 2026-09-12
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending.
+#967 implementation is qualified: focused Runtime 1/1, OpenAPI 11/11, zero-paid matrices 5/5 and 3/3, required CI run 34685454688 green, and authorized hosted acceptance 3/3 with 16 paid requests under configured caps. PR #968 remains open pending refreshed exact-head review/publication and operator-controlled merge.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime pro
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `in_progress`
 - Estimate error percent: `unknown`
-- Completion state: `in_progress`
+- Completion state: `implemented_pending_merge`
 - Issue goal ref: `issue-967`
 - Sprint goal ref: `issue-928`
 - Goal metrics rollup ref: `unknown`
@@ -75,24 +75,24 @@ Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime pro
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/967/cards/sor.md`
-- Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; adl/tools/issue855_provider_lifecycle.py; docs/api/runtime-v3/v1/observatory.openapi.json; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; issue-local cards and proof metadata.`
-- Additional proof artifacts: `docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; raw reports .adl/issue967/installed-run-01/report.json SHA256 b2a0c430578a1936f5cd03441e95b7683ba88acf3dfbd1e85544a7ae9c654bc0 and .adl/issue967/hosted-fixture-01/report.json SHA256 75b237976ba5891f1faf628fd4a5c53a10e007ae0efe41f5b577742fe2b10740. Historical #855 hosted-live-03 report remains unchanged.`
+- Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; adl/tools/issue855_provider_lifecycle.py; docs/api/runtime-v3/v1/observatory.openapi.json; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json; issue-local cards and proof metadata.`
+- Additional proof artifacts: `docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json remains unchanged; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json records the separate hosted pass. Raw hosted report .adl/issue967/hosted-live-02/report.json SHA256 77eed554c7d06a3f5d130d16079d5b7a2f494ad67a21487a6b40ad2399d70152. Historical #855 hosted-live-03 remains unchanged.`
 
 ## Actions taken
 - `Prepared bounded requested_agent_action repair with pre-dispatch validation and replay identity.`
 - `Reused signed A2A delivery; coalesced identical actions and refused conflicts before peer dispatch.`
-- `Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending.`
+- `Qualified the exact source with focused Runtime 1/1, OpenAPI 11/11, zero-paid 5/5 and 3/3 matrices, green required CI run 34685454688, and one authorized hosted acceptance passing OpenAI, Anthropic, and Vertex AI with 16 paid requests under configured caps.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; primary main inspection-only`
-- Worktree-only paths remaining: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; adl/tools/issue855_provider_lifecycle.py; docs/api/runtime-v3/v1/observatory.openapi.json; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; issue-local cards and proof metadata.`
-- Integration state: `worktree_only`
+- Worktree-only paths remaining: `PR #968 branch paths remain unmerged; no issue files exist on primary main.`
+- Integration state: `pr_open`
 - Verification scope: `#967 typed action, replay, signed dispatch, OpenAPI and bounded lifecycle proof only.`
-- Integration method used: `none; corrective PR pending`
+- Integration method used: `PR #968 against main; merge remains operator-controlled.`
 - Verification performed:
-  - `Pending exact-head native review/publication and current GitHub observation.`
-    `No corrective integration acceptance yet.`
-- Result: `No #967 integration performed; #855/PR964 baseline already merged.`
+  - `gh pr checks 968 --repo agent-logic/agent-design-language; native exact-head review and publish after this evidence commit.`
+    `Required CI run 34685454688 passed at 6d7bc805e5714050c85c80d5e9351e40cd10d635; merge and terminal closeout are not claimed.`
+- Result: `PR #968 is open with required CI green at pre-evidence head; hosted evidence update and exact-head publication refresh are pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --lib sixth_registered_provider_uses_real_canonical_a2a_dispatch; CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract; bounded zero-paid lifecycle harness using typed requested_agent_action. Exact-head installed fixture command and paid command must be recorded with their source/binary identities before execution.`
-    `Proves bounded typed request dispatch, rejection, compatibility and schema behavior locally; not hosted provider success.`
+  - `Focused Runtime dispatch test 1/1; OpenAPI contract test 11/11; zero-paid five-provider and hosted-topology harnesses; gh pr checks 968 --repo agent-logic/agent-design-language; one authorized issue855_provider_lifecycle.py --hosted-approved run at source 6d7bc805e5714050c85c80d5e9351e40cd10d635, retained at .adl/issue967/hosted-live-02/report.json.`
+    `Proves bounded typed request validation and replay behavior locally and successful canonical A2A initiation through OpenAI, Anthropic, and Vertex AI in one authorized hosted run.`
 - Results:
-  - `Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending.`
+  - `Pass: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid matrices 5/5 and 3/3; required CI run 34685454688 green; authorized hosted acceptance 3/3 with 16 paid requests (OpenAI 6, Anthropic 5, Vertex 5) and five local Ollama requests.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,21 +123,21 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: in_progress
+    status: pass_pending_post_metadata_exact_head_refresh
     checks_run:
-      - "Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending."
+      - "Hosted report SHA256 77eed554c7d06a3f5d130d16079d5b7a2f494ad67a21487a6b40ad2399d70152: 3/3 provider rows pass; 16 paid requests and five local Ollama requests; canonical beacon.axioma replies present; stable Runtime identity; owned process cleanup recorded."
   determinism:
-    status: partial
+    status: pass_for_declared_scope
     replay_verified: true
     ordering_guarantees_verified: true
   security_privacy:
-    status: in_progress
+    status: pass_for_tracked_packet
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: in_progress
-    required_artifacts_present: false
+    status: complete_for_open_pr
+    required_artifacts_present: true
     schema_changes:
       present: true
       approved: true
@@ -151,28 +151,28 @@ verification_summary:
 - Artifact stability notes: `Preserve prior failed reports; generate distinct corrective proof, never overwrite #855 historical evidence.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `Final corrective tracked artifact scan pending.`
-- Prompt / tool argument redaction verified: `No new raw provider response retention; final exact-head redaction verification pending.`
-- Absolute path leakage check: `Use repository-relative artifact references; native binding retains required checkout identity; final scan pending.`
+- Secret leakage scan performed: `Passed: scoped changed and newly tracked JSON/Markdown were parsed and scanned for common provider key, OAuth token, and private-key patterns; independent review also found no credential or response leakage.`
+- Prompt / tool argument redaction verified: `Passed: the tracked hosted packet contains no credentials, provider response bodies, or command arguments carrying secret values.`
+- Absolute path leakage check: `Passed for the scoped tracked hosted packet and changed issue artifacts; repository-relative evidence paths are used, while canonical worktree identity remains only in required lifecycle fields.`
 - Sandbox / policy invariants preserved: `Bound FastWork checkout only; no primary issue writes or credential/cloud changes.`
 
 ## Replay Artifacts
 - Trace bundle path(s): `Corrective evidence under .adl/issue967; inherited failed/proof attempts retained under .adl/issue855 in original bound worktree.`
 - Run artifact root: `.adl/issue967`
-- Replay command used for verification: `CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --lib sixth_registered_provider_uses_real_canonical_a2a_dispatch; CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract; bounded zero-paid lifecycle harness using typed requested_agent_action. Exact-head installed fixture command and paid command must be recorded with their source/binary identities before execution.`
+- Replay command used for verification: `Re-run only zero-paid proof without new authorization: focused Runtime dispatch test, OpenAPI contract test, and local fixture harnesses. The paid hosted acceptance is retained evidence and is not a replay instruction.`
 - Replay result: `Pass: identical typed action returns cached terminal result with no calls; changed typed action under the same turn identity returns conversation_conflict with no calls; omitted optional field preserves legacy serialized shape.`
 
 ## Artifact Verification
-- Primary proof surface: `docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; docs/api/runtime-v3/v1/observatory.openapi.json.`
-- Required artifacts present: `false; paid hosted acceptance and CI remain pending`
-- Artifact schema/version checks: `OpenAPI contracts pass 11/11 at source revision 4d28de627cffc7c529de5082f0b883f9ab8f083c; native six-card validation follows this edit.`
-- Hash/byte-stability checks: `Proof summary records exact source and binary digests. Raw report SHA256 values: b2a0c430578a1936f5cd03441e95b7683ba88acf3dfbd1e85544a7ae9c654bc0 and 75b237976ba5891f1faf628fd4a5c53a10e007ae0efe41f5b577742fe2b10740.`
-- Missing/optional artifacts and rationale: `Required exact-head, CI and hosted evidence is not waived or classified as optional.`
+- Primary proof surface: `docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json; adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; docs/api/runtime-v3/v1/observatory.openapi.json.`
+- Required artifacts present: `true for implementation, local validation, hosted acceptance, independent review, and CI; merge/terminal records are lifecycle-pending`
+- Artifact schema/version checks: `OpenAPI contracts pass 11/11; native six-card validation follows this typed edit. Required CI run 34685454688 is green.`
+- Hash/byte-stability checks: `Raw hosted report SHA256 77eed554c7d06a3f5d130d16079d5b7a2f494ad67a21487a6b40ad2399d70152 and installed binary digests are retained in the separate hosted packet. The prior zero-paid packet and #855 failures were not overwritten.`
+- Missing/optional artifacts and rationale: `No required execution or hosted proof is waived. Merge and terminal closeout remain later lifecycle states.`
 
 ## Decisions / Deviations
 - `Explicit authenticated typed intent replaces reliance on provider formatting; arbitrary prose parsing is excluded.`
 - `Correction belongs to #967 after #855/PR964 merged; preserve historical chronology.`
 
 ## Follow-ups / Deferred work
-- `Publish #967 after native review and obtain current CI. Obtain fresh authorization before one bounded paid hosted acceptance run.`
-- `Record the separately authorized hosted result without overwriting failed #855 historical evidence; merge remains operator-controlled.`
+- `Commit the hosted proof and typed card reconciliation, then refresh exact-head independent review, native review/publication, and CI for PR #968.`
+- `Merge remains operator-controlled. After merge, use native finish and clean separately, then reconcile Sprint 2 umbrella #928.`

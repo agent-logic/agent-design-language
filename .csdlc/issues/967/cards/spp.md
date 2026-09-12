@@ -10,7 +10,7 @@ title: "[v0.92.2][RT-PROVIDER][corrective] Make hosted A2A initiation determinis
 branch: "codex/967-deterministic-hosted-a2a"
 generated_at: "2026-09-12"
 card_status: "ready"
-status: "in_progress"
+status: "completed"
 activation_state: "active"
 plan_revision: 1
 initial_pvf_lane: "provider"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Carry the bounded typed-action repair onto the merged baseline, preserve action and replay invariants, align schema, then qualify exact-head local and separately authorized hosted proof before publication acceptance."
+plan_summary: "Implemented and qualified the bounded typed-action repair on the merged baseline: local regression, zero-paid matrices, full CI, and one separately authorized hosted acceptance now pass; PR #968 remains operator-controlled for merge."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -80,9 +80,9 @@ codex_plan:
   - step: "Implement the bounded deliverables only."
     status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "in_progress"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "completed"
 affected_areas:
   - "issue-967-deterministic-hosted-a2a"
 invariants_to_preserve:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "Conflicting actions must fail closed; absent-field fingerprints must remain stable; paid inference needs fresh authorization; inherited working-tree proof must not be labeled exact-head."
 test_strategy:
-  - "CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --lib sixth_registered_provider_uses_real_canonical_a2a_dispatch; CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract; bounded zero-paid lifecycle harness using typed requested_agent_action. Exact-head installed fixture command and paid command must be recorded with their source/binary identities before execution. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed."
+  - "Completed: focused Runtime dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider 5/5 and hosted-topology 3/3 matrices, required CI run 34685454688 green, and one authorized no-retry hosted acceptance 3/3 at source 6d7bc805e5714050c85c80d5e9351e40cd10d635 with 16 paid requests under the six-call/provider, 32000-byte input, 256-output-token, $1 and 30-minute configured bounds. Refresh exact-head review/publication after committing this evidence; merge remains operator-controlled."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Preserve failed hosted-live-03 report SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439: OpenAI five successful calls, Anthropic two successful calls, Vertex zero. Raw provider output was not retained; exact response shape is unknown. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed."
+notes: "Preserved failed #855 hosted-live-03 report SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439 and the distinct zero-paid #967 packet. The authorized #967 hosted run passed 3/3 with 16 paid provider requests (OpenAI 6, Anthropic 5, Vertex 5) under the configured caps. Runtime counters do not establish vendor-billed token totals or final invoice cost. PR #968 still requires current exact-head review/publication after this evidence update and operator-controlled merge."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][RT-PROVIDER][corrective] Make hosted A2A initiation deterministic across provider output formats`.
 
-Carry the bounded typed-action repair onto the merged baseline, preserve action and replay invariants, align schema, then qualify exact-head local and separately authorized hosted proof before publication acceptance.
+Implemented and qualified the bounded typed-action repair on the merged baseline: local regression, zero-paid matrices, full CI, and one separately authorized hosted acceptance now pass; PR #968 remains operator-controlled for merge.
 
 ## PVF Lane Plan
 
@@ -145,8 +145,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
-4. [in_progress] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+4. [completed] Run focused validation and proof gates.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --lib sixth_registered_provider_uses_real_canonical_a2a_dispatch; CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract; bounded zero-paid lifecycle harness using typed requested_agent_action. Exact-head installed fixture command and paid command must be recorded with their source/binary identities before execution. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed.
+- Completed: focused Runtime dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider 5/5 and hosted-topology 3/3 matrices, required CI run 34685454688 green, and one authorized no-retry hosted acceptance 3/3 at source 6d7bc805e5714050c85c80d5e9351e40cd10d635 with 16 paid requests under the six-call/provider, 32000-byte input, 256-output-token, $1 and 30-minute configured bounds. Refresh exact-head review/publication after committing this evidence; merge remains operator-controlled.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Preserve failed hosted-live-03 report SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439: OpenAI five successful calls, Anthropic two successful calls, Vertex zero. Raw provider output was not retained; exact response shape is unknown. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed.
+Preserved failed #855 hosted-live-03 report SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439 and the distinct zero-paid #967 packet. The authorized #967 hosted run passed 3/3 with 16 paid provider requests (OpenAI 6, Anthropic 5, Vertex 5) under the configured caps. Runtime counters do not establish vendor-billed token totals or final invoice cost. PR #968 still requires current exact-head review/publication after this evidence update and operator-controlled merge.
