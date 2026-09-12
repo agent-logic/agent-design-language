@@ -2,6 +2,7 @@
 //! Constructors validate data, not operational authority. Native authority/topology
 //! bridges must admit production callers before invoking these storage primitives.
 //! Effect reservation/attachment and executable recovery belong to later slices.
+pub mod journal_recovery;
 pub mod protocol;
 use super::{codec, DurableTransactionStore};
 use crate::lifecycle::{
@@ -1019,7 +1020,7 @@ fn create_only(path: &Path, bytes: &[u8], root: &Path) -> Result<(), Error> {
     file.sync_all().map_err(io)?;
     sync_chain(path.parent().ok_or(Error::UnsafePath)?, root)
 }
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Pointer {
     generation: u64,
@@ -1068,8 +1069,17 @@ fn activate(directory: &Path, common: &Path, next: &Snapshot) -> Result<(), Erro
     sync_chain(directory, common)
 }
 fn read_current(directory: &Path, key: &IssueKey) -> Result<Snapshot, Error> {
+    read_current_with_pending(directory, key, false)
+}
+fn read_current_with_pending(
+    directory: &Path,
+    key: &IssueKey,
+    allow_unactivated: bool,
+) -> Result<Snapshot, Error> {
     reject_symlinks(directory)?;
-    if directory.join("current.next").exists() || !directory.join("current.json").exists() {
+    if (!allow_unactivated && directory.join("current.next").exists())
+        || !directory.join("current.json").exists()
+    {
         return Err(Error::RecoveryRequired);
     }
     let current = directory.join("current.json");
@@ -1118,7 +1128,7 @@ fn read_current(directory: &Path, key: &IssueKey) -> Result<Snapshot, Error> {
             .strip_suffix(".json")
             .and_then(|v| v.parse::<u64>().ok())
             .ok_or(Error::RecoveryRequired)?;
-        if generation == 0 || generation > newest.version().generation {
+        if generation == 0 || (!allow_unactivated && generation > newest.version().generation) {
             return Err(Error::RecoveryRequired);
         }
     }

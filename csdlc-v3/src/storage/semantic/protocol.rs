@@ -93,6 +93,9 @@ impl CleanupIdentity {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
 enum OriginData {
+    Prepared {
+        source: BindSource,
+    },
     Bound {
         binding: Binding,
     },
@@ -109,6 +112,9 @@ enum OriginData {
 #[serde(transparent)]
 pub struct EffectOrigin(OriginData);
 impl EffectOrigin {
+    pub(crate) fn prepared(source: BindSource) -> Self {
+        Self(OriginData::Prepared { source })
+    }
     pub(crate) fn bound(binding: Binding) -> Self {
         Self(OriginData::Bound { binding })
     }
@@ -120,12 +126,26 @@ impl EffectOrigin {
     }
     fn source_head(&self) -> &str {
         match &self.0 {
-            OriginData::Bind { source, .. } => &source.head,
+            OriginData::Bind { source, .. } | OriginData::Prepared { source } => &source.head,
             OriginData::Bound { binding } | OriginData::Cleanup { binding, .. } => &binding.head,
         }
     }
     fn matches(&self, root: &SemanticRoot, snapshot: &Snapshot, command: SemanticCommand) -> bool {
         match &self.0 {
+            OriginData::Prepared { source } => {
+                snapshot.inputs().binding().is_none()
+                    && snapshot.phase() == LifecycleState::Ready
+                    && source.repository == snapshot.key().repository
+                    && source.common == root.common
+                    && matches!(
+                        command,
+                        SemanticCommand::FinishWithoutPr
+                            | SemanticCommand::RecordIssueMutation
+                            | SemanticCommand::RecordInstall
+                            | SemanticCommand::RecordCutover
+                            | SemanticCommand::RecordRollback
+                    )
+            }
             OriginData::Bind { source, target } => {
                 command == SemanticCommand::Bind
                     && snapshot.inputs().binding().is_none()
@@ -182,6 +202,12 @@ impl EffectRequest {
     }
     pub fn native_identity(&self) -> &NativeIdentity {
         &self.native
+    }
+    pub fn origin(&self) -> &EffectOrigin {
+        &self.origin
+    }
+    pub fn canonical_content(&self) -> Result<Vec<u8>, Error> {
+        codec::bytes(&self.content).map_err(encoding)
     }
 }
 
@@ -283,8 +309,7 @@ impl VerifiedOutcome {
         facts: policy::Facts,
         native: NativeIdentity,
     ) -> Result<Self, Error> {
-        if evidence.is_empty() || (kind == OutcomeKind::Success && truth != EffectTruth::Performed)
-        {
+        if evidence.is_empty() || (kind == OutcomeKind::Success && truth == EffectTruth::Unknown) {
             return Err(Error::EvidenceMismatch);
         }
         Ok(Self {
@@ -409,6 +434,45 @@ pub enum Attachment {
     AlreadyCompleted(Completion),
     RecoveryRequired(SemanticVersion),
 }
+/// Explicit native-owner approval of the exact changed-admission recovery. No
+/// phase is supplied: normal policy still decides and stale evidence is invalidated.
+#[derive(Debug, Clone)]
+pub struct VerifiedRecoveryResolution {
+    preview: Digest,
+}
+impl VerifiedRecoveryResolution {
+    pub(crate) fn adopt_observed_after_native_reconciliation(preview: &RecoveryPreview) -> Self {
+        Self {
+            preview: preview.digest.clone(),
+        }
+    }
+}
+#[derive(Debug, Clone)]
+pub struct EffectInspection {
+    request: EffectRequest,
+    ticket: Option<OperationTicket>,
+    evidence: Option<Vec<u8>>,
+    outcome: Option<OutcomeKind>,
+    truth: Option<EffectTruth>,
+}
+impl EffectInspection {
+    pub fn request(&self) -> &EffectRequest {
+        &self.request
+    }
+    pub fn ticket(&self) -> Option<&OperationTicket> {
+        self.ticket.as_ref()
+    }
+    pub fn evidence(&self) -> Option<&[u8]> {
+        self.evidence.as_deref()
+    }
+    pub fn outcome_kind(&self) -> Option<OutcomeKind> {
+        self.outcome
+    }
+    pub fn effect_truth(&self) -> Option<EffectTruth> {
+        self.truth
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RecoveryPreview {
     key: IssueKey,
@@ -643,7 +707,7 @@ impl DurableTransactionStore {
         let directory = root.directory(&ticket.key)?;
         let _lock = acquire(&directory, true)?;
         let current = read_current(&directory, &ticket.key)?;
-        attach_locked(root, &directory, current, ticket, outcome, observed)
+        attach_locked(root, &directory, current, ticket, outcome, observed, false)
     }
     pub fn describe_effect_recovery(
         root: &SemanticRoot,
@@ -666,15 +730,72 @@ impl DurableTransactionStore {
         outcome: VerifiedOutcome,
         observed: AttachmentAdmission,
     ) -> Result<Attachment, Error> {
+        Self::execute_effect_recovery_with_resolution(root, preview, outcome, observed, None)
+    }
+    pub fn execute_effect_recovery_with_resolution(
+        root: &SemanticRoot,
+        preview: RecoveryPreview,
+        outcome: VerifiedOutcome,
+        observed: AttachmentAdmission,
+        resolution: Option<VerifiedRecoveryResolution>,
+    ) -> Result<Attachment, Error> {
         let directory = root.directory(&preview.key)?;
         let _lock = acquire(&directory, true)?;
         let current = read_current(&directory, &preview.key)?;
+        if current
+            .completed()
+            .iter()
+            .any(|d| d.id == preview.operation)
+        {
+            let historical = load_commit(&directory, &preview.version)?;
+            let pending = historical.pending().ok_or(Error::ConflictingReplay)?;
+            if recovery_preview(&historical, pending)? != preview {
+                return Err(Error::ConflictingReplay);
+            }
+            let ticket = ticket(&directory, &historical, pending)?;
+            return attach_locked(root, &directory, current, ticket, outcome, observed, false);
+        }
         let pending = current.pending().ok_or(Error::ConflictingReplay)?;
         if recovery_preview(&current, pending)? != preview {
             return Err(Error::StaleVersion);
         }
+        let adopt = match resolution {
+            Some(witness) if witness.preview == preview.digest => true,
+            Some(_) => return Err(Error::StaleVersion),
+            None => false,
+        };
         let ticket = ticket(&directory, &current, pending)?;
-        attach_locked(root, &directory, current, ticket, outcome, observed)
+        attach_locked(root, &directory, current, ticket, outcome, observed, adopt)
+    }
+    pub(crate) fn inspect_effect(
+        root: &SemanticRoot,
+        key: &IssueKey,
+        id: &OperationId,
+    ) -> Result<EffectInspection, Error> {
+        let directory = root.directory(key)?;
+        let _lock = acquire(&directory, false)?;
+        let current = read_current(&directory, key)?;
+        let (reference, outcome, ticket) =
+            if let Some(p) = current.pending().filter(|p| &p.id == id) {
+                (
+                    &p.request,
+                    p.observed.as_ref(),
+                    Some(ticket(&directory, &current, p)?),
+                )
+            } else if let Some(done) = current.completed().iter().find(|d| &d.id == id) {
+                (&done.request, Some(&done.outcome), None)
+            } else {
+                return Err(Error::ConflictingReplay);
+            };
+        Ok(EffectInspection {
+            request: codec::decode(&read_blob(&directory, reference)?).map_err(encoding)?,
+            ticket,
+            evidence: outcome
+                .map(|o| read_blob(&directory, &o.evidence))
+                .transpose()?,
+            outcome: outcome.map(|o| o.kind),
+            truth: outcome.map(|o| o.truth),
+        })
     }
 }
 fn recovery_preview(
@@ -704,6 +825,7 @@ fn attach_locked(
     ticket: OperationTicket,
     outcome: VerifiedOutcome,
     observed: AttachmentAdmission,
+    adopt: bool,
 ) -> Result<Attachment, Error> {
     if let Some(done) = current.completed().iter().find(|d| d.id == ticket.id) {
         if done.request != ticket.request
@@ -739,9 +861,10 @@ fn attach_locked(
         evidence,
     };
     let mut payload = current.payload.clone();
-    if observed.authority != pending.authority
+    let changed = observed.authority != pending.authority
         || observed.origin != pending.origin
-        || current.inputs_version() != &pending.inputs
+        || current.inputs_version() != &pending.inputs;
+    if (changed && !adopt)
         || outcome.truth == EffectTruth::Unknown
         || outcome.kind == OutcomeKind::Unresolved
     {
@@ -752,6 +875,59 @@ fn attach_locked(
         let next = next_snapshot(&current, payload, SemanticCommand::Reserve, pending.id)?;
         activate(directory, &root.common, &next)?;
         return Ok(Attachment::RecoveryRequired(next.version().clone()));
+    }
+    if changed && adopt {
+        // Never adopt a different worktree/issue or substitute cleanup archive identity.
+        let compatible = match (&pending.origin.0, &observed.origin.0) {
+            (OriginData::Prepared { source: a }, OriginData::Prepared { source: b }) => {
+                a.repository == b.repository && a.common == b.common && a.checkout == b.checkout
+            }
+            (
+                OriginData::Bind {
+                    source: a,
+                    target: x,
+                },
+                OriginData::Bind {
+                    source: b,
+                    target: y,
+                },
+            ) => {
+                a.repository == b.repository
+                    && a.common == b.common
+                    && a.checkout == b.checkout
+                    && x == y
+            }
+            (OriginData::Bound { binding: a }, OriginData::Bound { binding: b }) => {
+                a.branch == b.branch && a.worktree == b.worktree && a.registration == b.registration
+            }
+            (
+                OriginData::Cleanup {
+                    binding: a,
+                    identity: x,
+                },
+                OriginData::Cleanup {
+                    binding: b,
+                    identity: y,
+                },
+            ) => a == b && x == y,
+            _ => false,
+        };
+        if !compatible {
+            return Err(Error::AdmissionChanged);
+        }
+        payload.inputs.authority = observed.authority;
+        if let OriginData::Bound { binding } = &observed.origin.0 {
+            payload.inputs.binding = Some(binding.clone());
+        }
+        payload.inputs.validate()?;
+        payload.invalidations.extend([
+            Invalidation::Proof,
+            Invalidation::Readiness,
+            Invalidation::Review,
+            Invalidation::Publication,
+            Invalidation::Terminal,
+            Invalidation::Cleanup,
+        ]);
     }
     let disposition = if outcome.kind == OutcomeKind::Success {
         policy::Outcome::Success
@@ -771,8 +947,11 @@ fn attach_locked(
         };
         payload.inputs.binding = Some(target.clone());
         payload.inputs.validate()?;
+    }
+    if payload.inputs != current.payload.inputs {
         payload.input_version = EvidenceInputVersion {
-            revision: payload
+            revision: current
+                .payload
                 .input_version
                 .revision
                 .checked_add(1)
@@ -867,17 +1046,17 @@ pub(super) fn validate_objects(directory: &Path, snapshot: &Snapshot) -> Result<
 }
 
 #[cfg(test)]
-mod tests {
+pub(super) mod tests {
     use super::*;
     use std::sync::atomic::{AtomicU64, Ordering};
     static NEXT: AtomicU64 = AtomicU64::new(0);
-    struct Fixture {
-        path: PathBuf,
-        root: SemanticRoot,
-        key: IssueKey,
+    pub(in crate::storage::semantic) struct Fixture {
+        pub(in crate::storage::semantic) path: PathBuf,
+        pub(in crate::storage::semantic) root: SemanticRoot,
+        pub(in crate::storage::semantic) key: IssueKey,
     }
     impl Fixture {
-        fn new() -> Self {
+        pub(in crate::storage::semantic) fn new() -> Self {
             let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
                 .join("target")
                 .join(format!(
@@ -1243,6 +1422,146 @@ mod tests {
         assert!(f.snapshot().pending().is_none());
     }
     #[test]
+    fn prepared_noop_success_and_restart_inspection_are_truthful() {
+        let f = Fixture::new();
+        let source = BindSource::from_native_owner(
+            "example/repo".into(),
+            f.root.common.clone(),
+            f.path.join("repo"),
+            "a".repeat(40),
+        )
+        .unwrap();
+        let origin = EffectOrigin::prepared(source);
+        let request = EffectRequest::new(
+            SemanticCommand::RecordIssueMutation,
+            NativeIdentity::new("github".into(), "prepared-metadata".into()).unwrap(),
+            origin.clone(),
+            br#"{"labels":["done"]}"#,
+        )
+        .unwrap();
+        let ticket = f.reserve(&request);
+        let inspection =
+            DurableTransactionStore::inspect_effect(&f.root, &f.key, ticket.id()).unwrap();
+        assert_eq!(inspection.request(), &request);
+        assert_eq!(inspection.ticket(), Some(&ticket));
+        assert!(inspection.evidence().is_none());
+        let outcome = f.outcome(
+            &request,
+            OutcomeKind::Success,
+            EffectTruth::NotPerformed,
+            b"authenticated labels already match",
+        );
+        let Attachment::Completed(done) = DurableTransactionStore::attach_outcome(
+            &f.root,
+            ticket.clone(),
+            outcome,
+            f.observed(&request),
+        )
+        .unwrap() else {
+            panic!()
+        };
+        assert_eq!(done.truth(), EffectTruth::NotPerformed);
+        assert_eq!(done.outcome_kind(), OutcomeKind::Success);
+        assert_eq!(f.snapshot().phase(), LifecycleState::Ready);
+        let inspection =
+            DurableTransactionStore::inspect_effect(&f.root, &f.key, ticket.id()).unwrap();
+        assert_eq!(
+            inspection.evidence(),
+            Some(b"authenticated labels already match".as_slice())
+        );
+        assert_eq!(inspection.effect_truth(), Some(EffectTruth::NotPerformed));
+    }
+    #[test]
+    fn changed_authority_has_finite_explicit_recovery_and_completed_replay() {
+        let f = Fixture::new();
+        let request = f.bind_request();
+        let ticket = f.reserve(&request);
+        let changed = AttachmentAdmission::from_native_owner(
+            Digest::authority(b"new authority"),
+            request.origin.clone(),
+        );
+        let outcome = f.outcome(
+            &request,
+            OutcomeKind::Success,
+            EffectTruth::Performed,
+            b"original successful native effect",
+        );
+        assert!(matches!(
+            DurableTransactionStore::attach_outcome(
+                &f.root,
+                ticket,
+                outcome.clone(),
+                changed.clone()
+            )
+            .unwrap(),
+            Attachment::RecoveryRequired(_)
+        ));
+        let preview = DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+            .unwrap()
+            .unwrap();
+        let approval =
+            VerifiedRecoveryResolution::adopt_observed_after_native_reconciliation(&preview);
+        assert!(matches!(
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                preview.clone(),
+                outcome.clone(),
+                changed.clone(),
+                Some(approval)
+            )
+            .unwrap(),
+            Attachment::Completed(_)
+        ));
+        assert!(f.snapshot().pending().is_none());
+        assert_eq!(
+            f.snapshot().inputs().authority(),
+            &Digest::authority(b"new authority")
+        );
+        assert!(f.snapshot().invalidations().contains(&Invalidation::Proof));
+        let generation = f.snapshot().version().generation();
+        assert!(matches!(
+            DurableTransactionStore::execute_effect_recovery(&f.root, preview, outcome, changed)
+                .unwrap(),
+            Attachment::AlreadyCompleted(_)
+        ));
+        assert_eq!(f.snapshot().version().generation(), generation);
+    }
+
+    #[test]
+    fn failed_effect_truth_is_retained_without_phase_success() {
+        for truth in [EffectTruth::NotPerformed, EffectTruth::Performed] {
+            let f = Fixture::new();
+            f.bind();
+            let snapshot = f.snapshot();
+            let request = EffectRequest::new(
+                SemanticCommand::RecordProof,
+                NativeIdentity::new("proof".into(), "failed-proof".into()).unwrap(),
+                EffectOrigin::bound(snapshot.inputs().binding().unwrap().clone()),
+                b"{}",
+            )
+            .unwrap();
+            let ticket = f.reserve(&request);
+            let Attachment::Completed(result) = DurableTransactionStore::attach_outcome(
+                &f.root,
+                ticket,
+                f.outcome(
+                    &request,
+                    OutcomeKind::Failure,
+                    truth,
+                    b"actual failed process evidence",
+                ),
+                f.observed(&request),
+            )
+            .unwrap() else {
+                panic!()
+            };
+            assert_eq!(result.truth(), truth);
+            assert_eq!(result.outcome_kind(), OutcomeKind::Failure);
+            assert_eq!(f.snapshot().phase(), LifecycleState::Bound);
+        }
+    }
+
+    #[test]
     fn concurrent_reservations_have_one_winner_and_no_lifetime_lock() {
         let f = Fixture::new();
         let request = f.bind_request();
@@ -1270,3 +1589,5 @@ mod tests {
         assert!(DurableTransactionStore::observe_issue(&f.root, &f.key).is_ok());
     }
 }
+
+pub mod creation;
