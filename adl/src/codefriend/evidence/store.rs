@@ -82,34 +82,77 @@ fn owner_file(path: &Path) -> Result<File> {
     }
     Ok(opts.open(path)?)
 }
-impl Store {
-    pub fn open(root: &Path, clock: impl Fn() -> u64 + 'static) -> Result<Self> {
-        safe_path(root)?;
-        let created = !root.exists();
-        if created {
-            fs::create_dir_all(root)?;
-        }
+// Only a fully synced ownership directory becomes visible at the requested root.
+// Interrupted staging directories contain no admitted content and are never trusted.
+fn bootstrap(root: &Path) -> Result<()> {
+    let permissions = if root.exists() {
         ensure!(fs::symlink_metadata(root)?.is_dir(), "invalid_store_root");
+        ensure!(
+            fs::read_dir(root)?.next().is_none(),
+            "unowned_store_directory"
+        );
+        Some(fs::metadata(root)?.permissions())
+    } else {
+        None
+    };
+    let absolute = std::path::absolute(root)?;
+    let parent = absolute
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("invalid_store_root"))?;
+    fs::create_dir_all(parent)?;
+    static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let stage = loop {
+        let serial = NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let path = parent.join(format!(
+            ".codefriend-bootstrap-{}-{serial}",
+            std::process::id()
+        ));
+        match fs::create_dir(&path) {
+            Ok(()) => break path,
+            Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(e) => return Err(e.into()),
+        }
+    };
+    let result = (|| -> Result<()> {
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
-            if created {
-                fs::set_permissions(root, fs::Permissions::from_mode(0o700))?;
-            }
+            fs::set_permissions(&stage, fs::Permissions::from_mode(0o700))?;
         }
+        let lock = owner_file(&stage.join(".lock"))?;
+        lock.sync_all()?;
+        let mut marker = owner_file(&stage.join(".codefriend-store-v1"))?;
+        marker.write_all(b"codefriend-store-v1")?;
+        marker.sync_all()?;
+        if let Some(permissions) = permissions {
+            fs::set_permissions(&stage, permissions)?;
+        }
+        File::open(&stage)?.sync_all()?;
+        // rename cannot replace a nonempty directory: concurrent publication or
+        // unrelated contents fail closed instead of acquiring false ownership.
+        fs::rename(&stage, &absolute)?;
+        File::open(parent)?.sync_all()?;
+        Ok(())
+    })();
+    if stage.exists() {
+        fs::remove_dir_all(&stage)?;
+    }
+    result
+}
+
+impl Store {
+    pub fn open(root: &Path, clock: impl Fn() -> u64 + 'static) -> Result<Self> {
+        safe_path(root)?;
         let marker = root.join(".codefriend-store-v1");
         if !marker.exists() {
-            ensure!(
-                fs::read_dir(root)?.next().is_none(),
-                "unowned_store_directory"
-            );
-        } else {
-            safe_path(&marker)?;
-            ensure!(
-                fs::read(&marker)? == b"codefriend-store-v1",
-                "invalid_store_marker"
-            );
+            bootstrap(root)?;
         }
+        ensure!(fs::symlink_metadata(root)?.is_dir(), "invalid_store_root");
+        safe_path(&marker)?;
+        ensure!(
+            fs::read(&marker)? == b"codefriend-store-v1",
+            "invalid_store_marker"
+        );
         let lockpath = root.join(".lock");
         safe_path(&lockpath)?;
         let mut opts = OpenOptions::new();
@@ -122,11 +165,6 @@ impl Store {
         let lock = opts.open(lockpath)?;
         lock.try_lock_exclusive()
             .map_err(|_| anyhow::anyhow!("store_busy"))?;
-        if !marker.exists() {
-            let mut f = owner_file(&marker)?;
-            f.write_all(b"codefriend-store-v1")?;
-            f.sync_all()?;
-        }
         let store = Self {
             root: root.canonicalize()?,
             _lock: lock,

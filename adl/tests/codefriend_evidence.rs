@@ -574,3 +574,44 @@ fn canonical_versioned_fixture_is_shared_by_all_consumers() {
     assert!(!validator.is_valid(&unknown));
     assert!(serde_json::from_value::<ReviewRecord>(unknown).is_err());
 }
+
+#[cfg(unix)]
+#[test]
+fn bootstrap_interruptions_leave_target_unowned_and_unrelated_paths_unchanged() {
+    use std::os::unix::fs::PermissionsExt;
+    for partial in [false, true] {
+        let f = Fixture::new();
+        fs::create_dir(&f.store).unwrap();
+        fs::set_permissions(&f.store, fs::Permissions::from_mode(0o750)).unwrap();
+        // Crash before/within marker write in unpublished sibling staging directory.
+        let stage = f._dir.path().join(".codefriend-bootstrap-interrupted");
+        fs::create_dir(&stage).unwrap();
+        fs::write(stage.join(".lock"), b"").unwrap();
+        if partial {
+            fs::write(stage.join(".codefriend-store-v1"), b"codefriend-").unwrap();
+        }
+        let store = Store::open(&f.store, || 100).unwrap();
+        store.admit(f.packet(), Retention { seconds: 60 }).unwrap();
+        assert_eq!(
+            fs::metadata(&f.store).unwrap().permissions().mode() & 0o777,
+            0o750
+        );
+        assert!(stage.exists()); // Unrelated/stale siblings are never adopted or removed.
+    }
+    for partial in [false, true] {
+        let f = Fixture::new();
+        fs::create_dir(&f.store).unwrap();
+        fs::set_permissions(&f.store, fs::Permissions::from_mode(0o750)).unwrap();
+        fs::write(f.store.join(".lock"), b"").unwrap();
+        if partial {
+            fs::write(f.store.join(".codefriend-store-v1"), b"codefriend-").unwrap();
+        }
+        // Legacy ambiguous target cannot establish ownership; require operator recovery.
+        assert!(Store::open(&f.store, || 100).is_err());
+        assert_eq!(
+            fs::metadata(&f.store).unwrap().permissions().mode() & 0o777,
+            0o750
+        );
+        assert_eq!(fs::read(f.store.join(".lock")).unwrap(), b"");
+    }
+}

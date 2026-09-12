@@ -8,17 +8,76 @@
   "release_gate": "required before CF-REVIEW, CF-MEMORY and CF-UX execute",
   "target": "adl/tests/codefriend_evidence.rs",
   "tests": {
-    "local_adapter_cli_admission_restart_identity_and_deletion": ["stable_identity", "adapter_packet_admitted", "durable_evidence_readback", "retention_delete_executed", "schema_only_rejected"],
-    "expiry_uses_live_clock_and_repeat_cannot_renew": ["explicit_retention", "retention_contract", "retention_delete_executed", "determinism"],
-    "interrupted_publication_and_tombstone_cleanup_never_expose_partial_content": ["immutable_provenance", "durable_evidence_readback", "partial_artifact_claimed_complete"],
-    "tampered_provenance_and_rehashed_retention_are_rejected_on_reopen": ["tamper_detection", "tampered_provenance_rejected", "mutable_identity"],
-    "unsafe_packets_rejected_before_any_retained_content_and_source_omission": ["fail_closed_redaction", "redaction_negative_suite", "secret_before_retention_rejected", "unredacted_secret"],
-    "shared_consumers_reject_collisions_missing_evidence_and_versions": ["cross_consumer_conformance", "consumer_conformance", "finding_run_contract_merged_before_consumers"],
-    "comparisons_require_compatible_complete_coverage_and_preserve_outcomes": ["cross_consumer_conformance", "partial_artifact_claimed_complete"],
-    "exact_publication_binding_invalidates_each_changed_surface": ["consumer_conformance", "immutable_provenance"],
-    "store_rejects_symlinks_and_unowned_directories": ["fail_closed_redaction", "immutable_provenance"],
-    "canonical_versioned_fixture_is_shared_by_all_consumers": ["consumer_conformance", "cross_consumer_conformance", "stable_identity"]
+    "local_adapter_cli_admission_restart_identity_and_deletion": [
+      "stable_identity",
+      "adapter_packet_admitted",
+      "durable_evidence_readback",
+      "retention_delete_executed",
+      "schema_only_rejected"
+    ],
+    "expiry_uses_live_clock_and_repeat_cannot_renew": [
+      "explicit_retention",
+      "retention_contract",
+      "retention_delete_executed",
+      "determinism"
+    ],
+    "interrupted_publication_and_tombstone_cleanup_never_expose_partial_content": [
+      "immutable_provenance",
+      "durable_evidence_readback",
+      "partial_artifact_claimed_complete"
+    ],
+    "tampered_provenance_and_rehashed_retention_are_rejected_on_reopen": [
+      "tamper_detection",
+      "tampered_provenance_rejected",
+      "mutable_identity"
+    ],
+    "unsafe_packets_rejected_before_any_retained_content_and_source_omission": [
+      "fail_closed_redaction",
+      "redaction_negative_suite",
+      "secret_before_retention_rejected",
+      "unredacted_secret"
+    ],
+    "shared_consumers_reject_collisions_missing_evidence_and_versions": [
+      "cross_consumer_conformance",
+      "consumer_conformance",
+      "finding_run_contract_merged_before_consumers"
+    ],
+    "comparisons_require_compatible_complete_coverage_and_preserve_outcomes": [
+      "cross_consumer_conformance",
+      "partial_artifact_claimed_complete"
+    ],
+    "exact_publication_binding_invalidates_each_changed_surface": [
+      "consumer_conformance",
+      "immutable_provenance"
+    ],
+    "store_rejects_symlinks_and_unowned_directories": [
+      "fail_closed_redaction",
+      "immutable_provenance"
+    ],
+    "canonical_versioned_fixture_is_shared_by_all_consumers": [
+      "consumer_conformance",
+      "cross_consumer_conformance",
+      "stable_identity"
+    ],
+    "bootstrap_interruptions_leave_target_unowned_and_unrelated_paths_unchanged": [
+      "durable_evidence_readback",
+      "immutable_provenance",
+      "partial_artifact_claimed_complete"
+    ]
   },
-  "stop_conditions": ["unredacted_secret", "mutable_identity", "unverifiable_provenance", "required_proof_not_executed", "partial_artifact_claimed_complete"],
-  "nonclaims": ["Public evidence hosting", "Actual review or matching algorithms", "Publication or operator authentication", "Universal secret or prompt injection prevention", "Cryptographically authenticated repository or local store history", "Provider/cloud execution"]
+  "stop_conditions": [
+    "unredacted_secret",
+    "mutable_identity",
+    "unverifiable_provenance",
+    "required_proof_not_executed",
+    "partial_artifact_claimed_complete"
+  ],
+  "nonclaims": [
+    "Public evidence hosting",
+    "Actual review or matching algorithms",
+    "Publication or operator authentication",
+    "Universal secret or prompt injection prevention",
+    "Cryptographically authenticated repository or local store history",
+    "Provider/cloud execution"
+  ]
 }

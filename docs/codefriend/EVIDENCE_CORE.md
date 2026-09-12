@@ -14,7 +14,14 @@ adl codefriend evidence delete --store STORE --packet-id PACKET_ID
 
 Store paths must be outside the source checkout and contain no symlink or parent
 traversal. A new or empty directory may become a store; existing nonempty directories
-require the store marker. Existing directory permissions are preserved. New directories
+require the store marker. Bootstrap builds and syncs its lock and complete marker in a
+new sibling staging directory, then atomically publishes that initialized directory.
+Crashes before publication leave the target missing or empty; stale bootstrap siblings
+contain no admitted content and are neither adopted nor automatically removed. Existing
+lock-only or partial-marker targets from older interrupted bootstraps remain rejected
+because ownership cannot be established. Preserve/move such a directory aside after
+inspection and select a fresh store path; no automatic ownership recovery is claimed.
+Existing directory permissions are preserved. New directories
 and records use owner-only permissions on Unix. An OS lock serializes operations;
 concurrent callers fail with `store_busy` rather than reading a partial write.
 
