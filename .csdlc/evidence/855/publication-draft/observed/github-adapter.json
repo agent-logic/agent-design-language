@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.github_adapter_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 855,
+  "pull_request": 964,
+  "head_sha": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+  "readback_receipt_digest": "30862eec3cab6b0da7bdca8a5dba624441cc71ded89f37864e4a89aaec22bcd0",
+  "credential_names": [
+    "GITHUB_TOKEN"
+  ],
+  "adapter": "github-api-read-only",
+  "authenticated": true
+}

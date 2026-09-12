@@ -3730,11 +3730,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                                 initiated.error,
                                                 Some(continued_reply),
                                             ),
-                                            Err(_) => (
-                                                "failed",
-                                                Some("agent_result_continuation_failed"),
-                                                Some(reply),
-                                            ),
+                                            Err(error) => ("failed", Some(error), Some(reply)),
                                         };
                                         ObservatoryConversationResult {
                                             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
@@ -11425,6 +11421,15 @@ mod layer8_conversation_ingress_tests {
                     );
                 }
                 if prompt.contains("A governed agent-to-agent action you initiated") {
+                    if prompt.contains("continuation transport failure") {
+                        return Err(ProviderFailure::Transport.into());
+                    }
+                    if prompt.contains("continuation malformed response") {
+                        return Ok(r#"{"schema":"adl.runtime.provider_agent_action.v1"}"#.into());
+                    }
+                    if prompt.contains("continuation repeated action") {
+                        return Ok(serde_json::json!({"schema":"adl.runtime.provider_agent_action.v1","message":"Repeat.","action":{"recipient_name":"ember.runtime","message":"Repeat request.","message_parts":[]}}).to_string());
+                    }
                     return Ok("Operator received the verified peer response.".into());
                 }
                 if prompt.contains("You are resident agent `ember.runtime`") {
@@ -11606,6 +11611,55 @@ mod layer8_conversation_ingress_tests {
                 .inference_readiness,
             InferenceReadinessState::Ready
         );
+        for (index, message, expected_error) in [
+            (0, "continuation transport failure", "provider_transport"),
+            (
+                1,
+                "continuation malformed response",
+                "agent_provider_action_invalid",
+            ),
+            (
+                2,
+                "continuation repeated action",
+                "agent_result_continuation_invalid",
+            ),
+        ] {
+            intent.conversation_id = format!("continuation-failure-{index}");
+            intent.turn_id = intent.conversation_id.clone();
+            intent.message = Some(message.into());
+            let before = recorder.provider_usage.snapshot();
+            let calls_before = actual_calls.load(std::sync::atomic::Ordering::SeqCst);
+            let failed_before: u64 = before.iter().map(|c| c.failed).sum();
+            let response = match service.accept_conversation_intent(&intent) {
+                ConversationAcceptance::Dispatch { dispatch, .. } => {
+                    service.complete_conversation_dispatch(dispatch).await
+                }
+                ConversationAcceptance::Response(response) => {
+                    panic!("unexpected refusal {response:?}")
+                }
+            };
+            assert_eq!(response.status, "failed");
+            assert_eq!(response.error, Some(expected_error));
+            assert!(response.initiated_work_id.is_some());
+            assert_eq!(
+                response.initiated_reply.as_deref(),
+                Some("Ember generated the canonical peer response.")
+            );
+            assert_eq!(
+                actual_calls.load(std::sync::atomic::Ordering::SeqCst),
+                calls_before + 3,
+                "one initiation, one peer reply and one continuation; no repeated A2A or retry"
+            );
+            assert_eq!(
+                recorder
+                    .provider_usage
+                    .snapshot()
+                    .iter()
+                    .map(|c| c.failed)
+                    .sum::<u64>(),
+                failed_before + 1
+            );
+        }
         intent.conversation_id = "malformed-action".into();
         intent.turn_id = "malformed-action".into();
         intent.message = Some("malformed action".into());
@@ -11666,6 +11720,7 @@ mod layer8_conversation_ingress_tests {
                 "bounded-recovery-fixture".into(),
             )
             .unwrap();
+        let calls_before_budget = actual_calls.load(std::sync::atomic::Ordering::SeqCst);
         for index in 0..2 {
             intent.conversation_id = format!("budget-recovery-{index}");
             intent.turn_id = format!("budget-recovery-{index}");
@@ -11698,7 +11753,7 @@ mod layer8_conversation_ingress_tests {
         }
         assert_eq!(
             actual_calls.load(std::sync::atomic::Ordering::SeqCst),
-            7,
+            calls_before_budget + 1,
             "first failed bounded call prevents an explicit operator retry from dispatching again"
         );
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();

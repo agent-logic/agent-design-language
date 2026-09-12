@@ -585,6 +585,10 @@ def execute(args):
         report.update(result='failed', error=str(error), fixture_calls=fixture.calls)
         raise
     finally:
+        try:
+            report['provider_health'] = api(ctx, api_port, tokens['observatory'], '/v1/health/providers')
+        except (OSError, ValueError):
+            report['provider_health_capture'] = 'unavailable before shutdown'
         if args.hosted_approved:
             try:
                 report['provider_metrics'] = api(ctx, api_port, tokens['observatory'], '/v1/metrics/providers')

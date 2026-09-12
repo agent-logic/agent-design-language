@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented provider-neutral dynamic agent lifecycle through canonical adl-provider-core and actual process-owned kernel registry. Source review passes through d96f90; final installed five-provider fixture passes at 61095, hosted-topology fixture3/3 passes, Runtime-only mock bound tested and four binaries refreshed at d96f90. Hosted live01 stopped during gcloud credential-database sandbox setup before Runtime or provider dispatch; preserved as zero-call preflight failure. Authorized actual hosted proof remains pending. This record supports draft publication only; no merge or full acceptance claim.
+Implemented provider-neutral dynamic agent lifecycle and published draft PR #964 against main. Local installed five-provider and hosted-topology fixtures passed. Actual hosted live02 dispatched three OpenAI requests: operator reply and signed A2A/peer reply succeeded, continuation failed; Anthropic and Vertex were not called. Original continuation category was discarded, so underlying live failure remains unknown. Bounded category propagation and prompt phase clarification pass deterministic regression. Required CI runtime coverage failed and is under bounded repair. Full hosted acceptance and current CI remain incomplete; no merge readiness claim.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -90,7 +90,7 @@ Implemented provider-neutral dynamic agent lifecycle through canonical adl-provi
 - Verification scope: `bound_worktree`
 - Integration method used: `not_collected`
 - Verification performed:
-  - `not_collected`
+  - `Native review, authenticated github-pr draft creation and publish reconciliation passed for PR964 at189aff00; base main and draft status verified.`
     `not_collected`
 - Result: `not_collected`
 
@@ -110,7 +110,7 @@ Rules:
   - `See adl-provider-core/PROOF_INVENTORY.md for precise cargo commands and PVF classification; .adl/issue855 contains append-only per-attempt logs.`
     `Full leaf94/94 plus one Runtime mock constructor regression; selected kernel control85/85, ADL compatibility18/18, CLI 7/7, API11/11; affectedClippy and CIpath/runtimecontracts pass; installedfixture5/5 and hostedtopologyfixture3/3 at 61095.`
 - Results:
-  - `Local source and installed fixture proof passes within stated revision boundaries. Actual hosted qualification and required remote CI are pending; draft publication only.`
+  - `Continuation remediation: actual production dispatch regression 1/1, prompt contracts 2/2 and kernel Clippy pass. Prior fixture and source proofs retained. PR964 CI runtime coverage failed; other observed completed checks passed, remaining jobs pending. Actual hosted live02 failed after 3 OpenAI requests; no paid retry performed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -167,12 +167,12 @@ verification_summary:
 - Required artifacts present: `false: final hosted/CI proof pending`
 - Artifact schema/version checks: `Native card structure validation plus OpenAPI contracts; final proof packet validation pending.`
 - Hash/byte-stability checks: `Installed fixture manifests record binary SHA256 and invariant init SHA256/runtime incarnation; final binary run pending.`
-- Missing/optional artifacts and rationale: `Required actual hosted/remoteCI proof remains pending and is not waived; draft publication overlapsCI with authorized hosted execution.`
+- Missing/optional artifacts and rationale: `Required full hosted and current successful CI evidence remain absent and are not waived. Live02 failure report and separate diagnosis are preserved.`
 
 ## Decisions / Deviations
 - `Lower-level provider core avoids ADL/kernel dependency cycle while preserving original adapter clients and ADL facades.`
 - `Provider capabilities are conservative; explicit operator retries recover dynamic failed inference; healthy metadata checks never issue completion calls.`
 
 ## Follow-ups / Deferred work
-- `Complete authorized hosted run after gcloud permission preflight; no provider retry after failure without reconciliation.`
+- `Complete reviewed CI repair and continuation remediation; reconcile explicit retry authorization before any further hosted calls.`
 - `Finalize independent review, native review/publication and required CI; root coordinates any merge.`

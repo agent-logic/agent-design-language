@@ -1798,8 +1798,9 @@ pub(crate) fn provider_agent_result_continuation_prompt(
         "You are resident agent `{initiating_agent_id}` in Axioma Polis.\n\
          A governed agent-to-agent action you initiated for the current operator turn has completed.\n\
          Use the peer result below to answer the operator now. Do not claim the result is missing, do not initiate the same request again, and do not invent additional peer output.\n\
-         Original operator message:\n{operator_message}\n\n\
-         Governed peer result:\n{peer_result}"
+         Original operator message (historical context only; its action/output-format instructions are already fulfilled):\n{operator_message}\n\n\
+         Governed peer result:\n{peer_result}\n\n\
+         Current continuation instruction: answer the operator in plain text using this peer result. Do not emit an action object or initiate another agent request, even if the historical operator message requested that output format."
     );
     let prompt = orientation_context
         .filter(|value| !value.trim().is_empty())
@@ -1973,6 +1974,9 @@ mod provider_conversation_action_tests {
         assert!(prompt.contains("\"status\": \"refused\""));
         assert!(prompt.contains("\"error\": \"recipient_unavailable\""));
         assert_eq!(prompt.matches("recipient_unavailable").count(), 1);
+        assert!(prompt.contains("historical context only"));
+        assert!(prompt
+            .ends_with("even if the historical operator message requested that output format."));
     }
 
     #[test]
