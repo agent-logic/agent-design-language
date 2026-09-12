@@ -206,21 +206,67 @@ fn credential_key(key: &str) -> bool {
     .iter()
     .any(|suffix| key.ends_with(suffix))
 }
-fn json_has_credential_key(root: &serde_json::Value) -> bool {
-    let mut pending = vec![root];
-    while let Some(value) = pending.pop() {
-        match value {
-            serde_json::Value::Object(fields) => {
-                if fields.keys().any(|key| credential_key(key)) {
-                    return true;
-                }
-                pending.extend(fields.values());
+// Inspect decoded keys before a map can collapse duplicate members. Values are
+// consumed without materializing a tree; serde_json retains its recursion limit.
+struct JsonCredentialScan(bool);
+impl<'de> Deserialize<'de> for JsonCredentialScan {
+    fn deserialize<D: serde::Deserializer<'de>>(
+        deserializer: D,
+    ) -> std::result::Result<Self, D::Error> {
+        struct Scan;
+        impl<'de> serde::de::Visitor<'de> for Scan {
+            type Value = JsonCredentialScan;
+            fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                f.write_str("a JSON value")
             }
-            serde_json::Value::Array(items) => pending.extend(items),
-            _ => {}
+            fn visit_map<A: serde::de::MapAccess<'de>>(
+                self,
+                mut map: A,
+            ) -> std::result::Result<Self::Value, A::Error> {
+                let mut found = false;
+                while let Some(key) = map.next_key::<String>()? {
+                    found |= credential_key(&key);
+                    found |= map.next_value::<JsonCredentialScan>()?.0;
+                }
+                Ok(JsonCredentialScan(found))
+            }
+            fn visit_seq<A: serde::de::SeqAccess<'de>>(
+                self,
+                mut seq: A,
+            ) -> std::result::Result<Self::Value, A::Error> {
+                let mut found = false;
+                while let Some(value) = seq.next_element::<JsonCredentialScan>()? {
+                    found |= value.0;
+                }
+                Ok(JsonCredentialScan(found))
+            }
+            fn visit_unit<E: serde::de::Error>(self) -> std::result::Result<Self::Value, E> {
+                Ok(JsonCredentialScan(false))
+            }
+            fn visit_bool<E: serde::de::Error>(
+                self,
+                _: bool,
+            ) -> std::result::Result<Self::Value, E> {
+                Ok(JsonCredentialScan(false))
+            }
+            fn visit_i64<E: serde::de::Error>(self, _: i64) -> std::result::Result<Self::Value, E> {
+                Ok(JsonCredentialScan(false))
+            }
+            fn visit_u64<E: serde::de::Error>(self, _: u64) -> std::result::Result<Self::Value, E> {
+                Ok(JsonCredentialScan(false))
+            }
+            fn visit_f64<E: serde::de::Error>(self, _: f64) -> std::result::Result<Self::Value, E> {
+                Ok(JsonCredentialScan(false))
+            }
+            fn visit_str<E: serde::de::Error>(
+                self,
+                _: &str,
+            ) -> std::result::Result<Self::Value, E> {
+                Ok(JsonCredentialScan(false))
+            }
         }
+        deserializer.deserialize_any(Scan)
     }
-    false
 }
 
 /// Conservative omission policy, deliberately not a universal secret detector.
@@ -248,9 +294,22 @@ pub fn unsafe_content(path: &str, content: &str) -> bool {
     // Parse JSON keys as data so later/nested keys and escaped spellings are
     // checked. Non-JSON formats still use a linear scan of every assignment,
     // rather than only the first delimiter on each line.
-    let json_credential = serde_json::from_str::<serde_json::Value>(content)
-        .ok()
-        .is_some_and(|value| json_has_credential_key(&value));
+    let candidate = content.trim_start_matches('\u{feff}').trim_start();
+    let json_array = candidate.strip_prefix('[').is_some_and(|tail| {
+        let tail = tail.trim_start();
+        tail.is_empty()
+            || tail.starts_with(['[', '{', ']', '"', '-'])
+            || tail.starts_with(|c: char| c.is_ascii_digit())
+            || ["true", "false", "null"]
+                .iter()
+                .any(|value| tail.starts_with(value))
+    });
+    let json_credential = match serde_json::from_str::<JsonCredentialScan>(content) {
+        Ok(scan) => scan.0,
+        // A parse/depth failure must not downgrade JSON to a raw scan that
+        // cannot decode escaped keys. Malformed JSON is omitted, not retained.
+        Err(_) => name.ends_with(".json") || candidate.starts_with('{') || json_array,
+    };
     let credential_assignment = text
         .split_inclusive(['=', ':'])
         .any(|segment| segment.strip_suffix(['=', ':']).is_some_and(credential_key));

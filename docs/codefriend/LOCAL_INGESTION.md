@@ -95,8 +95,12 @@ partial boundary. Repository instructions remain inert text.
 This conservative marker policy is not a universal secret detector: unknown token
 formats and arbitrary sensitive prose require operator scope review. The complete
 marker list is the production `unsafe_content` function, shared by acquisition and
-the production reader. Valid JSON is parsed as inert data: every key, nested object and array member is
-checked, including JSON-escaped key spellings. Other text is scanned linearly at
+the production reader. JSON is scanned as inert data during deserialization: every decoded key, nested
+object and array member is checked before duplicate members can overwrite earlier
+ones. Escaped keys under duplicate parents therefore remain visible. JSON input
+that fails parsing (including the bounded parser's depth limit) is omitted; it never
+falls back to a raw-text scan that cannot decode its keys. `.json` files and text
+beginning with a JSON object/array value are treated as JSON for this fail-closed policy. TOML section headers are not classified as JSON arrays. Other text is scanned linearly at
 every `=` or `:` delimiter, not just the first assignment on a line. Unsupported or
 unrecognized secret formats still require operator scope review. The policy
 favors omission over trying to rewrite
@@ -151,3 +155,9 @@ and `git_sha1_and_sha256_blob_identity_is_verified_by_production_reader`. Both u
 actual acquisition artifacts and the production library/CLI reader. The prior
 installed proof remains unchanged; renewed proof is recorded separately in
 `LOCAL_INGESTION_REPAIR_PROOF.json`.
+
+The subsequent duplicate-parent review correction is proved by the same production
+credential matrix, including overwritten escaped keys, excessive JSON nesting and
+malformed JSON. Streaming scanning retains no JSON tree and keeps parser depth
+limits. `LOCAL_INGESTION_STREAMING_PROOF.json` records the renewed installed proof;
+the original and first-repair proofs remain unchanged.

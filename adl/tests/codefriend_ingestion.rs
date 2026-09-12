@@ -407,10 +407,17 @@ fn subsequent_nested_array_and_escaped_credentials_never_enter_packets() {
         r#"{"metadata":{"name":"fixture","settings":{"client_secret":"opaque-value"}}}"#,
         r#"[{"name":"fixture"},{"settings":[{"client_secret":"opaque-value"}]}]"#,
         r#"{"name":"fixture","client_secr\u0065t":"opaque-value"}"#,
+        r#"{"settings":{"client_secr\u0065t":"opaque-value"},"settings":{}}"#,
         "name=fixture; client_secret=opaque-value",
         "name: fixture, client_secret: opaque-value",
     ];
-    for content in cases {
+    let too_deep = format!(
+        "{}{{\"client_secr\\u0065t\":\"opaque-value\"}}{}",
+        "[".repeat(140),
+        "]".repeat(140)
+    );
+    let malformed = r#"{"client_secr\u0065t":"opaque-value""#;
+    for content in cases.into_iter().chain([too_deep.as_str(), malformed]) {
         let mut f = Fixture::new();
         fs::write(f.root.join("config.json"), content).unwrap();
         git(&f.root, &["add", "config.json"]);
@@ -521,4 +528,34 @@ fn git_sha1_and_sha256_blob_identity_is_verified_by_production_reader() {
             "invalid_source_object"
         );
     }
+}
+
+#[test]
+fn ordinary_json_values_duplicate_parents_and_toml_remain_admissible() {
+    let mut f = Fixture::new();
+    let content =
+        r#"{"name":"fixture","settings":{"values":[null,true,false,1,-2,1.25]},"settings":{}}"#;
+    fs::write(f.root.join("config.json"), content).unwrap();
+    fs::write(f.root.join("Cargo.toml"), "[package]\nname=\"fixture\"\n").unwrap();
+    git(&f.root, &["add", "config.json", "Cargo.toml"]);
+    git(
+        &f.root,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "commit",
+            "-m",
+            "ordinary config",
+        ],
+    );
+    f.revision = git(&f.root, &["rev-parse", "HEAD"]);
+    let mut scope = f.scope();
+    scope.analysis = vec!["config.json".into()];
+    scope.context = vec!["Cargo.toml".into()];
+    assert!(f.run(&scope, &f.out()).status.success());
+    let input = AdmissionInput::read(&f.out()).unwrap();
+    assert_eq!(input.packet().completeness, "complete_scoped_acquisition");
+    assert_eq!(input.packet().objects[1].content.as_deref(), Some(content));
 }
