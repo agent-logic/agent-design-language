@@ -72,12 +72,50 @@ pub struct Object {
     pub disposition: String,
     pub analysis_support: String,
 }
+/// Git repository storage object format. It participates in packet identity;
+/// mixed object-ID lengths and unsupported formats are rejected on readback.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum GitObjectFormat {
+    Sha1,
+    Sha256,
+}
+impl GitObjectFormat {
+    fn accepts(&self, id: &str) -> bool {
+        object_id(id)
+            && id.len()
+                == match self {
+                    Self::Sha1 => 40,
+                    Self::Sha256 => 64,
+                }
+    }
+    fn blob_digest(&self, content: &[u8]) -> String {
+        use sha2::Digest;
+        let header = format!("blob {}\0", content.len());
+        match self {
+            Self::Sha1 => {
+                let mut hash = sha1::Sha1::new();
+                hash.update(header.as_bytes());
+                hash.update(content);
+                hex::encode(hash.finalize())
+            }
+            Self::Sha256 => {
+                let mut hash = sha2::Sha256::new();
+                hash.update(header.as_bytes());
+                hash.update(content);
+                hex::encode(hash.finalize())
+            }
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Packet {
     pub schema: String,
     pub repository: String,
     pub revision: String,
+    pub object_format: GitObjectFormat,
     pub scope: Scope,
     pub scope_digest: String,
     pub objects: Vec<Object>,
@@ -147,6 +185,44 @@ pub fn validate_repository(value: &str) -> Result<()> {
     );
     Ok(())
 }
+fn credential_key(key: &str) -> bool {
+    let key: String = key
+        .chars()
+        .filter(|c| c.is_ascii_alphanumeric() || *c == '_')
+        .map(|c| c.to_ascii_lowercase())
+        .collect();
+    [
+        "password",
+        "passwd",
+        "api_key",
+        "apikey",
+        "access_token",
+        "auth_token",
+        "client_secret",
+        "private_key",
+        "secret",
+        "token",
+    ]
+    .iter()
+    .any(|suffix| key.ends_with(suffix))
+}
+fn json_has_credential_key(root: &serde_json::Value) -> bool {
+    let mut pending = vec![root];
+    while let Some(value) = pending.pop() {
+        match value {
+            serde_json::Value::Object(fields) => {
+                if fields.keys().any(|key| credential_key(key)) {
+                    return true;
+                }
+                pending.extend(fields.values());
+            }
+            serde_json::Value::Array(items) => pending.extend(items),
+            _ => {}
+        }
+    }
+    false
+}
+
 /// Conservative omission policy, deliberately not a universal secret detector.
 /// Known credential files, credential assignments/markers and local host paths are
 /// never emitted. Unknown credentials require operator scope review.
@@ -169,34 +245,22 @@ pub fn unsafe_content(path: &str, content: &str) -> bool {
             || p.ends_with(".pem")
             || p.ends_with(".key")
     });
-    let credential_assignment = text.lines().any(|line| {
-        line.split_once(['=', ':']).is_some_and(|(key, _)| {
-            let key: String = key
-                .chars()
-                .filter(|c| c.is_ascii_alphanumeric() || *c == '_')
-                .collect();
-            [
-                "password",
-                "passwd",
-                "api_key",
-                "apikey",
-                "access_token",
-                "auth_token",
-                "client_secret",
-                "private_key",
-                "secret",
-                "token",
-            ]
-            .iter()
-            .any(|suffix| key.ends_with(suffix))
-        })
-    });
+    // Parse JSON keys as data so later/nested keys and escaped spellings are
+    // checked. Non-JSON formats still use a linear scan of every assignment,
+    // rather than only the first delimiter on each line.
+    let json_credential = serde_json::from_str::<serde_json::Value>(content)
+        .ok()
+        .is_some_and(|value| json_has_credential_key(&value));
+    let credential_assignment = text
+        .split_inclusive(['=', ':'])
+        .any(|segment| segment.strip_suffix(['=', ':']).is_some_and(credential_key));
     let url_userinfo = text.split("://").skip(1).any(|tail| {
         tail.split(['/', ' ', '\t', '\r', '\n', '"', '\''])
             .next()
             .is_some_and(|authority| authority.contains('@'))
     });
     sensitive_name
+        || json_credential
         || credential_assignment
         || url_userinfo
         || [
@@ -242,7 +306,10 @@ impl Packet {
         ensure!(self.schema == SCHEMA, "unsupported_packet_schema");
         validate_repository(&self.repository)?;
         self.scope.validate()?;
-        ensure!(object_id(&self.revision), "invalid_revision_identity");
+        ensure!(
+            self.object_format.accepts(&self.revision),
+            "invalid_revision_identity"
+        );
         ensure!(
             self.scope_digest == digest(&serde_json::to_vec(&self.scope)?),
             "scope_digest_mismatch"
@@ -270,7 +337,10 @@ impl Packet {
                 "byte_limit_exceeded"
             );
             ensure!(
-                object.source_object.as_ref().is_none_or(|id| object_id(id)),
+                object
+                    .source_object
+                    .as_ref()
+                    .is_none_or(|id| self.object_format.accepts(id)),
                 "invalid_source_object"
             );
             let support =
@@ -292,6 +362,11 @@ impl Packet {
                             && !content.contains('\0')
                             && !unsafe_content(path, content),
                         "unsafe_object_content"
+                    );
+                    ensure!(
+                        object.source_object.as_ref()
+                            == Some(&self.object_format.blob_digest(content.as_bytes())),
+                        "source_blob_digest_mismatch"
                     );
                     ensure!(
                         object.content_digest.as_ref() == Some(&digest(content.as_bytes())),

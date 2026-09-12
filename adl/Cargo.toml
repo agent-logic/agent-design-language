@@ -155,6 +155,7 @@ p256 = { version = "0.13", features = ["ecdsa"] }
 rand = "0.8"
 tiny_http = "0.12"
 sha2 = "0.10"
+sha1 = "0.10"
 zeroize = "1"
 deadpool = { version = "0.13.0", default-features = false, features = ["unmanaged"] }
 ntp-daemon = "0.3.7"

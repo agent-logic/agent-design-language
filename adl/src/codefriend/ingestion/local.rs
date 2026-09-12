@@ -1,5 +1,5 @@
 //! Local acquisition reads immutable Git objects, never working files or filters.
-use super::{unsafe_content, validate_repository, Object, Packet, Scope, SCHEMA};
+use super::{unsafe_content, validate_repository, GitObjectFormat, Object, Packet, Scope, SCHEMA};
 use anyhow::{ensure, Result};
 use std::{
     fs::{self, OpenOptions},
@@ -85,6 +85,15 @@ fn acquire_checked(
     ensure!(
         Path::new(&top).canonicalize().ok().as_ref() == Some(&root),
         "repository_root_required"
+    );
+    let object_format = match text(&root, &["rev-parse", "--show-object-format"], 32)?.as_str() {
+        "sha1" => GitObjectFormat::Sha1,
+        "sha256" => GitObjectFormat::Sha256,
+        _ => anyhow::bail!("unsupported_git_object_format"),
+    };
+    ensure!(
+        object_format.accepts(revision),
+        "revision_object_format_mismatch"
     );
     let origin = text(&root, &["config", "--get", "remote.origin.url"], 2048)?;
     ensure!(
@@ -172,6 +181,7 @@ fn acquire_checked(
         schema: SCHEMA.into(),
         repository: repository.into(),
         revision: revision.into(),
+        object_format,
         scope,
         scope_digest: String::new(),
         completeness: if objects.iter().all(|o| o.disposition == "included") {

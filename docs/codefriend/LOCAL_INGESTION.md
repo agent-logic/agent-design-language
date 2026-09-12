@@ -58,11 +58,22 @@ Changes to dirty/untracked bytes cannot alter the immutable selected snapshot.
 A historical commit can be captured without checking it out.
 
 Packet identity covers repository, full revision, canonical sorted scope and limits,
-object dispositions, admitted content and digests. It excludes timestamps and local
+declared Git object format, object dispositions, admitted content and digests. It excludes timestamps and local
 checkout/output paths. Identical committed inputs and scope produce identical bytes
 after relocating the checkout. Every object carries its repo-relative identity and
 source Git object ID, source size and (if included) BLAKE3 content digest. The packet
-also carries its BLAKE3 scope digest and packet digest. These are integrity and
+also carries its BLAKE3 scope digest and packet digest. The source repository's
+storage object format (`sha1` or `sha256`) is explicit and participates in packet
+identity. The reader independently hashes each included object's exact bytes with
+Git's `blob <byte-length>\0` header using that algorithm and compares `source_object`.
+Unknown formats, mixed object-ID lengths, revision/format contradictions and stale
+Git blob IDs fail closed. Omitted objects cannot be rehashed without retaining the
+omitted bytes; their Git IDs remain unverified source claims, not verified content.
+These checks do not prove that a malicious producer's blob belongs to its claimed
+commit: authenticated commit/tree provenance remains a separate trust boundary.
+Packets from the pre-merge prototype without a declared object format are rejected;
+preserve them as historical proof and reacquire rather than silently upgrading them.
+These are integrity and
 provenance claims, not a signature or proof that an untrusted producer is authorized.
 
 All paths outside the declared scope are excluded by policy; no unbounded recursive
@@ -84,7 +95,11 @@ partial boundary. Repository instructions remain inert text.
 This conservative marker policy is not a universal secret detector: unknown token
 formats and arbitrary sensitive prose require operator scope review. The complete
 marker list is the production `unsafe_content` function, shared by acquisition and
-the production reader. It deliberately favors omission over trying to rewrite
+the production reader. Valid JSON is parsed as inert data: every key, nested object and array member is
+checked, including JSON-escaped key spellings. Other text is scanned linearly at
+every `=` or `:` delimiter, not just the first assignment on a line. Unsupported or
+unrecognized secret formats still require operator scope review. The policy
+favors omission over trying to rewrite
 source and then misrepresent its content digest. Adding a detector changes admitted
 content and therefore packet identity. Preserve license files in the declared scope;
 partial omission must not be interpreted as removal of a license obligation.
@@ -129,3 +144,10 @@ and the existing Vector checkout. The [Vector scope](fixtures/vector-scope.json)
 is exactly the selected ten files, preserving crate MIT and root MPL-2.0 notices;
 520,777 source bytes were captured without building or executing Vector. Raw external
 source packets remain local artifacts, not additions to this repository.
+
+Post-publication repairs for the multi-key credential and stale Git blob findings
+are proved by `subsequent_nested_array_and_escaped_credentials_never_enter_packets`
+and `git_sha1_and_sha256_blob_identity_is_verified_by_production_reader`. Both use
+actual acquisition artifacts and the production library/CLI reader. The prior
+installed proof remains unchanged; renewed proof is recorded separately in
+`LOCAL_INGESTION_REPAIR_PROOF.json`.

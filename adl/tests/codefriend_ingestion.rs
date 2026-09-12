@@ -24,10 +24,13 @@ fn git(root: &Path, args: &[&str]) -> String {
 }
 impl Fixture {
     fn new() -> Self {
+        Self::new_format("sha1")
+    }
+    fn new_format(format: &str) -> Self {
         let temp = tempfile::tempdir().unwrap();
         let root = temp.path().join("checkout");
         fs::create_dir(&root).unwrap();
-        git(&root, &["init"]);
+        git(&root, &["init", &format!("--object-format={format}")]);
         git(
             &root,
             &[
@@ -393,5 +396,129 @@ fn production_reader_rejects_unsafe_content_even_with_recomputed_digests() {
             adl::codefriend::ingestion::digest(&serde_json::to_vec(&forged).unwrap());
         fs::write(f.out(), serde_json::to_vec(&forged).unwrap()).unwrap();
         assert!(AdmissionInput::read(&f.out()).is_err());
+    }
+}
+
+// Same runtime/local/no-network required-PVF classification as this module.
+#[test]
+fn subsequent_nested_array_and_escaped_credentials_never_enter_packets() {
+    let cases = [
+        r#"{"name":"fixture","client_secret":"opaque-value"}"#,
+        r#"{"metadata":{"name":"fixture","settings":{"client_secret":"opaque-value"}}}"#,
+        r#"[{"name":"fixture"},{"settings":[{"client_secret":"opaque-value"}]}]"#,
+        r#"{"name":"fixture","client_secr\u0065t":"opaque-value"}"#,
+        "name=fixture; client_secret=opaque-value",
+        "name: fixture, client_secret: opaque-value",
+    ];
+    for content in cases {
+        let mut f = Fixture::new();
+        fs::write(f.root.join("config.json"), content).unwrap();
+        git(&f.root, &["add", "config.json"]);
+        git(
+            &f.root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.com",
+                "commit",
+                "-m",
+                "credential fixture",
+            ],
+        );
+        f.revision = git(&f.root, &["rev-parse", "HEAD"]);
+        let mut scope = f.scope();
+        scope.analysis = vec!["config.json".into()];
+        let acquired = f.run(&scope, &f.out());
+        assert!(acquired.status.success());
+        let mut packet = AdmissionInput::read(&f.out()).unwrap().packet().clone();
+        assert_eq!(packet.completeness, "partial");
+        let object = packet
+            .objects
+            .iter_mut()
+            .find(|o| o.path == "config.json")
+            .unwrap();
+        assert_eq!(object.disposition, "omitted_unsafe");
+        assert!(object.content.is_none());
+        assert!(!fs::read_to_string(f.out())
+            .unwrap()
+            .contains("opaque-value"));
+        // Restore the exact Git content and valid digests. Only the admission
+        // safety check can reject this otherwise internally consistent forgery.
+        object.disposition = "included".into();
+        object.content = Some(content.into());
+        object.content_digest = Some(adl::codefriend::ingestion::digest(content.as_bytes()));
+        packet.completeness = "complete_scoped_acquisition".into();
+        reseal_packet(&mut packet);
+        fs::write(f.out(), serde_json::to_vec(&packet).unwrap()).unwrap();
+        assert_eq!(
+            AdmissionInput::read(&f.out()).err().unwrap().to_string(),
+            "unsafe_object_content"
+        );
+        let read = Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args(["codefriend", "packet", "read", "--input"])
+            .arg(f.out())
+            .output()
+            .unwrap();
+        assert!(!read.status.success());
+        assert!(read.stdout.is_empty());
+        assert!(!String::from_utf8_lossy(&read.stderr).contains("opaque-value"));
+    }
+}
+fn reseal_packet(packet: &mut adl::codefriend::ingestion::Packet) {
+    packet.packet_id.clear();
+    packet.packet_id = adl::codefriend::ingestion::digest(&serde_json::to_vec(packet).unwrap());
+}
+#[test]
+fn git_sha1_and_sha256_blob_identity_is_verified_by_production_reader() {
+    for format in ["sha1", "sha256"] {
+        let f = Fixture::new_format(format);
+        assert!(f.run(&f.scope(), &f.out()).status.success());
+        let original = AdmissionInput::read(&f.out()).unwrap().packet().clone();
+        assert_eq!(
+            serde_json::to_value(&original).unwrap()["object_format"],
+            format
+        );
+        // Keep the original Git identity but recompute every other digest.
+        let mut forged = original.clone();
+        let content = "Different ordinary license text";
+        forged.objects[0].content = Some(content.into());
+        forged.objects[0].source_bytes = content.len() as u64;
+        forged.objects[0].content_digest =
+            Some(adl::codefriend::ingestion::digest(content.as_bytes()));
+        reseal_packet(&mut forged);
+        fs::write(f.out(), serde_json::to_vec(&forged).unwrap()).unwrap();
+        assert_eq!(
+            AdmissionInput::read(&f.out()).err().unwrap().to_string(),
+            "source_blob_digest_mismatch"
+        );
+        let read = Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args(["codefriend", "packet", "read", "--input"])
+            .arg(f.out())
+            .output()
+            .unwrap();
+        assert!(!read.status.success());
+        assert!(String::from_utf8_lossy(&read.stderr).contains("source_blob_digest_mismatch"));
+        for invalid in ["unknown", if format == "sha1" { "sha256" } else { "sha1" }] {
+            let mut changed = serde_json::to_value(&original).unwrap();
+            changed["object_format"] = serde_json::json!(invalid);
+            fs::write(f.out(), serde_json::to_vec(&changed).unwrap()).unwrap();
+            assert_eq!(
+                AdmissionInput::read(&f.out()).err().unwrap().to_string(),
+                if invalid == "unknown" {
+                    "packet_parse_failed"
+                } else {
+                    "invalid_revision_identity"
+                }
+            );
+        }
+        let mut mixed = original.clone();
+        mixed.objects[0].source_object = Some("a".repeat(if format == "sha1" { 64 } else { 40 }));
+        reseal_packet(&mut mixed);
+        fs::write(f.out(), serde_json::to_vec(&mixed).unwrap()).unwrap();
+        assert_eq!(
+            AdmissionInput::read(&f.out()).err().unwrap().to_string(),
+            "invalid_source_object"
+        );
     }
 }
