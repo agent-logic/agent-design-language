@@ -134,3 +134,65 @@ fn an_observation_descriptor_cannot_hide_an_owner_reported_mutation() {
         .iter()
         .any(|finding| finding["code"] == "effect_contract_violation"));
 }
+
+#[test]
+fn string_findings_are_normalized_without_rewriting_owner_evidence() {
+    let owner = json!({"status":"blocked","findings":["missing release inventory"]});
+    let output = envelope(owner.clone(), &invocation("release-preflight"), false);
+    assert_eq!(output["findings"], owner["findings"]);
+    let findings = output["envelope"]["findings"].as_array().unwrap();
+    assert_eq!(findings.len(), 1);
+    assert_eq!(findings[0]["message"], "missing release inventory");
+    assert!(findings[0]["code"].as_str().is_some_and(|s| !s.is_empty()));
+    assert_eq!(output["envelope"]["status"], "blocked");
+}
+
+#[test]
+fn sprint_completion_and_invalidity_do_not_create_operational_authority() {
+    for (raw_status, expected) in [
+        ("complete_not_cutover_authority", "completed"),
+        ("invalid", "failed"),
+    ] {
+        let output = envelope(
+            json!({"status":raw_status,"operational_authority":false,"findings":[]}),
+            &invocation("sprint"),
+            false,
+        );
+        assert_eq!(output["status"], raw_status);
+        assert_eq!(output["envelope"]["status"], expected);
+        assert_eq!(output["envelope"]["authority_status"], "non_operational");
+        assert_eq!(output["envelope"]["effects"]["outcome"], "none");
+    }
+}
+
+#[test]
+fn receipt_replay_effects_follow_producer_evidence_for_wrapped_and_direct_dispatch() {
+    for wrapped in [false, true] {
+        for (mutation, expected_effect, expected_status) in [
+            (json!(false), "none", "expected_noop"),
+            (json!(true), "performed", "completed"),
+            (Value::Null, "unknown", "completed"),
+        ] {
+            let dispatch = json!({"outcome":{"kind":"github_mutation","result":{
+                "performed_mutation":mutation,
+                "receipt":{"issue":868,"idempotent_replay":true,"operation_digest":"fixture-operation"}
+            }}});
+            let owner = if wrapped {
+                json!({"result":dispatch})
+            } else {
+                dispatch
+            };
+            let output = envelope(owner.clone(), &invocation("github-pr"), false);
+            let result = &output["envelope"];
+            assert_eq!(result["effects"]["outcome"], expected_effect);
+            assert_eq!(result["status"], expected_status);
+            assert_eq!(result["issue"]["number"], 868);
+            assert_eq!(result["intent_identity"], "fixture-operation");
+            if wrapped {
+                assert_eq!(output["result"], owner["result"]);
+            } else {
+                assert_eq!(output["outcome"], owner["outcome"]);
+            }
+        }
+    }
+}

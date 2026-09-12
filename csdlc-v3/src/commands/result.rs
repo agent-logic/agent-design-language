@@ -36,16 +36,42 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
             "/findings",
             "/result/findings",
             "/result/outcome/result/findings",
+            "/outcome/result/findings",
         ],
     )
     .cloned()
     .unwrap_or_else(|| json!([]));
+    if findings.as_array().is_some_and(Vec::is_empty) {
+        if let Some(sprints) = payload.get("sprints").and_then(Value::as_array) {
+            findings = Value::Array(
+                sprints
+                    .iter()
+                    .flat_map(|sprint| sprint["findings"].as_array().into_iter().flatten().cloned())
+                    .collect(),
+            );
+        }
+    }
+    if let Some(rows) = findings.as_array_mut() {
+        for finding in rows {
+            if let Some(code) = finding.as_str() {
+                *finding = json!({"code":code,"message":code});
+            }
+        }
+    }
     if payload.get("code").is_some() {
         findings = json!([payload.clone()]);
     }
     let mut code = findings
         .as_array()
-        .and_then(|f| f.iter().find_map(|f| f["code"].as_str()))
+        .and_then(|rows| {
+            rows.iter()
+                .find(|finding| {
+                    matches!(finding["status"].as_str(), Some("blocked" | "failed"))
+                        || matches!(finding["severity"].as_str(), Some("blocking" | "invalid"))
+                })
+                .and_then(|finding| finding["code"].as_str())
+                .or_else(|| rows.iter().find_map(|finding| finding["code"].as_str()))
+        })
         .unwrap_or(if failed {
             "command_failed"
         } else {
@@ -60,6 +86,7 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
             "/result/routing/state",
             "/route_status/status",
             "/result/outcome/result/status",
+            "/outcome/result/status",
         ],
     )
     .and_then(Value::as_str)
@@ -100,27 +127,43 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
         match raw_status.unwrap_or("completed") {
             "operator_required" | "repair_required" => "blocked",
             "waiting" => "deferred",
-            "retryable" => "failed",
+            "retryable" | "invalid" => "failed",
+            "complete_not_cutover_authority" => "completed",
             status => status,
         }
     };
     let mutation = select(
         &payload,
-        &["/performed_mutation", "/writes_v3_state", "/result/mutated"],
+        &[
+            "/performed_mutation",
+            "/writes_v3_state",
+            "/result/mutated",
+            "/result/outcome/result/performed_mutation",
+            "/outcome/result/performed_mutation",
+        ],
     )
     .and_then(Value::as_bool);
-    let remote_receipt = payload.pointer("/result/outcome/result/receipt").is_some();
-    let effects = if mutation == Some(true) || remote_receipt {
+    let remote_receipt = select(
+        &payload,
+        &["/result/outcome/result/receipt", "/outcome/result/receipt"],
+    );
+    let effects = if mutation == Some(true) {
         "performed"
     } else if mutation == Some(false) || effect_class == "observation" {
         "none"
-    } else if failed {
+    } else if failed || remote_receipt.is_some() {
         "unknown"
     } else if payload["read_only"] == true {
         "none"
     } else {
         "unknown"
     };
+    if mutation == Some(false)
+        && remote_receipt.is_some_and(|receipt| receipt["idempotent_replay"] == true)
+        && !failed
+    {
+        status = "expected_noop";
+    }
     if effects == "performed" && effect_class == "observation" {
         effect_class = "undeclared_mutation";
         status = "failed";
@@ -136,6 +179,8 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
             "/request_issue",
             "/result/issue",
             "/result/outcome/result/issue",
+            "/outcome/result/issue",
+            "/outcome/result/receipt/issue",
             "/result/outcome/result/receipt/issue",
         ],
     )
@@ -184,7 +229,10 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
         .cloned()
         .unwrap_or_else(|| json!([]))
     };
-    let authority = if payload["operational_authority"] == true {
+    let authority = if payload["operational_authority"] == true
+        || payload.pointer("/authority/schema").and_then(Value::as_str)
+            == Some("csdlc.v3.canonical_authority_evidence.v1")
+    {
         "verified"
     } else if failed {
         "not_established"
@@ -199,7 +247,7 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
         "effects":{"class":effect_class,"outcome":effects},
         "findings":findings,"reason_code":code,"allowed_next_operations":next,
         "correlation_id":invocation.correlation,
-        "intent_identity":select(&payload,&["/result/outcome/result/receipt/operation_digest"]),
+        "intent_identity":select(&payload,&["/result/outcome/result/receipt/operation_digest", "/outcome/result/receipt/operation_digest"]),
         "evidence_invalidation": {"status":"not_reported"},
         "timing":{"started_unix_ms":invocation.started_unix_ms,"monotonic_duration_ms":invocation.elapsed_ms},
         "wait_owner":if matches!(status,"blocked"|"recovery_required"|"failed"|"deferred") {"operator"} else {"none"}

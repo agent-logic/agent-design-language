@@ -1652,3 +1652,99 @@ fn installed_shepherd_result_states_preserve_owner_routing() {
     )
     .unwrap();
 }
+
+// PVF: required installed heterogeneous helper-envelope contract; deterministic
+// local JSON/filesystem observations, no network or operational authority.
+#[test]
+fn installed_helper_envelopes_normalize_release_and_sprint_reports() {
+    let fixture = operational_fixture("sim02-helper-envelope");
+    let installed = fixture.root.join(".git/installed-candidate/csdlc");
+    observation::install_candidate(&installed);
+    fs::write(
+        fixture.root.join("invalid-readback.json"),
+        b"{\"issue\":{}}",
+    )
+    .unwrap();
+    let mut reports = Vec::new();
+    for (name, route, request, status) in [
+        (
+            "release",
+            "release-preflight",
+            json!({"repository":"agent-logic/agent-design-language","version":"v0.92.2","candidate_sha":"0".repeat(40),"notes_path":"missing.md","notes_digest":"0".repeat(64),"gate_path":"missing.json","gate_digest":"0".repeat(64)}),
+            "failed",
+        ),
+        (
+            "sprint-empty-completion-mapping",
+            "sprint",
+            json!({"repository":"agent-logic/agent-design-language","version":"v0.92.2","sprints":[]}),
+            "completed",
+        ),
+        (
+            "sprint-invalid",
+            "sprint",
+            json!({"repository":"agent-logic/agent-design-language","version":"v0.92.2","sprints":[{"sprint":1,"umbrella_issue":866,"title":"Missing readback fixture","execution_mode":"sequential","serial_gates":[],"umbrella_readback_ref":"invalid-readback.json","child_readback_refs":{}}]}),
+            "failed",
+        ),
+    ] {
+        let path = fixture.root.join(format!("{name}.json"));
+        fs::write(&path, serde_json::to_vec(&request).unwrap()).unwrap();
+        let before = observation_inventory(&fixture.root);
+        let mut command = Command::new(&installed);
+        command.current_dir(&fixture.root).arg(route);
+        if route == "sprint" {
+            command.arg("--repo-root").arg(&fixture.root);
+        }
+        command.arg("--request").arg(&path);
+        let output = command.output().unwrap();
+        let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(report["envelope"]["status"], status, "{output:?}");
+        assert_eq!(report["envelope"]["effects"]["outcome"], "none");
+        assert_eq!(
+            report["envelope"]["authority_status"],
+            if route == "sprint" {
+                "non_operational"
+            } else {
+                "not_established"
+            }
+        );
+        assert!(report["envelope"]["findings"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(serde_json::Value::is_object));
+        if route == "release-preflight" {
+            assert!(!output.status.success());
+            assert_eq!(report["findings"], json!(["unsupported_release_identity"]));
+            assert_eq!(
+                report["envelope"]["findings"],
+                json!([{"code":"unsupported_release_identity","message":"unsupported_release_identity"}])
+            );
+            assert_eq!(
+                report["envelope"]["reason_code"],
+                "unsupported_release_identity"
+            );
+        } else {
+            assert!(
+                output.status.success(),
+                "sprint classification preserves legacy exit semantics"
+            );
+            assert_eq!(report["envelope"]["process_status"], "succeeded");
+            if name == "sprint-invalid" {
+                assert_eq!(report["status"], "invalid");
+                assert!(report["envelope"]["findings"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .any(|finding| finding["code"] == "serial_gates_missing"));
+                assert_eq!(report["envelope"]["reason_code"], "serial_gates_missing");
+            } else {
+                assert_eq!(report["status"], "complete_not_cutover_authority");
+            }
+        }
+        assert_eq!(before, observation_inventory(&fixture.root));
+        reports.push(json!({"label":name,"envelope":report["envelope"]}));
+    }
+    let path = repo_root().join("csdlc-v3/target/sim02-envelope-samples/helpers.json");
+    fs::create_dir_all(path.parent().unwrap()).unwrap();
+    fs::write(path, serde_json::to_vec_pretty(&reports).unwrap()).unwrap();
+}

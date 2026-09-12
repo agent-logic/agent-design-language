@@ -413,10 +413,12 @@ fn run_remote_inner(command: &str, args: &[String]) -> Result<String, String> {
         let mut adapter = RealProcessAdapter::new(EnvironmentCredentialResolver);
         let result = dispatch_operational_remote(&repo_root, &dispatch, &mut adapter)
             .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
-        let read_only = !matches!(
-            dispatch.operation,
-            OperationalRemoteOperation::GithubMutation(_)
-        );
+        let read_only = match &result.outcome {
+            csdlc_v3::commands::remote::OperationalRemoteOutcome::GithubMutation(outcome) => {
+                outcome.performed_mutation == Some(false)
+            }
+            _ => true,
+        };
         return serde_json::to_string(&RemoteCommandReport {
             schema: "csdlc.v3.operational_remote.v1",
             command: command.to_owned(),

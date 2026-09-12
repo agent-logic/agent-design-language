@@ -380,9 +380,12 @@ fn remote_terminal_baseline(
         json!({"number":640,"node_id":"PR_uncertain640","head":{"sha":head},"draft":true});
     let ready_graphql = json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"number":639,"headRefOid":head,"isDraft":false}}}});
     let uncertain_mode = inputs.join("uncertain-mode");
+    let reconciled_mode = inputs.join("reconciled-mode");
+    let mut reconciled_pr = uncertain_pr.clone();
+    reconciled_pr["draft"] = json!(false);
     let uncertain_graphql = json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"number":640,"headRefOid":head,"isDraft":false}}}});
-    let extra_cases = format!(" *api.github.com/graphql*) if test -f {}; then touch {}; printf '%s' {}; else cp {} {}; printf '%s' {}; fi;;\n *api.github.com/repos/agent-logic/agent-design-language/pulls/640*) printf '%s' {};;\n",
-        quote(uncertain_mode.to_str().unwrap()), quote(uncertain_flag.to_str().unwrap()), quote(&uncertain_graphql.to_string()), quote(ready_state.to_str().unwrap()), quote(pr_state.to_str().unwrap()), quote(&ready_graphql.to_string()), quote(&uncertain_pr.to_string()));
+    let extra_cases = format!(" *api.github.com/graphql*) if test -f {}; then touch {}; printf '%s' {}; else cp {} {}; printf '%s' {}; fi;;\n *api.github.com/repos/agent-logic/agent-design-language/pulls/640*) if test -f {}; then printf '%s' {}; else printf '%s' {}; fi;;\n",
+        quote(uncertain_mode.to_str().unwrap()), quote(uncertain_flag.to_str().unwrap()), quote(&uncertain_graphql.to_string()), quote(ready_state.to_str().unwrap()), quote(pr_state.to_str().unwrap()), quote(&ready_graphql.to_string()), quote(reconciled_mode.to_str().unwrap()), quote(&reconciled_pr.to_string()), quote(&uncertain_pr.to_string()));
     let script = script.replacen(
         "case \"$*\" in\n",
         &format!("case \"$*\" in\n{extra_cases}"),
@@ -600,6 +603,67 @@ fn remote_terminal_baseline(
             },
         );
         assert!(valid, "ready journey: {output:?}");
+        if pull_request == 640 {
+            fs::write(
+                &reconciled_mode,
+                b"simulated authenticated ready state after uncertain response",
+            )
+            .unwrap();
+        }
+        let (replay_output, replay_report) = invoke(
+            corpus,
+            if pull_request == 639 {
+                "remote-06-replay"
+            } else {
+                "remote-07-reconcile"
+            },
+            "github-pr",
+            if pull_request == 639 {
+                "existing_receipt_noop"
+            } else {
+                "retained_intent_receipt_write"
+            },
+            &ready_request,
+            Some("--execute"),
+            &fixture.root,
+        );
+        let replay_valid = replay_output.status.success()
+            && replay_report["result"]["outcome"]["result"]["receipt"]["idempotent_replay"] == true
+            && replay_report["envelope"]["effects"]["outcome"]
+                == if pull_request == 639 {
+                    "none"
+                } else {
+                    "performed"
+                }
+            && (pull_request == 640 || replay_report["envelope"]["status"] == "expected_noop");
+        corpus.classify(
+            if replay_valid { "completed" } else { "failed" },
+            "distinguish existing receipt observation from retained-intent local receipt write",
+            replay_valid,
+            None,
+        );
+        assert!(replay_valid, "replay outcome: {replay_output:?}");
+        let effects = corpus.attempts.last().unwrap()["effects"]
+            .as_array()
+            .unwrap();
+        if pull_request == 639 {
+            assert!(
+                effects.is_empty(),
+                "existing receipt replay wrote files: {effects:?}"
+            );
+        } else {
+            let digest = replay_report["result"]["outcome"]["result"]["receipt"]
+                ["operation_digest"]
+                .as_str()
+                .unwrap();
+            assert_eq!(effects.len(), 1, "reconciliation effects: {effects:?}");
+            assert_eq!(
+                effects[0]["path"],
+                format!(".git/csdlc-v3/remote/mutations/{digest}.json")
+            );
+            assert!(effects[0]["before"].is_null());
+            assert!(!effects[0]["after"].is_null());
+        }
     }
     let mut merged_pr = pr.clone();
     merged_pr["draft"] = json!(false);

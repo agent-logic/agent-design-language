@@ -18,9 +18,10 @@
   ],
   "denominators": {
     "command_dispositions": "26 current commands plus typed rollback alias; historical full-replacement denominator unchanged",
-    "installed_journey": "23 attempts: 19 completed, 3 blocked, 1 intentional process interruption; 19 common machine envelopes, 3 explicit discovery outputs, 1 crash without result",
+    "installed_journey": "25 attempts: 21 completed, 3 blocked, 1 intentional process interruption; 21 common machine envelopes, 3 explicit discovery outputs, 1 crash without result. Includes existing-receipt no-op and retained-intent new receipt write despite both historical replay flags.",
     "shepherd_states": "5 installed owner states mapped into versioned status with unchanged owner payload and byte inventory",
-    "schema_validation": "full Draft2020-12 validation of actual installed envelopes plus required-field and discriminated identity/effect/status/timing negatives"
+    "schema_validation": "full Draft2020-12 validation of actual installed envelopes plus required-field and discriminated identity/effect/status/timing negatives",
+    "helper_results": "release string findings plus sprint empty-list completion mapping and invalid readback findings; helper output classification only, not completed sprint delivery"
   },
   "non_claims": [
     "No active binary replacement, live GitHub effects, real pilot or release approval.",

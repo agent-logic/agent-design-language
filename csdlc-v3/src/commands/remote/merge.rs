@@ -586,6 +586,9 @@ pub(super) fn execute(
         receipt
     };
     Ok(GithubMutationResult {
+        // This owner opens durable coordination paths even on replay; it does
+        // not yet expose per-invocation effect accounting.
+        performed_mutation: None,
         receipt,
         reconciliation,
         invocation,

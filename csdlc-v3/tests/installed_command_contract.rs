@@ -6,7 +6,7 @@ mod installed_contract;
 use csdlc_v3::commands::contract::verify_discovery;
 use installed_contract::{git, Installation};
 use serde_json::Value;
-use std::{collections::BTreeSet, fs};
+use std::{collections::BTreeSet, fs, path::Path};
 const FROZEN: [&str; 27] = [
     "foundation",
     "local",
@@ -248,6 +248,13 @@ fn installed_provenance_rejects_stale_bytes_metadata_and_source() {
     )
     .unwrap();
     verify_installation(&provenance, &bytes, &source, &build, &expected_digest).unwrap();
+    let export = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/sim02-envelope-samples");
+    fs::create_dir_all(&export).unwrap();
+    fs::write(
+        export.join("installation-provenance.json"),
+        serde_json::to_vec_pretty(&provenance).unwrap(),
+    )
+    .unwrap();
     for field in [
         "schema",
         "source_revision",
@@ -473,16 +480,12 @@ fn every_frozen_installed_route_dispatches_and_required_flags_are_enforced() {
         );
         // Remove each declared required flag/value independently; successful
         // request dispatch must not silently supply missing operator inputs.
-        for index in 0..flags.len() {
+        for (index, flag) in flags.iter().enumerate() {
             let mut missing = argv.clone();
             missing.drain(1 + index * 2..3 + index * 2);
             let missing: Vec<_> = missing.iter().map(String::as_str).collect();
             let output = install.run(&install.root, &missing);
-            assert!(
-                !output.status.success(),
-                "{name} accepted missing {}",
-                flags[index]
-            );
+            assert!(!output.status.success(), "{name} accepted missing {}", flag);
             let report: Value = serde_json::from_slice(&output.stdout).unwrap();
             assert!(
                 report.to_string().contains("usage:"),
