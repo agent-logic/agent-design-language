@@ -209,12 +209,20 @@ def summarize(plan, packet, provider_bytes):
                 qualification="not_established_by_accounting", disposition="requires_independent_real_run_review")
 
 
-def collect_ollama(endpoint, model, prompt, timeout_seconds=30):
+def collect_ollama(endpoint, model, prompt, sampling, timeout_seconds=30, keep_alive_seconds=0):
     """Collect one actual local Ollama-compatible response, without route claims.
 
     PAIR's application proxy is local-only. No proxies, redirects, DNS, model
     acquisition, configuration changes or inferred Runtime/node identity.
     """
+    exact_fields(sampling, "temperature seed max_tokens", "sampling_fields")
+    require(type(sampling["temperature"]) in (int, float) and sampling["temperature"] == 0,
+            "deterministic_sampling_required")
+    require(type(sampling["seed"]) is int, "seed")
+    require(type(sampling["max_tokens"]) is int and 0 < sampling["max_tokens"] <= 4096,
+            "max_tokens")
+    require(type(keep_alive_seconds) is int and 0 <= keep_alive_seconds <= 300,
+            "collector_residency_bound")
     positive(timeout_seconds, "collector_timeout")
     require(timeout_seconds <= 120, "collector_timeout")
     require(isinstance(model, str) and 0 < len(model) <= 256, "collector_model")
@@ -228,7 +236,10 @@ def collect_ollama(endpoint, model, prompt, timeout_seconds=30):
     except (ValueError, TypeError):
         raise InvalidExperiment("collector_endpoint") from None
     require(address.is_loopback and port is not None and 0 < port < 65536, "collector_endpoint")
-    payload = json.dumps(dict(model=model, prompt=prompt, stream=False, keep_alive=-1)).encode()
+    payload = json.dumps(dict(model=model, prompt=prompt, stream=False,
+                              keep_alive=keep_alive_seconds,
+                              options=dict(temperature=sampling["temperature"], seed=sampling["seed"],
+                                           num_predict=sampling["max_tokens"]))).encode()
     started = time.monotonic()
     deadline = started + timeout_seconds
     connection = None

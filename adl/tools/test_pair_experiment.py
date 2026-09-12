@@ -16,6 +16,8 @@ from pathlib import Path
 
 import pair_experiment as pair
 
+SAMPLING = dict(temperature=0, seed=7, max_tokens=8)
+
 
 def fixture():
     provider = b'{"providers":{}}'
@@ -183,26 +185,36 @@ class AccountingTests(unittest.TestCase):
 
     def test_collector_sends_real_ollama_request_without_runtime_claim(self):
         with endpoint() as (url, server):
-            observed = pair.collect_ollama(url, "fixture-model", "Return 0", 1)
+            observed = pair.collect_ollama(url, "fixture-model", "Return 0", SAMPLING, 1)
             self.assertEqual(server.requests, [("/api/generate", dict(model="fixture-model",
-                             prompt="Return 0", stream=False, keep_alive=-1))])
+                             prompt="Return 0", stream=False, keep_alive=0,
+                             options=dict(temperature=0, seed=7, num_predict=8)))])
             self.assertEqual(observed["output"], "0")
             self.assertEqual(observed["route_identity"], "not_verified")
             self.assertEqual(observed["serving_node"], "not_verified")
             self.assertGreater(observed["elapsed_seconds"], 0)
+
+    def test_collector_requires_bounded_sampling_and_residency_before_dispatch(self):
+        with patch.object(pair.socket, "create_connection", side_effect=AssertionError("no dispatch")):
+            for sampling, residency in [(SAMPLING, -1), (SAMPLING, 301),
+                                         (dict(temperature=1, seed=7, max_tokens=8), 0),
+                                         (dict(temperature=0, seed=7, max_tokens=0), 0)]:
+                with self.subTest(sampling=sampling, residency=residency), self.assertRaises(pair.InvalidExperiment):
+                    pair.collect_ollama("http://127.0.0.1:11434", "model", "prompt", sampling,
+                                        keep_alive_seconds=residency)
 
     def test_collector_rejects_redirect_malformed_and_oversized_response(self):
         for body, status in [(b"{}", 200), (b"secret-error", 302),
                              (b"x"*(1024*1024+1), 200)]:
             with self.subTest(status=status, size=len(body)), endpoint(body, status) as (url, _):
                 with self.assertRaises(pair.InvalidExperiment):
-                    pair.collect_ollama(url, "model", "prompt", 1)
+                    pair.collect_ollama(url, "model", "prompt", SAMPLING, 1)
 
     def test_collector_deadline_interrupts_stalled_headers(self):
         with endpoint(stall=True) as (url, _):
             start = pair.time.monotonic()
             with self.assertRaises(pair.InvalidExperiment):
-                pair.collect_ollama(url, "model", "prompt", 0.05)
+                pair.collect_ollama(url, "model", "prompt", SAMPLING, 0.05)
             self.assertLess(pair.time.monotonic() - start, 1)
 
     def test_collector_rejects_nonlocal_or_credential_endpoints_before_socket(self):
@@ -211,7 +223,7 @@ class AccountingTests(unittest.TestCase):
                         "http://user:secret@127.0.0.1:8080", "https://127.0.0.1:8080",
                         "http://127.0.0.1:8080/api/generate", "http://127.0.0.1:8080?token=secret"]:
                 with self.subTest(url=url), self.assertRaises(pair.InvalidExperiment):
-                    pair.collect_ollama(url, "model", "prompt")
+                    pair.collect_ollama(url, "model", "prompt", SAMPLING)
 
     def test_cli_machine_channel_and_redacted_failure(self):
         plan, packet, provider = fixture()
