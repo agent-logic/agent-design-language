@@ -1,0 +1,79 @@
+{
+  "captured_at": "2026-09-12T01:38:03.826707+00:00",
+  "business_identity_verified": true,
+  "zones": [
+    {
+      "name": "csm.agent-logic.ai.",
+      "private": false
+    }
+  ],
+  "distributions": [
+    {
+      "aliases": [
+        "codefriend.ai",
+        "www.codefriend.ai"
+      ],
+      "domain": "d1v61pwq1vbzs3.cloudfront.net",
+      "status": "Deployed"
+    },
+    {
+      "aliases": [
+        "agent-logic.ai",
+        "www.agent-logic.ai"
+      ],
+      "domain": "d2qrxfb6umtd1a.cloudfront.net",
+      "status": "Deployed"
+    },
+    {
+      "aliases": [],
+      "domain": "dqyy7yagafimc.cloudfront.net",
+      "status": "Deployed"
+    },
+    {
+      "aliases": [
+        "api.wuji.dev.csm.agent-logic.ai"
+      ],
+      "domain": "d2rj6kchzz22y5.cloudfront.net",
+      "status": "Deployed"
+    },
+    {
+      "aliases": [
+        "wss.wuji.dev.csm.agent-logic.ai"
+      ],
+      "domain": "dnpwjw41tm26s.cloudfront.net",
+      "status": "Deployed"
+    },
+    {
+      "aliases": [
+        "observatory.wuji.dev.csm.agent-logic.ai"
+      ],
+      "domain": "d31sm5j4e5rraf.cloudfront.net",
+      "status": "Deployed"
+    }
+  ],
+  "certificates": [
+    {
+      "domain": "codefriend.ai",
+      "status": "ISSUED"
+    },
+    {
+      "domain": "agent-logic.ai",
+      "status": "ISSUED"
+    },
+    {
+      "domain": "agent-logic.ai",
+      "status": "ISSUED"
+    },
+    {
+      "domain": "agent-logic.ai",
+      "status": "ISSUED"
+    },
+    {
+      "domain": "*.wuji.dev.csm.agent-logic.ai",
+      "status": "ISSUED"
+    }
+  ],
+  "observatory_bucket_names": [
+    "csm-wuji-dev-observatory-assets"
+  ]
+}

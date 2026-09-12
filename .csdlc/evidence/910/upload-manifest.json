@@ -1,0 +1,41 @@
+{
+  "transformation": "Only index CSS/JS references become content-hash filenames; JS/CSS/config bytes identical to merged source. No retained telemetry assets.",
+  "object_count": 4,
+  "objects": [
+    {
+      "key": "app.327288d52ff025b5.js",
+      "sha256": "327288d52ff025b548ebf4031c57de1acdc2bbf403711417e150f6322c3af91b",
+      "bytes": 207669,
+      "content_type": "application/javascript",
+      "cache_control": "public,max-age=31536000,immutable"
+    },
+    {
+      "key": "styles.fb5a4cb483c419b7.css",
+      "sha256": "fb5a4cb483c419b74a9b96aff68bb7ba982d24671c6380dd47b84c5aa192a787",
+      "bytes": 73802,
+      "content_type": "text/css",
+      "cache_control": "public,max-age=31536000,immutable"
+    },
+    {
+      "key": "index.html",
+      "sha256": "3f0cf15b5bd4cdd3bf37f3094108d93b790e809eafc8f0e9cedc87d828ea19b8",
+      "bytes": 34095,
+      "content_type": "text/html",
+      "cache_control": "no-cache,no-store,must-revalidate"
+    },
+    {
+      "key": "runtime-v3.config.json",
+      "sha256": "69d17ab7fa27678f27c5758103129e12f4911176794736e59947b7833dfa860d",
+      "bytes": 826,
+      "content_type": "application/json",
+      "cache_control": "no-cache,no-store,must-revalidate"
+    }
+  ],
+  "upload_order": "hashed CSS/JS and runtime config before index.html",
+  "invalidation_paths": [
+    "/index.html",
+    "/runtime-v3.config.json",
+    "/"
+  ],
+  "mutation_status": "not executed"
+}

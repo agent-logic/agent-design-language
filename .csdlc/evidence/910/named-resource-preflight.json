@@ -1,0 +1,19 @@
+{
+  "business_profile": "agent-logic-admin",
+  "checks": [
+    {
+      "command": "cloudfront list-origin-access-controls",
+      "captured_at": "2026-09-12T01:43:53.951296+00:00",
+      "expected_name": "adl-observatory",
+      "collision": false,
+      "enumerated_count": 4
+    },
+    {
+      "command": "cloudfront list-response-headers-policies --type custom",
+      "captured_at": "2026-09-12T01:43:54.593361+00:00",
+      "expected_name": "adl-observatory-security",
+      "collision": false,
+      "enumerated_count": 3
+    }
+  ]
+}
