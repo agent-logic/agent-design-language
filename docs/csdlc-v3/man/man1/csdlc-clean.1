@@ -3,30 +3,55 @@
 csdlc\-clean \- preview and remove an eligible registered worktree
 .SH SYNOPSIS
 .nf
+\&csdlc clean ISSUE
+\&csdlc clean ISSUE \-\-execute \-\-preview TOKEN
+.fi
+.nf
 \&csdlc clean \-\-request REQUEST
 \&csdlc clean \-\-help
 .fi
+.SH ISSUE INTENT FORM
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&The intent preview returns preview_token on stdout without a token file. Execution compares the issue generation/digest, authority, exact target/head, terminal receipt, topology, policy and native preview before the owner repeats cleanup admission. Dirty/live/stale targets remain refused. Retained terminal evidence plus no registered issue binding can establish an observational repeated\-clean no\-op, never permission to remove another checkout.
+.PP
+\&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
+.PP
+\&The candidate intent cleanup bridge archives only exact generated untracked issue cards/evidence/completed transaction records and lock after admission, verifies durable copied bytes/permissions/symlink text, then removes originals with the index last. Tracked changes and unrelated untracked bytes remain refused. Retained request\-based cleanup remains unchanged. After interrupted removal, obtain a fresh clean preview and explicitly continue cleanup. Verified archived index evidence can authorize only cleanup continuation; it does not restore implementation authority.
 .SH DESCRIPTION
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Requires durable terminal receipt identity and digest, actual registered candidate, approved parent, exact matching head and clean non\-live checkout. First use cleanup.remove false; inspect Removable and save returned receipt_digest. Then use remove true with that preview_receipt_digest and unchanged target identity. Removal is separate from finish. Dirty/live/unregistered/protected paths are not permission to delete manually.
 .SH OPTIONS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP
 \&\-\-help: Show standalone help; \-h is equivalent.
 .PP
 \&\-h: Show standalone help; do not combine with execution options.
 .SH REQUEST
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc\-requests(1). Examples under docs/csdlc\-v3/man/examples use fixture identities and are not permission to mutate those targets.
 .SH EFFECTS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Preview inspects; remove true may remove exactly the registered candidate after repeated guards. It does not authorize broad branch/worktree cleanup.
 .SH FILES
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Primary terminal paths: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations.
 .SH EXAMPLES
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
 .nf
 \&csdlc clean \-\-request clean\-request.json
 .fi
 .PP
 \&Use csdlc\-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization.
 .SH RECOVERY
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers.
 .SH SEE ALSO
 \&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

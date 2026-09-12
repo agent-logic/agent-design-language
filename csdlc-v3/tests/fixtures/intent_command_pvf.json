@@ -1,0 +1,96 @@
+{
+  "issue": 869,
+  "schema": "csdlc.v3.intent_fixture_pvf.v1",
+  "lane": "tooling",
+  "proof_role": "Installed public intent execution through production owners, canonical discovery, guard and effect truth",
+  "determinism": "Isolated repositories, fixed synthetic issue identity, fake authenticated transport; measured wall time is observational and not an execution input",
+  "resources": "Local CPU, Rust, Git and fixture disk only; no live GitHub or provider operations",
+  "release_gate": "Required #869 and SIM-07 qualification input",
+  "required_targets": [
+    "installed_intent_commands",
+    "operational_cli_commands",
+    "remote_publication_commands",
+    "terminal_cleanup_cutover_commands",
+    "proof_parity_install_commands",
+    "release_preflight",
+    "installed_intent_timeout",
+    "installed_predecessor_dispositions",
+    "proof_worktree_binding",
+    "installed_command_contract",
+    "result_envelope",
+    "operator_man_pages"
+  ],
+  "required_coverage": {
+    "ordinary_intents": [
+      "status",
+      "prepare",
+      "bind",
+      "edit",
+      "validate",
+      "proof",
+      "review",
+      "publish",
+      "finish",
+      "clean",
+      "recover"
+    ],
+    "command_dispositions": [
+      "foundation",
+      "local",
+      "bind",
+      "clean",
+      "cutover",
+      "doctor",
+      "edit",
+      "eligibility",
+      "finish",
+      "github",
+      "github-issue",
+      "github-pr",
+      "install",
+      "issue",
+      "pr-state",
+      "proof",
+      "publish",
+      "review",
+      "remote",
+      "schedule",
+      "shadow",
+      "shepherd",
+      "soak",
+      "sprint",
+      "validate",
+      "release-preflight",
+      "rollback"
+    ],
+    "github_mutations": [
+      "issue_create",
+      "issue_comment",
+      "issue_edit",
+      "issue_close",
+      "pull_request_create",
+      "pull_request_update",
+      "pull_request_ready",
+      "pull_request_merge"
+    ],
+    "topologies": [
+      "primary",
+      "registered_linked"
+    ],
+    "case_classes": [
+      "positive",
+      "negative"
+    ]
+  },
+  "coverage_truth": "Required denominators, not executed coverage. Acceptance requires a retained actual installed-attempt ledger accounting for every required case. Discovery cannot count as mutation or lifecycle execution.",
+  "non_claims": [
+    "No active binary replacement or live state migration.",
+    "Authority bootstrap is not issue lifecycle execution proof.",
+    "Synthetic independent review validates admission behavior, not independent review of this source.",
+    "Historical proofs do not count as new intent execution."
+  ],
+  "additional_proof_roles": {
+    "installed_intent_timeout": "Actual installed proof timeout and cancellation; owned descendants killed, bounded pipe cleanup, failed receipts",
+    "installed_predecessor_dispositions": "Actual installed generic GitHub, cutover, and rollback predecessor dispositions; historical authority remains isolated fixture data"
+  }
+}

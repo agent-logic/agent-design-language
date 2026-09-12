@@ -2,6 +2,7 @@
 //!
 //! Operational proof/install writes require authenticated invoking worktree ownership.
 //! Historical shadow/soak routes are callable diagnostics only and fail without mutation.
+pub mod intent;
 
 use std::{
     collections::BTreeMap,

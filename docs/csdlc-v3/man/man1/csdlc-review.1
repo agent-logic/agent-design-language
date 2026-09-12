@@ -3,12 +3,25 @@
 csdlc\-review \- validate independent exact\-head review evidence
 .SH SYNOPSIS
 .nf
+\&csdlc review ISSUE \-\-evidence REVIEW.json [\-\-preview plan]
+.fi
+.nf
 \&csdlc review \-\-request REQUEST [\-\-observe\-github] [\-\-execute]
 \&csdlc review \-\-help
 .fi
+.SH ISSUE INTENT FORM
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&The intent form validates and retains externally supplied independent exact\-head review. REVIEW.json contains receipt, receipt_digest, proof_path and proof_digest. The receipt includes reviewed publication_linkage; proof binds exact candidate bytes and issue version. The ordinary form writes create\-only external evidence and native review records; \-\-preview plan is read\-only. Legacy \-\-request review admission remains observational.
+.PP
+\&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
 .SH DESCRIPTION
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Checks that implementer/reviewer are not the same nonempty principal and that a review revision is supplied. The current review classifier does not authenticate the typed receipt contents or perform the human/subagent review; loading a receipt is not evidence that this route validated it. Independent review and a matching typed receipt remain required by policy and later publication checks. Without \-\-execute produces a non\-authoritative plan; with it requires operational envelope operation.kind review and authenticated authority.
 .SH OPTIONS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP
 \&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
@@ -19,18 +32,25 @@ csdlc\-review \- validate independent exact\-head review evidence
 .PP
 \&\-h: Show standalone help; do not combine with execution options.
 .SH REQUEST
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Without \-\-execute: RemoteRouteRequest, including typed review/readback receipt references when required. With \-\-execute on non\-pr\-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc\-requests(1).
 .PP
 \&Non\-pr\-state \-\-execute plus \-\-observe\-github is rejected. \-\-observe\-github without \-\-execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode.
 .SH EFFECTS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request.
 .SH EXAMPLES
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
 .nf
 \&csdlc review \-\-request review\-request.json
 .fi
 .PP
 \&Request fixtures are in docs/csdlc\-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc\-workflow(1) for the full live sequence.
 .SH RECOVERY
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.
 .PP
 \&Issue\-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one\-shot. Merge retries are always read\-only; a still\-open or uncertain PR remains blocked.

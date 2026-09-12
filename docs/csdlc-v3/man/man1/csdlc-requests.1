@@ -1,6 +1,16 @@
 .TH "CSDLC-REQUESTS" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
 .SH NAME
 csdlc\-requests \- native request fields, enums and digest contracts
+.SH ISSUE INTENT CONTRACT
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&An emitted csdlc.v3.generated_intent_request.v1 wrapper is accepted directly by \-\-intent\-request, as is its csdlc.v3.intent_request.v1 request member with schema, command, content, execute, preview and snapshot. No manual extraction is required. Snapshot separates platform, repository/issue, authority selector, native issue generation/digest and checkout root/branch/head. It must equal current identity; stale or foreign\-platform requests are refused, never refreshed automatically.
+.PP
+\&Do not mix \-\-intent\-request with positional issue/content/execute/preview arguments. Ordinary argv and the advanced object reach one intent implementation. Existing internal \-\-request schemas below are retained contracts, not interchangeable intent snapshots.
+.PP
+\&Plan content: csdlc.v3.intent_plan.v1 {schema,slug,cards,validators,publication}; cards contains six current\-template values objects, validators declares id/program/args/success_marker and optional timeout_seconds (default 300, admitted 1 through 300), publication declares base/title/body/draft. Changes: csdlc.v3.intent_changes.v1 {schema,cards}. Review: {receipt,receipt_digest,proof_path,proof_digest}, with supplied independent exact\-head native review and current nonempty proof. See INTENT_COMMANDS.md for complete field and guard descriptions.
+.PP
+\&Status decisions content: optional design_ready, dependencies_ready and budget_available booleans; retryable_failure and operator_decision_needed default false. Missing admission decisions stay explicit. Finish disposition content: disposition/operator/rationale/evidence_refs using the native NoPrDisposition enum; authenticated closure timestamps are resolved internally and rechecked by the native owner.
 .SH DESCRIPTION
 \&This is the operator\-readable request field reference. Strings are JSON strings, u64 values are nonnegative JSON integers, bool values are JSON booleans, Vec values are arrays and map values are JSON objects. Optional fields may be omitted; a schema\-valid shape is only the first gate. Current identity, positive issue IDs where required, authority, receipts, path confinement and operation\-specific guards are still mandatory.
 .PP
@@ -467,3 +477,51 @@ csdlc\-requests \- native request fields, enums and digest contracts
 \&issue: u64; required positive issue number matching the merge request.
 .PP
 \&mode: RemotePublicationMode; required closing or part_of. The reviewed mode controls both authenticated pre\-dispatch relation and post\-merge issue state.
+.SH VALIDATOR
+\&Admitted Cargo test declaration. timeout_seconds is optional at input, defaults to 300 and must be 1 through 300; its resolved value is bound into the validator input digest and actual receipt.
+.PP
+\&id: String
+.PP
+\&program: String
+.PP
+\&args: Vec<String>
+.PP
+\&success_marker: String
+.PP
+\&timeout_seconds: u64
+.SH PUBLICATION
+\&Default publication plan. Explicit GitHub update content can change title/body without rewriting this plan; all closing linkage and exact candidate guards remain required.
+.PP
+\&base: String
+.PP
+\&title: String
+.PP
+\&body: String
+.PP
+\&draft: bool
+.SH INTENTPLAN
+\&Strict preparation plan with six active\-template values objects and declared validator/publication intent; identity comes from the owner.
+.PP
+\&schema: String
+.PP
+\&slug: String
+.PP
+\&cards: BTreeMap<String, Value>
+.PP
+\&validators: Vec<Validator>
+.PP
+\&publication: Publication
+.SH INTENTREQUEST
+\&Strict shared advanced request. The complete emitted wrapper or this inner object is accepted; current platform/authority/issue\-version/checkout snapshot must agree before execution.
+.PP
+\&schema: String
+.PP
+\&command: String
+.PP
+\&content: Value
+.PP
+\&execute: bool
+.PP
+\&preview: Option<String>
+.PP
+\&snapshot: Snapshot

@@ -17,6 +17,8 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 \&This suite documents the committed native command contract. It includes all help\-listed commands plus the supported rollback alias and github\-issue create/close forms. The active simplification issues may change future behavior; rerun command/option parity after integration. Historical v1 wrappers and retained v2 binaries are not routine operational routes.
 .PP
 \&Discovery is compiled from the current command manifest: \-\-contract returns the raw full descriptor manifest and COMMAND \-\-describe returns the raw command descriptor, including input contract, effect class and result schema. These global discovery forms do not execute the route and are separate from owner\-specific parser options. The selected binary must support this contract; source or isolated candidate validation does not prove that the active installation has been upgraded.
+.PP
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
 .SH INSTALLATION
 .nf
 \&bash adl/tools/install_owner_binaries.sh \-\-bin csdlc
@@ -30,11 +32,13 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 .PP
 \&The native csdlc install command is an issue\-bound proof/install route with a separate .adl/bin/csdlc destination and explicit approval. It is not the owner installer or manual installer. See csdlc\-install(1).
 .SH LIFECYCLE
+\&Candidate ordinary sequence: status ISSUE; prepare ISSUE \-\-plan PLAN; bind ISSUE; edit ISSUE \-\-changes CHANGES; validate ISSUE; proof ISSUE; review ISSUE \-\-evidence REVIEW; publish ISSUE; finish ISSUE; clean ISSUE. Recover ISSUE previews one retained native local transaction or remote operation for exact\-token recovery. The existing request\-based sequence follows below and remains supported; no activation is implied.
+.PP
 \&Prepare issue\-specific SIP \-> STP \-> SPP \-> VPP \-> SRP \-> SOR using the active template registry. Native issue/edit/validate/doctor prepare a local issue; bind creates the registered execution worktree. Implement and validate proportionally, obtain independent exact\-head review, and check native review before publication. Native publish validates publication admission; github\-pr executes the actual create/update/ready/merge transport. Finish observes merged PR plus closed issue and may persist terminal records; clean independently previews and removes only the exact eligible registered checkout.
 .PP
 \&Use csdlc\-workflow(1) for the complete operator sequence. A successful command exit is not sufficient: inspect operational_authority, result status/findings, exact issue/head and mutation flags. A ready model\-only plan is not executed work.
 .SH CONVENTIONS
-\&\-\-help and \-h are standalone help arguments, not global options mixed into another invocation. There is no \-\-version, \-\-json, \-\-quiet, \-\-root or global \-\-repo option. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc\-requests(1).
+\&\-\-help and \-h are standalone help arguments, not global options mixed into another invocation. There is no global \-\-version, \-\-json, \-\-quiet, \-\-root or \-\-repo option. Candidate issue intent forms separately accept \-\-json, \-\-repo\-root, \-\-emit\-request and \-\-intent\-request; consult their specific input contract. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc\-requests(1).
 .PP
 \&Local commands accept \-\-repo\-root for discovery and \-\-v3\-state\-root for retained construction storage. Ordinary operations should run from clean primary main during preparation, then from the native\-bound issue checkout. Do not use alternate roots to bypass ownership. Exact SHA means the full 40\-hex Git revision. Local lifecycle digests and remote canonical selector digests are different values.
 .PP
@@ -42,11 +46,11 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 .SH CREDENTIALS
 \&Select credential names, never credential values, in credential_names or \-\-credential\-name. The default simple\-issue name is GITHUB_TOKEN. The current native resolver first reads the selected environment variable; if absent, GITHUB_TOKEN or GH_TOKEN may use the explicitly set ADL_GITHUB_TOKEN_FILE. A set\-but\-empty variable fails; it does not fall back. Other credential names require their corresponding environment variable.
 .PP
-\&For the operator\-approved token file use ADL_GITHUB_TOKEN_FILE=\(dq$HOME/keys/github.token\(dq only on commands needing GitHub access. Do not print or retain its contents. This committed native resolver requires the explicit file variable; it does not automatically discover a default file. Invalid credentials, unsafe token characters or unavailable authentication fail closed. Child processes receive scoped credentials and sanitized environments. Retained curl transport uses a private temporary config and removes the file; do not mistake temporary file cleanup for a completely write\-free observation.
+\&For the operator\-approved token file use ADL_GITHUB_TOKEN_FILE=\(dq$HOME/keys/github.token\(dq only on commands needing GitHub access. Do not print or retain its contents. This committed native resolver requires the explicit file variable; it does not automatically discover a default file. Invalid credentials, unsafe token characters or unavailable authentication fail closed. Child processes receive scoped credentials and sanitized environments. Read\-only curl transport supplies its private configuration over stdin and disables ambient curl configuration with \-q first. Mutating transport retains its separate private input/receipt effects; read\-only observation does not create a credential configuration file.
 .SH EXIT STATUS
 \&0 means the command returned a report (or help); some planning reports still contain blocked findings. 2 means usage, parsing, guard, transport or execution failure. Read the structured status as well as the process exit status.
 .PP
-\&Successful JSON reports go to stdout. Current proof/release\-preflight blocked reports also go to stdout with a short diagnostic on stderr. Other current failures may serialize findings on stderr with a csdlc prefix. Do not assume all errors are JSON stdout. The v3 CLI does not implement ADL_OBSERVABILITY_STDERR or ADL_OBSERVABILITY_LOG overrides; this manual claims no such compatibility mode.
+\&JSON reports, including machine\-readable command failures, go to stdout with the common envelope. Failure diagnostics on stderr identify a stable reason and direct the operator to structured stdout; they do not duplicate JSON payloads. Help remains text and successful descriptor discovery returns raw descriptors. This manual does not claim ADL_OBSERVABILITY_STDERR or ADL_OBSERVABILITY_LOG compatibility beyond separately proven owner behavior.
 .SH FILES
 \&Primary local preparation: resolved Git metadata csdlc\-v3/local/issues/ISSUE/{index.json,values/,cards/}. In an ordinary primary checkout this is .git/csdlc\-v3/local. Linked issue state: .csdlc/issues/ISSUE/{index.json,values/,cards/}. Local locks and transactions live beneath that resolved local state root, including transactions/ISSUE.json and completed transaction records.
 .PP
@@ -71,3 +75,5 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 \&Doctor, validate, eligibility, schedule and shepherd observe without creating lifecycle locks or replaying interrupted transactions. Reported recovery\-required state must be handled by an explicit mutation/recovery route. Operational local routes fail closed when authority context is unavailable; only explicit local selects the non\-operational construction helper. This guarantee does not make issue, edit or bind observational.
 .SH SEE ALSO
 \&csdlc\-workflow(1), csdlc\-requests(1), csdlc\-doctor(1), csdlc\-github\-pr(1), csdlc\-finish(1), csdlc\-clean(1). Repository policy: AGENTS.md, docs/csdlc\-v3/CURRENT_AUTHORITY.md, docs/csdlc\-v3/CONTRACT.md and docs/csdlc\-v3/PULL_REQUEST_MERGE.md.
+.PP
+\&csdlc\-status(1), csdlc\-prepare(1), csdlc\-recover(1), docs/csdlc\-v3/INTENT_COMMANDS.md.

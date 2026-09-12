@@ -28,7 +28,15 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
     let command = invocation.command.as_str();
     let row = descriptor(command);
     let mut effect_class = row
-        .and_then(|r| r["effect_class"].as_str())
+        .and_then(|r| {
+            if payload.get("intent_snapshot").is_some() {
+                r["intent_effect_class"]
+                    .as_str()
+                    .or_else(|| r["effect_class"].as_str())
+            } else {
+                r["effect_class"].as_str()
+            }
+        })
         .unwrap_or("observation");
     let mut findings = select(
         &payload,
@@ -200,7 +208,9 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
         &payload,
         &["/result/digest", "/result/lifecycle_state/digest"],
     );
-    let before = if row.is_some_and(|r| r["family"] == "local") {
+    let before = if payload.get("intent_snapshot").is_some() {
+        select(&payload, &["/intent_snapshot/version/digest"])
+    } else if row.is_some_and(|r| r["family"] == "local") {
         payload
             .get("request_expected_lifecycle_digest")
             .filter(|value| value.is_string())
@@ -213,7 +223,9 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
     } else {
         None
     };
-    let next = if let Some(next) = payload
+    let next = if payload["allowed_next"].is_array() {
+        payload["allowed_next"].clone()
+    } else if let Some(next) = payload
         .pointer("/result/next_route")
         .and_then(Value::as_str)
     {
@@ -243,7 +255,7 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
         "schema": RESULT_SCHEMA, "command": command, "issue": issue_identity,
         "status":status, "process_status":if failed {"failed"} else {"succeeded"},
         "authority_status":authority,
-        "issue_version":{"before":{"basis":"request_expectation", "digest":before}, "after":{"basis":"owner_result", "digest":after}},
+        "issue_version":{"before":{"basis":if payload.get("intent_snapshot").is_some(){"observed_intent_snapshot"}else{"request_expectation"}, "digest":before}, "after":{"basis":"owner_result", "digest":after}},
         "effects":{"class":effect_class,"outcome":effects},
         "findings":findings,"reason_code":code,"allowed_next_operations":next,
         "correlation_id":invocation.correlation,

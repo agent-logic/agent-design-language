@@ -1,0 +1,35 @@
+.TH "CSDLC-RECOVER" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
+.SH NAME
+csdlc\-recover \- preview and execute recovery of one retained native operation
+.SH SYNOPSIS
+.nf
+\&csdlc recover ISSUE [\-\-repo\-root ROOT] [\-\-json]
+\&csdlc recover ISSUE \-\-execute \-\-preview DIGEST
+\&csdlc recover \-\-intent\-request REQUEST.json
+.fi
+.SH DESCRIPTION
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&Preview the retained native local transaction or original remote mutation and return preview_digest without creating a token file or dispatching a mutation. No additional operation or receipt inputs are required.
+.PP
+\&Execution requires the exact current preview token. Local recovery holds the native issue lock and compares its current transaction identity. Remote recovery binds the issue snapshot and complete retained native intent bytes, then reconciles the original request without recomputing its operation.
+.PP
+\&Only the existing remote owner can permit its supported one\-shot authenticated\-absence retry. Merge and unsupported operation retries remain reconciliation\-only. Multiple pending remote operations, or simultaneous local and remote uncertainty, are refused explicitly. With no pending work the result is a no\-op.
+.PP
+\&Preserve native journals, intents and receipts. A changed token or request is not permission to bypass a guard. Source implementation requires focused installed proof and does not imply active binary replacement.
+.PP
+\&The generated wrapper emitted by \-\-emit\-request can be passed directly to \-\-intent\-request; the inner request is also accepted.
+.SH OUTPUT
+\&Machine JSON uses the common command\-result envelope. Interpret status, authority, effects and findings independently. An emitted request is a snapshot, not execution. Foreign\-platform snapshot rejection is not non\-Unix execution proof.
+.SH SEE ALSO
+\&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1), docs/csdlc\-v3/INTENT_COMMANDS.md.
+.SH OPTIONS
+\&Supported candidate intent options: \-\-emit\-request, \-\-execute, \-\-help, \-\-intent\-request, \-\-json, \-\-preview, \-\-repo\-root, \-h. Positional ISSUE is positive; \-\-help and \-h are standalone discovery. Unsupported combinations fail closed.
+.SH EXAMPLES
+.nf
+\&csdlc recover ISSUE [\-\-repo\-root ROOT] [\-\-json]
+\&csdlc recover ISSUE \-\-execute \-\-preview DIGEST
+\&csdlc recover \-\-intent\-request REQUEST.json
+.fi
+.PP
+\&These forms require a supporting selected candidate; they do not upgrade the active binary or authorize activation.

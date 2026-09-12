@@ -18,6 +18,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 const REQUIRED_CARD_KINDS: [&str; 6] = ["sip", "stp", "spp", "vpp", "srp", "sor"];
+pub mod intent;
 pub const LOCAL_ROUTE_NAMES: [&str; 8] = [
     "issue",
     "bind",
@@ -2345,6 +2346,15 @@ fn initialize_operational_issue(
     registry: &PromptRegistry,
     issue_root: &Path,
 ) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
+    initialize_operational_issue_with_plan(request, registry, issue_root, None)
+}
+
+fn initialize_operational_issue_with_plan(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    issue_root: &Path,
+    intent_plan: Option<&Value>,
+) -> Result<OperationalLocalResult, Vec<DoctorFinding>> {
     if issue_root.exists() {
         return Err(vec![finding(
             PlanStatus::Blocked,
@@ -2371,7 +2381,12 @@ fn initialize_operational_issue(
         let cards_root = stage.join("cards");
         fs::create_dir(&cards_root).map_err(io_finding("issue_state_create_failed"))?;
         for kind in REQUIRED_CARD_KINDS {
-            let values = initial_card_values(request, registry, kind);
+            let mut values = initial_card_values(request, registry, kind);
+            if intent_plan.is_some() {
+                if let Some(update) = request.card_updates.get(kind) {
+                    merge_json_object(&mut values, update);
+                }
+            }
             let template_path = registry
                 .template_paths
                 .get(kind)
@@ -2381,6 +2396,9 @@ fn initialize_operational_issue(
             let rendered = render_template(&template, &values);
             atomic_write_json(&cards_root.join(format!("{kind}.values.json")), &values)?;
             atomic_write(&cards_root.join(format!("{kind}.md")), rendered.as_bytes())?;
+        }
+        if let Some(plan) = intent_plan {
+            atomic_write_json(&stage.join("intent-plan.json"), plan)?;
         }
         persist_index(&stage, request, registry, "ready", 1)
     })();
@@ -3059,6 +3077,11 @@ fn lifecycle_digest(issue_root: &Path, index: &Value) -> Result<String, Vec<Doct
     let binding = issue_root.join("binding.json");
     if binding.is_file() {
         hasher.update(&fs::read(binding).map_err(io_finding("binding_read_failed"))?);
+    }
+    let intent_plan = issue_root.join("intent-plan.json");
+    if intent_plan.is_file() {
+        hasher.update(b"csdlc.v3.intent_plan.v1\0");
+        hasher.update(&fs::read(intent_plan).map_err(io_finding("intent_plan_read_failed"))?);
     }
     Ok(hasher.finalize().to_hex().to_string())
 }

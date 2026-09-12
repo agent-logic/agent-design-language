@@ -13,7 +13,8 @@
         "DESCRIPTION": [
           "C-SDLC v3 is the current lifecycle authority after #505 / PR #591 only when canonical origin/main selector, authenticated native receipt, terminal reconciliation and Git objects validate. Missing or stale proof suspends authority. A printed plan, a construction report, an install, or a boolean in a request cannot grant it.",
           "This suite documents the committed native command contract. It includes all help-listed commands plus the supported rollback alias and github-issue create/close forms. The active simplification issues may change future behavior; rerun command/option parity after integration. Historical v1 wrappers and retained v2 binaries are not routine operational routes.",
-          "Discovery is compiled from the current command manifest: --contract returns the raw full descriptor manifest and COMMAND --describe returns the raw command descriptor, including input contract, effect class and result schema. These global discovery forms do not execute the route and are separate from owner-specific parser options. The selected binary must support this contract; source or isolated candidate validation does not prove that the active installation has been upgraded."
+          "Discovery is compiled from the current command manifest: --contract returns the raw full descriptor manifest and COMMAND --describe returns the raw command descriptor, including input contract, effect class and result schema. These global discovery forms do not execute the route and are separate from owner-specific parser options. The selected binary must support this contract; source or isolated candidate validation does not prove that the active installation has been upgraded.",
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries."
         ],
         "INSTALLATION": [
           {
@@ -23,21 +24,22 @@
           "The native csdlc install command is an issue-bound proof/install route with a separate .adl/bin/csdlc destination and explicit approval. It is not the owner installer or manual installer. See csdlc-install(1)."
         ],
         "LIFECYCLE": [
+          "Candidate ordinary sequence: status ISSUE; prepare ISSUE --plan PLAN; bind ISSUE; edit ISSUE --changes CHANGES; validate ISSUE; proof ISSUE; review ISSUE --evidence REVIEW; publish ISSUE; finish ISSUE; clean ISSUE. Recover ISSUE previews one retained native local transaction or remote operation for exact-token recovery. The existing request-based sequence follows below and remains supported; no activation is implied.",
           "Prepare issue-specific SIP -> STP -> SPP -> VPP -> SRP -> SOR using the active template registry. Native issue/edit/validate/doctor prepare a local issue; bind creates the registered execution worktree. Implement and validate proportionally, obtain independent exact-head review, and check native review before publication. Native publish validates publication admission; github-pr executes the actual create/update/ready/merge transport. Finish observes merged PR plus closed issue and may persist terminal records; clean independently previews and removes only the exact eligible registered checkout.",
           "Use csdlc-workflow(1) for the complete operator sequence. A successful command exit is not sufficient: inspect operational_authority, result status/findings, exact issue/head and mutation flags. A ready model-only plan is not executed work."
         ],
         "CONVENTIONS": [
-          "--help and -h are standalone help arguments, not global options mixed into another invocation. There is no --version, --json, --quiet, --root or global --repo option. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc-requests(1).",
+          "--help and -h are standalone help arguments, not global options mixed into another invocation. There is no global --version, --json, --quiet, --root or --repo option. Candidate issue intent forms separately accept --json, --repo-root, --emit-request and --intent-request; consult their specific input contract. JSON is the machine output format; do not use retired wrapper flags. Paths to CLI input files are resolved by the invoking process. Typed relative path fields use the root declared by their owning contract; consult csdlc-requests(1).",
           "Local commands accept --repo-root for discovery and --v3-state-root for retained construction storage. Ordinary operations should run from clean primary main during preparation, then from the native-bound issue checkout. Do not use alternate roots to bypass ownership. Exact SHA means the full 40-hex Git revision. Local lifecycle digests and remote canonical selector digests are different values.",
           "Machine command results preserve legacy owner payload fields and add /envelope with schema csdlc.v3.command_result.v1. Successful --contract and COMMAND --describe responses return their descriptor directly; help remains text. Process outcome, lifecycle status, authority and effects are separate. A successful exit or ready report does not prove mutation, publication or terminal delivery. Unknown effects and unreported evidence invalidation are not no-effect evidence; inspect owner results and durable receipts."
         ],
         "CREDENTIALS": [
           "Select credential names, never credential values, in credential_names or --credential-name. The default simple-issue name is GITHUB_TOKEN. The current native resolver first reads the selected environment variable; if absent, GITHUB_TOKEN or GH_TOKEN may use the explicitly set ADL_GITHUB_TOKEN_FILE. A set-but-empty variable fails; it does not fall back. Other credential names require their corresponding environment variable.",
-          "For the operator-approved token file use ADL_GITHUB_TOKEN_FILE=\"$HOME/keys/github.token\" only on commands needing GitHub access. Do not print or retain its contents. This committed native resolver requires the explicit file variable; it does not automatically discover a default file. Invalid credentials, unsafe token characters or unavailable authentication fail closed. Child processes receive scoped credentials and sanitized environments. Retained curl transport uses a private temporary config and removes the file; do not mistake temporary file cleanup for a completely write-free observation."
+          "For the operator-approved token file use ADL_GITHUB_TOKEN_FILE=\"$HOME/keys/github.token\" only on commands needing GitHub access. Do not print or retain its contents. This committed native resolver requires the explicit file variable; it does not automatically discover a default file. Invalid credentials, unsafe token characters or unavailable authentication fail closed. Child processes receive scoped credentials and sanitized environments. Read-only curl transport supplies its private configuration over stdin and disables ambient curl configuration with -q first. Mutating transport retains its separate private input/receipt effects; read-only observation does not create a credential configuration file."
         ],
         "EXIT STATUS": [
           "0 means the command returned a report (or help); some planning reports still contain blocked findings. 2 means usage, parsing, guard, transport or execution failure. Read the structured status as well as the process exit status.",
-          "Successful JSON reports go to stdout. Current proof/release-preflight blocked reports also go to stdout with a short diagnostic on stderr. Other current failures may serialize findings on stderr with a csdlc prefix. Do not assume all errors are JSON stdout. The v3 CLI does not implement ADL_OBSERVABILITY_STDERR or ADL_OBSERVABILITY_LOG overrides; this manual claims no such compatibility mode."
+          "JSON reports, including machine-readable command failures, go to stdout with the common envelope. Failure diagnostics on stderr identify a stable reason and direct the operator to structured stdout; they do not duplicate JSON payloads. Help remains text and successful descriptor discovery returns raw descriptors. This manual does not claim ADL_OBSERVABILITY_STDERR or ADL_OBSERVABILITY_LOG compatibility beyond separately proven owner behavior."
         ],
         "FILES": [
           "Primary local preparation: resolved Git metadata csdlc-v3/local/issues/ISSUE/{index.json,values/,cards/}. In an ordinary primary checkout this is .git/csdlc-v3/local. Linked issue state: .csdlc/issues/ISSUE/{index.json,values/,cards/}. Local locks and transactions live beneath that resolved local state root, including transactions/ISSUE.json and completed transaction records.",
@@ -55,7 +57,8 @@
           "Doctor, validate, eligibility, schedule and shepherd observe without creating lifecycle locks or replaying interrupted transactions. Reported recovery-required state must be handled by an explicit mutation/recovery route. Operational local routes fail closed when authority context is unavailable; only explicit local selects the non-operational construction helper. This guarantee does not make issue, edit or bind observational."
         ],
         "SEE ALSO": [
-          "csdlc-workflow(1), csdlc-requests(1), csdlc-doctor(1), csdlc-github-pr(1), csdlc-finish(1), csdlc-clean(1). Repository policy: AGENTS.md, docs/csdlc-v3/CURRENT_AUTHORITY.md, docs/csdlc-v3/CONTRACT.md and docs/csdlc-v3/PULL_REQUEST_MERGE.md."
+          "csdlc-workflow(1), csdlc-requests(1), csdlc-doctor(1), csdlc-github-pr(1), csdlc-finish(1), csdlc-clean(1). Repository policy: AGENTS.md, docs/csdlc-v3/CURRENT_AUTHORITY.md, docs/csdlc-v3/CONTRACT.md and docs/csdlc-v3/PULL_REQUEST_MERGE.md.",
+          "csdlc-status(1), csdlc-prepare(1), csdlc-recover(1), docs/csdlc-v3/INTENT_COMMANDS.md."
         ]
       }
     },
@@ -149,17 +152,28 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc bind ISSUE"
+          },
+          {
             "code": "csdlc bind --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc bind --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Bind the prepared issue through the existing registered-worktree owner; derive registry and registration inputs from canonical context.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Requires ready issue-specific cards, current digest, authenticated canonical authority and the tracked .adl/worktree-policy.json approved parent. Creates the exact branch and FastWork checkout when absent, or validates supported existing binding. Do not manually create a competing checkout. Verify bound phase, returned digest and all six cards before implementation."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Mutates Git branch/worktree and local issue state.",
           "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
           "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
@@ -169,15 +183,18 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc bind --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
           },
           "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
         ],
         "SEE ALSO": [
@@ -191,17 +208,28 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc edit ISSUE --changes CHANGES.json"
+          },
+          {
             "code": "csdlc edit --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc edit --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Apply strict csdlc.v3.intent_changes.v1 content with schema and cards semantic values through the native editor. Unsupported preview/execute flags fail before dispatch.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "card_updates maps sip/stp/spp/vpp/srp/sor to semantic field values. The native renderer validates locked template shape and commits the transaction. Use the appropriate editor skill to determine truthful fields; never patch generated Markdown. Compare-and-swap expected_lifecycle_digest binds the existing issue generation."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Mutates issue values, renders, index and transaction records.",
           "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
           "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
@@ -211,15 +239,18 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc edit --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
           },
           "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
         ],
         "SEE ALSO": [
@@ -233,17 +264,28 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc validate ISSUE"
+          },
+          {
             "code": "csdlc validate --request REQUEST --registry REGISTRY --registrations REGISTRATIONS\n  [--repo-root ROOT] [--v3-state-root ROOT]\ncsdlc validate --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Observe native card validation without executing validators or replaying interrupted transactions.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Checks values, rendered structures and index digest against the active registry. A missing or malformed bundle blocks; this is structural validation, not implementation or semantic proof. The route uses the request's plan_pvf capability mapping, not a fictional validate command enum."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Observation-only diagnostic route; does not create lifecycle lock metadata or replay a pending transaction. Pending transaction recovery is reported as local_transaction_recovery_required and must use an explicit mutation/recovery route.",
           "Do not interpret read_only in an older report as a byte-level filesystem guarantee. See csdlc(1) for current observation guarantees, selected-binary discovery and the primary/linked path distinction."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--registry: Required path to docs/templates/prompts/current.json; selects the active versioned templates and schemas.",
           "--registrations: Required JSON array of actual Git worktree registrations, each {branch, worktree, primary}; refresh from live git worktree list --porcelain.",
@@ -253,15 +295,18 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "LocalPreparationRequest; complete fields, commands and canonical locations are in csdlc-requests(1). Example source: docs/csdlc-v3/man/examples/local.json. Replace example identity with the actual issue, approved branch/worktree, active registry version and latest lifecycle digest before operational use."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc validate --request local-request.json \\\n  --registry docs/templates/prompts/current.json \\\n  --registrations actual-registrations.json"
           },
           "The checked-in example is fixture-validated. A JSON-valid example does not grant an operational binding or assert dependency readiness. Use csdlc-workflow(1) to prepare and refresh these inputs from real state."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Preserve index, values and transaction bytes. Reissue the exact interrupted mutating issue/bind/edit request through its native owner after checking the bound topology; do not use diagnostics as a repair command. If current recovery is denied, retain the finding and route a bounded tooling repair. Never hand-edit transaction stages/backups or stale digest guards."
         ],
         "SEE ALSO": [
@@ -484,13 +529,24 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc github-issue ISSUE --operation OPERATION.json [--execute]"
+          },
+          {
             "code": "csdlc github-issue --request REQUEST [--observe-github] [--execute]\ncsdlc github-issue --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "The strict operation content selects issue create/comment/edit/administrative close. Without --execute this previews native shape/identity admission. Creation uses the issue as coordination context and native issue zero for the newly assigned GitHub number. Explicit absence-retry content is {operation: action object, recovery: retry_after_authenticated_absence}; only native-supported retries are allowed.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.",
+          "The optional --preview explicitly selects the default observational intent mode and cannot be combined with --execute."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "With --execute owns only issue_create, issue_comment, issue_edit and issue_close. Creation returns the assigned GitHub number and durable receipt. Administrative duplicate/superseded/no-op closure is not delivery; completed closure is rejected. Use the simple forms documented below or the typed dispatch."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
           "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
@@ -498,19 +554,23 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
           "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc github-issue --request github-dispatch.json --execute"
           },
           "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
           "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
         ],
@@ -533,13 +593,24 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc github-pr ISSUE --operation OPERATION.json [--execute]"
+          },
+          {
             "code": "csdlc github-pr --request REQUEST [--observe-github] [--execute]\ncsdlc github-pr --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "The intent form derives canonical target/review identities and previews unless --execute is present. PR creation follows the retained publication plan. Explicit title/body updates may differ while preserving current target/head/base, independent review and the canonical closing relation; they do not rewrite the plan used by ordinary publish. Minimal merge content is {action: pull_request_merge, base, method, operator_approval}; operator_approval is a real nonempty explicit authorization reference. Internal review receipt fields are rejected and derived from retained exact-head evidence. Native #849 linkage, review/check/base and reconciliation guards remain enforced.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.",
+          "The optional --preview explicitly selects the default observational intent mode and cannot be combined with --execute."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "With --execute owns pull_request_create, pull_request_update, pull_request_ready and pull_request_merge. Only this command owns merge. Merge requires explicit authorization naming the repository and numeric PR, matching independent exact-head review, merge method, base and authenticated policy/check admission. Unsupported policy and uncertain outcomes fail closed."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
           "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
@@ -547,19 +618,23 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
           "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc github-pr --request pr-create-dispatch.json --execute"
           },
           "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
           "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
         ],
@@ -582,13 +657,23 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc pr-state ISSUE"
+          },
+          {
             "code": "csdlc pr-state --request REQUEST [--observe-github] [--execute]\ncsdlc pr-state --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Observe canonical PR identity through authenticated native readback. This form accepts no mutation or preview override and does not create receipt authority from caller JSON.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Without --observe-github validates supplied retained receipts; with it obtains authenticated exact PR readback. No remote write is dispatched. The shared parser accepts --execute but pr-state ignores that selection and remains on its readback path; do not use it as a mutation switch. Current transport can create temporary local runtime metadata."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
           "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
@@ -596,19 +681,23 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
           "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc pr-state --request remote-request.json --observe-github"
           },
           "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
           "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
         ],
@@ -623,13 +712,23 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc publish ISSUE [--preview plan]"
+          },
+          {
             "code": "csdlc publish --request REQUEST [--observe-github] [--execute]\ncsdlc publish --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "The intent form requires retained independent exact-head review and proof, resolves canonical PR identity from native mutation intents/receipts, creates or updates through the GitHub owner, then performs authenticated publication readback. A failed post-mutation readback preserves performed/unknown effects. --preview plan admits without mutation. No hidden Git push is added.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Validates typed independent review, exact head, closing/part-of linkage and readback evidence. Without --execute produces a non-authoritative plan. With --execute requires an operational dispatch with operation.kind publish and canonical authority; it still validates a publication plan and does not create the GitHub PR. Use github-pr for the actual publication transport after successful review/admission."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
           "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
@@ -637,19 +736,23 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
           "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc publish --request remote-request.json"
           },
           "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
           "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
         ],
@@ -664,13 +767,23 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc review ISSUE --evidence REVIEW.json [--preview plan]"
+          },
+          {
             "code": "csdlc review --request REQUEST [--observe-github] [--execute]\ncsdlc review --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "The intent form validates and retains externally supplied independent exact-head review. REVIEW.json contains receipt, receipt_digest, proof_path and proof_digest. The receipt includes reviewed publication_linkage; proof binds exact candidate bytes and issue version. The ordinary form writes create-only external evidence and native review records; --preview plan is read-only. Legacy --request review admission remains observational.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Checks that implementer/reviewer are not the same nonempty principal and that a review revision is supplied. The current review classifier does not authenticate the typed receipt contents or perform the human/subagent review; loading a receipt is not evidence that this route validated it. Independent review and a matching typed receipt remain required by policy and later publication checks. Without --execute produces a non-authoritative plan; with it requires operational envelope operation.kind review and authenticated authority."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
           "--execute: Select typed operational dispatch, not a generic force flag. Cannot combine with --observe-github on non-pr-state remote routes.",
@@ -678,19 +791,23 @@
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Without --execute: RemoteRouteRequest, including typed review/readback receipt references when required. With --execute on non-pr-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc-requests(1).",
           "Non-pr-state --execute plus --observe-github is rejected. --observe-github without --execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc review --request review-request.json"
           },
           "Request fixtures are in docs/csdlc-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc-workflow(1) for the full live sequence."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.",
           "Issue-edit does not support write replay, including retry_after_authenticated_absence; reconcile exact retained target and preserve later human changes. Supported create/ready absence retry is explicit, authenticated and one-shot. Merge retries are always read-only; a still-open or uncertain PR remains blocked."
         ],
@@ -705,34 +822,50 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc finish ISSUE [--disposition DISPOSITION.json] [--preview plan]"
+          },
+          {
             "code": "csdlc finish --request REQUEST [--observe-github]\ncsdlc finish --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "The intent form derives canonical PR identity and authenticates merged PR plus closed issue through the existing terminal owner. Successful execution retains terminal state and receipt in primary Git metadata. --preview plan observes without persistence. It does not merge or close the issue itself.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.",
+          "Optional --disposition supplies strict disposition/operator/rationale/evidence_refs for native no-PR terminal reconciliation. Disposition uses retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. The adapter authenticates closed issue timestamps internally and the native owner rechecks them before persistence; no caller timestamps or internal receipts are required. Administrative disposition is not merged implementation proof."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Requires authenticated GitHub observation of a merged PR with the exact expected head, closing linkage and closed issue. mode must be closing; part_of checkpoints cannot finish. --observe-github is necessary for public authenticated finish; caller-authored public_adapter_receipt is not trusted. terminal_state is optional: omit to observe, include canonical output paths to retain terminal state and receipt. Finish does not merge or close GitHub issues."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
           "--help: Show standalone help; -h is equivalent.",
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc-requests(1). Examples under docs/csdlc-v3/man/examples use fixture identities and are not permission to mutate those targets."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Authenticated readback plus optional local terminal persistence; no GitHub write. A successful terminal observation without terminal_state does not create a durable terminal receipt."
         ],
         "FILES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Primary terminal paths: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc finish --request finish-request.json --observe-github"
           },
           "Use csdlc-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers."
         ],
         "SEE ALSO": [
@@ -746,33 +879,49 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc clean ISSUE\ncsdlc clean ISSUE --execute --preview TOKEN"
+          },
+          {
             "code": "csdlc clean --request REQUEST\ncsdlc clean --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "The intent preview returns preview_token on stdout without a token file. Execution compares the issue generation/digest, authority, exact target/head, terminal receipt, topology, policy and native preview before the owner repeats cleanup admission. Dirty/live/stale targets remain refused. Retained terminal evidence plus no registered issue binding can establish an observational repeated-clean no-op, never permission to remove another checkout.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.",
+          "The candidate intent cleanup bridge archives only exact generated untracked issue cards/evidence/completed transaction records and lock after admission, verifies durable copied bytes/permissions/symlink text, then removes originals with the index last. Tracked changes and unrelated untracked bytes remain refused. Retained request-based cleanup remains unchanged. After interrupted removal, obtain a fresh clean preview and explicitly continue cleanup. Verified archived index evidence can authorize only cleanup continuation; it does not restore implementation authority."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Requires durable terminal receipt identity and digest, actual registered candidate, approved parent, exact matching head and clean non-live checkout. First use cleanup.remove false; inspect Removable and save returned receipt_digest. Then use remove true with that preview_receipt_digest and unchanged target identity. Removal is separate from finish. Dirty/live/unregistered/protected paths are not permission to delete manually."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--help: Show standalone help; -h is equivalent.",
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc-requests(1). Examples under docs/csdlc-v3/man/examples use fixture identities and are not permission to mutate those targets."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Preview inspects; remove true may remove exactly the registered candidate after repeated guards. It does not authorize broad branch/worktree cleanup."
         ],
         "FILES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Primary terminal paths: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc clean --request clean-request.json"
           },
           "Use csdlc-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization."
         ],
         "RECOVERY": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers."
         ],
         "SEE ALSO": [
@@ -868,24 +1017,38 @@
       "sections": {
         "SYNOPSIS": [
           {
+            "code": "csdlc proof ISSUE"
+          },
+          {
             "code": "csdlc proof --request REQUEST\ncsdlc proof --help"
           }
         ],
+        "ISSUE INTENT FORM": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Execute the retained plan validators through the native proof owner. Require admitted Cargo test arguments, current candidate bytes, successful nonzero test counts and fresh issue/worktree identity; retain actual outcomes in .csdlc/evidence/ISSUE/intent-proof.json. This form rejects preview/execute overrides.",
+          "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.",
+          "Validators admit optional timeout_seconds from 1 through 300, default 300. The Unix owner creates an owned process group, captures stdout/stderr without blocking reader threads and bounds timeout/cancellation reap/drain to two additional seconds. Scoped serialized SIGINT/SIGTERM handling is restored after execution; receipts distinguish timed_out, cancelled and cleanup_complete and include actual elapsed time. Non-Unix execution is explicitly unsupported. Proof refuses ignored untracked source/configuration outside native .csdlc artifacts and explicit disposable Rust cache roots. Those exemptions do not admit executable inputs: manifests, target sources and repository path dependencies must be tracked, and compiler dependency records reject excluded repository module/include inputs. Unsupported generated repository source is refused. Exact captured-stream digests and bounded non-lossless diagnostic excerpts are retained; sensitive-key lines are omitted and repository/HOME paths replaced. Input drift or persistence refusal retains failed execution output without bypassing native evidence guards. The digest binds repository tracked bytes and declared validators; ambient HOME Cargo configuration, external toolchains and cached dependencies are not fully fingerprinted, so this is not hermetic build evidence."
+        ],
         "DESCRIPTION": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Runs the declared deterministic V3 command through bounded argv/request/evidence paths, normalizes its result and retains proof evidence. Requires authenticated invoking linked worktree ownership and exact generation/digest/head/common-Git binding. Provider side effects, stale evidence and unsupported normalization fail closed. This is focused command proof, not broad semantic equivalence."
         ],
         "OPTIONS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--help: Show standalone help; -h is equivalent.",
           "-h: Show standalone help; do not combine with execution options."
         ],
         "REQUEST": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations."
         ],
         "EFFECTS": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           "Executes declared subprocess and writes canonical proof artifacts on admitted execution; blocked proof is not successful validation."
         ],
         "EXAMPLES": [
+          "The following details describe the retained request-based form. The candidate issue intent form is specified above.",
           {
             "code": "csdlc proof --request proof-request.json"
           },
@@ -1147,6 +1310,13 @@
       "name": "csdlc-requests",
       "summary": "native request fields, enums and digest contracts",
       "sections": {
+        "ISSUE INTENT CONTRACT": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "An emitted csdlc.v3.generated_intent_request.v1 wrapper is accepted directly by --intent-request, as is its csdlc.v3.intent_request.v1 request member with schema, command, content, execute, preview and snapshot. No manual extraction is required. Snapshot separates platform, repository/issue, authority selector, native issue generation/digest and checkout root/branch/head. It must equal current identity; stale or foreign-platform requests are refused, never refreshed automatically.",
+          "Do not mix --intent-request with positional issue/content/execute/preview arguments. Ordinary argv and the advanced object reach one intent implementation. Existing internal --request schemas below are retained contracts, not interchangeable intent snapshots.",
+          "Plan content: csdlc.v3.intent_plan.v1 {schema,slug,cards,validators,publication}; cards contains six current-template values objects, validators declares id/program/args/success_marker and optional timeout_seconds (default 300, admitted 1 through 300), publication declares base/title/body/draft. Changes: csdlc.v3.intent_changes.v1 {schema,cards}. Review: {receipt,receipt_digest,proof_path,proof_digest}, with supplied independent exact-head native review and current nonempty proof. See INTENT_COMMANDS.md for complete field and guard descriptions.",
+          "Status decisions content: optional design_ready, dependencies_ready and budget_available booleans; retryable_failure and operator_decision_needed default false. Missing admission decisions stay explicit. Finish disposition content: disposition/operator/rationale/evidence_refs using the native NoPrDisposition enum; authenticated closure timestamps are resolved internally and rechecked by the native owner."
+        ],
         "DESCRIPTION": [
           "This is the operator-readable request field reference. Strings are JSON strings, u64 values are nonnegative JSON integers, bool values are JSON booleans, Vec values are arrays and map values are JSON objects. Optional fields may be omitted; a schema-valid shape is only the first gate. Current identity, positive issue IDs where required, authority, receipts, path confinement and operation-specific guards are still mandatory.",
           "The checked-in examples are schema fixtures, not authenticated credentials, approvals, reviews or remote readback. Replace all illustrative IDs/paths/digests from live evidence before execution. Do not copy a fixture's true readiness flags as facts. Request JSON files have no wrapper schema field unless the named type defines one."
@@ -1447,6 +1617,38 @@
           "repository: String; required qualified owner/repository of the issue, which may differ from the PR code repository.",
           "issue: u64; required positive issue number matching the merge request.",
           "mode: RemotePublicationMode; required closing or part_of. The reviewed mode controls both authenticated pre-dispatch relation and post-merge issue state."
+        ],
+        "VALIDATOR": [
+          "Admitted Cargo test declaration. timeout_seconds is optional at input, defaults to 300 and must be 1 through 300; its resolved value is bound into the validator input digest and actual receipt.",
+          "id: String",
+          "program: String",
+          "args: Vec<String>",
+          "success_marker: String",
+          "timeout_seconds: u64"
+        ],
+        "PUBLICATION": [
+          "Default publication plan. Explicit GitHub update content can change title/body without rewriting this plan; all closing linkage and exact candidate guards remain required.",
+          "base: String",
+          "title: String",
+          "body: String",
+          "draft: bool"
+        ],
+        "INTENTPLAN": [
+          "Strict preparation plan with six active-template values objects and declared validator/publication intent; identity comes from the owner.",
+          "schema: String",
+          "slug: String",
+          "cards: BTreeMap<String, Value>",
+          "validators: Vec<Validator>",
+          "publication: Publication"
+        ],
+        "INTENTREQUEST": [
+          "Strict shared advanced request. The complete emitted wrapper or this inner object is accepted; current platform/authority/issue-version/checkout snapshot must agree before execution.",
+          "schema: String",
+          "command: String",
+          "content: Value",
+          "execute: bool",
+          "preview: Option<String>",
+          "snapshot: Snapshot"
         ]
       }
     },
@@ -1454,6 +1656,13 @@
       "name": "csdlc-workflow",
       "summary": "prepare, execute, publish and reconcile one issue",
       "sections": {
+        "CANDIDATE ISSUE INTENT SEQUENCE": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          {
+            "code": "csdlc status ISSUE\ncsdlc prepare ISSUE --plan PLAN.json\ncsdlc bind ISSUE\ncsdlc edit ISSUE --changes CHANGES.json\ncsdlc validate ISSUE\ncsdlc proof ISSUE\ncsdlc review ISSUE --evidence REVIEW.json\ncsdlc publish ISSUE\n# Merge only after explicit exact-target authorization and native admission.\ncsdlc finish ISSUE\ncsdlc clean ISSUE\ncsdlc clean ISSUE --execute --preview TOKEN"
+          },
+          "Supply issue-specific six-card values from the active templates, admitted validators and canonical publication content. Independent review is external evidence, never an automatically generated approval. Finish requires already merged/closed remote truth; cleanup is a separate token-bound operation. The request-based workflow below remains supported."
+        ],
         "PRECONDITIONS": [
           "Use an existing tracked issue, accepted prerequisites and a reviewed issue-specific plan. Check clean primary main and actual registrations; preserve another session's checkout. Commands below are templates using your own reviewed request files, not permission to mutate example IDs. Use the active installed binary by absolute path after changing checkouts.",
           "Optional documentation helper: cargo run --quiet --manifest-path csdlc-v3/Cargo.toml --example operator_manual -- ACTION PATH. Actions selector-digest, review-digest, file-digest and registrations only read and print. It requires the pinned Rust toolchain/dependencies and is not installed as a lifecycle owner. It calls the current native public digest functions; it does not authenticate authored receipts."
@@ -1515,6 +1724,106 @@
           "Local compare-and-swap drift: inspect actual current state and regenerate only the intended semantic edit with fresh digest. Interrupted transaction: retain original request and state, use the identical native mutator request, and route unresolved failures to bounded tooling repair. No handwritten index/journal recovery.",
           "Remote uncertain response: same exact request, same target and retained intent; native reconciliation observes the remote effect. An uncertain result is not a successful publication, merge or finish. Read csdlc-github-pr(1) for merge-specific one-shot dispatch semantics.",
           "This manual's schema fixtures prove request shape and selected guard/plan behavior. They do not claim an end-to-end live GitHub deployment or authorize example targets."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-status",
+      "summary": "observe one issue without running its validators",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc status ISSUE [--decisions DECISIONS.json] [--repo-root ROOT] [--json]\ncsdlc status ISSUE --emit-request\ncsdlc status --intent-request REQUEST.json"
+          }
+        ],
+        "DESCRIPTION": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Resolve the canonical issue, bound checkout, authority and version; call the existing doctor, eligibility, schedule and shepherd owners. Report actual validation findings, proof currency and allowed next intents without executing validators.",
+          "Dependency completion and budget acceptance remain explicit operator decisions. A report is not authorization to begin a later sprint child. Missing or ambiguous identity fails closed; observation does not replay a pending transaction.",
+          "The generated wrapper emitted by --emit-request can be passed directly to --intent-request; the inner request is also accepted.",
+          "Status invokes doctor, eligibility, schedule and shepherd observation owners. Optional --decisions contains strict optional design_ready/dependencies_ready/budget_available booleans plus retryable_failure and operator_decision_needed booleans defaulting false. Absent design/dependency/budget decisions require explicit operator input, never inferred completion."
+        ],
+        "OUTPUT": [
+          "Machine JSON uses the common command-result envelope. Interpret status, authority, effects and findings independently. An emitted request is a snapshot, not execution. Foreign-platform snapshot rejection is not non-Unix execution proof."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), docs/csdlc-v3/INTENT_COMMANDS.md."
+        ],
+        "OPTIONS": [
+          "Supported candidate intent options: --decisions, --emit-request, --help, --intent-request, --json, --repo-root, -h. Positional ISSUE is positive; --help and -h are standalone discovery."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc status ISSUE [--repo-root ROOT] [--json]\ncsdlc status ISSUE --emit-request\ncsdlc status --intent-request REQUEST.json"
+          },
+          "These forms require a supporting selected candidate; they do not upgrade the active binary or authorize activation."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-prepare",
+      "summary": "prepare an authenticated issue from a declared plan",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc prepare ISSUE --plan PLAN.json [--repo-root ROOT] [--json]\ncsdlc prepare ISSUE --plan PLAN.json --emit-request\ncsdlc prepare --intent-request REQUEST.json"
+          }
+        ],
+        "DESCRIPTION": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Authenticate the existing source issue and resolve title/repository/worktree policy and template registry. Prepare the strict csdlc.v3.intent_plan.v1 through the local owner, retaining its plan atomically with native issue initialization.",
+          "Plan fields are schema, slug, cards, validators and publication. Cards contains all six active-template values objects. Validators declare bounded Cargo tests; publication declares base/title/body/draft and the canonical closing relation. Identity fields are derived by the owner and cannot be overridden by card prose.",
+          "The command writes preparation state in resolved primary Git metadata. It does not bind the issue worktree, execute proof, publish or install the candidate. Existing initialization conflicts or interrupted transactions are refused for explicit recovery. Preview/execute overrides are unsupported.",
+          "The generated wrapper emitted by --emit-request can be passed directly to --intent-request; the inner request is also accepted."
+        ],
+        "OUTPUT": [
+          "Machine JSON uses the common command-result envelope. Interpret status, authority, effects and findings independently. An emitted request is a snapshot, not execution. Foreign-platform snapshot rejection is not non-Unix execution proof."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), docs/csdlc-v3/INTENT_COMMANDS.md."
+        ],
+        "OPTIONS": [
+          "Supported candidate intent options: --emit-request, --help, --intent-request, --json, --plan, --repo-root, -h. Positional ISSUE is positive; --help and -h are standalone discovery. Unsupported combinations fail closed."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc prepare ISSUE --plan PLAN.json [--repo-root ROOT] [--json]\ncsdlc prepare ISSUE --plan PLAN.json --emit-request\ncsdlc prepare --intent-request REQUEST.json"
+          },
+          "These forms require a supporting selected candidate; they do not upgrade the active binary or authorize activation."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-recover",
+      "summary": "preview and execute recovery of one retained native operation",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc recover ISSUE [--repo-root ROOT] [--json]\ncsdlc recover ISSUE --execute --preview DIGEST\ncsdlc recover --intent-request REQUEST.json"
+          }
+        ],
+        "DESCRIPTION": [
+          "The #869 issue intent forms are a candidate contract, pending the required exact-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing --request forms below retain their existing native contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.",
+          "Preview the retained native local transaction or original remote mutation and return preview_digest without creating a token file or dispatching a mutation. No additional operation or receipt inputs are required.",
+          "Execution requires the exact current preview token. Local recovery holds the native issue lock and compares its current transaction identity. Remote recovery binds the issue snapshot and complete retained native intent bytes, then reconciles the original request without recomputing its operation.",
+          "Only the existing remote owner can permit its supported one-shot authenticated-absence retry. Merge and unsupported operation retries remain reconciliation-only. Multiple pending remote operations, or simultaneous local and remote uncertainty, are refused explicitly. With no pending work the result is a no-op.",
+          "Preserve native journals, intents and receipts. A changed token or request is not permission to bypass a guard. Source implementation requires focused installed proof and does not imply active binary replacement.",
+          "The generated wrapper emitted by --emit-request can be passed directly to --intent-request; the inner request is also accepted."
+        ],
+        "OUTPUT": [
+          "Machine JSON uses the common command-result envelope. Interpret status, authority, effects and findings independently. An emitted request is a snapshot, not execution. Foreign-platform snapshot rejection is not non-Unix execution proof."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-requests(1), csdlc-workflow(1), docs/csdlc-v3/INTENT_COMMANDS.md."
+        ],
+        "OPTIONS": [
+          "Supported candidate intent options: --emit-request, --execute, --help, --intent-request, --json, --preview, --repo-root, -h. Positional ISSUE is positive; --help and -h are standalone discovery. Unsupported combinations fail closed."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc recover ISSUE [--repo-root ROOT] [--json]\ncsdlc recover ISSUE --execute --preview DIGEST\ncsdlc recover --intent-request REQUEST.json"
+          },
+          "These forms require a supporting selected candidate; they do not upgrade the active binary or authorize activation."
         ]
       }
     }
