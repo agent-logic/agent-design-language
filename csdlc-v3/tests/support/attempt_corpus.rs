@@ -85,14 +85,13 @@ impl<C: Clock> Corpus<C> {
     /// reclassified as completed lifecycle work just because a test expects denial.
     pub fn run(
         &mut self,
-        id: &str,
-        route: &str,
-        scenario: &str,
+        identity: (&str, &str, &str),
         cwd: &Path,
         issue_indexes: (&Path, &Path),
         request: &Value,
         command: &mut Command,
     ) -> Output {
+        let (id, route, scenario) = identity;
         let before = super::observation::inventory(&self.root);
         let version_before = issue_version(issue_indexes.0);
         let start = self.clock.sample();

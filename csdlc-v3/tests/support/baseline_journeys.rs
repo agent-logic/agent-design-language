@@ -28,9 +28,7 @@ fn attempt_recorder_retains_spawn_parse_and_collector_failures() {
     );
     assert!(catch_unwind(AssertUnwindSafe(|| {
         corpus.run(
-            "spawn",
-            "missing",
-            "guard",
+            ("spawn", "missing", "guard"),
             &fixture.root,
             (&index, &index),
             &json!({}),
@@ -43,9 +41,7 @@ fn attempt_recorder_retains_spawn_parse_and_collector_failures() {
     assert_eq!(saved["denominators"]["attempted"], 1);
     assert!(catch_unwind(AssertUnwindSafe(|| {
         let result = corpus.run(
-            "parse",
-            "printf",
-            "malformed_output",
+            ("parse", "printf", "malformed_output"),
             &fixture.root,
             (&index, &index),
             &json!({}),
@@ -78,9 +74,7 @@ fn attempt_recorder_retains_spawn_parse_and_collector_failures() {
     );
     assert!(catch_unwind(AssertUnwindSafe(|| {
         corpus.run(
-            "collector",
-            "printf",
-            "collection_interrupted",
+            ("collector", "printf", "collection_interrupted"),
             &fixture.root,
             (&index, &index),
             &json!({}),
@@ -167,9 +161,7 @@ fn installed_local_journey_baseline() {
             index.clone()
         };
         let output = corpus.run(
-            id,
-            route,
-            scenario,
+            (id, route, scenario),
             &fixture.root,
             (&index, &after_index),
             &request,
@@ -282,9 +274,7 @@ fn installed_local_journey_baseline() {
         .args(["proof", "--request"])
         .arg(&proof_path);
     let output = corpus.run(
-        "local-08",
-        "proof",
-        "healthy_bound_proof",
+        ("local-08", "proof", "healthy_bound_proof"),
         &fixture.root,
         (&index, &index),
         &proof,
@@ -392,9 +382,7 @@ fn remote_terminal_baseline(
             command.arg(flag);
         }
         let output = corpus.run(
-            id,
-            route,
-            scenario,
+            (id, route, scenario),
             cwd,
             (index, index),
             request,
