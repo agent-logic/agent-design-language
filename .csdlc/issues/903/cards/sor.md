@@ -75,7 +75,7 @@ Bounded MLX adapter and actual canonical production-workflow Metal smoke passed.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/903/cards/sor.md`
-- Tracked implementation artifacts: `adl/src/provider/mlx.rs; adl/src/provider/mlx/tests.rs; provider/substrate/profile/dispatch registration; adl/tests/mlx_provider.rs; .csdlc/evidence/903`
+- Tracked implementation artifacts: `adl-provider-core/src/provider/mlx.rs; adl-provider-core/src/provider/mlx/tests.rs; provider-core profile/substrate/dispatch registration; ADL compatibility facade and workflow test; .csdlc/evidence/903`
 - Additional proof artifacts: `.csdlc/evidence/903/actual-hardware.json; local-validation.json; source-review.json`
 
 ## Actions taken
@@ -107,7 +107,7 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `See .csdlc/evidence/903/local-validation.json for focused Rust and explicit actual Metal commands`
+  - `cargo test --locked --manifest-path adl-provider-core/Cargo.toml provider::mlx::tests; cargo test --locked --manifest-path adl/Cargo.toml --test mlx_provider; see .csdlc/evidence/903/local-validation.json for actual Metal proof`
     `Local protocol, profile, reload and actual production-workflow Metal behavior proved; CI and successful-review benchmark outstanding.`
 - Results:
   - `partial`
@@ -145,7 +145,7 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `12 deterministic protocol negatives,2 public/workflow fixtures,1 inherited reload regression; observational live smoke separately passed1/1`
-- Fixtures or scripts used: `adl/src/provider/mlx/tests.rs; adl/tests/mlx_provider.rs; .csdlc/evidence/903/start_mlx_smoke_server.py`
+- Fixtures or scripts used: `adl-provider-core/src/provider/mlx/tests.rs; adl/tests/mlx_provider.rs; .csdlc/evidence/903/start_mlx_smoke_server.py`
 - Replay verification (same inputs -> same artifacts/order): `not independently verified as replay proof`
 - Ordering guarantees (sorting / tie-break rules used): `Canonical reload snapshot consumed before execute_sequential_with_provider_reload_handle invocation; no broader concurrency claim`
 - Artifact stability notes: `Private original hardware receipt SHA256 retained; no deterministic generation claim`
@@ -171,7 +171,7 @@ verification_summary:
 
 ## Decisions / Deviations
 - `#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main`
-- `Operator approved local execution and matching-model download. Real Metal workflow smoke passed. Additional successful-review comparison remains in progress; failed model reviews are non-proving for useful-review acceleration.`
+- `After #855 merged the provider-core extraction, MLX ownership moved into adl-provider-core while ADL retains the compatibility facade and production workflow proof. The real Metal workflow smoke remains valid because adapter behavior changed only by module relocation.`
 
 ## Follow-ups / Deferred work
 - `Current finalmetadata/source review and native publication, then requiredCI. Supplemental comparison remains unresolved; do not hide failure or claim success.`

@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.v3.typed_review_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 855,
+  "implementer": "execute_855",
+  "reviewer": "root",
+  "reviewed_revision": "d329b40608fe8e39279ff48b6de62ccfb89eefc4",
+  "expected_head_sha": "d329b40608fe8e39279ff48b6de62ccfb89eefc4",
+  "evidence_digest": "d8fe75afe986c90cdbca4847756e4bd3c8a0b894f8ff0918ed09d584649693f8"
+}

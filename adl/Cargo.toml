@@ -75,6 +75,7 @@ slow-proof-tests = [
 slow-finish-tests = []
 
 [dependencies]
+adl-provider-core = { path = "../adl-provider-core" }
 adl-uts = { version = "=0.1.0", path = "../adl-uts" }
 adl-runtime = { path = "../adl-runtime" }
 adl-runtime-kernel = { path = "../adl-runtime-kernel" }

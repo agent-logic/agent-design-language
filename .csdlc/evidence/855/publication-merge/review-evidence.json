@@ -1,0 +1,5 @@
+{
+  "head": "114d143fdfc7668848e5e45065fb7c9fdb7a558b",
+  "reviewer": "root",
+  "review": "Exact merge114d143 PASS: only CI manual resolution, both complete jobs and aggregate checks preserved. Focused CI contracts pass. Prior d329 source and metadata review remains accepted; full hosted and refreshed installed proof pending."
+}

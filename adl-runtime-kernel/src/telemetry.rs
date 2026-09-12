@@ -187,6 +187,8 @@ struct RecorderState {
 
 #[derive(Clone, Debug)]
 pub struct RuntimeRecorder {
+    /// Shared registry used by admission, lifecycle and executor composition.
+    pub providers: Arc<adl_provider_core::registry::ProviderRegistry>,
     pub provider_usage: crate::provider_usage::ProviderUsage,
     started: Instant,
     capacity: usize,
@@ -201,6 +203,7 @@ impl RuntimeRecorder {
         );
         Self {
             provider_usage: Default::default(),
+            providers: Arc::new(Default::default()),
             started: Instant::now(),
             capacity: startup_capacity,
             state: Arc::new(Mutex::new(RecorderState {

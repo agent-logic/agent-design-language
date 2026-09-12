@@ -3,12 +3,12 @@
   "issue": 903,
   "commands": [
     {
-      "command": "cargo test --manifest-path adl/Cargo.toml --lib provider::mlx::tests",
+      "command": "cargo test --locked --manifest-path adl-provider-core/Cargo.toml provider::mlx::tests",
       "passed": 12,
       "failed": 0
     },
     {
-      "command": "cargo test --manifest-path adl/Cargo.toml --test mlx_provider",
+      "command": "cargo test --locked --manifest-path adl/Cargo.toml --test mlx_provider",
       "passed": 2,
       "failed": 0,
       "ignored": 1,
@@ -20,7 +20,7 @@
       "failed": 0
     },
     {
-      "command": "cargo clippy --manifest-path adl/Cargo.toml --lib --test mlx_provider -- -D warnings",
+      "command": "cargo clippy --locked --manifest-path adl-provider-core/Cargo.toml --lib -- -D warnings; cargo clippy --locked --manifest-path adl/Cargo.toml --lib --test mlx_provider -- -D warnings",
       "result": "pass"
     },
     {
@@ -32,9 +32,9 @@
   ],
   "actual_hardware": "pass: actual-hardware.json",
   "ci": "not_run",
-  "review": "bounded corrected source pass; integration separately reviewed/executed by root",
+  "review": "bounded corrected source pass; provider-core integration review pending exact merge head",
   "remaining": [
-    "successful-review matched provider comparison requested by operator",
+    "matched review comparison completed non-proving because both engines failed quality gate",
     "required CI",
     "native PR and operator merge"
   ]

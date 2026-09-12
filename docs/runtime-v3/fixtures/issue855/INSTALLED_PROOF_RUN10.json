@@ -1,0 +1,539 @@
+{
+  "schema": "adl.issue855.installed_lifecycle_proof.v1",
+  "status": "pass_local_fixtures_hosted_acceptance_incomplete",
+  "build_source_manifest_sha256": "11c6d02b4b530a48b416f88e159f847d703d8554c79a0d1e7e7973fba8b14f6a",
+  "runs": [
+    {
+      "schema": "adl.issue855.installed_provider_lifecycle.v1",
+      "source_revision": "114d143fdfc7668848e5e45065fb7c9fdb7a558b",
+      "binary_sha256": {
+        "csm": "4c9debc9c1452f41d0db990dbd5ba6a2dec31d1303a5c697cb6804913310df70",
+        "csmctl": "fc65b83adcac44ee934230a3ab88d4d5b4d65e121a514d644404431aadbaf3bf",
+        "kernel": "1d29d3eeed328772beb428bd3e246b9d4aca9b762e0e489dacdd3bfc03b2b519",
+        "guardian": "750d57c4e5b618299917594fbc9936977c02b3c2e8956256ec9cc207d103fdca",
+        "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+      },
+      "fixture_only": true,
+      "paid_calls": 0,
+      "mode": "five_provider_fixture",
+      "runtime_identity": {
+        "runtime_incarnation_id": "c9f22514-82fe-46c7-88d4-cf103fd9fca3",
+        "runtime_process_id": 35647
+      },
+      "init_sha256": "43909ed9aeac397ec0c5d190a5a734e2e4bd1d46e2c33adff0d60b9b2d1db940",
+      "provider_request_count": 31,
+      "cleanup_owned_process_groups": [
+        35646,
+        35647
+      ],
+      "raw_report_location": ".adl/issue855/installed-run-10/report.json",
+      "raw_report_sha256": "b351d4723f55d99651a9c53fa8baee395dbca161bf747700df5fb5e279cca966",
+      "source_boundary": "Reviewed114d143 compiled source; untracked native receipts and reviewer probe do not alter compiled source.",
+      "rows": [
+        {
+          "provider": "openai",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58810,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-93973b241c308c08",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "openai",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "9db987e8ac456a3ef4cf26199c7f87b9deddb0ef3d7cca45116e8d653c2510bf"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9857,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "anthropic",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58810,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-6b2f80ef73b0430e",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "anthropic",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "16fec2a0eb5c9b3fcd88bf8e847bd87d8dd0eeafabf509b29ae59cc7a075b88d"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9857,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "vertex_ai",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58810,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-8ad0d3138713d586",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "vertex_ai",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "8b13408bbe76f0cae86af577a18084f2a3d4b54a75cdd365785bd771c5ded5ce"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9857,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/fixture-model:generateContent",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/replacement-model:generateContent",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "ollama",
+          "result": "pass",
+          "runtime_provider_request_count": 7,
+          "local_fixture_prompt_bytes": 58810,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-d9f921b1b73a6ed2",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "ollama",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "972a3e5d017ae269286d1b2fadf11e6fa4397ae18cca70b46097dd0418b040ea"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9857,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/api/generate",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "openai-compatible",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "local_fixture_prompt_bytes": 58810,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-a1635dcad67df5c0",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "openai-compatible",
+          "observatory_model": "replacement-model",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9779,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9805,
+              "wire_output_cap": 256,
+              "answer_digest": "1ab110bb55c044e8c82ea935cc46cc09988a5374bf827e515fdb66dacf2e5dd6"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9808,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9857,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "fixture-model",
+              "prompt_bytes": 9777,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/chat/completions",
+              "model": "replacement-model",
+              "prompt_bytes": 9784,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schema": "adl.issue855.installed_provider_lifecycle.v1",
+      "source_revision": "114d143fdfc7668848e5e45065fb7c9fdb7a558b",
+      "binary_sha256": {
+        "csm": "4c9debc9c1452f41d0db990dbd5ba6a2dec31d1303a5c697cb6804913310df70",
+        "csmctl": "fc65b83adcac44ee934230a3ab88d4d5b4d65e121a514d644404431aadbaf3bf",
+        "kernel": "1d29d3eeed328772beb428bd3e246b9d4aca9b762e0e489dacdd3bfc03b2b519",
+        "guardian": "750d57c4e5b618299917594fbc9936977c02b3c2e8956256ec9cc207d103fdca",
+        "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+      },
+      "fixture_only": true,
+      "paid_calls": 0,
+      "mode": "hosted_fixture",
+      "runtime_identity": {
+        "runtime_incarnation_id": "cb637a76-8b63-4e9c-8dd5-60ef85e41385",
+        "runtime_process_id": 39481
+      },
+      "init_sha256": "5898678f1e692305a8c385de6c4cc029921b356375478d1090233dd794ce5571",
+      "provider_request_count": 19,
+      "cleanup_owned_process_groups": [
+        39480,
+        39481
+      ],
+      "raw_report_location": ".adl/issue855/hosted-fixture-04/report.json",
+      "raw_report_sha256": "2dfcd30633798e790fcfab165d34a1cee23600354e06f8edad2bbc42a98bc059",
+      "source_boundary": "Reviewed114d143 compiled source; untracked native receipts and reviewer probe do not alter compiled source.",
+      "rows": [
+        {
+          "provider": "openai",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "local_fixture_prompt_bytes": 58703,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-310ae3ac315b62e2",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "openai",
+          "observatory_model": "gpt-5.4-mini",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9762,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9786,
+              "wire_output_cap": 256,
+              "answer_digest": "10bd8356dee1d67e8d80443f68fcdcb8da6a4b060f7f1b1e7951dbabf5c6755f"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9785,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9843,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9760,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/responses",
+              "model": "gpt-5.4-mini",
+              "prompt_bytes": 9767,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "anthropic",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "local_fixture_prompt_bytes": 58703,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-8ccf5ea3dee6f978",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "anthropic",
+          "observatory_model": "claude-haiku-4-5-20251001",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9762,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9786,
+              "wire_output_cap": 256,
+              "answer_digest": "10bd8356dee1d67e8d80443f68fcdcb8da6a4b060f7f1b1e7951dbabf5c6755f"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9785,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9843,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9760,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/messages",
+              "model": "claude-haiku-4-5-20251001",
+              "prompt_bytes": 9767,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        },
+        {
+          "provider": "vertex_ai",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "local_fixture_prompt_bytes": 58703,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_work_id": "a2a-work-1b1a02d1e0257ac3",
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "observatory_provider": "vertex_ai",
+          "observatory_model": "gemini-2.5-flash",
+          "stable_identity": true,
+          "wire_calls": [
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9762,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9786,
+              "wire_output_cap": 256,
+              "answer_digest": "10bd8356dee1d67e8d80443f68fcdcb8da6a4b060f7f1b1e7951dbabf5c6755f"
+            },
+            {
+              "path": "/api/generate",
+              "model": "fixture-model",
+              "prompt_bytes": 9785,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9843,
+              "wire_output_cap": 256,
+              "answer_digest": "e4e11a3be96126678cf1b0ffd40608a1586ce54fbfc189760b8d76da9735433c"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9760,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            },
+            {
+              "path": "/v1/projects/fixture/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent",
+              "model": "gemini-2.5-flash",
+              "prompt_bytes": 9767,
+              "wire_output_cap": 256,
+              "answer_digest": "6067407c36d1204ef789830e12dfb5b1e47c3a17b94c127e8c9126358da318ed"
+            }
+          ]
+        }
+      ],
+      "hosted_provider_request_counts": {
+        "openai": 5,
+        "anthropic": 5,
+        "vertex_ai": 5
+      }
+    }
+  ],
+  "non_claims": [
+    "No paid provider requests in these runs.",
+    "Actual hosted live02 remains failed; no hosted recovery is claimed.",
+    "Current CI remains separate."
+  ]
+}
