@@ -8,7 +8,7 @@ version: "v0.92.2"
 title: "[v0.92.2][RT-PROVIDER][corrective] Make hosted A2A initiation deterministic across provider output formats"
 branch: "codex/967-deterministic-hosted-a2a"
 generated_at: "2026-09-12"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/967/cards/sip.md"
   - ".csdlc/issues/967/cards/vpp.md"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "request_changes"
-notes: "Preserve failed hosted-live-03 report SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439: OpenAI five successful calls, Anthropic two successful calls, Vertex zero. Raw provider output was not retained; exact response shape is unknown. Inherited corrective working-tree proof: Runtime production dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider matrix 5/5 and hosted-topology matrix 3/3. These are local working-tree results, not #967 committed-head, CI or paid hosted acceptance. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed."
+  findings_status: "no_findings"
+  recommended_outcome: "approve"
+notes: "Independent read-only review covered the full Runtime source, regression, OpenAPI schema, and lifecycle harness. Focused Runtime proof passed 1/1 and OpenAPI contracts passed 11/11. Exact-source zero-paid lifecycle reports pass 5/5 and 3/3. Paid hosted acceptance and CI remain pending and are outside this review result."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Hosted live03 demonstrated that successful provider text transport did not establish an A2A exchange. A working-tree review also found an OpenAPI/Runtime name and size mismatch; that mismatch was corrected. Exact #967 committed-head review remains pending.
+- No actionable findings at source revision 4d28de627cffc7c529de5082f0b883f9ab8f083c. The earlier replay-evidence overstatement was resolved by adding omitted-field wire-shape, identical typed-action replay, and changed-action conflict assertions.
 
 ### Dispositions
 
-- Typed requested_agent_action repair and OpenAPI correction have working-tree review/proof; no final #967 review, hosted acceptance or CI disposition is asserted.
+- Initial OpenAPI boundary finding and replay-evidence finding were fixed. Independent exact-source re-review at 4d28de627cffc7c529de5082f0b883f9ab8f083c found no remaining actionable findings.
 
 ### Recommended Outcome
 
-- request_changes
+- approve
 
 ## Notes
 
-Preserve failed hosted-live-03 report SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439: OpenAI five successful calls, Anthropic two successful calls, Vertex zero. Raw provider output was not retained; exact response shape is unknown. Inherited corrective working-tree proof: Runtime production dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider matrix 5/5 and hosted-topology matrix 3/3. These are local working-tree results, not #967 committed-head, CI or paid hosted acceptance. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed.
+Independent read-only review covered the full Runtime source, regression, OpenAPI schema, and lifecycle harness. Focused Runtime proof passed 1/1 and OpenAPI contracts passed 11/11. Exact-source zero-paid lifecycle reports pass 5/5 and 3/3. Paid hosted acceptance and CI remain pending and are outside this review result.

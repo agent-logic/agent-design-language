@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 967,
   "phase": "bound",
-  "generation": 3,
+  "generation": 5,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/967-deterministic-hosted-a2a",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-967-deterministic-hosted-a2a",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "e06ad96d9f608a66a289c46a4d61679325fa37e3255125bd76811180b848cfd7"
+  "digest": "9f90ae1b13b70ce43a50a35e928d1555e3104b4e85552dcdba9fbd690f1e7412"
 }

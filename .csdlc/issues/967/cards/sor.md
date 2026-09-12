@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Make authenticated operator-requested A2A initiation independent of provider reply formatting while retaining one initiating provider call and existing signed peer delivery. Inherited corrective working-tree proof: Runtime production dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider matrix 5/5 and hosted-topology matrix 3/3. These are local working-tree results, not #967 committed-head, CI or paid hosted acceptance. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed.
+Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -75,17 +75,17 @@ Make authenticated operator-requested A2A initiation independent of provider rep
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/967/cards/sor.md`
-- Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; adl/tools/issue855_provider_lifecycle.py; docs/api/runtime-v3/v1/observatory.openapi.json; issue-local cards and proof metadata.`
-- Additional proof artifacts: `Preserve failed hosted-live-03 report SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439: OpenAI five successful calls, Anthropic two successful calls, Vertex zero. Raw provider output was not retained; exact response shape is unknown.`
+- Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; adl/tools/issue855_provider_lifecycle.py; docs/api/runtime-v3/v1/observatory.openapi.json; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; issue-local cards and proof metadata.`
+- Additional proof artifacts: `docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; raw reports .adl/issue967/installed-run-01/report.json SHA256 b2a0c430578a1936f5cd03441e95b7683ba88acf3dfbd1e85544a7ae9c654bc0 and .adl/issue967/hosted-fixture-01/report.json SHA256 75b237976ba5891f1faf628fd4a5c53a10e007ae0efe41f5b577742fe2b10740. Historical #855 hosted-live-03 report remains unchanged.`
 
 ## Actions taken
 - `Prepared bounded requested_agent_action repair with pre-dispatch validation and replay identity.`
 - `Reused signed A2A delivery; coalesced identical actions and refused conflicts before peer dispatch.`
-- `Inherited corrective working-tree proof: Runtime production dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider matrix 5/5 and hosted-topology matrix 3/3. These are local working-tree results, not #967 committed-head, CI or paid hosted acceptance.`
+- `Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; primary main inspection-only`
-- Worktree-only paths remaining: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; adl/tools/issue855_provider_lifecycle.py; docs/api/runtime-v3/v1/observatory.openapi.json; issue-local cards and proof metadata.`
+- Worktree-only paths remaining: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; adl/tools/issue855_provider_lifecycle.py; docs/api/runtime-v3/v1/observatory.openapi.json; docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; issue-local cards and proof metadata.`
 - Integration state: `worktree_only`
 - Verification scope: `#967 typed action, replay, signed dispatch, OpenAPI and bounded lifecycle proof only.`
 - Integration method used: `none; corrective PR pending`
@@ -110,7 +110,7 @@ Rules:
   - `CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --lib sixth_registered_provider_uses_real_canonical_a2a_dispatch; CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract; bounded zero-paid lifecycle harness using typed requested_agent_action. Exact-head installed fixture command and paid command must be recorded with their source/binary identities before execution.`
     `Proves bounded typed request dispatch, rejection, compatibility and schema behavior locally; not hosted provider success.`
 - Results:
-  - `Inherited corrective working-tree proof: Runtime production dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider matrix 5/5 and hosted-topology matrix 3/3. These are local working-tree results, not #967 committed-head, CI or paid hosted acceptance.`
+  - `Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: in_progress
     checks_run:
-      - "Inherited corrective working-tree proof: Runtime production dispatch 1/1, OpenAPI contracts 11/11, zero-paid five-provider matrix 5/5 and hosted-topology matrix 3/3. These are local working-tree results, not #967 committed-head, CI or paid hosted acceptance. Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed."
+      - "Exact-source validation at 4d28de627cffc7c529de5082f0b883f9ab8f083c: Runtime production dispatch 1/1; OpenAPI contracts 11/11; zero-paid five-provider matrix 5/5 with 31 provider requests; zero-paid hosted-topology matrix 3/3 with 15 target-provider requests plus 4 local Ollama fixture requests, 19 total. Independent exact-source review passed with no actionable findings. Paid hosted acceptance and CI remain pending."
   determinism:
     status: partial
     replay_verified: true
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: false
     schema_changes:
       present: true
-      approved: false
+      approved: true
 ```
 
 ## Determinism Evidence
@@ -160,13 +160,13 @@ verification_summary:
 - Trace bundle path(s): `Corrective evidence under .adl/issue967; inherited failed/proof attempts retained under .adl/issue855 in original bound worktree.`
 - Run artifact root: `.adl/issue967`
 - Replay command used for verification: `CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --lib sixth_registered_provider_uses_real_canonical_a2a_dispatch; CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract; bounded zero-paid lifecycle harness using typed requested_agent_action. Exact-head installed fixture command and paid command must be recorded with their source/binary identities before execution.`
-- Replay result: `Working-tree Runtime proof passes; exact-head evidence pending.`
+- Replay result: `Pass: identical typed action returns cached terminal result with no calls; changed typed action under the same turn identity returns conversation_conflict with no calls; omitted optional field preserves legacy serialized shape.`
 
 ## Artifact Verification
-- Primary proof surface: `adl-runtime-kernel/src/control.rs and adl-runtime-kernel/tests/openapi_contract.rs; corrective proof packet pending.`
-- Required artifacts present: `false; exact committed proof, CI and hosted acceptance remain pending`
-- Artifact schema/version checks: `OpenAPI working-tree contracts 11/11; native six-card validation to run after this request is applied.`
-- Hash/byte-stability checks: `Failed live03 report digest retained; new committed binary/source identity proof pending.`
+- Primary proof surface: `docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json; adl-runtime-kernel/src/control.rs; adl-runtime-kernel/tests/openapi_contract.rs; docs/api/runtime-v3/v1/observatory.openapi.json.`
+- Required artifacts present: `false; paid hosted acceptance and CI remain pending`
+- Artifact schema/version checks: `OpenAPI contracts pass 11/11 at source revision 4d28de627cffc7c529de5082f0b883f9ab8f083c; native six-card validation follows this edit.`
+- Hash/byte-stability checks: `Proof summary records exact source and binary digests. Raw report SHA256 values: b2a0c430578a1936f5cd03441e95b7683ba88acf3dfbd1e85544a7ae9c654bc0 and 75b237976ba5891f1faf628fd4a5c53a10e007ae0efe41f5b577742fe2b10740.`
 - Missing/optional artifacts and rationale: `Required exact-head, CI and hosted evidence is not waived or classified as optional.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `Correction belongs to #967 after #855/PR964 merged; preserve historical chronology.`
 
 ## Follow-ups / Deferred work
-- `Commit corrective source under #967, rebuild exact-head binaries, retain and review exact proof, pass current CI, and obtain fresh authorization before one bounded hosted acceptance run. No hosted retry or merge is claimed.`
-- `Refresh SRP/SOR with exact #967 source, review, CI and hosted result; native lifecycle required.`
+- `Publish #967 after native review and obtain current CI. Obtain fresh authorization before one bounded paid hosted acceptance run.`
+- `Record the separately authorized hosted result without overwriting failed #855 historical evidence; merge remains operator-controlled.`
