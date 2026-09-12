@@ -1,0 +1,26 @@
+{
+  "schema": "adl.uts.consumer_parity.v1",
+  "baseline_revision": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+  "counts": {
+    "baseline": {
+      "uts": 88,
+      "registry": 10,
+      "governed": 25,
+      "resident": 8
+    },
+    "after": {
+      "uts": 70,
+      "registry": 10,
+      "governed": 25,
+      "resident": 8
+    }
+  },
+  "moved_unit_tests": 18,
+  "new_package_tests": 2,
+  "package_tests_passed": 20,
+  "runtime_cycle_tests_passed": 1,
+  "runtime_dispatch_cases": 11,
+  "actual_readonly_adapter_calls": 2,
+  "provider_calls": 0,
+  "note": "70 retained ADL UTS-filtered tests plus 18 unchanged tests moved to package preserve the 88-test baseline. Two new package tests are additional. Some UTS substring matches cover unrelated modules; this count alone does not prove dispatch. runtime-dispatch.json and actual resident cycle provide that proof."
+}

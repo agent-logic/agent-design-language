@@ -8,7 +8,7 @@ surface.
 This document describes the canonical current `UTS v1` baseline as implemented
 in:
 
-- [`adl/src/uts.rs`](../../../adl/src/uts.rs)
+- [`adl-uts/src/lib.rs`](../../../adl-uts/src/lib.rs)
 
 Matching machine-readable schema:
 

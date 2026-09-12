@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 877,
+  "issue_padded": "0877",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/877",
+  "title": "[v0.92.2][PLAT-UTS] Install a versioned UTS package consumed by Runtime tool dispatch",
+  "branch": "codex/877-uts-package",
+  "version": "v0.92.2",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-877-uts-package",
+  "version_inline": "v0.92.2",
+  "review_summary": "Execution readiness preparation only; implementation review has not run.",
+  "review_summary_inline": "Execution readiness preparation only; implementation review has not run."
+}
