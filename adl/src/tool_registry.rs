@@ -1,10 +1,10 @@
-use crate::uts::{
-    upgrade_uts_v1_to_v1_1, validate_uts_v1_1, UniversalToolSchemaV1, UniversalToolSchemaV1_1,
-    UtsAuthenticationModeV1, UtsAuthenticationRequirementV1, UtsCategoryV1, UtsCompatibleVersionV1,
-    UtsDataSensitivityV1, UtsDeterminismV1, UtsErrorModelV1, UtsExecutionEnvironmentKindV1,
-    UtsExecutionEnvironmentV1, UtsExfiltrationRiskV1, UtsIdempotenceV1, UtsJsonSchemaFragmentV1,
-    UtsObservabilityV1, UtsPlanningMetadataV1, UtsReplaySafetyV1, UtsResourceRequirementV1,
-    UtsSideEffectClassV1, UtsSideEffectTagV1, UTS_SCHEMA_VERSION_V1_1,
+use adl_uts::{
+    load_tool_declaration, validate_uts_v1_1, UniversalToolSchemaV1_1, UtsAuthenticationModeV1,
+    UtsAuthenticationRequirementV1, UtsCategoryV1, UtsCompatibleVersionV1, UtsDataSensitivityV1,
+    UtsDeterminismV1, UtsErrorModelV1, UtsExecutionEnvironmentKindV1, UtsExecutionEnvironmentV1,
+    UtsExfiltrationRiskV1, UtsIdempotenceV1, UtsJsonSchemaFragmentV1, UtsObservabilityV1,
+    UtsPlanningMetadataV1, UtsReplaySafetyV1, UtsResourceRequirementV1, UtsSideEffectClassV1,
+    UtsSideEffectTagV1, UTS_SCHEMA_VERSION_V1_1,
 };
 use schemars::JsonSchema;
 use serde::{Deserialize, Deserializer, Serialize};
@@ -72,24 +72,14 @@ impl RegisteredToolV1 {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
-#[serde(untagged)]
-enum RegisteredToolUtsWireV1 {
-    V1(UniversalToolSchemaV1),
-    V1_1(UniversalToolSchemaV1_1),
-}
-
 fn deserialize_registered_tool_uts<'de, D>(
     deserializer: D,
 ) -> Result<UniversalToolSchemaV1_1, D::Error>
 where
     D: Deserializer<'de>,
 {
-    let wire = RegisteredToolUtsWireV1::deserialize(deserializer)?;
-    Ok(match wire {
-        RegisteredToolUtsWireV1::V1(schema) => upgrade_uts_v1_to_v1_1(schema),
-        RegisteredToolUtsWireV1::V1_1(schema) => schema,
-    })
+    let wire = serde_json::Value::deserialize(deserializer)?;
+    load_tool_declaration(wire).map_err(serde::de::Error::custom)
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -689,7 +679,7 @@ mod tests {
 
     #[test]
     fn wp08_registered_tool_constructor_accepts_programmatic_legacy_uts_v1() {
-        let legacy = UniversalToolSchemaV1 {
+        let legacy = adl_uts::UniversalToolSchemaV1 {
             schema_version: "uts.v1".to_string(),
             name: "fixture.safe_read".to_string(),
             version: "1.0.0".to_string(),

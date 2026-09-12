@@ -1,0 +1,12 @@
+{
+  "schema": "adl.uts.install_proof.v1",
+  "source_revision": "a5bd7feabfaf3aa5f1e1f51d68f60b443d5a3c67",
+  "package": "adl-uts",
+  "version": "0.1.0",
+  "artifact_sha256": "86a93d153cd0d7d020a71f3ce2f1c334171139011bf5b00b6c748781338306d1",
+  "consumer_uses_extracted_artifact": true,
+  "schema_mirrors_equal": true,
+  "consumer_output": "adl-uts 0.1.0 isolated artifact consumed",
+  "execution_authority_claimed": false,
+  "repeat_reports_byte_equal": true
+}

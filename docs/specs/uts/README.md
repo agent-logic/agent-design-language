@@ -53,6 +53,15 @@ Authority/governance companion:
 
 The two are intentionally related but not interchangeable.
 
+## Versioned implementation package
+
+The canonical types and validators now live in `adl-uts` 0.1.0; `adl::uts`
+remains a compatibility reexport. Both existing v1 and implemented v1.1
+**declaration** surfaces are supported, while v1 is still the guaranteed baseline.
+The broader v1.1 proposal is not fully implemented by this packaging change.
+See [package installation and supported semantics](PACKAGE.md) for the precise
+compatibility matrix, production Runtime consumer and required proof.
+
 ## 1. Purpose
 
 The Universal Tool Schema defines a transport-independent, provider-neutral
@@ -108,7 +117,7 @@ UTS itself.
 
 The current implemented baseline lives in Rust today at:
 
-- [`adl/src/uts.rs`](../../../adl/src/uts.rs)
+- [`adl-uts/src/lib.rs`](../../../adl-uts/src/lib.rs)
 
 That baseline is expressed as `UniversalToolSchemaV1` and validated by
 `validate_uts_v1`.
@@ -141,7 +150,9 @@ The authoritative tracked baseline for that shape is:
 
 ## 4. Additive Proposal Direction (`UTS v1.1`)
 
-`UTS v1.1` is an additive proposal. It is not the current wire contract.
+`UTS v1.1` is the broader additive proposal. Its implemented declaration subset
+is supported by the package; this does not make the entire proposal a Runtime
+wire contract.
 
 The proposal direction does three things:
 

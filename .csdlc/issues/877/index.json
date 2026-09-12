@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 877,
+  "phase": "bound",
+  "generation": 12,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/877-uts-package",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-877-uts-package",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "ff6e994d1529b09446ed04b4f4db9c2b15083cc6a677b83ea322f638d7bc8660"
+}

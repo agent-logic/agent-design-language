@@ -19,16 +19,16 @@ use crate::governed_executor::{
     GovernedToolAdapterV1,
 };
 use crate::tool_registry::{RegisteredToolV1, ToolAdapterCapabilityV1, ToolRegistryV1};
-use crate::uts::{
+use crate::uts_acc_compiler::{
+    compile_uts_to_acc_v1, ToolProposalV1, UtsAccCompilerInputV1, UtsAccPolicyContextV1,
+};
+use adl_uts::{
     UniversalToolSchemaV1_1, UtsAuthenticationModeV1, UtsAuthenticationRequirementV1,
     UtsCategoryV1, UtsCompatibleVersionV1, UtsDataSensitivityV1, UtsDeterminismV1, UtsErrorModelV1,
     UtsExecutionEnvironmentKindV1, UtsExecutionEnvironmentV1, UtsExfiltrationRiskV1,
     UtsIdempotenceV1, UtsJsonSchemaFragmentV1, UtsObservabilityV1, UtsPlanningMetadataV1,
     UtsReplaySafetyV1, UtsResourceRequirementV1, UtsSideEffectClassV1, UtsSideEffectTagV1,
     UTS_SCHEMA_VERSION_V1_1,
-};
-use crate::uts_acc_compiler::{
-    compile_uts_to_acc_v1, ToolProposalV1, UtsAccCompilerInputV1, UtsAccPolicyContextV1,
 };
 
 pub const RUNTIME_OBSERVE_ADAPTER_V1: &str = "adapter.runtime.observe.dry_run";

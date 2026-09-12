@@ -1,0 +1,237 @@
+{
+  "package": "adl-uts",
+  "package_version": "0.1.0",
+  "cases": [
+    {
+      "case": "uts.v1",
+      "invocation": {
+        "tool_proposal": {
+          "proposal_id": "proposal.package-observe",
+          "tool_name": "runtime.observe",
+          "tool_version": "1.0.0",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "arguments": {},
+          "dry_run_requested": true,
+          "ambiguous": false
+        }
+      },
+      "receipt": {
+        "schema": "adl.runtime.resident_tool_receipt.v1",
+        "resident_id": "actor.uts.proof",
+        "authority_id": "grant.uts.proof",
+        "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+        "cycle_id": "cycle.package-proof",
+        "checkpoint_lineage": "checkpoint.package-proof",
+        "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+        "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+        "acc_contract_id": "acc.compiler.proposal.package-observe",
+        "gate_reason_code": "gate_allowed",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "decision": "executed",
+        "reason_code": "governed_execution_completed"
+      },
+      "real_result": {
+        "kind": "runtime_observation",
+        "status": "proof_read_only",
+        "redaction": "aggregate_only"
+      }
+    },
+    {
+      "case": "uts.v1.1",
+      "invocation": {
+        "tool_proposal": {
+          "proposal_id": "proposal.package-observe",
+          "tool_name": "runtime.observe",
+          "tool_version": "1.0.0",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "arguments": {},
+          "dry_run_requested": true,
+          "ambiguous": false
+        }
+      },
+      "receipt": {
+        "schema": "adl.runtime.resident_tool_receipt.v1",
+        "resident_id": "actor.uts.proof",
+        "authority_id": "grant.uts.proof",
+        "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+        "cycle_id": "cycle.package-proof",
+        "checkpoint_lineage": "checkpoint.package-proof",
+        "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+        "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+        "acc_contract_id": "acc.compiler.proposal.package-observe",
+        "gate_reason_code": "gate_allowed",
+        "adapter_id": "adapter.runtime.observe.dry_run",
+        "decision": "executed",
+        "reason_code": "governed_execution_completed"
+      },
+      "real_result": {
+        "kind": "runtime_observation",
+        "status": "proof_read_only",
+        "redaction": "aggregate_only"
+      }
+    },
+    {
+      "case": "unsupported_version",
+      "result": {
+        "load_rejection": "unsupported_schema_version"
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "malformed",
+      "result": {
+        "load_rejection": "invalid_tool_declaration:invalid_name"
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "binding_mismatch",
+      "result": {
+        "receipt": {
+          "schema": "adl.runtime.resident_tool_receipt.v1",
+          "resident_id": "actor.uts.proof",
+          "authority_id": "grant.uts.proof",
+          "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+          "cycle_id": "cycle.package-proof",
+          "checkpoint_lineage": "checkpoint.package-proof",
+          "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+          "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+          "acc_contract_id": null,
+          "gate_reason_code": null,
+          "adapter_id": null,
+          "decision": "denied",
+          "reason_code": "uts_acc_compiler_denied"
+        }
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "side_effect_denied",
+      "result": {
+        "receipt": {
+          "schema": "adl.runtime.resident_tool_receipt.v1",
+          "resident_id": "actor.uts.proof",
+          "authority_id": "grant.uts.proof",
+          "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+          "cycle_id": "cycle.package-proof",
+          "checkpoint_lineage": "checkpoint.package-proof",
+          "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+          "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+          "acc_contract_id": null,
+          "gate_reason_code": null,
+          "adapter_id": null,
+          "decision": "denied",
+          "reason_code": "uts_acc_compiler_denied"
+        }
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "sensitive_data_denied",
+      "result": {
+        "receipt": {
+          "schema": "adl.runtime.resident_tool_receipt.v1",
+          "resident_id": "actor.uts.proof",
+          "authority_id": "grant.uts.proof",
+          "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+          "cycle_id": "cycle.package-proof",
+          "checkpoint_lineage": "checkpoint.package-proof",
+          "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+          "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+          "acc_contract_id": null,
+          "gate_reason_code": null,
+          "adapter_id": null,
+          "decision": "denied",
+          "reason_code": "uts_acc_compiler_denied"
+        }
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "authority_mismatch",
+      "result": {
+        "receipt": {
+          "schema": "adl.runtime.resident_tool_receipt.v1",
+          "resident_id": "actor.uts.proof",
+          "authority_id": "grant.uts.proof",
+          "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+          "cycle_id": "cycle.package-proof",
+          "checkpoint_lineage": "checkpoint.package-proof",
+          "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+          "proposal_id": null,
+          "acc_contract_id": null,
+          "gate_reason_code": null,
+          "adapter_id": null,
+          "decision": "denied",
+          "reason_code": "resident_authority_mismatch"
+        }
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "policy_denied",
+      "result": {
+        "receipt": {
+          "schema": "adl.runtime.resident_tool_receipt.v1",
+          "resident_id": "actor.uts.proof",
+          "authority_id": "grant.uts.proof",
+          "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+          "cycle_id": "cycle.package-proof",
+          "checkpoint_lineage": "checkpoint.package-proof",
+          "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+          "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+          "acc_contract_id": null,
+          "gate_reason_code": null,
+          "adapter_id": null,
+          "decision": "denied",
+          "reason_code": "uts_acc_compiler_denied"
+        }
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "gate_denied",
+      "result": {
+        "receipt": {
+          "schema": "adl.runtime.resident_tool_receipt.v1",
+          "resident_id": "actor.uts.proof",
+          "authority_id": "grant.uts.proof",
+          "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+          "cycle_id": "cycle.package-proof",
+          "checkpoint_lineage": "checkpoint.package-proof",
+          "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+          "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+          "acc_contract_id": "acc.compiler.proposal.package-observe",
+          "gate_reason_code": "policy_denied",
+          "adapter_id": "adapter.runtime.observe.dry_run",
+          "decision": "denied",
+          "reason_code": "freedom_gate_denied"
+        }
+      },
+      "adapter_calls": 0
+    },
+    {
+      "case": "replay_denied",
+      "result": {
+        "receipt": {
+          "schema": "adl.runtime.resident_tool_receipt.v1",
+          "resident_id": "actor.uts.proof",
+          "authority_id": "grant.uts.proof",
+          "authority_sha256": "99be8348df12773ba676b56a1ee9e803dce9fb89234eb0609411f949db57196f",
+          "cycle_id": "cycle.package-proof",
+          "checkpoint_lineage": "checkpoint.package-proof",
+          "proposal_sha256": "e20ccc39eab235d6b0f3d7b31628b1b3f5a30f92be15191ca1f97cdef06c986f",
+          "proposal_id": "sha256:686593763ee4deb5d562af8bfa5f77a155fc1693f7d8352655695168c3206cde",
+          "acc_contract_id": null,
+          "gate_reason_code": null,
+          "adapter_id": null,
+          "decision": "denied",
+          "reason_code": "proposal_replay_denied"
+        }
+      },
+      "adapter_calls": 0
+    }
+  ],
+  "real_tool_calls": 2,
+  "provider_calls": 0
+}
