@@ -1,0 +1,25 @@
+   Compiling adl v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 21.54s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-804da21c198759d7)
+
+running 4 tests
+test provider::reload::tests::provider_definitions_account_aliases_and_embedded_url_credentials ... FAILED
+test provider::reload::tests::provider_definitions_validate_references_without_resolving_or_writing_them ... ok
+test provider::reload::tests::provider_definitions_reject_nested_credentials_and_redact_loader_errors ... ok
+test execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload ... ok
+
+failures:
+
+---- provider::reload::tests::provider_definitions_account_aliases_and_embedded_url_credentials stdout ----
+
+thread 'provider::reload::tests::provider_definitions_account_aliases_and_embedded_url_credentials' (8174920) panicked at src/provider/reload.rs:773:18:
+called `Result::unwrap()` on an `Err` value: Validation("provider sidecar validation rejected; input details <redacted>")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    provider::reload::tests::provider_definitions_account_aliases_and_embedded_url_credentials
+
+test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 1867 filtered out; finished in 1.45s
+
+error: test failed, to rerun pass `--lib`

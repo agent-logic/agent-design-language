@@ -1,0 +1,491 @@
+   Compiling proc-macro2 v1.0.106
+   Compiling unicode-ident v1.0.22
+   Compiling quote v1.0.44
+   Compiling libc v0.2.189
+   Compiling cfg-if v1.0.4
+   Compiling serde_core v1.0.228
+   Compiling pin-project-lite v0.2.16
+   Compiling generic-array v0.14.7
+   Compiling parking_lot_core v0.9.12
+   Compiling const-oid v0.9.6
+   Compiling serde v1.0.228
+   Compiling find-msvc-tools v0.1.9
+   Compiling pin-utils v0.1.0
+   Compiling libm v0.2.16
+   Compiling num-traits v0.2.19
+   Compiling allocator-api2 v0.2.21
+   Compiling zerocopy v0.8.33
+   Compiling zmij v1.0.16
+   Compiling core-foundation-sys v0.8.7
+   Compiling serde_json v1.0.149
+   Compiling icu_normalizer_data v2.1.1
+   Compiling hashbrown v0.16.1
+   Compiling thiserror v2.0.18
+   Compiling httparse v1.10.1
+   Compiling http-body-util v0.1.3
+   Compiling icu_properties_data v2.1.2
+   Compiling percent-encoding v2.3.2
+   Compiling pkg-config v0.3.33
+   Compiling try-lock v0.2.5
+   Compiling form_urlencoded v1.2.2
+   Compiling aws-lc-rs v1.17.1
+   Compiling want v0.3.1
+   Compiling getrandom v0.3.4
+   Compiling http-body v0.4.6
+   Compiling atomic-waker v1.1.2
+   Compiling rustls v0.23.43
+   Compiling iana-time-zone v0.1.65
+   Compiling getrandom v0.2.17
+   Compiling errno v0.3.14
+   Compiling socket2 v0.6.2
+   Compiling mio v1.1.1
+   Compiling jobserver v0.1.34
+   Compiling num_threads v0.1.7
+   Compiling syn v2.0.114
+   Compiling cpufeatures v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling signal-hook-registry v1.4.8
+   Compiling crc32fast v1.5.0
+   Compiling data-encoding v2.11.0
+   Compiling security-framework-sys v2.17.0
+   Compiling parking_lot v0.12.5
+   Compiling cc v1.2.55
+   Compiling minimal-lexical v0.2.1
+   Compiling rustls v0.21.12
+   Compiling core-foundation v0.10.1
+   Compiling uuid v1.20.0
+   Compiling nom v7.1.3
+   Compiling socket2 v0.5.10
+   Compiling ff v0.12.1
+   Compiling aho-corasick v1.1.4
+   Compiling security-framework v3.7.0
+   Compiling group v0.12.1
+   Compiling rustversion v1.0.22
+   Compiling num-integer v0.1.46
+   Compiling hybrid-array v0.4.14
+   Compiling thiserror v1.0.69
+   Compiling const-oid v0.10.2
+   Compiling num-bigint v0.4.6
+   Compiling rand_core v0.9.5
+   Compiling ff v0.13.1
+   Compiling cpufeatures v0.3.0
+   Compiling cmake v0.1.58
+   Compiling getrandom v0.4.3
+   Compiling anyhow v1.0.100
+   Compiling crypto-common v0.2.2
+   Compiling block-buffer v0.12.1
+   Compiling indexmap v2.13.0
+   Compiling deranged v0.5.5
+   Compiling semver v1.0.27
+   Compiling regex-automata v0.4.13
+   Compiling group v0.13.0
+   Compiling num-iter v0.1.45
+   Compiling rustc_version v0.4.1
+   Compiling mime_guess v2.0.5
+   Compiling simd-adler32 v0.3.10
+   Compiling ring v0.17.14
+   Compiling aws-lc-sys v0.42.0
+   Compiling num-rational v0.4.2
+   Compiling aws-types v1.3.13
+   Compiling same-file v1.0.6
+   Compiling digest v0.11.3
+   Compiling zlib-rs v0.6.7
+   Compiling zopfli v0.8.3
+   Compiling sha2 v0.11.0
+   Compiling walkdir v2.5.0
+   Compiling time v0.3.47
+   Compiling rusticata-macros v4.1.0
+   Compiling serde_path_to_error v0.1.20
+   Compiling core-foundation v0.9.4
+   Compiling camino v1.2.2
+   Compiling synstructure v0.13.2
+   Compiling serde_derive_internals v0.29.1
+   Compiling rust-embed-utils v8.12.0
+   Compiling curve25519-dalek v4.1.3
+   Compiling curve25519-dalek v5.0.0
+   Compiling sharded-slab v0.1.7
+   Compiling aws-smithy-xml v0.60.15
+   Compiling thread_local v1.1.9
+   Compiling fs-err v3.3.1
+   Compiling nu-ansi-term v0.50.3
+   Compiling oid-registry v0.8.1
+   Compiling num-bigint-dig v0.8.6
+   Compiling schemars v0.8.22
+   Compiling system-configuration-sys v0.5.0
+   Compiling rust_decimal v1.42.1
+   Compiling matchers v0.2.0
+   Compiling rustix v1.1.4
+   Compiling blake3 v1.8.5
+   Compiling quinn-udp v0.5.14
+   Compiling arc-swap v1.9.1
+   Compiling regex v1.12.2
+   Compiling cargo-platform v0.3.3
+   Compiling chacha20 v0.10.1
+   Compiling objc2-core-foundation v0.3.2
+   Compiling unicode-xid v0.2.6
+   Compiling dyn-clone v1.0.20
+   Compiling iri-string v0.7.10
+   Compiling redb v4.1.0
+   Compiling rand v0.10.2
+   Compiling chrono v0.4.44
+   Compiling zeroize_derive v1.4.3
+   Compiling serde_derive v1.0.228
+   Compiling tokio-macros v2.6.1
+   Compiling tracing-attributes v0.1.31
+   Compiling futures-macro v0.3.31
+   Compiling zerofrom-derive v0.1.6
+   Compiling zeroize v1.8.2
+   Compiling displaydoc v0.2.5
+   Compiling tokio v1.49.0
+   Compiling crypto-common v0.1.7
+   Compiling futures-util v0.3.31
+   Compiling block-buffer v0.10.4
+   Compiling zerocopy-derive v0.8.33
+   Compiling yoke-derive v0.8.1
+   Compiling zerovec-derive v0.11.2
+   Compiling digest v0.10.7
+   Compiling thiserror-impl v2.0.18
+   Compiling rustls-pki-types v1.14.0
+   Compiling zerofrom v0.1.6
+   Compiling tracing v0.1.44
+   Compiling hmac v0.12.1
+   Compiling sha2 v0.10.9
+   Compiling crypto-bigint v0.5.5
+   Compiling rustls-native-certs v0.8.4
+   Compiling webpki-roots v1.0.6
+   Compiling der v0.6.1
+   Compiling crypto-bigint v0.4.9
+   Compiling yoke v0.8.1
+   Compiling signature v1.6.4
+   Compiling zerovec v0.11.5
+   Compiling zerotrie v0.2.3
+   Compiling der v0.7.10
+   Compiling thiserror-impl v1.0.69
+   Compiling spki v0.6.0
+   Compiling rfc6979 v0.3.1
+   Compiling inout v0.1.4
+   Compiling pkcs8 v0.9.0
+   Compiling tinystr v0.8.2
+   Compiling potential_utf v0.1.4
+   Compiling sec1 v0.3.0
+   Compiling cipher v0.4.4
+   Compiling signature v2.2.0
+   Compiling icu_locale_core v2.1.1
+   Compiling icu_collections v2.1.1
+   Compiling elliptic-curve v0.12.3
+   Compiling sha1 v0.10.6
+   Compiling assert-json-diff v2.0.2
+   Compiling spki v0.7.3
+   Compiling serde_urlencoded v0.7.1
+   Compiling ecdsa v0.14.8
+   Compiling pkcs8 v0.10.2
+   Compiling hkdf v0.12.4
+   Compiling async-trait v0.1.89
+   Compiling sec1 v0.7.3
+   Compiling icu_provider v2.1.1
+   Compiling flate2 v1.1.9
+   Compiling dbl v0.3.2
+   Compiling asn1-rs-impl v0.2.0
+   Compiling p256 v0.11.1
+   Compiling asn1-rs-derive v0.6.0
+   Compiling cmac v0.7.2
+   Compiling icu_properties v2.1.2
+   Compiling icu_normalizer v2.1.1
+   Compiling half v2.7.1
+   Compiling ppv-lite86 v0.2.21
+   Compiling elliptic-curve v0.13.8
+   Compiling zip v3.0.0
+   Compiling ciborium-ll v0.2.2
+   Compiling rand_chacha v0.3.1
+   Compiling rand_chacha v0.9.0
+   Compiling ciborium v0.2.2
+   Compiling rand v0.8.5
+   Compiling tokio-util v0.7.18
+   Compiling aws-smithy-async v1.2.14
+   Compiling rand v0.9.2
+   Compiling asn1-rs v0.7.2
+   Compiling futures-executor v0.3.31
+   Compiling tracing-serde v0.2.0
+   Compiling rustls-webpki v0.101.7
+   Compiling sct v0.7.1
+   Compiling ctr v0.9.2
+   Compiling aes v0.8.4
+   Compiling tungstenite v0.29.0
+   Compiling rfc6979 v0.4.0
+   Compiling aead v0.5.2
+   Compiling idna_adapter v1.2.1
+   Compiling clap_derive v4.5.49
+   Compiling pin-project-internal v1.1.13
+   Compiling h2 v0.4.15
+   Compiling aws-smithy-types v1.4.5
+   Compiling idna v1.1.0
+   Compiling tower v0.5.3
+   Compiling h2 v0.3.27
+   Compiling url v2.5.8
+   Compiling aws-smithy-runtime-api v1.11.5
+   Compiling cbor-diag v0.1.12
+   Compiling aws-smithy-eventstream v0.60.19
+   Compiling aws-smithy-json v0.62.4
+   Compiling aws-smithy-query v0.60.14
+   Compiling pin-project v1.1.13
+   Compiling tokio-tungstenite v0.29.0
+   Compiling aes-siv v0.7.0
+   Compiling ecdsa v0.16.9
+   Compiling tracing-subscriber v0.3.22
+   Compiling futures v0.3.31
+   Compiling primeorder v0.13.6
+   Compiling axum-core v0.5.6
+   Compiling md-5 v0.10.6
+   Compiling rust-embed-impl v8.12.0
+   Compiling schemars_derive v0.8.22
+   Compiling aws-smithy-protocol-test v0.63.13
+   Compiling tokio-rustls v0.24.1
+   Compiling aws-smithy-http v0.63.5
+   Compiling aws-credential-types v1.2.13
+   Compiling aws-smithy-observability v0.2.5
+   Compiling aws-sigv4 v1.4.1
+   Compiling clap v4.5.54
+   Compiling utoipa-swagger-ui v9.0.2
+   Compiling utoipa-gen v5.5.0
+   Compiling rust-embed v8.12.0
+   Compiling ntp-proto v0.3.7
+   Compiling cargo_metadata v0.23.1
+   Compiling tower-http v0.6.8
+   Compiling der-parser v10.0.0
+   Compiling pkcs1 v0.7.5
+   Compiling ed25519 v2.2.3
+   Compiling serde_spanned v0.6.9
+   Compiling toml_datetime v0.6.11
+   Compiling anyerror v0.1.13
+   Compiling hyper v0.14.32
+   Compiling objc2-io-kit v0.3.2
+   Compiling prost-derive v0.13.5
+   Compiling derive_more-impl v1.0.0
+   Compiling hyper v1.8.1
+   Compiling generator v0.8.9
+   Compiling quinn v0.11.11
+   Compiling serde_spanned v1.1.1
+   Compiling toml_datetime v0.7.5+spec-1.1.0
+   Compiling num-complex v0.4.6
+   Compiling ahash v0.8.12
+   Compiling bit-vec v0.6.3
+   Compiling hyper-util v0.1.20
+   Compiling rustc-hash v2.1.1
+   Compiling utf8-width v0.1.9
+   Compiling adl-runtime-kernel v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl-runtime-kernel)
+   Compiling toml_edit v0.19.15
+   Compiling toml v0.9.12+spec-1.1.0
+   Compiling serde_jcs v0.2.0
+   Compiling prost v0.13.5
+   Compiling byte-unit v5.2.5
+   Compiling num v0.4.3
+   Compiling system-configuration v0.5.1
+   Compiling bit-set v0.5.3
+   Compiling petgraph v0.7.1
+   Compiling tempfile v3.27.0
+   Compiling ed25519-dalek v2.2.0
+   Compiling mime_guess2 v2.3.1
+   Compiling ed25519-dalek v3.0.0
+   Compiling sysinfo v0.38.4
+   Compiling derive_more v1.0.0
+   Compiling octocrab v0.53.0
+   Compiling rsa v0.9.10
+   Compiling validit v0.2.6
+   Compiling x509-parser v0.18.1
+   Compiling p384 v0.13.1
+   Compiling p256 v0.13.2
+   Compiling tracing-futures v0.2.5
+   Compiling axum v0.8.9
+   Compiling rsntp v4.1.2
+   Compiling simple_asn1 v0.6.4
+   Compiling rustls-pemfile v2.2.0
+   Compiling openraft-macros v0.9.25
+   Compiling snafu-derive v0.8.9
+   Compiling security-framework v2.11.1
+   Compiling utoipa v5.5.0
+   Compiling hyper-rustls v0.24.2
+   Compiling fs2 v0.4.3
+   Compiling lru v0.16.4
+   Compiling encoding_rs v0.8.35
+   Compiling option-ext v0.2.0
+   Compiling utf-8 v0.7.6
+   Compiling chrono-tz v0.10.4
+   Compiling openraft v0.9.21
+   Compiling dirs-sys v0.4.1
+   Compiling tungstenite v0.24.0
+   Compiling fancy-regex v0.11.0
+   Compiling jsonwebtoken v10.4.0
+   Compiling rustls-native-certs v0.6.3
+   Compiling toml v0.7.8
+   Compiling reqwest v0.11.27
+   Compiling fraction v0.13.1
+   Compiling snafu v0.8.9
+   Compiling ntp-os-clock v0.3.7
+   Compiling ntp-udp v0.3.7
+   Compiling adl-resilience v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl-resilience)
+   Compiling axum-core v0.4.5
+   Compiling http-serde v2.1.1
+   Compiling secrecy v0.10.3
+   Compiling secrecy v0.8.0
+   Compiling yasna v0.6.0
+   Compiling num_cpus v1.17.0
+   Compiling scoped-tls v1.0.1
+   Compiling web-time v1.1.0
+   Compiling unsafe-libyaml v0.2.11
+   Compiling unicode-id v0.3.6
+   Compiling loom v0.7.2
+   Compiling markdown v1.0.0
+   Compiling deadpool v0.13.0
+   Compiling ntp-daemon v0.3.7
+   Compiling rcgen v0.14.8
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling jsonschema v0.17.1
+   Compiling tokio-tungstenite v0.24.0
+   Compiling axum v0.7.9
+   Compiling dirs v5.0.1
+   Compiling adl-uts v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl-uts)
+   Compiling rustls-webpki v0.103.9
+   Compiling tokio-rustls v0.26.4
+   Compiling quinn-proto v0.11.17
+   Compiling hyper-rustls v0.27.7
+   Compiling axum-server v0.8.0
+   Compiling aws-smithy-http-client v1.1.11
+   Compiling reqwest v0.12.28
+   Compiling yup-oauth2 v12.1.2
+   Compiling google-workspace v0.22.5
+   Compiling aws-smithy-runtime v1.10.2
+   Compiling aws-runtime v1.7.1
+   Compiling aws-sdk-sso v1.95.0
+   Compiling aws-sdk-ssooidc v1.97.0
+   Compiling aws-sdk-sts v1.99.0
+   Compiling aws-sdk-lambda v1.117.0
+   Compiling aws-sdk-iam v1.105.0
+   Compiling aws-sdk-cloudwatchlogs v1.119.0
+   Compiling aws-sdk-ssm v1.106.0
+   Compiling aws-sdk-sns v1.96.0
+   Compiling aws-sdk-bedrockruntime v1.126.0
+   Compiling aws-sdk-budgets v1.104.0
+   Compiling aws-sdk-costexplorer v1.111.0
+   Compiling aws-sdk-ec2 v1.215.0
+   Compiling aws-config v1.8.14
+   Compiling aws-sdk-servicequotas v1.97.0
+   Compiling aws-sdk-eventbridge v1.102.0
+   Compiling adl-runtime v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl-runtime)
+   Compiling adl v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 35s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-804da21c198759d7)
+
+running 1 test
+
+thread '<unnamed>' (7857931) panicked at src/execute/tests/provider_definitions.rs:40:56:
+called `Result::unwrap()` on an `Err` value: Os { code: 35, kind: WouldBlock, message: "Resource temporarily unavailable" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload' (7857930) panicked at src/execute/tests/provider_definitions.rs:69:71:
+real provider request: Disconnected
+
+thread '<unnamed>' (7857948) panicked at src/execute/tests.rs:271:6:
+provider reload execution should succeed: step 'reload.step' failed (attempt 1/1, max_attempts=1)
+
+Caused by:
+    0: provider 'p1' complete() failed for step 'reload.step' (attempt 1/1)
+    1: provider ollama runtime error (retryable): kind=request_failed native provider request failed: error sending request for url (http://127.0.0.1:63667/api/generate)
+
+thread 'execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload' (7857930) panicked at src/execute/tests/provider_definitions.rs:79:66:
+called `Result::unwrap()` on an `Err` value: Any { .. }
+stack backtrace:
+   0:        0x10488d264 - std::backtrace_rs::backtrace::libunwind::trace::h890246ace2f92943
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/../../backtrace/src/backtrace/libunwind.rs:117:9
+   1:        0x10488d264 - std::backtrace_rs::backtrace::trace_unsynchronized::h11f38ae193fb7a81
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/../../backtrace/src/backtrace/mod.rs:66:14
+   2:        0x10488d264 - std::sys::backtrace::_print_fmt::h4b60af7dd9328e8e
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/sys/backtrace.rs:66:9
+   3:        0x10488d264 - <std::sys::backtrace::BacktraceLock::print::DisplayBacktrace as core::fmt::Display>::fmt::h2808c764b780ef77
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/sys/backtrace.rs:39:26
+   4:        0x10489e16c - core::fmt::rt::Argument::fmt::hcb261d347bc11ae5
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/fmt/rt.rs:173:76
+   5:        0x10489e16c - core::fmt::write::h164e2e78980a3344
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/fmt/mod.rs:1469:25
+   6:        0x10485f8c0 - std::io::default_write_fmt::ha9d9e8690d3c78f2
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/io/mod.rs:639:11
+   7:        0x10485f8c0 - std::io::Write::write_fmt::hc5b2a4d160c11c86
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/io/mod.rs:1954:13
+   8:        0x10486b218 - std::sys::backtrace::BacktraceLock::print::h765d16e49e83c7b3
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/sys/backtrace.rs:42:9
+   9:        0x104870310 - std::panicking::default_hook::{{closure}}::hf5d7ef6cefa10586
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:301:27
+  10:        0x1048701c4 - std::panicking::default_hook::h8781bd6c5c54e4cc
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:328:9
+  11:        0x104870a50 - std::panicking::panic_with_hook::h93c775fc227522dd
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:834:13
+  12:        0x104870738 - std::panicking::panic_handler::{{closure}}::h8561e58c9391724a
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:707:13
+  13:        0x10486b324 - std::sys::backtrace::__rust_end_short_backtrace::h55629ed76aaa9d26
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/sys/backtrace.rs:174:18
+  14:        0x1048578b0 - __rustc[d9b87f19e823c0ef]::rust_begin_unwind
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:698:5
+  15:        0x104911948 - core::panicking::panic_fmt::hfe9cfd57c06d80d9
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/panicking.rs:80:14
+  16:        0x104911338 - core::result::unwrap_failed::hecc7e6934498f5c2
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/result.rs:1862:5
+  17:        0x101f681d8 - core::result::Result<T,E>::unwrap::h2202edd0d7589b15
+                               at /Users/daniel/.rustup/toolchains/1.92.0-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/result.rs:1233:23
+  18:        0x101f681d8 - <adl::execute::tests::provider_definitions::Endpoint as core::ops::drop::Drop>::drop::hc8899e3029a30c76
+                               at /Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl/src/execute/tests/provider_definitions.rs:79:66
+  19:        0x101ee4280 - core::ptr::drop_in_place<adl::execute::tests::provider_definitions::Endpoint>::h2bf43825f3092bb1
+                               at /Users/daniel/.rustup/toolchains/1.92.0-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:805:1
+  20:        0x10195ad7c - adl::execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload::h40cff2bfadfa875e
+                               at /Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl/src/execute/tests/provider_definitions.rs:145:1
+  21:        0x10191256c - adl::execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload::{{closure}}::he858eaf6e48381c4
+                               at /Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl/src/execute/tests/provider_definitions.rs:91:73
+  22:        0x101e48770 - core::ops::function::FnOnce::call_once::heba855309e1cab8f
+                               at /Users/daniel/.rustup/toolchains/1.92.0-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/ops/function.rs:250:5
+  23:        0x10292c118 - core::ops::function::FnOnce::call_once::h346a8e93af649499
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/ops/function.rs:250:5
+  24:        0x10292c118 - test::__rust_begin_short_backtrace::h0d6c6ada726cc7de
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/test/src/lib.rs:663:18
+  25:        0x10293b928 - test::run_test_in_process::{{closure}}::h00add03dc7986ec9
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/test/src/lib.rs:686:74
+  26:        0x10293b928 - <core::panic::unwind_safe::AssertUnwindSafe<F> as core::ops::function::FnOnce<()>>::call_once::h94d3c071c5a9ea81
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/panic/unwind_safe.rs:274:9
+  27:        0x10293b928 - std::panicking::catch_unwind::do_call::h4ecaf85895286111
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
+  28:        0x10293b928 - std::panicking::catch_unwind::he25df76aff1a19fc
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
+  29:        0x10293b928 - std::panic::catch_unwind::h01ab4eec19193aeb
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
+  30:        0x10293b928 - test::run_test_in_process::h3ab7c4a13adb5507
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/test/src/lib.rs:686:27
+  31:        0x10293b928 - test::run_test::{{closure}}::hfff72f3e31ffa110
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/test/src/lib.rs:607:43
+  32:        0x10291c074 - test::run_test::{{closure}}::h3d49dc3760a1af33
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/test/src/lib.rs:637:41
+  33:        0x10291c074 - std::sys::backtrace::__rust_begin_short_backtrace::hdc9d3c3b7ec657ef
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/sys/backtrace.rs:158:18
+  34:        0x10291ef84 - std::thread::Builder::spawn_unchecked_::{{closure}}::{{closure}}::h6c728ed14a8c3159
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/thread/mod.rs:562:17
+  35:        0x10291ef84 - <core::panic::unwind_safe::AssertUnwindSafe<F> as core::ops::function::FnOnce<()>>::call_once::h8ce297b53608e2bc
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/panic/unwind_safe.rs:274:9
+  36:        0x10291ef84 - std::panicking::catch_unwind::do_call::h65240674da2098a0
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:590:40
+  37:        0x10291ef84 - std::panicking::catch_unwind::h71f7e84dcc4abdb1
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:553:19
+  38:        0x10291ef84 - std::panic::catch_unwind::h37217e8eedf6933d
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panic.rs:359:14
+  39:        0x10291ef84 - std::thread::Builder::spawn_unchecked_::{{closure}}::h4ee5400741716276
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/thread/mod.rs:560:30
+  40:        0x10291ef84 - core::ops::function::FnOnce::call_once{{vtable.shim}}::h2ee972076698d3d2
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/ops/function.rs:250:5
+  41:        0x1048687c0 - <alloc::boxed::Box<F,A> as core::ops::function::FnOnce<Args>>::call_once::h1f71a7d9fb4fcf2e
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/alloc/src/boxed.rs:2005:9
+  42:        0x1048687c0 - std::sys::thread::unix::Thread::new::thread_start::h98270432b6aefc44
+                               at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/sys/thread/unix.rs:126:17
+  43:        0x181f01c58 - __pthread_cond_wait
+
+thread 'execute::tests::provider_definitions::editable_provider_definitions_drive_real_dispatch_and_atomic_reload' (7857930) panicked at library/core/src/panicking.rs:238:5:
+panic in a destructor during cleanup
+thread caused non-unwinding panic. aborting.
+error: test failed, to rerun pass `--lib`
+
+Caused by:
+  process didn't exit successfully: `/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl/target/debug/deps/adl-804da21c198759d7 editable_provider_definitions_drive_real_dispatch_and_atomic_reload --nocapture` (signal: 6, SIGABRT: process abort signal)

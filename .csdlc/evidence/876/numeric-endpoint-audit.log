@@ -1,0 +1,21 @@
+   Compiling adl-runtime-kernel v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl-runtime)
+   Compiling adl v0.92.1 (/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 21.64s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-804da21c198759d7)
+
+running 1 test
+
+thread 'provider::reload::tests::provider_definitions_reject_nested_credentials_and_redact_loader_errors' (7971549) panicked at src/provider/reload.rs:608:26:
+invalid initial definition accepted
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test provider::reload::tests::provider_definitions_reject_nested_credentials_and_redact_loader_errors ... FAILED
+
+failures:
+
+failures:
+    provider::reload::tests::provider_definitions_reject_nested_credentials_and_redact_loader_errors
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1869 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--lib`

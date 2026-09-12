@@ -1,0 +1,41 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "a44643555efb5228ad5673247c544341deacebe7c2ba45a51b282b9bf9aa1992",
+  "card_updates": {
+    "srp": {
+      "status": "reviewed",
+      "status_inline": "reviewed",
+      "findings_status": "findings_present",
+      "findings_status_inline": "findings_present",
+      "recommended_outcome": "pass",
+      "recommended_outcome_inline": "pass",
+      "review_dispositions": "P2 rendered card placeholders resolved through native semantic edits; review_836 independently confirmed exact 892242a33de94d47d4847839c01b0c5cbb7f137a with no actionable findings. Production approval at e0dc293dca remains applicable; source unchanged.",
+      "review_dispositions_inline": "P2 resolved; review_836 PASS exact 892242a33de94d47d4847839c01b0c5cbb7f137a. No actionable findings.",
+      "review_notes": "Independent production and corrected-card reviews passed. Original P2 and tooling reproduction retained in .csdlc/evidence/876/REVIEW.md. Hosted CI and merge remain pending.",
+      "review_notes_inline": "Independent production and corrected-card reviews passed; hosted CI and merge pending."
+    },
+    "sor": {
+      "summary": "Editable provider definitions now expand and validate before atomic promotion, reject nested credentials and retain bounded diagnostics. 25 focused tests, mutation proof, clippy and formatting pass. Independent review_836 PASS at 892242a33de94d47d4847839c01b0c5cbb7f137a resolves original card P2. Native publication and current-head CI pending; no merge claim.",
+      "summary_inline": "25 focused tests, mutation proof, lint and independent production/card review pass. Native publication and CI pending.",
+      "completion_state": "reviewed_publication_pending",
+      "completion_state_inline": "reviewed_publication_pending",
+      "follow_up_1": "Publish through native routes and verify required current-head CI.",
+      "follow_up_1_inline": "Publish through native routes and verify required current-head CI."
+    }
+  }
+}

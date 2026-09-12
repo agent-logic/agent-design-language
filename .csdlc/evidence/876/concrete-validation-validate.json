@@ -1,0 +1,19 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "a44643555efb5228ad5673247c544341deacebe7c2ba45a51b282b9bf9aa1992"
+}

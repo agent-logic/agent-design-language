@@ -1,0 +1,25 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "66d0031abe02536c7fa36616004a0446ee937a57ae90bfd75047a8cdc8c9ec54",
+  "card_updates": {
+    "sor": {
+      "validation_command": "cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo test --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot; cargo test --manifest-path adl/Cargo.toml --lib provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check",
+      "validation_command_inline": "cargo test --manifest-path adl/Cargo.toml --lib provider_definitions; cargo test --manifest-path adl/Cargo.toml --lib provider_reload; cargo test --manifest-path adl/Cargo.toml --lib execute_sequential_retains_starting_provider_snapshot; cargo test --manifest-path adl/Cargo.toml --lib provider_mod_profile; cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check"
+    }
+  }
+}

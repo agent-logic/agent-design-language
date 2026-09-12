@@ -1,0 +1,25 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "e3f61d873e91af9624ad711b2d7ac935ecafaddcfd363d380db49417698db569",
+  "card_updates": {
+    "spp": {
+      "plan_summary": "Extend the existing provider reload owner; reject credential-shaped nested values without rejecting legitimate model identifiers or approved credential references. Prove real loopback endpoint/model/profile consumption, barrier-synchronized old in-flight and new dispatch, whole-map atomicity, and last-known-good dispatch after invalid edits. Run focused provider tests, preserve diagnostics evidence, obtain exact-head independent review and publish a passing PR.",
+      "notes": "Execution bound at 57a82b08bf687afd0b1573fd8d78f4b2b2268dba after accepted merged #854/PR941, #622/PR646 and #864/PR865 were verified. Issue-bound #876 goal active. No paid calls, new watcher, registry or agent lifecycle changes."
+    }
+  }
+}

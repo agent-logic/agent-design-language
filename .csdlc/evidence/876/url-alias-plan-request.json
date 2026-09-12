@@ -1,0 +1,49 @@
+{
+  "issue": 876,
+  "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/876-provider-definitions",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-876-provider-definitions",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "122adbb7323cf5dabc50196aa94efafcafc78bf3c5f939a136fde0de0fb040e6",
+  "card_updates": {
+    "spp": {
+      "plan_summary": "Repair PR953 user P2s: validate both Bedrock account digest aliases identically; reject URL userinfo and decoded credential query keys before activation; prove initial rejection, actual watcher last-known-good retention and safe URL/alias compatibility. Preserve prior proof and obtain independent review before publication.",
+      "plan_summary_inline": "Repair PR953 user P2s: validate both Bedrock account digest aliases identically; reject URL userinfo and decoded credential query keys before activation; prove initial rejection, actual watcher last-known-good retention and safe URL/alias compatibility. Preserve prior proof and obtain independent review before publication.",
+      "step_3_status": "in_progress",
+      "step_3_status_inline": "in_progress",
+      "step_4_status": "pending",
+      "step_4_status_inline": "pending",
+      "step_5_status": "pending",
+      "step_5_status_inline": "pending",
+      "activation_state": "bound",
+      "activation_state_inline": "bound"
+    },
+    "srp": {
+      "recommended_outcome": "needs_followup",
+      "recommended_outcome_inline": "needs_followup",
+      "findings_status": "findings_present",
+      "findings_status_inline": "findings_present",
+      "review_findings": "User review at9495c0e: P2 supported expected-account-sha256 alias rejects public64hex unlike underscore; P2 endpoint/base_url userinfo and credential query values bypass rejection. Both findings require repair; prior reviews remain historical.",
+      "review_findings_inline": "User review at9495c0e: P2 supported expected-account-sha256 alias rejects public64hex unlike underscore; P2 endpoint/base_url userinfo and credential query values bypass rejection. Both findings require repair; prior reviews remain historical.",
+      "review_dispositions": "Repair in progress; independent changed-source review required.",
+      "review_dispositions_inline": "Repair in progress; independent changed-source review required."
+    },
+    "sor": {
+      "summary": "Repairing user P2 Bedrock alias and embedded URL credential findings at9495c0e. Earlier proof preserved; new focused proof and independent review pending.",
+      "summary_inline": "Repairing user P2 Bedrock alias and embedded URL credential findings at9495c0e. Earlier proof preserved; new focused proof and independent review pending.",
+      "completion_state": "repair_in_progress",
+      "completion_state_inline": "repair_in_progress"
+    }
+  }
+}
