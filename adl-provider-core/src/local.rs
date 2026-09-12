@@ -32,6 +32,18 @@ impl MockProvider {
     }
 }
 
+pub(super) fn validate_runtime_mock_spec(spec: &adl::ProviderSpec) -> Result<()> {
+    if let Some(value) = spec.config.get("sleep_ms") {
+        if value.as_u64().is_none_or(|millis| millis > 30_000) {
+            return Err(invalid_config(
+                "mock",
+                "Runtime mock sleep_ms must be an integer between 0 and 30000",
+            ));
+        }
+    }
+    Ok(())
+}
+
 impl Provider for MockProvider {
     /// Returns the input prompt unchanged for deterministic pass-through testing.
     fn complete(&self, prompt: &str) -> Result<String> {
@@ -629,5 +641,42 @@ mod tests {
         assert!(pending.is_empty());
         assert_eq!(chunks[2], "\u{FFFD}");
         assert_eq!(chunks[3], " after invalid");
+    }
+}
+
+#[cfg(test)]
+mod runtime_mock_tests {
+    use super::*;
+    // PVF: deterministic CPU-only constructor proof, no sleeping/dispatch;
+    // release-required bounded registered worker contract for #855.
+    #[test]
+    fn runtime_mock_sleep_limit_is_strict_and_legacy_construction_is_preserved() {
+        let mut spec = adl::ProviderSpec {
+            id: None,
+            profile: None,
+            kind: "mock".into(),
+            base_url: None,
+            default_model: Some("fixture".into()),
+            config: HashMap::new(),
+        };
+        spec.config
+            .insert("sleep_ms".into(), serde_json::json!(30001));
+        assert!(build_provider_for_id("mock", &spec, None).is_ok());
+        spec.config
+            .insert("runtime_max_attempts".into(), serde_json::json!(1));
+        for value in [
+            serde_json::json!(30001),
+            serde_json::json!(-1),
+            serde_json::json!("10"),
+            Value::Null,
+        ] {
+            spec.config.insert("sleep_ms".into(), value);
+            assert!(build_provider_for_id("mock", &spec, None).is_err());
+        }
+        for value in [0, 10, 30000] {
+            spec.config
+                .insert("sleep_ms".into(), serde_json::json!(value));
+            assert!(build_provider_for_id("mock", &spec, None).is_ok());
+        }
     }
 }

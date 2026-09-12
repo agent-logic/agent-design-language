@@ -761,7 +761,12 @@ pub fn build_provider_for_id(
                     Box::new(OllamaProvider::from_target(spec, &target)?) as Box<dyn Provider>
                 }
             }
-            "mock" => Box::new(MockProvider::from_target(spec, &target)),
+            "mock" => {
+                if runtime_bounded_calls(&spec.config)? {
+                    local::validate_runtime_mock_spec(spec)?;
+                }
+                Box::new(MockProvider::from_target(spec, &target))
+            }
             other => return Err(unknown_kind(other)),
         },
     };

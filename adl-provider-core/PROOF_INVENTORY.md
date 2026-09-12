@@ -166,3 +166,5 @@ These library proofs establish Runtime CLI supervision on Unix and preserved
 legacy construction, not installed-binary or hosted inference qualification.
 
 The existing Vertex thinking configuration test now accepts documented `thinking_budget: 0` (disabled thinking) and still rejects malformed/negative values. The five-adapter transport matrix asserts actual Vertex `thinkingBudget: 0` together with the 256-token output cap. Model support follows the provider contract: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/thinking . This supports the approved Gemini 2.5 Flash demonstration without expanding its model or spending bounds. Final post-fix local leaf run: 94/94 and all-targets Clippy pass.
+
+`runtime_mock_sleep_limit_is_strict_and_legacy_construction_is_preserved` is a release-required CPU-only constructor regression (no sleeping or transport). Runtime mock delay must be a valid integer at most 30000 ms; ordinary ADL mock construction is unchanged. This adds one leaf test, for a 95-test Unix source denominator.
