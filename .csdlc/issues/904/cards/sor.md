@@ -28,8 +28,8 @@ Execution:
 - Actor: `Planning #7 / sprint8_720`
 - Model: `unknown`
 - Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Start Time: `unknown; implementation began under active child goal`
+- End Time: `in_progress`
 
 ## Summary
 
@@ -38,11 +38,11 @@ Partial accounting and bounded raw Ollama collector implemented and independentl
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
 - Planned PVF lane: `provider`
-- Final PVF lane: `not_run`
-- Lane change reason: `not_run; implementation has not started`
+- Final PVF lane: `provider`
+- Lane change reason: `No lane change; executed only local deterministic subset of required provider experiment proof`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `small CPU/filesystem and loopback transport; actual accelerator Runtime proof pending`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -57,7 +57,7 @@ Partial accounting and bounded raw Ollama collector implemented and independentl
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `not_started`
+- Completion state: `in_progress`
 - Issue goal ref: `Sprint #932 child #904 active implementation goal`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/904/goal-metrics.json (planned, absent until execution)`
@@ -86,12 +86,12 @@ Partial accounting and bounded raw Ollama collector implemented and independentl
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
 - Worktree-only paths remaining: `.csdlc/issues/904/cards; native bound setup only`
-- Integration state: `not_started`
-- Verification scope: `not_run`
-- Integration method used: `not_run; implementation has not started`
+- Integration state: `worktree_only`
+- Verification scope: `Partial local accounting and loopback collector only`
+- Integration method used: `Local commits in exact bound #904 worktree; no push or PR`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `git status --short --branch; git rev-parse HEAD`
+    `Bound worktree source committed locally; no merged delivery`
 - Result: `not_integrated`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `No implementation proof attempted`
+  - `python3 adl/tools/test_pair_experiment.py; git diff --check; native csdlc validate for #904`
+    `Partial accounting and loopback transport correctness established; no actual PAIR/Runtime/hardware qualification.`
 - Results:
   - `At8356bf4ee:14 local deterministic accounting and loopback transport tests passed; reviewer independently reran14 PASS. Native cards validate. No actual PAIR/Runtime/two-node/node-loss experiment, server cancellation proof or final disposition.`
 
@@ -127,17 +127,17 @@ verification_summary:
     checks_run:
       - "not_run"
   determinism:
-    status: not_run
+    status: partial_local_tests_passed
     replay_verified: not_run
     ordering_guarantees_verified: not_run
   security_privacy:
-    status: not_run
+    status: focused_local_cli_redaction_passed
     secrets_leakage_detected: not_run
     prompt_or_tool_arg_leakage_detected: not_run
     absolute_path_leakage_detected: not_run
   artifacts:
-    status: not_run
-    required_artifacts_present: not_run
+    status: partial_source_and_local_proof_present
+    required_artifacts_present: partial; hardware and Runtime experiment artifacts missing
     schema_changes:
       present: not_run
       approved: not_run
@@ -145,29 +145,29 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `14 tests including20receipt mutation subcases, matrix allocation bound, two-node/concurrency/context drift, raw loopback HTTP, deadline/body cap, explicit sampling/residency and redacted CLI failures.`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
-- Artifact stability notes: `not_run; implementation has not started`
+- Fixtures or scripts used: `adl/tools/test_pair_experiment.py; deterministic matrix and local HTTP server fixtures`
+- Replay verification (same inputs -> same artifacts/order): `Local fixture only; no actual Runtime replay`
+- Ordering guarantees (sorting / tie-break rules used): `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
+- Artifact stability notes: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Secret leakage scan performed: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
+- Prompt / tool argument redaction verified: `Focused CLI failure test verifies sanitized stderr without supplied secret or absolute scratch path; no live-provider privacy proof.`
+- Absolute path leakage check: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
+- Sandbox / policy invariants preserved: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
 
 ## Replay Artifacts
 - Trace bundle path(s): `.adl/runs/904/accounting-tests.log`
 - Run artifact root: `.csdlc/evidence/904 (planned)`
-- Replay command used for verification: `not_run; implementation has not started`
-- Replay result: `not_run; implementation has not started`
+- Replay command used for verification: `python3 adl/tools/test_pair_experiment.py`
+- Replay result: `Deterministic summary equality fixture passes; actual Runtime replay not run`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/904 (planned)`
-- Required artifacts present: `not_run; implementation has not started`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
-- Missing/optional artifacts and rationale: `No implementation or hardware run has started, so execution artifacts and metrics are not available.`
+- Required artifacts present: `Local source/tests/checkpoint present; full experiment artifacts missing`
+- Artifact schema/version checks: `Native generation8 six-card values/renders/structures/digest validation passed; further field normalization is revalidated natively.`
+- Hash/byte-stability checks: `Plan/measurement digest and deterministic repeated-summary equality covered by local fixture; actual experiment stability not tested`
+- Missing/optional artifacts and rationale: `Local source, focused test log and checkpoint evidence exist. Actual two-node/Runtime/node-loss traces, resource measurements, CI and disposition are missing because those executions have not occurred.`
 
 ## Decisions / Deviations
 - `#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main`

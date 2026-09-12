@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 904,
   "phase": "bound",
-  "generation": 8,
+  "generation": 9,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/904-v0922-pair-multinode-experiment",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-904-v0922-pair-multinode-experiment",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "968fe566b123eaf2bb1c301af2b5d1ba8d9a75c77069da97a69b66ded07e2997"
+  "digest": "3da11e2fbe22721679bd5682c4749abd38f1ff803b076be1c55b5e8f79c6f2dd"
 }
