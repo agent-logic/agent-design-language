@@ -413,6 +413,7 @@ fn remote_terminal_baseline(
     corpus.write(&corpus_file("baseline.json"));
     assert!(completed, "review {output:?}");
     let review = TypedReviewReceipt {
+        publication_linkage: None,
         schema: "csdlc.v3.typed_review_receipt.v1".into(),
         repository: fixture.request.repository.clone(),
         issue: 505,

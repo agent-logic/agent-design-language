@@ -587,6 +587,7 @@ fn installed_pr_state_observes_fake_remote_without_replaying_pending_mutation() 
             let inputs = fixture.root.join(".csdlc/evidence/505/remote-observation");
             fs::create_dir_all(&inputs).unwrap();
             let review = TypedReviewReceipt {
+                publication_linkage: None,
                 schema: "csdlc.v3.typed_review_receipt.v1".into(),
                 repository: "agent-logic/agent-design-language".into(),
                 issue: 505,
