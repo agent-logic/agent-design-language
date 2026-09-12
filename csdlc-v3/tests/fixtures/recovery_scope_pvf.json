@@ -1,0 +1,11 @@
+{
+  "schema": "csdlc.v3.recovery_scope_pvf.v1",
+  "issue": 869,
+  "target": "installed_recovery_scope",
+  "lane": "deterministic local installed integration",
+  "proof_role": "Refuse issue-local attribution of uncertain issue-zero creation across shared Git metadata; retain explicit original-operation reconciliation",
+  "determinism": "Isolated repository, two bound issue worktrees, equal and distinct heads, synthetic transport",
+  "resources": "Local Git, disk and installed candidate; no live network or provider effects",
+  "release_gate": "Required SIM-03 acceptance and SIM-07 qualification input",
+  "non_claims": ["Fixture authority prerequisites are synthetic", "No live GitHub or operator installation changes"]
+}

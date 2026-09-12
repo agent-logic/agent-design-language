@@ -24,6 +24,7 @@ const IMPLEMENTED_TERMINAL_COMMANDS: &[&str] = &["clean", "cutover", "finish"];
 
 const IMPLEMENTED_CONSTRUCTION_COMMANDS: &[&str] = &["install", "proof", "shadow", "soak"];
 const IMPLEMENTED_HELPER_COMMANDS: &[&str] = &["remote", "sprint", "release-preflight"];
+const NEW_INTENT_COMMANDS: &[&str] = &["status", "prepare", "recover"];
 const IMPLEMENTED_STATUSES: &[&str] = &[
     "implemented",
     "implemented_construction",
@@ -97,8 +98,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
         "pre_cutover_implemented_pending_authority_evidence"
     );
     assert_eq!(manifest["denominator"]["v2_entrypoints"], 21);
-    assert_eq!(manifest["denominator"]["current_v3_commands"], 26);
-    assert_eq!(manifest["denominator"]["implemented_commands"], 26);
+    assert_eq!(manifest["denominator"]["current_v3_commands"], 29);
+    assert_eq!(manifest["denominator"]["implemented_commands"], 29);
     assert_eq!(manifest["denominator"]["partial_commands"], 0);
     assert_eq!(manifest["denominator"]["fail_closed_commands"], 0);
     assert_eq!(
@@ -110,8 +111,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     assert_eq!(manifest["denominator"]["remaining_replacement_routes"], 0);
 
     let commands = manifest["commands"].as_array().expect("manifest commands");
-    assert_eq!(commands.len(), 26);
-    assert_eq!(implemented_status_count(commands), 26);
+    assert_eq!(commands.len(), 29);
+    assert_eq!(implemented_status_count(commands), 29);
     assert_eq!(status_count(commands, "partial"), 0);
     assert_eq!(status_count(commands, "fail_closed"), 0);
 
@@ -119,6 +120,7 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
         .iter()
         .chain(IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS)
         .chain(IMPLEMENTED_TERMINAL_COMMANDS)
+        .chain(NEW_INTENT_COMMANDS)
     {
         let row = command_row(commands, command);
         assert_eq!(row["implementation_status"], "implemented");
@@ -167,7 +169,9 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     for command in commands {
         let name = command["command"].as_str().expect("command name");
         assert!(
-            current.iter().any(|current| current == name) || name == "release-preflight",
+            current.iter().any(|current| current == name)
+                || name == "release-preflight"
+                || NEW_INTENT_COMMANDS.contains(&name),
             "historical denominator must include pre-cutover command {name}"
         );
     }
@@ -420,6 +424,7 @@ fn current_surfaces_agree_with_authenticated_post_cutover_authority() {
         .iter()
         .chain(IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS)
         .chain(IMPLEMENTED_TERMINAL_COMMANDS)
+        .chain(NEW_INTENT_COMMANDS)
         .chain(IMPLEMENTED_CONSTRUCTION_COMMANDS)
     {
         let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))

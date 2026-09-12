@@ -3,12 +3,27 @@
 csdlc\-finish \- reconcile terminal issue truth
 .SH SYNOPSIS
 .nf
+\&csdlc finish ISSUE [\-\-disposition DISPOSITION.json] [\-\-preview plan]
+.fi
+.nf
 \&csdlc finish \-\-request REQUEST [\-\-observe\-github]
 \&csdlc finish \-\-help
 .fi
+.SH ISSUE INTENT FORM
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&The intent form derives canonical PR identity and authenticates merged PR plus closed issue through the existing terminal owner. Successful execution retains terminal state and receipt in primary Git metadata. \-\-preview plan observes without persistence. It does not merge or close the issue itself.
+.PP
+\&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
+.PP
+\&Optional \-\-disposition supplies strict disposition/operator/rationale/evidence_refs for native no\-PR terminal reconciliation. Disposition uses retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. The adapter authenticates closed issue timestamps internally and the native owner rechecks them before persistence; no caller timestamps or internal receipts are required. Administrative disposition is not merged implementation proof.
 .SH DESCRIPTION
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Requires authenticated GitHub observation of a merged PR with the exact expected head, closing linkage and closed issue. mode must be closing; part_of checkpoints cannot finish. \-\-observe\-github is necessary for public authenticated finish; caller\-authored public_adapter_receipt is not trusted. terminal_state is optional: omit to observe, include canonical output paths to retain terminal state and receipt. Finish does not merge or close GitHub issues.
 .SH OPTIONS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP
 \&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
@@ -17,18 +32,27 @@ csdlc\-finish \- reconcile terminal issue truth
 .PP
 \&\-h: Show standalone help; do not combine with execution options.
 .SH REQUEST
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&TerminalRouteRequest, with only the relevant finish, cleanup or cutover fields. See csdlc\-requests(1). Examples under docs/csdlc\-v3/man/examples use fixture identities and are not permission to mutate those targets.
 .SH EFFECTS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Authenticated readback plus optional local terminal persistence; no GitHub write. A successful terminal observation without terminal_state does not create a durable terminal receipt.
 .SH FILES
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Primary terminal paths: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json. Linked paths: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Request terminal_state.repository_root must be the real reconciliation checkout; state_path and receipt_path must resolve exactly to those locations.
 .SH EXAMPLES
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
 .nf
 \&csdlc finish \-\-request finish\-request.json \-\-observe\-github
 .fi
 .PP
 \&Use csdlc\-workflow(1) for ordered finish and cleanup; cutover/rollback examples validate the schema and denial boundary, not a new transition authorization.
 .SH RECOVERY
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Retain original evidence and exact current checkout identity. Stale terminal state requires a matching expected_state_digest; mismatched receipt identity must be investigated, never overwritten. Refresh a clean preview after any target/head/registration change. Unsupported or unproven transition states fail closed; do not fall back to deleted wrappers.
 .SH SEE ALSO
 \&csdlc(1), csdlc\-requests(1), csdlc\-workflow(1).

@@ -5,6 +5,11 @@ use std::{
 };
 
 pub const SELECTOR_PATH: &str = "csdlc-v3/operator/authority-selector.json";
+thread_local! { static CANONICAL_FILE_READS: std::cell::Cell<u64> = const {std::cell::Cell::new(0)}; }
+/// Observational invocation telemetry; never participates in authority decisions.
+pub fn canonical_file_reads() -> u64 {
+    CANONICAL_FILE_READS.with(std::cell::Cell::get)
+}
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct CanonicalV3Authority {
@@ -205,6 +210,7 @@ fn is_lower_hex(value: &str, len: usize) -> bool {
 }
 
 fn canonical_tracked_bytes(root: &Path, relative: &Path) -> Result<Option<Vec<u8>>, String> {
+    CANONICAL_FILE_READS.with(|count| count.set(count.get() + 1));
     let local = match std::fs::read(root.join(relative)) {
         Ok(bytes) => bytes,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),

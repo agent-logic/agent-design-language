@@ -3,22 +3,42 @@
 csdlc\-proof \- execute and retain an issue\-bound proof manifest
 .SH SYNOPSIS
 .nf
+\&csdlc proof ISSUE
+.fi
+.nf
 \&csdlc proof \-\-request REQUEST
 \&csdlc proof \-\-help
 .fi
+.SH ISSUE INTENT FORM
+\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+.PP
+\&Execute the retained plan validators through the native proof owner. Require admitted Cargo test arguments, current candidate bytes, successful nonzero test counts and fresh issue/worktree identity; retain actual outcomes in .csdlc/evidence/ISSUE/intent\-proof.json. This form rejects preview/execute overrides.
+.PP
+\&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
+.PP
+\&Validators admit optional timeout_seconds from 1 through 300, default 300. The Unix owner creates an owned process group, captures stdout/stderr without blocking reader threads and bounds timeout/cancellation reap/drain to two additional seconds. Scoped serialized SIGINT/SIGTERM handling is restored after execution; receipts distinguish timed_out, cancelled and cleanup_complete and include actual elapsed time. Non\-Unix execution is explicitly unsupported. Proof refuses ignored untracked source/configuration outside native .csdlc artifacts and explicit disposable Rust cache roots. Those exemptions do not admit executable inputs: manifests, target sources and repository path dependencies must be tracked, and compiler dependency records reject excluded repository module/include inputs. Unsupported generated repository source is refused. Exact captured\-stream digests and bounded non\-lossless diagnostic excerpts are retained; sensitive\-key lines are omitted and repository/HOME paths replaced. Input drift or persistence refusal retains failed execution output without bypassing native evidence guards. The digest binds repository tracked bytes and declared validators; ambient HOME Cargo configuration, external toolchains and cached dependencies are not fully fingerprinted, so this is not hermetic build evidence.
 .SH DESCRIPTION
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Runs the declared deterministic V3 command through bounded argv/request/evidence paths, normalizes its result and retains proof evidence. Requires authenticated invoking linked worktree ownership and exact generation/digest/head/common\-Git binding. Provider side effects, stale evidence and unsupported normalization fail closed. This is focused command proof, not broad semantic equivalence.
 .SH OPTIONS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP
 \&\-\-help: Show standalone help; \-h is equivalent.
 .PP
 \&\-h: Show standalone help; do not combine with execution options.
 .SH REQUEST
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&ProofRouteRequest and its typed binding/manifest/install fields are described in csdlc\-requests(1). Paths must stay within the authenticated bound issue evidence boundary; they are not arbitrary shell execution or filesystem destinations.
 .SH EFFECTS
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
+.PP
 \&Executes declared subprocess and writes canonical proof artifacts on admitted execution; blocked proof is not successful validation.
 .SH EXAMPLES
+\&The following details describe the retained request\-based form. The candidate issue intent form is specified above.
 .nf
 \&csdlc proof \-\-request proof\-request.json
 .fi

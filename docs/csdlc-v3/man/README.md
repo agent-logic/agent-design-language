@@ -2,9 +2,14 @@
 
 `manual.json` is the reviewed source for the installable roff suite in `man1/`.
 Read `man csdlc`, `man csdlc-workflow`, `man csdlc-requests`, or a command page
-such as `man csdlc-finish`. All 26 root-help commands, the supported `rollback`
-alias, and both simple issue forms are covered. `inventory.json` binds options
-and request fields to their source contracts.
+such as `man csdlc-finish`. The candidate suite contains 33 pages covering all
+29 root-help commands, the supported `rollback` alias and both simple issue
+forms. This extends the frozen 27 predecessor dispositions with `status`,
+`prepare` and `recover`; it does not change that historical denominator. `inventory.json` binds options
+and request fields to their source contracts. Candidate source/manual coverage
+is separate from installed-binary upgrade, exact-head review and activation.
+See [issue intent commands](../INTENT_COMMANDS.md) for the ordinary interface and
+shared advanced request.
 
 ```sh
 python3 docs/csdlc-v3/man/render.py --check

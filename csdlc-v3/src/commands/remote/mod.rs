@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+pub mod intent;
 mod merge;
 mod merge_linkage;
 pub use merge::{merge_state_query, MergeMethod};

@@ -1,0 +1,457 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-logic.github.io/agent-design-language/csdlc/intent-request.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "csdlc.v3.intent_request.v1"
+    },
+    "command": {
+      "enum": [
+        "status",
+        "prepare",
+        "bind",
+        "edit",
+        "validate",
+        "proof",
+        "review",
+        "publish",
+        "finish",
+        "clean",
+        "recover",
+        "github-issue",
+        "github-pr",
+        "pr-state"
+      ]
+    },
+    "content": {},
+    "execute": {
+      "type": "boolean"
+    },
+    "preview": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "issue": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "selector_digest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "selector_digest"
+          ]
+        },
+        "version": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "generation": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "digest": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "generation",
+            "digest"
+          ]
+        },
+        "checkout": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "head": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "root": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "branch",
+            "head",
+            "root"
+          ]
+        }
+      },
+      "required": [
+        "repository",
+        "issue",
+        "platform",
+        "authority",
+        "version",
+        "checkout"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "command",
+    "content",
+    "execute",
+    "preview",
+    "snapshot"
+  ],
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.intent_plan.v1"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{1,100}$"
+        },
+        "cards": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sip": {
+              "type": "object"
+            },
+            "stp": {
+              "type": "object"
+            },
+            "spp": {
+              "type": "object"
+            },
+            "vpp": {
+              "type": "object"
+            },
+            "srp": {
+              "type": "object"
+            },
+            "sor": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "sip",
+            "stp",
+            "spp",
+            "vpp",
+            "srp",
+            "sor"
+          ]
+        },
+        "validators": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "program": {
+                "const": "cargo"
+              },
+              "args": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "success_marker": {
+                "const": "test result: ok."
+              },
+              "timeout_seconds": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 300,
+                "default": 300
+              }
+            },
+            "required": [
+              "id",
+              "program",
+              "args",
+              "success_marker"
+            ]
+          }
+        },
+        "publication": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "base": {
+              "type": "string",
+              "minLength": 1
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "body": {
+              "type": "string",
+              "minLength": 1
+            },
+            "draft": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "base",
+            "title",
+            "body",
+            "draft"
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "slug",
+        "cards",
+        "validators",
+        "publication"
+      ]
+    },
+    "changes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.intent_changes.v1"
+        },
+        "cards": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": false,
+          "properties": {
+            "sip": {
+              "type": "object"
+            },
+            "stp": {
+              "type": "object"
+            },
+            "spp": {
+              "type": "object"
+            },
+            "vpp": {
+              "type": "object"
+            },
+            "srp": {
+              "type": "object"
+            },
+            "sor": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "required": [
+        "schema",
+        "cards"
+      ]
+    },
+    "status_decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "design_ready": {
+          "type": "boolean"
+        },
+        "dependencies_ready": {
+          "type": "boolean"
+        },
+        "budget_available": {
+          "type": "boolean"
+        },
+        "retryable_failure": {
+          "type": "boolean"
+        },
+        "operator_decision_needed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "no_pr_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disposition": {
+          "enum": [
+            "retired_without_execution",
+            "duplicate",
+            "superseded",
+            "absorbed",
+            "coordination_completed",
+            "historical_disposition"
+          ]
+        },
+        "operator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "disposition",
+        "operator",
+        "rationale",
+        "evidence_refs"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "prepare"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "$ref": "#/$defs/plan"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "edit"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "$ref": "#/$defs/changes"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "enum": [
+              "bind",
+              "validate",
+              "proof",
+              "publish",
+              "clean",
+              "recover",
+              "pr-state"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "status"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/$defs/status_decisions"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "finish"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/$defs/no_pr_disposition"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

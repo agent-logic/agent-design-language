@@ -9,6 +9,7 @@ use std::{
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
+mod intent_archive;
 
 pub const TERMINAL_ROUTE_NAMES: [&str; 3] = ["finish", "clean", "cutover"];
 
@@ -814,6 +815,14 @@ fn classify_cleanup_from_git(
     terminal_request: &TerminalRouteRequest,
     request: &CleanupRouteRequest,
 ) -> Result<CleanupDecision, TerminalFinding> {
+    classify_cleanup_with_archive(terminal_request, request, false)
+}
+
+fn classify_cleanup_with_archive(
+    terminal_request: &TerminalRouteRequest,
+    request: &CleanupRouteRequest,
+    archive_generated: bool,
+) -> Result<CleanupDecision, TerminalFinding> {
     let approved_parent = canonical_dir(&request.approved_parent, "approved_parent")?;
     let repository_root = canonical_dir(&request.repository_root, "repository_root")?;
     if request.candidate_path.is_relative() || contains_parent_component(&request.candidate_path) {
@@ -868,7 +877,7 @@ fn classify_cleanup_from_git(
     if worktree_live(&candidate) {
         return Ok(CleanupDecision::Live { path: candidate });
     }
-    if worktree_dirty(&candidate)? {
+    if worktree_dirty(&candidate)? && !archive_generated {
         return Ok(CleanupDecision::Dirty { path: candidate });
     }
     let candidate_head = worktree_head(&candidate)?;
@@ -887,7 +896,19 @@ fn classify_cleanup_from_git(
             "cleanup target worktree HEAD must match the terminal closeout head",
         ));
     }
-    let receipt_digest = cleanup_receipt_digest(&repository_root, &candidate, &candidate_head);
+    let archive = if archive_generated {
+        Some(intent_archive::preview(&candidate, terminal_request.issue)?)
+    } else {
+        None
+    };
+    let base_digest = cleanup_receipt_digest(&repository_root, &candidate, &candidate_head);
+    let receipt_digest = if let Some(archive) = &archive {
+        blake3::hash(format!("{base_digest}:{}", archive.digest).as_bytes())
+            .to_hex()
+            .to_string()
+    } else {
+        base_digest
+    };
     if request.remove {
         if request.preview_receipt_digest.as_deref() != Some(receipt_digest.as_str()) {
             return Err(finding(
@@ -904,6 +925,17 @@ fn classify_cleanup_from_git(
                         .into(),
             });
         }
+        if let Some(archive) = &archive {
+            intent_archive::execute(
+                &repository_root,
+                &candidate,
+                terminal_request.issue,
+                archive,
+            )?;
+        }
+        if worktree_dirty(&candidate)? {
+            return Err(finding("cleanup_changed_after_archive","worktree changed after verified archival; preserved archive requires explicit reconciliation"));
+        }
         remove_registered_worktree(&repository_root, &candidate)?;
         Ok(CleanupDecision::Removed {
             path: candidate,
@@ -915,6 +947,39 @@ fn classify_cleanup_from_git(
             receipt_digest,
         })
     }
+}
+
+/// Ordinary intent cleanup may archive only exact generated issue residue after
+/// terminal, registration, head, parent and liveness admission. Legacy cleanup
+/// retains its original strict clean-worktree contract.
+pub fn prepare_intent_cleanup(
+    request: &TerminalRouteRequest,
+) -> Result<TerminalRoutePlan, TerminalFinding> {
+    let cleanup = request.cleanup.as_ref().ok_or_else(|| {
+        finding(
+            "missing_cleanup_request",
+            "clean requires native cleanup input",
+        )
+    })?;
+    let decision = classify_cleanup_with_archive(request, cleanup, true)?;
+    Ok(TerminalRoutePlan {
+        route: "clean".into(),
+        issue: request.issue,
+        repository: request.repository.clone(),
+        status: TerminalRouteStatus::Ready,
+        operational_authority: matches!(decision, CleanupDecision::Removed { .. }),
+        findings: vec![],
+        finish: None,
+        cleanup: Some(decision),
+        cutover: None,
+    })
+}
+pub fn retained_cleanup_index(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+) -> Result<Option<serde_json::Value>, TerminalFinding> {
+    intent_archive::retained_index(primary, candidate, issue)
 }
 
 fn persist_terminal_finish(
@@ -2565,6 +2630,7 @@ fn git_worktree_paths(repository_root: &Path) -> Result<Vec<PathBuf>, TerminalFi
 
 fn worktree_dirty(path: &Path) -> Result<bool, TerminalFinding> {
     let output = std::process::Command::new("git")
+        .env("GIT_OPTIONAL_LOCKS", "0")
         .arg("-C")
         .arg(path)
         .arg("status")
