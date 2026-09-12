@@ -185,6 +185,7 @@ struct RecorderState {
 
 #[derive(Clone, Debug)]
 pub struct RuntimeRecorder {
+    pub provider_usage: crate::provider_usage::ProviderUsage,
     started: Instant,
     capacity: usize,
     state: Arc<Mutex<RecorderState>>,
@@ -197,6 +198,7 @@ impl RuntimeRecorder {
             "startup event capacity must be non-zero"
         );
         Self {
+            provider_usage: Default::default(),
             started: Instant::now(),
             capacity: startup_capacity,
             state: Arc::new(Mutex::new(RecorderState {
