@@ -152,6 +152,42 @@ fn merge_positive_binds_result_and_replays_without_second_mutation() {
     }
     std::fs::remove_dir_all(root).unwrap();
 }
+
+#[test]
+fn staged_merge_persists_exact_identity_before_dispatch() {
+    let root = mutation_repo("merge-staged-identity", true);
+    let request = request(&root);
+    let before = state(&request, false);
+    let after = state(&request, true);
+    let mut stage_process = adapter(&root, &request, vec![out(before.clone()), out(rules())]);
+    let staged = super::super::stage_github_mutation(&root, &request, &mut stage_process).unwrap();
+    assert_eq!(put_count(&stage_process), 0);
+    let intent_path = root.join(".git/csdlc-v3/remote/merges").join(format!(
+        "{}.intent.json",
+        super::super::github_mutation_operation_digest(&request)
+    ));
+    assert!(intent_path.exists());
+
+    let mut execute_process = adapter(
+        &root,
+        &request,
+        vec![
+            out(before.clone()),
+            out(rules()),
+            out(before),
+            out(json!({"merged":true,"sha":"2222222222222222222222222222222222222222"})),
+            out(after),
+        ],
+    );
+    let result =
+        super::super::execute_staged_github_mutation(&root, &staged, false, &mut execute_process)
+            .unwrap();
+    assert_eq!(put_count(&execute_process), 1);
+    assert_eq!(result.performed_mutation, Some(true));
+    assert!(!result.receipt.idempotent_replay);
+    assert_eq!(result.receipt.intent_digest, staged.intent_digest);
+    std::fs::remove_dir_all(root).unwrap();
+}
 #[test]
 fn merge_eligibility_negative_matrix_never_writes_intent_or_dispatches() {
     let cases = [
@@ -298,6 +334,9 @@ fn merge_already_merged_and_wrong_parent_or_result() {
         let mut p = adapter(&root, &r, vec![out(v)]);
         let result = super::super::execute_github_mutation(&root, &r, &mut p);
         assert_eq!(result.is_err(), bad);
+        if !bad {
+            assert_eq!(result.unwrap().performed_mutation, Some(false));
+        }
         assert_eq!(put_count(&p), 0);
         std::fs::remove_dir_all(root).unwrap();
     }

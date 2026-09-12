@@ -898,6 +898,43 @@ fn ready_response(head: &str) -> serde_json::Value {
     })
 }
 
+// PVF: deterministic local integrity regression; fake authenticated transport,
+// no live mutation. The retained GraphQL node identity is part of native intent.
+#[test]
+fn staged_ready_rejects_retained_target_tampering_before_dispatch() {
+    let root = mutation_repo("staged-ready-target-tamper", true);
+    let head = mutation_head(&root);
+    let request = ready_request(&head);
+    let mut stage_process = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        ready_readback(&head, true),
+    )]);
+    let staged = super::stage_github_mutation(&root, &request, &mut stage_process).unwrap();
+    assert!(stage_process
+        .invocations
+        .iter()
+        .all(|invocation| invocation.program == super::GITHUB_READ_ONLY_ADAPTER));
+
+    let intent_path = super::github_mutation_intent_path(
+        &root,
+        &super::github_mutation_operation_digest(&request),
+    )
+    .unwrap();
+    let mut intent: serde_json::Value =
+        serde_json::from_slice(&fs::read(&intent_path).unwrap()).unwrap();
+    intent["resolved_ready_target"]["node_id"] = serde_json::json!("PR_wrong_target");
+    fs::write(&intent_path, serde_json::to_vec_pretty(&intent).unwrap()).unwrap();
+
+    let mut execute_process = SequencedProcessAdapter::new(vec![]);
+    assert_eq!(
+        super::execute_staged_github_mutation(&root, &staged, false, &mut execute_process)
+            .unwrap_err()
+            .code,
+        "github_mutation_intent_mismatch"
+    );
+    assert!(execute_process.invocations.is_empty());
+}
+
 // PVF: required deterministic local recovery regression; fake transport, small CPU.
 #[test]
 fn legacy_ready_intent_recovers_without_rewriting_original_intent() {

@@ -369,6 +369,165 @@ pub struct GithubMutationResult {
     pub invocation: CommandInvocation,
 }
 
+/// Exact native mutation intent prepared and durably retained before the
+/// semantic transaction reserves the corresponding effect.
+#[derive(Debug, Clone)]
+pub struct StagedGithubMutation {
+    request: GithubMutationRequest,
+    native_identity: crate::storage::semantic::protocol::NativeIdentity,
+    request_bytes: Vec<u8>,
+    operation_digest: String,
+    operation_marker: String,
+    intent_digest: String,
+    credential_name: String,
+    resolved_ready_target: Option<GithubReadyTarget>,
+    merge: Option<merge::StagedMerge>,
+    preexisting: bool,
+}
+
+impl StagedGithubMutation {
+    pub fn native_identity(&self) -> crate::storage::semantic::protocol::NativeIdentity {
+        self.native_identity.clone()
+    }
+    pub fn request_bytes(&self) -> Result<Vec<u8>, RemoteRouteFinding> {
+        Ok(self.request_bytes.clone())
+    }
+    pub fn request(&self) -> &GithubMutationRequest {
+        &self.request
+    }
+    pub fn reservation_facts(&self) -> crate::lifecycle::semantic::Facts {
+        use crate::lifecycle::semantic::Facts;
+        match self.request.mutation {
+            GithubMutation::PullRequestCreate { .. } | GithubMutation::PullRequestUpdate { .. } => {
+                Facts {
+                    current_proof: true,
+                    independent_review: true,
+                    publication: true,
+                    ..Default::default()
+                }
+            }
+            GithubMutation::PullRequestReady => Facts {
+                merge_ready: true,
+                ..Default::default()
+            },
+            GithubMutation::PullRequestMerge { .. } => Facts {
+                merge_ready: true,
+                merged: true,
+                ..Default::default()
+            },
+            _ => Facts::default(),
+        }
+    }
+    fn validate_result_identity(
+        &self,
+        result: &GithubMutationResult,
+    ) -> Result<(), RemoteRouteFinding> {
+        if result.receipt.operation_digest != self.operation_digest
+            || result.receipt.intent_digest != self.intent_digest
+            || result.receipt.repository != self.request.repository
+            || result.receipt.expected_head_sha != self.request.expected_head_sha
+            || !result.receipt.authenticated
+        {
+            return Err(remote_finding(
+                "semantic_outcome_identity_mismatch",
+                "authenticated remote receipt does not match the reserved native identity",
+            ));
+        }
+        Ok(())
+    }
+    pub fn verified_outcome(
+        &self,
+        result: &GithubMutationResult,
+    ) -> Result<crate::storage::semantic::protocol::VerifiedOutcome, RemoteRouteFinding> {
+        use crate::storage::semantic::protocol::{EffectTruth, OutcomeKind, VerifiedOutcome};
+        self.validate_result_identity(result)?;
+        let truth = match result.performed_mutation {
+            Some(true) => EffectTruth::Performed,
+            Some(false) => EffectTruth::NotPerformed,
+            None => EffectTruth::Unknown,
+        };
+        let evidence = serde_json::to_vec(&serde_json::json!({
+            "schema":"csdlc.v3.semantic_remote_outcome.v1",
+            "receipt":result.receipt,
+            "reconciliation":result.reconciliation
+        }))
+        .map_err(|_| {
+            remote_finding(
+                "semantic_outcome_encoding_failed",
+                "cannot encode remote outcome",
+            )
+        })?;
+        VerifiedOutcome::from_native_owner(
+            OutcomeKind::Success,
+            truth,
+            evidence,
+            self.reservation_facts(),
+            self.native_identity(),
+        )
+        .map_err(|_| {
+            remote_finding(
+                "semantic_outcome_invalid",
+                "verified remote outcome is invalid",
+            )
+        })
+    }
+    pub fn verified_creation_outcome(
+        &self,
+        result: &GithubMutationResult,
+    ) -> Result<
+        crate::storage::semantic::protocol::creation::VerifiedCreationOutcome,
+        RemoteRouteFinding,
+    > {
+        use crate::storage::semantic::protocol::{
+            creation::VerifiedCreationOutcome, EffectTruth, OutcomeKind,
+        };
+        self.validate_result_identity(result)?;
+        let number = result.reconciliation.remote_object_id.ok_or_else(|| {
+            remote_finding(
+                "semantic_creation_identity_missing",
+                "authenticated issue creation readback lacks issue identity",
+            )
+        })?;
+        let issue =
+            crate::storage::semantic::IssueKey::new(self.request.repository.clone(), number)
+                .map_err(|_| {
+                    remote_finding(
+                        "semantic_creation_identity_invalid",
+                        "created issue identity is invalid",
+                    )
+                })?;
+        let truth = match result.performed_mutation {
+            Some(true) => EffectTruth::Performed,
+            Some(false) => EffectTruth::NotPerformed,
+            None => EffectTruth::Unknown,
+        };
+        let evidence = serde_json::to_vec(&serde_json::json!({
+            "schema":"csdlc.v3.semantic_issue_creation_outcome.v1",
+            "receipt":result.receipt,
+            "reconciliation":result.reconciliation
+        }))
+        .map_err(|_| {
+            remote_finding(
+                "semantic_outcome_encoding_failed",
+                "cannot encode issue creation outcome",
+            )
+        })?;
+        VerifiedCreationOutcome::from_native_owner(
+            OutcomeKind::Success,
+            truth,
+            Some(issue),
+            evidence,
+            self.native_identity(),
+        )
+        .map_err(|_| {
+            remote_finding(
+                "semantic_outcome_invalid",
+                "verified issue creation outcome is invalid",
+            )
+        })
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct OperationalRemoteDispatchRequest {
     pub expected_lifecycle_digest: String,
@@ -1241,6 +1400,243 @@ pub fn canonical_authority_selector_digest(repo_root: &Path) -> Result<String, R
     )?]))
 }
 
+pub fn stage_github_mutation(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<StagedGithubMutation, RemoteRouteFinding> {
+    validate_repository_name(&request.repository)?;
+    validate_mutation(request)?;
+    let credential_name = mutation_credential_name(request)?;
+    let authority = verify_canonical_v3_authority(repo_root, None, &request.expected_head_sha)?;
+    let operation_digest = github_mutation_operation_digest(request);
+    let operation_marker = github_mutation_operation_marker(&operation_digest);
+    let is_merge = matches!(request.mutation, GithubMutation::PullRequestMerge { .. });
+    if is_merge && request.recovery.is_some() {
+        return Err(remote_finding(
+            "github_merge_ineligible",
+            "merge retries are reconciliation only",
+        ));
+    }
+    let mut effective_request = request.clone();
+    effective_request.recovery = None;
+    let mut resolved_ready_target = None;
+    let mut intent_digest = operation_digest.clone();
+    let mut preexisting = false;
+
+    let staged_merge = if is_merge {
+        let staged = merge::stage(
+            repo_root,
+            &effective_request,
+            process,
+            &authority.selector_digest,
+        )?;
+        intent_digest = staged.intent_digest().to_owned();
+        Some(staged)
+    } else {
+        let intent_path = github_mutation_intent_path(repo_root, &operation_digest)?;
+        let mut intent = GithubMutationIntent {
+            schema: "csdlc.v3.github_mutation_intent.v2".into(),
+            operation_digest: operation_digest.clone(),
+            operation_marker: operation_marker.clone(),
+            authority_selector_digest: authority.selector_digest.clone(),
+            request: effective_request.clone(),
+            adapter: GITHUB_OPERATIONAL_ADAPTER.into(),
+            resolved_edit: None,
+            resolved_ready_target: None,
+        };
+        if intent_path.exists() {
+            preexisting = true;
+            let retained = load_mutation_intent(&intent_path, &operation_digest)?;
+            intent.schema = retained.schema.clone();
+            intent.resolved_edit = retained.resolved_edit.clone();
+            intent.resolved_ready_target = retained.resolved_ready_target.clone();
+            if retained != intent {
+                return Err(remote_finding(
+                    "github_mutation_intent_mismatch",
+                    "retained intent differs from this operation",
+                ));
+            }
+        } else if matches!(request.mutation, GithubMutation::IssueEdit { .. }) {
+            intent.resolved_edit = Some(resolve_issue_edit(request, process)?);
+        } else if matches!(request.mutation, GithubMutation::PullRequestReady) {
+            intent.resolved_ready_target = Some(resolve_ready_target(request, process)?);
+        }
+        if let Some(edit) = &intent.resolved_edit {
+            effective_request.mutation = edit.clone();
+        }
+        resolved_ready_target = intent.resolved_ready_target.clone();
+        intent_digest = github_mutation_intent_digest(&intent);
+        preflight_github_credential(&credential_name, process)?;
+        if !preexisting {
+            persist_json_create_new(&intent_path, &intent)?;
+        }
+        None
+    };
+    let request_bytes = serde_json::to_vec(&serde_json::json!({
+        "schema":"csdlc.v3.staged_github_mutation.v1",
+        "operation_digest":operation_digest,
+        "intent_digest":intent_digest,
+        "request":effective_request
+    }))
+    .map_err(|_| {
+        remote_finding(
+            "github_mutation_intent_invalid",
+            "staged mutation cannot serialize",
+        )
+    })?;
+    let native_identity = crate::storage::semantic::protocol::NativeIdentity::new(
+        "csdlc-v3-github".into(),
+        intent_digest.clone(),
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_mutation_intent_invalid",
+            "native mutation identity is invalid",
+        )
+    })?;
+    Ok(StagedGithubMutation {
+        request: effective_request,
+        native_identity,
+        request_bytes,
+        operation_digest,
+        operation_marker,
+        intent_digest,
+        credential_name,
+        resolved_ready_target,
+        merge: staged_merge,
+        preexisting,
+    })
+}
+
+pub fn execute_staged_github_mutation(
+    repo_root: &Path,
+    staged: &StagedGithubMutation,
+    reconciliation_only: bool,
+    process: &mut impl ProcessAdapter,
+) -> Result<GithubMutationResult, RemoteRouteFinding> {
+    let request = &staged.request;
+    if let Some(merge) = &staged.merge {
+        if merge.operation_digest() != staged.operation_digest
+            || merge.request() != request
+            || merge.intent_digest() != staged.intent_digest
+        {
+            return Err(remote_finding(
+                "github_mutation_intent_mismatch",
+                "staged merge identity changed before execution",
+            ));
+        }
+        return merge::execute_staged(repo_root, merge, reconciliation_only, process);
+    }
+    let intent_path = github_mutation_intent_path(repo_root, &staged.operation_digest)?;
+    let retained = load_mutation_intent(&intent_path, &staged.operation_digest)?;
+    if github_mutation_intent_digest(&retained) != staged.intent_digest {
+        return Err(remote_finding(
+            "github_mutation_intent_mismatch",
+            "staged native intent changed before execution",
+        ));
+    }
+    let receipt_path = github_mutation_receipt_path(repo_root, &staged.operation_digest)?;
+    if receipt_path.exists() || reconciliation_only || staged.preexisting {
+        let (reconciliation, invocation) = reconcile_github_mutation(
+            request,
+            &staged.operation_digest,
+            &staged.operation_marker,
+            process,
+        )?;
+        let mut receipt = if receipt_path.exists() {
+            load_mutation_receipt(&receipt_path, &staged.operation_digest)?
+        } else {
+            let receipt = finalize_mutation_receipt(
+                request,
+                &staged.operation_digest,
+                &staged.intent_digest,
+                None,
+                &reconciliation,
+                true,
+            );
+            persist_json_create_new(&receipt_path, &receipt)?;
+            receipt
+        };
+        if receipt.intent_digest != staged.intent_digest
+            || receipt.reconciliation_digest
+                != github_mutation_reconciliation_digest(&reconciliation)
+        {
+            return Err(remote_finding(
+                "github_mutation_receipt_mismatch",
+                "existing mutation receipt does not match authenticated reconciliation",
+            ));
+        }
+        receipt.idempotent_replay = true;
+        return Ok(GithubMutationResult {
+            performed_mutation: Some(false),
+            receipt,
+            reconciliation,
+            invocation,
+        });
+    }
+    if staged
+        .resolved_ready_target
+        .as_ref()
+        .is_some_and(|target| !target.draft)
+    {
+        let (reconciliation, invocation) = reconcile_github_mutation(
+            request,
+            &staged.operation_digest,
+            &staged.operation_marker,
+            process,
+        )?;
+        let receipt = finalize_mutation_receipt(
+            request,
+            &staged.operation_digest,
+            &staged.intent_digest,
+            None,
+            &reconciliation,
+            true,
+        );
+        persist_json_create_new(&receipt_path, &receipt)?;
+        return Ok(GithubMutationResult {
+            performed_mutation: Some(false),
+            receipt,
+            reconciliation,
+            invocation,
+        });
+    }
+    let (response_digest, invocation) = dispatch_github_mutation_after_intent(
+        repo_root,
+        request,
+        GithubMutationDispatchContext {
+            operation_digest: &staged.operation_digest,
+            operation_marker: &staged.operation_marker,
+            credential_name: &staged.credential_name,
+            ready_target: staged.resolved_ready_target.as_ref(),
+            recovery_intent_digest: None,
+        },
+        process,
+    )?;
+    let (reconciliation, _) = reconcile_github_mutation(
+        request, &staged.operation_digest, &staged.operation_marker, process,
+    ).map_err(|finding| remote_finding(
+        "github_mutation_reconciliation_pending",
+        &format!("mutation outcome is uncertain; durable intent forbids replay until authenticated reconciliation succeeds: {}", finding.code),
+    ))?;
+    let receipt = finalize_mutation_receipt(
+        request,
+        &staged.operation_digest,
+        &staged.intent_digest,
+        response_digest,
+        &reconciliation,
+        false,
+    );
+    persist_json_create_new(&receipt_path, &receipt)?;
+    Ok(GithubMutationResult {
+        performed_mutation: Some(true),
+        receipt,
+        reconciliation,
+        invocation,
+    })
+}
+
 pub fn execute_github_mutation(
     repo_root: &Path,
     request: &GithubMutationRequest,
@@ -1837,17 +2233,22 @@ fn mutation_credential_name(request: &GithubMutationRequest) -> Result<String, R
 }
 
 fn github_mutation_intent_digest(intent: &GithubMutationIntent) -> String {
-    let base = stable_digest(&[
+    let mut digest = stable_digest(&[
         &intent.schema,
         &intent.operation_digest,
         &intent.operation_marker,
         &intent.authority_selector_digest,
         &intent.adapter,
     ]);
-    match &intent.resolved_edit {
-        Some(edit) => stable_digest(&[&base, &serde_json::to_string(edit).unwrap_or_default()]),
-        None => base, // Preserve existing intent/receipt identities.
+    if let Some(edit) = &intent.resolved_edit {
+        digest = stable_digest(&[&digest, &serde_json::to_string(edit).unwrap_or_default()]);
     }
+    if intent.schema == "csdlc.v3.github_mutation_intent.v2" {
+        if let Some(target) = &intent.resolved_ready_target {
+            digest = stable_digest(&[&digest, &serde_json::to_string(target).unwrap_or_default()]);
+        }
+    }
+    digest
 }
 
 fn github_mutation_reconciliation_digest(
@@ -2745,8 +3146,10 @@ fn load_mutation_intent(
             "existing durable mutation intent is not valid typed JSON",
         )
     })?;
-    if intent.schema != "csdlc.v3.github_mutation_intent.v1"
-        || intent.operation_digest != operation_digest
+    if !matches!(
+        intent.schema.as_str(),
+        "csdlc.v3.github_mutation_intent.v1" | "csdlc.v3.github_mutation_intent.v2"
+    ) || intent.operation_digest != operation_digest
         || intent.operation_marker != github_mutation_operation_marker(operation_digest)
         || intent.adapter != GITHUB_OPERATIONAL_ADAPTER
         || github_mutation_operation_digest(&intent.request) != operation_digest
