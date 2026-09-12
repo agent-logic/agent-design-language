@@ -1,5 +1,7 @@
 pub fn usage() -> &'static str {
     "Usage:
+  adl codefriend ingest local --checkout <dir> --repository <https-url> --revision <commit> --scope <scope.json> --out <new-packet.json>
+  adl codefriend packet read --input <packet.json>
   adl <adl.yaml> [--print-plan] [--print-prompts] [--trace] [--run] [--resume <run.json>] [--steer <steering.json>] [--overlay <overlay.json>] [--out <dir>] [--quiet] [--open]
   adl resume <run_id> [--steer <steering.json>]
   adl agent tick --spec <agent-spec.yaml> [--recover-stale-lease] [--json]

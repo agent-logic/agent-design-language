@@ -1,0 +1,8 @@
+   Compiling csdlc-v3 v0.1.0 ($WORKTREE/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-2c655f17dfb3bda1)
+fatal: Not a valid object name 1111111111111111111111111111111111111111^{commit}
+     Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-080f1f2b1e2b0457)
+     Running tests/operational_cli_commands.rs (csdlc-v3/target/debug/deps/operational_cli_commands-fbc16a7170c8ac31)
+     Running tests/release_preflight.rs (csdlc-v3/target/debug/deps/release_preflight-9e0fea54aa7a3715)
+     Running tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-3f432919e1360b3e)

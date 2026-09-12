@@ -1991,6 +1991,29 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
     assert_eq!(result.reconciliation.issue, 505);
     assert!(result.receipt.idempotent_replay);
     assert_eq!(result.receipt.response_digest, None);
+    let observation = serde_json::from_value(serde_json::json!({
+        "repository":request.repository,"issue":request.issue,"pull_request":999
+    }))
+    .unwrap();
+    // Historical PR creation may differ from today's observed PR. A completed
+    // create still must retain the positive target assigned by reconciliation.
+    assert_eq!(request.pull_request, None);
+    super::pending_mutation_finding(&root, &observation).unwrap();
+    let receipt_path = super::github_mutation_receipt_path(&root, &operation_digest).unwrap();
+    let bytes = fs::read(&receipt_path).unwrap();
+    for target in [serde_json::Value::Null, serde_json::json!(0)] {
+        let mut value: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+        value["pull_request"] = target;
+        fs::write(&receipt_path, serde_json::to_vec(&value).unwrap()).unwrap();
+        assert_eq!(
+            super::pending_mutation_finding(&root, &observation)
+                .unwrap_err()
+                .code,
+            "remote_mutation_receipt_mismatch"
+        );
+    }
+    fs::write(&receipt_path, bytes).unwrap();
+    super::pending_mutation_finding(&root, &observation).unwrap();
 }
 
 #[test]

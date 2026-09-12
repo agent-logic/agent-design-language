@@ -1,0 +1,17 @@
+
+running 1 test
+test adapters::tests::observational_curl_disables_default_config_before_other_arguments ... FAILED
+
+failures:
+
+---- adapters::tests::observational_curl_disables_default_config_before_other_arguments stdout ----
+
+thread 'adapters::tests::observational_curl_disables_default_config_before_other_arguments' (7778127) panicked at src/adapters/mod.rs:1327:9:
+default curl configuration wrote a file during observation
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    adapters::tests::observational_curl_disables_default_config_before_other_arguments
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 85 filtered out; finished in 0.02s

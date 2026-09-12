@@ -212,9 +212,11 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
     let primary = primary_repo_root(&root);
     let discovery =
         csdlc_v3::commands::local::discover_operational_local_context(&primary, &request);
-    let legacy_denial = match &discovery {
-        Ok(Some(_)) => primary.join(".csdlc/issues/5853").exists(),
-        Ok(None) => false,
+    let expected_denial = match &discovery {
+        Ok(Some(_)) if primary.join(".csdlc/issues/5853").exists() => {
+            Some("legacy_primary_state_requires_recovery")
+        }
+        Ok(_) => None,
         Err(findings) => {
             assert!(
                 findings
@@ -222,7 +224,7 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
                     .all(|f| f.code == "worktree_parent_unavailable"),
                 "{findings:?}"
             );
-            false
+            Some("worktree_parent_unavailable")
         }
     };
     fn snapshot(path: &Path, entries: &mut BTreeMap<PathBuf, Vec<u8>>) {
@@ -281,23 +283,22 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
         after, before,
         "read-only eligibility must preserve issue state"
     );
-    if legacy_denial {
+    if let Some(expected_code) = expected_denial {
         assert_eq!(output.status.code(), Some(2), "{output:?}");
-        assert!(output.stdout.is_empty(), "{output:?}");
-        let stderr = std::str::from_utf8(&output.stderr).unwrap();
-        let findings: serde_json::Value = serde_json::from_str(
-            stderr
-                .strip_prefix("csdlc: ")
-                .expect("structured CLI denial")
-                .trim(),
-        )
-        .unwrap();
-        let findings = findings.as_array().expect("finding array");
-        assert_eq!(findings.len(), 1, "{findings:?}");
+        let value: serde_json::Value = serde_json::from_slice(&output.stdout)
+            .expect("blocked eligibility emits machine JSON on stdout");
+        assert_eq!(value["schema"], "csdlc.v3.operational_diagnostic.v1");
+        assert_eq!(value["command"], "eligibility");
+        assert_eq!(value["status"], "blocked");
+        assert_eq!(value["read_only"], true);
+        assert_eq!(value["writes_v3_state"], false);
         assert_eq!(
-            findings[0]["code"],
-            "legacy_primary_state_requires_recovery"
+            std::str::from_utf8(&output.stderr).unwrap(),
+            "csdlc: read-only route blocked; see structured stdout findings\n"
         );
+        let findings = value["findings"].as_array().expect("finding array");
+        assert_eq!(findings.len(), 1, "{findings:?}");
+        assert_eq!(findings[0]["code"], expected_code);
         assert_eq!(findings[0]["status"], "blocked");
         return;
     }
@@ -305,43 +306,22 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
     assert!(output.stderr.is_empty(), "{output:?}");
     let value: serde_json::Value =
         serde_json::from_slice(&output.stdout).expect("eligibility emits machine JSON");
-    let operational = value["schema"] == "csdlc.v3.operational_local.v1";
-    assert!(
-        operational || value["schema"] == "csdlc.v3.local_preparation.v1",
-        "eligibility must use a typed local schema: {value}"
-    );
+    assert_eq!(value["schema"], "csdlc.v3.operational_local.v1");
     assert_eq!(value["command"], "eligibility");
-    assert_eq!(value["operational_authority"], operational);
+    assert_eq!(value["operational_authority"], true);
     assert_eq!(value["read_only"], true);
     assert_eq!(value["writes_v3_state"], false);
-    let route_result = if operational {
-        let result = &value["result"];
-        assert_eq!(result["route"], "eligibility");
-        assert_eq!(result["mutated"], false);
-        result
-    } else {
-        let result = &value["route_result"];
-        assert_eq!(result["kind"], "eligibility");
-        result
-    };
+    let route_result = &value["result"];
+    assert_eq!(route_result["route"], "eligibility");
+    assert_eq!(route_result["mutated"], false);
     assert_eq!(route_result["issue"], 5853);
-    let lifecycle_state = if operational {
-        route_result
-    } else {
-        &route_result["lifecycle_state"]
-    };
+    let lifecycle_state = route_result;
     assert_eq!(lifecycle_state["phase"], "bound");
-    if operational {
-        assert!(lifecycle_state["findings"]
-            .as_array()
-            .expect("eligibility findings")
-            .iter()
-            .any(|finding| finding["code"] == "binding_live" && finding["status"] == "passed"));
-    } else {
-        assert_eq!(route_result["ready_to_execute"], true);
-        assert_eq!(lifecycle_state["code"], "local_lifecycle_state_ready");
-        assert_eq!(lifecycle_state["status"], "ready");
-    }
+    assert!(lifecycle_state["findings"]
+        .as_array()
+        .expect("eligibility findings")
+        .iter()
+        .any(|finding| finding["code"] == "binding_live" && finding["status"] == "passed"));
 }
 
 #[test]

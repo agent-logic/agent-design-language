@@ -106,6 +106,50 @@ fn merge_positive_binds_result_and_replays_without_second_mutation() {
     let result = super::super::execute_github_mutation(&root, &r, &mut p).unwrap();
     assert!(result.receipt.idempotent_replay);
     assert_eq!(put_count(&p), 0);
+    // SIM-01 observation must accept settled evidence, then fail closed for
+    // missing/corrupt evidence without replaying this already completed merge.
+    let observation = serde_json::from_value(json!({
+        "repository": r.repository, "issue": r.issue, "pull_request": r.pull_request
+    }))
+    .unwrap();
+    super::super::pending_mutation_finding(&root, &observation).unwrap();
+    let digest = super::super::github_mutation_operation_digest(&r);
+    let receipt_path = root.join(format!(".git/csdlc-v3/remote/mutations/{digest}.json"));
+    let reconciliation_path = root.join(format!(
+        ".git/csdlc-v3/remote/merges/{digest}.reconciliation.json"
+    ));
+    let receipt_bytes = fs::read(&receipt_path).unwrap();
+    let reconciliation_bytes = fs::read(&reconciliation_path).unwrap();
+    for case in ["wrong_pr", "missing", "corrupt", "changed_merge_identity"] {
+        match case {
+            "wrong_pr" => {
+                let mut value: Value = serde_json::from_slice(&receipt_bytes).unwrap();
+                value["pull_request"] = json!(845);
+                fs::write(&receipt_path, serde_json::to_vec(&value).unwrap()).unwrap();
+            }
+            "missing" => fs::remove_file(&reconciliation_path).unwrap(),
+            "corrupt" => fs::write(&reconciliation_path, b"not-json").unwrap(),
+            "changed_merge_identity" => {
+                let mut value: Value = serde_json::from_slice(&reconciliation_bytes).unwrap();
+                value["merge"]["merge_commit"] = json!("3333333333333333333333333333333333333333");
+                fs::write(&reconciliation_path, serde_json::to_vec(&value).unwrap()).unwrap();
+            }
+            _ => unreachable!(),
+        }
+        let before = fs::read(&reconciliation_path).ok();
+        assert!(
+            super::super::pending_mutation_finding(&root, &observation).is_err(),
+            "{case}"
+        );
+        assert_eq!(
+            fs::read(&reconciliation_path).ok(),
+            before,
+            "observer repaired {case}"
+        );
+        fs::write(&receipt_path, &receipt_bytes).unwrap();
+        fs::write(&reconciliation_path, &reconciliation_bytes).unwrap();
+        super::super::pending_mutation_finding(&root, &observation).unwrap();
+    }
     std::fs::remove_dir_all(root).unwrap();
 }
 #[test]

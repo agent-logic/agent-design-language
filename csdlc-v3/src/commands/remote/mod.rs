@@ -483,6 +483,199 @@ pub struct RemoteRouteFinding {
     pub message: String,
 }
 
+/// Observe retained remote uncertainty without reconciling, retrying, or
+/// creating receipts. A successful PR readback does not settle a pending write.
+pub fn pending_mutation_finding(
+    repo_root: &Path,
+    request: &RemoteRouteRequest,
+) -> Result<(), RemoteRouteFinding> {
+    let control = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git metadata is required to inspect retained remote operations",
+        )
+    })?;
+    let remote = control.join("csdlc-v3/remote");
+    for path in [&remote, &remote.join("mutations")] {
+        if path
+            .symlink_metadata()
+            .is_ok_and(|metadata| metadata.file_type().is_symlink() || !metadata.is_dir())
+        {
+            return Err(remote_finding(
+                "remote_intent_inventory_invalid",
+                "remote evidence directories must not redirect observation",
+            ));
+        }
+    }
+    for (directory, suffix) in [("intents", ".json"), ("merges", ".intent.json")] {
+        let dir = remote.join(directory);
+        let metadata = match dir.symlink_metadata() {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(_) => {
+                return Err(remote_finding(
+                    "remote_intent_inventory_unreadable",
+                    "retained remote inventory cannot be inspected",
+                ))
+            }
+        };
+        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+            return Err(remote_finding(
+                "remote_intent_inventory_invalid",
+                "retained remote inventory must be a real directory",
+            ));
+        }
+        let mut paths = fs::read_dir(&dir)
+            .map_err(|_| {
+                remote_finding(
+                    "remote_intent_inventory_unreadable",
+                    "retained remote inventory cannot be inspected",
+                )
+            })?
+            .map(|entry| entry.map(|entry| entry.path()))
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(|_| {
+                remote_finding(
+                    "remote_intent_inventory_unreadable",
+                    "retained remote inventory cannot be inspected",
+                )
+            })?;
+        paths.sort();
+        for path in paths {
+            let Some(name) = path.file_name().and_then(|name| name.to_str()) else {
+                continue;
+            };
+            let Some(digest) = name.strip_suffix(suffix) else {
+                continue;
+            };
+            if path
+                .symlink_metadata()
+                .is_ok_and(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+            {
+                return Err(remote_finding(
+                    "remote_intent_file_invalid",
+                    "retained remote intent must be a regular file",
+                ));
+            }
+            let (operation, intent_digest) = if directory == "intents" {
+                let intent = load_mutation_intent(&path, digest)?;
+                let hash = github_mutation_intent_digest(&intent);
+                (intent.request, hash)
+            } else {
+                let value: serde_json::Value =
+                    serde_json::from_slice(&fs::read(&path).map_err(|_| {
+                        remote_finding(
+                            "remote_merge_intent_unreadable",
+                            "retained merge intent cannot be read",
+                        )
+                    })?)
+                    .map_err(|_| {
+                        remote_finding(
+                            "remote_merge_intent_invalid",
+                            "retained merge intent is invalid",
+                        )
+                    })?;
+                let operation: GithubMutationRequest =
+                    serde_json::from_value(value["request"].clone()).map_err(|_| {
+                        remote_finding(
+                            "remote_merge_intent_invalid",
+                            "retained merge request is invalid",
+                        )
+                    })?;
+                if value["schema"] != "csdlc.v3.merge_intent.v1"
+                    || github_mutation_operation_digest(&operation) != digest
+                    || !matches!(operation.mutation, GithubMutation::PullRequestMerge { .. })
+                {
+                    return Err(remote_finding(
+                        "remote_merge_intent_mismatch",
+                        "retained merge identity does not match its operation",
+                    ));
+                }
+                let hash = stable_digest(&[&serde_json::to_string(&value).map_err(|_| {
+                    remote_finding(
+                        "remote_merge_intent_invalid",
+                        "retained merge intent cannot be encoded",
+                    )
+                })?]);
+                (operation, hash)
+            };
+            if operation.repository != request.repository || operation.issue != request.issue {
+                continue;
+            }
+            let receipt_path = remote.join("mutations").join(format!("{digest}.json"));
+            if !receipt_path.exists() {
+                return Err(remote_finding("remote_mutation_recovery_required",
+                    "a retained remote operation lacks final reconciliation; use its exact native mutation owner to reconcile it explicitly; PR observation never retries the effect or writes a receipt"));
+            }
+            if receipt_path
+                .symlink_metadata()
+                .is_ok_and(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+            {
+                return Err(remote_finding(
+                    "remote_mutation_receipt_invalid",
+                    "retained reconciliation must be a regular file",
+                ));
+            }
+            let receipt = load_mutation_receipt(&receipt_path, digest)?;
+            if receipt.intent_digest != intent_digest
+                || receipt.repository != operation.repository
+                || receipt.issue != operation.issue
+                || receipt.expected_head_sha != operation.expected_head_sha
+                || operation
+                    .pull_request
+                    .is_some_and(|pr| receipt.pull_request != Some(pr))
+                || (matches!(operation.mutation, GithubMutation::PullRequestCreate { .. })
+                    && receipt.pull_request.is_none_or(|pr| pr == 0))
+            {
+                return Err(remote_finding(
+                    "remote_mutation_receipt_mismatch",
+                    "retained reconciliation does not settle the exact remote intent",
+                ));
+            }
+            if directory == "merges" {
+                let path = dir.join(format!("{digest}.reconciliation.json"));
+                let invalid = || {
+                    remote_finding(
+                    "remote_merge_reconciliation_invalid",
+                    "retained merge reconciliation must authenticate the exact operation and merge identity",
+                )
+                };
+                let metadata = path.symlink_metadata().map_err(|_| invalid())?;
+                if !metadata.is_file() || metadata.file_type().is_symlink() {
+                    return Err(invalid());
+                }
+                let reconciliation: GithubMutationReconciliationReceipt =
+                    serde_json::from_slice(&fs::read(&path).map_err(|_| invalid())?)
+                        .map_err(|_| invalid())?;
+                let identity = reconciliation.merge.as_ref().ok_or_else(invalid)?;
+                let identity_digest =
+                    stable_digest(&[&serde_json::to_string(identity).map_err(|_| invalid())?]);
+                if reconciliation.schema != "csdlc.v3.github_mutation_reconciliation.v1"
+                    || reconciliation.operation_digest != digest
+                    || reconciliation.operation_marker != github_mutation_operation_marker(digest)
+                    || reconciliation.repository != operation.repository
+                    || reconciliation.issue != operation.issue
+                    || reconciliation.pull_request != operation.pull_request
+                    || reconciliation.remote_object_id != operation.pull_request
+                    || reconciliation.expected_head_sha != operation.expected_head_sha
+                    || reconciliation.observed_by != GITHUB_READ_ONLY_ADAPTER
+                    || !reconciliation.authenticated
+                    || reconciliation.readback_digest != identity_digest
+                    || receipt.readback_digest.as_deref() != Some(identity_digest.as_str())
+                    || receipt.reconciliation_digest
+                        != github_mutation_reconciliation_digest(&reconciliation)
+                    || identity.repository != operation.repository
+                    || Some(identity.pull_request) != operation.pull_request
+                    || identity.head_sha != operation.expected_head_sha
+                {
+                    return Err(invalid());
+                }
+            }
+        }
+    }
+    Ok(())
+}
+
 pub fn prepare_remote_publication_route(
     route: &str,
     request: &RemoteRouteRequest,

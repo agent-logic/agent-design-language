@@ -376,7 +376,12 @@ fn cli_observe_github_fails_before_network_without_an_explicit_credential_name()
         .expect("run pr-state observation preflight");
     assert!(!output.status.success());
     let stderr = String::from_utf8_lossy(&output.stderr);
-    assert!(stderr.contains("github_credential_missing"), "{stderr}");
+    let report: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("structured observation failure on stdout");
+    assert_eq!(report["findings"][0]["code"], "github_credential_missing");
+    assert_eq!(report["writes_v3_state"], false);
+    assert!(!stderr.contains("github_credential_missing"));
+    assert!(stderr.contains("see structured stdout findings"));
 }
 
 #[test]

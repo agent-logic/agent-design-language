@@ -1,0 +1,86 @@
+{
+  "schema": "csdlc.sim01.ci_repair_proof.v1",
+  "issue": 867,
+  "pull_request": 948,
+  "source_revision": "3bfdd5f128d948df83e2cbd58ac4e6d9e60035e1",
+  "source_tree": "7131f5de4d716e4781b94ab455ac4d1f4e45d1b8",
+  "tested_base_revision": "7b59601a9bd1c5b881dd7eda92b1f76b24e0c03f",
+  "tested_working_diff_blake3": "fbaadc9cb445873c79688e05bc838abc6c7fcf60b3e1d809806fa2c7ff4f0045",
+  "test_binding": "Full suite and Clippy ran against the unchanged working repair later committed as source_revision; corpus records the base and working diff rather than claiming a clean-HEAD run.",
+  "changed_source_sha256": {
+    "csdlc-v3/tests/real_issue_canary.rs": "07aa7fc5b4270866f89feed9c6617dfc11dd8eae169fe602a79710fb1aea6f16",
+    "csdlc-v3/tests/support/attempt_corpus.rs": "f3bc3c536a7b947160bd307d4d77a7dfaf4943dd48a54432228699e97f745482",
+    "csdlc-v3/tests/support/baseline_journeys.rs": "3739bfbadabe9b738a66c178440cfc0ca11a1a82385f87ec66eda54927a9be28"
+  },
+  "candidate_blake3": "ecdb9fb6efd92bfb9215d521bcbd2edf91540826149aef283fc94a4d42e7ef2a",
+  "full_test_pass_counts": [
+    85,
+    0,
+    10,
+    13,
+    37,
+    18,
+    1,
+    1,
+    6,
+    1,
+    13,
+    36,
+    26,
+    0
+  ],
+  "full_test_total": 247,
+  "commands": [
+    "cargo test --manifest-path csdlc-v3/Cargo.toml",
+    "cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings",
+    "cargo fmt --manifest-path csdlc-v3/Cargo.toml --check",
+    "git diff --check"
+  ],
+  "local_result": "passed",
+  "ci_result": "pending publication update; original PR head failed",
+  "normalization": "Published logs replace host display prefixes and trailing blank lines only; original raw hashes retained. Corpus values remain otherwise unchanged.",
+  "artifacts": [
+    {
+      "path": "full-test.stdout",
+      "sha256": "5345966ba7f2bf328bae822ee810713088fd16ec6c96e164fd33ec75a902d09b",
+      "original_sha256": "a3d5201da094bd42160cbfacfb9df2509aaceb452fb04f95221ac43aebf1e14e",
+      "display_normalized": true
+    },
+    {
+      "path": "full-test.stderr",
+      "sha256": "5ea1d352529e77382c4bbd07b36d2fbc729f24729bffb6f427e4c2b28b19e9b5",
+      "original_sha256": "0a18ba0d5aa44130594aa40b4a33821b912e09f28b095b67a5e536a5a47b1876",
+      "display_normalized": true
+    },
+    {
+      "path": "clippy.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "display_normalized": false
+    },
+    {
+      "path": "clippy.stderr",
+      "sha256": "825d1806f03c31e94e714a3e8beeaf1520508d89d4d71c86b08a6549c91542b3",
+      "original_sha256": "2cc33fd1fd465fea1fcf2854bf5defaf6e84de3205e41dc57ef07db36d3af374",
+      "display_normalized": true
+    },
+    {
+      "path": "baseline.json",
+      "sha256": "8cd25c40e61cf541e7c2be75c512f32000203f5f0234959399bfe3d2af5aef14",
+      "original_sha256": "f1de7cc75da3fbf9440a5ce9994f8cd0fcbac91bfa210f28be5b35a1f14ea5c3",
+      "display_normalized": true
+    },
+    {
+      "path": "retention-negative.json",
+      "sha256": "95069fe8a0bf3d00d32bd804133e4019f86e2b170659b4340f4f19cdbe486714",
+      "original_sha256": "2ce04d600b285c29d8fedfc3da15fe3a82ede90f34f4f9f0243181ee6e331cce",
+      "display_normalized": true
+    },
+    {
+      "path": "retention-censored.json",
+      "sha256": "8d214f745ba19ac0e261b7c827f59f733efa18ae2ee83d364b72ae3c765f8de1",
+      "original_sha256": "e12f06ce88dc9c03781b3bc498653b358794747d68c7522eb9ccc9f082536beb",
+      "display_normalized": true
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "issue": 909,
+  "observed_at": "2026-09-12T00:35:46.685938+00:00",
+  "command": [
+    "gcloud",
+    "identity",
+    "groups",
+    "describe",
+    "gcp-admins@agent-logic.ai",
+    "--account=daniel@agent-logic.ai",
+    "--project=cs-host-377d41e71a824f92802120",
+    "--format=json(name,groupKey,displayName)"
+  ],
+  "exit_code": 1,
+  "error": "Invalid value for [--email]: There is no such a group associated with the specified argument:gcp-admins@agent-logic.ai",
+  "status": "target_group_not_resolved",
+  "consequence": "Keep intended gcp-admins@agent-logic.ai identity; verify directory visibility before separately approved application. No group-creation or proven-absence claim.",
+  "error_interpretation": "Installed gcloud ConvertEmailToResourceName handles HTTP403 Forbidden and HTTP404 NotFound identically; output does not distinguish missing group from missing visibility.",
+  "local_source": "googlecloudsdk/command_lib/identity/groups/hooks.py:443-463 (installed gcloud CLI)",
+  "operator_confirmation": {
+    "statement": "gcp-admins is fine",
+    "meaning": "Intended corporate group confirmed; this does not change the historical API lookup outcome or prove directory visibility."
+  }
+}

@@ -53,7 +53,12 @@ fn main() {
             if serde_json::from_str::<serde_json::Value>(&error).is_ok_and(|value| {
                 matches!(
                     value["schema"].as_str(),
-                    Some("csdlc.v3.proof_route.v1" | "csdlc.v3.release_preflight.v1")
+                    Some(
+                        "csdlc.v3.proof_route.v1"
+                            | "csdlc.v3.release_preflight.v1"
+                            | "csdlc.v3.operational_diagnostic.v1"
+                            | "csdlc.v3.remote_diagnostic.v1"
+                    )
                 )
             }) {
                 println!("{error}");
@@ -136,9 +141,9 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
         .map_err(|error| format!("failed to read registrations: {error}"))?;
 
     let request = LocalPreparationRequest::from_json(&request_bytes)
-        .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
+        .map_err(|findings| local_route_failure(route, &findings))?;
     let registry = csdlc_v3::commands::local::PromptRegistry::from_current_json(&registry_bytes)
-        .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
+        .map_err(|findings| local_route_failure(route, &findings))?;
     let registrations: Vec<WorktreeRegistration> = serde_json::from_slice(&registrations_bytes)
         .map_err(|error| format!("invalid registrations json: {error}"))?;
     if let Some(command) = local_route_command(route) {
@@ -159,28 +164,8 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                 let operational =
                     match execute_operational_local_route(route, &request, &registry, &context) {
                         Ok(operational) => operational,
-                        Err(findings)
-                            if can_fallback_from_read_only_operational_context(route)
-                                && findings.iter().any(|finding| {
-                                    read_only_discovery_fallback_code(&finding.code)
-                                }) =>
-                        {
-                            // Read-only diagnostic routes are safe in ordinary issue worktrees
-                            // whose parent is the required bind parent.  The operational mutation
-                            // context is intentionally invalid there, but the construction report
-                            // remains useful and non-mutating.
-                            return run_local_construction_report(
-                                route,
-                                args,
-                                request,
-                                registry,
-                                registrations,
-                            );
-                        }
                         Err(findings) => {
-                            return Err(
-                                serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
-                            );
+                            return Err(local_route_failure(route, &findings));
                         }
                     };
                 return serde_json::to_string(&serde_json::json!({
@@ -195,28 +180,31 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                 .map_err(|error| error.to_string());
             }
             Ok(None) => {}
-            Err(findings)
-                if can_fallback_from_read_only_operational_context(route)
-                    && findings
-                        .iter()
-                        .any(|finding| read_only_discovery_fallback_code(&finding.code)) => {}
             Err(findings) => {
-                return Err(serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()));
+                return Err(local_route_failure(route, &findings));
             }
         }
     }
     run_local_construction_report(route, args, request, registry, registrations)
 }
 
-fn can_fallback_from_read_only_operational_context(route: &str) -> bool {
-    matches!(route, "doctor" | "eligibility")
-}
-
-fn read_only_discovery_fallback_code(code: &str) -> bool {
-    matches!(
-        code,
-        "invalid_operational_roots" | "worktree_parent_unavailable"
-    )
+fn local_route_failure(
+    route: &str,
+    findings: &[csdlc_v3::commands::local::DoctorFinding],
+) -> String {
+    if csdlc_v3::commands::local::is_observation_route(route) || route == "local" {
+        serde_json::json!({
+            "schema": "csdlc.v3.operational_diagnostic.v1",
+            "command": route,
+            "status": if findings.iter().any(|finding| finding.status == PlanStatus::Failed) { "failed" } else { "blocked" },
+            "read_only": true,
+            "writes_v3_state": false,
+            "findings": findings
+        })
+        .to_string()
+    } else {
+        serde_json::to_string(findings).unwrap_or_else(|_| "[]".into())
+    }
 }
 
 fn run_local_construction_report(
@@ -227,7 +215,7 @@ fn run_local_construction_report(
     registrations: Vec<WorktreeRegistration>,
 ) -> Result<String, String> {
     let mut result = prepare_local_workflow(&request, &registry, &registrations)
-        .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
+        .map_err(|findings| local_route_failure(route, &findings))?;
     let observed_v3_issue_state = match (route, args.v3_state_root.as_ref()) {
         ("issue", Some(root)) => Some(inspect_v3_local_state(root, request.issue)),
         _ => None,
@@ -331,6 +319,22 @@ fn run_proof_route(command: &str, args: &[String]) -> Result<String, String> {
 }
 
 fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
+    run_remote_inner(command, args).map_err(|error| {
+        if command == "pr-state" {
+            if let Ok(finding) = serde_json::from_str::<serde_json::Value>(&error) {
+                return serde_json::json!({
+                    "schema":"csdlc.v3.remote_diagnostic.v1", "command":command,
+                    "status":"blocked", "read_only":true, "writes_v3_state":false,
+                    "findings":[finding]
+                })
+                .to_string();
+            }
+        }
+        error
+    })
+}
+
+fn run_remote_inner(command: &str, args: &[String]) -> Result<String, String> {
     if args == ["--help"] || args == ["-h"] {
         return Ok(remote_usage(command));
     }
@@ -381,8 +385,17 @@ fn run_remote(command: &str, args: &[String]) -> Result<String, String> {
         request = observed.request;
         merge_observed_receipts(&mut receipts, observed.receipts);
     }
-    let result = prepare_remote_publication_route_with_receipts(command, &request, &receipts)
-        .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
+    let mut result =
+        prepare_remote_publication_route_with_receipts(command, &request, &receipts)
+            .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
+    if command == "pr-state" {
+        if let Err(finding) =
+            csdlc_v3::commands::remote::pending_mutation_finding(&repo_root, &request)
+        {
+            result.status = csdlc_v3::commands::remote::RemoteRouteStatus::Blocked;
+            result.findings.push(finding);
+        }
+    }
     let report = RemoteCommandReport {
         schema: "csdlc.v3.remote_publication.v1",
         command: command.to_owned(),

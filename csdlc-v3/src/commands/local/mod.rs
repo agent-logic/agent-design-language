@@ -29,6 +29,13 @@ pub const LOCAL_ROUTE_NAMES: [&str; 8] = [
     "eligibility",
 ];
 
+pub fn is_observation_route(route: &str) -> bool {
+    matches!(
+        route,
+        "doctor" | "eligibility" | "validate" | "schedule" | "shepherd"
+    )
+}
+
 /// Typed local commands constructed by V3-D.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -1320,6 +1327,32 @@ pub fn execute_operational_local_route(
     validate_contract(request)?;
     plan_cards(request.issue, &request.registry_version, registry)?;
     validate_context(route, request, context)?;
+    // Observation must never create locks, recover a journal, or reuse a
+    // mutation completion. A concurrent writer may make observation fail;
+    // inspection is not authority to repair or complete that writer's work.
+    if is_observation_route(route) {
+        if local_transaction_journal_path(context, request.issue)
+            .symlink_metadata()
+            .is_ok()
+        {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_recovery_required",
+                "a pending local journal requires explicit recovery: inspect its bind/edit identity and reissue the exact original mutating request; diagnostics never replay it",
+            )]);
+        }
+        let issue_root = context.state_root.join(format!("issues/{}", request.issue));
+        let before = inspect_lifecycle_issue_root(&issue_root, request.issue, "v3");
+        require_operational_cas(route, request, &before)?;
+        return match route {
+            "validate" => validate_operational_issue(request, registry, &issue_root),
+            "doctor" | "eligibility" => {
+                diagnose_operational_issue(route, request, registry, context)
+            }
+            "schedule" | "shepherd" => route_operational_issue(route, request, registry, context),
+            _ => unreachable!("observation route membership checked above"),
+        };
+    }
     let _issue_lock = acquire_issue_mutation_lock(&context.state_root, request.issue)?;
     // Binding can transfer ownership while this invocation waits for the lock.
     validate_context(route, request, context)?;
@@ -1514,13 +1547,13 @@ fn begin_local_transaction(
     atomic_write_json(&journal_path, &value)
 }
 
-fn recover_pending_local_transaction(
+fn read_pending_local_transaction(
     context: &OperationalLocalContext,
     issue: u64,
-) -> Result<(), Vec<DoctorFinding>> {
+) -> Result<Option<LocalMutationJournal>, Vec<DoctorFinding>> {
     let journal_path = local_transaction_journal_path(context, issue);
     if !journal_path.exists() {
-        return Ok(());
+        return Ok(None);
     }
     if journal_path
         .symlink_metadata()
@@ -1557,6 +1590,16 @@ fn recover_pending_local_transaction(
             "lifecycle mutation journal identity is invalid",
         )]);
     }
+    Ok(Some(journal))
+}
+
+fn recover_pending_local_transaction(
+    context: &OperationalLocalContext,
+    issue: u64,
+) -> Result<(), Vec<DoctorFinding>> {
+    let Some(journal) = read_pending_local_transaction(context, issue)? else {
+        return Ok(());
+    };
     if journal.route == "bind" {
         let branch = journal.bind_branch.as_deref().ok_or_else(|| {
             vec![finding(
@@ -2101,10 +2144,10 @@ fn validate_context(
             )]);
         }
     } else {
-        let binding_paths = [state_root.join(format!("issues/{}/index.json", request.issue))];
-        let binding_matches = binding_paths.iter().any(|path| {
+        let matches_binding = |path: &Path| {
             if !canonical_existing_ancestor_local(path)
                 .is_some_and(|ancestor| ancestor.starts_with(state_root))
+                || !has_canonical_existing_ancestor(path)
             {
                 return false;
             }
@@ -2119,9 +2162,33 @@ fn validate_context(
                     && value["branch"] == request.branch
                     && value["worktree"] == request.worktree
             })
-        });
+        };
+        let binding_matches =
+            matches_binding(&state_root.join(format!("issues/{}/index.json", request.issue)));
+        // Directory-swap recovery still requires the exact binding retained
+        // in the journal's backup or stage. Only observation or an identical
+        // edit retry may use it; a different mutation cannot recover it first.
+        let interrupted_binding_matches = if binding_matches {
+            false
+        } else if let Some(journal) = read_pending_local_transaction(context, request.issue)? {
+            let (stage, backup, _) = local_transaction_paths(
+                context,
+                request.issue,
+                &journal.route,
+                &journal.request_digest,
+            );
+            journal.route == "edit"
+                && (is_observation_route(route)
+                    || (route == "edit"
+                        && local_request_digest(request)? == journal.request_digest))
+                && [backup, stage]
+                    .iter()
+                    .any(|path| matches_binding(&path.join("index.json")))
+        } else {
+            false
+        };
         let bound_checkout = !matches!(route, "issue" | "bind")
-            && binding_matches
+            && (binding_matches || interrupted_binding_matches)
             && repository_root.starts_with(&context.allowed_worktree_parent)
             && repository_root != context.allowed_worktree_parent
             && repository_root.join(".git").is_file()
@@ -2226,6 +2293,9 @@ fn validate_context(
         )]);
     }
 
+    if is_observation_route(route) {
+        return Ok(());
+    }
     fs::create_dir_all(&context.state_root).map_err(|error| {
         vec![finding(
             PlanStatus::Failed,
