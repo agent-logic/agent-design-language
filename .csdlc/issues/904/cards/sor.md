@@ -26,14 +26,14 @@ Generated: 2026-09-12T00:18:16.017452+00:00
 
 Execution:
 - Actor: `Planning #7 / sprint8_720`
-- Model: `llama3.2:3b; blob sha256 dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff`
-- Provider: `ollama through NVIDIA PAIR v0.1.1 loopback proxy`
+- Model: `phi4-mini:latest; manifest sha256 78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753; model blob sha256 3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db; MIT license`
+- Provider: `ollama through NVIDIA PAIR v0.1.1 loopback proxy and canonical provider reload sidecar`
 - Start Time: `unknown; implementation began under active child goal`
-- End Time: `in_progress`
+- End Time: `implementation complete; review and CI pending`
 
 ## Summary
 
-PAIR and the canonical Runtime route work on the approved local Apple M4 Pro node. After equal explicit prewarming, the small single-node comparison measured lower PAIR throughput: 0.9763x baseline at concurrency one and 0.7682x at concurrency two. This does not establish multi-node behavior. A second approved trusted node and controlled node-loss run are still required before the keep/repair/retire decision.
+PAIR works as a two-node request router and remains useful for ADL. The experiment disposition is REPAIR before production: larger and concurrent work showed material gains, actual failover and recovery succeeded, and startup/shared-host outliers plus operational gaps remain.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ PAIR and the canonical Runtime route work on the approved local Apple M4 Pro nod
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `in_progress`
+- Completion state: `implementation_complete_review_pending`
 - Issue goal ref: `Sprint #932 child #904 active implementation goal`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/904/goal-metrics.json (planned, absent until execution)`
@@ -75,19 +75,19 @@ PAIR and the canonical Runtime route work on the approved local Apple M4 Pro nod
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/904/cards/sor.md`
-- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md; .csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json; .csdlc/evidence/904/local-broker-attribution.json`
-- Additional proof artifacts: `.csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node-c1.json; .csdlc/evidence/904/local-runtime-single-node-c2.json; .csdlc/evidence/904/local-broker-attribution.json`
+- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/PLAN.json; .csdlc/evidence/904/RESOURCE_SAMPLES.json; .csdlc/evidence/904/MEASUREMENTS.json; .csdlc/evidence/904/RESULTS.json; .csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json; .csdlc/evidence/904/EXPERIMENT_REPORT.md; .csdlc/evidence/904/DECISION.md; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md`
+- Additional proof artifacts: `.csdlc/evidence/904/PLAN.json; .csdlc/evidence/904/RESOURCE_SAMPLES.json; .csdlc/evidence/904/MEASUREMENTS.json; .csdlc/evidence/904/RESULTS.json; .csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json; .csdlc/evidence/904/EXPERIMENT_REPORT.md; .csdlc/evidence/904/DECISION.md`
 
 ## Actions taken
 - `Verified native bound context, current issue and accepted #876; created child #904 implementation goal under #932.`
-- `Verified NVIDIA-signed PAIR v0.1.1, ran all workers, pinned Ollama 0.32.14 and llama3.2:3b, and completed same-corpus direct/raw PAIR measurements.`
-- `Added and executed create-only content-redacted repeated Runtime live probes through canonical provider definitions at concurrency one and two, and proved broker scheduledOn attribution with a real request; second-node pairing, node loss, resource proof and final decision remain pending.`
+- `Verified signed PAIR v0.1.1 on Apple M4 Pro and RTX 3090 nodes with identical resident Phi-4 model bytes, canonical Ollama provider configuration, bounded resources and zero cloud spend.`
+- `Executed the complete raw and Runtime matrix, actual remote-node loss and recovery, retained negative results and private-input hashes, and authored the REPAIR decision plus AWS fleet mapping.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
 - Worktree-only paths remaining: `.csdlc/issues/904/cards; native bound setup only`
 - Integration state: `worktree_only`
-- Verification scope: `Actual single-node direct Ollama, raw PAIR and canonical Runtime-through-PAIR routes plus deterministic accounting and negative contracts; multi-node and node-loss gates remain pending`
+- Verification scope: `Actual two-node direct Ollama baseline, raw PAIR and canonical Runtime-through-PAIR routes; concurrency 1 and 2; controlled node loss and recovery; deterministic accounting and negative contracts`
 - Integration method used: `Local commits in exact bound #904 worktree; no push or PR`
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_actual_runtime_workflow -- --ignored --exact --nocapture with pinned ADL_PAIR inputs; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
+  - `python3 adl/tools/test_pair_experiment.py; python3 adl/tools/pair_experiment.py --plan .csdlc/evidence/904/PLAN.json --measurements .csdlc/evidence/904/MEASUREMENTS.json --provider-definitions <pinned-private-sidecar>; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
     `Partial accounting and loopback transport correctness established; no actual PAIR/Runtime/hardware qualification.`
 - Results:
-  - `Sixteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 12 of 12 exact-output requests across three batches each at concurrency one and two at source 29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48. Strict Clippy and diff checks passed. After equal explicit prewarming, the raw local preflight passed 24 of 24 requests and measured PAIR/baseline throughput ratios of 0.9763 at concurrency one and 0.7682 at concurrency two. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved. A real broker workloads:subscribe probe returned the exact expected output and a nonempty scheduledOn node identity, retained only by hash.`
+  - `18 deterministic Python tests passed; the complete 72-request accounting replay passed; one exact Rust workflow-shape test passed; strict Clippy, JSON parsing and diff checks passed. Four actual Runtime batches passed 24 of 24 outputs across healthy and node-loss states. Raw baseline/PAIR runs passed 48 of 48 Phi-4 outputs. Broker attribution proved healthy RTX selection, Mac failover and RTX recovery. Independent exact-head review and CI remain pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_partial_gate_passed_full_experiment_not_run
+    status: local_complete_review_and_ci_pending
     checks_run:
-      - "not_run"
+      - "passed"
   determinism:
-    status: partial_local_tests_passed
-    replay_verified: not_run
-    ordering_guarantees_verified: not_run
+    status: local_accounting_replay_passed
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: focused_local_cli_redaction_passed
-    secrets_leakage_detected: not_run
-    prompt_or_tool_arg_leakage_detected: not_run
-    absolute_path_leakage_detected: not_run
+    status: tracked_packet_redacted_and_hash_bound
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: partial_actual_single_node_and_runtime_proof_present
-    required_artifacts_present: partial; hardware and Runtime experiment artifacts missing
+    status: complete_local_experiment_packet_review_pending
+    required_artifacts_present: yes; review and CI are lifecycle gates rather than missing experiment artifacts
     schema_changes:
       present: not_run
       approved: not_run
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `14 tests including20receipt mutation subcases, matrix allocation bound, two-node/concurrency/context drift, raw loopback HTTP, deadline/body cap, explicit sampling/residency and redacted CLI failures.`
-- Fixtures or scripts used: `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider; operator-attended verified NVIDIA PAIR v0.1.1 service; exact two-request local corpus; three Runtime repetitions at concurrency one and two`
-- Replay verification (same inputs -> same artifacts/order): `Local fixture only; no actual Runtime replay`
-- Ordering guarantees (sorting / tie-break rules used): `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
-- Artifact stability notes: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
+- Determinism tests executed: `18 Python tests including failover topology, concurrency, drift, incorrect output, failure, resource bound, collector deadline/body cap and CLI redaction cases`
+- Fixtures or scripts used: `Deterministic Python accounting; production Rust Runtime live gate; official signed PAIR v0.1.1 Mac and Windows binaries; two exact-output prompts; three repetitions at concurrency 1 and 2; actual remote-node shutdown and restart`
+- Replay verification (same inputs -> same artifacts/order): `Same plan, measurements and provider bytes reproduce the tracked accounting result`
+- Ordering guarantees (sorting / tie-break rules used): `Matrix identities are unique and complete; normalized monotonic offsets preserve observed batch concurrency and node-loss ordering; summaries iterate fixed route/scenario/concurrency order`
+- Artifact stability notes: `Tracked plan and measurement digests bind provider, corpus, model, node events and resource sample bytes; ignored private evidence is bound by SHA-256 in SUPPLEMENTAL_RESULTS.json`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
+- Secret leakage scan performed: `Tracked evidence scanned for private host names, addresses, raw node IDs and absolute user paths; none detected`
 - Prompt / tool argument redaction verified: `Focused CLI failure test verifies sanitized stderr without supplied secret or absolute scratch path; no live-provider privacy proof.`
-- Absolute path leakage check: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
-- Sandbox / policy invariants preserved: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
+- Absolute path leakage check: `passed for tracked evidence packet`
+- Sandbox / policy invariants preserved: `yes; two approved owned nodes, trusted LAN, bounded concurrency and zero cloud cost`
 
 ## Replay Artifacts
 - Trace bundle path(s): `.adl/runs/904/accounting-tests.log`
-- Run artifact root: `.csdlc/evidence/904 (planned)`
+- Run artifact root: `.csdlc/evidence/904`
 - Replay command used for verification: `python3 adl/tools/test_pair_experiment.py`
-- Replay result: `Deterministic summary equality fixture passes; actual Runtime replay not run`
+- Replay result: `72 records admitted; deterministic summaries and comparisons emitted`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/904 (planned)`
-- Required artifacts present: `Local source/tests/checkpoint present; full experiment artifacts missing`
+- Primary proof surface: `.csdlc/evidence/904`
+- Required artifacts present: `complete local experiment packet present`
 - Artifact schema/version checks: `Native generation8 six-card values/renders/structures/digest validation passed; further field normalization is revalidated natively.`
-- Hash/byte-stability checks: `Plan/measurement digest and deterministic repeated-summary equality covered by local fixture; actual experiment stability not tested`
-- Missing/optional artifacts and rationale: `Local source, focused test log and checkpoint evidence exist. Actual two-node/Runtime/node-loss traces, resource measurements, CI and disposition are missing because those executions have not occurred.`
+- Hash/byte-stability checks: `Plan/provider/resource/private-input digests checked by accounting replay and tracked supplemental manifest`
+- Missing/optional artifacts and rationale: `Per-request power and GPU utilization were not collected reliably, so no energy-efficiency claim is made.`
 
 ## Decisions / Deviations
 - `#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main`
-- `Planning #5 released903/904/905 setup ownership; native FastWork bind completed. Implementation, hardware execution, model loading/download and service mutations remain outside setup scope.`
+- `Decision REPAIR: retain PAIR for further development; require model residency, health/drain controls, security, observability and equivalent settings before production.`
 
 ## Follow-ups / Deferred work
-- `Select two approved compatible nodes and PAIR/model/license/resource scope; establish fair bounded Runtime settings and actual collector integration.`
-- `Complete actual raw/Runtime/node-loss experiment plus independent final review and requiredCI before closing publication.`
+- `Design a private AWS fleet experiment with model-preloaded GPU images, node admission/draining, interruption handling, request attribution and explicit autoscaling cost ceilings.`
+- `Add reproducible context/generation controls and a reasoning-model response contract before qualifying DeepSeek through Runtime.`

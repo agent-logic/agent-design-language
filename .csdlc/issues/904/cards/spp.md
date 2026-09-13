@@ -24,7 +24,7 @@ variance_threshold_percent: "10"
 estimate_confidence: "low"
 estimate_data_source: "local harness/negative-test estimate only; two-node experiment profile duration and cost must be separately approved after prerequisites are available"
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/904"
-issue_goal_ref: "Active goal: execute Sprint #932 child #904 through complete two-node experiment, review, green PR and native closeout"
+issue_goal_ref: "Active goal: execute Sprint #932 child #904 through reviewed green PR and native closeout"
 sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
 goal_metrics_rollup_ref: ".csdlc/evidence/904/goal-metrics.json (planned, absent until execution)"
 source_refs:
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "in_progress"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "in_progress"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "v0922-pair-multinode-experiment"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "PAIR v0.1.1, Ollama 0.32.14, the llama3.2:3b model blob, loopback transport, corpus, concurrency 1 and 2, bounded timeouts and zero cloud cost are pinned for the local preflight. After equal explicit prewarming, direct and raw PAIR routes completed 24 of 24 correct requests; PAIR measured 0.9763x baseline throughput at concurrency one and 0.7682x at concurrency two on the single node. The canonical provider reload owner and production concurrent workflow executor completed three batches at each concurrency level, 12 of 12 exact-output Runtime requests, through the existing ollama provider kind and PAIR at source 29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48. Sixteen deterministic Python tests pass. One node is approved and healthy. A second trusted node, pairing, complete resource samples, controlled node loss and the final reviewed decision remain pending. Do not infer multi-node behavior from the single-node result. No paid or cloud resources are authorized or used. A real broker subscription probe also proved that completed workloads expose the actual scheduledOn node identity; only its SHA-256 is retained. This closes the attribution-channel design uncertainty, not the missing second-node execution."
+notes: "The complete two-node experiment passed 72 of 72 exact-output qualification requests across baseline, raw PAIR and production Runtime; healthy and controlled node-loss states; concurrency 1 and 2; and three repetitions. Healthy Phi-4 selected the RTX 3090; after actual remote loss the unchanged endpoint selected the Mac, and recovery selected RTX again. DeepSeek raw throughput measured 1.92x and 3.07x baseline at concurrency 1 and 2. Phi-4 and node-loss negative outliers are retained. Decision: REPAIR before production for model residency, node lifecycle, security, observability and equivalent provider settings. Zero cloud cost; no provider type or production provider behavior changed. Independent exact-head review and CI remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
-3. [in_progress] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-PAIR v0.1.1, Ollama 0.32.14, the llama3.2:3b model blob, loopback transport, corpus, concurrency 1 and 2, bounded timeouts and zero cloud cost are pinned for the local preflight. After equal explicit prewarming, direct and raw PAIR routes completed 24 of 24 correct requests; PAIR measured 0.9763x baseline throughput at concurrency one and 0.7682x at concurrency two on the single node. The canonical provider reload owner and production concurrent workflow executor completed three batches at each concurrency level, 12 of 12 exact-output Runtime requests, through the existing ollama provider kind and PAIR at source 29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48. Sixteen deterministic Python tests pass. One node is approved and healthy. A second trusted node, pairing, complete resource samples, controlled node loss and the final reviewed decision remain pending. Do not infer multi-node behavior from the single-node result. No paid or cloud resources are authorized or used. A real broker subscription probe also proved that completed workloads expose the actual scheduledOn node identity; only its SHA-256 is retained. This closes the attribution-channel design uncertainty, not the missing second-node execution.
+The complete two-node experiment passed 72 of 72 exact-output qualification requests across baseline, raw PAIR and production Runtime; healthy and controlled node-loss states; concurrency 1 and 2; and three repetitions. Healthy Phi-4 selected the RTX 3090; after actual remote loss the unchanged endpoint selected the Mac, and recovery selected RTX again. DeepSeek raw throughput measured 1.92x and 3.07x baseline at concurrency 1 and 2. Phi-4 and node-loss negative outliers are retained. Decision: REPAIR before production for model residency, node lifecycle, security, observability and equivalent provider settings. Zero cloud cost; no provider type or production provider behavior changed. Independent exact-head review and CI remain pending.
