@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "pending"
   recommended_outcome: "pending independent exact-head review"
-notes: "Review the committed harness, validator, portable receipt, exact source 77b11d69f execution relationship, and all four scenario identities. Verify #851 exclusion, public redaction, no synthetic response path, and negative-fixture coverage."
+notes: "Review exact head after live-run-08 and the committed harness, validator, portable receipt, exact source 159595ac62ec845953ada5704d0abc8c6dc1fd41 execution relationship, all four scenario identities, artifact hashes and raw packet. Verify the prior synthetic-502 and summary-only validation findings are fixed, #851 paths remain excluded, the portable report is redacted, and all 15 negative fixtures pass."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Review the committed harness, validator, portable receipt, exact source 77b11d69f execution relationship, and all four scenario identities. Verify #851 exclusion, public redaction, no synthetic response path, and negative-fixture coverage.
+Review exact head after live-run-08 and the committed harness, validator, portable receipt, exact source 159595ac62ec845953ada5704d0abc8c6dc1fd41 execution relationship, all four scenario identities, artifact hashes and raw packet. Verify the prior synthetic-502 and summary-only validation findings are fixed, #851 paths remain excluded, the portable report is redacted, and all 15 negative fixtures pass.

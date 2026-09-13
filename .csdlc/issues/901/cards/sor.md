@@ -29,20 +29,20 @@ Execution:
 - Model: `gemma:2b artifact sha256:c1864a5eb19305c40519da12cc543519e48a0697ecd30e15d5ac228644957d12`
 - Provider: `task-owned local llama-server through production OpenAI-compatible adl-provider-adapter route`
 - Start Time: `2026-09-13T01:12:05.040590+00:00`
-- End Time: `2026-09-13T01:12:38.193703+00:00`
+- End Time: `2026-09-13T01:24:47.636249+00:00`
 
 ## Summary
 
-Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live run 06 passed 4/4 at source 77b11d69f; independent review, CI, PR, merge, and closeout remain pending.
+Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live-run-08 passed 4/4 at source 159595ac62ec845953ada5704d0abc8c6dc1fd41; independent exact-head review, CI, PR, merge, and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
 - Planned PVF lane: `provider`
-- Final PVF lane: `not_run`
-- Lane change reason: `not_run; implementation has not started`
+- Final PVF lane: `provider`
+- Lane change reason: `planned provider lane executed without lane change`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `task-owned local provider integration`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -53,7 +53,7 @@ Implemented and executed real task-owned provider loss, timeout, interruption, a
 - Actual PR wait seconds: `unknown`
 - Actual CI wait seconds: `unknown`
 - Budget source: `No operator issue token budget assigned; VPP estimates are planning only`
-- Goal metrics data source: `live-run-06 portable receipt and local command results`
+- Goal metrics data source: `live-run-08 portable receipt and local command results`
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `high for recorded local run`
 - Estimate error percent: `unknown`
@@ -76,22 +76,22 @@ Implemented and executed real task-owned provider loss, timeout, interruption, a
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/901/cards/sor.md`
 - Tracked implementation artifacts: `adl/tools/run_issue901_provider_recovery_qualification.py; adl/tools/test_run_issue901_provider_recovery_qualification.py; docs/milestones/v0.92.2/evidence/qual-provider-901/README.md; qualification-report.json`
-- Additional proof artifacts: `.csdlc/evidence/901/live-run-06 raw private packet; earlier failed packets retained privately`
+- Additional proof artifacts: `.csdlc/evidence/901/live-run-08 raw private packet; earlier failed and superseded packets retained privately`
 
 ## Actions taken
-- `Built the exact production adl-provider-adapter binary from source 77b11d69f`
+- `Built and invoked the exact production adl-provider-adapter binary from source 159595ac62ec845953ada5704d0abc8c6dc1fd41`
 - `Executed distinct task-owned provider loss, 150 ms timeout, adapter interruption, and fresh-PID recovery scenarios`
-- `Validated the portable receipt plus 10 deterministic evidence-integrity cases; independent review remains pending`
+- `Validated the raw artifact packet, portable receipt, 15 deterministic evidence-integrity cases, 51 focused Rust tests, formatting and diff hygiene; independent exact-head review remains pending`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch only`
 - Worktree-only paths remaining: `.csdlc/evidence/901 private raw and failed diagnostic runs`
 - Integration state: `worktree_only`
-- Verification scope: `not_run`
-- Integration method used: `not_run; publication pending`
+- Verification scope: `local source, live provider execution, raw artifact binding, and portable receipt; independent exact-head review and CI pending`
+- Integration method used: `pending publication`
 - Verification performed:
-  - `not_run; PR not published`
-    `not_run; no merge claim`
+  - `deferred; PR not published`
+    `deferred; PR not published`
 - Result: `not_integrated`
 
 Rules:
@@ -107,7 +107,7 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo build; 10-test Python validator suite; live-run-06 4/4; portable validate-report; py_compile; git diff --check; path/redaction scan`
+  - `cargo build; 51-test focused Rust provider-adapter suite; 15-test Python validator suite; live-run-08 4/4; raw and portable validate-report; cargo fmt --check; py_compile; git diff --check; path/redaction scan`
     `Proves actual provider invocation reached the task-owned process before each fault and successful distinct work completed on a fresh provider PID`
 - Results:
   - `passed locally; independent exact-head review and CI pending`
@@ -123,32 +123,32 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: passed_local
     checks_run:
-      - "not_run"
+      - "passed: raw and portable validator reports contain no errors"
   determinism:
-    status: not_run
-    replay_verified: not_run
-    ordering_guarantees_verified: not_run
+    status: 15/15 negative validator cases passed
+    replay_verified: passed
+    ordering_guarantees_verified: passed
   security_privacy:
-    status: not_run
-    secrets_leakage_detected: not_run
-    prompt_or_tool_arg_leakage_detected: not_run
-    absolute_path_leakage_detected: not_run
+    status: passed_local
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: not_run
-    required_artifacts_present: not_run
+    status: passed_local
+    required_artifacts_present: yes for local proof; review, CI, PR, merge and terminal artifacts pending
     schema_changes:
-      present: not_run
-      approved: not_run
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `10/10 evidence-integrity tests passed`
+- Determinism tests executed: `15/15 evidence-integrity tests passed`
 - Fixtures or scripts used: `run_issue901_provider_recovery_qualification.py; test_run_issue901_provider_recovery_qualification.py`
 - Replay verification (same inputs -> same artifacts/order): `portable validate-report passed`
 - Ordering guarantees (sorting / tie-break rules used): `loss, timeout, interruption, and recovery serialized; recovery used a new provider PID; four request body digests are unique`
-- Artifact stability notes: `not_run; implementation has not started`
+- Artifact stability notes: `Portable report binds artifact refs, byte sizes and SHA-256 digests; raw validator re-hashes each live-run-08 artifact.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `performed; no credential values or prompt/output text in portable receipt`
@@ -157,17 +157,17 @@ verification_summary:
 - Sandbox / policy invariants preserved: `only task-owned process groups and dynamic loopback ports used; #851 and shared Ollama service untouched`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/901/live-run-06 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json (portable)`
-- Run artifact root: `.csdlc/evidence/901 (planned)`
+- Trace bundle path(s): `.csdlc/evidence/901/live-run-08 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json (portable)`
+- Run artifact root: `.csdlc/evidence/901/live-run-08 (private)`
 - Replay command used for verification: `documented runner invocation with exact adapter/provider/model inputs; output directory must be new`
-- Replay result: `live-run-06 passed 4/4`
+- Replay result: `live-run-08 passed 4/4`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json`
 - Required artifacts present: `yes for local implementation and execution; review/CI/PR artifacts pending`
 - Artifact schema/version checks: `portable report validate-report passed with four scenarios`
 - Hash/byte-stability checks: `adapter, provider binary, model file, public report, and four request-body digests recorded`
-- Missing/optional artifacts and rationale: `Execution artifacts are absent because preparation is not delivery`
+- Missing/optional artifacts and rationale: `Independent review, PR, CI, merge, and terminal receipts are absent because publication has not occurred.`
 
 ## Decisions / Deviations
 - `#855 is satisfied: PR #964 merged and issue #855 closed, delivering the registered-provider lifecycle. #852 is also accepted through merged PR #963 for any WSS failure-event evidence consumed. #851 remains dirty and unmerged in its separate registered worktree; its bytes are preserved and its paths are excluded.`

@@ -1,10 +1,10 @@
 {
   "schema": "adl.issue901.provider_recovery_qualification.v1",
-  "generated_at": "2026-09-13T01:12:39.695375+00:00",
-  "source_revision": "77b11d69f209922d30c8dbd2313f1c301ae238d2",
+  "generated_at": "2026-09-13T01:24:47.636249+00:00",
+  "source_revision": "159595ac62ec845953ada5704d0abc8c6dc1fd41",
   "adapter": {
     "path": "adl/target/debug/adl-provider-adapter",
-    "sha256": "3810f3c233f10afda0aaea4617c4a1c8e2af43b57ce4e58ca10ae3d88ea82bb1"
+    "sha256": "87be1d718138d380da9fcf509ca2c2eea9bdb887efaaac86be752f97f184bbbb"
   },
   "provider": {
     "kind": "task_owned_local_openai_compatible_llama_server",
@@ -18,23 +18,23 @@
   "provider_incarnations": [
     {
       "label": "loss",
-      "pid": 5528,
-      "started_at": "2026-09-13T01:12:05.040590+00:00"
+      "pid": 7198,
+      "started_at": "2026-09-13T01:24:12.769261+00:00"
     },
     {
       "label": "timeout",
-      "pid": 5533,
-      "started_at": "2026-09-13T01:12:16.112560+00:00"
+      "pid": 7202,
+      "started_at": "2026-09-13T01:24:23.864337+00:00"
     },
     {
       "label": "interruption",
-      "pid": 5544,
-      "started_at": "2026-09-13T01:12:27.262492+00:00"
+      "pid": 7206,
+      "started_at": "2026-09-13T01:24:35.097307+00:00"
     },
     {
       "label": "recovery",
-      "pid": 5557,
-      "started_at": "2026-09-13T01:12:38.193703+00:00"
+      "pid": 7208,
+      "started_at": "2026-09-13T01:24:46.146490+00:00"
     }
   ],
   "scenarios": {
@@ -45,7 +45,7 @@
       "stdout_ref": "loss-stdout.log",
       "stderr_ref": "loss-stderr.log",
       "adapter_returncode": 0,
-      "wall_elapsed_ms": 10315,
+      "wall_elapsed_ms": 10322,
       "result": {
         "schema_version": "provider_communication.v1",
         "route": {
@@ -53,7 +53,7 @@
           "provider": "openai",
           "runtime_surface": "hosted_api",
           "provider_model_id": "gemma:2b",
-          "endpoint_ref": "http://127.0.0.1:64098/v1/responses",
+          "endpoint_ref": "http://127.0.0.1:64612/v1/responses",
           "credential_ref": "env:ADL_ISSUE901_LOCAL_KEY",
           "source_registry": "issue901.task_owned_local"
         },
@@ -70,38 +70,62 @@
         "attempts": [
           {
             "attempt_index": 1,
-            "started_at": "unix:1789261925",
-            "duration_ms": 10301,
+            "started_at": "unix:1789262653",
+            "duration_ms": 10276,
             "status": "error",
             "retryable": false,
-            "http_status": 502,
             "failure": {
-              "kind": "provider_transient_http",
+              "kind": "unknown",
               "retryable": false,
-              "message": "provider http 502: <!DOCTYPE HTML> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <style type=\"text/css\"> :root { color-scheme: light dark; } </style> <title>Error response</tit...",
-              "provider_error_excerpt": "provider http 502: <!DOCTYPE HTML> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <style type=\"text/css\"> :root { color-scheme: light dark; } </style> <title>Error response</tit...",
-              "http_status": 502
+              "message": "error sending request for url (http://127.0.0.1:64612/v1/responses)",
+              "provider_error_excerpt": "error sending request for url (http://127.0.0.1:64612/v1/responses)"
             }
           }
         ],
         "final_status": "failed",
-        "duration_ms": 10301,
+        "duration_ms": 10277,
         "request_id": "issue901-loss",
         "failure": {
-          "kind": "provider_transient_http",
-          "retryable": false,
-          "http_status": 502
+          "kind": "unknown",
+          "retryable": false
         },
-        "artifact_ref": ".csdlc/evidence/901/live-run-06/loss-result.json",
+        "artifact_ref": ".csdlc/evidence/901/live-run-08/loss-result.json",
         "trace_ref": "provider_adapter.circuit_breaker",
         "output_text_present": false,
         "output_text_sha256": null
       },
+      "artifacts": {
+        "request": {
+          "ref": "loss-request.json",
+          "sha256": "2c47e82ac297c4d080c3288375b8119677da1dc97698d8d2ab62bec55a5b0d44",
+          "bytes": 1061
+        },
+        "result": {
+          "ref": "loss-result.json",
+          "sha256": "326f5bb782d847dceb75223122c5d59f006cd024a9d60dca9e1611e06d8888be",
+          "bytes": 1589
+        },
+        "log": {
+          "ref": "loss-adapter.jsonl",
+          "sha256": "4d72eff683d5cc71bbff752f6e60934b127bb2bb7cde16e57febfe80bbf7d616",
+          "bytes": 2168
+        },
+        "stdout": {
+          "ref": "loss-stdout.log",
+          "sha256": "2c509ef7ab74498171776cfaf3503ed331bf72ab662ded9718ffbe320fd1fc70",
+          "bytes": 432
+        },
+        "stderr": {
+          "ref": "loss-stderr.log",
+          "sha256": "fc1441a15d5254f83ec9892cd243b5a739a37f46adfa92d499c9b2372349a305",
+          "bytes": 1086
+        }
+      },
       "request_id": "issue901-loss",
       "generate_forwarded": true,
-      "owned_provider_pid": 5528,
+      "owned_provider_pid": 7198,
       "owned_provider_returncode": -9,
-      "provider_signal_sent_at": "2026-09-13T01:12:06.032212+00:00"
+      "provider_signal_sent_at": "2026-09-13T01:24:13.773511+00:00"
     },
     "timeout": {
       "request_ref": "timeout-request.json",
@@ -110,7 +134,7 @@
       "stdout_ref": "timeout-stdout.log",
       "stderr_ref": "timeout-stderr.log",
       "adapter_returncode": 0,
-      "wall_elapsed_ms": 330,
+      "wall_elapsed_ms": 322,
       "result": {
         "schema_version": "provider_communication.v1",
         "route": {
@@ -118,7 +142,7 @@
           "provider": "openai",
           "runtime_surface": "hosted_api",
           "provider_model_id": "gemma:2b",
-          "endpoint_ref": "http://127.0.0.1:64098/v1/responses",
+          "endpoint_ref": "http://127.0.0.1:64612/v1/responses",
           "credential_ref": "env:ADL_ISSUE901_LOCAL_KEY",
           "source_registry": "issue901.task_owned_local"
         },
@@ -135,8 +159,8 @@
         "attempts": [
           {
             "attempt_index": 1,
-            "started_at": "unix:1789261936",
-            "duration_ms": 277,
+            "started_at": "unix:1789262664",
+            "duration_ms": 282,
             "status": "timeout",
             "retryable": false,
             "failure": {
@@ -148,21 +172,48 @@
           }
         ],
         "final_status": "failed",
-        "duration_ms": 277,
+        "duration_ms": 283,
         "request_id": "issue901-timeout",
         "failure": {
           "kind": "provider_timeout",
           "retryable": false
         },
-        "artifact_ref": ".csdlc/evidence/901/live-run-06/timeout-result.json",
+        "artifact_ref": ".csdlc/evidence/901/live-run-08/timeout-result.json",
         "trace_ref": "provider_adapter.circuit_breaker",
         "output_text_present": false,
         "output_text_sha256": null
       },
+      "artifacts": {
+        "request": {
+          "ref": "timeout-request.json",
+          "sha256": "778a965f7074354cfffd590f28b93abd95cdd10e9891ed9920858688ee7ec025",
+          "bytes": 1067
+        },
+        "result": {
+          "ref": "timeout-result.json",
+          "sha256": "98360de36fb5eeba7039009d1e6b851218af76f34880c4bdb927359270681017",
+          "bytes": 1407
+        },
+        "log": {
+          "ref": "timeout-adapter.jsonl",
+          "sha256": "b6458dbf2cb51437946e4df0910dfda72e2b547841956db13882465273bd6e6b",
+          "bytes": 2231
+        },
+        "stdout": {
+          "ref": "timeout-stdout.log",
+          "sha256": "989c88fbca653564bcbea48193d10b8c206efff23f7926b0f26b09c39e4f832e",
+          "bytes": 441
+        },
+        "stderr": {
+          "ref": "timeout-stderr.log",
+          "sha256": "7ca110248bca3a3bff06553fae4bfd6adcb56d81407a22fb3849774653779050",
+          "bytes": 593
+        }
+      },
       "request_id": "issue901-timeout",
       "generate_forwarded": true,
       "timeout_ms": 150,
-      "owned_provider_pid": 5533
+      "owned_provider_pid": 7202
     },
     "interruption": {
       "request_ref": "interruption-request.json",
@@ -173,10 +224,32 @@
       "adapter_returncode": -15,
       "wall_elapsed_ms": 131,
       "result": null,
+      "artifacts": {
+        "request": {
+          "ref": "interruption-request.json",
+          "sha256": "b7d15adbe8f0974960300730c02e3660f30f10694fadd91add79d4fb0ded71f9",
+          "bytes": 1085
+        },
+        "log": {
+          "ref": "interruption-adapter.jsonl",
+          "sha256": "76e450e9706b5d86564857a65f3ade5e83249fd9d3447e8a08ed7d5542ba64ca",
+          "bytes": 839
+        },
+        "stdout": {
+          "ref": "interruption-stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "ref": "interruption-stderr.log",
+          "sha256": "fee6c2898d31e4daa80bad3043d10fe4f92f269c3f9854ff57a481fd0c23c0cb",
+          "bytes": 255
+        }
+      },
       "request_id": "issue901-interruption",
       "generate_forwarded": true,
-      "owned_provider_pid": 5544,
-      "adapter_signal_sent_at": "2026-09-13T01:12:28.162370+00:00"
+      "owned_provider_pid": 7206,
+      "adapter_signal_sent_at": "2026-09-13T01:24:36.094629+00:00"
     },
     "recovery": {
       "request_ref": "recovery-request.json",
@@ -185,7 +258,7 @@
       "stdout_ref": "recovery-stdout.log",
       "stderr_ref": "recovery-stderr.log",
       "adapter_returncode": 0,
-      "wall_elapsed_ms": 390,
+      "wall_elapsed_ms": 385,
       "result": {
         "schema_version": "provider_communication.v1",
         "route": {
@@ -193,7 +266,7 @@
           "provider": "openai",
           "runtime_surface": "hosted_api",
           "provider_model_id": "gemma:2b",
-          "endpoint_ref": "http://127.0.0.1:64098/v1/responses",
+          "endpoint_ref": "http://127.0.0.1:64612/v1/responses",
           "credential_ref": "env:ADL_ISSUE901_LOCAL_KEY",
           "source_registry": "issue901.task_owned_local"
         },
@@ -210,8 +283,8 @@
         "attempts": [
           {
             "attempt_index": 1,
-            "started_at": "unix:1789261959",
-            "duration_ms": 332,
+            "started_at": "unix:1789262687",
+            "duration_ms": 328,
             "status": "ok",
             "retryable": false,
             "http_status": 200,
@@ -219,70 +292,101 @@
           }
         ],
         "final_status": "ok",
-        "duration_ms": 332,
+        "duration_ms": 328,
         "request_id": "issue901-recovery",
         "output_text_excerpt": "[redacted provider text len=38]",
-        "artifact_ref": ".csdlc/evidence/901/live-run-06/recovery-result.json",
+        "artifact_ref": ".csdlc/evidence/901/live-run-08/recovery-result.json",
         "trace_ref": "provider_adapter.circuit_breaker",
         "output_text_present": true,
-        "output_text_sha256": "ee30be363a8ad8c682ade8f1327168bb7782843be006a3de48cc68ab6c21d2eb"
+        "output_text_sha256": "aed4324815e8e339b62b5b0b7266e517ea3e6df458ad08990a417d400736e715"
+      },
+      "artifacts": {
+        "request": {
+          "ref": "recovery-request.json",
+          "sha256": "9b04c24974f980c9afa2489cbc08f274ad1f45d0aa22bf55c530be43c177e0ce",
+          "bytes": 1071
+        },
+        "result": {
+          "ref": "recovery-result.json",
+          "sha256": "f46b5bdcb8ebc634ae89fbc289dcb488771199ccbe43911f93c6b7f3a91dae22",
+          "bytes": 1266
+        },
+        "log": {
+          "ref": "recovery-adapter.jsonl",
+          "sha256": "e14bfe01d6c55297a1a259d180f56631663ee67f930fa2d491fd193ec5683d0f",
+          "bytes": 2166
+        },
+        "stdout": {
+          "ref": "recovery-stdout.log",
+          "sha256": "a9cd7f1f223540c7042e2403b8aac0f20eea028bbbffa90acc437e57f5c92af3",
+          "bytes": 444
+        },
+        "stderr": {
+          "ref": "recovery-stderr.log",
+          "sha256": "3200462b8c7b33c353592a1d01e07d492f7bd46f181f84bbf330769e17a39f2b",
+          "bytes": 535
+        }
       },
       "request_id": "issue901-recovery",
       "generate_forwarded": true,
-      "owned_provider_pid": 5557
+      "owned_provider_pid": 7208
     }
   },
   "proxy_records": [
     {
       "method": "POST",
       "path": "/v1/responses",
-      "body_sha256": "1f8eb4fdd24c295e67a6b7236c8f8cfb032a7beab5341921263d982aeaf8d189",
+      "body_sha256": "583e3b7447b65f77da3588cd1ff1dbfb73da53d96c48dcd78467a955e0c3842b",
       "body_bytes": 133,
-      "forwarded_at": "2026-09-13T01:12:05.921953+00:00",
-      "upstream_port": 64097,
-      "completed_at": "2026-09-13T01:12:16.102396+00:00",
+      "forwarded_at": "2026-09-13T01:24:13.670613+00:00",
+      "upstream_port": 64611,
+      "completed_at": "2026-09-13T01:24:23.824240+00:00",
       "upstream_status": null,
-      "upstream_error": "RemoteDisconnected"
+      "upstream_error": "RemoteDisconnected",
+      "request_id": "issue901-loss"
     },
     {
       "method": "POST",
       "path": "/v1/responses",
-      "body_sha256": "7ab174c6cfae36a8ff571958ab52c0eade19f01c9be676822820295856843e95",
+      "body_sha256": "d320015694f0c6bf961afc65be679701beed1b197a7e223fe78146d30d14a0a4",
       "body_bytes": 135,
-      "forwarded_at": "2026-09-13T01:12:17.007971+00:00",
-      "upstream_port": 64097,
-      "completed_at": "2026-09-13T01:12:27.240828+00:00",
+      "forwarded_at": "2026-09-13T01:24:24.852966+00:00",
+      "upstream_port": 64611,
+      "completed_at": "2026-09-13T01:24:35.079718+00:00",
       "upstream_status": null,
-      "upstream_error": "RemoteDisconnected"
+      "upstream_error": "RemoteDisconnected",
+      "request_id": "issue901-timeout"
     },
     {
       "method": "POST",
       "path": "/v1/responses",
-      "body_sha256": "51e2538eb1974532e98434ef136fe18ae0482975bcd868b65f5698e2adcfb9ad",
+      "body_sha256": "a9f5635be10d9d4097ea0a1cf28731042ee96d4aec21a4d723a74577fb79d70b",
       "body_bytes": 141,
-      "forwarded_at": "2026-09-13T01:12:28.162111+00:00",
-      "upstream_port": 64097,
-      "completed_at": "2026-09-13T01:12:38.193637+00:00",
+      "forwarded_at": "2026-09-13T01:24:36.094374+00:00",
+      "upstream_port": 64611,
+      "completed_at": "2026-09-13T01:24:46.133598+00:00",
       "upstream_status": null,
-      "upstream_error": "RemoteDisconnected"
+      "upstream_error": "RemoteDisconnected",
+      "request_id": "issue901-interruption"
     },
     {
       "method": "POST",
       "path": "/v1/responses",
-      "body_sha256": "f9183d42764be960b10d16d18196187e19121d065491f2098de67aa5349c078a",
+      "body_sha256": "9c7bee67d41d8ec6e13cadc468a53aaefcdce2dfe35b3b8ecb5576df2f1a6d46",
       "body_bytes": 134,
-      "forwarded_at": "2026-09-13T01:12:39.193214+00:00",
-      "upstream_port": 64097,
-      "completed_at": "2026-09-13T01:12:39.401423+00:00",
+      "forwarded_at": "2026-09-13T01:24:47.134076+00:00",
+      "upstream_port": 64611,
+      "completed_at": "2026-09-13T01:24:47.338829+00:00",
       "upstream_status": 200,
-      "upstream_error": null
+      "upstream_error": null,
+      "request_id": "issue901-recovery"
     }
   ],
   "inference_request_body_sha256": [
-    "1f8eb4fdd24c295e67a6b7236c8f8cfb032a7beab5341921263d982aeaf8d189",
-    "7ab174c6cfae36a8ff571958ab52c0eade19f01c9be676822820295856843e95",
-    "51e2538eb1974532e98434ef136fe18ae0482975bcd868b65f5698e2adcfb9ad",
-    "f9183d42764be960b10d16d18196187e19121d065491f2098de67aa5349c078a"
+    "583e3b7447b65f77da3588cd1ff1dbfb73da53d96c48dcd78467a955e0c3842b",
+    "d320015694f0c6bf961afc65be679701beed1b197a7e223fe78146d30d14a0a4",
+    "a9f5635be10d9d4097ea0a1cf28731042ee96d4aec21a4d723a74577fb79d70b",
+    "9c7bee67d41d8ec6e13cadc468a53aaefcdce2dfe35b3b8ecb5576df2f1a6d46"
   ],
   "caller_failure_flags": false,
   "reference_trace_only": false,

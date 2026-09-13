@@ -31,7 +31,7 @@
   "lane_registry_template_set": "1.0.5",
   "validation_runtime_class": "local_regression_and_authorized_production",
   "validation_size_split": "Focused local harness negatives, actual production scenarios and required CI reported as separate lanes",
-  "validation_commands_inline": "cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (10 passed); run_issue901_provider_recovery_qualification.py live-run-06 (4/4 passed); validate-report on the portable receipt (passed); python3 -m py_compile; git diff --check; portable path and redaction scan.",
+  "validation_commands_inline": "cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (15 passed); live-run-08 (4/4 passed at source 159595ac62ec845953ada5704d0abc8c6dc1fd41); raw and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan.",
   "selected_lanes_inline": "provider; task-owned local production-adapter execution plus deterministic evidence-integrity negatives; required issue gate; runs pending",
   "validation_resource_profile": "Executed with a task-owned CPU llama-server and adapter process groups on dynamic loopback ports, using the existing gemma:2b artifact. No paid/cloud calls, model downloads, shared Ollama service mutation, account changes, or broad process scans.",
   "planned_validation_seconds": "2400",

@@ -39,7 +39,7 @@ selected_lanes:
 parallel_groups:
   - "Serialize task-owned live fault scenarios; deterministic negative fixtures may run separately after harness implementation"
 validation_commands:
-  - "cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (10 passed); run_issue901_provider_recovery_qualification.py live-run-06 (4/4 passed); validate-report on the portable receipt (passed); python3 -m py_compile; git diff --check; portable path and redaction scan."
+  - "cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (15 passed); live-run-08 (4/4 passed at source 159595ac62ec845953ada5704d0abc8c6dc1fd41); raw and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan."
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No mock-only success, static reference trace, supplied failure flag, stale candidate or provider permission inference. Actual effects, complete scenario population and independent review remain required. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
 notes: "The exact-source live packet passed all four scenario gates. Earlier live runs 01-04 are retained privately as failed diagnostics and do not support acceptance. Independent exact-head review and CI remain pending."
 ---
@@ -86,7 +86,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 ## Validation Commands
 
-- cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (10 passed); run_issue901_provider_recovery_qualification.py live-run-06 (4/4 passed); validate-report on the portable receipt (passed); python3 -m py_compile; git diff --check; portable path and redaction scan.
+- cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (15 passed); live-run-08 (4/4 passed at source 159595ac62ec845953ada5704d0abc8c6dc1fd41); raw and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan.
 
 ## Failure Semantics
 
