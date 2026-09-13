@@ -94,7 +94,15 @@ def proxy_handler(state: ProxyState) -> type[BaseHTTPRequestHandler]:
                 "completed_at": None,
                 "upstream_status": None,
                 "upstream_error": None,
+                "request_id": None,
             }
+            if self.path == "/v1/responses":
+                try:
+                    input_text = json.loads(body).get("input", "")
+                    if isinstance(input_text, str):
+                        record["request_id"] = input_text.split(":", 1)[0]
+                except (json.JSONDecodeError, AttributeError):
+                    pass
             connection = http.client.HTTPConnection("127.0.0.1", state.upstream_port, timeout=180)
             try:
                 headers = {
@@ -118,8 +126,10 @@ def proxy_handler(state: ProxyState) -> type[BaseHTTPRequestHandler]:
             except Exception as error:  # transport outcome is evidence
                 record["upstream_error"] = type(error).__name__
                 try:
-                    self.send_error(502, "owned upstream unavailable")
-                except (BrokenPipeError, ConnectionResetError):
+                    self.close_connection = True
+                    self.connection.shutdown(socket.SHUT_RDWR)
+                    self.connection.close()
+                except OSError:
                     pass
             finally:
                 record["completed_at"] = utc_now()
@@ -263,6 +273,14 @@ def finish_adapter(process: subprocess.Popen[str], started: float, timeout: floa
 
 def result_summary(paths: dict[str, Path], returncode: int, elapsed_ms: int) -> dict[str, Any]:
     result = json.loads(paths["result"].read_text()) if paths["result"].exists() else None
+    artifacts = {}
+    for kind, path in paths.items():
+        if path.exists():
+            artifacts[kind] = {
+                "ref": path.name,
+                "sha256": sha256_file(path),
+                "bytes": path.stat().st_size,
+            }
     return {
         "request_ref": paths["request"].name,
         "result_ref": paths["result"].name if result else None,
@@ -272,10 +290,15 @@ def result_summary(paths: dict[str, Path], returncode: int, elapsed_ms: int) -> 
         "adapter_returncode": returncode,
         "wall_elapsed_ms": elapsed_ms,
         "result": result,
+        "artifacts": artifacts,
     }
 
 
-def validate_report(report: dict[str, Any]) -> list[str]:
+def is_sha256(value: Any) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(char in "0123456789abcdef" for char in value)
+
+
+def validate_report(report: dict[str, Any], artifact_root: Path | None = None) -> list[str]:
     errors: list[str] = []
     if report.get("schema") != SCHEMA:
         errors.append("schema_invalid")
@@ -286,26 +309,101 @@ def validate_report(report: dict[str, Any]) -> list[str]:
         errors.append("caller_failure_flags_not_proof")
     if report.get("reference_trace_only") is not False:
         errors.append("reference_trace_not_execution")
+
+    proxy_records = report.get("proxy_records")
+    if not isinstance(proxy_records, list):
+        proxy_records = []
+        errors.append("proxy_records_missing")
+    incarnations = report.get("provider_incarnations")
+    if not isinstance(incarnations, list):
+        incarnations = []
+        errors.append("provider_incarnations_missing")
+    incarnation_by_label = {row.get("label"): row for row in incarnations if isinstance(row, dict)}
+
     request_ids: set[str] = set()
     provider_pids: list[int] = []
     for name in SCENARIOS:
         row = scenarios[name]
-        if not row.get("generate_forwarded"):
-            errors.append(f"{name}_provider_invocation_missing")
-        if not row.get("run_log_ref"):
-            errors.append(f"{name}_execution_log_missing")
         request_id = row.get("request_id")
         if request_id != f"issue901-{name}" or request_id in request_ids:
             errors.append(f"{name}_request_identity_invalid")
         request_ids.add(request_id)
+        if not row.get("generate_forwarded"):
+            errors.append(f"{name}_provider_invocation_missing")
+        if row.get("run_log_ref") != f"{name}-adapter.jsonl":
+            errors.append(f"{name}_execution_log_missing")
+
         provider_pid = row.get("owned_provider_pid")
         if not isinstance(provider_pid, int) or provider_pid <= 0:
             errors.append(f"{name}_provider_process_identity_invalid")
         else:
             provider_pids.append(provider_pid)
+        incarnation = incarnation_by_label.get(name)
+        if not isinstance(incarnation, dict) or incarnation.get("pid") != provider_pid or not incarnation.get("started_at"):
+            errors.append(f"{name}_provider_incarnation_mismatch")
+
+        matching_proxy = [
+            record
+            for record in proxy_records
+            if isinstance(record, dict)
+            and record.get("path") == "/v1/responses"
+            and record.get("request_id") == request_id
+        ]
+        if len(matching_proxy) != 1 or not matching_proxy[0].get("forwarded_at"):
+            errors.append(f"{name}_proxy_evidence_invalid")
+
         result = row.get("result")
         if name != "interruption" and (not isinstance(result, dict) or result.get("request_id") != request_id):
             errors.append(f"{name}_result_identity_invalid")
+
+        artifacts = row.get("artifacts")
+        required = {"request", "log", "stdout", "stderr"} | ({"result"} if name != "interruption" else set())
+        if not isinstance(artifacts, dict):
+            errors.append(f"{name}_artifact_manifest_missing")
+            continue
+        for kind in required:
+            artifact = artifacts.get(kind)
+            suffix = "jsonl" if kind == "log" else "json" if kind in {"request", "result"} else "log"
+            label = "adapter" if kind == "log" else kind
+            expected_ref = f"{name}-{label}.{suffix}"
+            if (
+                not isinstance(artifact, dict)
+                or artifact.get("ref") != expected_ref
+                or not is_sha256(artifact.get("sha256"))
+                or not isinstance(artifact.get("bytes"), int)
+                or artifact["bytes"] <= 0
+            ):
+                errors.append(f"{name}_{kind}_artifact_invalid")
+                continue
+            if artifact_root is not None:
+                artifact_path = artifact_root / expected_ref
+                if (
+                    not artifact_path.is_file()
+                    or sha256_file(artifact_path) != artifact["sha256"]
+                    or artifact_path.stat().st_size != artifact["bytes"]
+                ):
+                    errors.append(f"{name}_{kind}_artifact_content_mismatch")
+        if artifact_root is not None:
+            request_path = artifact_root / f"{name}-request.json"
+            try:
+                request = json.loads(request_path.read_text())
+                if request.get("request_id") != request_id:
+                    errors.append(f"{name}_request_artifact_identity_mismatch")
+            except (OSError, json.JSONDecodeError):
+                errors.append(f"{name}_request_artifact_invalid")
+            log_path = artifact_root / f"{name}-adapter.jsonl"
+            try:
+                events = [json.loads(line) for line in log_path.read_text().splitlines() if line.strip()]
+                event_types = {event.get("event_type") for event in events}
+                if (
+                    not events
+                    or any(event.get("request_id") != request_id for event in events)
+                    or not {"run_start", "attempt_start"}.issubset(event_types)
+                ):
+                    errors.append(f"{name}_run_log_content_invalid")
+            except (OSError, json.JSONDecodeError):
+                errors.append(f"{name}_run_log_content_invalid")
+
     timeout = scenarios["timeout"]
     timeout_result = timeout.get("result") or {}
     timeout_failure = timeout_result.get("failure") or {}
@@ -319,27 +417,60 @@ def validate_report(report: dict[str, Any]) -> list[str]:
         or timeout_result["duration_ms"] < timeout_budget
     ):
         errors.append("timeout_elapsed_deadline_evidence_invalid")
+
     loss = scenarios["loss"]
-    if not isinstance(loss.get("owned_provider_returncode"), int) or loss["owned_provider_returncode"] >= 0 or (loss.get("result") or {}).get("final_status") != "failed":
+    if (
+        not isinstance(loss.get("owned_provider_returncode"), int)
+        or loss["owned_provider_returncode"] >= 0
+        or (loss.get("result") or {}).get("final_status") != "failed"
+    ):
         errors.append("actual_process_loss_invalid")
+    loss_proxy = next(
+        (record for record in proxy_records if isinstance(record, dict) and record.get("request_id") == "issue901-loss"),
+        {},
+    )
+    if loss_proxy.get("upstream_status") is not None or not loss_proxy.get("upstream_error") or not loss.get("provider_signal_sent_at"):
+        errors.append("actual_process_loss_transport_invalid")
+
     interruption = scenarios["interruption"]
     if interruption.get("adapter_returncode") != -signal.SIGTERM or interruption.get("result") is not None:
         errors.append("actual_interruption_invalid")
+    if not interruption.get("adapter_signal_sent_at"):
+        errors.append("actual_interruption_signal_missing")
+
     recovery = scenarios["recovery"]
     recovery_result = recovery.get("result") or {}
     if recovery_result.get("final_status") != "ok" or not (
         recovery_result.get("output_text") or recovery_result.get("output_text_present") is True
     ):
         errors.append("healthy_recovery_invalid")
-    if recovery.get("owned_provider_pid") in {loss.get("owned_provider_pid"), None}:
-        errors.append("stale_provider_identity_reused")
+    recovery_proxy = next(
+        (record for record in proxy_records if isinstance(record, dict) and record.get("request_id") == "issue901-recovery"),
+        {},
+    )
+    if recovery_proxy.get("upstream_status") != 200 or recovery_proxy.get("upstream_error") is not None:
+        errors.append("healthy_recovery_transport_invalid")
+
     if len(provider_pids) != 4 or len(set(provider_pids)) != 4:
         errors.append("provider_process_identity_not_unique")
-    generate_hashes = report.get("inference_request_body_sha256")
-    if not isinstance(generate_hashes, list) or len(generate_hashes) != 4 or len(set(generate_hashes)) != 4:
+    if recovery.get("owned_provider_pid") in {loss.get("owned_provider_pid"), None}:
+        errors.append("stale_provider_identity_reused")
+
+    inference_hashes = report.get("inference_request_body_sha256")
+    observed_hashes = [
+        record.get("body_sha256")
+        for record in proxy_records
+        if isinstance(record, dict) and record.get("path") == "/v1/responses"
+    ]
+    if (
+        not isinstance(inference_hashes, list)
+        or len(inference_hashes) != 4
+        or len(set(inference_hashes)) != 4
+        or any(not is_sha256(value) for value in inference_hashes)
+        or inference_hashes != observed_hashes
+    ):
         errors.append("duplicate_or_missing_provider_work")
     return errors
-
 
 def public_report(report: dict[str, Any]) -> dict[str, Any]:
     public = copy.deepcopy(report)
@@ -494,6 +625,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--public-report", type=Path)
     parser.add_argument("--validate-report", type=Path)
+    parser.add_argument("--artifact-root", type=Path)
     args = parser.parse_args()
     return args
 
@@ -502,7 +634,7 @@ def main() -> int:
     args = parse_args()
     if args.validate_report:
         report = json.loads(args.validate_report.read_text())
-        errors = validate_report(report)
+        errors = validate_report(report, args.artifact_root)
         print(json.dumps({"status": "passed" if not errors else "failed", "errors": errors}))
         return 0 if not errors else 1
     report = run(args)
