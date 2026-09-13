@@ -1,0 +1,27 @@
+{
+  "schema": "adl.pair.observed-resource-snapshot.v1",
+  "issue": 904,
+  "observed_at": "2026-09-12T00:00:00-07:00",
+  "scope": "bounded post-run residency and idle-resource snapshot; not per-request utilization telemetry",
+  "rtx3090": {
+    "gpu_memory_total_mib": 24576,
+    "gpu_memory_used_mib": 7863,
+    "gpu_utilization_percent": 0,
+    "gpu_power_draw_watts": 29.39,
+    "driver_version": "610.60",
+    "resident_model": "phi4-mini:latest",
+    "resident_model_size_vram_bytes": 6971551907,
+    "resident_context_length": 32768
+  },
+  "mac_m4_pro": {
+    "vm_page_size_bytes": 16384,
+    "pages_free": 1004392,
+    "pages_active": 1294765,
+    "pages_inactive": 1100352,
+    "pages_speculative": 192710,
+    "pages_wired": 253066,
+    "pages_compressor": 300934,
+    "resident_model_during_snapshot": "other shared workload; Phi-4 was not resident at review time"
+  },
+  "interpretation": "The RTX node retained the tested model in 7,863 MiB GPU memory after the run. The Mac snapshot confirms shared-host activity and does not reconstruct per-request utilization."
+}

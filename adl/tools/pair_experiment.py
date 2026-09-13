@@ -101,7 +101,7 @@ def validate_plan(plan):
     return digest(plan)
 
 
-def summarize(plan, packet, provider_bytes):
+def summarize(plan, packet, provider_bytes, resource_bytes):
     """Validate the complete matrix; never accept supplied success/disposition flags.
 
     Records are untrusted measurement inputs. Hashes bind their declared plan,
@@ -110,6 +110,8 @@ def summarize(plan, packet, provider_bytes):
     plan_digest = validate_plan(plan)
     require(hashlib.sha256(provider_bytes).hexdigest() == plan["provider_definition_sha256"],
             "provider_definition_changed")
+    require(resource_bytes, "missing_resource_samples")
+    resource_digest = hashlib.sha256(resource_bytes).hexdigest()
     exact_fields(packet, "schema plan_sha256 records node_events", "packet_fields")
     require(packet["schema"] == "adl.pair.measurements.v1", "packet_schema")
     require(packet["plan_sha256"] == plan_digest, "plan_changed")
@@ -138,7 +140,8 @@ def summarize(plan, packet, provider_bytes):
         require(0 < end - start <= plan["max_request_seconds"]
                 and end <= plan["max_run_seconds"], "request_bound")
         require(isinstance(row["resource_sample_sha256"], str)
-                and HEX.fullmatch(row["resource_sample_sha256"]), "resource_sample")
+                and HEX.fullmatch(row["resource_sample_sha256"])
+                and row["resource_sample_sha256"] == resource_digest, "resource_sample")
         require(row["serving_node"] in plan["nodes"] or row["serving_node"] is None,
                 "serving_node")
         if row["error"] is None:
@@ -364,6 +367,7 @@ def main(argv=None):
     parser.add_argument("--plan", type=Path, required=True)
     parser.add_argument("--measurements", type=Path, required=True)
     parser.add_argument("--provider-definitions", type=Path, required=True)
+    parser.add_argument("--resource-samples", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
         # Reject non-finite JSON values instead of letting NaN weaken comparisons.
@@ -372,7 +376,9 @@ def main(argv=None):
             return json.loads(path.read_text(), parse_constant=lambda _: (_ for _ in ()).throw(
                 InvalidExperiment("nonfinite_json")))
         require(args.provider_definitions.stat().st_size <= 32 * 1024 * 1024, "provider_size")
-        result = summarize(read(args.plan), read(args.measurements), args.provider_definitions.read_bytes())
+        require(args.resource_samples.stat().st_size <= 32 * 1024 * 1024, "resource_size")
+        result = summarize(read(args.plan), read(args.measurements),
+                           args.provider_definitions.read_bytes(), args.resource_samples.read_bytes())
     except (InvalidExperiment, ValueError, TypeError, KeyError, OSError):
         print("adl_event pair_accounting_rejected: invalid or unavailable input", file=sys.stderr)
         return 2

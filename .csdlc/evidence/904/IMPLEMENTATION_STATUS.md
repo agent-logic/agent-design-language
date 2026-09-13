@@ -6,12 +6,12 @@ The run used NVIDIA PAIR v0.1.1 on an Apple M4 Pro node and an RTX 3090 node, wi
 
 Broker attribution proves the actual topology. Healthy Phi-4 traffic selected the faster RTX node. After its PAIR process stopped and its required ports became unreachable, the next request through the unchanged endpoint completed on the Mac in 274 ms. All node-loss raw and Runtime work then ran on the Mac. After restart, the unchanged endpoint selected the RTX node again and returned the expected output in 312 ms.
 
-The result is workload sensitive. A 24-request DeepSeek-R1 8B raw comparison measured 1.92x baseline throughput at concurrency one and 3.07x at concurrency two, with work distributed over both healthy nodes. Phi-4 Mini measured 4.72x for healthy raw concurrency two, while a 5.783-second startup outlier reduced its concurrency-one result to 0.41x. The production Runtime path measured 1.48x and 1.72x end-to-end healthy throughput at concurrency one and two. After node loss, work remained correct but generally slower than direct baseline, including two roughly 10.3-second raw outliers on the shared Mac. These negative results are retained.
+The result is workload sensitive. A 24-request DeepSeek-R1 8B raw comparison measured the heterogeneous PAIR cluster at 1.92x the Mac-only baseline throughput at concurrency one and 3.07x at concurrency two, with work distributed over both healthy nodes. The heterogeneous Phi-4 cluster measured 4.72x the Mac-only baseline for healthy raw concurrency two, while a 5.783-second startup outlier reduced its concurrency-one result to 0.41x. The production Runtime path through the heterogeneous cluster measured 1.48x and 1.72x the Mac-only end-to-end healthy throughput at concurrency one and two. After node loss, work remained correct but generally slower than direct baseline, including two roughly 10.3-second raw outliers on the shared Mac. These negative results are retained.
 
 Tracked evidence:
 
 - `PLAN.json`: exact candidate, PAIR/model/provider/corpus/settings/resource bounds.
-- `RESOURCE_SAMPLES.json`: redacted hardware, engine, residency, and cost facts.
+- `RESOURCE_SAMPLES.json` and `OBSERVED_RESOURCE_SAMPLE.json`: redacted capacity, engine, residency, bounded post-run utilization, and cost facts.
 - `MEASUREMENTS.json`: complete 72-record matrix with node-event bindings.
 - `RESULTS.json`: deterministic completeness, arithmetic, failure, latency, throughput, and topology accounting.
 - `SUPPLEMENTAL_RESULTS.json`: end-to-end batch metrics, larger-model results, failure observations, and hashes of ignored private inputs.

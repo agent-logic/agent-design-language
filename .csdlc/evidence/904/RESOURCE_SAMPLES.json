@@ -35,5 +35,8 @@
     "run_timeout_seconds": 500,
     "paid_cloud_resources": false
   },
-  "sampling_note": "Both engines had the identical model digest resident with unbounded keep-alive during the bounded test window. Engine versions and default context allocation differ; Runtime sent temperature zero and a 64-token output cap but exposes no seed or context-size field in the canonical provider definition."
+  "sampling_note": "Both engines had the identical model digest resident with unbounded keep-alive during the bounded test window. Engine versions and default context allocation differ; Runtime sent temperature zero and a 64-token output cap but exposes no seed or context-size field in the canonical provider definition.",
+  "observed_resource_snapshot": ".csdlc/evidence/904/OBSERVED_RESOURCE_SAMPLE.json",
+  "observed_resource_snapshot_sha256": "581b4c6b481819f365fbc8a578cbca0cd895b7de40bbf7beb89302efa077a567",
+  "measurement_boundary": "Capacity/configuration and a bounded post-run resource snapshot are retained. No per-request power or utilization time series was collected."
 }

@@ -18,13 +18,13 @@ The raw collector used the same model, prompts, temperature, token ceiling, warm
 
 PAIR's supported broker events supplied the actual node for every PAIR and Runtime request. Healthy Phi-4 traffic selected the RTX 3090. After controlled shutdown of the remote PAIR process, all required remote ports were unreachable and the unchanged local PAIR endpoint routed to the Mac. Restart restored routing to the RTX node. The broker trace, raw responses, prompts, addresses, and host identifiers remain in ignored private evidence; tracked files retain aliases and SHA-256 bindings.
 
-A supplementary DeepSeek-R1 8B raw run completed 24 of 24 requests and exercised both healthy nodes. PAIR improved throughput by 1.92x at concurrency one and 3.07x at concurrency two. Its Runtime run failed truthfully because the model consumed the 256-token cap as reasoning and returned empty response text.
+A supplementary DeepSeek-R1 8B raw run completed 24 of 24 requests and exercised both healthy nodes. The heterogeneous PAIR cluster delivered 1.92x and 3.07x the Mac-only baseline throughput at concurrency one and two. This measures the deployment, not PAIR software alone; no same-RTX direct control was run. Its Runtime run failed truthfully because the model consumed the 256-token cap as reasoning and returned empty response text.
 
 ## Evidence boundaries
 
 `MEASUREMENTS.json` contains normalized monotonic offsets so the deterministic accounting tool can verify ordering and concurrency without publishing wall-clock or host identity. Request durations come from the actual raw client observations or PAIR broker completions. `SUPPLEMENTAL_RESULTS.json` retains end-to-end batch throughput and hashes for every ignored private input. The deterministic accounting tool validates completeness and arithmetic; it labels its output as non-qualifying because the reviewed experiment packet, rather than self-asserted input, establishes qualification.
 
-Hardware utilization was bounded through two approved already-owned nodes, declared memory/VRAM ceilings, concurrency at most two, preloaded resident models, and zero cloud spend. The run did not collect trustworthy per-request power or GPU-utilization telemetry, so it makes no efficiency claim.
+Hardware use was bounded through two approved already-owned nodes, declared memory/VRAM ceilings, concurrency at most two, preloaded resident models, and zero cloud spend. `OBSERVED_RESOURCE_SAMPLE.json` retains a bounded post-run snapshot: the RTX node held the tested model in 7,863 MiB of its 24,576 MiB VRAM and drew 29.39 W while idle; the Mac snapshot records VM page counts and shared-host activity. No per-request power or utilization time series was collected, so the experiment makes no efficiency claim.
 
 ## PVF classification
 

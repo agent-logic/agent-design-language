@@ -10,7 +10,7 @@ While both nodes were healthy, PAIR selected the RTX 3090 for all Phi-4 requests
 
 ## Performance evidence
 
-| Workload and state | Concurrency | Baseline req/s | PAIR or Runtime req/s | Ratio |
+| Workload and state | Concurrency | Mac baseline req/s | Heterogeneous PAIR-cluster req/s | Deployment ratio |
 |---|---:|---:|---:|---:|
 | DeepSeek-R1 8B, healthy, raw | 1 | 0.1226 | 0.2360 | 1.92x |
 | DeepSeek-R1 8B, healthy, raw | 2 | 0.1226 | 0.3763 | 3.07x |
@@ -23,7 +23,7 @@ While both nodes were healthy, PAIR selected the RTX 3090 for all Phi-4 requests
 | Phi-4 Mini, node loss, Runtime | 1 | 2.5837 | 1.9589 | 0.76x |
 | Phi-4 Mini, node loss, Runtime | 2 | 4.1287 | 3.2662 | 0.79x |
 
-The negative rows are retained. Phi-4 healthy raw concurrency one contains a 5.783-second startup outlier. Node-loss raw concurrency two contains 10.280-second and 10.334-second outliers on the shared Mac. Larger DeepSeek work shows the clearest multi-node gain. Runtime end-to-end batch rates include workflow overhead; `RESULTS.json` separately reports request-window accounting from per-request broker timings.
+The negative rows are retained. Phi-4 healthy raw concurrency one contains a 5.783-second startup outlier. Node-loss raw concurrency two contains 10.280-second and 10.334-second outliers on the shared Mac. The heterogeneous PAIR cluster versus Mac-only baseline shows the clearest deployment gain on larger DeepSeek work; this does not isolate router overhead from the faster RTX hardware. Runtime end-to-end batch rates include workflow overhead; `RESULTS.json` separately reports request-window accounting from per-request broker timings.
 
 ## Limits and repairs
 
