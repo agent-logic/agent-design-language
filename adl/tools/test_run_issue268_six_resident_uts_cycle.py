@@ -97,6 +97,8 @@ raise SystemExit(0 if decision=='executed' else 1)
             str(materialized_plan),
             "--ollama-url",
             "http://127.0.0.1:11435",
+            "--max-loaded-models",
+            "1",
         ]
         subprocess.run(common + ["--phase", "pre"], cwd=ROOT, check=True)
         pre = json.loads(state.read_text())

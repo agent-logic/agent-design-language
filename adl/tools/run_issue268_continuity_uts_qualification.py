@@ -128,6 +128,7 @@ def main() -> int:
     parser.add_argument("--context-tokens", type=int, default=32768)
     parser.add_argument("--num-predict", type=int, default=128)
     parser.add_argument("--temperature", type=float, default=0)
+    parser.add_argument("--max-loaded-models", type=int, default=3)
     parser.add_argument("--build-cache-root", required=True, type=pathlib.Path)
     parser.add_argument("--agent-spec-dir", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-volume-identity-sha256", required=True)
@@ -218,6 +219,8 @@ def main() -> int:
         str(args.num_predict),
         "--temperature",
         str(args.temperature),
+        "--max-loaded-models",
+        str(args.max_loaded_models),
     ]
     if not args.resume_after_pre:
         run(uts_command + ["--phase", "pre"])

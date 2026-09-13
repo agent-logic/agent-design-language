@@ -266,6 +266,7 @@ def validate_configuration_contract(
     context_tokens: int,
     num_predict: int,
     temperature: float,
+    max_loaded_models: int,
 ) -> None:
     expected_contract = {
         "context_tokens": context_tokens,
@@ -273,12 +274,12 @@ def validate_configuration_contract(
         "gpu_placement": "ollama_server_default",
         "temperature": temperature,
         "max_concurrent_inference": 1,
-        "max_loaded_models": 1,
+        "max_loaded_models": max_loaded_models,
     }
     if (plan.get("materialization") or {}).get("configuration_contract") != expected_contract:
         raise SystemExit("materialized plan configuration does not match the requested qualification envelope")
-    if (plan.get("host") or {}).get("max_loaded_models") != 1:
-        raise SystemExit("qualification requires exactly one loaded model")
+    if (plan.get("host") or {}).get("max_loaded_models") != max_loaded_models:
+        raise SystemExit("materialized plan loaded-model limit does not match the requested qualification envelope")
     for resident in residents:
         model = resident.get("model")
         configuration = {
@@ -307,6 +308,7 @@ def main() -> int:
     parser.add_argument("--context-tokens", type=int, default=32768)
     parser.add_argument("--num-predict", type=int, default=128)
     parser.add_argument("--temperature", type=float, default=0)
+    parser.add_argument("--max-loaded-models", type=int, default=3)
     parser.add_argument("--task-panel", type=pathlib.Path, default=DEFAULT_TASK_PANEL)
     parser.add_argument("--restore-receipt", type=pathlib.Path)
     parser.add_argument("--restored-population-root", type=pathlib.Path)
@@ -317,6 +319,8 @@ def main() -> int:
         raise SystemExit("num-predict must be between 1 and 32768")
     if not 0 <= args.temperature <= 2:
         raise SystemExit("temperature must be between 0 and 2")
+    if args.max_loaded_models < 1:
+        raise SystemExit("max-loaded-models must be at least 1")
     ollama_url = loopback_ollama_url(args.ollama_url)
     if not args.runtime_bin.is_file():
         raise SystemExit("real Runtime binary is required")
@@ -334,7 +338,14 @@ def main() -> int:
     residents = plan.get("residents") or []
     if len(residents) != 6 or len({row["agent_id"] for row in residents}) != 6:
         raise SystemExit("six distinct residents are required")
-    validate_configuration_contract(plan, residents, args.context_tokens, args.num_predict, args.temperature)
+    validate_configuration_contract(
+        plan,
+        residents,
+        args.context_tokens,
+        args.num_predict,
+        args.temperature,
+        args.max_loaded_models,
+    )
     runtime_root = args.runtime_root.resolve()
     if args.phase == "pre":
         if args.state.exists():

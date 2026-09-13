@@ -29,6 +29,7 @@ if a[1:3]==['agent','status']:
  spec=pathlib.Path(a[a.index('--spec')+1]); locked=spec.parent/'state'/'agent_spec.locked.json'
  assert json.load(open(spec))==json.load(open(locked)); print(json.dumps({'state':'idle'})); raise SystemExit(0)
 state=pathlib.Path(a[a.index('--state')+1]); evidence=pathlib.Path(a[a.index('--evidence-dir')+1]); plan=json.load(open(a[a.index('--plan')+1])); phase=a[a.index('--phase')+1]; evidence.mkdir(parents=True,exist_ok=True)
+assert a[a.index('--max-loaded-models')+1]=='3'
 if phase=='pre':
  import hashlib
  digest=lambda x:hashlib.sha256(json.dumps(x,separators=(',',':'),sort_keys=True).encode()).hexdigest()
