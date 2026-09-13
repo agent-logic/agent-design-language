@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/904/cards/sip.md"
   - ".csdlc/issues/904/cards/vpp.md"
 review_results:
-  findings_status: "addressed_pending_rereview"
+  findings_status: "addressed_pending_final_rereview"
   recommended_outcome: "pending"
-notes: "Independent exact-head review at 83632e9c found one P1 and four P2 findings: stale SRP/SOR truth, ignored-only provider bytes, unbound resource digest, hardware-confounded performance wording and missing observed resource sample. Repairs are committed at ac3e74d097cb98aae9b0468fcd00c76674ee6f22; renewed exact-head review is required."
+notes: "Independent review verified the five first-round repairs at 8a60b072c. It then found stale 18-test and unknown metrics-source fields plus a synthetic exact snapshot timestamp. Evidence commit 03732162bebdb6567489b7c1aa8a0e239cac4243 and this native card edit correct those remaining findings. Final exact-head review is pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- P1 stale lifecycle truth; P2 nonportable replay; P2 unbound resource evidence; P2 hardware-confounded wording; P2 missing observed resource measurement.
+- First review: one P1 and four P2 evidence/portability/accounting/wording/resource findings. Second review: two P2 stale SOR metric fields and synthetic exact resource timestamp.
 
 ### Dispositions
 
-- Tracked byte-identical safe provider sidecar; added required resource input and exact digest verification plus regression; relabeled results as heterogeneous cluster versus Mac-only deployment; retained bounded observed post-run resource snapshot; refreshed SOR truth. No production provider behavior changed.
+- All findings addressed: tracked sidecar; required exact resource digest and regression; heterogeneous-deployment wording; bounded observed resource snapshot; current two-node lifecycle truth; 19-test count; tracked metric-source references; unknown exact snapshot time stated explicitly.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent exact-head review at 83632e9c found one P1 and four P2 findings: stale SRP/SOR truth, ignored-only provider bytes, unbound resource digest, hardware-confounded performance wording and missing observed resource sample. Repairs are committed at ac3e74d097cb98aae9b0468fcd00c76674ee6f22; renewed exact-head review is required.
+Independent review verified the five first-round repairs at 8a60b072c. It then found stale 18-test and unknown metrics-source fields plus a synthetic exact snapshot timestamp. Evidence commit 03732162bebdb6567489b7c1aa8a0e239cac4243 and this native card edit correct those remaining findings. Final exact-head review is pending.

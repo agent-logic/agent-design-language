@@ -29,7 +29,7 @@ Execution:
 - Model: `phi4-mini:latest; manifest sha256 78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753; model blob sha256 3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db; MIT license`
 - Provider: `ollama through NVIDIA PAIR v0.1.1 loopback proxy and canonical provider reload sidecar`
 - Start Time: `unknown; implementation began under active child goal`
-- End Time: `implementation and first review repairs complete; renewed review and CI pending`
+- End Time: `implementation and two review repair rounds complete; final review and CI pending`
 
 ## Summary
 
@@ -53,11 +53,11 @@ PAIR works as a two-node request router. Decision REPAIR: the heterogeneous PAIR
 - Actual PR wait seconds: `unknown`
 - Actual CI wait seconds: `unknown`
 - Budget source: `No operator issue token budget assigned; VPP estimates are planning only`
-- Goal metrics data source: `unknown`
-- Goal metrics source ref: `unknown`
-- Data-source confidence: `unknown`
+- Goal metrics data source: `Tracked #904 plan, complete measurement matrix, deterministic results, supplemental end-to-end batch metrics and bounded observed resource snapshot.`
+- Goal metrics source ref: `.csdlc/evidence/904/PLAN.json; .csdlc/evidence/904/MEASUREMENTS.json; .csdlc/evidence/904/RESULTS.json; .csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json; .csdlc/evidence/904/OBSERVED_RESOURCE_SAMPLE.json`
+- Data-source confidence: `Measured bounded local experiment; workload- and hardware-specific, with no same-RTX direct control and no per-request utilization series.`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_renewed_review_pending`
+- Completion state: `implementation_complete_final_review_pending`
 - Issue goal ref: `Sprint #932 child #904 active implementation goal`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/904/goal-metrics.json (planned, absent until execution)`
@@ -110,7 +110,7 @@ Rules:
   - `python3 adl/tools/test_pair_experiment.py; python3 adl/tools/pair_experiment.py --plan .csdlc/evidence/904/PLAN.json --measurements .csdlc/evidence/904/MEASUREMENTS.json --provider-definitions .csdlc/evidence/904/providers.yaml --resource-samples .csdlc/evidence/904/RESOURCE_SAMPLES.json; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
     `Complete local two-node PAIR/Runtime qualification and deterministic replay established; independent renewed review and hosted CI remain pending.`
 - Results:
-  - `19 deterministic Python tests passed, including valid-but-wrong resource digest rejection; the complete 72-request accounting replay is byte-identical from tracked inputs; one exact Rust workflow-shape test passed; strict Clippy, JSON parsing and diff checks passed. Four actual Runtime receipts passed 24 of 24 outputs across healthy and node-loss states. Raw baseline/PAIR runs passed 48 of 48 Phi-4 outputs. Broker attribution proved healthy RTX selection, Mac failover and RTX recovery. First exact-head findings are repaired; renewed review and CI remain pending.`
+  - `19 deterministic Python tests passed, including valid-but-wrong resource digest rejection; the complete 72-request accounting replay is byte-identical from tracked inputs; one exact Rust workflow-shape test passed; strict Clippy, JSON parsing and diff checks passed. Four actual Runtime receipts passed 24 of 24 outputs across healthy and node-loss states. Raw baseline/PAIR runs passed 48 of 48 Phi-4 outputs. Broker attribution proved healthy RTX selection, Mac failover and RTX recovery. Two review rounds found evidence-truth issues that are repaired; final renewed exact-head review and CI remain pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -136,7 +136,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: complete_local_experiment_packet_first_review_findings_repaired
+    status: complete_local_experiment_packet_second_review_findings_repaired
     required_artifacts_present: yes; review and CI are lifecycle gates rather than missing experiment artifacts
     schema_changes:
       present: not_run
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `18 Python tests including failover topology, concurrency, drift, incorrect output, failure, resource bound, collector deadline/body cap and CLI redaction cases`
+- Determinism tests executed: `19 Python tests including failover topology, valid-but-wrong resource digest rejection, concurrency, drift, incorrect output, failure, resource bound, collector deadline/body cap and CLI redaction cases`
 - Fixtures or scripts used: `Deterministic Python accounting; production Rust Runtime live gate; official signed PAIR v0.1.1 Mac and Windows binaries; two exact-output prompts; three repetitions at concurrency 1 and 2; actual remote-node shutdown and restart`
 - Replay verification (same inputs -> same artifacts/order): `Same plan, measurements and provider bytes reproduce the tracked accounting result`
 - Ordering guarantees (sorting / tie-break rules used): `Matrix identities are unique and complete; normalized monotonic offsets preserve observed batch concurrency and node-loss ordering; summaries iterate fixed route/scenario/concurrency order`
