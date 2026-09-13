@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/901/cards/spp.md"
 selected_lanes:
-  - "provider; task-owned local production-adapter execution plus deterministic evidence-integrity negatives; required issue gate; runs pending"
+  - "provider; task-owned local production-adapter execution plus deterministic evidence-integrity negatives; required local issue gate passed; independent exact-head review and CI pending"
 parallel_groups:
   - "Serialize task-owned live fault scenarios; deterministic negative fixtures may run separately after harness implementation"
 validation_commands:
-  - "cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (15 passed); live-run-08 (4/4 passed at source 159595ac62ec845953ada5704d0abc8c6dc1fd41); raw and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan."
+  - "cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (19 passed); live-run-09 (4/4 passed at source c6651bb59fc117f10abc9e613d0042f567759ee8); raw observation-bound and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan."
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No mock-only success, static reference trace, supplied failure flag, stale candidate or provider permission inference. Actual effects, complete scenario population and independent review remain required. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
-notes: "The exact-source live packet passed all four scenario gates. Earlier live runs 01-04 are retained privately as failed diagnostics and do not support acceptance. Independent exact-head review and CI remain pending."
+notes: "Live-run-09 passed all four scenario gates at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The raw validator binds process, proxy and scenario summaries to a separately hashed execution-observation artifact and binds result summaries to raw result JSON. Earlier failed and superseded live runs remain private and do not support acceptance. Independent exact-head review and CI remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -61,7 +61,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 ## Selected Validation Lanes
 
-- provider; task-owned local production-adapter execution plus deterministic evidence-integrity negatives; required issue gate; runs pending
+- provider; task-owned local production-adapter execution plus deterministic evidence-integrity negatives; required local issue gate passed; independent exact-head review and CI pending
 
 ## Parallelization Plan
 
@@ -86,7 +86,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 ## Validation Commands
 
-- cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (15 passed); live-run-08 (4/4 passed at source 159595ac62ec845953ada5704d0abc8c6dc1fd41); raw and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan.
+- cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (19 passed); live-run-09 (4/4 passed at source c6651bb59fc117f10abc9e613d0042f567759ee8); raw observation-bound and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan.
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-The exact-source live packet passed all four scenario gates. Earlier live runs 01-04 are retained privately as failed diagnostics and do not support acceptance. Independent exact-head review and CI remain pending.
+Live-run-09 passed all four scenario gates at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The raw validator binds process, proxy and scenario summaries to a separately hashed execution-observation artifact and binds result summaries to raw result JSON. Earlier failed and superseded live runs remain private and do not support acceptance. Independent exact-head review and CI remain pending.

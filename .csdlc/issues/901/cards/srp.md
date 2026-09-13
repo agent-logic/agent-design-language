@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "pending"
   recommended_outcome: "pending independent exact-head review"
-notes: "Review exact head after live-run-08 and the committed harness, validator, portable receipt, exact source 159595ac62ec845953ada5704d0abc8c6dc1fd41 execution relationship, all four scenario identities, artifact hashes and raw packet. Verify the prior synthetic-502 and summary-only validation findings are fixed, #851 paths remain excluded, the portable report is redacted, and all 15 negative fixtures pass."
+notes: "Review exact head after live-run-09 and the committed harness, validator, portable receipt, exact source c6651bb59fc117f10abc9e613d0042f567759ee8 execution relationship, all four scenario identities, result artifacts and the separately hashed execution-observation artifact. Verify all prior findings are fixed, coordinated summary tampering fails, #851 paths remain excluded, the portable report is redacted, and all 19 negative fixtures pass."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Review exact head after live-run-08 and the committed harness, validator, portable receipt, exact source 159595ac62ec845953ada5704d0abc8c6dc1fd41 execution relationship, all four scenario identities, artifact hashes and raw packet. Verify the prior synthetic-502 and summary-only validation findings are fixed, #851 paths remain excluded, the portable report is redacted, and all 15 negative fixtures pass.
+Review exact head after live-run-09 and the committed harness, validator, portable receipt, exact source c6651bb59fc117f10abc9e613d0042f567759ee8 execution relationship, all four scenario identities, result artifacts and the separately hashed execution-observation artifact. Verify all prior findings are fixed, coordinated summary tampering fails, #851 paths remain excluded, the portable report is redacted, and all 19 negative fixtures pass.

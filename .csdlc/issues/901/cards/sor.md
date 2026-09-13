@@ -29,11 +29,11 @@ Execution:
 - Model: `gemma:2b artifact sha256:c1864a5eb19305c40519da12cc543519e48a0697ecd30e15d5ac228644957d12`
 - Provider: `task-owned local llama-server through production OpenAI-compatible adl-provider-adapter route`
 - Start Time: `2026-09-13T01:12:05.040590+00:00`
-- End Time: `2026-09-13T01:24:47.636249+00:00`
+- End Time: `2026-09-13T01:33:04.698149+00:00`
 
 ## Summary
 
-Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live-run-08 passed 4/4 at source 159595ac62ec845953ada5704d0abc8c6dc1fd41; independent exact-head review, CI, PR, merge, and closeout remain pending.
+Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live-run-08 passed 4/4 at source c6651bb59fc117f10abc9e613d0042f567759ee8; independent exact-head review, CI, PR, merge, and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -53,7 +53,7 @@ Implemented and executed real task-owned provider loss, timeout, interruption, a
 - Actual PR wait seconds: `unknown`
 - Actual CI wait seconds: `unknown`
 - Budget source: `No operator issue token budget assigned; VPP estimates are planning only`
-- Goal metrics data source: `live-run-08 portable receipt and local command results`
+- Goal metrics data source: `live-run-09 portable receipt and local command results`
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `high for recorded local run`
 - Estimate error percent: `unknown`
@@ -76,12 +76,12 @@ Implemented and executed real task-owned provider loss, timeout, interruption, a
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/901/cards/sor.md`
 - Tracked implementation artifacts: `adl/tools/run_issue901_provider_recovery_qualification.py; adl/tools/test_run_issue901_provider_recovery_qualification.py; docs/milestones/v0.92.2/evidence/qual-provider-901/README.md; qualification-report.json`
-- Additional proof artifacts: `.csdlc/evidence/901/live-run-08 raw private packet; earlier failed and superseded packets retained privately`
+- Additional proof artifacts: `.csdlc/evidence/901/live-run-09 raw private packet; earlier failed and superseded packets retained privately`
 
 ## Actions taken
-- `Built and invoked the exact production adl-provider-adapter binary from source 159595ac62ec845953ada5704d0abc8c6dc1fd41`
+- `Built and invoked the exact production adl-provider-adapter binary from source c6651bb59fc117f10abc9e613d0042f567759ee8`
 - `Executed distinct task-owned provider loss, 150 ms timeout, adapter interruption, and fresh-PID recovery scenarios`
-- `Validated the raw artifact packet, portable receipt, 15 deterministic evidence-integrity cases, 51 focused Rust tests, formatting and diff hygiene; independent exact-head review remains pending`
+- `Validated the raw artifact packet, observation and result bindings, portable receipt, 19 deterministic evidence-integrity cases, 51 focused Rust tests, formatting and diff hygiene; independent exact-head review remains pending`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch only`
@@ -107,7 +107,7 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo build; 51-test focused Rust provider-adapter suite; 15-test Python validator suite; live-run-08 4/4; raw and portable validate-report; cargo fmt --check; py_compile; git diff --check; path/redaction scan`
+  - `cargo build; 51-test focused Rust provider-adapter suite; 19-test Python validator suite; live-run-09 4/4; raw observation-bound and portable validate-report; cargo fmt --check; py_compile; git diff --check; path/redaction scan`
     `Proves actual provider invocation reached the task-owned process before each fault and successful distinct work completed on a fresh provider PID`
 - Results:
   - `passed locally; independent exact-head review and CI pending`
@@ -127,7 +127,7 @@ verification_summary:
     checks_run:
       - "passed: raw and portable validator reports contain no errors"
   determinism:
-    status: 15/15 negative validator cases passed
+    status: 19/19 negative validator cases passed
     replay_verified: passed
     ordering_guarantees_verified: passed
   security_privacy:
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `15/15 evidence-integrity tests passed`
+- Determinism tests executed: `19/19 evidence-integrity tests passed, including coordinated process/proxy/result summary tampering`
 - Fixtures or scripts used: `run_issue901_provider_recovery_qualification.py; test_run_issue901_provider_recovery_qualification.py`
 - Replay verification (same inputs -> same artifacts/order): `portable validate-report passed`
 - Ordering guarantees (sorting / tie-break rules used): `loss, timeout, interruption, and recovery serialized; recovery used a new provider PID; four request body digests are unique`
-- Artifact stability notes: `Portable report binds artifact refs, byte sizes and SHA-256 digests; raw validator re-hashes each live-run-08 artifact.`
+- Artifact stability notes: `Portable report binds artifact refs, byte sizes and SHA-256 digests; raw validation re-hashes every live-run-09 artifact, compares result summaries to raw result JSON, and compares process/proxy/scenario claims to the separately hashed execution-observations.json artifact.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `performed; no credential values or prompt/output text in portable receipt`
@@ -157,10 +157,10 @@ verification_summary:
 - Sandbox / policy invariants preserved: `only task-owned process groups and dynamic loopback ports used; #851 and shared Ollama service untouched`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/901/live-run-08 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json (portable)`
-- Run artifact root: `.csdlc/evidence/901/live-run-08 (private)`
+- Trace bundle path(s): `.csdlc/evidence/901/live-run-09 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json (portable)`
+- Run artifact root: `.csdlc/evidence/901/live-run-09 (private)`
 - Replay command used for verification: `documented runner invocation with exact adapter/provider/model inputs; output directory must be new`
-- Replay result: `live-run-08 passed 4/4`
+- Replay result: `live-run-09 passed 4/4`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json`
