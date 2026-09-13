@@ -25,24 +25,24 @@ Status: implemented
 Generated: 2026-09-12T00:15:07.665153+00:00
 
 Execution:
-- Actor: `unassigned implementation owner`
+- Actor: `worker-9`
 - Model: `llama3.1:8b, qwen3:8b, phi4-mini:latest with exact Q4 artifact digests`
-- Provider: `task-owned local Ollama HTTP on operator-approved Apple M4 Pro profile`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Provider: `task-owned local Ollama HTTP on operator-approved Apple M4 Pro profile with CPU placement forced after a non-proving Metal initialization failure`
+- Start Time: `2026-09-13T00:28:34.875506Z`
+- End Time: `2026-09-13T00:31:53.846734Z`
 
 ## Summary
 
-Executed six distinct production Runtime/Ollama resident workloads before and after signed continuity restore, denied all six completed-case replays, and rejected six isolated restore-integrity negatives without reopening admission or creating restored work.
+Executed six distinct production Runtime/Ollama resident workloads before and after signed local continuity restore, denied all six completed-case replays, and rejected seven isolated restore-integrity negatives without reopening admission or creating restored work.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
 - Final PVF lane: `runtime plus runtime_provider_qualification`
-- Lane change reason: `not_run; implementation has not started`
+- Lane change reason: `Actual acceptance required the runtime_provider_qualification lane in addition to the planned runtime lane.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `bounded local serial real-provider qualification plus focused deterministic contract tests`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -76,21 +76,21 @@ Executed six distinct production Runtime/Ollama resident workloads before and af
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/900/cards/sor.md`
 - Tracked implementation artifacts: `continuity stale-generation guard and regression; bounded harness configuration/preflight/resume repairs; negative runner; sanitized qualification packet`
-- Additional proof artifacts: `issue-local attempt-09 receipt sha256=15ec3e3a1d0c7dd7a605d271565f651b105f969b6de7fbb80ddb9cc4f05932b4; negative summary sha256=96427d6d0f66ce809f531b47ee60d8dc563339c2adf3f71fb781a11c5470ce18`
+- Additional proof artifacts: `issue-local attempt-11 receipt sha256=20aa602d08c54610705ea4e7400393fe34349267bb3d2a11b97cacf1180d4e2e; negative summary sha256=e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4`
 
 ## Actions taken
 - `Ran six production Runtime/Ollama residents serially before signed dehydration.`
 - `Restored generation 1, denied six completed-case replays, and executed six distinct pending workloads.`
-- `Found and fixed stale receipt generation acceptance, then passed all six isolated negative scenarios.`
+- `Found and fixed stale receipt generation acceptance, bound provider and producer identities, then passed all seven isolated negative scenarios.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
-- Worktree-only paths remaining: `candidate branch and issue-local private evidence; publication pending`
+- Worktree-only paths remaining: `candidate branch and issue-local private attempt-11 evidence; publication pending`
 - Integration state: `worktree_only`
-- Verification scope: `Six roles, 12 distinct task IDs, exact model/artifact/configuration identities, ACC/UTS receipts and lineage, signed dehydration/restore/continuation, replay denial and six isolated integrity negatives.`
-- Integration method used: `not_run; implementation has not started`
+- Verification scope: `Six roles, 12 distinct task IDs, exact provider/model/artifact/configuration identities, actual provider result and ACC effect hashes, exact producer/binary identities, signed dehydration/restore/continuation, replay denial and seven isolated integrity negatives.`
+- Integration method used: `issue-bound branch and FastWork worktree; draft PR publication pending`
 - Verification performed:
-  - `focused Python contracts; exact Rust continuity test; production attempt-09; six-case negative runner`
+  - `three focused Python harness tests; six filtered Rust continuity tests; production attempt-11; seven-case negative runner; public JSON and secret/path scan; cargo fmt --check; git diff --check`
     `Local candidate behavior and retained evidence agree; remote CI and merge remain pending.`
 - Result: `Implemented and locally qualified in the bound #900 worktree; exact-head review, CI, publication and merge are not yet claimed.`
 
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `Proves six distinct role-bound workloads execute and resume through production signed continuity, completed work does not replay, and signature, payload, omission, configuration, lineage and stale-generation corruption fail before admission.`
+  - `python3 focused harness tests; cargo test --lib resident_shepherd_spot_continuity::tests::; production attempt-11; run_issue900_continuity_negatives.py; cargo fmt --check; git diff --check`
+    `Proves six distinct role-bound provider workloads execute and resume through production signed local continuity, completed work does not replay, and signature, payload, omission, provider, configuration, lineage and stale-generation corruption fail before admission.`
 - Results:
-  - `Local positive qualification and six production-state negative scenarios passed; focused Python contracts, exact Rust stale-generation regression, Rust formatting and diff hygiene passed; CI and exact-head review pending.`
+  - `Local positive qualification and seven production-state negative scenarios passed; three focused Python contracts, six Rust continuity tests, Rust formatting, public evidence scan, and diff hygiene passed; CI and refreshed exact-head review pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,15 +123,15 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: passed_local_pending_ci_and_refreshed_review
     checks_run:
-      - "not_run"
+      - "passed: three focused Python harness tests, six Rust continuity tests, production attempt-11, seven negatives, public JSON/secret/path scan, formatting and diff hygiene"
   determinism:
     status: Deterministic local contract and integrity negatives passed; bounded real-model production qualification passed with pinned artifacts and temperature zero.
     replay_verified: passed: six completed cases denied and only six distinct pending cases resumed
     ordering_guarantees_verified: passed
   security_privacy:
-    status: passed for public packet: machine-local operational evidence remains issue-local and public references contain hashes and sanitized summaries
+    status: passed for the public packet: machine-local operational evidence remains private and the public secret/path scan found no matches
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false in public packet
@@ -139,38 +139,38 @@ verification_summary:
     status: passed locally
     required_artifacts_present: passed
     schema_changes:
-      present: not_run
-      approved: not_run
+      present: yes: resident continuity bindings now include provider_id and qualification receipts include provider and producer hashes
+      approved: pending refreshed independent exact-head review
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Three Python harness contracts plus exact Rust signed_restore_validates_exact_models_before_admission regression and six isolated production-state negatives.`
+- Determinism tests executed: `Three Python harness contracts, six Rust continuity tests, one bounded real-provider positive cycle, and seven isolated production-state negatives.`
 - Fixtures or scripts used: `materialize_issue268_ollama_plan.py; run_issue268_six_resident_uts_cycle.py; run_issue268_continuity_uts_qualification.py; run_issue900_continuity_negatives.py`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
+- Replay verification (same inputs -> same artifacts/order): `passed: six completed cases denied and only the six distinct pending cases executed after restore`
 - Ordering guarantees (sorting / tie-break rules used): `Positive qualification completed before negative mutation; each negative used its own isolated copy with admission closed before mutation.`
-- Artifact stability notes: `Public hashes bind retained attempt-09 artifacts; substantive changes require fresh validation and review.`
+- Artifact stability notes: `Public hashes bind retained attempt-11 artifacts produced from source revision e9fe1adf7b768dfd5fef234446d7db6cdfbaf37a; substantive changes require fresh validation and review.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
+- Secret leakage scan performed: `passed on public README and JSON packet`
+- Prompt / tool argument redaction verified: `passed for public packet; operational arguments remain only in private issue-local evidence`
 - Absolute path leakage check: `Public README and JSON inspected; private issue-local evidence retains machine paths by design.`
 - Sandbox / policy invariants preserved: `No downloads, hosted calls, AWS mutations, paid calls, shared-service changes or broad process termination.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
-- Run artifact root: `.csdlc/evidence/900/attempt-09`
-- Replay command used for verification: `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/900/attempt-11/continuity-uts and .csdlc/evidence/900/attempt-11/runtime-state`
+- Run artifact root: `.csdlc/evidence/900/attempt-11`
+- Replay command used for verification: `run_issue268_continuity_uts_qualification.py --resume-after-pre for the reviewed pre-state, followed by run_issue900_continuity_negatives.py against the completed attempt-11 state`
 - Replay result: `six of six completed-case replays denied`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-resident-900/validation.json`
-- Required artifacts present: `yes: public summary, PVF test manifest, retained positive receipt and six-case negative summary`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
+- Required artifacts present: `yes: public summary, PVF test manifest, retained positive receipt and seven-case negative summary`
+- Artifact schema/version checks: `passed: both public JSON documents parse and native card validation is required after this edit`
+- Hash/byte-stability checks: `passed: public hashes recomputed from attempt-11 files after the final positive and negative runs`
 - Missing/optional artifacts and rationale: `Remote r7i capacity and performance were not claimed because the operator authorized a bounded local substitute.`
 
 ## Decisions / Deviations
-- `Used operator-approved local Mac profile and loopback port 11436 because 11435 was occupied by a shared service; no shared process was changed.`
+- `Used operator-approved local Mac profile and loopback port 11436 because 11435 was occupied by a shared service; after a non-proving Metal command-queue failure, forced CPU placement without changing the shared process.`
 - `Qwen thinking is recorded as Ollama server default; issue #970 owns provider-level inference parameter execution and observability.`
 
 ## Follow-ups / Deferred work

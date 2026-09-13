@@ -12,6 +12,7 @@
     "temperature": 0,
     "max_loaded_models": 1,
     "max_parallel_requests": 1,
+    "gpu_placement": "cpu_forced_llama_arg_device_none",
     "existing_model_blobs_only": true,
     "task_owned_service_stopped": true,
     "remote_or_paid_calls": 0
@@ -26,20 +27,26 @@
     "pending_case_count": 0,
     "continuity_generation": 1,
     "continuation_verified": true,
-    "signed_population_sha256": "7ef7ce9d7c9dbfc2c4d299f2bad3b756498157205b2671fad66d0eaae1a11314",
-    "materialized_plan_sha256": "d5a86386eff2b2d98f587dfab1184b3e382551a8119edf279d4abcca2911a4fb",
-    "completed_uts_state_sha256": "647bda67b27b640da34e5466f2518a334128729365a6300059208baf2bfe550a",
-    "dehydration_receipt_sha256": "84b7356d9015faec358e4e86e573774ed33a2bd1263e0dbffb1421fb0bc793b1",
-    "restore_receipt_sha256": "0de7268aa2116b0b6e574d985cb90c02bb32dc283a1ed1732a98d0f2872d908c",
-    "completion_receipt_sha256": "f322ca6885d453777fb2a8970bd8b0bc790a83e9f9aa5bdb2b212a2416f3a742",
-    "private_qualification_receipt_sha256": "15ec3e3a1d0c7dd7a605d271565f651b105f969b6de7fbb80ddb9cc4f05932b4"
+    "signed_population_sha256": "a9b09591c552ee0283eb209ce5c9793b9b6203b132fdcf614be1e53c540319c2",
+    "materialized_plan_sha256": "7d66aa9b9060406c7a696c675c97199425138aca6211c937248ab46ee3281533",
+    "completed_uts_state_sha256": "bea40b97f8d58d31a06dcaf4a96874c5c52c4d2d5389ba17875248d1494e2801",
+    "dehydration_receipt_sha256": "26629fa58fdeba272bd344113b9e62babb9383626df58c9e2383b0654c80d67b",
+    "restore_receipt_sha256": "7577270bbeef126c9265ab4354025f5f10d2e05933b162279845d1dd547d5f80",
+    "completion_receipt_sha256": "d986d2f858b529c679ea3ec9cddd7a8c6ff9684aaed24c19b489154ebb8fd22b",
+    "private_qualification_receipt_sha256": "20aa602d08c54610705ea4e7400393fe34349267bb3d2a11b97cacf1180d4e2e",
+    "producer_source_revision": "e9fe1adf7b768dfd5fef234446d7db6cdfbaf37a",
+    "runtime_binary_sha256": "69d5978a4a20b2fb08c37b97041c1edc44091fdaa3fbfc030dd41d3582da05fb",
+    "csm_binary_sha256": "fcf023ad8283b7eb46e21f2673c11d46516062a21eccc9382b0f27cb8006825b",
+    "provider_id": "local_ollama",
+    "provider_results_and_effects_bound": true
   },
   "negative": {
-    "scenario_count": 6,
+    "scenario_count": 7,
     "scenarios": [
       "changed_signature",
       "changed_payload",
       "removed_resident",
+      "substituted_provider",
       "substituted_configuration",
       "substituted_lineage",
       "stale_snapshot"
@@ -47,7 +54,7 @@
     "all_restore_denied": true,
     "all_admission_closed_after": true,
     "all_no_inappropriate_effect": true,
-    "private_summary_sha256": "96427d6d0f66ce809f531b47ee60d8dc563339c2adf3f71fb781a11c5470ce18"
+    "private_summary_sha256": "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4"
   },
   "limitations": [
     "The local substitute does not establish r7i.2xlarge capacity or remote-host performance.",

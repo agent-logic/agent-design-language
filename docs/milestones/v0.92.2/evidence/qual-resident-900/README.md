@@ -8,7 +8,8 @@ denials, two checkpoint lineages per resident, an empty pending set, and a
 verified generation-1 continuation.
 
 The operator authorized a bounded local Mac substitute for the planned remote
-profile: Apple M4 Pro, 64 GiB memory, Metal, one loaded model, one request at a
+profile: Apple M4 Pro, 64 GiB memory, CPU execution forced with
+`LLAMA_ARG_DEVICE=none`, one loaded model, one request at a
 time, 32,768 context tokens, 1,024 maximum output tokens, temperature 0, and
 existing model blobs only. The task-owned Ollama service used loopback port
 11436 because the proposed port 11435 was already occupied by a shared service.
@@ -27,18 +28,22 @@ the current provider adapter does not transmit an explicit thinking control.
 Issue #970 owns the provider redesign needed to make every declared inference
 parameter executable and observable.
 
-Six isolated production-state copies exercised changed signature, changed
-payload, removed resident, substituted configuration, substituted lineage, and
-stale snapshot. The first five were rejected by existing signature, integrity,
+Seven isolated production-state copies exercised changed signature, changed
+payload, removed resident, substituted provider, substituted configuration,
+substituted lineage, and stale snapshot. The first six were rejected by existing signature, integrity,
 and exact-binding checks. The stale snapshot initially reopened admission,
 revealing that restore did not compare the recovered signed generation with the
 dehydration receipt generation. The candidate adds that exact comparison. The
-final six-case rerun rejected every scenario before restored work, kept
+final seven-case rerun rejected every scenario before restored work, kept
 admission closed, preserved the active-population pointer, and created no new
 restored generation.
 
 Public evidence is summarized in `validation.json` and `test-manifest.json`.
+The qualification receipt also binds the `local_ollama` provider, each actual
+provider status/result and ACC effect receipt, Runtime and CSM binary hashes,
+and producer source revision `e9fe1adf7b768dfd5fef234446d7db6cdfbaf37a`.
+
 Detailed run data is retained under the issue-local
-`.csdlc/evidence/900/attempt-09/` tree and is intentionally excluded from the
+`.csdlc/evidence/900/attempt-11/` tree and is intentionally excluded from the
 public packet because it contains machine-local paths and operational detail.
 The public hashes bind those retained artifacts without publishing them.

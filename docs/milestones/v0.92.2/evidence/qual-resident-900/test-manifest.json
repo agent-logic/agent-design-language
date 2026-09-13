@@ -23,11 +23,11 @@
       "lane": "runtime_provider_qualification",
       "proof_role": "resident_execution",
       "determinism": "bounded real-model execution with pinned artifacts and temperature zero",
-      "resource_profile": "operator-approved local Apple M4 Pro, Metal, 64 GiB, serial Ollama",
+      "resource_profile": "operator-approved local Apple M4 Pro, forced CPU, 64 GiB, serial Ollama",
       "release_gate": "required_issue_qualification"
     },
     {
-      "name": "six production signed-restore negatives",
+      "name": "seven production signed-restore negatives",
       "lane": "runtime",
       "proof_role": "evidence_integrity_behavior",
       "determinism": "isolated copies, deterministic mutations, local signing keys",
