@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live-run-08 passed 4/4 at source c6651bb59fc117f10abc9e613d0042f567759ee8; independent exact-head review, CI, PR, merge, and closeout remain pending.
+Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live-run-09 passed 4/4 at source c6651bb59fc117f10abc9e613d0042f567759ee8, and independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153. CI, PR, merge, and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -60,7 +60,7 @@ Implemented and executed real task-owned provider loss, timeout, interruption, a
 - Completion state: `review_passed_publication_pending`
 - Issue goal ref: `thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification`
 - Sprint goal ref: `Sprint 5 umbrella #931; child #901 provider failure and recovery qualification`
-- Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json (planned, absent until execution)`
+- Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json not collected; active Sprint #931 goal service owns session accounting`
 - Validation planning prompt: `.csdlc/issues/901/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
@@ -81,13 +81,13 @@ Implemented and executed real task-owned provider loss, timeout, interruption, a
 ## Actions taken
 - `Built and invoked the exact production adl-provider-adapter binary from source c6651bb59fc117f10abc9e613d0042f567759ee8`
 - `Executed distinct task-owned provider loss, 150 ms timeout, adapter interruption, and fresh-PID recovery scenarios`
-- `Validated the raw artifact packet, observation and result bindings, portable receipt, 19 deterministic evidence-integrity cases, 51 focused Rust tests, formatting and diff hygiene; independent exact-head review remains pending`
+- `Validated the raw artifact packet, observation and result bindings, portable receipt, 19 deterministic evidence-integrity cases, 51 focused Rust tests, formatting and diff hygiene; independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch only`
 - Worktree-only paths remaining: `.csdlc/evidence/901 private raw and failed diagnostic runs`
 - Integration state: `worktree_only`
-- Verification scope: `local source, live provider execution, raw artifact binding, and portable receipt; independent exact-head review and CI pending`
+- Verification scope: `local source, live provider execution, raw artifact binding, portable receipt, and independent exact-head review passed; hosted CI pending`
 - Integration method used: `pending publication`
 - Verification performed:
   - `deferred; PR not published`
@@ -137,10 +137,10 @@ verification_summary:
     absolute_path_leakage_detected: false
   artifacts:
     status: passed_local
-    required_artifacts_present: yes for local proof; review, CI, PR, merge and terminal artifacts pending
+    required_artifacts_present: yes for local proof and independent review; CI, PR, merge and terminal artifacts pending
     schema_changes:
       present: false
-      approved: reviewed with no actionable findings at 06ad3771f14a12c399f03a404fb587d9de33b153
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
@@ -164,10 +164,10 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json`
-- Required artifacts present: `yes for local implementation and execution; review/CI/PR artifacts pending`
+- Required artifacts present: `yes for local implementation, execution and review; CI/PR/merge/terminal artifacts pending`
 - Artifact schema/version checks: `portable report validate-report passed with four scenarios`
 - Hash/byte-stability checks: `adapter, provider binary, model file, public report, and four request-body digests recorded`
-- Missing/optional artifacts and rationale: `Independent review, PR, CI, merge, and terminal receipts are absent because publication has not occurred.`
+- Missing/optional artifacts and rationale: `PR, hosted CI, merge, and terminal receipts are absent because publication has not occurred; independent review evidence is retained privately.`
 
 ## Decisions / Deviations
 - `#855 is satisfied: PR #964 merged and issue #855 closed, delivering the registered-provider lifecycle. #852 is also accepted through merged PR #963 for any WSS failure-event evidence consumed. #851 remains dirty and unmerged in its separate registered worktree; its bytes are preserved and its paths are excluded.`

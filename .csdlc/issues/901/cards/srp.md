@@ -55,7 +55,7 @@ policy_refs:
   - ".csdlc/issues/901/cards/sip.md"
   - ".csdlc/issues/901/cards/vpp.md"
 review_results:
-  findings_status: "addressed"
+  findings_status: "no_findings"
   recommended_outcome: "pass"
 notes: "Independent review verified direct transport-loss handling, four distinct task-owned provider PIDs and requests, real timeout and SIGTERM interruption, fresh-PID recovery, raw result equality, separately hashed execution-observation binding, coordinated-tamper rejection, 19 validator tests, 51 Rust provider-adapter tests, redaction/path hygiene, #851 exclusion, and coherent SPP/VPP/SRP/SOR truth."
 ---
@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Independent review found five actionable evidence/lifecycle issues across three passes: synthetic proxy 502, summary-to-raw evidence binding, stale SOR truth, stale VPP run state, and stale operative SPP state. All were fixed. Final exact-head review at 06ad3771f14a12c399f03a404fb587d9de33b153 reported no actionable findings.
+- Final exact-head review at 06ad3771f14a12c399f03a404fb587d9de33b153 reported no actionable findings. Earlier passes found five actionable evidence/lifecycle issues: synthetic proxy 502, summary-to-raw evidence binding, stale SOR truth, stale VPP run state, and stale operative SPP state. All were fixed before the final review.
 
 ### Dispositions
 

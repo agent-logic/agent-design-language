@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implemented the non-overlapping #901 harness and observation-bound report validator; exact source c6651bb59fc117f10abc9e613d0042f567759ee8 executed four task-owned local provider scenarios through the production adapter and produced passing raw and portable receipts. Independent exact-head review and publication remain pending."
+plan_summary: "Implemented the non-overlapping #901 harness and observation-bound report validator; exact source c6651bb59fc117f10abc9e613d0042f567759ee8 executed four task-owned local provider scenarios through the production adapter and produced passing raw and portable receipts. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Live-run-09 passed loss, timeout, interruption and recovery at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The task-owned CPU llama-server used the existing gemma:2b artifact through the production OpenAI-compatible adapter and transparent observation proxy. Raw evidence binds process, proxy, scenario and result claims; the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review and CI are pending."
+notes: "Live-run-09 passed loss, timeout, interruption and recovery at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The task-owned CPU llama-server used the existing gemma:2b artifact through the production OpenAI-compatible adapter and transparent observation proxy. Raw evidence binds process, proxy, scenario and result claims; the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification`.
 
-Implemented the non-overlapping #901 harness and observation-bound report validator; exact source c6651bb59fc117f10abc9e613d0042f567759ee8 executed four task-owned local provider scenarios through the production adapter and produced passing raw and portable receipts. Independent exact-head review and publication remain pending.
+Implemented the non-overlapping #901 harness and observation-bound report validator; exact source c6651bb59fc117f10abc9e613d0042f567759ee8 executed four task-owned local provider scenarios through the production adapter and produced passing raw and portable receipts. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending.
 
 ## PVF Lane Plan
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Live-run-09 passed loss, timeout, interruption and recovery at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The task-owned CPU llama-server used the existing gemma:2b artifact through the production OpenAI-compatible adapter and transparent observation proxy. Raw evidence binds process, proxy, scenario and result claims; the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review and CI are pending.
+Live-run-09 passed loss, timeout, interruption and recovery at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The task-owned CPU llama-server used the existing gemma:2b artifact through the production OpenAI-compatible adapter and transparent observation proxy. Raw evidence binds process, proxy, scenario and result claims; the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending.
