@@ -10,7 +10,7 @@ title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qual
 branch: "codex/901-v0922-provider-recovery-qualification"
 generated_at: "2026-09-12T00:15:14.473149+00:00"
 card_status: "ready"
-status: "planned"
+status: "in_progress"
 activation_state: "bound_in_progress"
 plan_revision: 1
 initial_pvf_lane: "provider"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Bind from current origin/main; enumerate the merged production adapter and registered-provider entrypoints; author the isolated #901 harness and negative fixtures in the new paths; exercise actual loss, timeout, interruption, and healthy recovery separately through the production adapter; retain exact execution receipts; run focused validation and independent exact-head review."
+plan_summary: "Implemented the new non-overlapping #901 harness and deterministic report validator; exact source 77b11d69f executed four task-owned local provider scenarios through the production adapter and produced a passing portable receipt. Independent exact-head review and publication remain pending."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -74,13 +74,13 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "pending"
 affected_areas:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "#855 is satisfied: PR #964 merged and issue #855 closed, delivering the registered-provider lifecycle. #852 is also accepted through merged PR #963 for any WSS failure-event evidence consumed. #851 remains dirty and unmerged in its separate registered worktree; its bytes are preserved and its paths are excluded. Own new, non-overlapping issue paths: `adl/tools/run_issue901_provider_recovery_qualification.py`, `adl/tools/test_run_issue901_provider_recovery_qualification.py`, and `docs/milestones/v0.92.2/evidence/qual-provider-901/`. Invoke the merged production provider adapter and registered-provider lifecycle read-only through their public command/configuration surfaces. Do not edit the #851-owned dirty files `adl-runtime-kernel/tests/governed_operations.rs`, `adl-runtime-kernel/src/conversation_sessions_tests.rs`, `adl-runtime-kernel/src/ingress.rs`, `adl-runtime-kernel/src/telemetry.rs`, or `adl/src/long_lived_agent/tests.rs`. Operator-approved task-owned local macOS provider qualification: isolated loopback endpoints and only subprocesses started by the #901 harness; existing local model artifacts may be used without download. No paid/cloud services, shared Ollama mutation, account change, or broad host process control. The harness must record exact adapter/provider/model/configuration identity, request identity, PIDs it owns, timestamps, deadline/elapsed evidence, exit state, recovery result, and duplicate/stale-identity checks. Execution and acceptance remain pending until the bound issue goal and proving runs complete."
+notes: "Live run 06 passed loss, timeout, interruption, and recovery at source 77b11d69f. The provider was a task-owned CPU llama-server using the existing gemma:2b artifact; the production adl-provider-adapter used its OpenAI-compatible route through a transparent observation proxy. The raw packet is private and the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review and CI are pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification`.
 
-Bind from current origin/main; enumerate the merged production adapter and registered-provider entrypoints; author the isolated #901 harness and negative fixtures in the new paths; exercise actual loss, timeout, interruption, and healthy recovery separately through the production adapter; retain exact execution receipts; run focused validation and independent exact-head review.
+Implemented the new non-overlapping #901 harness and deterministic report validator; exact source 77b11d69f executed four task-owned local provider scenarios through the production adapter and produced a passing portable receipt. Independent exact-head review and publication remain pending.
 
 ## PVF Lane Plan
 
@@ -142,10 +142,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
 5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-#855 is satisfied: PR #964 merged and issue #855 closed, delivering the registered-provider lifecycle. #852 is also accepted through merged PR #963 for any WSS failure-event evidence consumed. #851 remains dirty and unmerged in its separate registered worktree; its bytes are preserved and its paths are excluded. Own new, non-overlapping issue paths: `adl/tools/run_issue901_provider_recovery_qualification.py`, `adl/tools/test_run_issue901_provider_recovery_qualification.py`, and `docs/milestones/v0.92.2/evidence/qual-provider-901/`. Invoke the merged production provider adapter and registered-provider lifecycle read-only through their public command/configuration surfaces. Do not edit the #851-owned dirty files `adl-runtime-kernel/tests/governed_operations.rs`, `adl-runtime-kernel/src/conversation_sessions_tests.rs`, `adl-runtime-kernel/src/ingress.rs`, `adl-runtime-kernel/src/telemetry.rs`, or `adl/src/long_lived_agent/tests.rs`. Operator-approved task-owned local macOS provider qualification: isolated loopback endpoints and only subprocesses started by the #901 harness; existing local model artifacts may be used without download. No paid/cloud services, shared Ollama mutation, account change, or broad host process control. The harness must record exact adapter/provider/model/configuration identity, request identity, PIDs it owns, timestamps, deadline/elapsed evidence, exit state, recovery result, and duplicate/stale-identity checks. Execution and acceptance remain pending until the bound issue goal and proving runs complete.
+Live run 06 passed loss, timeout, interruption, and recovery at source 77b11d69f. The provider was a task-owned CPU llama-server using the existing gemma:2b artifact; the production adl-provider-adapter used its OpenAI-compatible route through a transparent observation proxy. The raw packet is private and the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review and CI are pending.

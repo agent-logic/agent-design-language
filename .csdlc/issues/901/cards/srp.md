@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
 branch: "codex/901-v0922-provider-recovery-qualification"
 generated_at: "2026-09-12T00:15:14.473149+00:00"
-card_status: "ready"
+card_status: "draft"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/901/cards/sip.md"
   - ".csdlc/issues/901/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
-  recommended_outcome: "block"
-notes: "Independent exact-head review must trace actual production provider/resident invocation, observable effects, complete scenario denominator and evidence boundaries, every acceptance and exclusion: 1. RT-PROVIDER/#855 must deliver its registered-provider lifecycle before this qualification. Select a scoped owned test subprocess/session through that production route, observe actual start, kill/loss, deadline timeout and cancellation/interruption, and retain process/request identity, timestamps, exit state, Runtime outcome and correlation. 2. Restore service through a healthy configured production provider and execute successful subsequent work. Prove bounded retry/recovery, no duplicate accepted work and no stale provider identity reused. A ready flag without a real healthy result is insufficient. 3. Confirm real failure triggers reached provider invocation. Negative fixtures reject supplied failure flags, static reference-trace metadata, absent execution logs, wrong process/request identity and timeout classifications without elapsed/deadline evidence. 4. Exercise loss, timeout and interruption separately; do not infer one from another. Preserve statuses, cancellation, truncation and redaction at adapter boundaries. Where WSS failure-event evidence is consumed, require the reviewed #852 output rather than reimplementing or claiming it here; the exact graph remains RT-PROVIDER as this task's execution prerequisite, with full cross-producer joining in QUAL-EVIDENCE. 5. Use only task-owned processes and the explicitly approved environment; never kill shared resident/provider services. Independently review exact source/run/profile and all scenario evidence. Local mock transport proof is labeled separately and cannot replace required production provider execution. - Acceptance: actual_process_loss, actual_timeout_interrupt, healthy_recovery, actual_execution_receipts, independent_review. - PVF: actual_process_loss, actual_timeout_interrupt, healthy_recovery, caller_failure_flags_not_proof, reference_trace_not_execution, provider_failure_recovery. Completion requires the one actual result above, all positive/negative obligations, current independent exact-head review and required checks. Plans, schemas, scaffolds, test-only consumers, packets without execution or zero-test invocations cannot satisfy it. No broad Runtime refactor, paid-cloud mutation, release approval, automatic #522/#833 closure or unrelated backlog. Retain stop conditions: required_proof_not_executed, partial_artifact_claimed_complete, synthetic_only_proof, stale_revision, missing_scenario. Also stop for missing authority, ownership collision, sensitive-data leakage or unsafe effect scope; route separate defects explicitly."
+  findings_status: "pending"
+  recommended_outcome: "pending independent exact-head review"
+notes: "Review the committed harness, validator, portable receipt, exact source 77b11d69f execution relationship, and all four scenario identities. Verify #851 exclusion, public redaction, no synthetic response path, and negative-fixture coverage."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Implementation review has not run; no implementation exists from this preparation.
+- pending
 
 ### Dispositions
 
-- No implementation finding is accepted, resolved or waived by preparation.
+- pending
 
 ### Recommended Outcome
 
-- block
+- pending independent exact-head review
 
 ## Notes
 
-Independent exact-head review must trace actual production provider/resident invocation, observable effects, complete scenario denominator and evidence boundaries, every acceptance and exclusion: 1. RT-PROVIDER/#855 must deliver its registered-provider lifecycle before this qualification. Select a scoped owned test subprocess/session through that production route, observe actual start, kill/loss, deadline timeout and cancellation/interruption, and retain process/request identity, timestamps, exit state, Runtime outcome and correlation. 2. Restore service through a healthy configured production provider and execute successful subsequent work. Prove bounded retry/recovery, no duplicate accepted work and no stale provider identity reused. A ready flag without a real healthy result is insufficient. 3. Confirm real failure triggers reached provider invocation. Negative fixtures reject supplied failure flags, static reference-trace metadata, absent execution logs, wrong process/request identity and timeout classifications without elapsed/deadline evidence. 4. Exercise loss, timeout and interruption separately; do not infer one from another. Preserve statuses, cancellation, truncation and redaction at adapter boundaries. Where WSS failure-event evidence is consumed, require the reviewed #852 output rather than reimplementing or claiming it here; the exact graph remains RT-PROVIDER as this task's execution prerequisite, with full cross-producer joining in QUAL-EVIDENCE. 5. Use only task-owned processes and the explicitly approved environment; never kill shared resident/provider services. Independently review exact source/run/profile and all scenario evidence. Local mock transport proof is labeled separately and cannot replace required production provider execution. - Acceptance: actual_process_loss, actual_timeout_interrupt, healthy_recovery, actual_execution_receipts, independent_review. - PVF: actual_process_loss, actual_timeout_interrupt, healthy_recovery, caller_failure_flags_not_proof, reference_trace_not_execution, provider_failure_recovery. Completion requires the one actual result above, all positive/negative obligations, current independent exact-head review and required checks. Plans, schemas, scaffolds, test-only consumers, packets without execution or zero-test invocations cannot satisfy it. No broad Runtime refactor, paid-cloud mutation, release approval, automatic #522/#833 closure or unrelated backlog. Retain stop conditions: required_proof_not_executed, partial_artifact_claimed_complete, synthetic_only_proof, stale_revision, missing_scenario. Also stop for missing authority, ownership collision, sensitive-data leakage or unsafe effect scope; route separate defects explicitly.
+Review the committed harness, validator, portable receipt, exact source 77b11d69f execution relationship, and all four scenario identities. Verify #851 exclusion, public redaction, no synthetic response path, and negative-fixture coverage.

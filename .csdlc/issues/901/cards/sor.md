@@ -21,19 +21,19 @@ Version: 0.92.2
 Title: [v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification
 Branch: codex/901-v0922-provider-recovery-qualification
 Card Status: draft
-Status: NOT_STARTED
+Status: implemented
 Generated: 2026-09-12T00:15:14.473149+00:00
 
 Execution:
-- Actor: `unassigned implementation owner`
-- Model: `unknown`
-- Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Actor: `Worker #9 in active Sprint #931 / child #901 goal`
+- Model: `gemma:2b artifact sha256:c1864a5eb19305c40519da12cc543519e48a0697ecd30e15d5ac228644957d12`
+- Provider: `task-owned local llama-server through production OpenAI-compatible adl-provider-adapter route`
+- Start Time: `2026-09-13T01:12:05.040590+00:00`
+- End Time: `2026-09-13T01:12:38.193703+00:00`
 
 ## Summary
 
-Preparation only for [v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification. No implementation, acceptance proof, implementation review, publication, merge or closeout has run.
+Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live run 06 passed 4/4 at source 77b11d69f; independent review, CI, PR, merge, and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -49,15 +49,15 @@ Preparation only for [v0.92.2][QUAL-PROVIDER] Execute real provider failure and 
 - Estimated total tokens: `unknown`
 - Actual total tokens: `unknown`
 - Estimated validation seconds: `unknown`
-- Actual validation seconds: `unknown`
+- Actual validation seconds: `34`
 - Actual PR wait seconds: `unknown`
 - Actual CI wait seconds: `unknown`
 - Budget source: `No operator issue token budget assigned; VPP estimates are planning only`
-- Goal metrics data source: `unknown`
+- Goal metrics data source: `live-run-06 portable receipt and local command results`
 - Goal metrics source ref: `unknown`
-- Data-source confidence: `unknown`
+- Data-source confidence: `high for recorded local run`
 - Estimate error percent: `unknown`
-- Completion state: `not_started`
+- Completion state: `validation_passed_review_pending`
 - Issue goal ref: `thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification`
 - Sprint goal ref: `Sprint 5 umbrella #931; child #901 provider failure and recovery qualification`
 - Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json (planned, absent until execution)`
@@ -75,23 +75,23 @@ Preparation only for [v0.92.2][QUAL-PROVIDER] Execute real provider failure and 
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/901/cards/sor.md`
-- Tracked implementation artifacts: `none; implementation not started`
-- Additional proof artifacts: `none; acceptance proof not started`
+- Tracked implementation artifacts: `adl/tools/run_issue901_provider_recovery_qualification.py; adl/tools/test_run_issue901_provider_recovery_qualification.py; docs/milestones/v0.92.2/evidence/qual-provider-901/README.md; qualification-report.json`
+- Additional proof artifacts: `.csdlc/evidence/901/live-run-06 raw private packet; earlier failed packets retained privately`
 
 ## Actions taken
-- `Live source issue inspected for bounded preparation`
-- `Six-card values prepared from registry 1.0.5`
-- `Dependencies and local resource authority refreshed; binding and execution remain pending`
+- `Built the exact production adl-provider-adapter binary from source 77b11d69f`
+- `Executed distinct task-owned provider loss, 150 ms timeout, adapter interruption, and fresh-PID recovery scenarios`
+- `Validated the portable receipt plus 10 deterministic evidence-integrity cases; independent review remains pending`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none; native preparation is in resolved Git metadata`
-- Worktree-only paths remaining: `not_bound`
-- Integration state: `not_started`
+- Main-repo paths updated: `none; issue branch only`
+- Worktree-only paths remaining: `.csdlc/evidence/901 private raw and failed diagnostic runs`
+- Integration state: `worktree_only`
 - Verification scope: `not_run`
-- Integration method used: `not_run; implementation has not started`
+- Integration method used: `not_run; publication pending`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `not_run; PR not published`
+    `not_run; no merge claim`
 - Result: `not_integrated`
 
 Rules:
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `No implementation proof attempted`
+  - `cargo build; 10-test Python validator suite; live-run-06 4/4; portable validate-report; py_compile; git diff --check; path/redaction scan`
+    `Proves actual provider invocation reached the task-owned process before each fault and successful distinct work completed on a fresh provider PID`
 - Results:
-  - `not_run`
+  - `passed locally; independent exact-head review and CI pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,29 +144,29 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
+- Determinism tests executed: `10/10 evidence-integrity tests passed`
+- Fixtures or scripts used: `run_issue901_provider_recovery_qualification.py; test_run_issue901_provider_recovery_qualification.py`
+- Replay verification (same inputs -> same artifacts/order): `portable validate-report passed`
+- Ordering guarantees (sorting / tie-break rules used): `loss, timeout, interruption, and recovery serialized; recovery used a new provider PID; four request body digests are unique`
 - Artifact stability notes: `not_run; implementation has not started`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Secret leakage scan performed: `performed; no credential values or prompt/output text in portable receipt`
+- Prompt / tool argument redaction verified: `portable receipt omits prompt and generated output; production adapter logs contain redacted event fields`
+- Absolute path leakage check: `passed for portable receipt; no /Users, /Volumes, or /private paths`
+- Sandbox / policy invariants preserved: `only task-owned process groups and dynamic loopback ports used; #851 and shared Ollama service untouched`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/901/live-run-06 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json (portable)`
 - Run artifact root: `.csdlc/evidence/901 (planned)`
-- Replay command used for verification: `not_run; implementation has not started`
-- Replay result: `not_run; implementation has not started`
+- Replay command used for verification: `documented runner invocation with exact adapter/provider/model inputs; output directory must be new`
+- Replay result: `live-run-06 passed 4/4`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/901 (planned)`
-- Required artifacts present: `not_run; implementation has not started`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
+- Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json`
+- Required artifacts present: `yes for local implementation and execution; review/CI/PR artifacts pending`
+- Artifact schema/version checks: `portable report validate-report passed with four scenarios`
+- Hash/byte-stability checks: `adapter, provider binary, model file, public report, and four request-body digests recorded`
 - Missing/optional artifacts and rationale: `Execution artifacts are absent because preparation is not delivery`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `Use only task-owned local subprocesses and new #901 paths; preserve #851 and do not mutate shared provider services`
 
 ## Follow-ups / Deferred work
-- `Bind natively, establish the child issue goal, then implement the bounded task-owned qualification harness`
-- `Implement complete source contract, execute VPP, obtain independent exact-head review and use native publication/finish/clean`
+- `Obtain independent exact-head review and fix actionable findings`
+- `Run native review/publish, CI watch, then wait for operator merge authorization`
