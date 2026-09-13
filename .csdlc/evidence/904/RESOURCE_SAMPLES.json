@@ -37,6 +37,6 @@
   },
   "sampling_note": "Both engines had the identical model digest resident with unbounded keep-alive during the bounded test window. Engine versions and default context allocation differ; Runtime sent temperature zero and a 64-token output cap but exposes no seed or context-size field in the canonical provider definition.",
   "observed_resource_snapshot": ".csdlc/evidence/904/OBSERVED_RESOURCE_SAMPLE.json",
-  "observed_resource_snapshot_sha256": "581b4c6b481819f365fbc8a578cbca0cd895b7de40bbf7beb89302efa077a567",
+  "observed_resource_snapshot_sha256": "320e42d01d26562d39e9ec701ff4fa852fad9d9d0d59c00bd6c986cccc909d38",
   "measurement_boundary": "Capacity/configuration and a bounded post-run resource snapshot are retained. No per-request power or utilization time series was collected."
 }

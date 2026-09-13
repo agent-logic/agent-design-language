@@ -1,7 +1,7 @@
 {
   "schema": "adl.pair.observed-resource-snapshot.v1",
   "issue": 904,
-  "observed_at": "2026-09-12T00:00:00-07:00",
+  "observed_at": null,
   "scope": "bounded post-run residency and idle-resource snapshot; not per-request utilization telemetry",
   "rtx3090": {
     "gpu_memory_total_mib": 24576,
@@ -23,5 +23,6 @@
     "pages_compressor": 300934,
     "resident_model_during_snapshot": "other shared workload; Phi-4 was not resident at review time"
   },
-  "interpretation": "The RTX node retained the tested model in 7,863 MiB GPU memory after the run. The Mac snapshot confirms shared-host activity and does not reconstruct per-request utilization."
+  "interpretation": "The RTX node retained the tested model in 7,863 MiB GPU memory after the run. The Mac snapshot confirms shared-host activity and does not reconstruct per-request utilization.",
+  "timestamp_precision": "Exact collection time was not retained; snapshot collected during exact-head review repair on 2026-09-12."
 }
