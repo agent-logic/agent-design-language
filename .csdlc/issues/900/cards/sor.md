@@ -57,7 +57,7 @@ Executed six distinct production Runtime/Ollama resident workloads before and af
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_pending_review_and_ci`
+- Completion state: `review_passed_publication_pending`
 - Issue goal ref: `Sprint #931 active goal covers #900 execution because the goal service permits only one active goal per thread.`
 - Sprint goal ref: `Sprint #931`
 - Goal metrics rollup ref: `.csdlc/evidence/900/goal-metrics.json (planned, absent until execution)`
@@ -110,7 +110,7 @@ Rules:
   - `python3 focused harness tests; cargo test --lib resident_shepherd_spot_continuity::tests::; production attempt-11; run_issue900_continuity_negatives.py; cargo fmt --check; git diff --check`
     `Proves six distinct role-bound provider workloads execute and resume through production signed local continuity, completed work does not replay, and signature, payload, omission, provider, configuration, lineage and stale-generation corruption fail before admission.`
 - Results:
-  - `Local positive qualification and seven production-state negative scenarios passed; three focused Python contracts, six Rust continuity tests, Rust formatting, public evidence scan, and diff hygiene passed; CI and refreshed exact-head review pending.`
+  - `Local positive qualification and seven production-state negative scenarios passed; three focused Python contracts, the six-case plan validator, six Rust continuity tests, Rust formatting, Clippy, public evidence checks and diff hygiene passed. Renewed independent review at 2d119db18595e136448aab1e69571e916eb77471 found no actionable findings; CI remains pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: passed_local_pending_ci_and_refreshed_review
+    status: local_complete_review_passed_ci_pending
     checks_run:
       - "passed: three focused Python harness tests, six Rust continuity tests, production attempt-11, seven negatives, public JSON/secret/path scan, formatting and diff hygiene"
   determinism:
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: passed
     schema_changes:
       present: yes: resident continuity bindings now include provider_id and qualification receipts include provider and producer hashes
-      approved: pending refreshed independent exact-head review
+      approved: reviewed with no actionable findings at 2d119db18595e136448aab1e69571e916eb77471
 ```
 
 ## Determinism Evidence
@@ -174,5 +174,5 @@ verification_summary:
 - `Qwen thinking is recorded as Ollama server default; issue #970 owns provider-level inference parameter execution and observability.`
 
 ## Follow-ups / Deferred work
-- `Obtain independent exact-head review and resolve every actionable finding.`
-- `Run native review and publish the draft PR with Closes #900 after the reviewed head is current.`
+- `Publish the native draft PR with Closes #900 and verify exact base, head and linkage.`
+- `Observe required CI and resolve any current-head findings before requesting merge.`
