@@ -1,0 +1,38 @@
+{
+  "schema": "adl.issue900.pvf_test_manifest.v1",
+  "issue": 900,
+  "tests": [
+    {
+      "name": "six-resident runner and materialization contract tests",
+      "lane": "runtime",
+      "proof_role": "behavior_regression",
+      "determinism": "deterministic fake Runtime and local files",
+      "resource_profile": "local CPU, Python, filesystem",
+      "release_gate": "required_issue_gate"
+    },
+    {
+      "name": "resident_shepherd_spot_continuity::tests::signed_restore_validates_exact_models_before_admission",
+      "lane": "runtime",
+      "proof_role": "evidence_integrity_regression",
+      "determinism": "deterministic local signing keys and isolated state",
+      "resource_profile": "local CPU, Rust, filesystem",
+      "release_gate": "required_issue_gate"
+    },
+    {
+      "name": "production six-resident Ollama qualification",
+      "lane": "runtime_provider_qualification",
+      "proof_role": "resident_execution",
+      "determinism": "bounded real-model execution with pinned artifacts and temperature zero",
+      "resource_profile": "operator-approved local Apple M4 Pro, Metal, 64 GiB, serial Ollama",
+      "release_gate": "required_issue_qualification"
+    },
+    {
+      "name": "six production signed-restore negatives",
+      "lane": "runtime",
+      "proof_role": "evidence_integrity_behavior",
+      "determinism": "isolated copies, deterministic mutations, local signing keys",
+      "resource_profile": "local CPU, Rust binary, Python, filesystem",
+      "release_gate": "required_issue_gate"
+    }
+  ]
+}

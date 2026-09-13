@@ -289,6 +289,13 @@ pub async fn restore_and_admit(
         .context("validate signed resident subrecord before restore")?
         .context("signed live-kernel checkpoint is absent")?;
     let integration = validated.context("resident integration validator did not return state")?;
+    if restored.generation != prior.generation {
+        bail!(
+            "signed live-kernel generation {} differs from dehydration receipt generation {}",
+            restored.generation,
+            prior.generation
+        );
+    }
     let bytes = restored
         .resident_population
         .context("signed resident integration subrecord is absent")?;
@@ -1239,6 +1246,34 @@ mod tests {
         let second_dehydration = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
         assert_eq!(second_dehydration.generation, 2);
         assert!(!second_dehydration.admission_open);
+        let dehydration_receipt_path = runtime_root.join("dehydration-receipt.json");
+        let mut stale_receipt: serde_json::Value = read_json(&dehydration_receipt_path).unwrap();
+        stale_receipt["generation"] = serde_json::json!(1);
+        write_atomic_json(&dehydration_receipt_path, &stale_receipt).unwrap();
+        let stale_error = restore_and_admit(
+            &runtime_root,
+            &RestoreInput {
+                residents: input.residents.clone(),
+                retained_runtime_root: runtime_root.clone(),
+                build_cache_root: build_root.clone(),
+                runtime_volume_identity_sha256: digest("test-volume"),
+            },
+        )
+        .await
+        .unwrap_err();
+        assert!(
+            format!("{stale_error:#}").contains("differs from dehydration receipt generation"),
+            "unexpected stale-generation error: {stale_error:#}"
+        );
+        assert!(!runtime_root
+            .join("restored-populations/generation-2")
+            .exists());
+        assert_eq!(
+            read_json::<serde_json::Value>(&runtime_root.join("active-population.json")).unwrap()
+                ["admission_open"],
+            false
+        );
+        write_atomic_json(&dehydration_receipt_path, &second_dehydration).unwrap();
         assert!(
             validate_completed_continuation(&runtime_root, &continuation)
                 .await

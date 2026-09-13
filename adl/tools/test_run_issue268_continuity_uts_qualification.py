@@ -107,6 +107,7 @@ out.write_text(json.dumps(value)+'\\n')
             "--continuity-bin", str(fake_continuity),
             "--runtime-bin", str(fake_uts),
             "--runtime-root", str(root / "runtime"),
+            "--ollama-url", "http://127.0.0.1:11435",
             "--build-cache-root", str(root / "build-cache"),
             "--agent-spec-dir", str(root / "agents"),
             "--runtime-volume-identity-sha256", "f" * 64,
@@ -115,7 +116,22 @@ out.write_text(json.dumps(value)+'\\n')
             "--plan", str(plan_path),
             "--uts-runner", str(fake_uts),
         ]
-        subprocess.run(command, cwd=ROOT, check=True)
+        qualification_env = {
+            **os.environ,
+            "ADL_ISSUE414_SIGNING_KEY_HEX": "9" * 64,
+            "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64": "test-private",
+            "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64": "test-public",
+        }
+        missing_env = subprocess.run(
+            command,
+            cwd=ROOT,
+            env={key: value for key, value in os.environ.items() if not key.startswith("ADL_CSM_CUSTODY_") and key != "ADL_ISSUE414_SIGNING_KEY_HEX"},
+            capture_output=True,
+            text=True,
+        )
+        assert missing_env.returncode != 0 and "required continuity signing environment is absent" in missing_env.stderr
+        assert not (root / "state.json").exists()
+        subprocess.run(command, cwd=ROOT, env=qualification_env, check=True)
         receipt = json.loads((evidence / "qualification-receipt.json").read_text())
         assert receipt["status"] == "passed" and receipt["resident_count"] == 6
         assert json.loads((root / "state.json").read_text())["phase"] == "post_complete"
@@ -128,7 +144,7 @@ out.write_text(json.dumps(value)+'\\n')
 
         missing = root / "agents" / plan[0]["agent_id"] if False else root / "agents" / plan["residents"][0]["agent_id"] / "agent.yaml"
         missing.unlink()
-        failed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        failed = subprocess.run(command, cwd=ROOT, env=qualification_env, capture_output=True, text=True)
         assert failed.returncode != 0 and "six existing-agent specs are required" in failed.stderr
     print("PASS: issue268 continuity-coupled six-resident UTS qualification")
 

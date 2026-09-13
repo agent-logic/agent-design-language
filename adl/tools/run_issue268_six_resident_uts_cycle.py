@@ -10,6 +10,7 @@ import os
 import pathlib
 import subprocess
 import time
+import urllib.parse
 from typing import Any
 
 
@@ -71,17 +72,43 @@ def proposal(agent_id: str, phase: str, task_id: str) -> dict[str, Any]:
     }
 
 
-def write_workflow(path: pathlib.Path, resident: dict[str, Any], phase: str, task: dict[str, Any]) -> None:
+def loopback_ollama_url(value: str) -> str:
+    parsed = urllib.parse.urlparse(value)
+    if parsed.scheme != "http" or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}:
+        raise SystemExit("issue268: Ollama URL must be an explicit loopback HTTP endpoint")
+    if parsed.path not in {"", "/"} or parsed.params or parsed.query or parsed.fragment:
+        raise SystemExit("issue268: Ollama URL must not contain a path, query, or fragment")
+    try:
+        port = parsed.port
+    except ValueError as error:
+        raise SystemExit(f"issue268: invalid Ollama URL: {error}") from error
+    if port is None:
+        raise SystemExit("issue268: Ollama URL must include an explicit port")
+    return value.rstrip("/")
+
+
+def write_workflow(
+    path: pathlib.Path,
+    resident: dict[str, Any],
+    phase: str,
+    task: dict[str, Any],
+    ollama_url: str,
+    context_tokens: int,
+    num_predict: int,
+    temperature: float,
+) -> None:
     task_id = task["id"]
     expected = json.dumps(proposal(resident["agent_id"], phase, task_id), separators=(",", ":"))
     document = f'''version: "0.5"
 providers:
   local_ollama:
     type: "ollama"
-    base_url: "http://127.0.0.1:11434"
+    base_url: "{ollama_url}"
     config:
       model: "{resident["model"]}"
       timeout_secs: 900
+      runtime_max_output_tokens: {num_predict}
+      temperature: {temperature}
 agents:
   resident:
     provider: "local_ollama"
@@ -212,13 +239,57 @@ def normalize_and_validate_runtime_spec(runtime_bin: pathlib.Path, spec: pathlib
     if locked.get("agent_instance_id") != agent_dir.name:
         raise SystemExit(f"{agent_dir.name}: Runtime locked agent identity mismatch")
     atomic_json(spec, locked)
-    completed = subprocess.run(
-        [str(runtime_bin), "agent", "status", "--spec", str(spec), "--json"],
-        cwd=ROOT,
-        check=False,
-    )
-    if completed.returncode != 0:
-        raise SystemExit(f"{agent_dir.name}: canonical Runtime spec failed locked-spec validation")
+    deadline = time.monotonic() + 30
+    while True:
+        completed = subprocess.run(
+            [str(runtime_bin), "agent", "status", "--spec", str(spec), "--json"],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if completed.returncode == 0:
+            if completed.stdout:
+                print(completed.stdout, end="")
+            return
+        lock_busy = "timed out acquiring Godel snapshot chain lock" in completed.stderr
+        if not lock_busy or time.monotonic() >= deadline:
+            if completed.stderr:
+                print(completed.stderr, end="", file=os.sys.stderr)
+            raise SystemExit(f"{agent_dir.name}: canonical Runtime spec failed locked-spec validation")
+        time.sleep(1)
+
+
+def validate_configuration_contract(
+    plan: dict[str, Any],
+    residents: list[dict[str, Any]],
+    context_tokens: int,
+    num_predict: int,
+    temperature: float,
+) -> None:
+    expected_contract = {
+        "context_tokens": context_tokens,
+        "num_predict": num_predict,
+        "gpu_placement": "ollama_server_default",
+        "temperature": temperature,
+        "max_concurrent_inference": 1,
+        "max_loaded_models": 1,
+    }
+    if (plan.get("materialization") or {}).get("configuration_contract") != expected_contract:
+        raise SystemExit("materialized plan configuration does not match the requested qualification envelope")
+    if (plan.get("host") or {}).get("max_loaded_models") != 1:
+        raise SystemExit("qualification requires exactly one loaded model")
+    for resident in residents:
+        model = resident.get("model")
+        configuration = {
+            "model": model,
+            "artifact_sha256": resident.get("model_ref_sha256"),
+            "quantization": resident.get("quantization"),
+            **expected_contract,
+            "qwen_think": "ollama_server_default" if model == "qwen3:8b" else "unsupported",
+        }
+        if resident.get("configuration_sha256") != canonical_digest(configuration):
+            raise SystemExit(f'{resident.get("agent_id", "resident")}: configuration digest mismatch')
 
 
 def main() -> int:
@@ -229,10 +300,24 @@ def main() -> int:
     parser.add_argument("--plan", type=pathlib.Path, default=DEFAULT_PLAN)
     parser.add_argument("--runtime-bin", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-root", required=True, type=pathlib.Path)
+    parser.add_argument(
+        "--ollama-url",
+        default=os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"),
+    )
+    parser.add_argument("--context-tokens", type=int, default=32768)
+    parser.add_argument("--num-predict", type=int, default=128)
+    parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--task-panel", type=pathlib.Path, default=DEFAULT_TASK_PANEL)
     parser.add_argument("--restore-receipt", type=pathlib.Path)
     parser.add_argument("--restored-population-root", type=pathlib.Path)
     args = parser.parse_args()
+    if not 1 <= args.context_tokens <= 131072:
+        raise SystemExit("context-tokens must be between 1 and 131072")
+    if not 1 <= args.num_predict <= 32768:
+        raise SystemExit("num-predict must be between 1 and 32768")
+    if not 0 <= args.temperature <= 2:
+        raise SystemExit("temperature must be between 0 and 2")
+    ollama_url = loopback_ollama_url(args.ollama_url)
     if not args.runtime_bin.is_file():
         raise SystemExit("real Runtime binary is required")
     csm_bin = args.runtime_bin.parent / "csm"
@@ -249,6 +334,7 @@ def main() -> int:
     residents = plan.get("residents") or []
     if len(residents) != 6 or len({row["agent_id"] for row in residents}) != 6:
         raise SystemExit("six distinct residents are required")
+    validate_configuration_contract(plan, residents, args.context_tokens, args.num_predict, args.temperature)
     runtime_root = args.runtime_root.resolve()
     if args.phase == "pre":
         if args.state.exists():
@@ -281,7 +367,10 @@ def main() -> int:
                 locked = json.loads((agent_dir / "state" / "agent_spec.locked.json").read_text(encoding="utf-8"))
                 if locked.get("agent_instance_id") != agent_id:
                     raise SystemExit(f"{agent_id}: restored replay identity mismatch")
-                write_workflow(agent_dir / "workflow.adl.yaml", resident, "pre", task)
+                write_workflow(
+                    agent_dir / "workflow.adl.yaml", resident, "pre", task, ollama_url,
+                    args.context_tokens, args.num_predict, args.temperature,
+                )
                 runtime_exit_code = run_agent(args.runtime_bin, spec_path)
                 cycles = sorted((agent_dir / "state" / "cycles").glob("cycle-*"))
                 if not cycles:
@@ -334,7 +423,10 @@ def main() -> int:
             binding = restored_spec.get("tool_authority") or {}
             if binding.get("authority_sha256") != retained.get("runtime_authority_sha256"):
                 raise SystemExit(f"{agent_id}: restored #414 tool authority mismatch")
-        write_workflow(agent_dir / "workflow.adl.yaml", resident, args.phase, task)
+        write_workflow(
+            agent_dir / "workflow.adl.yaml", resident, args.phase, task, ollama_url,
+            args.context_tokens, args.num_predict, args.temperature,
+        )
         runtime_exit_code = run_daemon(csm_bin, spec_path, agent_dir) if args.phase == "pre" else run_agent(args.runtime_bin, spec_path)
         if args.phase == "pre":
             normalize_and_validate_runtime_spec(args.runtime_bin, spec_path, agent_dir)

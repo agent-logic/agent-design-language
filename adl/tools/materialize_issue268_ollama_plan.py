@@ -37,7 +37,19 @@ def main() -> int:
     parser.add_argument("--agent-spec-dir", type=pathlib.Path)
     parser.add_argument("--tags-json", type=pathlib.Path)
     parser.add_argument("--ollama-url", default=os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
+    parser.add_argument("--max-loaded-models", type=int, default=3)
+    parser.add_argument("--context-tokens", type=int, default=32768)
+    parser.add_argument("--num-predict", type=int, default=128)
+    parser.add_argument("--temperature", type=float, default=0)
     args = parser.parse_args()
+    if args.max_loaded_models < 1:
+        raise SystemExit("max-loaded-models must be positive")
+    if not 1 <= args.context_tokens <= 131072:
+        raise SystemExit("context-tokens must be between 1 and 131072")
+    if not 1 <= args.num_predict <= 32768:
+        raise SystemExit("num-predict must be between 1 and 32768")
+    if not 0 <= args.temperature <= 2:
+        raise SystemExit("temperature must be between 0 and 2")
     if args.output.resolve() == args.template.resolve():
         raise SystemExit("materialized plan must not overwrite the reviewed template")
 
@@ -54,6 +66,7 @@ def main() -> int:
                 by_name[name] = metadata
 
     plan = json.loads(args.template.read_text(encoding="utf-8"))
+    plan["host"]["max_loaded_models"] = args.max_loaded_models
     for resident in plan.get("residents") or []:
         model = resident["model"]
         metadata = by_name.get(model)
@@ -69,13 +82,13 @@ def main() -> int:
             "model": model,
             "artifact_sha256": artifact,
             "quantization": quantization,
-            "context_tokens": 32768,
-            "num_predict": 1024,
-            "num_gpu": 0,
-            "temperature": 0,
+            "context_tokens": args.context_tokens,
+            "num_predict": args.num_predict,
+            "gpu_placement": "ollama_server_default",
+            "temperature": args.temperature,
             "max_concurrent_inference": 1,
-            "max_loaded_models": 3,
-            "qwen_think": False if model == "qwen3:8b" else "unsupported",
+            "max_loaded_models": args.max_loaded_models,
+            "qwen_think": "ollama_server_default" if model == "qwen3:8b" else "unsupported",
         }
         resident["model_ref_sha256"] = artifact
         resident["quantization"] = quantization
@@ -86,13 +99,12 @@ def main() -> int:
         "template_sha256": hashlib.sha256(args.template.read_bytes()).hexdigest(),
         "source": "ollama_api_tags",
         "configuration_contract": {
-            "context_tokens": 32768,
-            "num_predict": 1024,
-            "qualification_num_predict": 128,
-            "num_gpu": 0,
-            "temperature": 0,
+            "context_tokens": args.context_tokens,
+            "num_predict": args.num_predict,
+            "gpu_placement": "ollama_server_default",
+            "temperature": args.temperature,
             "max_concurrent_inference": 1,
-            "max_loaded_models": 3,
+            "max_loaded_models": args.max_loaded_models,
         },
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

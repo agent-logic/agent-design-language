@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 900,
+  "phase": "bound",
+  "generation": 6,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/900-v0922-six-resident-qualification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-900-v0922-six-resident-qualification",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "caf478d45a811440633a18ef739358bed19c07291326345f7e5c09577e835544"
+}

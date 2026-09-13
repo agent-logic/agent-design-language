@@ -1,0 +1,57 @@
+{
+  "schema": "adl.issue900.public_qualification_summary.v1",
+  "issue": 900,
+  "status": "passed_locally_pending_ci_and_independent_review",
+  "execution_profile": {
+    "authorization": "operator-approved bounded local production-provider qualification",
+    "host": "Mac16,11 Apple M4 Pro",
+    "memory_gib": 64,
+    "ollama_url": "loopback task-owned port 11436",
+    "context_tokens": 32768,
+    "num_predict": 1024,
+    "temperature": 0,
+    "max_loaded_models": 1,
+    "max_parallel_requests": 1,
+    "existing_model_blobs_only": true,
+    "task_owned_service_stopped": true,
+    "remote_or_paid_calls": 0
+  },
+  "positive": {
+    "resident_count": 6,
+    "distinct_role_count": 6,
+    "distinct_task_count": 12,
+    "pre_workloads_executed": 6,
+    "completed_case_replays_denied": 6,
+    "post_restore_workloads_executed": 6,
+    "pending_case_count": 0,
+    "continuity_generation": 1,
+    "continuation_verified": true,
+    "signed_population_sha256": "7ef7ce9d7c9dbfc2c4d299f2bad3b756498157205b2671fad66d0eaae1a11314",
+    "materialized_plan_sha256": "d5a86386eff2b2d98f587dfab1184b3e382551a8119edf279d4abcca2911a4fb",
+    "completed_uts_state_sha256": "647bda67b27b640da34e5466f2518a334128729365a6300059208baf2bfe550a",
+    "dehydration_receipt_sha256": "84b7356d9015faec358e4e86e573774ed33a2bd1263e0dbffb1421fb0bc793b1",
+    "restore_receipt_sha256": "0de7268aa2116b0b6e574d985cb90c02bb32dc283a1ed1732a98d0f2872d908c",
+    "completion_receipt_sha256": "f322ca6885d453777fb2a8970bd8b0bc790a83e9f9aa5bdb2b212a2416f3a742",
+    "private_qualification_receipt_sha256": "15ec3e3a1d0c7dd7a605d271565f651b105f969b6de7fbb80ddb9cc4f05932b4"
+  },
+  "negative": {
+    "scenario_count": 6,
+    "scenarios": [
+      "changed_signature",
+      "changed_payload",
+      "removed_resident",
+      "substituted_configuration",
+      "substituted_lineage",
+      "stale_snapshot"
+    ],
+    "all_restore_denied": true,
+    "all_admission_closed_after": true,
+    "all_no_inappropriate_effect": true,
+    "private_summary_sha256": "96427d6d0f66ce809f531b47ee60d8dc563339c2adf3f71fb781a11c5470ce18"
+  },
+  "limitations": [
+    "The local substitute does not establish r7i.2xlarge capacity or remote-host performance.",
+    "The Ollama adapter leaves Qwen thinking behavior to the server default; provider parameter execution is tracked by issue 970.",
+    "CI and exact-head independent review are pending."
+  ]
+}
