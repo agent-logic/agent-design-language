@@ -283,6 +283,8 @@ def validate_configuration_contract(
     for resident in residents:
         model = resident.get("model")
         configuration = {
+            "provider_id": "local_ollama",
+            "provider_kind": "ollama",
             "model": model,
             "artifact_sha256": resident.get("model_ref_sha256"),
             "quantization": resident.get("quantization"),
@@ -309,6 +311,7 @@ def main() -> int:
     parser.add_argument("--num-predict", type=int, default=128)
     parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--max-loaded-models", type=int, default=3)
+    parser.add_argument("--producer-source-revision")
     parser.add_argument("--task-panel", type=pathlib.Path, default=DEFAULT_TASK_PANEL)
     parser.add_argument("--restore-receipt", type=pathlib.Path)
     parser.add_argument("--restored-population-root", type=pathlib.Path)
@@ -321,6 +324,17 @@ def main() -> int:
         raise SystemExit("temperature must be between 0 and 2")
     if args.max_loaded_models < 1:
         raise SystemExit("max-loaded-models must be at least 1")
+    producer_source_revision = args.producer_source_revision or subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    if len(producer_source_revision) != 40 or any(
+        character not in "0123456789abcdef" for character in producer_source_revision
+    ):
+        raise SystemExit("producer-source-revision must be an exact Git SHA")
     ollama_url = loopback_ollama_url(args.ollama_url)
     if not args.runtime_bin.is_file():
         raise SystemExit("real Runtime binary is required")
@@ -454,11 +468,42 @@ def main() -> int:
             raise SystemExit(f"{agent_id}: Runtime exit status contradicts its ACC receipt")
         if receipt.get("resident_id") != agent_id or receipt.get("authority_sha256") != binding["authority_sha256"]:
             raise SystemExit(f"{agent_id}: Runtime receipt authority mismatch")
+        provider_status_path = cycle_dir / "csm_adl_run_status.json"
+        if not provider_status_path.is_file():
+            raise SystemExit(f"{agent_id}: production provider status record is absent")
+        provider_status = json.loads(provider_status_path.read_text(encoding="utf-8"))
+        provider_records = provider_status.get("records") or []
+        if (
+            provider_status.get("schema") != "adl.csm.adl_workflow_run_status.v1"
+            or provider_status.get("status") != "success"
+            or len(provider_records) != 1
+            or provider_records[0].get("provider_id") != "local_ollama"
+            or provider_records[0].get("status") != "success"
+            or provider_records[0].get("step_id") != "resident-tool-proposal"
+        ):
+            raise SystemExit(f"{agent_id}: production Ollama provider result is not successful and exact")
+        producer = {
+            "source_revision": producer_source_revision,
+            "runtime_binary_sha256": digest_file(args.runtime_bin),
+            "csm_binary_sha256": digest_file(csm_bin),
+        }
+        provider_execution = {
+            "provider_id": "local_ollama",
+            "provider_kind": "ollama",
+            "model": resident["model"],
+            "configuration_sha256": resident["configuration_sha256"],
+            "status_record_sha256": digest_file(provider_status_path),
+            "result_sha256": receipt["proposal_sha256"],
+            "effect_receipt_sha256": digest_file(receipt_path),
+            "effect_decision": receipt["decision"],
+            "effect_reason_code": receipt["reason_code"],
+        }
         report_path = args.evidence_dir / f"{args.phase}-{agent_id}.json"
         report = {"schema": "adl.issue268.runtime_resident_cycle.v1", "agent_id": agent_id,
             "role": resident["role"], "task_id": task_id, "model": resident["model"],
             "task_definition_sha256": canonical_digest(task),
             "runtime_receipt": receipt, "runtime_receipt_sha256": digest_file(receipt_path),
+            "producer": producer, "provider_execution": provider_execution,
             "agent_test_outcome": receipt["decision"], "runtime_exit_code": runtime_exit_code,
             "cycle_id": receipt["cycle_id"]}
         atomic_json(report_path, report)
@@ -469,6 +514,7 @@ def main() -> int:
                 "tool_authority_digest": canonical_digest({"agent_id": agent_id, "tool_authority": resident["tool_authority"]}),
                 "runtime_authority_sha256": binding["authority_sha256"], "sequence": 1,
                 "runtime_agent_spec": str(spec_path),
+                "producer": producer, "provider_execution": provider_execution,
                 "task_panel_sha256": digest_file(args.task_panel),
                 "pre_task_definition_sha256": canonical_digest(task),
                 "pre_agent_test_outcome": receipt["decision"],
@@ -485,6 +531,7 @@ def main() -> int:
             retained["post_restore_uts_report_sha256"] = report_sha
             retained["post_task_definition_sha256"] = canonical_digest(task)
             retained["post_agent_test_outcome"] = receipt["decision"]
+            retained["post_provider_execution"] = provider_execution
             retained["checkpoint_lineage"].append(receipt["checkpoint_lineage"])
         atomic_json(args.state, state)
     state["phase"] = "pre_complete" if args.phase == "pre" else "post_complete"

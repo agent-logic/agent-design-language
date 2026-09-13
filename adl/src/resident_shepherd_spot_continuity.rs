@@ -54,6 +54,7 @@ pub fn preflight(input: &DehydrationInput) -> Result<serde_json::Value> {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ResidentModelBinding {
     pub agent_id: String,
+    pub provider_id: String,
     pub model: String,
     pub artifact_sha256: String,
     pub quantization: String,
@@ -87,6 +88,7 @@ pub struct SpotNoticeBinding {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ContinuationResident {
     pub agent_id: String,
+    pub provider_id: String,
     pub model: String,
     pub artifact_sha256: String,
     pub quantization: String,
@@ -582,7 +584,8 @@ pub async fn validate_completed_continuation(
             .iter()
             .find(|item| item.agent_id == expected.agent_id)
             .with_context(|| format!("missing completed continuation for {}", expected.agent_id))?;
-        if actual.model != expected.model
+        if actual.provider_id != expected.provider_id
+            || actual.model != expected.model
             || actual.artifact_sha256 != expected.artifact_sha256
             || actual.quantization != expected.quantization
             || actual.configuration_sha256 != expected.configuration_sha256
@@ -717,6 +720,7 @@ fn validate_models(models: &[ResidentModelBinding]) -> Result<()> {
         }
         has_llama_baseline |= model.model == "llama3.1:8b";
         for (name, value) in [
+            ("provider_id", &model.provider_id),
             ("model", &model.model),
             ("quantization", &model.quantization),
         ] {
@@ -911,6 +915,7 @@ mod tests {
     fn binding(id: &str) -> ResidentModelBinding {
         ResidentModelBinding {
             agent_id: id.to_string(),
+            provider_id: "local_ollama".to_string(),
             model: if id == "a" {
                 "llama3.1:8b".to_string()
             } else {
@@ -1226,6 +1231,7 @@ mod tests {
                 .iter()
                 .map(|resident| ContinuationResident {
                     agent_id: resident.agent_id.clone(),
+                    provider_id: resident.provider_id.clone(),
                     model: resident.model.clone(),
                     artifact_sha256: resident.artifact_sha256.clone(),
                     quantization: resident.quantization.clone(),

@@ -44,6 +44,7 @@ if args[0] == 'daemon':
 number=len(list(cycles.glob('cycle-*')))+1
 cycle=cycles/f'cycle-{number:06d}'
 cycle.mkdir()
+(cycle/'csm_adl_run_status.json').write_text(json.dumps({'schema':'adl.csm.adl_workflow_run_status.v1','status':'success','records':[{'provider_id':'local_ollama','status':'success','step_id':'resident-tool-proposal'}]})+'\\n')
 decision='denied' if number==2 or (spec['agent_instance_id']=='issue268-tool-executor' and number==1) else 'executed'
 receipt={'schema':'adl.runtime.resident_tool_receipt.v1','resident_id':spec['agent_instance_id'],
  'authority_id':spec['tool_authority']['authority_id'],'authority_sha256':spec['tool_authority']['authority_sha256'],
@@ -73,6 +74,8 @@ raise SystemExit(0 if decision=='executed' else 1)
         plan["materialization"] = {"configuration_contract": contract}
         for resident in plan["residents"]:
             resident["configuration_sha256"] = canonical_digest({
+                "provider_id": "local_ollama",
+                "provider_kind": "ollama",
                 "model": resident["model"],
                 "artifact_sha256": resident["model_ref_sha256"],
                 "quantization": resident["quantization"],

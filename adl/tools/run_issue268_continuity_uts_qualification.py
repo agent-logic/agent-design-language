@@ -71,6 +71,7 @@ def binding_for(resident: dict[str, Any], retained: dict[str, Any]) -> dict[str,
     model = resident["model"]
     return {
         "agent_id": resident["agent_id"],
+        "provider_id": "local_ollama",
         "model": model,
         # The immutable model artifact and execution configuration are bound
         # separately. The qualification bootstrap must replace model_ref_sha256
@@ -129,6 +130,9 @@ def main() -> int:
     parser.add_argument("--num-predict", type=int, default=128)
     parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--max-loaded-models", type=int, default=3)
+    parser.add_argument("--source-host", default="issue268-r7i-qualification")
+    parser.add_argument("--target-host", default="ec2")
+    parser.add_argument("--producer-source-revision")
     parser.add_argument("--build-cache-root", required=True, type=pathlib.Path)
     parser.add_argument("--agent-spec-dir", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-volume-identity-sha256", required=True)
@@ -189,6 +193,7 @@ def main() -> int:
             "role_digest": canonical_digest({"agent_id": resident["agent_id"], "role": resident["role"]}),
             "tool_authority": resident["tool_authority"],
             "tool_authority_digest": canonical_digest({"agent_id": resident["agent_id"], "tool_authority": resident["tool_authority"]}),
+            "provider_id": "local_ollama",
             "model": resident["model"],
             "model_ref_sha256": resident["model_ref_sha256"],
             "configuration_sha256": resident["configuration_sha256"],
@@ -222,6 +227,8 @@ def main() -> int:
         "--max-loaded-models",
         str(args.max_loaded_models),
     ]
+    if args.producer_source_revision:
+        uts_command.extend(["--producer-source-revision", args.producer_source_revision])
     if not args.resume_after_pre:
         run(uts_command + ["--phase", "pre"])
 
@@ -248,8 +255,8 @@ def main() -> int:
         "retained_runtime_root": str(args.runtime_root),
         "build_cache_root": str(args.build_cache_root),
         "runtime_volume_identity_sha256": args.runtime_volume_identity_sha256,
-        "source_host": "issue268-r7i-qualification",
-        "target_host": "ec2",
+        "source_host": args.source_host,
+        "target_host": args.target_host,
         "spot_notice": None,
     }
     dehydration_input_path = args.evidence_dir / "dehydration-input.json"
@@ -320,6 +327,9 @@ def main() -> int:
                 "post_uts_report_sha256": retained["post_restore_uts_report_sha256"],
                 "pre_agent_test_outcome": retained["pre_agent_test_outcome"],
                 "post_agent_test_outcome": retained["post_agent_test_outcome"],
+                "producer": retained["producer"],
+                "pre_provider_execution": retained["provider_execution"],
+                "post_provider_execution": retained["post_provider_execution"],
                 "restored_runtime_agent_spec_sha256": retained["restored_runtime_agent_spec_sha256"],
                 "checkpoint_lineage": retained["checkpoint_lineage"],
                 "replay_denial_receipt_sha256": retained["replay_denial_receipt_sha256"],

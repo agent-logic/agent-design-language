@@ -79,6 +79,8 @@ def main() -> int:
         if not isinstance(quantization, str) or not quantization.startswith("Q4"):
             raise SystemExit(f"{model} is not a reviewed Q4 quantization")
         configuration = {
+            "provider_id": "local_ollama",
+            "provider_kind": "ollama",
             "model": model,
             "artifact_sha256": artifact,
             "quantization": quantization,
@@ -120,6 +122,7 @@ def main() -> int:
                 "role_digest": canonical_digest({"agent_id": resident["agent_id"], "role": resident["role"]}),
                 "tool_authority": resident["tool_authority"],
                 "tool_authority_digest": canonical_digest({"agent_id": resident["agent_id"], "tool_authority": resident["tool_authority"]}),
+                "provider_id": "local_ollama",
                 "model": resident["model"],
                 "model_ref_sha256": resident["model_ref_sha256"],
                 "configuration_sha256": resident["configuration_sha256"],

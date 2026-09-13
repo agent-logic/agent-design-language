@@ -68,6 +68,10 @@ def substitute_configuration(runtime_root: pathlib.Path, restore_input: dict[str
     restore_input["residents"][0]["configuration_sha256"] = "0" * 64
 
 
+def substitute_provider(runtime_root: pathlib.Path, restore_input: dict[str, Any]) -> None:
+    restore_input["residents"][0]["provider_id"] = "substituted_provider"
+
+
 def substitute_lineage(runtime_root: pathlib.Path, restore_input: dict[str, Any]) -> None:
     restore_input["residents"][0]["completed_task_sha256"] = "0" * 64
 
@@ -83,6 +87,7 @@ SCENARIOS: tuple[tuple[str, Callable[[pathlib.Path, dict[str, Any]], None]], ...
     ("changed_signature", tamper_signature),
     ("changed_payload", tamper_payload),
     ("removed_resident", omit_resident),
+    ("substituted_provider", substitute_provider),
     ("substituted_configuration", substitute_configuration),
     ("substituted_lineage", substitute_lineage),
     ("stale_snapshot", stale_snapshot),

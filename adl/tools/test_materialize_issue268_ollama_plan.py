@@ -56,6 +56,8 @@ def main() -> None:
         assert plan["host"]["max_loaded_models"] == 1
         qwen = next(row for row in plan["residents"] if row["model"] == "qwen3:8b")
         expected_qwen_configuration = {
+            "provider_id": "local_ollama",
+            "provider_kind": "ollama",
             "model": "qwen3:8b",
             "artifact_sha256": qwen["model_ref_sha256"],
             "quantization": qwen["quantization"],
@@ -74,6 +76,7 @@ def main() -> None:
         assert len(written_specs) == 6
         assert {row["agent_id"] for row in written_specs} == {row["agent_id"] for row in plan["residents"]}
         assert all(row["schema"] == "adl.issue268.resident_agent_spec.v1" for row in written_specs)
+        assert all(row["provider_id"] == "local_ollama" for row in written_specs)
         subprocess.run(command, cwd=ROOT, check=True)
         assert json.loads(output.read_text()) == plan
 
