@@ -29,20 +29,20 @@ Execution:
 - Model: `phi4-mini:latest; manifest sha256 78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753; model blob sha256 3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db; MIT license`
 - Provider: `ollama through NVIDIA PAIR v0.1.1 loopback proxy and canonical provider reload sidecar`
 - Start Time: `unknown; implementation began under active child goal`
-- End Time: `implementation complete; review and CI pending`
+- End Time: `implementation and first review repairs complete; renewed review and CI pending`
 
 ## Summary
 
-PAIR works as a two-node request router and remains useful for ADL. The experiment disposition is REPAIR before production: larger and concurrent work showed material gains, actual failover and recovery succeeded, and startup/shared-host outliers plus operational gaps remain.
+PAIR works as a two-node request router. Decision REPAIR: the heterogeneous PAIR-cluster deployment materially outperformed the Mac-only baseline on larger/concurrent healthy work, failover and recovery succeeded, and the result does not isolate router overhead from RTX hardware. Startup/shared-host outliers and operational gaps remain.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
 - Planned PVF lane: `provider`
 - Final PVF lane: `provider`
-- Lane change reason: `No lane change; executed only local deterministic subset of required provider experiment proof`
+- Lane change reason: `No lane change; deterministic accounting plus actual two-node provider hardware integration were executed.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `small CPU/filesystem and loopback transport; actual accelerator Runtime proof pending`
+- Expected runtime class: `Small deterministic CPU/filesystem checks plus bounded two-node local accelerator Runtime execution.`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -57,7 +57,7 @@ PAIR works as a two-node request router and remains useful for ADL. The experime
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_review_pending`
+- Completion state: `implementation_complete_renewed_review_pending`
 - Issue goal ref: `Sprint #932 child #904 active implementation goal`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/904/goal-metrics.json (planned, absent until execution)`
@@ -75,8 +75,8 @@ PAIR works as a two-node request router and remains useful for ADL. The experime
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/904/cards/sor.md`
-- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/PLAN.json; .csdlc/evidence/904/RESOURCE_SAMPLES.json; .csdlc/evidence/904/MEASUREMENTS.json; .csdlc/evidence/904/RESULTS.json; .csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json; .csdlc/evidence/904/EXPERIMENT_REPORT.md; .csdlc/evidence/904/DECISION.md; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md`
-- Additional proof artifacts: `.csdlc/evidence/904/PLAN.json; .csdlc/evidence/904/RESOURCE_SAMPLES.json; .csdlc/evidence/904/MEASUREMENTS.json; .csdlc/evidence/904/RESULTS.json; .csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json; .csdlc/evidence/904/EXPERIMENT_REPORT.md; .csdlc/evidence/904/DECISION.md`
+- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/PLAN.json; .csdlc/evidence/904/RESOURCE_SAMPLES.json; .csdlc/evidence/904/MEASUREMENTS.json; .csdlc/evidence/904/RESULTS.json; .csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json; .csdlc/evidence/904/EXPERIMENT_REPORT.md; .csdlc/evidence/904/DECISION.md; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md; .csdlc/evidence/904/providers.yaml; .csdlc/evidence/904/OBSERVED_RESOURCE_SAMPLE.json`
+- Additional proof artifacts: `.csdlc/evidence/904/PLAN.json; .csdlc/evidence/904/RESOURCE_SAMPLES.json; .csdlc/evidence/904/MEASUREMENTS.json; .csdlc/evidence/904/RESULTS.json; .csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json; .csdlc/evidence/904/EXPERIMENT_REPORT.md; .csdlc/evidence/904/DECISION.md; .csdlc/evidence/904/providers.yaml; .csdlc/evidence/904/OBSERVED_RESOURCE_SAMPLE.json`
 
 ## Actions taken
 - `Verified native bound context, current issue and accepted #876; created child #904 implementation goal under #932.`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `python3 adl/tools/test_pair_experiment.py; python3 adl/tools/pair_experiment.py --plan .csdlc/evidence/904/PLAN.json --measurements .csdlc/evidence/904/MEASUREMENTS.json --provider-definitions <pinned-private-sidecar>; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
-    `Partial accounting and loopback transport correctness established; no actual PAIR/Runtime/hardware qualification.`
+  - `python3 adl/tools/test_pair_experiment.py; python3 adl/tools/pair_experiment.py --plan .csdlc/evidence/904/PLAN.json --measurements .csdlc/evidence/904/MEASUREMENTS.json --provider-definitions .csdlc/evidence/904/providers.yaml --resource-samples .csdlc/evidence/904/RESOURCE_SAMPLES.json; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
+    `Complete local two-node PAIR/Runtime qualification and deterministic replay established; independent renewed review and hosted CI remain pending.`
 - Results:
-  - `18 deterministic Python tests passed; the complete 72-request accounting replay passed; one exact Rust workflow-shape test passed; strict Clippy, JSON parsing and diff checks passed. Four actual Runtime batches passed 24 of 24 outputs across healthy and node-loss states. Raw baseline/PAIR runs passed 48 of 48 Phi-4 outputs. Broker attribution proved healthy RTX selection, Mac failover and RTX recovery. Independent exact-head review and CI remain pending.`
+  - `19 deterministic Python tests passed, including valid-but-wrong resource digest rejection; the complete 72-request accounting replay is byte-identical from tracked inputs; one exact Rust workflow-shape test passed; strict Clippy, JSON parsing and diff checks passed. Four actual Runtime receipts passed 24 of 24 outputs across healthy and node-loss states. Raw baseline/PAIR runs passed 48 of 48 Phi-4 outputs. Broker attribution proved healthy RTX selection, Mac failover and RTX recovery. First exact-head findings are repaired; renewed review and CI remain pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -136,7 +136,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: complete_local_experiment_packet_review_pending
+    status: complete_local_experiment_packet_first_review_findings_repaired
     required_artifacts_present: yes; review and CI are lifecycle gates rather than missing experiment artifacts
     schema_changes:
       present: not_run
@@ -159,15 +159,15 @@ verification_summary:
 ## Replay Artifacts
 - Trace bundle path(s): `.adl/runs/904/accounting-tests.log`
 - Run artifact root: `.csdlc/evidence/904`
-- Replay command used for verification: `python3 adl/tools/test_pair_experiment.py`
+- Replay command used for verification: `python3 adl/tools/pair_experiment.py --plan .csdlc/evidence/904/PLAN.json --measurements .csdlc/evidence/904/MEASUREMENTS.json --provider-definitions .csdlc/evidence/904/providers.yaml --resource-samples .csdlc/evidence/904/RESOURCE_SAMPLES.json`
 - Replay result: `72 records admitted; deterministic summaries and comparisons emitted`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/904`
 - Required artifacts present: `complete local experiment packet present`
 - Artifact schema/version checks: `Native generation8 six-card values/renders/structures/digest validation passed; further field normalization is revalidated natively.`
-- Hash/byte-stability checks: `Plan/provider/resource/private-input digests checked by accounting replay and tracked supplemental manifest`
-- Missing/optional artifacts and rationale: `Per-request power and GPU utilization were not collected reliably, so no energy-efficiency claim is made.`
+- Hash/byte-stability checks: `Plan, tracked provider, tracked resource and ignored private-input digests checked; accounting rejects a valid-format wrong resource digest.`
+- Missing/optional artifacts and rationale: `A bounded post-run residency/utilization snapshot is retained. No per-request power or utilization time series was collected, so no energy-efficiency claim is made.`
 
 ## Decisions / Deviations
 - `#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main`

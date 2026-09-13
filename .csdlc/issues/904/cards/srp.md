@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/904/cards/sip.md"
   - ".csdlc/issues/904/cards/vpp.md"
 review_results:
-  findings_status: "addressed"
-  recommended_outcome: "block"
-notes: "Reviewer sprint8_909 accepted partial source8356bf4eea0f2652d10302d3af5a395ef8452a7f, independently14testsPASS1.703s anddiffcheckPASS. Partial source acceptance is not issue acceptance: actual server cancellation, two-node PAIR/Runtime route and controlled loss remain unproved. No closingPR authorization or qualification."
+  findings_status: "addressed_pending_rereview"
+  recommended_outcome: "pending"
+notes: "Independent exact-head review at 83632e9c found one P1 and four P2 findings: stale SRP/SOR truth, ignored-only provider bytes, unbound resource digest, hardware-confounded performance wording and missing observed resource sample. Repairs are committed at ac3e74d097cb98aae9b0468fcd00c76674ee6f22; renewed exact-head review is required."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent partial review found3P2 defects: unbounded matrix allocation, unbounded model residency, and omitted sampling/token controls.
+- P1 stale lifecycle truth; P2 nonportable replay; P2 unbound resource evidence; P2 hardware-confounded wording; P2 missing observed resource measurement.
 
 ### Dispositions
 
-- All3 corrected at8356bf4eea0f2652d10302d3af5a395ef8452a7f:100k pre-allocation cap,0..300second residency with0default, explicit validated Ollama temperature/seed/num_predict.
+- Tracked byte-identical safe provider sidecar; added required resource input and exact digest verification plus regression; relabeled results as heterogeneous cluster versus Mac-only deployment; retained bounded observed post-run resource snapshot; refreshed SOR truth. No production provider behavior changed.
 
 ### Recommended Outcome
 
-- block
+- pending
 
 ## Notes
 
-Reviewer sprint8_909 accepted partial source8356bf4eea0f2652d10302d3af5a395ef8452a7f, independently14testsPASS1.703s anddiffcheckPASS. Partial source acceptance is not issue acceptance: actual server cancellation, two-node PAIR/Runtime route and controlled loss remain unproved. No closingPR authorization or qualification.
+Independent exact-head review at 83632e9c found one P1 and four P2 findings: stale SRP/SOR truth, ignored-only provider bytes, unbound resource digest, hardware-confounded performance wording and missing observed resource sample. Repairs are committed at ac3e74d097cb98aae9b0468fcd00c76674ee6f22; renewed exact-head review is required.
