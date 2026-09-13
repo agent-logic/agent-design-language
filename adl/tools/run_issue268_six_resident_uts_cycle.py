@@ -267,11 +267,12 @@ def validate_configuration_contract(
     num_predict: int,
     temperature: float,
     max_loaded_models: int,
+    gpu_placement: str,
 ) -> None:
     expected_contract = {
         "context_tokens": context_tokens,
         "num_predict": num_predict,
-        "gpu_placement": "ollama_server_default",
+        "gpu_placement": gpu_placement,
         "temperature": temperature,
         "max_concurrent_inference": 1,
         "max_loaded_models": max_loaded_models,
@@ -311,6 +312,7 @@ def main() -> int:
     parser.add_argument("--num-predict", type=int, default=128)
     parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--max-loaded-models", type=int, default=3)
+    parser.add_argument("--gpu-placement", default="ollama_server_default")
     parser.add_argument("--producer-source-revision")
     parser.add_argument("--task-panel", type=pathlib.Path, default=DEFAULT_TASK_PANEL)
     parser.add_argument("--restore-receipt", type=pathlib.Path)
@@ -359,6 +361,7 @@ def main() -> int:
         args.num_predict,
         args.temperature,
         args.max_loaded_models,
+        args.gpu_placement,
     )
     runtime_root = args.runtime_root.resolve()
     if args.phase == "pre":

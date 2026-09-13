@@ -41,6 +41,7 @@ def main() -> int:
     parser.add_argument("--context-tokens", type=int, default=32768)
     parser.add_argument("--num-predict", type=int, default=128)
     parser.add_argument("--temperature", type=float, default=0)
+    parser.add_argument("--gpu-placement", default="ollama_server_default")
     args = parser.parse_args()
     if args.max_loaded_models < 1:
         raise SystemExit("max-loaded-models must be positive")
@@ -86,7 +87,7 @@ def main() -> int:
             "quantization": quantization,
             "context_tokens": args.context_tokens,
             "num_predict": args.num_predict,
-            "gpu_placement": "ollama_server_default",
+            "gpu_placement": args.gpu_placement,
             "temperature": args.temperature,
             "max_concurrent_inference": 1,
             "max_loaded_models": args.max_loaded_models,
@@ -103,7 +104,7 @@ def main() -> int:
         "configuration_contract": {
             "context_tokens": args.context_tokens,
             "num_predict": args.num_predict,
-            "gpu_placement": "ollama_server_default",
+            "gpu_placement": args.gpu_placement,
             "temperature": args.temperature,
             "max_concurrent_inference": 1,
             "max_loaded_models": args.max_loaded_models,

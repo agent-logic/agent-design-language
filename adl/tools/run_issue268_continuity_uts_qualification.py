@@ -130,6 +130,7 @@ def main() -> int:
     parser.add_argument("--num-predict", type=int, default=128)
     parser.add_argument("--temperature", type=float, default=0)
     parser.add_argument("--max-loaded-models", type=int, default=3)
+    parser.add_argument("--gpu-placement", default="ollama_server_default")
     parser.add_argument("--source-host", default="issue268-r7i-qualification")
     parser.add_argument("--target-host", default="ec2")
     parser.add_argument("--producer-source-revision")
@@ -226,6 +227,8 @@ def main() -> int:
         str(args.temperature),
         "--max-loaded-models",
         str(args.max_loaded_models),
+        "--gpu-placement",
+        args.gpu_placement,
     ]
     if args.producer_source_revision:
         uts_command.extend(["--producer-source-revision", args.producer_source_revision])
