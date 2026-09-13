@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][PLAT-PAIR] NVIDIA PAIR multi-node local-inference experiment"
 branch: "codex/904-v0922-pair-multinode-experiment"
 generated_at: "2026-09-12T00:18:16.017452+00:00"
-card_status: "ready"
+card_status: "reviewed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/904/cards/sip.md"
   - ".csdlc/issues/904/cards/vpp.md"
 review_results:
-  findings_status: "addressed_pending_final_rereview"
-  recommended_outcome: "pending"
-notes: "Independent review verified the five first-round repairs at 8a60b072c. It then found stale 18-test and unknown metrics-source fields plus a synthetic exact snapshot timestamp. Evidence commit 03732162bebdb6567489b7c1aa8a0e239cac4243 and this native card edit correct those remaining findings. Final exact-head review is pending."
+  findings_status: "addressed"
+  recommended_outcome: "pass"
+notes: "Independent subagent review verified 19 Python tests, checkout-only byte-identical accounting replay, exact Rust workflow-shape test 1/1, strict Clippy, JSON parsing, diff hygiene, the complete provider/resource/snapshot digest chain, all ten private input and Runtime receipt hashes, clean worktree, no production-provider diff and no tracked leakage."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- First review: one P1 and four P2 evidence/portability/accounting/wording/resource findings. Second review: two P2 stale SOR metric fields and synthetic exact resource timestamp.
+- First review found one P1 and four P2 findings; second review found two residual P2 truth issues. All were repaired. Final exact-head review at 67093562e06ebedf7a14351d33d2a383193611eb found no actionable findings.
 
 ### Dispositions
 
-- All findings addressed: tracked sidecar; required exact resource digest and regression; heterogeneous-deployment wording; bounded observed resource snapshot; current two-node lifecycle truth; 19-test count; tracked metric-source references; unknown exact snapshot time stated explicitly.
+- Pass for native publication. Tracked replay is portable; resource bytes are mandatory and exact-digest checked; heterogeneous deployment wording is bounded; observed resources and timestamp uncertainty are truthful; SOR metrics and sources are current. Hosted CI and merge remain pending.
 
 ### Recommended Outcome
 
-- pending
+- pass
 
 ## Notes
 
-Independent review verified the five first-round repairs at 8a60b072c. It then found stale 18-test and unknown metrics-source fields plus a synthetic exact snapshot timestamp. Evidence commit 03732162bebdb6567489b7c1aa8a0e239cac4243 and this native card edit correct those remaining findings. Final exact-head review is pending.
+Independent subagent review verified 19 Python tests, checkout-only byte-identical accounting replay, exact Rust workflow-shape test 1/1, strict Clippy, JSON parsing, diff hygiene, the complete provider/resource/snapshot digest chain, all ten private input and Runtime receipt hashes, clean worktree, no production-provider diff and no tracked leakage.
