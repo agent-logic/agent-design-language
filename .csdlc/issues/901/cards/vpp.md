@@ -24,7 +24,7 @@ planned_validation_seconds: "2400"
 planned_validation_tokens: "10000"
 issue_goal_ref: "thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification"
 sprint_goal_ref: "Sprint 5 umbrella #931; child #901 provider failure and recovery qualification"
-goal_metrics_rollup_ref: ".csdlc/evidence/901/goal-metrics.json (planned, absent until execution)"
+goal_metrics_rollup_ref: ".csdlc/evidence/901/goal-metrics.json not collected; active Sprint #931 goal service owns session accounting"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/901"
@@ -75,7 +75,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 - Issue goal ref: `thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification`
 - Sprint goal ref: `Sprint 5 umbrella #931; child #901 provider failure and recovery qualification`
-- Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json (planned, absent until execution)`
+- Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json not collected; active Sprint #931 goal service owns session accounting`
 
 ## Proof Cost / Runtime Expectations
 

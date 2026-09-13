@@ -26,7 +26,7 @@ estimate_data_source: "Approved bounded task-owned local provider profile; no pa
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/901"
 issue_goal_ref: "thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification"
 sprint_goal_ref: "Sprint 5 umbrella #931; child #901 provider failure and recovery qualification"
-goal_metrics_rollup_ref: ".csdlc/evidence/901/goal-metrics.json (planned, absent until execution)"
+goal_metrics_rollup_ref: ".csdlc/evidence/901/goal-metrics.json not collected; active Sprint #931 goal service owns session accounting"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/901"

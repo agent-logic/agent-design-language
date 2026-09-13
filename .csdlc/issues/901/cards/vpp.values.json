@@ -17,7 +17,7 @@
   "expected_proof_cost": "Observed live scenario wall time 11.166 seconds plus task-owned provider startup and reaping; local build was cold after cross-filesystem cache warmup safely skipped.",
   "status": "executed",
   "issue_goal_ref": "thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification",
-  "goal_metrics_rollup_ref": ".csdlc/evidence/901/goal-metrics.json (planned, absent until execution)",
+  "goal_metrics_rollup_ref": ".csdlc/evidence/901/goal-metrics.json not collected; active Sprint #931 goal service owns session accounting",
   "parallel_groups_inline": "Serialize task-owned live fault scenarios; deterministic negative fixtures may run separately after harness implementation",
   "planned_pvf_lane": "provider",
   "slug": "v0922-provider-recovery-qualification",
