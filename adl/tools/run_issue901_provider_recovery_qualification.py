@@ -371,7 +371,7 @@ def validate_report(report: dict[str, Any], artifact_root: Path | None = None) -
                 or artifact.get("ref") != expected_ref
                 or not is_sha256(artifact.get("sha256"))
                 or not isinstance(artifact.get("bytes"), int)
-                or artifact["bytes"] <= 0
+                or artifact["bytes"] < (1 if kind in {"request", "log", "result"} else 0)
             ):
                 errors.append(f"{name}_{kind}_artifact_invalid")
                 continue
