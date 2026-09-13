@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
 branch: "codex/901-v0922-provider-recovery-qualification"
 generated_at: "2026-09-12T00:15:14.473149+00:00"
-card_status: "draft"
+card_status: "reviewed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/901/cards/sip.md"
   - ".csdlc/issues/901/cards/vpp.md"
 review_results:
-  findings_status: "pending"
-  recommended_outcome: "pending independent exact-head review"
-notes: "Review exact head after live-run-09 and the committed harness, validator, portable receipt, exact source c6651bb59fc117f10abc9e613d0042f567759ee8 execution relationship, all four scenario identities, result artifacts and the separately hashed execution-observation artifact. Verify all prior findings are fixed, coordinated summary tampering fails, #851 paths remain excluded, the portable report is redacted, and all 19 negative fixtures pass."
+  findings_status: "addressed"
+  recommended_outcome: "pass"
+notes: "Independent review verified direct transport-loss handling, four distinct task-owned provider PIDs and requests, real timeout and SIGTERM interruption, fresh-PID recovery, raw result equality, separately hashed execution-observation binding, coordinated-tamper rejection, 19 validator tests, 51 Rust provider-adapter tests, redaction/path hygiene, #851 exclusion, and coherent SPP/VPP/SRP/SOR truth."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- pending
+- Independent review found five actionable evidence/lifecycle issues across three passes: synthetic proxy 502, summary-to-raw evidence binding, stale SOR truth, stale VPP run state, and stale operative SPP state. All were fixed. Final exact-head review at 06ad3771f14a12c399f03a404fb587d9de33b153 reported no actionable findings.
 
 ### Dispositions
 
-- pending
+- Pass for native draft publication. Live-run-09 is bound to exact source c6651bb59fc117f10abc9e613d0042f567759ee8 and retained privately; the portable report is tracked. Hosted CI, merge, and terminal closeout remain pending.
 
 ### Recommended Outcome
 
-- pending independent exact-head review
+- pass
 
 ## Notes
 
-Review exact head after live-run-09 and the committed harness, validator, portable receipt, exact source c6651bb59fc117f10abc9e613d0042f567759ee8 execution relationship, all four scenario identities, result artifacts and the separately hashed execution-observation artifact. Verify all prior findings are fixed, coordinated summary tampering fails, #851 paths remain excluded, the portable report is redacted, and all 19 negative fixtures pass.
+Independent review verified direct transport-loss handling, four distinct task-owned provider PIDs and requests, real timeout and SIGTERM interruption, fresh-PID recovery, raw result equality, separately hashed execution-observation binding, coordinated-tamper rejection, 19 validator tests, 51 Rust provider-adapter tests, redaction/path hygiene, #851 exclusion, and coherent SPP/VPP/SRP/SOR truth.

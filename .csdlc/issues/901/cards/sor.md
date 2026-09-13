@@ -57,7 +57,7 @@ Implemented and executed real task-owned provider loss, timeout, interruption, a
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `high for recorded local run`
 - Estimate error percent: `unknown`
-- Completion state: `validation_passed_review_pending`
+- Completion state: `review_passed_publication_pending`
 - Issue goal ref: `thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification`
 - Sprint goal ref: `Sprint 5 umbrella #931; child #901 provider failure and recovery qualification`
 - Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json (planned, absent until execution)`
@@ -110,7 +110,7 @@ Rules:
   - `cargo build; 51-test focused Rust provider-adapter suite; 19-test Python validator suite; live-run-09 4/4; raw observation-bound and portable validate-report; cargo fmt --check; py_compile; git diff --check; path/redaction scan`
     `Proves actual provider invocation reached the task-owned process before each fault and successful distinct work completed on a fresh provider PID`
 - Results:
-  - `passed locally; independent exact-head review and CI pending`
+  - `Local four-scenario provider qualification, raw observation/result binding, 19 deterministic evidence negatives, 51 focused Rust provider-adapter tests, formatting, compile and diff hygiene passed. Independent exact-head review at 06ad3771f14a12c399f03a404fb587d9de33b153 found no actionable findings; hosted CI remains pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: passed_local
+    status: local_complete_review_passed_ci_pending
     checks_run:
       - "passed: raw and portable validator reports contain no errors"
   determinism:
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: yes for local proof; review, CI, PR, merge and terminal artifacts pending
     schema_changes:
       present: false
-      approved: not_applicable
+      approved: reviewed with no actionable findings at 06ad3771f14a12c399f03a404fb587d9de33b153
 ```
 
 ## Determinism Evidence
@@ -174,5 +174,5 @@ verification_summary:
 - `Use only task-owned local subprocesses and new #901 paths; preserve #851 and do not mutate shared provider services`
 
 ## Follow-ups / Deferred work
-- `Obtain independent exact-head review and fix actionable findings`
-- `Run native review/publish, CI watch, then wait for operator merge authorization`
+- `Publish the native draft PR with Closes #901 and verify exact base, head and linkage.`
+- `Observe required CI and resolve any current-head findings before requesting merge.`

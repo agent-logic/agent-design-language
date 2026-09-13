@@ -10,7 +10,7 @@ title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qual
 branch: "codex/901-v0922-provider-recovery-qualification"
 generated_at: "2026-09-12T00:15:14.473149+00:00"
 card_status: "ready"
-status: "in_progress"
+status: "completed"
 activation_state: "bound_in_progress"
 plan_revision: 1
 initial_pvf_lane: "provider"
@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "completed"
 affected_areas:
   - "v0922-provider-recovery-qualification"
 invariants_to_preserve:
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
