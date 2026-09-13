@@ -4,8 +4,11 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
 import signal
+import tempfile
 import unittest
 
 
@@ -82,6 +85,42 @@ def valid_report() -> dict:
         ],
         "inference_request_body_sha256": [char * 64 for char in "abcd"],
         "scenarios": scenarios,
+        "execution_observation_artifact": {
+            "ref": "execution-observations.json", "sha256": "e" * 64, "bytes": 1,
+        },
+    }
+
+
+def materialize_raw_report(report: dict, root: Path) -> None:
+    for name in MODULE.SCENARIOS:
+        row = report["scenarios"][name]
+        request = {"request_id": row["request_id"]}
+        events = [
+            {"event_type": "run_start", "request_id": row["request_id"]},
+            {"event_type": "attempt_start", "request_id": row["request_id"]},
+        ]
+        contents = {
+            "request": json.dumps(request, indent=2) + "\n",
+            "log": "".join(json.dumps(event) + "\n" for event in events),
+            "stdout": "",
+            "stderr": "",
+        }
+        if name != "interruption":
+            contents["result"] = json.dumps(row["result"], indent=2) + "\n"
+        for kind, content in contents.items():
+            artifact = row["artifacts"][kind]
+            path = root / artifact["ref"]
+            path.write_text(content)
+            artifact["sha256"] = hashlib.sha256(content.encode()).hexdigest()
+            artifact["bytes"] = len(content.encode())
+
+    observation_path = root / "execution-observations.json"
+    content = json.dumps(MODULE.execution_observation(report), indent=2) + "\n"
+    observation_path.write_text(content)
+    report["execution_observation_artifact"] = {
+        "ref": observation_path.name,
+        "sha256": hashlib.sha256(content.encode()).hexdigest(),
+        "bytes": len(content.encode()),
     }
 
 
@@ -141,6 +180,42 @@ class ReportValidationTests(unittest.TestCase):
         self.assertNotIn("output_text", public["scenarios"]["recovery"]["result"])
         self.assertTrue(public["scenarios"]["recovery"]["result"]["output_text_present"])
         self.assertEqual(public["provider"]["binary"], "llama-server")
+
+    def test_raw_report_passes(self) -> None:
+        report = valid_report()
+        with tempfile.TemporaryDirectory() as directory:
+            materialize_raw_report(report, Path(directory))
+            self.assertEqual(MODULE.validate_report(report, Path(directory)), [])
+
+    def test_rejects_coordinated_process_summary_tamper(self) -> None:
+        report = valid_report()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            materialize_raw_report(report, root)
+            for index, name in enumerate(MODULE.SCENARIOS):
+                report["scenarios"][name]["owned_provider_pid"] += 100
+                report["provider_incarnations"][index]["pid"] += 100
+                report["provider_incarnations"][index]["started_at"] = f"fabricated-{name}"
+            self.assertIn("execution_observation_summary_mismatch", MODULE.validate_report(report, root))
+
+    def test_rejects_coordinated_proxy_hash_tamper(self) -> None:
+        report = valid_report()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            materialize_raw_report(report, root)
+            hashes = [char * 64 for char in "1234"]
+            for record, digest in zip(report["proxy_records"], hashes):
+                record["body_sha256"] = digest
+            report["inference_request_body_sha256"] = hashes
+            self.assertIn("execution_observation_summary_mismatch", MODULE.validate_report(report, root))
+
+    def test_rejects_embedded_result_raw_divergence(self) -> None:
+        report = valid_report()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            materialize_raw_report(report, root)
+            report["scenarios"]["recovery"]["result"]["duration_ms"] = 999
+            self.assertIn("recovery_result_artifact_summary_mismatch", MODULE.validate_report(report, root))
 
 
 if __name__ == "__main__":

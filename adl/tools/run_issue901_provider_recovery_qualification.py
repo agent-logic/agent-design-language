@@ -298,6 +298,25 @@ def is_sha256(value: Any) -> bool:
     return isinstance(value, str) and len(value) == 64 and all(char in "0123456789abcdef" for char in value)
 
 
+def execution_observation(report: dict[str, Any]) -> dict[str, Any]:
+    """Project execution claims into the separately hashed raw observation artifact."""
+    scenarios = report.get("scenarios", {})
+    return {
+        "schema": "adl.issue901.execution_observations.v1",
+        "provider_incarnations": report.get("provider_incarnations"),
+        "proxy_records": report.get("proxy_records"),
+        "inference_request_body_sha256": report.get("inference_request_body_sha256"),
+        "scenarios": {
+            name: {
+                key: value
+                for key, value in scenarios.get(name, {}).items()
+                if key not in {"result", "artifacts"}
+            }
+            for name in SCENARIOS
+        },
+    }
+
+
 def validate_report(report: dict[str, Any], artifact_root: Path | None = None) -> list[str]:
     errors: list[str] = []
     if report.get("schema") != SCHEMA:
@@ -319,6 +338,28 @@ def validate_report(report: dict[str, Any], artifact_root: Path | None = None) -
         incarnations = []
         errors.append("provider_incarnations_missing")
     incarnation_by_label = {row.get("label"): row for row in incarnations if isinstance(row, dict)}
+
+    observation_artifact = report.get("execution_observation_artifact")
+    if (
+        not isinstance(observation_artifact, dict)
+        or observation_artifact.get("ref") != "execution-observations.json"
+        or not is_sha256(observation_artifact.get("sha256"))
+        or not isinstance(observation_artifact.get("bytes"), int)
+        or observation_artifact["bytes"] <= 0
+    ):
+        errors.append("execution_observation_artifact_invalid")
+    elif artifact_root is not None:
+        observation_path = artifact_root / "execution-observations.json"
+        try:
+            if (
+                sha256_file(observation_path) != observation_artifact["sha256"]
+                or observation_path.stat().st_size != observation_artifact["bytes"]
+            ):
+                errors.append("execution_observation_artifact_content_mismatch")
+            elif json.loads(observation_path.read_text()) != execution_observation(report):
+                errors.append("execution_observation_summary_mismatch")
+        except (OSError, json.JSONDecodeError):
+            errors.append("execution_observation_artifact_content_mismatch")
 
     request_ids: set[str] = set()
     provider_pids: list[int] = []
@@ -391,6 +432,13 @@ def validate_report(report: dict[str, Any], artifact_root: Path | None = None) -
                     errors.append(f"{name}_request_artifact_identity_mismatch")
             except (OSError, json.JSONDecodeError):
                 errors.append(f"{name}_request_artifact_invalid")
+            if name != "interruption":
+                result_path = artifact_root / f"{name}-result.json"
+                try:
+                    if json.loads(result_path.read_text()) != result:
+                        errors.append(f"{name}_result_artifact_summary_mismatch")
+                except (OSError, json.JSONDecodeError):
+                    errors.append(f"{name}_result_artifact_invalid")
             log_path = artifact_root / f"{name}-adapter.jsonl"
             try:
                 events = [json.loads(line) for line in log_path.read_text().splitlines() if line.strip()]
@@ -605,6 +653,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "resource_profile": "task-owned CPU llama-server and adapter process groups, loopback, local disk",
             "release_gate": "required issue gate",
         },
+    }
+    observation_path = output / "execution-observations.json"
+    observation_path.write_text(json.dumps(execution_observation(report), indent=2) + "\n")
+    report["execution_observation_artifact"] = {
+        "ref": observation_path.name,
+        "sha256": sha256_file(observation_path),
+        "bytes": observation_path.stat().st_size,
     }
     errors = validate_report(report)
     report["validation"] = {"status": "passed" if not errors else "failed", "errors": errors, "scenario_count": len(scenarios)}
