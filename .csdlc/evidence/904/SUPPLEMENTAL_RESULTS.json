@@ -1,0 +1,233 @@
+{
+  "schema": "adl.pair.supplemental-results.v1",
+  "private_inputs_redacted": true,
+  "private_input_sha256": {
+    "healthy-phi4-local-comparison-raw.json": "4b2cd9afb7ccb3461fda2ffa1ea74bbaaa2f52ebfe6b000ff15926b43e1f98e5",
+    "node-loss-phi4-local-comparison-raw.json": "7220c87d86e40fac44ff0438fdedd5d05e5130383a4a273ae0ca1f70fcbbb066",
+    "phi4-healthy-loss-broker-private.ndjson": "38ed20f208a1771c3179caa88ef5dd681f113ee431767c73f3415b3081506e3a",
+    "recovery-broker-private.ndjson": "e013138b41341528333bc07c7e2c4d9f94f2a92bf8240fbed3ccf05c25359d56",
+    "deepseek-local-comparison-raw.json": "d102c5a36601d0df67095b2f66f99ba0ee15337c08441a3c4d3cf5b52d99917e",
+    "deepseek-broker-private.ndjson": "4b0a2b79bc39188ab65127ea1a4778db49da482bf2885cbab8c80f860976bcdd"
+  },
+  "phi4_healthy_raw": [
+    {
+      "route": "baseline",
+      "concurrency": 1,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.4114244579686783,
+      "batch_seconds": 2.470608000003267,
+      "completed_requests_per_second": 2.428552000152216
+    },
+    {
+      "route": "raw_pair",
+      "concurrency": 1,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.03972270849044435,
+      "batch_seconds": 6.0830399169935845,
+      "completed_requests_per_second": 0.9863489442570311
+    },
+    {
+      "route": "baseline",
+      "concurrency": 2,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.48989120850455947,
+      "batch_seconds": 1.5958947910112329,
+      "completed_requests_per_second": 3.7596463337023125
+    },
+    {
+      "route": "raw_pair",
+      "concurrency": 2,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.0941776460094843,
+      "batch_seconds": 0.3378182069864124,
+      "completed_requests_per_second": 17.76103204597652
+    }
+  ],
+  "phi4_node_loss_raw": [
+    {
+      "route": "baseline",
+      "concurrency": 1,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.39282599999569356,
+      "batch_seconds": 2.322267332987394,
+      "completed_requests_per_second": 2.583681867617508
+    },
+    {
+      "route": "raw_pair",
+      "concurrency": 1,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.4211190420028288,
+      "batch_seconds": 2.460843667096924,
+      "completed_requests_per_second": 2.4381882035920817
+    },
+    {
+      "route": "baseline",
+      "concurrency": 2,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.44880512499366887,
+      "batch_seconds": 1.4532521259388886,
+      "completed_requests_per_second": 4.128671063270344
+    },
+    {
+      "route": "raw_pair",
+      "concurrency": 2,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 0.390728312486317,
+      "batch_seconds": 21.022411666985136,
+      "completed_requests_per_second": 0.2854096901461958
+    }
+  ],
+  "deepseek_healthy_raw": [
+    {
+      "route": "baseline",
+      "concurrency": 1,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 7.997146187495673,
+      "batch_seconds": 48.92304025008343,
+      "completed_requests_per_second": 0.12264160136674597
+    },
+    {
+      "route": "raw_pair",
+      "concurrency": 1,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 2.313669770490378,
+      "batch_seconds": 25.422476375941187,
+      "completed_requests_per_second": 0.2360116265336826
+    },
+    {
+      "route": "baseline",
+      "concurrency": 2,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 10.722067604481708,
+      "batch_seconds": 48.95219645794714,
+      "completed_requests_per_second": 0.12256855532834687
+    },
+    {
+      "route": "raw_pair",
+      "concurrency": 2,
+      "attempts": 6,
+      "correct": 6,
+      "median_latency_seconds": 2.5291465620102827,
+      "batch_seconds": 15.943142333941069,
+      "completed_requests_per_second": 0.3763373539748628
+    }
+  ],
+  "runtime_receipts": [
+    {
+      "scenario": "healthy",
+      "concurrency": 1,
+      "sha256": "4f0c73981784a1c892df508091af9c0a3c3ff220fffa10ac247d5f32581caa5d",
+      "attempts": 6,
+      "result": "pass",
+      "batch_seconds": 1.664,
+      "completed_requests_per_second": 3.605769230769231,
+      "batches": [
+        {
+          "repetition": 0,
+          "elapsed_ms": 704
+        },
+        {
+          "repetition": 1,
+          "elapsed_ms": 522
+        },
+        {
+          "repetition": 2,
+          "elapsed_ms": 438
+        }
+      ]
+    },
+    {
+      "scenario": "healthy",
+      "concurrency": 2,
+      "sha256": "599d3f575bee58eb93dfe4945dd4a4eea6b556a8f073b4973402f0b6bfd5965e",
+      "attempts": 6,
+      "result": "pass",
+      "batch_seconds": 0.929,
+      "completed_requests_per_second": 6.458557588805166,
+      "batches": [
+        {
+          "repetition": 0,
+          "elapsed_ms": 431
+        },
+        {
+          "repetition": 1,
+          "elapsed_ms": 274
+        },
+        {
+          "repetition": 2,
+          "elapsed_ms": 224
+        }
+      ]
+    },
+    {
+      "scenario": "node_loss",
+      "concurrency": 1,
+      "sha256": "e20def97c9a1194b99f691e918d06a2de0ab8ff635fa85dc0534746f83b1b48d",
+      "attempts": 6,
+      "result": "pass",
+      "batch_seconds": 3.063,
+      "completed_requests_per_second": 1.9588638589618022,
+      "batches": [
+        {
+          "repetition": 0,
+          "elapsed_ms": 1041
+        },
+        {
+          "repetition": 1,
+          "elapsed_ms": 1004
+        },
+        {
+          "repetition": 2,
+          "elapsed_ms": 1018
+        }
+      ]
+    },
+    {
+      "scenario": "node_loss",
+      "concurrency": 2,
+      "sha256": "6289d37aa74b4b33da469e04c15fdcf5339f63e1740f40081963d7e685b39b98",
+      "attempts": 6,
+      "result": "pass",
+      "batch_seconds": 1.837,
+      "completed_requests_per_second": 3.2661948829613503,
+      "batches": [
+        {
+          "repetition": 0,
+          "elapsed_ms": 588
+        },
+        {
+          "repetition": 1,
+          "elapsed_ms": 601
+        },
+        {
+          "repetition": 2,
+          "elapsed_ms": 648
+        }
+      ]
+    }
+  ],
+  "observations": {
+    "healthy_broker_requests": 25,
+    "node_loss_probe_and_requests": 26,
+    "all_http_status_200": true,
+    "healthy_phi4_selected_node": "rtx3090",
+    "node_loss_selected_node": "mac-m4-pro",
+    "recovery_selected_node": "rtx3090",
+    "deepseek_healthy_served_counts": {
+      "rtx3090": 9,
+      "mac-m4-pro": 4
+    },
+    "deepseek_runtime_failure": "Model used the 256-token Runtime cap for reasoning and returned no response text; Runtime rejected the empty response."
+  }
+}

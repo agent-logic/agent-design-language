@@ -1,0 +1,39 @@
+{
+  "schema": "adl.pair.resource-samples.v1",
+  "issue": 904,
+  "cost_usd": 0,
+  "nodes": [
+    {
+      "alias": "mac-m4-pro",
+      "os": "macOS arm64",
+      "cpu": "Apple M4 Pro 14-core (10 performance, 4 efficiency)",
+      "gpu": "Apple M4 Pro 20-core integrated GPU",
+      "memory_gib": 64,
+      "engine": "Ollama 0.32.14",
+      "model_resident": true,
+      "model_manifest_sha256": "78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753",
+      "model_blob_sha256": "3c168af1dea0a414299c7d9077e100ac763370e5a98b3c53801a958a47f0a5db"
+    },
+    {
+      "alias": "rtx3090",
+      "os": "Windows 10 x86_64",
+      "cpu": "Intel Core i9-11900F, 8 cores/16 threads",
+      "gpu": "NVIDIA GeForce RTX 3090, 24 GiB VRAM, compute capability 8.6",
+      "memory_gib": 128,
+      "engine": "Ollama 0.33.3",
+      "model_resident": true
+    }
+  ],
+  "bounds": {
+    "nodes": 2,
+    "concurrency": [
+      1,
+      2
+    ],
+    "repetitions": 3,
+    "request_timeout_seconds": 120,
+    "run_timeout_seconds": 500,
+    "paid_cloud_resources": false
+  },
+  "sampling_note": "Both engines had the identical model digest resident with unbounded keep-alive during the bounded test window. Engine versions and default context allocation differ; Runtime sent temperature zero and a 64-token output cap but exposes no seed or context-size field in the canonical provider definition."
+}

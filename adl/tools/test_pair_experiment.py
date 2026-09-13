@@ -196,7 +196,7 @@ class AccountingTests(unittest.TestCase):
         with self.assertRaisesRegex(pair.InvalidExperiment, "concurrency_not_observed"):
             pair.summarize(plan, packet, provider)
 
-    def test_two_nodes_and_actual_concurrency_are_required(self):
+    def test_failover_topology_and_actual_concurrency_are_required(self):
         for change in ("one_node", "serial_overlap"):
             with self.subTest(change=change):
                 plan, packet, provider = fixture()
@@ -208,6 +208,22 @@ class AccountingTests(unittest.TestCase):
                         row["ended_seconds"] -= 1
                 with self.assertRaises(pair.InvalidExperiment):
                     pair.summarize(plan, packet, provider)
+
+    def test_fastest_node_then_survivor_proves_two_node_failover(self):
+        plan, packet, provider = fixture()
+        for row in packet["records"]:
+            if row["route"] in ("raw_pair", "runtime"):
+                row["serving_node"] = "beta" if row["scenario"] == "healthy" else "alpha"
+        summary = pair.summarize(plan, packet, provider)
+        self.assertEqual(summary["attempts"], len(packet["records"]))
+
+    def test_healthy_route_must_observe_node_that_is_later_lost(self):
+        plan, packet, provider = fixture()
+        for row in packet["records"]:
+            if row["route"] in ("raw_pair", "runtime"):
+                row["serving_node"] = "alpha"
+        with self.assertRaisesRegex(pair.InvalidExperiment, "lost_node_not_observed_healthy"):
+            pair.summarize(plan, packet, provider)
 
     def test_oversized_matrix_rejects_before_product_allocation(self):
         plan, packet, provider = fixture()

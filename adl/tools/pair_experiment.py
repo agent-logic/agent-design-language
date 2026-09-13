@@ -179,10 +179,19 @@ def summarize(plan, packet, provider_bytes):
                 active += delta
                 maximum = max(maximum, active)
             require(maximum == concurrency, "concurrency_not_observed")
+    survivors = set(plan["nodes"]) - {plan["lost_node"]}
     for route in ("raw_pair", "runtime"):
-        serving = {r["serving_node"] for k, r in observed.items()
-                   if k[0] == route and k[1] == "healthy" and r["error"] is None}
-        require(serving == set(plan["nodes"]), "two_node_routing_not_observed")
+        healthy_serving = {r["serving_node"] for k, r in observed.items()
+                           if k[0] == route and k[1] == "healthy" and r["error"] is None}
+        loss_serving = {r["serving_node"] for k, r in observed.items()
+                        if k[0] == route and k[1] == "node_loss" and r["error"] is None}
+        # A scheduler may correctly prefer its fastest healthy node rather than
+        # round-robin across every member. Prove the topology by observing the
+        # selected node before loss and every survivor after that node is lost.
+        require(plan["lost_node"] in healthy_serving, "lost_node_not_observed_healthy")
+        require(loss_serving == survivors, "survivor_routing_not_observed")
+        require(healthy_serving | loss_serving == set(plan["nodes"]),
+                "two_node_routing_not_observed")
     summaries = []
     for route, scenario, concurrency in itertools.product(ROUTES, SCENARIOS, plan["concurrency"]):
         selected = [r for k, r in observed.items() if k[:3] == (route, scenario, concurrency)]
