@@ -1,0 +1,103 @@
+{
+  "schema": "adl.issue967.exact_head_hosted_acceptance_proof.v1",
+  "status": "pass",
+  "classification": "proving",
+  "source_revision": "6d7bc805e5714050c85c80d5e9351e40cd10d635",
+  "source_checkout_dirty": false,
+  "run": {
+    "schema": "adl.issue855.installed_provider_lifecycle.v1",
+    "mode": "hosted",
+    "result": "pass",
+    "raw_report_location": ".adl/issue967/hosted-live-02/report.json",
+    "raw_report_sha256": "77eed554c7d06a3f5d130d16079d5b7a2f494ad67a21487a6b40ad2399d70152",
+    "paid_provider_request_count": 16,
+    "local_ollama_request_count": 5,
+    "total_provider_request_count": 21,
+    "stable_runtime_identity": true,
+    "owned_process_groups_cleaned": true,
+    "binary_sha256": {
+      "csm": "756bc4a7f79a3d98f57c7292cedbbd2ac22b4eacbb93a34ceba2d16fde880624",
+      "csmctl": "3b931751d938e3b8bee1c2fb5e34064e3d88216ed9dc8aa7cc75c44e6b213ea5",
+      "guardian": "4e9f1cc79e710f401b109aa877de88b7b7f912f805d065cea4207f8b69dedea8",
+      "kernel": "611b503a3d010ca7dbde53be86ea511956fafedd22e40f6d73005d7b3ede8e04",
+      "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+    },
+    "approved_bounds": {
+      "calls_per_provider": 6,
+      "input_bytes_per_request": 32000,
+      "output_tokens_per_request": 256,
+      "retries": 0,
+      "stop_after_first_failure": true,
+      "total_cost_ceiling_usd": 1,
+      "runtime_seconds": 1800,
+      "project": "cs-host-377d41e71a824f92802120",
+      "models": {
+        "openai": "gpt-5.4-mini",
+        "anthropic": "claude-haiku-4-5-20251001",
+        "vertex_ai": "gemini-2.5-flash"
+      }
+    },
+    "rows": [
+      {
+        "provider": "openai",
+        "model": "gpt-5.4-mini",
+        "result": "pass",
+        "provider_requests": 6,
+        "operator_reply_delivered": true,
+        "requested_a2a_recipient": "beacon.axioma",
+        "requested_a2a_reply_present": true,
+        "post_restore_reply_delivered": true,
+        "replacement_reply_delivered": true,
+        "stable_runtime_identity": true,
+        "note": "The post-restore model voluntarily initiated one additional governed peer exchange; the request count remained at the approved cap."
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001",
+        "result": "pass",
+        "provider_requests": 5,
+        "operator_reply_delivered": true,
+        "requested_a2a_recipient": "beacon.axioma",
+        "requested_a2a_reply_present": true,
+        "post_restore_reply_delivered": true,
+        "replacement_reply_delivered": true,
+        "stable_runtime_identity": true
+      },
+      {
+        "provider": "vertex_ai",
+        "model": "gemini-2.5-flash",
+        "result": "pass",
+        "provider_requests": 5,
+        "operator_reply_delivered": true,
+        "requested_a2a_recipient": "beacon.axioma",
+        "requested_a2a_reply_present": true,
+        "post_restore_reply_delivered": true,
+        "replacement_reply_delivered": true,
+        "stable_runtime_identity": true
+      }
+    ]
+  },
+  "review": {
+    "reviewer": "independent read-only subagent",
+    "result": "pass",
+    "actionable_findings": 0,
+    "verified": [
+      "raw report digest and exact source identity",
+      "installed binary digests",
+      "three hosted provider row outcomes",
+      "canonical typed A2A delivery to beacon.axioma",
+      "per-provider request limits and total request accounting",
+      "stable Runtime incarnation and owned process cleanup"
+    ]
+  },
+  "preserved_prior_evidence": [
+    "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json",
+    "The failed #855 hosted-live-03 report with SHA256 651f9a00fb5b96e2a6b0539d1f9321c4546631a16b78e9c723fe823c0d95d439"
+  ],
+  "non_claims": [
+    "The Runtime counters prove request counts, not vendor-billed token totals or the final invoice amount.",
+    "The configured one-dollar ceiling is an execution bound, not a measured cost claim.",
+    "Provider response bodies and credentials are not copied into this tracked packet.",
+    "This packet does not claim merge or terminal closeout."
+  ]
+}

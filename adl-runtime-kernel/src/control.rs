@@ -2829,6 +2829,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             delegated_carrier,
         };
         let conversation_intent = ObservatoryConversationIntent {
+            requested_agent_action: None,
             schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
             conversation_id: intent.conversation_id.clone(),
             turn_id: intent.turn_id.clone(),
@@ -2977,6 +2978,26 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "invalid_conversation_intent",
                 None,
             ));
+        }
+        if let Some(action) = &intent.requested_agent_action {
+            let valid = !is_initiated
+                && is_canonical_agent_name(&action.recipient_name)
+                && !action.message.trim().is_empty()
+                && assemble_agent_conversation_message(
+                    Some(&action.message),
+                    &action.message_parts,
+                )
+                .is_some()
+                && self
+                    .resolve_agent_name(&action.recipient_name, &intent.recipient_id)
+                    .is_ok();
+            if !valid {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "invalid_requested_agent_action",
+                    None,
+                ));
+            }
         }
         let fingerprint = match serde_json::to_vec(&fingerprint_source) {
             Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
@@ -3282,7 +3303,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         dispatch: &ConversationDispatch,
         output: &serde_json::Value,
     ) -> Result<Option<RuntimeAgentInitiation>, &'static str> {
-        let Some(action) = output.get("agent_to_agent_initiation") else {
+        let requested_action = dispatch
+            .intent
+            .requested_agent_action
+            .as_ref()
+            .map(|action| {
+                serde_json::json!({
+                    "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                    "recipient_name": action.recipient_name,
+                    "message": action.message,
+                    "message_parts": action.message_parts,
+                })
+            });
+        let generated_action = output.get("agent_to_agent_initiation");
+        if let (Some(requested), Some(generated)) = (&requested_action, generated_action) {
+            if requested != generated {
+                return Err("requested_agent_action_conflict");
+            }
+        }
+        let Some(action) = requested_action.as_ref().or(generated_action) else {
             return Ok(None);
         };
         let schema = action
@@ -6913,6 +6952,8 @@ struct ObservatoryWsAuth {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ObservatoryConversationIntent {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    requested_agent_action: Option<ProviderAgentToAgentAction>,
     schema: String,
     conversation_id: String,
     turn_id: String,
@@ -9848,6 +9889,7 @@ mod layer8_conversation_ingress_tests {
         let (service, kernel, _recorder, _observed_tasks, _layer8_root) =
             agent_initiation_service(false, Duration::ZERO).await;
         let intent = ObservatoryConversationIntent {
+            requested_agent_action: None,
             schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
             conversation_id: "conversation-ember".to_owned(),
             turn_id: "turn-reload-proof".to_owned(),
@@ -9901,6 +9943,7 @@ mod layer8_conversation_ingress_tests {
         let mut delivered_replies = Vec::new();
         for index in 0..60_u64 {
             let multi_turn_intent = ObservatoryConversationIntent {
+                requested_agent_action: None,
                 schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
                 conversation_id: "conversation-long-reload".to_owned(),
                 turn_id: format!("turn-long-{index:03}"),
@@ -10018,6 +10061,7 @@ mod layer8_conversation_ingress_tests {
         .await
         .expect("production-ingress kernel starts");
         let intent = ObservatoryConversationIntent {
+            requested_agent_action: None,
             schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
             conversation_id: "conversation-operator-beacon".to_owned(),
             turn_id: "turn-operator-asks-beacon".to_owned(),
@@ -11041,6 +11085,7 @@ mod layer8_conversation_ingress_tests {
 
     fn intent() -> ObservatoryConversationIntent {
         ObservatoryConversationIntent {
+            requested_agent_action: None,
             schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
             conversation_id: "conversation-layer8".to_owned(),
             turn_id: "turn-layer8".to_owned(),
@@ -11435,6 +11480,9 @@ mod layer8_conversation_ingress_tests {
                 if prompt.contains("You are resident agent `ember.runtime`") {
                     return Ok("Ember generated the canonical peer response.".into());
                 }
+                if prompt.contains("explicit plain acknowledgement") {
+                    return Ok("I acknowledge the requested action.".into());
+                }
                 Ok(serde_json::json!({"schema":"adl.runtime.provider_agent_action.v1","message":"I will contact Ember.","action":{"recipient_name":"ember.runtime","message":"Please answer Beacon.","message_parts":[]}}).to_string())
             }
         }
@@ -11519,6 +11567,7 @@ mod layer8_conversation_ingress_tests {
             .await
             .unwrap();
         let mut intent = ObservatoryConversationIntent {
+            requested_agent_action: None,
             schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.into(),
             conversation_id: "sixth-conversation".into(),
             turn_id: "sixth-turn".into(),
@@ -11527,6 +11576,11 @@ mod layer8_conversation_ingress_tests {
             message: Some("Ask Ember for a canonical reply.".into()),
             message_parts: vec![],
         };
+        let legacy_wire = serde_json::to_value(&intent).unwrap();
+        assert!(
+            legacy_wire.get("requested_agent_action").is_none(),
+            "omitting the optional typed action must preserve the legacy wire shape"
+        );
         let first = match service.accept_conversation_intent(&intent) {
             ConversationAcceptance::Dispatch { dispatch, .. } => {
                 service.complete_conversation_dispatch(dispatch).await
@@ -11611,6 +11665,143 @@ mod layer8_conversation_ingress_tests {
                 .inference_readiness,
             InferenceReadinessState::Ready
         );
+        // PVF: release-required deterministic production dispatch/signature proof;
+        // local CPU only, no network. A typed request never retries provider output.
+        let requested = ProviderAgentToAgentAction {
+            recipient_name: "ember.runtime".into(),
+            message: "Please answer Beacon.".into(),
+            message_parts: vec![],
+        };
+        let baseline_calls = actual_calls.load(std::sync::atomic::Ordering::SeqCst);
+        for invalid in [
+            ProviderAgentToAgentAction {
+                recipient_name: "not canonical!".into(),
+                ..requested.clone()
+            },
+            ProviderAgentToAgentAction {
+                recipient_name: "missing.runtime".into(),
+                ..requested.clone()
+            },
+            ProviderAgentToAgentAction {
+                recipient_name: "beacon.runtime".into(),
+                ..requested.clone()
+            },
+            ProviderAgentToAgentAction {
+                message: String::new(),
+                ..requested.clone()
+            },
+            ProviderAgentToAgentAction {
+                message: "x".repeat(AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES + 1),
+                ..requested.clone()
+            },
+            ProviderAgentToAgentAction {
+                message_parts: vec!["part".into(); AGENT_CONVERSATION_MESSAGE_MAX_PARTS],
+                ..requested.clone()
+            },
+        ] {
+            intent.requested_agent_action = Some(invalid);
+            let response = match service.accept_conversation_intent(&intent) {
+                ConversationAcceptance::Response(response) => response,
+                ConversationAcceptance::Dispatch { .. } => {
+                    panic!("invalid explicit action dispatched")
+                }
+            };
+            assert_eq!(response.error, Some("invalid_requested_agent_action"));
+        }
+        assert_eq!(
+            actual_calls.load(std::sync::atomic::Ordering::SeqCst),
+            baseline_calls
+        );
+        for (index, prompt) in ["explicit plain acknowledgement", "explicit matching action"]
+            .into_iter()
+            .enumerate()
+        {
+            intent.conversation_id = format!("explicit-action-{index}");
+            intent.turn_id = intent.conversation_id.clone();
+            intent.message = Some(prompt.into());
+            intent.requested_agent_action = Some(requested.clone());
+            let before = actual_calls.load(std::sync::atomic::Ordering::SeqCst);
+            let response = match service.accept_conversation_intent(&intent) {
+                ConversationAcceptance::Dispatch { dispatch, .. } => {
+                    service.complete_conversation_dispatch(dispatch).await
+                }
+                ConversationAcceptance::Response(response) => {
+                    panic!("explicit action refused: {response:?}")
+                }
+            };
+            assert_eq!(response.status, "delivered", "{response:?}");
+            assert_eq!(
+                response.initiated_recipient_name.as_deref(),
+                Some("ember.runtime")
+            );
+            assert_eq!(
+                response.initiated_reply.as_deref(),
+                Some("Ember generated the canonical peer response.")
+            );
+            assert_eq!(
+                actual_calls.load(std::sync::atomic::Ordering::SeqCst),
+                before + 3,
+                "one initiating call, one peer call, one continuation; no duplicate action"
+            );
+            if index == 0 {
+                let replay = match service.accept_conversation_intent(&intent) {
+                    ConversationAcceptance::Response(response) => response,
+                    ConversationAcceptance::Dispatch { .. } => {
+                        panic!("identical typed-action replay dispatched again")
+                    }
+                };
+                assert_eq!(replay, response);
+                assert_eq!(
+                    actual_calls.load(std::sync::atomic::Ordering::SeqCst),
+                    before + 3,
+                    "identical typed-action replay must use the cached terminal result"
+                );
+
+                let mut conflicting_replay = intent.clone();
+                conflicting_replay
+                    .requested_agent_action
+                    .as_mut()
+                    .unwrap()
+                    .message = "Changed operator-requested message.".into();
+                let conflict = match service.accept_conversation_intent(&conflicting_replay) {
+                    ConversationAcceptance::Response(response) => response,
+                    ConversationAcceptance::Dispatch { .. } => {
+                        panic!("changed typed-action replay dispatched")
+                    }
+                };
+                assert_eq!(conflict.status, "refused");
+                assert_eq!(conflict.error, Some("conversation_conflict"));
+                assert_eq!(
+                    actual_calls.load(std::sync::atomic::Ordering::SeqCst),
+                    before + 3,
+                    "changed typed action must participate in replay identity"
+                );
+            }
+        }
+        intent.conversation_id = "explicit-conflicting-action".into();
+        intent.turn_id = intent.conversation_id.clone();
+        intent.message = Some("emit a conflicting action".into());
+        intent.requested_agent_action = Some(ProviderAgentToAgentAction {
+            message: "A different operator-requested message.".into(),
+            ..requested
+        });
+        let before = actual_calls.load(std::sync::atomic::Ordering::SeqCst);
+        let response = match service.accept_conversation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                service.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!("conflict refused before output: {response:?}")
+            }
+        };
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("requested_agent_action_conflict"));
+        assert!(response.initiated_work_id.is_none());
+        assert_eq!(
+            actual_calls.load(std::sync::atomic::Ordering::SeqCst),
+            before + 1
+        );
+        intent.requested_agent_action = None;
         for (index, message, expected_error) in [
             (0, "continuation transport failure", "provider_transport"),
             (

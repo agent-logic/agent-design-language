@@ -82,6 +82,26 @@ fn canonical_name_is_the_public_a2a_address_and_history_preserves_names() {
         .any(|field| field == "recipient_name"));
     assert!(initiation["properties"].get("recipient_id").is_none());
 
+    let conversation = &observatory["components"]["schemas"]["ObservatoryConversationIntent"];
+    assert_eq!(
+        conversation["properties"]["requested_agent_action"]["$ref"],
+        "#/components/schemas/RequestedAgentAction"
+    );
+    let requested = &observatory["components"]["schemas"]["RequestedAgentAction"];
+    assert_eq!(requested["additionalProperties"], false);
+    assert!(requested["required"]
+        .as_array()
+        .expect("requested action required array")
+        .iter()
+        .any(|field| field == "recipient_name"));
+    assert!(requested["properties"].get("recipient_id").is_none());
+    assert_eq!(
+        requested["properties"]["recipient_name"]["pattern"],
+        "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+    );
+    assert_eq!(requested["properties"]["message"]["minLength"], 1);
+    assert_eq!(requested["properties"]["message_parts"]["maxItems"], 63);
+
     let history = &observatory["components"]["schemas"]["ObservatoryConversationHistoryRecord"];
     assert!(history["properties"].get("sender_name").is_some());
     assert!(history["properties"].get("recipient_name").is_some());
