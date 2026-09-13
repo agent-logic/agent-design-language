@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 adl/tools/test_pair_experiment.py; python3 adl/tools/pair_experiment.py --plan .csdlc/evidence/904/PLAN.json --measurements .csdlc/evidence/904/MEASUREMENTS.json --provider-definitions .csdlc/evidence/904/providers.yaml --resource-samples .csdlc/evidence/904/RESOURCE_SAMPLES.json; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
-    `Complete local two-node PAIR/Runtime qualification and deterministic replay established; independent renewed review and hosted CI remain pending.`
+    `Complete local two-node PAIR/Runtime qualification, deterministic replay and independent exact-head review established; publication and hosted CI remain pending.`
 - Results:
   - `19 deterministic Python tests passed, including valid-but-wrong resource digest rejection; the complete 72-request accounting replay is byte-identical from tracked inputs; one exact Rust workflow-shape test passed; strict Clippy, JSON parsing and diff checks passed. Four actual Runtime receipts passed 24 of 24 outputs across healthy and node-loss states. Raw baseline/PAIR runs passed 48 of 48 Phi-4 outputs. Broker attribution proved healthy RTX selection, Mac failover and RTX recovery. Final independent exact-head review at 67093562e reported no actionable findings after verifying all repairs; CI remains pending.`
 
@@ -137,7 +137,7 @@ verification_summary:
     absolute_path_leakage_detected: false
   artifacts:
     status: complete_reviewed_local_experiment_packet
-    required_artifacts_present: yes; review and CI are lifecycle gates rather than missing experiment artifacts
+    required_artifacts_present: yes; complete experiment and review artifacts are present; publication and hosted CI remain lifecycle gates.
     schema_changes:
       present: not_run
       approved: not_run

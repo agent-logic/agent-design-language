@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "addressed"
   recommended_outcome: "pass"
-notes: "Independent subagent review verified 19 Python tests, checkout-only byte-identical accounting replay, exact Rust workflow-shape test 1/1, strict Clippy, JSON parsing, diff hygiene, the complete provider/resource/snapshot digest chain, all ten private input and Runtime receipt hashes, clean worktree, no production-provider diff and no tracked leakage."
+notes: "Independent review verified all source, evidence, digest, replay, test, privacy and scope findings. Metadata-only review at 650dc239 identified stale pending-state sentences in SPP/SOR; this native edit removes those contradictions while preserving publication and CI as pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- First review found one P1 and four P2 findings; second review found two residual P2 truth issues. All were repaired. Final exact-head review at 67093562e06ebedf7a14351d33d2a383193611eb found no actionable findings.
+- First review found one P1 and four P2 findings; second review found two residual P2 truth issues; metadata review found one contradictory pending-state P2. All were repaired. The substantive final exact-head review at 67093562e06ebedf7a14351d33d2a383193611eb found no actionable findings.
 
 ### Dispositions
 
-- Pass for native publication. Tracked replay is portable; resource bytes are mandatory and exact-digest checked; heterogeneous deployment wording is bounded; observed resources and timestamp uncertainty are truthful; SOR metrics and sources are current. Hosted CI and merge remain pending.
+- Pass for native publication after exact metadata-delta verification. All prior findings are addressed; no production provider behavior changed. Hosted CI and merge remain pending.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent subagent review verified 19 Python tests, checkout-only byte-identical accounting replay, exact Rust workflow-shape test 1/1, strict Clippy, JSON parsing, diff hygiene, the complete provider/resource/snapshot digest chain, all ten private input and Runtime receipt hashes, clean worktree, no production-provider diff and no tracked leakage.
+Independent review verified all source, evidence, digest, replay, test, privacy and scope findings. Metadata-only review at 650dc239 identified stale pending-state sentences in SPP/SOR; this native edit removes those contradictions while preserving publication and CI as pending.
