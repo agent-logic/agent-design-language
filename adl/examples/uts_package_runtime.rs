@@ -113,7 +113,15 @@ fn dispatch(
     (proposal, receipt)
 }
 fn main() {
-    let snapshot = json!({"kind":"runtime_observation", "status":"proof_read_only", "redaction":"aggregate_only"});
+    let snapshot = json!({"kind":"runtime_observation", "status":"proof_read_only", "resident_id":"actor.uts.proof", "redaction":"aggregate_only"});
+    let projected = json!({
+        "kind": "runtime_observation",
+        "view": "resident_population",
+        "observation": {
+            "status": "proof_read_only",
+            "resident_id": "actor.uts.proof"
+        }
+    });
     let adapter = ObservedAdapter {
         real: RuntimeObserveAdapterV1::new(snapshot.clone()).unwrap(),
         results: RefCell::new(Vec::new()),
@@ -147,8 +155,8 @@ fn main() {
         );
         assert!(receipt.acc_contract_id.is_some());
         assert_eq!(adapter.results.borrow().len(), before + 1);
-        assert_eq!(adapter.results.borrow().last(), Some(&snapshot));
-        cases.push(json!({"case":version,"invocation":serde_json::from_str::<Value>(&invocation).unwrap(),"receipt":receipt,"real_result":snapshot}));
+        assert_eq!(adapter.results.borrow().last(), Some(&projected));
+        cases.push(json!({"case":version,"invocation":serde_json::from_str::<Value>(&invocation).unwrap(),"receipt":receipt,"real_result":projected}));
     }
     for scenario in [
         "unsupported_version",

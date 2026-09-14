@@ -11,7 +11,7 @@
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-900-v0922-six-resident-qualification",
   "planned_pvf_lane": "runtime",
-  "notes_risks_inline": "Dependencies #852 and #855 are satisfied by merged PRs #963 and #964. The operator-approved local Ollama envelope completed in attempt-17 using task-owned processes and existing blobs; no paid or cloud call and no shared-service mutation occurred. Six role-specific runtime.observe views executed before and after signed restore with receipt-bound argument and effect hashes. All seven integrity negatives denied without effects. Independent code and evidence review passed at 4e9d2663a0091027e52c768d7b7bb3cf2f0296c1; this lifecycle correction requires fresh exact-head confirmation. Hosted CI, merge, terminal reconciliation, and Sprint acceptance remain pending. The separate dirty #851 worktree and its bytes remain untouched.",
+  "notes_risks_inline": "Dependencies #852 and #855 are satisfied by merged PRs #963 and #964. The operator-approved attempt-17 completed six role-specific Runtime/Ollama workloads before and after signed restore using task-owned processes and existing blobs; no paid or cloud call and no shared-service mutation occurred. All seven integrity negatives denied without effects. Refreshed CI exposed old empty-argument proposals in two Runtime integration fixtures; the bounded fixture/example repair passes locally. Fresh exact-head review, refreshed hosted CI, merge, terminal reconciliation, and Sprint acceptance remain pending. The separate dirty #851 worktree remains untouched.",
   "slug": "v0922-six-resident-qualification",
   "lane_registry_path": "docs/validation/pvf_lanes.json",
   "lane_registry_template_set": "1.0.5",

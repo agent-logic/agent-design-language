@@ -57,7 +57,7 @@ Attempt-17 executed six role-specific production Runtime/Ollama workloads before
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `review_passed_publication_pending`
+- Completion state: `ci_repair_review_pending`
 - Issue goal ref: `Sprint #931 active goal covers #900 execution because the goal service permits only one active goal per thread.`
 - Sprint goal ref: `Sprint #931`
 - Goal metrics rollup ref: `.csdlc/evidence/900/goal-metrics.json (planned, absent until execution)`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `two focused Python harness suites; cargo test --manifest-path adl/Cargo.toml resident_tool_execution::tests; production attempt-17; run_issue900_continuity_negatives.py; public/private hash projection; git diff --check`
+  - `two focused Python qualification harness suites; eight focused resident-tool Rust tests; production attempt-17; seven continuity negatives; public/private hash projection; two exact long_lived_agent Runtime integration tests; cargo run --example uts_package_runtime; cargo fmt --check; git diff --check`
     `Proves six distinct role-bound provider workloads execute and resume through production signed local continuity, completed work does not replay, and signature, payload, omission, provider, configuration, lineage and stale-generation corruption fail before admission.`
 - Results:
-  - `Attempt-17 passed 12 production workload executions, signed generation-1 restore, replay denial and seven isolated negatives. Two Python harness suites and eight focused Rust tests passed. Independent review at 4e9d2663a0091027e52c768d7b7bb3cf2f0296c1 confirmed code/evidence and identified only this now-corrected card drift; refreshed CI remains pending.`
+  - `Attempt-17 production qualification remains valid and unchanged. The refreshed adl-rust-tests lane exposed two old empty-argument Runtime fixture proposals. Both exact Runtime integration tests now pass with view=resident_population; the hotload test asserts executed decision plus argument/effect bindings; the UTS package example runs successfully with projected responses and denial cases. Fresh exact-head review and refreshed hosted CI remain pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_complete_review_passed_ci_pending
+    status: local_ci_repair_passed_exact_review_and_refreshed_ci_pending
     checks_run:
-      - "passed: two focused Python harness suites, eight Rust resident-tool tests, production attempt-17, seven negatives, public/private evidence binding and diff hygiene"
+      - "passed locally: two focused Python harness suites, eight resident-tool Rust tests, production attempt-17, seven negatives, public/private evidence binding, two exact Runtime integration tests, executable UTS package example, formatting and diff hygiene"
   determinism:
     status: Deterministic local contract and integrity negatives passed; bounded real-model production qualification passed with pinned artifacts and temperature zero.
     replay_verified: passed: six completed cases denied and only six distinct pending cases resumed
@@ -148,7 +148,7 @@ verification_summary:
 - Fixtures or scripts used: `materialize_issue268_ollama_plan.py; run_issue268_six_resident_uts_cycle.py; run_issue268_continuity_uts_qualification.py; run_issue900_continuity_negatives.py`
 - Replay verification (same inputs -> same artifacts/order): `passed: six completed cases denied and only the six distinct pending cases executed after restore`
 - Ordering guarantees (sorting / tie-break rules used): `Positive qualification completed before negative mutation; each negative used its own isolated copy with admission closed before mutation.`
-- Artifact stability notes: `Public hashes bind attempt-17 produced from source f76f0600154e2863d71f2d822311432612e881e0; only public evidence and lifecycle records changed afterward.`
+- Artifact stability notes: `Public hashes bind attempt-17 produced from source f76f0600154e2863d71f2d822311432612e881e0. Production Runtime, qualification harness, private attempt-17 evidence, and tracked public evidence bytes remain unchanged after the reviewed 4e9d2663a0091027e52c768d7b7bb3cf2f0296c1 baseline. Subsequent source changes are limited to CI integration fixtures and the UTS package runtime example, plus lifecycle records.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `passed on public README and JSON packet`

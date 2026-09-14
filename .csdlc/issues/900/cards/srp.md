@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification"
 branch: "codex/900-v0922-six-resident-qualification"
 generated_at: "2026-09-12T00:15:07.665153+00:00"
-card_status: "reviewed"
+card_status: "under_review"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/900/cards/sip.md"
   - ".csdlc/issues/900/cards/vpp.md"
 review_results:
-  findings_status: "addressed"
-  recommended_outcome: "pass"
-notes: "Independent review verified 12 executed workloads, six unique views, six unique pre effects, six unique post effects, exact attempt-17 public/private hashes, seven deny-before-effect negatives, two Python harness suites, eight focused Rust tests and local-only scope."
+  findings_status: "addressed_pending_confirmation"
+  recommended_outcome: "pending"
+notes: "Local reproduction failed with a denied resident tool proposal. After repair, both exact Runtime integration tests pass, the package runtime example executes both accepted versions and all denial cases, cargo fmt --check passes, and git diff --check passes."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- The external P2 found that six residents repeated one empty runtime.observe proposal. The remediation enforces six role-specific views and argument/effect bindings. Independent review at 4e9d2663a0091027e52c768d7b7bb3cf2f0296c1 verified the implementation and attempt-17 evidence; its only finding was stale lifecycle text, corrected by this native edit.
+- The external P2 about repeated workloads is remediated by six role-specific views. Refreshed CI then exposed old empty-argument runtime.observe proposals in two Runtime integration fixtures. Independent review also found that the package example expected the pre-projection response and the hotload test did not assert execution. All identified callers and assertions are corrected locally.
 
 ### Dispositions
 
-- Pass after this lifecycle correction and exact-head confirmation. The distinct-workload P2 is addressed; CI, merge and closeout remain pending.
+- Pending fresh exact-head confirmation and refreshed hosted CI. The production attempt-17 Runtime and evidence remain unchanged; this repair is limited to integration fixtures, the package example, and lifecycle truth.
 
 ### Recommended Outcome
 
-- pass
+- pending
 
 ## Notes
 
-Independent review verified 12 executed workloads, six unique views, six unique pre effects, six unique post effects, exact attempt-17 public/private hashes, seven deny-before-effect negatives, two Python harness suites, eight focused Rust tests and local-only scope.
+Local reproduction failed with a denied resident tool proposal. After repair, both exact Runtime integration tests pass, the package runtime example executes both accepted versions and all denial cases, cargo fmt --check passes, and git diff --check passes.

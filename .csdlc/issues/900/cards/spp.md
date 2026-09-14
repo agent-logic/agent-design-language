@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Attempt-17 supersedes the repeated-workload packet. Six role-specific runtime.observe views executed before and after signed restore with receipt-bound argument/effect hashes; all seven integrity negatives denied without effects. Independent code/evidence review passed; CI, merge and closeout remain pending."
+notes: "Attempt-17 supersedes the repeated-workload packet and remains unchanged. Six role-specific runtime.observe views executed before and after signed restore with receipt-bound argument and effect hashes; all seven integrity negatives denied without effects. Refreshed CI exposed old empty-argument Runtime test/example callers. The bounded fixture and example repair passes two exact integration tests and the executable package example locally. Fresh exact-head review, refreshed CI, merge, and closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Attempt-17 supersedes the repeated-workload packet. Six role-specific runtime.observe views executed before and after signed restore with receipt-bound argument/effect hashes; all seven integrity negatives denied without effects. Independent code/evidence review passed; CI, merge and closeout remain pending.
+Attempt-17 supersedes the repeated-workload packet and remains unchanged. Six role-specific runtime.observe views executed before and after signed restore with receipt-bound argument and effect hashes; all seven integrity negatives denied without effects. Refreshed CI exposed old empty-argument Runtime test/example callers. The bounded fixture and example repair passes two exact integration tests and the executable package example locally. Fresh exact-head review, refreshed CI, merge, and closeout remain pending.

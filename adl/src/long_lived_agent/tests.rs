@@ -543,6 +543,13 @@ providers:
         receipts[0].proposal_id.as_deref(),
         Some(hot_proposal_id_sha256.as_str())
     );
+    assert_eq!(
+        receipts[0].decision,
+        crate::resident_tool_execution::ResidentToolReceiptDecisionV1::Executed
+    );
+    assert_eq!(receipts[0].tool_name.as_deref(), Some("runtime.observe"));
+    assert!(receipts[0].arguments_sha256.is_some());
+    assert!(receipts[0].effect_sha256.is_some());
 }
 
 #[test]
