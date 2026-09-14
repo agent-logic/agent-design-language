@@ -1364,9 +1364,9 @@ pub(crate) fn recover_semantic_proof(
         if request.content["schema"] != "csdlc.v3.semantic_proof_recovery_disposition.v1"
             || request.content["action"] != "abandon_indeterminate_proof"
             || request.content["operation_id"] != id.as_str()
-            || !request.content["rationale"]
+            || request.content["rationale"]
                 .as_str()
-                .is_some_and(|value| !value.trim().is_empty())
+                .is_none_or(|value| value.trim().is_empty())
         {
             return Err("intent_proof_recovery_disposition_invalid".into());
         }

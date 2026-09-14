@@ -945,22 +945,18 @@ fn attach_locked(
         evidence,
     };
     let mut payload = current.payload.clone();
-    if (changed && !adopt)
+    if ((changed && !adopt)
         || outcome.truth == EffectTruth::Unknown
-        || outcome.kind == OutcomeKind::Unresolved
+        || outcome.kind == OutcomeKind::Unresolved)
+        && !abandon_unobserved_proof
     {
-        if !abandon_unobserved_proof {
-            if pending.observed.as_ref() == Some(&retained) {
-                return Ok(Attachment::RecoveryRequired(current.version().clone()));
-            }
-            payload.pending.as_mut().expect("pending").observed = Some(retained);
-            let next = next_snapshot(&current, payload, SemanticCommand::Reserve, pending.id)?;
-            activate(directory, &root.common, &next)?;
-            return Ok(Attachment::RecoveryRequired(next.version().clone()));
+        if pending.observed.as_ref() == Some(&retained) {
+            return Ok(Attachment::RecoveryRequired(current.version().clone()));
         }
-        // The native proof owner explicitly abandons an indeterminate attempt.
-        // Continue through normal failure policy so the pending reservation is
-        // cleared without claiming proof success or that no validator launched.
+        payload.pending.as_mut().expect("pending").observed = Some(retained);
+        let next = next_snapshot(&current, payload, SemanticCommand::Reserve, pending.id)?;
+        activate(directory, &root.common, &next)?;
+        return Ok(Attachment::RecoveryRequired(next.version().clone()));
     }
     if changed && adopt {
         // Never adopt a different worktree/issue or substitute cleanup archive identity.
