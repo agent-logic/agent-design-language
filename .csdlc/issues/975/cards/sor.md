@@ -1,4 +1,4 @@
-# <slug>
+# merge-graphql-observation
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -22,14 +22,14 @@ Title: [v0.92.2][C-SDLC] Repair native merge GraphQL observation transport
 Branch: codex/975-v0922-merge-graphql-observation
 Card Status: ready
 Status: IN_PROGRESS
-Generated: <timestamp>
+Generated: 2026-09-14T17:17:30.658534+00:00
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `Codex delegated agent review_767_refresh`
+- Model: `unknown`
+- Provider: `OpenAI`
+- Start Time: `unknown`
+- End Time: `not_applicable: publication pending`
 
 ## Summary
 
@@ -39,60 +39,60 @@ Implemented bounded JSON POST for both merge GraphQL observations; read-only pro
 - Initial PVF lane: `deterministic_local`
 - Planned PVF lane: `deterministic_local`
 - Final PVF lane: `deterministic_local`
-- Lane change reason: `<lane_change_reason>`
+- Lane change reason: `No lane change; native suites replace legacy wrapper plan as documented.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `short`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `unknown`
+- Actual active work seconds: `unknown`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `unknown`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `unknown`
+- Actual PR wait seconds: `unknown`
+- Actual CI wait seconds: `unknown`
+- Budget source: `no explicit budget`
+- Goal metrics data source: `goal tool snapshot at initial handoff`
+- Goal metrics source ref: `codex-goal:01a0875a-799c-7422-a9ae-e1eefbd1c932:975`
+- Data-source confidence: `partial: initial handoff only; current totals not collected`
+- Estimate error percent: `unknown`
+- Completion state: `implementation_complete_review_pending`
+- Issue goal ref: `codex-goal:01a0875a-799c-7422-a9ae-e1eefbd1c932:975`
+- Sprint goal ref: `not_applicable: delegated tooling repair`
+- Goal metrics rollup ref: `not_collected`
+- Validation planning prompt: `.csdlc/issues/975/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `not_applicable: estimates unknown`
+- Variance analysis completed: `not_applicable`
+- Variance category: `not_applicable`
+- Variance note: `Estimates and final metrics unavailable; no zero variance implied.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Local ignored output-card scaffold at `.csdlc/issues/975/cards/sor.md`
+- Tracked implementation artifacts: `csdlc-v3/src/adapters/mod.rs; .csdlc/issues/975; .csdlc/evidence/975/VALIDATION.md`
+- Additional proof artifacts: `.csdlc/evidence/975/VALIDATION.md`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Reproduced original adapter truncation using read-only production observations.`
+- `Replaced GET URL query with bounded JSON POST over private curl stdin.`
+- `Added focused production adapter and size-bound regressions; recorded PVF and native validation.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
+- Main-repo paths updated: `none: changes remain on the issue branch`
+- Worktree-only paths remaining: `csdlc-v3/src/adapters/mod.rs; .csdlc/issues/975; .csdlc/evidence/975/VALIDATION.md`
 - Integration state: `worktree_only`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Verification scope: `bound issue worktree; no primary edits`
+- Integration method used: `issue branch commit; PR publication and merge pending`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git status --short --branch; git rev-parse HEAD`
+    `Confirmed assigned branch and committed work; not integration into main.`
+- Result: `not_integrated`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_adapter_tests`
+    `Four final adapter tests passed; full suite results listed in proof packet.`
 - Results:
   - `Native library93 pass; final adapter4 pass; operational CLI20 pass; remote publication13 pass; native six-card validation and diff hygiene pass. RealProcessAdapter before-control truncates for both operations; candidate returns PR971 and no errors at64KiB response bound. See .csdlc/evidence/975/VALIDATION.md.`
 
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - ".csdlc/evidence/975/VALIDATION.md"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed for deterministic local fixtures
+    replay_verified: true
+    ordering_guarantees_verified: not_applicable: no ordering change
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: bounded adapter checks passed; no comprehensive security audit claimed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: not_applicable: local worktree binding is explicit lifecycle metadata
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: present
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `merge_adapter_tests and existing merge eligibility/linkage negative matrices`
+- Fixtures or scripts used: `Synthetic curl subprocess fixture in adapters/mod.rs; ignored read-only probe source.`
+- Replay verification (same inputs -> same artifacts/order): `Repeated adapter fixtures use fixed synthetic responses; live observation is not deterministic replay.`
+- Ordering guarantees (sorting / tie-break rules used): `No new lifecycle ordering semantics; existing durable-intent and merge tests passed.`
+- Artifact stability notes: `Native renderer and digest validation passed; generated cards remain reproducible from values.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Focused synthetic credential redaction assertions passed; no broad secret scan run.`
+- Prompt / tool argument redaction verified: `Production adapter fixture verifies query/credential absent from argv and response secret redaction before truncation.`
+- Absolute path leakage check: `Issue records retain required local binding; no raw response or provider output retained.`
+- Sandbox / policy invariants preserved: `Only bound975 worktree edited; primary clean; no GitHub mutation.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `not_applicable: no Runtime trace produced`
+- Run artifact root: `.adl/issue975 (ignored local probes and private binary)`
+- Replay command used for verification: `cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_adapter_tests`
+- Replay result: `four passed`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `.csdlc/evidence/975/VALIDATION.md`
+- Required artifacts present: `true`
+- Artifact schema/version checks: `Native six-card values/render/structure/digest validation passed.`
+- Hash/byte-stability checks: `Native lifecycle digest validated; implementation unchanged during card remediation.`
+- Missing/optional artifacts and rationale: `No raw remote payload or secrets retained; no runtime/cloud workload artifacts required.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `GET returned introspection; POST transports the generated query while keeping mutation guards unchanged.`
+- `Legacy lane wrapper still starts v2Gate10A; focused native v3 suites used instead.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Independent rereview and hosted CI before publication.`
+- `After accepted merge, parent reinstalls native owner and retries original authorized971 request.`

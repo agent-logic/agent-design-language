@@ -1,12 +1,12 @@
 ---
 issue_card_schema: adl.issue.v1
-wp: "<wp>"
-slug: "<slug>"
+wp: "Issue975 tooling repair required by Sprint2 issue928"
+slug: "merge-graphql-observation"
 title: "[v0.92.2][C-SDLC] Repair native merge GraphQL observation transport"
 labels:
   - "track:roadmap"
 issue_number: 975
-generated_at: "<timestamp>"
+generated_at: "2026-09-14T17:17:30.658534+00:00"
 card_status: "ready"
 status: "draft"
 action: "edit"
@@ -15,21 +15,21 @@ duplicates: []
 depends_on: []
 milestone_sprint: "v0.92.2"
 required_outcome_type:
-  - "<required_outcome_type>"
+  - "tooling"
 repo_inputs:
-  - "<source_issue_prompt>"
+  - "https://github.com/agent-logic/agent-design-language/issues/975"
 canonical_files: []
-demo_required: <demo_required>
+demo_required: true
 demo_names: []
 issue_graph_notes:
-  - "<issue_graph_note>"
+  - "975 unblocks928; no928 document edits or merge authority granted."
 pr_start:
   enabled: true
-  slug: "<slug>"
+  slug: "merge-graphql-observation"
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/stp.md`
-Generated: <timestamp>
+Generated: 2026-09-14T17:17:30.658534+00:00
 
 # Structured Task Prompt
 
@@ -47,7 +47,7 @@ Generated bounded GraphQL query uses supported JSON POST and preserves fail-clos
 
 ## Deliverables
 
-<deliverables>
+Bounded JSON POST transport, production adapter regressions, PVF proof and truthful six-card records.
 
 ## Acceptance Criteria
 
@@ -71,7 +71,7 @@ Focused native adapter and merge contract tests; safe read-only production obser
 
 ## Demo Expectations
 
-<demo_proof_requirements>
+Read-only RealProcessAdapter control/candidate observations for PR971; no merge performed.
 
 ## Non-goals
 
@@ -79,12 +79,12 @@ No #928 docs changes, remote mutation, merge guard bypass or shared binary repla
 
 ## Issue-Graph Notes
 
-<issue_graph_notes>
+975 unblocks928; no928 document edits or merge authority granted.
 
 ## Notes
 
-<notes_risks>
+Publication and shared installation remain pending independent review.
 
 ## Tooling Notes
 
-<tooling_notes>
+Native v3 edit/validate; issue-local candidate owner; no shared binary replacement.

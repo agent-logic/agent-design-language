@@ -30,5 +30,17 @@
   "residual_risks": "PR971 remains blocked until reviewed tooling repair is merged and installed.",
   "initial_pvf_lane": "deterministic_local",
   "planned_pvf_lane": "deterministic_local",
-  "final_pvf_lane": "deterministic_local"
+  "final_pvf_lane": "deterministic_local",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/975",
+  "demo_required": "true",
+  "required_outcome_type": "tooling",
+  "wp": "Issue975 tooling repair required by Sprint2 issue928",
+  "deliverables": "Bounded JSON POST transport, production adapter regressions, PVF proof and truthful six-card records.",
+  "tooling_notes": "Native v3 edit/validate; issue-local candidate owner; no shared binary replacement.",
+  "slug": "merge-graphql-observation",
+  "demo_proof_requirements": "Read-only RealProcessAdapter control/candidate observations for PR971; no merge performed.",
+  "timestamp": "2026-09-14T17:17:30.658534+00:00",
+  "issue_graph_notes": "975 unblocks928; no928 document edits or merge authority granted.",
+  "notes_risks": "Publication and shared installation remain pending independent review.",
+  "issue_graph_note": "975 unblocks928; no928 document edits or merge authority granted."
 }

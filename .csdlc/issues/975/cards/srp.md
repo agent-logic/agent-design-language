@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "merge-graphql-observation-review-prompt"
 issue: 975
 task_id: "issue-0975"
 version: "v0.92.2"
 title: "[v0.92.2][C-SDLC] Repair native merge GraphQL observation transport"
 branch: "codex/975-v0922-merge-graphql-observation"
-generated_at: "<timestamp>"
+generated_at: "2026-09-14T17:17:30.658534+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/975"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/975/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/975/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/975/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/975/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/975/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/975/cards/stp.md"
+  - ".csdlc/issues/975/cards/sip.md"
+  - ".csdlc/issues/975/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/975/cards/stp.md"
+  - ".csdlc/issues/975/cards/sip.md"
+  - ".csdlc/issues/975/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "Review transport body isolation, 64KiB bound, production adapter regression and unchanged merge guards."
+  findings_status: "changes_requested_remediated_pending_rereview"
+  recommended_outcome: "request independent rereview of semantic card repair"
+notes: "Independent review requested at the new committed head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/975/cards/stp.md
+- .csdlc/issues/975/cards/sip.md
+- .csdlc/issues/975/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent exact-head review pending parent handoff.
+- P2 semantic placeholders found by independent review; populated every placeholder through native edit; rereview pending.
 
 ### Dispositions
 
-- No review verdict claimed before independent review.
+- Card completeness repaired; source implementation unchanged.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- request independent rereview of semantic card repair
 
 ## Notes
 
-Review transport body isolation, 64KiB bound, production adapter regression and unchanged merge guards.
+Independent review requested at the new committed head.

@@ -9,13 +9,13 @@ Version: v0.92.2
 Title: [v0.92.2][C-SDLC] Repair native merge GraphQL observation transport
 Branch: codex/975-v0922-merge-graphql-observation
 Card Status: ready
-Generated: <timestamp>
+Generated: 2026-09-14T17:17:30.658534+00:00
 
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/975
 - PR:
-- Source Issue Prompt: <source_issue_prompt>
-- Docs: <docs_context>
+- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/975
+- Docs: .csdlc/evidence/975/VALIDATION.md
 - Other: none
 
 ## Agent Execution Rules
@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: <output_card>
+  output_card: .csdlc/issues/975/cards/sor.md
   summary_style: concise_structured
 constraints:
   include_system_invariants: true
@@ -84,9 +84,9 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: <slug>
-- Required outcome type: <required_outcome_type>
-- Demo required: <demo_required>
+- Source issue-prompt slug: merge-graphql-observation
+- Required outcome type: tooling
+- Demo required: true
 
 ## Goal
 
@@ -102,7 +102,7 @@ Full generated query survives transport; partial/errors stay non-proving; creden
 
 ## Inputs
 
-<inputs>
+Issue975 and generated merge-state/linkage queries; original PR971 observation failure.
 
 ## Target Files / Surfaces
 
@@ -114,7 +114,7 @@ Focused native adapter and merge contract tests; safe read-only production obser
 
 ## Demo / Proof Requirements
 
-<demo_proof_requirements>
+Read-only RealProcessAdapter control/candidate observations for PR971; no merge performed.
 
 ## Constraints / Policies
 
@@ -166,7 +166,7 @@ No #928 docs changes, remote mutation, merge guard bypass or shared binary repla
 
 ## Notes / Risks
 
-<notes_risks>
+Publication and shared installation remain pending independent review.
 
 ## Instructions to the Agent
 - Read this file.

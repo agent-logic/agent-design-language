@@ -30,5 +30,15 @@
   "residual_risks": "PR971 remains blocked until reviewed tooling repair is merged and installed.",
   "initial_pvf_lane": "deterministic_local",
   "planned_pvf_lane": "deterministic_local",
-  "final_pvf_lane": "deterministic_local"
+  "final_pvf_lane": "deterministic_local",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/975",
+  "demo_required": "true",
+  "required_outcome_type": "tooling",
+  "docs_context": ".csdlc/evidence/975/VALIDATION.md",
+  "slug": "merge-graphql-observation",
+  "demo_proof_requirements": "Read-only RealProcessAdapter control/candidate observations for PR971; no merge performed.",
+  "timestamp": "2026-09-14T17:17:30.658534+00:00",
+  "inputs": "Issue975 and generated merge-state/linkage queries; original PR971 observation failure.",
+  "notes_risks": "Publication and shared installation remain pending independent review.",
+  "output_card": ".csdlc/issues/975/cards/sor.md"
 }
