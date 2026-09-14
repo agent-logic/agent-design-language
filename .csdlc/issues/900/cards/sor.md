@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification
 Branch: codex/900-v0922-six-resident-qualification
 Card Status: ready
-Status: implemented
+Status: in_progress
 Generated: 2026-09-12T00:15:07.665153+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Executed six distinct production Runtime/Ollama resident workloads before and after signed local continuity restore, denied all six completed-case replays, and rejected seven isolated restore-integrity negatives without reopening admission or creating restored work.
+Prior qualification evidence is superseded by an open P2: it did not prove six distinct role-specific workloads. Code remediation and focused tests are in progress; fresh production execution, review, CI, merge, and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_complete_review_passed_ci_pending
+    status: remediation_in_progress
     checks_run:
       - "passed: three focused Python harness tests, six Rust continuity tests, production attempt-11, seven negatives, public JSON/secret/path scan, formatting and diff hygiene"
   determinism:
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-resident-900/validation.json`
-- Required artifacts present: `yes: public summary, PVF test manifest, retained positive receipt and seven-case negative summary`
+- Required artifacts present: `no: fresh six-workload production evidence and exact-head review are pending`
 - Artifact schema/version checks: `passed: both public JSON documents parse and native card validation is required after this edit`
 - Hash/byte-stability checks: `passed: public hashes recomputed from attempt-11 files after the final positive and negative runs`
 - Missing/optional artifacts and rationale: `Remote r7i capacity and performance were not claimed because the operator authorized a bounded local substitute.`

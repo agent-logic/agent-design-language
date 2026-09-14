@@ -10,7 +10,7 @@ title: "[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qu
 branch: "codex/900-v0922-six-resident-qualification"
 generated_at: "2026-09-12T00:15:07.665153+00:00"
 card_status: "ready"
-status: "planned"
+status: "in_progress"
 activation_state: "prepared_not_bound"
 plan_revision: 1
 initial_pvf_lane: "runtime"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Wait for accepted #852 and #855, resolve the dirty #851 shared-path owner and approve the exact resource/environment profile; pin six distinct role/model/artifact/configuration identities and complete scenario denominator; execute production tick/ACC/UTS workload effects then signed dehydration/verified restore and exact pending-work resumption; execute isolated tamper/omission/substitution negatives and distinguish local mock regression from actual provider results; independently review exact run/signatures/lineage/effects and hand accepted evidence to QUAL-EVIDENCE."
+plan_summary: "Remediate the exact-head P2 by executing six role-specific Runtime observation workloads. Each generated UTS proposal must carry the role view, and each ACC execution receipt must bind the tool, argument digest, and returned effect digest before and after continuity restore. Qualification must reject any denied assigned workload or fewer than six distinct views/effects."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "pending"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "v0922-six-resident-qualification"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Execution prerequisites: QUAL-RUNTIME, RT-PROVIDER, with accepted merged producer outputs before dependent proof. QUAL-RUNTIME is existing #852 and remains the actual dispatch failure-event repair; RT-PROVIDER is existing #855 and retains its full five-route lifecycle matrix. Neither is recreated here. Qualification does not claim every #855 route is exercised unless recorded scenario coverage proves it. The operator split the former #852 aggregate into the repair plus four complete follow-ons. Preserve the five criterion IDs, original 19-finding denominator, separate five cloud-control and two execution-proof gaps, and closed #522/#833 historical-consumer boundaries. QUAL-EVIDENCE joins results; it cannot absorb unfinished repairs or unexecuted scenarios. Retained partial #851 work on `codex/851-reconcile-five-proof-links` was unreviewed/unmerged at source capture: preserve its bytes and resolve actual owner/state before reuse. Historical #268 Run72 at `8947231b6549f6b43f76c5d4656b333868a032ae` is real past execution, with detailed population/restore receipts privately retained; it is not current-candidate acceptance. #341's trace is local-reference-only and rejects supplied flags before provider invocation. #602 retains a reviewed Wuji summary with `observability_not_ready`, not complete event/response proof. Existing focused component tests and historical 50-to-54 source declarations do not close the operational claims. Re-resolve source facts before execution without rewriting historical evidence. Use native C-SDLC v3 and current authenticated authority in the bound issue FastWork worktree; root main stays inspection-only. Create an issue-bound session goal before implementation, preserve active ownership, validate required lanes and obtain independent exact-head review before publication. This draft authorizes no remote write, live activation or issue closure. Sources: `docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml`, `ATOMIC_TASK_CONTRACTS_v0.92.2.json` (including baseline obligation ownership and criterion boundary), and `.csdlc/evidence/864/task-scope-revision/issue-scope-before.json` / `issue-scope-proposed.json`. Retained source text provides constraints, not claims that production proof has already run. Global implementation gate: all 69 milestone issue identities must be created and all creation-batch reviews must pass before any implementation starts. Creation batch grouping adds no execution dependencies; the declared task prerequisites still apply. #852 (QUAL-RUNTIME) and #855 (RT-PROVIDER) accepted merged outputs are required and not satisfied in this preparation. Prepared, not bound. Execution Sprint 5 is a scheduling assignment, not dependency satisfaction. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Source inspection found the registered #851 worktree still dirty on governed_operations.rs, conversation_sessions_tests.rs, ingress.rs, telemetry.rs and long_lived_agent tests. Preserve those bytes; reconcile actual owner before any shared-path edits. Required production resource and provider authority is not granted by this preparation; budget/environment approval remains an execution blocker. Branch codex/900-v0922-six-resident-qualification and its proposed FastWork path are unbound planning values only. Issue #926 owns umbrella management for all eleven sprints; it is not the Sprint 5 umbrella or a child execution prerequisite."
+notes: "The prior six-resident run repeated one empty runtime.observe proposal and does not satisfy the distinct-workload requirement. Preserve its evidence as superseded. Current remediation adds six bounded read views and receipt-bound effects through the existing production Runtime/UTS/ACC path; a fresh production run and exact-head review remain required."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification`.
 
-Wait for accepted #852 and #855, resolve the dirty #851 shared-path owner and approve the exact resource/environment profile; pin six distinct role/model/artifact/configuration identities and complete scenario denominator; execute production tick/ACC/UTS workload effects then signed dehydration/verified restore and exact pending-work resumption; execute isolated tamper/omission/substitution negatives and distinguish local mock regression from actual provider results; independently review exact run/signatures/lineage/effects and hand accepted evidence to QUAL-EVIDENCE.
+Remediate the exact-head P2 by executing six role-specific Runtime observation workloads. Each generated UTS proposal must carry the role view, and each ACC execution receipt must bind the tool, argument digest, and returned effect digest before and after continuity restore. Qualification must reject any denied assigned workload or fewer than six distinct views/effects.
 
 ## PVF Lane Plan
 
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [pending] Implement the bounded deliverables only.
 4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Execution prerequisites: QUAL-RUNTIME, RT-PROVIDER, with accepted merged producer outputs before dependent proof. QUAL-RUNTIME is existing #852 and remains the actual dispatch failure-event repair; RT-PROVIDER is existing #855 and retains its full five-route lifecycle matrix. Neither is recreated here. Qualification does not claim every #855 route is exercised unless recorded scenario coverage proves it. The operator split the former #852 aggregate into the repair plus four complete follow-ons. Preserve the five criterion IDs, original 19-finding denominator, separate five cloud-control and two execution-proof gaps, and closed #522/#833 historical-consumer boundaries. QUAL-EVIDENCE joins results; it cannot absorb unfinished repairs or unexecuted scenarios. Retained partial #851 work on `codex/851-reconcile-five-proof-links` was unreviewed/unmerged at source capture: preserve its bytes and resolve actual owner/state before reuse. Historical #268 Run72 at `8947231b6549f6b43f76c5d4656b333868a032ae` is real past execution, with detailed population/restore receipts privately retained; it is not current-candidate acceptance. #341's trace is local-reference-only and rejects supplied flags before provider invocation. #602 retains a reviewed Wuji summary with `observability_not_ready`, not complete event/response proof. Existing focused component tests and historical 50-to-54 source declarations do not close the operational claims. Re-resolve source facts before execution without rewriting historical evidence. Use native C-SDLC v3 and current authenticated authority in the bound issue FastWork worktree; root main stays inspection-only. Create an issue-bound session goal before implementation, preserve active ownership, validate required lanes and obtain independent exact-head review before publication. This draft authorizes no remote write, live activation or issue closure. Sources: `docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml`, `ATOMIC_TASK_CONTRACTS_v0.92.2.json` (including baseline obligation ownership and criterion boundary), and `.csdlc/evidence/864/task-scope-revision/issue-scope-before.json` / `issue-scope-proposed.json`. Retained source text provides constraints, not claims that production proof has already run. Global implementation gate: all 69 milestone issue identities must be created and all creation-batch reviews must pass before any implementation starts. Creation batch grouping adds no execution dependencies; the declared task prerequisites still apply. #852 (QUAL-RUNTIME) and #855 (RT-PROVIDER) accepted merged outputs are required and not satisfied in this preparation. Prepared, not bound. Execution Sprint 5 is a scheduling assignment, not dependency satisfaction. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Source inspection found the registered #851 worktree still dirty on governed_operations.rs, conversation_sessions_tests.rs, ingress.rs, telemetry.rs and long_lived_agent tests. Preserve those bytes; reconcile actual owner before any shared-path edits. Required production resource and provider authority is not granted by this preparation; budget/environment approval remains an execution blocker. Branch codex/900-v0922-six-resident-qualification and its proposed FastWork path are unbound planning values only. Issue #926 owns umbrella management for all eleven sprints; it is not the Sprint 5 umbrella or a child execution prerequisite.
+The prior six-resident run repeated one empty runtime.observe proposal and does not satisfy the distinct-workload requirement. Preserve its evidence as superseded. Current remediation adds six bounded read views and receipt-bound effects through the existing production Runtime/UTS/ACC path; a fresh production run and exact-head review remain required.

@@ -25,7 +25,7 @@ def main() -> None:
         fake = root / "fake_adl.py"
         fake.write_text(
             """#!/usr/bin/env python3
-import json,pathlib,sys
+import hashlib,json,pathlib,sys
 args=sys.argv[1:]
 spec=json.loads(pathlib.Path(args[args.index('--spec')+1]).read_text())
 state_value=pathlib.Path(spec['state_root'])
@@ -45,12 +45,17 @@ number=len(list(cycles.glob('cycle-*')))+1
 cycle=cycles/f'cycle-{number:06d}'
 cycle.mkdir()
 (cycle/'csm_adl_run_status.json').write_text(json.dumps({'schema':'adl.csm.adl_workflow_run_status.v1','status':'success','records':[{'provider_id':'local_ollama','status':'success','step_id':'resident-tool-proposal'}]})+'\\n')
-decision='denied' if number==2 or (spec['agent_instance_id']=='issue268-tool-executor' and number==1) else 'executed'
+decision='denied' if number==2 else 'executed'
+views={'issue268-shepherd-controller':'resident_population','issue268-planner':'checkpoint_readiness','issue268-tool-executor':'tool_capability','issue268-runtime-observer':'runtime_redaction','issue268-recovery-custodian':'continuity_lineage','issue268-reviewer-escalation':'review_audit'}
+view=views[spec['agent_instance_id']]
+arguments=json.dumps({'view':view},separators=(',',':'),sort_keys=True).encode()
+effect=json.dumps({'resident':spec['agent_instance_id'],'view':view,'cycle':number},separators=(',',':'),sort_keys=True).encode()
 receipt={'schema':'adl.runtime.resident_tool_receipt.v1','resident_id':spec['agent_instance_id'],
  'authority_id':spec['tool_authority']['authority_id'],'authority_sha256':spec['tool_authority']['authority_sha256'],
  'cycle_id':f'cycle-{number:06d}','checkpoint_lineage':f'continuity_checkpoint.json#sha256:{number:064x}',
  'proposal_sha256':'a'*64,'proposal_id':'sha256:'+'b'*64,'acc_contract_id':'acc.runtime.observe',
  'gate_reason_code':'allowed','adapter_id':'adapter.runtime.observe.dry_run','decision':decision,
+ 'tool_name':'runtime.observe','arguments_sha256':'sha256:'+hashlib.sha256(arguments).hexdigest(),'effect_sha256':None if decision=='denied' else 'sha256:'+hashlib.sha256(effect).hexdigest(),
  'reason_code':'governed_execution_completed' if decision=='executed' else ('proposal_replay_denied' if number==2 else 'tool_not_authorized')}
 (cycle/'resident_tool_receipts.json').write_text(json.dumps([receipt])+'\\n')
 print(json.dumps({'state':'idle','completed_cycle_count':number}))
@@ -114,7 +119,9 @@ raise SystemExit(0 if decision=='executed' else 1)
         assert len({row["role_digest"] for row in pre["residents"].values()}) == 6
         assert len({row["tool_authority_digest"] for row in pre["residents"].values()}) == 6
         assert len({row["runtime_authority_sha256"] for row in pre["residents"].values()}) == 6
-        assert {row["pre_agent_test_outcome"] for row in pre["residents"].values()} == {"executed", "denied"}
+        assert {row["pre_agent_test_outcome"] for row in pre["residents"].values()} == {"executed"}
+        assert len({row["pre_workload_view"] for row in pre["residents"].values()}) == 6
+        assert len({row["pre_workload_effect_sha256"] for row in pre["residents"].values()}) == 6
         workflows = list((root / "runtime" / "agent-specs").glob("*/workflow.adl.yaml"))
         assert len(workflows) == 6
         assert all("timeout_secs: 900" in workflow.read_text() for workflow in workflows)

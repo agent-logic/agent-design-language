@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification"
 branch: "codex/900-v0922-six-resident-qualification"
 generated_at: "2026-09-12T00:15:07.665153+00:00"
-card_status: "reviewed"
+card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/900/cards/sip.md"
   - ".csdlc/issues/900/cards/vpp.md"
 review_results:
-  findings_status: "addressed"
-  recommended_outcome: "pass"
+  findings_status: "findings_present"
+  recommended_outcome: "block"
 notes: "Independent review verified the signed local host identities, local_ollama provider binding and substitution denial, all 12 provider result/status/effect hashes, exact producer and binary identities, attempt-11 public hash chain, seven deny-before-effect negatives, three Python harness suites, the six-case plan validator, six Rust continuity tests, formatting, Clippy, JSON parsing and diff hygiene."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- The initial review found four actionable evidence and lifecycle-truth gaps. All were repaired. Renewed independent exact-head review at 2d119db18595e136448aab1e69571e916eb77471 reported no actionable findings after the current origin/main merge.
+- P2: the reviewed head gave all six residents the same empty-argument runtime.observe dry-run proposal, so the packet did not prove six distinct workloads.
 
 ### Dispositions
 
-- Pass for native draft publication. The seven negative scenarios deny before inappropriate effects and preserve admission, pointers and generations. The retained run remains bound to producer e9fe1adf7b768dfd5fef234446d7db6cdfbaf37a; CI and merge remain pending.
+- Remediation in progress: require six role-specific views, receipt-bound argument/effect digests, successful execution for every assigned pre/post workload, fresh production evidence, and independent exact-head review.
 
 ### Recommended Outcome
 
-- pass
+- block
 
 ## Notes
 

@@ -330,6 +330,10 @@ def main() -> int:
                 "post_uts_report_sha256": retained["post_restore_uts_report_sha256"],
                 "pre_agent_test_outcome": retained["pre_agent_test_outcome"],
                 "post_agent_test_outcome": retained["post_agent_test_outcome"],
+                "pre_workload_view": retained["pre_workload_view"],
+                "post_workload_view": retained["post_workload_view"],
+                "pre_workload_effect_sha256": retained["pre_workload_effect_sha256"],
+                "post_workload_effect_sha256": retained["post_workload_effect_sha256"],
                 "producer": retained["producer"],
                 "pre_provider_execution": retained["provider_execution"],
                 "post_provider_execution": retained["post_provider_execution"],
@@ -339,6 +343,18 @@ def main() -> int:
                 "replay_denied": True,
             }
         )
+    if {row["pre_agent_test_outcome"] for row in resident_receipts} != {"executed"} or {
+        row["post_agent_test_outcome"] for row in resident_receipts
+    } != {"executed"}:
+        raise SystemExit("all twelve assigned resident workloads must execute")
+    if len({row["pre_workload_view"] for row in resident_receipts}) != 6 or len({
+        row["post_workload_view"] for row in resident_receipts
+    }) != 6:
+        raise SystemExit("six distinct role-specific Runtime workload views are required")
+    if len({row["pre_workload_effect_sha256"] for row in resident_receipts}) != 6 or len({
+        row["post_workload_effect_sha256"] for row in resident_receipts
+    }) != 6:
+        raise SystemExit("six distinct role-specific Runtime workload effects are required")
     continuation_path = args.evidence_dir / "continuation-input.json"
     write_json(continuation_path, {"residents": continuations})
     completed = continuity(args.continuity_bin, "complete", continuation_path, args.runtime_root, args.evidence_dir / "continuation.json")
