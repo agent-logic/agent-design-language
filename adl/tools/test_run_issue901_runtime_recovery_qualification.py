@@ -3,7 +3,10 @@ from __future__ import annotations
 
 import copy
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
+import tempfile
 import unittest
 
 
@@ -15,6 +18,10 @@ SPEC.loader.exec_module(MODULE)
 
 
 def valid_report() -> dict:
+    loss_correlation = "loss-correlation"
+    interruption_correlation = "interruption-correlation"
+    recovery_correlation = "recovery-correlation"
+    correlation_hash = lambda value: hashlib.sha256(value.encode()).hexdigest()
     identity = {"runtime_incarnation_id": "runtime-1", "runtime_process_id": 42}
     report = {
         "schema": MODULE.SCHEMA,
@@ -33,15 +40,15 @@ def valid_report() -> dict:
             "provider": "openai-compatible",
             "model": "fixture-model",
             "terminal_statuses": ["failed", "delivered"],
-            "correlation_sha256": ["1" * 64, "3" * 64],
+            "correlation_sha256": [correlation_hash(loss_correlation), correlation_hash(recovery_correlation)],
         }},
         "agent_removed": True,
         "scenarios": {
-            "loss": {"terminal": {"status": "failed", "correlation_matched": True}, "correlation_id_sha256": "1" * 64,
+            "loss": {"terminal": {"status": "failed", "correlation_matched": True}, "correlation_id_sha256": correlation_hash(loss_correlation),
                      "provider_pid": 100, "provider_returncode": -9, "provider_signal_sent_at": "2026-09-14T18:00:00+00:00"},
             "interruption": {"session_interrupted": True, "provider_completed_after_disconnect": True,
-                             "interrupted_at": "2026-09-14T18:01:00+00:00", "correlation_id_sha256": "2" * 64},
-            "recovery": {"terminal": {"status": "delivered", "reply_present": True, "correlation_matched": True}, "correlation_id_sha256": "3" * 64},
+                             "interrupted_at": "2026-09-14T18:01:00+00:00", "correlation_id_sha256": correlation_hash(interruption_correlation)},
+            "recovery": {"terminal": {"status": "delivered", "reply_present": True, "correlation_matched": True}, "correlation_id_sha256": correlation_hash(recovery_correlation)},
         },
     }
     report["proxy_requests"] = [
@@ -57,27 +64,71 @@ def valid_report() -> dict:
     return report
 
 
+def write_artifacts(root: Path, report: dict) -> None:
+    install = root / "runtime-v3/generations/issue901-runtime/receipt.json"
+    install.parent.mkdir(parents=True)
+    install.write_text(json.dumps({
+        "schema": "adl.runtime_v3.install_generation.v1", "generation": "issue901-runtime",
+        "source_revision": report["source_revision"],
+        "artifacts": {name: {"sha256": character * 64} for name, character in (("csm", "a"), ("guardian", "b"), ("kernel", "c"))},
+    }))
+    (root / "csm-config-status.json").write_text(json.dumps({
+        "schema": "adl.csm.runtime_v3_service_status.v1", "config_valid": True, "service_loaded": False,
+    }))
+    observations = {key: report[key] for key in (
+        "source_revision", "runtime_identity", "runtime_identity_after", "registered_provider",
+        "provider_process_ids", "scenarios", "agent_removed", "paid_calls",
+    )}
+    (root / "runtime-observations.json").write_text(json.dumps(observations))
+    correlations = ("loss-correlation", "recovery-correlation")
+    checkpoint = {
+        "schema": "adl.runtime_v3.agent_checkpoint.v1", "checkpoint_digest": "b" * 64,
+        "declaration": {"id": "issue901-runtime-agent", "provider": "openai-compatible", "model": "fixture-model"},
+        "conversation_history": [{"turns": [{"terminal_status": status, "correlation_id": correlation}]} for status, correlation in zip(("failed", "delivered"), correlations)],
+    }
+    checkpoint_path = root / "checkpoint.json"
+    checkpoint_path.write_text(json.dumps(checkpoint))
+    report["checkpoint"]["sha256"] = MODULE.sha256_file(checkpoint_path)
+    report["checkpoint"]["binding"] = MODULE.checkpoint_binding(checkpoint)
+    proxy_records = [
+        {**row, "path": "/v1/chat/completions", "completed_at": "2026-09-14T18:02:00+00:00"}
+        for row in report["proxy_requests"]
+    ]
+    (root / "proxy-requests.json").write_text(json.dumps(proxy_records))
+    (root / "guardian.log").write_text("runtime ready\n")
+    report["raw_artifacts"] = {
+        "install_receipt": MODULE.sha256_file(install),
+        "config_status": MODULE.sha256_file(root / "csm-config-status.json"),
+        "runtime_observations": MODULE.sha256_file(root / "runtime-observations.json"),
+        "checkpoint": MODULE.sha256_file(checkpoint_path),
+        "proxy_requests": MODULE.sha256_file(root / "proxy-requests.json"),
+        "guardian_log": MODULE.sha256_file(root / "guardian.log"),
+    }
+
+
 class RuntimeReportValidationTests(unittest.TestCase):
     def test_complete_registered_runtime_report_passes(self) -> None:
-        self.assertEqual(MODULE.validate_report(valid_report()), [])
+        with tempfile.TemporaryDirectory() as directory:
+            report = valid_report()
+            write_artifacts(Path(directory), report)
+            self.assertEqual(MODULE.validate_report(report, Path(directory)), [])
+
+    def test_coherent_synthetic_report_without_artifacts_cannot_pass(self) -> None:
+        self.assertIn("runtime_raw_artifacts_missing", MODULE.validate_report(valid_report()))
 
     def test_standalone_or_changed_runtime_cannot_pass(self) -> None:
         report = valid_report()
         report["runtime_identity_after"]["runtime_incarnation_id"] = "runtime-2"
         report["registered_provider"] = {}
-        self.assertEqual(
-            set(MODULE.validate_report(report)),
-            {"runtime_session_changed", "registered_provider_projection_invalid"},
-        )
+        errors = set(MODULE.validate_report(report))
+        self.assertTrue({"runtime_session_changed", "registered_provider_projection_invalid"} <= errors)
 
     def test_missing_runtime_failure_and_recovery_cannot_pass(self) -> None:
         report = valid_report()
         report["scenarios"]["loss"]["terminal"]["status"] = "delivered"
         report["scenarios"]["recovery"]["terminal"]["reply_present"] = False
-        self.assertEqual(
-            set(MODULE.validate_report(report)),
-            {"runtime_loss_not_failed", "runtime_recovery_not_delivered"},
-        )
+        errors = set(MODULE.validate_report(report))
+        self.assertTrue({"runtime_loss_not_failed", "runtime_recovery_not_delivered"} <= errors)
 
     def test_missing_execution_bindings_cannot_pass(self) -> None:
         report = valid_report()
@@ -86,15 +137,14 @@ class RuntimeReportValidationTests(unittest.TestCase):
         report["scenarios"]["interruption"].pop("provider_completed_after_disconnect")
         report["checkpoint"]["binding"]["correlation_sha256"] = []
         report["proxy_requests"] = []
-        self.assertEqual(
-            set(MODULE.validate_report(report)),
+        self.assertTrue(
             {
                 "source_revision_invalid",
                 "runtime_loss_process_evidence_invalid",
                 "runtime_interruption_completion_unbound",
                 "runtime_lifecycle_incomplete",
                 "runtime_proxy_evidence_invalid",
-            },
+            } <= set(MODULE.validate_report(report)),
         )
 
     def test_proxy_replay_and_correlation_tamper_cannot_pass(self) -> None:
@@ -102,10 +152,8 @@ class RuntimeReportValidationTests(unittest.TestCase):
         report["scenarios"]["recovery"]["terminal"]["correlation_matched"] = False
         report["proxy_requests"][2] = copy.deepcopy(report["proxy_requests"][1])
         report["proxy_request_digest"] = MODULE.digest(report["proxy_requests"])
-        self.assertEqual(
-            set(MODULE.validate_report(report)),
-            {"runtime_recovery_correlation_unbound", "runtime_proxy_evidence_invalid"},
-        )
+        errors = set(MODULE.validate_report(report))
+        self.assertTrue({"runtime_recovery_correlation_unbound", "runtime_proxy_evidence_invalid"} <= errors)
 
 
 if __name__ == "__main__":

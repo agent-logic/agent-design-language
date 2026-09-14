@@ -39,6 +39,10 @@ def digest(value: Any) -> str:
     return hashlib.sha256(json.dumps(value, separators=(",", ":"), sort_keys=True).encode()).hexdigest()
 
 
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def is_sha256(value: Any) -> bool:
     return isinstance(value, str) and len(value) == 64 and all(character in "0123456789abcdef" for character in value)
 
@@ -96,7 +100,96 @@ def public_terminal(result: dict[str, Any], correlation_id: str) -> dict[str, An
     }
 
 
-def validate_report(report: dict[str, Any]) -> list[str]:
+def checkpoint_binding(checkpoint_value: dict[str, Any]) -> dict[str, Any]:
+    turns = [
+        turn
+        for conversation in checkpoint_value.get("conversation_history", [])
+        for turn in conversation.get("turns", [])
+    ]
+    return {
+        "schema": checkpoint_value.get("schema"),
+        "checkpoint_digest": checkpoint_value.get("checkpoint_digest"),
+        "agent_id": (checkpoint_value.get("declaration") or {}).get("id"),
+        "provider": (checkpoint_value.get("declaration") or {}).get("provider"),
+        "model": (checkpoint_value.get("declaration") or {}).get("model"),
+        "terminal_statuses": [turn.get("terminal_status") for turn in turns],
+        "correlation_sha256": [
+            hashlib.sha256(str(turn.get("correlation_id", "")).encode()).hexdigest()
+            for turn in turns
+        ],
+    }
+
+
+def validate_raw_artifacts(report: dict[str, Any], artifact_root: Path | None) -> list[str]:
+    if artifact_root is None or not artifact_root.is_dir():
+        return ["runtime_raw_artifacts_missing"]
+    expected = {
+        "install_receipt": "runtime-v3/generations/issue901-runtime/receipt.json",
+        "config_status": "csm-config-status.json",
+        "runtime_observations": "runtime-observations.json",
+        "checkpoint": "checkpoint.json",
+        "proxy_requests": "proxy-requests.json",
+        "guardian_log": "guardian.log",
+    }
+    declared = report.get("raw_artifacts") or {}
+    paths = {name: artifact_root / relative for name, relative in expected.items()}
+    if set(declared) != set(expected) or any(
+        not path.is_file() or declared.get(name) != sha256_file(path)
+        for name, path in paths.items()
+    ):
+        return ["runtime_raw_artifact_binding_invalid"]
+    try:
+        install = json.loads(paths["install_receipt"].read_text())
+        config_status = json.loads(paths["config_status"].read_text())
+        observations = json.loads(paths["runtime_observations"].read_text())
+        checkpoint_value = json.loads(paths["checkpoint"].read_text())
+        proxy_records = json.loads(paths["proxy_requests"].read_text())
+    except (OSError, ValueError, TypeError):
+        return ["runtime_raw_artifact_parse_invalid"]
+    errors: list[str] = []
+    if (install.get("schema") != "adl.runtime_v3.install_generation.v1"
+            or install.get("generation") != "issue901-runtime"
+            or install.get("source_revision") != report.get("source_revision")
+            or set((install.get("artifacts") or {})) != {"csm", "guardian", "kernel"}
+            or any(not is_sha256(row.get("sha256")) for row in (install.get("artifacts") or {}).values())):
+        errors.append("runtime_install_receipt_invalid")
+    if (config_status.get("schema") != "adl.csm.runtime_v3_service_status.v1"
+            or config_status.get("config_valid") is not True
+            or config_status.get("service_loaded") is not False):
+        errors.append("runtime_config_preflight_invalid")
+    expected_observation = {
+        "source_revision": report.get("source_revision"),
+        "runtime_identity": report.get("runtime_identity"),
+        "runtime_identity_after": report.get("runtime_identity_after"),
+        "registered_provider": report.get("registered_provider"),
+        "provider_process_ids": report.get("provider_process_ids"),
+        "scenarios": report.get("scenarios"),
+        "agent_removed": report.get("agent_removed"),
+        "paid_calls": report.get("paid_calls"),
+    }
+    if observations != expected_observation:
+        errors.append("runtime_observation_projection_mismatch")
+    if (report.get("checkpoint", {}).get("sha256") != sha256_file(paths["checkpoint"])
+            or report.get("checkpoint", {}).get("binding") != checkpoint_binding(checkpoint_value)):
+        errors.append("runtime_checkpoint_projection_mismatch")
+    projected_proxy = [
+        {
+            "request_id": row.get("request_id"),
+            "body_sha256": row.get("body_sha256"),
+            "upstream_status": row.get("upstream_status"),
+            "upstream_error": row.get("upstream_error"),
+            "completed": bool(row.get("completed_at")),
+        }
+        for row in proxy_records if row.get("path") == "/v1/chat/completions"
+    ]
+    if projected_proxy != report.get("proxy_requests"):
+        errors.append("runtime_proxy_projection_mismatch")
+    if paths["guardian_log"].stat().st_size == 0:
+        errors.append("runtime_guardian_log_empty")
+    return errors
+
+
+def validate_report(report: dict[str, Any], artifact_root: Path | None = None) -> list[str]:
     errors: list[str] = []
     if report.get("schema") != SCHEMA:
         errors.append("schema_invalid")
@@ -170,6 +263,7 @@ def validate_report(report: dict[str, Any]) -> list[str]:
             or any(row.get("upstream_status") != 200 or row.get("upstream_error") is not None for row in proxy_requests[1:])
             or report.get("proxy_request_digest") != digest(proxy_requests)):
         errors.append("runtime_proxy_evidence_invalid")
+    errors.extend(validate_raw_artifacts(report, artifact_root))
     return errors
 
 
@@ -247,6 +341,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "scenarios": {},
         "provider_process_ids": [],
     }
+    raw_observations: dict[str, Any] = {"source_revision": args.source_revision, "paid_calls": 0}
     context = ssl.create_default_context(cafile=str(tls["ca"]))
     try:
         deadline = time.monotonic() + 45
@@ -267,6 +362,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         )
         runtime_identity = lifecycle.identity(snapshot)
         report["runtime_identity"] = runtime_identity
+        raw_observations["runtime_identity"] = runtime_identity
 
         def csmctl(*argv: object) -> dict[str, Any]:
             return json.loads(lifecycle.run([ctl, "agent", *argv], env=env))
@@ -295,6 +391,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "provider": detail.get("provider"), "model": detail.get("model"),
             "adapter": (detail.get("provider_binding") or {}).get("adapter"),
         }
+        raw_observations["registered_provider"] = report["registered_provider"]
 
         before = proxy_state.generate_count
         socket, turn, correlation = terminal_conversation(api_port, context, tokens["observatory"], agent_id, "issue901-runtime-loss")
@@ -368,26 +465,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         checkpoint = output / "checkpoint.json"
         csmctl("checkpoint", "--init", init, "--id", agent_id, "--out", checkpoint)
         checkpoint_value = json.loads(checkpoint.read_text())
-        checkpoint_turns = [
-            turn
-            for conversation in checkpoint_value.get("conversation_history", [])
-            for turn in conversation.get("turns", [])
-        ]
         report["checkpoint"] = {
             "durable": checkpoint.is_file(),
             "sha256": adapter_proof.sha256_file(checkpoint),
-            "binding": {
-                "schema": checkpoint_value.get("schema"),
-                "checkpoint_digest": checkpoint_value.get("checkpoint_digest"),
-                "agent_id": (checkpoint_value.get("declaration") or {}).get("id"),
-                "provider": (checkpoint_value.get("declaration") or {}).get("provider"),
-                "model": (checkpoint_value.get("declaration") or {}).get("model"),
-                "terminal_statuses": [turn.get("terminal_status") for turn in checkpoint_turns],
-                "correlation_sha256": [
-                    hashlib.sha256(str(turn.get("correlation_id", "")).encode()).hexdigest()
-                    for turn in checkpoint_turns
-                ],
-            },
+            "binding": checkpoint_binding(checkpoint_value),
         }
         csmctl("remove", "--init", init, "--id", agent_id)
         csmctl("remove", "--init", init, "--id", interruption_agent_id)
@@ -410,7 +491,27 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         ]
         report["proxy_request_count"] = len(report["proxy_requests"])
         report["proxy_request_digest"] = digest(report["proxy_requests"])
-        errors = validate_report(report)
+        raw_observations.update({
+            "runtime_identity_after": report["runtime_identity_after"],
+            "provider_process_ids": report["provider_process_ids"],
+            "scenarios": report["scenarios"],
+            "agent_removed": report["agent_removed"],
+        })
+        (output / "runtime-observations.json").write_text(json.dumps(raw_observations, indent=2) + "\n")
+        (output / "proxy-requests.json").write_text(json.dumps(proxy_state.records, indent=2) + "\n")
+        if guardian.poll() is None:
+            os.killpg(guardian.pid, signal.SIGTERM)
+            guardian.wait(timeout=20)
+        guardian_log.flush()
+        report["raw_artifacts"] = {
+            "install_receipt": sha256_file(output / "runtime-v3/generations/issue901-runtime/receipt.json"),
+            "config_status": sha256_file(output / "csm-config-status.json"),
+            "runtime_observations": sha256_file(output / "runtime-observations.json"),
+            "checkpoint": sha256_file(output / "checkpoint.json"),
+            "proxy_requests": sha256_file(output / "proxy-requests.json"),
+            "guardian_log": sha256_file(output / "guardian.log"),
+        }
+        errors = validate_report(report, output)
         report["validation"] = {"status": "passed" if not errors else "failed", "errors": errors}
         (output / "runtime-qualification-report.json").write_text(json.dumps(report, indent=2) + "\n")
         if args.public_report:
@@ -445,6 +546,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--public-report", type=Path)
     parser.add_argument("--validate-report", type=Path)
+    parser.add_argument("--artifact-root", type=Path)
     return parser.parse_args()
 
 
@@ -452,7 +554,7 @@ def main() -> int:
     args = parse_args()
     if args.validate_report:
         report = json.loads(args.validate_report.read_text())
-        errors = validate_report(report)
+        errors = validate_report(report, args.artifact_root)
         print(json.dumps({"status": "passed" if not errors else "failed", "errors": errors}))
         return 0 if not errors else 1
     report = run(args)
