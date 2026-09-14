@@ -39,6 +39,17 @@ unchanged. POST here transports a GraphQL query, not a GraphQL mutation.
 - Private native owner built and installed via the owner installer into the
   issue's ignored stable directory. Shared primary owner was not replaced.
 - `git diff --check`: passed.
+- The first hosted CI run (`34874195907`) exposed one stale installed-fixture
+  expectation: `installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue`
+  still routed merge observations as GraphQL GET. Production rejected the
+  fixture's unrelated ready-for-review response as a PR identity mismatch;
+  32 other installed-intent cases passed. The merge fixture now captures the
+  private curl-config stdin body, accepts only generated GraphQL query POSTs,
+  and preserves the existing three-effect assertion. The formerly failing
+  installed merge/finish/cleanup scenario passed (1/1, 20.82s), the four focused
+  adapter tests passed again, and `git diff --check` passed at
+  `8da4bb90db6da89cb43b6d86326c9a2951039638`. Replacement hosted CI remains
+  required at the final head.
 
 The shared owner-lane wrapper's printed C-SDLC plan still begins with v2 Gate10A
 and historical wrapper contracts. For this native v3 adapter change, the focused
@@ -53,4 +64,5 @@ No Runtime, cloud workload or release-authorization proof is claimed.
 | `production_merge_observation_posts_query_through_private_stdin` | Local adapter contract / generated request and production process transport | Deterministic; synthetic credential and isolated subprocess PATH | Small local CPU/filesystem; Python3 fixture; no network | Required #975 |
 | `merge_observation_body_is_bounded_before_transport` | Local adapter contract / request-size rejection | Deterministic | Small CPU | Required #975 |
 | Existing merge target tests and merge eligibility/linkage matrices | Local lifecycle contract / identity, error, pagination and no-intent guards | Deterministic fake remote | Local CPU/filesystem | Required #975 |
+| `installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue` | Installed lifecycle contract / query transport through merge, finish and cleanup | Deterministic fake GitHub transport; synthetic credential | Local CPU/filesystem; no network | Required #975 regression |
 | Production PR971 observation | Live read-only observation / GitHub accepts generated query through real adapter | Remote state varies; observed identity only | Two authenticated reads per candidate/control probe; no mutation | Bounded #975 transport proof, not merge authorization |

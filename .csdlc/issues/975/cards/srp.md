@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_present"
   recommended_outcome: "needs_followup"
-notes: "Independent review requested at the new committed head."
+notes: "Independent reviewer confirmed the fixture accepts observation POST without adding a remote effect and preserves explicit PUT merge accounting. Its combined GraphQL fixture intentionally assumes ready-for-review occurs before merge transport is enabled, matching the installed scenario."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- P2 semantic placeholders found by independent review; populated every placeholder through native edit; rereview pending.
+- Three independent review passes found: incomplete semantic cards; invalid SRP outcome enums; and stale review/publication truth after the installed fixture correction. No production or fixture code defect remained at 8da4bb90db6da89cb43b6d86326c9a2951039638.
 
 ### Dispositions
 
-- Card completeness repaired; source implementation unchanged.
+- All semantic placeholders were populated through native edit; SRP enums were corrected; this generation records PR #976, the failed initial CI run, the corrected fixture, and replacement CI as pending. Final exact-head rereview remains required after this card-only commit.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent review requested at the new committed head.
+Independent reviewer confirmed the fixture accepts observation POST without adding a remote effect and preserves explicit PUT merge accounting. Its combined GraphQL fixture intentionally assumes ready-for-review occurs before merge transport is enabled, matching the installed scenario.

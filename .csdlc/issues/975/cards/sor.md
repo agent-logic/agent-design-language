@@ -75,7 +75,7 @@ Implemented bounded JSON POST for both merge GraphQL observations; read-only pro
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/975/cards/sor.md`
-- Tracked implementation artifacts: `csdlc-v3/src/adapters/mod.rs; .csdlc/issues/975; .csdlc/evidence/975/VALIDATION.md`
+- Tracked implementation artifacts: `csdlc-v3/src/adapters/mod.rs; csdlc-v3/tests/support/intent_fixture.rs; .csdlc/issues/975; .csdlc/evidence/975/VALIDATION.md`
 - Additional proof artifacts: `.csdlc/evidence/975/VALIDATION.md`
 
 ## Actions taken
@@ -84,15 +84,15 @@ Implemented bounded JSON POST for both merge GraphQL observations; read-only pro
 - `Added focused production adapter and size-bound regressions; recorded PVF and native validation.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none: changes remain on the issue branch`
-- Worktree-only paths remaining: `csdlc-v3/src/adapters/mod.rs; .csdlc/issues/975; .csdlc/evidence/975/VALIDATION.md`
-- Integration state: `worktree_only`
+- Main-repo paths updated: `none: PR #976 remains open`
+- Worktree-only paths remaining: `PR #976 contains csdlc-v3/src/adapters/mod.rs, csdlc-v3/tests/support/intent_fixture.rs, .csdlc/issues/975 and .csdlc/evidence/975/VALIDATION.md until merge.`
+- Integration state: `pr_open`
 - Verification scope: `bound issue worktree; no primary edits`
-- Integration method used: `issue branch commit; PR publication and merge pending`
+- Integration method used: `Issue branch published as PR #976; merge pending.`
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD`
     `Confirmed assigned branch and committed work; not integration into main.`
-- Result: `not_integrated`
+- Result: `pr_open`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml --lib merge_adapter_tests`
     `Four final adapter tests passed; full suite results listed in proof packet.`
 - Results:
-  - `Native library93 pass; final adapter4 pass; operational CLI20 pass; remote publication13 pass; native six-card validation and diff hygiene pass. RealProcessAdapter before-control truncates for both operations; candidate returns PR971 and no errors at64KiB response bound. See .csdlc/evidence/975/VALIDATION.md.`
+  - `Native library, adapter, operational CLI, publication and six-card validation passed as recorded in .csdlc/evidence/975/VALIDATION.md. The formerly failing installed merge/finish/cleanup scenario passed after fixture correction. Hosted replacement CI remains pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Legacy lane wrapper still starts v2Gate10A; focused native v3 suites used instead.`
 
 ## Follow-ups / Deferred work
-- `Independent rereview and hosted CI before publication.`
-- `After accepted merge, parent reinstalls native owner and retries original authorized971 request.`
+- `Complete exact-head rereview and replacement hosted CI, then merge PR #976 through native C-SDLC.`
+- `Install accepted native owner from merged main and replay the authorized PR #971 merge.`
