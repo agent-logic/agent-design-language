@@ -624,9 +624,16 @@ impl Fixture {
         }
         fs::write(base.join("merge-rules.json"),serde_json::to_vec(&json!([{"type":"required_status_checks","parameters":{"required_status_checks":[{"context":"ci","integration_id":42}]}}])).unwrap()).unwrap();
         let script = base.join("fake-bin/curl");
-        let old = fs::read_to_string(&script).unwrap();
+        let old = fs::read_to_string(&script).unwrap().replace(
+            "cat >/dev/null; fi",
+            "observation=$(sed -n '/^data-binary = /p'); fi",
+        );
         let cases = r#"
- GET:https://api.github.com/graphql)
+ POST:https://api.github.com/graphql)
+  case "${observation:-}" in
+   *'query '*) ;;
+   *) exit 9 ;;
+  esac
   if test -f "$base/merged"; then cat "$base/merge-after.json"; else cat "$base/merge-before.json"; fi ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/rules/branches/main*) cat "$base/merge-rules.json" ;;
  PUT:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639/merge)
