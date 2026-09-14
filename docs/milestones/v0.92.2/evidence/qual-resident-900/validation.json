@@ -26,16 +26,16 @@
     "pending_case_count": 0,
     "continuity_generation": 1,
     "continuation_verified": true,
-    "signed_population_sha256": "e2c978263f650139e099fa5a56c8891c068be8437a23adc3325cd777dda73648",
+    "signed_population_sha256": "0ffbadf67f1a7d1bcdc7e3cee9d7a3d6955f4bcbeac1c20848f63502db786af9",
     "materialized_plan_sha256": "7d66aa9b9060406c7a696c675c97199425138aca6211c937248ab46ee3281533",
-    "completed_uts_state_sha256": "3cf9d452e0287528c9919e914316da5819fe2aa9d6616c6772f2a657329ef1fa",
-    "dehydration_receipt_sha256": "fcd798eaf4c81ecf43123abd273075337993370b7d10d496b6151523b1e677bd",
-    "restore_receipt_sha256": "199993b95c4f427382f10fd571e70d933a0ad48ca8b58493102fc0abc38ed74d",
-    "completion_receipt_sha256": "c1da456f15f76112d529118e13d57003bc776500722a3c8dd91d95981e8d33e2",
-    "private_qualification_receipt_sha256": "baa6aec2607b469ae934126d859cdf42a5a8a3fec12786e13ab19a3398436de5",
-    "producer_source_revision": "4519889c2699c7091a925c0fabcae7a007e03ee6",
-    "runtime_binary_sha256": "74872d627bb9a3369052a796a5cef55b77a457c58412b9ba7ff82bc3e96341c0",
-    "csm_binary_sha256": "a0969dc80be27293d51d851e7af88fa4c09f6b4ae6f2c9faf3d23c9df51ba57a",
+    "completed_uts_state_sha256": "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3",
+    "dehydration_receipt_sha256": "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879",
+    "restore_receipt_sha256": "ed6182d3c00da9a21a28fc2dac8a93427128f0766cfec7f378a90f04b9dd9695",
+    "completion_receipt_sha256": "c2dfe8cd06d391ffbe912b00d8698c7c3be8b4c852e2bbe6852e0fad441b07e8",
+    "private_qualification_receipt_sha256": "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7",
+    "producer_source_revision": "f76f0600154e2863d71f2d822311432612e881e0",
+    "runtime_binary_sha256": "be76b57d48ded840ed1b2e8f30cb368f48dd2dd83c463dbed3b5c5803c2e1549",
+    "csm_binary_sha256": "12b0077ae67b6b17837258c4f534ecf58dd32622b66c18dd8679fd40fd34ea5d",
     "provider_id": "local_ollama",
     "provider_results_and_effects_bound": true,
     "workload_execution_count": 12,
@@ -52,8 +52,8 @@
       "issue268-planner": {
         "pre_view": "checkpoint_readiness",
         "post_view": "checkpoint_readiness",
-        "pre_effect_sha256": "sha256:9a8efc60504683e85a4aadc4478fcf387a41328fe90a61e1e8e18f57c320e32d",
-        "post_effect_sha256": "sha256:65a81c0add72fc5745bfb69161065993a8044888aeb0b3b72d7ed573d688059d"
+        "pre_effect_sha256": "sha256:14c8718b09d36ebad0edb4121b5e536af805397325cb973e5ffc45cc6d001096",
+        "post_effect_sha256": "sha256:5e2f91c59be875151f06df5cf70a4f9b92d02a7d8e58f21f7b40c777d7c5a191"
       },
       "issue268-tool-executor": {
         "pre_view": "tool_capability",
@@ -70,8 +70,8 @@
       "issue268-recovery-custodian": {
         "pre_view": "continuity_lineage",
         "post_view": "continuity_lineage",
-        "pre_effect_sha256": "sha256:f78c0b320d298ce843932002094fc5d9c312ed1c28af963952b597ac27620280",
-        "post_effect_sha256": "sha256:fc0610ba6f0e3399ee31fbf120ba8396f6b04d029b087c37cb657ebed377b343"
+        "pre_effect_sha256": "sha256:0fce4da74d7ede9b4d1c3feef33887acd6c725a5416a2f39718fbb3dbce8cdf9",
+        "post_effect_sha256": "sha256:d2201537814c92443188ef0fd6aba004564b1b0f2b2fde6bf07983c300b250f0"
       },
       "issue268-reviewer-escalation": {
         "pre_view": "review_audit",

@@ -42,9 +42,9 @@ restored generation.
 Public evidence is summarized in `validation.json` and `test-manifest.json`.
 The qualification receipt also binds the `local_ollama` provider, each actual
 provider status/result and ACC effect receipt, Runtime and CSM binary hashes,
-and producer source revision `4519889c2699c7091a925c0fabcae7a007e03ee6`.
+and producer source revision `f76f0600154e2863d71f2d822311432612e881e0`.
 
 Detailed run data is retained under the issue-local
-`.csdlc/evidence/900/attempt-15/` tree and is intentionally excluded from the
+`.csdlc/evidence/900/attempt-17/` tree and is intentionally excluded from the
 public packet because it contains machine-local paths and operational detail.
 The public hashes bind those retained artifacts without publishing them.
