@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification
 Branch: codex/901-v0922-provider-recovery-qualification
 Card Status: draft
-Status: implemented
+Status: in_progress
 Generated: 2026-09-12T00:15:14.473149+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and executed real task-owned provider loss, timeout, interruption, and healthy recovery through the production adapter. Live-run-09 passed 4/4 at source c6651bb59fc117f10abc9e613d0042f567759ee8, and independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153. CI, PR, merge, and closeout remain pending.
+Standalone adapter qualification remains retained, but an open P2 requires the missing registered Runtime-session execution. The additional Runtime harness and validation are in progress; fresh execution, exact-head review, CI, merge, and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_complete_review_passed_ci_pending
+    status: remediation_in_progress
     checks_run:
       - "passed: raw and portable validator reports contain no errors"
   determinism:
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json`
-- Required artifacts present: `yes for local implementation, execution and review; CI/PR/merge/terminal artifacts pending`
+- Required artifacts present: `no: registered Runtime failure/recovery evidence and exact-head review are pending`
 - Artifact schema/version checks: `portable report validate-report passed with four scenarios`
 - Hash/byte-stability checks: `adapter, provider binary, model file, public report, and four request-body digests recorded`
 - Missing/optional artifacts and rationale: `PR, hosted CI, merge, and terminal receipts are absent because publication has not occurred; independent review evidence is retained privately.`

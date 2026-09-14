@@ -10,7 +10,7 @@ title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qual
 branch: "codex/901-v0922-provider-recovery-qualification"
 generated_at: "2026-09-12T00:15:14.473149+00:00"
 card_status: "ready"
-status: "completed"
+status: "in_progress"
 activation_state: "bound_in_progress"
 plan_revision: 1
 initial_pvf_lane: "provider"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implemented the non-overlapping #901 harness and observation-bound report validator; exact source c6651bb59fc117f10abc9e613d0042f567759ee8 executed four task-owned local provider scenarios through the production adapter and produced passing raw and portable receipts. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending."
+plan_summary: "Preserve the four-scenario standalone production-adapter packet and add a second production proof through one #855 registered Runtime session. Dynamically admit the provider-backed agent, observe Runtime loss, timeout, session interruption and healthy recovery with distinct correlations and fresh provider identity, checkpoint it, remove it, and prove the Runtime incarnation stayed fixed."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "completed"
+    status: "in_progress"
 affected_areas:
   - "v0922-provider-recovery-qualification"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Live-run-09 passed loss, timeout, interruption and recovery at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The task-owned CPU llama-server used the existing gemma:2b artifact through the production OpenAI-compatible adapter and transparent observation proxy. Raw evidence binds process, proxy, scenario and result claims; the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending."
+notes: "The prior live-run-09 remains valid standalone adapter evidence but does not prove the required registered Runtime lifecycle. A new task-owned local Runtime harness is in progress using #855 dynamic admission and conversation, the same local provider process family, and no paid/cloud calls. Fresh execution and exact-head review remain required."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification`.
 
-Implemented the non-overlapping #901 harness and observation-bound report validator; exact source c6651bb59fc117f10abc9e613d0042f567759ee8 executed four task-owned local provider scenarios through the production adapter and produced passing raw and portable receipts. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending.
+Preserve the four-scenario standalone production-adapter packet and add a second production proof through one #855 registered Runtime session. Dynamically admit the provider-backed agent, observe Runtime loss, timeout, session interruption and healthy recovery with distinct correlations and fresh provider identity, checkpoint it, remove it, and prove the Runtime incarnation stayed fixed.
 
 ## PVF Lane Plan
 
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Live-run-09 passed loss, timeout, interruption and recovery at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The task-owned CPU llama-server used the existing gemma:2b artifact through the production OpenAI-compatible adapter and transparent observation proxy. Raw evidence binds process, proxy, scenario and result claims; the portable receipt omits prompt/output bytes. #851 remains untouched. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; draft publication and hosted CI remain pending.
+The prior live-run-09 remains valid standalone adapter evidence but does not prove the required registered Runtime lifecycle. A new task-owned local Runtime harness is in progress using #855 dynamic admission and conversation, the same local provider process family, and no paid/cloud calls. Fresh execution and exact-head review remain required.

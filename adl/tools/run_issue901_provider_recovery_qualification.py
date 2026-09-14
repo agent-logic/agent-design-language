@@ -50,6 +50,7 @@ class ProxyState:
         self.upstream_port = upstream_port
         self.condition = threading.Condition()
         self.generate_count = 0
+        self.delay_response_secs = 0.0
         self.records: list[dict[str, Any]] = []
 
     def record_forwarded(self, record: dict[str, Any]) -> None:
@@ -96,11 +97,19 @@ def proxy_handler(state: ProxyState) -> type[BaseHTTPRequestHandler]:
                 "upstream_error": None,
                 "request_id": None,
             }
-            if self.path == "/v1/responses":
+            if self.path in {"/v1/responses", "/v1/chat/completions"}:
                 try:
-                    input_text = json.loads(body).get("input", "")
+                    payload = json.loads(body)
+                    input_text = payload.get("input", "")
+                    if self.path == "/v1/chat/completions":
+                        input_text = " ".join(
+                            str(message.get("content", ""))
+                            for message in payload.get("messages", [])
+                            if isinstance(message, dict)
+                        )
                     if isinstance(input_text, str):
-                        record["request_id"] = input_text.split(":", 1)[0]
+                        marker = next((part for part in input_text.split() if part.startswith("issue901-runtime-")), None)
+                        record["request_id"] = marker.rstrip(":,.;") if marker else input_text.split(":", 1)[0]
                 except (json.JSONDecodeError, AttributeError):
                     pass
             connection = http.client.HTTPConnection("127.0.0.1", state.upstream_port, timeout=180)
@@ -113,6 +122,8 @@ def proxy_handler(state: ProxyState) -> type[BaseHTTPRequestHandler]:
                 headers["Content-Length"] = str(len(body))
                 connection.request(self.command, self.path, body=body, headers=headers)
                 state.record_forwarded(record)
+                if self.path in {"/v1/responses", "/v1/chat/completions"} and state.delay_response_secs:
+                    time.sleep(state.delay_response_secs)
                 response = connection.getresponse()
                 payload = response.read()
                 record["upstream_status"] = response.status

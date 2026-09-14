@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
 branch: "codex/901-v0922-provider-recovery-qualification"
 generated_at: "2026-09-12T00:15:14.473149+00:00"
-card_status: "reviewed"
+card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/901/cards/sip.md"
   - ".csdlc/issues/901/cards/vpp.md"
 review_results:
-  findings_status: "no_findings"
-  recommended_outcome: "pass"
+  findings_status: "findings_present"
+  recommended_outcome: "block"
 notes: "Independent review verified direct transport-loss handling, four distinct task-owned provider PIDs and requests, real timeout and SIGTERM interruption, fresh-PID recovery, raw result equality, separately hashed execution-observation binding, coordinated-tamper rejection, 19 validator tests, 51 Rust provider-adapter tests, redaction/path hygiene, #851 exclusion, and coherent SPP/VPP/SRP/SOR truth."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Final exact-head review at 06ad3771f14a12c399f03a404fb587d9de33b153 reported no actionable findings. Earlier passes found five actionable evidence/lifecycle issues: synthetic proxy 502, summary-to-raw evidence binding, stale SOR truth, stale VPP run state, and stale operative SPP state. All were fixed before the final review.
+- P2: all four reviewed scenarios launched the provider adapter directly with a constructed route and bypassed #855 registered Runtime session lifecycle.
 
 ### Dispositions
 
-- Pass for native draft publication. Live-run-09 is bound to exact source c6651bb59fc117f10abc9e613d0042f567759ee8 and retained privately; the portable report is tracked. Hosted CI, merge, and terminal closeout remain pending.
+- Preserve live-run-09 and add Runtime dynamic admission, failure, timeout, interruption, healthy recovery, checkpoint/removal, correlation, provider-incarnation and unchanged-Runtime-identity evidence before re-review.
 
 ### Recommended Outcome
 
-- pass
+- block
 
 ## Notes
 
