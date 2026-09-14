@@ -53,7 +53,7 @@ The standalone provider packet is preserved and the Runtime-lifecycle P2 is reme
 - Actual PR wait seconds: `unknown`
 - Actual CI wait seconds: `unknown`
 - Budget source: `No operator issue token budget assigned; VPP estimates are planning only`
-- Goal metrics data source: `live-run-09 portable receipt and local command results`
+- Goal metrics data source: `live-run-09 standalone production-adapter packet and runtime-live-12 registered Runtime packet`
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `high for recorded local run`
 - Estimate error percent: `unknown`
@@ -76,12 +76,12 @@ The standalone provider packet is preserved and the Runtime-lifecycle P2 is reme
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/901/cards/sor.md`
 - Tracked implementation artifacts: `adl/tools/issue855_provider_lifecycle.py; adl/tools/run_issue901_provider_recovery_qualification.py; adl/tools/run_issue901_runtime_recovery_qualification.py; adl/tools/test_run_issue901_provider_recovery_qualification.py; adl/tools/test_run_issue901_runtime_recovery_qualification.py; docs/milestones/v0.92.2/evidence/qual-provider-901/README.md; qualification-report.json; runtime-qualification-report.json`
-- Additional proof artifacts: `.csdlc/evidence/901/runtime-live-09 (private raw Runtime run); earlier failed Runtime attempts retained privately and excluded from acceptance`
+- Additional proof artifacts: `.csdlc/evidence/901/live-run-09 and .csdlc/evidence/901/runtime-live-12 (private retained runs); runtime-live-12 portable validation binds the Runtime install receipt, CSM configuration status, raw Runtime observations, checkpoint, proxy records, and Guardian log; earlier failed attempts remain private and excluded from acceptance`
 
 ## Actions taken
 - `Built and invoked the exact production adl-provider-adapter binary from source c6651bb59fc117f10abc9e613d0042f567759ee8`
 - `Executed distinct task-owned provider loss, 150 ms timeout, adapter interruption, and fresh-PID recovery scenarios`
-- `Validated the raw artifact packet, observation and result bindings, portable receipt, 19 deterministic evidence-integrity cases, 51 focused Rust tests, formatting and diff hygiene; independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153.`
+- `Validated both raw artifact packets and portable receipts, including six registered Runtime artifact bindings; passed 25 focused deterministic Python tests, strict X.509 verification, py_compile, and diff hygiene; independent exact-head review passed at 2930f13da6a48331438bf81f046a9e37a925e973.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch only`
@@ -148,7 +148,7 @@ verification_summary:
 - Fixtures or scripts used: `run_issue901_provider_recovery_qualification.py; run_issue901_runtime_recovery_qualification.py; both focused unittest modules; issue855_provider_lifecycle.py`
 - Replay verification (same inputs -> same artifacts/order): `portable validate-report passed`
 - Ordering guarantees (sorting / tie-break rules used): `loss, timeout, interruption, and recovery serialized; recovery used a new provider PID; four request body digests are unique`
-- Artifact stability notes: `Portable report binds artifact refs, byte sizes and SHA-256 digests; raw validation re-hashes every live-run-09 artifact, compares result summaries to raw result JSON, and compares process/proxy/scenario claims to the separately hashed execution-observations.json artifact.`
+- Artifact stability notes: `The standalone and Runtime portable reports bind their private execution artifacts by byte size and SHA-256. The Runtime validator reopens six retained files and rejects a coherent report when those artifacts are absent. Runtime executable source is cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb; independent review passed at 2930f13da6a48331438bf81f046a9e37a925e973.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `performed; no credential values or prompt/output text in portable receipt`
@@ -157,10 +157,10 @@ verification_summary:
 - Sandbox / policy invariants preserved: `only task-owned process groups and dynamic loopback ports used; #851 and shared Ollama service untouched`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/901/live-run-09 and runtime-live-09 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json and runtime-qualification-report.json (portable)`
-- Run artifact root: `.csdlc/evidence/901/live-run-09 (private)`
+- Trace bundle path(s): `.csdlc/evidence/901/live-run-09 and .csdlc/evidence/901/runtime-live-12 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json and runtime-qualification-report.json (portable)`
+- Run artifact root: `.csdlc/evidence/901/live-run-09 and .csdlc/evidence/901/runtime-live-12 (private)`
 - Replay command used for verification: `documented runner invocation with exact adapter/provider/model inputs; output directory must be new`
-- Replay result: `live-run-09 passed 4/4`
+- Replay result: `live-run-09 passed 4/4 standalone scenarios; runtime-live-12 passed 3/3 registered Runtime scenarios`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json; runtime-qualification-report.json`

@@ -39,9 +39,9 @@ selected_lanes:
 parallel_groups:
   - "Serialize task-owned live fault scenarios; deterministic negative fixtures may run separately after harness implementation"
 validation_commands:
-  - "Standalone adapter: retained live-run-09, four scenarios, portable validator passed. Registered Runtime: runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17; loss, recovery and interruption passed in one Runtime; runtime report validator passed. Python suites: 22 tests passed. Strict X.509 verification, py_compile and git diff --check passed. Exact-head independent review and hosted CI pending."
+  - "Standalone adapter live-run-09: four production-adapter scenarios and portable validation passed. Registered Runtime runtime-live-12: executable source cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb; loss, recovery, and interruption passed in one Runtime; six retained raw artifact bindings passed portable validation. Both focused Python suites passed 25 tests total. Strict X.509 verification, py_compile, and git diff --check passed. Independent exact-head review passed at 2930f13da6a48331438bf81f046a9e37a925e973. Hosted CI remains pending."
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No mock-only success, static reference trace, supplied failure flag, stale candidate or provider permission inference. Actual effects, complete scenario population and independent review remain required. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
-notes: "Registered Runtime runtime-live-09 passed with unchanged Runtime incarnation, actual loss failure, recovery delivery from a fresh provider PID, client WebSocket interruption, checkpoint and removal. Timeout remains proved by the separately retained production-adapter packet; the Runtime report does not claim its ignored sidecar timeout overrides the fixed Runtime deadline. Earlier Runtime attempts remain private and non-accepting."
+notes: "Standalone live-run-09 remains the separately retained real timeout proof. Registered Runtime runtime-live-12 passed at executable source cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb with unchanged Runtime identity, actual provider loss, fresh-provider recovery, client WebSocket interruption, checkpoint, and removal. Its portable report reopens and hash-binds six retained raw artifacts. Earlier Runtime attempts remain private and non-accepting. Independent exact-head review passed at 2930f13da6a48331438bf81f046a9e37a925e973; hosted CI, merge, and closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -86,7 +86,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 ## Validation Commands
 
-- Standalone adapter: retained live-run-09, four scenarios, portable validator passed. Registered Runtime: runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17; loss, recovery and interruption passed in one Runtime; runtime report validator passed. Python suites: 22 tests passed. Strict X.509 verification, py_compile and git diff --check passed. Exact-head independent review and hosted CI pending.
+- Standalone adapter live-run-09: four production-adapter scenarios and portable validation passed. Registered Runtime runtime-live-12: executable source cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb; loss, recovery, and interruption passed in one Runtime; six retained raw artifact bindings passed portable validation. Both focused Python suites passed 25 tests total. Strict X.509 verification, py_compile, and git diff --check passed. Independent exact-head review passed at 2930f13da6a48331438bf81f046a9e37a925e973. Hosted CI remains pending.
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Registered Runtime runtime-live-09 passed with unchanged Runtime incarnation, actual loss failure, recovery delivery from a fresh provider PID, client WebSocket interruption, checkpoint and removal. Timeout remains proved by the separately retained production-adapter packet; the Runtime report does not claim its ignored sidecar timeout overrides the fixed Runtime deadline. Earlier Runtime attempts remain private and non-accepting.
+Standalone live-run-09 remains the separately retained real timeout proof. Registered Runtime runtime-live-12 passed at executable source cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb with unchanged Runtime identity, actual provider loss, fresh-provider recovery, client WebSocket interruption, checkpoint, and removal. Its portable report reopens and hash-binds six retained raw artifacts. Earlier Runtime attempts remain private and non-accepting. Independent exact-head review passed at 2930f13da6a48331438bf81f046a9e37a925e973; hosted CI, merge, and closeout remain pending.

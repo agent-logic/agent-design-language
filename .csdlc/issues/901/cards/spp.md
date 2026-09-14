@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "The P2 Runtime-lifecycle finding is locally remediated by runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17. The registered Runtime proof passed loss, recovery and client-interruption checks with unchanged Runtime identity and two fresh provider PIDs; the standalone packet remains the separate real timeout proof. Exact-head independent review, CI, merge and closeout remain pending."
+notes: "Both review P2 findings are remediated. Standalone live-run-09 retains the real timeout proof. Registered Runtime runtime-live-12 at executable source cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb proves actual provider loss, fresh-provider recovery, and client interruption in one unchanged Runtime; its portable validator reopens and hash-binds six retained raw artifacts and rejects coherent reports without them. Twenty-five focused Python tests passed. Independent exact-head review passed at 2930f13da6a48331438bf81f046a9e37a925e973. Hosted CI, merge, and closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-The P2 Runtime-lifecycle finding is locally remediated by runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17. The registered Runtime proof passed loss, recovery and client-interruption checks with unchanged Runtime identity and two fresh provider PIDs; the standalone packet remains the separate real timeout proof. Exact-head independent review, CI, merge and closeout remain pending.
+Both review P2 findings are remediated. Standalone live-run-09 retains the real timeout proof. Registered Runtime runtime-live-12 at executable source cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb proves actual provider loss, fresh-provider recovery, and client interruption in one unchanged Runtime; its portable validator reopens and hash-binds six retained raw artifacts and rejects coherent reports without them. Twenty-five focused Python tests passed. Independent exact-head review passed at 2930f13da6a48331438bf81f046a9e37a925e973. Hosted CI, merge, and closeout remain pending.

@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 901,
   "phase": "bound",
-  "generation": 16,
+  "generation": 17,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/901-v0922-provider-recovery-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-901-v0922-provider-recovery-qualification",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "aaa96649917b60001d9fbde70d70062f9f385a0018772a22250482ae81785a78"
+  "digest": "c11a47d6d9b4ecfc258973305930abfaf675d84815734b21525d197a47675e99"
 }
