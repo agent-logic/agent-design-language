@@ -1,0 +1,17 @@
+{
+  "issue": 928,
+  "title": "[v0.92.2][Sprint 2] Runtime/provider foundations and ingestion",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/928-combined-sprint-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-928-combined-sprint-review",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "88ffa808a1bf197f3b8299979cece956e8b435b5317eb8e1a1039251c7c88992",
+  "commands": ["prepare_issue","bind_worktree","edit_cards","plan_pvf","doctor","schedule","shepherd","eligibility"],
+  "card_updates": {
+    "sor": {
+      "planned_pvf_lane": "docs_diff_check",
+      "final_pvf_lane": "docs_diff_check",
+      "lane_change_reason": "No PVF lane identifier change; the completed docs lane includes native card validation, exact GitHub observation, Git ancestry, and independent review as its recorded procedures."
+    }
+  }
+}

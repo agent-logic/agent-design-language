@@ -42,6 +42,14 @@ Operator instruction under #926 adds one umbrella for each full execution sprint
 | 10 | [#936](https://github.com/agent-logic/agent-design-language/issues/936) | #914, #915 |
 | 11 | [#937](https://github.com/agent-logic/agent-design-language/issues/937) | #916, #917, #918, #919, #920, #921, #922, #923, #924, #925 |
 
+Sprint 2 corrective reconciliation is tracked separately from its nine-child
+roster: [#967](https://github.com/agent-logic/agent-design-language/issues/967) /
+[PR #968](https://github.com/agent-logic/agent-design-language/pull/968) repairs
+deterministic hosted A2A initiation after #855. It passed exact-head CI and the
+bounded three-provider hosted acceptance, then merged as
+`866a6b07937387443906a5f9e4cf1949699fba39`. This corrective row does not change
+the original Sprint 2 denominator or the 69-core-task startup denominator.
+
 ## First sprint — C-SDLC v3 simplification alongside Runtime
 
 SIM-UMBRELLA opens coordination; SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM-05 → SIM-06 → SIM-07 → SIM-08 → SIM-09 is one coherent sprint. After all 69 core identities are created and all creation reviews pass, it starts through its own readiness in parallel with Runtime. Its graph does not add a WP-01 or unrelated prior-closeout dependency. The umbrella completes after SIM-09 and converges at TAIL-01. Resolve C-SDLC/Runtime shared-path and installed-binary ownership before overlapping writes. An eventual C-SDLC writer pause requires separate explicit authorization; it does not pause Runtime/provider services. See the [complete plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md).

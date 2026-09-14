@@ -1,0 +1,50 @@
+{
+  "issue": 928,
+  "title": "[v0.92.2][Sprint 2] Runtime/provider foundations and ingestion",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/928-combined-sprint-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-928-combined-sprint-review",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "21b3908d8eefaff831ce3a2d35924190e082726c10c18b3b9173bdba947a2664",
+  "commands": ["prepare_issue","bind_worktree","edit_cards","plan_pvf","doctor","schedule","shepherd","eligibility"],
+  "card_updates": {
+    "sip": {
+      "acceptance_criteria": "Preserve all nine original children exactly once; account for #967 separately; bind accepted heads, CI, merges and ancestry to one revision; record seven lane results, limitations and closeout truth; leave merge operator-controlled.",
+      "target_files_surfaces": ".csdlc/evidence/928 review packet and docs/milestones/v0.92.2/SPRINT_v0.92.2.md",
+      "required_outcome": "A findings-first combined Sprint 2 review ready for publication with exact residuals and no unsupported terminal or release claim.",
+      "notes_risks": "P3 CLI help discoverability defect; no retained acquisition-to-store combined test; child native finish/cleanup remains asynchronous; #848 is planning evidence; hosted counts are not invoice proof.",
+      "demo_proof_requirements": "Consume the separately approved #967 three-provider hosted acceptance packet; do not rerun paid providers or overstate measured billing.",
+      "non_goals": "No child implementation, paid execution, historical evidence rewrite, automatic merge, release, public publication, or claim of child terminal closeout.",
+      "goal": "Complete the nine-child Sprint 2 combined integration review and reconcile corrective #967 separately.",
+      "validation_plan": "Native six-card validation; JSON and Markdown hygiene; exact child and corrective accounting; live issue/PR/check observation; Git ancestry; independent exact-head review; CI after publication."
+    },
+    "stp": {
+      "acceptance_criteria": "Preserve all nine original children exactly once; account for #967 separately; bind accepted heads, CI, merges and ancestry to one revision; record seven lane results, limitations and closeout truth; leave merge operator-controlled.",
+      "target_files_surfaces": ".csdlc/evidence/928 review packet and docs/milestones/v0.92.2/SPRINT_v0.92.2.md",
+      "required_outcome": "A findings-first combined Sprint 2 review ready for publication with exact residuals and no unsupported terminal or release claim.",
+      "summary": "Review all nine merged Sprint 2 children at one closing revision and reconcile the merged #967 correction separately.",
+      "notes_risks": "P3 CLI help discoverability defect; no retained acquisition-to-store combined test; child native finish/cleanup remains asynchronous; #848 is planning evidence; hosted counts are not invoice proof.",
+      "deliverables": "Exact child and corrective ledgers, seven review lane records, findings-first synthesis, planning reconciliation, native card validation, and exact-head independent review.",
+      "dependencies": "All nine original children and corrective #967 are closed by reviewed, green, merged PRs and ancestral to the review revision.",
+      "non_goals": "No child implementation, paid execution, historical evidence rewrite, automatic merge, release, public publication, or claim of child terminal closeout.",
+      "goal": "Complete the nine-child Sprint 2 combined integration review and reconcile corrective #967 separately.",
+      "validation_plan": "Native six-card validation; JSON and Markdown hygiene; exact child and corrective accounting; live issue/PR/check observation; Git ancestry; independent exact-head review; CI after publication.",
+      "repo_inputs": "#848, #854, #855, #876, #877, #878, #879, #880, #881; separate #967/#968; exact-head reviews, CI, hosted proof, merge ancestry, and milestone Sprint plan."
+    },
+    "vpp": {
+      "plan_summary": "Validate the completed combined review packet with native card checks, exact nine-child and separate corrective accounting, live GitHub state, Git ancestry, focused document and JSON hygiene, independent exact-head review, and hosted CI after publication.",
+      "failure_policy": "Fail closed for a missing original child, duplicate accounting, stale accepted head, failed applicable check, missing merge ancestry, undispositioned P1/P2 finding, absent lane record, or overclaimed proof. Preserve non-blocking residuals explicitly.",
+      "notes_risks_inline": "No broad child suite rerun by umbrella. Accepted-head CI and issue-level proof are inputs. The combined acquisition-to-store path remains unexecuted; child terminal receipts remain asynchronous.",
+      "selected_lanes_inline": "Native six-card validation; packet JSON/Markdown hygiene; nine-child plus separate corrective ledger; live issue/PR/check observation; ten merge ancestry checks; seven sprint-review lanes; independent exact-head review; PR CI.",
+      "validation_commands_inline": "csdlc validate; jq empty on packet JSON; git diff --check; deterministic packet-accounting assertion; git merge-base --is-ancestor for each recorded merge; read-only GitHub issue/PR/check views.",
+      "validation_family": "sprint_review",
+      "validation_runtime_class": "small",
+      "validation_resource_profile": "Local filesystem, Git object database, and bounded read-only GitHub queries; no paid provider calls",
+      "validation_size_split": "One nine-child ledger, one separate corrective row, seven lane records",
+      "expected_proof_cost": "Small local review and hosted CI; no new paid execution",
+      "planned_validation_seconds": "900",
+      "planned_validation_tokens": "6000",
+      "issue_goal_ref": "Active Sprint 2 completion objective under #928."
+    }
+  }
+}
