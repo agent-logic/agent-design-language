@@ -1,6 +1,6 @@
 {
   "schema": "adl.issue901.runtime_provider_recovery.v1",
-  "source_revision": "a24d915cd35ecd9beadea3a2cef018a86be46d17",
+  "source_revision": "b12bd9391c1387415e37a59e2ba1e7b3bdac3118",
   "model": "gemma:2b",
   "paid_calls": 0,
   "scenarios": {
@@ -8,35 +8,39 @@
       "terminal": {
         "status": "failed",
         "failure_reason": null,
+        "correlation_matched": true,
         "reply_present": false,
         "reply_sha256": null
       },
-      "correlation_id_sha256": "a006f3c377e2f54288a2a724eae37485fa8695e0794a0d0d4a59737ca9ca574d",
-      "provider_signal_sent_at": "2026-09-14T18:03:43.856814+00:00",
+      "correlation_id_sha256": "ed7d647df453fdf9a0d7e9bc88a07b1019287678774684d13984f424e01c30d2",
+      "provider_pid": 77996,
+      "provider_signal_sent_at": "2026-09-14T18:17:14.319009+00:00",
       "provider_returncode": -9
     },
     "recovery": {
       "terminal": {
         "status": "delivered",
         "failure_reason": null,
+        "correlation_matched": true,
         "reply_present": true,
-        "reply_sha256": "203613eb94b8c30ce1278cbcef3c72d2cb0efdee354f3c9c9b8d8086919f8c40"
+        "reply_sha256": "c0b84625d10456c3bf95bb5fdec974ec907b2a59df0574147c4e563dd29d2a6c"
       },
-      "correlation_id_sha256": "2dca8480ef14301d63789ca51c20b2687e3b8a0bce825154db0fd1c8e85309f0"
+      "correlation_id_sha256": "5145f1224a8164c027ae8c42abc1a2df2c8dcd6265c6ca973fd0574854dc1679"
     },
     "interruption": {
       "session_interrupted": true,
-      "interrupted_at": "2026-09-14T18:04:07.207724+00:00",
-      "correlation_id_sha256": "b9d16997e392c92b79f295aba7aff0a420781abf1451a8d29dca2a11f10a335e"
+      "interrupted_at": "2026-09-14T18:17:38.537953+00:00",
+      "provider_completed_after_disconnect": true,
+      "correlation_id_sha256": "313939fe3f026100634d296a19de47ea88c7fd229947c92cbb845fcc60ab5876"
     }
   },
   "provider_process_ids": [
-    64289,
-    64319
+    77996,
+    77999
   ],
   "runtime_identity": {
-    "runtime_incarnation_id": "8b85205a-56c2-4e3b-89e3-d47e03deb772",
-    "runtime_process_id": 64286
+    "runtime_incarnation_id": "a8d04a6d-38cb-421c-9c82-3d17354f1291",
+    "runtime_process_id": 77993
   },
   "registered_provider": {
     "provider": "openai-compatible",
@@ -45,16 +49,54 @@
   },
   "checkpoint": {
     "durable": true,
-    "sha256": "e4c698002a6eb76cba06df24a155a8b06a1ed8dfdc35d437d5505afbf36935ad"
+    "sha256": "0a2c0db9fd3689236c220e56b852eb5a44cfc94eb7217731f1ca81f0dc0d9fe1",
+    "binding": {
+      "schema": "adl.runtime_v3.agent_checkpoint.v1",
+      "checkpoint_digest": "c43c3d64d50110cccdf64ac71c98101da771c82068acd0584c84c36d99765909",
+      "agent_id": "issue901-runtime-agent",
+      "provider": "openai-compatible",
+      "model": "gemma:2b",
+      "terminal_statuses": [
+        "failed",
+        "delivered"
+      ],
+      "correlation_sha256": [
+        "ed7d647df453fdf9a0d7e9bc88a07b1019287678774684d13984f424e01c30d2",
+        "5145f1224a8164c027ae8c42abc1a2df2c8dcd6265c6ca973fd0574854dc1679"
+      ]
+    }
   },
   "agent_removed": true,
   "runtime_identity_after": {
-    "runtime_incarnation_id": "8b85205a-56c2-4e3b-89e3-d47e03deb772",
-    "runtime_process_id": 64286
+    "runtime_incarnation_id": "a8d04a6d-38cb-421c-9c82-3d17354f1291",
+    "runtime_process_id": 77993
   },
   "timeout_evidence_scope": "standalone_adapter_retained",
+  "proxy_requests": [
+    {
+      "request_id": "issue901-runtime-loss",
+      "body_sha256": "337bac271648aef303deaba1e1a03b535baaca8f6eb04359380a71a04fe6d043",
+      "upstream_status": null,
+      "upstream_error": "RemoteDisconnected",
+      "completed": true
+    },
+    {
+      "request_id": "issue901-runtime-recovery",
+      "body_sha256": "911c07f5ac5ce387d96726d90de2b237369dcfb8446f6a5b9b17effc312ba79c",
+      "upstream_status": 200,
+      "upstream_error": null,
+      "completed": true
+    },
+    {
+      "request_id": "issue901-runtime-interruption",
+      "body_sha256": "454fea49e4075d17824e3e5d9c019debf5305c9000827681b4c35052bd353b3d",
+      "upstream_status": 200,
+      "upstream_error": null,
+      "completed": true
+    }
+  ],
   "proxy_request_count": 3,
-  "proxy_request_digest": "cd045a8d941037160bd05b121e62ad8605ff8629d6ccc00ab27fec7db5fbe748",
+  "proxy_request_digest": "6bacfdd9869c4c808b21a3a4f97359cf70aa3e54b35cd7a0cc1b07b4b7fb104c",
   "validation": {
     "status": "passed",
     "errors": []
