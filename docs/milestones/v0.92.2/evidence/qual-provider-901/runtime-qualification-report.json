@@ -1,6 +1,6 @@
 {
   "schema": "adl.issue901.runtime_provider_recovery.v1",
-  "source_revision": "b12bd9391c1387415e37a59e2ba1e7b3bdac3118",
+  "source_revision": "cb292d7fbfb55b987a05ce1c0c3bd88954c23ebb",
   "model": "gemma:2b",
   "paid_calls": 0,
   "scenarios": {
@@ -12,9 +12,9 @@
         "reply_present": false,
         "reply_sha256": null
       },
-      "correlation_id_sha256": "ed7d647df453fdf9a0d7e9bc88a07b1019287678774684d13984f424e01c30d2",
-      "provider_pid": 77996,
-      "provider_signal_sent_at": "2026-09-14T18:17:14.319009+00:00",
+      "correlation_id_sha256": "05451b317edba9d6ee6e2c726409b609495bcf8d1f6961820ef80ecc9ff8ad44",
+      "provider_pid": 79389,
+      "provider_signal_sent_at": "2026-09-14T18:29:18.872577+00:00",
       "provider_returncode": -9
     },
     "recovery": {
@@ -23,24 +23,24 @@
         "failure_reason": null,
         "correlation_matched": true,
         "reply_present": true,
-        "reply_sha256": "c0b84625d10456c3bf95bb5fdec974ec907b2a59df0574147c4e563dd29d2a6c"
+        "reply_sha256": "203613eb94b8c30ce1278cbcef3c72d2cb0efdee354f3c9c9b8d8086919f8c40"
       },
-      "correlation_id_sha256": "5145f1224a8164c027ae8c42abc1a2df2c8dcd6265c6ca973fd0574854dc1679"
+      "correlation_id_sha256": "39d01244942aa4903aaa1434b59dca8d23686565984f7760c8a82c0238544780"
     },
     "interruption": {
       "session_interrupted": true,
-      "interrupted_at": "2026-09-14T18:17:38.537953+00:00",
+      "interrupted_at": "2026-09-14T18:29:43.195800+00:00",
       "provider_completed_after_disconnect": true,
-      "correlation_id_sha256": "313939fe3f026100634d296a19de47ea88c7fd229947c92cbb845fcc60ab5876"
+      "correlation_id_sha256": "9faaf3ba7e8821dce819c63f08b451984d3a065da8f9f6162aeb56369693e203"
     }
   },
   "provider_process_ids": [
-    77996,
-    77999
+    79389,
+    79406
   ],
   "runtime_identity": {
-    "runtime_incarnation_id": "a8d04a6d-38cb-421c-9c82-3d17354f1291",
-    "runtime_process_id": 77993
+    "runtime_incarnation_id": "6fc10f8e-7b4f-47ee-973a-124fa9fe0fc2",
+    "runtime_process_id": 79386
   },
   "registered_provider": {
     "provider": "openai-compatible",
@@ -49,10 +49,10 @@
   },
   "checkpoint": {
     "durable": true,
-    "sha256": "0a2c0db9fd3689236c220e56b852eb5a44cfc94eb7217731f1ca81f0dc0d9fe1",
+    "sha256": "0a5b63f9e1c12ec39fe9616bb4b6a301edaf19826dcdb481aea8019567a0cbfa",
     "binding": {
       "schema": "adl.runtime_v3.agent_checkpoint.v1",
-      "checkpoint_digest": "c43c3d64d50110cccdf64ac71c98101da771c82068acd0584c84c36d99765909",
+      "checkpoint_digest": "53ad304934b9cbcbc200f423752d071ce02c34f455e032aec6743a3465e51ab2",
       "agent_id": "issue901-runtime-agent",
       "provider": "openai-compatible",
       "model": "gemma:2b",
@@ -61,42 +61,50 @@
         "delivered"
       ],
       "correlation_sha256": [
-        "ed7d647df453fdf9a0d7e9bc88a07b1019287678774684d13984f424e01c30d2",
-        "5145f1224a8164c027ae8c42abc1a2df2c8dcd6265c6ca973fd0574854dc1679"
+        "05451b317edba9d6ee6e2c726409b609495bcf8d1f6961820ef80ecc9ff8ad44",
+        "39d01244942aa4903aaa1434b59dca8d23686565984f7760c8a82c0238544780"
       ]
     }
   },
   "agent_removed": true,
   "runtime_identity_after": {
-    "runtime_incarnation_id": "a8d04a6d-38cb-421c-9c82-3d17354f1291",
-    "runtime_process_id": 77993
+    "runtime_incarnation_id": "6fc10f8e-7b4f-47ee-973a-124fa9fe0fc2",
+    "runtime_process_id": 79386
   },
   "timeout_evidence_scope": "standalone_adapter_retained",
   "proxy_requests": [
     {
       "request_id": "issue901-runtime-loss",
-      "body_sha256": "337bac271648aef303deaba1e1a03b535baaca8f6eb04359380a71a04fe6d043",
+      "body_sha256": "f9caa73e283b82ec88310b5719d4a40676f9a64906540aff98f490c16feec81e",
       "upstream_status": null,
       "upstream_error": "RemoteDisconnected",
       "completed": true
     },
     {
       "request_id": "issue901-runtime-recovery",
-      "body_sha256": "911c07f5ac5ce387d96726d90de2b237369dcfb8446f6a5b9b17effc312ba79c",
+      "body_sha256": "5ea0d0478232cb9874c24c939558b8b64713987511942354a20cc2edaa6b4057",
       "upstream_status": 200,
       "upstream_error": null,
       "completed": true
     },
     {
       "request_id": "issue901-runtime-interruption",
-      "body_sha256": "454fea49e4075d17824e3e5d9c019debf5305c9000827681b4c35052bd353b3d",
+      "body_sha256": "1d2b2af3ec4fc2dc8b951e69036c83e35a0687fbda912c431a66ac9d284424c9",
       "upstream_status": 200,
       "upstream_error": null,
       "completed": true
     }
   ],
   "proxy_request_count": 3,
-  "proxy_request_digest": "6bacfdd9869c4c808b21a3a4f97359cf70aa3e54b35cd7a0cc1b07b4b7fb104c",
+  "proxy_request_digest": "b1566ffb9a65a67ed041daf0817748fa12d5a031f806e1abfb7de89ac30bb6b7",
+  "raw_artifacts": {
+    "install_receipt": "ff024700dc169e8c9fa5a3016a2de71758f74ac1cce8e4be24ae03964b00b960",
+    "config_status": "ca7c6bf5b072d07f12358d83ed7a24cb7b8e721ba91875a0dee28872f823fb64",
+    "runtime_observations": "ddde972b4b1cf8d5dd6f780440f124b2d17dec43673c4613eb35b650a909399e",
+    "checkpoint": "0a5b63f9e1c12ec39fe9616bb4b6a301edaf19826dcdb481aea8019567a0cbfa",
+    "proxy_requests": "d0b280fc90553e8405bc4bdb19445e17764cc6ff0888f6cdad666f7f9502f911",
+    "guardian_log": "8bb74e011ebbb5b58104545e505be8ec1f03a02b797eb77086c09c9348ae19c9"
+  },
   "validation": {
     "status": "passed",
     "errors": []
