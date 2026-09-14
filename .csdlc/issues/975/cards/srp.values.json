@@ -31,13 +31,13 @@
   "initial_pvf_lane": "deterministic_local",
   "planned_pvf_lane": "deterministic_local",
   "final_pvf_lane": "deterministic_local",
-  "findings_status": "changes_requested_remediated_pending_rereview",
+  "findings_status": "findings_present",
   "slug": "merge-graphql-observation",
   "vpp_card": ".csdlc/issues/975/cards/vpp.md",
   "timestamp": "2026-09-14T17:17:30.658534+00:00",
   "spp_card": ".csdlc/issues/975/cards/spp.md",
   "sor_card": ".csdlc/issues/975/cards/sor.md",
   "stp_card": ".csdlc/issues/975/cards/stp.md",
-  "recommended_outcome": "request independent rereview of semantic card repair",
+  "recommended_outcome": "needs_followup",
   "sip_card": ".csdlc/issues/975/cards/sip.md"
 }

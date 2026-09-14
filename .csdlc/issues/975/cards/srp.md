@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/975/cards/sip.md"
   - ".csdlc/issues/975/cards/vpp.md"
 review_results:
-  findings_status: "changes_requested_remediated_pending_rereview"
-  recommended_outcome: "request independent rereview of semantic card repair"
+  findings_status: "findings_present"
+  recommended_outcome: "needs_followup"
 notes: "Independent review requested at the new committed head."
 ---
 
@@ -131,7 +131,7 @@ review_results:
 
 ### Recommended Outcome
 
-- request independent rereview of semantic card repair
+- needs_followup
 
 ## Notes
 
