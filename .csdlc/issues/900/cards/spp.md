@@ -78,9 +78,9 @@ codex_plan:
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "complete"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "complete"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "in_progress"
 affected_areas:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "The prior six-resident run repeated one empty runtime.observe proposal and does not satisfy the distinct-workload requirement. Preserve its evidence as superseded. Current remediation adds six bounded read views and receipt-bound effects through the existing production Runtime/UTS/ACC path; a fresh production run and exact-head review remain required."
+notes: "Attempt-17 supersedes the repeated-workload packet. Six role-specific runtime.observe views executed before and after signed restore with receipt-bound argument/effect hashes; all seven integrity negatives denied without effects. Independent code/evidence review passed; CI, merge and closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -144,8 +144,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
+3. [complete] Implement the bounded deliverables only.
+4. [complete] Run focused validation and proof gates.
 5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-The prior six-resident run repeated one empty runtime.observe proposal and does not satisfy the distinct-workload requirement. Preserve its evidence as superseded. Current remediation adds six bounded read views and receipt-bound effects through the existing production Runtime/UTS/ACC path; a fresh production run and exact-head review remain required.
+Attempt-17 supersedes the repeated-workload packet. Six role-specific runtime.observe views executed before and after signed restore with receipt-bound argument/effect hashes; all seven integrity negatives denied without effects. Independent code/evidence review passed; CI, merge and closeout remain pending.

@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification"
 branch: "codex/900-v0922-six-resident-qualification"
 generated_at: "2026-09-12T00:15:07.665153+00:00"
-card_status: "ready"
+card_status: "reviewed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/900/cards/sip.md"
   - ".csdlc/issues/900/cards/vpp.md"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "block"
-notes: "Independent review verified the signed local host identities, local_ollama provider binding and substitution denial, all 12 provider result/status/effect hashes, exact producer and binary identities, attempt-11 public hash chain, seven deny-before-effect negatives, three Python harness suites, the six-case plan validator, six Rust continuity tests, formatting, Clippy, JSON parsing and diff hygiene."
+  findings_status: "addressed"
+  recommended_outcome: "pass"
+notes: "Independent review verified 12 executed workloads, six unique views, six unique pre effects, six unique post effects, exact attempt-17 public/private hashes, seven deny-before-effect negatives, two Python harness suites, eight focused Rust tests and local-only scope."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- P2: the reviewed head gave all six residents the same empty-argument runtime.observe dry-run proposal, so the packet did not prove six distinct workloads.
+- The external P2 found that six residents repeated one empty runtime.observe proposal. The remediation enforces six role-specific views and argument/effect bindings. Independent review at 4e9d2663a0091027e52c768d7b7bb3cf2f0296c1 verified the implementation and attempt-17 evidence; its only finding was stale lifecycle text, corrected by this native edit.
 
 ### Dispositions
 
-- Remediation in progress: require six role-specific views, receipt-bound argument/effect digests, successful execution for every assigned pre/post workload, fresh production evidence, and independent exact-head review.
+- Pass after this lifecycle correction and exact-head confirmation. The distinct-workload P2 is addressed; CI, merge and closeout remain pending.
 
 ### Recommended Outcome
 
-- block
+- pass
 
 ## Notes
 
-Independent review verified the signed local host identities, local_ollama provider binding and substitution denial, all 12 provider result/status/effect hashes, exact producer and binary identities, attempt-11 public hash chain, seven deny-before-effect negatives, three Python harness suites, the six-case plan validator, six Rust continuity tests, formatting, Clippy, JSON parsing and diff hygiene.
+Independent review verified 12 executed workloads, six unique views, six unique pre effects, six unique post effects, exact attempt-17 public/private hashes, seven deny-before-effect negatives, two Python harness suites, eight focused Rust tests and local-only scope.

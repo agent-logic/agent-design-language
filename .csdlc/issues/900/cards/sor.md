@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Prior qualification evidence is superseded by an open P2: it did not prove six distinct role-specific workloads. Code remediation and focused tests are in progress; fresh production execution, review, CI, merge, and closeout remain pending.
+Attempt-17 executed six role-specific production Runtime/Ollama workloads before and after signed continuity restore. All 12 executions succeeded, completed-case replay was denied, and seven restore-integrity negatives failed without effects. Independent review confirmed the remediation; CI, merge and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -76,7 +76,7 @@ Prior qualification evidence is superseded by an open P2: it did not prove six d
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/900/cards/sor.md`
 - Tracked implementation artifacts: `continuity stale-generation guard and regression; bounded harness configuration/preflight/resume repairs; negative runner; sanitized qualification packet`
-- Additional proof artifacts: `issue-local attempt-11 receipt sha256=20aa602d08c54610705ea4e7400393fe34349267bb3d2a11b97cacf1180d4e2e; negative summary sha256=e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4`
+- Additional proof artifacts: `issue-local attempt-17 receipt sha256=8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7; negative summary sha256=e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4`
 
 ## Actions taken
 - `Ran six production Runtime/Ollama residents serially before signed dehydration.`
@@ -85,12 +85,12 @@ Prior qualification evidence is superseded by an open P2: it did not prove six d
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
-- Worktree-only paths remaining: `candidate branch and issue-local private attempt-11 evidence; publication pending`
+- Worktree-only paths remaining: `candidate branch and issue-local private attempt-17 evidence; refreshed CI and merge pending`
 - Integration state: `worktree_only`
-- Verification scope: `Six roles, 12 distinct task IDs, exact provider/model/artifact/configuration identities, actual provider result and ACC effect hashes, exact producer/binary identities, signed dehydration/restore/continuation, replay denial and seven isolated integrity negatives.`
+- Verification scope: `Six roles, six role-specific workload views, 12 pre/post executions, six unique effects per phase, exact provider/model/artifact/configuration and producer identities, signed restore, replay denial and seven isolated integrity negatives.`
 - Integration method used: `issue-bound branch and FastWork worktree; draft PR publication pending`
 - Verification performed:
-  - `three focused Python harness tests; six filtered Rust continuity tests; production attempt-11; seven-case negative runner; public JSON and secret/path scan; cargo fmt --check; git diff --check`
+  - `two focused Python harness suites; eight focused Rust tests; production attempt-17; seven-case negative runner; public/private hash projection; git diff --check`
     `Local candidate behavior and retained evidence agree; remote CI and merge remain pending.`
 - Result: `Implemented and locally qualified in the bound #900 worktree; exact-head review, CI, publication and merge are not yet claimed.`
 
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `python3 focused harness tests; cargo test --lib resident_shepherd_spot_continuity::tests::; production attempt-11; run_issue900_continuity_negatives.py; cargo fmt --check; git diff --check`
+  - `two focused Python harness suites; cargo test --manifest-path adl/Cargo.toml resident_tool_execution::tests; production attempt-17; run_issue900_continuity_negatives.py; public/private hash projection; git diff --check`
     `Proves six distinct role-bound provider workloads execute and resume through production signed local continuity, completed work does not replay, and signature, payload, omission, provider, configuration, lineage and stale-generation corruption fail before admission.`
 - Results:
-  - `Local positive qualification and seven production-state negative scenarios passed; three focused Python contracts, the six-case plan validator, six Rust continuity tests, Rust formatting, Clippy, public evidence checks and diff hygiene passed. Renewed independent review at 2d119db18595e136448aab1e69571e916eb77471 found no actionable findings; CI remains pending.`
+  - `Attempt-17 passed 12 production workload executions, signed generation-1 restore, replay denial and seven isolated negatives. Two Python harness suites and eight focused Rust tests passed. Independent review at 4e9d2663a0091027e52c768d7b7bb3cf2f0296c1 confirmed code/evidence and identified only this now-corrected card drift; refreshed CI remains pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: remediation_in_progress
+    status: local_complete_review_passed_ci_pending
     checks_run:
-      - "passed: three focused Python harness tests, six Rust continuity tests, production attempt-11, seven negatives, public JSON/secret/path scan, formatting and diff hygiene"
+      - "passed: two focused Python harness suites, eight Rust resident-tool tests, production attempt-17, seven negatives, public/private evidence binding and diff hygiene"
   determinism:
     status: Deterministic local contract and integrity negatives passed; bounded real-model production qualification passed with pinned artifacts and temperature zero.
     replay_verified: passed: six completed cases denied and only six distinct pending cases resumed
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: passed
     schema_changes:
       present: yes: resident continuity bindings now include provider_id and qualification receipts include provider and producer hashes
-      approved: reviewed with no actionable findings at 2d119db18595e136448aab1e69571e916eb77471
+      approved: independent code/evidence review passed at 4e9d2663a0091027e52c768d7b7bb3cf2f0296c1; native lifecycle correction requires exact-head confirmation
 ```
 
 ## Determinism Evidence
@@ -148,7 +148,7 @@ verification_summary:
 - Fixtures or scripts used: `materialize_issue268_ollama_plan.py; run_issue268_six_resident_uts_cycle.py; run_issue268_continuity_uts_qualification.py; run_issue900_continuity_negatives.py`
 - Replay verification (same inputs -> same artifacts/order): `passed: six completed cases denied and only the six distinct pending cases executed after restore`
 - Ordering guarantees (sorting / tie-break rules used): `Positive qualification completed before negative mutation; each negative used its own isolated copy with admission closed before mutation.`
-- Artifact stability notes: `Public hashes bind retained attempt-11 artifacts produced from source revision e9fe1adf7b768dfd5fef234446d7db6cdfbaf37a; substantive changes require fresh validation and review.`
+- Artifact stability notes: `Public hashes bind attempt-17 produced from source f76f0600154e2863d71f2d822311432612e881e0; only public evidence and lifecycle records changed afterward.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `passed on public README and JSON packet`
@@ -157,16 +157,16 @@ verification_summary:
 - Sandbox / policy invariants preserved: `No downloads, hosted calls, AWS mutations, paid calls, shared-service changes or broad process termination.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/900/attempt-11/continuity-uts and .csdlc/evidence/900/attempt-11/runtime-state`
-- Run artifact root: `.csdlc/evidence/900/attempt-11`
-- Replay command used for verification: `run_issue268_continuity_uts_qualification.py --resume-after-pre for the reviewed pre-state, followed by run_issue900_continuity_negatives.py against the completed attempt-11 state`
+- Trace bundle path(s): `.csdlc/evidence/900/attempt-17/continuity-uts and .csdlc/evidence/900/attempt-17/runtime-state`
+- Run artifact root: `.csdlc/evidence/900/attempt-17`
+- Replay command used for verification: `run_issue268_continuity_uts_qualification.py from a fresh attempt-17 Runtime root, followed by run_issue900_continuity_negatives.py against the completed generation-1 state`
 - Replay result: `six of six completed-case replays denied`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-resident-900/validation.json`
-- Required artifacts present: `no: fresh six-workload production evidence and exact-head review are pending`
+- Required artifacts present: `yes: attempt-17 positive receipt, seven-case negative summary, public summary, PVF manifest and independent review`
 - Artifact schema/version checks: `passed: both public JSON documents parse and native card validation is required after this edit`
-- Hash/byte-stability checks: `passed: public hashes recomputed from attempt-11 files after the final positive and negative runs`
+- Hash/byte-stability checks: `passed: public hashes recomputed from attempt-17 final-head source evidence`
 - Missing/optional artifacts and rationale: `Remote r7i capacity and performance were not claimed because the operator authorized a bounded local substitute.`
 
 ## Decisions / Deviations

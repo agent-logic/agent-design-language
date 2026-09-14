@@ -35,7 +35,7 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/900/cards/spp.md"
 selected_lanes:
-  - "runtime; local deterministic integrity/regression plus separately authorized production execution; required qualification gate; all runs pending"
+  - "runtime; local deterministic integrity/regression plus operator-approved production execution; required qualification gate; local proof passed and CI pending"
 parallel_groups:
   - "Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review"
 validation_commands:
@@ -61,7 +61,7 @@ Wait for accepted #852 and #855, resolve the dirty #851 shared-path owner and ap
 
 ## Selected Validation Lanes
 
-- runtime; local deterministic integrity/regression plus separately authorized production execution; required qualification gate; all runs pending
+- runtime; local deterministic integrity/regression plus operator-approved production execution; required qualification gate; local proof passed and CI pending
 
 ## Parallelization Plan
 
