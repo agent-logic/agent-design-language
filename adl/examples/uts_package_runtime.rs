@@ -63,7 +63,10 @@ fn dispatch(
             tool_name: "runtime.observe".into(),
             tool_version: "1.0.0".into(),
             adapter_id: RUNTIME_OBSERVE_ADAPTER_V1.into(),
-            arguments: BTreeMap::new(),
+            arguments: BTreeMap::from([(
+                "view".to_string(),
+                serde_json::json!("resident_population"),
+            )]),
             dry_run_requested: true,
             ambiguous: false,
         },
