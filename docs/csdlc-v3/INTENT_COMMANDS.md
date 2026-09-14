@@ -36,7 +36,7 @@ it does not override a bound issue's ownership.
 | Publish | `csdlc publish ISSUE` | Create or update the canonical PR through the authenticated remote owner and observe publication admission. |
 | Finish | `csdlc finish ISSUE [--disposition DISPOSITION.json]` | Observe merged delivery or explicit no-PR disposition, then persist native terminal records. |
 | Clean | `csdlc clean ISSUE` | Preview the exact terminal worktree; removal requires the returned token and `--execute`. |
-| Recover | `csdlc recover ISSUE` | Inspect one retained local transaction or remote operation; execution requires the exact returned digest. |
+| Recover | `csdlc recover ISSUE [--disposition DISPOSITION.json]` | Inspect one retained local transaction or remote operation; execution requires the exact returned digest. An indeterminate proof attempt also requires the typed abandonment disposition returned by preview. |
 
 `--json` is accepted on ordinary intent forms; machine output is already JSON.
 It is not a global option for every retained command. `--help` and `--describe`
@@ -265,7 +265,12 @@ The `--preview plan` form observes without terminal persistence.
 `recover ISSUE` returns `preview_digest` and the observed pending local
 transaction or original native remote operation. Preview has no mutation effects
 and writes no token file. `recover ISSUE --execute --preview DIGEST` requires
-that exact current digest. Local recovery compares the transaction under the
+that exact current digest. If an interrupted proof has no retained outcome,
+preview reports `abandon_indeterminate_proof` and the required disposition
+schema. Execute it with `--disposition DISPOSITION.json`; the strict object names
+that action and exact operation ID plus a nonempty rationale. Recovery records
+the attempt as failed with unknown effects, does not rerun validators, and leaves
+a later explicit `proof` command to start a distinct attempt. Local recovery compares the transaction under the
 native issue lock. Remote recovery binds the issue snapshot and complete
 retained intent bytes, then reconciles the original request rather than
 recomputing its operation. Only the existing native owner's supported

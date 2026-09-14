@@ -56,6 +56,7 @@ fn help_exposes_one_binary_command_surface() {
         "bind <issue>",
         "edit <issue> --changes <path>",
         "proof <issue>",
+        "recover <issue> [--disposition <path>]",
         "github-issue <issue> --operation <path>",
         "github-pr <issue> --operation <path>",
         "review <issue> --evidence <path>",

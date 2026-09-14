@@ -127,6 +127,7 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
                     "review" => "--evidence",
                     "status" => "--decisions",
                     "finish" => "--disposition",
+                    "recover" => "--disposition",
                     "github-issue" | "github-pr" | "install" | "cutover" | "rollback" => {
                         "--operation"
                     }
@@ -251,6 +252,10 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
     }
     context.fresh()?;
     let mut value = match command {
+        "recover" if !request.content.is_null() => {
+            local::recover_semantic_proof(&context, &request)?
+                .ok_or("intent_recovery_disposition_not_applicable")?
+        }
         "recover" => match administrative::recover(&context, &request)? {
             Some(value) => value,
             None => match install::recover(&context, &request)? {

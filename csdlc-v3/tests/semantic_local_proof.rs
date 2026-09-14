@@ -124,6 +124,281 @@ fn installed_local_proof_uses_one_history_and_replays_without_validator_effects(
     assert_eq!(repaired, proof["proof"]);
 }
 
+#[cfg(unix)]
+#[test]
+fn interrupted_proof_is_explicitly_abandoned_without_rerun_and_can_retry() {
+    let mut fixture = Fixture::new("semantic-proof-indeterminate-abandonment");
+    let primary = fixture.root.clone();
+    let marker = primary.join(".git/proof-launches");
+    fs::write(
+        primary.join("fixture-proof/src/lib.rs"),
+        format!(
+            "#[test]\nfn records_launch() {{ use std::io::Write; let path = std::path::Path::new({marker:?}); let prior = std::fs::read_to_string(path).unwrap_or_default().lines().count(); let mut f = std::fs::OpenOptions::new().create(true).append(true).open(path).unwrap(); writeln!(f, \"launch\").unwrap(); assert_eq!(prior, 0, \"retry fixture failure\"); }}\n"
+        ),
+    )
+    .unwrap();
+    fixture::git(&primary, &["add", "fixture-proof/src/lib.rs"]);
+    fixture::git(
+        &primary,
+        &["commit", "--quiet", "-m", "instrument proof launch"],
+    );
+    fixture::git(
+        &primary,
+        &["update-ref", "refs/remotes/origin/main", "HEAD"],
+    );
+
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let before = snapshot(&primary);
+    let crash = fixture.run_with_env(
+        &linked,
+        &["proof", "870"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_proof_after_execution",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
+    let interrupted = snapshot(&primary);
+    let pending = interrupted.pending().expect("retained proof reservation");
+    let interrupted_id = pending.id().as_str().to_owned();
+    assert_eq!(interrupted.inputs_version(), before.inputs_version());
+    assert!(pending.observed_truth().is_none());
+
+    let inventory = fixture::inventory(&primary);
+    let preview = success(fixture.run(&linked, &["recover", "870"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_eq!(inventory, fixture::inventory(&primary));
+    let disposition = fixture.write_json(
+        "proof-abandonment.json",
+        &json!({
+            "schema":"csdlc.v3.semantic_proof_recovery_disposition.v1",
+            "action":"abandon_indeterminate_proof",
+            "operation_id":interrupted_id,
+            "rationale":"validator outcome was not durably retained after interruption"
+        }),
+    );
+    let recovered = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "870",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(recovered["action"], "abandoned_indeterminate_proof");
+    assert_eq!(recovered["native_effect_truth"], "unknown");
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
+    let abandoned = snapshot(&primary);
+    assert!(abandoned.pending().is_none());
+    assert_eq!(abandoned.inputs_version(), before.inputs_version());
+    assert_eq!(abandoned.phase(), before.phase());
+    let completed = abandoned.completed().last().unwrap();
+    assert_eq!(completed.id().as_str(), interrupted_id);
+    assert_eq!(
+        completed.outcome(),
+        csdlc_v3::storage::semantic::protocol::OutcomeKind::Failure
+    );
+    assert_eq!(
+        completed.truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::Unknown
+    );
+    assert!(!linked.join(".csdlc/v3/issues/870/proof.json").exists());
+
+    let proof = fixture.run(&linked, &["proof", "870"]);
+    assert!(!proof.status.success());
+    let proof: Value = serde_json::from_slice(&proof.stdout).unwrap();
+    assert_eq!(proof["status"], "failed");
+    assert_ne!(proof["operation_id"], interrupted_id);
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 2);
+    assert_eq!(
+        success(fixture.run(&linked, &["status", "870"]))["evidence"]["proof_current"],
+        false
+    );
+    let replay = fixture.run(&linked, &["proof", "870"]);
+    assert!(!replay.status.success());
+    let replay: Value = serde_json::from_slice(&replay.stdout).unwrap();
+    assert_eq!(replay["status"], "failed");
+    assert_eq!(replay["read_only"], true);
+    assert_eq!(replay["operation_id"], proof["operation_id"]);
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 2);
+}
+
+#[cfg(unix)]
+#[test]
+fn prelaunch_proof_interruption_requires_exact_explicit_disposition() {
+    let mut fixture = Fixture::new("semantic-proof-prelaunch-abandonment");
+    let primary = fixture.root.clone();
+    let marker = primary.join(".git/proof-launches");
+    fs::write(
+        primary.join("fixture-proof/src/lib.rs"),
+        format!(
+            "#[test]\nfn records_launch() {{ std::fs::write({marker:?}, \"launch\\n\").unwrap(); }}\n"
+        ),
+    )
+    .unwrap();
+    fixture::git(&primary, &["add", "fixture-proof/src/lib.rs"]);
+    fixture::git(
+        &primary,
+        &["commit", "--quiet", "-m", "instrument prelaunch proof"],
+    );
+    fixture::git(
+        &primary,
+        &["update-ref", "refs/remotes/origin/main", "HEAD"],
+    );
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["proof", "870"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_proof_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert!(
+        !marker.exists(),
+        "validator launched before recovery choice"
+    );
+    let interrupted = snapshot(&primary);
+    let operation = interrupted.pending().unwrap().id().as_str().to_owned();
+    let preview = success(fixture.run(&linked, &["recover", "870"]));
+    let forged = fixture.write_json(
+        "forged-proof-abandonment.json",
+        &json!({"schema":"csdlc.v3.semantic_proof_recovery_disposition.v1",
+            "action":"abandon_indeterminate_proof","operation_id":"wrong-operation",
+            "rationale":"negative fixture"}),
+    );
+    let before_refusals = snapshot(&primary);
+    let wrong_operation = fixture.run(
+        &linked,
+        &[
+            "recover",
+            "870",
+            "--disposition",
+            forged.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!wrong_operation.status.success());
+    assert_eq!(snapshot(&primary), before_refusals);
+    let valid = fixture.write_json(
+        "valid-proof-abandonment.json",
+        &json!({"schema":"csdlc.v3.semantic_proof_recovery_disposition.v1",
+            "action":"abandon_indeterminate_proof","operation_id":operation,
+            "rationale":"prelaunch interruption left no durable outcome"}),
+    );
+    let stale = fixture.run(
+        &linked,
+        &[
+            "recover",
+            "870",
+            "--disposition",
+            valid.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            "wrong-preview",
+        ],
+    );
+    assert!(!stale.status.success());
+    assert_eq!(snapshot(&primary), before_refusals);
+    success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "870",
+            "--disposition",
+            valid.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert!(!marker.exists(), "recovery launched the validator");
+    let proof = success(fixture.run(&linked, &["proof", "870"]));
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
+    let replay = success(fixture.run(&linked, &["proof", "870"]));
+    assert_eq!(replay["status"], "expected_noop");
+    assert_eq!(replay["operation_id"], proof["operation_id"]);
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
+}
+
+#[cfg(unix)]
+#[test]
+fn failed_proof_replay_retains_the_failed_attempt_without_rerun() {
+    let mut fixture = Fixture::new("semantic-failed-proof-replay");
+    let primary = fixture.root.clone();
+    let marker = primary.join(".git/failed-proof-launches");
+    fs::write(
+        primary.join("fixture-proof/src/lib.rs"),
+        format!(
+            "#[test]\nfn records_failed_launch() {{ use std::io::Write; let mut f = std::fs::OpenOptions::new().create(true).append(true).open({marker:?}).unwrap(); writeln!(f, \"launch\").unwrap(); panic!(\"expected failure\"); }}\n"
+        ),
+    )
+    .unwrap();
+    fixture::git(&primary, &["add", "fixture-proof/src/lib.rs"]);
+    fixture::git(
+        &primary,
+        &["commit", "--quiet", "-m", "install failing proof"],
+    );
+    fixture::git(
+        &primary,
+        &["update-ref", "refs/remotes/origin/main", "HEAD"],
+    );
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let failed = fixture.run(&linked, &["proof", "870"]);
+    assert!(!failed.status.success());
+    let failed: Value = serde_json::from_slice(&failed.stdout).unwrap();
+    assert_eq!(failed["status"], "failed");
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
+    let replay = fixture.run(&linked, &["proof", "870"]);
+    assert!(!replay.status.success());
+    let replay: Value = serde_json::from_slice(&replay.stdout).unwrap();
+    assert_eq!(replay["status"], "failed");
+    assert_eq!(replay["read_only"], true);
+    assert_eq!(replay["operation_id"], failed["operation_id"]);
+    assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
+}
+
 #[test]
 fn installed_bind_recovers_after_target_activation_without_ambiguous_topology() {
     let mut fixture = Fixture::new("semantic-bind-target-activation-recovery");
@@ -154,6 +429,27 @@ fn installed_bind_recovers_after_target_activation_without_ambiguous_topology() 
     let preview = success(fixture.run(&primary, &["recover", "870"]));
     assert_eq!(preview["status"], "recovery_required");
     assert_eq!(before, fixture::inventory(&primary));
+    let inapplicable = fixture.write_json(
+        "inapplicable-proof-disposition.json",
+        &json!({"schema":"csdlc.v3.semantic_proof_recovery_disposition.v1",
+            "action":"abandon_indeterminate_proof","operation_id":"not-the-bind-operation",
+            "rationale":"negative fixture"}),
+    );
+    let before_inapplicable = snapshot(&primary);
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "870",
+            "--disposition",
+            inapplicable.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(snapshot(&primary), before_inapplicable);
     success(fixture.run(
         &primary,
         &[

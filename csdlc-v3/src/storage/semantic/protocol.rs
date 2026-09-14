@@ -455,11 +455,17 @@ pub enum Attachment {
     AlreadyCompleted(Completion),
     RecoveryRequired(SemanticVersion),
 }
-/// Explicit native-owner approval of the exact changed-admission recovery. No
-/// phase is supplied: normal policy still decides and stale evidence is invalidated.
+/// Explicit native-owner approval of one exact recovery disposition. No phase
+/// is supplied: normal policy still decides and stale evidence is invalidated.
 #[derive(Debug, Clone)]
 pub struct VerifiedRecoveryResolution {
     preview: Digest,
+    mode: RecoveryResolutionMode,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum RecoveryResolutionMode {
+    AdoptObserved,
+    AbandonUnobservedProof,
 }
 impl VerifiedRecoveryResolution {
     #[cfg_attr(
@@ -472,6 +478,17 @@ impl VerifiedRecoveryResolution {
     pub(crate) fn adopt_observed_after_native_reconciliation(preview: &RecoveryPreview) -> Self {
         Self {
             preview: preview.digest.clone(),
+            mode: RecoveryResolutionMode::AdoptObserved,
+        }
+    }
+
+    /// Resolve a bare proof reservation whose native outcome was never retained.
+    /// The caller may attest only an indeterminate failed attempt; this capability
+    /// cannot convert missing evidence into proof success or no-effect truth.
+    pub(crate) fn abandon_indeterminate_proof(preview: &RecoveryPreview) -> Self {
+        Self {
+            preview: preview.digest.clone(),
+            mode: RecoveryResolutionMode::AbandonUnobservedProof,
         }
     }
 }
@@ -754,7 +771,7 @@ impl DurableTransactionStore {
         let directory = root.directory(&ticket.key)?;
         let _lock = acquire(&directory, true)?;
         let current = read_current(&directory, &ticket.key)?;
-        attach_locked(root, &directory, current, ticket, outcome, observed, false)
+        attach_locked(root, &directory, current, ticket, outcome, observed, None)
     }
     pub fn describe_effect_recovery(
         root: &SemanticRoot,
@@ -789,6 +806,11 @@ impl DurableTransactionStore {
         let directory = root.directory(&preview.key)?;
         let _lock = acquire(&directory, true)?;
         let current = read_current(&directory, &preview.key)?;
+        let resolution = match resolution {
+            Some(witness) if witness.preview == preview.digest => Some(witness.mode),
+            Some(_) => return Err(Error::StaleVersion),
+            None => None,
+        };
         if current
             .completed()
             .iter()
@@ -800,19 +822,16 @@ impl DurableTransactionStore {
                 return Err(Error::ConflictingReplay);
             }
             let ticket = ticket(&directory, &historical, pending)?;
-            return attach_locked(root, &directory, current, ticket, outcome, observed, false);
+            return attach_locked(root, &directory, current, ticket, outcome, observed, None);
         }
         let pending = current.pending().ok_or(Error::ConflictingReplay)?;
         if recovery_preview(&current, pending)? != preview {
             return Err(Error::StaleVersion);
         }
-        let adopt = match resolution {
-            Some(witness) if witness.preview == preview.digest => true,
-            Some(_) => return Err(Error::StaleVersion),
-            None => false,
-        };
         let ticket = ticket(&directory, &current, pending)?;
-        attach_locked(root, &directory, current, ticket, outcome, observed, adopt)
+        attach_locked(
+            root, &directory, current, ticket, outcome, observed, resolution,
+        )
     }
     pub(crate) fn inspect_effect(
         root: &SemanticRoot,
@@ -872,7 +891,7 @@ fn attach_locked(
     ticket: OperationTicket,
     outcome: VerifiedOutcome,
     observed: AttachmentAdmission,
-    adopt: bool,
+    resolution: Option<RecoveryResolutionMode>,
 ) -> Result<Attachment, Error> {
     if let Some(done) = current.completed().iter().find(|d| d.id == ticket.id) {
         if done.request != ticket.request
@@ -894,6 +913,22 @@ fn attach_locked(
     if outcome.native != pending.native {
         return Err(Error::ConflictingReplay);
     }
+    let changed = observed.authority != pending.authority
+        || observed.origin != pending.origin
+        || current.inputs_version() != &pending.inputs;
+    let adopt = resolution == Some(RecoveryResolutionMode::AdoptObserved);
+    let abandon_unobserved_proof =
+        resolution == Some(RecoveryResolutionMode::AbandonUnobservedProof);
+    if abandon_unobserved_proof
+        && (pending.command != SemanticCommand::RecordProof
+            || pending.observed.is_some()
+            || outcome.kind != OutcomeKind::Failure
+            || outcome.truth != EffectTruth::Unknown
+            || changed
+            || outcome.facts.current_proof)
+    {
+        return Err(Error::AdmissionChanged);
+    }
     let evidence = persist_blob(
         directory,
         &root.common,
@@ -910,20 +945,22 @@ fn attach_locked(
         evidence,
     };
     let mut payload = current.payload.clone();
-    let changed = observed.authority != pending.authority
-        || observed.origin != pending.origin
-        || current.inputs_version() != &pending.inputs;
     if (changed && !adopt)
         || outcome.truth == EffectTruth::Unknown
         || outcome.kind == OutcomeKind::Unresolved
     {
-        if pending.observed.as_ref() == Some(&retained) {
-            return Ok(Attachment::RecoveryRequired(current.version().clone()));
+        if !abandon_unobserved_proof {
+            if pending.observed.as_ref() == Some(&retained) {
+                return Ok(Attachment::RecoveryRequired(current.version().clone()));
+            }
+            payload.pending.as_mut().expect("pending").observed = Some(retained);
+            let next = next_snapshot(&current, payload, SemanticCommand::Reserve, pending.id)?;
+            activate(directory, &root.common, &next)?;
+            return Ok(Attachment::RecoveryRequired(next.version().clone()));
         }
-        payload.pending.as_mut().expect("pending").observed = Some(retained);
-        let next = next_snapshot(&current, payload, SemanticCommand::Reserve, pending.id)?;
-        activate(directory, &root.common, &next)?;
-        return Ok(Attachment::RecoveryRequired(next.version().clone()));
+        // The native proof owner explicitly abandons an indeterminate attempt.
+        // Continue through normal failure policy so the pending reservation is
+        // cleared without claiming proof success or that no validator launched.
     }
     if changed && adopt {
         // Never adopt a different worktree/issue or substitute cleanup archive identity.
@@ -1199,6 +1236,15 @@ pub(super) mod tests {
                     target,
                 ),
                 br#"{"target":"declared"}"#,
+            )
+            .unwrap()
+        }
+        fn proof_request(&self, identity: &str) -> EffectRequest {
+            EffectRequest::new(
+                SemanticCommand::RecordProof,
+                NativeIdentity::new("proof".into(), identity.into()).unwrap(),
+                EffectOrigin::bound(self.snapshot().inputs().binding().unwrap().clone()),
+                br#"{"schema":"csdlc.v3.semantic_proof_request.v1"}"#,
             )
             .unwrap()
         }
@@ -1505,6 +1551,239 @@ pub(super) mod tests {
             .unwrap(),
             Attachment::Completed(_)
         ));
+    }
+
+    #[test]
+    fn exact_recovery_can_abandon_only_a_bare_indeterminate_proof() {
+        let f = Fixture::new();
+        f.bind();
+        let request = f.proof_request("indeterminate-proof");
+        let ticket = f.reserve(&request);
+        let operation = ticket.id().clone();
+        let preview = DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+            .unwrap()
+            .unwrap();
+        let resolution = VerifiedRecoveryResolution::abandon_indeterminate_proof(&preview);
+        let mut outcome = f.outcome(
+            &request,
+            OutcomeKind::Failure,
+            EffectTruth::Unknown,
+            b"native proof outcome was not retained",
+        );
+        outcome.facts.current_proof = false;
+        let observed = f.observed(&request);
+
+        let Attachment::Completed(done) =
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                preview.clone(),
+                outcome.clone(),
+                observed.clone(),
+                Some(resolution.clone()),
+            )
+            .unwrap()
+        else {
+            panic!()
+        };
+        assert_eq!(done.operation_id(), &operation);
+        assert_eq!(done.outcome_kind(), OutcomeKind::Failure);
+        assert_eq!(done.truth(), EffectTruth::Unknown);
+        let snapshot = f.snapshot();
+        assert_eq!(snapshot.phase(), LifecycleState::Bound);
+        assert!(snapshot.pending().is_none());
+        for invalidation in [
+            Invalidation::Proof,
+            Invalidation::Readiness,
+            Invalidation::Review,
+            Invalidation::Publication,
+            Invalidation::Terminal,
+            Invalidation::Cleanup,
+        ] {
+            assert!(snapshot.invalidations().contains(&invalidation));
+        }
+        let inspection =
+            DurableTransactionStore::inspect_effect(&f.root, &f.key, &operation).unwrap();
+        assert_eq!(inspection.outcome_kind(), Some(OutcomeKind::Failure));
+        assert_eq!(inspection.effect_truth(), Some(EffectTruth::Unknown));
+        assert_eq!(
+            inspection.evidence(),
+            Some(b"native proof outcome was not retained".as_slice())
+        );
+
+        let generation = snapshot.version().generation();
+        assert!(matches!(
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                preview,
+                outcome,
+                observed,
+                Some(resolution),
+            )
+            .unwrap(),
+            Attachment::AlreadyCompleted(_)
+        ));
+        assert_eq!(f.snapshot().version().generation(), generation);
+    }
+
+    #[test]
+    fn indeterminate_proof_abandonment_rejects_non_bare_or_untruthful_resolution() {
+        fn reserved_proof() -> (Fixture, EffectRequest, RecoveryPreview) {
+            let f = Fixture::new();
+            f.bind();
+            let request = f.proof_request("guarded-indeterminate-proof");
+            f.reserve(&request);
+            let preview = DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+                .unwrap()
+                .unwrap();
+            (f, request, preview)
+        }
+
+        for (kind, truth, current_proof) in [
+            (OutcomeKind::Success, EffectTruth::Performed, true),
+            (OutcomeKind::Failure, EffectTruth::Performed, false),
+            (OutcomeKind::Failure, EffectTruth::Unknown, true),
+        ] {
+            let (f, request, preview) = reserved_proof();
+            let resolution = VerifiedRecoveryResolution::abandon_indeterminate_proof(&preview);
+            let mut outcome = f.outcome(&request, kind, truth, b"inadmissible abandonment");
+            outcome.facts.current_proof = current_proof;
+            assert_eq!(
+                DurableTransactionStore::execute_effect_recovery_with_resolution(
+                    &f.root,
+                    preview,
+                    outcome,
+                    f.observed(&request),
+                    Some(resolution),
+                ),
+                Err(Error::AdmissionChanged)
+            );
+            assert!(f.snapshot().pending().is_some());
+        }
+
+        let (f, request, preview) = reserved_proof();
+        let resolution = VerifiedRecoveryResolution::abandon_indeterminate_proof(&preview);
+        let mut outcome = f.outcome(
+            &request,
+            OutcomeKind::Failure,
+            EffectTruth::Unknown,
+            b"changed admission",
+        );
+        outcome.facts.current_proof = false;
+        let changed = AttachmentAdmission::from_native_owner(
+            Digest::authority(b"changed authority"),
+            request.origin.clone(),
+        );
+        assert_eq!(
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                preview,
+                outcome,
+                changed,
+                Some(resolution),
+            ),
+            Err(Error::AdmissionChanged)
+        );
+        assert!(f.snapshot().pending().is_some());
+
+        let (f, request, preview) = reserved_proof();
+        let mut resolution = VerifiedRecoveryResolution::abandon_indeterminate_proof(&preview);
+        resolution.preview = Digest::authority(b"wrong recovery preview");
+        let mut outcome = f.outcome(
+            &request,
+            OutcomeKind::Failure,
+            EffectTruth::Unknown,
+            b"stale witness",
+        );
+        outcome.facts.current_proof = false;
+        assert_eq!(
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                preview,
+                outcome,
+                f.observed(&request),
+                Some(resolution),
+            ),
+            Err(Error::StaleVersion)
+        );
+        assert!(f.snapshot().pending().is_some());
+
+        let (f, request, preview) = reserved_proof();
+        let ticket = f.snapshot().pending().unwrap().id().clone();
+        let inspection = DurableTransactionStore::inspect_effect(&f.root, &f.key, &ticket).unwrap();
+        let retained_ticket = inspection.ticket().unwrap().clone();
+        assert!(matches!(
+            DurableTransactionStore::attach_outcome(
+                &f.root,
+                retained_ticket,
+                f.outcome(
+                    &request,
+                    OutcomeKind::Unresolved,
+                    EffectTruth::Unknown,
+                    b"retained uncertain execution",
+                ),
+                f.observed(&request),
+            )
+            .unwrap(),
+            Attachment::RecoveryRequired(_)
+        ));
+        let current_preview = DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+            .unwrap()
+            .unwrap();
+        let resolution = VerifiedRecoveryResolution::abandon_indeterminate_proof(&current_preview);
+        let mut outcome = f.outcome(
+            &request,
+            OutcomeKind::Failure,
+            EffectTruth::Unknown,
+            b"cannot discard retained execution",
+        );
+        outcome.facts.current_proof = false;
+        assert_eq!(
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                current_preview,
+                outcome,
+                f.observed(&request),
+                Some(resolution),
+            ),
+            Err(Error::AdmissionChanged)
+        );
+        assert_eq!(
+            f.snapshot().pending().unwrap().observed_truth(),
+            Some(EffectTruth::Unknown)
+        );
+        assert_ne!(
+            preview.digest(),
+            DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+                .unwrap()
+                .unwrap()
+                .digest()
+        );
+
+        let f = Fixture::new();
+        let request = f.bind_request();
+        f.reserve(&request);
+        let preview = DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+            .unwrap()
+            .unwrap();
+        let resolution = VerifiedRecoveryResolution::abandon_indeterminate_proof(&preview);
+        let mut outcome = f.outcome(
+            &request,
+            OutcomeKind::Failure,
+            EffectTruth::Unknown,
+            b"not a proof",
+        );
+        outcome.facts.current_proof = false;
+        assert_eq!(
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                preview,
+                outcome,
+                f.observed(&request),
+                Some(resolution),
+            ),
+            Err(Error::AdmissionChanged)
+        );
+        assert!(f.snapshot().pending().is_some());
     }
     #[test]
     fn evidence_tampering_and_changed_authority_fail_closed() {
