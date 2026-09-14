@@ -1,0 +1,140 @@
+{
+  "schema": "adl.pair.local-preflight.v1",
+  "issue": 904,
+  "status": "partial_not_qualified",
+  "candidate_sha": "29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48",
+  "pair": {
+    "release": "v0.1.1",
+    "release_archive": "service-binaries-mac-arm64.zip",
+    "release_archive_sha256": "6080b89e2c8e83e842e5a163f021f4cae5747bc9c9f371af481d95550a175d8f",
+    "archive_sha256_matches_published_release": true,
+    "manifest_product": "0.91.7",
+    "manifest_source_fingerprint": "a36564f8782c03a91727309eec67a6b616a1cd26ff3cdde24c68c8c6ee7dce21",
+    "tui_version": "0.7.2",
+    "broker_version": "0.40.2",
+    "codesign_team_identifier": "6KR3T733EC",
+    "codesign_authority": "Developer ID Application: NVIDIA Corporation (6KR3T733EC)",
+    "all_fourteen_archive_files_listed": true,
+    "all_thirteen_binaries_passed_strict_codesign_verification": true
+  },
+  "host": {
+    "architecture": "arm64",
+    "macos_version": "26.5.2",
+    "macos_build": "25F84",
+    "machine_model": "Mac16,11",
+    "chip": "Apple M4 Pro",
+    "memory": "64 GB",
+    "node_identity_redacted": true
+  },
+  "engine": {
+    "kind": "ollama",
+    "version": "0.32.14",
+    "model": "llama3.2:3b",
+    "model_blob_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "license": "Llama 3.2 Community License Agreement",
+    "baseline_endpoint": "http://127.0.0.1:11434",
+    "pair_endpoint": "http://127.0.0.1:11435"
+  },
+  "service_observation": {
+    "all_ten_workers_healthy_after_normal_app_data_access": true,
+    "cluster_manager_healthy": true,
+    "discovered_node_count": 1,
+    "cluster_member_count": 0,
+    "pair_workload_completed": true,
+    "pair_shutdown_proven": true,
+    "baseline_remained_healthy_after_shutdown": true
+  },
+  "raw_same_corpus_comparison": {
+    "raw_private_receipt_sha256": "ccde03aef17dd9cfc7eab76c1128d667eacaf84fa57ac64922d0256e6d5b4a93",
+    "sampling": {
+      "temperature": 0,
+      "seed": 7,
+      "max_tokens": 8
+    },
+    "warmth": "warm",
+    "requests": 24,
+    "correct": 24,
+    "failed": 0,
+    "summaries": [
+      {
+        "route": "baseline",
+        "concurrency": 1,
+        "batches": 3,
+        "median_batch_seconds": 0.414917082991451,
+        "completed_requests_per_second": 4.8081873856093225
+      },
+      {
+        "route": "raw_pair",
+        "concurrency": 1,
+        "batches": 3,
+        "median_batch_seconds": 0.42595858400454745,
+        "completed_requests_per_second": 4.694343777157591
+      },
+      {
+        "route": "baseline",
+        "concurrency": 2,
+        "batches": 3,
+        "median_batch_seconds": 0.2918245000182651,
+        "completed_requests_per_second": 7.096734006630235
+      },
+      {
+        "route": "raw_pair",
+        "concurrency": 2,
+        "batches": 3,
+        "median_batch_seconds": 0.3986610000138171,
+        "completed_requests_per_second": 5.451639150948928
+      }
+    ],
+    "single_node_pair_to_baseline_throughput_ratio": {
+      "concurrency_1": 0.9763229676130218,
+      "concurrency_2": 0.7681898667549959
+    }
+  },
+  "runtime": {
+    "receipts": {
+      "concurrency_1": ".csdlc/evidence/904/local-runtime-single-node-c1.json",
+      "concurrency_2": ".csdlc/evidence/904/local-runtime-single-node-c2.json"
+    },
+    "receipt_sha256": {
+      "concurrency_1": "fd0cf3c7ae0f2f878de1e432e164a77e57bab7895ac42805079940ff9cd43ce4",
+      "concurrency_2": "70edc9d05f9d72ebb8d9d077ea89f6da92423f47354d57db54cad44564ef7c30"
+    },
+    "route": "canonical provider reload owner to production concurrent workflow executor to ollama provider to PAIR loopback proxy",
+    "repetitions_per_concurrency": 3,
+    "attempts": 12,
+    "correct": 12,
+    "summaries": [
+      {
+        "concurrency": 1,
+        "batches": 3,
+        "median_batch_ms": 758,
+        "completed_requests_per_second": 2.649006622516556
+      },
+      {
+        "concurrency": 2,
+        "batches": 3,
+        "median_batch_ms": 481,
+        "completed_requests_per_second": 2.1921812203142124
+      }
+    ]
+  },
+  "broker_attribution": {
+    "receipt": ".csdlc/evidence/904/local-broker-attribution.json",
+    "receipt_sha256": "0645de4960f4f16f281fe00a1534053f8dfca76c74652ca2e242fbe70bcf33bc",
+    "subscription": "workloads:subscribe",
+    "event": "workloads:upsert",
+    "served_node_field": "workloadInfo.scheduledOn",
+    "single_node_live_probe_passed": true,
+    "raw_node_identity_redacted": true
+  },
+  "proof_boundary": {
+    "pair_single_node_route_works": true,
+    "runtime_pair_route_works": true,
+    "two_node_routing_proven": false,
+    "controlled_node_loss_proven": false,
+    "serving_node_per_request_proven": false,
+    "resource_comparison_complete": false,
+    "keep_repair_retire_decision_ready": false,
+    "qualification": "not_established"
+  }
+}
