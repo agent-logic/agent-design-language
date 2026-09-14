@@ -257,6 +257,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         provider = adapter_proof.start_provider(args.provider_binary, args.model_file, upstream_port, output / "provider-recovered.log")
         report["provider_process_ids"].append(provider.pid)
         before = proxy_state.generate_count
+        socket, turn, correlation = terminal_conversation(api_port, context, tokens["observatory"], agent_id, "issue901-runtime-recovery")
+        proxy_state.wait_for_generate(before)
+        recovered = await_terminal(socket, turn)
+        socket.sock.close()
+        report["scenarios"]["recovery"] = {
+            "terminal": public_terminal(recovered), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
+        }
+
+        before = proxy_state.generate_count
         socket, turn, correlation = terminal_conversation(api_port, context, tokens["observatory"], agent_id, "issue901-runtime-interruption")
         proxy_state.wait_for_generate(before)
         interrupted_at = adapter_proof.utc_now()
@@ -269,14 +278,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
         }
 
-        before = proxy_state.generate_count
-        socket, turn, correlation = terminal_conversation(api_port, context, tokens["observatory"], agent_id, "issue901-runtime-recovery")
-        proxy_state.wait_for_generate(before)
-        recovered = await_terminal(socket, turn)
-        socket.sock.close()
-        report["scenarios"]["recovery"] = {
-            "terminal": public_terminal(recovered), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
-        }
         checkpoint = output / "checkpoint.json"
         csmctl("checkpoint", "--init", init, "--id", agent_id, "--out", checkpoint)
         report["checkpoint"] = {"durable": checkpoint.is_file(), "sha256": adapter_proof.sha256_file(checkpoint)}
