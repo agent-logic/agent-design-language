@@ -178,6 +178,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     config_status = json.loads(status.stdout)
     require(config_status.get("config_valid") and not config_status.get("service_loaded"),
             "isolated CSM Runtime configuration preflight failed")
+    (output / "csm-config-status.json").write_text(json.dumps(config_status, indent=2) + "\n")
     guardian_log = (output / "guardian.log").open("w")
     guardian = subprocess.Popen(
         [str(install / "current/bin/adl-runtime-guardian"), "--init", str(init)],
@@ -196,16 +197,20 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     try:
         deadline = time.monotonic() + 45
         snapshot = None
+        readiness_error = None
         while time.monotonic() < deadline:
             require(guardian.poll() is None, "Guardian exited before Runtime readiness")
             try:
                 snapshot = lifecycle.api(context, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
                 if snapshot.get("runtime_incarnation_id"):
                     break
-            except (OSError, ValueError):
-                pass
+            except (OSError, ValueError) as error:
+                readiness_error = f"{type(error).__name__}: {error}"
             time.sleep(0.1)
-        require(snapshot is not None and snapshot.get("runtime_incarnation_id"), "Runtime readiness deadline")
+        require(
+            snapshot is not None and snapshot.get("runtime_incarnation_id"),
+            f"Runtime readiness deadline; last API error: {readiness_error}; last snapshot: {snapshot}",
+        )
         runtime_identity = lifecycle.identity(snapshot)
         report["runtime_identity"] = runtime_identity
 

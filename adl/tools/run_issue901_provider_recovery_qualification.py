@@ -56,7 +56,7 @@ class ProxyState:
     def record_forwarded(self, record: dict[str, Any]) -> None:
         with self.condition:
             self.records.append(record)
-            if record["path"] == "/v1/responses":
+            if record["path"] in {"/v1/responses", "/v1/chat/completions"}:
                 self.generate_count += 1
             self.condition.notify_all()
 
