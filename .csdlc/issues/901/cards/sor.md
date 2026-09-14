@@ -21,8 +21,8 @@ Version: 0.92.2
 Title: [v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification
 Branch: codex/901-v0922-provider-recovery-qualification
 Card Status: draft
-Status: in_progress
-Generated: 2026-09-12T00:15:14.473149+00:00
+Status: EXECUTED
+Generated: 2026-09-14T18:06:04.530196+00:00
 
 Execution:
 - Actor: `Worker #9 in active Sprint #931 / child #901 goal`
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Standalone adapter qualification remains retained, but an open P2 requires the missing registered Runtime-session execution. The additional Runtime harness and validation are in progress; fresh execution, exact-head review, CI, merge, and closeout remain pending.
+The standalone provider packet is preserved and the review P2 is locally remediated with a second production proof through one registered #855 Runtime session. Runtime loss, fresh-provider recovery and client interruption passed without changing Runtime incarnation; timeout remains supported by the separate adapter proof. Exact-head review, push, CI, merge and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ Standalone adapter qualification remains retained, but an open P2 requires the m
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `high for recorded local run`
 - Estimate error percent: `unknown`
-- Completion state: `review_passed_publication_pending`
+- Completion state: `implementation_complete_review_pending`
 - Issue goal ref: `thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification`
 - Sprint goal ref: `Sprint 5 umbrella #931; child #901 provider failure and recovery qualification`
 - Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json not collected; active Sprint #931 goal service owns session accounting`
@@ -75,8 +75,8 @@ Standalone adapter qualification remains retained, but an open P2 requires the m
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/901/cards/sor.md`
-- Tracked implementation artifacts: `adl/tools/run_issue901_provider_recovery_qualification.py; adl/tools/test_run_issue901_provider_recovery_qualification.py; docs/milestones/v0.92.2/evidence/qual-provider-901/README.md; qualification-report.json`
-- Additional proof artifacts: `.csdlc/evidence/901/live-run-09 raw private packet; earlier failed and superseded packets retained privately`
+- Tracked implementation artifacts: `adl/tools/issue855_provider_lifecycle.py; adl/tools/run_issue901_provider_recovery_qualification.py; adl/tools/run_issue901_runtime_recovery_qualification.py; adl/tools/test_run_issue901_provider_recovery_qualification.py; adl/tools/test_run_issue901_runtime_recovery_qualification.py; docs/milestones/v0.92.2/evidence/qual-provider-901/README.md; qualification-report.json; runtime-qualification-report.json`
+- Additional proof artifacts: `.csdlc/evidence/901/runtime-live-09 (private raw Runtime run); earlier failed Runtime attempts retained privately and excluded from acceptance`
 
 ## Actions taken
 - `Built and invoked the exact production adl-provider-adapter binary from source c6651bb59fc117f10abc9e613d0042f567759ee8`
@@ -86,9 +86,9 @@ Standalone adapter qualification remains retained, but an open P2 requires the m
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch only`
 - Worktree-only paths remaining: `.csdlc/evidence/901 private raw and failed diagnostic runs`
-- Integration state: `worktree_only`
-- Verification scope: `local source, live provider execution, raw artifact binding, portable receipt, and independent exact-head review passed; hosted CI pending`
-- Integration method used: `pending publication`
+- Integration state: `draft_pr_remediation_unpublished`
+- Verification scope: `local source, live task-owned provider execution, registered Runtime lifecycle, portable receipts and deterministic validators passed; exact-head review and CI pending`
+- Integration method used: `existing draft PR #974; remediation commits not yet pushed`
 - Verification performed:
   - `deferred; PR not published`
     `deferred; PR not published`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo build; 51-test focused Rust provider-adapter suite; 19-test Python validator suite; live-run-09 4/4; raw observation-bound and portable validate-report; cargo fmt --check; py_compile; git diff --check; path/redaction scan`
-    `Proves actual provider invocation reached the task-owned process before each fault and successful distinct work completed on a fresh provider PID`
+  - `22 Python validator tests; standalone portable validate-report; registered Runtime portable validate-report; strict X.509 chain verification; py_compile; git diff --check`
+    `Proves actual provider loss and successful fresh-provider recovery through registered Runtime, plus distinct client interruption; preserves separate adapter timeout proof without overstating Runtime timeout configuration`
 - Results:
-  - `Local four-scenario provider qualification, raw observation/result binding, 19 deterministic evidence negatives, 51 focused Rust provider-adapter tests, formatting, compile and diff hygiene passed. Independent exact-head review at 06ad3771f14a12c399f03a404fb587d9de33b153 found no actionable findings; hosted CI remains pending.`
+  - `Standalone four-scenario provider-adapter receipt remains valid. Registered Runtime runtime-live-09 passed loss, recovery and client interruption in one unchanged Runtime, with distinct correlations, fresh provider PID, checkpoint and agent removal. 22 deterministic validator tests and both portable report validators passed. Exact-head review and CI remain pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: remediation_in_progress
+    status: local_remediation_passed_review_pending
     checks_run:
       - "passed: raw and portable validator reports contain no errors"
   determinism:
@@ -137,7 +137,7 @@ verification_summary:
     absolute_path_leakage_detected: false
   artifacts:
     status: passed_local
-    required_artifacts_present: yes for local proof and independent review; CI, PR, merge and terminal artifacts pending
+    required_artifacts_present: yes for local remediation; independent review and refreshed CI pending
     schema_changes:
       present: false
       approved: not_applicable
@@ -145,7 +145,7 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `19/19 evidence-integrity tests passed, including coordinated process/proxy/result summary tampering`
-- Fixtures or scripts used: `run_issue901_provider_recovery_qualification.py; test_run_issue901_provider_recovery_qualification.py`
+- Fixtures or scripts used: `run_issue901_provider_recovery_qualification.py; run_issue901_runtime_recovery_qualification.py; both focused unittest modules; issue855_provider_lifecycle.py`
 - Replay verification (same inputs -> same artifacts/order): `portable validate-report passed`
 - Ordering guarantees (sorting / tie-break rules used): `loss, timeout, interruption, and recovery serialized; recovery used a new provider PID; four request body digests are unique`
 - Artifact stability notes: `Portable report binds artifact refs, byte sizes and SHA-256 digests; raw validation re-hashes every live-run-09 artifact, compares result summaries to raw result JSON, and compares process/proxy/scenario claims to the separately hashed execution-observations.json artifact.`
@@ -157,14 +157,14 @@ verification_summary:
 - Sandbox / policy invariants preserved: `only task-owned process groups and dynamic loopback ports used; #851 and shared Ollama service untouched`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/901/live-run-09 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json (portable)`
+- Trace bundle path(s): `.csdlc/evidence/901/live-run-09 and runtime-live-09 (private); docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json and runtime-qualification-report.json (portable)`
 - Run artifact root: `.csdlc/evidence/901/live-run-09 (private)`
 - Replay command used for verification: `documented runner invocation with exact adapter/provider/model inputs; output directory must be new`
 - Replay result: `live-run-09 passed 4/4`
 
 ## Artifact Verification
-- Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json`
-- Required artifacts present: `no: registered Runtime failure/recovery evidence and exact-head review are pending`
+- Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json; runtime-qualification-report.json`
+- Required artifacts present: `local execution artifacts present; exact-head review, refreshed CI, merge and terminal receipts pending`
 - Artifact schema/version checks: `portable report validate-report passed with four scenarios`
 - Hash/byte-stability checks: `adapter, provider binary, model file, public report, and four request-body digests recorded`
 - Missing/optional artifacts and rationale: `PR, hosted CI, merge, and terminal receipts are absent because publication has not occurred; independent review evidence is retained privately.`

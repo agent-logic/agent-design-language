@@ -1,0 +1,62 @@
+{
+  "schema": "adl.issue901.runtime_provider_recovery.v1",
+  "source_revision": "a24d915cd35ecd9beadea3a2cef018a86be46d17",
+  "model": "gemma:2b",
+  "paid_calls": 0,
+  "scenarios": {
+    "loss": {
+      "terminal": {
+        "status": "failed",
+        "failure_reason": null,
+        "reply_present": false,
+        "reply_sha256": null
+      },
+      "correlation_id_sha256": "a006f3c377e2f54288a2a724eae37485fa8695e0794a0d0d4a59737ca9ca574d",
+      "provider_signal_sent_at": "2026-09-14T18:03:43.856814+00:00",
+      "provider_returncode": -9
+    },
+    "recovery": {
+      "terminal": {
+        "status": "delivered",
+        "failure_reason": null,
+        "reply_present": true,
+        "reply_sha256": "203613eb94b8c30ce1278cbcef3c72d2cb0efdee354f3c9c9b8d8086919f8c40"
+      },
+      "correlation_id_sha256": "2dca8480ef14301d63789ca51c20b2687e3b8a0bce825154db0fd1c8e85309f0"
+    },
+    "interruption": {
+      "session_interrupted": true,
+      "interrupted_at": "2026-09-14T18:04:07.207724+00:00",
+      "correlation_id_sha256": "b9d16997e392c92b79f295aba7aff0a420781abf1451a8d29dca2a11f10a335e"
+    }
+  },
+  "provider_process_ids": [
+    64289,
+    64319
+  ],
+  "runtime_identity": {
+    "runtime_incarnation_id": "8b85205a-56c2-4e3b-89e3-d47e03deb772",
+    "runtime_process_id": 64286
+  },
+  "registered_provider": {
+    "provider": "openai-compatible",
+    "model": "gemma:2b",
+    "adapter": "http"
+  },
+  "checkpoint": {
+    "durable": true,
+    "sha256": "e4c698002a6eb76cba06df24a155a8b06a1ed8dfdc35d437d5505afbf36935ad"
+  },
+  "agent_removed": true,
+  "runtime_identity_after": {
+    "runtime_incarnation_id": "8b85205a-56c2-4e3b-89e3-d47e03deb772",
+    "runtime_process_id": 64286
+  },
+  "timeout_evidence_scope": "standalone_adapter_retained",
+  "proxy_request_count": 3,
+  "proxy_request_digest": "cd045a8d941037160bd05b121e62ad8605ff8629d6ccc00ab27fec7db5fbe748",
+  "validation": {
+    "status": "passed",
+    "errors": []
+  }
+}

@@ -8,7 +8,7 @@ run_id: "issue-0901"
 version: "0.92.2"
 title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
 branch: "codex/901-v0922-provider-recovery-qualification"
-generated_at: "2026-09-12T00:15:14.473149+00:00"
+generated_at: "2026-09-14T18:06:04.530196+00:00"
 card_status: "ready"
 status: "executed"
 initial_pvf_lane: "provider"
@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/901/cards/spp.md"
 selected_lanes:
-  - "provider; task-owned local production-adapter execution plus deterministic evidence-integrity negatives; required local issue gate and independent exact-head review passed; hosted CI pending"
+  - "provider; task-owned local production-adapter and registered Runtime executions plus deterministic evidence-integrity negatives passed locally; exact-head review and hosted CI pending"
 parallel_groups:
   - "Serialize task-owned live fault scenarios; deterministic negative fixtures may run separately after harness implementation"
 validation_commands:
-  - "cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (19 passed); live-run-09 (4/4 passed at source c6651bb59fc117f10abc9e613d0042f567759ee8); raw observation-bound and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan."
+  - "Standalone adapter: retained live-run-09, four scenarios, portable validator passed. Registered Runtime: runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17; loss, recovery and interruption passed in one Runtime; runtime report validator passed. Python suites: 22 tests passed. Strict X.509 verification, py_compile and git diff --check passed. Exact-head independent review and hosted CI pending."
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No mock-only success, static reference trace, supplied failure flag, stale candidate or provider permission inference. Actual effects, complete scenario population and independent review remain required. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
-notes: "Live-run-09 passed all four scenario gates at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The raw validator binds process, proxy and scenario summaries to a separately hashed execution-observation artifact and binds result summaries to raw result JSON. Earlier failed and superseded live runs remain private and do not support acceptance. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; hosted CI remains pending."
+notes: "Registered Runtime runtime-live-09 passed with unchanged Runtime incarnation, actual loss failure, recovery delivery from a fresh provider PID, client WebSocket interruption, checkpoint and removal. Timeout remains proved by the separately retained production-adapter packet; the Runtime report does not claim its ignored sidecar timeout overrides the fixed Runtime deadline. Earlier Runtime attempts remain private and non-accepting."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -61,7 +61,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 ## Selected Validation Lanes
 
-- provider; task-owned local production-adapter execution plus deterministic evidence-integrity negatives; required local issue gate and independent exact-head review passed; hosted CI pending
+- provider; task-owned local production-adapter and registered Runtime executions plus deterministic evidence-integrity negatives passed locally; exact-head review and hosted CI pending
 
 ## Parallelization Plan
 
@@ -86,7 +86,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 ## Validation Commands
 
-- cargo build --manifest-path adl/Cargo.toml --bin adl-provider-adapter; cargo test --manifest-path adl/Cargo.toml provider_adapter (51 passed, 0 failed); python3 -m unittest adl/tools/test_run_issue901_provider_recovery_qualification.py (19 passed); live-run-09 (4/4 passed at source c6651bb59fc117f10abc9e613d0042f567759ee8); raw observation-bound and portable validate-report (passed); cargo fmt --check; py_compile; git diff --check; portable path and redaction scan.
+- Standalone adapter: retained live-run-09, four scenarios, portable validator passed. Registered Runtime: runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17; loss, recovery and interruption passed in one Runtime; runtime report validator passed. Python suites: 22 tests passed. Strict X.509 verification, py_compile and git diff --check passed. Exact-head independent review and hosted CI pending.
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Live-run-09 passed all four scenario gates at exact source c6651bb59fc117f10abc9e613d0042f567759ee8. The raw validator binds process, proxy and scenario summaries to a separately hashed execution-observation artifact and binds result summaries to raw result JSON. Earlier failed and superseded live runs remain private and do not support acceptance. Independent exact-head review passed at 06ad3771f14a12c399f03a404fb587d9de33b153; hosted CI remains pending.
+Registered Runtime runtime-live-09 passed with unchanged Runtime incarnation, actual loss failure, recovery delivery from a fresh provider PID, client WebSocket interruption, checkpoint and removal. Timeout remains proved by the separately retained production-adapter packet; the Runtime report does not claim its ignored sidecar timeout overrides the fixed Runtime deadline. Earlier Runtime attempts remain private and non-accepting.

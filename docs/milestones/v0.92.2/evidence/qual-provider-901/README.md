@@ -1,27 +1,11 @@
 # QUAL-PROVIDER #901 evidence
 
-This packet qualifies provider loss, timeout, interruption, and recovery through
-the production `adl-provider-adapter` command. The provider is a task-owned,
-CPU-only `llama-server` process using an already present local model artifact.
-The runner uses a transparent loopback proxy to record when each inference
-request is forwarded; the proxy does not generate responses or replace the
-provider.
+This packet contains two complementary production proofs using the same task-owned, CPU-only `llama-server` and existing local `gemma:2b` artifact. No paid or cloud calls were made.
 
-The four live scenarios are serialized. Loss kills the owned provider process
-after forwarding an inference request. Timeout uses the adapter's real 150 ms
-deadline. Interruption sends `SIGTERM` to the owned adapter only after the
-provider request is forwarded. Recovery starts a fresh provider incarnation and
-requires a successful, distinct request. Every process is started in a new
-process group and reaped by the runner.
+`qualification-report.json` qualifies provider loss, timeout, adapter-process interruption, and recovery through the production `adl-provider-adapter` command. Its transparent loopback proxy observes forwarding but does not generate responses. Loss kills the owned provider after forwarding, timeout uses the adapter's real 150 ms deadline, interruption terminates the owned adapter after forwarding, and recovery starts a fresh provider incarnation and completes distinct work.
 
-`qualification-report.json` is the portable receipt. It retains source, binary,
-model, request, process, timestamp, timeout, failure, and recovery identity while
-omitting prompts and generated output. The raw run remains private in the issue
-worktree. Earlier failed runs are retained there and do not support acceptance.
+`runtime-qualification-report.json` adds the registered Runtime proof requested during PR review. It installs the exact #855 Runtime owners, passes the CSM configuration preflight, dynamically admits two `openai-compatible` agents, and retains one unchanged Runtime incarnation across provider loss, a successful response from a fresh provider PID, and a client WebSocket interruption. The run checkpoints the primary agent and removes both agents. The Runtime report deliberately retains the standalone adapter packet as the timeout authority because the registered Runtime path has a fixed 15-minute execution timeout; it does not reinterpret the sidecar's two-second field as Runtime timeout proof.
 
-PVF classification: required provider integration qualification; bounded local
-CPU, loopback, process, and disk resources; live timing and PIDs vary across
-runs. Deterministic validator tests reject caller-supplied failure flags, static
-reference traces, missing execution logs, wrong request or process identity,
-timeouts without elapsed/deadline evidence, duplicate work, and stale provider
-identity.
+Both JSON files are portable receipts. They retain source, model, request, process, scenario, and correlation identity without prompts or generated text. The raw runs, CSM status, provider logs, and earlier unsuccessful attempts remain private in the issue worktree and do not support acceptance.
+
+PVF classification: required provider integration qualification; bounded local CPU, loopback, process, and disk resources; live timing and PIDs vary across runs. Deterministic validators reject supplied failure claims, static reference traces, missing execution evidence, wrong request or process identity, duplicate work, changed Runtime identity, missing registration, and stale provider identity.

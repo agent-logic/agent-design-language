@@ -8,7 +8,7 @@ run_id: "issue-0901"
 version: "0.92.2"
 title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
 branch: "codex/901-v0922-provider-recovery-qualification"
-generated_at: "2026-09-12T00:15:14.473149+00:00"
+generated_at: "2026-09-14T18:06:04.530196+00:00"
 card_status: "ready"
 status: "in_progress"
 activation_state: "bound_in_progress"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Preserve the four-scenario standalone production-adapter packet and add a second production proof through one #855 registered Runtime session. Dynamically admit the provider-backed agent, observe Runtime loss, timeout, session interruption and healthy recovery with distinct correlations and fresh provider identity, checkpoint it, remove it, and prove the Runtime incarnation stayed fixed."
+plan_summary: "Preserve the four-scenario production-adapter packet and add the missing #855 registered Runtime proof. In one unchanged Runtime incarnation, dynamically admit provider-backed agents, observe actual provider loss, successful recovery on a fresh provider PID, and client WebSocket interruption, then checkpoint and remove the agents. Retain the standalone adapter packet as the timeout authority because the registered Runtime uses a fixed 15-minute execution timeout."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress"
+    status: "completed"
 affected_areas:
   - "v0922-provider-recovery-qualification"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "The prior live-run-09 remains valid standalone adapter evidence but does not prove the required registered Runtime lifecycle. A new task-owned local Runtime harness is in progress using #855 dynamic admission and conversation, the same local provider process family, and no paid/cloud calls. Fresh execution and exact-head review remain required."
+notes: "The P2 Runtime-lifecycle finding is locally remediated by runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17. The registered Runtime proof passed loss, recovery and client-interruption checks with unchanged Runtime identity and two fresh provider PIDs; the standalone packet remains the separate real timeout proof. Exact-head independent review, CI, merge and closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification`.
 
-Preserve the four-scenario standalone production-adapter packet and add a second production proof through one #855 registered Runtime session. Dynamically admit the provider-backed agent, observe Runtime loss, timeout, session interruption and healthy recovery with distinct correlations and fresh provider identity, checkpoint it, remove it, and prove the Runtime incarnation stayed fixed.
+Preserve the four-scenario production-adapter packet and add the missing #855 registered Runtime proof. In one unchanged Runtime incarnation, dynamically admit provider-backed agents, observe actual provider loss, successful recovery on a fresh provider PID, and client WebSocket interruption, then checkpoint and remove the agents. Retain the standalone adapter packet as the timeout authority because the registered Runtime uses a fixed 15-minute execution timeout.
 
 ## PVF Lane Plan
 
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-The prior live-run-09 remains valid standalone adapter evidence but does not prove the required registered Runtime lifecycle. A new task-owned local Runtime harness is in progress using #855 dynamic admission and conversation, the same local provider process family, and no paid/cloud calls. Fresh execution and exact-head review remain required.
+The P2 Runtime-lifecycle finding is locally remediated by runtime-live-09 at executable source a24d915cd35ecd9beadea3a2cef018a86be46d17. The registered Runtime proof passed loss, recovery and client-interruption checks with unchanged Runtime identity and two fresh provider PIDs; the standalone packet remains the separate real timeout proof. Exact-head independent review, CI, merge and closeout remain pending.

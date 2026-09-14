@@ -7,7 +7,7 @@ task_id: "issue-0901"
 version: "0.92.2"
 title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
 branch: "codex/901-v0922-provider-recovery-qualification"
-generated_at: "2026-09-12T00:15:14.473149+00:00"
+generated_at: "2026-09-14T18:06:04.530196+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/901/cards/sip.md"
   - ".csdlc/issues/901/cards/vpp.md"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "block"
-notes: "Independent review verified direct transport-loss handling, four distinct task-owned provider PIDs and requests, real timeout and SIGTERM interruption, fresh-PID recovery, raw result equality, separately hashed execution-observation binding, coordinated-tamper rejection, 19 validator tests, 51 Rust provider-adapter tests, redaction/path hygiene, #851 exclusion, and coherent SPP/VPP/SRP/SOR truth."
+  findings_status: "review_refresh_pending"
+  recommended_outcome: "block_pending_review"
+notes: "Review the exact head and both complementary packets. Verify that standalone adapter evidence still proves timeout and adapter interruption, registered Runtime evidence proves loss and recovery with a fresh provider PID in one unchanged Runtime incarnation, client interruption is distinct, CSM registration/checkpoint/removal are real, and no private paths, prompts, generated text, credentials or paid calls enter the portable packet."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- P2: all four reviewed scenarios launched the provider adapter directly with a constructed route and bypassed #855 registered Runtime session lifecycle.
+- The external P2 found that the original packet bypassed the registered Runtime lifecycle. Remediation adds an installed #855 Runtime harness and a passing runtime-live-09 receipt. Fresh independent exact-head review has not yet run.
 
 ### Dispositions
 
-- Preserve live-run-09 and add Runtime dynamic admission, failure, timeout, interruption, healthy recovery, checkpoint/removal, correlation, provider-incarnation and unchanged-Runtime-identity evidence before re-review.
+- P2 locally addressed; block publication readiness until exact-head independent review validates the new Runtime harness, retained timeout boundary, and portable receipt.
 
 ### Recommended Outcome
 
-- block
+- block_pending_review
 
 ## Notes
 
-Independent review verified direct transport-loss handling, four distinct task-owned provider PIDs and requests, real timeout and SIGTERM interruption, fresh-PID recovery, raw result equality, separately hashed execution-observation binding, coordinated-tamper rejection, 19 validator tests, 51 Rust provider-adapter tests, redaction/path hygiene, #851 exclusion, and coherent SPP/VPP/SRP/SOR truth.
+Review the exact head and both complementary packets. Verify that standalone adapter evidence still proves timeout and adapter interruption, registered Runtime evidence proves loss and recovery with a fresh provider PID in one unchanged Runtime incarnation, client interruption is distinct, CSM registration/checkpoint/removal are real, and no private paths, prompts, generated text, credentials or paid calls enter the portable packet.
