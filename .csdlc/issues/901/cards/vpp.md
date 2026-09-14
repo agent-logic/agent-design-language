@@ -35,7 +35,7 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/901/cards/spp.md"
 selected_lanes:
-  - "provider; task-owned local production-adapter and registered Runtime executions plus deterministic evidence-integrity negatives passed locally; exact-head review and hosted CI pending"
+  - "provider; task-owned local production-adapter and registered Runtime executions plus deterministic evidence-integrity cases passed locally; independent exact-head review passed and hosted CI remains pending"
 parallel_groups:
   - "Serialize task-owned live fault scenarios; deterministic negative fixtures may run separately after harness implementation"
 validation_commands:
@@ -61,7 +61,7 @@ Bind from current origin/main; enumerate the merged production adapter and regis
 
 ## Selected Validation Lanes
 
-- provider; task-owned local production-adapter and registered Runtime executions plus deterministic evidence-integrity negatives passed locally; exact-head review and hosted CI pending
+- provider; task-owned local production-adapter and registered Runtime executions plus deterministic evidence-integrity cases passed locally; independent exact-head review passed and hosted CI remains pending
 
 ## Parallelization Plan
 

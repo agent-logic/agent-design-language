@@ -86,12 +86,12 @@ The standalone provider packet is preserved and the Runtime-lifecycle P2 is reme
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch only`
 - Worktree-only paths remaining: `.csdlc/evidence/901 private raw and failed diagnostic runs`
-- Integration state: `draft_pr_remediation_unpublished`
+- Integration state: `draft_pr_present_remediation_unpublished`
 - Verification scope: `local source, live task-owned provider execution, registered Runtime lifecycle, raw-artifact-bound portable receipts and deterministic validators passed; exact-head review passed and CI pending`
 - Integration method used: `existing draft PR #974; remediation commits not yet pushed`
 - Verification performed:
-  - `deferred; PR not published`
-    `deferred; PR not published`
+  - `Native publish with authenticated PR readback and refreshed hosted CI remain pending for the remediation head`
+    `Draft PR #974 exists at the earlier reviewed head; remediation commits and refreshed hosted CI are not yet published`
 - Result: `not_integrated`
 
 Rules:
@@ -107,7 +107,7 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `22 Python validator tests; standalone portable validate-report; registered Runtime portable validate-report; strict X.509 chain verification; py_compile; git diff --check`
+  - `25 focused Python tests; standalone portable validate-report; registered Runtime portable validate-report with six retained artifact bindings; strict X.509 chain verification; py_compile; git diff --check`
     `Proves actual provider loss and successful fresh-provider recovery through registered Runtime, plus distinct client interruption; preserves separate adapter timeout proof without overstating Runtime timeout configuration`
 - Results:
   - `Standalone four-scenario provider-adapter receipt remains valid. Registered Runtime runtime-live-12 passed loss, recovery and client interruption in one unchanged Runtime and validates against six retained raw artifacts. 25 deterministic validator tests passed. Independent review at 2930f13da6a48331438bf81f046a9e37a925e973 found no actionable findings; CI remains pending.`
@@ -127,7 +127,7 @@ verification_summary:
     checks_run:
       - "passed: raw and portable validator reports contain no errors"
   determinism:
-    status: 19/19 negative validator cases passed
+    status: 21/21 negative evidence-integrity cases and 4/4 positive validation cases passed
     replay_verified: passed
     ordering_guarantees_verified: passed
   security_privacy:
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `19/19 evidence-integrity tests passed, including coordinated process/proxy/result summary tampering`
+- Determinism tests executed: `25/25 focused Python tests passed: 21 negative evidence-integrity cases and four positive validation cases`
 - Fixtures or scripts used: `run_issue901_provider_recovery_qualification.py; run_issue901_runtime_recovery_qualification.py; both focused unittest modules; issue855_provider_lifecycle.py`
 - Replay verification (same inputs -> same artifacts/order): `portable validate-report passed`
 - Ordering guarantees (sorting / tie-break rules used): `loss, timeout, interruption, and recovery serialized; recovery used a new provider PID; four request body digests are unique`
@@ -167,7 +167,7 @@ verification_summary:
 - Required artifacts present: `local execution and review artifacts present; refreshed CI, merge and terminal receipts pending`
 - Artifact schema/version checks: `portable report validate-report passed with four scenarios`
 - Hash/byte-stability checks: `adapter, provider binary, model file, public report, and four request-body digests recorded`
-- Missing/optional artifacts and rationale: `PR, hosted CI, merge, and terminal receipts are absent because publication has not occurred; independent review evidence is retained privately.`
+- Missing/optional artifacts and rationale: `Draft PR #974 exists. Refreshed-head hosted CI, merge, and terminal receipts are absent because the remediation commits have not yet been published; independent review evidence is retained privately.`
 
 ## Decisions / Deviations
 - `#855 is satisfied: PR #964 merged and issue #855 closed, delivering the registered-provider lifecycle. #852 is also accepted through merged PR #963 for any WSS failure-event evidence consumed. #851 remains dirty and unmerged in its separate registered worktree; its bytes are preserved and its paths are excluded.`
