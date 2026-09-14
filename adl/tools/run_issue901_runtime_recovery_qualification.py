@@ -265,8 +265,31 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "terminal": public_terminal(recovered), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
         }
 
+        interruption_agent_id = "issue901-interruption-agent"
+        interruption_config = {
+            **config,
+            "identity": {
+                "id": interruption_agent_id,
+                "name": "interruption.fixture",
+                "display_name": "Interruption Fixture",
+            },
+        }
+        interruption_config_path = lifecycle.write(output / "interruption-agent.json", interruption_config)
+        require(csmctl("add", "--config", interruption_config_path).get("status") == "admitted",
+                "Runtime interruption-agent admission failed")
+        deadline = time.monotonic() + 20
+        interruption_detail = None
+        while time.monotonic() < deadline:
+            interruption_detail = csmctl("get", "--init", init, "--id", interruption_agent_id)
+            if interruption_detail.get("communication_eligible"):
+                break
+            time.sleep(0.1)
+        require(interruption_detail and interruption_detail.get("communication_eligible"),
+                "registered Runtime interruption agent not ready")
         before = proxy_state.generate_count
-        socket, turn, correlation = terminal_conversation(api_port, context, tokens["observatory"], agent_id, "issue901-runtime-interruption")
+        socket, turn, correlation = terminal_conversation(
+            api_port, context, tokens["observatory"], interruption_agent_id, "issue901-runtime-interruption"
+        )
         proxy_state.wait_for_generate(before)
         interrupted_at = adapter_proof.utc_now()
         socket.sock.close()
@@ -282,7 +305,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         csmctl("checkpoint", "--init", init, "--id", agent_id, "--out", checkpoint)
         report["checkpoint"] = {"durable": checkpoint.is_file(), "sha256": adapter_proof.sha256_file(checkpoint)}
         csmctl("remove", "--init", init, "--id", agent_id)
-        report["agent_removed"] = agent_id not in json.dumps(csmctl("list", "--init", init))
+        csmctl("remove", "--init", init, "--id", interruption_agent_id)
+        remaining_agents = json.dumps(csmctl("list", "--init", init))
+        report["agent_removed"] = all(
+            removed not in remaining_agents for removed in (agent_id, interruption_agent_id)
+        )
         final_snapshot = lifecycle.api(context, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
         report["runtime_identity_after"] = lifecycle.identity(final_snapshot)
         report["timeout_evidence_scope"] = "standalone_adapter_retained"
