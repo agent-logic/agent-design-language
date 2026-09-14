@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import plistlib
 import secrets
 import shutil
 import signal
@@ -162,6 +163,21 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         if any(part in key for part in ("API_KEY", "ACCESS_TOKEN", "GOOGLE_APPLICATION_CREDENTIALS")):
             del env[key]
     env.update(ADL_PROVIDER_CA_FILE=str(tls["ca"]), ADL_PROVIDER_FIXTURE_TOKEN="issue901-local-fixture")
+    service_label = f"ai.agent-logic.issue901-runtime-{os.getpid()}"
+    plist = output / "fixture.plist"
+    plist.write_bytes(plistlib.dumps({
+        "Label": service_label,
+        "ProgramArguments": [str(install / "current/bin/adl-runtime-guardian"), "--init", str(init)],
+    }))
+    status = subprocess.run(
+        [str(output / "bin/csm"), "runtime-v3", "status", "--init", str(init),
+         "--plist", str(plist), "--label", service_label, "--json"],
+        env=env, capture_output=True, text=True, timeout=30,
+    )
+    require(status.stdout.strip(), "CSM Runtime configuration preflight produced no result")
+    config_status = json.loads(status.stdout)
+    require(config_status.get("config_valid") and not config_status.get("service_loaded"),
+            "isolated CSM Runtime configuration preflight failed")
     guardian_log = (output / "guardian.log").open("w")
     guardian = subprocess.Popen(
         [str(install / "current/bin/adl-runtime-guardian"), "--init", str(init)],
