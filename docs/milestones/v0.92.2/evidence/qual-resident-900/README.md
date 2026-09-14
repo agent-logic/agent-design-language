@@ -1,9 +1,10 @@
 # Six-resident signed-restore qualification (#900)
 
-The production Runtime executed two distinct `runtime.observe` workloads for
-each of six resident roles through the Ollama HTTP adapter, ACC, UTS, signed
+The production Runtime executed six distinct role-specific `runtime.observe`
+workloads before and after restore through the Ollama HTTP adapter, ACC, UTS, signed
 dehydration, restore, replay denial, and resumed work. The final qualification
-receipt records 12 successful workload executions, six completed-case replay
+receipt records 12 successful executions, six unique workload views, six unique
+pre-restore effects, and six unique post-restore effects, six completed-case replay
 denials, two checkpoint lineages per resident, an empty pending set, and a
 verified generation-1 continuation.
 
@@ -41,9 +42,9 @@ restored generation.
 Public evidence is summarized in `validation.json` and `test-manifest.json`.
 The qualification receipt also binds the `local_ollama` provider, each actual
 provider status/result and ACC effect receipt, Runtime and CSM binary hashes,
-and producer source revision `e9fe1adf7b768dfd5fef234446d7db6cdfbaf37a`.
+and producer source revision `4519889c2699c7091a925c0fabcae7a007e03ee6`.
 
 Detailed run data is retained under the issue-local
-`.csdlc/evidence/900/attempt-11/` tree and is intentionally excluded from the
+`.csdlc/evidence/900/attempt-15/` tree and is intentionally excluded from the
 public packet because it contains machine-local paths and operational detail.
 The public hashes bind those retained artifacts without publishing them.

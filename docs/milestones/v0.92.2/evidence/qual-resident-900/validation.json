@@ -20,25 +20,66 @@
   "positive": {
     "resident_count": 6,
     "distinct_role_count": 6,
-    "distinct_task_count": 12,
     "pre_workloads_executed": 6,
     "completed_case_replays_denied": 6,
     "post_restore_workloads_executed": 6,
     "pending_case_count": 0,
     "continuity_generation": 1,
     "continuation_verified": true,
-    "signed_population_sha256": "a9b09591c552ee0283eb209ce5c9793b9b6203b132fdcf614be1e53c540319c2",
+    "signed_population_sha256": "e2c978263f650139e099fa5a56c8891c068be8437a23adc3325cd777dda73648",
     "materialized_plan_sha256": "7d66aa9b9060406c7a696c675c97199425138aca6211c937248ab46ee3281533",
-    "completed_uts_state_sha256": "bea40b97f8d58d31a06dcaf4a96874c5c52c4d2d5389ba17875248d1494e2801",
-    "dehydration_receipt_sha256": "26629fa58fdeba272bd344113b9e62babb9383626df58c9e2383b0654c80d67b",
-    "restore_receipt_sha256": "7577270bbeef126c9265ab4354025f5f10d2e05933b162279845d1dd547d5f80",
-    "completion_receipt_sha256": "d986d2f858b529c679ea3ec9cddd7a8c6ff9684aaed24c19b489154ebb8fd22b",
-    "private_qualification_receipt_sha256": "20aa602d08c54610705ea4e7400393fe34349267bb3d2a11b97cacf1180d4e2e",
-    "producer_source_revision": "e9fe1adf7b768dfd5fef234446d7db6cdfbaf37a",
-    "runtime_binary_sha256": "69d5978a4a20b2fb08c37b97041c1edc44091fdaa3fbfc030dd41d3582da05fb",
-    "csm_binary_sha256": "fcf023ad8283b7eb46e21f2673c11d46516062a21eccc9382b0f27cb8006825b",
+    "completed_uts_state_sha256": "3cf9d452e0287528c9919e914316da5819fe2aa9d6616c6772f2a657329ef1fa",
+    "dehydration_receipt_sha256": "fcd798eaf4c81ecf43123abd273075337993370b7d10d496b6151523b1e677bd",
+    "restore_receipt_sha256": "199993b95c4f427382f10fd571e70d933a0ad48ca8b58493102fc0abc38ed74d",
+    "completion_receipt_sha256": "c1da456f15f76112d529118e13d57003bc776500722a3c8dd91d95981e8d33e2",
+    "private_qualification_receipt_sha256": "baa6aec2607b469ae934126d859cdf42a5a8a3fec12786e13ab19a3398436de5",
+    "producer_source_revision": "4519889c2699c7091a925c0fabcae7a007e03ee6",
+    "runtime_binary_sha256": "74872d627bb9a3369052a796a5cef55b77a457c58412b9ba7ff82bc3e96341c0",
+    "csm_binary_sha256": "a0969dc80be27293d51d851e7af88fa4c09f6b4ae6f2c9faf3d23c9df51ba57a",
     "provider_id": "local_ollama",
-    "provider_results_and_effects_bound": true
+    "provider_results_and_effects_bound": true,
+    "workload_execution_count": 12,
+    "distinct_workload_view_count": 6,
+    "distinct_pre_effect_count": 6,
+    "distinct_post_effect_count": 6,
+    "role_workload_bindings": {
+      "issue268-shepherd-controller": {
+        "pre_view": "resident_population",
+        "post_view": "resident_population",
+        "pre_effect_sha256": "sha256:ee5c4ff1d0f079ff9466baa680403ec643954042f2f139631cf77d60c621d82b",
+        "post_effect_sha256": "sha256:ee5c4ff1d0f079ff9466baa680403ec643954042f2f139631cf77d60c621d82b"
+      },
+      "issue268-planner": {
+        "pre_view": "checkpoint_readiness",
+        "post_view": "checkpoint_readiness",
+        "pre_effect_sha256": "sha256:9a8efc60504683e85a4aadc4478fcf387a41328fe90a61e1e8e18f57c320e32d",
+        "post_effect_sha256": "sha256:65a81c0add72fc5745bfb69161065993a8044888aeb0b3b72d7ed573d688059d"
+      },
+      "issue268-tool-executor": {
+        "pre_view": "tool_capability",
+        "post_view": "tool_capability",
+        "pre_effect_sha256": "sha256:987a6209e21d310270b5fcada3809a2bf90c40c2220718c4747f632053e34354",
+        "post_effect_sha256": "sha256:987a6209e21d310270b5fcada3809a2bf90c40c2220718c4747f632053e34354"
+      },
+      "issue268-runtime-observer": {
+        "pre_view": "runtime_redaction",
+        "post_view": "runtime_redaction",
+        "pre_effect_sha256": "sha256:1d311cf58988f159b1b5d57b6caaa9c4177d2ae490430eac58ee36f9ee14db5c",
+        "post_effect_sha256": "sha256:1d311cf58988f159b1b5d57b6caaa9c4177d2ae490430eac58ee36f9ee14db5c"
+      },
+      "issue268-recovery-custodian": {
+        "pre_view": "continuity_lineage",
+        "post_view": "continuity_lineage",
+        "pre_effect_sha256": "sha256:f78c0b320d298ce843932002094fc5d9c312ed1c28af963952b597ac27620280",
+        "post_effect_sha256": "sha256:fc0610ba6f0e3399ee31fbf120ba8396f6b04d029b087c37cb657ebed377b343"
+      },
+      "issue268-reviewer-escalation": {
+        "pre_view": "review_audit",
+        "post_view": "review_audit",
+        "pre_effect_sha256": "sha256:f0a828fd62857913ea99779ad76602aa370acc6b28b046b8c4478aa332ba6cf0",
+        "post_effect_sha256": "sha256:010517c4eb13967f8d26443e4b2bbdea0cda97df27e36d3cb75584f2418e3a07"
+      }
+    }
   },
   "negative": {
     "scenario_count": 7,
