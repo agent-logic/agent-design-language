@@ -45,5 +45,6 @@
   "non_goals_inline": "Completion requires the one actual result above, all positive/negative obligations, current independent exact-head review and required checks. Plans, schemas, scaffolds, test-only consumers, packets without execution or zero-test invocations cannot satisfy it. No broad Runtime refactor, paid-cloud mutation, release approval, automatic #522/#833 closure or unrelated backlog. Retain stop conditions: required_proof_not_executed, partial_artifact_claimed_complete, synthetic_only_proof, stale_revision, missing_scenario. Also stop for missing authority, ownership collision, sensitive-data leakage or unsafe effect scope; route separate defects explicitly.",
   "estimate_validation_seconds": "2400",
   "estimate_data_source": "Approved bounded task-owned local provider profile; no paid or cloud services; estimate remains low-confidence until execution",
-  "stp_card": ".csdlc/issues/901/cards/stp.md"
+  "stp_card": ".csdlc/issues/901/cards/stp.md",
+  "execution_progress_notes": "Both review P2 findings are remediated. runtime-live-12 proves registered Runtime loss, recovery and client interruption, while the portable validator reopens six retained raw artifacts and rejects coherent reports without them. Independent review passed at 2930f13da6a48331438bf81f046a9e37a925e973. CI, merge and closeout remain pending."
 }

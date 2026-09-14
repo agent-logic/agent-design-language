@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
 branch: "codex/901-v0922-provider-recovery-qualification"
 generated_at: "2026-09-14T18:06:04.530196+00:00"
-card_status: "ready"
+card_status: "reviewed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/901/cards/sip.md"
   - ".csdlc/issues/901/cards/vpp.md"
 review_results:
-  findings_status: "review_refresh_pending"
-  recommended_outcome: "block_pending_review"
-notes: "Review the exact head and both complementary packets. Verify that standalone adapter evidence still proves timeout and adapter interruption, registered Runtime evidence proves loss and recovery with a fresh provider PID in one unchanged Runtime incarnation, client interruption is distinct, CSM registration/checkpoint/removal are real, and no private paths, prompts, generated text, credentials or paid calls enter the portable packet."
+  findings_status: "addressed"
+  recommended_outcome: "pass"
+notes: "Review verified runtime-live-12 through installed #855 owners: actual provider loss, fresh-PID recovery and client interruption in one Runtime incarnation; checkpoint/removal and six retained raw artifact hashes; coherent JSON without artifacts is rejected. Standalone live-run-09 remains the real timeout authority."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- The external P2 found that the original packet bypassed the registered Runtime lifecycle. Remediation adds an installed #855 Runtime harness and a passing runtime-live-09 receipt. Fresh independent exact-head review has not yet run.
+- The external review found that the original packet bypassed the registered Runtime lifecycle, then found the first portable validator could accept a coherent synthetic report. Both findings were repaired. Independent exact-head review at 2930f13da6a48331438bf81f046a9e37a925e973 reported no actionable findings.
 
 ### Dispositions
 
-- P2 locally addressed; block publication readiness until exact-head independent review validates the new Runtime harness, retained timeout boundary, and portable receipt.
+- Pass for refreshed draft publication. The registered Runtime proof and raw-artifact-bound validator address both P2 findings; CI, merge and closeout remain pending.
 
 ### Recommended Outcome
 
-- block_pending_review
+- pass
 
 ## Notes
 
-Review the exact head and both complementary packets. Verify that standalone adapter evidence still proves timeout and adapter interruption, registered Runtime evidence proves loss and recovery with a fresh provider PID in one unchanged Runtime incarnation, client interruption is distinct, CSM registration/checkpoint/removal are real, and no private paths, prompts, generated text, credentials or paid calls enter the portable packet.
+Review verified runtime-live-12 through installed #855 owners: actual provider loss, fresh-PID recovery and client interruption in one Runtime incarnation; checkpoint/removal and six retained raw artifact hashes; coherent JSON without artifacts is rejected. Standalone live-run-09 remains the real timeout authority.

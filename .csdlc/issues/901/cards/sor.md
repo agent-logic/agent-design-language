@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-The standalone provider packet is preserved and the review P2 is locally remediated with a second production proof through one registered #855 Runtime session. Runtime loss, fresh-provider recovery and client interruption passed without changing Runtime incarnation; timeout remains supported by the separate adapter proof. Exact-head review, push, CI, merge and closeout remain pending.
+The standalone provider packet is preserved and the Runtime-lifecycle P2 is remediated with a registered #855 Runtime proof. A second review P2 is remediated by reopening and hash-binding six retained execution artifacts. Exact-head independent review passed; refreshed CI, merge and closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -57,7 +57,7 @@ The standalone provider packet is preserved and the review P2 is locally remedia
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `high for recorded local run`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_review_pending`
+- Completion state: `review_passed_ci_pending`
 - Issue goal ref: `thread-goal 01a0924d-fbc0-7d21-b1ec-965c8a9562a4; active Sprint #931 objective explicitly includes child #901 qualification`
 - Sprint goal ref: `Sprint 5 umbrella #931; child #901 provider failure and recovery qualification`
 - Goal metrics rollup ref: `.csdlc/evidence/901/goal-metrics.json not collected; active Sprint #931 goal service owns session accounting`
@@ -87,7 +87,7 @@ The standalone provider packet is preserved and the review P2 is locally remedia
 - Main-repo paths updated: `none; issue branch only`
 - Worktree-only paths remaining: `.csdlc/evidence/901 private raw and failed diagnostic runs`
 - Integration state: `draft_pr_remediation_unpublished`
-- Verification scope: `local source, live task-owned provider execution, registered Runtime lifecycle, portable receipts and deterministic validators passed; exact-head review and CI pending`
+- Verification scope: `local source, live task-owned provider execution, registered Runtime lifecycle, raw-artifact-bound portable receipts and deterministic validators passed; exact-head review passed and CI pending`
 - Integration method used: `existing draft PR #974; remediation commits not yet pushed`
 - Verification performed:
   - `deferred; PR not published`
@@ -110,7 +110,7 @@ Rules:
   - `22 Python validator tests; standalone portable validate-report; registered Runtime portable validate-report; strict X.509 chain verification; py_compile; git diff --check`
     `Proves actual provider loss and successful fresh-provider recovery through registered Runtime, plus distinct client interruption; preserves separate adapter timeout proof without overstating Runtime timeout configuration`
 - Results:
-  - `Standalone four-scenario provider-adapter receipt remains valid. Registered Runtime runtime-live-09 passed loss, recovery and client interruption in one unchanged Runtime, with distinct correlations, fresh provider PID, checkpoint and agent removal. 22 deterministic validator tests and both portable report validators passed. Exact-head review and CI remain pending.`
+  - `Standalone four-scenario provider-adapter receipt remains valid. Registered Runtime runtime-live-12 passed loss, recovery and client interruption in one unchanged Runtime and validates against six retained raw artifacts. 25 deterministic validator tests passed. Independent review at 2930f13da6a48331438bf81f046a9e37a925e973 found no actionable findings; CI remains pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_remediation_passed_review_pending
+    status: local_complete_review_passed_ci_pending
     checks_run:
       - "passed: raw and portable validator reports contain no errors"
   determinism:
@@ -137,7 +137,7 @@ verification_summary:
     absolute_path_leakage_detected: false
   artifacts:
     status: passed_local
-    required_artifacts_present: yes for local remediation; independent review and refreshed CI pending
+    required_artifacts_present: yes for local remediation and independent review; refreshed CI pending
     schema_changes:
       present: false
       approved: not_applicable
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json; runtime-qualification-report.json`
-- Required artifacts present: `local execution artifacts present; exact-head review, refreshed CI, merge and terminal receipts pending`
+- Required artifacts present: `local execution and review artifacts present; refreshed CI, merge and terminal receipts pending`
 - Artifact schema/version checks: `portable report validate-report passed with four scenarios`
 - Hash/byte-stability checks: `adapter, provider binary, model file, public report, and four request-body digests recorded`
 - Missing/optional artifacts and rationale: `PR, hosted CI, merge, and terminal receipts are absent because publication has not occurred; independent review evidence is retained privately.`
