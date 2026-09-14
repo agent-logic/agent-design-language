@@ -39,6 +39,19 @@ def digest(value: Any) -> str:
     return hashlib.sha256(json.dumps(value, separators=(",", ":"), sort_keys=True).encode()).hexdigest()
 
 
+def is_sha256(value: Any) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(character in "0123456789abcdef" for character in value)
+
+
+def parse_timestamp(value: Any) -> float | None:
+    if not isinstance(value, str):
+        return None
+    try:
+        return __import__("datetime").datetime.fromisoformat(value).timestamp()
+    except ValueError:
+        return None
+
+
 def terminal_conversation(api_port: int, context: ssl.SSLContext, token: str, agent_id: str, marker: str):
     websocket = lifecycle.WebSocket(api_port, context, "https://localhost:8765")
     websocket.send({"schema": "adl.runtime_v3.observatory_ws_auth.v1", "bearer_token": token})
@@ -71,10 +84,11 @@ def await_terminal(websocket: lifecycle.WebSocket, turn_id: str) -> dict[str, An
     )
 
 
-def public_terminal(result: dict[str, Any]) -> dict[str, Any]:
+def public_terminal(result: dict[str, Any], correlation_id: str) -> dict[str, Any]:
     return {
         "status": result.get("status"),
         "failure_reason": result.get("failure_reason"),
+        "correlation_matched": result.get("correlation_id") == correlation_id,
         "reply_present": bool(result.get("reply")),
         "reply_sha256": hashlib.sha256(str(result.get("reply", "")).encode()).hexdigest()
         if result.get("reply")
@@ -86,6 +100,10 @@ def validate_report(report: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if report.get("schema") != SCHEMA:
         errors.append("schema_invalid")
+    if not isinstance(report.get("source_revision"), str) or len(report["source_revision"]) != 40 or any(
+        character not in "0123456789abcdef" for character in report["source_revision"]
+    ):
+        errors.append("source_revision_invalid")
     identity = report.get("runtime_identity") or {}
     if not identity.get("runtime_incarnation_id") or not isinstance(identity.get("runtime_process_id"), int):
         errors.append("runtime_identity_missing")
@@ -99,23 +117,59 @@ def validate_report(report: dict[str, Any]) -> list[str]:
         return errors + ["scenario_population_invalid"]
     if scenarios["loss"].get("terminal", {}).get("status") != "failed":
         errors.append("runtime_loss_not_failed")
+    if scenarios["loss"].get("terminal", {}).get("correlation_matched") is not True:
+        errors.append("runtime_loss_correlation_unbound")
     if scenarios["interruption"].get("session_interrupted") is not True:
         errors.append("runtime_session_interruption_missing")
     recovery = scenarios["recovery"].get("terminal", {})
     if recovery.get("status") != "delivered" or recovery.get("reply_present") is not True:
         errors.append("runtime_recovery_not_delivered")
+    if recovery.get("correlation_matched") is not True:
+        errors.append("runtime_recovery_correlation_unbound")
     correlations = [row.get("correlation_id_sha256") for row in scenarios.values()]
     if len(set(correlations)) != 3 or any(not isinstance(value, str) or len(value) != 64 for value in correlations):
         errors.append("runtime_correlation_identity_invalid")
     pids = report.get("provider_process_ids") or []
     if len(pids) < 2 or len(set(pids)) < 2:
         errors.append("fresh_provider_incarnation_missing")
-    if report.get("checkpoint", {}).get("durable") is not True or report.get("agent_removed") is not True:
+    loss = scenarios["loss"]
+    if (loss.get("provider_pid") != pids[0] or not isinstance(loss.get("provider_returncode"), int)
+            or loss["provider_returncode"] >= 0 or parse_timestamp(loss.get("provider_signal_sent_at")) is None):
+        errors.append("runtime_loss_process_evidence_invalid")
+    interruption = scenarios["interruption"]
+    if (interruption.get("provider_completed_after_disconnect") is not True
+            or parse_timestamp(interruption.get("interrupted_at")) is None):
+        errors.append("runtime_interruption_completion_unbound")
+    checkpoint = report.get("checkpoint") or {}
+    binding = checkpoint.get("binding") or {}
+    if (checkpoint.get("durable") is not True or not is_sha256(checkpoint.get("sha256"))
+            or binding.get("schema") != "adl.runtime_v3.agent_checkpoint.v1"
+            or binding.get("agent_id") != "issue901-runtime-agent"
+            or binding.get("provider") != "openai-compatible"
+            or binding.get("model") != report.get("model")
+            or binding.get("terminal_statuses") != ["failed", "delivered"]
+            or binding.get("correlation_sha256") != [
+                scenarios["loss"].get("correlation_id_sha256"),
+                scenarios["recovery"].get("correlation_id_sha256"),
+            ]
+            or not is_sha256(binding.get("checkpoint_digest"))
+            or report.get("agent_removed") is not True):
         errors.append("runtime_lifecycle_incomplete")
     if report.get("paid_calls") != 0:
         errors.append("paid_call_boundary_invalid")
     if report.get("timeout_evidence_scope") != "standalone_adapter_retained":
         errors.append("timeout_evidence_scope_invalid")
+    proxy_requests = report.get("proxy_requests") or []
+    expected_request_ids = ["issue901-runtime-loss", "issue901-runtime-recovery", "issue901-runtime-interruption"]
+    if (report.get("proxy_request_count") != 3 or len(proxy_requests) != 3
+            or [row.get("request_id") for row in proxy_requests] != expected_request_ids
+            or any(not is_sha256(row.get("body_sha256")) or row.get("completed") is not True for row in proxy_requests)
+            or len({row.get("body_sha256") for row in proxy_requests}) != 3
+            or proxy_requests[0].get("upstream_status") is not None
+            or not proxy_requests[0].get("upstream_error")
+            or any(row.get("upstream_status") != 200 or row.get("upstream_error") is not None for row in proxy_requests[1:])
+            or report.get("proxy_request_digest") != digest(proxy_requests)):
+        errors.append("runtime_proxy_evidence_invalid")
     return errors
 
 
@@ -250,7 +304,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         loss = await_terminal(socket, turn)
         socket.sock.close()
         report["scenarios"]["loss"] = {
-            "terminal": public_terminal(loss), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
+            "terminal": public_terminal(loss, correlation), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
+            "provider_pid": report["provider_process_ids"][0],
             "provider_signal_sent_at": stopped["signal_sent_at"], "provider_returncode": stopped["returncode"],
         }
 
@@ -262,7 +317,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         recovered = await_terminal(socket, turn)
         socket.sock.close()
         report["scenarios"]["recovery"] = {
-            "terminal": public_terminal(recovered), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
+            "terminal": public_terminal(recovered, correlation), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
         }
 
         interruption_agent_id = "issue901-interruption-agent"
@@ -293,17 +348,47 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         proxy_state.wait_for_generate(before)
         interrupted_at = adapter_proof.utc_now()
         socket.sock.close()
-        proxy_state.wait_for_completion("issue901-runtime-interruption")
+        interruption_proxy = proxy_state.wait_for_completion("issue901-runtime-interruption")
+        interruption_completed_at = parse_timestamp(interruption_proxy.get("completed_at"))
+        interruption_started_at = parse_timestamp(interrupted_at)
         live = lifecycle.api(context, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
         require(lifecycle.identity(live) == runtime_identity, "Runtime changed after session interruption")
         report["scenarios"]["interruption"] = {
             "session_interrupted": True, "interrupted_at": interrupted_at,
+            "provider_completed_after_disconnect": (
+                interruption_proxy.get("upstream_status") == 200
+                and interruption_proxy.get("upstream_error") is None
+                and interruption_completed_at is not None
+                and interruption_started_at is not None
+                and interruption_completed_at > interruption_started_at
+            ),
             "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
         }
 
         checkpoint = output / "checkpoint.json"
         csmctl("checkpoint", "--init", init, "--id", agent_id, "--out", checkpoint)
-        report["checkpoint"] = {"durable": checkpoint.is_file(), "sha256": adapter_proof.sha256_file(checkpoint)}
+        checkpoint_value = json.loads(checkpoint.read_text())
+        checkpoint_turns = [
+            turn
+            for conversation in checkpoint_value.get("conversation_history", [])
+            for turn in conversation.get("turns", [])
+        ]
+        report["checkpoint"] = {
+            "durable": checkpoint.is_file(),
+            "sha256": adapter_proof.sha256_file(checkpoint),
+            "binding": {
+                "schema": checkpoint_value.get("schema"),
+                "checkpoint_digest": checkpoint_value.get("checkpoint_digest"),
+                "agent_id": (checkpoint_value.get("declaration") or {}).get("id"),
+                "provider": (checkpoint_value.get("declaration") or {}).get("provider"),
+                "model": (checkpoint_value.get("declaration") or {}).get("model"),
+                "terminal_statuses": [turn.get("terminal_status") for turn in checkpoint_turns],
+                "correlation_sha256": [
+                    hashlib.sha256(str(turn.get("correlation_id", "")).encode()).hexdigest()
+                    for turn in checkpoint_turns
+                ],
+            },
+        }
         csmctl("remove", "--init", init, "--id", agent_id)
         csmctl("remove", "--init", init, "--id", interruption_agent_id)
         remaining_agents = json.dumps(csmctl("list", "--init", init))
@@ -313,13 +398,18 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         final_snapshot = lifecycle.api(context, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
         report["runtime_identity_after"] = lifecycle.identity(final_snapshot)
         report["timeout_evidence_scope"] = "standalone_adapter_retained"
-        report["proxy_request_count"] = len([
-            row for row in proxy_state.records if row.get("path") == "/v1/chat/completions"
-        ])
-        report["proxy_request_digest"] = digest([
-            {key: row.get(key) for key in ("path", "body_sha256", "request_id", "upstream_status", "upstream_error")}
+        report["proxy_requests"] = [
+            {
+                "request_id": row.get("request_id"),
+                "body_sha256": row.get("body_sha256"),
+                "upstream_status": row.get("upstream_status"),
+                "upstream_error": row.get("upstream_error"),
+                "completed": bool(row.get("completed_at")),
+            }
             for row in proxy_state.records if row.get("path") == "/v1/chat/completions"
-        ])
+        ]
+        report["proxy_request_count"] = len(report["proxy_requests"])
+        report["proxy_request_digest"] = digest(report["proxy_requests"])
         errors = validate_report(report)
         report["validation"] = {"status": "passed" if not errors else "failed", "errors": errors}
         (output / "runtime-qualification-report.json").write_text(json.dumps(report, indent=2) + "\n")
