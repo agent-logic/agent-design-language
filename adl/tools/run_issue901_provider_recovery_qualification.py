@@ -70,6 +70,22 @@ class ProxyState:
                 self.condition.wait(remaining)
             return self.generate_count
 
+    def wait_for_completion(self, request_id: str, timeout: float = 60.0) -> dict[str, Any]:
+        deadline = time.monotonic() + timeout
+        with self.condition:
+            while True:
+                completed = next(
+                    (record for record in self.records
+                     if record.get("request_id") == request_id and record.get("completed_at")),
+                    None,
+                )
+                if completed is not None:
+                    return completed
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise RuntimeError(f"provider request did not complete: {request_id}")
+                self.condition.wait(min(remaining, 0.1))
+
 
 def proxy_handler(state: ProxyState) -> type[BaseHTTPRequestHandler]:
     class Handler(BaseHTTPRequestHandler):
@@ -145,6 +161,8 @@ def proxy_handler(state: ProxyState) -> type[BaseHTTPRequestHandler]:
             finally:
                 record["completed_at"] = utc_now()
                 connection.close()
+                with state.condition:
+                    state.condition.notify_all()
 
         def log_message(self, _format: str, *_args: object) -> None:
             return

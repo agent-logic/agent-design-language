@@ -95,19 +95,17 @@ def validate_report(report: dict[str, Any]) -> list[str]:
     if provider.get("provider") != "openai-compatible" or provider.get("model") != report.get("model"):
         errors.append("registered_provider_projection_invalid")
     scenarios = report.get("scenarios") or {}
-    if set(scenarios) != {"loss", "timeout", "interruption", "recovery"}:
+    if set(scenarios) != {"loss", "interruption", "recovery"}:
         return errors + ["scenario_population_invalid"]
     if scenarios["loss"].get("terminal", {}).get("status") != "failed":
         errors.append("runtime_loss_not_failed")
-    if scenarios["timeout"].get("terminal", {}).get("status") != "failed":
-        errors.append("runtime_timeout_not_failed")
     if scenarios["interruption"].get("session_interrupted") is not True:
         errors.append("runtime_session_interruption_missing")
     recovery = scenarios["recovery"].get("terminal", {})
     if recovery.get("status") != "delivered" or recovery.get("reply_present") is not True:
         errors.append("runtime_recovery_not_delivered")
     correlations = [row.get("correlation_id_sha256") for row in scenarios.values()]
-    if len(set(correlations)) != 4 or any(not isinstance(value, str) or len(value) != 64 for value in correlations):
+    if len(set(correlations)) != 3 or any(not isinstance(value, str) or len(value) != 64 for value in correlations):
         errors.append("runtime_correlation_identity_invalid")
     pids = report.get("provider_process_ids") or []
     if len(pids) < 2 or len(set(pids)) < 2:
@@ -116,6 +114,8 @@ def validate_report(report: dict[str, Any]) -> list[str]:
         errors.append("runtime_lifecycle_incomplete")
     if report.get("paid_calls") != 0:
         errors.append("paid_call_boundary_invalid")
+    if report.get("timeout_evidence_scope") != "standalone_adapter_retained":
+        errors.append("timeout_evidence_scope_invalid")
     return errors
 
 
@@ -256,26 +256,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
         provider = adapter_proof.start_provider(args.provider_binary, args.model_file, upstream_port, output / "provider-recovered.log")
         report["provider_process_ids"].append(provider.pid)
-        proxy_state.delay_response_secs = 3.0
-        before = proxy_state.generate_count
-        socket, turn, correlation = terminal_conversation(api_port, context, tokens["observatory"], agent_id, "issue901-runtime-timeout")
-        proxy_state.wait_for_generate(before)
-        timeout_started = time.monotonic()
-        timed_out = await_terminal(socket, turn)
-        timeout_elapsed_ms = int((time.monotonic() - timeout_started) * 1000)
-        socket.sock.close()
-        proxy_state.delay_response_secs = 0.0
-        report["scenarios"]["timeout"] = {
-            "terminal": public_terminal(timed_out), "correlation_id_sha256": hashlib.sha256(correlation.encode()).hexdigest(),
-            "configured_timeout_secs": 2, "terminal_wait_elapsed_ms": timeout_elapsed_ms,
-        }
-
         before = proxy_state.generate_count
         socket, turn, correlation = terminal_conversation(api_port, context, tokens["observatory"], agent_id, "issue901-runtime-interruption")
         proxy_state.wait_for_generate(before)
         interrupted_at = adapter_proof.utc_now()
         socket.sock.close()
-        time.sleep(1)
+        proxy_state.wait_for_completion("issue901-runtime-interruption")
         live = lifecycle.api(context, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
         require(lifecycle.identity(live) == runtime_identity, "Runtime changed after session interruption")
         report["scenarios"]["interruption"] = {
@@ -298,6 +284,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         report["agent_removed"] = agent_id not in json.dumps(csmctl("list", "--init", init))
         final_snapshot = lifecycle.api(context, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
         report["runtime_identity_after"] = lifecycle.identity(final_snapshot)
+        report["timeout_evidence_scope"] = "standalone_adapter_retained"
         report["proxy_request_count"] = len([
             row for row in proxy_state.records if row.get("path") == "/v1/chat/completions"
         ])

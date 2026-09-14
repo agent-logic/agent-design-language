@@ -24,13 +24,13 @@ def valid_report() -> dict:
         "registered_provider": {"provider": "openai-compatible", "model": "fixture-model", "adapter": "http"},
         "provider_process_ids": [100, 101],
         "paid_calls": 0,
+        "timeout_evidence_scope": "standalone_adapter_retained",
         "checkpoint": {"durable": True, "sha256": "a" * 64},
         "agent_removed": True,
         "scenarios": {
             "loss": {"terminal": {"status": "failed"}, "correlation_id_sha256": "1" * 64},
-            "timeout": {"terminal": {"status": "failed"}, "correlation_id_sha256": "2" * 64},
-            "interruption": {"session_interrupted": True, "correlation_id_sha256": "3" * 64},
-            "recovery": {"terminal": {"status": "delivered", "reply_present": True}, "correlation_id_sha256": "4" * 64},
+            "interruption": {"session_interrupted": True, "correlation_id_sha256": "2" * 64},
+            "recovery": {"terminal": {"status": "delivered", "reply_present": True}, "correlation_id_sha256": "3" * 64},
         },
     }
 
