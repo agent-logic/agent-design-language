@@ -742,6 +742,25 @@ fn read_remote_json(path: &Path) -> Result<serde_json::Value, Error> {
     }
     codec::decode(&fs::read(path).map_err(io)?).map_err(|_| Error::RecoveryRequired)
 }
+
+fn repository_scoped_issue_creation_result(
+    remote: &Path,
+    namespace: &str,
+    path: &Path,
+    key: &IssueKey,
+) -> Result<bool, Error> {
+    if namespace != "mutations" {
+        return Ok(false);
+    }
+    crate::commands::remote::repository_scoped_issue_creation_receipt(
+        remote,
+        path,
+        key.repository.as_str(),
+        key.issue,
+    )
+    .map_err(|_| Error::RecoveryRequired)
+}
+
 fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
     for namespace in ["intents", "mutations", "recoveries", "merges"] {
         let directory = remote.join(namespace);
@@ -804,6 +823,14 @@ fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
             };
             // Creation before a positive issue exists is repository-scoped. Never
             // assign that effect to whichever issue happens to be prepared next.
+            // Its reconciled receipt names the GitHub-assigned issue, but remains
+            // part of that repository-scoped creation transaction rather than
+            // legacy lifecycle state for the newly created issue.
+            if namespace != "intents"
+                && repository_scoped_issue_creation_result(remote, namespace, &path, key)?
+            {
+                continue;
+            }
             if identity.1 > 0 && identity.1 == key.issue && identity.0 == key.repository {
                 return Ok(true);
             }

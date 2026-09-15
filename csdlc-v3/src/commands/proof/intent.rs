@@ -136,6 +136,7 @@ pub(crate) fn admit_validators(
         }
         safe_component(&validator.id).map_err(|finding| finding.code)?;
         let mut args = validator.args.iter().skip(1);
+        let mut filter_seen = false;
         while let Some(arg) = args.next() {
             match arg.as_str() {
                 "--offline" | "--locked" | "--lib" | "--all-targets" => {}
@@ -146,6 +147,10 @@ pub(crate) fn admit_validators(
                 "--test" => {
                     safe_component(args.next().ok_or("intent_validator_test_missing")?)
                         .map_err(|finding| finding.code)?;
+                }
+                _ if !filter_seen => {
+                    safe_component(arg).map_err(|finding| finding.code)?;
+                    filter_seen = true;
                 }
                 _ => return Err("intent_validator_argument_not_admitted".into()),
             }

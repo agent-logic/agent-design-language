@@ -1550,6 +1550,162 @@ mod semantic_gate_a {
     }
 
     #[test]
+    fn repository_scoped_issue_creation_receipt_does_not_block_created_issue_preparation() {
+        let fixture = Fixture::new();
+        write_repository_scoped_creation_receipt(&fixture);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::Absent
+        );
+        assert!(matches!(
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs()),
+            Ok(CommitOutcome::Committed(_))
+        ));
+    }
+
+    #[test]
+    fn repository_scoped_issue_creation_receipt_mismatches_fail_closed() {
+        for tamper in [
+            "intent_operation_digest",
+            "intent_operation_marker",
+            "intent_request",
+            "receipt_operation_digest",
+            "receipt_intent_digest",
+            "receipt_filename",
+        ] {
+            let fixture = Fixture::new();
+            let (intent_path, receipt_path) = write_repository_scoped_creation_receipt(&fixture);
+            let path = if tamper.starts_with("intent_") {
+                &intent_path
+            } else {
+                &receipt_path
+            };
+            if tamper == "receipt_filename" {
+                fs::rename(
+                    &receipt_path,
+                    receipt_path.parent().unwrap().join("wrong.json"),
+                )
+                .unwrap();
+            } else {
+                let mut value: serde_json::Value =
+                    serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+                match tamper {
+                    "intent_operation_digest" | "receipt_operation_digest" => {
+                        value["operation_digest"] = serde_json::json!("cross-linked")
+                    }
+                    "intent_operation_marker" => {
+                        value["operation_marker"] = serde_json::json!("<!-- wrong -->")
+                    }
+                    "intent_request" => {
+                        value["request"]["expected_head_sha"] = serde_json::json!("other")
+                    }
+                    "receipt_intent_digest" => value["intent_digest"] = serde_json::json!("wrong"),
+                    _ => unreachable!(),
+                }
+                fs::write(path, serde_json::to_vec(&value).unwrap()).unwrap();
+            }
+            assert_eq!(
+                DurableTransactionStore::observe_issue(&fixture.root, &fixture.key),
+                Err(Error::RecoveryRequired),
+                "{tamper}"
+            );
+            assert_eq!(
+                DurableTransactionStore::prepare_issue(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    inputs()
+                ),
+                Err(Error::RecoveryRequired),
+                "{tamper}"
+            );
+        }
+    }
+
+    fn write_repository_scoped_creation_receipt(fixture: &Fixture) -> (PathBuf, PathBuf) {
+        use csdlc_v3::commands::remote::{
+            github_mutation_operation_digest, GithubMutation, GithubMutationRequest,
+        };
+
+        let remote = fixture.directory.join("repo/.git/csdlc-v3/remote");
+        fs::create_dir_all(remote.join("intents")).unwrap();
+        fs::create_dir_all(remote.join("mutations")).unwrap();
+        let request = GithubMutationRequest {
+            repository: "example/repo".into(),
+            issue: 0,
+            pull_request: None,
+            cutover_issue: None,
+            operator_approval: None,
+            expected_head_sha: "head".into(),
+            credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
+            mutation: GithubMutation::IssueCreate {
+                title: "created".into(),
+                body: "body".into(),
+                labels: Vec::new(),
+                assignees: Vec::new(),
+                milestone: None,
+            },
+        };
+        let operation_digest = github_mutation_operation_digest(&request);
+        let operation_marker = format!("<!-- csdlc-v3-operation:{operation_digest} -->");
+        let schema = "csdlc.v3.github_mutation_intent.v1";
+        let authority = "authority";
+        let adapter = "github-api-operational";
+        let mut hasher = blake3::Hasher::new();
+        for value in [
+            schema,
+            operation_digest.as_str(),
+            operation_marker.as_str(),
+            authority,
+            adapter,
+        ] {
+            hasher.update(value.as_bytes());
+            hasher.update(b"\0");
+        }
+        let intent_digest = hasher.finalize().to_hex().to_string();
+        let intent_path = remote
+            .join("intents")
+            .join(format!("{operation_digest}.json"));
+        fs::write(
+            &intent_path,
+            serde_json::to_vec(&serde_json::json!({
+                "schema":schema,
+                "operation_digest":operation_digest,
+                "operation_marker":operation_marker,
+                "authority_selector_digest":authority,
+                "request":request,
+                "adapter":adapter
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let receipt_path = remote
+            .join("mutations")
+            .join(format!("{operation_digest}.json"));
+        fs::write(
+            &receipt_path,
+            serde_json::to_vec(&serde_json::json!({
+                "schema":"csdlc.v3.github_mutation_receipt.v2",
+                "repository":"example/repo",
+                "issue":870,
+                "pull_request":null,
+                "expected_head_sha":"head",
+                "operation_digest":operation_digest,
+                "response_digest":null,
+                "readback_digest":"readback",
+                "intent_digest":intent_digest,
+                "reconciliation_digest":"reconciliation",
+                "adapter":adapter,
+                "authenticated":true,
+                "idempotent_replay":true
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        (intent_path, receipt_path)
+    }
+
+    #[test]
     fn semantic_stale_projection_after_ack_is_observational_repair() {
         let fixture = Fixture::new();
         let first = fixture.prepare();
