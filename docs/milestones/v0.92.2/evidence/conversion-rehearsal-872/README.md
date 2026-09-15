@@ -22,6 +22,15 @@ named scenarios, and both sides of all fifteen durability boundaries. A
 machine-derived summary cannot replace the underlying scenario results,
 invent a passing disposition, or omit a file from `manifest.json`.
 
+The retained root `request.json` binds the isolated paths, exact ordered role
+census, and old-writer command. Every scenario retains `commands.jsonl`,
+before/crash/after inventory hashes, hash-bound stdout and stderr JSONL,
+human-readable stderr, and its result. Every fault boundary additionally
+retains its journal and source/effect state; remote boundaries retain their
+exact fake-transport ledger. `snapshots/source/<issue>/` retains the source
+bytes behind the census, and binary provenance includes a non-empty identity
+for both executables.
+
 Validate retained evidence with:
 
 ```bash
@@ -38,10 +47,10 @@ The validator independently checks:
 - exact pre-effect source/executable restore;
 - refusal after a new-format local or fake remote effect while preserving evidence;
 - 30 restart cases with no lost artifacts or duplicate effects; and
-- a SHA-256 manifest covering every retained file other than the manifest itself.
+- a SHA-256 manifest covering every retained file other than the root manifest
+  itself, including any nested file named `manifest.json`.
 
 The PVF lane is deterministic local CPU integration. It uses bounded temporary
 disk, local Git, copied records, retained executables, controlled faults, and a
 fake transport. It uses no provider, cloud, paid, or live repository mutation.
 It is a mandatory SIM-07 input and grants no release or activation authority.
-

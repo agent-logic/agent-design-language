@@ -8,7 +8,9 @@
     "copied_records": true,
     "controlled_faults": true,
     "fake_authenticated_remote_transport": true,
-    "caller_success_labels_are_proof": false
+    "caller_success_labels_are_proof": false,
+    "raw_process_streams_hash_bound": true,
+    "source_snapshot_hash_bound": true
   },
   "resource_profile": {
     "local_cpu": true,
@@ -34,5 +36,11 @@
   "expected_rehearsal_binary": "csdlc-conversion-rehearsal",
   "request_schema": "csdlc.v3.copied_record_conversion_rehearsal_request.v1",
   "summary_schema": "csdlc.v3.copied_record_conversion_rehearsal_summary.v1",
+  "required_raw_artifacts": {
+    "per_scenario": true,
+    "per_fault_boundary": true,
+    "installed_observation_readbacks": true,
+    "recursive_manifest_except_root": true
+  },
   "status": "contract_only_not_execution_evidence"
 }
