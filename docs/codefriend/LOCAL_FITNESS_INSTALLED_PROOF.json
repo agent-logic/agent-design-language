@@ -1,0 +1,41 @@
+{
+  "schema": "codefriend.fitness_installed_proof.v1",
+  "issue": 887,
+  "platform": "Darwin-arm64",
+  "binary_sha256": "f2e99f355d5a7dec03665f790c41a2c43c8d8a6de0229b736c980dfd5e33cff8",
+  "installation_provenance": "9e32259fb1ccc921bc1eb4c3b70513646bf7afbfa24d13546375605564410be3",
+  "scenarios": [
+    {
+      "fixture": "pass",
+      "revision": "8a9d8e3fd364e7e1b6c482ad9a52d87c83f64eea",
+      "exit": 0,
+      "repeat": true,
+      "readback": true,
+      "tamper_rejected": true,
+      "deletion_rejected": true,
+      "source_unchanged": true
+    },
+    {
+      "fixture": "fail",
+      "revision": "7452a67c4c274893059f5cad7355825a66fd64d9",
+      "exit": 1,
+      "repeat": true,
+      "readback": true,
+      "tamper_rejected": true,
+      "deletion_rejected": true,
+      "source_unchanged": true
+    },
+    {
+      "fixture": "error",
+      "revision": "706d6a428e18991347edbebf4e5d903580df6386",
+      "exit": 2,
+      "repeat": true,
+      "readback": true,
+      "tamper_rejected": true,
+      "deletion_rejected": true,
+      "source_unchanged": true
+    }
+  ],
+  "scenarios_passed": 3,
+  "actual_ci_integration": false
+}

@@ -17,12 +17,16 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     if args.first().is_some_and(|arg| arg == "evidence") {
         return super::codefriend_evidence_cmd::evidence(&args[1..]);
     }
+    if args.first().is_some_and(|arg| arg == "fitness") {
+        return super::codefriend_fitness_cmd::run(&args[1..]);
+    }
     if args.is_empty() || matches!(args[0].as_str(), "--help" | "-h") {
         println!(
-            "{USAGE}\n{}\n{}\n{}",
+            "{USAGE}\n{}\n{}\n{}\n{}",
             github_command::USAGE,
             super::codefriend_memory_cmd::USAGE,
-            super::codefriend_structure_cmd::USAGE
+            super::codefriend_structure_cmd::USAGE,
+            super::codefriend_fitness_cmd::USAGE
         );
         return Ok(());
     }

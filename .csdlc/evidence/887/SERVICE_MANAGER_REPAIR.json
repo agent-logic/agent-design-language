@@ -1,0 +1,31 @@
+{
+  "issue": 887,
+  "pull_request": 989,
+  "failure": {
+    "run": 35028897550,
+    "job": 104582597530,
+    "test": "csm_runtime_v3_cmd_tests::tests::missing_service_is_unloaded_and_has_no_owned_process",
+    "cause": "Live host service-manager subprocess exceeded750ms during coverage;1301other tests passed."
+  },
+  "repair": [
+    "Explicit thread-local missing-service transport fixture exercises production response routing without hostprocesses.",
+    "Fail closed on any undeclared unit-test launchctl/systemctl command, including absolute paths.",
+    "Adjacent status test shares declaredfixture.",
+    "Convergence success test uses virtualclock/pause through production algorithm; configured production deadlines unchanged."
+  ],
+  "pvf": {
+    "lane_class": "runtime",
+    "proof_role": "deterministic regression against host-service and scheduler coupling",
+    "determinism": "declared transport outputs and virtual clock for success; existing real deadline negative tests retained",
+    "resources": "CPU/filesystem; focused existing subprocess deadline negatives",
+    "release_gate": true
+  },
+  "validation": {
+    "normal_tests": "100 focused tests:50library+50binary passed",
+    "instrumented_tests": "100 focused instrumented tests passed; llvm-cov report retained locally",
+    "strict_clippy": "passed forlib,binary,tests with -D warnings",
+    "hosted_linux": "required afterpush"
+  },
+  "source_sha256": "7ddec24e678caf59e98a044fbdc6c6dbc83aab56e434a3a8ef67c240939eafc7",
+  "review": "Independent source review passed; final exacthead review aftercommit"
+}
