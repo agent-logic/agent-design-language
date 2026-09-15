@@ -416,6 +416,39 @@ fn semantic_edit(
     {
         return Err("intent_amendment_revision_mismatch".into());
     }
+    let phase = semantic.snapshot.phase();
+    let amendment_facts = crate::lifecycle::semantic::AmendmentFacts {
+        source_version_current: true,
+        issue_checkout_match: true,
+        evidence_integrity: true,
+        transition_approved: amendment.transition_approved,
+        topology: semantic.snapshot.inputs().binding().is_some(),
+        implementation_revision: amendment
+            .implementation_revision
+            .as_deref()
+            .is_some_and(|revision| revision == native.expected_head_sha),
+        current_proof: matches!(
+            phase,
+            crate::lifecycle::LifecycleState::Implemented
+                | crate::lifecycle::LifecycleState::Reviewed
+                | crate::lifecycle::LifecycleState::Published
+                | crate::lifecycle::LifecycleState::MergeReady
+        ),
+        independent_review: matches!(
+            phase,
+            crate::lifecycle::LifecycleState::Reviewed
+                | crate::lifecycle::LifecycleState::Published
+                | crate::lifecycle::LifecycleState::MergeReady
+        ),
+        projection_change: cards != *semantic.snapshot.inputs().cards(),
+        new_commit: amendment.new_commit,
+    };
+    if !matches!(
+        crate::lifecycle::semantic::decide_amendment(phase, amendment.class, &amendment_facts,),
+        crate::lifecycle::semantic::AmendmentOutcome::Admitted { .. }
+    ) {
+        return Err("intent_amendment_policy_rejected".into());
+    }
     let request_bytes = serde_json::to_vec(&json!({
         "schema":"csdlc.v3.semantic_edit_request.v1",
         "repository":context.repository,"issue":context.issue,

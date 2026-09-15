@@ -29,7 +29,7 @@ fn state_inventory(primary: &Path, linked: &Path) -> Vec<(PathBuf, BTreeMap<Path
 }
 
 #[test]
-fn installed_edit_rejects_false_display_only_and_mismatched_classes_without_mutation() {
+fn installed_edit_rejects_misclassified_and_unapproved_amendments_without_mutation() {
     let mut fixture = Fixture::new("amendment-classification");
     let primary = fixture.root.clone();
     let plan = fixture.write_json(
@@ -84,6 +84,7 @@ fn installed_edit_rejects_false_display_only_and_mismatched_classes_without_muta
                 "cards": {"sip": {"title": "Semantic title falsely called display"}},
                 "amendment": {"class": "display_only", "transition_approved": true}
             }),
+            "intent_amendment_class_mismatch",
         ),
         (
             "mismatched-review.json",
@@ -92,6 +93,7 @@ fn installed_edit_rejects_false_display_only_and_mismatched_classes_without_muta
                 "cards": {"spp": {"plan_summary": "Changed execution plan"}},
                 "amendment": {"class": "review", "transition_approved": true}
             }),
+            "intent_amendment_class_mismatch",
         ),
         (
             "mismatched-proof-validator.json",
@@ -100,10 +102,20 @@ fn installed_edit_rejects_false_display_only_and_mismatched_classes_without_muta
                 "cards": {"sip": {"acceptance_criteria_inline": "Changed acceptance"}},
                 "amendment": {"class": "proof_validator", "transition_approved": true}
             }),
+            "intent_amendment_class_mismatch",
+        ),
+        (
+            "unapproved-plan.json",
+            json!({
+                "schema": "csdlc.v3.intent_changes.v1",
+                "cards": {"spp": {"plan_summary": "Unapproved execution-plan change"}},
+                "amendment": {"class": "plan", "transition_approved": false}
+            }),
+            "intent_amendment_policy_rejected",
         ),
     ];
 
-    for (name, changes) in cases {
+    for (name, changes, expected_code) in cases {
         let changes = fixture.write_json(name, &changes);
         let changes = changes.to_string_lossy().into_owned();
         let before = state_inventory(&primary, &linked);
@@ -118,7 +130,7 @@ fn installed_edit_rejects_false_display_only_and_mismatched_classes_without_muta
             .as_array()
             .is_some_and(|findings| findings
                 .iter()
-                .any(|finding| { finding["code"] == "intent_amendment_class_mismatch" })));
+                .any(|finding| { finding["code"] == expected_code })));
         assert_eq!(
             state_inventory(&primary, &linked),
             before,
