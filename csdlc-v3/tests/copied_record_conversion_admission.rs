@@ -14,7 +14,7 @@ const RECORDS: [(u64, &str); 7] = [
     (3, "reviewed"),
     (505, "published"),
     (122, "terminal"),
-    (980, "pending_recovery"),
+    (113, "pending_recovery"),
 ];
 
 #[test]
@@ -197,6 +197,52 @@ fn invalid_generation_in_a_late_record_stops_before_any_semantic_effect() {
         .exists());
 }
 
+#[test]
+fn converted_snapshot_is_acknowledged_before_installed_observation() {
+    let fixture = Fixture::new();
+    let request = fixture.write_request(&fixture.operation("projection-ack"), None);
+    assert_success(&invoke(&request));
+
+    let observed = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
+        .args(["status", "--git-common"])
+        .arg(fs::canonicalize(&fixture.git_common).unwrap())
+        .args(["--repository", "isolated/admission", "--issue", "511"])
+        .output()
+        .expect("installed observation process must start");
+    assert!(
+        observed.status.success(),
+        "stdout={} stderr={}",
+        String::from_utf8_lossy(&observed.stdout),
+        String::from_utf8_lossy(&observed.stderr)
+    );
+    let status: Value = serde_json::from_slice(&observed.stdout).unwrap();
+    assert_eq!(status.get("status").and_then(Value::as_str), Some("passed"));
+    assert_eq!(
+        status.get("projection_required").and_then(Value::as_bool),
+        Some(false)
+    );
+
+    let current: Value = serde_json::from_slice(
+        &fs::read(
+            fixture
+                .git_common
+                .join("csdlc-v3/semantic/issues/511/current.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(current.get("generation").and_then(Value::as_u64), Some(2));
+    let commits = fixture
+        .git_common
+        .join("csdlc-v3/semantic/issues/511/commits");
+    assert!(all_files(&commits).iter().any(|path| {
+        fs::read(path).is_ok_and(|bytes| {
+            String::from_utf8_lossy(&bytes)
+                .contains("\"acknowledged_card_projection\":\"card-projection-v1:")
+        })
+    }));
+}
+
 fn invoke(request: &Path) -> Output {
     Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
         .args(["convert", "--request"])
@@ -275,11 +321,7 @@ impl Fixture {
             Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/issue872-copied-records");
         let copied = primary.join("copied-records");
         for (issue, _) in RECORDS {
-            let source_record = if issue == 980 {
-                source.join("980/complete-real-baseline")
-            } else {
-                source.join(issue.to_string())
-            };
+            let source_record = source.join(issue.to_string());
             copy_tree(&source_record, &copied.join(issue.to_string()));
         }
         let registry = primary.join("docs/templates/prompts");

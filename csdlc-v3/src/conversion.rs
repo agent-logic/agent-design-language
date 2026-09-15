@@ -3,9 +3,10 @@
 use crate::commands::local::PromptRegistry;
 use crate::lifecycle::LifecycleState;
 use crate::storage::semantic::{
-    AcceptedIntentPlan, Binding, CardProjectionArtifact, CardProjectionBundle, CommitOutcome,
-    CopiedRecordConversion, Digest, IssueInputs, IssueKey, Observation, PlanStep, Publication,
-    SemanticRoot, Snapshot, Validator, SEMANTIC_CARD_KINDS,
+    AcceptedIntentPlan, Admission, Binding, CardProjectionArtifact, CardProjectionBundle,
+    CardProjectionObservation, CommitOutcome, CopiedRecordConversion, Digest, IssueInputs,
+    IssueKey, LocalChange, Observation, PlanStep, Publication, SemanticRoot, Snapshot, Validator,
+    SEMANTIC_CARD_KINDS,
 };
 use crate::storage::DurableTransactionStore;
 use serde::{Deserialize, Serialize};
@@ -625,6 +626,25 @@ fn load_cards(source: &Path) -> Result<BTreeMap<String, Value>, String> {
     Ok(cards)
 }
 
+fn canonical_json_bytes(value: &Value) -> Result<Vec<u8>, String> {
+    fn ordered(value: &Value) -> Value {
+        match value {
+            Value::Object(object) => {
+                let mut keys = object.keys().collect::<Vec<_>>();
+                keys.sort();
+                let mut result = serde_json::Map::new();
+                for key in keys {
+                    result.insert(key.clone(), ordered(&object[key]));
+                }
+                Value::Object(result)
+            }
+            Value::Array(values) => values.iter().map(ordered).collect::<Vec<_>>().into(),
+            value => value.clone(),
+        }
+    }
+    serde_json::to_vec(&ordered(value)).map_err(|error| error.to_string())
+}
+
 fn copied_card_projection(
     snapshot: &Snapshot,
     registry: &PromptRegistry,
@@ -639,14 +659,13 @@ fn copied_card_projection(
             .template_paths
             .get(kind)
             .ok_or_else(|| format!("active registry is missing the {kind} template path"))?;
-        let values = serde_json::to_vec(
+        let values = canonical_json_bytes(
             snapshot
                 .inputs()
                 .cards()
                 .get(kind)
                 .ok_or_else(|| format!("accepted semantic input is missing {kind} values"))?,
-        )
-        .map_err(|error| error.to_string())?;
+        )?;
         let rendered_path = source.join("cards").join(format!("{kind}.md"));
         let rendered = fs::read(&rendered_path)
             .map_err(|error| format!("{}: {error}", rendered_path.display()))?;
@@ -884,7 +903,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
             .map_err(|error| format!("{error:?}"))?;
         let phase = source_phase(&record.role, &index)?;
         operation.fault("semantic_state_activation", "before")?;
-        let current = match DurableTransactionStore::observe_issue(&root, &key)
+        let mut current = match DurableTransactionStore::observe_issue(&root, &key)
             .map_err(|error| format!("observe {} before activation: {error:?}", record.role))?
         {
             Observation::Current(current) | Observation::ProjectionRepairRequired(current) => {
@@ -900,7 +919,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
                 DurableTransactionStore::convert_copied_issue(
                     &root,
                     CopiedRecordConversion {
-                        key,
+                        key: key.clone(),
                         inputs,
                         phase,
                         source_generation,
@@ -922,15 +941,43 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
                 ));
             }
         };
-        operation.marker(
-            &format!("checkpoints/semantic-activation-{}.json", record.issue),
-            "semantic_state_activated",
-            json!({
-                "issue": record.issue,
-                "generation": current.version().generation(),
-                "digest": current.version().digest().as_str(),
-            }),
-        )?;
+        let activation_checkpoint = operation.root.join(format!(
+            "checkpoints/semantic-activation-{}.json",
+            record.issue
+        ));
+        let activation_digest = if activation_checkpoint.is_file() {
+            let retained = read_json(&activation_checkpoint)?;
+            if retained.get("operation_id").and_then(Value::as_str) != Some(operation.id())
+                || retained.pointer("/detail/issue").and_then(Value::as_u64) != Some(record.issue)
+            {
+                return Err(format!(
+                    "retained semantic activation for {} does not match the operation",
+                    record.role
+                ));
+            }
+            retained
+                .pointer("/detail/digest")
+                .and_then(Value::as_str)
+                .ok_or_else(|| {
+                    format!(
+                        "retained semantic activation for {} lacks its digest",
+                        record.role
+                    )
+                })?
+                .to_owned()
+        } else {
+            let digest = current.version().digest().as_str().to_owned();
+            operation.marker(
+                &format!("checkpoints/semantic-activation-{}.json", record.issue),
+                "semantic_state_activated",
+                json!({
+                    "issue": record.issue,
+                    "generation": current.version().generation(),
+                    "digest": digest,
+                }),
+            )?;
+            digest
+        };
         operation.fault("semantic_state_activation", "after")?;
 
         operation.fault("per_issue_conversion_receipt_persistence", "before")?;
@@ -940,7 +987,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
             json!({
                 "issue": record.issue,
                 "source_digest": source_digest(&staged_source)?.as_str(),
-                "semantic_digest": current.version().digest().as_str(),
+                "semantic_digest": activation_digest,
             }),
         )?;
         operation.fault("per_issue_conversion_receipt_persistence", "after")?;
@@ -962,6 +1009,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
 
         let cards = copied_card_projection(&current, &registry, &staged_source)
             .map_err(|error| format!("card derivation {}: {error}", record.role))?;
+        let expected_card_projection = cards.projection_digest().clone();
         operation.fault("projection_publication", "before")?;
         let rehearsal_projection = canonical_git_common
             .join("csdlc-v3/local/projections")
@@ -970,7 +1018,8 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
             "checkpoints/projection-published-{}.json",
             record.issue
         ));
-        if projection_checkpoint.is_file() {
+        let retained_projection = projection_checkpoint.is_file();
+        if retained_projection {
             let checkpoint = read_json(&projection_checkpoint)?;
             let manifest = read_json(&rehearsal_projection.join("cards/manifest.json"))?;
             if checkpoint.get("operation_id").and_then(Value::as_str) != Some(operation.id())
@@ -984,9 +1033,57 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
                     record.role
                 ));
             }
-        } else {
-            DurableTransactionStore::write_card_projection(&root, &current, cards)
+        }
+        let projection_healthy = current.acknowledged_card_projection()
+            == Some(&expected_card_projection)
+            && !current.projection_required()
+            && DurableTransactionStore::observe_card_projection(&root, &current, &cards)
+                .is_ok_and(|observation| observation == CardProjectionObservation::Healthy);
+        if !projection_healthy {
+            let proof = DurableTransactionStore::write_card_projection(&root, &current, cards)
                 .map_err(|error| format!("card projection {}: {error:?}", record.role))?;
+            current = snapshot(
+                DurableTransactionStore::commit_issue_local(
+                    &root,
+                    Admission::new(key.clone(), current.version().clone(), authority.clone()),
+                    LocalChange::AcknowledgeProjection(proof),
+                )
+                .map_err(|error| {
+                    format!("projection acknowledgement {}: {error:?}", record.role)
+                })?,
+            );
+            let acknowledged_bundle = copied_card_projection(&current, &registry, &staged_source)
+                .map_err(|error| {
+                format!("acknowledged card derivation {}: {error}", record.role)
+            })?;
+            let acknowledged_observation = DurableTransactionStore::observe_card_projection(
+                &root,
+                &current,
+                &acknowledged_bundle,
+            )
+            .map_err(|error| {
+                format!(
+                    "acknowledged projection observation {}: {error:?}",
+                    record.role
+                )
+            })?;
+            if current.acknowledged_card_projection() != Some(&expected_card_projection)
+                || current.projection_required()
+                || acknowledged_bundle.projection_digest() != &expected_card_projection
+                || acknowledged_observation != CardProjectionObservation::Healthy
+            {
+                return Err(format!(
+                    "projection acknowledgement for {} failed exact readback: acknowledged={:?} required={} expected={} regenerated={} observation={:?}",
+                    record.role,
+                    current.acknowledged_card_projection().map(Digest::as_str),
+                    current.projection_required(),
+                    expected_card_projection.as_str(),
+                    acknowledged_bundle.projection_digest().as_str(),
+                    acknowledged_observation,
+                ));
+            }
+        }
+        if !retained_projection {
             if record.role != "prepared" {
                 let bound_projection = canonical_linked_worktree
                     .join(".csdlc/v3/issues")
