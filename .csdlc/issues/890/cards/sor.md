@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the bounded #890 CodeFriend four-perspective review runner and CLI dispatch in the bound FastWork worktree. Local controlled-provider validation and the separately authorized registered OpenAI proof passed; independent review, PR publication, CI, merge and terminal finish remain pending.
+Implemented the bounded #890 CodeFriend four-perspective review runner and CLI dispatch in the bound FastWork worktree. After origin/main advanced, merged current main into the issue worktree at 73e5e19116986cd541f40a341ed645af9da471c9 and reran focused validation successfully. Registered OpenAI proof remains from the same review-runner behavior; fresh exact-head review, PR publication, CI, merge and terminal finish remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_and_registered_openai_validation_passed_review_pending`
+- Completion state: `merged_current_main_and_validation_passed_review_pending`
 - Issue goal ref: `Codex goal created for #890 in thread 019ff3cb-e462-7343-be60-e4ab2b6080e3: Sprint 4 #890 CF-REVIEW execution—implement and prove the bounded four-perspective CodeFriend repository review runner in the bound FastWork worktree, preserve #891/#892+ sibling boundaries, run focused proof, obtain independent exact-head review, and reach publication-ready state without writing tracked issue work on main.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/890/goal-metrics.json (planned; absent until execution)`
@@ -92,7 +92,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 - Verification performed:
   - `not_run; implementation has not started`
     `not_run; implementation has not started`
-- Result: `local deterministic proof and registered OpenAI proof passed; not published`
+- Result: `local deterministic proof, registered OpenAI proof, and post-merge focused validation passed; not published`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; git diff --check; OPENAI_API_KEY=<operator-approved env from /Users/daniel/keys/openai2.key> ADL_OBSERVABILITY_OTEL=0 ./target/debug/adl codefriend review run --store adl/target/codefriend-890-openai-proof/store --packet-id 6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f --provider-request adl/target/codefriend-890-openai-proof/openai-provider-request.json --out adl/target/codefriend-890-openai-proof/run-openai --run-id issue-890-openai-vector-410da89a`
     `Covers installed CLI review run, four isolated provider-adapter calls, committed lane input/result artifacts, peer-input rejection, missing-evidence fail-closed behavior, durable evidence-store compatibility, no source mutation in deterministic local fixtures, and actual registered OpenAI execution against the pinned Vector dnsmsg-parser scope.`
 - Results:
-  - `passed locally in the bound #890 worktree: codefriend_review 3/3, codefriend_evidence 11/11, codefriend_ingestion 10/10; fmt --check passed; clippy -D warnings for codefriend_review passed; git diff --check passed; registered OpenAI proof completed four lanes with provider_status ok and finding_count 0.`
+  - `passed locally in the bound #890 worktree before merge: codefriend_review 3/3, codefriend_evidence 11/11, codefriend_ingestion 10/10; fmt --check passed; clippy -D warnings for codefriend_review passed; git diff --check passed; registered OpenAI proof completed four lanes with provider_status ok and finding_count 0. After merging current origin/main into the issue worktree at 73e5e19116986cd541f40a341ed645af9da471c9, reran and passed: cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check HEAD~1..HEAD; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion (codefriend_review 3/3, codefriend_evidence 11/11, codefriend_ingestion 10/10).`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Preparation does not implement product behavior or bypass dependency gates`
 
 ## Follow-ups / Deferred work
-- `Refresh dependency and owner evidence, bind natively, and create issue goal before implementation`
-- `Execute VPP and independent exact-head review, then native publication, terminal finish and separate cleanup`
+- `Obtain fresh independent exact-head review for merged head 73e5e19116986cd541f40a341ed645af9da471c9`
+- `Publish through native typed route if available, otherwise only use authorized audited PR-create transport and leave merge/finish to typed authority.`
