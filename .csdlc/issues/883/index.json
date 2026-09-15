@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 883,
   "phase": "bound",
-  "generation": 9,
+  "generation": 10,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/883-v0922-architecture-impact",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-883-v0922-architecture-impact",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "ac0251cf3caa5b481c8f93e1a7c9cf9fc907ae32aaafd66fd0ea3cef8608005b"
+  "digest": "e5f14db66457009d436f70cbcaa7361786d3802e0ced07cf4a820cc83aa74bf3"
 }

@@ -28,8 +28,8 @@ Execution:
 - Actor: `worker10`
 - Model: `unknown`
 - Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Start Time: `2026-09-15; exact start time not separately recorded`
+- End Time: `ongoing_pending_publication_and_ci`
 
 ## Summary
 
@@ -38,11 +38,11 @@ Implemented bounded evidence-linked module impact with explicit partial unknowns
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
-- Final PVF lane: `not_run`
-- Lane change reason: `not_run; implementation has not started`
+- Final PVF lane: `runtime`
+- Lane change reason: `No lane change; runtime local deterministic proof`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `bounded local CPU/filesystem deterministic analysis; no network/provider`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -57,10 +57,10 @@ Implemented bounded evidence-linked module impact with explicit partial unknowns
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `not_started`
+- Completion state: `implemented_local_proof_complete_ci_pending`
 - Issue goal ref: `Active whole Sprint #929 goal covers #883; no separate child goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
-- Goal metrics rollup ref: `.csdlc/evidence/883/goal-metrics.json (planned; absent until execution)`
+- Goal metrics rollup ref: `Whole Sprint929 goal accounting; no issue-specific token accounting claimed`
 - Validation planning prompt: `.csdlc/issues/883/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
@@ -84,14 +84,14 @@ Implemented bounded evidence-linked module impact with explicit partial unknowns
 - `Independent interim implementation review passed; final exact-head review pending`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
+- Main-repo paths updated: `None; root main remains inspection-only, implementation is in bound883 worktree`
 - Worktree-only paths remaining: `All #883 implementation, test, docs and proof paths; no PR yet`
 - Integration state: `worktree_only`
-- Verification scope: `not_run`
-- Integration method used: `not_run; implementation has not started`
+- Verification scope: `Production impact + structure/evidence regressions, installed impact and structure consumers`
+- Integration method used: `not_yet_published_or_merged`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `Pending PR creation and hosted CI; no merge verification yet`
+    `No remote PR or merge claim yet`
 - Result: `not_integrated`
 
 Rules:
@@ -123,51 +123,51 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: passed_local_ci_pending
     checks_run:
-      - "not_run"
+      - "38 focused tests +21 installed scenarios +strict Clippy +fmt passed"
   determinism:
-    status: not_run
-    replay_verified: not_run
-    ordering_guarantees_verified: not_run
+    status: passed_fixture_replay
+    replay_verified: yes_within_same_admitted_revision
+    ordering_guarantees_verified: yes_by_deterministic_replay_and_multiple_root_order_test
   security_privacy:
-    status: not_run
-    secrets_leakage_detected: not_run
-    prompt_or_tool_arg_leakage_detected: not_run
-    absolute_path_leakage_detected: not_run
+    status: bounded_source_and_output_checks_passed
+    secrets_leakage_detected: No source content emitted by impact summary; no general secret scan claimed
+    prompt_or_tool_arg_leakage_detected: No provider prompts; installed stdout/stderr fixture path checks pass
+    absolute_path_leakage_detected: none_in_installed_command_stdout_stderr_fixture_checks
   artifacts:
-    status: not_run
-    required_artifacts_present: not_run
+    status: local_artifacts_present
+    required_artifacts_present: yes_for_local_execution;ci_pending
     schema_changes:
-      present: not_run
-      approved: not_run
+      present: new codefriend.impact.v1 product artifact; shared CF-EVIDENCE schema unchanged
+      approved: New impact product schema reviewed independently; shared evidence schema unchanged
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
-- Artifact stability notes: `not_run; implementation has not started`
+- Determinism tests executed: `Impact tests plus installed chain/cycle/unknown repeat scenarios`
+- Fixtures or scripts used: `adl/tests/fixtures/codefriend/impact; codefriend_cf_cog_impact; codefriend_impact_installed_proof.py; codefriend_structure_installed_proof.py`
+- Replay verification (same inputs -> same artifacts/order): `Installed impact proof compares complete repeated JSON artifacts`
+- Ordering guarantees (sorting / tie-break rules used): `Sorted input targets, graph edge order, deterministic breadth-first shortest paths, sorted finding identities`
+- Artifact stability notes: `Exact repeated JSON for same graph/change input; stale inputs and modified artifacts reject`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Secret leakage scan performed: `No separate secret scanner; bounded source/log review and installed output checks performed`
+- Prompt / tool argument redaction verified: `Installed proof checks stdout/stderr omit fixture absolute root; no provider prompts used`
+- Absolute path leakage check: `Installed runner asserts fixture root absent from command stdout/stderr`
+- Sandbox / policy invariants preserved: `Inspected fixture repositories unchanged; no source builds/scripts or providers executed`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/883/LOCAL_PROOF.json; retained local test and installed proof logs`
 - Run artifact root: `.csdlc/evidence/883 (planned)`
-- Replay command used for verification: `not_run; implementation has not started`
-- Replay result: `not_run; implementation has not started`
+- Replay command used for verification: `python3 adl/tools/codefriend_impact_installed_proof.py --binary <isolated-installed-adl> --output-root <new-proof-root>`
+- Replay result: `Passed: identical repeated impact artifacts for chain, cycle and unknown fixtures`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/883/LOCAL_PROOF.json`
-- Required artifacts present: `not_run; implementation has not started`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
-- Missing/optional artifacts and rationale: `Execution artifacts are absent because this is preparation, not completed delivery`
+- Required artifacts present: `Source, tests, documentation, PVF manifest, LOCAL_PROOF and review evidence present; hosted CI pending`
+- Artifact schema/version checks: `Strict serde change/report input, recomputed report validation and shared Run/Finding validation tested`
+- Hash/byte-stability checks: `Source/binary SHA256 recorded; repeated full impact JSON artifacts equal`
+- Missing/optional artifacts and rationale: `Execution proof is present. Hosted CI and terminal reconciliation are pending later lifecycle stages. No provider trace is applicable.`
 
 ## Decisions / Deviations
 - `Merged graph supports module nodes only. Exact module changes are analyzed; symbol changes produce precise non-proving partial output instead of fabricated symbol reachability.`
