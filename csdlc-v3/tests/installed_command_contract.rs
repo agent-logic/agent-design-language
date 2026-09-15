@@ -53,16 +53,16 @@ fn installed_discovery_preserves_all_frozen_dispositions_and_rejects_drift() {
         .iter()
         .chain(observed["aliases"].as_array().unwrap())
         .collect();
-    // Preserve the complete SIM-02 denominator while adding three ordinary
-    // intent entrypoints; their successful journeys have separate SIM-03 proof.
-    assert_eq!(rows.len(), 30);
+    // Preserve the complete SIM-02 denominator while adding four ordinary
+    // intent entrypoints; their successful journeys have separate operational proof.
+    assert_eq!(rows.len(), 31);
     assert_eq!(
         rows.iter()
             .map(|r| r["command"].as_str().unwrap())
             .collect::<BTreeSet<_>>(),
         FROZEN
             .into_iter()
-            .chain(["status", "prepare", "recover"])
+            .chain(["status", "prepare", "recover", "rebuild"])
             .collect()
     );
     for row in rows {
