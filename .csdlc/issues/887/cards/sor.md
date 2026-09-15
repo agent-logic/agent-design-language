@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Integrated main 7e586a34d6a6ee7e2103ca8d004bc0848a839e31 after PR #987 merged; preserved memory, fitness and architecture commands. 44 focused tests, strict Clippy and 20 installed scenarios passed. Independent conflict resolution review passed; final exact-head review and hosted CI follow. PR #989 remains open and nondraft.
+Fixed PR989 hosted coverage failure caused by missing-service unit test probing the live host manager with750ms deadline. Explicit thread-local transport fixtures now exercise real response routing without hostprocesses; undeclared unit-test daemon calls failclosed. Adjacent status test shares fixture and convergence-success test uses virtual clock. Production deadlines unchanged.100 normal and100 instrumented focusedtests pass; exactheadreview/newhostedCI pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -57,7 +57,7 @@ Integrated main 7e586a34d6a6ee7e2103ca8d004bc0848a839e31 after PR #987 merged; p
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `base_integrated_local_proof_passed_review_and_ci_pending`
+- Completion state: `ci_repair_local_proof_passed`
 - Issue goal ref: `Active whole Sprint3#929 goal; #887 owns local machine-checkable fitness execution and installed proof.`
 - Sprint goal ref: `Sprint #929, all eight children #882 through #889; shared whole-sprint goal remains active.`
 - Goal metrics rollup ref: `.csdlc/evidence/887/goal-metrics.json (planned; absent until execution)`
@@ -76,7 +76,7 @@ Integrated main 7e586a34d6a6ee7e2103ca8d004bc0848a839e31 after PR #987 merged; p
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/887/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/governance; adl/src/cli/codefriend_fitness_cmd.rs; shared CLI/module registration; Cargo manifests; tests, fixtures, installed runner and docs.`
-- Additional proof artifacts: `.csdlc/evidence/887/MAIN_987_INTEGRATION_PROOF.json; main-987-* raw proof retained locally.`
+- Additional proof artifacts: `.csdlc/evidence/887/SERVICE_MANAGER_REPAIR.json;service-manager-coverage-v2.log;service-manager-fixture-final-tests.log;review/service-manager-review.json`
 
 ## Actions taken
 - `Implemented policy validation, bounded literal use evaluation and shared ReviewRecord findings.`
@@ -86,13 +86,13 @@ Integrated main 7e586a34d6a6ee7e2103ca8d004bc0848a839e31 after PR #987 merged; p
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main remains inspection-only`
 - Worktree-only paths remaining: `Integrated source and refreshed proof pending push; raw logs, isolated binaries, fixture repositories and receipts remain local evidence.`
-- Integration state: `published_base_integration_pending_push`
+- Integration state: `published_ci_repair_pending_push`
 - Verification scope: `Bounded local fitness predicates and installed macOS consumer; hosted CI and Linux proof pending.`
 - Integration method used: `Local merge origin/main in bound issue worktree; no remote PR merge. Existing PR publication and ready state have authenticated native receipts.`
 - Verification performed:
   - `Native creation receipt and native publish --observe-github; live PR readback confirmed main base, exact head and draft state.`
     `Publication verified; no merge evidence.`
-- Result: `Local merge of origin/main 7e586a34d6a6ee7e2103ca8d004bc0848a839e31 into #887 branch; no remote PR merge.`
+- Result: `Existing PR989 remainsopen; bounded CI repair authored in registered887worktree. No remote merge.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_gov --test codefriend_evidence; cargo llvm-cov with same targets; strict Clippy; installed proof runner`
     `Local accepted predicates and installed consumer proved; hosted integration pending.`
 - Results:
-  - `44 focused tests (fitness8,memory8,structure17,evidence11), strict Clippy and 20 installed scenarios (fitness3,memory8,structure9) passed. Current-head hosted CI pending.`
+  - `100 focused tests (50library+50binary) pass normally and under llvm-cov. Existing44CodeFriend integrationtests and20installedscenarios remain prior unchangedfeature proof. New hostedLinux CI required for repairedhead.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Raw identifier review finding fixed with IdentExt::unraw and three cases. Subprocess fixtures isolated to avoid inherited lock contention. Oversized acquisition rejects before admission, so partial proof uses a scoped missing file.`
 
 ## Follow-ups / Deferred work
-- `Obtain final exact-head integration review, native review, push and verify new hosted CI before merge approval.`
+- `Final exact-head independentreview/native review,push,then confirm hostedLinux coverage and requiredCI green.`
 - `Resolve required CI, obtain explicit merge authorization, then native finish and clean.`
