@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "Evidence in .csdlc/evidence/884/review/implementation-review.json. Explicit-choice calibration passed; no semantic prose contradiction or measured runtime deployment independence claimed. Hosted CI pending."
+notes: "Exact-head implementation review PASS atf0cf5b75f23774d3ee28e33db8df052e95d94803; semantic source unchanged by publication records. PR#992 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- No findings waived. Final record-only exact-head confirmation precedes native publication.
+- All prior actionable findings resolved; no waivers. Record-only publication update requires final exact-head confirmation.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Evidence in .csdlc/evidence/884/review/implementation-review.json. Explicit-choice calibration passed; no semantic prose contradiction or measured runtime deployment independence claimed. Hosted CI pending.
+Exact-head implementation review PASS atf0cf5b75f23774d3ee28e33db8df052e95d94803; semantic source unchanged by publication records. PR#992 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending.

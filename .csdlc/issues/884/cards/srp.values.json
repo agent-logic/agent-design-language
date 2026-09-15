@@ -17,9 +17,9 @@
   "spp_card": ".csdlc/issues/884/cards/spp.md",
   "slug": "v0922-architecture-rationale",
   "review_findings": "Complete independent implementation review PASS at33a2bcc16f9a9ab8ab48f1f5d1f54cbb8f4ab59e by /root/review_987_conflicts, no actionable findings. Reviewer independently reran10 rationale tests, verified hashes, calibration, evidence traces, original status handling and card truth.",
-  "review_notes": "Evidence in .csdlc/evidence/884/review/implementation-review.json. Explicit-choice calibration passed; no semantic prose contradiction or measured runtime deployment independence claimed. Hosted CI pending.",
+  "review_notes": "Exact-head implementation review PASS atf0cf5b75f23774d3ee28e33db8df052e95d94803; semantic source unchanged by publication records. PR#992 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending.",
   "findings_status": "no_findings",
   "vpp_card": ".csdlc/issues/884/cards/vpp.md",
-  "review_dispositions": "No findings waived. Final record-only exact-head confirmation precedes native publication.",
+  "review_dispositions": "All prior actionable findings resolved; no waivers. Record-only publication update requires final exact-head confirmation.",
   "sip_card": ".csdlc/issues/884/cards/sip.md"
 }

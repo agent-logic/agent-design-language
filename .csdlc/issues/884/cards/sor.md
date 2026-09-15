@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented evidence-linked architecture rationale with preserved ADR status and explicit unknown/conflict outcomes. All38 focused tests,20 installed scenarios, strict Clippy and fmt passed. Independent complete review PASS at33a2bcc16. Final record-only confirmation and native publication pending; no merge claim.
+Issue#884 implemented, locally proven and independently reviewed atf0cf5b75f23774d3ee28e33db8df052e95d94803. PR#992 is open, nondraft and mergeable. Hosted CI remains pending; local semantic source is unchanged. No merge authorization or terminal completion claimed.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented evidence-linked architecture rationale with preserved ADR status and
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_local_proof_complete_ci_pending`
+- Completion state: `implemented_reviewed_pr_open_ci_pending`
 - Issue goal ref: `Active whole Sprint929 goal includes884`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
 - Goal metrics rollup ref: `Whole Sprint929 goal accounting; no issue-specific token accounting claimed`
@@ -85,14 +85,14 @@ Implemented evidence-linked architecture rationale with preserved ADR status and
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; root main remains inspection-only, implementation is in bound884 worktree`
-- Worktree-only paths remaining: `All884 source/tests/docs/cards/proof; no PR yet`
-- Integration state: `worktree_only`
+- Worktree-only paths remaining: `Implementation published in PR#992; local logs, installed artifacts and native review receipts retained in issue worktree until terminal preservation/cleanup.`
+- Integration state: `pr_open`
 - Verification scope: `Production rationale + structure/evidence regressions, installed rationale and structure consumers`
-- Integration method used: `not_yet_published_or_merged`
+- Integration method used: `Native review followed by authenticated github-pr pull_request_create and pull_request_ready; readback verified exact head and main base.`
 - Verification performed:
-  - `Pending PR creation and hosted CI; no merge verification yet`
-    `No remote PR or merge claim yet`
-- Result: `not_integrated`
+  - `Native create/ready receipts in resolved Git metadata worker10-sprint3/884-create-result.json and 884-ready-result.json; live read-only PR#992 readback.`
+    `PR#992 exists with reviewed headf0cf5b75f23774d3ee28e33db8df052e95d94803, main base, nondraft state and no merge conflicts. Required hosted CI remains pending.`
+- Result: `PR#992 published against main and marked ready through authenticated native reconciliation; no merge or issue closure.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -167,12 +167,12 @@ verification_summary:
 - Required artifacts present: `Source, tests, documentation, PVF manifest, LOCAL_PROOF and review evidence present; hosted CI pending`
 - Artifact schema/version checks: `Strict selection/report serde, bounded TOML ADR parsing, live report recomputation and shared Run/Finding validation tested`
 - Hash/byte-stability checks: `Source/binary SHA256 recorded; repeated full rationale JSON artifacts equal`
-- Missing/optional artifacts and rationale: `Execution proof is present. Hosted CI and terminal reconciliation are pending later lifecycle stages. No provider trace is applicable.`
+- Missing/optional artifacts and rationale: `Local proof and publication reconciliation exist. Hosted CI completion, authorized merge and terminal reconciliation remain pending.`
 
 ## Decisions / Deviations
 - `Explicit bounded Compose JSON and Markdown/TOML ADR formats; unsupported relationships or document formats remain unknown. No invented or accepted ADR authority.`
 - `Malformed JSON is omitted by acquisition; reporter preserves unavailable/partial outcome. Test corrected without weakening production evidence validation.`
 
 ## Follow-ups / Deferred work
-- `Confirm final record-only exact head; native review/publication then hosted CI. Explicit merge authorization required.`
+- `Complete hosted CI and repair actionable failures. Final integration and native closeout require explicit merge authorization.`
 - `Execute VPP and independent exact-head review, then native publication, terminal finish and separate cleanup`
