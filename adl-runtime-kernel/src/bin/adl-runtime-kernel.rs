@@ -24,14 +24,15 @@ use adl_runtime_kernel::{
     load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
     preload_resident_shepherd_model, resident_shepherd_runtime_id, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
-    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
-    verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
-    CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
-    ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
-    ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
-    DurableContinuityJournal, FailureClass, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
-    OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor,
+    start_config_reload_with_applier_and_shutdown,
+    start_config_reload_with_fallback_and_applier_and_shutdown,
+    validate_production_operation_executors, verifying_key_from_hex, AdapterKind, AdapterPolicy,
+    AgentPopulationFeed, AuthorityMode, CatalogSigningAuthority, CheckpointShutdownRequest,
+    CheckpointingControl, ConfigApplier, ConfigParser, ConfigReloadError, ConfigReloadOptions,
+    ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
+    ControlService, DurableContinuityJournal, FailureClass, Kernel, KernelExit, LiveBindings,
+    LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth,
+    OperationRequest, OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor,
     ResidentShepherdProbeExecutor, ResidentShepherdRecoveryPolicy, RsntpTimeSampleSource,
     RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
     TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
@@ -671,7 +672,10 @@ async fn main() -> ExitCode {
             // operations never rewrite the initialization file.
             let api_shutdown = tokio_util::sync::CancellationToken::new();
             let provider_sidecar = init_path.with_file_name("providers.yaml");
-            let provider_reload = if provider_sidecar.exists() {
+            let dynamic_agent_store_path =
+                operation_state_identity.join("dynamic-agent-admissions.json");
+            let provider_state_transaction = Arc::new(std::sync::Mutex::new(()));
+            let provider_reload = {
                 let parser: ConfigParser<adl_provider_core::candidate::ValidatedProviderCandidate> =
                     Arc::new(|raw| {
                         adl_provider_core::candidate::parse_validated_provider_sidecar(raw).map_err(
@@ -683,17 +687,40 @@ async fn main() -> ExitCode {
                         )
                     });
                 let providers = Arc::clone(&recorder.providers);
+                let resident_bindings = init.resident_shepherd.clone();
+                let candidate_store_path = dynamic_agent_store_path.clone();
+                let candidate_transaction = Arc::clone(&provider_state_transaction);
                 let applier: ConfigApplier<
                     adl_provider_core::candidate::ValidatedProviderCandidate,
                 > = Arc::new(move |next| {
+                    let _transaction = candidate_transaction.lock().map_err(|_| {
+                        ConfigReloadError::validation("provider state transaction unavailable")
+                    })?;
+                    adl_runtime_kernel::validate_provider_candidate_for_agent_state(
+                        &next.providers,
+                        &next.digest,
+                        &resident_bindings,
+                        &candidate_store_path,
+                    )
+                    .map_err(|_| {
+                        ConfigReloadError::validation(
+                            "provider registry candidate removes an active binding",
+                        )
+                    })?;
                     providers
                         .replace_definitions(next.providers.clone(), next.digest.clone())
                         .map_err(|_| {
                             ConfigReloadError::validation("provider registry candidate rejected")
                         })
                 });
-                match start_config_reload_with_applier_and_shutdown(
+                let fallback = adl_provider_core::candidate::ValidatedProviderCandidate {
+                    version: None,
+                    providers: Default::default(),
+                    digest: "retained-active-provider-registry".to_owned(),
+                };
+                match start_config_reload_with_fallback_and_applier_and_shutdown(
                     provider_sidecar,
+                    fallback,
                     parser,
                     Some(applier),
                     ConfigReloadOptions::default(),
@@ -703,12 +730,12 @@ async fn main() -> ExitCode {
                 {
                     Ok(owner) => Some(owner),
                     Err(_) => {
-                        eprintln!("provider definition reload unavailable; details redacted");
-                        return ExitCode::from(78);
+                        eprintln!(
+                            "provider definition reload unavailable; retaining active registry; details redacted"
+                        );
+                        None
                     }
                 }
-            } else {
-                None
             };
             let mut service = ControlService::new_with_observatory_config_and_agents(
                 instance_id.clone(),
@@ -723,6 +750,7 @@ async fn main() -> ExitCode {
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
             .with_resident_agent_bindings(&init.resident_shepherd)
+            .with_provider_state_transaction(provider_state_transaction)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
             service = match service.with_runtime_agent_authority_store(
                 operation_state_identity.join("runtime-agent-layer8.audit.jsonl"),
@@ -742,9 +770,7 @@ async fn main() -> ExitCode {
                 eprintln!("runtime agent orientation resource is invalid: {error}");
                 return ExitCode::from(78);
             }
-            if let Err(error) = service.configure_dynamic_agent_store(
-                operation_state_identity.join("dynamic-agent-admissions.json"),
-            ) {
+            if let Err(error) = service.configure_dynamic_agent_store(dynamic_agent_store_path) {
                 eprintln!("runtime dynamic agent store is invalid: {error}");
                 return ExitCode::from(78);
             }

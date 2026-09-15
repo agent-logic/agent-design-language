@@ -749,3 +749,147 @@ async fn invalid_runtime_limits_preserve_reloaded_provider_generation() {
     assert!(registry.prepare(&binding).is_ok());
     owner.shutdown().await.unwrap();
 }
+
+#[test]
+fn provider_candidate_cannot_remove_resident_or_persisted_agent_bindings() {
+    let root = tempfile::tempdir().unwrap();
+    let store_path = root.path().join("dynamic-agent-admissions.json");
+    let residents = ResidentShepherdSetInitConfig::One(ResidentShepherdInitConfig {
+        name: "beacon.runtime".into(),
+        display_name: "Beacon".into(),
+        office: "runtime".into(),
+        provider: "resident-provider".into(),
+        model: "fixture-model".into(),
+        endpoint: String::new(),
+        preload: Default::default(),
+    });
+    let spec = |id: &str| adl_provider_core::ProviderSpec {
+        id: Some(id.into()),
+        profile: None,
+        kind: "mock".into(),
+        base_url: None,
+        default_model: Some("fixture-model".into()),
+        config: std::collections::HashMap::new(),
+    };
+    let resident_only =
+        std::collections::HashMap::from([("resident-provider".into(), spec("resident-provider"))]);
+    assert!(validate_provider_candidate_for_agent_state(
+        &resident_only,
+        "resident-only",
+        &residents,
+        &store_path,
+    )
+    .is_ok());
+    assert!(validate_provider_candidate_for_agent_state(
+        &std::collections::HashMap::from([("other".into(), spec("other"))]),
+        "missing-resident",
+        &residents,
+        &store_path,
+    )
+    .is_err());
+
+    let dynamic = AgentAdmissionRequest {
+        schema: AGENT_ADMISSION_SCHEMA.into(),
+        id: "dynamic-agent".into(),
+        name: "dynamic.agent".into(),
+        display_name: "Dynamic".into(),
+        office: "runtime".into(),
+        role: String::new(),
+        provider: "dynamic-provider".into(),
+        model: "fixture-model".into(),
+        endpoint: String::new(),
+        credential_ref: None,
+        required_capabilities: vec!["conversation".into()],
+    };
+    fs::write(
+        &store_path,
+        serde_json::to_vec(&serde_json::json!({
+            "schema": DYNAMIC_AGENT_STORE_SCHEMA,
+            "agents": [dynamic],
+            "admission_greetings": {}
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    assert!(validate_provider_candidate_for_agent_state(
+        &resident_only,
+        "missing-dynamic",
+        &residents,
+        &store_path,
+    )
+    .is_err());
+    let mut complete = resident_only;
+    complete.insert("dynamic-provider".into(), spec("dynamic-provider"));
+    assert!(validate_provider_candidate_for_agent_state(
+        &complete,
+        "complete",
+        &residents,
+        &store_path,
+    )
+    .is_ok());
+
+    let mut incompatible = complete;
+    for provider in incompatible.values_mut() {
+        provider.config.insert(
+            "provider_model_id".into(),
+            serde_json::Value::String("replacement-model".into()),
+        );
+        provider.config.insert(
+            "model_ref".into(),
+            serde_json::Value::String("replacement-model".into()),
+        );
+    }
+    assert!(validate_provider_candidate_for_agent_state(
+        &incompatible,
+        "model-incompatible",
+        &residents,
+        &store_path,
+    )
+    .is_err());
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn concurrent_provider_replacement_cannot_commit_a_stale_agent_binding() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/issue978");
+    fs::create_dir_all(&root).unwrap();
+    let temp = tempfile::tempdir_in(root).unwrap();
+    let store_path = temp.path().join("admissions.json");
+    let calls = Arc::new(AtomicUsize::new(0));
+    let service = service(store_path.clone(), calls);
+    let transaction = Arc::new(Mutex::new(()));
+    let service = Arc::new(service.with_provider_state_transaction(Arc::clone(&transaction)));
+
+    let held = transaction.lock().unwrap();
+    let admission = {
+        let service = Arc::clone(&service);
+        tokio::spawn(async move { service.admit_agent(binding()).await })
+    };
+    tokio::time::sleep(Duration::from_millis(25)).await;
+    service
+        .recorder
+        .providers
+        .replace_definitions(
+            std::collections::HashMap::from([(
+                "replacement".into(),
+                adl_provider_core::ProviderSpec {
+                    id: Some("replacement".into()),
+                    profile: None,
+                    kind: "mock".into(),
+                    base_url: None,
+                    default_model: Some("fixture-model".into()),
+                    config: std::collections::HashMap::new(),
+                },
+            )]),
+            "replacement-generation".into(),
+        )
+        .unwrap();
+    drop(held);
+
+    let result = admission.await.unwrap();
+    assert!(result.is_err());
+    if store_path.exists() {
+        let store: serde_json::Value =
+            serde_json::from_slice(&fs::read(store_path).unwrap()).unwrap();
+        assert_eq!(store["agents"].as_array().unwrap().len(), 0);
+    }
+}

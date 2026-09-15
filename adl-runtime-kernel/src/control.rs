@@ -75,6 +75,48 @@ pub fn resident_shepherd_runtime_id(index: usize, config: &ResidentShepherdInitC
     }
 }
 
+pub fn validate_provider_candidate_for_agent_state(
+    providers: &adl_provider_core::ProviderMap,
+    digest: &str,
+    residents: &ResidentShepherdSetInitConfig,
+    dynamic_store_path: &Path,
+) -> Result<(), ControlError> {
+    let registry = adl_provider_core::registry::ProviderRegistry::standard();
+    registry
+        .replace_definitions(providers.clone(), digest.to_owned())
+        .map_err(|_| ControlError::InvalidIdentifier)?;
+    for resident in residents.iter() {
+        registry
+            .validate_binding_compatibility(&adl_provider_core::registry::ProviderBinding {
+                provider: resident.provider.clone(),
+                model: resident.model.clone(),
+                endpoint: resident.endpoint.clone(),
+                credential_ref: None,
+                required_capabilities: vec!["conversation".into()],
+            })
+            .map_err(|_| ControlError::InvalidIdentifier)?;
+    }
+    if !dynamic_store_path.exists() {
+        return Ok(());
+    }
+    let bytes =
+        fs::read(dynamic_store_path).map_err(|error| ControlError::Io(error.to_string()))?;
+    let store: DynamicAgentStore = serde_json::from_slice(&bytes)
+        .map_err(|error| ControlError::Encoding(error.to_string()))?;
+    if store.schema != DYNAMIC_AGENT_STORE_SCHEMA {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    for entry in store.agents {
+        if matches!(entry, DynamicAgentStoreEntry::Removing { .. }) {
+            continue;
+        }
+        registry
+            .validate_binding_compatibility(&provider_binding(entry.declaration()))
+            .map_err(|_| ControlError::InvalidIdentifier)?;
+    }
+    Ok(())
+}
+
 pub const API_DOCS_PATH: &str = "/v1/docs/";
 pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
 pub const RUNTIME_OPENAPI_PATH: &str = "/v1/openapi.json";
@@ -1158,7 +1200,7 @@ pub struct ControlService<C> {
     admission_greeting_dispatches: Mutex<BTreeMap<String, ConversationDispatch>>,
     resident_agent_bindings: RwLock<BTreeMap<String, AgentAdmissionRequest>>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
-    dynamic_agent_admission: Mutex<()>,
+    dynamic_agent_admission: Arc<Mutex<()>>,
     #[cfg(test)]
     dynamic_agent_removal_failure: Mutex<Option<(&'static str, &'static str)>>,
     control_addr: Mutex<SocketAddr>,
@@ -1292,7 +1334,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             admission_greeting_dispatches: Mutex::new(BTreeMap::new()),
             resident_agent_bindings: RwLock::new(BTreeMap::new()),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
-            dynamic_agent_admission: Mutex::new(()),
+            dynamic_agent_admission: Arc::new(Mutex::new(())),
             #[cfg(test)]
             dynamic_agent_removal_failure: Mutex::new(None),
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
@@ -4191,10 +4233,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     let declaration = entry.declaration().clone();
                     let orientation = entry.orientation().cloned();
                     validate_persisted_agent_admission(&declaration)?;
-                    self.recorder
-                        .providers
-                        .validate_reference(&provider_binding(&declaration))
-                        .map_err(|_| ControlError::InvalidIdentifier)?;
                     if !seen.insert(declaration.id.clone()) {
                         return Err(ControlError::InvalidIdentifier);
                     }
@@ -4287,6 +4325,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("dynamic agent store state poisoned") = Some(path);
         Ok(())
+    }
+
+    pub fn with_provider_state_transaction(mut self, transaction: Arc<Mutex<()>>) -> Self {
+        self.dynamic_agent_admission = transaction;
+        self
     }
 
     pub fn configure_agent_partial_checkpoints(
@@ -4987,15 +5030,32 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
         validate_agent_admission(&request)
             .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
-        let provider_projection = verify_registered_provider(
-            Arc::clone(&self.recorder.providers),
-            provider_binding(&request),
-        )
-        .await?;
-        let _transaction = self
-            .dynamic_agent_admission
-            .lock()
-            .expect("dynamic agent admission mutex poisoned");
+        let (provider_projection, _transaction) = {
+            let mut attempts = 0_u8;
+            loop {
+                let provider_projection = verify_registered_provider(
+                    Arc::clone(&self.recorder.providers),
+                    provider_binding(&request),
+                )
+                .await?;
+                let transaction = self
+                    .dynamic_agent_admission
+                    .lock()
+                    .expect("dynamic agent admission mutex poisoned");
+                if self.recorder.providers.definition_generation()
+                    == provider_projection.definition_generation
+                {
+                    break (provider_projection, transaction);
+                }
+                drop(transaction);
+                attempts += 1;
+                if attempts >= 3 {
+                    return Err(AgentAdmissionFailure::Unavailable(
+                        "provider_generation_changed",
+                    ));
+                }
+            }
+        };
         let path = self
             .dynamic_agent_store
             .lock()
@@ -14638,6 +14698,41 @@ mod orientation_tests {
                 .sample,
             initial_population
         );
+    }
+
+    #[test]
+    fn dynamic_store_retains_agent_when_provider_is_temporarily_unavailable() {
+        let service = service_with_resident();
+        let root = tempfile::tempdir().expect("test tempdir");
+        let store_path = root.path().join("dynamic-agents.json");
+        let mut unavailable = admission("ember", "ember.axioma");
+        unavailable.provider = "temporarily-unavailable".to_owned();
+        std::fs::write(
+            &store_path,
+            serde_json::to_vec_pretty(&DynamicAgentStore {
+                schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                agents: vec![unavailable.clone().into()],
+                admission_greetings: BTreeMap::new(),
+            })
+            .expect("store serializes"),
+        )
+        .expect("store writes");
+
+        service
+            .configure_dynamic_agent_store(store_path.clone())
+            .expect("an unavailable provider degrades the agent, not Runtime startup");
+
+        let detail = service
+            .agent_roster_detail("ember")
+            .expect("agent retained");
+        assert!(detail.provider_binding.is_none());
+        let stored: DynamicAgentStore =
+            serde_json::from_slice(&std::fs::read(store_path).expect("store remains readable"))
+                .expect("store remains valid");
+        assert!(stored.agents.iter().any(|entry| {
+            entry.declaration().id == unavailable.id
+                && entry.declaration().provider == unavailable.provider
+        }));
     }
 
     async fn read_http_fixture_request(socket: &mut tokio::net::TcpStream) -> Vec<u8> {
