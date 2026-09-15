@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 890,
   "phase": "bound",
-  "generation": 10,
+  "generation": 11,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/890-v0922-four-perspective-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-890-v0922-four-perspective-review",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "fbe283523384b9380ffca5241953e9a22cf438e92664f6361172ead163d4eb13"
+  "digest": "7547cdf18ad3f1d94851a97396ccd7b3c86ef9048d9e54c9c94b5fde69540cbe"
 }

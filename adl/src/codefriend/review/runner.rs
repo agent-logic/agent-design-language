@@ -224,11 +224,24 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
         let mut failure = None;
         match parsed {
             Ok(parsed) => {
+                let mut lane_findings = Vec::new();
                 for parsed_finding in parsed.findings {
-                    let finding = finding_from_lane(lane, &admission, parsed_finding)?;
-                    lane_finding_ids.push(finding.id.clone());
-                    findings.push(finding);
+                    match finding_from_lane(lane, &admission, parsed_finding) {
+                        Ok(finding) => {
+                            lane_finding_ids.push(finding.id.clone());
+                            lane_findings.push(finding);
+                        }
+                        Err(error) => {
+                            let message = sanitized_failure(&error.to_string());
+                            failures.push(format!("{lane_id}:{message}"));
+                            failure = Some(message);
+                            lane_finding_ids.clear();
+                            lane_findings.clear();
+                            break;
+                        }
+                    }
                 }
+                findings.extend(lane_findings);
             }
             Err(error) => {
                 let message = sanitized_failure(&error.to_string());
