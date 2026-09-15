@@ -136,7 +136,7 @@ pub(crate) fn admit_validators(
         }
         safe_component(&validator.id).map_err(|finding| finding.code)?;
         let mut args = validator.args.iter().skip(1);
-        let mut positional_filters = 0_u8;
+        let mut filter_seen = false;
         while let Some(arg) = args.next() {
             match arg.as_str() {
                 "--offline" | "--locked" | "--lib" | "--all-targets" => {}
@@ -148,9 +148,9 @@ pub(crate) fn admit_validators(
                     safe_component(args.next().ok_or("intent_validator_test_missing")?)
                         .map_err(|finding| finding.code)?;
                 }
-                value if !value.starts_with('-') && positional_filters == 0 => {
-                    safe_component(value).map_err(|finding| finding.code)?;
-                    positional_filters += 1;
+                _ if !filter_seen && positional_filter_admitted(arg) => {
+                    safe_component(arg).map_err(|finding| finding.code)?;
+                    filter_seen = true;
                 }
                 _ => return Err("intent_validator_argument_not_admitted".into()),
             }
@@ -162,6 +162,10 @@ pub(crate) fn admit_validators(
         validators: validators.to_vec(),
         input_digest,
     })
+}
+
+fn positional_filter_admitted(value: &str) -> bool {
+    !value.starts_with('-')
 }
 #[cfg(unix)]
 pub(crate) fn execute_admitted(
@@ -1025,6 +1029,34 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
                     records.insert(path);
                 }
             }
+
+            // Cargo can report the final, unhashed binary in `debug/` while
+            // retaining its dependency record beside the hashed compiler
+            // artifact in `debug/deps/`. Keep the same target-name guard and
+            // admit every matching record so input validation remains
+            // conservative when more than one build profile artifact exists.
+            if records.is_empty()
+                && file.file_name().and_then(|v| v.to_str()) == Some(target.as_str())
+                && parent == root.join("target/intent-validation/debug")
+            {
+                let deps = parent.join("deps");
+                for entry in fs::read_dir(&deps)
+                    .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
+                {
+                    let entry =
+                        entry.map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+                    let path = entry.path();
+                    if hashed_dep_info_matches_target(&path, &target) {
+                        let metadata = entry
+                            .file_type()
+                            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+                        if !metadata.is_file() || metadata.is_symlink() {
+                            return Err("intent_validator_dependency_symlink".into());
+                        }
+                        records.insert(path);
+                    }
+                }
+            }
         }
         // Every actual repository artifact needs its own dependency record.
         if records.is_empty() {
@@ -1074,6 +1106,24 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
         }
     }
     Ok(())
+}
+
+fn hashed_dep_info_matches_target(path: &Path, target: &str) -> bool {
+    let Some(stem) = path
+        .extension()
+        .is_some_and(|extension| extension == "d")
+        .then(|| path.file_stem().and_then(|value| value.to_str()))
+        .flatten()
+    else {
+        return false;
+    };
+    let Some(hash) = stem
+        .strip_prefix(target)
+        .and_then(|value| value.strip_prefix('-'))
+    else {
+        return false;
+    };
+    !hash.is_empty() && hash.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
 fn tracked_input_digest(root: &Path, validators: &[Validator]) -> Result<String, String> {
@@ -1185,4 +1235,34 @@ pub(crate) fn verify_execution_inputs(
         return Err("intent_proof_current_inputs_mismatch".into());
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod dependency_record_tests {
+    use super::{hashed_dep_info_matches_target, positional_filter_admitted};
+    use std::path::Path;
+
+    #[test]
+    fn final_binary_dep_info_requires_exact_target_and_hash() {
+        assert!(hashed_dep_info_matches_target(
+            Path::new("foo-a1b2c3.d"),
+            "foo"
+        ));
+        assert!(!hashed_dep_info_matches_target(
+            Path::new("foo-bar-a1b2c3.d"),
+            "foo"
+        ));
+        assert!(!hashed_dep_info_matches_target(
+            Path::new("foo-release.d"),
+            "foo"
+        ));
+    }
+
+    #[test]
+    fn positional_filter_cannot_smuggle_an_unknown_cargo_option() {
+        assert!(positional_filter_admitted("semantic_gate_a"));
+        assert!(!positional_filter_admitted("--no-default-features"));
+        assert!(!positional_filter_admitted("--workspace"));
+        assert!(!positional_filter_admitted("--release"));
+    }
 }

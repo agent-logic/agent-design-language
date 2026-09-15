@@ -176,6 +176,17 @@ pub struct Finding {
     pub limitations: Vec<String>,
 }
 impl Finding {
+    /// Stable assessment equality excludes revision-bound evidence and scope IDs.
+    /// Identity matching remains separate, and both records must validate first.
+    pub fn same_assessment(&self, other: &Self) -> bool {
+        self.id == other.id
+            && self.title == other.title
+            && self.severity == other.severity
+            && self.rationale == other.rationale
+            && self.confidence == other.confidence
+            && self.inference == other.inference
+            && self.limitations == other.limitations
+    }
     pub fn identity(&self) -> Result<String> {
         hash(&(
             "codefriend.finding_identity.v1",
@@ -305,8 +316,12 @@ impl Comparison {
         let valid = match self.outcome {
             Delta::Added => old.is_none() && new.is_some(),
             Delta::Resolved => old.is_some() && new.is_none(),
-            Delta::Changed => old.is_some() && new.is_some() && old != new,
-            Delta::Unchanged => old.is_some() && old == new,
+            Delta::Changed => old
+                .zip(new)
+                .is_some_and(|(old, new)| !old.same_assessment(new)),
+            Delta::Unchanged => old
+                .zip(new)
+                .is_some_and(|(old, new)| old.same_assessment(new)),
             Delta::NotComparable => true,
         };
         ensure!(valid, "unsupported_comparison_delta");

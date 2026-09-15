@@ -1941,7 +1941,7 @@ mod provider_conversation_action_tests {
             "beacon",
             "Please welcome Ember and report back.",
         );
-        assert!(prompt.contains("provided `initiate_agent` tool exactly once"));
+        assert!(prompt.contains("governed `initiate_agent` action; emit exactly one action"));
         assert!(
             prompt.contains("current operator turn is conversation `conversation-operator-beacon`")
         );

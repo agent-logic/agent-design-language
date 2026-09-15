@@ -16,9 +16,10 @@ use std::time::Duration;
 mod config;
 
 use config::{
-    auth_env_for, cfg_bool_opt, cfg_f64_strict, cfg_u64_strict, endpoint_host,
-    is_loopback_endpoint, ollama_generate_endpoint, validate_http_credential_endpoint,
-    validate_vendor_credential_endpoint, vendor_endpoint, HttpAuth,
+    auth_env_for, auth_file_env_for, cfg_bool_opt, cfg_f64_strict, cfg_u64_strict,
+    credential_from_env_or_file, endpoint_host, is_loopback_endpoint, ollama_generate_endpoint,
+    validate_http_credential_endpoint, validate_vendor_credential_endpoint, vendor_endpoint,
+    HttpAuth,
 };
 pub(crate) use config::{cfg_u64, timeout_secs};
 
@@ -79,6 +80,10 @@ fn provider_http_client_builder_with_ca(
     runtime_bounded: bool,
     owner_ca: Option<&Path>,
 ) -> Result<reqwest::blocking::ClientBuilder> {
+    static TLS_PROVIDER: std::sync::Once = std::sync::Once::new();
+    TLS_PROVIDER.call_once(|| {
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
+    });
     let mut builder =
         reqwest::blocking::Client::builder().redirect(reqwest::redirect::Policy::none());
     if runtime_bounded {
@@ -513,6 +518,7 @@ pub struct OpenAiProvider {
     runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
+    auth_file_env: Option<String>,
     model: String,
     max_output_tokens: u64,
     timeout_secs: Option<u64>,
@@ -526,6 +532,7 @@ impl OpenAiProvider {
     ) -> Result<Self> {
         let endpoint = vendor_endpoint(spec, target, OPENAI_RESPONSES_ENDPOINT, "openai")?;
         let auth_env = auth_env_for(spec, "OPENAI_API_KEY")?;
+        let auth_file_env = auth_file_env_for(spec)?;
         validate_vendor_credential_endpoint(
             spec,
             "openai",
@@ -538,6 +545,7 @@ impl OpenAiProvider {
             runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
+            auth_file_env,
             model: target.provider_model_id.clone(),
             max_output_tokens: bound_output_tokens(
                 &spec.config,
@@ -550,12 +558,8 @@ impl OpenAiProvider {
 
 impl Provider for OpenAiProvider {
     fn complete(&self, prompt: &str) -> Result<String> {
-        let token = env::var(&self.auth_env).map_err(|_| {
-            invalid_config(
-                "openai",
-                format!("missing required auth env var '{}'", self.auth_env),
-            )
-        })?;
+        let token =
+            credential_from_env_or_file("openai", &self.auth_env, self.auth_file_env.as_deref())?;
         let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
@@ -587,6 +591,7 @@ pub struct AnthropicProvider {
     runtime_bounded: bool,
     endpoint: String,
     auth_env: String,
+    auth_file_env: Option<String>,
     model: String,
     max_tokens: u64,
     timeout_secs: Option<u64>,
@@ -600,6 +605,7 @@ impl AnthropicProvider {
     ) -> Result<Self> {
         let endpoint = vendor_endpoint(spec, target, ANTHROPIC_MESSAGES_ENDPOINT, "anthropic")?;
         let auth_env = auth_env_for(spec, "ANTHROPIC_API_KEY")?;
+        let auth_file_env = auth_file_env_for(spec)?;
         validate_vendor_credential_endpoint(
             spec,
             "anthropic",
@@ -612,6 +618,7 @@ impl AnthropicProvider {
             runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
+            auth_file_env,
             model: target.provider_model_id.clone(),
             max_tokens: bound_output_tokens(
                 &spec.config,
@@ -626,12 +633,11 @@ impl AnthropicProvider {
 
 impl Provider for AnthropicProvider {
     fn complete(&self, prompt: &str) -> Result<String> {
-        let token = env::var(&self.auth_env).map_err(|_| {
-            invalid_config(
-                "anthropic",
-                format!("missing required auth env var '{}'", self.auth_env),
-            )
-        })?;
+        let token = credential_from_env_or_file(
+            "anthropic",
+            &self.auth_env,
+            self.auth_file_env.as_deref(),
+        )?;
         let mut client_builder = provider_http_client_builder(self.runtime_bounded)?;
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));

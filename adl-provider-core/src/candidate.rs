@@ -142,7 +142,7 @@ fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
         }
         return Ok(());
     }
-    if path == ["auth", "env"] && !value.is_string() {
+    if matches!(path, ["auth", "env"] | ["auth", "file_env"]) && !value.is_string() {
         return Err(anyhow!(
             "provider reload sidecar has invalid credential reference"
         ));
@@ -168,7 +168,11 @@ fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
         Value::String(raw) => {
             let reference = matches!(
                 path,
-                ["auth", "env"] | ["api_key_env"] | ["auth_env"] | ["token_env"]
+                ["auth", "env"]
+                    | ["auth", "file_env"]
+                    | ["api_key_env"]
+                    | ["auth_env"]
+                    | ["token_env"]
             );
             if reference {
                 let valid = !raw.is_empty()
@@ -295,5 +299,30 @@ mod tests {
         let replacement =
             parse_validated_provider_sidecar("providers: {replacement: {type: mock}}").unwrap();
         assert!(!replacement.providers.contains_key("good"));
+    }
+
+    #[test]
+    fn credential_file_environment_reference_is_admitted_and_validated() {
+        let candidate = parse_validated_provider_sidecar(
+            r#"providers:
+  hosted:
+    type: openai
+    default_model: gpt-5.4
+    config:
+      auth:
+        type: bearer
+        env: OPENAI_API_KEY
+        file_env: OPENAI_API_KEY_FILE
+"#,
+        )
+        .unwrap();
+        assert_eq!(
+            candidate.providers["hosted"].config["auth"]["file_env"],
+            "OPENAI_API_KEY_FILE"
+        );
+        assert!(parse_validated_provider_sidecar(
+            "providers: {hosted: {type: openai, config: {auth: {type: bearer, env: OPENAI_API_KEY, file_env: '../key'}}}}"
+        )
+        .is_err());
     }
 }

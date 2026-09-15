@@ -198,7 +198,7 @@ fn command_and_parser_option_inventory_is_complete() {
     let intent_source =
         fs::read_to_string(root().join("csdlc-v3/src/application/intent/mod.rs")).unwrap();
     intent_parity(&inventory, &intent_source).unwrap();
-    assert_eq!(inventory["coverage"]["installed_root_commands"], 29);
+    assert_eq!(inventory["coverage"]["installed_root_commands"], 30);
     assert_eq!(
         inventory["coverage"]["frozen_sim03_predecessor_dispositions"],
         27

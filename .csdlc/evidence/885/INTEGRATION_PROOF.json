@@ -1,0 +1,139 @@
+{
+  "schema": "codefriend.memory_integration_proof.v1",
+  "issue": 885,
+  "pull_request": 987,
+  "previous_head": "b119e3a5434d5008f894fc997b41bf32b0ad9279",
+  "integrated_main": "9f15e6c47dc990e8feee4e606c882c577571752c",
+  "conflict_resolution": "Preserve memory and architecture dispatch/help/module registration; retain all upstream changes.",
+  "fixture_repair": "Serialize evidence subprocess fixtures using a single per-test mutex; all11 original assertions and predicates retained.",
+  "tests": {
+    "codefriend_cf_memory": 8,
+    "codefriend_cf_cog": 17,
+    "codefriend_evidence": 11
+  },
+  "clippy": "passed --bin adl -- -D warnings",
+  "memory_installed": {
+    "schema": "codefriend.memory_installed_proof.v1",
+    "issue": 885,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "392cd73eeb287be3fe4026b68177681708a1b124bd1e124885aa944fba970e48",
+    "installation_provenance": "1c7b58fe74d046f26c6e1b72bfda4fa0c6d208e4f13231c38e867b8296438203",
+    "fixture_proof": {
+      "schema": "codefriend.memory_fixture.v1",
+      "revisions": [
+        "9d343b4689fb68a454cc27ebf28c2f5df7487e23",
+        "d0e2c00b1fc6efedd4c7d4e890f2db3ba463dd5b"
+      ],
+      "producer": "production local acquisition, Store admission, Run and Finding contract constructors",
+      "source_unchanged": true
+    },
+    "outcomes": [
+      "added",
+      "resolved",
+      "changed",
+      "unchanged"
+    ],
+    "scenarios_passed": 8,
+    "deterministic": true,
+    "moved_evidence_stable_identity": true,
+    "incompatible_and_partial_no_resolution": true,
+    "tampering_denied": true,
+    "deletion_denies_saved_delta_and_resurrection": true,
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Known fixture assessments, not a new source analysis producer",
+      "No provider or external source execution"
+    ]
+  },
+  "architecture_installed": {
+    "schema": "codefriend.structure_installed_proof.v1",
+    "issue": 882,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "392cd73eeb287be3fe4026b68177681708a1b124bd1e124885aa944fba970e48",
+    "installation_provenance": "1c7b58fe74d046f26c6e1b72bfda4fa0c6d208e4f13231c38e867b8296438203",
+    "fixture_revision": "a92b8f5fbc814f2f97bbb6dfb85eb0bd10c5590f",
+    "first_summary": {
+      "schema": "codefriend.structure.v1",
+      "digest": "ef2a57320aef8af0d57b927feb4a8ff05278d07f47ed4184a040c8d58208e31a",
+      "run_id": "0b3b06fd79e4e14d9aef2c4f4cccaa6800fe4246ad87889ff483efe19f2b43ff",
+      "analysis_complete": true,
+      "nodes": 4,
+      "edges": 2,
+      "findings": 1,
+      "unknowns": 0
+    },
+    "changed_policy_summary": {
+      "schema": "codefriend.structure.v1",
+      "digest": "ff26df37d6c3d28c47f66415384b4ebb990de71ff7dc7161b41b7fb2dda781ba",
+      "run_id": "b7212e75ef322318ed252b6b80ddc6605386b7ef91160f9766aceb77483ed8e6",
+      "analysis_complete": true,
+      "nodes": 4,
+      "edges": 2,
+      "findings": 2,
+      "unknowns": 0
+    },
+    "repeat_deterministic": true,
+    "persisted_readback": true,
+    "policy_identity_distinct": true,
+    "tampering_denied": true,
+    "post_delete_read_denied": true,
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "executed_scenarios": 9,
+    "pathological_source_partial": [
+      {
+        "fixture": "unary",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "da8ded719614e9c943d68b6a17d6252162bcb7baf73e86d884c487bd1e972afa",
+          "run_id": "9633bf017d81ea885f9410675e5f4c2878c4ef3064fc7c035b6ebbdecefbc0b9",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      },
+      {
+        "fixture": "keyword",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "bb38890542fd1ffbbaeb2df09e754d46d0b06bd01a5c8b4b42b667c2abf161df",
+          "run_id": "d04342815ff284964cf98491e1a20ccd2183693a5740e087ba75dc1d87b7ee8c",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      },
+      {
+        "fixture": "delimiter",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "18caa2c6b786892c5a49c3c9cdc09ae2eed14f9cdb57f57831d6f2b9353d06cd",
+          "run_id": "bcfa8b116bd0666d8c65ccddb3e2ef7aa9f2a3fb686c5bad87213e7e6bc25f5d",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      }
+    ],
+    "nonclaims": [
+      "No provider or external repository execution",
+      "No Linux qualification from this local run"
+    ]
+  },
+  "changed_integration_sha256": {
+    "adl/src/cli/codefriend_cmd.rs": "d2669c3a458e3b98ba247906e0eb7054ed1849283c70d8bdb75b185cef37bef0",
+    "adl/src/cli/mod.rs": "c9a3b28568b109d304ccc589edd6e96dba3040264749ea5ad458bd6241d1c243",
+    "adl/src/cli/usage.rs": "8c46aa177c3e525acc18abb44caa73ab630dfd01b18f15a7407b166cbcee9258",
+    "adl/src/codefriend/mod.rs": "72b3a5b1589d817d37a86a772877c6c807e16f595fcd1536ff389b72f839f2fe",
+    "adl/tests/codefriend_evidence.rs": "c8c5eba55b6f8a7c8dfdbd05458dd9f53c558f5cac5b2464ee3f9b2e0c5764d7"
+  },
+  "hosted_ci": "pending repaired-head push",
+  "review": "Independent PASS at 9049edc2d79422edc7b196b9b97b4da26f43f05c; no findings. Final record-only renewal before push."
+}

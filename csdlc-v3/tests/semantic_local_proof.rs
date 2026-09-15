@@ -500,7 +500,7 @@ fn installed_edit_recovers_one_retained_semantic_amendment_after_native_crash() 
         .clone();
     let changes = fixture.write_json(
         "semantic-changes.json",
-        &json!({"schema":"csdlc.v3.intent_changes.v1","cards":{"sip":{"title":"Recovered semantic edit"}}}),
+        &json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"Recovered semantic edit"}}}),
     );
     let crash = fixture.run_with_env(
         &linked,

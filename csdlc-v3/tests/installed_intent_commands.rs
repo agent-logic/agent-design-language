@@ -132,7 +132,7 @@ fn installed_prepare_bind_edit_and_observations_use_canonical_context() {
         observation(&mut fixture, cwd, "status");
         observation(&mut fixture, cwd, "validate");
     }
-    let changes = fixture.write_json("changes.json", &json!({"schema":"csdlc.v3.intent_changes.v1", "cards":{"sip":{"title":"Edited through ordinary intent"}}}));
+    let changes = fixture.write_json("changes.json", &json!({"schema":"csdlc.v3.intent_changes.v1", "amendment":{"class":"scope_acceptance","transition_approved":true}, "cards":{"sip":{"title":"Edited through ordinary intent"}}}));
     let before = intent_fixture::inventory(&primary);
     assert!(!fixture
         .run(
@@ -187,6 +187,243 @@ fn installed_prepare_bind_edit_and_observations_use_canonical_context() {
             .contains("Edited through ordinary intent")
     );
     observation(&mut fixture, &linked, "validate");
+}
+
+#[test]
+fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
+    let pvf: Value =
+        serde_json::from_slice(include_bytes!("fixtures/projection_rebuild_pvf.json")).unwrap();
+    assert_eq!(pvf["issue"], 871);
+    assert_eq!(pvf["required_states"].as_array().unwrap().len(), 4);
+    assert_eq!(
+        pvf["required_amendment_classes"].as_array().unwrap().len(),
+        7
+    );
+
+    let mut fixture = Fixture::new("projection-rebuild");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let before = intent_fixture::inventory(&fixture.root);
+    for route in ["status", "validate"] {
+        let result = success(fixture.run(&linked, &[route, "505"]));
+        assert_eq!(result["projection"]["observation"]["status"], "missing");
+        assert_eq!(
+            result["projection"]["observation"]["paths"]
+                .as_array()
+                .unwrap()
+                .len(),
+            13
+        );
+        assert_same_inventory!(before, intent_fixture::inventory(&fixture.root));
+    }
+
+    let emitted = success(fixture.run(&linked, &["rebuild", "505", "--emit-request"]));
+    assert!(
+        emitted["request"]["snapshot"]["semantic_version"]["generation"]
+            .as_u64()
+            .is_some_and(|generation| generation > 0)
+    );
+    assert!(emitted["request"]["snapshot"]["semantic_version"]["digest"]
+        .as_str()
+        .is_some_and(|digest| digest.starts_with("semantic-state-v1:")));
+    let semantic_state = primary.join(".git/csdlc-v3/semantic/issues/505/current.json");
+    let semantic_before: Value =
+        serde_json::from_slice(&fs::read(&semantic_state).unwrap()).unwrap();
+    let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(rebuilt["status"], "completed");
+    assert_eq!(rebuilt["projection"]["before"]["status"], "missing");
+    assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
+    let semantic_after: Value =
+        serde_json::from_slice(&fs::read(&semantic_state).unwrap()).unwrap();
+    for field in [
+        "phase",
+        "inputs",
+        "input_version",
+        "invalidations",
+        "pending",
+        "completed",
+    ] {
+        assert_eq!(
+            semantic_after["payload"][field], semantic_before["payload"][field],
+            "rebuild changed semantic fact {field}"
+        );
+    }
+    let card_root = linked.join(".csdlc/v3/issues/505/cards");
+    let legacy_root = linked.join(".csdlc/issues/505/cards");
+    assert!(card_root.join("manifest.json").is_file());
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["md", "values.json"] {
+            let name = format!("{kind}.{suffix}");
+            let projected = fs::read(card_root.join(&name)).unwrap();
+            let legacy = fs::read(legacy_root.join(&name)).unwrap();
+            if suffix == "values.json" {
+                let values: Value = serde_json::from_slice(&projected).unwrap();
+                assert_eq!(values["schema"], "csdlc.v3.card_values.v1");
+                assert_eq!(values["issue"], 505);
+                assert_eq!(values["card"], kind);
+                if kind == "spp" {
+                    assert_eq!(values["dependencies_inline"], "Fixture dependencies ready");
+                    assert_eq!(
+                        values["acceptance_criteria_inline"],
+                        "Installed command behavior is proven"
+                    );
+                }
+            } else {
+                let rendered = std::str::from_utf8(&projected).unwrap();
+                assert!(rendered.contains("Canonical Template Source"));
+                assert!(!legacy.is_empty());
+            }
+        }
+    }
+    success(fixture.run(&linked, &["validate", "505"]));
+    let mut wrong_checkout = emitted.clone();
+    wrong_checkout["request"]["snapshot"]["checkout"]["root"] =
+        json!(primary.join("wrong-checkout"));
+    let wrong_path = fixture.write_json("wrong-rebuild.json", &wrong_checkout);
+    let wrong = fixture.run(
+        &linked,
+        &["rebuild", "--intent-request", wrong_path.to_str().unwrap()],
+    );
+    assert!(!wrong.status.success());
+    assert!(String::from_utf8_lossy(&wrong.stdout).contains("intent_snapshot_stale"));
+    let first_projection = intent_fixture::inventory(&card_root);
+    let semantic_version = rebuilt["semantic_version"].clone();
+    let replay = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(replay["status"], "expected_noop");
+    assert_eq!(replay["semantic_version"], semantic_version);
+    assert_eq!(intent_fixture::inventory(&card_root), first_projection);
+
+    fs::write(card_root.join("stp.md"), "format drift\n").unwrap();
+    let altered = intent_fixture::inventory(&fixture.root);
+    for route in ["status", "validate"] {
+        let result = success(fixture.run(&linked, &[route, "505"]));
+        assert_eq!(result["projection"]["observation"]["status"], "altered");
+        assert_same_inventory!(altered, intent_fixture::inventory(&fixture.root));
+    }
+    success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(intent_fixture::inventory(&card_root), first_projection);
+
+    let old_manifest = fs::read(card_root.join("manifest.json")).unwrap();
+    let old_manifest_value: Value = serde_json::from_slice(&old_manifest).unwrap();
+    let old_suffix = old_manifest_value["projection_digest"]
+        .as_str()
+        .unwrap()
+        .rsplit(':')
+        .next()
+        .unwrap();
+    fs::write(
+        card_root.join(format!(".projection-{old_suffix}.pending")),
+        &old_manifest,
+    )
+    .unwrap();
+    fs::write(
+        card_root.join(format!(".stp.md-{old_suffix}.next")),
+        fs::read(card_root.join("stp.md")).unwrap(),
+    )
+    .unwrap();
+
+    let stale_path = fixture.write_json("stale-rebuild.json", &emitted);
+    let changes = fixture.write_json(
+        "projection-change.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"New semantic title"}}}),
+    );
+    success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    let stale = fixture.run(
+        &linked,
+        &["rebuild", "--intent-request", stale_path.to_str().unwrap()],
+    );
+    assert!(!stale.status.success());
+    assert!(String::from_utf8_lossy(&stale.stdout).contains("intent_snapshot_stale"));
+    let interrupted = intent_fixture::inventory(&fixture.root);
+    for route in ["status", "validate"] {
+        let result = success(fixture.run(&linked, &[route, "505"]));
+        assert_eq!(result["projection"]["observation"]["status"], "interrupted");
+        assert_same_inventory!(interrupted, intent_fixture::inventory(&fixture.root));
+    }
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["action"], "repair_semantic_projection");
+    let token = preview["preview_digest"].as_str().unwrap();
+    let interrupted_recovery = fixture.run_with_env(
+        &linked,
+        &["recover", "505", "--execute", "--preview", token],
+        &[("CSDLC_TEST_INTERRUPT_AFTER_STALE_PROJECTION_DATA_SYNC", "1")],
+    );
+    assert!(!interrupted_recovery.status.success());
+    assert!(String::from_utf8_lossy(&interrupted_recovery.stdout)
+        .contains("injected interruption after stale projection data sync"));
+    assert!(card_root
+        .join(format!(".projection-{old_suffix}.pending"))
+        .exists());
+    assert!(!card_root
+        .join(format!(".stp.md-{old_suffix}.next"))
+        .exists());
+    let retained_after_interrupt = intent_fixture::inventory(&fixture.root);
+    let status_after_interrupt = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(
+        status_after_interrupt["projection"]["observation"]["status"],
+        "interrupted"
+    );
+    assert_same_inventory!(
+        retained_after_interrupt,
+        intent_fixture::inventory(&fixture.root)
+    );
+    let fresh_preview = success(fixture.run(&linked, &["recover", "505"]));
+    let fresh_token = fresh_preview["preview_digest"].as_str().unwrap();
+    assert_ne!(fresh_token, token);
+    let recovered = success(fixture.run(
+        &linked,
+        &["recover", "505", "--execute", "--preview", fresh_token],
+    ));
+    assert_eq!(recovered["action"], "repaired_semantic_projection");
+    assert!(!card_root
+        .join(format!(".projection-{old_suffix}.pending"))
+        .exists());
+    assert!(!card_root
+        .join(format!(".stp.md-{old_suffix}.next"))
+        .exists());
+
+    let manifest = fs::read(card_root.join("manifest.json")).unwrap();
+    let manifest_value: Value = serde_json::from_slice(&manifest).unwrap();
+    let suffix = manifest_value["projection_digest"]
+        .as_str()
+        .unwrap()
+        .rsplit(':')
+        .next()
+        .unwrap();
+    fs::write(
+        card_root.join(format!(".projection-{suffix}.pending")),
+        manifest,
+    )
+    .unwrap();
+    fs::remove_file(card_root.join("sor.md")).unwrap();
+    let interrupted = intent_fixture::inventory(&fixture.root);
+    for route in ["status", "validate"] {
+        let result = success(fixture.run(&linked, &[route, "505"]));
+        assert_eq!(result["projection"]["observation"]["status"], "interrupted");
+        assert_same_inventory!(interrupted, intent_fixture::inventory(&fixture.root));
+    }
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["action"], "repair_semantic_projection");
+    let token = preview["preview_digest"].as_str().unwrap();
+    let recovered = success(fixture.run(
+        &linked,
+        &["recover", "505", "--execute", "--preview", token],
+    ));
+    assert_eq!(recovered["action"], "repaired_semantic_projection");
+    let healthy = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(healthy["projection"]["observation"]["status"], "healthy");
+
+    fs::write(&semantic_state, b"{\"corrupted\":true}\n").unwrap();
+    let corrupt = intent_fixture::inventory(&fixture.root);
+    let refused = fixture.run(&linked, &["rebuild", "505"]);
+    assert!(!refused.status.success());
+    assert!(String::from_utf8_lossy(&refused.stdout).contains("intent_semantic_"));
+    assert_same_inventory!(corrupt, intent_fixture::inventory(&fixture.root));
 }
 
 #[test]
@@ -302,7 +539,7 @@ fn installed_advanced_request_uses_same_writer_and_rejects_stale_snapshot() {
     prepare(&mut fixture);
     success(fixture.run(&primary, &["bind", "505"]));
     let linked = linked_worktree(&primary);
-    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","cards":{"sip":{"title":"Advanced intent execution"}}}));
+    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"Advanced intent execution"}}}));
     let before = intent_fixture::inventory(&primary);
     let emitted = success(fixture.run(
         &linked,
@@ -367,7 +604,7 @@ fn installed_recovery_requires_fresh_preview_of_actual_interrupted_transaction()
     prepare(&mut fixture);
     success(fixture.run(&primary, &["bind", "505"]));
     let linked = linked_worktree(&primary);
-    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","cards":{"sip":{"title":"Recovered ordinary edit"}}}));
+    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"Recovered ordinary edit"}}}));
     let crash = fixture.run_with_env(
         &linked,
         &["edit", "505", "--changes", changes.to_str().unwrap()],

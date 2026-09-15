@@ -1,0 +1,59 @@
+{
+  "schema": "codefriend.architecture_proof_inventory.v1",
+  "issue": 882,
+  "lane": "runtime",
+  "test_target": "codefriend_cf_cog",
+  "proof_role": "Production admitted-evidence graph, semantic boundary decisions, durable consumer readback and CLI integration",
+  "determinism": "Fixed local Git fixtures, ordered graph, explicit policy and observation clock; no provider/network or source execution",
+  "resource_profile": "Bounded local CPU, filesystem, Cargo-built CLI child and isolated evidence stores",
+  "release_gate": "required issue acceptance; downstream CF-PROOF and TAIL-01 input",
+  "calibration_sample": [
+    {
+      "test": "allowed_graph_is_deterministic_and_evidence_linked",
+      "expected": "4 modules, 2 edges, exactly 1 inferred name-connascence finding; no cycle or forbidden-boundary false positives"
+    },
+    {
+      "test": "explicit_boundary_policy_distinguishes_allowed_and_forbidden",
+      "expected": "1 forbidden edge becomes 0 when the same directed layer pair is explicitly allowed"
+    },
+    {
+      "test": "cycle_and_coupling_report_real_directed_edges",
+      "expected": "2 cycle-participating module findings and 1 fanout finding from 3 edges"
+    },
+    {
+      "test": "unsupported_constructs_and_external_edges_cannot_claim_complete",
+      "expected": "Every unsupported sample is partial, never silently clean"
+    },
+    {
+      "test": "root_super_paths_and_missing_boundaries_do_not_invent_edges",
+      "expected": "0 inferred external or missing-target edges; explicit unknown reasons"
+    },
+    {
+      "test": "pathological_rust_is_partial_before_recursive_parsing",
+      "expected": "Six over-budget sources are partial with no nodes or edges; ordinary expression remains complete"
+    },
+    {
+      "test": "syntax_uncertainty_preserves_references_and_exact_reasons",
+      "expected": "Grouped and renamed imports retain exact syntactic edges; trait, qualified type and dynamic-call uncertainty carries exact reasons and evidence locations; primitive types and doc attributes remain complete"
+    }
+  ],
+  "reviewer_calibration": "Expected sample outcomes declared before validation; independent implementation review and observed result counts remain required.",
+  "negative_gates": [
+    "malformed source",
+    "tampered graph and evidence",
+    "deleted and expired admission",
+    "invalid policy and bounds",
+    "symlink and existing output",
+    "source immutability",
+    "unknown language and scope",
+    "pre-parse complexity: unary, keyword, delimiter, generic, conservative comment and byte budget"
+  ],
+  "installation_gate": "Separate isolated installed adl report/readback proof; never infer installation from Cargo tests",
+  "nonclaims": [
+    "No full Rust semantic resolution",
+    "No runtime connascence",
+    "No external build",
+    "No paid or provider qualification",
+    "No full coverage until actual lane evidence"
+  ]
+}

@@ -13,6 +13,7 @@
         "prepare",
         "bind",
         "edit",
+        "rebuild",
         "validate",
         "proof",
         "review",
@@ -116,6 +117,34 @@
             "branch",
             "head",
             "root"
+          ]
+        },
+        "semantic_version": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "generation": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "digest": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^semantic-state-v1:[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "generation",
+            "digest"
           ]
         }
       },
@@ -286,11 +315,42 @@
               "type": "object"
             }
           }
+        },
+        "amendment": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "class": {
+              "enum": [
+                "scope_acceptance",
+                "plan",
+                "proof_validator",
+                "implementation",
+                "review",
+                "display_only"
+              ]
+            },
+            "transition_approved": {
+              "type": "boolean"
+            },
+            "implementation_revision": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "new_commit": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "class",
+            "transition_approved"
+          ]
         }
       },
       "required": [
         "schema",
-        "cards"
+        "cards",
+        "amendment"
       ]
     },
     "status_decisions": {
@@ -392,6 +452,7 @@
           "command": {
             "enum": [
               "bind",
+              "rebuild",
               "validate",
               "proof",
               "publish",
@@ -452,6 +513,49 @@
                 "$ref": "#/$defs/no_pr_disposition"
               }
             ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "rebuild"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "snapshot": {
+            "required": [
+              "repository",
+              "issue",
+              "platform",
+              "authority",
+              "version",
+              "semantic_version",
+              "checkout"
+            ],
+            "properties": {
+              "semantic_version": {
+                "type": "object",
+                "required": [
+                  "generation",
+                  "digest"
+                ],
+                "properties": {
+                  "generation": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^semantic-state-v1:[0-9a-f]{64}$"
+                  }
+                }
+              }
+            }
           }
         }
       }

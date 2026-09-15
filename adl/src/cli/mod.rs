@@ -6,6 +6,7 @@ mod agent_cmd;
 mod artifact_cmd;
 mod codefriend_ci_cmd;
 mod codefriend_cmd;
+mod codefriend_structure_cmd;
 mod commands;
 mod csm_cmd;
 mod csm_runtime_v3_cmd;
@@ -733,3 +734,5 @@ mod tests {
 }
 
 mod codefriend_evidence_cmd;
+
+mod codefriend_memory_cmd;
