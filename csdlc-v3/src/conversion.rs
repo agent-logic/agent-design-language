@@ -9,8 +9,8 @@ use crate::lifecycle::LifecycleState;
 use crate::storage::semantic::{
     AcceptedIntentPlan, Admission, Binding, CardProjectionArtifact, CardProjectionBundle,
     CardProjectionObservation, CommitOutcome, CopiedRecordConversion, Digest, IssueInputs,
-    IssueKey, LocalChange, Observation, PlanStep, Publication, SemanticRoot, Snapshot, Validator,
-    SEMANTIC_CARD_KINDS,
+    IssueKey, LocalChange, NativeWriterFenceGuard, Observation, PlanStep, Publication,
+    SemanticRoot, Snapshot, Validator, SEMANTIC_CARD_KINDS,
 };
 use crate::storage::DurableTransactionStore;
 use serde::{Deserialize, Serialize};
@@ -20,6 +20,7 @@ use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
+use std::time::{Duration, Instant};
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -34,7 +35,13 @@ pub struct ConversionRequest {
     pub linked_head: String,
     pub registry_path: PathBuf,
     pub authority_bytes_path: PathBuf,
+    pub prior_executable_path: PathBuf,
+    pub prior_executable_blake3: String,
+    pub writer_fence_issues: Vec<u64>,
+    pub writer_probe_issue: u64,
     pub records: Vec<CopiedRecord>,
+    #[serde(default)]
+    pub writer_fence_probe: bool,
     #[serde(default)]
     pub fault_injection: Option<FaultInjection>,
 }
@@ -180,14 +187,7 @@ impl<'a> Operation<'a> {
         } else {
             request.operation_id.clone()
         };
-        if !operation_id
-            .bytes()
-            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
-        {
-            return Err(
-                "operation_id must contain only ASCII letters, digits, '-', '_' or '.'".to_owned(),
-            );
-        }
+        validate_operation_id(&operation_id)?;
         if let Some(fault) = &request.fault_injection {
             if !FAULT_POINTS.contains(&fault.point.as_str()) {
                 return Err(format!("unsupported fault point {}", fault.point));
@@ -203,6 +203,11 @@ impl<'a> Operation<'a> {
         let local = create_durable_child(&csdlc, "local")?;
         let rehearsals = create_durable_child(&local, "conversion-rehearsals")?;
         let root = create_durable_child(&rehearsals, &operation_id)?;
+        if root.parent() != Some(rehearsals.as_path())
+            || root.file_name() != Some(operation_id.as_ref())
+        {
+            return Err("conversion operation root escaped its canonical parent".to_owned());
+        }
         let journal = root.join("journal.jsonl");
         let operation = Self {
             request,
@@ -455,6 +460,98 @@ struct ConversionPreflight {
     source_digests: Vec<Digest>,
     authority_bytes: Vec<u8>,
     registry_bytes: Vec<u8>,
+    prior_executable_path: PathBuf,
+    prior_executable_bytes: Vec<u8>,
+    semantic_mappings: Vec<Value>,
+}
+
+fn validate_operation_id(operation_id: &str) -> Result<(), String> {
+    if operation_id.is_empty()
+        || matches!(operation_id, "." | "..")
+        || !operation_id
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+    {
+        return Err(
+            "operation_id must be a non-dot path segment containing only ASCII letters, digits, '-', '_' or '.'"
+                .to_owned(),
+        );
+    }
+    Ok(())
+}
+
+fn canonical_topology_file(
+    supplied: &Path,
+    worktree: &Path,
+    relative: &Path,
+    label: &str,
+) -> Result<PathBuf, String> {
+    let expected = fs::canonicalize(worktree.join(relative))
+        .map_err(|error| format!("canonical {label}: {error}"))?;
+    let observed =
+        fs::canonicalize(supplied).map_err(|error| format!("{}: {error}", supplied.display()))?;
+    if observed != expected {
+        return Err(format!(
+            "{label} must authenticate the canonical registered-worktree path {}",
+            expected.display()
+        ));
+    }
+    Ok(expected)
+}
+
+fn card_value<'a>(card: &'a Value, pointer: &str) -> Option<&'a Value> {
+    card.pointer(pointer)
+        .or_else(|| pointer.strip_prefix('/').and_then(|field| card.get(field)))
+}
+
+fn required_card_string(card: &Value, pointer: &str, label: &str) -> Result<String, String> {
+    card_value(card, pointer)
+        .and_then(Value::as_str)
+        .filter(|value| !value.trim().is_empty())
+        .map(str::to_owned)
+        .ok_or_else(|| format!("source card lacks unambiguous {label}"))
+}
+
+fn source_card_identity(
+    record: &CopiedRecord,
+    cards: &BTreeMap<String, Value>,
+    index_generation: u64,
+    expected_repository: &str,
+) -> Result<(String, String, u64), String> {
+    let mut identities = BTreeSet::new();
+    for kind in SEMANTIC_CARD_KINDS {
+        let card = cards
+            .get(kind)
+            .ok_or_else(|| format!("source card denominator lacks {kind}"))?;
+        let wrapped_identity = card.get("identity").filter(|value| value.is_object());
+        let identity = wrapped_identity.unwrap_or(card);
+        let issue = identity.get("issue").and_then(Value::as_u64);
+        let repository = identity.get("repository").and_then(Value::as_str);
+        let slug = identity.get("slug").and_then(Value::as_str);
+        let title = identity.get("title").and_then(Value::as_str);
+        let generation = wrapped_identity
+            .map(|identity| identity.get("generation").and_then(Value::as_u64))
+            .unwrap_or(Some(index_generation));
+        if issue != Some(record.issue)
+            || repository != Some(expected_repository)
+            || slug.is_none_or(str::is_empty)
+            || title.is_none_or(str::is_empty)
+            || generation.is_none_or(|value| value == 0)
+        {
+            return Err(format!("{kind} card has incomplete or mismatched identity"));
+        }
+        identities.insert((
+            repository.unwrap().to_owned(),
+            slug.unwrap().to_owned(),
+            title.unwrap().to_owned(),
+            generation.unwrap(),
+        ));
+    }
+    if identities.len() != 1 {
+        return Err("six-card identity is ambiguous".to_owned());
+    }
+    let (_, slug, title, generation) = identities.into_iter().next().unwrap();
+    Ok((slug, title, generation))
 }
 
 fn git_output(worktree: &Path, args: &[&str]) -> Result<String, String> {
@@ -637,16 +734,59 @@ fn authenticate_relocation_target(
 
 fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflight, String> {
     let (canonical_git_common, canonical_linked_worktree) = authenticate_linked_worktree(request)?;
-    let authority_bytes = fs::read(&request.authority_bytes_path)
-        .map_err(|error| format!("{}: {error}", request.authority_bytes_path.display()))?;
+    let authority_path = canonical_topology_file(
+        &request.authority_bytes_path,
+        &canonical_linked_worktree,
+        Path::new(crate::authority::SELECTOR_PATH),
+        "authority_bytes_path",
+    )?;
+    let registry_path = canonical_topology_file(
+        &request.registry_path,
+        &canonical_linked_worktree,
+        Path::new("docs/templates/prompts/current.json"),
+        "registry_path",
+    )?;
+    let authority_bytes = fs::read(&authority_path)
+        .map_err(|error| format!("{}: {error}", authority_path.display()))?;
     let authority = Digest::authority(&authority_bytes);
-    let registry_bytes = fs::read(&request.registry_path)
-        .map_err(|error| format!("{}: {error}", request.registry_path.display()))?;
+    let registry_bytes = fs::read(&registry_path)
+        .map_err(|error| format!("{}: {error}", registry_path.display()))?;
     PromptRegistry::from_current_json(&registry_bytes)
         .map_err(|findings| format!("invalid prompt registry: {findings:?}"))?;
+    let prior_executable_path = fs::canonicalize(&request.prior_executable_path)
+        .map_err(|error| format!("{}: {error}", request.prior_executable_path.display()))?;
+    if !prior_executable_path.is_file() {
+        return Err("prior executable path is not a regular file".to_owned());
+    }
+    let prior_executable_bytes = fs::read(&prior_executable_path)
+        .map_err(|error| format!("{}: {error}", prior_executable_path.display()))?;
+    let observed_prior_digest = blake3::hash(&prior_executable_bytes).to_hex().to_string();
+    if request.prior_executable_blake3 != observed_prior_digest {
+        return Err("prior executable bytes do not match declared blake3 provenance".to_owned());
+    }
     SemanticRoot::from_git_common(&canonical_git_common, request.repository.clone())
         .map_err(|error| format!("invalid semantic root: {error:?}"))?;
+    let writer_fence_issues = request
+        .writer_fence_issues
+        .iter()
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let mut expected_writer_fence_issues = request
+        .records
+        .iter()
+        .map(|record| record.issue)
+        .collect::<BTreeSet<_>>();
+    expected_writer_fence_issues.insert(request.writer_probe_issue);
+    if request.writer_probe_issue == 0
+        || writer_fence_issues.is_empty()
+        || writer_fence_issues.len() != request.writer_fence_issues.len()
+        || writer_fence_issues.contains(&0)
+        || writer_fence_issues != expected_writer_fence_issues
+    {
+        return Err("writer_fence_issues must exactly equal the seven-record census plus writer_probe_issue".to_owned());
+    }
     let mut source_digests = Vec::with_capacity(request.records.len());
+    let mut semantic_mappings = Vec::with_capacity(request.records.len());
     let mut issues = BTreeSet::new();
     for record in &request.records {
         if !issues.insert(record.issue) {
@@ -667,6 +807,14 @@ fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflig
                 record.issue
             )
         })?;
+        if index.get("issue").and_then(Value::as_u64) != Some(record.issue)
+            || index.get("repository").and_then(Value::as_str) != Some(request.repository.as_str())
+        {
+            return Err(format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: source index identity mismatch",
+                record.issue
+            ));
+        }
         let cards = load_cards(&record.source).map_err(|error| {
             format!(
                 "issue {} disposition=unsupported_ambiguous_incomplete_source: {error}",
@@ -695,7 +843,7 @@ fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflig
                 record.issue
             )
         })?;
-        conversion_inputs(
+        let (inputs, mut mapping) = conversion_inputs(
             request,
             record,
             &index,
@@ -709,6 +857,28 @@ fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflig
                 record.issue
             )
         })?;
+        let card_generation = mapping
+            .pointer("/source/card_generation")
+            .and_then(Value::as_u64);
+        if card_generation != Some(generation) {
+            return Err(format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: card generation does not match index generation",
+                record.issue
+            ));
+        }
+        if record.role == "pending_recovery" && !record.source.join("recovery-evidence").is_dir() {
+            return Err(format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: pending-recovery record lacks recovery evidence",
+                record.issue
+            ));
+        }
+        mapping["source"]["source_digest"] = json!(digest.as_str());
+        mapping["destination"]["inputs_digest"] =
+            json!(Digest::semantic_projection(&canonical_json_bytes(
+                &serde_json::to_value(&inputs).map_err(|error| error.to_string())?
+            )?)
+            .as_str());
+        semantic_mappings.push(mapping);
         source_digests.push(digest);
     }
     Ok(ConversionPreflight {
@@ -717,6 +887,9 @@ fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflig
         source_digests,
         authority_bytes,
         registry_bytes,
+        prior_executable_bytes,
+        prior_executable_path,
+        semantic_mappings,
     })
 }
 
@@ -748,9 +921,32 @@ fn canonical_request_digest(
         },
         "authority_digest": Digest::authority(&preflight.authority_bytes).as_str(),
         "registry_digest": Digest::projection(&preflight.registry_bytes).as_str(),
+        "prior_executable_blake3": blake3::hash(&preflight.prior_executable_bytes).to_hex().to_string(),
+        "prior_executable_path": preflight.prior_executable_path,
+        "semantic_mappings": preflight.semantic_mappings,
+        "writer_fence_issues": request.writer_fence_issues,
+        "writer_probe_issue": request.writer_probe_issue,
     });
     let bytes = serde_json::to_vec(&identity).map_err(|error| error.to_string())?;
     Ok(Digest::semantic_projection(&bytes))
+}
+
+fn wait_for_writer_fence_probe(operation: &Operation<'_>) -> Result<(), String> {
+    let acknowledgement = operation.root.join("writer-fence-probe-complete");
+    let deadline = Instant::now() + Duration::from_secs(30);
+    while !acknowledgement.is_file() {
+        if Instant::now() >= deadline {
+            return Err(format!(
+                "writer fence probe timed out waiting for {}",
+                acknowledgement.display()
+            ));
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    operation.append(
+        "writer_fence_probe_completed",
+        json!({"acknowledgement": acknowledgement}),
+    )
 }
 
 fn read_json(path: &Path) -> Result<Value, String> {
@@ -872,13 +1068,128 @@ fn source_phase(role: &str, index: &Value) -> Result<LifecycleState, String> {
     let declared = index.get("phase").and_then(Value::as_str).unwrap_or("");
     match (role, declared) {
         ("prepared", "ready" | "prepared") => Ok(LifecycleState::Ready),
-        ("bound_dirty" | "pending_recovery", _) => Ok(LifecycleState::Bound),
-        ("implemented", _) => Ok(LifecycleState::Implemented),
-        ("reviewed", _) => Ok(LifecycleState::Reviewed),
-        ("published", _) => Ok(LifecycleState::Published),
-        ("terminal", _) => Ok(LifecycleState::ClosedOut),
+        ("bound_dirty", "bound") => Ok(LifecycleState::Bound),
+        ("implemented", "implemented") => Ok(LifecycleState::Implemented),
+        ("reviewed", "reviewed") => Ok(LifecycleState::Reviewed),
+        ("published", "published") => Ok(LifecycleState::Published),
+        ("terminal", "closed_out" | "terminal") => Ok(LifecycleState::ClosedOut),
+        ("pending_recovery", "bound") => Ok(LifecycleState::Bound),
+        ("pending_recovery", "implemented") => Ok(LifecycleState::Implemented),
+        ("pending_recovery", "reviewed") => Ok(LifecycleState::Reviewed),
+        ("pending_recovery", "published") => Ok(LifecycleState::Published),
         _ => Err(format!("unsupported source role/phase {role}/{declared}")),
     }
+}
+
+fn source_values(card: &Value) -> &Value {
+    card.pointer("/content/values").unwrap_or(card)
+}
+
+fn source_plan(cards: &BTreeMap<String, Value>) -> Result<Vec<PlanStep>, String> {
+    let spp = source_values(
+        cards
+            .get("spp")
+            .ok_or_else(|| "source lacks SPP values".to_owned())?,
+    );
+    if let Some(steps) = spp.get("steps").and_then(Value::as_array) {
+        if steps.is_empty() {
+            return Err("source SPP has an empty plan".to_owned());
+        }
+        return steps
+            .iter()
+            .map(|step| {
+                Ok(PlanStep {
+                    id: step
+                        .get("id")
+                        .and_then(Value::as_str)
+                        .filter(|value| !value.trim().is_empty())
+                        .ok_or_else(|| "source SPP step lacks id".to_owned())?
+                        .to_owned(),
+                    acceptance: step
+                        .get("action")
+                        .and_then(Value::as_str)
+                        .filter(|value| !value.trim().is_empty())
+                        .ok_or_else(|| "source SPP step lacks action".to_owned())?
+                        .to_owned(),
+                })
+            })
+            .collect();
+    }
+    [
+        ("dependencies", vec!["dependencies_inline"]),
+        (
+            "inspect",
+            vec!["repo_inputs_inline", "target_files_surfaces_inline"],
+        ),
+        ("implement", vec!["deliverables_inline"]),
+        (
+            "validate",
+            vec!["validation_plan_inline", "acceptance_criteria_inline"],
+        ),
+        ("record", vec!["notes_risks_inline"]),
+    ]
+    .into_iter()
+    .map(|(id, fields)| {
+        let acceptance = fields
+            .into_iter()
+            .map(|field| required_card_string(spp, &format!("/{field}"), field))
+            .collect::<Result<Vec<_>, _>>()?
+            .join("\n");
+        Ok(PlanStep {
+            id: id.to_owned(),
+            acceptance,
+        })
+    })
+    .collect()
+}
+
+fn source_validators(cards: &BTreeMap<String, Value>) -> Result<Vec<Validator>, String> {
+    let vpp = source_values(
+        cards
+            .get("vpp")
+            .ok_or_else(|| "source lacks VPP values".to_owned())?,
+    );
+    let Some(lanes) = vpp.get("lanes").and_then(Value::as_array) else {
+        // Some retained 1.0.4 cards contain only human validation text. Preserve
+        // that text in the card bytes; do not invent an executable validator.
+        return Ok(Vec::new());
+    };
+    lanes
+        .iter()
+        .map(|lane| {
+            let argv = lane
+                .get("argv")
+                .and_then(Value::as_array)
+                .filter(|values| !values.is_empty())
+                .ok_or_else(|| "source validation lane lacks argv".to_owned())?;
+            let command = argv
+                .iter()
+                .map(|value| {
+                    value
+                        .as_str()
+                        .filter(|value| !value.is_empty())
+                        .map(str::to_owned)
+                        .ok_or_else(|| "source validation argv is ambiguous".to_owned())
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            Ok(Validator {
+                id: lane
+                    .get("lane")
+                    .and_then(Value::as_str)
+                    .filter(|value| !value.is_empty())
+                    .ok_or_else(|| "source validation lane lacks identity".to_owned())?
+                    .to_owned(),
+                program: command[0].clone(),
+                args: command[1..].to_vec(),
+                success_marker: String::new(),
+                timeout_seconds: lane
+                    .get("budget_seconds")
+                    .and_then(Value::as_u64)
+                    .filter(|value| *value > 0)
+                    .ok_or_else(|| "source validation lane lacks positive budget".to_owned())?,
+            })
+        })
+        .collect()
 }
 
 fn conversion_inputs(
@@ -888,42 +1199,64 @@ fn conversion_inputs(
     cards: BTreeMap<String, Value>,
     canonical_linked_worktree: &Path,
     authority: Digest,
-) -> Result<IssueInputs, String> {
-    let slug = index
-        .get("slug")
-        .and_then(Value::as_str)
-        .unwrap_or(record.role.as_str())
-        .replace('_', "-");
+) -> Result<(IssueInputs, Value), String> {
+    let index_generation = index
+        .get("generation")
+        .and_then(Value::as_u64)
+        .filter(|value| *value > 0)
+        .ok_or_else(|| "source index lacks positive generation".to_owned())?;
+    let (slug, title, card_generation) =
+        source_card_identity(record, &cards, index_generation, &request.repository)?;
+    let publication_source = index.get("publication").cloned().unwrap_or(Value::Null);
     let publication = Publication {
-        base: index
-            .get("base_branch")
+        base: publication_source
+            .get("base")
             .and_then(Value::as_str)
-            .unwrap_or("main")
+            .unwrap_or("")
             .to_owned(),
-        title: index
-            .get("title")
-            .and_then(Value::as_str)
-            .unwrap_or(record.role.as_str())
-            .to_owned(),
-        body: format!("Copied conversion rehearsal for issue {}", record.issue),
-        draft: true,
+        title: title.clone(),
+        body: if publication_source.is_null() {
+            String::new()
+        } else {
+            String::from_utf8(canonical_json_bytes(&publication_source)?)
+                .map_err(|error| error.to_string())?
+        },
+        draft: publication_source
+            .get("draft")
+            .and_then(Value::as_bool)
+            .unwrap_or(true),
     };
+    let plan = source_plan(&cards)?;
+    let validators = source_validators(&cards)?;
     let accepted = AcceptedIntentPlan {
         schema: "csdlc.v3.intent_plan.v1".to_owned(),
         slug,
         cards,
-        validators: vec![Validator {
-            id: "conversion-equivalence".to_owned(),
-            program: "/usr/bin/true".to_owned(),
-            args: Vec::new(),
-            success_marker: String::new(),
-            timeout_seconds: 30,
-        }],
+        validators,
         publication,
     };
     let binding = if record.role == "prepared" {
         None
     } else {
+        let source_branch = index
+            .get("branch")
+            .and_then(Value::as_str)
+            .filter(|value| !value.is_empty())
+            .ok_or_else(|| "source index lacks branch identity".to_owned())?;
+        let source_worktree = index
+            .get("worktree")
+            .and_then(Value::as_str)
+            .filter(|value| !value.is_empty())
+            .ok_or_else(|| "source index lacks worktree identity".to_owned())?;
+        let binding_path = record.source.join("binding.json");
+        if binding_path.is_file() {
+            let retained = read_json(&binding_path)?;
+            if retained.get("branch").and_then(Value::as_str) != Some(source_branch)
+                || retained.get("worktree").and_then(Value::as_str) != Some(source_worktree)
+            {
+                return Err("source binding record disagrees with source index".to_owned());
+            }
+        }
         Some(Binding {
             branch: request.linked_branch.clone(),
             head: request.linked_head.clone(),
@@ -931,17 +1264,36 @@ fn conversion_inputs(
             registration: "git-worktree-list".to_owned(),
         })
     };
-    IssueInputs::new(
-        format!("copied-record-conversion:{}", record.role),
-        accepted,
-        vec![PlanStep {
-            id: "convert".to_owned(),
-            acceptance: "lossless copied-record mapping".to_owned(),
-        }],
-        binding,
-        authority,
-    )
-    .map_err(|error| format!("{error:?}"))
+    let inputs = IssueInputs::new(title, accepted, plan, binding, authority)
+        .map_err(|error| format!("{error:?}"))?;
+    let mapping = json!({
+        "schema":"csdlc.v3.copied_record_semantic_equivalence.v1",
+        "issue":record.issue,
+        "role":record.role,
+        "source":{
+            "index_generation":index.get("generation"),
+            "card_generation":card_generation,
+            "phase":index.get("phase"),
+            "branch":index.get("branch"),
+            "worktree":index.get("worktree"),
+            "publication":publication_source,
+            "review":index.get("review"),
+            "terminal":index.get("terminal"),
+            "migration":index.get("migration"),
+            "cards_digest":Digest::semantic_projection(&canonical_json_bytes(
+                &serde_json::to_value(inputs.cards()).map_err(|error| error.to_string())?
+            )?).as_str(),
+        },
+        "destination":{
+            "intent":inputs.intent(),
+            "slug":inputs.slug(),
+            "plan":inputs.plan(),
+            "validators":inputs.validation(),
+            "publication":inputs.publication(),
+            "binding":inputs.binding(),
+        }
+    });
+    Ok((inputs, mapping))
 }
 
 pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, String> {
@@ -969,7 +1321,26 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
 
     let preflight = preflight_conversion(request)?;
     let request_digest = canonical_request_digest(request, &preflight)?;
+    let native_issue_writer_fences = NativeWriterFenceGuard::acquire(
+        &preflight.canonical_git_common,
+        request.writer_fence_issues.iter().copied(),
+    )
+    .map_err(|error| format!("acquire native issue writer fences: {error:?}"))?;
+    let fence_paths = native_issue_writer_fences.paths().to_vec();
+    let mut native_issue_writer_fences = Some(native_issue_writer_fences);
     let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
+    operation.marker(
+        "writer-fence-held.json",
+        "native_issue_writer_fence_held",
+        json!({
+            "lock_contract":"native-local-state-root/locks/<issue>.lock",
+            "issues":request.writer_fence_issues,
+            "paths":fence_paths,
+        }),
+    )?;
+    if request.writer_fence_probe {
+        wait_for_writer_fence_probe(&operation)?;
+    }
     operation.fault("conversion_intent_durability", "before")?;
     operation.marker(
         "checkpoints/conversion-intent.json",
@@ -1020,6 +1391,8 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
     let authority_bytes = preflight.authority_bytes;
     let authority = Digest::authority(&authority_bytes);
     let registry_bytes = preflight.registry_bytes;
+    let prior_executable_bytes = preflight.prior_executable_bytes;
+    let semantic_mappings = preflight.semantic_mappings;
     let registry = PromptRegistry::from_current_json(&registry_bytes)
         .map_err(|findings| format!("invalid prompt registry: {findings:?}"))?;
     let canonical_git_common = preflight.canonical_git_common;
@@ -1027,11 +1400,11 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
     let root = SemanticRoot::from_git_common(&canonical_git_common, request.repository.clone())
         .map_err(|error| format!("{error:?}"))?;
     let mut converted = Vec::new();
-    for record in &request.records {
+    for (record_index, record) in request.records.iter().enumerate() {
         let staged_source = staging.join(record.issue.to_string());
         let index = read_json(&staged_source.join("index.json"))?;
         let cards = load_cards(&staged_source)?;
-        let inputs = conversion_inputs(
+        let (inputs, observed_mapping) = conversion_inputs(
             request,
             record,
             &index,
@@ -1039,6 +1412,20 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
             &canonical_linked_worktree,
             authority.clone(),
         )?;
+        let mut observed_mapping = observed_mapping;
+        observed_mapping["source"]["source_digest"] =
+            json!(source_digest(&staged_source)?.as_str());
+        observed_mapping["destination"]["inputs_digest"] =
+            json!(Digest::semantic_projection(&canonical_json_bytes(
+                &serde_json::to_value(&inputs).map_err(|error| error.to_string())?
+            )?)
+            .as_str());
+        if observed_mapping != semantic_mappings[record_index] {
+            return Err(format!(
+                "issue {} staged semantic mapping differs from admitted source mapping",
+                record.issue
+            ));
+        }
         let source_generation = index
             .get("generation")
             .and_then(Value::as_u64)
@@ -1048,8 +1435,14 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
             .map_err(|error| format!("{error:?}"))?;
         let phase = source_phase(&record.role, &index)?;
         operation.fault("semantic_state_activation", "before")?;
-        let mut current = match DurableTransactionStore::observe_issue(&root, &key)
-            .map_err(|error| format!("observe {} before activation: {error:?}", record.role))?
+        let mut current = match DurableTransactionStore::observe_issue_under_native_writer_fence(
+            &root,
+            &key,
+            native_issue_writer_fences
+                .as_ref()
+                .expect("writer fences held through semantic observation"),
+        )
+        .map_err(|error| format!("observe {} before activation: {error:?}", record.role))?
         {
             Observation::Current(current) | Observation::ProjectionRepairRequired(current) => {
                 if current.inputs() != &inputs || current.phase() != phase {
@@ -1061,7 +1454,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
                 current
             }
             Observation::Absent => snapshot(
-                DurableTransactionStore::convert_copied_issue(
+                DurableTransactionStore::convert_copied_issue_under_native_writer_fence(
                     &root,
                     CopiedRecordConversion {
                         key: key.clone(),
@@ -1070,6 +1463,9 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
                         source_generation,
                         source_digest: source_digest(&staged_source)?,
                     },
+                    native_issue_writer_fences
+                        .as_ref()
+                        .expect("writer fences held through semantic activation"),
                 )
                 .map_err(|error| format!("activate {}: {error:?}", record.role))?,
             ),
@@ -1133,6 +1529,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
                 "issue": record.issue,
                 "source_digest": source_digest(&staged_source)?.as_str(),
                 "semantic_digest": activation_digest,
+                "semantic_equivalence": semantic_mappings[record_index],
             }),
         )?;
         operation.fault("per_issue_conversion_receipt_persistence", "after")?;
@@ -1229,7 +1626,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
             }
         }
         if !retained_projection {
-            if record.role != "prepared" {
+            if current.inputs().binding().is_some() {
                 let bound_projection = canonical_linked_worktree
                     .join(".csdlc/v3/issues")
                     .join(record.issue.to_string());
@@ -1258,7 +1655,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         .map_err(|error| format!("{}: {error}", executable_slot.display()))?;
     let prior_executable = executable_slot.join("prior");
     if !prior_executable.is_file() {
-        write_create_once(&prior_executable, &authority_bytes)?;
+        write_create_once(&prior_executable, &prior_executable_bytes)?;
     }
     let candidate_bytes = fs::read(std::env::current_exe().map_err(|error| error.to_string())?)
         .map_err(|error| error.to_string())?;
@@ -1323,11 +1720,14 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
     operation.fault("source_record_restoration", "after")?;
 
     operation.fault("prior_executable_restoration", "before")?;
-    replace_durable(&executable_slot.join("active"), &authority_bytes)?;
+    replace_durable(&executable_slot.join("active"), &prior_executable_bytes)?;
     operation.marker(
         "restore/prior-executable-restored.json",
         "prior_executable_restored",
-        json!({"restored_size": authority_bytes.len()}),
+        json!({
+            "restored_size": prior_executable_bytes.len(),
+            "restored_blake3": blake3::hash(&prior_executable_bytes).to_hex().to_string(),
+        }),
     )?;
     operation.fault("prior_executable_restoration", "after")?;
 
@@ -1337,8 +1737,12 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         "restore_receipt_persisted",
         json!({"status": "restored"}),
     )?;
+    drop(native_issue_writer_fences.take());
     replace_durable(&fence, b"released\n")?;
-    operation.append("conversion_fence_released", json!({}))?;
+    operation.append(
+        "conversion_fence_released",
+        json!({"native_issue_writer_fences_released":true}),
+    )?;
     operation.fault("restore_receipt_persistence_and_fence_release", "after")?;
     operation.append(
         "operation_completed",
@@ -1431,15 +1835,10 @@ pub fn relocate_current_observation_copy(
     if request.schema != "csdlc.v3.current_observation_relocation.v1" {
         return Err("unsupported current-observation relocation schema".to_owned());
     }
-    if request.issue == 0
-        || request.operation_id.is_empty()
-        || !request
-            .operation_id
-            .bytes()
-            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
-    {
+    if request.issue == 0 {
         return Err("invalid relocation issue or operation_id".to_owned());
     }
+    validate_operation_id(&request.operation_id)?;
 
     // Authenticate and fully observe the copied source before the target obtains
     // any local, semantic, projection, journal, or provenance entry.
@@ -1470,6 +1869,7 @@ pub fn relocate_current_observation_copy(
         ));
     }
     let source_local_cards = load_cards(&source_local)?;
+    let source_index = read_json(&source_local.join("index.json"))?;
     let source_common =
         relocation_source_git_common(&request.source_semantic_current, request.issue)?;
     let source_root = SemanticRoot::from_git_common(&source_common, request.repository.clone())
@@ -1499,6 +1899,54 @@ pub fn relocate_current_observation_copy(
         return Err("source local lifecycle lacks the six-card denominator".to_owned());
     }
     let source_cards = source_snapshot.inputs().cards().clone();
+    if source_snapshot.key().issue() != request.issue
+        || source_snapshot.key().repository() != request.repository
+        || source_index.get("issue").and_then(Value::as_u64) != Some(request.issue)
+        || source_index.get("repository").and_then(Value::as_str)
+            != Some(request.repository.as_str())
+    {
+        return Err("source local and semantic issue identities disagree".to_owned());
+    }
+    if source_local_cards != source_cards {
+        return Err("source local card values disagree with semantic snapshot cards".to_owned());
+    }
+    let semantic_phase = match source_snapshot.phase() {
+        LifecycleState::Ready => "ready",
+        LifecycleState::Bound => "bound",
+        LifecycleState::Implemented => "implemented",
+        LifecycleState::Reviewed => "reviewed",
+        LifecycleState::Published => "published",
+        LifecycleState::ClosedOut => "closed_out",
+        other => return Err(format!("unsupported source semantic phase {other:?}")),
+    };
+    if source_index.get("phase").and_then(Value::as_str) != Some(semantic_phase) {
+        return Err(
+            "source local lifecycle phase disagrees with semantic snapshot state".to_owned(),
+        );
+    }
+    match source_snapshot.inputs().binding() {
+        None if source_local.join("binding.json").exists() => {
+            return Err("source local binding exists but semantic binding is absent".to_owned())
+        }
+        Some(binding) => {
+            let local_binding = read_json(&source_local.join("binding.json"))?;
+            if local_binding.get("issue").and_then(Value::as_u64) != Some(request.issue)
+                || local_binding.get("branch").and_then(Value::as_str)
+                    != Some(binding.branch.as_str())
+                || local_binding.get("worktree").and_then(Value::as_str)
+                    != Some(binding.worktree.to_string_lossy().as_ref())
+                || source_index.get("branch").and_then(Value::as_str)
+                    != Some(binding.branch.as_str())
+                || source_index.get("worktree").and_then(Value::as_str)
+                    != Some(binding.worktree.to_string_lossy().as_ref())
+            {
+                return Err(
+                    "source local binding disagrees with semantic snapshot binding".to_owned(),
+                );
+            }
+        }
+        None => {}
+    }
     let source_projection = fs::read(&request.source_projection_state)
         .map_err(|error| format!("{}: {error}", request.source_projection_state.display()))?;
     if source_projection
@@ -1520,7 +1968,13 @@ pub fn relocate_current_observation_copy(
             "source semantic binding does not match the authenticated target role".to_owned(),
         );
     }
-    let (registry, registry_bytes) = absolute_registry(&target_worktree, &request.registry_path)?;
+    let canonical_registry = canonical_topology_file(
+        &request.registry_path,
+        &target_worktree,
+        Path::new("docs/templates/prompts/current.json"),
+        "registry_path",
+    )?;
+    let (registry, registry_bytes) = absolute_registry(&target_worktree, &canonical_registry)?;
     let selector_bytes = fs::read(target_primary.join(crate::authority::SELECTOR_PATH))
         .map_err(|error| format!("target authority selector: {error}"))?;
     let target_authority = Digest::authority(&selector_bytes);
@@ -1552,6 +2006,11 @@ pub fn relocate_current_observation_copy(
     let local = create_durable_child(&csdlc, "local")?;
     let relocations = create_durable_child(&local, "current-observation-relocations")?;
     let operation_root = create_durable_child(&relocations, &request.operation_id)?;
+    if operation_root.parent() != Some(relocations.as_path())
+        || operation_root.file_name() != Some(request.operation_id.as_ref())
+    {
+        return Err("relocation operation root escaped its canonical parent".to_owned());
+    }
     let journal_path = operation_root.join("journal.json");
     write_create_once(
         &journal_path,
@@ -1564,7 +2023,6 @@ pub fn relocate_current_observation_copy(
         .map_err(|error| error.to_string())?,
     )?;
 
-    let source_index = read_json(&source_local.join("index.json"))?;
     let title = source_index
         .get("title")
         .and_then(Value::as_str)

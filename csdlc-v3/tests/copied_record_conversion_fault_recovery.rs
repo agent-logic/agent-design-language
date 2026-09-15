@@ -307,15 +307,21 @@ impl Fixture {
                 &copied.join(issue.to_string()),
             );
         }
-        let registry_dir = primary.join("docs/templates/prompts");
+        let registry_dir = linked.join("docs/templates/prompts");
         fs::create_dir_all(&registry_dir).expect("registry directory must be created");
         fs::copy(
             Path::new(env!("CARGO_MANIFEST_DIR")).join("../docs/templates/prompts/current.json"),
             registry_dir.join("current.json"),
         )
         .expect("active registry must be copied into isolated fixture");
-        fs::write(root.join("authority.bytes"), b"isolated-authority\n")
-            .expect("authority fixture must be written");
+        let authority = linked.join("csdlc-v3/operator/authority-selector.json");
+        fs::create_dir_all(authority.parent().unwrap()).unwrap();
+        fs::copy(
+            Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../csdlc-v3/operator/authority-selector.json"),
+            authority,
+        )
+        .expect("authority fixture must be copied");
 
         Self {
             root,
@@ -339,15 +345,19 @@ impl Fixture {
             .collect::<Vec<_>>();
         let request = json!({
             "schema": "csdlc.v3.copied_record_conversion.v1",
-            "repository": "isolated/rehearsal",
+            "repository": "agent-logic/agent-design-language",
             "operation_id": operation_id,
-            "authority_bytes_path": self.root.join("authority.bytes"),
+            "authority_bytes_path": self.linked.join("csdlc-v3/operator/authority-selector.json"),
+            "prior_executable_path": env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"),
+            "prior_executable_blake3": blake3::hash(&fs::read(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal")).unwrap()).to_hex().to_string(),
+            "writer_fence_issues": [511, 517, 497, 3, 505, 122, 113, 868],
+            "writer_probe_issue": 868,
             "git_common": self.git_common,
             "linked_branch": "codex/fixture-linked",
             "linked_head": self.linked_head,
             "linked_worktree": self.linked,
             "records": records,
-            "registry_path": self.primary.join("docs/templates/prompts/current.json"),
+            "registry_path": self.linked.join("docs/templates/prompts/current.json"),
             "fault_injection": {
                 "point": point,
                 "boundary": boundary,

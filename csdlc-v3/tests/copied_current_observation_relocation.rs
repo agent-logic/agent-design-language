@@ -9,11 +9,13 @@ static SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 #[test]
 fn relocates_complete_primary_and_linked_observations_with_provenance() {
-    for (issue, role) in [(970, "primary"), (981, "linked")] {
+    for (issue, role) in [(970, "primary")] {
         let target = Target::new();
         let source = source(issue);
         let before = tree_bytes(&source);
-        let request = target.request(issue, role, &source);
+        let request_value = target.request_value(issue, role, &source);
+        reconcile_local_cards_with_semantic_projection(&request_value);
+        let request = target.write("consistent-primary.json", &request_value);
         let output = invoke(&request);
         assert_success(&output);
         let result: Value = serde_json::from_slice(&output.stdout).unwrap();
@@ -51,6 +53,35 @@ fn relocates_complete_primary_and_linked_observations_with_provenance() {
 }
 
 #[test]
+fn refuses_inconsistent_local_and_semantic_sources_before_effects() {
+    let target = Target::new();
+    let linked_source = source(981);
+    let linked_value = target.request_value(981, "linked", &linked_source);
+    reconcile_local_cards_with_semantic_projection(&linked_value);
+    assert_rejected(
+        &invoke(&target.write("local-phase-mismatch.json", &linked_value)),
+        "local lifecycle phase disagrees",
+    );
+    assert_no_effect(&target, 981);
+
+    let target = Target::new();
+    let primary_source = source(970);
+    let value = target.request_value(970, "primary", &primary_source);
+    reconcile_local_cards_with_semantic_projection(&value);
+    let local = PathBuf::from(value["source_local_issue"].as_str().unwrap());
+    let card = local.join("cards/sip.values.json");
+    let mut altered: Value = serde_json::from_slice(&fs::read(&card).unwrap()).unwrap();
+    altered["title"] = json!("substituted local title");
+    fs::write(&card, serde_json::to_vec_pretty(&altered).unwrap()).unwrap();
+    recompute_local_digest(&local);
+    assert_rejected(
+        &invoke(&target.write("local-card-mismatch.json", &value)),
+        "local card values disagree",
+    );
+    assert_no_effect(&target, 970);
+}
+
+#[test]
 fn refuses_incomplete_linked_source_before_any_target_effect() {
     let target = Target::new();
     let source = source(978);
@@ -65,9 +96,10 @@ fn refuses_incomplete_linked_source_before_any_target_effect() {
 fn refuses_escape_and_exact_topology_mismatch_before_effects() {
     let target = Target::new();
     let source = source(970);
+    let consistent = target.request_value(970, "primary", &source);
+    reconcile_local_cards_with_semantic_projection(&consistent);
 
-    let escape = target.request_value(970, "primary", &source);
-    let mut escape = escape;
+    let mut escape = consistent.clone();
     escape["operation_id"] = json!("escape");
     escape["target_worktree"] = json!(target.primary.join("..").join("primary"));
     assert_rejected(
@@ -75,13 +107,21 @@ fn refuses_escape_and_exact_topology_mismatch_before_effects() {
         "without traversal",
     );
 
-    let mut mismatch = target.request_value(970, "primary", &source);
+    let mut mismatch = consistent.clone();
     mismatch["operation_id"] = json!("head-mismatch");
     mismatch["target_head"] = json!("0000000000000000000000000000000000000000");
     assert_rejected(
         &invoke(&target.write("mismatch.json", &mismatch)),
         "mismatch",
     );
+    for (name, operation_id) in [("dot", "."), ("dotdot", "..")] {
+        let mut value = consistent.clone();
+        value["operation_id"] = json!(operation_id);
+        assert_rejected(
+            &invoke(&target.write(&format!("{name}.json"), &value)),
+            "non-dot path segment",
+        );
+    }
     assert_no_effect(&target, 970);
 }
 
@@ -89,6 +129,47 @@ fn source(issue: u64) -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests/fixtures/issue872-current-observations")
         .join(issue.to_string())
+}
+
+fn reconcile_local_cards_with_semantic_projection(request: &Value) {
+    let local = PathBuf::from(request["source_local_issue"].as_str().unwrap());
+    let projection = PathBuf::from(request["source_projection_state"].as_str().unwrap());
+    let projection: Value = serde_json::from_slice(&fs::read(projection).unwrap()).unwrap();
+    let cards = projection["inputs"]["intent_plan"]["cards"]
+        .as_object()
+        .unwrap();
+    for (kind, card) in cards {
+        fs::write(
+            local.join("cards").join(format!("{kind}.values.json")),
+            serde_json::to_vec_pretty(card).unwrap(),
+        )
+        .unwrap();
+    }
+    recompute_local_digest(&local);
+}
+
+fn recompute_local_digest(local: &Path) {
+    let index_path = local.join("index.json");
+    let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index.as_object_mut().unwrap().remove("digest");
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&serde_json::to_vec(&index).unwrap());
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            hasher.update(&fs::read(local.join(format!("cards/{kind}.{suffix}"))).unwrap());
+        }
+    }
+    let binding = local.join("binding.json");
+    if binding.is_file() {
+        hasher.update(&fs::read(binding).unwrap());
+    }
+    let intent_plan = local.join("intent-plan.json");
+    if intent_plan.is_file() {
+        hasher.update(b"csdlc.v3.intent_plan.v1\0");
+        hasher.update(&fs::read(intent_plan).unwrap());
+    }
+    index["digest"] = json!(hasher.finalize().to_hex().to_string());
+    fs::write(index_path, serde_json::to_vec_pretty(&index).unwrap()).unwrap();
 }
 
 fn repository_root() -> PathBuf {

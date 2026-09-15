@@ -14,7 +14,7 @@ use crate::lifecycle::{
 };
 use fs2::FileExt;
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -793,6 +793,62 @@ pub struct CopiedRecordConversion {
     pub source_generation: u64,
     pub source_digest: Digest,
 }
+
+/// In-process proof that the conversion owner holds the exact archived native
+/// writer locks. Only conversion admission can use this token; ordinary legacy
+/// classification continues to treat every native lock as residue.
+pub struct NativeWriterFenceGuard {
+    common: PathBuf,
+    issues: BTreeSet<u64>,
+    paths: Vec<PathBuf>,
+    _locks: Vec<File>,
+}
+
+impl NativeWriterFenceGuard {
+    pub fn acquire(common: &Path, issues: impl IntoIterator<Item = u64>) -> Result<Self, Error> {
+        let common = fs::canonicalize(common).map_err(io)?;
+        let state_root = common.join("csdlc-v3/local");
+        let lock_root = state_root.join("locks");
+        create_directories(&lock_root, &common)?;
+        let issues = issues.into_iter().collect::<BTreeSet<_>>();
+        if issues.is_empty() || issues.contains(&0) {
+            return Err(Error::InvalidInput(
+                "invalid writer-fence denominator".into(),
+            ));
+        }
+        let mut locks = Vec::new();
+        let mut paths = Vec::new();
+        for issue in &issues {
+            let path = lock_root.join(format!("{issue}.lock"));
+            reject_symlinks(&path)?;
+            let file = OpenOptions::new()
+                .read(true)
+                .write(true)
+                .create(true)
+                .truncate(false)
+                .open(&path)
+                .map_err(io)?;
+            FileExt::lock_exclusive(&file).map_err(io)?;
+            paths.push(path);
+            locks.push(file);
+        }
+        rebarrier(paths.clone(), &common)?;
+        Ok(Self {
+            common,
+            issues,
+            paths,
+            _locks: locks,
+        })
+    }
+
+    pub fn paths(&self) -> &[PathBuf] {
+        &self.paths
+    }
+
+    fn authenticates(&self, root: &SemanticRoot, issue: u64) -> bool {
+        self.common == root.common && self.issues.contains(&issue)
+    }
+}
 impl Admission {
     pub fn new(key: IssueKey, expected: SemanticVersion, authority: Digest) -> Self {
         Self {
@@ -882,6 +938,14 @@ impl SemanticRoot {
         Ok(path)
     }
     fn legacy(&self, key: &IssueKey) -> Result<bool, Error> {
+        self.legacy_with_fence(key, None)
+    }
+
+    fn legacy_with_fence(
+        &self,
+        key: &IssueKey,
+        fence: Option<&NativeWriterFenceGuard>,
+    ) -> Result<bool, Error> {
         let mut roots = vec![self.common.join("csdlc-v3/local")];
         if let Some(primary) = self.common.parent() {
             roots.push(primary.join(".csdlc"));
@@ -899,7 +963,20 @@ impl SemanticRoot {
             }
         }
         for root in roots {
-            if legacy_residue(&root, key.issue)? {
+            let ignored_lock = fence
+                .filter(|guard| guard.authenticates(self, key.issue))
+                .and_then(|guard| {
+                    let expected = self
+                        .common
+                        .join("csdlc-v3/local/locks")
+                        .join(format!("{}.lock", key.issue));
+                    guard
+                        .paths
+                        .iter()
+                        .any(|path| path == &expected)
+                        .then_some(expected)
+                });
+            if legacy_residue(&root, key.issue, ignored_lock.as_deref())? {
                 return Ok(true);
             }
         }
@@ -910,7 +987,7 @@ impl SemanticRoot {
 /// Enumerates issue-scoped native local, preparation, mutation and terminal roots.
 /// Empty directories still count as ambiguous residue. Do not parse a damaged
 /// receipt to decide whether it is safe to overwrite its namespace.
-fn legacy_residue(root: &Path, issue: u64) -> Result<bool, Error> {
+fn legacy_residue(root: &Path, issue: u64, ignored_lock: Option<&Path>) -> Result<bool, Error> {
     let exact = [
         format!("issues/{issue}"),
         format!("locks/{issue}.lock"),
@@ -924,6 +1001,9 @@ fn legacy_residue(root: &Path, issue: u64) -> Result<bool, Error> {
     for relative in exact {
         let path = root.join(relative);
         reject_symlinks(&path)?;
+        if ignored_lock == Some(path.as_path()) {
+            continue;
+        }
         if path.try_exists().map_err(io)? {
             return Ok(true);
         }
@@ -1229,9 +1309,30 @@ impl DurableTransactionStore {
     }
 
     pub fn observe_issue(root: &SemanticRoot, key: &IssueKey) -> Result<Observation, Error> {
+        Self::observe_issue_inner(root, key, None)
+    }
+
+    pub fn observe_issue_under_native_writer_fence(
+        root: &SemanticRoot,
+        key: &IssueKey,
+        fence: &NativeWriterFenceGuard,
+    ) -> Result<Observation, Error> {
+        if !fence.authenticates(root, key.issue) {
+            return Err(Error::InvalidInput(
+                "native writer fence does not authenticate observed issue".into(),
+            ));
+        }
+        Self::observe_issue_inner(root, key, Some(fence))
+    }
+
+    fn observe_issue_inner(
+        root: &SemanticRoot,
+        key: &IssueKey,
+        fence: Option<&NativeWriterFenceGuard>,
+    ) -> Result<Observation, Error> {
         let directory = root.directory(key)?;
         if !directory.exists() {
-            return Ok(if root.legacy(key)? {
+            return Ok(if root.legacy_with_fence(key, fence)? {
                 Observation::LegacyMigrationRequired
             } else {
                 Observation::Absent
@@ -1337,6 +1438,27 @@ impl DurableTransactionStore {
         root: &SemanticRoot,
         conversion: CopiedRecordConversion,
     ) -> Result<CommitOutcome, Error> {
+        Self::convert_copied_issue_inner(root, conversion, None)
+    }
+
+    pub fn convert_copied_issue_under_native_writer_fence(
+        root: &SemanticRoot,
+        conversion: CopiedRecordConversion,
+        fence: &NativeWriterFenceGuard,
+    ) -> Result<CommitOutcome, Error> {
+        if !fence.authenticates(root, conversion.key.issue) {
+            return Err(Error::InvalidInput(
+                "native writer fence does not authenticate converted issue".into(),
+            ));
+        }
+        Self::convert_copied_issue_inner(root, conversion, Some(fence))
+    }
+
+    fn convert_copied_issue_inner(
+        root: &SemanticRoot,
+        conversion: CopiedRecordConversion,
+        fence: Option<&NativeWriterFenceGuard>,
+    ) -> Result<CommitOutcome, Error> {
         if conversion.source_generation == 0
             || !conversion
                 .source_digest
@@ -1349,7 +1471,7 @@ impl DurableTransactionStore {
         if directory.exists() {
             return Err(Error::AlreadyExists);
         }
-        if root.legacy(&conversion.key)? {
+        if root.legacy_with_fence(&conversion.key, fence)? {
             return Err(Error::LegacyMigrationRequired);
         }
         let parent = directory.parent().ok_or(Error::UnsafePath)?;

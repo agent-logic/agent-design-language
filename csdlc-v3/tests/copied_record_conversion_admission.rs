@@ -1,12 +1,13 @@
 use csdlc_v3::conversion::{
     inspect_conversion_operation, restore_conversion_pre_effect, ConversionRequest,
 };
+use fs2::FileExt;
 use serde_json::{json, Value};
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Output};
+use std::process::{Command, Output, Stdio};
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 static FIXTURE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
@@ -19,6 +20,152 @@ const RECORDS: [(u64, &str); 7] = [
     (122, "terminal"),
     (113, "pending_recovery"),
 ];
+
+#[test]
+fn operation_id_dot_segments_and_substituted_topology_bytes_fail_before_effects() {
+    for operation_id in [".", ".."] {
+        let fixture = Fixture::new();
+        let request = fixture.write_value(
+            &format!("dot-{}.json", operation_id.len()),
+            &fixture.request_value(operation_id, None),
+        );
+        assert_normal_rejection(&invoke(&request), "non-dot path segment");
+        assert!(!fixture
+            .git_common
+            .join("csdlc-v3/local/conversion-rehearsals")
+            .exists());
+    }
+
+    let fixture = Fixture::new();
+    let substituted = fixture.root.join("substituted.json");
+    fs::write(&substituted, b"{}\n").unwrap();
+    for field in ["authority_bytes_path", "registry_path"] {
+        let mut value = fixture.request_value(&fixture.operation(field), None);
+        value[field] = json!(substituted);
+        assert_normal_rejection(
+            &invoke(&fixture.write_value(&format!("{field}.json"), &value)),
+            "canonical registered-worktree path",
+        );
+    }
+    assert!(!fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .exists());
+}
+
+#[test]
+fn source_identity_phase_and_prior_executable_mismatches_fail_before_effects() {
+    let cases = [
+        ("issue", json!(999), "source index identity mismatch"),
+        (
+            "repository",
+            json!("substituted/repository"),
+            "source index identity mismatch",
+        ),
+        ("phase", json!("reviewed"), "unsupported source role/phase"),
+    ];
+    for (field, replacement, expected) in cases {
+        let fixture = Fixture::new();
+        let index = fixture.copied.join("497/index.json");
+        let mut value: Value = serde_json::from_slice(&fs::read(&index).unwrap()).unwrap();
+        value[field] = replacement;
+        fs::write(&index, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+        assert_normal_rejection(
+            &invoke(&fixture.write_request(&fixture.operation(field), None)),
+            expected,
+        );
+        assert!(!fixture.git_common.join("csdlc-v3/semantic").exists());
+    }
+
+    let fixture = Fixture::new();
+    let mut value = fixture.request_value(&fixture.operation("prior-digest"), None);
+    value["prior_executable_blake3"] = json!("0".repeat(64));
+    assert_normal_rejection(
+        &invoke(&fixture.write_value("prior-digest.json", &value)),
+        "prior executable bytes do not match",
+    );
+    assert!(!fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .exists());
+
+    let fixture = Fixture::new();
+    let mut value = fixture.request_value(&fixture.operation("fence-denominator"), None);
+    value["writer_fence_issues"] = json!([511, 517, 497, 3, 505, 122, 113]);
+    assert_normal_rejection(
+        &invoke(&fixture.write_value("fence-denominator.json", &value)),
+        "exactly equal the seven-record census plus writer_probe_issue",
+    );
+    assert!(!fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .exists());
+
+    let fixture = Fixture::new();
+    let card = fixture.copied.join("511/cards/sip.values.json");
+    let mut value: Value = serde_json::from_slice(&fs::read(&card).unwrap()).unwrap();
+    value["identity"]["title"] = json!("substituted title");
+    fs::write(&card, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+    assert_normal_rejection(
+        &invoke(&fixture.write_request(&fixture.operation("card-identity"), None)),
+        "six-card identity is ambiguous",
+    );
+    assert!(!fixture.git_common.join("csdlc-v3/semantic").exists());
+}
+
+#[test]
+fn converter_holds_exact_native_fence_denominator_and_unrelated_residue_still_rejects() {
+    let fixture = Fixture::new();
+    let operation = fixture.operation("writer-fence");
+    let mut value = fixture.request_value(&operation, None);
+    value["writer_fence_probe"] = json!(true);
+    let request = fixture.write_value("writer-fence.json", &value);
+    let child = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
+        .args(["convert", "--request"])
+        .arg(&request)
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let operation_root = fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .join(&operation);
+    let marker = operation_root.join("writer-fence-held.json");
+    let deadline = Instant::now() + Duration::from_secs(10);
+    while !marker.is_file() && Instant::now() < deadline {
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    assert!(
+        marker.is_file(),
+        "converter never exposed held-fence evidence"
+    );
+    for issue in [511_u64, 517, 497, 3, 505, 122, 113, 868] {
+        let path = fixture
+            .git_common
+            .join("csdlc-v3/local/locks")
+            .join(format!("{issue}.lock"));
+        let file = fs::OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(path)
+            .unwrap();
+        assert!(
+            file.try_lock_exclusive().is_err(),
+            "native writer lock {issue} was not held"
+        );
+    }
+    fs::write(operation_root.join("writer-fence-probe-complete"), b"ok\n").unwrap();
+    assert_success(&child.wait_with_output().unwrap());
+
+    let fixture = Fixture::new();
+    let unrelated = fixture.linked.join(".csdlc/locks");
+    fs::create_dir_all(&unrelated).unwrap();
+    fs::write(unrelated.join("511.lock"), b"unrelated residue\n").unwrap();
+    assert_normal_rejection(
+        &invoke(&fixture.write_request(&fixture.operation("unrelated-lock"), None)),
+        "legacy state",
+    );
+}
 
 #[test]
 fn first_journal_entry_survives_abrupt_exit_and_same_request_resumes() {
@@ -203,13 +350,42 @@ fn invalid_generation_in_a_late_record_stops_before_any_semantic_effect() {
 #[test]
 fn converted_snapshot_is_acknowledged_before_installed_observation() {
     let fixture = Fixture::new();
-    let request = fixture.write_request(&fixture.operation("projection-ack"), None);
+    let operation = fixture.operation("projection-ack");
+    let request = fixture.write_request(&operation, None);
     assert_success(&invoke(&request));
+
+    let operation_root = fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .join(&operation);
+    let receipt: Value =
+        serde_json::from_slice(&fs::read(operation_root.join("receipts/505.json")).unwrap())
+            .unwrap();
+    assert_eq!(
+        receipt["detail"]["semantic_equivalence"]["source"]["publication"]["pull_request"],
+        591
+    );
+    assert!(receipt["detail"]["semantic_equivalence"]["source"]["review"].is_object());
+    assert!(!receipt["detail"]["semantic_equivalence"]["destination"]
+        .to_string()
+        .contains("/usr/bin/true"));
+    let request_value: Value = serde_json::from_slice(&fs::read(&request).unwrap()).unwrap();
+    assert_eq!(
+        blake3::hash(&fs::read(operation_root.join("executable-slot/active")).unwrap())
+            .to_hex()
+            .to_string(),
+        request_value["prior_executable_blake3"].as_str().unwrap()
+    );
 
     let observed = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
         .args(["status", "--git-common"])
         .arg(fs::canonicalize(&fixture.git_common).unwrap())
-        .args(["--repository", "isolated/admission", "--issue", "511"])
+        .args([
+            "--repository",
+            "agent-logic/agent-design-language",
+            "--issue",
+            "511",
+        ])
         .output()
         .expect("installed observation process must start");
     assert!(
@@ -439,14 +615,21 @@ impl Fixture {
             let source_record = source.join(issue.to_string());
             copy_tree(&source_record, &copied.join(issue.to_string()));
         }
-        let registry = primary.join("docs/templates/prompts");
+        let registry = linked.join("docs/templates/prompts");
         fs::create_dir_all(&registry).unwrap();
         fs::copy(
             Path::new(env!("CARGO_MANIFEST_DIR")).join("../docs/templates/prompts/current.json"),
             registry.join("current.json"),
         )
         .unwrap();
-        fs::write(root.join("authority.bytes"), b"isolated-authority\n").unwrap();
+        let authority = linked.join("csdlc-v3/operator/authority-selector.json");
+        fs::create_dir_all(authority.parent().unwrap()).unwrap();
+        fs::copy(
+            Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../csdlc-v3/operator/authority-selector.json"),
+            &authority,
+        )
+        .unwrap();
         Self {
             root,
             primary,
@@ -470,15 +653,19 @@ impl Fixture {
             .collect::<Vec<_>>();
         let mut request = json!({
             "schema": "csdlc.v3.copied_record_conversion.v1",
-            "repository": "isolated/admission",
+            "repository": "agent-logic/agent-design-language",
             "operation_id": operation_id,
-            "authority_bytes_path": self.root.join("authority.bytes"),
+            "authority_bytes_path": self.linked.join("csdlc-v3/operator/authority-selector.json"),
+            "prior_executable_path": env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"),
+            "prior_executable_blake3": blake3::hash(&fs::read(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal")).unwrap()).to_hex().to_string(),
+            "writer_fence_issues": [511, 517, 497, 3, 505, 122, 113, 868],
+            "writer_probe_issue": 868,
             "git_common": self.git_common,
             "linked_branch": "codex/fixture-linked",
             "linked_head": self.linked_head,
             "linked_worktree": self.linked,
             "records": records,
-            "registry_path": self.primary.join("docs/templates/prompts/current.json")
+            "registry_path": self.linked.join("docs/templates/prompts/current.json")
         });
         if let Some(fault) = fault {
             request["fault_injection"] = fault;
