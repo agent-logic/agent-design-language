@@ -3,7 +3,7 @@ mod github_command;
 use adl::codefriend::ingestion::{local, AdmissionInput, Scope};
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
-const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]";
+const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     if args.first().is_some_and(|arg| arg == "memory") {
         return super::codefriend_memory_cmd::run(&args[1..]);
@@ -28,6 +28,9 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     }
     if args.len() >= 2 && args[0] == "review" && args[1] == "run" {
         return review_run(&args[2..]);
+    }
+    if args.len() >= 2 && args[0] == "review" && args[1] == "shell" {
+        return review_shell(&args[2..]);
     }
     ensure!(args.len() >= 2, "{USAGE}");
     if args[0] == "ingest" && args[1] == "ci" {
@@ -150,6 +153,7 @@ fn review_run(args: &[String]) -> Result<()> {
             provider_request: request,
             out: Path::new(flags["--out"]).to_path_buf(),
             run_id,
+            cancel_file: None,
         },
     )?;
     println!(
@@ -159,4 +163,103 @@ fn review_run(args: &[String]) -> Result<()> {
         )?)?
     );
     Ok(())
+}
+
+fn review_shell(args: &[String]) -> Result<()> {
+    ensure!(!args.is_empty(), "missing_review_shell_command");
+    match args[0].as_str() {
+        "start" => review_shell_start(&args[1..]),
+        "inspect" => review_shell_inspect(&args[1..]),
+        "cancel" => review_shell_cancel(&args[1..]),
+        "retry" => review_shell_retry(&args[1..]),
+        "withhold-publication" => review_shell_withhold_publication(&args[1..]),
+        _ => anyhow::bail!("unsupported_review_shell_command"),
+    }
+}
+
+fn review_shell_flags<'a>(
+    args: &'a [String],
+    expected: &[&str],
+) -> Result<BTreeMap<&'a str, &'a str>> {
+    let mut flags = BTreeMap::new();
+    for pair in args.chunks(2) {
+        ensure!(
+            pair.len() == 2 && expected.contains(&pair[0].as_str()) && !pair[1].starts_with("--"),
+            "invalid_review_shell_arguments"
+        );
+        ensure!(
+            flags.insert(pair[0].as_str(), pair[1].as_str()).is_none(),
+            "duplicate_review_shell_argument"
+        );
+    }
+    ensure!(
+        expected.iter().all(|flag| flags.contains_key(flag)),
+        "missing_review_shell_argument"
+    );
+    Ok(flags)
+}
+
+fn print_shell_state(state: &adl::codefriend::operator::OperatorReviewState) -> Result<()> {
+    println!("{}", serde_json::to_string(state)?);
+    Ok(())
+}
+
+fn review_shell_start(args: &[String]) -> Result<()> {
+    let flags = review_shell_flags(
+        args,
+        &[
+            "--store",
+            "--packet-id",
+            "--provider-request",
+            "--out",
+            "--run-id",
+        ],
+    )?;
+    let request = adl::codefriend::review::runner::read_provider_request(Path::new(
+        flags["--provider-request"],
+    ))?;
+    let state =
+        adl::codefriend::operator::start_review(adl::codefriend::operator::OperatorStartOptions {
+            store: Path::new(flags["--store"]).to_path_buf(),
+            packet_id: flags["--packet-id"].to_string(),
+            provider_request: request,
+            out: Path::new(flags["--out"]).to_path_buf(),
+            run_id: flags["--run-id"].to_string(),
+        })?;
+    print_shell_state(&state)
+}
+
+fn review_shell_inspect(args: &[String]) -> Result<()> {
+    let flags = review_shell_flags(args, &["--out"])?;
+    print_shell_state(&adl::codefriend::operator::inspect_review(Path::new(
+        flags["--out"],
+    ))?)
+}
+
+fn review_shell_cancel(args: &[String]) -> Result<()> {
+    let flags = review_shell_flags(args, &["--out", "--reason"])?;
+    print_shell_state(&adl::codefriend::operator::cancel_review(
+        Path::new(flags["--out"]),
+        flags["--reason"],
+    )?)
+}
+
+fn review_shell_retry(args: &[String]) -> Result<()> {
+    let flags = review_shell_flags(args, &["--out", "--provider-request", "--run-id"])?;
+    let request = adl::codefriend::review::runner::read_provider_request(Path::new(
+        flags["--provider-request"],
+    ))?;
+    print_shell_state(&adl::codefriend::operator::retry_review(
+        Path::new(flags["--out"]),
+        request,
+        flags["--run-id"],
+    )?)
+}
+
+fn review_shell_withhold_publication(args: &[String]) -> Result<()> {
+    let flags = review_shell_flags(args, &["--out", "--reason"])?;
+    print_shell_state(&adl::codefriend::operator::withhold_publication(
+        Path::new(flags["--out"]),
+        flags["--reason"],
+    )?)
 }
