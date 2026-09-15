@@ -1025,6 +1025,41 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
                     records.insert(path);
                 }
             }
+
+            // Cargo can report the final, unhashed binary in `debug/` while
+            // retaining its dependency record beside the hashed compiler
+            // artifact in `debug/deps/`. Keep the same target-name guard and
+            // admit every matching record so input validation remains
+            // conservative when more than one build profile artifact exists.
+            if records.is_empty()
+                && file.file_name().and_then(|v| v.to_str()) == Some(target.as_str())
+                && parent == root.join("target/intent-validation/debug")
+            {
+                let deps = parent.join("deps");
+                for entry in fs::read_dir(&deps)
+                    .map_err(|_| "intent_validator_dependency_inventory_unreadable")?
+                {
+                    let entry =
+                        entry.map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+                    let path = entry.path();
+                    let name = path
+                        .file_stem()
+                        .and_then(|v| v.to_str())
+                        .unwrap_or_default()
+                        .replace('-', "_");
+                    if path.extension().is_some_and(|v| v == "d")
+                        && name.starts_with(&format!("{target}_"))
+                    {
+                        let metadata = entry
+                            .file_type()
+                            .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
+                        if !metadata.is_file() || metadata.is_symlink() {
+                            return Err("intent_validator_dependency_symlink".into());
+                        }
+                        records.insert(path);
+                    }
+                }
+            }
         }
         // Every actual repository artifact needs its own dependency record.
         if records.is_empty() {
