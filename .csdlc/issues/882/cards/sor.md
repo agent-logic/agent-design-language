@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented admitted-evidence structure reporter and persisted readback. 16 architecture tests,11 evidence regressions,9 isolated installed scenarios and strict Clippy pass. Independent source review passed at 08dfafcad0907bb8c4539da0c4be249b7489e0ff after four fixes. Record-only head renewal and hosted CI remain pending.
+Implemented admitted-evidence structure reporter and persisted readback. 16 architecture tests,11 evidence regressions,9 isolated installed scenarios and strict Clippy pass. Independent review passed at 758cb27ffd819d0a61c82e14a85e491de6996630. Native authenticated creation/reconciliation published draft PR #982 against main; native publication readback ready. Hosted CI started and remains pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented admitted-evidence structure reporter and persisted readback. 16 arch
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_reviewed_local_proof_passed_publication_pending`
+- Completion state: `published_draft_ci_pending`
 - Issue goal ref: `Worker10 active issue goal: Sprint #929 child #882 implementation, installed proof, independent review and passing PR; no automatic merge.`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/882/goal-metrics.json (planned; absent until execution)`
@@ -86,13 +86,13 @@ Implemented admitted-evidence structure reporter and persisted readback. 16 arch
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; bound issue worktree only`
 - Worktree-only paths remaining: `All issue882 source, tests, docs and native cards await reviewed publication.`
-- Integration state: `worktree_only`
+- Integration state: `published_not_merged`
 - Verification scope: `not_run`
-- Integration method used: `not_run; publication/integration not started`
+- Integration method used: `Native github-pr pull_request_create with authenticated reconciliation; native publish --observe-github returned ready.`
 - Verification performed:
-  - `not_run; publication/integration not started`
-    `not_run; publication/integration not started`
-- Result: `Not published or merged; implementation and records are worktree-only.`
+  - `Native publish --observe-github; read-only gh pr view982 confirmed main base,exact head and draft state.`
+    `PR982 exists and native operation marker was authenticated; publication only, no merge.`
+- Result: `Draft PR #982 open against main at 758cb27ffd819d0a61c82e14a85e491de6996630; authenticated native creation and readback succeeded. CI run34999431733 pending; no merge or terminal closeout.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
