@@ -110,6 +110,8 @@ def execute(args):
         providers["providers"] = {"openai": openai}
         write(root / "providers.yaml", providers)
         credential = write(root / "credential.txt", "issue990-local-fixture-value\n", True)
+        write(root / "guardian.stdout.log", "")
+        write(root / "guardian.stderr.log", "")
         plist = root / "service.plist"
         plist.write_bytes(
             plistlib.dumps(
@@ -122,6 +124,7 @@ def execute(args):
                     ],
                     "WorkingDirectory": str(args.repo),
                     "EnvironmentVariables": {
+                        "HOME": str(Path.home()),
                         "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
                         "TMPDIR": str(root / "tmp"),
                         "ADL_PROVIDER_CA_FILE": str(tls["ca"]),
