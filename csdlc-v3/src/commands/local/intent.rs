@@ -68,6 +68,68 @@ pub fn recovery_source(
     Ok(Some(selected))
 }
 
+pub fn pending_bind_identity(
+    state_root: &Path,
+    issue: u64,
+) -> Result<Option<(String, PathBuf)>, Vec<DoctorFinding>> {
+    let path = state_root.join(format!("transactions/{issue}.json"));
+    if !path.exists() {
+        return Ok(None);
+    }
+    if path
+        .symlink_metadata()
+        .is_ok_and(|metadata| !metadata.is_file() || metadata.file_type().is_symlink())
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_invalid",
+            "lifecycle mutation journal must be a regular file",
+        )]);
+    }
+    let journal: LocalMutationJournal = serde_json::from_slice(
+        &fs::read(path).map_err(io_finding("local_transaction_journal_read_failed"))?,
+    )
+    .map_err(|_| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_invalid",
+            "lifecycle mutation journal identity is invalid",
+        )]
+    })?;
+    if journal.schema != "csdlc.v3.local_mutation_journal.v1"
+        || journal.issue != issue
+        || journal.request_digest.len() != 64
+        || !journal
+            .request_digest
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_journal_mismatch",
+            "lifecycle mutation journal identity is invalid",
+        )]);
+    }
+    if journal.route != "bind" {
+        return Ok(None);
+    }
+    let branch = journal.bind_branch.ok_or_else(|| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_bind_identity_missing",
+            "bind recovery requires its exact branch identity",
+        )]
+    })?;
+    let worktree = journal.bind_worktree.ok_or_else(|| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_bind_identity_missing",
+            "bind recovery requires its exact worktree identity",
+        )]
+    })?;
+    Ok(Some((branch, worktree)))
+}
+
 pub fn prepare(
     request: &LocalPreparationRequest,
     registry: &PromptRegistry,
@@ -156,4 +218,134 @@ pub fn recover(
     Ok(
         serde_json::json!({"schema":"csdlc.v3.intent_recovery.v1","read_only":!changed,"performed_mutation":changed,"status":if changed{"completed"}else{"expected_noop"},"preview_digest":current}),
     )
+}
+
+/// Convert admitted native card inputs without publishing a legacy index or stage.
+/// Authority/topology admission is the caller's responsibility. Rendered text is
+/// validated in memory; complete card values remain canonical semantic content.
+pub(crate) fn prepared_inputs(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    plan: &Value,
+    authority: crate::storage::semantic::Digest,
+) -> Result<crate::storage::semantic::IssueInputs, Vec<DoctorFinding>> {
+    use crate::storage::semantic::{AcceptedIntentPlan, IssueInputs, PlanStep};
+    validate_contract(request)?;
+    plan_cards(request.issue, &request.registry_version, registry)?;
+    let mut accepted: AcceptedIntentPlan = serde_json::from_value(plan.clone()).map_err(|_| {
+        vec![finding(
+            PlanStatus::Failed,
+            "intent_plan_invalid",
+            "accepted intent plan is malformed",
+        )]
+    })?;
+    for kind in REQUIRED_CARD_KINDS {
+        let mut values = initial_card_values(request, registry, kind);
+        if let Some(update) = request.card_updates.get(kind) {
+            merge_json_object(&mut values, update);
+        }
+        // Derived identity is authoritative even for advanced native callers.
+        let identity = initial_card_values(request, registry, kind);
+        for key in [
+            "schema",
+            "issue",
+            "issue_padded",
+            "issue_url",
+            "title",
+            "branch",
+            "repository",
+            "worktree",
+            "card",
+        ] {
+            values[key] = identity[key].clone();
+        }
+        let template = fs::read_to_string(
+            registry
+                .template_paths
+                .get(kind)
+                .expect("validated registry"),
+        )
+        .map_err(io_finding("template_read_failed"))?;
+        let rendered = render_template(&template, &values);
+        if !structure_valid(registry, kind, &rendered) {
+            return Err(vec![finding(
+                PlanStatus::Failed,
+                "prepared_card_structure_invalid",
+                "canonical prepared card failed structure validation",
+            )]);
+        }
+        accepted.cards.insert(kind.into(), values);
+    }
+    let spp = &accepted.cards["spp"];
+    let fields = [
+        ("dependencies", vec!["dependencies_inline"]),
+        (
+            "inspect",
+            vec!["repo_inputs_inline", "target_files_surfaces_inline"],
+        ),
+        ("implement", vec!["deliverables_inline"]),
+        (
+            "validate",
+            vec!["validation_plan_inline", "acceptance_criteria_inline"],
+        ),
+        ("record", vec!["notes_risks_inline"]),
+    ];
+    let mut steps = Vec::new();
+    for (id, fields) in fields {
+        let mut text = Vec::new();
+        for field in fields {
+            let value = spp[field]
+                .as_str()
+                .filter(|value| !value.trim().is_empty())
+                .ok_or_else(|| {
+                    vec![finding(
+                        PlanStatus::Failed,
+                        "semantic_plan_field_missing",
+                        &format!("SPP requires {field} before semantic preparation"),
+                    )]
+                })?;
+            text.push(value);
+        }
+        steps.push(PlanStep {
+            id: id.into(),
+            acceptance: text.join("\n"),
+        });
+    }
+    IssueInputs::new(request.title.clone(), accepted, steps, None, authority).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "semantic_inputs_invalid",
+            &format!("{error:?}"),
+        )]
+    })
+}
+
+pub(crate) fn prepare_semantic(
+    request: &LocalPreparationRequest,
+    registry: &PromptRegistry,
+    context: &OperationalLocalContext,
+    plan: &Value,
+    root: &crate::storage::semantic::SemanticRoot,
+    key: crate::storage::semantic::IssueKey,
+    authority: crate::storage::semantic::Digest,
+) -> Result<crate::storage::semantic::Snapshot, Vec<DoctorFinding>> {
+    validate_context("issue", request, context)?;
+    if key.issue() != request.issue || key.repository() != request.repository {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "semantic_prepare_identity_mismatch",
+            "native and semantic issue identity must match",
+        )]);
+    }
+    let inputs = prepared_inputs(request, registry, plan, authority)?;
+    validate_context("issue", request, context)?;
+    match crate::storage::DurableTransactionStore::prepare_issue(root, key, inputs) {
+        Ok(crate::storage::semantic::CommitOutcome::Committed(snapshot)) => Ok(*snapshot),
+        Ok(crate::storage::semantic::CommitOutcome::Unchanged(snapshot)) => Ok(*snapshot),
+        Err(error) => Err(vec![finding(
+            PlanStatus::Blocked,
+            "semantic_prepare_refused",
+            &format!("{error:?}"),
+        )]),
+    }
 }

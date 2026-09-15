@@ -2,7 +2,7 @@
 .SH NAME
 csdlc\-requests \- native request fields, enums and digest contracts
 .SH ISSUE INTENT CONTRACT
-\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+\&Semantic issue intent forms are the current operational contract. Direct issue\-writer \-\-request forms are retired and remain available only through \-\-help and \-\-describe for migration discovery. Observation and administrative request forms retain their documented contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for strict content and effect boundaries.
 .PP
 \&An emitted csdlc.v3.generated_intent_request.v1 wrapper is accepted directly by \-\-intent\-request, as is its csdlc.v3.intent_request.v1 request member with schema, command, content, execute, preview and snapshot. No manual extraction is required. Snapshot separates platform, repository/issue, authority selector, native issue generation/digest and checkout root/branch/head. It must equal current identity; stale or foreign\-platform requests are refused, never refreshed automatically.
 .PP

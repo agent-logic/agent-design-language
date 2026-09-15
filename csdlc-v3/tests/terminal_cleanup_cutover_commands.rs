@@ -927,46 +927,6 @@ fn cleanup_rejects_disposable_terminal_receipt_path() {
 }
 
 #[test]
-fn clean_cli_reports_requested_but_unperformed_mutation_before_cutover() {
-    let fixture = fixture_root("cleanup_cli_read_only_report");
-    let primary = fixture.join("primary");
-    let registered = fixture.join("registered");
-    fs::create_dir_all(&fixture).expect("fixture root");
-    init_repo(&primary);
-    git(&primary, &["worktree", "add", registered.to_str().unwrap()]);
-
-    let request = cleanup_plan(&fixture, &primary, &registered, true, None, None);
-    let request_path = fixture.join("clean-request.json");
-    fs::write(
-        &request_path,
-        serde_json::to_vec(&request).expect("serialize clean request"),
-    )
-    .expect("write clean request");
-
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-        .args(["clean", "--request"])
-        .arg(&request_path)
-        .output()
-        .expect("run clean command");
-    assert!(
-        !output.status.success(),
-        "blocked clean must return nonzero"
-    );
-    let stderr = String::from_utf8_lossy(&output.stderr);
-    let value: serde_json::Value =
-        serde_json::from_slice(&output.stdout).expect("machine-readable clean JSON on stdout");
-    assert!(!stderr.contains("\"result\""));
-    assert!(stderr.contains("see structured stdout findings"));
-    assert_eq!(value["envelope"]["status"], "blocked");
-    assert_eq!(value["envelope"]["effects"]["outcome"], "none");
-    assert_eq!(value["read_only"], true);
-    assert_eq!(value["requested_mutation"], true);
-    assert_eq!(value["performed_mutation"], false);
-    assert_eq!(value["result"]["status"], "blocked");
-    assert!(registered.exists());
-}
-
-#[test]
 fn cleanup_rejects_stale_or_mismatched_terminal_receipts() {
     let fixture = fixture_root("cleanup_stale_terminal_receipt");
     let primary = fixture.join("primary");
@@ -1199,6 +1159,10 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let apply = cutover_request(&root, readiness_digest.clone(), CutoverOperation::Apply);
     execute_cutover_request(&apply).expect("initial apply");
+    let applied = csdlc_v3::commands::terminal::observe_cutover_effect(&apply)
+        .expect("exact cutover readback");
+    assert_eq!(applied["operation"], "apply");
+    assert_eq!(applied["effect_truth"], "performed");
     let receipt_path = root.join(".git/csdlc-v3/cutover-receipt.json");
     let selector_path = root.join("csdlc-v3/operator/authority-selector.json");
     let mut receipt: serde_json::Value =
@@ -1236,6 +1200,10 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
         serde_json::from_slice(&fs::read(&selector_path).unwrap()).unwrap();
     assert_eq!(rolled_back_selector["generation"], "rollback");
     assert!(!root.join(".adl/bin/csdlc").exists());
+    let observed = csdlc_v3::commands::terminal::observe_cutover_effect(&rollback)
+        .expect("exact rollback readback");
+    assert_eq!(observed["operation"], "rollback");
+    assert_eq!(observed["effect_truth"], "performed");
     let retry = prepare_terminal_route("cutover", &rollback).expect("idempotent rollback");
     assert_eq!(retry.status, TerminalRouteStatus::Ready, "{retry:#?}");
 }

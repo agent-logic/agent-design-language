@@ -69,13 +69,13 @@ python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent
 # run the current v0.87.1 milestone demo-suite proof package
 bash adl/tools/demo_v0871_suite.sh
 
-# initialize, validate, and inspect readiness through native v3 typed requests
-.adl/bin/native-v3/csdlc issue --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+# initialize through the semantic issue intent, then inspect through read-only owners
+.adl/bin/native-v3/csdlc prepare <issue> --plan <plan.json>
 .adl/bin/native-v3/csdlc validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 .adl/bin/native-v3/csdlc doctor --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 
 # bind execution context at the last responsible moment
-.adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+.adl/bin/native-v3/csdlc bind <issue>
 
 # inspect worktree status/fate across managed, stale, orphan, and Codex-ephemeral namespaces
 ./adl/tools/worktree_doctor.sh

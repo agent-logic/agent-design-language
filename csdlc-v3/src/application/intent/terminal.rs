@@ -1,5 +1,10 @@
 //! Intent adapters for authenticated terminal delivery and exact preview cleanup.
 use super::{context::git, Context, IntentRequest};
+use crate::lifecycle::semantic::{Facts, SemanticCommand};
+use crate::storage::{
+    semantic::{self, protocol::*},
+    DurableTransactionStore,
+};
 use crate::{
     adapters::{
         CommandInvocation, EnvironmentCredentialResolver, ProcessAdapter, ProcessStatus,
@@ -9,6 +14,131 @@ use crate::{
 };
 use serde_json::{json, Value};
 use std::{fs, path::PathBuf};
+
+fn semantic_error(error: semantic::Error) -> String {
+    format!("intent_terminal_semantic_{error:?}")
+}
+fn encode(value: &impl serde::Serialize) -> Result<Vec<u8>, String> {
+    serde_json::to_vec(value).map_err(|_| "intent_terminal_evidence_invalid".into())
+}
+fn completion(value: &Completion) -> Value {
+    json!({"operation_id":value.operation_id().as_str(),"outcome":value.outcome_kind(),
+        "effect_truth":value.truth(),"version":value.current_version(),"original_version":value.original_version()})
+}
+fn semantic_for(
+    context: &Context,
+    command: SemanticCommand,
+) -> Result<super::context::SemanticContext, String> {
+    let (root, key) = context.semantic_root_key()?;
+    if let semantic::Observation::Current(snapshot)
+    | semantic::Observation::ProjectionRepairRequired(snapshot) =
+        DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)?
+    {
+        if let Some(pending) = snapshot.pending() {
+            if pending.command() != command {
+                return Err("intent_terminal_other_operation_pending".into());
+            }
+            return context.semantic_recovery_context(pending.id());
+        }
+    }
+    context.semantic_context()
+}
+fn effect_result(
+    context: &Context,
+    semantic: &super::context::SemanticContext,
+    ticket: OperationTicket,
+    request: &EffectRequest,
+    result: Result<Value, String>,
+    facts: Facts,
+) -> Result<Value, String> {
+    let mut result = result.unwrap_or_else(
+        |code| json!({"status":"recovery_required","effects_unknown":true,"error":code}),
+    );
+    // Invocation writes and the retained operation's historical effect are distinct.
+    // Verified receipt/archive reconciliation supplies history even when this call
+    // only attaches the already-performed result.
+    let truth = if let Some(value) = result.get("historical_effect_truth") {
+        serde_json::from_value(value.clone()).map_err(|_| "intent_terminal_effect_truth_invalid")?
+    } else {
+        match result["performed_mutation"].as_bool() {
+            Some(true) => EffectTruth::Performed,
+            Some(false) => EffectTruth::NotPerformed,
+            None => EffectTruth::Unknown,
+        }
+    };
+    let attachment = semantic.fresh_for_effect(ticket.id());
+    let fresh = attachment.is_ok();
+    let kind = if !fresh || truth == EffectTruth::Unknown || result["status"] == "recovery_required"
+    {
+        OutcomeKind::Unresolved
+    } else if matches!(
+        result["status"].as_str(),
+        Some("completed" | "expected_noop")
+    ) {
+        OutcomeKind::Success
+    } else {
+        OutcomeKind::Failure
+    };
+    let outcome = VerifiedOutcome::from_native_owner(
+        kind,
+        truth,
+        encode(&result)?,
+        facts,
+        request.native_identity().clone(),
+    )
+    .map_err(semantic_error)?;
+    let operation_id = ticket.id().as_str().to_owned();
+    let attached = DurableTransactionStore::attach_outcome(
+        &semantic.root,
+        ticket,
+        outcome,
+        attachment.unwrap_or_else(|_| {
+            AttachmentAdmission::from_native_owner(
+                semantic.snapshot.inputs().authority().clone(),
+                request.origin().clone(),
+            )
+        }),
+    );
+    let attached = match attached {
+        Ok(attached) => attached,
+        Err(error) => {
+            result["status"] = json!("recovery_required");
+            result["semantic"] = json!({"operation_id":operation_id,"attachment_error":semantic_error(error),"effect_truth":truth});
+            return Ok(result);
+        }
+    };
+    result["semantic"] = match attached {
+        Attachment::Completed(done) | Attachment::AlreadyCompleted(done) => {
+            let snapshot =
+                match DurableTransactionStore::observe_issue(&semantic.root, &semantic.key)
+                    .map_err(semantic_error)?
+                {
+                    semantic::Observation::Current(snapshot)
+                    | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
+                    _ => return Err("intent_terminal_projection_state_unavailable".into()),
+                };
+            let projected = match semantic.complete_projection(&snapshot) {
+                Ok(projected) => projected,
+                Err(error) => {
+                    result["status"] = json!("recovery_required");
+                    result["semantic"] = completion(&done);
+                    result["semantic"]["projection_error"] = json!(error);
+                    return Ok(result);
+                }
+            };
+            let mut value = completion(&done);
+            value["version"] = serde_json::to_value(projected.version())
+                .map_err(|_| "intent_terminal_evidence_invalid")?;
+            value
+        }
+        Attachment::RecoveryRequired(version) => {
+            result["status"] = json!("recovery_required");
+            json!({"recovery_required":true,"version":version})
+        }
+    };
+    let _ = context; // The retained semantic context remains valid after checkout removal.
+    Ok(result)
+}
 
 fn native_request(context: &Context) -> Result<TerminalRouteRequest, String> {
     serde_json::from_value(json!({"repository":context.repository,"issue":context.issue,
@@ -60,9 +190,11 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .lines()
             .filter_map(|line| line.strip_prefix("worktree "))
         {
-            if PathBuf::from(worktree)
-                .join(format!(".csdlc/issues/{}/index.json", context.issue))
-                .exists()
+            let worktree = PathBuf::from(worktree);
+            if worktree != context.root
+                && worktree
+                    .join(format!(".csdlc/issues/{}/index.json", context.issue))
+                    .exists()
             {
                 return Err("intent_cleanup_registration_ambiguous".into());
             }
@@ -76,18 +208,174 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         let bound_path = binding["worktree"]
             .as_str()
             .ok_or("intent_cleanup_binding_invalid")?;
-        if topology
+        let candidate = PathBuf::from(bound_path);
+        let registered = topology
             .lines()
             .filter_map(|line| line.strip_prefix("worktree "))
-            .any(|path| path == bound_path)
-            || PathBuf::from(bound_path).exists()
-        {
-            return Err("cleanup_archive_recovery_required".into());
+            .any(|path| path == bound_path);
+        let (root, key) = context.semantic_root_key()?;
+        let snapshot =
+            match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
+                semantic::Observation::Current(snapshot)
+                | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
+                _ => return Err("intent_cleanup_semantic_state_required".into()),
+            };
+        if registered || candidate.exists() {
+            // A missing source index does not mean Git removal completed. Resume
+            // only the exact registered checkout backed by verified archive bytes
+            // and the retained semantic cleanup reservation.
+            if !registered || !candidate.exists() {
+                return Err("cleanup_archive_recovery_required".into());
+            }
+            let Some(pending) = snapshot
+                .pending()
+                .filter(|pending| pending.command() == SemanticCommand::RecordCleanup)
+            else {
+                return Err("intent_cleanup_pending_identity_required".into());
+            };
+            if snapshot
+                .inputs()
+                .binding()
+                .is_none_or(|binding| binding.worktree != candidate)
+            {
+                return Err("intent_cleanup_pending_identity_required".into());
+            }
+            let inspection = DurableTransactionStore::inspect_effect(&root, &key, pending.id())
+                .map_err(semantic_error)?;
+            let content: Value = serde_json::from_slice(
+                &inspection
+                    .request()
+                    .canonical_content()
+                    .map_err(semantic_error)?,
+            )
+            .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+            let digest = content["archive_identity"]["inventory_digest"]
+                .as_str()
+                .ok_or("intent_cleanup_archive_identity_invalid")?;
+            let retained = matching_retained_cleanup_index(
+                &context.primary,
+                &candidate,
+                context.issue,
+                digest,
+            )
+            .map_err(|finding| finding.code)?
+            .ok_or("cleanup_archive_recovery_required")?;
+            if snapshot
+                .inputs()
+                .binding()
+                .is_none_or(|binding| binding.worktree != candidate)
+                || snapshot
+                    .pending()
+                    .is_none_or(|current| current.id() != pending.id())
+            {
+                return Err("intent_cleanup_pending_identity_required".into());
+            }
+            let recovered = Context::load(&candidate, context.issue)?;
+            if !recovered.cleanup_pending
+                || recovered.root != candidate
+                || recovered.index != retained
+            {
+                return Err("cleanup_archive_recovery_required".into());
+            }
+            return run(&recovered, request);
         }
         context.fresh()?;
+        let mut selected = snapshot.pending().map(|pending| pending.id().clone());
+        if selected.is_none() {
+            for done in snapshot.completed().iter().rev() {
+                let inspection = DurableTransactionStore::inspect_effect(&root, &key, done.id())
+                    .map_err(semantic_error)?;
+                if inspection.request().command() == SemanticCommand::RecordCleanup {
+                    selected = Some(done.id().clone());
+                    break;
+                }
+            }
+        }
+        let selected = selected.ok_or("intent_cleanup_semantic_completion_required")?;
+        let semantic = context.semantic_recovery_context(&selected)?;
+        let inspection = DurableTransactionStore::inspect_effect(&root, &key, &selected)
+            .map_err(semantic_error)?;
+        if inspection.request().command() != SemanticCommand::RecordCleanup {
+            return Err("intent_cleanup_semantic_completion_required".into());
+        }
+        let retained: Value = serde_json::from_slice(
+            &inspection
+                .request()
+                .canonical_content()
+                .map_err(semantic_error)?,
+        )
+        .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+        let expected = encode(&retained["archive_identity"])?;
+        let archive = semantic_matching_retained_cleanup_archive_identity(
+            &context.primary,
+            &candidate,
+            context.issue,
+            &expected,
+        )
+        .map_err(|finding| finding.code)?
+        .ok_or("cleanup_archive_recovery_required")?;
+        if let Some(pending) = semantic.snapshot.pending() {
+            if pending.command() != SemanticCommand::RecordCleanup {
+                return Err("intent_cleanup_other_operation_pending".into());
+            }
+            let inspection = DurableTransactionStore::inspect_effect(
+                &semantic.root,
+                &semantic.key,
+                pending.id(),
+            )
+            .map_err(semantic_error)?;
+            let operation = inspection.request();
+            let identity: Value = serde_json::from_slice(&archive)
+                .map_err(|_| "intent_cleanup_archive_identity_invalid")?;
+            if retained["archive_identity"] != identity {
+                return Err("intent_cleanup_retained_archive_mismatch".into());
+            }
+            let packet = json!({"schema":"csdlc.v3.semantic_cleanup_recovery.v1","operation":pending.id().as_str(),
+                "version":semantic.snapshot.version(),"archive":identity,"receipt":receipt,"topology":topology});
+            let token = blake3::hash(&encode(&packet)?).to_hex().to_string();
+            if !request.execute {
+                return Ok(
+                    json!({"status":"ready","read_only":true,"performed_mutation":false,"preview_token":token,"recovery":packet}),
+                );
+            }
+            if request.preview.as_deref() != Some(token.as_str()) {
+                return Err("intent_cleanup_preview_stale".into());
+            }
+            let ticket = inspection
+                .ticket()
+                .ok_or("intent_cleanup_pending_ticket_missing")?
+                .clone();
+            // No native dispatch occurs here; effect_result authenticates attachment.
+            return effect_result(
+                context,
+                &semantic,
+                ticket,
+                operation,
+                Ok(
+                    json!({"status":"expected_noop","read_only":false,"performed_mutation":false,"historical_effect_truth":"performed","reconciled_removal":packet}),
+                ),
+                Facts {
+                    terminal_receipt: true,
+                    cleanup: true,
+                    ..Default::default()
+                },
+            );
+        }
+        let completed = semantic
+            .snapshot
+            .completed()
+            .iter()
+            .find(|done| done.id() == &selected)
+            .ok_or("intent_cleanup_semantic_completion_required")?;
+        if completed.outcome() != OutcomeKind::Success
+            || completed.truth() != EffectTruth::Performed
+        {
+            return Err("intent_cleanup_semantic_success_required".into());
+        }
         return Ok(
             json!({"status":"expected_noop","read_only":true,"operational_authority":false,"performed_mutation":false,
-            "issue":context.issue,"terminal_head":receipt.head_sha,"reason":"native_terminal_receipt_retained_and_no_registered_issue_binding"}),
+            "issue":context.issue,"terminal_head":receipt.head_sha,"semantic":{"operation_id":completed.id().as_str(),
+                "outcome":completed.outcome(),"effect_truth":completed.truth(),"version":semantic.snapshot.version()}}),
         );
     }
     let mut native = if request.command == "finish" && !request.content.is_null() {
@@ -155,26 +443,102 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 return Err("intent_finish_arguments_invalid".into());
             }
             let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
-            if request.preview.is_none() {
-                native.terminal_state = Some(TerminalStateWriteRequest {
-                    repository_root: context.primary.clone(),
-                    state_path: state_path.clone(),
-                    receipt_path: receipt_path.clone(),
-                    expected_state_digest: file_digest(&state_path)?,
-                });
-            }
             context.fresh()?;
             let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
-            let plan = prepare_terminal_finish_with_github_observation(&native, &mut process)
+            // Authentication and terminal admission are observational before reservation.
+            let staged = prepare_terminal_finish_with_github_observation(&native, &mut process)
                 .map_err(|finding| finding.code)?;
-            let success = plan.status == TerminalRouteStatus::Ready;
-            let preview = request.preview.is_some();
-            Ok(
-                json!({"status":if success {if preview {"ready"} else {"completed"}} else {"blocked"},
-                "read_only":preview,"operational_authority":plan.operational_authority,
-                "performed_mutation":if preview {Some(false)} else if success {Some(true)} else {None},
-                "effects_unknown":!preview&&!success,"result":plan}),
+            if request.preview.is_some() || staged.status != TerminalRouteStatus::Ready {
+                return Ok(
+                    json!({"status":if staged.status == TerminalRouteStatus::Ready {"ready"}else{"blocked"},
+                    "read_only":true,"operational_authority":false,"performed_mutation":false,"result":staged}),
+                );
+            }
+            let command = if native.no_pr_closeout.is_some() {
+                SemanticCommand::FinishWithoutPr
+            } else {
+                SemanticCommand::Finish
+            };
+            let semantic = semantic_for(context, command)?;
+            let bytes = encode(&native)?;
+            let operation = EffectRequest::new(
+                command,
+                NativeIdentity::new(
+                    "terminal-finish".into(),
+                    blake3::hash(&bytes).to_hex().to_string(),
+                )
+                .map_err(semantic_error)?,
+                semantic.origin.clone(),
+                &bytes,
             )
+            .map_err(semantic_error)?;
+            let facts = Facts {
+                terminal: true,
+                no_pr_disposition: native.no_pr_closeout.is_some(),
+                ..Default::default()
+            };
+            let reservation = DurableTransactionStore::reserve_effect(
+                &semantic.root,
+                EffectAdmission::from_native_owner(
+                    semantic.admission.clone(),
+                    operation.origin().clone(),
+                    facts.clone(),
+                ),
+                operation.clone(),
+            )
+            .map_err(semantic_error)?;
+            let ticket = match reservation {
+                Reservation::AlreadyCompleted(done) => {
+                    return Ok(
+                        json!({"status":"expected_noop","read_only":true,"performed_mutation":false,"semantic":completion(&done)}),
+                    )
+                }
+                Reservation::AlreadyPending(ticket) => {
+                    // Reconcile retained terminal bytes; never repeat the writer blindly.
+                    let bytes = fs::read(&receipt_path)
+                        .map_err(|_| "intent_terminal_pending_readback_required")?;
+                    let receipt: DurableTerminalReceipt = serde_json::from_slice(&bytes)
+                        .map_err(|_| "intent_terminal_receipt_invalid")?;
+                    if receipt.repository != context.repository
+                        || receipt.issue != context.issue
+                        || receipt.head_sha != context.head
+                        || receipt.disposition != "closed_out"
+                        || receipt.no_pr_closeout != native.no_pr_closeout
+                        || receipt.state_digest.is_none()
+                        || receipt.state_digest != file_digest(&state_path)?
+                    {
+                        return Err("intent_terminal_pending_readback_mismatch".into());
+                    }
+                    return effect_result(
+                        context,
+                        &semantic,
+                        ticket,
+                        &operation,
+                        Ok(
+                            json!({"status":"expected_noop","read_only":false,"performed_mutation":false,"historical_effect_truth":"performed","retained_receipt":receipt}),
+                        ),
+                        facts,
+                    );
+                }
+                Reservation::Reserved(ticket) => ticket,
+            };
+            semantic.admit_before_effect(ticket.id())?;
+            native.terminal_state = Some(TerminalStateWriteRequest {
+                repository_root: context.primary.clone(),
+                state_path,
+                receipt_path: receipt_path.clone(),
+                expected_state_digest: file_digest(
+                    &output_root.join(format!("v3/issues/{}/terminal.json", context.issue)),
+                )?,
+            });
+            let result = prepare_terminal_finish_with_github_observation(&native,&mut process)
+                .map(|plan| {
+                    let success = plan.status == TerminalRouteStatus::Ready;
+                    json!({"status":if success {"completed"}else{"blocked"},"read_only":false,
+                        "operational_authority":plan.operational_authority,"performed_mutation":if success {Some(true)}else{None},
+                        "effects_unknown":!success,"result":plan})
+                }).map_err(|finding|finding.code);
+            effect_result(context, &semantic, ticket, &operation, result, facts)
         }
         "clean" => {
             if context.root == context.primary || context.index["phase"] != "bound" {
@@ -246,15 +610,164 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let cleanup = native.cleanup.as_mut().expect("cleanup constructed above");
             cleanup.remove = true;
             cleanup.preview_receipt_digest = Some(native_digest);
-            let result = prepare_intent_cleanup(&native).map_err(|finding| finding.code)?;
+            let semantic = semantic_for(context, SemanticCommand::RecordCleanup)?;
+            let archive = if semantic
+                .snapshot
+                .pending()
+                .is_some_and(|pending| pending.command() == SemanticCommand::RecordCleanup)
+            {
+                let pending = semantic
+                    .snapshot
+                    .pending()
+                    .expect("checked pending cleanup");
+                let retained = DurableTransactionStore::inspect_effect(
+                    &semantic.root,
+                    &semantic.key,
+                    pending.id(),
+                )
+                .map_err(semantic_error)?;
+                let content: Value = serde_json::from_slice(
+                    &retained
+                        .request()
+                        .canonical_content()
+                        .map_err(semantic_error)?,
+                )
+                .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+                let expected = encode(&content["archive_identity"])?;
+                match semantic_matching_retained_cleanup_archive_identity(
+                    &context.primary,
+                    &context.root,
+                    context.issue,
+                    &expected,
+                )
+                .map_err(|finding| finding.code)?
+                {
+                    Some(retained) => retained,
+                    None => semantic_cleanup_archive_identity(
+                        &context.primary,
+                        &context.root,
+                        context.issue,
+                    )
+                    .map_err(|finding| finding.code)?,
+                }
+            } else {
+                semantic_cleanup_archive_identity(&context.primary, &context.root, context.issue)
+                    .map_err(|finding| finding.code)?
+            };
+            let archive_identity: Value = serde_json::from_slice(&archive)
+                .map_err(|_| "intent_cleanup_archive_identity_invalid")?;
+            let facts = Facts {
+                terminal_receipt: true,
+                cleanup: true,
+                ..Default::default()
+            };
+            let operation = if let Some(pending) = semantic.snapshot.pending() {
+                if pending.command() != SemanticCommand::RecordCleanup {
+                    return Err("intent_cleanup_other_operation_pending".into());
+                }
+                let retained = DurableTransactionStore::inspect_effect(
+                    &semantic.root,
+                    &semantic.key,
+                    pending.id(),
+                )
+                .map_err(semantic_error)?;
+                let content: Value = serde_json::from_slice(
+                    &retained
+                        .request()
+                        .canonical_content()
+                        .map_err(semantic_error)?,
+                )
+                .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+                if content["archive_identity"] != archive_identity {
+                    return Err("intent_cleanup_retained_archive_mismatch".into());
+                }
+                retained.request().clone()
+            } else {
+                let origin = EffectOrigin::cleanup(
+                    semantic
+                        .snapshot
+                        .inputs()
+                        .binding()
+                        .ok_or("intent_cleanup_semantic_binding_required")?
+                        .clone(),
+                    CleanupIdentity::from_native_owner(
+                        fs::read(&receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
+                        encode(&packet)?,
+                        archive,
+                    )
+                    .map_err(semantic_error)?,
+                );
+                let content =
+                    json!({"native":native,"archive_identity":archive_identity,"preview":packet});
+                let bytes = encode(&content)?;
+                EffectRequest::new(
+                    SemanticCommand::RecordCleanup,
+                    NativeIdentity::new(
+                        "terminal-cleanup".into(),
+                        blake3::hash(&bytes).to_hex().to_string(),
+                    )
+                    .map_err(semantic_error)?,
+                    origin,
+                    &bytes,
+                )
+                .map_err(semantic_error)?
+            };
+            let ticket = match DurableTransactionStore::reserve_effect(
+                &semantic.root,
+                EffectAdmission::from_native_owner(
+                    semantic.admission.clone(),
+                    operation.origin().clone(),
+                    facts.clone(),
+                ),
+                operation.clone(),
+            )
+            .map_err(semantic_error)?
+            {
+                Reservation::AlreadyCompleted(done) => {
+                    return Ok(
+                        json!({"status":"expected_noop","read_only":true,"performed_mutation":false,"semantic":completion(&done)}),
+                    )
+                }
+                Reservation::Reserved(ticket) | Reservation::AlreadyPending(ticket) => ticket,
+            };
+            // The exact user-approved native preview is re-admitted on recovery;
+            // retained semantic request and archive identity are never regenerated.
+            semantic.admit_before_effect(ticket.id())?;
+            let result = match prepare_intent_cleanup(&native) {
+                Ok(result) => result,
+                Err(finding) => {
+                    let archived =
+                        retained_cleanup_index(&context.primary, &context.root, context.issue)
+                            .is_ok_and(|index| index.is_some());
+                    return effect_result(
+                        context,
+                        &semantic,
+                        ticket,
+                        &operation,
+                        Ok(json!({"status":"recovery_required","error":finding.code,
+                            "performed_mutation":if archived{Some(true)}else{None},
+                            "effects_unknown":!archived})),
+                        facts,
+                    );
+                }
+            };
             let removed = matches!(result.cleanup, Some(CleanupDecision::Removed { .. }));
             let noop = matches!(
                 result.cleanup,
                 Some(CleanupDecision::Absent { .. } | CleanupDecision::AlreadyRemoved { .. })
             );
-            Ok(
-                json!({"status":if removed {"completed"}else if noop {"expected_noop"}else{"blocked"},"read_only":noop,"operational_authority":removed,
-                "performed_mutation":if removed{Some(true)}else if noop{Some(false)}else{None},"effects_unknown":!removed&&!noop,"result":result}),
+            effect_result(
+                context,
+                &semantic,
+                ticket,
+                &operation,
+                Ok(
+                    json!({"status":if removed {"completed"}else if noop {"expected_noop"}else{"blocked"},"read_only":false,"operational_authority":removed,
+                "performed_mutation":if removed{Some(true)}else if noop{Some(false)}else{None},
+                "historical_effect_truth":if removed||context.cleanup_pending {EffectTruth::Performed}else if noop {EffectTruth::NotPerformed}else{EffectTruth::Unknown},
+                "effects_unknown":!removed&&!noop,"result":result}),
+                ),
+                facts,
             )
         }
         _ => Err("intent_terminal_command_unknown".into()),

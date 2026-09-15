@@ -361,7 +361,17 @@
         "-h"
       ],
       "family": "terminal",
-      "example": "cutover.json"
+      "example": "cutover.json",
+      "intent_options": [
+        "--emit-request",
+        "--execute",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--operation",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "rollback",
@@ -372,7 +382,17 @@
         "-h"
       ],
       "family": "terminal",
-      "example": "rollback.json"
+      "example": "rollback.json",
+      "intent_options": [
+        "--emit-request",
+        "--execute",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--operation",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "proof",
@@ -400,7 +420,17 @@
         "-h"
       ],
       "family": "proof",
-      "example": "install.json"
+      "example": "install.json",
+      "intent_options": [
+        "--emit-request",
+        "--execute",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--operation",
+        "--repo-root",
+        "-h"
+      ]
     },
     {
       "command": "shadow",
@@ -509,6 +539,7 @@
     {
       "command": "recover",
       "options": [
+        "--disposition",
         "--emit-request",
         "--execute",
         "--help",
@@ -520,6 +551,7 @@
       ],
       "family": "intent",
       "intent_options": [
+        "--disposition",
         "--emit-request",
         "--execute",
         "--help",

@@ -1,5 +1,7 @@
 //! Issue intent adapters. Native command owners remain the only lifecycle writers.
+mod administrative;
 mod context;
+mod install;
 mod local;
 mod remote;
 mod terminal;
@@ -8,9 +10,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, fs, path::PathBuf};
 
-pub const INTENTS: [&str; 11] = [
+pub const INTENTS: [&str; 14] = [
     "status", "prepare", "bind", "edit", "validate", "proof", "review", "publish", "finish",
-    "clean", "recover",
+    "clean", "recover", "install", "cutover", "rollback",
 ];
 pub fn read_metrics() -> Value {
     serde_json::json!({"application_git_reads":context::application_git_reads(),"canonical_authority_file_reads":crate::authority::canonical_file_reads(),"scope":"actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"})
@@ -125,7 +127,10 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
                     "review" => "--evidence",
                     "status" => "--decisions",
                     "finish" => "--disposition",
-                    "github-issue" | "github-pr" => "--operation",
+                    "recover" => "--disposition",
+                    "github-issue" | "github-pr" | "install" | "cutover" | "rollback" => {
+                        "--operation"
+                    }
                     _ => "",
                 };
                 if flag != expected {
@@ -144,7 +149,16 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
                 preview = Some(iter.next().ok_or("intent_argument_value_missing")?.clone())
             }
             "--execute"
-                if matches!(command, "clean" | "recover" | "github-issue" | "github-pr") =>
+                if matches!(
+                    command,
+                    "clean"
+                        | "recover"
+                        | "github-issue"
+                        | "github-pr"
+                        | "install"
+                        | "cutover"
+                        | "rollback"
+                ) =>
             {
                 execute = true
             }
@@ -187,7 +201,7 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
         .or_else(|| supplied.as_ref().map(|request| request.snapshot.issue))
         .filter(|issue| *issue > 0)
         .ok_or("intent_issue_required")?;
-    let context = Context::load(&root, issue)?;
+    let context = Context::load_for_intent(&root, issue, command)?;
     if context.cleanup_pending && command != "clean" {
         return Err("cleanup_archive_recovery_required: archived terminal evidence only permits explicit cleanup continuation".into());
     }
@@ -212,7 +226,12 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
             snapshot: context.snapshot(),
         }
     };
-    if request.execute && !matches!(command, "clean" | "recover" | "github-issue" | "github-pr") {
+    if request.execute
+        && !matches!(
+            command,
+            "clean" | "recover" | "github-issue" | "github-pr" | "install" | "cutover" | "rollback"
+        )
+    {
         return Err("intent_execute_argument_not_supported".into());
     }
     if request.preview.is_some()
@@ -233,10 +252,34 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
     }
     context.fresh()?;
     let mut value = match command {
-        "recover" => match remote::recover(&context, &request)? {
+        "recover" if !request.content.is_null() => {
+            local::recover_semantic_proof(&context, &request)?
+                .ok_or("intent_recovery_disposition_not_applicable")?
+        }
+        "recover" => match administrative::recover(&context, &request)? {
             Some(value) => value,
-            None => local::run(&context, &request)?,
+            None => match install::recover(&context, &request)? {
+                Some(value) => value,
+                None => match local::recover_semantic_projection(&context, &request)? {
+                    Some(value) => value,
+                    None => match local::recover_semantic_bind(&context, &request)? {
+                        Some(value) => value,
+                        None => match local::recover_semantic_edit(&context, &request)? {
+                            Some(value) => value,
+                            None => match local::recover_semantic_proof(&context, &request)? {
+                                Some(value) => value,
+                                None => match remote::recover(&context, &request)? {
+                                    Some(value) => value,
+                                    None => local::run(&context, &request)?,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
         },
+        "install" => install::run(&context, &request)?,
+        "cutover" | "rollback" => administrative::run(&context, &request)?,
         "prepare" | "status" | "bind" | "edit" | "validate" => local::run(&context, &request)?,
         "review" | "publish" | "github-issue" | "github-pr" | "pr-state" => {
             remote::run(&context, &request)?

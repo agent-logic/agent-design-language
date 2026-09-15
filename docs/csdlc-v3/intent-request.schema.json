@@ -22,7 +22,10 @@
         "recover",
         "github-issue",
         "github-pr",
-        "pr-state"
+        "pr-state",
+        "install",
+        "cutover",
+        "rollback"
       ]
     },
     "content": {},

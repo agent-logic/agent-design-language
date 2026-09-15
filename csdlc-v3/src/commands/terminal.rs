@@ -177,6 +177,23 @@ pub struct TerminalFinding {
     pub message: String,
 }
 
+pub(crate) fn semantic_cleanup_archive_identity(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+) -> Result<Vec<u8>, TerminalFinding> {
+    intent_archive::semantic_identity(primary, candidate, issue)
+}
+
+pub(crate) fn semantic_matching_retained_cleanup_archive_identity(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+    expected: &[u8],
+) -> Result<Option<Vec<u8>>, TerminalFinding> {
+    intent_archive::matching_retained_semantic_identity(primary, candidate, issue, expected)
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 #[serde(tag = "decision", rename_all = "snake_case")]
 pub enum FinishDecision {
@@ -982,6 +999,15 @@ pub fn retained_cleanup_index(
     intent_archive::retained_index(primary, candidate, issue)
 }
 
+pub(crate) fn matching_retained_cleanup_index(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+    digest: &str,
+) -> Result<Option<serde_json::Value>, TerminalFinding> {
+    intent_archive::matching_retained_index(primary, candidate, issue, digest)
+}
+
 fn persist_terminal_finish(
     request: &TerminalRouteRequest,
     decision: &FinishDecision,
@@ -1402,6 +1428,172 @@ struct CutoverReceipt {
     prior_selector_digest: String,
     cutover_selector_digest: String,
     approved_by: String,
+}
+
+/// Authenticated, read-only evidence that the exact administrative effect
+/// retained by a cutover or rollback request has reached its terminal state.
+/// The semantic transaction owner uses these bytes to reconcile an interrupted
+/// attachment without dispatching the filesystem mutation again.
+pub fn observe_cutover_effect(
+    request: &TerminalRouteRequest,
+) -> Result<serde_json::Value, TerminalFinding> {
+    let cutover = request.cutover.as_ref().ok_or_else(|| {
+        finding(
+            "missing_cutover_request",
+            "administrative reconciliation requires a cutover request",
+        )
+    })?;
+    if request.issue != 505 {
+        return Err(finding(
+            "cutover_issue_mismatch",
+            "administrative reconciliation is restricted to authority issue #505",
+        ));
+    }
+    let repository_root = cutover
+        .repository_root
+        .as_ref()
+        .ok_or_else(|| finding("missing_repository_root", "repository root is required"))?
+        .canonicalize()
+        .map_err(|error| finding("repository_root_unavailable", &error.to_string()))?;
+    let selector = repo_output_path(
+        &repository_root,
+        cutover.authority_selector_path.as_ref(),
+        "missing_authority_selector_path",
+        "authority selector path is required",
+        "authority_selector",
+    )?;
+    let destination = repo_output_path(
+        &repository_root,
+        cutover.install_destination_path.as_ref(),
+        "missing_install_destination_path",
+        "stable install destination is required",
+        "install_destination",
+    )?;
+    let requested_receipt = repo_output_path(
+        &repository_root,
+        cutover.rollback_receipt_path.as_ref(),
+        "missing_rollback_receipt_path",
+        "rollback receipt path is required",
+        "rollback_receipt",
+    )?;
+    if selector != repository_root.join(crate::authority::SELECTOR_PATH)
+        || destination
+            != repository_root.join(crate::commands::proof::CANONICAL_INSTALL_DESTINATION)
+        || requested_receipt != repository_root.join(".csdlc/evidence/505/cutover-receipt.json")
+    {
+        return Err(finding(
+            "cutover_reconciliation_path_mismatch",
+            "administrative reconciliation paths do not match the canonical authority paths",
+        ));
+    }
+    let receipt_path = git_control_dir(&repository_root)
+        .ok_or_else(|| {
+            finding(
+                "cutover_git_common_dir_missing",
+                "Git common dir is required",
+            )
+        })?
+        .join("csdlc-v3/cutover-receipt.json");
+    let journal = read_cutover_receipt(&receipt_path)?;
+    let selected_binary = repo_existing_file(
+        &repository_root,
+        cutover.selected_binary_path.as_ref(),
+        "missing_selected_binary_path",
+        "selected binary path is required",
+        "selected_binary",
+    )?;
+    let readiness_evidence = repo_existing_file(
+        &repository_root,
+        Some(&journal.readiness_evidence_path),
+        "missing_readiness_evidence_path",
+        "readiness evidence path is required",
+        "readiness_evidence",
+    )?;
+    let approval_evidence = repo_existing_file(
+        &repository_root,
+        Some(&journal.approval_evidence_path),
+        "missing_cutover_approval",
+        "cutover approval path is required",
+        "cutover_approval",
+    )?;
+    if journal.schema != "csdlc.v3.cutover_receipt.v2"
+        || journal.authority_issue != 505
+        || journal.canonical_selector != Path::new(crate::authority::SELECTOR_PATH)
+        || (!cutover.selected_binary_provenance.is_empty()
+            && cutover.selected_binary_provenance != format!("git:{}", journal.selected_revision))
+        || cutover.readiness_evidence_path.as_ref() != Some(&journal.readiness_evidence_path)
+        || cutover.readiness_evidence_digest.as_deref()
+            != Some(journal.readiness_evidence_digest.as_str())
+        || blake3::hash(&journal.prior_selector).to_hex().to_string()
+            != journal.prior_selector_digest
+    {
+        return Err(finding(
+            "cutover_receipt_mismatch",
+            "retained cutover receipt does not match its exact request and evidence",
+        ));
+    }
+    if digest_file(&selected_binary)? != journal.selected_binary_digest {
+        return Err(finding(
+            "cutover_selected_binary_mismatch",
+            "selected binary bytes do not match the retained cutover receipt",
+        ));
+    }
+    if digest_file(&readiness_evidence)? != journal.readiness_evidence_digest {
+        return Err(finding(
+            "cutover_readiness_evidence_mismatch",
+            "readiness evidence bytes do not match the retained cutover receipt",
+        ));
+    }
+    let _ = approval_evidence;
+    if stable_digest(&[
+        "github",
+        "pr-591",
+        &journal.selected_revision,
+        "merged",
+        "issue-505-closed",
+    ]) != journal.approval_evidence_digest
+    {
+        return Err(finding(
+            "cutover_approval_evidence_mismatch",
+            "authenticated approval identity does not match the retained cutover receipt",
+        ));
+    }
+    let selector_digest = digest_file(&selector)?;
+    let binary_digest = optional_regular_file_digest(&destination)?;
+    match cutover.operation {
+        CutoverOperation::Apply
+            if journal.phase == CutoverPhase::Committed
+                && selector_digest == journal.cutover_selector_digest
+                && binary_digest.as_deref() == Some(journal.selected_binary_digest.as_str()) => {}
+        CutoverOperation::Rollback
+            if journal.phase == CutoverPhase::RolledBack
+                && binary_digest.is_none()
+                && crate::authority::canonical_v2_rollback(&repository_root)
+                    .map_err(|error| finding("rollback_selector_invalid", &error))? => {}
+        _ => {
+            return Err(finding(
+                "administrative_effect_not_settled",
+                "the exact cutover or rollback effect has not reached its retained terminal state",
+            ))
+        }
+    }
+    Ok(serde_json::json!({
+        "schema":"csdlc.v3.administrative_effect_observation.v1",
+        "repository":request.repository,
+        "issue":request.issue,
+        "operation":cutover.operation,
+        "selected_revision":journal.selected_revision,
+        "selected_binary_digest":journal.selected_binary_digest,
+        "selector_digest":selector_digest,
+        "binary_digest":binary_digest,
+        "receipt_path":receipt_path,
+        "receipt_digest":digest_file(&receipt_path)?,
+        "readiness_evidence_path":journal.readiness_evidence_path,
+        "readiness_evidence_digest":journal.readiness_evidence_digest,
+        "approval_evidence_path":journal.approval_evidence_path,
+        "approval_evidence_digest":journal.approval_evidence_digest,
+        "effect_truth":"performed"
+    }))
 }
 
 #[derive(Debug, Deserialize)]

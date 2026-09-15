@@ -11,7 +11,6 @@ use csdlc_v3::commands::remote::{
     prepare_remote_publication_route_with_receipts, typed_review_receipt_payload_digest,
     GithubAdapterReceipt, GithubReadbackReceipt, RemotePublicationMode, RemoteReadbackSource,
     RemoteRouteReceipts, RemoteRouteRequest, RemoteRouteStatus, TypedReviewReceipt,
-    REMOTE_PUBLICATION_ROUTE_NAMES,
 };
 
 fn repo_root() -> PathBuf {
@@ -164,7 +163,7 @@ fn write_receipts(dir: &Path, request: &mut RemoteRouteRequest, receipts: &Remot
 }
 
 #[test]
-fn remote_publication_routes_are_typed_and_non_authoritative() {
+fn retained_pr_state_observation_is_typed_and_non_authoritative() {
     let dir = fixture_dir("cli");
     let request_path = dir.join("request.json");
     let (mut request, receipts) = request();
@@ -175,34 +174,35 @@ fn remote_publication_routes_are_typed_and_non_authoritative() {
     )
     .expect("write request fixture");
 
-    for route in REMOTE_PUBLICATION_ROUTE_NAMES {
-        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-            .arg(route)
-            .arg("--request")
-            .arg(&request_path)
-            .output()
-            .unwrap_or_else(|error| panic!("run {route}: {error}"));
-        assert!(output.status.success(), "{route} failed: {output:?}");
-        assert!(output.stderr.is_empty(), "{route} stderr should be empty");
-        let value: serde_json::Value =
-            serde_json::from_slice(&output.stdout).expect("machine-readable JSON");
-        assert_eq!(value["schema"], "csdlc.v3.remote_publication.v1");
-        assert_eq!(value["command"], route);
-        assert_eq!(value["read_only"], true);
-        assert_eq!(value["operational_authority"], false);
-        assert_eq!(value["cutover_issue"], 505);
-        assert_eq!(value["result"]["issue"], 629);
-        assert_eq!(
-            value["result"]["redacted_credentials"][0],
-            "GITHUB_TOKEN=<redacted>"
-        );
-        let findings = value["result"]["findings"]
-            .as_array()
-            .expect("findings array");
-        assert_eq!(value["result"]["status"], "ready");
-        assert!(findings.is_empty(), "{route} should be ready: {findings:?}");
-        assert!(!String::from_utf8_lossy(&output.stdout).contains("secret"));
-    }
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("pr-state")
+        .arg("--request")
+        .arg(&request_path)
+        .output()
+        .expect("run retained pr-state observation");
+    assert!(output.status.success(), "pr-state failed: {output:?}");
+    assert!(output.stderr.is_empty(), "pr-state stderr should be empty");
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("machine-readable JSON");
+    assert_eq!(value["schema"], "csdlc.v3.remote_publication.v1");
+    assert_eq!(value["command"], "pr-state");
+    assert_eq!(value["read_only"], true);
+    assert_eq!(value["operational_authority"], false);
+    assert_eq!(value["cutover_issue"], 505);
+    assert_eq!(value["result"]["issue"], 629);
+    assert_eq!(
+        value["result"]["redacted_credentials"][0],
+        "GITHUB_TOKEN=<redacted>"
+    );
+    let findings = value["result"]["findings"]
+        .as_array()
+        .expect("findings array");
+    assert_eq!(value["result"]["status"], "ready");
+    assert!(
+        findings.is_empty(),
+        "pr-state should be ready: {findings:?}"
+    );
+    assert!(!String::from_utf8_lossy(&output.stdout).contains("secret"));
 }
 
 #[test]

@@ -1,35 +1,30 @@
 .TH "CSDLC-GITHUB" "1" "September 11, 2026" "C-SDLC v3" "ADL Operator Manual"
 .SH NAME
-csdlc\-github \- dispatch generic issue and PR operations
+csdlc\-github \- retired generic mutation writer; use issue\-scoped GitHub intents
 .SH SYNOPSIS
 .nf
-\&csdlc github \-\-request REQUEST [\-\-observe\-github] [\-\-execute]
+\&csdlc github\-issue ISSUE \-\-operation OPERATION.json [\-\-execute]
+\&csdlc github\-pr ISSUE \-\-operation OPERATION.json [\-\-execute]
 \&csdlc github \-\-help
 .fi
 .SH DESCRIPTION
-\&With \-\-execute owns github_mutation issue_create/comment/edit/close and pull_request_create/update/ready; pull_request_merge is rejected here. Without \-\-execute returns a non\-authoritative remote plan.
+\&The generic github \-\-request writer is retired and fails before request parsing or transport. Use the issue\-scoped github\-issue or github\-pr semantic intent. The github command remains discoverable through \-\-help and \-\-describe for migration.
 .SH OPTIONS
-\&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
+\&\-\-operation: Reviewed issue or pull\-request operation content for the semantic owner.
 .PP
-\&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
+\&\-\-execute: Execute an admitted github\-issue or github\-pr operation.
 .PP
-\&\-\-execute: Select typed operational dispatch, not a generic force flag. Cannot combine with \-\-observe\-github on non\-pr\-state remote routes.
+\&\-\-request and \-\-observe\-github: Retired generic\-writer inputs documented only for migration discovery.
 .PP
-\&\-\-help: Show standalone help; \-h is equivalent.
-.PP
-\&\-h: Show standalone help; do not combine with execution options.
+\&\-\-help: Show migration guidance; \-h is equivalent.
 .SH REQUEST
-\&Without \-\-execute: RemoteRouteRequest, including typed review/readback receipt references when required. With \-\-execute on non\-pr\-state: OperationalRemoteDispatchRequest, whose expected_lifecycle_digest is the canonical authority selector payload digest, not the local issue index digest. See csdlc\-requests(1).
-.PP
-\&Non\-pr\-state \-\-execute plus \-\-observe\-github is rejected. \-\-observe\-github without \-\-execute uses authenticated readback in the planning path; it does not turn the returned plan into a performed mutation. Request family must match the selected mode.
+\&Use the issue\-scoped semantic operation or an exact generated \-\-intent\-request. OperationalRemoteDispatchRequest is a retired direct\-writer input.
 .SH EFFECTS
-\&Readback/planning does not perform remote mutation. Operational github mutation writes durable intent before network dispatch and retains authenticated reconciliation/receipt. Successful review/publish plan reports are not PR creation. Credential names are scoped to the adapter; no raw token in argv or request.
+\&Discovery is read\-only. Remote effects belong to github\-issue and github\-pr semantic transactions.
 .SH EXAMPLES
 .nf
-\&csdlc github \-\-request github\-dispatch.json \-\-execute
+\&csdlc github\-issue 870 \-\-operation issue\-operation.json \-\-execute
 .fi
-.PP
-\&Request fixtures are in docs/csdlc\-v3/man/examples/; values are illustrative and must be bound to the actual head and reviewed issue. See csdlc\-workflow(1) for the full live sequence.
 .SH RECOVERY
 \&After uncertain dispatch retain the original request and exact intent. Reinvoke the identical native request for authenticated reconciliation. A changed request is a different operation, not a retry. Never delete the target guard or intent to force a second write.
 .PP

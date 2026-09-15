@@ -91,6 +91,7 @@
   ],
   "additional_proof_roles": {
     "installed_intent_timeout": "Actual installed proof timeout and cancellation; owned descendants killed, bounded pipe cleanup, failed receipts",
-    "installed_predecessor_dispositions": "Actual installed generic GitHub, cutover, and rollback predecessor dispositions; historical authority remains isolated fixture data"
+    "installed_predecessor_dispositions": "Installed retirement guard for generic GitHub plus current semantic cutover and rollback predecessor dispositions; historical authority remains isolated fixture data",
+    "proof_worktree_binding": "Installed retirement guard for the former direct proof writer; semantic_local_proof and semantic_install own current identity, confinement, recovery, and replay proof"
   }
 }

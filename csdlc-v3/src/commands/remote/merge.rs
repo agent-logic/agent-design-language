@@ -34,6 +34,29 @@ struct MergeIntent {
     base_sha: String,
 }
 
+#[derive(Debug, Clone)]
+pub(super) struct StagedMerge {
+    request: GithubMutationRequest,
+    intent: MergeIntent,
+    intent_digest: String,
+    operation_digest: String,
+    preexisting: bool,
+}
+
+impl StagedMerge {
+    pub(super) fn request(&self) -> &GithubMutationRequest {
+        &self.request
+    }
+
+    pub(super) fn intent_digest(&self) -> &str {
+        &self.intent_digest
+    }
+
+    pub(super) fn operation_digest(&self) -> &str {
+        &self.operation_digest
+    }
+}
+
 pub fn merge_state_query(owner: &str, name: &str, number: &str) -> String {
     // Parameters are admitted by the narrow read-only adapter, never caller query text.
     format!(
@@ -317,11 +340,199 @@ fn merged(
     })
 }
 
+/// Construct and durably retain the exact authenticated merge intent without
+/// dispatching the merge. The semantic owner reserves this identity before it
+/// calls `execute_staged`.
+pub(super) fn stage(
+    root: &Path,
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+    selector_digest: &str,
+) -> Result<StagedMerge, RemoteRouteFinding> {
+    let GithubMutation::PullRequestMerge {
+        base,
+        method: _,
+        review_receipt_path,
+        review_receipt_digest,
+    } = &request.mutation
+    else {
+        unreachable!()
+    };
+    ensure(
+        request.issue > 0
+            && request.pull_request.is_some_and(|number| number > 0)
+            && crate::adapters::supported_pr_branch(base),
+        "invalid merge target/base",
+    )?;
+    ensure(
+        request
+            .operator_approval
+            .as_ref()
+            .is_some_and(|approval| !approval.trim().is_empty()),
+        "explicit operator merge authorization reference required",
+    )?;
+    ensure(
+        request.recovery.is_none(),
+        "merge retries are reconciliation only",
+    )?;
+    let review: TypedReviewReceipt =
+        load_optional_receipt(root, Some(review_receipt_path), "merge_review_missing")?
+            .ok_or_else(|| reject("review receipt missing"))?;
+    ensure(
+        review.schema == "csdlc.v3.typed_review_receipt.v1"
+            && review.repository == request.repository
+            && review.issue == request.issue
+            && review.reviewed_revision == request.expected_head_sha
+            && review.expected_head_sha == request.expected_head_sha
+            && !review.evidence_digest.trim().is_empty()
+            && !review.implementer.trim().is_empty()
+            && !review.reviewer.trim().is_empty()
+            && !same_principal(Some(&review.implementer), Some(&review.reviewer))
+            && typed_review_receipt_payload_digest(&review) == *review_receipt_digest,
+        "stale or invalid exact-head review",
+    )?;
+    let linkage = review
+        .publication_linkage
+        .as_ref()
+        .filter(|linkage| linkage.valid_for(request))
+        .ok_or_else(|| reject("merge requires reviewed qualified publication linkage"))?;
+    preflight_github_credential(&mutation_credential_name(request)?, process)?;
+
+    let operation_digest = github_mutation_operation_digest(request);
+    let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
+    let dir = control.join("csdlc-v3/remote/merges");
+    fs::create_dir_all(&dir).map_err(|_| reject("merge receipt directory unavailable"))?;
+    sync_directory_ancestry(&dir, &control, |path| fs::File::open(path)?.sync_all())
+        .map_err(|_| reject("merge directory ancestry not durable"))?;
+    let lock_path = dir.join(format!(
+        "{}.lock",
+        stable_digest(&[
+            &request.repository,
+            &request.pull_request.unwrap_or_default().to_string()
+        ])
+    ));
+    let lock = fs::OpenOptions::new()
+        .create(true)
+        .truncate(false)
+        .read(true)
+        .write(true)
+        .open(&lock_path)
+        .map_err(|_| reject("merge lock unavailable"))?;
+    lock.try_lock_exclusive()
+        .map_err(|_| reject("another merge invocation owns this PR"))?;
+
+    let intent_path = dir.join(format!("{operation_digest}.intent.json"));
+    let target_path = dir.join(format!(
+        "{}.target.json",
+        stable_digest(&[
+            &request.repository,
+            &request.pull_request.unwrap_or_default().to_string()
+        ])
+    ));
+    let target = json!({"schema":"csdlc.v3.merge_target.v1","repository":request.repository,"pull_request":request.pull_request,"operation_digest":operation_digest});
+    let preexisting = intent_path.exists();
+    if target_path.exists() {
+        let existing: Value = serde_json::from_slice(
+            &fs::read(&target_path).map_err(|_| reject("merge target guard unavailable"))?,
+        )
+        .map_err(|_| reject("merge target guard invalid"))?;
+        ensure(
+            existing == target,
+            "PR already has a durable merge attempt; replay the original request",
+        )?;
+    } else {
+        ensure(!preexisting, "retained intent is missing its target guard")?;
+    }
+    let (observation, _) = observe(
+        request,
+        "pull-request-merge-linkage",
+        linkage.observation_target(request),
+        process,
+    )?;
+    let pr = identity(&observation, request, base)?;
+    let intent = if preexisting {
+        let saved: MergeIntent = serde_json::from_slice(
+            &fs::read(&intent_path).map_err(|_| reject("intent unavailable"))?,
+        )
+        .map_err(|_| reject("intent invalid"))?;
+        ensure(
+            saved.schema == "csdlc.v3.merge_intent.v1"
+                && saved.request == *request
+                && saved.selector_digest == selector_digest
+                && saved.publication_linkage == *linkage,
+            "merge intent identity mismatch",
+        )?;
+        saved
+    } else {
+        let (rules, base_sha) = if pr["merged"] == true {
+            (
+                Value::Null,
+                merged(&observation, request, base, None, linkage)?.base_sha,
+            )
+        } else {
+            let (rules, _) = observe(request, "branch-merge-rules", base.clone(), process)?;
+            let base_sha = eligibility(&observation, &rules, request, base, linkage)?;
+            (rules, base_sha)
+        };
+        let saved = MergeIntent {
+            schema: "csdlc.v3.merge_intent.v1".into(),
+            request: request.clone(),
+            selector_digest: selector_digest.into(),
+            publication_linkage: linkage.clone(),
+            pre_state: observation,
+            rules,
+            base_sha,
+        };
+        if !target_path.exists() {
+            persist_json_create_new(&target_path, &target)?;
+        }
+        persist_json_create_new(&intent_path, &saved)?;
+        saved
+    };
+    let intent_digest = stable_digest(&[
+        &serde_json::to_string(&intent).map_err(|_| reject("intent encoding failed"))?
+    ]);
+    Ok(StagedMerge {
+        request: request.clone(),
+        intent,
+        intent_digest,
+        operation_digest,
+        preexisting,
+    })
+}
+
+pub(super) fn execute_staged(
+    root: &Path,
+    staged: &StagedMerge,
+    reconciliation_only: bool,
+    process: &mut impl ProcessAdapter,
+) -> Result<GithubMutationResult, RemoteRouteFinding> {
+    execute_inner(
+        root,
+        &staged.request,
+        process,
+        &staged.intent.selector_digest,
+        !reconciliation_only && !staged.preexisting,
+        Some(&staged.intent_digest),
+    )
+}
+
 pub(super) fn execute(
     root: &Path,
     request: &GithubMutationRequest,
     process: &mut impl ProcessAdapter,
     selector_digest: &str,
+) -> Result<GithubMutationResult, RemoteRouteFinding> {
+    execute_inner(root, request, process, selector_digest, false, None)
+}
+
+fn execute_inner(
+    root: &Path,
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+    selector_digest: &str,
+    dispatch_staged: bool,
+    expected_intent_digest: Option<&str>,
 ) -> Result<GithubMutationResult, RemoteRouteFinding> {
     let GithubMutation::PullRequestMerge {
         base,
@@ -374,7 +585,7 @@ pub(super) fn execute(
     let digest = github_mutation_operation_digest(request);
     let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
     let dir = control.join("csdlc-v3/remote/merges");
-    let mut performed_mutation = !dir.exists();
+    let mut performed_mutation = false;
     fs::create_dir_all(&dir).map_err(|_| reject("merge receipt directory unavailable"))?;
     sync_directory_ancestry(&dir, &control, |path| fs::File::open(path)?.sync_all())
         .map_err(|_| reject("merge directory ancestry not durable"))?;
@@ -385,7 +596,6 @@ pub(super) fn execute(
             &request.pull_request.unwrap_or_default().to_string()
         ])
     ));
-    performed_mutation |= !lock_path.exists();
     let lock = fs::OpenOptions::new()
         .create(true)
         .truncate(false)
@@ -399,9 +609,6 @@ pub(super) fn execute(
     let reconciliation_path = dir.join(format!("{digest}.reconciliation.json"));
     let receipt_path = github_mutation_receipt_path(root, &digest)?;
     let replay = intent_path.exists();
-    // A new intent necessarily persists effects; a settled replay only observes
-    // already durable paths and leaves its stored receipt bytes untouched.
-    performed_mutation |= !replay;
     let target_path = dir.join(format!(
         "{}.target.json",
         stable_digest(&[
@@ -472,9 +679,13 @@ pub(super) fn execute(
     let intent_digest = stable_digest(&[
         &serde_json::to_string(&intent).map_err(|_| reject("intent encoding failed"))?
     ]);
+    ensure(
+        expected_intent_digest.is_none_or(|expected| expected == intent_digest),
+        "staged merge intent identity mismatch",
+    )?;
     let mut response_digest = None;
     let mut response_sha = None;
-    let identity = if replay || pr["merged"] == true {
+    let identity = if (replay && !dispatch_staged) || pr["merged"] == true {
         merged(&observation, request, base, Some(&intent.base_sha), linkage)?
     } else {
         // Repeat authenticated policy and PR checks immediately before dispatch.
@@ -521,6 +732,7 @@ pub(super) fn execute(
         })
         .map_err(|_| reject("invalid merge dispatch"))?;
         let output = process.run(invocation.clone());
+        performed_mutation = true;
         fs::remove_file(&input).map_err(|_| reject("private merge input cleanup failed"))?;
         if output.status == ProcessStatus::Exit(0) && !output.truncated {
             if let Ok(response) = serde_json::from_str::<Value>(&output.stdout) {
@@ -584,7 +796,6 @@ pub(super) fn execute(
         )?;
     } else {
         persist_json_create_new(&reconciliation_path, &reconciliation)?;
-        performed_mutation = true;
     }
     let receipt = if receipt_path.exists() {
         let mut receipt = load_mutation_receipt(&receipt_path, &digest)?;
@@ -603,10 +814,9 @@ pub(super) fn execute(
             &intent_digest,
             response_digest,
             &reconciliation,
-            replay || pr["merged"] == true,
+            (replay && !dispatch_staged) || pr["merged"] == true,
         );
         persist_json_create_new(&receipt_path, &receipt)?;
-        performed_mutation = true;
         receipt
     };
     Ok(GithubMutationResult {

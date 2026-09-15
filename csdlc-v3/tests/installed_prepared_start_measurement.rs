@@ -23,7 +23,7 @@ fn write(path: &Path, value: &Value) {
 }
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1","slug":"prepared-start-measurement",
-    "cards":{"sip":{},"stp":{},"spp":{},"vpp":{},"srp":{},"sor":{}},
+    "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked preparation fixture inputs","target_files_surfaces_inline":"prepared issue state","deliverables_inline":"Measure installed prepared start","validation_plan_inline":"Declared deterministic installed journey","acceptance_criteria_inline":"Prepared start remains bounded","notes_risks_inline":"Isolated local fixture only"},"vpp":{},"srp":{},"sor":{}},
     "validators":[{"id":"fixture-proof","program":"cargo","args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline"],"success_marker":"test result: ok."}],
     "publication":{"base":"main","title":"Installed intent fixture","body":"Closes #505","draft":true}})
 }

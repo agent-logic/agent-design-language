@@ -32,7 +32,7 @@ fn installed_unattributed_create_cannot_be_recovered_under_another_issue() {
     for issue in ["505", "506"] {
         let plan = fixture.write_json(&format!("plan-{issue}.json"), &json!({
             "schema":"csdlc.v3.intent_plan.v1", "slug":format!("scope-{issue}"),
-            "cards":{"sip":{},"stp":{},"spp":{},"vpp":{},"srp":{},"sor":{}},
+            "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked recovery fixture inputs","target_files_surfaces_inline":"fixture-proof","deliverables_inline":"Exercise installed recovery scope","validation_plan_inline":"Declared deterministic Cargo validator","acceptance_criteria_inline":"Recovery remains issue scoped","notes_risks_inline":"Isolated local fixture only"},"vpp":{},"srp":{},"sor":{}},
             "validators":[{"id":"fixture-proof","program":"cargo","args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline"],"success_marker":"test result: ok."}],
             "publication":{"base":"main","title":"Scope fixture","body":format!("Closes #{issue}"),"draft":true}
         }));

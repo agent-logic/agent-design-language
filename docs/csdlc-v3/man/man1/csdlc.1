@@ -18,7 +18,7 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 .PP
 \&Discovery is compiled from the current command manifest: \-\-contract returns the raw full descriptor manifest and COMMAND \-\-describe returns the raw command descriptor, including input contract, effect class and result schema. These global discovery forms do not execute the route and are separate from owner\-specific parser options. The selected binary must support this contract; source or isolated candidate validation does not prove that the active installation has been upgraded.
 .PP
-\&The #869 issue intent forms are a candidate contract, pending the required exact\-head validation/review and separate installation/activation. They do not replace the active operator binary. Existing \-\-request forms below retain their existing native contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for complete strict content and effect boundaries.
+\&Semantic issue intent forms are the current operational contract. Direct issue\-writer \-\-request forms are retired and remain available only through \-\-help and \-\-describe for migration discovery. Observation and administrative request forms retain their documented contracts. See docs/csdlc\-v3/INTENT_COMMANDS.md for strict content and effect boundaries.
 .SH INSTALLATION
 .nf
 \&bash adl/tools/install_owner_binaries.sh \-\-bin csdlc

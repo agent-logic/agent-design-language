@@ -125,6 +125,40 @@ fn run(args: Vec<String>) -> Result<String, String> {
     if csdlc_v3::application::intent::selected(command, rest) {
         return csdlc_v3::application::intent::run(command, rest).map(|value| value.to_string());
     }
+    // Legacy request writers must never form a parallel authority beside the
+    // semantic intent owner. Reject before parsing requests or discovering state.
+    let discovery = matches!(rest, [flag] if matches!(flag.as_str(), "--help" | "-h"))
+        || command == "github-issue"
+            && matches!(rest, [action, flag]
+                if matches!(action.as_str(), "create" | "close")
+                    && matches!(flag.as_str(), "--help" | "-h"));
+    if !discovery
+        && matches!(
+            command.as_str(),
+            "issue"
+                | "bind"
+                | "edit"
+                | "proof"
+                | "github"
+                | "github-issue"
+                | "github-pr"
+                | "review"
+                | "publish"
+                | "finish"
+                | "clean"
+                | "install"
+                | "cutover"
+                | "rollback"
+        )
+    {
+        return Err(serde_json::json!({
+            "schema":"csdlc.v3.command_failure.v1", "status":"blocked",
+            "read_only":true, "performed_mutation":false, "writes_v3_state":false,
+            "operational_authority":false,
+            "findings":[{"code":"legacy_writer_retired",
+                "message":"Direct writer syntax is retired; use the semantic positional intent or --intent-request route. Issue preparation uses prepare."}]
+        }).to_string());
+    }
     contract::validate_required_inputs(command, rest)?;
     let family = contract::descriptor(command)
         .and_then(|row| row["family"].as_str())

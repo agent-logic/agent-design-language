@@ -30,7 +30,7 @@ The adapter command used by the editor is:
 
 Expected output:
 
-- `.adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
+- `.adl/bin/native-v3/csdlc bind 2053`
 
 Additional supported handoffs:
 
@@ -44,7 +44,7 @@ The browser editor is a preparation surface only.
 
 It can help prepare commands for:
 
-- `csdlc issue`
+- `csdlc prepare`
 - `csdlc doctor`
 - `csdlc bind`
 - `csdlc validate`

@@ -25,6 +25,7 @@ const IMPLEMENTED_TERMINAL_COMMANDS: &[&str] = &["clean", "cutover", "finish"];
 const IMPLEMENTED_CONSTRUCTION_COMMANDS: &[&str] = &["install", "proof", "shadow", "soak"];
 const IMPLEMENTED_HELPER_COMMANDS: &[&str] = &["remote", "sprint", "release-preflight"];
 const NEW_INTENT_COMMANDS: &[&str] = &["status", "prepare", "recover"];
+const RETIRED_WRITER_DISCOVERY_COMMANDS: &[&str] = &["issue", "github"];
 const IMPLEMENTED_STATUSES: &[&str] = &[
     "implemented",
     "implemented_construction",
@@ -44,31 +45,41 @@ fn help_exposes_one_binary_command_surface() {
     assert!(stdout.contains("Missing or stale proof suspends authority"));
     assert!(stdout.contains("foundation --repo-root <path>"));
     assert!(stdout.contains("local --request <path> --registry <path> --registrations <path>"));
-    for command in IMPLEMENTED_LOCAL_COMMANDS {
+    for command in ["validate", "doctor", "schedule", "shepherd", "eligibility"] {
         assert!(
             stdout.contains(&format!("{command} --request <path>")),
             "help should expose implemented local route {command}"
         );
     }
-    for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
+    assert!(stdout.contains("pr-state --request <path> [--observe-github] [--execute]"));
+    for usage in [
+        "bind <issue>",
+        "edit <issue> --changes <path>",
+        "proof <issue>",
+        "recover <issue> [--disposition <path>]",
+        "github-issue <issue> --operation <path>",
+        "github-pr <issue> --operation <path>",
+        "review <issue> --evidence <path>",
+        "publish <issue>",
+        "finish <issue> [--disposition <path>]",
+        "clean <issue> [--execute --preview <digest>]",
+        "install <issue> --operation <path> [--execute]",
+        "cutover <issue> --operation <path> [--execute]",
+        "rollback <issue> --operation <path> [--execute]",
+    ] {
         assert!(
-            stdout.contains(&format!("{command} --request <path>")),
-            "help should expose implemented remote/publication route {command}"
+            stdout.contains(usage),
+            "help should expose semantic usage {usage}"
         );
     }
-    assert!(stdout.contains("github-issue --request <path> [--observe-github] [--execute]"));
-    assert!(stdout.contains("github-pr --request <path> [--observe-github] [--execute]"));
-    for command in IMPLEMENTED_TERMINAL_COMMANDS {
-        assert!(
-            stdout.contains(&format!("{command} --request <path>")),
-            "help should expose implemented terminal route {command}"
-        );
-    }
-    for command in IMPLEMENTED_CONSTRUCTION_COMMANDS {
+    for command in ["shadow", "soak"] {
         assert!(
             stdout.contains(&format!("{command} --request <path>")),
             "help should expose implemented construction route {command}"
         );
+    }
+    for command in RETIRED_WRITER_DISCOVERY_COMMANDS {
+        assert!(stdout.contains(&format!("{command} --help")));
     }
     assert!(stdout.contains("remote --help"));
     assert!(stdout.contains("sprint --repo-root <path> --request <path>"));
@@ -124,7 +135,14 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     {
         let row = command_row(commands, command);
         assert_eq!(row["implementation_status"], "implemented");
-        assert_eq!(row["authority_status"], "authenticated_v3");
+        assert_eq!(
+            row["authority_status"],
+            if RETIRED_WRITER_DISCOVERY_COMMANDS.contains(command) {
+                "retired_writer"
+            } else {
+                "authenticated_v3"
+            }
+        );
     }
     for command in IMPLEMENTED_CONSTRUCTION_COMMANDS {
         let row = command_row(commands, command);
@@ -538,10 +556,12 @@ fn active_boot_path_inventory_is_complete_source_backed_and_unambiguous() {
         fs::read_to_string(root.join("adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"))
             .expect("operational skills guide");
     assert!(
-        operational_guide.contains(
-            "csdlc issue --request <bootstrap-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>"
-        ),
-        "documented native issue route must include its required registrations input"
+        operational_guide.contains("csdlc prepare <issue> --plan <plan.json>"),
+        "documented issue preparation must use the semantic prepare intent"
+    );
+    assert!(
+        operational_guide.contains("csdlc bind <issue>"),
+        "documented execution binding must use the semantic bind intent"
     );
 }
 
@@ -559,4 +579,98 @@ fn active_boot_path_guard_rejects_stale_v2_current_guidance_but_allows_history()
     assert!(ordinary_lifecycle_guidance_is_unambiguous(
         "The .adl/bin/csdlc-v2/ surface is retained only for explicitly authorized rollback or bounded transition remediation."
     ));
+}
+
+// PVF #870: required deterministic installed contract proof; isolated local Git/CPU/disk.
+#[allow(dead_code)]
+#[path = "support/intent_fixture.rs"]
+mod intent_schema_fixture;
+
+#[test]
+fn semantic_descriptor_schema_parity_includes_emitted_administrative_requests() {
+    use csdlc_v3::application::intent::{IntentRequest, INTENTS};
+    use serde_json::{json, Value};
+    use std::collections::BTreeSet;
+    let source = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..");
+    let schema: Value = serde_json::from_slice(
+        &fs::read(source.join("docs/csdlc-v3/intent-request.schema.json")).unwrap(),
+    )
+    .unwrap();
+    let manifest: Value = serde_json::from_slice(
+        &fs::read(source.join("docs/csdlc-v3/v3-command-manifest.json")).unwrap(),
+    )
+    .unwrap();
+    let schema_commands: BTreeSet<&str> = schema["properties"]["command"]["enum"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|v| v.as_str().unwrap())
+        .collect();
+    let expected: BTreeSet<&str> = INTENTS
+        .iter()
+        .copied()
+        .chain(["github-issue", "github-pr", "pr-state"])
+        .collect();
+    assert_eq!(schema_commands, expected);
+    let descriptors: BTreeSet<&str> = manifest["commands"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .chain(manifest["aliases"].as_array().unwrap())
+        .filter(|row| row["intent_contract"] == "csdlc.v3.intent_request.v1")
+        .map(|row| row["command"].as_str().unwrap())
+        .collect();
+    assert_eq!(descriptors, expected);
+    for command in &expected {
+        assert!(csdlc_v3::application::intent::selected(
+            command,
+            &["505".into()]
+        ));
+    }
+    let mut fixture = intent_schema_fixture::Fixture::new("intent-schema-parity");
+    let primary = fixture.root.clone();
+    let plan = fixture.write_json("plan.json", &json!({
+        "schema":"csdlc.v3.intent_plan.v1", "slug":"intent-schema-parity",
+        "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"fixture","repo_inputs_inline":"fixture","target_files_surfaces_inline":"request schema","deliverables_inline":"schema parity","validation_plan_inline":"emitted shape","acceptance_criteria_inline":"command enum matches","notes_risks_inline":"no administrative effect"},"vpp":{},"srp":{},"sor":{}},
+        "validators":[],"publication":{"base":"main","title":"Schema fixture","body":"Closes #505","draft":true}
+    }));
+    let prepared = fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", plan.to_str().unwrap()],
+    );
+    assert!(prepared.status.success(), "{prepared:?}");
+    // Emit validates canonical context and request shape, not native administrative effect admission.
+    let operation = fixture.write_json("operation.json", &json!({}));
+    let output_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("target/intent-schema-parity")
+        .join(std::process::id().to_string());
+    fs::create_dir_all(&output_dir).unwrap();
+    for command in ["install", "cutover", "rollback"] {
+        let before = intent_schema_fixture::inventory(&primary);
+        let output = fixture.run(
+            &primary,
+            &[
+                command,
+                "505",
+                "--operation",
+                operation.to_str().unwrap(),
+                "--emit-request",
+            ],
+        );
+        assert!(output.status.success(), "{output:?}");
+        let generated: Value = serde_json::from_slice(&output.stdout).unwrap();
+        let inner = &generated["request"];
+        assert_eq!(inner["command"], command);
+        assert!(schema_commands.contains(inner["command"].as_str().unwrap()));
+        let typed: IntentRequest = serde_json::from_value(inner.clone()).unwrap();
+        assert_eq!(typed.command, command);
+        assert!(!typed.execute);
+        assert_eq!(before, intent_schema_fixture::inventory(&primary));
+        fs::write(
+            output_dir.join(format!("{command}.json")),
+            serde_json::to_vec_pretty(inner).unwrap(),
+        )
+        .unwrap();
+    }
+    println!("emitted_schema_cases={}", output_dir.display());
 }

@@ -34,7 +34,7 @@ fn success(output: Output) -> Value {
 
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1", "slug":"installed-intent-fixture",
-      "cards":{"sip":{},"stp":{},"spp":{},"vpp":{},"srp":{},"sor":{}},
+      "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"installed intent commands","deliverables_inline":"Run installed lifecycle commands","validation_plan_inline":"Declared Cargo validator","acceptance_criteria_inline":"Installed command behavior is proven","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
       "validators":[{"id":"fixture-proof", "program":"cargo",
         "args":["test", "--manifest-path", "fixture-proof/Cargo.toml", "--offline"], "success_marker":"test result: ok."}],
       "publication":{"base":"main","title":"Installed intent fixture", "body":"Closes #505", "draft":true}})
@@ -538,9 +538,7 @@ fn installed_proof_rejects_marker_only_custom_test_harness() {
     );
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
     assert!(!linked.join("target/intent-validation").exists());
-    assert!(!linked
-        .join(".csdlc/evidence/505/intent-proof.json")
-        .exists());
+    assert!(!linked.join(".csdlc/v3/issues/505/proof.json").exists());
 }
 
 #[test]
@@ -593,9 +591,7 @@ fn installed_proof_rejects_marker_only_harness_in_nonvirtual_workspace_member() 
     );
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
     assert!(!linked.join("target/intent-validation").exists());
-    assert!(!linked
-        .join(".csdlc/evidence/505/intent-proof.json")
-        .exists());
+    assert!(!linked.join(".csdlc/v3/issues/505/proof.json").exists());
 }
 
 #[test]
@@ -886,9 +882,7 @@ fn installed_proof_rejects_custom_harness_selected_after_standard_test() {
     );
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
     assert!(!linked.join("target/intent-validation").exists());
-    assert!(!linked
-        .join(".csdlc/evidence/505/intent-proof.json")
-        .exists());
+    assert!(!linked.join(".csdlc/v3/issues/505/proof.json").exists());
 }
 
 #[test]
@@ -967,10 +961,73 @@ fn installed_issue_mutations_execute_exact_targets_and_preserve_omitted_metadata
     }
 }
 
+#[test]
+fn installed_issue_creation_recovers_by_exact_one_shot_request_replay() {
+    let mut fixture = Fixture::new("issue-create-reserved-crash-recovery");
+    fixture.enable_issue_transport();
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let operation = json!({"action":"issue_create","title":"Recovered synthetic issue",
+        "body":"Recovered exact request","labels":[],"assignees":[],"milestone":null});
+    let initial = fixture.write_json("create.json", &operation);
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "github-issue",
+            "505",
+            "--operation",
+            initial.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_creation_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 0);
+    let recovery = fixture.write_json(
+        "create-recovery.json",
+        &json!({"operation":operation,"recovery":"retry_after_authenticated_absence"}),
+    );
+    let recovered = success(fixture.run(
+        &linked,
+        &[
+            "github-issue",
+            "505",
+            "--operation",
+            recovery.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(recovered["semantic"]["created_issue"]["issue"], 506);
+    assert_eq!(
+        recovered["result"]["reconciliation"]["remote_object_id"],
+        12345
+    );
+    assert_eq!(fixture.remote_effects(), 1);
+    let before = intent_fixture::inventory(&primary);
+    let replay = success(fixture.run(
+        &linked,
+        &[
+            "github-issue",
+            "505",
+            "--operation",
+            recovery.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(replay["status"], "expected_noop");
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
 fn external_review(linked: &Path) -> Value {
     use csdlc_v3::commands::remote::{typed_review_receipt_payload_digest, TypedReviewReceipt};
     let head = git(linked, &["rev-parse", "HEAD"]);
-    let proof_path = ".csdlc/evidence/505/intent-proof.json";
+    let proof_path = ".csdlc/v3/issues/505/proof.json";
     let proof = fs::read(linked.join(proof_path)).expect("real installed proof receipt");
     let receipt:TypedReviewReceipt=serde_json::from_value(json!({
         "schema":"csdlc.v3.typed_review_receipt.v1","repository":"agent-logic/agent-design-language","issue":505,
@@ -1429,7 +1486,7 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
         );
     }
     assert!(fs::read(linked.join(".csdlc/locks/505.lock"))
-        .unwrap()
+        .unwrap_or_else(|error| panic!("missing cleanup lock after {archive_failure:?}: {error}"))
         .is_empty());
     let failure: Value = serde_json::from_slice(&archive_failure.stdout).unwrap();
     assert_ne!(
@@ -1782,6 +1839,198 @@ fn installed_remote_recover_retries_once_only_after_authenticated_absence() {
 }
 
 #[test]
+fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
+    let (mut fixture, linked) = reviewed_fixture("remote-recover-reserved-crash");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 0);
+    assert!(!primary
+        .join(".git/installed-candidate/remote-pr.json")
+        .exists());
+    let before = intent_fixture::inventory(&primary);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(fixture.remote_pr()["number"], 639);
+    let settled = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(settled["envelope"]["effects"]["outcome"], "none");
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
+#[test]
+fn installed_remote_recover_attaches_retained_receipt_after_native_dispatch_crash() {
+    let (mut fixture, linked) = reviewed_fixture("remote-recover-native-receipt-crash");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[("CSDLC_V3_TEST_CRASH_POINT", "semantic_remote_after_native")],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(fixture.remote_pr()["number"], 639);
+    let before = intent_fixture::inventory(&primary);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_eq!(preview["action"], "reconcile_retained_remote_effect");
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
+    let settled = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(settled["envelope"]["effects"]["outcome"], "none");
+}
+
+#[test]
+fn installed_remote_recover_never_retries_when_native_receipt_is_already_durable() {
+    let (mut fixture, linked) = reviewed_fixture("remote-recover-receipt-drift");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[("CSDLC_V3_TEST_CRASH_POINT", "semantic_remote_after_native")],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let failed = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!failed.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "durable receipt permitted retry"
+    );
+}
+
+#[test]
+fn installed_remote_recover_rejects_tampered_native_receipt_target_identity() {
+    let (mut fixture, linked) = reviewed_fixture("remote-recover-receipt-target-tamper");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[("CSDLC_V3_TEST_CRASH_POINT", "semantic_remote_after_native")],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    let mutations = primary.join(".git/csdlc-v3/remote/mutations");
+    let receipt_path = fs::read_dir(&mutations)
+        .unwrap()
+        .map(|entry| entry.unwrap().path())
+        .find(|path| path.extension().and_then(|value| value.to_str()) == Some("json"))
+        .expect("durable native receipt");
+    let mut receipt: Value = serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    receipt["issue"] = json!(999);
+    fs::write(&receipt_path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let failed = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!failed.status.success());
+    assert!(String::from_utf8_lossy(&failed.stdout).contains("semantic_outcome_identity_mismatch"));
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
+#[test]
+fn installed_remote_recover_reconciles_pending_merge_without_retry_flag() {
+    let (mut fixture, linked) = reviewed_fixture("remote-recover-merge-receipt-crash");
+    let primary = fixture.root.clone();
+    success(fixture.run(&primary, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json(
+        "merge-recovery.json",
+        &json!({"action":"pull_request_merge","base":"main","method":"merge",
+            "operator_approval":"synthetic operator authorizes fixture PR639 exact merge recovery"}),
+    );
+    let crash = fixture.run_with_env(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+        &[("CSDLC_V3_TEST_CRASH_POINT", "semantic_remote_after_native")],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 3);
+    assert_eq!(fixture.remote_pr()["merged"], true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    assert_eq!(preview["action"], "reconcile_retained_remote_effect");
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(
+        fixture.remote_effects(),
+        3,
+        "merge recovery replayed effect"
+    );
+}
+
+#[test]
 fn installed_proof_refuses_ignored_configuration_outside_declared_caches() {
     let mut fixture = Fixture::new("ignored-configuration");
     let primary = fixture.root.clone();
@@ -1845,10 +2094,9 @@ fn actual_test_changes_declared_source() {
     );
     assert!(result["proof"]["input_revalidation"].is_object());
     assert_eq!(result["evidence_persisted"], true);
-    let retained: Value = serde_json::from_slice(
-        &fs::read(linked.join(".csdlc/evidence/505/intent-proof.json")).unwrap(),
-    )
-    .unwrap();
+    let retained: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/proof.json")).unwrap())
+            .unwrap();
     assert_eq!(retained["validators"], result["proof"]["validators"]);
     assert_eq!(retained["status"], "failed");
 }
@@ -1890,11 +2138,21 @@ fn installed_publication_plan_tampering_invalidates_ordinary_and_emitted_request
             "emitted-publish.json",
             &serde_json::from_slice::<Value>(&emitted.stdout).unwrap(),
         );
-        let plan_path = linked.join(".csdlc/issues/505/intent-plan.json");
         let index = fs::read(linked.join(".csdlc/issues/505/index.json")).unwrap();
-        let mut changed: Value = serde_json::from_slice(&fs::read(&plan_path).unwrap()).unwrap();
-        changed["publication"][field] = value;
-        fs::write(plan_path, serde_json::to_vec(&changed).unwrap()).unwrap();
+        let semantic = primary.join(".git/csdlc-v3/semantic/issues/505");
+        let pointer: Value =
+            serde_json::from_slice(&fs::read(semantic.join("current.json")).unwrap()).unwrap();
+        let generation = pointer["generation"].as_u64().unwrap();
+        let digest = pointer["digest"]
+            .as_str()
+            .unwrap()
+            .rsplit(':')
+            .next()
+            .unwrap();
+        let commit = semantic.join(format!("commits/{generation}-{digest}.json"));
+        let mut changed: Value = serde_json::from_slice(&fs::read(&commit).unwrap()).unwrap();
+        changed["inputs"]["intent_plan"]["publication"][field] = value;
+        fs::write(commit, serde_json::to_vec(&changed).unwrap()).unwrap();
         for args in [
             vec!["publish", "505"],
             vec!["publish", "--intent-request", request.to_str().unwrap()],
@@ -2131,7 +2389,7 @@ fn installed_proof_accounts_for_build_scripts_and_nested_automatic_targets() {
         );
         assert_eq!(value["evidence_persisted"], true);
         let retained: Value = serde_json::from_slice(
-            &fs::read(linked.join(".csdlc/evidence/505/intent-proof.json")).unwrap(),
+            &fs::read(linked.join(".csdlc/v3/issues/505/proof.json")).unwrap(),
         )
         .unwrap();
         assert_eq!(retained["validators"], value["proof"]["validators"]);

@@ -486,7 +486,7 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
 }
 
 #[test]
-fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_without_v3_authority() {
+fn v3_h3_real_issue_canary_preserves_observation_and_retires_direct_writers() {
     let root = repo_root();
     let index = read_issue_index(&root, 629);
     let phase = index["phase"].as_str().expect("real #629 phase");
@@ -662,10 +662,17 @@ fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_withou
             .arg(&request_path)
             .output()
             .unwrap_or_else(|error| panic!("run {route}: {error}"));
-        assert!(output.status.success(), "{route} failed: {output:?}");
-        assert!(output.stderr.is_empty(), "{route} stderr should be empty");
         let value: serde_json::Value =
             serde_json::from_slice(&output.stdout).expect("machine-readable JSON");
+        if route != "pr-state" {
+            assert!(!output.status.success(), "{route}: {output:?}");
+            assert_eq!(value["envelope"]["reason_code"], "legacy_writer_retired");
+            assert_eq!(value["envelope"]["effects"]["outcome"], "none");
+            assert_eq!(value["performed_mutation"], false);
+            continue;
+        }
+        assert!(output.status.success(), "{route} failed: {output:?}");
+        assert!(output.stderr.is_empty(), "{route} stderr should be empty");
         assert_eq!(value["schema"], "csdlc.v3.remote_publication.v1");
         assert_eq!(value["command"], route);
         assert_eq!(value["read_only"], true);

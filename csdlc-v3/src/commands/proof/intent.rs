@@ -4,6 +4,252 @@ use super::*;
 use crate::application::intent::{Context, Validator};
 use serde_json::{json, Value};
 
+/// Syntax/input admission only. Native authority and the semantic reservation are
+/// supplied by the calling owner before `execute_admitted` may launch a validator.
+#[derive(Clone)]
+pub(crate) struct AdmittedValidators {
+    root: PathBuf,
+    validators: Vec<Validator>,
+    input_digest: String,
+}
+impl AdmittedValidators {
+    pub(crate) fn request_bytes(&self) -> Result<Vec<u8>, String> {
+        serde_json::to_vec(&json!({"schema":"csdlc.v3.validator_effect_request.v1",
+            "root":self.root,"validators":self.validators,"input_digest":self.input_digest}))
+        .map_err(|_| "intent_validator_request_serialization_failed".into())
+    }
+}
+/// Actual producer outcome, before stable evidence persistence or semantic attachment.
+/// An execution error may follow a spawn; never turn that uncertainty into no effect.
+pub(crate) struct ProofExecution {
+    pub(crate) passed: bool,
+    pub(crate) effect_truth: crate::storage::semantic::protocol::EffectTruth,
+    pub(crate) validators: Vec<Value>,
+    pub(crate) inputs_unchanged: bool,
+    pub(crate) input_revalidation: Value,
+    pub(crate) execution_finding: Option<String>,
+}
+impl ProofExecution {
+    pub(crate) fn evidence(&self) -> Value {
+        json!({"schema":"csdlc.v3.validator_effect_outcome.v1","passed":self.passed,
+            "effect_truth":self.effect_truth,"validators":self.validators,
+            "inputs_unchanged":self.inputs_unchanged,"input_revalidation":self.input_revalidation,
+            "execution_finding":self.execution_finding})
+    }
+}
+
+pub(crate) fn receipt_from_semantic_execution(
+    context: &Context,
+    execution: &Value,
+) -> Result<Value, String> {
+    if execution["schema"] != "csdlc.v3.validator_effect_outcome.v1"
+        || !execution["validators"].is_array()
+        || !execution["inputs_unchanged"].is_boolean()
+    {
+        return Err("intent_semantic_proof_execution_invalid".into());
+    }
+    let passed = execution["passed"] == true;
+    let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1",
+        "issue":context.issue,"repository":context.repository,"head":context.head,
+        "issue_digest":context.index["digest"],"validators":execution["validators"],
+        "status":if passed{"passed"}else{"failed"},
+        "inputs_unchanged":execution["inputs_unchanged"],
+        "input_revalidation":execution["input_revalidation"],
+        "execution_finding":execution["execution_finding"]});
+    receipt["payload_digest"] = blake3::hash(&canonical_json(&receipt))
+        .to_hex()
+        .to_string()
+        .into();
+    Ok(receipt)
+}
+
+/// Observe output confinement before reserving or launching validator effects.
+/// The write owner repeats this guard when publishing the eventual projection.
+pub(crate) fn admit_semantic_proof_projection(context: &Context) -> Result<(), String> {
+    confined_output_file(
+        &context.root,
+        &format!(".csdlc/v3/issues/{}/proof.json", context.issue),
+    )
+    .map(|_| ())
+    .map_err(|finding| finding.code.to_owned())
+}
+
+pub(crate) fn write_semantic_proof_projection(
+    context: &Context,
+    receipt: &Value,
+) -> Result<String, String> {
+    let binding = ProofWorktreeBinding {
+        worktree: context.root.clone(),
+        branch: context.branch.clone(),
+        exact_head: context.head.clone(),
+        git_common_dir: context.git_common.clone(),
+        generation: context.index["generation"]
+            .as_u64()
+            .ok_or("intent_issue_generation_missing")?,
+        lifecycle_digest: context.index["digest"]
+            .as_str()
+            .ok_or("intent_issue_digest_missing")?
+            .into(),
+    };
+    let request = ProofRouteRequest {
+        issue: context.issue,
+        repository: context.repository.clone(),
+        binding: Some(binding),
+        cutover_issue: None,
+        operator_approval: None,
+        evidence_root: Some(context.root.to_string_lossy().into_owned()),
+        proof: None,
+        shadow: None,
+        soak: None,
+        install: None,
+    };
+    authorize_worktree(&request, Some(&context.root)).map_err(|finding| finding.code)?;
+    let reference = format!(".csdlc/v3/issues/{}/proof.json", context.issue);
+    write_canonical_evidence(&request, &reference, receipt).map_err(|finding| finding.code)?;
+    Ok(reference)
+}
+/// Missing cleanup testimony is also unresolved; performed work remains performed.
+pub(crate) fn cleanup_complete(records: &[Value]) -> bool {
+    records
+        .iter()
+        .all(|record| record["cleanup_complete"] == true)
+}
+
+pub(crate) fn admit_validators(
+    root: &Path,
+    validators: &[Validator],
+) -> Result<AdmittedValidators, String> {
+    if validators.is_empty() {
+        return Err("intent_validators_missing".into());
+    }
+    let mut ids = std::collections::BTreeSet::new();
+    for validator in validators {
+        if validator.program != "cargo"
+            || validator.args.first().map(String::as_str) != Some("test")
+            || validator.success_marker != "test result: ok."
+            || !ids.insert(&validator.id)
+        {
+            return Err("intent_validator_not_admitted".into());
+        }
+        if !(1..=300).contains(&validator.timeout_seconds) {
+            return Err("intent_validator_timeout_not_admitted".into());
+        }
+        safe_component(&validator.id).map_err(|finding| finding.code)?;
+        let mut args = validator.args.iter().skip(1);
+        while let Some(arg) = args.next() {
+            match arg.as_str() {
+                "--offline" | "--locked" | "--lib" | "--all-targets" => {}
+                "--manifest-path" => {
+                    let path = args.next().ok_or("intent_validator_manifest_missing")?;
+                    resolve_repo_path(root, path, true).map_err(|finding| finding.code)?;
+                }
+                "--test" => {
+                    safe_component(args.next().ok_or("intent_validator_test_missing")?)
+                        .map_err(|finding| finding.code)?;
+                }
+                _ => return Err("intent_validator_argument_not_admitted".into()),
+            }
+        }
+    }
+    let input_digest = tracked_input_digest(root, validators)?;
+    Ok(AdmittedValidators {
+        root: root.to_path_buf(),
+        validators: validators.to_vec(),
+        input_digest,
+    })
+}
+#[cfg(unix)]
+pub(crate) fn execute_admitted(
+    admitted: &AdmittedValidators,
+    mut fresh: impl FnMut() -> Result<(), String>,
+) -> ProofExecution {
+    let root = &admitted.root;
+    let validators = &admitted.validators;
+    let input_digest = &admitted.input_digest;
+    let mut outcomes = Vec::new();
+    let mut effect_truth = crate::storage::semantic::protocol::EffectTruth::NotPerformed;
+    let mut execution_finding: Option<String> = None;
+    for validator in validators {
+        let admission = fresh();
+        if let Err(code) = admission {
+            execution_finding = Some(code);
+            break;
+        }
+        let execution = match run_validator(root, validator) {
+            Ok(execution) => execution,
+            Err(code) => {
+                effect_truth = crate::storage::semantic::protocol::EffectTruth::Unknown;
+                execution_finding = Some(code);
+                break;
+            }
+        };
+        effect_truth = crate::storage::semantic::protocol::EffectTruth::Performed;
+        let text = String::from_utf8_lossy(&execution.stdout.bytes);
+        let tests_passed = text
+            .lines()
+            .filter_map(|line| {
+                line.trim()
+                    .strip_prefix("test result: ")
+                    .and_then(|value| value.split_once(". ").map(|(_, summary)| summary))
+                    .and_then(|value| value.split_once(" passed;"))
+                    .and_then(|(count, _)| count.parse::<u64>().ok())
+            })
+            .sum::<u64>();
+        let tests_failed = text
+            .lines()
+            .filter(|line| line.trim().starts_with("test result: "))
+            .filter_map(|line| {
+                line.split_once(" passed; ")
+                    .and_then(|(_, rest)| rest.split_once(" failed;"))
+                    .and_then(|(count, _)| count.parse::<u64>().ok())
+            })
+            .sum::<u64>();
+        let passed = execution.success
+            && !execution.timed_out
+            && !execution.cancelled
+            && execution.cleanup_complete
+            && !execution.stdout.truncated
+            && !execution.stderr.truncated
+            && tests_passed > 0;
+        outcomes.push(json!({"id":validator.id,"program":validator.program,"args":validator.args,"timeout_seconds":validator.timeout_seconds,
+            "compiler_artifacts":compiler_artifacts(root,&text),"executed_args":validator.args.iter().cloned().chain(std::iter::once("--message-format=json".to_owned())).collect::<Vec<_>>(),"input_digest":input_digest,"exit_code":execution.exit_code,"tests_passed":tests_passed,"tests_failed":tests_failed,
+            "stdout_digest":blake3::hash(&execution.stdout.bytes).to_hex().to_string(),"stderr_digest":blake3::hash(&execution.stderr.bytes).to_hex().to_string(),
+            "stdout_evidence":diagnostic_excerpt(root,&execution.stdout.bytes),"stderr_evidence":diagnostic_excerpt(root,&execution.stderr.bytes),
+            "timed_out":execution.timed_out,"cancelled":execution.cancelled,"cleanup_complete":execution.cleanup_complete,
+            "truncated":execution.stdout.truncated||execution.stderr.truncated,"passed":passed,"elapsed_ms":execution.elapsed_ms}));
+        if !passed {
+            break;
+        }
+    }
+    let input_revalidation = fresh()
+        .and_then(|()| {
+            outcomes
+                .iter()
+                .try_for_each(|record| compiler_inputs_tracked(root, &record["compiler_artifacts"]))
+        })
+        .and_then(|()| tracked_input_digest(root, validators));
+    let unchanged = input_revalidation
+        .as_ref()
+        .is_ok_and(|digest| digest == input_digest);
+    let input_revalidation = match input_revalidation {
+        Ok(digest) => {
+            json!({"status":if unchanged {"unchanged"} else {"changed"},"input_digest":digest})
+        }
+        Err(code) => json!({"status":"failed","finding":code}),
+    };
+    let passed = unchanged
+        && outcomes.len() == validators.len()
+        && outcomes.iter().all(|value| value["passed"] == true);
+    ProofExecution {
+        passed,
+        effect_truth,
+        validators: outcomes,
+        inputs_unchanged: unchanged,
+        input_revalidation,
+        execution_finding,
+    }
+}
+
 pub fn execute(context: &Context, validators: &[Validator]) -> Result<Value, String> {
     #[cfg(not(unix))]
     {
@@ -47,119 +293,18 @@ fn execute_unix(context: &Context, validators: &[Validator]) -> Result<Value, St
         install: None,
     };
     authorize_worktree(&request, Some(&context.root)).map_err(|finding| finding.code)?;
-    if validators.is_empty() {
-        return Err("intent_validators_missing".into());
-    }
-    let mut ids = std::collections::BTreeSet::new();
-    for validator in validators {
-        if validator.program != "cargo"
-            || validator.args.first().map(String::as_str) != Some("test")
-            || validator.success_marker != "test result: ok."
-            || !ids.insert(&validator.id)
-        {
-            return Err("intent_validator_not_admitted".into());
-        }
-        if !(1..=300).contains(&validator.timeout_seconds) {
-            return Err("intent_validator_timeout_not_admitted".into());
-        }
-        safe_component(&validator.id).map_err(|finding| finding.code)?;
-        let mut args = validator.args.iter().skip(1);
-        while let Some(arg) = args.next() {
-            match arg.as_str() {
-                "--offline" | "--locked" | "--lib" | "--all-targets" => {}
-                "--manifest-path" => {
-                    let path = args.next().ok_or("intent_validator_manifest_missing")?;
-                    resolve_repo_path(&context.root, path, true).map_err(|finding| finding.code)?;
-                }
-                "--test" => {
-                    safe_component(args.next().ok_or("intent_validator_test_missing")?)
-                        .map_err(|finding| finding.code)?;
-                }
-                _ => return Err("intent_validator_argument_not_admitted".into()),
-            }
-        }
-    }
-    let input_digest = tracked_input_digest(&context.root, validators)?;
-    let mut outcomes = Vec::new();
-    let mut execution_finding: Option<String> = None;
-    for validator in validators {
-        let admission = context.fresh().and_then(|()| {
-            authorize_worktree(&request, Some(&context.root))
-                .map(|_| ())
-                .map_err(|finding| finding.code.to_owned())
-        });
-        if let Err(code) = admission {
-            if outcomes.is_empty() {
-                return Err(code);
-            }
-            execution_finding = Some(code);
-            break;
-        }
-        let execution = match run_validator(&context.root, validator) {
-            Ok(execution) => execution,
-            Err(code) if outcomes.is_empty() => return Err(code),
-            Err(code) => {
-                execution_finding = Some(code);
-                break;
-            }
-        };
-        let text = String::from_utf8_lossy(&execution.stdout.bytes);
-        let tests_passed = text
-            .lines()
-            .filter_map(|line| {
-                line.trim()
-                    .strip_prefix("test result: ")
-                    .and_then(|value| value.split_once(". ").map(|(_, summary)| summary))
-                    .and_then(|value| value.split_once(" passed;"))
-                    .and_then(|(count, _)| count.parse::<u64>().ok())
-            })
-            .sum::<u64>();
-        let tests_failed = text
-            .lines()
-            .filter(|line| line.trim().starts_with("test result: "))
-            .filter_map(|line| {
-                line.split_once(" passed; ")
-                    .and_then(|(_, rest)| rest.split_once(" failed;"))
-                    .and_then(|(count, _)| count.parse::<u64>().ok())
-            })
-            .sum::<u64>();
-        let passed = execution.success
-            && !execution.timed_out
-            && !execution.cancelled
-            && execution.cleanup_complete
-            && !execution.stdout.truncated
-            && !execution.stderr.truncated
-            && tests_passed > 0;
-        outcomes.push(json!({"id":validator.id,"program":validator.program,"args":validator.args,"timeout_seconds":validator.timeout_seconds,
-            "compiler_artifacts":compiler_artifacts(&context.root,&text),"executed_args":validator.args.iter().cloned().chain(std::iter::once("--message-format=json".to_owned())).collect::<Vec<_>>(),"input_digest":input_digest,"exit_code":execution.exit_code,"tests_passed":tests_passed,"tests_failed":tests_failed,
-            "stdout_digest":blake3::hash(&execution.stdout.bytes).to_hex().to_string(),"stderr_digest":blake3::hash(&execution.stderr.bytes).to_hex().to_string(),
-            "stdout_evidence":diagnostic_excerpt(&context.root,&execution.stdout.bytes),"stderr_evidence":diagnostic_excerpt(&context.root,&execution.stderr.bytes),
-            "timed_out":execution.timed_out,"cancelled":execution.cancelled,"cleanup_complete":execution.cleanup_complete,
-            "truncated":execution.stdout.truncated||execution.stderr.truncated,"passed":passed,"elapsed_ms":execution.elapsed_ms}));
-        if !passed {
-            break;
-        }
-    }
-    let input_revalidation = context
-        .fresh_integrity()
-        .and_then(|()| {
-            outcomes.iter().try_for_each(|record| {
-                compiler_inputs_tracked(&context.root, &record["compiler_artifacts"])
-            })
-        })
-        .and_then(|()| tracked_input_digest(&context.root, validators));
-    let unchanged = input_revalidation
-        .as_ref()
-        .is_ok_and(|digest| digest == &input_digest);
-    let input_revalidation = match input_revalidation {
-        Ok(digest) => {
-            json!({"status":if unchanged {"unchanged"} else {"changed"},"input_digest":digest})
-        }
-        Err(code) => json!({"status":"failed","finding":code}),
-    };
-    let passed = unchanged
-        && outcomes.len() == validators.len()
-        && outcomes.iter().all(|value| value["passed"] == true);
+    let admitted = admit_validators(&context.root, validators)?;
+    let executed = execute_admitted(&admitted, || {
+        context.fresh_integrity()?;
+        authorize_worktree(&request, Some(&context.root))
+            .map(|_| ())
+            .map_err(|finding| finding.code.to_owned())
+    });
+    let passed = executed.passed;
+    let outcomes = &executed.validators;
+    let unchanged = executed.inputs_unchanged;
+    let input_revalidation = &executed.input_revalidation;
+    let execution_finding = &executed.execution_finding;
     let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1","issue":context.issue,"repository":context.repository,"head":context.head,"issue_digest":context.index["digest"],"validators":outcomes,"status":if passed{"passed"}else{"failed"},"inputs_unchanged":unchanged,"input_revalidation":input_revalidation,"execution_finding":execution_finding});
     receipt["payload_digest"] = blake3::hash(&canonical_json(&receipt))
         .to_hex()
@@ -995,7 +1140,17 @@ pub fn verify_current_inputs(root: &Path, proof: &Value) -> Result<(), String> {
         return Err("intent_proof_identity_or_digest_mismatch".into());
     }
     let plan = context.plan()?;
-    let digest = tracked_input_digest(root, &plan.validators)?;
+    verify_execution_inputs(root, &plan.validators, proof)
+}
+
+/// Revalidate actual retained producer records against the admitted current plan.
+/// The caller separately verifies stable evidence identity and semantic input version.
+pub(crate) fn verify_execution_inputs(
+    root: &Path,
+    validators: &[Validator],
+    proof: &Value,
+) -> Result<(), String> {
+    let digest = tracked_input_digest(root, validators)?;
     let records = proof["validators"]
         .as_array()
         .ok_or("intent_proof_validators_missing")?;
@@ -1003,27 +1158,24 @@ pub fn verify_current_inputs(root: &Path, proof: &Value) -> Result<(), String> {
         compiler_inputs_tracked(root, &record["compiler_artifacts"])?;
     }
     if records.is_empty()
-        || records.len() != plan.validators.len()
-        || records
-            .iter()
-            .zip(&plan.validators)
-            .any(|(record, validator)| {
-                record["id"] != validator.id
-                    || record["program"] != validator.program
-                    || record["args"] != json!(validator.args)
-                    || record["timeout_seconds"] != validator.timeout_seconds
-                    || record["input_digest"] != digest
-                    || record["exit_code"] != 0
-                    || record["tests_passed"]
-                        .as_u64()
-                        .is_none_or(|count| count == 0)
-                    || record["tests_failed"] != 0
-                    || record["passed"] != true
-                    || record["timed_out"] != false
-                    || record["cancelled"] != false
-                    || record["truncated"] != false
-                    || record["cleanup_complete"] != true
-            })
+        || records.len() != validators.len()
+        || records.iter().zip(validators).any(|(record, validator)| {
+            record["id"] != validator.id
+                || record["program"] != validator.program
+                || record["args"] != json!(validator.args)
+                || record["timeout_seconds"] != validator.timeout_seconds
+                || record["input_digest"] != digest
+                || record["exit_code"] != 0
+                || record["tests_passed"]
+                    .as_u64()
+                    .is_none_or(|count| count == 0)
+                || record["tests_failed"] != 0
+                || record["passed"] != true
+                || record["timed_out"] != false
+                || record["cancelled"] != false
+                || record["truncated"] != false
+                || record["cleanup_complete"] != true
+        })
     {
         return Err("intent_proof_current_inputs_mismatch".into());
     }

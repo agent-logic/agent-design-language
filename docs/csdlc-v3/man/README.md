@@ -2,12 +2,12 @@
 
 `manual.json` is the reviewed source for the installable roff suite in `man1/`.
 Read `man csdlc`, `man csdlc-workflow`, `man csdlc-requests`, or a command page
-such as `man csdlc-finish`. The candidate suite contains 33 pages covering all
+such as `man csdlc-finish`. The suite contains 33 pages covering all
 29 root-help commands, the supported `rollback` alias and both simple issue
 forms. This extends the frozen 27 predecessor dispositions with `status`,
 `prepare` and `recover`; it does not change that historical denominator. `inventory.json` binds options
-and request fields to their source contracts. Candidate source/manual coverage
-is separate from installed-binary upgrade, exact-head review and activation.
+and request fields to their source contracts. Source/manual coverage is
+separate from installed-binary provenance, exact-head review and activation.
 See [issue intent commands](../INTENT_COMMANDS.md) for the ordinary interface and
 shared advanced request.
 
@@ -50,8 +50,10 @@ Examples are fixtures, not approved operational targets. Tests deserialize every
 request family and exercise actual native plan/guard contracts. They do not
 claim a live GitHub end-to-end delivery. Current diagnostic side effects,
 credential-file requirements and the post-creation publication-readback gate
-are described explicitly; unmerged simplification work is not documented as
-already installed.
+are described explicitly. Direct issue-writer and administrative-writer
+`--request` forms are retained only as retired discovery surfaces; current
+execution uses semantic issue intents or exact generated `--intent-request`
+snapshots.
 
 Validation:
 
