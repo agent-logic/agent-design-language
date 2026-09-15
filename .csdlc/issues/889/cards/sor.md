@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][PLAT-MEMORY] Retrieve a compatible prior CodeFriend review through Memory Palace
 Branch: codex/889-v0922-production-memory-palace-retrieval
 Card Status: draft
-Status: IMPLEMENTED_REVIEWED
+Status: IMPLEMENTED_REVIEW_PENDING
 Generated: 2026-09-12T00:07:16.174214+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented production Runtime Memory Palace consumer with60 focused tests and23 installed scenarios passing, strict Clippy/fmt, and independent exact-head review PASS at b8d93cbe5993114aa3b8c5cb69e2f7dee322b618. Privacy and digest findings resolved. Final record-only confirmation and native draft publication pending; hosted CI and merge not claimed.
+Production Memory Palace consumer and signed successor lineage repair complete. 68 focused tests and 23 fresh installed scenarios pass with strict Clippy/fmt. Main53e merged locally preserving both CLI routes. Independent exact-head review and repaired PR997 push pending; hosted CI and merge not claimed.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented production Runtime Memory Palace consumer with60 focused tests and23
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_reviewed_publication_pending`
+- Completion state: `implemented_review_pending`
 - Issue goal ref: `Active whole Sprint3 #929 goal includes #889; no separate child goal`
 - Sprint goal ref: `Sprint3 #929 across #882-#889; whole-sprint goal remains active`
 - Goal metrics rollup ref: `No separate issue metrics rollup recorded; whole Sprint3 goal accounting remains active`
@@ -76,22 +76,22 @@ Implemented production Runtime Memory Palace consumer with60 focused tests and23
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/889/cards/sor.md`
 - Tracked implementation artifacts: `LOCAL_PROOF.json inventories consumer, authority adapter, Runtime/kernel changes, CLI, tests, runner and docs`
-- Additional proof artifacts: `.csdlc/evidence/889/installed-memory-fixture-v3/palace-installed-proof.json; focused test and Clippy logs under .csdlc/evidence/889`
+- Additional proof artifacts: `.csdlc/evidence/889/successor-memory-fixture/palace-installed-proof.json; focused test and Clippy logs under .csdlc/evidence/889`
 
 ## Actions taken
 - `Implemented bounded production Memory Palace index/retrieve with live admission and strict latest validation`
-- `Ran60 focused tests and23 installed scenario groups; fixed privacy and SHA256 findings`
-- `Independent implementation review passed with all findings resolved; final record-only review precedes native publication.`
+- `Ran68 focused tests and23 installed scenario groups; fixed privacy and SHA256 findings`
+- `Repaired prepare to preserve supplied accepted lineage using an isolated clone and publish state only after full success; original-source regression fails as intended.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main inspection-only`
 - Worktree-only paths remaining: `Issue implementation remains branch-only until authorized merge; unique local proof fixtures/logs retained`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `Bounded production consumer, signed authority, strict Runtime load, privacy, retention, compatibility and digest identity`
 - Integration method used: `No merge performed`
 - Verification performed:
-  - `Read-only merge-tree against origin/main passed; native remote publication pending`
-    `Not integrated; draft publication and CI pending`
+  - `Merge origin/main53e resolved preserving both CLI usage routes; git diff --check passed.`
+    `PR997 remains draft; repaired main integration local pending review and push; no merge.`
 - Result: `not_integrated`
 
 Rules:
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `Focused cargo test targets and strict Clippy; exact commands and source inventory in LOCAL_PROOF.json and .csdlc/evidence/889 logs`
-    `60 focused tests and23 installed scenarios passed; hosted CI pending`
+    `68 focused tests and23 installed scenarios passed; hosted CI pending`
 - Results:
-  - `60 focused tests:7 new consumer,8 baseline,11 evidence,13 Runtime memory,12 kernel integration,5 ADL projection,4 ADL memory integration. 23 installed scenarios pass; strictClippy/fmt/diffcheck pass. Hosted CI not yet run.`
+  - `68 focused tests: 8 consumer, 8 baseline, 11 evidence, 13 Runtime memory, 12 kernel memory integration, 7 private state, 5 ADL projection, 4 ADL memory integration. 23 fresh installed scenarios pass; strict Clippy/fmt/diffcheck pass. Repaired-head hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: local_passed_hosted_ci_pending
     checks_run:
-      - "Independent exact-head review passed at b8d93cbe; final record-only confirmation pending"
+      - "Prior published head independently reviewed; successor repair and merge require fresh exact-head confirmation."
   determinism:
     status: passed
     replay_verified: passed
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `7 consumer tests and23 installed scenarios, plus53 existing regression tests`
+- Determinism tests executed: `8 consumer tests and 23 installed scenarios, plus 60 existing regression tests`
 - Fixtures or scripts used: `adl/examples/codefriend_memory_fixture.rs; adl/examples/codefriend_palace_fixture.rs; adl/tools/codefriend_palace_installed_proof.py; adl/tests/codefriend_plat_memory.rs`
 - Replay verification (same inputs -> same artifacts/order): `23 installed scenarios include deterministic repeat and restored state replay`
 - Ordering guarantees (sorting / tie-break rules used): `References sorted by run_id and record_digest; duplicate runs denied; repeated output equal`
@@ -157,14 +157,14 @@ verification_summary:
 - Sandbox / policy invariants preserved: `No provider/network operations, listeners or kernel startup; explicit operator-pinned authority; fixture keys public test material`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/889/installed-memory-fixture-v3/palace/.adl/runtime-v3/observability/codefriend; bounded reference/time traces independently SHA256-verified`
+- Trace bundle path(s): `.csdlc/evidence/889/successor-memory-fixture/palace/.adl/runtime-v3/observability/codefriend; bounded reference/time traces independently SHA256-verified`
 - Run artifact root: `.csdlc/evidence/889`
 - Replay command used for verification: `python3 adl/tools/codefriend_palace_installed_proof.py --binary <installed-adl> --fixture-root <fresh-memory-fixture> --authority-root <signed-authority-fixture>`
 - Replay result: `passed; repeated installed comparisons identical and restored durable state replayed`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/889/LOCAL_PROOF.json`
-- Required artifacts present: `All implementation and proof inventory artifacts present; hosted CI absent pending publication`
+- Required artifacts present: `Local implementation and proof inventory present; fresh hosted checks required after push.`
 - Artifact schema/version checks: `Six-card native validation passed; typed input bounds and malformed/private payload negatives passed`
 - Hash/byte-stability checks: `Independent SHA256 verification of trace bytes, serialized reference citations and declared policy; repeat comparison equality passed`
 - Missing/optional artifacts and rationale: `No goal timing/token metrics fabricated; hosted CI and terminal integration remain pending`
@@ -174,5 +174,5 @@ verification_summary:
 - `Bound issue worktree used; isolated normal production binary installed without replacing shared binaries`
 
 ## Follow-ups / Deferred work
-- `Final exact-head confirmation, native draft publication and required hosted CI; explicit merge authorization remains required.`
+- `Independent exact-head review, native review and push repaired PR997; required hosted CI pending.`
 - `Explicit merge authorization required before integration; native finish and separate clean afterward.`

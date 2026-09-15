@@ -1,0 +1,56 @@
+{
+  "schema": "csdlc.v3.intent_plan.v1",
+  "slug": "reserved-proof-outcome-reconcile",
+  "cards": {
+    "sip": {},
+    "stp": {},
+    "spp": {
+      "dependencies_inline": "C-SDLC v3 semantic local proof recovery code is available in this worktree; no external provider or paid runner is required.",
+      "repo_inputs_inline": "GitHub issue #980 and the semantic local proof implementation under csdlc-v3/src/application/intent/local.rs.",
+      "target_files_surfaces_inline": "csdlc-v3/src/application/intent/local.rs and csdlc-v3/tests/semantic_local_proof.rs.",
+      "deliverables_inline": "Interrupted reserved proof outcomes reconcile idempotently after an explicit abandon disposition without relaunching validators.",
+      "validation_plan_inline": "Run focused semantic_local_proof regression tests for explicit abandonment and retry paths.",
+      "acceptance_criteria_inline": "Repeated exact abandon recovery returns expected_noop, preserves completed outcome truth, and retry proof behavior remains intact.",
+      "notes_risks_inline": "Local CPU-only Rust tests; GitHub publication remains separate from semantic proof."
+    },
+    "vpp": {},
+    "srp": {},
+    "sor": {}
+  },
+  "validators": [
+    {
+      "id": "reserved-proof-explicit-disposition",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "semantic_local_proof",
+        "prelaunch_proof_interruption_requires_exact_explicit_disposition"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "reserved-proof-retry-after-abandon",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "semantic_local_proof",
+        "interrupted_proof_is_explicitly_abandoned_without_rerun_and_can_retry"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    }
+  ],
+  "publication": {
+    "base": "main",
+    "title": "[v0.92.2][C-SDLC] Reconcile interrupted reserved proof outcomes",
+    "body": "Closes #980\n\n## Summary\n- reconcile repeated explicit abandoned proof recovery as an expected no-op\n- preserve retry behavior for interrupted proof attempts\n- add focused semantic proof regression coverage\n\n## Validation\n- cargo test --manifest-path csdlc-v3/Cargo.toml --test semantic_local_proof prelaunch_proof_interruption_requires_exact_explicit_disposition\n- cargo test --manifest-path csdlc-v3/Cargo.toml --test semantic_local_proof interrupted_proof_is_explicitly_abandoned_without_rerun_and_can_retry\n- cargo fmt --manifest-path csdlc-v3/Cargo.toml --check\n- cargo check --manifest-path csdlc-v3/Cargo.toml",
+    "draft": true
+  }
+}

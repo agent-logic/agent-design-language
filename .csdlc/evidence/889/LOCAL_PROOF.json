@@ -1,7 +1,7 @@
 {
   "schema": "codefriend.palace.local-proof.v1",
   "issue": 889,
-  "base_sha": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+  "base_sha": "53e2f5524359c1704d508fc22a871625d14b8816",
   "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
   "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
   "source_sha256": {
@@ -9,34 +9,36 @@
     "adl/src/codefriend/memory/palace_authority.rs": "68685d46cba6cb942d542d45831fbf9e63a79429ee0fb4a0cbff4166289045b2",
     "adl/src/codefriend/memory/mod.rs": "c6e5f846b0ebd6387bfc15b9fc9fb7c5ed56f23cc5271ce4ca1da3d1b3bae1f8",
     "adl/src/cli/codefriend_memory_cmd.rs": "d9f82a50580fe95d023177a7c2d5fbf189d09bbacda95339678e3dbeb5dcb53f",
-    "adl/src/cli/usage.rs": "9171e3d8ccaabd65650159ef15a9f370455dcc6300322fc3af20388b444a7aa9",
+    "adl/src/cli/usage.rs": "15cab0c7f34ad40f2f854667dbe5e65754f398ec8f4c42ba84e6a6c0c7bbfb06",
     "adl/src/memory_palace.rs": "f84e0e8c7156a5dc7d18472e1699087ae503cd06deb10bafb4333a9809b7982b",
     "adl-runtime/src/memory_palace.rs": "bd6264ef8e2e3da00655db301240e2fedc3b7d9b183098d1ffe17321d807b56e",
-    "adl-runtime-kernel/src/memory_palace_authority.rs": "692fd327f392bad6cf2ab356e520c70e8e290573941005d7fafbafa227970a81",
+    "adl-runtime-kernel/src/memory_palace_authority.rs": "259f43b67e3af306518b999209ffc29a2e5dbdf33babd7af32a6e61b6c2c9e02",
     "adl-runtime-kernel/src/assembly.rs": "73059aa200696cbf49eaf78d0a4ce1d45fdefca2d0958223fd3dac80c0b62c16",
-    "adl/tests/codefriend_plat_memory.rs": "1eca3a19a417f19e20e180ef6d11b300dd519f2abc591a8a25d4fa4975134ed9",
-    "adl/examples/codefriend_palace_fixture.rs": "0211246ea2d44154c5dffd69e9ea68ca6d7c16c0dc861542b78a5f1d2909011b",
+    "adl/tests/codefriend_plat_memory.rs": "cae3ddbe64fcae496b3e67b24d6d183377900b7c378ad7617d7bb1ca0400d89b",
+    "adl/examples/codefriend_palace_fixture.rs": "aa7d1ac9609775b3bf0de9b2c5429a624214e47991b2ec05631bcbb46bc1de7f",
     "adl/tools/codefriend_palace_installed_proof.py": "daa9351f24ce8b114a92bac9f85a6672993f52a8fc1fc1f1668b011f3833ee8b",
-    "adl/tests/fixtures/codefriend/palace/PVF.json": "c386d5069e37ee900d6d9ca726ac122db9a9ad513587891a128d8b36b2922b18",
-    "docs/codefriend/MEMORY_PALACE.md": "2c0e0838a53d5f981706dd588f360f3c8b9edc43d01a6f81279e27024d8e314b"
+    "adl/tests/fixtures/codefriend/palace/PVF.json": "253db7c95036eac02a4f8726c6b2612158a83823ae0e4c58bdcab8aafc6348ce",
+    "docs/codefriend/MEMORY_PALACE.md": "87aaf8bf4f37a1cbcead35c4b84669f7ee6dec454d7b08174befb4ca29246e60",
+    "adl-runtime-kernel/src/private_state.rs": "923fe1611f490668d2ae0b152e8991701e1d3146414644582ed30a337e441596"
   },
   "tests": {
-    "palace_consumer": 7,
+    "palace_consumer": 8,
     "memory_baseline": 8,
     "shared_evidence": 11,
     "runtime_memory": 13,
     "kernel_memory_integration": 12,
     "adl_projection_unit": 5,
-    "adl_memory_integration": 4
+    "adl_memory_integration": 4,
+    "private_state": 7
   },
-  "test_total": 60,
+  "test_total": 68,
   "strict_clippy": "passed",
   "fmt": "passed",
   "installed": {
     "schema": "codefriend.palace.installed-proof.v1",
     "issue": 889,
-    "binary_sha256": "f03cc86b457085d672382c168d3ffee902967936e3bd86c173a1aef0594f0657",
-    "installation_provenance": "53c0c1591804adca90a0f5ff9b2d57c12a13b44a3bf6d9df41c60040741baaef",
+    "binary_sha256": "a712e7e976b60defc19ecd62b33721e72409160548bd79ef34ce6e339c26d481",
+    "installation_provenance": "606536ad666cd8d37e40dbff224150c2973b0b3661c2daebf1bcde61004416a6",
     "scenarios_passed": 23,
     "scenarios": [
       "first_run_commits_production_runtime_service",
@@ -71,11 +73,13 @@
       "No running Runtime kernel, network, provider, or production citizen admission claimed"
     ]
   },
-  "review": "independent review in progress; privacy and hash fixes awaiting final confirmation",
-  "ci": "not yet published; hosted required",
+  "review": "Lineage repair and main integration awaiting independent exact-head review; prior published head reviewed separately",
+  "ci": "PR997 draft; hosted checks required for repaired head after push",
   "notes": [
     "No test-support constructors used. Installed adl built separately with production binary feature graph before fixture examples.",
     "Runtime and kernel source hashes explicitly bound because owner installer provenance excludes dependency source paths.",
-    "Failed initial fixture runs and corrected zero-test filter retained locally; not counted as proof."
+    "Failed initial fixture runs and corrected zero-test filter retained locally; not counted as proof.",
+    "Signed successor regression fails against original prepare and passes repaired prepare; failure specifically reaches ContinuityCycles and leaves caller lineage unchanged.",
+    "Fresh isolated successor-installed-bin installation binds repaired Runtime/kernel dependencies; prior installed proof retained."
   ]
 }

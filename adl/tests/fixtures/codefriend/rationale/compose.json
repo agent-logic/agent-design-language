@@ -1,0 +1,1 @@
+{"services":{"api":{"image":"example/api:1","labels":{"codefriend.boundary":"core"}}}}
