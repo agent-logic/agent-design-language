@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][QUAL-EVIDENCE] Validate criterion-bound Runtime qualification evidence"
 branch: "codex/902-v0922-runtime-criterion-evidence"
 generated_at: "2026-09-12T00:14:10.636008+00:00"
-card_status: "draft"
+card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/902/cards/sip.md"
   - ".csdlc/issues/902/cards/vpp.md"
 review_results:
-  findings_status: "remediated_pending_rereview"
-  recommended_outcome: "block pending exact-head rereview"
-notes: "Review d2522aefa failed with one P1 and three P2s. Review the new committed candidate after remediation, rerun the real validator and focused tests, and specifically retry reduced-member, empty-risk, refreshed execution-log/provenance, coherent-synthetic, and failure-output adversarial cases. Publication remains blocked until no actionable findings."
+  findings_status: "no_findings"
+  recommended_outcome: "approve"
+notes: "Independent reviewer /root/review_902_exact_head reran the real protected 5/5 input, seven focused tests, reduced-member, empty-risk, review-digest and protected-member substitutions, Python compilation, full diff hygiene and the end-to-end fifth-row CLI failure. Exact head was rechecked and no files or remote state were changed. Native review admission is ready; this card-only metadata change requires a final exact-head delta review before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Exact-head review at d2522aefa9a165805c582980be7b614208ce9c6e found one P1 and three P2s: reduced protected evidence could pass; required negatives were incomplete; residual risks and failed row denominators were not enforced; SOR retained stale preparation truth.
+- Initial exact-head review found one P1 and three P2s; a follow-up review found the partial failure report discarded prior pass rows. All five findings were repaired. Final independent rereview found no actionable findings at 6dca1dcd7e778c5c99873e88aaeeedc47ae2d665.
 
 ### Dispositions
 
-- All four findings remediated in the working candidate: exact member/digest sets and semantic cross-links are enforced; typed receipt evidence digests bind retained review artifacts; 21 negative mutations cover partial/log/provenance/synthetic cases; canonical risks and structured failed rows are enforced; stale SOR fields were replaced through native edit. Independent exact-head rereview remains required.
+- Exact protected member and producer identities, semantic producer cross-links, typed review evidence, canonical residual risks, complete negative coverage, structured denominators and current SOR truth are enforced. Late-row CLI failure preserves four prior passes and reports the fifth failed with complete=4 and missing=0.
 
 ### Recommended Outcome
 
-- block pending exact-head rereview
+- approve
 
 ## Notes
 
-Review d2522aefa failed with one P1 and three P2s. Review the new committed candidate after remediation, rerun the real validator and focused tests, and specifically retry reduced-member, empty-risk, refreshed execution-log/provenance, coherent-synthetic, and failure-output adversarial cases. Publication remains blocked until no actionable findings.
+Independent reviewer /root/review_902_exact_head reran the real protected 5/5 input, seven focused tests, reduced-member, empty-risk, review-digest and protected-member substitutions, Python compilation, full diff hygiene and the end-to-end fifth-row CLI failure. Exact head was rechecked and no files or remote state were changed. Native review admission is ready; this card-only metadata change requires a final exact-head delta review before publication.
