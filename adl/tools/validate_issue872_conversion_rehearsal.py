@@ -20,6 +20,15 @@ ROLES = (
     "prepared", "bound_dirty", "implemented", "reviewed", "published",
     "terminal", "pending_recovery",
 )
+ROLE_ISSUES = {
+    "prepared": 511,
+    "bound_dirty": 517,
+    "implemented": 497,
+    "reviewed": 3,
+    "published": 505,
+    "terminal": 122,
+    "pending_recovery": 113,
+}
 SCENARIOS = {
     "clean_control", "unsupported_ambiguous_record", "old_writer_fence",
     "in_flight_classification", "fault_matrix", "ambiguous_remote",
@@ -143,6 +152,85 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def canonical_digest(value: Any) -> str:
+    encoded = (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def parse_embedded_json(record: dict[str, Any], label: str) -> dict[str, Any]:
+    content = record.get("stdout")
+    require(isinstance(content, str) and content.strip(),
+            f"{label}: raw stdout is empty")
+    try:
+        payload = json.loads(content)
+    except json.JSONDecodeError as exc:
+        raise InvalidPacket(f"{label}: raw stdout is not JSON: {exc}") from exc
+    require(isinstance(payload, dict), f"{label}: raw stdout must be an object")
+    return payload
+
+
+def validate_raw_record(record: Any, label: str) -> dict[str, Any]:
+    require(isinstance(record, dict), f"{label}: raw record must be an object")
+    require(record.get("synthetic") is not True and record.get("observed") is not True,
+            f"{label}: installed observation is synthetic")
+    argv = record.get("argv")
+    require(isinstance(argv, list) and argv and
+            all(isinstance(arg, str) and arg for arg in argv),
+            f"{label}: argv missing")
+    require(isinstance(record.get("cwd"), str) and Path(record["cwd"]).is_absolute(),
+            f"{label}: cwd missing")
+    require(isinstance(record.get("process_status"), int) and
+            not isinstance(record["process_status"], bool),
+            f"{label}: process status missing")
+    for stream in ("stdout", "stderr"):
+        value = record.get(stream)
+        require(isinstance(value, str), f"{label}: {stream} missing")
+        require(record.get(f"{stream}_sha256") ==
+                hashlib.sha256(value.encode()).hexdigest(),
+                f"{label}: {stream} digest mismatch")
+    return parse_embedded_json(record, label)
+
+
+def validate_executable_attestation(record: dict[str, Any],
+                                    provenance: dict[str, Any], label: str) -> None:
+    attestation = record.get("executable_provenance")
+    require(isinstance(attestation, dict),
+            f"{label}: raw executable provenance missing; regenerate rehearsal packet")
+    require(attestation.get("invoked_path") == record.get("argv", [None])[0],
+            f"{label}: attested executable path differs from invoked executable")
+    require(attestation.get("source_candidate_path") == provenance.get("path"),
+            f"{label}: attested executable source path differs from binary provenance")
+    for field in ("sha256", "size", "source_revision"):
+        require(attestation.get(field) == provenance.get(field),
+                f"{label}: executable {field} differs from binary provenance")
+    require_sha(attestation.get("sha256"), f"{label}: executable sha256")
+    require(isinstance(attestation.get("size"), int) and attestation["size"] > 0,
+            f"{label}: executable size invalid")
+    require(isinstance(attestation.get("source_revision"), str) and
+            re.fullmatch(r"[0-9a-f]{40}", attestation["source_revision"]) is not None,
+            f"{label}: executable source revision invalid")
+
+
+def validate_dirty_source(root: Path, inventories: dict[int, dict[str, str]]) -> None:
+    dirty_root = root / "snapshots/source/517"
+    dirty = load_json(dirty_root / "dirty-inventory.json")
+    require(dirty.get("schema") == "csdlc.v3.copied_record_dirty_inventory.v1" and
+            dirty.get("machine_derived") is True,
+            "bound_dirty: authentic dirty inventory missing")
+    require(dirty.get("git_status_porcelain_v1") ==
+            "M issue872-dirty-tracked.txt\n?? issue872-dirty-untracked.txt",
+            "bound_dirty: exact dirty status missing")
+    for kind, retained in (("tracked", "dirty-tracked.txt"),
+                           ("untracked", "untracked.txt")):
+        entry = dirty.get(kind, {})
+        require(entry.get("retained_path") == retained and
+                (dirty_root / retained).is_file(),
+                f"bound_dirty: {kind} artifact missing")
+        require(entry.get("sha256") == sha256(dirty_root / retained) ==
+                inventories[517].get(retained),
+                f"bound_dirty: {kind} artifact hash mismatch")
+
+
 def read_digest(path: Path, field: str) -> str:
     try:
         value = path.read_text(encoding="utf-8").strip()
@@ -239,6 +327,9 @@ def validate_request(root: Path) -> dict[str, Any]:
         require(entry["issue"] not in issues,
                 "request role issue identities must be distinct")
         issues.add(entry["issue"])
+        require(entry["issue"] == ROLE_ISSUES[entry["role"]],
+                f"request role {entry['role']}: expected issue "
+                f"{ROLE_ISSUES[entry['role']]}, got {entry['issue']}")
         require(isinstance(entry.get("source"), str) and entry["source"],
                 f"request role {entry.get('role')}: source missing")
         try:
@@ -250,7 +341,8 @@ def validate_request(root: Path) -> dict[str, Any]:
     return request
 
 
-def validate_provenance(root: Path, request: dict[str, Any]) -> None:
+def validate_provenance(root: Path, request: dict[str, Any],
+                        summary: dict[str, Any]) -> dict[str, Any]:
     provenance = load_json(root / "binary-provenance.json")
     digests: list[str] = []
     for key, request_field in (("old", "old_executable"),
@@ -266,17 +358,43 @@ def validate_provenance(root: Path, request: dict[str, Any]) -> None:
         require(bool(entry.get("source_revision") or
                      entry.get("version_output_sha256") or entry.get("identity")),
                 f"binary provenance {key} lacks retained identity evidence")
+        require(entry.get("source_revision") == request.get(f"{key}_source_revision"),
+                f"binary provenance {key} source revision differs from request")
         digests.append(digest)
     require(digests[0] != digests[1],
             "old and candidate binary provenance must differ")
+    require(request.get("candidate_source_revision") == request.get("source_revision") ==
+            request.get("repository_revision"),
+            "candidate source revision is not bound to retained source revision")
+    restore = load_json(root / "restore/pre-effect-result.json")
+    require(restore.get("restored_executable_sha256") == provenance["old"]["sha256"],
+            "archived owner SHA differs from raw restore result")
+    require(summary.get("restore", {}).get("old_executable_digest") ==
+            provenance["old"]["sha256"],
+            "archived owner SHA differs from summary restore digest")
+
+    observation_dir = root / "scenarios/old_schema_diagnostic"
+    for name in OBSERVATION_ARTIFACTS:
+        validate_executable_attestation(
+            load_json(observation_dir / name), provenance["candidate"],
+            f"installed observation {name}")
+    fence_commands = summary.get("old_writer_fence", {}).get("commands")
+    require(isinstance(fence_commands, list) and len(fence_commands) == 3,
+            "old-writer raw command census missing")
+    for number, command in enumerate(fence_commands, 1):
+        require(isinstance(command, dict), "old-writer raw command invalid")
+        validate_executable_attestation(
+            command, provenance["old"], f"old-writer command {number}")
+    return provenance
 
 
-def validate_source_census(root: Path, request: dict[str, Any]) -> None:
+def validate_source_census(root: Path, request: dict[str, Any]) -> dict[int, dict[str, str]]:
     census = load_json(root / "source-census.json")
     require(census.get("schema") == "csdlc.v3.source_census.v1",
             "invalid source census schema")
     files = census.get("files")
     require(isinstance(files, dict) and files, "source census files missing")
+    role_inventories: dict[int, dict[str, str]] = {}
     for entry in request["roles"]:
         prefix = f"{entry['issue']}/"
         matched = {path: digest for path, digest in files.items()
@@ -298,11 +416,31 @@ def validate_source_census(root: Path, request: dict[str, Any]) -> None:
         }
         require(actual == matched,
                 f"{entry['role']}: retained source snapshot differs from census")
+        per_inventory = {
+            path[len(prefix):]: digest for path, digest in matched.items()
+        }
+        role_inventories[entry["issue"]] = per_inventory
         require(any(path.stat().st_size >= 32 for path in snapshot.rglob("*")
                     if path.is_file()),
                 f"{entry['role']}: retained source is placeholder-sized")
         for path, digest in matched.items():
             require_sha(digest, f"source census {path}")
+    try:
+        source_lines = (root / "source-files.sha256").read_text(encoding="utf-8")
+    except OSError as exc:
+        raise InvalidPacket(f"cannot read source-files.sha256: {exc}") from exc
+    require(source_lines == "".join(
+        f"{files[path]}  {path}\n" for path in sorted(files)
+    ),
+            "source-files.sha256 differs from source census")
+    counts = load_json(root / "source-counts.json")
+    require(counts.get("files") == len(files), "source file count mismatch")
+    source_bytes = sum(
+        path.stat().st_size for path in (root / "snapshots/source").rglob("*")
+        if path.is_file()
+    )
+    require(counts.get("bytes") == source_bytes, "source byte count mismatch")
+    return role_inventories
 
 
 def validate_topology(summary: dict[str, Any], request: dict[str, Any]) -> None:
@@ -330,13 +468,24 @@ def validate_topology(summary: dict[str, Any], request: dict[str, Any]) -> None:
             "rehearsal reported paths outside fixture")
 
 
-def validate_roles(summary: dict[str, Any]) -> None:
+def validate_roles(root: Path, summary: dict[str, Any], request: dict[str, Any],
+                   inventories: dict[int, dict[str, str]]) -> None:
     roles = summary.get("roles")
     require(isinstance(roles, dict), "roles must be an object")
     require(set(roles) == set(ROLES),
             f"role census mismatch: {sorted(set(roles or {}) ^ set(ROLES))}")
     source_digests: set[str] = set()
     issues: set[int] = set()
+    operation = load_json(root / "staging-complete.json").get("operation")
+    require(isinstance(operation, str) and operation,
+            "staging operation identity missing")
+    request_by_role = {entry["role"]: entry for entry in request["roles"]}
+    expected_phases = {
+        "prepared": "ready", "bound_dirty": "bound",
+        "implemented": "implemented", "reviewed": "reviewed",
+        "published": "published", "terminal": "closed_out",
+        "pending_recovery": "reviewed",
+    }
     for name, role in roles.items():
         require(isinstance(role, dict), f"{name}: role result must be an object")
         require(role.get("role") == name, f"{name}: role identity mismatch")
@@ -344,6 +493,8 @@ def validate_roles(summary: dict[str, Any]) -> None:
                 f"{name}: issue identity missing")
         require(role["issue"] not in issues, f"{name}: duplicate issue identity")
         issues.add(role["issue"])
+        require(role["issue"] == request_by_role[name]["issue"] == ROLE_ISSUES[name],
+                f"{name}: issue identity differs from request")
         require(role.get("source_inventory_complete") is True,
                 f"{name}: incomplete source inventory")
         require(role.get("classified_union_matches_source") is True,
@@ -359,6 +510,32 @@ def validate_roles(summary: dict[str, Any]) -> None:
         require(digest not in source_digests,
                 f"{name}: role source is not distinct")
         source_digests.add(digest)
+        inventory = inventories[role["issue"]]
+        require(digest == canonical_digest(inventory),
+                f"{name}: source digest is not derived from retained source bytes")
+        index = load_json(root / "snapshots/source" / str(role["issue"]) / "index.json")
+        require(index.get("issue") == role["issue"], f"{name}: source index issue mismatch")
+        require(index.get("phase") == expected_phases[name],
+                f"{name}: source phase does not establish role")
+        staged = load_json(root / "staging" / operation / str(role["issue"]) / "state.json")
+        require(staged.get("issue") == role["issue"] and staged.get("role") == name,
+                f"{name}: staged semantic identity mismatch")
+        require(staged.get("conversion_operation") == operation,
+                f"{name}: staged operation identity mismatch")
+        require(staged.get("source_inventory") == inventory,
+                f"{name}: staged source inventory differs from retained source")
+        require(staged.get("source_generation") == index.get("generation") and
+                staged.get("source_digest") == index.get("digest") and
+                staged.get("source_phase") == index.get("phase"),
+                f"{name}: staged source semantics differ from source index")
+
+    pending = load_json(root / "snapshots/source/113/index.json")
+    require(pending.get("issue") == 113 and pending.get("publication") is None and
+            pending.get("terminal") is None and
+            (root / "snapshots/source/113/recovery-evidence/113.intent.json").is_file(),
+            "pending_recovery: exact issue #113 recovery evidence missing")
+
+    validate_dirty_source(root, inventories)
 
 
 def validate_stream_records(directory: Path, commands: list[dict[str, Any]],
@@ -544,13 +721,49 @@ def validate_scenarios(root: Path, summary: dict[str, Any]) -> None:
         require(result.get("process_status") == 0, f"{name}: process failed")
         validate_command_bundle(root, result_path.parent, result, name,
                                 fault=False)
+        commands = load_jsonl(result_path.parent / "commands.jsonl")
+        outputs = load_jsonl(result_path.parent / "stdout.jsonl", allow_empty=True)
+        parsed = [parse_embedded_json(record, f"{name}: raw command {number}")
+                  for number, record in enumerate(outputs, 1)
+                  if isinstance(record.get("stdout"), str) and record["stdout"].strip()]
+        if name == "clean_control":
+            require(len(parsed) == 1 and parsed[0].get("status") == "completed",
+                    "clean_control: passing disposition not derived from raw conversion")
+            records = parsed[0].get("records")
+            require(isinstance(records, list) and
+                    [(item.get("role"), item.get("issue")) for item in records] ==
+                    [(role, ROLE_ISSUES[role]) for role in ROLES] and
+                    all(item.get("disposition") == "converted" for item in records),
+                    "clean_control: raw converted role census mismatch")
+        elif name == "old_writer_fence":
+            require([command.get("process_status") for command in commands] == [0, 124, 124],
+                    "old_writer_fence: raw process statuses do not prove fencing")
+        elif name in {"unsupported_ambiguous_record", "old_schema_diagnostic"}:
+            require(len(parsed) == 1 and any(
+                finding.get("code") == "registry_version_mismatch" and
+                finding.get("status") == "blocked"
+                for finding in parsed[0].get("findings", [])
+                if isinstance(finding, dict)
+            ), f"{name}: passing disposition lacks raw registry_version_mismatch")
+        elif name == "primary_worktree_parity":
+            require(len(parsed) == 2 and all(
+                payload.get("command") == "validate" and
+                payload.get("operational_authority") is True and
+                payload.get("writes_v3_state") is False
+                for payload in parsed
+            ), "primary_worktree_parity: raw validate observations invalid")
+        else:
+            schemas = {payload.get("schema") for payload in parsed}
+            require("csdlc.v3.copied_record_conversion_result.v1" in schemas and
+                    "csdlc.v3.copied_record_conversion_operation_evidence.v1" in schemas,
+                    f"{name}: passing disposition lacks raw production outcomes")
 
 
 def validate_faults(root: Path, summary: dict[str, Any]) -> None:
     faults = summary.get("faults")
     evidence_format = summary.get("fault_evidence_format")
-    require(evidence_format in {"production_cli_v2", "validator_fixture_legacy_v1"},
-            "fault evidence format is missing or unsupported")
+    require(evidence_format == "production_cli_v2",
+            "fault evidence format must be production_cli_v2; legacy validator fixtures are rejection-only")
     require(isinstance(faults, dict), "faults must be an object")
     require(set(faults) == FAULT_POINTS,
             f"fault point mismatch: {sorted(set(faults or {}) ^ FAULT_POINTS)}")
@@ -563,9 +776,7 @@ def validate_faults(root: Path, summary: dict[str, Any]) -> None:
                     f"{point}/{boundary}: result reference is not canonical")
             result_path = as_relative(root, ref, f"faults.{point}.{boundary}")
             result = load_json(result_path)
-            expected_schema = ("csdlc.v3.conversion_rehearsal_fault.production_cli.v2"
-                               if evidence_format == "production_cli_v2"
-                               else "csdlc.v3.conversion_rehearsal_fault.v1")
+            expected_schema = "csdlc.v3.conversion_rehearsal_fault.production_cli.v2"
             require(result.get("schema") == expected_schema,
                     f"{point}/{boundary}: invalid result schema")
             require(result.get("fault_point") == point,
@@ -603,6 +814,135 @@ def validate_faults(root: Path, summary: dict[str, Any]) -> None:
             else:
                 require(not ledger.exists(),
                         f"{point}/{boundary}: unexpected fake transport ledger")
+
+
+def validate_installed_observations(root: Path, request: dict[str, Any],
+                                    provenance: dict[str, Any]) -> None:
+    observations = request.get("observations")
+    require(isinstance(observations, list) and
+            [(item.get("checkout"), item.get("issue")) for item in observations
+             if isinstance(item, dict)] == [("primary", 970), ("linked", 981)],
+            "request observations must be exact installed #970/#981 probes")
+    registrations = load_json(root / "candidate-observation-registrations.json")
+    require(isinstance(registrations, list) and len(registrations) == 2 and
+            registrations[0].get("worktree") == request["primary"] and
+            registrations[0].get("primary") is True and
+            registrations[1].get("worktree") == observations[1].get("target_worktree") and
+            registrations[1].get("primary") is False,
+            "installed observation registrations differ from request topology")
+    directory = root / "scenarios/old_schema_diagnostic"
+    for item, prefix in zip(observations, ("primary", "linked")):
+        issue = item["issue"]
+        expected_root = Path(request["primary"] if prefix == "primary"
+                             else item["target_worktree"])
+        source = Path(item.get("source", ""))
+        require(source.name == str(issue) and source.parent.name == "current-observations",
+                f"{prefix}: observation source identity mismatch")
+        snapshot_index = load_json(root / "snapshots/current-observations" /
+                                   str(issue) / "local/index.json")
+        require(snapshot_index.get("issue") == issue,
+                f"{prefix}: observation snapshot issue mismatch")
+        status_record = load_json(directory / f"{prefix}-status.json")
+        validate_record = load_json(directory / f"{prefix}-validate.json")
+        observed_result: dict[str, Any] | None = None
+        for command, record in (("status", status_record), ("validate", validate_record)):
+            payload = validate_raw_record(record, f"{prefix}-{command}")
+            validate_executable_attestation(record, provenance["candidate"],
+                                            f"{prefix}-{command}")
+            require(Path(record["argv"][0]) == Path(request["primary"]) /
+                    ".csdlc/v3/bin/csdlc",
+                    f"{prefix}-{command}: installed executable path mismatch")
+            require(Path(record["cwd"]) == expected_root,
+                    f"{prefix}-{command}: checkout mismatch")
+            require(record["process_status"] == 0,
+                    f"{prefix}-{command}: installed command failed")
+            require(payload.get("request_issue") == issue,
+                    f"{prefix}-{command}: request issue mismatch")
+            require(payload.get("operational_authority") is True and
+                    payload.get("writes_v3_state") is False,
+                    f"{prefix}-{command}: authority/read-only contract invalid")
+            envelope = payload.get("envelope", {})
+            require(envelope.get("authority_status") == "verified" and
+                    envelope.get("process_status") == "succeeded" and
+                    envelope.get("issue", {}).get("number") == issue,
+                    f"{prefix}-{command}: command envelope identity invalid")
+            result = payload.get("result", {})
+            require(result.get("issue") == issue and
+                    isinstance(result.get("generation"), int) and
+                    isinstance(result.get("digest"), str) and
+                    isinstance(result.get("phase"), str),
+                    f"{prefix}-{command}: result identity/version missing")
+            if observed_result is None:
+                observed_result = result
+            else:
+                require(all(result.get(field) == observed_result.get(field)
+                            for field in ("issue", "generation", "digest", "phase")),
+                        f"{prefix}: status/validate result versions differ")
+            if command == "status":
+                require(payload.get("schema") == "csdlc.v3.intent_local.v1" and
+                        payload.get("read_only") is True,
+                        f"{prefix}-status: raw status schema/read-only invalid")
+                projection = payload.get("projection", {})
+                require(projection.get("registry_version") ==
+                        item.get("expected_registry_version") and
+                        isinstance(projection.get("semantic_digest"), str) and
+                        isinstance(projection.get("projection_digest"), str),
+                        f"{prefix}-status: projection readback invalid")
+            else:
+                require(payload.get("schema") == "csdlc.v3.operational_local.v1" and
+                        payload.get("command") == "validate" and
+                        payload.get("operational_read_only") is True,
+                        f"{prefix}-validate: raw validate schema/read-only invalid")
+                request_payload = load_json(root / f"candidate-validate-{prefix}-request.json")
+                require(request_payload.get("issue") == issue and
+                        request_payload.get("expected_lifecycle_digest") ==
+                        result.get("digest") and
+                        request_payload.get("registry_version") ==
+                        item.get("expected_registry_version") and
+                        Path(request_payload.get("worktree", "")) == expected_root,
+                        f"{prefix}-validate: request differs from observation source")
+
+
+def validate_remote_records(root: Path, summary: dict[str, Any]) -> None:
+    ledger = load_jsonl(root / "remote/fake-transport-ledger.jsonl")
+    readbacks = load_jsonl(root / "remote/readbacks.jsonl")
+    require(len(ledger) == len(readbacks) == 1,
+            "top-level remote ledger/readbacks must each contain exactly one record")
+    dispatch, readback = ledger[0], readbacks[0]
+    require(isinstance(dispatch, dict) and isinstance(readback, dict) and
+            dispatch.get("synthetic") is not True and readback.get("synthetic") is not True,
+            "top-level remote ledger/readbacks are synthetic")
+    operation = dispatch.get("operation")
+    require(isinstance(operation, str) and operation and
+            readback.get("operation") == operation,
+            "top-level remote operation identity mismatch")
+    require(dispatch.get("dispatch_count") == 1 and dispatch.get("effect") == "succeeded" and
+            readback.get("readback_count") == 1 and readback.get("outcome") == "succeeded",
+            "top-level remote operation was not dispatched/reconciled exactly once")
+    remote = summary.get("remote_reconciliation", {})
+    require(remote.get("dispatch_count") == 1 and remote.get("readback_count") == 1 and
+            remote.get("operation_identity_preserved") is True,
+            "summary remote reconciliation differs from raw ledger/readback")
+
+
+def validate_old_schema_records(root: Path) -> None:
+    unsupported = load_json(root / "unsupported-old-schema.json")
+    require(unsupported.get("observed_diagnostic") == "registry_version_mismatch" and
+            unsupported.get("observed_issue") == 511,
+            "old-schema diagnostic record is missing registry_version_mismatch")
+    records = unsupported.get("records")
+    require(isinstance(records, list) and [record.get("issue") for record in records] == [511, 517] and
+            all(record.get("disposition") == "unsupported_old_schema" and
+                record.get("expected_diagnostic") == "registry_version_mismatch"
+                for record in records if isinstance(record, dict)),
+            "unsupported old-schema records are incomplete")
+    raw = load_jsonl(root / "scenarios/old_schema_diagnostic/stdout.jsonl")
+    payload = parse_embedded_json(raw[0], "old-schema diagnostic")
+    require(payload.get("envelope", {}).get("reason_code") == "registry_version_mismatch" and
+            any(finding.get("code") == "registry_version_mismatch" and
+                finding.get("status") == "blocked"
+                for finding in payload.get("findings", []) if isinstance(finding, dict)),
+            "old-schema raw output lacks registry_version_mismatch")
 
 
 def validate_safety(root: Path, summary: dict[str, Any]) -> None:
@@ -721,10 +1061,13 @@ def validate(root: Path) -> None:
             "rehearsal replaced shared binary")
     require(summary.get("writers_activated") is False,
             "rehearsal activated writers")
-    validate_provenance(root, request)
-    validate_source_census(root, request)
+    inventories = validate_source_census(root, request)
     validate_topology(summary, request)
-    validate_roles(summary)
+    validate_roles(root, summary, request, inventories)
+    provenance = validate_provenance(root, request, summary)
+    validate_installed_observations(root, request, provenance)
+    validate_old_schema_records(root)
+    validate_remote_records(root, summary)
     validate_scenarios(root, summary)
     validate_faults(root, summary)
     validate_safety(root, summary)
