@@ -141,6 +141,10 @@ fn bootstrap(root: &Path) -> Result<()> {
 }
 
 impl Store {
+    /// Local storage boundary for adapters; never a portable artifact identity.
+    pub fn root_path(&self) -> &Path {
+        &self.root
+    }
     pub fn open(root: &Path, clock: impl Fn() -> u64 + 'static) -> Result<Self> {
         safe_path(root)?;
         let marker = root.join(".codefriend-store-v1");
