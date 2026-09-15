@@ -342,7 +342,8 @@ fn lane_input_manifest(
          Do not use peer lane findings; peer_result_refs is empty by construction.\n\
          Return only JSON: {{\"findings\":[{{\"rule\":\"...\",\"semantic_anchor\":\"...\",\
          \"title\":\"...\",\"severity\":\"critical|high|medium|low|info\",\"rationale\":\"...\",\
-         \"confidence\":0-100|null,\"evidence\":[\"evidence_id\"],\"inference\":\"...\",\
+         \"confidence\":{{\"state\":\"known\",\"percent\":80}}|{{\"state\":\"unknown\"}},\
+         \"evidence\":[\"evidence_id\"],\"inference\":\"...\",\
          \"limitations\":[]}}]}}. Use an empty findings array if no supported findings exist.\n\
          Evidence manifest: {evidence_json}\n\
          Scoped source evidence:\n{}",
