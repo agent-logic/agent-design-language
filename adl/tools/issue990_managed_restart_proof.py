@@ -38,7 +38,7 @@ def execute(args):
         "#!/bin/sh\ntrap 'exit 0' TERM INT\nwhile :; do sleep 1; done\n",
     )
     vector.chmod(0o700)
-    tls = certificates(root / "tls")
+    tls = certificates(root / "state/tls")
     fixture = Fixture(tls)
     clock = LocalTime()
     label = f"com.agentlogic.adl-runtime-v3.issue990.{os.getpid()}"
