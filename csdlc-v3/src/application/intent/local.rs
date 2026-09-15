@@ -396,6 +396,26 @@ fn semantic_edit(
             .ok_or("intent_semantic_card_kind_invalid")?;
         merge(card, update);
     }
+    let inferred_classes = request
+        .card_updates
+        .keys()
+        .map(|kind| match kind.as_str() {
+            "sip" | "stp" => Ok(crate::lifecycle::semantic::AmendmentClass::ScopeAcceptance),
+            "spp" => Ok(crate::lifecycle::semantic::AmendmentClass::Plan),
+            "vpp" => Ok(crate::lifecycle::semantic::AmendmentClass::ProofValidator),
+            "srp" => Ok(crate::lifecycle::semantic::AmendmentClass::Review),
+            "sor" => Ok(crate::lifecycle::semantic::AmendmentClass::Implementation),
+            _ => Err("intent_semantic_card_kind_invalid"),
+        })
+        .collect::<Result<std::collections::BTreeSet<_>, _>>()?;
+    if inferred_classes.len() != 1 || !inferred_classes.contains(&amendment.class) {
+        return Err("intent_amendment_class_mismatch".into());
+    }
+    if amendment.class == crate::lifecycle::semantic::AmendmentClass::Implementation
+        && amendment.implementation_revision.as_deref() != Some(native.expected_head_sha.as_str())
+    {
+        return Err("intent_amendment_revision_mismatch".into());
+    }
     let request_bytes = serde_json::to_vec(&json!({
         "schema":"csdlc.v3.semantic_edit_request.v1",
         "repository":context.repository,"issue":context.issue,
