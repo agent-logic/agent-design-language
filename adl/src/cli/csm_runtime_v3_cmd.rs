@@ -1125,7 +1125,38 @@ fn platform_start_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -
             remaining,
         )?;
     }
-    Ok(())
+    ensure_launchd_process_running(
+        timeout,
+        deadline,
+        |remaining| platform_process_id_with_timeout(args, remaining),
+        |remaining| {
+            run_start_command_with_timeout(
+                Command::new("launchctl").args(["kickstart", &launchd_target(args)]),
+                remaining,
+            )
+        },
+    )
+}
+
+#[cfg(any(target_os = "macos", test))]
+fn ensure_launchd_process_running(
+    timeout: Duration,
+    deadline: std::time::Instant,
+    probe: impl FnOnce(Duration) -> Result<Option<u32>>,
+    kickstart: impl FnOnce(Duration) -> Result<()>,
+) -> Result<()> {
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+    }
+    if probe(remaining)?.is_some() {
+        return Ok(());
+    }
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+    }
+    kickstart(remaining)
 }
 
 #[cfg(target_os = "macos")]
@@ -2132,6 +2163,60 @@ mod tests {
         assert!(loaded_error.to_string().contains("stage listener"));
         assert!(loaded_error.to_string().contains("250 milliseconds"));
         assert!(started.elapsed() < Duration::from_millis(1500));
+    }
+
+    #[test]
+    fn launchd_loaded_but_idle_service_is_kicked_without_restarting_running_service() {
+        let timeout = Duration::from_secs(1);
+        let idle_kickstarts = std::cell::Cell::new(0_u8);
+        ensure_launchd_process_running(
+            timeout,
+            std::time::Instant::now() + timeout,
+            |_| Ok(None),
+            |_| {
+                idle_kickstarts.set(idle_kickstarts.get() + 1);
+                Ok(())
+            },
+        )
+        .unwrap();
+        assert_eq!(idle_kickstarts.get(), 1);
+
+        let running_kickstarts = std::cell::Cell::new(0_u8);
+        ensure_launchd_process_running(
+            timeout,
+            std::time::Instant::now() + timeout,
+            |_| Ok(Some(42)),
+            |_| {
+                running_kickstarts.set(running_kickstarts.get() + 1);
+                Ok(())
+            },
+        )
+        .unwrap();
+        assert_eq!(running_kickstarts.get(), 0);
+    }
+
+    #[test]
+    fn launchd_idle_kickstart_preserves_command_failure_and_deadline() {
+        let timeout = Duration::from_secs(1);
+        let failure = ensure_launchd_process_running(
+            timeout,
+            std::time::Instant::now() + timeout,
+            |_| Ok(None),
+            |_| Err(anyhow!("kickstart failed")),
+        )
+        .unwrap_err();
+        assert_eq!(failure.to_string(), "kickstart failed");
+
+        let expired = ensure_launchd_process_running(
+            Duration::ZERO,
+            std::time::Instant::now(),
+            |_| panic!("expired start must not probe"),
+            |_| panic!("expired start must not kickstart"),
+        )
+        .unwrap_err();
+        assert!(expired
+            .downcast_ref::<ServiceManagerDeadlineExceeded>()
+            .is_some());
     }
 
     #[test]

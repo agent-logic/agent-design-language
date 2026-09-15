@@ -142,6 +142,57 @@ pub(super) fn auth_env_for(spec: &adl::ProviderSpec, default_env: &str) -> Resul
     Ok(trimmed.to_string())
 }
 
+pub(super) fn auth_file_env_for(spec: &adl::ProviderSpec) -> Result<Option<String>> {
+    let Some(auth_val) = spec.config.get("auth") else {
+        return Ok(None);
+    };
+    let obj = auth_val
+        .as_object()
+        .ok_or_else(|| invalid_config("native", "config.auth must be an object"))?;
+    let Some(value) = obj.get("file_env") else {
+        return Ok(None);
+    };
+    let name = value
+        .as_str()
+        .map(str::trim)
+        .filter(|name| !name.is_empty())
+        .ok_or_else(|| {
+            invalid_config("native", "config.auth.file_env must be a non-empty string")
+        })?;
+    Ok(Some(name.to_owned()))
+}
+
+pub(super) fn credential_from_env_or_file(
+    provider_label: &str,
+    auth_env: &str,
+    auth_file_env: Option<&str>,
+) -> Result<String> {
+    if let Ok(value) = env::var(auth_env) {
+        if !value.trim().is_empty() {
+            return Ok(value);
+        }
+    }
+    if let Some(file_env) = auth_file_env {
+        if let Ok(path) = env::var(file_env) {
+            let value = fs::read_to_string(path.trim()).map_err(|_| {
+                invalid_config(provider_label, "configured credential file is unavailable")
+            })?;
+            let value = value.trim();
+            if !value.is_empty() && !value.chars().any(char::is_control) {
+                return Ok(value.to_owned());
+            }
+            return Err(invalid_config(
+                provider_label,
+                "configured credential file is invalid",
+            ));
+        }
+    }
+    Err(invalid_config(
+        provider_label,
+        format!("missing required credential reference '{auth_env}'"),
+    ))
+}
+
 pub(super) fn vendor_endpoint(
     spec: &adl::ProviderSpec,
     target: &ProviderInvocationTargetV1,
@@ -309,4 +360,56 @@ pub(crate) fn cfg_f64_strict(
     }
 
     Err(invalid_value())
+}
+
+#[cfg(test)]
+mod credential_file_tests {
+    use super::*;
+
+    #[test]
+    fn credential_file_reference_is_used_without_exposing_the_value() {
+        let scratch = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/issue978");
+        fs::create_dir_all(&scratch).unwrap();
+        let root = tempfile::tempdir_in(scratch).unwrap();
+        let path = root.path().join("credential");
+        fs::write(&path, "fixture-secret\n").unwrap();
+        let file_env = format!("ADL_TEST_CREDENTIAL_FILE_{}", std::process::id());
+        env::set_var(&file_env, &path);
+        let value = credential_from_env_or_file(
+            "openai",
+            "ADL_TEST_CREDENTIAL_VALUE_UNSET",
+            Some(&file_env),
+        )
+        .unwrap();
+        env::remove_var(&file_env);
+        assert_eq!(value, "fixture-secret");
+    }
+
+    #[test]
+    fn credential_environment_value_precedes_file_reference() {
+        let value_env = format!("ADL_TEST_CREDENTIAL_VALUE_{}", std::process::id());
+        let file_env = format!("ADL_TEST_CREDENTIAL_FILE_PRECEDENCE_{}", std::process::id());
+        env::set_var(&value_env, "environment-secret");
+        env::set_var(&file_env, "/unavailable/credential");
+        let value = credential_from_env_or_file("anthropic", &value_env, Some(&file_env)).unwrap();
+        env::remove_var(&value_env);
+        env::remove_var(&file_env);
+        assert_eq!(value, "environment-secret");
+    }
+
+    #[test]
+    fn unavailable_credential_file_error_does_not_expose_its_path() {
+        let file_env = format!("ADL_TEST_CREDENTIAL_FILE_MISSING_{}", std::process::id());
+        let path = "/sensitive/operator/path/credential";
+        env::set_var(&file_env, path);
+        let error = credential_from_env_or_file(
+            "openai",
+            "ADL_TEST_CREDENTIAL_VALUE_UNSET",
+            Some(&file_env),
+        )
+        .unwrap_err();
+        env::remove_var(&file_env);
+        assert!(!error.to_string().contains(path));
+        assert!(error.to_string().contains("credential file is unavailable"));
+    }
 }

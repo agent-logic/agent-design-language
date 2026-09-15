@@ -328,6 +328,15 @@ impl ProviderRegistry {
         }
         Ok(())
     }
+
+    /// Validates the complete configured provider/model contract without making
+    /// a network request. This is intended for atomic candidate admission.
+    pub fn validate_binding_compatibility(
+        &self,
+        binding: &ProviderBinding,
+    ) -> Result<(), ProviderFailure> {
+        self.prepare_inner(binding, false).map(|_| ())
+    }
     fn prepare_inner(
         &self,
         binding: &ProviderBinding,
@@ -704,9 +713,21 @@ impl RuntimeProviderAdapter for NativeAdapter {
                 .config
                 .get("auth")
                 .and_then(|a| a.get("env"))
-                .and_then(|v| v.as_str())
-                .ok_or(ProviderFailure::Credentials)?;
-            credential_env(&format!("env:{name}"))?;
+                .and_then(|v| v.as_str());
+            let file_name = spec
+                .config
+                .get("auth")
+                .and_then(|a| a.get("file_env"))
+                .and_then(|v| v.as_str());
+            if name.is_none() && file_name.is_none() {
+                return Err(ProviderFailure::Credentials);
+            }
+            if let Some(name) = name {
+                credential_env(&format!("env:{name}"))?;
+            }
+            if let Some(name) = file_name {
+                credential_env(&format!("env:{name}"))?;
+            }
         }
         if binding.model.is_empty()
             || binding.model.len() > 256

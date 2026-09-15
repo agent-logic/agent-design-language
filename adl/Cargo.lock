@@ -91,6 +91,7 @@ dependencies = [
  "fs2",
  "libc",
  "reqwest 0.12.28",
+ "rustls 0.23.43",
  "schemars 0.8.22",
  "serde",
  "serde_json",
