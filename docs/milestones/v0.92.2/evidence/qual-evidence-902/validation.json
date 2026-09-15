@@ -13,13 +13,13 @@
   },
   "issue": 902,
   "missing": 0,
-  "negative_case_count": 21,
-  "protected_evidence": "verified locally from exact digest-bound allowlisted archives, cross-linked raw outcomes, typed review receipts and retained independent-review evidence; protected bytes are not published",
+  "negative_case_count": 27,
+  "protected_evidence": "verified locally from exact digest-bound #899 inventories, #900/#901 protected members including #901 timeout deadline observations, #852 execution logs, cross-linked raw outcomes, typed review receipts and retained independent-review evidence; protected bytes are not published",
   "release_authorized": false,
   "residual_risks": [
     "Historical consumers #522 and #833 remain closed historical records; these five rows do not newly prove all 19 original findings.",
     "Five cloud-control gaps and two execution-proof gaps remain separate from this five-row qualification mapping.",
-    "Protected #900/#901 raw evidence must remain locally accessible and digest-identical for admission.",
+    "Protected #900/#901/#852 raw evidence must remain locally accessible and digest-identical for admission.",
     "This qualification grants no release approval."
   ],
   "rows": [
@@ -58,7 +58,7 @@
         "adl/tools/test_validate_v0922_runtime_qualification.py"
       ],
       "exit_code": 0,
-      "stderr_sha256": "1ede82c9b7396464afe92066638e0ac74879b9b52a6b8170d61175097fbc42ec",
+      "stderr_sha256": "48e45b6e6e110696c2db3957e548a14d98d24eecc172f75f3aaf5d17fc7ce01b",
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "positive": {
@@ -70,7 +70,7 @@
       ],
       "exit_code": 0,
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stdout_sha256": "e48724f90ec088a58a1fc165701bee61ebb1fbd87a89b0232832cff3ead16e90"
+      "stdout_sha256": "1a7f947a2feab3e2bd9a83173b185ca9b4d4b5f141819cd96b90dd4548e0afdc"
     }
   },
   "schema": "adl.v0922.runtime_criterion_validation.v1",

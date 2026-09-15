@@ -39,8 +39,38 @@ EXPECTED_SCENARIOS = {
     "RUST-01-ac-4": ["baseline_inventory", "candidate_inventory", "exact_delta"],
     "DRT-B-ac-2": ["six_distinct_roles", "six_distinct_workload_views", "twelve_workload_effects"],
     "DRT-B-ac-3": ["dehydrate_six", "restore_six", "continuation_verified", "seven_tamper_denials"],
-    "DRT-C-ac-2": ["provider_loss", "provider_recovery", "session_interruption"],
+    "DRT-C-ac-2": ["provider_loss", "provider_timeout", "provider_recovery", "session_interruption"],
     "DRT-C-ac-3": ["dispatch_failure_event", "authenticated_wss", "correlation_and_redaction"],
+}
+EXPECTED_PROFILES = {
+    "RUST-01-ac-4": "two-revision deterministic Rust test inventory",
+    "DRT-B-ac-2": "local Ollama six-resident governed UTS continuity run",
+    "DRT-B-ac-3": "local Ollama six-resident governed UTS continuity run",
+    "DRT-C-ac-2": "registered Runtime v3 local provider recovery qualification",
+    "DRT-C-ac-3": "local Runtime ingress and authenticated WSS regression",
+}
+INVENTORY_PROFILE = {
+    "environment": "configuration_free_allowlist_v1", "features": "default",
+    "manifest": "adl/Cargo.toml", "package": "adl", "selection": "tests",
+    "test_bodies": "not_run", "toolchain": "1.92.0",
+}
+EXPECTED_INVENTORY_ARCHIVES = {
+    "baseline": {
+        "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/baseline.tar.gz",
+        "sha256": "40a04c82ed006bfa90a42a574c42ccc193795723ed7fd4abc93b357855b4e97d",
+        "inventory_sha256": "239bd453bd5c11d42c0cf33f6d3777623d93ff91160a3acbe602c71c0a49dcb5",
+        "file_count": 142,
+    },
+    "candidate": {
+        "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/candidate.tar.gz",
+        "sha256": "6d7db2a09de88a0b07ba6b7ca0ead1e60b3cf55dfd8f89c766fbb1f522bad3d4",
+        "inventory_sha256": "8c9bf1a87bdfdf13ba33b43b9c846766fe76998a3fa3a3fb9ba9e35c4fc538ae",
+        "file_count": 142,
+    },
+}
+EXPECTED_RUNTIME_ARCHIVE = {
+    "path": ".csdlc/evidence/902/retained/qual-runtime-852-execution.tar.gz",
+    "sha256": "96cffcc48df892bce6c89835ad2a4c8808bcf8384cd40117ba4ebc23c631fda1",
 }
 EXPECTED_ARTIFACTS = {
     852: {"producer": "07892d3ea946dd001b19958e469ff572fd43712c509687d80cfcd77900060cd2",
@@ -76,12 +106,15 @@ EXPECTED_MEMBERS = {
         ".csdlc/evidence/901/runtime-live-12/checkpoint.json": "0a5b63f9e1c12ec39fe9616bb4b6a301edaf19826dcdb481aea8019567a0cbfa",
         ".csdlc/evidence/901/runtime-live-12/proxy-requests.json": "d0b280fc90553e8405bc4bdb19445e17764cc6ff0888f6cdad666f7f9502f911",
         ".csdlc/evidence/901/runtime-live-12/runtime-v3/generations/issue901-runtime/receipt.json": "ff024700dc169e8c9fa5a3016a2de71758f74ac1cce8e4be24ae03964b00b960",
+        ".csdlc/evidence/901/live-run-09/execution-observations.json": "37552269b34c87065679a34812ec29dd2a49b4df0879e279fc21997e3b4aa376",
+        ".csdlc/evidence/901/live-run-09/timeout-request.json": "0d97b14e876c4f634b9e446deffe2a8b97069eee7043ed2dac663d8a920c8089",
+        ".csdlc/evidence/901/live-run-09/timeout-result.json": "40d850e58af9aca8300a5b0e1881ecc4a33e818ee3eac88337ef6baa49ff1469",
     },
 }
 EXPECTED_RISKS = [
     "Historical consumers #522 and #833 remain closed historical records; these five rows do not newly prove all 19 original findings.",
     "Five cloud-control gaps and two execution-proof gaps remain separate from this five-row qualification mapping.",
-    "Protected #900/#901 raw evidence must remain locally accessible and digest-identical for admission.",
+    "Protected #900/#901/#852 raw evidence must remain locally accessible and digest-identical for admission.",
     "This qualification grants no release approval.",
 ]
 
@@ -135,6 +168,30 @@ def checked_archive(root: Path, archive: dict, members: list[dict]) -> dict[str,
     return result
 
 
+def checked_archive_bytes(root: Path, archive: dict, members: list[dict] | None = None) -> dict[str, bytes]:
+    path = root / archive["path"]
+    require(path.resolve().is_relative_to(root.resolve()), "execution_archive_path")
+    require(path.is_file(), "execution_archive_unavailable")
+    require(digest(path.read_bytes()) == archive["sha256"], "execution_archive_digest_mismatch")
+    wanted = None if members is None else {m["path"]: m["sha256"] for m in members}
+    result = {}
+    with tarfile.open(path, "r:gz") as handle:
+        files = [item for item in handle.getmembers() if item.isfile()]
+        if "file_count" in archive:
+            require(len(files) == archive["file_count"], "execution_archive_file_count")
+        selected = files if wanted is None else [item for item in files if item.name in wanted]
+        if wanted is not None:
+            require({item.name for item in selected} == set(wanted), "execution_member_missing")
+        for item in selected:
+            stream = handle.extractfile(item)
+            require(stream is not None, "execution_member_unreadable")
+            data = stream.read()
+            if wanted is not None:
+                require(digest(data) == wanted[item.name], "execution_member_digest_mismatch")
+            result[item.name] = data
+    return result
+
+
 def checked_protected_file(root: Path, item: dict) -> dict:
     path = root / item["path"]
     require(path.resolve().is_relative_to(root.resolve()), "protected_review_path")
@@ -164,7 +221,8 @@ def validate_review(row: dict, artifact_digests: set[str], receipt: dict,
             expected["receipt_evidence_digest"], "typed_review_evidence_digest_mismatch")
 
 
-def validate_inventory(data: dict) -> None:
+def validate_inventory(data: dict, archives: list[dict], repository_root: Path,
+                       expected_archives: dict) -> None:
     require(data["schema"] == "adl.revision_validation_comparison.v1", "inventory_schema")
     before, after = data["baseline_counts"], data["candidate_counts"]
     require(before["test_bodies_run"] == after["test_bodies_run"] == 0, "inventory_profile_changed")
@@ -173,10 +231,31 @@ def validate_inventory(data: dict) -> None:
             "inventory_measurement")
     require(not data["cases_removed"] and not data["targets_added"] and not data["targets_removed"],
             "inventory_measurement")
+    require({item["label"]: {k: v for k, v in item.items() if k != "label"} for item in archives} ==
+            expected_archives, "inventory_execution_archive_set")
+    loaded = {}
+    for item in archives:
+        raw = checked_archive_bytes(repository_root, item)
+        require("inventory.json" in raw, "inventory_execution_record_missing")
+        require(digest(raw["inventory.json"]) == item["inventory_sha256"],
+                "inventory_execution_record_digest")
+        loaded[item["label"]] = json.loads(raw["inventory.json"])
+    for label, inventory in loaded.items():
+        require(inventory["schema"] == "adl.revision_validation_inventory.v1" and
+                inventory["status"] == "complete" and not inventory["failures"] and
+                inventory["profile"] == INVENTORY_PROFILE and
+                all(command["exit_code"] == 0 for command in inventory["commands"]),
+                "inventory_execution_outcomes")
+        require(inventory["counts"] == data[f"{label}_counts"], "inventory_execution_cross_link")
 
 
 def validate_resident(data: dict, protected: dict[str, dict]) -> None:
     positive = data["positive"]
+    profile = data["execution_profile"]
+    require(profile["authorization"] == "operator-approved bounded local production-provider qualification" and
+            profile["remote_or_paid_calls"] == 0 and profile["task_owned_service_stopped"] is True and
+            profile["ollama_url"] == "loopback task-owned port 11436",
+            "resident_execution_profile")
     require(data["issue"] == 900 and positive["resident_count"] == 6 and
             positive["distinct_role_count"] == 6 and positive["distinct_workload_view_count"] == 6,
             "resident_role_denominator")
@@ -253,9 +332,34 @@ def validate_provider(data: dict, protected: dict[str, dict]) -> None:
             "provider_proxy_cross_link")
     require(install["schema"] == "adl.runtime_v3.install_generation.v1" and
             set(install["artifacts"]) == {"csm", "guardian", "kernel"}, "provider_install_provenance")
+    execution = next(v for k, v in protected.items() if k.endswith("/live-run-09/execution-observations.json"))
+    timeout_request = next(v for k, v in protected.items() if k.endswith("/timeout-request.json"))
+    timeout_result = next(v for k, v in protected.items() if k.endswith("/timeout-result.json"))
+    timeout = execution["scenarios"]["timeout"]
+    require(data["timeout_evidence_scope"] == "standalone_adapter_retained" and
+            execution["schema"] == "adl.issue901.execution_observations.v1" and
+            timeout["request_ref"] == "timeout-request.json" and
+            timeout["result_ref"] == "timeout-result.json" and
+            timeout["request_id"] == "issue901-timeout" and timeout["generate_forwarded"] is True,
+            "provider_timeout_observations")
+    require(timeout_request["run_id"] == timeout_request["request_id"] == timeout["request_id"] and
+            timeout_request["attempt_policy"]["max_attempts"] == 1 and
+            timeout_request["attempt_policy"]["timeout_ms"] == timeout["timeout_ms"] == 150,
+            "provider_timeout_deadline_binding")
+    attempt = timeout_result["attempts"]
+    require(timeout_result["schema_version"] == "provider_communication.v1" and
+            timeout_result["request_id"] == timeout["request_id"] and timeout_result["final_status"] == "failed" and
+            timeout_result["failure"]["kind"] == "provider_timeout" and len(attempt) == 1 and
+            attempt[0]["status"] == "timeout" and attempt[0]["failure"]["kind"] == "provider_timeout" and
+            attempt[0]["duration_ms"] == timeout_result["duration_ms"] >= timeout["timeout_ms"] and
+            timeout["wall_elapsed_ms"] >= timeout_result["duration_ms"],
+            "provider_timeout_outcomes")
+    require(data["registered_provider"] == {"provider": "openai-compatible", "model": "gemma:2b", "adapter": "http"},
+            "provider_execution_profile")
 
 
-def validate_runtime(data: dict) -> None:
+def validate_runtime(data: dict, archive: dict, members: list[dict], repository_root: Path,
+                     expected_archive: dict) -> None:
     require(data["issue"] == 852 and data["ingress_tests_passed"] == 7 and data["wss_tests_passed"] == 1,
             "runtime_scenario_denominator")
     require(data["stdout_stderr_separation"] == "passed" and
@@ -263,10 +367,24 @@ def validate_runtime(data: dict) -> None:
             data["diff_check"] == data["fmt"] == "passed", "runtime_authenticity_outcomes")
     require(len(data["artifacts"]) == 6 and all(HEX64.fullmatch(v["sha256"])
             for v in data["artifacts"].values()), "runtime_artifact_digests")
+    require(data["scope"] == "local runtime regression; production ingress and authenticated WSS with test executor",
+            "runtime_execution_profile")
+    require(archive == expected_archive, "runtime_execution_archive_identity")
+    raw = checked_archive_bytes(repository_root, archive, members)
+    declared = {f".csdlc/evidence/852/{name}": item["sha256"] for name, item in data["artifacts"].items()}
+    require({m["path"]: m["sha256"] for m in members} == declared, "runtime_execution_member_set")
+    require(set(raw) == set(declared), "runtime_execution_member_set")
+    require(b"test result: ok. 1 passed" in raw[".csdlc/evidence/852/wss-final.stdout"] and
+            b"test result: ok. 7 passed" in raw[".csdlc/evidence/852/ingress-tests.stdout"] and
+            len(raw[".csdlc/evidence/852/lib-tests-list.txt"].splitlines()) >= data["library_enumerated"] and
+            len(raw[".csdlc/evidence/852/governed-list.stdout"].splitlines()) >=
+            data["governed_operations_enumerated_not_executed"], "runtime_execution_outcomes")
 
 
 def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path | None = None,
-             expected_artifacts: dict | None = None, expected_members: dict | None = None) -> dict:
+             expected_artifacts: dict | None = None, expected_members: dict | None = None,
+             expected_inventory_archives: dict | None = None,
+             expected_runtime_archive: dict | None = None) -> dict:
     require(manifest["schema"] == "adl.v0922.runtime_criterion_evidence.v1", "manifest_schema")
     require(manifest["release_authorized"] is False, "release_authority_boundary")
     require(manifest["residual_risks"] == EXPECTED_RISKS, "residual_risk_boundary")
@@ -279,6 +397,10 @@ def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path 
     protected_root = protected_root or repository_root / ".git/csdlc-v3/local"
     expected_artifacts = EXPECTED_ARTIFACTS if expected_artifacts is None else expected_artifacts
     expected_members = EXPECTED_MEMBERS if expected_members is None else expected_members
+    expected_inventory_archives = (EXPECTED_INVENTORY_ARCHIVES if expected_inventory_archives is None
+                                   else expected_inventory_archives)
+    expected_runtime_archive = (EXPECTED_RUNTIME_ARCHIVE if expected_runtime_archive is None
+                                else expected_runtime_archive)
     results = []
     for row in rows:
         criterion = row["criterion_id"]
@@ -292,8 +414,8 @@ def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path 
             require(row["producer_issue"] == producer_issue, "cross_criterion_substitution")
             pr, head = PRODUCERS[producer_issue]
             require(row["producer_pr"] == pr and row["producer_revision"] == head, "producer_revision")
-            require(row["execution_profile"] and row["required_scenarios"] == EXPECTED_SCENARIOS[criterion],
-                    "execution_profile_or_scenarios_missing")
+            require(row["execution_profile"] == EXPECTED_PROFILES[criterion], "execution_profile_mismatch")
+            require(row["required_scenarios"] == EXPECTED_SCENARIOS[criterion], "required_scenarios_mismatch")
             expected = expected_artifacts[producer_issue]
             require(row["producer_artifact"]["sha256"] == expected["producer"] and
                     row["review_receipt"]["sha256"] == expected["review"], "canonical_artifact_identity")
@@ -303,6 +425,12 @@ def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path 
                         expected_members[producer_issue], "protected_member_set")
             primary = checked_file(repository_root, row["producer_artifact"])
             artifact_digests = {row["producer_artifact"]["sha256"]}
+            if producer_issue == 899:
+                artifact_digests |= {item["sha256"] for item in row["execution_archives"]}
+                artifact_digests |= {item["inventory_sha256"] for item in row["execution_archives"]}
+            if producer_issue == 852:
+                artifact_digests.add(row["execution_archive"]["sha256"])
+                artifact_digests |= {item["sha256"] for item in row["execution_members"]}
             protected = {}
             if row.get("protected_archive"):
                 protected = checked_archive(protected_root, row["protected_archive"], row["protected_members"])
@@ -315,13 +443,15 @@ def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path 
             artifact_digests |= {row["review_receipt"]["sha256"], row["review_evidence"]["sha256"]}
             validate_review(row, artifact_digests, receipt, review_evidence, expected)
             if producer_issue == 899:
-                validate_inventory(primary)
+                validate_inventory(primary, row["execution_archives"], repository_root,
+                                   expected_inventory_archives)
             elif producer_issue == 900:
                 validate_resident(primary, protected)
             elif producer_issue == 901:
                 validate_provider(primary, protected)
             else:
-                validate_runtime(primary)
+                validate_runtime(primary, row["execution_archive"], row["execution_members"], repository_root,
+                                 expected_runtime_archive)
             results.append({"criterion_id": criterion, "status": "pass", "producer_issue": producer_issue})
         except (ValueError, KeyError, OSError, tarfile.TarError) as error:
             raise AdmissionError(str(error), criterion, list(results)) from error
