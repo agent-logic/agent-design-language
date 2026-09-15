@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "compat-agent-logic-agent-design-language-511",
+  "event": "fake_remote_success_read_back",
+  "detail": {
+    "ledger": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789513292284734000/primary/.git/csdlc-v3/local/conversion-rehearsals/compat-agent-logic-agent-design-language-511/fake-transport-ledger.jsonl",
+    "effect_count": 1
+  }
+}

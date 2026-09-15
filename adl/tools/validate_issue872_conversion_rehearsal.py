@@ -41,6 +41,16 @@ REMOTE_FAULT_POINTS = {
     "fake_remote_request_dispatch", "fake_remote_success_readback",
     "local_reconciled_success_persistence",
 }
+POST_REMOTE_DISPATCH_POINTS = {
+    "fake_remote_success_readback", "local_reconciled_success_persistence",
+    "restore_intent_durability", "source_record_restoration",
+    "prior_executable_restoration", "restore_receipt_persistence_and_fence_release",
+}
+POST_REMOTE_READBACK_POINTS = {
+    "local_reconciled_success_persistence", "restore_intent_durability",
+    "source_record_restoration", "prior_executable_restoration",
+    "restore_receipt_persistence_and_fence_release",
+}
 BOUNDARIES = {"before", "after"}
 CORE_ARTIFACTS = {
     "request.json", "source-census.json", "source-files.sha256",
@@ -69,6 +79,15 @@ GENERIC_EFFECTS = {"pass", "passed", "success", "successful", "ok", "true"}
 
 class InvalidPacket(Exception):
     pass
+
+
+def expected_interrupted_remote(point: str, boundary: str) -> tuple[int, str, int]:
+    effect = int(point in POST_REMOTE_DISPATCH_POINTS or
+                 (point == "fake_remote_request_dispatch" and boundary == "after"))
+    readback = int(point in POST_REMOTE_READBACK_POINTS or
+                   (point == "fake_remote_success_readback" and boundary == "after"))
+    state = "not_dispatched" if effect == 0 else ("reconciled" if readback else "uncertain")
+    return effect, state, readback
 
 
 def require(condition: bool, message: str) -> None:
@@ -189,8 +208,13 @@ def validate_request(root: Path) -> dict[str, Any]:
             Path(request[field]).resolve().relative_to(fixture)
         except ValueError as exc:
             raise InvalidPacket(f"request.{field} escapes isolated fixture") from exc
-    require(Path(request["output_root"]).resolve() == root.resolve(),
-            "request.output_root does not identify retained evidence root")
+    retained_here = Path(request["output_root"]).resolve() == root.resolve()
+    retention = request.get("retention", {})
+    require(retained_here or (
+        retention.get("relocatable") is True and
+        retention.get("artifact_root") == "." and
+        retention.get("absolute_paths_are_isolated_execution_provenance") is True
+    ), "request.output_root does not identify retained or explicitly relocatable evidence root")
     require(Path(request["primary"]).resolve() !=
             Path(request["linked_worktree"]).resolve(),
             "request primary and linked worktree are identical")
@@ -376,8 +400,11 @@ def validate_stream_records(directory: Path, commands: list[dict[str, Any]],
 def validate_command_bundle(root: Path, directory: Path,
                             result: dict[str, Any], label: str,
                             *, fault: bool) -> None:
-    require_files(directory, FAULT_ARTIFACTS if fault else COMMAND_ARTIFACTS,
-                  label)
+    production_fault = (fault and result.get("schema") ==
+                        "csdlc.v3.conversion_rehearsal_fault.production_cli.v2")
+    required = (COMMAND_ARTIFACTS | {"journal.jsonl"}) if production_fault else (
+        FAULT_ARTIFACTS if fault else COMMAND_ARTIFACTS)
+    require_files(directory, required, label)
     for field, name in (("commands_ref", "commands.jsonl"),
                         ("stdout_ref", "stdout.jsonl"),
                         ("stderr_ref", "stderr.log")):
@@ -426,13 +453,68 @@ def validate_command_bundle(root: Path, directory: Path,
     require(result.get("caller_success_labels_used") is False,
             f"{label}: caller success labels are not proof")
     if fault:
-        load_jsonl(directory / "journal.jsonl")
-        require((directory / "state/source").stat().st_size > 0,
-                f"{label}: source state is empty")
-        require((directory / "state/effect").stat().st_size > 0,
-                f"{label}: effect state is empty")
-        require(result.get("journal_digest") ==
-                sha256(directory / "journal.jsonl"),
+        journal = directory / "journal.jsonl"
+        if production_fault:
+            require(not (directory / "state").exists(),
+                    f"{label}: production evidence must not use legacy synthetic state")
+            interrupted = result.get("interrupted_evidence", {})
+            completed = result.get("completed_evidence", {})
+            restore = result.get("restore_result", {})
+            require(len(commands) == 6 and
+                    [command["argv"][1] for command in commands] == [
+                        "convert", "operation-evidence", "restore-pre-effect",
+                        "convert", "operation-evidence", "operation-evidence"],
+                    f"{label}: production crash/restore/resume command sequence invalid")
+            require(commands[0]["process_status"] != 0 and
+                    commands[1]["process_status"] == 0 and
+                    commands[3]["process_status"] == 0 and
+                    commands[4]["process_status"] == 0 and
+                    commands[5]["process_status"] == 0,
+                    f"{label}: production command exit statuses invalid")
+            require(interrupted.get("outcome") == "interrupted",
+                    f"{label}: production fault was not observed as interrupted")
+            require(interrupted.get("abrupt_fault_point") == result.get("fault_point") and
+                    interrupted.get("abrupt_fault_boundary") == result.get("boundary"),
+                    f"{label}: production fault boundary mismatch")
+            require(completed.get("outcome") == "completed" and
+                    completed.get("operation_id") == result.get("operation_id"),
+                    f"{label}: identical production resume did not complete")
+            require(completed.get("remote_effect_count") == 1 and
+                    completed.get("remote_state") == "reconciled" and
+                    completed.get("remote_reconcile_count") == 1 and
+                    completed.get("remote_operation_identity") == result.get("operation_id"),
+                    f"{label}: completed operation remote evidence is not reconciled once")
+            expected_effect, expected_state, expected_readback = expected_interrupted_remote(
+                str(result.get("fault_point")), str(result.get("boundary")))
+            require(interrupted.get("remote_effect_count") == expected_effect and
+                    interrupted.get("remote_state") == expected_state and
+                    interrupted.get("remote_reconcile_count") == expected_readback,
+                    f"{label}: interrupted remote evidence does not match boundary")
+            require(result.get("identical_primary_linked_readback") is True,
+                    f"{label}: primary and linked evidence readbacks differ")
+            require(commands[4]["stdout_sha256"] == commands[5]["stdout_sha256"],
+                    f"{label}: dual operation readbacks are not byte-identical")
+            for evidence_name, evidence in (("interrupted", interrupted),
+                                            ("completed", completed)):
+                require(isinstance(evidence.get("semantic_effect_count"), int) and
+                        isinstance(evidence.get("remote_effect_count"), int),
+                        f"{label}: {evidence_name} effect counts missing")
+            effect_count = restore.get("effect_count")
+            interrupted_effects = (interrupted["semantic_effect_count"] +
+                                   interrupted["remote_effect_count"])
+            require(isinstance(effect_count, int) and
+                    effect_count == interrupted_effects and
+                    restore.get("allowed") is (effect_count == 0) and
+                    commands[2]["process_status"] == (0 if effect_count == 0 else 2),
+                    f"{label}: restore decision was not derived from effects")
+            load_jsonl(journal)
+        else:
+            load_jsonl(journal)
+            require((directory / "state/source").stat().st_size > 0,
+                    f"{label}: source state is empty")
+            require((directory / "state/effect").stat().st_size > 0,
+                    f"{label}: effect state is empty")
+        require(result.get("journal_digest") == sha256(journal),
                 f"{label}: journal digest does not match raw journal")
         require(result.get("pre_inventory_digest") == before,
                 f"{label}: pre inventory digest mismatch")
@@ -466,6 +548,9 @@ def validate_scenarios(root: Path, summary: dict[str, Any]) -> None:
 
 def validate_faults(root: Path, summary: dict[str, Any]) -> None:
     faults = summary.get("faults")
+    evidence_format = summary.get("fault_evidence_format")
+    require(evidence_format in {"production_cli_v2", "validator_fixture_legacy_v1"},
+            "fault evidence format is missing or unsupported")
     require(isinstance(faults, dict), "faults must be an object")
     require(set(faults) == FAULT_POINTS,
             f"fault point mismatch: {sorted(set(faults or {}) ^ FAULT_POINTS)}")
@@ -478,8 +563,10 @@ def validate_faults(root: Path, summary: dict[str, Any]) -> None:
                     f"{point}/{boundary}: result reference is not canonical")
             result_path = as_relative(root, ref, f"faults.{point}.{boundary}")
             result = load_json(result_path)
-            require(result.get("schema") ==
-                    "csdlc.v3.conversion_rehearsal_fault.v1",
+            expected_schema = ("csdlc.v3.conversion_rehearsal_fault.production_cli.v2"
+                               if evidence_format == "production_cli_v2"
+                               else "csdlc.v3.conversion_rehearsal_fault.v1")
+            require(result.get("schema") == expected_schema,
                     f"{point}/{boundary}: invalid result schema")
             require(result.get("fault_point") == point,
                     f"{point}/{boundary}: identity mismatch")
@@ -502,13 +589,17 @@ def validate_faults(root: Path, summary: dict[str, Any]) -> None:
             validate_command_bundle(root, result_path.parent, result,
                                     f"{point}/{boundary}", fault=True)
             ledger = result_path.parent / "fake-transport-ledger.jsonl"
-            if point in REMOTE_FAULT_POINTS:
+            if evidence_format == "production_cli_v2" or point in REMOTE_FAULT_POINTS:
                 require(ledger.is_file(),
                         f"{point}/{boundary}: fake transport ledger missing")
                 records = load_jsonl(
                     ledger, allow_empty=result["fake_transport_call_count"] == 0)
                 require(len(records) == result["fake_transport_call_count"],
                         f"{point}/{boundary}: fake transport count does not match ledger")
+                if evidence_format == "production_cli_v2":
+                    require(len(records) == 1 and
+                            records[0].get("operation_id") == result.get("operation_id"),
+                            f"{point}/{boundary}: completed ledger identity/count invalid")
             else:
                 require(not ledger.exists(),
                         f"{point}/{boundary}: unexpected fake transport ledger")
@@ -578,7 +669,7 @@ def validate_safety(root: Path, summary: dict[str, Any]) -> None:
     require(observation.get("primary_worktree_parity") is True,
             "primary/linked observation mismatch")
     require(observation.get("old_schema_diagnostic") ==
-            "intent_semantic_migration_required",
+            "registry_version_mismatch",
             "old schema did not fail explicitly")
     require(observation.get("primary_semantic_digest") ==
             observation.get("linked_semantic_digest"),
@@ -617,6 +708,10 @@ def validate(root: Path) -> None:
             "summary was not generated by the rehearsal executable")
     require(summary.get("machine_derived") is True,
             "summary is not machine-derived")
+    require(summary.get("status") == "passed",
+            "summary is not a proving passed rehearsal")
+    require(request.get("old_owner_proving") is True,
+            "request did not use the proving archived old owner")
     require(summary.get("proof_denominator") ==
             {"roles": 7, "scenarios": 12, "fault_cases": 30},
             "proof denominator mismatch")

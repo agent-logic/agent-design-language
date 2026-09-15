@@ -1,9 +1,0 @@
-{
-  "schema": "csdlc.v3.issue_index.v1",
-  "issue": 1007,
-  "generation": 7,
-  "digest": "digest-pending_recovery",
-  "phase": "bound",
-  "role_marker": "pending_recovery",
-  "pending_transaction": "operation-pending"
-}

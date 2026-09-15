@@ -1,0 +1,6 @@
+{
+  "schema": "csdlc.v3.binding.v1",
+  "issue": 868,
+  "branch": "codex/868-v0922-installed-command-contract",
+  "worktree": "<fast-work>/adl-worktrees/adl-issue-868-v0922-installed-command-contract"
+}

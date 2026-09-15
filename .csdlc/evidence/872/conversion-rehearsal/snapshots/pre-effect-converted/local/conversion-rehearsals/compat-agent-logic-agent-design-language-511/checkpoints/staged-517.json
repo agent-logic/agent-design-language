@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "compat-agent-logic-agent-design-language-511",
+  "event": "per_issue_staging_write_completed",
+  "detail": {
+    "issue": 517,
+    "source_digest": "semantic-projection-v1:44fb40df0631220ead87a15c2623df8b1e3656c841bcc97131d3a8cb0d8f03df"
+  }
+}

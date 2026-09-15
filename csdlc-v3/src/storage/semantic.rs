@@ -781,6 +781,18 @@ pub struct Admission {
     expected: SemanticVersion,
     authority: Digest,
 }
+
+/// Authenticated input to the isolated copied-record conversion owner. The
+/// caller must hold its fixture writer fence and prove that `source_digest`
+/// identifies the complete retained source record before calling this API.
+#[derive(Debug, Clone)]
+pub struct CopiedRecordConversion {
+    pub key: IssueKey,
+    pub inputs: IssueInputs,
+    pub phase: LifecycleState,
+    pub source_generation: u64,
+    pub source_digest: Digest,
+}
 impl Admission {
     pub fn new(key: IssueKey, expected: SemanticVersion, authority: Digest) -> Self {
         Self {
@@ -1304,6 +1316,57 @@ impl DurableTransactionStore {
             generation: 1,
             phase: decision.phase,
             inputs,
+            input_version,
+            invalidations: vec![],
+            causal_invalidations: vec![],
+            acknowledged_card_projection: None,
+            projection_required: true,
+            pending: None,
+            completed: Vec::new(),
+        };
+        let next = make_snapshot(payload, None, SemanticCommand::Prepare)?;
+        activate(&directory, &root.common, &next)?;
+        Ok(CommitOutcome::Committed(Box::new(next)))
+    }
+
+    /// Activate one copied record through the semantic store's durable
+    /// transaction path. This is intentionally absent from the ordinary CLI:
+    /// only the isolated conversion owner admits it after fencing and census
+    /// validation. Existing or legacy operational state always fails closed.
+    pub fn convert_copied_issue(
+        root: &SemanticRoot,
+        conversion: CopiedRecordConversion,
+    ) -> Result<CommitOutcome, Error> {
+        if conversion.source_generation == 0
+            || !conversion
+                .source_digest
+                .as_str()
+                .starts_with("semantic-projection-v1:")
+        {
+            return Err(Error::InvalidInput("invalid copied-record identity".into()));
+        }
+        let directory = root.directory(&conversion.key)?;
+        if directory.exists() {
+            return Err(Error::AlreadyExists);
+        }
+        if root.legacy(&conversion.key)? {
+            return Err(Error::LegacyMigrationRequired);
+        }
+        let parent = directory.parent().ok_or(Error::UnsafePath)?;
+        create_directories(parent, &root.common)?;
+        let _parent = acquire(parent, true)?;
+        fs::create_dir(&directory).map_err(io)?;
+        sync_chain(&directory, &root.common)?;
+        let _lock = acquire(&directory, true)?;
+        let input_version = EvidenceInputVersion {
+            revision: 1,
+            digest: hash("semantic-input-v1", &conversion.inputs)?,
+        };
+        let payload = Payload {
+            key: conversion.key,
+            generation: 1,
+            phase: conversion.phase,
+            inputs: conversion.inputs,
             input_version,
             invalidations: vec![],
             causal_invalidations: vec![],

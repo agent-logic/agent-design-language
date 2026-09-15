@@ -1,0 +1,6 @@
+{
+  "schema": "csdlc.v3.current_observation_relocation_journal.v1",
+  "operation_id": "conversion-751e47b50154eb5d4a3d8826-relocate-linked",
+  "request_digest": "semantic-projection-v1:e70a74ff7936e8930c769d32bb80fefb19e415d99be7b43968145d9e717723ff",
+  "status": "admitted"
+}

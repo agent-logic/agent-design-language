@@ -146,6 +146,7 @@ def valid_packet(root: Path) -> dict:
         "output_root": str(root.resolve()),
         "old_executable": str(fixture / "old-csdlc"),
         "candidate_executable": str(fixture / "candidate-csdlc"),
+        "old_owner_proving": True,
         "old_writer_command": {"argv": [str(fixture / "old-csdlc"), "edit", "--request", "old-writer.json"]},
         "roles": roles,
     }
@@ -160,7 +161,9 @@ def valid_packet(root: Path) -> dict:
         "issue": 872,
         "generated_by": "csdlc-conversion-rehearsal",
         "machine_derived": True,
+        "status": "passed",
         "proof_denominator": {"roles": 7, "scenarios": 12, "fault_cases": 30},
+        "fault_evidence_format": "validator_fixture_legacy_v1",
         "fixture_root": str(fixture),
         "live_state_touched": False,
         "shared_binary_replaced": False,
@@ -195,7 +198,7 @@ def valid_packet(root: Path) -> dict:
             "primary_status": "passed", "linked_status": "passed",
             "primary_validate": "passed", "linked_validate": "passed",
             "primary_worktree_parity": True,
-            "old_schema_diagnostic": "intent_semantic_migration_required",
+            "old_schema_diagnostic": "registry_version_mismatch",
             "primary_semantic_digest": "semantic", "linked_semantic_digest": "semantic",
             "primary_projection_digest": "projection", "linked_projection_digest": "projection",
         },
@@ -239,6 +242,17 @@ def valid_packet(root: Path) -> dict:
 
 
 class Issue872EvidenceValidatorTests(unittest.TestCase):
+    def test_expected_remote_boundary_before_dispatch(self) -> None:
+        self.assertEqual(
+            VALIDATOR.expected_interrupted_remote("fake_remote_request_dispatch", "before"),
+            (0, "not_dispatched", 0),
+        )
+
+    def test_expected_remote_boundary_after_readback(self) -> None:
+        self.assertEqual(
+            VALIDATOR.expected_interrupted_remote("fake_remote_success_readback", "after"),
+            (1, "reconciled", 1),
+        )
     def run_case(self, mutate=None) -> tuple[bool, str]:
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp) / "evidence"

@@ -13,7 +13,7 @@ const RECORDS: [(u64, &str); 7] = [
     (3, "reviewed"),
     (505, "published"),
     (122, "terminal"),
-    (980, "pending_recovery"),
+    (113, "pending_recovery"),
 ];
 const FAULT_POINTS: [&str; 15] = [
     "conversion_intent_durability",
@@ -139,18 +139,18 @@ fn assert_single_semantic_effect(point: &str, boundary: &str, git_common: &Path)
         let current: Value = read_json(&issue_root.join("current.json"));
         assert_eq!(
             current.get("generation").and_then(Value::as_u64),
-            Some(1),
-            "{point}/{boundary}: issue {issue} was applied more than once or not completed"
+            Some(2),
+            "{point}/{boundary}: issue {issue} did not complete at the expected converted generation"
         );
         assert_eq!(
             regular_file_count(&issue_root.join("intents")),
-            1,
-            "{point}/{boundary}: issue {issue} has duplicate/missing conversion intents"
+            2,
+            "{point}/{boundary}: issue {issue} has an unexpected conversion intent count"
         );
         assert_eq!(
             regular_file_count(&issue_root.join("commits")),
-            1,
-            "{point}/{boundary}: issue {issue} has duplicate/missing semantic commits"
+            2,
+            "{point}/{boundary}: issue {issue} has an unexpected semantic commit count"
         );
 
         let projection_root = git_common

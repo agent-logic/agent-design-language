@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 497,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
+    "slug": "v0-92-1-corp-c-corporate-operational-control-transfer",
+    "version": "v0.92.1",
+    "generation": 21
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet distinguish completed, deferred, blocked, and authorized actions?",
+        "Are all external-provider and credential boundaries truthful and non-leaking?",
+        "Are the prerequisite issues verified by live GitHub and ancestry evidence?",
+        "Do validation claims match the actual commands and evidence produced?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

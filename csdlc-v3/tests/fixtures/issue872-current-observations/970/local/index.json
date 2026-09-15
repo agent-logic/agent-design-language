@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 970,
+  "phase": "ready",
+  "generation": 1,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/970-provider-architecture-effective-configuration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-970-provider-architecture-effective-configuration",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "ac0e9f3a8ef723e939af1f50fa56e35557af2e212f0342387fbe0e257c7ed212"
+}

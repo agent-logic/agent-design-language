@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "compat-agent-logic-agent-design-language-511",
+  "event": "semantic_state_activated",
+  "detail": {
+    "issue": 122,
+    "generation": 1,
+    "digest": "semantic-state-v1:a6ce15f5ffa69dc041768e899d45d9aa2a88e7d39a990820b4ab14affc31cbf5"
+  }
+}

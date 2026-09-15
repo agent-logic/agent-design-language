@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.copied_record_dirty_inventory.v1",
+  "git_status_porcelain_v1": "M issue872-dirty-tracked.txt\n?? issue872-dirty-untracked.txt",
+  "linked_worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789513292284734000/linked",
+  "tracked": {
+    "source_path": "issue872-dirty-tracked.txt",
+    "retained_path": "dirty-tracked.txt",
+    "sha256": "f3bfe582bc12dad82b366526dda6bc42367c5651d938745a897d10dc6fe7c0f2"
+  },
+  "untracked": {
+    "source_path": "issue872-dirty-untracked.txt",
+    "retained_path": "untracked.txt",
+    "sha256": "84edda187577093cfd0a4ee0ef2429280512f21262551447ef3482ebabe24c17"
+  },
+  "machine_derived": true
+}

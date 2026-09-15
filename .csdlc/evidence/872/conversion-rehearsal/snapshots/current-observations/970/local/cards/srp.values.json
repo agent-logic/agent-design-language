@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 970,
+  "issue_padded": "0970",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/970",
+  "title": "[provider redesign] Make declared inference profiles executable and observable",
+  "branch": "codex/970-provider-architecture-effective-configuration",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-970-provider-architecture-effective-configuration"
+}

@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 113,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
+    "slug": "wp18c03-live-polis-roster-presence",
+    "version": "v0.92",
+    "generation": 63
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/agent_roster.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/agent_roster.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/shepherd.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ndemos/html-observatory/app.js\nadl/tools/test_html_observatory.sh\n.csdlc/evidence/113/roster-live-proof-2118c05b3\n.csdlc/issues/113",
+      "review_revision": "git-blake3:05fa579228dc983ec9a91d8895f19dc8acfb78d9:e0d8a79ab0b8028983766c5b9a45733b337e5c7696c84e99466d845ce62502dd",
+      "reviewer": "openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11",
+      "review_prompts": [
+        "Can any unauthorized agent or private field reach serialized JSON, WSS, logs, browser state, or retained evidence?",
+        "Can pagination, policy changes, reconnect, restart, event gaps, duplicate updates, or equal sort keys silently omit, duplicate, reorder, or falsely complete the roster?",
+        "Does stable identity survive relocation while stale owners, duplicate identities, and split authority fail closed?",
+        "Are ready, busy, sleeping, degraded, unreachable, migrating, and unknown derived from explicit fresh Runtime evidence rather than UI heuristics?",
+        "Are page size, response bytes, memory, latency, event queues, retries, replay, and browser DOM growth all bounded and proven at large-Polis scale?",
+        "Does the implementation remain within #113 ownership after #83/#142 handoff and avoid every sibling WP-18C capability?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Distributed and non-local roster projection remains explicitly outside #113 and is owned by issue #142.",
+        "Long-running Runtime and soak-style validation remains out of band under issue #226 and is not coupled to this focused product issue."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
