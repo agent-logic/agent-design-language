@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Draft PR996 published through authenticated native reconciliation against main. Integrated newer main2301d1d8 containing883 impact; preserve impact and drift CLI routes/help. 55 focused tests, strict Clippy and23 installed scenarios passed. Final exact-head integration review and repaired-head hosted CI pending. No merge performed.
+PR996 draft/main. Integrated main2301d1d8 preserving impact and drift. Independent integration review PASS at1a0079ba03199743d087ca496e2456be84c270a7;55 tests,strictClippy,23 installed scenarios passed. Record-only final confirmation, repaired-head push and CI pending. No merge claim.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Draft PR996 published through authenticated native reconciliation against main. 
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `published_conflict_repaired_review_ci_pending`
+- Completion state: `integration_reviewed_push_ci_pending`
 - Issue goal ref: `Active whole Sprint929 goal includes886; parent assigned bounded implementation`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
 - Goal metrics rollup ref: `Whole Sprint929 goal accounting; no separate child token claim`
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserve original graph comparison; derived shared structural facts add drift lane without changing inherited guards. Policy changes remain NotComparable; boundary-crossing reference changes under identical policy are explainable edge deltas.`
 
 ## Follow-ups / Deferred work
-- `Final independent integration review, native exact-head review, push repaired head and observe hosted CI`
+- `Final record-only review and native exact-head receipt, push repaired branch, then hosted CI; no automatic merge.`
 - `Parent owns sprint integration, native terminal reconciliation and cleanup after authorized merge`
