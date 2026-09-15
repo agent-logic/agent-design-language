@@ -9,7 +9,6 @@ use serde_json::json;
 use std::collections::HashMap;
 use std::env;
 use std::fs;
-use std::net::TcpListener;
 use std::process::Command;
 use std::sync::{Arc, Mutex, OnceLock};
 use std::thread;
@@ -50,22 +49,20 @@ fn env_lock() -> std::sync::MutexGuard<'static, ()> {
         .expect("env lock")
 }
 
-fn reserve_local_port() -> Option<u16> {
-    let listener = match TcpListener::bind("127.0.0.1:0") {
-        Ok(listener) => listener,
-        Err(err) if err.kind() == std::io::ErrorKind::PermissionDenied => return None,
-        Err(err) => panic!("bind ephemeral port: {err}"),
-    };
-    let port = listener.local_addr().expect("local addr").port();
-    drop(listener);
-    Some(port)
-}
-
 #[allow(clippy::type_complexity)]
 fn spawn_json_server(status: u16, response_body: &'static str) -> Option<SpawnedJsonServer> {
-    let port = reserve_local_port()?;
-    let bind_addr = format!("127.0.0.1:{port}");
-    let server = Server::http(&bind_addr).expect("bind tiny_http server");
+    let server = match Server::http("127.0.0.1:0") {
+        Ok(server) => server,
+        Err(err)
+            if err
+                .downcast_ref::<std::io::Error>()
+                .is_some_and(|io| io.kind() == std::io::ErrorKind::PermissionDenied) =>
+        {
+            return None
+        }
+        Err(err) => panic!("bind tiny_http server: {err}"),
+    };
+    let bind_addr = server.server_addr().to_string();
     let captured = Arc::new(Mutex::new(None));
     let captured_for_thread = Arc::clone(&captured);
     let handle = thread::spawn(move || {

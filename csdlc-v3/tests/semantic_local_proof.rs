@@ -343,6 +343,24 @@ fn prelaunch_proof_interruption_requires_exact_explicit_disposition() {
         ],
     ));
     assert!(!marker.exists(), "recovery launched the validator");
+    let repeated = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "870",
+            "--disposition",
+            valid.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(repeated["status"], "expected_noop");
+    assert_eq!(repeated["action"], "abandoned_indeterminate_proof");
+    assert!(
+        !marker.exists(),
+        "idempotent recovery launched the validator"
+    );
     let proof = success(fixture.run(&linked, &["proof", "870"]));
     assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
     let replay = success(fixture.run(&linked, &["proof", "870"]));

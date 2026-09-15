@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 886,
   "phase": "bound",
-  "generation": 10,
+  "generation": 11,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/886-v0922-architecture-drift",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-886-v0922-architecture-drift",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "c22cdee4983dd1a9ca750126fb64d233731ed87f0ae933d033fa6cfd4ddf177c"
+  "digest": "265a9b2db0d69031c14c19a5760a62fe23a1a21f22718dc3a70886621985e3a7"
 }

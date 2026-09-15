@@ -28,7 +28,6 @@ fn installed_unattributed_create_cannot_be_recovered_under_another_issue() {
         ),
     )
     .unwrap();
-    let mut worktrees = Vec::new();
     for issue in ["505", "506"] {
         let plan = fixture.write_json(&format!("plan-{issue}.json"), &json!({
             "schema":"csdlc.v3.intent_plan.v1", "slug":format!("scope-{issue}"),
@@ -37,6 +36,9 @@ fn installed_unattributed_create_cannot_be_recovered_under_another_issue() {
             "publication":{"base":"main","title":"Scope fixture","body":format!("Closes #{issue}"),"draft":true}
         }));
         success(fixture.run(&root, &["prepare", issue, "--plan", plan.to_str().unwrap()]));
+    }
+    let mut worktrees = Vec::new();
+    for issue in ["505", "506"] {
         success(fixture.run(&root, &["bind", issue]));
         let binding: Value = serde_json::from_slice(
             &fs::read(root.join(format!(".git/csdlc-v3/local/bindings/{issue}.json"))).unwrap(),

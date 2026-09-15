@@ -2,6 +2,7 @@ use adl::codefriend::{
     architecture::{
         drift,
         impact::{self, ChangeSet},
+        rationale::{self, RationaleSelection},
         structure::{self, BoundaryPolicy},
     },
     evidence::store::Store,
@@ -9,15 +10,16 @@ use adl::codefriend::{
 };
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, io::Read, path::Path};
-pub(super) const USAGE:&str="adl codefriend architecture report --store <directory> --packet-id <id> --policy <policy.json> --out <new-report.json>\nadl codefriend architecture drift --store <directory> --baselines <directory> --baseline <graph.json> --current <graph.json> --out <new-drift.json>\nadl codefriend architecture drift-read --store <directory> --baselines <directory> --input <drift.json>\nadl codefriend architecture impact --store <directory> --graph <structure.json> --changes <changes.json> --out <new-impact.json>\nadl codefriend architecture impact-read --store <directory> --input <impact.json>\nadl codefriend architecture read --store <directory> --input <report.json>";
+pub(super) const USAGE:&str="adl codefriend architecture report --store <directory> --packet-id <id> --policy <policy.json> --out <new-report.json>\nadl codefriend architecture drift --store <directory> --baselines <directory> --baseline <graph.json> --current <graph.json> --out <new-drift.json>\nadl codefriend architecture drift-read --store <directory> --baselines <directory> --input <drift.json>\nadl codefriend architecture rationale --store <directory> --graph <structure.json> --selection <selection.json> --out <new-rationale.json>\nadl codefriend architecture rationale-read --store <directory> --input <rationale.json>\nadl codefriend architecture impact --store <directory> --graph <structure.json> --changes <changes.json> --out <new-impact.json>\nadl codefriend architecture impact-read --store <directory> --input <impact.json>\nadl codefriend architecture read --store <directory> --input <report.json>";
 pub(super) fn run(args: &[String]) -> Result<()> {
     ensure!(!args.is_empty(), "{USAGE}");
     let expected: &[&str] = match args[0].as_str() {
         "drift" => &["--store", "--baselines", "--baseline", "--current", "--out"],
         "drift-read" => &["--store", "--baselines", "--input"],
         "report" => &["--store", "--packet-id", "--policy", "--out"],
+        "read" | "rationale-read" | "impact-read" => &["--store", "--input"],
         "impact" => &["--store", "--graph", "--changes", "--out"],
-        "read" | "impact-read" => &["--store", "--input"],
+        "rationale" => &["--store", "--graph", "--selection", "--out"],
         _ => anyhow::bail!("unsupported_architecture_command"),
     };
     let mut flags = BTreeMap::new();
@@ -47,6 +49,38 @@ pub(super) fn run(args: &[String]) -> Result<()> {
             .unwrap_or_default()
             .as_secs()
     })?;
+    if args[0] == "rationale" || args[0] == "rationale-read" {
+        let report = if args[0] == "rationale" {
+            let path = Path::new(flags["--selection"]);
+            ensure!(
+                std::fs::symlink_metadata(path)?.file_type().is_file(),
+                "rationale_selection_not_regular"
+            );
+            let mut bytes = Vec::new();
+            std::fs::File::open(path)?
+                .take(128 * 1024 + 1)
+                .read_to_end(&mut bytes)?;
+            ensure!(bytes.len() <= 128 * 1024, "rationale_selection_too_large");
+            let selection: RationaleSelection = serde_json::from_slice(&bytes)
+                .map_err(|_| anyhow::anyhow!("invalid_rationale_selection"))?;
+            let graph = structure::read_report(&store, Path::new(flags["--graph"]))?;
+            let report = rationale::architecture_rationale_reporter(&store, graph, selection)?;
+            rationale::write_report(&report, &store, Path::new(flags["--out"]))?;
+            report
+        } else {
+            rationale::read_report(&store, Path::new(flags["--input"]))?
+        };
+        println!(
+            "{}",
+            serde_json::json!({"schema":rationale::VERSION,"digest":report.digest,"run_id":report.record.run.id,"analysis_complete":report.analysis_complete,"boundaries":report.boundaries.len(),"findings":report.record.findings.len()})
+        );
+        eprintln!(
+            "adl_event kind=codefriend_rationale status=success analysis_complete={} boundaries={}",
+            report.analysis_complete,
+            report.boundaries.len()
+        );
+        return Ok(());
+    }
     if args[0] == "impact" || args[0] == "impact-read" {
         let report = if args[0] == "impact" {
             let path = Path::new(flags["--changes"]);
