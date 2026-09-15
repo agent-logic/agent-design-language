@@ -1,0 +1,164 @@
+{
+  "schema": "codefriend.impact_local_proof.v1",
+  "issue": 883,
+  "base_revision": "9f15e6c47dc990e8feee4e606c882c577571752c",
+  "source_sha256": {
+    "adl/src/codefriend/architecture/impact.rs": "0ce61b4ca6383f658887b4cd83c309857f0dd06528353aed552dadebad635b69",
+    "adl/src/cli/codefriend_structure_cmd.rs": "95470d58833990aa2763969f7425c1da8f6342fc9545d86728897c196b295e1d",
+    "adl/src/codefriend/architecture/structure.rs": "bf63e9a162ef8c9315cbbf5311d29d9a43b0ea93f4352856fc230645d9c0aacc",
+    "adl/src/codefriend/architecture/mod.rs": "01b3b5df78b9d64c778b09481708cba2e526bbfb978a7ec0737640f8a4b0c691",
+    "adl/tests/codefriend_cf_cog_impact.rs": "f3157f8a02a41cd7986cd7617407346bf40d1163a34f964f04862c2e620fb3ca",
+    "adl/tools/codefriend_impact_installed_proof.py": "c3f7f878e394d8ea6046334b4cab85cce7ae55247b78cea924a5f7aba782de6c"
+  },
+  "tests": {
+    "codefriend_cf_cog_impact": 10,
+    "codefriend_cf_cog": 17,
+    "codefriend_evidence": 11
+  },
+  "focused_tests_result": "passed",
+  "fmt": "passed",
+  "diff_check": "passed",
+  "clippy": "passed: --bin adl -- -D warnings",
+  "installed_impact": {
+    "schema": "codefriend.impact_installed_proof.v1",
+    "issue": 883,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "046434c4e1d55b68345d6f60f74520f7b1e19bf8da62513a0995c2f3f00f3507",
+    "installation_provenance": "2b9705445a9d93f5742b4f1b05d7d0d5a470d36da26df5c1106fb25229916596",
+    "scenarios": [
+      "chain-reachability-repeat-readback",
+      "multiple-roots",
+      "unsupported-partial",
+      "stale-revision",
+      "stale-graph",
+      "malformed",
+      "target-bound",
+      "tamper",
+      "overwrite",
+      "deletion",
+      "cycle-reachability-repeat-readback",
+      "unknown-reachability-repeat-readback"
+    ],
+    "executed_scenarios": 12,
+    "calibration": [
+      {
+        "fixture": "chain",
+        "expected_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "observed_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "sample_false_positives": 0,
+        "sample_false_negatives": 0
+      },
+      {
+        "fixture": "cycle",
+        "expected_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "observed_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "sample_false_positives": 0,
+        "sample_false_negatives": 0
+      }
+    ],
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Synthetic syntactic potential-impact calibration is not measured runtime impact accuracy",
+      "No provider, source build or external repository execution",
+      "No Linux qualification from a macOS run"
+    ]
+  },
+  "installed_structure": {
+    "schema": "codefriend.structure_installed_proof.v1",
+    "issue": 882,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "046434c4e1d55b68345d6f60f74520f7b1e19bf8da62513a0995c2f3f00f3507",
+    "installation_provenance": "2b9705445a9d93f5742b4f1b05d7d0d5a470d36da26df5c1106fb25229916596",
+    "fixture_revision": "89fa3af5fb2ee2724d2d9a33723f43183d02d2d1",
+    "first_summary": {
+      "schema": "codefriend.structure.v1",
+      "digest": "e349c2bdc730dae7524e2b054eef141fad100690691c23233b95e61a2f8ee15b",
+      "run_id": "51ce77f5d96f03073200c035045dcd8ad1ee84d1f9cea77521a432293d32277f",
+      "analysis_complete": true,
+      "nodes": 4,
+      "edges": 2,
+      "findings": 1,
+      "unknowns": 0
+    },
+    "changed_policy_summary": {
+      "schema": "codefriend.structure.v1",
+      "digest": "b74fead2753d9312589ed1c9e518cb770633e28ae60d8119e92cd1978218a2cc",
+      "run_id": "b4f07278f3505bfc98abd46f745343fa895c4255f74f6a3248e0d077da0045c3",
+      "analysis_complete": true,
+      "nodes": 4,
+      "edges": 2,
+      "findings": 2,
+      "unknowns": 0
+    },
+    "repeat_deterministic": true,
+    "persisted_readback": true,
+    "policy_identity_distinct": true,
+    "tampering_denied": true,
+    "post_delete_read_denied": true,
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "executed_scenarios": 9,
+    "pathological_source_partial": [
+      {
+        "fixture": "unary",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "99b06350ed28cc9e4d3b2598693b546b55d998c79a2bf94c909a341024f82cc2",
+          "run_id": "fc38e96db7e19add548e2b53f4c504dff04b1fefb4cb7a69a5d66bfc62f6711a",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      },
+      {
+        "fixture": "keyword",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "237af58ff9af922d8bf099584d155ea33a320958f2079216d208f21dbdd5fe1c",
+          "run_id": "0fe8b991a20c7073226f5e580445abb71cf85c2f78ef5ebf114d36d593f5dc7e",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      },
+      {
+        "fixture": "delimiter",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "08a470a10b144041d58adcf64b415e99223bd25916567f0b9c1666afd9d16c57",
+          "run_id": "3d5dcd12ec5f3a49f6b19bf8838b4e18f39d99964a063044856e711620fb3f9e",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      }
+    ],
+    "nonclaims": [
+      "No provider or external repository execution",
+      "No Linux qualification from this local run"
+    ]
+  },
+  "toolchain": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "build_resource_recovery": "First default-debug build failed ENOSPC on FastWork. Only issue883 disposable target cleaned; tests rerun successfully with isolated internal-disk target and dev/test debug=0. No source or retained proof removed.",
+  "ci": "not_yet_published",
+  "review": "interim implementation review no findings; final exact-head review pending"
+}
