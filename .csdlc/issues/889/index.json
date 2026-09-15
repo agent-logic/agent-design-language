@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 889,
   "phase": "bound",
-  "generation": 8,
+  "generation": 9,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/889-v0922-production-memory-palace-retrieval",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-889-v0922-production-memory-palace-retrieval",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "a290f4025dd2d34cd28233ea2922171ad88adab37e4a5b8280b7ab088b35e8f0"
+  "digest": "21757991a1bf10eed4f2f99d3013c761fceb23772757195c671646bfe98505bf"
 }

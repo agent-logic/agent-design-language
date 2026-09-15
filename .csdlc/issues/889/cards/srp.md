@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/889/cards/sip.md"
   - ".csdlc/issues/889/cards/vpp.md"
 review_results:
-  findings_status: "fixes_proved_final_review_pending"
-  recommended_outcome: "await_final_exact_head_review"
+  findings_status: "resolved_no_open_findings"
+  recommended_outcome: "approve"
 notes: "Independent exact-head review must trace actual caller and storage ownership, every acceptance and exclusion: 1. Execute an installed first-run/second-run scenario: admit a redacted run, store/index its bounded compatible references through the Runtime Memory Palace service, retrieve the baseline through the production boundary, then generate CF-MEMORY's deterministic delta. Instrument retained provenance sufficiently to prove the real caller/backend were used. 2. Missing/corrupt latest pointer, altered kernel packet/citation hashes, wrong continuity/run identity, incompatible schema/scope and stale/deleted baseline produce explicit denial/not-comparable states. No fallback to an unvalidated raw JSON file or a test-only in-memory backend can satisfy integration. 3. Enforce redaction before durable retention and retrieval/model use. Verify retention/deletion prevents later access through the comparison path, including stale cached/latest references. Sanitized identifiers and digests appear in logs; private data and credentials do not. 4. Bounded working-set selection and deterministic ordering use explicit observation time. Repeat compatible runs predictably; do not claim unlimited organizational memory or reconstruct deleted data from stale context. 5. Exercise actual `RuntimeMemoryPalaceService` storage and the installed CodeFriend consumer on local isolated fixtures; a packet constructor test or mocked adapter call is non-proving. Shared Runtime/kernel changes are limited to contracts needed by this consumer and retain their existing regression suites. Retain these exact specification obligations and record evidence for each; the concrete acceptance scenarios above define how they are proved. - Acceptance: production_caller, deterministic_retrieval, redaction_fail_closed, compatibility_explicit, production_second_review_retrieval, deterministic_compatible_baseline, redaction_and_deletion_enforced. - PVF obligations: production_path_test, retrieval_fixture, redaction_negative_suite, production_second_review_retrieval, deterministic_compatible_baseline, redaction_and_deletion_enforced, test_only_integration_rejected, unspecified_slice_rejected, incompatible_baseline_rejected. No unrelated scope, autonomous architecture/source rewrite, public publication, general CI platform or complete speculative memory system. Retain original exclusions: complete_speculative_memory_architecture. Stop on test_only_integration, private_data_leak, unbounded_memory_claim, required_proof_not_executed, partial_artifact_claimed_complete, comparison_uses_test_only_memory; also stop for missing authority, unresolved ownership collision, privacy/provenance failure or incompatible shared contracts. Route a separately discovered concern explicitly rather than silently widening this task."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Interim independent review identified P2 private Runtime parse values echoed via strict projection; strict errors now sanitized with latest/journal/packet canaries. Independent installed SHA256 check exposed BLAKE3 misuse in SHA256 fields; corrected trace,citation,policy digests and independent Python verification. Final review pending.
+- Independent /root/repair_882_ci/review_989_integration PASS at b8d93cbe5993114aa3b8c5cb69e2f7dee322b618. No open findings. Reviewer reran7 consumer tests and verified installed binary plus durable generation SHA256 hashes. Privacy error echo and SHA256 contract findings fixed and independently verified.
 
 ### Dispositions
 
-- No implementation finding is accepted, resolved or waived by preparation.
+- No findings waived. Final record-only exact-head confirmation required before native review/publication.
 
 ### Recommended Outcome
 
-- await_final_exact_head_review
+- approve
 
 ## Notes
 
