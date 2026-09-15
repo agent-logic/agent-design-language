@@ -734,3 +734,5 @@ mod tests {
 }
 
 mod codefriend_evidence_cmd;
+
+mod codefriend_memory_cmd;

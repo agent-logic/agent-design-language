@@ -4203,7 +4203,7 @@ memory:
 
     let api_options = adl::csm_runtime_api::CsmRuntimeApiOptions {
         spec_path: spec.clone(),
-        bind: "127.0.0.1:19950".to_string(),
+        bind: api_bind.clone(),
         test_max_requests: None,
         idle_timeout_ms: None,
         shutdown_file: None,
