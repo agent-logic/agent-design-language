@@ -45,6 +45,20 @@ fn first_journal_entry_survives_abrupt_exit_and_same_request_resumes() {
         .join("journal.jsonl");
     let retained = fs::read(&journal).expect("journal entry must survive abrupt exit");
     assert!(String::from_utf8_lossy(&retained).contains("request_digest"));
+    for relative in [
+        "csdlc-v3",
+        "csdlc-v3/local",
+        "csdlc-v3/local/conversion-rehearsals",
+        &format!("csdlc-v3/local/conversion-rehearsals/{operation}"),
+    ] {
+        assert!(
+            fixture.git_common.join(relative).is_dir(),
+            "missing {relative}"
+        );
+    }
+    // This proves first-use layout plus fresh-process recovery. A physical power-loss
+    // claim requires a filesystem crash harness; the production code requests that
+    // guarantee by fsyncing each new child into its parent.
 
     let resumed = invoke(&request);
     assert_success(&resumed);
@@ -156,6 +170,31 @@ fn incomplete_convertible_record_stops_the_whole_census_before_effects() {
     assert!(!all_files(&fixture.git_common).iter().any(|path| path
         .file_name()
         .is_some_and(|name| name.to_string_lossy().contains("ledger"))));
+}
+
+#[test]
+fn invalid_generation_in_a_late_record_stops_before_any_semantic_effect() {
+    let fixture = Fixture::new();
+    let index_path = fixture.copied.join("122/index.json");
+    let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index["generation"] = json!(0);
+    fs::write(&index_path, serde_json::to_vec_pretty(&index).unwrap()).unwrap();
+    let request = fixture.write_request(&fixture.operation("late-generation"), None);
+
+    let rejected = invoke(&request);
+    assert_eq!(rejected.status.code(), Some(2));
+    let stdout = String::from_utf8_lossy(&rejected.stdout);
+    assert!(stdout.contains("issue 122"), "{stdout}");
+    assert!(stdout.contains("invalid numeric generation"), "{stdout}");
+    assert!(!fixture.git_common.join("csdlc-v3/semantic").exists());
+    assert!(!fixture
+        .git_common
+        .join("csdlc-v3/local/projections")
+        .exists());
+    assert!(!fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .exists());
 }
 
 fn invoke(request: &Path) -> Output {

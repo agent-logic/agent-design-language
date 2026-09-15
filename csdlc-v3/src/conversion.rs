@@ -10,7 +10,7 @@ use crate::storage::semantic::{
 use crate::storage::DurableTransactionStore;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
@@ -128,11 +128,10 @@ impl<'a> Operation<'a> {
                 return Err(format!("unsupported fault mode {}", fault.mode));
             }
         }
-        let root = canonical_git_common
-            .join("csdlc-v3/local/conversion-rehearsals")
-            .join(&operation_id);
-        fs::create_dir_all(&root).map_err(|error| format!("{}: {error}", root.display()))?;
-        sync_dir(root.parent().expect("operation root has parent"))?;
+        let csdlc = create_durable_child(canonical_git_common, "csdlc-v3")?;
+        let local = create_durable_child(&csdlc, "local")?;
+        let rehearsals = create_durable_child(&local, "conversion-rehearsals")?;
+        let root = create_durable_child(&rehearsals, &operation_id)?;
         let journal = root.join("journal.jsonl");
         let operation = Self {
             request,
@@ -255,6 +254,26 @@ fn sync_dir(path: &Path) -> Result<(), String> {
     fs::File::open(path)
         .and_then(|directory| directory.sync_all())
         .map_err(|error| format!("{}: {error}", path.display()))
+}
+
+/// Create one directory entry and request that the parent persist that entry before
+/// returning. Repeating this one component at a time closes the first-use ancestry
+/// gap left by `create_dir_all`. Unit tests can prove layout and restart behavior;
+/// physical power-loss persistence still requires a filesystem crash harness.
+fn create_durable_child(parent: &Path, name: &str) -> Result<PathBuf, String> {
+    let child = parent.join(name);
+    match fs::create_dir(&child) {
+        Ok(()) => sync_dir(parent)?,
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            let metadata = fs::symlink_metadata(&child)
+                .map_err(|metadata_error| format!("{}: {metadata_error}", child.display()))?;
+            if !metadata.is_dir() || metadata.file_type().is_symlink() {
+                return Err(format!("{} is not a safe directory", child.display()));
+            }
+        }
+        Err(error) => return Err(format!("{}: {error}", child.display())),
+    }
+    Ok(child)
 }
 
 fn write_create_once(path: &Path, bytes: &[u8]) -> Result<(), String> {
@@ -472,8 +491,24 @@ fn authenticate_linked_worktree(request: &ConversionRequest) -> Result<(PathBuf,
 
 fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflight, String> {
     let (canonical_git_common, canonical_linked_worktree) = authenticate_linked_worktree(request)?;
+    let authority_bytes = fs::read(&request.authority_bytes_path)
+        .map_err(|error| format!("{}: {error}", request.authority_bytes_path.display()))?;
+    let authority = Digest::authority(&authority_bytes);
+    let registry_bytes = fs::read(&request.registry_path)
+        .map_err(|error| format!("{}: {error}", request.registry_path.display()))?;
+    PromptRegistry::from_current_json(&registry_bytes)
+        .map_err(|findings| format!("invalid prompt registry: {findings:?}"))?;
+    SemanticRoot::from_git_common(&canonical_git_common, request.repository.clone())
+        .map_err(|error| format!("invalid semantic root: {error:?}"))?;
     let mut source_digests = Vec::with_capacity(request.records.len());
+    let mut issues = BTreeSet::new();
     for record in &request.records {
+        if !issues.insert(record.issue) {
+            return Err(format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: duplicate issue identity",
+                record.issue
+            ));
+        }
         let digest = source_digest(&record.source).map_err(|error| {
             format!(
                 "issue {} disposition=unsupported_ambiguous_incomplete_source: {error}",
@@ -486,7 +521,7 @@ fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflig
                 record.issue
             )
         })?;
-        load_cards(&record.source).map_err(|error| {
+        let cards = load_cards(&record.source).map_err(|error| {
             format!(
                 "issue {} disposition=unsupported_ambiguous_incomplete_source: {error}",
                 record.issue
@@ -498,12 +533,38 @@ fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflig
                 record.issue
             )
         })?;
+        let generation = index
+            .get("generation")
+            .and_then(Value::as_u64)
+            .filter(|generation| *generation > 0)
+            .ok_or_else(|| {
+                format!(
+                    "issue {} disposition=unsupported_ambiguous_incomplete_source: invalid numeric generation",
+                    record.issue
+                )
+            })?;
+        IssueKey::new(request.repository.clone(), record.issue).map_err(|error| {
+            format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: {error:?}",
+                record.issue
+            )
+        })?;
+        conversion_inputs(
+            request,
+            record,
+            &index,
+            cards,
+            &canonical_linked_worktree,
+            authority.clone(),
+        )
+        .map_err(|error| {
+            format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: activation prerequisite failed at generation {generation}: {error}",
+                record.issue
+            )
+        })?;
         source_digests.push(digest);
     }
-    let authority_bytes = fs::read(&request.authority_bytes_path)
-        .map_err(|error| format!("{}: {error}", request.authority_bytes_path.display()))?;
-    let registry_bytes = fs::read(&request.registry_path)
-        .map_err(|error| format!("{}: {error}", request.registry_path.display()))?;
     Ok(ConversionPreflight {
         canonical_git_common,
         canonical_linked_worktree,
@@ -656,6 +717,69 @@ fn source_phase(role: &str, index: &Value) -> Result<LifecycleState, String> {
     }
 }
 
+fn conversion_inputs(
+    request: &ConversionRequest,
+    record: &CopiedRecord,
+    index: &Value,
+    cards: BTreeMap<String, Value>,
+    canonical_linked_worktree: &Path,
+    authority: Digest,
+) -> Result<IssueInputs, String> {
+    let slug = index
+        .get("slug")
+        .and_then(Value::as_str)
+        .unwrap_or(record.role.as_str())
+        .replace('_', "-");
+    let publication = Publication {
+        base: index
+            .get("base_branch")
+            .and_then(Value::as_str)
+            .unwrap_or("main")
+            .to_owned(),
+        title: index
+            .get("title")
+            .and_then(Value::as_str)
+            .unwrap_or(record.role.as_str())
+            .to_owned(),
+        body: format!("Copied conversion rehearsal for issue {}", record.issue),
+        draft: true,
+    };
+    let accepted = AcceptedIntentPlan {
+        schema: "csdlc.v3.intent_plan.v1".to_owned(),
+        slug,
+        cards,
+        validators: vec![Validator {
+            id: "conversion-equivalence".to_owned(),
+            program: "/usr/bin/true".to_owned(),
+            args: Vec::new(),
+            success_marker: String::new(),
+            timeout_seconds: 30,
+        }],
+        publication,
+    };
+    let binding = if record.role == "prepared" {
+        None
+    } else {
+        Some(Binding {
+            branch: request.linked_branch.clone(),
+            head: request.linked_head.clone(),
+            worktree: canonical_linked_worktree.to_owned(),
+            registration: "git-worktree-list".to_owned(),
+        })
+    };
+    IssueInputs::new(
+        format!("copied-record-conversion:{}", record.role),
+        accepted,
+        vec![PlanStep {
+            id: "convert".to_owned(),
+            acceptance: "lossless copied-record mapping".to_owned(),
+        }],
+        binding,
+        authority,
+    )
+    .map_err(|error| format!("{error:?}"))
+}
+
 pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, String> {
     if request.schema != "csdlc.v3.copied_record_conversion.v1" {
         return Err("unsupported conversion request schema".to_owned());
@@ -743,62 +867,18 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         let staged_source = staging.join(record.issue.to_string());
         let index = read_json(&staged_source.join("index.json"))?;
         let cards = load_cards(&staged_source)?;
-        let slug = index
-            .get("slug")
-            .and_then(Value::as_str)
-            .unwrap_or(record.role.as_str())
-            .replace('_', "-");
-        let publication = Publication {
-            base: index
-                .get("base_branch")
-                .and_then(Value::as_str)
-                .unwrap_or("main")
-                .to_owned(),
-            title: index
-                .get("title")
-                .and_then(Value::as_str)
-                .unwrap_or(record.role.as_str())
-                .to_owned(),
-            body: format!("Copied conversion rehearsal for issue {}", record.issue),
-            draft: true,
-        };
-        let accepted = AcceptedIntentPlan {
-            schema: "csdlc.v3.intent_plan.v1".to_owned(),
-            slug,
+        let inputs = conversion_inputs(
+            request,
+            record,
+            &index,
             cards,
-            validators: vec![Validator {
-                id: "conversion-equivalence".to_owned(),
-                program: "/usr/bin/true".to_owned(),
-                args: Vec::new(),
-                success_marker: String::new(),
-                timeout_seconds: 30,
-            }],
-            publication,
-        };
-        let binding = if record.role == "prepared" {
-            None
-        } else {
-            Some(Binding {
-                branch: request.linked_branch.clone(),
-                head: request.linked_head.clone(),
-                worktree: canonical_linked_worktree.clone(),
-                registration: "git-worktree-list".to_owned(),
-            })
-        };
-        let inputs = IssueInputs::new(
-            format!("copied-record-conversion:{}", record.role),
-            accepted,
-            vec![PlanStep {
-                id: "convert".to_owned(),
-                acceptance: "lossless copied-record mapping".to_owned(),
-            }],
-            binding,
+            &canonical_linked_worktree,
             authority.clone(),
-        )
-        .map_err(|error| format!("{error:?}"))?;
+        )?;
         let source_generation = index
             .get("generation")
             .and_then(Value::as_u64)
+            .filter(|generation| *generation > 0)
             .ok_or_else(|| format!("{} lacks a valid generation", record.source.display()))?;
         let key = IssueKey::new(request.repository.clone(), record.issue)
             .map_err(|error| format!("{error:?}"))?;
