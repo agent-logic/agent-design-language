@@ -64,7 +64,13 @@ fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
 fn installed_prepare_and_bind_from_unrelated_linked_checkout_resolve_primary_state() {
     let mut fixture = Fixture::new("linked-prepared-start");
     let primary = fixture.root.clone();
-    let observer = primary.join("worktrees/observer");
+    let observer = primary
+        .parent()
+        .expect("fixture root has temp parent")
+        .join("observer-worktree");
+    if observer.exists() {
+        fs::remove_dir_all(&observer).unwrap();
+    }
     git(
         &primary,
         &[
@@ -2577,12 +2583,38 @@ fn installed_proof_refuses_manifest_and_source_hidden_inside_excluded_evidence()
         let mut requested = plan();
         if hidden_manifest {
             requested["validators"][0]["args"][2] = json!(".csdlc/probe/Cargo.toml");
+            fs::create_dir_all(primary.join(".csdlc/probe")).unwrap();
+            fs::write(
+                primary.join(".csdlc/probe/Cargo.toml"),
+                "[package]\nname=\"fixture-proof\"\nversion=\"0.1.0\"\nedition=\"2021\"\n[lib]\npath=\"lib.rs\"\n",
+            )
+            .unwrap();
+            fs::write(
+                primary.join(".csdlc/probe/lib.rs"),
+                "#[test] fn hidden_test() { assert_eq!(2 + 2, 4); }\n",
+            )
+            .unwrap();
         }
         let plan_file = fixture.write_json("plan.json", &requested);
-        success(fixture.run(
+        let before_prepare = intent_fixture::inventory(&primary);
+        let prepared = fixture.run(
             &primary,
             &["prepare", "505", "--plan", plan_file.to_str().unwrap()],
-        ));
+        );
+        if hidden_manifest {
+            assert!(
+                !prepared.status.success(),
+                "excluded validator manifest should be rejected during prepare"
+            );
+            assert!(
+                String::from_utf8_lossy(&prepared.stdout)
+                    .contains("intent_validator_input_not_tracked"),
+                "unexpected prepare refusal for excluded manifest: {prepared:?}"
+            );
+            assert_same_inventory!(before_prepare, intent_fixture::inventory(&primary));
+            continue;
+        }
+        success(prepared);
         success(fixture.run(&primary, &["bind", "505"]));
         let linked = linked_worktree(&primary);
         fs::create_dir_all(linked.join(".csdlc/probe")).unwrap();
