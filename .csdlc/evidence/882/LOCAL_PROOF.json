@@ -6,7 +6,7 @@
     "adl/src/codefriend/architecture/syntax.rs": "e8d185e05c7652b0048a61e1d9a0a833a6bfa400bd35df11daf4f974670b6712",
     "adl/src/codefriend/architecture/structure.rs": "29a7296fd96eb83b14cc5889cd737e8bcf024f0415cd41063e2a48d0c2f54cd0",
     "adl/src/cli/codefriend_structure_cmd.rs": "bb22e4ed226b71d122ca13c713592e08e27bfe93f40fff3a683345a15af9e02a",
-    "adl/tests/codefriend_cf_cog.rs": "ea99575f86e6afd297c495ef6d11cf2871d7dc187e8e69edcd489e5befa0b01f",
+    "adl/tests/codefriend_cf_cog.rs": "b7fb4fc7ed65462417b354e94a8e100e39d5ee5655c877beb2584eadf3435f83",
     "adl/Cargo.toml": "2ff2040558f68ca06b2bdaecfe6401c8687e2d99d9ee0883ff9384f01737bfa5",
     "adl/Cargo.lock": "381ad649d950d94950beda42a6f004a4a45339a469bd6c4a840d344ccbf81113"
   },
@@ -101,15 +101,36 @@
       "path": "resource-installed-proof.log",
       "sha256": "a452f673fdd649f63e3d89254a6b7fb5917438f1264da600ebe701daba8a7daf",
       "summary": []
+    },
+    {
+      "path": "ci-repair-coverage.log",
+      "sha256": "7989cefa2cc8da0202b45f86e572865e06157d4862287f3044c2a42e62d7e7ac",
+      "summary": [
+        "Focused CI repair:17tests pass; syntax144/144; strict Clippy pass"
+      ]
+    },
+    {
+      "path": "ci-repair-coverage.json",
+      "sha256": "b510ff1463d30c7ab7ed97f28e2a9fef2b35ac194df9bbd74be822fd6931f915",
+      "summary": [
+        "Focused CI repair:17tests pass; syntax144/144; strict Clippy pass"
+      ]
+    },
+    {
+      "path": "ci-repair-clippy.log",
+      "sha256": "1a384d1dc34daf1ce1d72b3cc8548e3725c1f86555af0ff408dbad9fc7927198",
+      "summary": [
+        "Focused CI repair:17tests pass; syntax144/144; strict Clippy pass"
+      ]
     }
   ],
   "installed_proof": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
   "tests": {
-    "architecture": 16,
+    "architecture": 17,
     "evidence_store": 11,
     "installed_scenarios": 9
   },
   "warm_cache": "16369 dependency artifacts linked; acceleration only",
-  "review": "Source review PASS at 08dfafcad0907bb8c4539da0c4be249b7489e0ff by /root/sprint3_preparation_review. All four findings verified fixed; two card text corrections applied, final record-only head renewal pending.",
-  "coverage": "No full local instrumented coverage run; required hosted lanes after publication"
+  "review": "Prior exacthead4efe763 passed; bounded CI repair test/inventory review PASS by /root/sprint3_preparation_review; final record/exacthead renewal required before push.",
+  "coverage": "CI34999987332 failed syntax115/144 (79.86%) below80%; new production integration regression yields focused syntax144/144 (100%),structure477/515 (92.62%),CLI42/50 (84%). Focused suite17passed; this does not replace full hosted rerun. Broad changed-source preflight against this narrow suite still reports unrelated CLI dispatch/help below threshold, already covered by hosted full suite."
 }

@@ -31,6 +31,10 @@
     {
       "test": "pathological_rust_is_partial_before_recursive_parsing",
       "expected": "Six over-budget sources are partial with no nodes or edges; ordinary expression remains complete"
+    },
+    {
+      "test": "syntax_uncertainty_preserves_references_and_exact_reasons",
+      "expected": "Grouped and renamed imports retain exact syntactic edges; trait, qualified type and dynamic-call uncertainty carries exact reasons and evidence locations; primitive types and doc attributes remain complete"
     }
   ],
   "reviewer_calibration": "Expected sample outcomes declared before validation; independent implementation review and observed result counts remain required.",

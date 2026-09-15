@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented admitted-evidence structure reporter and persisted readback. 16 architecture tests,11 evidence regressions,9 isolated installed scenarios and strict Clippy pass. Independent review passed at 758cb27ffd819d0a61c82e14a85e491de6996630. Native authenticated creation/reconciliation published draft PR #982 against main; native publication readback ready. Hosted CI started and remains pending.
+Implemented admitted-evidence structure reporter;17 architecture tests,11 unchanged evidence regressions and9 unchanged installed scenarios pass locally. CI34999987332 passed producers but failed syntax coverage115/144 (79.86%). Added syntax uncertainty regression; focused coverage now144/144 (100%). Strict Clippy and bounded repair review pass. Full hosted rerun pending; PR982 remains draft and unmerged.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -92,7 +92,7 @@ Implemented admitted-evidence structure reporter and persisted readback. 16 arch
 - Verification performed:
   - `Native publish --observe-github; read-only gh pr view982 confirmed main base,exact head and draft state.`
     `PR982 exists and native operation marker was authenticated; publication only, no merge.`
-- Result: `Draft PR #982 open against main at 758cb27ffd819d0a61c82e14a85e491de6996630; authenticated native creation and readback succeeded. CI run34999431733 pending; no merge or terminal closeout.`
+- Result: `Draft PR982 open against main. Head4efe763 CI34999987332 failed only changed-source syntax threshold; bounded test-only repair prepared for reviewed push and hosted rerun. No merge.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_cog; cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo clippy --offline --locked --manifest-path adl/Cargo.toml --lib --bin adl --test codefriend_cf_cog -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; isolated installed adl/tools/codefriend_structure_installed_proof.py. Hosted CI/coverage after publication remains required and separate.`
-    `Local deterministic tests, installed consumer execution and Clippy pass; required hosted checks pending.`
+    `Coverage regression repaired locally with17tests and syntax100%; full hosted rerun remains required.`
 - Results:
-  - `16/16 architecture tests; 11/11 prior unchanged evidence regressions; 9 installed scenarios Darwin arm64; strict Clippy pass. Two resource test runs exposed transient store_busy; fixtures retain one store handle and final full suite passes. No hosted CI or full local coverage claim.`
+  - `17/17 focused instrumented architecture tests; syntax144/144 lines (100%),structure477/515 (92.62%),CLI42/50 (84%); strict Clippy pass. Prior11 evidence regressions and9 installed scenarios remain applicable because production source is unchanged. Full hosted rerun pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: local_passed_ci_pending
     checks_run:
-      - "codefriend_cf_cog16 tests; codefriend_evidence11 tests; strict Clippy; fmt; native six-card validation; isolated installed consumer9 scenarios"
+      - "17 focused instrumented architecture tests; strict Clippy; unchanged-source prior11 evidence regressions and9 installed scenarios."
   determinism:
     status: passed_local_repeat_fixtures
     replay_verified: not_run
@@ -145,7 +145,7 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `Repeated graph and installed report equality; source fixture unchanged; policy identity distinct.`
-- Fixtures or scripts used: `Versioned allowed graph fixtures;16 Rust production tests; codefriend_structure_installed_proof.py nine installed scenarios.`
+- Fixtures or scripts used: `Versioned allowed graph fixtures;17 Rust production tests; codefriend_structure_installed_proof.py nine installed scenarios.`
 - Replay verification (same inputs -> same artifacts/order): `not_run; not separately measured for this bounded implementation`
 - Ordering guarantees (sorting / tie-break rules used): `Deterministic sorted graph, findings and unknowns proved by repeat fixtures.`
 - Artifact stability notes: `Identical graph input and policy produce identical artifact/run identity; policy digest joins compatibility identity; deletion and tampering block readback.`
@@ -174,5 +174,5 @@ verification_summary:
 - `Conservative pre-parse32KiB/128 lexical-unit guard added after independent resource crash finding; excess yields explicit partial result.`
 
 ## Follow-ups / Deferred work
-- `Finish required hosted checks and native ready/readback after exact-head renewal.`
+- `Renew exact-head review, push bounded coverage repair and verify full hosted rerun.`
 - `Await explicit merge authorization, then native finish and separate cleanup; preserve Sprint #929 dependencies.`

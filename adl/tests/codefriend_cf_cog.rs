@@ -229,6 +229,63 @@ fn unsupported_constructs_and_external_edges_cannot_claim_complete() {
     }
 }
 #[test]
+fn syntax_uncertainty_preserves_references_and_exact_reasons() {
+    for (source, reasons, references) in [
+        (
+            "#[cfg(feature = \"optional\")] use crate::dep::{Thing, Other as Alias};",
+            &[
+                "alias_uses_not_resolved",
+                "attribute_semantics_not_analyzed",
+            ][..],
+            2,
+        ),
+        (
+            "fn f<T: external::Trait>(x: T) { (x)(); }",
+            &[
+                "trait_resolution_not_performed",
+                "unqualified_or_external_path_not_resolved",
+                "type_resolution_not_performed",
+                "dynamic_call_not_resolved",
+            ][..],
+            0,
+        ),
+        (
+            "type Item = <crate::dep::Thing as external::Trait>::Item;",
+            &[
+                "type_resolution_not_performed",
+                "unqualified_or_external_path_not_resolved",
+            ][..],
+            1,
+        ),
+    ] {
+        let root = format!("mod dep;\n{source}\n");
+        let f = Fixture::new(&[("src/lib.rs", &root), ("src/dep.rs", "")]);
+        let r = f.report();
+        assert!(!r.analysis_complete, "{source}");
+        assert_eq!(r.edges.len(), references, "{source}");
+        let observed: BTreeSet<_> = r.unknowns.iter().map(|u| u.reason.as_str()).collect();
+        assert_eq!(observed, reasons.iter().copied().collect(), "{source}");
+        for unknown in &r.unknowns {
+            assert_eq!(unknown.location.path, "src/lib.rs");
+            assert_eq!(unknown.location.line, 2);
+            assert!(r
+                .record
+                .admission
+                .evidence
+                .iter()
+                .any(|e| e.id == unknown.location.evidence_id && e.path == unknown.location.path));
+        }
+    }
+    let f = Fixture::new(&[(
+        "src/lib.rs",
+        "/// Ordinary documentation\nfn f(x: u32) -> u32 { x }",
+    )]);
+    let r = f.report();
+    assert!(r.analysis_complete);
+    assert!(r.unknowns.is_empty());
+    assert!(r.edges.is_empty());
+}
+#[test]
 fn missing_module_parse_error_and_unsupported_language_are_partial() {
     for files in [
         vec![("src/lib.rs", "mod missing;")],
