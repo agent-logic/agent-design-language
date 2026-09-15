@@ -1,4 +1,4 @@
-use super::{read_json, Context, IntentPlan, IntentRequest};
+use super::{read_json, Context, IntentPlan, IntentRequest, Validator};
 use crate::{
     adapters::{
         CommandInvocation, EnvironmentCredentialResolver, ProcessAdapter, ProcessStatus,
@@ -55,14 +55,26 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         #[serde(deny_unknown_fields)]
         struct Changes {
             schema: String,
+            #[serde(default)]
             cards: std::collections::BTreeMap<String, Value>,
+            #[serde(default)]
+            validators: Option<Vec<Validator>>,
         }
         let changes: Changes =
             serde_json::from_value(intent.content.clone()).map_err(|_| "intent_changes_invalid")?;
         if changes.schema != "csdlc.v3.intent_changes.v1" {
             return Err("intent_changes_schema_unsupported".into());
         }
+        if changes.cards.is_empty() && changes.validators.is_none() {
+            return Err("intent_changes_missing".into());
+        }
+        if !changes.cards.is_empty() && changes.validators.is_some() {
+            return Err("intent_changes_single_surface_required".into());
+        }
         request.card_updates = changes.cards;
+        if let Some(validators) = changes.validators {
+            return semantic_validation_edit(context, validators);
+        }
     } else if intent.command != "status" && !intent.content.is_null() {
         return Err("intent_unexpected_content".into());
     }
@@ -486,6 +498,7 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     {
         return Err("intent_plan_six_cards_required".into());
     }
+    crate::commands::proof::intent::admit_validators(&context.root, &plan.validators)?;
     let invocation = CommandInvocation::new(
         "github-api-read-only",
         [
@@ -582,6 +595,136 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",
             "issue":context.issue,"semantic_version":snapshot.version(),"projection_repair":{"required":true,"finding":error}}),
         ),
+    }
+}
+
+fn storage_validators(
+    validators: Vec<Validator>,
+) -> Result<Vec<crate::storage::semantic::Validator>, String> {
+    validators
+        .into_iter()
+        .map(|validator| {
+            serde_json::from_value(
+                serde_json::to_value(validator).map_err(|_| "intent_validator_invalid")?,
+            )
+            .map_err(|_| "intent_validator_invalid".into())
+        })
+        .collect()
+}
+
+fn semantic_validation_edit(
+    context: &Context,
+    validators: Vec<Validator>,
+) -> Result<Value, String> {
+    use crate::lifecycle::semantic::{Facts, SemanticCommand};
+    use crate::storage::{semantic::protocol::*, DurableTransactionStore};
+    crate::commands::proof::intent::admit_validators(&context.root, &validators)?;
+    let semantic = context.semantic_context()?;
+    let storage_validators = storage_validators(validators)?;
+    if semantic.snapshot.inputs().validation() == storage_validators.as_slice() {
+        return Ok(
+            json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop",
+            "read_only":true,"writes_v3_state":false,"operational_authority":true,
+            "semantic_version":semantic.snapshot.version(),
+            "inputs":semantic.snapshot.inputs_version()}),
+        );
+    }
+    let request_bytes = serde_json::to_vec(&json!({
+        "schema":"csdlc.v3.semantic_validation_edit_request.v1",
+        "repository":context.repository,"issue":context.issue,
+        "semantic_version":semantic.snapshot.version(),"validators":storage_validators
+    }))
+    .map_err(|_| "intent_validation_edit_identity_invalid")?;
+    let identity = NativeIdentity::new(
+        "csdlc-v3-validation-edit".into(),
+        blake3::hash(&request_bytes).to_hex().to_string(),
+    )
+    .map_err(semantic_error)?;
+    let effect = EffectRequest::new(
+        SemanticCommand::AmendValidation,
+        identity.clone(),
+        semantic.origin.clone(),
+        &request_bytes,
+    )
+    .map_err(semantic_error)?;
+    let admission = EffectAdmission::from_native_owner(
+        semantic.admission.clone(),
+        semantic.origin.clone(),
+        Facts::default(),
+    );
+    let ticket = match DurableTransactionStore::reserve_effect(&semantic.root, admission, effect)
+        .map_err(semantic_error)?
+    {
+        Reservation::Reserved(ticket) => ticket,
+        Reservation::AlreadyPending(ticket) => {
+            return Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"recovery_required",
+                "read_only":true,"writes_v3_state":false,"operational_authority":true,
+                "operation_id":ticket.id().as_str()}),
+            )
+        }
+        Reservation::AlreadyCompleted(done) => {
+            return Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop",
+                "read_only":true,"writes_v3_state":false,"operational_authority":true,
+                "operation_id":done.operation_id().as_str(),"semantic_version":done.current_version()}),
+            )
+        }
+    };
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_validation_edit_after_reservation")
+    {
+        std::process::exit(91);
+    }
+    semantic.admit_before_effect(ticket.id())?;
+    let evidence = serde_json::to_vec(&json!({
+        "schema":"csdlc.v3.semantic_validation_edit_outcome.v1",
+        "validators_amended":true
+    }))
+    .map_err(|_| "intent_validation_edit_result_invalid")?;
+    let outcome = VerifiedOutcome::from_native_owner(
+        OutcomeKind::Success,
+        EffectTruth::NotPerformed,
+        evidence,
+        Facts::default(),
+        identity,
+    )
+    .map_err(semantic_error)?;
+    let admission = semantic
+        .fresh_for_effect(ticket.id())
+        .map_err(|_| "intent_validation_edit_semantic_state_changed".to_string())?;
+    match DurableTransactionStore::attach_outcome(
+        &semantic.root,
+        ticket.clone(),
+        outcome,
+        admission,
+    )
+    .map_err(semantic_error)?
+    {
+        Attachment::Completed(done) | Attachment::AlreadyCompleted(done) => {
+            let snapshot =
+                match DurableTransactionStore::observe_issue(&semantic.root, &semantic.key)
+                    .map_err(semantic_error)?
+                {
+                    crate::storage::semantic::Observation::Current(value)
+                    | crate::storage::semantic::Observation::ProjectionRepairRequired(value) => {
+                        *value
+                    }
+                    _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
+                };
+            let projected = semantic.complete_projection(&snapshot)?;
+            Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
+                "read_only":false,"writes_v3_state":true,"operational_authority":true,
+                "operation_id":done.operation_id().as_str(),
+                "semantic_version":projected.version(),"inputs":projected.inputs_version()}),
+            )
+        }
+        Attachment::RecoveryRequired(version) => Ok(json!({"schema":"csdlc.v3.intent_local.v1",
+            "status":"recovery_required","read_only":false,"writes_v3_state":true,
+            "operational_authority":true,"operation_id":ticket.id().as_str(),
+            "semantic_version":version,"native_effect_truth":EffectTruth::NotPerformed})),
     }
 }
 
@@ -899,7 +1042,11 @@ pub(crate) fn recover_semantic_edit(
     let Some(pending) = snapshot.pending() else {
         return Ok(None);
     };
-    if pending.command() != SemanticCommand::AmendCards {
+    let command = pending.command();
+    if !matches!(
+        command,
+        SemanticCommand::AmendCards | SemanticCommand::AmendValidation
+    ) {
         return Ok(None);
     }
     let pending_id = pending.id().clone();
@@ -912,8 +1059,13 @@ pub(crate) fn recover_semantic_edit(
         .map_err(semantic_error)?
         .ok_or("intent_edit_pending_missing")?;
     if !request.execute {
+        let action = if command == SemanticCommand::AmendCards {
+            "reconcile_native_edit"
+        } else {
+            "reconcile_validation_edit"
+        };
         return Ok(Some(json!({"status":"recovery_required","read_only":true,
-            "performed_mutation":false,"action":"reconcile_native_edit",
+            "performed_mutation":false,"action":action,
             "operation_id":pending.id().as_str(),"preview_digest":preview.digest().as_str()})));
     }
     if request.preview.as_deref() != Some(preview.digest().as_str()) {
@@ -929,6 +1081,68 @@ pub(crate) fn recover_semantic_edit(
             .map_err(semantic_error)?,
     )
     .map_err(|_| "intent_edit_retained_request_invalid")?;
+    if command == SemanticCommand::AmendValidation {
+        if retained["schema"] != "csdlc.v3.semantic_validation_edit_request.v1"
+            || retained["repository"] != context.repository
+            || retained["issue"] != context.issue
+        {
+            return Err("intent_validation_edit_retained_identity_mismatch".into());
+        }
+        let validators: Vec<Validator> = serde_json::from_value(retained["validators"].clone())
+            .map_err(|_| "intent_validation_edit_retained_validators_invalid")?;
+        crate::commands::proof::intent::admit_validators(&context.root, &validators)?;
+        semantic.admit_before_effect(pending.id())?;
+        let outcome = VerifiedOutcome::from_native_owner(
+            OutcomeKind::Success,
+            EffectTruth::NotPerformed,
+            serde_json::to_vec(&json!({
+                "schema":"csdlc.v3.semantic_validation_edit_outcome.v1",
+                "validators_amended":true,
+                "recovered":true
+            }))
+            .map_err(|_| "intent_validation_edit_result_invalid")?,
+            Facts::default(),
+            inspection.request().native_identity().clone(),
+        )
+        .map_err(semantic_error)?;
+        let admission = semantic
+            .fresh_for_effect(pending.id())
+            .map_err(|_| "intent_validation_edit_semantic_state_changed".to_string())?;
+        let attached = DurableTransactionStore::execute_effect_recovery(
+            &semantic.root,
+            preview,
+            outcome,
+            admission,
+        )
+        .map_err(semantic_error)?;
+        return Ok(Some(match attached {
+            Attachment::Completed(done) | Attachment::AlreadyCompleted(done) => {
+                let snapshot = match DurableTransactionStore::observe_issue(
+                    &semantic.root,
+                    &semantic.key,
+                )
+                .map_err(semantic_error)?
+                {
+                    crate::storage::semantic::Observation::Current(value)
+                    | crate::storage::semantic::Observation::ProjectionRepairRequired(value) => {
+                        *value
+                    }
+                    _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
+                };
+                let projected = semantic.complete_projection(&snapshot)?;
+                json!({"status":"completed","read_only":false,"performed_mutation":true,
+                    "operation_id":done.operation_id().as_str(),
+                    "native_effect_truth":done.truth(),
+                    "semantic_outcome":done.outcome_kind(),
+                    "semantic_version":projected.version(),"inputs":projected.inputs_version()})
+            }
+            Attachment::RecoveryRequired(version) => {
+                json!({"status":"recovery_required","read_only":false,
+                "performed_mutation":false,"operation_id":pending.id().as_str(),
+                "semantic_version":version})
+            }
+        }));
+    }
     if retained["schema"] != "csdlc.v3.semantic_edit_request.v1"
         || retained["repository"] != context.repository
         || retained["issue"] != context.issue

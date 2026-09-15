@@ -481,6 +481,162 @@ fn installed_proof_runs_real_validator_and_rejects_zero_test_success() {
 }
 
 #[test]
+fn installed_prepare_rejects_validators_that_proof_would_not_admit() {
+    let mut fixture = Fixture::new("prepare-validator-admission");
+    let primary = fixture.root.clone();
+    let mut invalid_plan = plan();
+    invalid_plan["validators"][0]["args"] = json!([
+        "test",
+        "--manifest-path",
+        "fixture-proof/Cargo.toml",
+        "--offline",
+        "--color",
+        "always"
+    ]);
+    let input = fixture.write_json("invalid-validator-plan.json", &invalid_plan);
+    let before = intent_fixture::inventory(&primary);
+    let output = fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    );
+    assert!(
+        !output.status.success(),
+        "prepare accepted proof-inadmissible validator: {output:?}"
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout).contains("intent_validator_argument_not_admitted"),
+        "unexpected validator admission refusal: {output:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert!(!primary
+        .join(".git/csdlc-v3/local/issues/505/index.json")
+        .exists());
+}
+
+#[test]
+fn installed_edit_can_correct_validators_with_a_single_cargo_filter() {
+    let mut fixture = Fixture::new("edit-validator-correction");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let changes = fixture.write_json(
+        "validator-changes.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","validators":[{
+            "id":"fixture-proof",
+            "program":"cargo",
+            "args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline","tracked_fixture_bytes_are_preserved"],
+            "success_marker":"test result: ok."
+        }]}),
+    );
+    let edited = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(edited["status"], "completed");
+    let repeated = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(repeated["status"], "expected_noop");
+    fs::write(
+        linked.join("fixture-proof/src/lib.rs"),
+        r#"#[test]
+fn tracked_fixture_bytes_are_preserved() {
+    assert_eq!(include_str!("../../tracked"), "fixture\n");
+}
+
+#[test]
+fn unselected_failure_after_validator_edit() {
+    panic!("validator edit did not preserve the selected Cargo filter");
+}
+"#,
+    )
+    .unwrap();
+    git(&linked, &["add", "fixture-proof/src/lib.rs"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track filtered validator fixture",
+        ],
+    );
+    let proof = success(fixture.run(&linked, &["proof", "505"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    assert_eq!(proof["proof"]["validators"][0]["tests_passed"], 1);
+}
+
+#[test]
+fn installed_recover_reconciles_interrupted_validator_edit() {
+    let mut fixture = Fixture::new("recover-validator-edit");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let changes = fixture.write_json(
+        "validator-changes.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","validators":[{
+            "id":"fixture-proof",
+            "program":"cargo",
+            "args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline","tracked_fixture_bytes_are_preserved"],
+            "success_marker":"test result: ok."
+        }]}),
+    );
+    let crash = fixture.run_with_env(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_validation_edit_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_eq!(preview["action"], "reconcile_validation_edit");
+    let recovered = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(recovered["status"], "completed");
+    fs::write(
+        linked.join("fixture-proof/src/lib.rs"),
+        r#"#[test]
+fn tracked_fixture_bytes_are_preserved() {
+    assert_eq!(include_str!("../../tracked"), "fixture\n");
+}
+
+#[test]
+fn unselected_failure_after_validator_recovery() {
+    panic!("validator recovery did not preserve the selected Cargo filter");
+}
+"#,
+    )
+    .unwrap();
+    git(&linked, &["add", "fixture-proof/src/lib.rs"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track recovered validator fixture",
+        ],
+    );
+    let proof = success(fixture.run(&linked, &["proof", "505"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    assert_eq!(proof["proof"]["validators"][0]["tests_passed"], 1);
+}
+
+#[test]
 fn installed_proof_rejects_marker_only_custom_test_harness() {
     let mut fixture = Fixture::new("marker-only-custom-harness");
     let primary = fixture.root.clone();
