@@ -57,7 +57,7 @@ Local proof passed: 8 fitness tests plus 11 shared evidence tests under llvm-cov
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `local_proof_complete_review_pending`
+- Completion state: `local_proof_and_source_review_complete_publication_pending`
 - Issue goal ref: `Active whole Sprint3#929 goal; #887 owns local machine-checkable fitness execution and installed proof.`
 - Sprint goal ref: `Sprint #929, all eight children #882 through #889; shared whole-sprint goal remains active.`
 - Goal metrics rollup ref: `.csdlc/evidence/887/goal-metrics.json (planned; absent until execution)`
@@ -174,5 +174,5 @@ verification_summary:
 - `Raw identifier review finding fixed with IdentExt::unraw and three cases. Subprocess fixtures isolated to avoid inherited lock contention. Oversized acquisition rejects before admission, so partial proof uses a scoped missing file.`
 
 ## Follow-ups / Deferred work
-- `Finish expanded local coverage and committed exact-head review, then native publication.`
+- `Re-review final record/doc-only commit; record native review and publish #887. Hosted CI and explicit merge authorization remain pending.`
 - `Resolve required CI, obtain explicit merge authorization, then native finish and clean.`

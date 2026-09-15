@@ -59,7 +59,10 @@ admission and policy; tampering, expiration and deletion fail closed.
 For invalid command/policy/store or an artifact I/O failure, stdout contains an
 error envelope with `report_available: false`, and exit is 2. A partially written
 artifact is not acceptance evidence. Consumers must check process exit, parse JSON,
-and use authenticated live `read` before accepting a saved result. Missing artifacts,
+and use live `read` before accepting a saved result. The consumer must also pin
+the expected policy digest, packet identity and revision from its own declared
+configuration. Readback checks consistency with the embedded policy; it does not
+authorize a different policy or evidence scope. Missing artifacts,
 unknown schemas, error envelopes or read failures cannot become pass. This issue
 exercises that contract locally; actual CI integration belongs to #888.
 

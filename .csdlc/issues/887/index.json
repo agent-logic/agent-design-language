@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 887,
   "phase": "bound",
-  "generation": 9,
+  "generation": 10,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/887-v0922-codefriend-local-fitness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-887-v0922-codefriend-local-fitness",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "2f83b4e93c245627e857841ff9ecaf3e36c63cfcf176bc692ba0379507039976"
+  "digest": "51486f7c3553be1e54b97d156c2388a872bd4f042209a95585f9ae9e14f01bc3"
 }

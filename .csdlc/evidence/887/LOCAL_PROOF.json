@@ -41,7 +41,7 @@
     "adl/tests/fixtures/codefriend/fitness/policy.json": "54e151c064772a5d2fbdbc7f6f32c1499fd1f8b0352a5304074ae107c807352a",
     "adl/tools/codefriend_fitness_installed_proof.py": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d"
   },
-  "review": "interim raw identifier finding fixed; committed exact-head review pending",
+  "review": "Independent PASS at 6e14e86bfb4df7d37d14227dff3f0c0bea4e921b; source/proof verified. Final records and consumer policy-pinning clarification require record-only re-review.",
   "hosted_ci": "pending publication",
   "nonclaims": [
     "No actual CI integration",

@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/887/cards/sip.md"
   - ".csdlc/issues/887/cards/vpp.md"
 review_results:
-  findings_status: "interim_findings_resolved_final_review_pending"
-  recommended_outcome: "await_committed_exact_head_review"
-notes: "Independent exact-head implementation review required before publication. Review every acceptance item: 1. Invoke `local_fitness_runner` through the installed command on a policy and known passing/violating repository fixtures. Verify actual predicate execution, deterministic result, policy/evidence identity, violating locations and distinct pass/fail/error states. 2. Missing/malformed policy, unsupported rule, incomplete required evidence and runner fault do not become pass. Human judgments such as architecture quality remain explicitly unassessed; no opaque model score becomes a release predicate. 3. Demonstrate policy configuration is visible in the declared manifest/runner input, never hidden in test code, shard logic or environment-specific conditionals. Identical inputs repeat with stable output. 4. Persist a result artifact and define the exit/artifact contract consumed by CF-GOV-CI. Exercise this contract locally without claiming actual CI integration. 5. Scope/evidence constraints and redaction remain intact. Do not execute arbitrary repository-provided scripts or permit policy files to grant mutation authority. No unrelated scope, autonomous architecture/source rewrite, public publication, general CI platform or complete speculative memory system. Retain original exclusions: unrelated_scope, schema_or_scaffold_only_completion, general_ci_orchestration. Stop on policy_hidden_in_tests, nondeterministic_gate, required_proof_not_executed, partial_artifact_claimed_complete; also stop for missing authority, unresolved ownership collision, privacy/provenance failure or incompatible shared contracts. Route a separately discovered concern explicitly rather than silently widening this task."
+  findings_status: "passed"
+  recommended_outcome: "publish_after_final_record_head_review"
+notes: "Reviewer independently verified source/binary hashes, 8 fitness tests, 11 evidence regressions, strict Clippy, 3 installed scenarios, and library/CLI coverage. CI integration belongs to #888."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Interim review found raw identifier spelling could bypass prefix match; fixed with IdentExt::unraw and three regression cases. Subsequent interim library/CLI review found no remaining actionable finding.
+- Independent reviewer /root/sprint3_preparation_review PASS at 6e14e86bfb4df7d37d14227dff3f0c0bea4e921b; no actionable findings. Original raw identifier finding fixed and tested.
 
 ### Dispositions
 
-- Raw identifier finding fixed and tested. Final committed exact-head review pending.
+- Raw identifier bypass fixed with normalized segments and three regression cases. Exact-head product/proof review passed. Final record/doc-only commit will be re-reviewed before native publication.
 
 ### Recommended Outcome
 
-- await_committed_exact_head_review
+- publish_after_final_record_head_review
 
 ## Notes
 
-Independent exact-head implementation review required before publication. Review every acceptance item: 1. Invoke `local_fitness_runner` through the installed command on a policy and known passing/violating repository fixtures. Verify actual predicate execution, deterministic result, policy/evidence identity, violating locations and distinct pass/fail/error states. 2. Missing/malformed policy, unsupported rule, incomplete required evidence and runner fault do not become pass. Human judgments such as architecture quality remain explicitly unassessed; no opaque model score becomes a release predicate. 3. Demonstrate policy configuration is visible in the declared manifest/runner input, never hidden in test code, shard logic or environment-specific conditionals. Identical inputs repeat with stable output. 4. Persist a result artifact and define the exit/artifact contract consumed by CF-GOV-CI. Exercise this contract locally without claiming actual CI integration. 5. Scope/evidence constraints and redaction remain intact. Do not execute arbitrary repository-provided scripts or permit policy files to grant mutation authority. No unrelated scope, autonomous architecture/source rewrite, public publication, general CI platform or complete speculative memory system. Retain original exclusions: unrelated_scope, schema_or_scaffold_only_completion, general_ci_orchestration. Stop on policy_hidden_in_tests, nondeterministic_gate, required_proof_not_executed, partial_artifact_claimed_complete; also stop for missing authority, unresolved ownership collision, privacy/provenance failure or incompatible shared contracts. Route a separately discovered concern explicitly rather than silently widening this task.
+Reviewer independently verified source/binary hashes, 8 fitness tests, 11 evidence regressions, strict Clippy, 3 installed scenarios, and library/CLI coverage. CI integration belongs to #888.
