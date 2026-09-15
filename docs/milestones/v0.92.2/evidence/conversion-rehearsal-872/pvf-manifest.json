@@ -1,0 +1,38 @@
+{
+  "schema": "adl.pvf.test_surface.v1",
+  "issue": 872,
+  "surface": "copied_record_conversion_rehearsal",
+  "lane": "deterministic_local_cpu_integration",
+  "proof_role": "conversion_safety_and_restore_boundary",
+  "determinism": {
+    "copied_records": true,
+    "controlled_faults": true,
+    "fake_authenticated_remote_transport": true,
+    "caller_success_labels_are_proof": false
+  },
+  "resource_profile": {
+    "local_cpu": true,
+    "bounded_local_disk": true,
+    "local_git": true,
+    "provider_side_effects": false,
+    "cloud_or_paid_execution": false
+  },
+  "release_gate": {
+    "mandatory_for": "SIM-07 pre-resume qualification",
+    "authorizes_live_conversion": false,
+    "authorizes_writer_activation": false
+  },
+  "proof_denominator": {
+    "roles": 7,
+    "scenarios": 12,
+    "fault_points": 15,
+    "fault_boundaries_per_point": 2,
+    "fault_cases": 30
+  },
+  "validator": "adl/tools/validate_issue872_conversion_rehearsal.py",
+  "test": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+  "expected_rehearsal_binary": "csdlc-conversion-rehearsal",
+  "request_schema": "csdlc.v3.copied_record_conversion_rehearsal_request.v1",
+  "summary_schema": "csdlc.v3.copied_record_conversion_rehearsal_summary.v1",
+  "status": "contract_only_not_execution_evidence"
+}
