@@ -59,6 +59,8 @@ impl TryFrom<String> for Digest {
                 | "semantic-request-v1"
                 | "semantic-evidence-v1"
                 | "semantic-recovery-v1"
+                | "semantic-projection-v1"
+                | "card-projection-v1"
         ) || hex.len() != 64
             || !hex
                 .bytes()
@@ -80,6 +82,12 @@ impl Digest {
     }
     pub fn authority(bytes: &[u8]) -> Self {
         hash_bytes("semantic-authority-v1", bytes)
+    }
+    pub fn projection(bytes: &[u8]) -> Self {
+        hash_bytes("card-projection-v1", bytes)
+    }
+    pub fn semantic_projection(bytes: &[u8]) -> Self {
+        hash_bytes("semantic-projection-v1", bytes)
     }
 }
 fn hash_bytes(domain: &str, bytes: &[u8]) -> Digest {
@@ -501,6 +509,7 @@ impl VerifiedBindingAmendment {
 #[derive(Debug, Clone)]
 pub struct ProjectionWriteProof {
     version: SemanticVersion,
+    card_projection: Option<CardProjectionBundle>,
 }
 impl ProjectionWriteProof {
     pub fn verify(root: &SemanticRoot, snapshot: &Snapshot) -> Result<Self, Error> {
@@ -513,8 +522,231 @@ impl ProjectionWriteProof {
         }
         Ok(Self {
             version: snapshot.version().clone(),
+            card_projection: None,
         })
     }
+
+    fn verify_current(&self, root: &SemanticRoot, snapshot: &Snapshot) -> Result<(), Error> {
+        if self.version != *snapshot.version() {
+            return Err(Error::StaleVersion);
+        }
+        Self::verify(root, snapshot)?;
+        if let Some(bundle) = &self.card_projection {
+            bundle.validate(snapshot)?;
+            if observe_card_projection_unlocked(root, snapshot, bundle)?
+                != CardProjectionObservation::Healthy
+            {
+                return Err(Error::EvidenceMismatch);
+            }
+        }
+        Ok(())
+    }
+}
+
+pub const SEMANTIC_CARD_KINDS: [&str; 6] = ["sip", "stp", "spp", "vpp", "srp", "sor"];
+
+/// One deterministic generated card. The bytes are derived by the application
+/// owner from the accepted semantic input and active prompt registry.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CardProjectionArtifact {
+    kind: String,
+    template_ref: String,
+    values: Vec<u8>,
+    rendered: Vec<u8>,
+    values_digest: Digest,
+    rendered_digest: Digest,
+}
+
+impl CardProjectionArtifact {
+    pub(crate) fn new(
+        kind: impl Into<String>,
+        template_ref: impl Into<String>,
+        values: Vec<u8>,
+        rendered: Vec<u8>,
+    ) -> Result<Self, Error> {
+        let artifact = Self {
+            kind: kind.into(),
+            template_ref: template_ref.into(),
+            values_digest: Digest::projection(&values),
+            rendered_digest: Digest::projection(&rendered),
+            values,
+            rendered,
+        };
+        artifact.validate()?;
+        Ok(artifact)
+    }
+
+    pub fn kind(&self) -> &str {
+        &self.kind
+    }
+    pub fn template_ref(&self) -> &str {
+        &self.template_ref
+    }
+    pub fn values(&self) -> &[u8] {
+        &self.values
+    }
+    pub fn rendered(&self) -> &[u8] {
+        &self.rendered
+    }
+    pub fn values_digest(&self) -> &Digest {
+        &self.values_digest
+    }
+    pub fn rendered_digest(&self) -> &Digest {
+        &self.rendered_digest
+    }
+
+    fn validate(&self) -> Result<(), Error> {
+        if !SEMANTIC_CARD_KINDS.contains(&self.kind.as_str())
+            || self.template_ref.trim().is_empty()
+            || self.template_ref.contains('\0')
+            || self.values_digest != Digest::projection(&self.values)
+            || self.rendered_digest != Digest::projection(&self.rendered)
+        {
+            return Err(Error::InvalidInput(
+                "invalid card projection artifact".into(),
+            ));
+        }
+        serde_json::from_slice::<serde_json::Value>(&self.values)
+            .map_err(|_| Error::InvalidInput("card projection values must be valid JSON".into()))?;
+        std::str::from_utf8(&self.rendered)
+            .map_err(|_| Error::InvalidInput("rendered card must be UTF-8".into()))?;
+        Ok(())
+    }
+}
+
+/// Complete six-card projection derived from one exact semantic version.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CardProjectionBundle {
+    schema: String,
+    semantic_digest: Digest,
+    registry_version: String,
+    cards: BTreeMap<String, CardProjectionArtifact>,
+    projection_digest: Digest,
+}
+
+impl CardProjectionBundle {
+    pub(crate) fn new(
+        snapshot: &Snapshot,
+        registry_version: impl Into<String>,
+        cards: BTreeMap<String, CardProjectionArtifact>,
+    ) -> Result<Self, Error> {
+        let mut bundle = Self {
+            schema: "csdlc.v3.semantic_card_projection.v1".into(),
+            semantic_digest: Digest::semantic_projection(&snapshot.projection_bytes()?),
+            registry_version: registry_version.into(),
+            cards,
+            projection_digest: Digest::projection(b"pending"),
+        };
+        bundle.projection_digest = bundle.computed_digest()?;
+        bundle.validate(snapshot)?;
+        Ok(bundle)
+    }
+
+    pub fn semantic_digest(&self) -> &Digest {
+        &self.semantic_digest
+    }
+    pub fn registry_version(&self) -> &str {
+        &self.registry_version
+    }
+    pub fn cards(&self) -> &BTreeMap<String, CardProjectionArtifact> {
+        &self.cards
+    }
+    pub fn projection_digest(&self) -> &Digest {
+        &self.projection_digest
+    }
+    pub fn manifest_bytes(&self) -> Result<Vec<u8>, Error> {
+        #[derive(Serialize)]
+        struct CardIndex<'a> {
+            template_ref: &'a str,
+            values_digest: &'a Digest,
+            rendered_digest: &'a Digest,
+        }
+        #[derive(Serialize)]
+        struct Manifest<'a> {
+            schema: &'static str,
+            semantic_digest: &'a Digest,
+            registry_version: &'a str,
+            projection_digest: &'a Digest,
+            cards: BTreeMap<&'a str, CardIndex<'a>>,
+        }
+        let cards = self
+            .cards
+            .iter()
+            .map(|(kind, artifact)| {
+                (
+                    kind.as_str(),
+                    CardIndex {
+                        template_ref: &artifact.template_ref,
+                        values_digest: &artifact.values_digest,
+                        rendered_digest: &artifact.rendered_digest,
+                    },
+                )
+            })
+            .collect();
+        codec::bytes(&Manifest {
+            schema: "csdlc.v3.semantic_card_projection_manifest.v1",
+            semantic_digest: &self.semantic_digest,
+            registry_version: &self.registry_version,
+            projection_digest: &self.projection_digest,
+            cards,
+        })
+        .map_err(encoding)
+    }
+
+    fn computed_digest(&self) -> Result<Digest, Error> {
+        let cards = self
+            .cards
+            .iter()
+            .map(|(kind, artifact)| {
+                (
+                    kind.as_str(),
+                    (
+                        artifact.template_ref.as_str(),
+                        &artifact.values_digest,
+                        &artifact.rendered_digest,
+                    ),
+                )
+            })
+            .collect::<BTreeMap<_, _>>();
+        hash(
+            "card-projection-v1",
+            &(
+                &self.schema,
+                &self.semantic_digest,
+                &self.registry_version,
+                cards,
+            ),
+        )
+    }
+
+    fn validate(&self, snapshot: &Snapshot) -> Result<(), Error> {
+        if self.schema != "csdlc.v3.semantic_card_projection.v1"
+            || self.semantic_digest != Digest::semantic_projection(&snapshot.projection_bytes()?)
+            || self.registry_version.trim().is_empty()
+            || self.cards.len() != SEMANTIC_CARD_KINDS.len()
+            || SEMANTIC_CARD_KINDS.iter().any(|kind| {
+                self.cards
+                    .get(*kind)
+                    .is_none_or(|artifact| artifact.kind != *kind || artifact.validate().is_err())
+            })
+            || self.projection_digest != self.computed_digest()?
+        {
+            return Err(Error::InvalidInput(
+                "invalid semantic card projection".into(),
+            ));
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "status", rename_all = "snake_case")]
+pub enum CardProjectionObservation {
+    Healthy,
+    Missing { paths: Vec<String> },
+    Altered { paths: Vec<String> },
+    Interrupted { staged_paths: Vec<String> },
 }
 
 #[derive(Debug, Clone)]
@@ -592,6 +824,13 @@ impl SemanticRoot {
         Ok(base
             .join(snapshot.key().issue.to_string())
             .join("state.json"))
+    }
+    pub fn card_projection_directory(&self, snapshot: &Snapshot) -> Result<PathBuf, Error> {
+        Ok(self
+            .projection_path(snapshot)?
+            .parent()
+            .ok_or(Error::UnsafePath)?
+            .join("cards"))
     }
     fn directory(&self, key: &IssueKey) -> Result<PathBuf, Error> {
         if key.repository != self.repository {
@@ -863,6 +1102,98 @@ impl DurableTransactionStore {
         ProjectionWriteProof::verify(root, snapshot)
     }
 
+    /// Materialize a complete deterministic card bundle. A durable pending
+    /// marker precedes every card write and the manifest is committed last, so
+    /// readers can distinguish an interrupted rebuild from a healthy bundle.
+    /// Replaying the same bundle repairs a partial write without changing the
+    /// semantic snapshot.
+    pub fn write_card_projection(
+        root: &SemanticRoot,
+        snapshot: &Snapshot,
+        bundle: CardProjectionBundle,
+    ) -> Result<ProjectionWriteProof, Error> {
+        bundle.validate(snapshot)?;
+        // The legacy semantic view remains part of AcknowledgeProjection proof.
+        Self::write_issue_projection(root, snapshot)?;
+        let directory = root.directory(snapshot.key())?;
+        let _lock = acquire(&directory, true)?;
+        let current = read_current(&directory, snapshot.key())?;
+        if current.version() != snapshot.version() {
+            return Err(Error::StaleVersion);
+        }
+        bundle.validate(&current)?;
+        let card_root = root.card_projection_directory(&current)?;
+        reject_symlinks(&card_root)?;
+        let projection_root = projection_root(root, &current, &card_root)?;
+        create_directories(&card_root, &projection_root)?;
+        let suffix = bundle
+            .projection_digest()
+            .as_str()
+            .rsplit(':')
+            .next()
+            .ok_or(Error::InvalidDigest)?;
+        let pending = card_root.join(format!(".projection-{suffix}.pending"));
+        let manifest = bundle.manifest_bytes()?;
+        write_exact_create_or_verify(&pending, &manifest, &projection_root)?;
+        rebarrier([pending.clone()], &projection_root)?;
+
+        for kind in SEMANTIC_CARD_KINDS {
+            let artifact = bundle.cards().get(kind).ok_or_else(|| {
+                Error::InvalidInput("semantic card projection is incomplete".into())
+            })?;
+            replace_projection_file(
+                &card_root,
+                &projection_root,
+                suffix,
+                &format!("{kind}.values.json"),
+                &artifact.values,
+            )?;
+            replace_projection_file(
+                &card_root,
+                &projection_root,
+                suffix,
+                &format!("{kind}.md"),
+                &artifact.rendered,
+            )?;
+        }
+        replace_projection_file(
+            &card_root,
+            &projection_root,
+            suffix,
+            "manifest.json",
+            &manifest,
+        )?;
+        fs::remove_file(&pending).map_err(io)?;
+        sync_chain(&card_root, &projection_root)?;
+        let proof = ProjectionWriteProof {
+            version: current.version().clone(),
+            card_projection: Some(bundle),
+        };
+        proof.verify_current(root, &current)?;
+        Ok(proof)
+    }
+
+    /// Inspect exact expected projection bytes without creating locks, files,
+    /// journals or repairs. The caller supplies the deterministic bundle derived
+    /// from the semantic snapshot and active registry.
+    pub fn observe_card_projection(
+        root: &SemanticRoot,
+        snapshot: &Snapshot,
+        bundle: &CardProjectionBundle,
+    ) -> Result<CardProjectionObservation, Error> {
+        bundle.validate(snapshot)?;
+        let directory = root.directory(snapshot.key())?;
+        if !directory.exists() {
+            return Err(Error::InvalidInput("issue absent".into()));
+        }
+        let _lock = acquire(&directory, false)?;
+        let current = read_current(&directory, snapshot.key())?;
+        if current.version() != snapshot.version() {
+            return Err(Error::StaleVersion);
+        }
+        observe_card_projection_unlocked(root, &current, bundle)
+    }
+
     pub fn observe_issue(root: &SemanticRoot, key: &IssueKey) -> Result<Observation, Error> {
         let directory = root.directory(key)?;
         if !directory.exists() {
@@ -1006,10 +1337,7 @@ impl DurableTransactionStore {
                 SemanticCommand::AmendBinding
             }
             LocalChange::AcknowledgeProjection(proof) => {
-                if proof.version != *current.version() {
-                    return Err(Error::StaleVersion);
-                }
-                ProjectionWriteProof::verify(root, &current)?;
+                proof.verify_current(root, &current)?;
                 payload.projection_required = false;
                 SemanticCommand::AcknowledgeProjection
             }
@@ -1047,6 +1375,105 @@ impl DurableTransactionStore {
         let next = make_snapshot(payload, Some(&current), command)?;
         activate(&directory, &root.common, &next)?;
         Ok(CommitOutcome::Committed(Box::new(next)))
+    }
+}
+
+fn projection_root(
+    root: &SemanticRoot,
+    snapshot: &Snapshot,
+    path: &Path,
+) -> Result<PathBuf, Error> {
+    if path.starts_with(&root.common) {
+        Ok(root.common.clone())
+    } else {
+        snapshot
+            .inputs()
+            .binding()
+            .map(|binding| binding.worktree.join(".csdlc"))
+            .ok_or(Error::UnsafePath)
+    }
+}
+
+fn write_exact_create_or_verify(path: &Path, bytes: &[u8], root: &Path) -> Result<(), Error> {
+    reject_symlinks(path)?;
+    if path.try_exists().map_err(io)? {
+        if fs::read(path).map_err(io)? != bytes {
+            return Err(Error::EvidenceMismatch);
+        }
+        Ok(())
+    } else {
+        create_only(path, bytes, root)
+    }
+}
+
+fn replace_projection_file(
+    directory: &Path,
+    root: &Path,
+    suffix: &str,
+    name: &str,
+    bytes: &[u8],
+) -> Result<(), Error> {
+    let target = directory.join(name);
+    let staged = directory.join(format!(".{name}-{suffix}.next"));
+    reject_symlinks(&target)?;
+    write_exact_create_or_verify(&staged, bytes, root)?;
+    rebarrier([staged.clone()], root)?;
+    fs::rename(&staged, &target).map_err(io)?;
+    rebarrier([target], root)
+}
+
+fn observe_card_projection_unlocked(
+    root: &SemanticRoot,
+    snapshot: &Snapshot,
+    bundle: &CardProjectionBundle,
+) -> Result<CardProjectionObservation, Error> {
+    let card_root = root.card_projection_directory(snapshot)?;
+    reject_symlinks(&card_root)?;
+    if card_root.try_exists().map_err(io)? {
+        let mut staged_paths = fs::read_dir(&card_root)
+            .map_err(io)?
+            .map(|entry| entry.map_err(io))
+            .collect::<Result<Vec<_>, _>>()?
+            .into_iter()
+            .filter_map(|entry| {
+                let name = entry.file_name().into_string().ok()?;
+                (name.starts_with(".projection-") || name.ends_with(".next")).then_some(name)
+            })
+            .collect::<Vec<_>>();
+        staged_paths.sort();
+        if !staged_paths.is_empty() {
+            return Ok(CardProjectionObservation::Interrupted { staged_paths });
+        }
+    }
+    let mut expected = BTreeMap::new();
+    for kind in SEMANTIC_CARD_KINDS {
+        let artifact = bundle
+            .cards()
+            .get(kind)
+            .ok_or_else(|| Error::InvalidInput("semantic card projection is incomplete".into()))?;
+        expected.insert(format!("{kind}.values.json"), artifact.values.as_slice());
+        expected.insert(format!("{kind}.md"), artifact.rendered.as_slice());
+    }
+    let manifest = bundle.manifest_bytes()?;
+    expected.insert("manifest.json".into(), manifest.as_slice());
+    let mut missing = Vec::new();
+    let mut altered = Vec::new();
+    for (name, bytes) in expected {
+        let path = card_root.join(&name);
+        reject_symlinks(&path)?;
+        match fs::read(path) {
+            Ok(actual) if actual == bytes => {}
+            Ok(_) => altered.push(name),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => missing.push(name),
+            Err(error) => return Err(io(error)),
+        }
+    }
+    if !altered.is_empty() {
+        Ok(CardProjectionObservation::Altered { paths: altered })
+    } else if !missing.is_empty() {
+        Ok(CardProjectionObservation::Missing { paths: missing })
+    } else {
+        Ok(CardProjectionObservation::Healthy)
     }
 }
 fn make_snapshot(

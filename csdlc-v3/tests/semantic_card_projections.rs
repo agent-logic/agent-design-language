@@ -1,0 +1,327 @@
+//! PVF: deterministic local CPU/disk projection derivation, integrity observation,
+//! transactional rebuild and recovery; fixed synthetic semantic inputs and templates;
+//! required SIM-07 pre-resume qualification input; no network or paid resources.
+
+use csdlc_v3::application::derive_semantic_card_projection;
+use csdlc_v3::commands::local::PromptRegistry;
+use csdlc_v3::storage::semantic::{
+    AcceptedIntentPlan, Admission, CardProjectionObservation, CommitOutcome, Digest, IssueInputs,
+    IssueKey, LocalChange, Observation, PlanStep, Publication, SemanticRoot, Snapshot, Validator,
+    SEMANTIC_CARD_KINDS,
+};
+use csdlc_v3::storage::DurableTransactionStore;
+use serde_json::Value;
+use std::collections::{BTreeMap, BTreeSet};
+use std::fs;
+use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
+
+static NEXT: AtomicU64 = AtomicU64::new(0);
+
+struct Fixture {
+    directory: PathBuf,
+    root: SemanticRoot,
+    key: IssueKey,
+    registry: PromptRegistry,
+}
+
+impl Fixture {
+    fn new() -> Self {
+        let directory = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target")
+            .join(format!(
+                "semantic-card-projections-{}-{}",
+                std::process::id(),
+                NEXT.fetch_add(1, Ordering::Relaxed)
+            ));
+        let checkout = directory.join("repo");
+        fs::create_dir_all(checkout.join(".git/objects")).unwrap();
+        fs::write(checkout.join(".git/HEAD"), "ref: refs/heads/main\n").unwrap();
+        fs::write(
+            checkout.join(".git/config"),
+            "[core]\nrepositoryformatversion = 0\n",
+        )
+        .unwrap();
+        let templates = directory.join("docs/templates/prompts/1.0.5");
+        fs::create_dir_all(&templates).unwrap();
+        let mut template_paths = BTreeMap::new();
+        for kind in SEMANTIC_CARD_KINDS {
+            let path = templates.join(format!("{kind}.md"));
+            fs::write(
+                &path,
+                format!("# {kind}\nTitle: <title>\nStatus: <status>\nEvidence: <evidence_ref>\n"),
+            )
+            .unwrap();
+            template_paths.insert(kind.into(), path.to_string_lossy().into_owned());
+        }
+        Self {
+            root: SemanticRoot::from_git_common(checkout.join(".git"), "example/repo").unwrap(),
+            key: IssueKey::new("example/repo", 871).unwrap(),
+            registry: PromptRegistry {
+                version: "1.0.5".into(),
+                card_kinds: SEMANTIC_CARD_KINDS.into_iter().map(str::to_owned).collect(),
+                template_paths,
+            },
+            directory,
+        }
+    }
+
+    fn prepare(&self) -> Snapshot {
+        let cards = SEMANTIC_CARD_KINDS
+            .into_iter()
+            .map(|kind| {
+                (
+                    kind.into(),
+                    serde_json::json!({
+                        "evidence_ref": format!(".csdlc/evidence/871/{kind}.json"),
+                        "status": "pending",
+                        "title": "derived projections"
+                    }),
+                )
+            })
+            .collect();
+        let inputs = IssueInputs::new(
+            "derive all cards".into(),
+            AcceptedIntentPlan {
+                schema: "csdlc.v3.intent_plan.v1".into(),
+                slug: "derived-projections".into(),
+                cards,
+                validators: vec![Validator {
+                    id: "projection".into(),
+                    program: "cargo".into(),
+                    args: vec!["test".into()],
+                    success_marker: "test result: ok.".into(),
+                    timeout_seconds: 30,
+                }],
+                publication: Publication {
+                    base: "main".into(),
+                    title: "projection".into(),
+                    body: "Closes #871".into(),
+                    draft: true,
+                },
+            },
+            vec![PlanStep {
+                id: "derive".into(),
+                acceptance: "six deterministic cards".into(),
+            }],
+            None,
+            Digest::authority(b"fixture authority"),
+        )
+        .unwrap();
+        match DurableTransactionStore::prepare_issue(&self.root, self.key.clone(), inputs).unwrap()
+        {
+            CommitOutcome::Committed(snapshot) => *snapshot,
+            CommitOutcome::Unchanged(_) => panic!("new fixture must commit"),
+        }
+    }
+
+    fn current(&self) -> Snapshot {
+        match DurableTransactionStore::observe_issue(&self.root, &self.key).unwrap() {
+            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+                *snapshot
+            }
+            other => panic!("unexpected observation: {other:?}"),
+        }
+    }
+}
+
+impl Drop for Fixture {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir_all(&self.directory);
+    }
+}
+
+fn inventory(path: &Path) -> BTreeMap<PathBuf, Vec<u8>> {
+    let mut result = BTreeMap::new();
+    if path.is_dir() {
+        for entry in fs::read_dir(path).unwrap() {
+            let path = entry.unwrap().path();
+            if path.is_dir() {
+                result.extend(inventory(&path));
+            } else {
+                result.insert(path.clone(), fs::read(path).unwrap());
+            }
+        }
+    }
+    result
+}
+
+#[test]
+fn derives_six_deterministic_cards_without_inventing_semantic_facts() {
+    let fixture = Fixture::new();
+    let snapshot = fixture.prepare();
+    let first = derive_semantic_card_projection(&snapshot, &fixture.registry).unwrap();
+    let second = derive_semantic_card_projection(&snapshot, &fixture.registry).unwrap();
+    assert_eq!(first, second);
+    assert_eq!(first.cards().len(), 6);
+    assert!(first
+        .semantic_digest()
+        .as_str()
+        .starts_with("semantic-projection-v1:"));
+    assert!(first
+        .projection_digest()
+        .as_str()
+        .starts_with("card-projection-v1:"));
+    assert_ne!(first.semantic_digest(), first.projection_digest());
+    for kind in SEMANTIC_CARD_KINDS {
+        let artifact = &first.cards()[kind];
+        assert_eq!(
+            artifact.template_ref(),
+            format!("docs/templates/prompts/1.0.5/{kind}.md")
+        );
+        let projected: Value = serde_json::from_slice(artifact.values()).unwrap();
+        assert_eq!(projected, snapshot.inputs().cards()[kind]);
+        let rendered = std::str::from_utf8(artifact.rendered()).unwrap();
+        assert!(rendered.contains("Status: pending"));
+        assert!(rendered.contains(&format!(".csdlc/evidence/871/{kind}.json")));
+        assert!(!rendered.contains("passed"));
+        assert!(!rendered.contains("approved"));
+        assert!(!rendered.contains("published"));
+        assert!(!rendered.contains("complete"));
+    }
+}
+
+#[test]
+fn observation_is_read_only_and_classifies_missing_altered_and_interrupted() {
+    let fixture = Fixture::new();
+    let snapshot = fixture.prepare();
+    let bundle = derive_semantic_card_projection(&snapshot, &fixture.registry).unwrap();
+    let before = inventory(&fixture.directory);
+    let CardProjectionObservation::Missing { paths } =
+        DurableTransactionStore::observe_card_projection(&fixture.root, &snapshot, &bundle)
+            .unwrap()
+    else {
+        panic!("absent projection must be missing");
+    };
+    assert_eq!(paths.len(), 13);
+    assert_eq!(inventory(&fixture.directory), before);
+
+    let proof =
+        DurableTransactionStore::write_card_projection(&fixture.root, &snapshot, bundle.clone())
+            .unwrap();
+    assert_eq!(fixture.current().version(), snapshot.version());
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &snapshot, &bundle)
+            .unwrap(),
+        CardProjectionObservation::Healthy
+    );
+
+    let card_root = fixture.root.card_projection_directory(&snapshot).unwrap();
+    fs::write(card_root.join("stp.md"), "altered\n").unwrap();
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &snapshot, &bundle)
+            .unwrap(),
+        CardProjectionObservation::Altered {
+            paths: vec!["stp.md".into()]
+        }
+    );
+    DurableTransactionStore::write_card_projection(&fixture.root, &snapshot, bundle.clone())
+        .unwrap();
+    let suffix = bundle
+        .projection_digest()
+        .as_str()
+        .split(':')
+        .nth(1)
+        .unwrap();
+    let pending = card_root.join(format!(".projection-{suffix}.pending"));
+    fs::write(&pending, bundle.manifest_bytes().unwrap()).unwrap();
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &snapshot, &bundle)
+            .unwrap(),
+        CardProjectionObservation::Interrupted {
+            staged_paths: vec![pending.file_name().unwrap().to_string_lossy().into_owned()]
+        }
+    );
+    let replay =
+        DurableTransactionStore::write_card_projection(&fixture.root, &snapshot, bundle.clone())
+            .unwrap();
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &snapshot, &bundle)
+            .unwrap(),
+        CardProjectionObservation::Healthy
+    );
+
+    let committed = DurableTransactionStore::commit_issue_local(
+        &fixture.root,
+        Admission::new(
+            fixture.key.clone(),
+            snapshot.version().clone(),
+            snapshot.inputs().authority().clone(),
+        ),
+        LocalChange::AcknowledgeProjection(replay),
+    )
+    .unwrap();
+    let CommitOutcome::Committed(acknowledged) = committed else {
+        panic!("acknowledgement must commit");
+    };
+    assert_eq!(acknowledged.inputs_version(), snapshot.inputs_version());
+    let acknowledged_bundle =
+        derive_semantic_card_projection(&acknowledged, &fixture.registry).unwrap();
+    assert_eq!(
+        acknowledged_bundle.manifest_bytes().unwrap(),
+        bundle.manifest_bytes().unwrap()
+    );
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(
+            &fixture.root,
+            &acknowledged,
+            &acknowledged_bundle
+        )
+        .unwrap(),
+        CardProjectionObservation::Healthy
+    );
+    drop(proof);
+}
+
+#[test]
+fn stale_semantic_snapshot_cannot_rebuild_or_acknowledge() {
+    let fixture = Fixture::new();
+    let snapshot = fixture.prepare();
+    let bundle = derive_semantic_card_projection(&snapshot, &fixture.registry).unwrap();
+    let proof =
+        DurableTransactionStore::write_card_projection(&fixture.root, &snapshot, bundle.clone())
+            .unwrap();
+    let mut cards = snapshot.inputs().cards().clone();
+    cards.get_mut("stp").unwrap()["status"] = Value::String("amended".into());
+    let amended = match DurableTransactionStore::commit_issue_local(
+        &fixture.root,
+        Admission::new(
+            fixture.key.clone(),
+            snapshot.version().clone(),
+            snapshot.inputs().authority().clone(),
+        ),
+        LocalChange::AmendCards(cards),
+    )
+    .unwrap()
+    {
+        CommitOutcome::Committed(snapshot) => *snapshot,
+        CommitOutcome::Unchanged(_) => panic!("amendment must commit"),
+    };
+    assert!(
+        DurableTransactionStore::write_card_projection(&fixture.root, &snapshot, bundle).is_err()
+    );
+    assert!(DurableTransactionStore::commit_issue_local(
+        &fixture.root,
+        Admission::new(
+            fixture.key.clone(),
+            amended.version().clone(),
+            amended.inputs().authority().clone(),
+        ),
+        LocalChange::AcknowledgeProjection(proof),
+    )
+    .is_err());
+    assert_eq!(
+        snapshot
+            .inputs()
+            .cards()
+            .values()
+            .flat_map(|value| value["evidence_ref"].as_str())
+            .collect::<BTreeSet<_>>(),
+        amended
+            .inputs()
+            .cards()
+            .values()
+            .flat_map(|value| value["evidence_ref"].as_str())
+            .collect::<BTreeSet<_>>()
+    );
+}
