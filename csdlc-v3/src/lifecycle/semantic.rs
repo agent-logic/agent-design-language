@@ -2,7 +2,7 @@
 use super::LifecycleState;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum SemanticCommand {
     Prepare,
@@ -84,7 +84,7 @@ pub enum Rejection {
 
 /// The semantic meaning of an amendment, independent of the card or field that
 /// happened to carry the changed value.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum AmendmentClass {
     ScopeAcceptance,
@@ -177,7 +177,7 @@ pub enum AmendmentInapplicability {
 }
 
 /// The affected evidence plus the semantic class which caused invalidation.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct CausalInvalidation {
     pub evidence: Invalidation,
     pub cause: AmendmentClass,

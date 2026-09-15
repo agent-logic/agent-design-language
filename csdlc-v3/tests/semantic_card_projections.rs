@@ -4,10 +4,11 @@
 
 use csdlc_v3::application::derive_semantic_card_projection;
 use csdlc_v3::commands::local::PromptRegistry;
+use csdlc_v3::lifecycle::semantic::AmendmentClass;
 use csdlc_v3::storage::semantic::{
-    AcceptedIntentPlan, Admission, CardProjectionObservation, CommitOutcome, Digest, IssueInputs,
-    IssueKey, LocalChange, Observation, PlanStep, Publication, SemanticRoot, Snapshot, Validator,
-    SEMANTIC_CARD_KINDS,
+    AcceptedIntentPlan, Admission, CardProjectionObservation, CommitOutcome, Digest, Error,
+    IssueInputs, IssueKey, LocalChange, Observation, PlanStep, Publication, SemanticRoot, Snapshot,
+    Validator, SEMANTIC_CARD_KINDS,
 };
 use csdlc_v3::storage::DurableTransactionStore;
 use serde_json::Value;
@@ -311,8 +312,24 @@ fn stale_semantic_snapshot_cannot_rebuild_or_acknowledge() {
         CommitOutcome::Committed(snapshot) => *snapshot,
         CommitOutcome::Unchanged(_) => panic!("amendment must commit"),
     };
-    assert!(
-        DurableTransactionStore::write_card_projection(&fixture.root, &snapshot, bundle).is_err()
+    let amended_bundle = derive_semantic_card_projection(&amended, &fixture.registry).unwrap();
+    assert_eq!(amended.causal_invalidations().len(), 6);
+    assert!(amended
+        .causal_invalidations()
+        .iter()
+        .all(|item| item.cause == AmendmentClass::ScopeAcceptance));
+    DurableTransactionStore::write_card_projection(&fixture.root, &amended, amended_bundle.clone())
+        .unwrap();
+    let before_stale_write = inventory(&fixture.directory);
+    assert!(matches!(
+        DurableTransactionStore::write_card_projection(&fixture.root, &snapshot, bundle),
+        Err(Error::StaleVersion)
+    ));
+    assert_eq!(inventory(&fixture.directory), before_stale_write);
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &amended, &amended_bundle)
+            .unwrap(),
+        CardProjectionObservation::Healthy
     );
     assert!(DurableTransactionStore::commit_issue_local(
         &fixture.root,
@@ -338,4 +355,73 @@ fn stale_semantic_snapshot_cannot_rebuild_or_acknowledge() {
             .flat_map(|value| value["evidence_ref"].as_str())
             .collect::<BTreeSet<_>>()
     );
+}
+
+#[test]
+fn newer_projection_recovers_strict_staging_residue_from_prior_version() {
+    let fixture = Fixture::new();
+    let first = fixture.prepare();
+    let first_bundle = derive_semantic_card_projection(&first, &fixture.registry).unwrap();
+    DurableTransactionStore::write_card_projection(&fixture.root, &first, first_bundle.clone())
+        .unwrap();
+    let card_root = fixture.root.card_projection_directory(&first).unwrap();
+    let old_suffix = first_bundle
+        .projection_digest()
+        .as_str()
+        .split(':')
+        .nth(1)
+        .unwrap();
+    let old_pending = card_root.join(format!(".projection-{old_suffix}.pending"));
+    let old_next = card_root.join(format!(".stp.md-{old_suffix}.next"));
+    fs::write(&old_pending, first_bundle.manifest_bytes().unwrap()).unwrap();
+    fs::write(&old_next, first_bundle.cards()["stp"].rendered()).unwrap();
+
+    let mut cards = first.inputs().cards().clone();
+    cards.get_mut("stp").unwrap()["status"] = Value::String("amended".into());
+    let second = match DurableTransactionStore::commit_issue_local(
+        &fixture.root,
+        Admission::new(
+            fixture.key.clone(),
+            first.version().clone(),
+            first.inputs().authority().clone(),
+        ),
+        LocalChange::AmendCards(cards),
+    )
+    .unwrap()
+    {
+        CommitOutcome::Committed(snapshot) => *snapshot,
+        CommitOutcome::Unchanged(_) => panic!("amendment must commit"),
+    };
+    let second_bundle = derive_semantic_card_projection(&second, &fixture.registry).unwrap();
+    assert!(matches!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &second, &second_bundle)
+            .unwrap(),
+        CardProjectionObservation::Interrupted { .. }
+    ));
+    let proof = DurableTransactionStore::write_card_projection(
+        &fixture.root,
+        &second,
+        second_bundle.clone(),
+    )
+    .unwrap();
+    assert!(!old_pending.exists());
+    assert!(!old_next.exists());
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &second, &second_bundle)
+            .unwrap(),
+        CardProjectionObservation::Healthy
+    );
+    assert!(matches!(
+        DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            Admission::new(
+                fixture.key.clone(),
+                second.version().clone(),
+                second.inputs().authority().clone(),
+            ),
+            LocalChange::AcknowledgeProjection(proof),
+        )
+        .unwrap(),
+        CommitOutcome::Committed(_)
+    ));
 }

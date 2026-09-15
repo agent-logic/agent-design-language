@@ -8,6 +8,17 @@ use crate::{
 };
 use serde_json::{json, Value};
 
+#[derive(Clone, serde::Deserialize, serde::Serialize)]
+#[serde(deny_unknown_fields)]
+struct AmendmentDeclaration {
+    class: crate::lifecycle::semantic::AmendmentClass,
+    transition_approved: bool,
+    #[serde(default)]
+    implementation_revision: Option<String>,
+    #[serde(default)]
+    new_commit: bool,
+}
+
 fn errors(findings: Vec<local::DoctorFinding>) -> String {
     serde_json::to_string(&findings).unwrap_or_else(|_| "intent_local_owner_failed".into())
 }
@@ -56,6 +67,7 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         struct Changes {
             schema: String,
             cards: std::collections::BTreeMap<String, Value>,
+            amendment: AmendmentDeclaration,
         }
         let changes: Changes =
             serde_json::from_value(intent.content.clone()).map_err(|_| "intent_changes_invalid")?;
@@ -63,6 +75,8 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
             return Err("intent_changes_schema_unsupported".into());
         }
         request.card_updates = changes.cards;
+        let native = owner(context, &request)?;
+        return semantic_edit(context, &request, &registry, &native, &changes.amendment);
     } else if intent.command != "status" && !intent.content.is_null() {
         return Err("intent_unexpected_content".into());
     }
@@ -81,9 +95,6 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
     }
     if intent.command == "bind" {
         return semantic_bind(context, &request, &registry, &native);
-    }
-    if intent.command == "edit" {
-        return semantic_edit(context, &request, &registry, &native);
     }
     let route = if intent.command == "status" {
         "doctor"
@@ -359,6 +370,7 @@ fn semantic_edit(
     request: &LocalPreparationRequest,
     registry: &local::PromptRegistry,
     native: &local::OperationalLocalContext,
+    amendment: &AmendmentDeclaration,
 ) -> Result<Value, String> {
     use crate::lifecycle::semantic::{Facts, SemanticCommand};
     use crate::storage::{semantic::protocol::*, DurableTransactionStore};
@@ -387,7 +399,8 @@ fn semantic_edit(
     let request_bytes = serde_json::to_vec(&json!({
         "schema":"csdlc.v3.semantic_edit_request.v1",
         "repository":context.repository,"issue":context.issue,
-        "semantic_version":semantic.snapshot.version(),"native_request":request,"cards":cards
+        "semantic_version":semantic.snapshot.version(),"native_request":request,"cards":cards,
+        "amendment":amendment
     }))
     .map_err(|_| "intent_edit_identity_invalid")?;
     let identity = NativeIdentity::new(

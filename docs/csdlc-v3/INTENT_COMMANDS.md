@@ -160,11 +160,21 @@ validation:
 ```json
 {
   "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "scope_acceptance",
+    "transition_approved": true
+  },
   "cards": {
     "sor": {"status": "IN_PROGRESS"}
   }
 }
 ```
+
+The amendment declaration is mandatory and retained with the native effect.
+`binding` is reserved for the topology-verified bind owner. An implementation
+amendment also supplies the exact 40-character `implementation_revision`; the
+owner requires it to match the bound effect head. `new_commit` records whether
+the change itself requires renewed exact-head review currency.
 
 Use the applicable card-editor skill to choose truthful fields. The command
 adapter does not authorize arbitrary handwritten card structure. Unsupported

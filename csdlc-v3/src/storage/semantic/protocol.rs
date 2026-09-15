@@ -1011,18 +1011,86 @@ fn attach_locked(
             Invalidation::Cleanup,
         ]);
     }
-    let disposition = if outcome.kind == OutcomeKind::Success {
-        policy::Outcome::Success
+    let amendment =
+        if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendCards {
+            let content: serde_json::Value =
+                codec::decode(&effect_request.canonical_content()?).map_err(encoding)?;
+            if content["schema"] != "csdlc.v3.semantic_edit_request.v1" {
+                return Err(Error::EvidenceMismatch);
+            }
+            let cards: std::collections::BTreeMap<String, serde_json::Value> =
+                serde_json::from_value(content["cards"].clone())
+                    .map_err(|error| encoding(error.to_string()))?;
+            let class: policy::AmendmentClass =
+                serde_json::from_value(content["amendment"]["class"].clone())
+                    .map_err(|_| Error::EvidenceMismatch)?;
+            if class == policy::AmendmentClass::Binding {
+                return Err(Error::AdmissionChanged);
+            }
+            let transition_approved = content["amendment"]["transition_approved"]
+                .as_bool()
+                .ok_or(Error::EvidenceMismatch)?;
+            let implementation_revision = content["amendment"]["implementation_revision"].as_str();
+            let new_commit = content["amendment"]["new_commit"]
+                .as_bool()
+                .unwrap_or(false);
+            let phase = current.phase();
+            let facts = policy::AmendmentFacts {
+                source_version_current: !changed,
+                issue_checkout_match: !changed,
+                evidence_integrity: true,
+                transition_approved,
+                topology: current.inputs().binding().is_some(),
+                implementation_revision: implementation_revision
+                    .is_some_and(|revision| revision == pending.origin.source_head()),
+                current_proof: matches!(
+                    phase,
+                    crate::lifecycle::LifecycleState::Implemented
+                        | crate::lifecycle::LifecycleState::Reviewed
+                        | crate::lifecycle::LifecycleState::Published
+                        | crate::lifecycle::LifecycleState::MergeReady
+                ),
+                independent_review: matches!(
+                    phase,
+                    crate::lifecycle::LifecycleState::Reviewed
+                        | crate::lifecycle::LifecycleState::Published
+                        | crate::lifecycle::LifecycleState::MergeReady
+                ),
+                projection_change: cards != *current.inputs().cards(),
+                new_commit,
+            };
+            Some((cards, policy::decide_amendment(phase, class, &facts)))
+        } else {
+            None
+        };
+    let (phase, invalidations, causal_invalidations) = if let Some((_, decision)) = &amendment {
+        match decision {
+            policy::AmendmentOutcome::Admitted {
+                phase,
+                invalidations,
+                ..
+            } => (
+                *phase,
+                invalidations.iter().map(|item| item.evidence).collect(),
+                invalidations.clone(),
+            ),
+            _ => return Err(Error::AdmissionChanged),
+        }
     } else {
-        policy::Outcome::Failure
+        let disposition = if outcome.kind == OutcomeKind::Success {
+            policy::Outcome::Success
+        } else {
+            policy::Outcome::Failure
+        };
+        let decision = policy::decide(
+            Some(current.phase()),
+            pending.command,
+            disposition,
+            &outcome.facts,
+        )
+        .map_err(|_| Error::AdmissionChanged)?;
+        (decision.phase, decision.invalidations, Vec::new())
     };
-    let decision = policy::decide(
-        Some(current.phase()),
-        pending.command,
-        disposition,
-        &outcome.facts,
-    )
-    .map_err(|_| Error::AdmissionChanged)?;
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::Bind {
         let OriginData::Bind { target, .. } = &pending.origin.0 else {
             return Err(Error::AdmissionChanged);
@@ -1031,13 +1099,10 @@ fn attach_locked(
         payload.inputs.validate()?;
     }
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendCards {
-        let content: serde_json::Value =
-            codec::decode(&effect_request.canonical_content()?).map_err(encoding)?;
-        if content["schema"] != "csdlc.v3.semantic_edit_request.v1" {
-            return Err(Error::EvidenceMismatch);
-        }
-        payload.inputs.intent_plan.cards = serde_json::from_value(content["cards"].clone())
-            .map_err(|error| encoding(error.to_string()))?;
+        payload.inputs.intent_plan.cards = amendment
+            .as_ref()
+            .map(|(cards, _)| cards.clone())
+            .ok_or(Error::EvidenceMismatch)?;
         payload.inputs.validate()?;
     }
     if payload.inputs != current.payload.inputs {
@@ -1051,10 +1116,13 @@ fn attach_locked(
             digest: hash("semantic-input-v1", &payload.inputs)?,
         };
     }
-    payload.phase = decision.phase;
-    payload.invalidations.extend(decision.invalidations);
+    payload.phase = phase;
+    payload.invalidations.extend(invalidations);
     payload.invalidations.sort();
     payload.invalidations.dedup();
+    payload.causal_invalidations.extend(causal_invalidations);
+    payload.causal_invalidations.sort();
+    payload.causal_invalidations.dedup();
     payload.projection_required = true;
     payload.pending = None;
     payload.completed.push(CompletedOperation {

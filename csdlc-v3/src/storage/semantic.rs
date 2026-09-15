@@ -6,7 +6,10 @@ pub mod journal_recovery;
 pub mod protocol;
 use super::{codec, DurableTransactionStore};
 use crate::lifecycle::{
-    semantic::{self as policy, Invalidation, SemanticCommand},
+    semantic::{
+        self as policy, AmendmentClass, AmendmentFacts, AmendmentOutcome, CausalInvalidation,
+        Invalidation, SemanticCommand,
+    },
     LifecycleState,
 };
 use fs2::FileExt;
@@ -363,6 +366,8 @@ struct Payload {
     inputs: IssueInputs,
     input_version: EvidenceInputVersion,
     invalidations: Vec<Invalidation>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    causal_invalidations: Vec<CausalInvalidation>,
     projection_required: bool,
     pending: Option<protocol::PendingOperation>,
     completed: Vec<protocol::CompletedOperation>,
@@ -415,6 +420,9 @@ impl Snapshot {
     pub fn invalidations(&self) -> &[Invalidation] {
         &self.payload.invalidations
     }
+    pub fn causal_invalidations(&self) -> &[CausalInvalidation] {
+        &self.payload.causal_invalidations
+    }
     pub fn audit_identity(&self) -> &Digest {
         &self.audit_digest
     }
@@ -432,6 +440,8 @@ impl Snapshot {
             inputs: &'a IssueInputs,
             input_version: &'a EvidenceInputVersion,
             invalidations: &'a [Invalidation],
+            #[serde(skip_serializing_if = "<[CausalInvalidation]>::is_empty")]
+            causal_invalidations: &'a [CausalInvalidation],
         }
         codec::bytes(&View {
             schema: "csdlc.v3.semantic_projection.v1",
@@ -440,6 +450,7 @@ impl Snapshot {
             inputs: self.inputs(),
             input_version: self.inputs_version(),
             invalidations: self.invalidations(),
+            causal_invalidations: self.causal_invalidations(),
         })
         .map_err(encoding)
     }
@@ -470,6 +481,16 @@ impl Snapshot {
         ordered.sort();
         ordered.dedup();
         if ordered != self.payload.invalidations {
+            return Err(Error::InvalidDigest);
+        }
+        let mut causal = self.payload.causal_invalidations.clone();
+        causal.sort();
+        causal.dedup();
+        if causal != self.payload.causal_invalidations
+            || causal
+                .iter()
+                .any(|item| !self.payload.invalidations.contains(&item.evidence))
+        {
             return Err(Error::InvalidDigest);
         }
         match (&self.audit.before, &self.audit.previous) {
@@ -1066,40 +1087,7 @@ impl DurableTransactionStore {
         if current.version() != snapshot.version() {
             return Err(Error::StaleVersion);
         }
-        let path = root.projection_path(snapshot)?;
-        reject_symlinks(&path)?;
-        let parent = path.parent().ok_or(Error::UnsafePath)?;
-        let projection_root = if path.starts_with(&root.common) {
-            root.common.clone()
-        } else {
-            snapshot
-                .inputs()
-                .binding()
-                .map(|binding| binding.worktree.join(".csdlc"))
-                .ok_or(Error::UnsafePath)?
-        };
-        create_directories(parent, &projection_root)?;
-        let bytes = snapshot.projection_bytes()?;
-        let suffix = snapshot
-            .version()
-            .digest()
-            .as_str()
-            .rsplit(':')
-            .next()
-            .ok_or(Error::InvalidDigest)?;
-        let staged = parent.join(format!(".state-{suffix}.next"));
-        reject_symlinks(&staged)?;
-        if staged.try_exists().map_err(io)? {
-            if fs::read(&staged).map_err(io)? != bytes {
-                return Err(Error::EvidenceMismatch);
-            }
-            rebarrier([staged.clone()], &projection_root)?;
-        } else {
-            create_only(&staged, &bytes, &projection_root)?;
-        }
-        fs::rename(&staged, &path).map_err(io)?;
-        rebarrier([path], &projection_root)?;
-        ProjectionWriteProof::verify(root, snapshot)
+        write_issue_projection_unlocked(root, &current)
     }
 
     /// Materialize a complete deterministic card bundle. A durable pending
@@ -1113,8 +1101,6 @@ impl DurableTransactionStore {
         bundle: CardProjectionBundle,
     ) -> Result<ProjectionWriteProof, Error> {
         bundle.validate(snapshot)?;
-        // The legacy semantic view remains part of AcknowledgeProjection proof.
-        Self::write_issue_projection(root, snapshot)?;
         let directory = root.directory(snapshot.key())?;
         let _lock = acquire(&directory, true)?;
         let current = read_current(&directory, snapshot.key())?;
@@ -1122,6 +1108,8 @@ impl DurableTransactionStore {
             return Err(Error::StaleVersion);
         }
         bundle.validate(&current)?;
+        // Keep version admission and every projection write under one lock.
+        write_issue_projection_unlocked(root, &current)?;
         let card_root = root.card_projection_directory(&current)?;
         reject_symlinks(&card_root)?;
         let projection_root = projection_root(root, &current, &card_root)?;
@@ -1136,6 +1124,13 @@ impl DurableTransactionStore {
         let manifest = bundle.manifest_bytes()?;
         write_exact_create_or_verify(&pending, &manifest, &projection_root)?;
         rebarrier([pending.clone()], &projection_root)?;
+
+        for (path, staged_suffix) in projection_staging_paths(&card_root)? {
+            if staged_suffix != suffix {
+                fs::remove_file(path).map_err(io)?;
+            }
+        }
+        sync_chain(&card_root, &projection_root)?;
 
         for kind in SEMANTIC_CARD_KINDS {
             let artifact = bundle.cards().get(kind).ok_or_else(|| {
@@ -1284,6 +1279,7 @@ impl DurableTransactionStore {
             inputs,
             input_version,
             invalidations: vec![],
+            causal_invalidations: vec![],
             projection_required: true,
             pending: None,
             completed: Vec::new(),
@@ -1318,22 +1314,27 @@ impl DurableTransactionStore {
         }
         let mut payload = current.payload.clone();
         let mut facts = policy::Facts::default();
+        let mut amendment_class = None;
         let command = match change {
             LocalChange::AmendCards(cards) => {
                 payload.inputs.intent_plan.cards = cards;
+                amendment_class = Some(AmendmentClass::ScopeAcceptance);
                 SemanticCommand::AmendCards
             }
             LocalChange::AmendPlan(plan) => {
                 payload.inputs.plan = plan;
+                amendment_class = Some(AmendmentClass::Plan);
                 SemanticCommand::AmendPlan
             }
             LocalChange::AmendValidation(validation) => {
                 payload.inputs.intent_plan.validators = validation;
+                amendment_class = Some(AmendmentClass::ProofValidator);
                 SemanticCommand::AmendValidation
             }
             LocalChange::AmendBinding(verified) => {
                 payload.inputs.binding = Some(verified.binding);
                 facts.topology = true;
+                amendment_class = Some(AmendmentClass::Binding);
                 SemanticCommand::AmendBinding
             }
             LocalChange::AcknowledgeProjection(proof) => {
@@ -1346,13 +1347,53 @@ impl DurableTransactionStore {
         if payload == current.payload {
             return Ok(CommitOutcome::Unchanged(Box::new(current)));
         }
-        let decision = policy::decide(
-            Some(payload.phase),
-            command,
-            policy::Outcome::Success,
-            &facts,
-        )
-        .map_err(|_| Error::InvalidInput("local transition rejected".into()))?;
+        let (phase, invalidations, causal_invalidations) = if let Some(class) = amendment_class {
+            let phase = current.phase();
+            let amendment_facts = AmendmentFacts {
+                source_version_current: true,
+                issue_checkout_match: true,
+                evidence_integrity: true,
+                transition_approved: true,
+                topology: payload.inputs.binding().is_some(),
+                implementation_revision: false,
+                current_proof: matches!(
+                    phase,
+                    LifecycleState::Implemented
+                        | LifecycleState::Reviewed
+                        | LifecycleState::Published
+                        | LifecycleState::MergeReady
+                ),
+                independent_review: matches!(
+                    phase,
+                    LifecycleState::Reviewed
+                        | LifecycleState::Published
+                        | LifecycleState::MergeReady
+                ),
+                projection_change: payload.inputs != current.payload.inputs,
+                new_commit: false,
+            };
+            match policy::decide_amendment(phase, class, &amendment_facts) {
+                AmendmentOutcome::Admitted {
+                    phase,
+                    invalidations,
+                    ..
+                } => (
+                    phase,
+                    invalidations.iter().map(|item| item.evidence).collect(),
+                    invalidations,
+                ),
+                _ => return Err(Error::InvalidInput("local amendment rejected".into())),
+            }
+        } else {
+            let decision = policy::decide(
+                Some(payload.phase),
+                command,
+                policy::Outcome::Success,
+                &facts,
+            )
+            .map_err(|_| Error::InvalidInput("local transition rejected".into()))?;
+            (decision.phase, decision.invalidations, Vec::new())
+        };
         payload.generation = payload
             .generation
             .checked_add(1)
@@ -1368,10 +1409,13 @@ impl DurableTransactionStore {
             };
             payload.projection_required = true;
         }
-        payload.phase = decision.phase;
-        payload.invalidations.extend(decision.invalidations);
+        payload.phase = phase;
+        payload.invalidations.extend(invalidations);
         payload.invalidations.sort();
         payload.invalidations.dedup();
+        payload.causal_invalidations.extend(causal_invalidations);
+        payload.causal_invalidations.sort();
+        payload.causal_invalidations.dedup();
         let next = make_snapshot(payload, Some(&current), command)?;
         activate(&directory, &root.common, &next)?;
         Ok(CommitOutcome::Committed(Box::new(next)))
@@ -1406,6 +1450,96 @@ fn write_exact_create_or_verify(path: &Path, bytes: &[u8], root: &Path) -> Resul
     }
 }
 
+fn write_issue_projection_unlocked(
+    root: &SemanticRoot,
+    snapshot: &Snapshot,
+) -> Result<ProjectionWriteProof, Error> {
+    let path = root.projection_path(snapshot)?;
+    reject_symlinks(&path)?;
+    let parent = path.parent().ok_or(Error::UnsafePath)?;
+    let projection_root = projection_root(root, snapshot, &path)?;
+    create_directories(parent, &projection_root)?;
+    let bytes = snapshot.projection_bytes()?;
+    let suffix = snapshot
+        .version()
+        .digest()
+        .as_str()
+        .rsplit(':')
+        .next()
+        .ok_or(Error::InvalidDigest)?;
+    let staged = parent.join(format!(".state-{suffix}.next"));
+    reject_symlinks(&staged)?;
+    if staged.try_exists().map_err(io)? {
+        if fs::read(&staged).map_err(io)? != bytes {
+            return Err(Error::EvidenceMismatch);
+        }
+        rebarrier([staged.clone()], &projection_root)?;
+    } else {
+        create_only(&staged, &bytes, &projection_root)?;
+    }
+    fs::rename(&staged, &path).map_err(io)?;
+    rebarrier([path], &projection_root)?;
+    ProjectionWriteProof::verify(root, snapshot)
+}
+
+fn projection_staging_paths(directory: &Path) -> Result<Vec<(PathBuf, String)>, Error> {
+    if !directory.try_exists().map_err(io)? {
+        return Ok(Vec::new());
+    }
+    let targets = SEMANTIC_CARD_KINDS
+        .into_iter()
+        .flat_map(|kind| [format!("{kind}.md"), format!("{kind}.values.json")])
+        .chain(["manifest.json".into()])
+        .collect::<Vec<String>>();
+    let mut paths = Vec::new();
+    for entry in fs::read_dir(directory).map_err(io)? {
+        let entry = entry.map_err(io)?;
+        let name = entry
+            .file_name()
+            .into_string()
+            .map_err(|_| Error::EvidenceMismatch)?;
+        let suspicious = name.starts_with(".projection-") || name.ends_with(".next");
+        if !suspicious {
+            continue;
+        }
+        let suffix = if let Some(value) = name
+            .strip_prefix(".projection-")
+            .and_then(|value| value.strip_suffix(".pending"))
+        {
+            value
+        } else {
+            let Some(value) = name
+                .strip_prefix('.')
+                .and_then(|value| value.strip_suffix(".next"))
+            else {
+                return Err(Error::EvidenceMismatch);
+            };
+            let Some((target, suffix)) = value.rsplit_once('-') else {
+                return Err(Error::EvidenceMismatch);
+            };
+            if !targets.iter().any(|candidate| candidate == target) {
+                return Err(Error::EvidenceMismatch);
+            }
+            suffix
+        };
+        if suffix.len() != 64
+            || !suffix
+                .bytes()
+                .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+        {
+            return Err(Error::EvidenceMismatch);
+        }
+        let path = entry.path();
+        let metadata = fs::symlink_metadata(&path).map_err(io)?;
+        if !metadata.file_type().is_file() {
+            return Err(Error::EvidenceMismatch);
+        }
+        paths.push((path, suffix.to_owned()));
+    }
+    paths.sort_by(|left, right| left.0.cmp(&right.0));
+    Ok(paths)
+}
+
 fn replace_projection_file(
     directory: &Path,
     root: &Path,
@@ -1430,15 +1564,9 @@ fn observe_card_projection_unlocked(
     let card_root = root.card_projection_directory(snapshot)?;
     reject_symlinks(&card_root)?;
     if card_root.try_exists().map_err(io)? {
-        let mut staged_paths = fs::read_dir(&card_root)
-            .map_err(io)?
-            .map(|entry| entry.map_err(io))
-            .collect::<Result<Vec<_>, _>>()?
+        let mut staged_paths = projection_staging_paths(&card_root)?
             .into_iter()
-            .filter_map(|entry| {
-                let name = entry.file_name().into_string().ok()?;
-                (name.starts_with(".projection-") || name.ends_with(".next")).then_some(name)
-            })
+            .filter_map(|(path, _)| path.file_name()?.to_str().map(str::to_owned))
             .collect::<Vec<_>>();
         staged_paths.sort();
         if !staged_paths.is_empty() {

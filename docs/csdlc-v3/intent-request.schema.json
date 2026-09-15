@@ -315,11 +315,42 @@
               "type": "object"
             }
           }
+        },
+        "amendment": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "class": {
+              "enum": [
+                "scope_acceptance",
+                "plan",
+                "proof_validator",
+                "implementation",
+                "review",
+                "display_only"
+              ]
+            },
+            "transition_approved": {
+              "type": "boolean"
+            },
+            "implementation_revision": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "new_commit": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "class",
+            "transition_approved"
+          ]
         }
       },
       "required": [
         "schema",
-        "cards"
+        "cards",
+        "amendment"
       ]
     },
     "status_decisions": {

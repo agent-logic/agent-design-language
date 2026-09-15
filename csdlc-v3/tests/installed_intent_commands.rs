@@ -132,7 +132,7 @@ fn installed_prepare_bind_edit_and_observations_use_canonical_context() {
         observation(&mut fixture, cwd, "status");
         observation(&mut fixture, cwd, "validate");
     }
-    let changes = fixture.write_json("changes.json", &json!({"schema":"csdlc.v3.intent_changes.v1", "cards":{"sip":{"title":"Edited through ordinary intent"}}}));
+    let changes = fixture.write_json("changes.json", &json!({"schema":"csdlc.v3.intent_changes.v1", "amendment":{"class":"scope_acceptance","transition_approved":true}, "cards":{"sip":{"title":"Edited through ordinary intent"}}}));
     let before = intent_fixture::inventory(&primary);
     assert!(!fixture
         .run(
@@ -308,7 +308,7 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
     let stale_path = fixture.write_json("stale-rebuild.json", &emitted);
     let changes = fixture.write_json(
         "projection-change.json",
-        &json!({"schema":"csdlc.v3.intent_changes.v1","cards":{"sip":{"title":"New semantic title"}}}),
+        &json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"New semantic title"}}}),
     );
     success(fixture.run(
         &linked,
@@ -474,7 +474,7 @@ fn installed_advanced_request_uses_same_writer_and_rejects_stale_snapshot() {
     prepare(&mut fixture);
     success(fixture.run(&primary, &["bind", "505"]));
     let linked = linked_worktree(&primary);
-    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","cards":{"sip":{"title":"Advanced intent execution"}}}));
+    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"Advanced intent execution"}}}));
     let before = intent_fixture::inventory(&primary);
     let emitted = success(fixture.run(
         &linked,
@@ -539,7 +539,7 @@ fn installed_recovery_requires_fresh_preview_of_actual_interrupted_transaction()
     prepare(&mut fixture);
     success(fixture.run(&primary, &["bind", "505"]));
     let linked = linked_worktree(&primary);
-    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","cards":{"sip":{"title":"Recovered ordinary edit"}}}));
+    let changes=fixture.write_json("changes.json",&json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"Recovered ordinary edit"}}}));
     let crash = fixture.run_with_env(
         &linked,
         &["edit", "505", "--changes", changes.to_str().unwrap()],
