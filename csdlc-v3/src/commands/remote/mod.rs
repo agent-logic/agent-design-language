@@ -3353,7 +3353,7 @@ pub(crate) fn repository_scoped_issue_creation_receipt(
     let receipt = load_mutation_receipt(receipt_path, operation_digest)?;
     if receipt.intent_digest != github_mutation_intent_digest(&intent)
         || receipt.repository != intent.request.repository
-        || receipt.issue != assigned_issue
+        || receipt.issue == 0
         || receipt.pull_request.is_some()
         || receipt.expected_head_sha != intent.request.expected_head_sha
     {
@@ -3362,7 +3362,7 @@ pub(crate) fn repository_scoped_issue_creation_receipt(
             "repository-scoped issue creation receipt does not bind its exact native intent",
         ));
     }
-    Ok(true)
+    Ok(receipt.issue == assigned_issue)
 }
 
 fn finalize_mutation_receipt(

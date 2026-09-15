@@ -1552,7 +1552,8 @@ mod semantic_gate_a {
     #[test]
     fn repository_scoped_issue_creation_receipt_does_not_block_created_issue_preparation() {
         let fixture = Fixture::new();
-        write_repository_scoped_creation_receipt(&fixture);
+        write_repository_scoped_creation_receipt(&fixture, 871);
+        write_repository_scoped_creation_receipt(&fixture, 870);
         assert_eq!(
             DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
             Observation::Absent
@@ -1574,7 +1575,8 @@ mod semantic_gate_a {
             "receipt_filename",
         ] {
             let fixture = Fixture::new();
-            let (intent_path, receipt_path) = write_repository_scoped_creation_receipt(&fixture);
+            let (intent_path, receipt_path) =
+                write_repository_scoped_creation_receipt(&fixture, 870);
             let path = if tamper.starts_with("intent_") {
                 &intent_path
             } else {
@@ -1621,7 +1623,10 @@ mod semantic_gate_a {
         }
     }
 
-    fn write_repository_scoped_creation_receipt(fixture: &Fixture) -> (PathBuf, PathBuf) {
+    fn write_repository_scoped_creation_receipt(
+        fixture: &Fixture,
+        assigned_issue: u64,
+    ) -> (PathBuf, PathBuf) {
         use csdlc_v3::commands::remote::{
             github_mutation_operation_digest, GithubMutation, GithubMutationRequest,
         };
@@ -1639,7 +1644,7 @@ mod semantic_gate_a {
             credential_names: vec!["GITHUB_TOKEN".into()],
             recovery: None,
             mutation: GithubMutation::IssueCreate {
-                title: "created".into(),
+                title: format!("created {assigned_issue}"),
                 body: "body".into(),
                 labels: Vec::new(),
                 assignees: Vec::new(),
@@ -1687,7 +1692,7 @@ mod semantic_gate_a {
             serde_json::to_vec(&serde_json::json!({
                 "schema":"csdlc.v3.github_mutation_receipt.v2",
                 "repository":"example/repo",
-                "issue":870,
+                "issue":assigned_issue,
                 "pull_request":null,
                 "expected_head_sha":"head",
                 "operation_digest":operation_digest,
