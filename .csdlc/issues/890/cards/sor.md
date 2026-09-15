@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `adl/target/codefriend-890-openai-proof/run-openai/review-record.json; adl/target/codefriend-890-openai-proof/run-openai/run.json`
 - Run artifact root: `.csdlc/evidence/890 (planned)`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_review`
-- Replay result: `passed 3/3 after current-main branch sync`
+- Replay result: `passed 4/4 after invalid-confidence fail-closed regression was added`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/890 (planned)`

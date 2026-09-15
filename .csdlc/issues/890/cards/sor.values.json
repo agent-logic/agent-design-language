@@ -37,7 +37,7 @@
   "planned_pvf_lane": "runtime",
   "actions_taken_line_1": "Source issue reviewed for native preparation",
   "artifact_stability_notes": "Per-lane input/result/provider-result artifacts and aggregate run/review records are deterministic for the controlled provider tests; registered OpenAI output is retained as ignored proof evidence with exact run digest.",
-  "replay_result": "passed 3/3 after current-main branch sync",
+  "replay_result": "passed 4/4 after invalid-confidence fail-closed regression was added",
   "timestamp": "2026-09-12T00:09:56.378553+00:00",
   "initial_pvf_lane": "runtime",
   "actions_taken_line_3": "Implemented the four-perspective CodeFriend review runner, executed deterministic local validation, executed registered OpenAI proof, synced current origin/main into the issue branch, reran focused validation, repaired the confidence prompt contract, and added invalid typed-confidence fail-closed persistence proof",
