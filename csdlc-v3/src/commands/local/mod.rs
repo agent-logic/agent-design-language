@@ -3031,6 +3031,29 @@ fn structure_valid(registry: &PromptRegistry, kind: &str, markdown: &str) -> boo
     scaffold_valid && headings_valid && locked_lines_valid
 }
 
+/// Render and structure-check one semantic card projection through the same
+/// active template path used by the native local owner.
+pub fn render_semantic_card_projection(
+    registry: &PromptRegistry,
+    kind: &str,
+    values: &Value,
+) -> Result<String, String> {
+    if !REQUIRED_CARD_KINDS.contains(&kind) || !values.is_object() {
+        return Err("semantic projection card input is invalid".into());
+    }
+    let template_path = registry
+        .template_paths
+        .get(kind)
+        .ok_or_else(|| "semantic projection template is missing".to_string())?;
+    let template = fs::read_to_string(template_path)
+        .map_err(|_| "semantic projection template is unreadable".to_string())?;
+    let rendered = render_template(&template, values);
+    if !structure_valid(registry, kind, &rendered) {
+        return Err("semantic projection violates the active structure schema".into());
+    }
+    Ok(rendered)
+}
+
 fn persist_index(
     issue_root: &Path,
     request: &LocalPreparationRequest,

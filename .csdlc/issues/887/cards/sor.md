@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Local proof passed: 8 fitness tests plus 11 evidence regressions; 3 installed scenarios; strict Clippy; library coverage 216/222 (97.30%) and CLI 84/92 (91.30%). Exact-head review passed at 0ec971d78e4ce907b7baeae94c7c01a5f47f07ad. Native authenticated creation and publication readback opened draft PR #989 against main. Full hosted CI pending; no merge or closeout.
+Integrated accepted main 9f15e6c47dc990e8feee4e606c882c577571752c into PR #989 after #982 merged. Preserved structure and fitness dispatch/help and removed duplicate identical Cargo dependency declarations. 8 fitness,11 evidence and17 structure tests, strict Clippy, fresh installed fitness3 and structure9 scenarios, and combined help proof passed. Prior head was fully green; current integration requires renewed exact-head review and CI. PR remains open and nondraft; no remote merge.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -57,7 +57,7 @@ Local proof passed: 8 fitness tests plus 11 evidence regressions; 3 installed sc
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `published_draft_ci_pending`
+- Completion state: `base_integrated_local_proof_passed_review_and_ci_pending`
 - Issue goal ref: `Active whole Sprint3#929 goal; #887 owns local machine-checkable fitness execution and installed proof.`
 - Sprint goal ref: `Sprint #929, all eight children #882 through #889; shared whole-sprint goal remains active.`
 - Goal metrics rollup ref: `.csdlc/evidence/887/goal-metrics.json (planned; absent until execution)`
@@ -76,7 +76,7 @@ Local proof passed: 8 fitness tests plus 11 evidence regressions; 3 installed sc
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/887/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/governance; adl/src/cli/codefriend_fitness_cmd.rs; shared CLI/module registration; Cargo manifests; tests, fixtures, installed runner and docs.`
-- Additional proof artifacts: `docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json; docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json; .csdlc/evidence/887/`
+- Additional proof artifacts: `.csdlc/evidence/887/LOCAL_PROOF.json; docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json; integration-* logs and fixtures under .csdlc/evidence/887/`
 
 ## Actions taken
 - `Implemented policy validation, bounded literal use evaluation and shared ReviewRecord findings.`
@@ -85,14 +85,14 @@ Local proof passed: 8 fitness tests plus 11 evidence regressions; 3 installed sc
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main remains inspection-only`
-- Worktree-only paths remaining: `Local raw logs, coverage JSON, binaries, fixture repositories and review/native receipts retained; implementation published in PR #989.`
-- Integration state: `published_not_merged`
+- Worktree-only paths remaining: `Integrated source and refreshed proof pending push; raw logs, isolated binaries, fixture repositories and receipts remain local evidence.`
+- Integration state: `published_base_integration_pending_push`
 - Verification scope: `Bounded local fitness predicates and installed macOS consumer; hosted CI and Linux proof pending.`
-- Integration method used: `Native github-pr pull_request_create with authenticated reconciliation; native publish --observe-github ready.`
+- Integration method used: `Local merge origin/main in bound issue worktree; no remote PR merge. Existing PR publication and ready state have authenticated native receipts.`
 - Verification performed:
   - `Native creation receipt and native publish --observe-github; live PR readback confirmed main base, exact head and draft state.`
     `Publication verified; no merge evidence.`
-- Result: `Draft PR #989 open against main at 0ec971d78e4ce907b7baeae94c7c01a5f47f07ad; native authenticated creation and readback succeeded. Publication-record update requires exact-head renewal and hosted checks before merge readiness.`
+- Result: `Local merge of origin/main 9f15e6c47dc990e8feee4e606c882c577571752c into #887 branch; published PR #989 remains at prior reviewed head until guarded push. No remote PR merge.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_gov --test codefriend_evidence; cargo llvm-cov with same targets; strict Clippy; installed proof runner`
     `Local accepted predicates and installed consumer proved; hosted integration pending.`
 - Results:
-  - `passed_local; hosted_ci_pending`
+  - `36 targeted tests passed (fitness8,evidence11,structure17); strict Clippy passed; newly installed binary passed fitness3 and structure9 scenarios and combined-help check. Full current-head hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/887/LOCAL_PROOF.json; docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json`
-- Required artifacts present: `Source, tests, docs, installed and coverage proof, independent review and remote publication receipts present; hosted CI pending.`
+- Required artifacts present: `Updated source, combined tests, refreshed installed proofs and interim integration review present; final exact-head review and hosted CI pending.`
 - Artifact schema/version checks: `Policy/report deny unknown fields; live readback recomputes report and rejects tampering.`
 - Hash/byte-stability checks: `Installed proof repeats compare complete report objects; policy digest and evidence/run identity retained.`
 - Missing/optional artifacts and rationale: `Full hosted validation remains required for this implementation PR. Product CI fitness integration belongs to #888.`
@@ -174,5 +174,5 @@ verification_summary:
 - `Raw identifier review finding fixed with IdentExt::unraw and three cases. Subprocess fixtures isolated to avoid inherited lock contention. Oversized acquisition rejects before admission, so partial proof uses a scoped missing file.`
 
 ## Follow-ups / Deferred work
-- `Renew exact-head review for this publication record, push and shepherd hosted CI; obtain explicit merge authorization after checks pass.`
+- `Obtain final exact-head integration review, native review, push and verify new hosted CI before merge approval.`
 - `Resolve required CI, obtain explicit merge authorization, then native finish and clean.`

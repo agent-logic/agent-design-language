@@ -8,8 +8,8 @@
   "one_binary": "csdlc",
   "denominator": {
     "v2_entrypoints": 21,
-    "current_v3_commands": 29,
-    "implemented_commands": 29,
+    "current_v3_commands": 30,
+    "implemented_commands": 30,
     "partial_commands": 0,
     "fail_closed_commands": 0,
     "implemented_replacement_routes": 21,
@@ -17,7 +17,7 @@
     "fail_closed_replacement_routes": 0,
     "remaining_replacement_routes": 0,
     "additional_aliases": 1,
-    "total_dispositions": 30
+    "total_dispositions": 31
   },
   "commands": [
     {
@@ -1013,6 +1013,52 @@
       "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission"
     },
     {
+      "command": "rebuild",
+      "replaces": [],
+      "owner_issue": 871,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3",
+      "family": "intent",
+      "discovery_group": "operational",
+      "effect_class": "guarded_local",
+      "result_schema": "csdlc.v3.command_result.v1",
+      "input_contract": "IntentRequest",
+      "usage": "rebuild <issue>",
+      "disposition": "ordinary_intent",
+      "input_variants": [
+        {
+          "name": "intent",
+          "positional_prefix": [
+            "<issue>"
+          ],
+          "required_flags": [],
+          "optional_flags": [
+            "--repo-root",
+            "--json",
+            "--emit-request"
+          ],
+          "request_type": "IntentRequest"
+        },
+        {
+          "name": "advanced_intent",
+          "positional_prefix": [],
+          "required_flags": [
+            "--intent-request"
+          ],
+          "optional_flags": [
+            "--repo-root",
+            "--json"
+          ],
+          "request_type": "IntentRequest"
+        }
+      ],
+      "schema_authority": "native Rust deserialization and route guards; --describe does not replace admission",
+      "intent_contract": "csdlc.v3.intent_request.v1",
+      "intent_usage": "rebuild <issue>",
+      "intent_effect_class": "guarded_local",
+      "intent_schema": "docs/csdlc-v3/intent-request.schema.json"
+    },
+    {
       "command": "validate",
       "replaces": [
         "csdlc-validate"
@@ -1320,6 +1366,7 @@
       "prepare",
       "bind",
       "edit",
+      "rebuild",
       "validate",
       "proof",
       "review",
@@ -1330,6 +1377,6 @@
     ],
     "frozen_predecessor_dispositions": 27,
     "github_mutation_variants": 8,
-    "count_boundary": "27 predecessor dispositions remain required through explicit mappings; installed command count additionally includes status, prepare and recover"
+    "count_boundary": "27 predecessor dispositions remain required through explicit mappings; installed command count additionally includes status, prepare, recover and rebuild"
   }
 }

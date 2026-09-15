@@ -10,9 +10,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, fs, path::PathBuf};
 
-pub const INTENTS: [&str; 14] = [
-    "status", "prepare", "bind", "edit", "validate", "proof", "review", "publish", "finish",
-    "clean", "recover", "install", "cutover", "rollback",
+pub const INTENTS: [&str; 15] = [
+    "status", "prepare", "bind", "edit", "rebuild", "validate", "proof", "review", "publish",
+    "finish", "clean", "recover", "install", "cutover", "rollback",
 ];
 pub fn read_metrics() -> Value {
     serde_json::json!({"application_git_reads":context::application_git_reads(),"canonical_authority_file_reads":crate::authority::canonical_file_reads(),"scope":"actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"})
@@ -78,6 +78,8 @@ pub struct Snapshot {
     pub platform: String,
     pub authority: AuthorityVersion,
     pub version: IssueVersion,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub semantic_version: Option<IssueVersion>,
     pub checkout: CheckoutIdentity,
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -212,7 +214,7 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
         if request.snapshot.platform != std::env::consts::OS {
             return Err("intent_platform_not_admitted: serialized request platform must match the executing owner".into());
         }
-        if request.snapshot != context.snapshot() {
+        if request.snapshot != context.snapshot_for_intent(command) {
             return Err("intent_snapshot_stale: regenerate and review the intended operation; stale inputs are never refreshed for execution".into());
         }
         request
@@ -223,7 +225,7 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
             content,
             execute,
             preview,
-            snapshot: context.snapshot(),
+            snapshot: context.snapshot_for_intent(command),
         }
     };
     if request.execute
@@ -280,7 +282,9 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
         },
         "install" => install::run(&context, &request)?,
         "cutover" | "rollback" => administrative::run(&context, &request)?,
-        "prepare" | "status" | "bind" | "edit" | "validate" => local::run(&context, &request)?,
+        "prepare" | "status" | "bind" | "edit" | "rebuild" | "validate" => {
+            local::run(&context, &request)?
+        }
         "review" | "publish" | "github-issue" | "github-pr" | "pr-state" => {
             remote::run(&context, &request)?
         }

@@ -2,12 +2,12 @@
   "schema": "codefriend.fitness_installed_proof.v1",
   "issue": 887,
   "platform": "Darwin-arm64",
-  "binary_sha256": "4292b3696b9b05ae6ec6476925e99423a3caef841463750feffb55c9ac48a57f",
-  "installation_provenance": "c09bbcbc94a4ab1e57598d13ae6502e1bf96b221c3a530f9952a26011c478942",
+  "binary_sha256": "f2e99f355d5a7dec03665f790c41a2c43c8d8a6de0229b736c980dfd5e33cff8",
+  "installation_provenance": "9e32259fb1ccc921bc1eb4c3b70513646bf7afbfa24d13546375605564410be3",
   "scenarios": [
     {
       "fixture": "pass",
-      "revision": "c1e5ea39169bf8279c792579e1445c7474fa24b6",
+      "revision": "8a9d8e3fd364e7e1b6c482ad9a52d87c83f64eea",
       "exit": 0,
       "repeat": true,
       "readback": true,
@@ -17,7 +17,7 @@
     },
     {
       "fixture": "fail",
-      "revision": "b145b1775c490e85a2ba00a2fdb2a8617cade8b9",
+      "revision": "7452a67c4c274893059f5cad7355825a66fd64d9",
       "exit": 1,
       "repeat": true,
       "readback": true,
@@ -27,7 +27,7 @@
     },
     {
       "fixture": "error",
-      "revision": "cacba67d8283a1203fd3af0f2a008fe1938fdbc7",
+      "revision": "706d6a428e18991347edbebf4e5d903580df6386",
       "exit": 2,
       "repeat": true,
       "readback": true,

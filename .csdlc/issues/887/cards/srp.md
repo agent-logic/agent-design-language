@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/887/cards/sip.md"
   - ".csdlc/issues/887/cards/vpp.md"
 review_results:
-  findings_status: "passed"
-  recommended_outcome: "publish_after_final_record_head_review"
+  findings_status: "integration_review_passed_final_head_pending"
+  recommended_outcome: "publish_after_exact_head_integration_review"
 notes: "Reviewer independently verified source/binary hashes, 8 fitness tests, 11 evidence regressions, strict Clippy, 3 installed scenarios, and library/CLI coverage. CI integration belongs to #888."
 ---
 
@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Independent exact-head review passed at 0ec971d78e4ce907b7baeae94c7c01a5f47f07ad. This publication-record and stale branch-label correction preserves source/proof bytes and receives exact-head renewal before push.
+- Bounded integration review by /root/repair_882_ci/review_989_integration found no actionable issue; both command families and upstream changes retained. Final exact-head review follows record/proof refresh.
 
 ### Dispositions
 
@@ -131,7 +131,7 @@ review_results:
 
 ### Recommended Outcome
 
-- publish_after_final_record_head_review
+- publish_after_exact_head_integration_review
 
 ## Notes
 
