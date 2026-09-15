@@ -359,6 +359,49 @@ fn review_run_fails_closed_for_findings_without_admitted_evidence() {
 }
 
 #[test]
+fn review_run_rejects_rule_without_dot_lane_prefix() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap();
+    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let invalid_rule_response = json!({
+        "findings": [{
+            "rule": "correctness_bypass",
+            "semantic_anchor": "src/lib.rs",
+            "title": "invalid lane rule",
+            "severity": "info",
+            "rationale": "lane prefix lacks required dot separator",
+            "confidence": {"state": "unknown"},
+            "evidence": [evidence_id],
+            "inference": "invalid rule fixture",
+            "limitations": []
+        }]
+    })
+    .to_string();
+    let (endpoint, _requests) = provider_server(vec![
+        invalid_rule_response.clone(),
+        invalid_rule_response.clone(),
+        invalid_rule_response.clone(),
+        invalid_rule_response,
+    ]);
+    let provider_request = fixture.provider_request(&endpoint);
+    let out_dir = fixture.temp.join("review-out-invalid-rule");
+    let output = fixture.review_run(&provider_request, &out_dir, packet_id);
+    assert!(!output.status.success());
+    let run: serde_json::Value =
+        serde_json::from_slice(&fs::read(out_dir.join("run.json")).unwrap()).unwrap();
+    assert_eq!(run["completion"], "failed");
+    assert!(run["failures"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|failure| failure
+            .as_str()
+            .unwrap()
+            .contains("finding_rule_must_be_lane_attributed")));
+}
+
+#[test]
 fn review_run_persists_failed_lane_for_invalid_typed_confidence() {
     let fixture = Fixture::new();
     let admission = fixture.admit();

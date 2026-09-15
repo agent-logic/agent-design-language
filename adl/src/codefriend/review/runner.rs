@@ -437,7 +437,7 @@ fn parse_lane_output(
             "hostile_source_instruction_leaked"
         );
         ensure!(
-            finding.rule.starts_with(lane.id()),
+            finding.rule.starts_with(&format!("{}.", lane.id())),
             "finding_rule_must_be_lane_attributed"
         );
     }
