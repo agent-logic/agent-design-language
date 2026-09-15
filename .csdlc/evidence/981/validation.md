@@ -33,6 +33,11 @@ assigned issue, or expected head does not bind exactly.
 - `cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings`
   passed.
 - `git diff --check` passed.
+- Native `csdlc proof 981` passed at `30a50585f93eb8f61b78942798fce0ceef4248b6`:
+  its admitted `semantic_gate_a` filter executed 21 tests with zero failures and
+  revalidated unchanged tracked inputs. That run also exposed and verified the
+  repair for Cargo's unhashed final-binary artifact, whose dep-info lives under
+  the hashed `target/intent-validation/debug/deps` entry.
 
 Independent exact-head review, PR publication, CI, merge, native finish, and
 cleanup remain pending.

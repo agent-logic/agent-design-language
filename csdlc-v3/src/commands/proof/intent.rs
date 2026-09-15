@@ -148,7 +148,7 @@ pub(crate) fn admit_validators(
                     safe_component(args.next().ok_or("intent_validator_test_missing")?)
                         .map_err(|finding| finding.code)?;
                 }
-                _ if !filter_seen => {
+                _ if !filter_seen && positional_filter_admitted(arg) => {
                     safe_component(arg).map_err(|finding| finding.code)?;
                     filter_seen = true;
                 }
@@ -162,6 +162,10 @@ pub(crate) fn admit_validators(
         validators: validators.to_vec(),
         input_digest,
     })
+}
+
+fn positional_filter_admitted(value: &str) -> bool {
+    !value.starts_with('-')
 }
 #[cfg(unix)]
 pub(crate) fn execute_admitted(
@@ -1042,14 +1046,7 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
                     let entry =
                         entry.map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
                     let path = entry.path();
-                    let name = path
-                        .file_stem()
-                        .and_then(|v| v.to_str())
-                        .unwrap_or_default()
-                        .replace('-', "_");
-                    if path.extension().is_some_and(|v| v == "d")
-                        && name.starts_with(&format!("{target}_"))
-                    {
+                    if hashed_dep_info_matches_target(&path, &target) {
                         let metadata = entry
                             .file_type()
                             .map_err(|_| "intent_validator_dependency_inventory_unreadable")?;
@@ -1109,6 +1106,54 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
         }
     }
     Ok(())
+}
+
+fn hashed_dep_info_matches_target(path: &Path, target: &str) -> bool {
+    let Some(stem) = path
+        .extension()
+        .is_some_and(|extension| extension == "d")
+        .then(|| path.file_stem().and_then(|value| value.to_str()))
+        .flatten()
+    else {
+        return false;
+    };
+    let Some(hash) = stem
+        .strip_prefix(target)
+        .and_then(|value| value.strip_prefix('-'))
+    else {
+        return false;
+    };
+    !hash.is_empty() && hash.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
+
+#[cfg(test)]
+mod dependency_record_tests {
+    use super::{hashed_dep_info_matches_target, positional_filter_admitted};
+    use std::path::Path;
+
+    #[test]
+    fn final_binary_dep_info_requires_exact_target_and_hash() {
+        assert!(hashed_dep_info_matches_target(
+            Path::new("foo-a1b2c3.d"),
+            "foo"
+        ));
+        assert!(!hashed_dep_info_matches_target(
+            Path::new("foo-bar-a1b2c3.d"),
+            "foo"
+        ));
+        assert!(!hashed_dep_info_matches_target(
+            Path::new("foo-release.d"),
+            "foo"
+        ));
+    }
+
+    #[test]
+    fn positional_filter_cannot_smuggle_an_unknown_cargo_option() {
+        assert!(positional_filter_admitted("semantic_gate_a"));
+        assert!(!positional_filter_admitted("--no-default-features"));
+        assert!(!positional_filter_admitted("--workspace"));
+        assert!(!positional_filter_admitted("--release"));
+    }
 }
 
 fn tracked_input_digest(root: &Path, validators: &[Validator]) -> Result<String, String> {

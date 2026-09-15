@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path csdlc-v3/Cargo.toml semantic_gate_a; cargo test --manifest-path csdlc-v3/Cargo.toml; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Proves the focused classification regression, the full C-SDLC v3 component suite, formatting, strict lint, and patch hygiene.`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml semantic_gate_a; native csdlc proof 981; cargo test --manifest-path csdlc-v3/Cargo.toml; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
+    `Proves repository-scoped receipt classification, safe single-filter admission, final-binary dependency-record discovery, full C-SDLC v3 behavior, formatting, strict lint, and patch hygiene.`
 - Results:
-  - `All local checks passed; one manual-only prepared-measurement test remained intentionally ignored.`
+  - `The full component suite passed; native proof executed 21 semantic_gate_a tests with zero failures and unchanged inputs; one manual-only prepared-measurement test remained intentionally ignored.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Focused and full csdlc-v3 tests, fmt, strict clippy, and diff hygiene"
+      - "Native 21-test proof, focused receipt and proof regressions, full csdlc-v3 suite, fmt, strict clippy, and diff hygiene"
   determinism:
     status: passed
     replay_verified: true
