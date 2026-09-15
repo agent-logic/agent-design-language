@@ -1,0 +1,24 @@
+{
+  "issue": 885,
+  "source_sha256": {
+    "adl/src/codefriend/memory/baseline.rs": "afc655afd9f6528574c902e424b81060cfe2a8852e7309f32c17903d6776b670",
+    "adl/src/codefriend/memory/comparison.rs": "42710bfb59629099b6df5a246065916d07f168cc6e5aea33f1612e448b7771f0",
+    "adl/src/codefriend/evidence/contracts.rs": "ecad1a957d7a171ba4fa7223fac0725f09f684ed979955efe82c2d7b09d3081c",
+    "adl/src/codefriend/evidence/store.rs": "3c831c8091ecc0e504619e7f5ddbdccbe7c33adc14ef3d5bf062a932c8bf65a2",
+    "adl/src/cli/codefriend_memory_cmd.rs": "804a5a2230b75be625e129e65f8b38fc6f6f274edea946899bf394b67fc01014",
+    "adl/tests/codefriend_cf_memory.rs": "a066ec34f0f14b5f0300b44480139009abeb12c4fd58e5965c27675af880b90c",
+    "adl/examples/codefriend_memory_fixture.rs": "9c03491f6a297bda3536bee1b346121a3e02142103838dc039242ab5639e59b7",
+    "adl/tools/codefriend_memory_installed_proof.py": "c45867eddb0223bb1984808efef747779bcdfd7ef2b724962b6e4dc8d141c7d9"
+  },
+  "tests": {
+    "memory": 8,
+    "evidence": 11,
+    "installed_scenarios": 8
+  },
+  "clippy": "passed strict warnings",
+  "installed_proof": "docs/codefriend/MEMORY_INSTALLED_PROOF.json",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: aarch64-apple-darwin\nrelease: 1.92.0\nLLVM version: 21.1.3",
+  "review": "interim source PASS; final exacthead review pending",
+  "coverage": "focused instrumented coverage in progress; full CI not run",
+  "historical_failures": "First8tests failed before execution because temporary path was symlinked; canonical fixture root fixed. Initial Clippy observed old library during source edits; final strict rerunpassed."
+}

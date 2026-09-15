@@ -1,0 +1,14 @@
+{
+  "schema":"codefriend.memory_comparison_proof_inventory.v1",
+  "issue":885,
+  "lane":"runtime",
+  "test_target":"codefriend_cf_memory",
+  "proof_role":"Production baseline persistence and comparison semantics, live admission retention and actual CLI consumer",
+  "determinism":"Inert local Git fixtures, explicit shared identities and clocks, sorted output; no provider or network",
+  "resource_profile":"Local CPU/Rust/filesystem and CLI child processes; bounded stores and artifacts",
+  "release_gate":"Required issue acceptance and CF-PROOF/TAIL-01 input",
+  "required_scenarios":["added/resolved/changed/unchanged","moved evidence stable identity","prose changes preserve identity","deterministic repeat","incompatible version and partial/narrow scope no resolution","missing/deleted/expired baseline","identity collision and tampered provenance","saved delta readback and tampering","custom backend reference substitution","actual CLI persistence and deletion"],
+  "installed_producer":"adl/examples/codefriend_memory_fixture.rs uses production local acquisition, Store admission and shared Run/Finding constructors",
+  "installed_consumer":"adl/tools/codefriend_memory_installed_proof.py against isolated installer-provenance adl",
+  "nonclaims":["No Memory Palace backend","No provider execution","No new automatic review producer","No unrun OS or full coverage claim"]
+}

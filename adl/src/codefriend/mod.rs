@@ -2,3 +2,5 @@
 pub mod ingestion;
 
 pub mod evidence;
+
+pub mod memory;
