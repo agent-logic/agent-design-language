@@ -28,12 +28,12 @@ Execution:
 - Actor: `codex:/root`
 - Model: `gpt-5`
 - Provider: `OpenAI`
-- Start Time: `not_started`
+- Start Time: `2026-09-15T00:00:00-07:00`
 - End Time: `in_progress`
 
 ## Summary
 
-Implemented the bounded #890 CodeFriend four-perspective review runner and CLI dispatch in the bound FastWork worktree. Local controlled-provider validation passed; independent review, separately authorized registered OpenAI proof, PR publication, CI, merge and terminal finish remain pending.
+Implemented the bounded #890 CodeFriend four-perspective review runner and CLI dispatch in the bound FastWork worktree. Local controlled-provider validation and the separately authorized registered OpenAI proof passed; independent review, PR publication, CI, merge and terminal finish remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,8 +57,8 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_local_controlled_provider_validation_passed_review_and_registered_openai_pending`
-- Issue goal ref: `not_created; create issue-bound goal before implementation`
+- Completion state: `implementation_and_registered_openai_validation_passed_review_pending`
+- Issue goal ref: `Codex goal created for #890 in thread 019ff3cb-e462-7343-be60-e4ab2b6080e3: Sprint 4 #890 CF-REVIEW execution—implement and prove the bounded four-perspective CodeFriend repository review runner in the bound FastWork worktree, preserve #891/#892+ sibling boundaries, run focused proof, obtain independent exact-head review, and reach publication-ready state without writing tracked issue work on main.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/890/goal-metrics.json (planned; absent until execution)`
 - Validation planning prompt: `.csdlc/issues/890/cards/vpp.md`
@@ -76,7 +76,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/890/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/review/mod.rs; adl/src/codefriend/review/lanes.rs; adl/src/codefriend/review/runner.rs; adl/src/codefriend/mod.rs; adl/src/cli/codefriend_cmd.rs; adl/src/cli/usage.rs; adl/tests/codefriend_review.rs`
-- Additional proof artifacts: `Provider fixture requests and run artifacts were written only under adl/target/codefriend-review-tests during test execution; no live provider credentials or external provider calls were used for the deterministic proof.`
+- Additional proof artifacts: `Ignored proof artifacts under adl/target/codefriend-890-openai-proof: vector-scope.json, openai-provider-request.json, store, and run-openai. Admitted packet 6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f; admission digest e79b8853bd1d5896f9f93b070b46cd5855731449ab6fde72e3ac66a61c79de4c; run digest d8d007707a21cc84325dcb5c6390675a50bb612b24b3eda5b5a0fb0d33e53d0d.`
 
 ## Actions taken
 - `Source issue reviewed for native preparation`
@@ -92,7 +92,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 - Verification performed:
   - `not_run; implementation has not started`
     `not_run; implementation has not started`
-- Result: `local controlled-provider proof passed; not published`
+- Result: `local deterministic proof and registered OpenAI proof passed; not published`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion; git diff --check`
-    `Covers installed CLI review run, four isolated provider-adapter calls, committed lane input/result artifacts, peer-input rejection, missing-evidence fail-closed behavior, durable evidence-store compatibility, and no source mutation in deterministic local fixtures.`
+  - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; git diff --check; OPENAI_API_KEY=<operator-approved env from /Users/daniel/keys/openai2.key> ADL_OBSERVABILITY_OTEL=0 ./target/debug/adl codefriend review run --store adl/target/codefriend-890-openai-proof/store --packet-id 6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f --provider-request adl/target/codefriend-890-openai-proof/openai-provider-request.json --out adl/target/codefriend-890-openai-proof/run-openai --run-id issue-890-openai-vector-410da89a`
+    `Covers installed CLI review run, four isolated provider-adapter calls, committed lane input/result artifacts, peer-input rejection, missing-evidence fail-closed behavior, durable evidence-store compatibility, no source mutation in deterministic local fixtures, and actual registered OpenAI execution against the pinned Vector dnsmsg-parser scope.`
 - Results:
-  - `passed locally in the bound #890 worktree: codefriend_review 3/3, codefriend_evidence 11/11, codefriend_ingestion 10/10; fmt --check passed; git diff --check passed.`
+  - `passed locally in the bound #890 worktree: codefriend_review 3/3, codefriend_evidence 11/11, codefriend_ingestion 10/10; fmt --check passed; clippy -D warnings for codefriend_review passed; git diff --check passed; registered OpenAI proof completed four lanes with provider_status ok and finding_count 0.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -137,7 +137,7 @@ verification_summary:
     absolute_path_leakage_detected: not_run
   artifacts:
     status: not_run
-    required_artifacts_present: partial_prepublication
+    required_artifacts_present: partial_prepublication_review_pending
     schema_changes:
       present: not_run
       approved: not_run
@@ -151,7 +151,7 @@ verification_summary:
 - Artifact stability notes: `not_run; implementation has not started`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `local proof asserts persisted run/log/stdout artifacts do not retain the fixture credential; no real credential file was read`
+- Secret leakage scan performed: `local proof asserts persisted run/log/stdout artifacts do not retain the fixture credential; actual OpenAI key was mapped from the operator-approved local key file into command environment only and was not printed, copied, committed or persisted.`
 - Prompt / tool argument redaction verified: `not_run; implementation has not started`
 - Absolute path leakage check: `not_run; implementation has not started`
 - Sandbox / policy invariants preserved: `not_run; implementation has not started`
@@ -164,10 +164,10 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/890 (planned)`
-- Required artifacts present: `true for deterministic local proof; registered OpenAI proof and independent exact-head review remain pending`
+- Required artifacts present: `true for deterministic local proof and registered OpenAI proof; independent exact-head review, PR, CI, merge and terminal receipts remain pending`
 - Artifact schema/version checks: `not_run; implementation has not started`
 - Hash/byte-stability checks: `not_run; implementation has not started`
-- Missing/optional artifacts and rationale: `Registered OpenAI generated-review proof, independent review, PR, CI, merge and terminal receipts do not exist yet.`
+- Missing/optional artifacts and rationale: `Independent review, PR, CI, merge and terminal receipts do not exist yet.`
 
 ## Decisions / Deviations
 - `Wait for accepted merged output of #881, #855. Re-observe upstream closure, merged implementation PR and required contract/proof acceptance before binding; refresh this plan against those exact revisions. #864 WP-01 has accepted planning delivery via merged PR #865; other listed upstream issues remain open at preparation snapshot. Preparation is allowed; implementation is blocked.`

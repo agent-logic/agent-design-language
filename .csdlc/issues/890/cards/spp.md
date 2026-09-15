@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implementation is in progress in the bound FastWork worktree. The CodeFriend `review run` entrypoint now consumes admitted CF-EVIDENCE packets, executes correctness/security/adversarial/constitutional lanes through the production provider adapter with isolated runner-owned inputs, persists per-lane input/result/provider artifacts before synthesis, and fails closed for missing evidence or preloaded peer input. Deterministic controlled-provider proof passed; independent exact-head review, registered OpenAI proof, publication, CI, merge and finish remain pending."
+plan_summary: "Implementation and proof are complete in the bound FastWork worktree. The CodeFriend `review run` entrypoint consumes admitted CF-EVIDENCE packets, executes correctness/security/adversarial/constitutional lanes through the production provider adapter with isolated runner-owned inputs, persists per-lane input/result/provider artifacts before synthesis, and fails closed for missing evidence or preloaded peer input. Deterministic controlled-provider proof passed, and the separately authorized registered OpenAI proof passed against pinned Vector revision 410da89a0ed42c523143da89fffeb7f6402833e0 with packet 6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f. Independent exact-head review, publication, CI, merge and finish remain pending."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -80,9 +80,9 @@ codex_plan:
   - step: "Implement the bounded deliverables only."
     status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "in_progress"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "v0922-four-perspective-review"
 invariants_to_preserve:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-REVIEW] Execute isolated four-perspective repository review`.
 
-Implementation is in progress in the bound FastWork worktree. The CodeFriend `review run` entrypoint now consumes admitted CF-EVIDENCE packets, executes correctness/security/adversarial/constitutional lanes through the production provider adapter with isolated runner-owned inputs, persists per-lane input/result/provider artifacts before synthesis, and fails closed for missing evidence or preloaded peer input. Deterministic controlled-provider proof passed; independent exact-head review, registered OpenAI proof, publication, CI, merge and finish remain pending.
+Implementation and proof are complete in the bound FastWork worktree. The CodeFriend `review run` entrypoint consumes admitted CF-EVIDENCE packets, executes correctness/security/adversarial/constitutional lanes through the production provider adapter with isolated runner-owned inputs, persists per-lane input/result/provider artifacts before synthesis, and fails closed for missing evidence or preloaded peer input. Deterministic controlled-provider proof passed, and the separately authorized registered OpenAI proof passed against pinned Vector revision 410da89a0ed42c523143da89fffeb7f6402833e0 with packet 6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f. Independent exact-head review, publication, CI, merge and finish remain pending.
 
 ## PVF Lane Plan
 
@@ -145,8 +145,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. [pending] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
-4. [in_progress] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 

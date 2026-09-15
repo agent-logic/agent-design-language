@@ -10,7 +10,7 @@
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-890-v0922-four-perspective-review",
-  "review_findings": "Implementation review has not run for the current #890 worktree head.",
+  "review_findings": "Implementation review has not run for the current #890 worktree head after recording actual OpenAI proof.",
   "vpp_card": ".csdlc/issues/890/cards/vpp.md",
   "review_dispositions": "No implementation review findings are accepted, fixed, waived, or deferred yet.",
   "recommended_outcome": "block",
@@ -18,7 +18,7 @@
   "sip_card": ".csdlc/issues/890/cards/sip.md",
   "findings_status": "review_unavailable",
   "slug": "v0922-four-perspective-review",
-  "review_notes": "Pending independent exact-head review after immutable commit. Review must verify four isolated lanes, same redacted admitted evidence, no peer findings in lane inputs, committed per-lane artifacts before synthesis, fail-closed missing-evidence/malformed/partial behavior, no source mutation, no raw credential retention, and sibling scope boundaries (#891/#892+).",
+  "review_notes": "Pending independent exact-head review after immutable commit. Review must verify four isolated lanes, same redacted admitted evidence, no peer findings in lane inputs, committed per-lane artifacts before synthesis, fail-closed missing-evidence/malformed/partial behavior, no source mutation, no raw credential retention, actual OpenAI proof truth, and sibling scope boundaries (#891/#892+).",
   "spp_card": ".csdlc/issues/890/cards/spp.md",
   "stp_card": ".csdlc/issues/890/cards/stp.md",
   "timestamp": "2026-09-12T00:09:56.378553+00:00"

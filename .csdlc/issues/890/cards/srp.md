@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "review_unavailable"
   recommended_outcome: "block"
-notes: "Pending independent exact-head review after immutable commit. Review must verify four isolated lanes, same redacted admitted evidence, no peer findings in lane inputs, committed per-lane artifacts before synthesis, fail-closed missing-evidence/malformed/partial behavior, no source mutation, no raw credential retention, and sibling scope boundaries (#891/#892+)."
+notes: "Pending independent exact-head review after immutable commit. Review must verify four isolated lanes, same redacted admitted evidence, no peer findings in lane inputs, committed per-lane artifacts before synthesis, fail-closed missing-evidence/malformed/partial behavior, no source mutation, no raw credential retention, actual OpenAI proof truth, and sibling scope boundaries (#891/#892+)."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Implementation review has not run for the current #890 worktree head.
+- Implementation review has not run for the current #890 worktree head after recording actual OpenAI proof.
 
 ### Dispositions
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Pending independent exact-head review after immutable commit. Review must verify four isolated lanes, same redacted admitted evidence, no peer findings in lane inputs, committed per-lane artifacts before synthesis, fail-closed missing-evidence/malformed/partial behavior, no source mutation, no raw credential retention, and sibling scope boundaries (#891/#892+).
+Pending independent exact-head review after immutable commit. Review must verify four isolated lanes, same redacted admitted evidence, no peer findings in lane inputs, committed per-lane artifacts before synthesis, fail-closed missing-evidence/malformed/partial behavior, no source mutation, no raw credential retention, actual OpenAI proof truth, and sibling scope boundaries (#891/#892+).
