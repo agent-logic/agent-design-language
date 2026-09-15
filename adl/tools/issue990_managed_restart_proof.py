@@ -35,7 +35,11 @@ def execute(args):
     root.chmod(0o700)
     vector = write(
         root / "vector-fixture.sh",
-        "#!/bin/sh\ntrap 'exit 0' TERM INT\nwhile :; do sleep 1; done\n",
+        "#!/bin/sh\n"
+        "if [ \"$1\" = --version ]; then echo 'vector 0.56.0 issue990'; exit 0; fi\n"
+        "if [ \"$1\" = validate ]; then exit 0; fi\n"
+        "trap 'exit 0' TERM INT\n"
+        "while :; do sleep 1; done\n",
     )
     vector.chmod(0o700)
     tls = certificates(root / "state/tls")
@@ -107,7 +111,6 @@ def execute(args):
             "env": "ISSUE990_UNUSED_DIRECT_SECRET",
             "file_env": "ISSUE990_OPENAI_KEY_FILE",
         }
-        providers["providers"] = {"openai": openai}
         write(root / "providers.yaml", providers)
         credential = write(root / "credential.txt", "issue990-local-fixture-value\n", True)
         write(root / "guardian.stdout.log", "")
@@ -146,9 +149,9 @@ def execute(args):
             if not any(part in key for part in ("API_KEY", "ACCESS_TOKEN", "GOOGLE_APPLICATION_CREDENTIALS"))
         }
 
+        context = ssl.create_default_context(cafile=str(tls["ca"]))
         first_start = json.loads(run(csm_args, env=env))
         require(first_start["listener_ready"], "first managed start did not reach readiness")
-        context = ssl.create_default_context(cafile=str(tls["ca"]))
 
         def csmctl(*argv):
             return json.loads(run([ctl, "agent", *argv], env=env))
