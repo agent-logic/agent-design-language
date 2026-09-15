@@ -91,6 +91,8 @@ serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
 serde_json = "1.0"
 toml = "0.7"
+syn = { version = "2", features = ["full", "visit"] }
+proc-macro2 = { version = "1", features = ["span-locations"] }
 serde_jcs = "0.2"
 hex = "0.4"
 blake3 = "1"

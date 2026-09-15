@@ -3281,6 +3281,90 @@ fn load_mutation_receipt(
     Ok(receipt)
 }
 
+pub(crate) fn repository_scoped_issue_creation_receipt(
+    remote: &Path,
+    receipt_path: &Path,
+    repository: &str,
+    assigned_issue: u64,
+) -> Result<bool, RemoteRouteFinding> {
+    let Some(filename_digest) = receipt_path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .and_then(|name| name.strip_suffix(".json"))
+    else {
+        return Ok(false);
+    };
+    if filename_digest.is_empty()
+        || !filename_digest
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-' || byte == b'_')
+    {
+        return Ok(false);
+    }
+    let receipt_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(receipt_path).map_err(|_| {
+            remote_finding(
+                "github_mutation_receipt_unreadable",
+                "existing mutation receipt cannot be read",
+            )
+        })?)
+        .map_err(|_| {
+            remote_finding(
+                "github_mutation_receipt_invalid",
+                "existing mutation receipt is not valid typed JSON",
+            )
+        })?;
+    let Some(operation_digest) = receipt_value["operation_digest"].as_str() else {
+        return Ok(false);
+    };
+    if operation_digest.is_empty()
+        || !operation_digest
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-' || byte == b'_')
+    {
+        return Ok(false);
+    }
+    let filename_intent_path = remote
+        .join("intents")
+        .join(format!("{filename_digest}.json"));
+    let recorded_intent_path = remote
+        .join("intents")
+        .join(format!("{operation_digest}.json"));
+    let (candidate_digest, intent_path) = if filename_intent_path.is_file() {
+        (filename_digest, filename_intent_path)
+    } else if filename_digest != operation_digest && recorded_intent_path.is_file() {
+        (operation_digest, recorded_intent_path)
+    } else {
+        return Ok(false);
+    };
+    let intent = load_mutation_intent(&intent_path, candidate_digest)?;
+    if intent.request.repository != repository
+        || intent.request.issue != 0
+        || !matches!(intent.request.mutation, GithubMutation::IssueCreate { .. })
+    {
+        return Ok(false);
+    }
+    if filename_digest != operation_digest {
+        return Err(remote_finding(
+            "github_mutation_receipt_mismatch",
+            "repository-scoped issue creation receipt filename does not bind its operation",
+        ));
+    }
+    let receipt = load_mutation_receipt(receipt_path, operation_digest)?;
+    if receipt.intent_digest != github_mutation_intent_digest(&intent)
+        || receipt.repository != intent.request.repository
+        || receipt.issue == 0
+        || receipt.pull_request.is_some()
+        || receipt.expected_head_sha != intent.request.expected_head_sha
+    {
+        return Err(remote_finding(
+            "github_mutation_receipt_mismatch",
+            "repository-scoped issue creation receipt does not bind its exact native intent",
+        ));
+    }
+    Ok(receipt.issue == assigned_issue)
+}
+
 fn finalize_mutation_receipt(
     request: &GithubMutationRequest,
     operation_digest: &str,
