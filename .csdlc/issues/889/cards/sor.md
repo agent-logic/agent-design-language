@@ -157,7 +157,7 @@ verification_summary:
 - Sandbox / policy invariants preserved: `No provider/network operations, listeners or kernel startup; explicit operator-pinned authority; fixture keys public test material`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/889/installed-memory-fixture-v3/palace/.adl/runtime-v3/observability/codefriend; bounded reference/time traces independently SHA256-verified`
 - Run artifact root: `.csdlc/evidence/889`
 - Replay command used for verification: `python3 adl/tools/codefriend_palace_installed_proof.py --binary <installed-adl> --fixture-root <fresh-memory-fixture> --authority-root <signed-authority-fixture>`
 - Replay result: `passed; repeated installed comparisons identical and restored durable state replayed`

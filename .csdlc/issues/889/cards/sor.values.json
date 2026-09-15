@@ -36,7 +36,7 @@
   "end_time": "Implementation and local validation complete; CI/integration pending",
   "absolute_path_leakage_check": "Installed success and failure stderr checked against fixture roots",
   "ordering_guarantees": "References sorted by run_id and record_digest; duplicate runs denied; repeated output equal",
-  "trace_bundle_paths": "not_run; implementation has not started",
+  "trace_bundle_paths": ".csdlc/evidence/889/installed-memory-fixture-v3/palace/.adl/runtime-v3/observability/codefriend; bounded reference/time traces independently SHA256-verified",
   "decision_or_deviation_2": "Bound issue worktree used; isolated normal production binary installed without replacing shared binaries",
   "verification_security_privacy_status": "passed_bounded_canary_and_authority_checks",
   "actual_active_work_seconds": "unknown",
