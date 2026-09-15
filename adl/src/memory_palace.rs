@@ -118,6 +118,38 @@ pub fn build_context_from_agent_memory(
     cycle_id: &str,
     observed_epoch_ms: u128,
 ) -> Result<Option<MemoryPalaceContextPacket>> {
+    Ok(
+        load_context_from_agent_memory(memory, spec_dir, cycle_id, observed_epoch_ms, false)?
+            .map(|(context, _)| context),
+    )
+}
+
+/// The same production projection with strict latest validation and its atomic checkpoint identity.
+pub fn build_context_from_agent_memory_strict(
+    memory: &Value,
+    spec_dir: &Path,
+    cycle_id: &str,
+    observed_epoch_ms: u128,
+) -> Result<(
+    MemoryPalaceContextPacket,
+    adl_runtime::memory_palace::RuntimeMemoryPalaceCheckpoint,
+)> {
+    load_context_from_agent_memory(memory, spec_dir, cycle_id, observed_epoch_ms, true)?
+        .ok_or_else(|| anyhow!("Memory Palace has no strictly validated context"))
+}
+
+fn load_context_from_agent_memory(
+    memory: &Value,
+    spec_dir: &Path,
+    cycle_id: &str,
+    observed_epoch_ms: u128,
+    strict: bool,
+) -> Result<
+    Option<(
+        MemoryPalaceContextPacket,
+        adl_runtime::memory_palace::RuntimeMemoryPalaceCheckpoint,
+    )>,
+> {
     let Some(raw_config) = memory.get("memory_palace") else {
         return Ok(None);
     };
@@ -136,13 +168,22 @@ pub fn build_context_from_agent_memory(
     let service_root = latest_path.parent().ok_or_else(|| {
         anyhow!("Memory Palace Runtime service latest.json must have a service directory")
     })?;
-    let commit = adl_runtime::memory_palace::RuntimeMemoryPalaceService::new(service_root)
-        .load_latest()
-        .map_err(|error| {
+    let service = adl_runtime::memory_palace::RuntimeMemoryPalaceService::new(service_root);
+    let commit = if strict {
+        service.load_latest_strict()
+    } else {
+        service.load_latest()
+    }
+    .map_err(|error| {
+        if strict {
+            anyhow!("Runtime Memory Palace strict validation denied")
+        } else {
             anyhow!("Runtime Memory Palace service failed durable latest validation: {error:?}")
-        })?
-        .ok_or_else(|| anyhow!("Runtime Memory Palace service has no validated latest packet"))?;
-    project_runtime_packet(cycle_id, &config, &commit.packet, observed).map(Some)
+        }
+    })?
+    .ok_or_else(|| anyhow!("Runtime Memory Palace service has no validated latest packet"))?;
+    let context = project_runtime_packet(cycle_id, &config, &commit.packet, observed)?;
+    Ok(Some((context, commit.checkpoint)))
 }
 
 pub fn project_runtime_packet(
