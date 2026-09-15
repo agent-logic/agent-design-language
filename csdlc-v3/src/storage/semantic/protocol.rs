@@ -1059,38 +1059,50 @@ fn attach_locked(
                 projection_change: cards != *current.inputs().cards(),
                 new_commit,
             };
-            Some((cards, policy::decide_amendment(phase, class, &facts)))
+            Some((cards, class, policy::decide_amendment(phase, class, &facts)))
         } else {
             None
         };
-    let (phase, invalidations, causal_invalidations) = if let Some((_, decision)) = &amendment {
-        match decision {
-            policy::AmendmentOutcome::Admitted {
-                phase,
-                invalidations,
-                ..
-            } => (
-                *phase,
-                invalidations.iter().map(|item| item.evidence).collect(),
-                invalidations.clone(),
-            ),
-            _ => return Err(Error::AdmissionChanged),
-        }
-    } else {
-        let disposition = if outcome.kind == OutcomeKind::Success {
-            policy::Outcome::Success
+    let (phase, invalidations, causal_invalidations) =
+        if let Some((_, class, decision)) = &amendment {
+            match decision {
+                policy::AmendmentOutcome::Admitted {
+                    phase,
+                    invalidations,
+                    review_currency,
+                } => {
+                    let mut causal = invalidations.clone();
+                    if *review_currency == policy::ReviewCurrency::FreshExactHeadReviewRequired {
+                        causal.push(policy::CausalInvalidation {
+                            evidence: Invalidation::Review,
+                            cause: *class,
+                        });
+                        causal.sort();
+                        causal.dedup();
+                    }
+                    (
+                        *phase,
+                        causal.iter().map(|item| item.evidence).collect(),
+                        causal,
+                    )
+                }
+                _ => return Err(Error::AdmissionChanged),
+            }
         } else {
-            policy::Outcome::Failure
+            let disposition = if outcome.kind == OutcomeKind::Success {
+                policy::Outcome::Success
+            } else {
+                policy::Outcome::Failure
+            };
+            let decision = policy::decide(
+                Some(current.phase()),
+                pending.command,
+                disposition,
+                &outcome.facts,
+            )
+            .map_err(|_| Error::AdmissionChanged)?;
+            (decision.phase, decision.invalidations, Vec::new())
         };
-        let decision = policy::decide(
-            Some(current.phase()),
-            pending.command,
-            disposition,
-            &outcome.facts,
-        )
-        .map_err(|_| Error::AdmissionChanged)?;
-        (decision.phase, decision.invalidations, Vec::new())
-    };
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::Bind {
         let OriginData::Bind { target, .. } = &pending.origin.0 else {
             return Err(Error::AdmissionChanged);
@@ -1101,7 +1113,7 @@ fn attach_locked(
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendCards {
         payload.inputs.intent_plan.cards = amendment
             .as_ref()
-            .map(|(cards, _)| cards.clone())
+            .map(|(cards, _, _)| cards.clone())
             .ok_or(Error::EvidenceMismatch)?;
         payload.inputs.validate()?;
     }
@@ -1393,6 +1405,62 @@ pub(super) mod tests {
             let _ = fs::remove_dir_all(&self.path);
         }
     }
+    #[test]
+    fn display_only_commit_change_retains_review_currency_invalidation() {
+        let f = Fixture::new();
+        f.bind();
+        let before = f.snapshot();
+        let mut cards = before.inputs().cards().clone();
+        cards
+            .get_mut("sip")
+            .unwrap()
+            .as_object_mut()
+            .unwrap()
+            .insert("display_note".into(), serde_json::json!("reformatted"));
+        let content = codec::bytes(&serde_json::json!({
+            "schema":"csdlc.v3.semantic_edit_request.v1",
+            "cards":cards,
+            "amendment":{
+                "class":"display_only",
+                "transition_approved":false,
+                "new_commit":true
+            }
+        }))
+        .unwrap();
+        let request = EffectRequest::new(
+            SemanticCommand::AmendCards,
+            NativeIdentity::new("edit".into(), "display-only-new-commit".into()).unwrap(),
+            EffectOrigin::bound(before.inputs().binding().unwrap().clone()),
+            &content,
+        )
+        .unwrap();
+        let ticket = f.reserve(&request);
+        DurableTransactionStore::attach_outcome(
+            &f.root,
+            ticket,
+            f.outcome(
+                &request,
+                OutcomeKind::Success,
+                EffectTruth::Performed,
+                b"display-only edit receipt",
+            ),
+            f.observed(&request),
+        )
+        .unwrap();
+        let after = f.snapshot();
+        assert_eq!(after.phase(), before.phase());
+        assert_eq!(
+            after.invalidations(),
+            &[Invalidation::Readiness, Invalidation::Review]
+        );
+        assert!(after
+            .causal_invalidations()
+            .contains(&policy::CausalInvalidation {
+                evidence: Invalidation::Review,
+                cause: policy::AmendmentClass::DisplayOnly,
+            }));
+    }
+
     #[test]
     fn review_routes_retain_operations_and_binding_amendment_invalidates_inputs() {
         let f = Fixture::new();
