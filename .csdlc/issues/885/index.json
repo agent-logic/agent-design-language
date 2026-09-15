@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 885,
   "phase": "bound",
-  "generation": 9,
+  "generation": 10,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/885-v0922-compatible-review-comparison",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-885-v0922-compatible-review-comparison",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "9bcdf48d710130278ef85e8043a08944ea65a900984a619ed529f6db82fad5ad"
+  "digest": "7ef2ecff783272c5b4c01dd373d151f395ea5e32bcf44944e404eaf05c0e3567"
 }

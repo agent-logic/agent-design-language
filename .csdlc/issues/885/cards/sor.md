@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented compatible comparison, live admitted baseline adapter and installed CLI. 8memorytests,11evidence regressions,8installed scenarios and strict Clippy pass. Exacthead review PASS at fd7156147f5a2d86b04b0a5254ebb275cde349c6. Focused coverage: comparison111/113,baseline194/199,CLI72/78; all changed production files above80%. Publication and full hostedCI pending.
+Implemented compatible comparison, live admitted baseline adapter and installed CLI. Local proof: 8 comparison tests, 11 evidence regressions, 8 installed scenarios and strict Clippy pass; focused touched-file coverage exceeds 80%. Independent exact-head review passed at 55281315bcf699f051cee32e189914d64a281d5d. Native authenticated creation and publication readback opened draft PR #987 against main. Full hosted CI is in progress; no merge or closeout.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented compatible comparison, live admitted baseline adapter and installed 
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `reviewed_local_proof_passed_publication_pending`
+- Completion state: `published_draft_ci_pending`
 - Issue goal ref: `Active appgoal: Complete all Sprint3#929; this bound issue owns #885 comparison implementation.`
 - Sprint goal ref: `Sprint #929 across all eight children`
 - Goal metrics rollup ref: `.csdlc/evidence/885/goal-metrics.json (planned, absent until execution)`
@@ -85,14 +85,14 @@ Implemented compatible comparison, live admitted baseline adapter and installed 
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue worktree only`
-- Worktree-only paths remaining: `All issue885 source,tests,docs and native records await publication; rawlogs,binaries and fixtures remain local evidence.`
-- Integration state: `worktree_only`
+- Worktree-only paths remaining: `Local logs, coverage JSON, isolated binaries, fixture repositories and review/native receipts remain evidence; implementation published in PR #987.`
+- Integration state: `published_not_merged`
 - Verification scope: `Comparison/admitted-baseline/CLI plus shared evidence regression; isolated Darwinarm64 consumer.`
-- Integration method used: `not_run; publication not started`
+- Integration method used: `Native github-pr pull_request_create with authenticated reconciliation; native publish --observe-github returned ready.`
 - Verification performed:
-  - `not_run; publication not started`
-    `not_run; publication not started`
-- Result: `not_published_or_merged`
+  - `Native authenticated create receipt and native publish --observe-github readback, retained under .csdlc/evidence/885/.`
+    `PR #987 exists with main base and exact published head; publication confirmed, no merge.`
+- Result: `Draft PR #987 published against main at 55281315bcf699f051cee32e189914d64a281d5d. CI run 35005571796 has passed completed checks including Runtime coverage; workspace coverage remains in progress. This publication-record update requires exact-head renewal and its own hosted check result.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -164,15 +164,15 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_cf_memory.rs; docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json; docs/codefriend/MEMORY_INSTALLED_PROOF.json`
-- Required artifacts present: `Local implementation,tests,installed and instrumented proof and independent review present; publication andCIpending.`
+- Required artifacts present: `Local implementation, tests, installed/instrumented proof, independent review and native publication receipts present; full hosted CI pending.`
 - Artifact schema/version checks: `Shared Run/Finding/Comparison validation; bounded retained-record/delta digest readback; malformed/tampered input rejected.`
 - Hash/byte-stability checks: `Source SHA256 and installed binary/provenance retained; deterministic delta equality passed.`
-- Missing/optional artifacts and rationale: `Full hosted CI and final review pending. No provider call or external repository qualification belongs to this child.`
+- Missing/optional artifacts and rationale: `Full hosted CI remains in progress. No provider call or external repository qualification belongs to this child.`
 
 ## Decisions / Deviations
 - `#881 accepted merged PR956 commit41aa503e80a31250ce8d1df05c46d16d99c843bf before binding.`
 - `User directs whole Sprint #929 goal and parallel CI subagent; active appgoal now covers all8children. #885 has no separate goalcounter.`
 
 ## Follow-ups / Deferred work
-- `Finish focused coverage and independent exacthead review; publish native PR and delegateCI while advancing next ready issue.`
+- `Renew exact-head review for this publication record, push and shepherd full hosted CI; request explicit merge authorization only after checks pass.`
 - `Preserve dependencies and obtain explicit merge authorization before integration/native closeout.`
