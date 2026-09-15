@@ -1,4 +1,4 @@
-# v0922-architecture-rationale
+# v0922-architecture-impact
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -15,17 +15,17 @@ Execution Record Requirements:
 - Every command listed must include both what was run and what it verified.
 - If something is not applicable, include a one-line justification.
 
-Task ID: issue-0884
-Run ID: issue-0884
+Task ID: issue-0883
+Run ID: issue-0883
 Version: 0.92.2
-Title: [v0.92.2][CF-COG-RATIONALE] Explain architectural quanta against recorded rationale
-Branch: codex/884-v0922-architecture-rationale
+Title: [v0.92.2][CF-COG-IMPACT] Report the impact of a scoped repository change
+Branch: codex/883-v0922-architecture-impact
 Card Status: draft
 Status: IN_PROGRESS
 Generated: 2026-09-12T00:04:57.571871+00:00
 
 Execution:
-- Actor: `Worker #10`
+- Actor: `worker10`
 - Model: `unknown`
 - Provider: `unknown`
 - Start Time: `2026-09-15; exact start time not separately recorded`
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-PR #992 conflict repair merges origin/main 2301d1d8 and preserves rationale, impact, structure and memory command families. 56 focused tests, all installed proof scenarios and strict Clippy pass. Independent resolution review has no findings; final exact-head review and hosted CI pending. No remote merge.
+Issue#883 implemented, locally proven and independently reviewed at0abf97393353300ceb8e2205060ef055f43f4340. PR#991 is open, nondraft and mergeable. Hosted CI remains pending; local semantic source is unchanged. No merge authorization or terminal completion claimed.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,11 +57,11 @@ PR #992 conflict repair merges origin/main 2301d1d8 and preserves rationale, imp
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_local_integration_proof_complete_review_ci_pending`
-- Issue goal ref: `Active whole Sprint929 goal includes884`
+- Completion state: `implemented_reviewed_pr_open_ci_pending`
+- Issue goal ref: `Active whole Sprint #929 goal covers #883; no separate child goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
 - Goal metrics rollup ref: `Whole Sprint929 goal accounting; no issue-specific token accounting claimed`
-- Validation planning prompt: `.csdlc/issues/884/cards/vpp.md`
+- Validation planning prompt: `.csdlc/issues/883/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
@@ -74,25 +74,25 @@ PR #992 conflict repair merges origin/main 2301d1d8 and preserves rationale, imp
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `.csdlc/issues/884/cards/sor.md`
-- Tracked implementation artifacts: `adl/src/codefriend/architecture/rationale.rs; adl/src/cli/codefriend_structure_cmd.rs; adl/tests/codefriend_cf_cog_rationale.rs; installed rationale proof runner; ARCHITECTURE_RATIONALE.md`
-- Additional proof artifacts: `Local full test logs and installed artifact directories retained separately; proof summaries embedded in LOCAL_PROOF`
+- Local ignored output-card scaffold at `.csdlc/issues/883/cards/sor.md`
+- Tracked implementation artifacts: `adl/src/codefriend/architecture/impact.rs; adl/src/cli/codefriend_structure_cmd.rs; adl/tests/codefriend_cf_cog_impact.rs; adl/tools/codefriend_impact_installed_proof.py; docs/codefriend/CHANGE_IMPACT.md`
+- Additional proof artifacts: `Installed impact12 scenarios and structure9 scenarios embedded in LOCAL_PROOF.json; full local logs and artifacts retained separately`
 
 ## Actions taken
-- `Implemented observed boundary/deployment facts, candidate quantum inference and preserved human ADR status`
-- `Proved known traces, candidate/superseded/conflicting/missing records, unsupported deployment, stale/tampered evidence and repeatability`
-- `Independent conflict-resolution review PASS; final exact-head review follows refreshed proof and native records.`
+- `Implemented graph-bound module change identity and reverse dependency traversal with retained edge witnesses`
+- `Proved known changes, cycles, multiple roots, unknowns, bounds, stale identities, artifact tampering and source immutability`
+- `Independent interim implementation review passed; final exact-head review pending`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `None; root main remains inspection-only, implementation is in bound884 worktree`
-- Worktree-only paths remaining: `Implementation published in PR#992; local logs, installed artifacts and native review receipts retained in issue worktree until terminal preservation/cleanup.`
+- Main-repo paths updated: `None; root main remains inspection-only, implementation is in bound883 worktree`
+- Worktree-only paths remaining: `Implementation published in PR#991; local logs, installed artifacts and native review receipts retained in issue worktree until terminal preservation/cleanup.`
 - Integration state: `pr_open`
-- Verification scope: `Production rationale + structure/evidence regressions, installed rationale and structure consumers`
-- Integration method used: `Local merge origin/main; native review required before normal push. No remote merge.`
+- Verification scope: `Production impact + structure/evidence regressions, installed impact and structure consumers`
+- Integration method used: `Native review followed by authenticated github-pr pull_request_create and pull_request_ready; readback verified exact head and main base.`
 - Verification performed:
-  - `Local merge resolution, combined regression proof and independent review; fresh authenticated publication readback after push required`
-    `Local conflict resolution preserves both parents; remote readiness awaits reviewed push and CI.`
-- Result: `PR #992 remains open; local merge of origin/main resolves conflicts. Remote push awaits final exact-head review; no PR merge or issue closure.`
+  - `Native create/ready receipts in resolved Git metadata worker10-sprint3/883-create-result.json and 883-ready-result.json; live read-only PR#991 readback.`
+    `PR#991 exists with reviewed head0abf97393353300ceb8e2205060ef055f43f4340, main base, nondraft state and no merge conflicts. Required hosted CI remains pending.`
+- Result: `PR#991 published against main and marked ready through authenticated native reconciliation; no merge or issue closure.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_cf_cog_rationale --test codefriend_cf_cog_impact --test codefriend_cf_cog --test codefriend_cf_memory --test codefriend_evidence; strict Clippy; fmt; installed rationale, structure, impact and memory proof runners`
-    `56 tests passed (10 rationale,10 impact,17 structure,8 memory,11 evidence); refreshed isolated installed binary passed all four installed proof runners. Source and binary hashes recorded in LOCAL_PROOF. Hosted CI pending for integration revision.`
+  - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_cog_impact --test codefriend_cf_cog --test codefriend_evidence; installed impact and structure proof runners; cargo fmt --manifest-path adl/Cargo.toml --check`
+    `10 impact +17 structure +11 evidence tests passed; installed impact12 +structure9 scenarios passed; strict Clippy, fmt and diff checks passed. CI not yet published.`
 - Results:
   - `passed_local_ci_pending`
 
@@ -125,29 +125,29 @@ verification_summary:
   validation:
     status: passed_local_ci_pending
     checks_run:
-      - "56 focused tests and all four installed proof runners passed; strict Clippy and fmt passed"
+      - "38 focused tests +21 installed scenarios +strict Clippy +fmt passed"
   determinism:
     status: passed_fixture_replay
     replay_verified: yes_within_same_admitted_revision
-    ordering_guarantees_verified: Fixture replay and deterministic sorted input checks passed
+    ordering_guarantees_verified: yes_by_deterministic_replay_and_multiple_root_order_test
   security_privacy:
     status: bounded_source_and_output_checks_passed
-    secrets_leakage_detected: No source content emitted by rationale summary; no general secret scan claimed
+    secrets_leakage_detected: No source content emitted by impact summary; no general secret scan claimed
     prompt_or_tool_arg_leakage_detected: No provider prompts; installed stdout/stderr fixture path checks pass
     absolute_path_leakage_detected: none_in_installed_command_stdout_stderr_fixture_checks
   artifacts:
     status: local_artifacts_present
     required_artifacts_present: yes_for_local_execution;ci_pending
     schema_changes:
-      present: new codefriend.rationale.v1 product artifact; shared CF-EVIDENCE schema unchanged
-      approved: New rationale product schema reviewed independently; shared evidence schema unchanged
+      present: new codefriend.impact.v1 product artifact; shared CF-EVIDENCE schema unchanged
+      approved: New impact product schema reviewed independently; shared evidence schema unchanged
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Production equality test plus all8 installed ADR/deployment variants repeated with full artifact equality`
-- Fixtures or scripts used: `adl/tests/fixtures/codefriend/rationale; codefriend_cf_cog_rationale; codefriend_rationale_installed_proof.py; codefriend_structure_installed_proof.py`
-- Replay verification (same inputs -> same artifacts/order): `Installed rationale proof compares complete repeated JSON artifacts`
-- Ordering guarantees (sorting / tie-break rules used): `Sorted boundaries, document paths, findings and explicit choice conflict keys`
+- Determinism tests executed: `Impact tests plus installed chain/cycle/unknown repeat scenarios`
+- Fixtures or scripts used: `adl/tests/fixtures/codefriend/impact; codefriend_cf_cog_impact; codefriend_impact_installed_proof.py; codefriend_structure_installed_proof.py`
+- Replay verification (same inputs -> same artifacts/order): `Installed impact proof compares complete repeated JSON artifacts`
+- Ordering guarantees (sorting / tie-break rules used): `Sorted input targets, graph edge order, deterministic breadth-first shortest paths, sorted finding identities`
 - Artifact stability notes: `Exact repeated JSON for same graph/change input; stale inputs and modified artifacts reject`
 
 ## Security / Privacy Checks
@@ -157,22 +157,22 @@ verification_summary:
 - Sandbox / policy invariants preserved: `Inspected fixture repositories unchanged; no source builds/scripts or providers executed`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/884/LOCAL_PROOF.json; retained local test and installed proof logs`
-- Run artifact root: `.csdlc/evidence/884 (planned)`
-- Replay command used for verification: `python3 adl/tools/codefriend_rationale_installed_proof.py --binary <isolated-installed-adl> --output-root <new-proof-root>`
-- Replay result: `Passed: identical repeated rationale artifacts for ADR status, conflict and unavailable-evidence fixtures`
+- Trace bundle path(s): `.csdlc/evidence/883/LOCAL_PROOF.json; retained local test and installed proof logs`
+- Run artifact root: `.csdlc/evidence/883 (planned)`
+- Replay command used for verification: `python3 adl/tools/codefriend_impact_installed_proof.py --binary <isolated-installed-adl> --output-root <new-proof-root>`
+- Replay result: `Passed: identical repeated impact artifacts for chain, cycle and unknown fixtures`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/884/LOCAL_PROOF.json`
+- Primary proof surface: `.csdlc/evidence/883/LOCAL_PROOF.json`
 - Required artifacts present: `Source, tests, documentation, PVF manifest, LOCAL_PROOF and review evidence present; hosted CI pending`
-- Artifact schema/version checks: `Strict selection/report serde, bounded TOML ADR parsing, live report recomputation and shared Run/Finding validation tested`
-- Hash/byte-stability checks: `Source/binary SHA256 recorded; repeated full rationale JSON artifacts equal`
+- Artifact schema/version checks: `Strict serde change/report input, recomputed report validation and shared Run/Finding validation tested`
+- Hash/byte-stability checks: `Source/binary SHA256 recorded; repeated full impact JSON artifacts equal`
 - Missing/optional artifacts and rationale: `Local proof and publication reconciliation exist. Hosted CI completion, authorized merge and terminal reconciliation remain pending.`
 
 ## Decisions / Deviations
-- `Explicit bounded Compose JSON and Markdown/TOML ADR formats; unsupported relationships or document formats remain unknown. No invented or accepted ADR authority.`
-- `Malformed JSON is omitted by acquisition; reporter preserves unavailable/partial outcome. Test corrected without weakening production evidence validation.`
+- `Merged graph supports module nodes only. Exact module changes are analyzed; symbol changes produce precise non-proving partial output instead of fabricated symbol reachability.`
+- `Preparation does not implement product behavior or bypass dependency gates`
 
 ## Follow-ups / Deferred work
-- `Complete exact-head review, native review and normal push; verify mergeability and hosted CI. No remote merge authorized.`
+- `Complete hosted CI and repair actionable failures. Final integration and native closeout require explicit merge authorization.`
 - `Execute VPP and independent exact-head review, then native publication, terminal finish and separate cleanup`

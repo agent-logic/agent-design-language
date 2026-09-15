@@ -1,0 +1,12 @@
+{
+  "issue": 883,
+  "lane": "runtime",
+  "proof_role": "production semantic impact correctness and installed consumer integration",
+  "determinism": "inert local Git fixtures; explicit graph/change identities; repeat exact artifacts within the same admitted revision",
+  "resources": "local CPU and filesystem; no network, provider, source builds or scripts",
+  "release_gate": "required issue acceptance; later CF-PROOF qualification remains separate",
+  "tests": ["codefriend_cf_cog_impact"],
+  "installed_runner": "adl/tools/codefriend_impact_installed_proof.py",
+  "calibration": "chain and cycle expected potential dependent sets; explicit unknowns excluded from negative safety claims",
+  "nonclaims": ["runtime effect prediction", "complete symbol resolution", "external repository qualification"]
+}

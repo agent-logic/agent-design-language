@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "v0922-architecture-rationale-review-prompt"
-issue: 884
-task_id: "issue-0884"
+name: "v0922-architecture-impact-review-prompt"
+issue: 883
+task_id: "issue-0883"
 version: "0.92.2"
-title: "[v0.92.2][CF-COG-RATIONALE] Explain architectural quanta against recorded rationale"
-branch: "codex/884-v0922-architecture-rationale"
+title: "[v0.92.2][CF-COG-IMPACT] Report the impact of a scoped repository change"
+branch: "codex/883-v0922-architecture-impact"
 generated_at: "2026-09-12T00:04:57.571871+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
-    ref: "https://github.com/agent-logic/agent-design-language/issues/884"
+    ref: "https://github.com/agent-logic/agent-design-language/issues/883"
   - kind: "stp"
-    ref: ".csdlc/issues/884/cards/stp.md"
+    ref: ".csdlc/issues/883/cards/stp.md"
   - kind: "sip"
-    ref: ".csdlc/issues/884/cards/sip.md"
+    ref: ".csdlc/issues/883/cards/sip.md"
   - kind: "spp"
-    ref: ".csdlc/issues/884/cards/spp.md"
+    ref: ".csdlc/issues/883/cards/spp.md"
   - kind: "vpp"
-    ref: ".csdlc/issues/884/cards/vpp.md"
+    ref: ".csdlc/issues/883/cards/vpp.md"
   - kind: "sor"
-    ref: ".csdlc/issues/884/cards/sor.md"
+    ref: ".csdlc/issues/883/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - ".csdlc/issues/884/cards/stp.md"
-  - ".csdlc/issues/884/cards/sip.md"
-  - ".csdlc/issues/884/cards/vpp.md"
+  - ".csdlc/issues/883/cards/stp.md"
+  - ".csdlc/issues/883/cards/sip.md"
+  - ".csdlc/issues/883/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - ".csdlc/issues/884/cards/stp.md"
-  - ".csdlc/issues/884/cards/sip.md"
-  - ".csdlc/issues/884/cards/vpp.md"
+  - ".csdlc/issues/883/cards/stp.md"
+  - ".csdlc/issues/883/cards/sip.md"
+  - ".csdlc/issues/883/cards/vpp.md"
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "Conflict-resolution review by /root/repair_882_ci/review_989_integration has no actionable findings against both parents. Impact and rationale dispatch/help/exports preserved; upstream memory and outer wiring unchanged. Final exact-head review required after proof and native record refresh."
+notes: "Exact-head implementation review PASS at0abf97393353300ceb8e2205060ef055f43f4340; semantic source unchanged by publication records. PR#991 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- .csdlc/issues/884/cards/stp.md
-- .csdlc/issues/884/cards/sip.md
-- .csdlc/issues/884/cards/vpp.md
+- .csdlc/issues/883/cards/stp.md
+- .csdlc/issues/883/cards/sip.md
+- .csdlc/issues/883/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- No actionable findings in current independent conflict-resolution review; prior implementation reviews remain historical. Final exact-head confirmation pending.
+- Semantic complete implementation review PASS at4eb818498. Final294680586 review found P2 stale SOR preparation fields; corrected with this native edit. Final exact-head recheck pending.
 
 ### Dispositions
 
-- No findings waived; final exact-head review gates normal push.
+- All prior actionable findings resolved; no waivers. Record-only publication update requires final exact-head confirmation.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Conflict-resolution review by /root/repair_882_ci/review_989_integration has no actionable findings against both parents. Impact and rationale dispatch/help/exports preserved; upstream memory and outer wiring unchanged. Final exact-head review required after proof and native record refresh.
+Exact-head implementation review PASS at0abf97393353300ceb8e2205060ef055f43f4340; semantic source unchanged by publication records. PR#991 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending.

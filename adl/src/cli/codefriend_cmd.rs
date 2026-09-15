@@ -5,6 +5,9 @@ use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
 const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
+    if args.first().is_some_and(|arg| arg == "memory") {
+        return super::codefriend_memory_cmd::run(&args[1..]);
+    }
     if args.first().is_some_and(|arg| arg == "architecture") {
         return super::codefriend_structure_cmd::run(&args[1..]);
     }
@@ -16,8 +19,9 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     }
     if args.is_empty() || matches!(args[0].as_str(), "--help" | "-h") {
         println!(
-            "{USAGE}\n{}\n{}",
+            "{USAGE}\n{}\n{}\n{}",
             github_command::USAGE,
+            super::codefriend_memory_cmd::USAGE,
             super::codefriend_structure_cmd::USAGE
         );
         return Ok(());

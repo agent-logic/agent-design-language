@@ -1,18 +1,20 @@
 {
   "schema": "codefriend.rationale_local_proof.v1",
   "issue": 884,
-  "base_revision": "4ea09540eea1a38d7ab2f79416b87a8cd4cb7690",
+  "base_revision": "2301d1d8e4537a615be6c0900e061a2ec2fe4f3a",
   "source_sha256": {
     "adl/src/codefriend/architecture/rationale.rs": "deecd6ded52cc4df2565218091e90671fcd1d471a4b36c06bb7933d52ebfbfa8",
-    "adl/src/cli/codefriend_structure_cmd.rs": "a9da16c4efc7f00999614f2672359f1fac500b06b684a9c717f9f573099bd975",
+    "adl/src/cli/codefriend_structure_cmd.rs": "6d30d859969b4e88fbf600eaa5b5d27da59c638e9ec570c1c240c1e8b42edc47",
     "adl/src/codefriend/architecture/structure.rs": "bf63e9a162ef8c9315cbbf5311d29d9a43b0ea93f4352856fc230645d9c0aacc",
-    "adl/src/codefriend/architecture/mod.rs": "e43fd0f9b59082fb7edd1255b8304a596bc48f8cddce5aacc398708a60eb1316",
+    "adl/src/codefriend/architecture/mod.rs": "3064a9ba1f97b1ab1639d4ee9db13e95415498b5fcb954dab9c803273acbb83e",
     "adl/tests/codefriend_cf_cog_rationale.rs": "89a2e9059f2dac7e2b487aff34c71552ab0ed30e24c8708cbbc7a91bcecf001e",
     "adl/tools/codefriend_rationale_installed_proof.py": "5ecf0004e366aabb87141e96c95cb1b949d3cfd0ea31a164dd4c9d45e831094e"
   },
   "tests": {
     "codefriend_cf_cog_rationale": 10,
+    "codefriend_cf_cog_impact": 10,
     "codefriend_cf_cog": 17,
+    "codefriend_cf_memory": 8,
     "codefriend_evidence": 11
   },
   "focused_tests_result": "passed",
@@ -23,8 +25,8 @@
     "schema": "codefriend.rationale_installed_proof.v1",
     "issue": 884,
     "platform": "Darwin-arm64",
-    "binary_sha256": "090fa40ea5ad52fcd5d1499ba571d3726cacb8ec8cdb1f6127a7e22169af005d",
-    "installation_provenance": "af860d29db254a2513cdd6fb5e4ccf3dad89b2df099c4ac05161b4b57f0fd633",
+    "binary_sha256": "230e4f1ec0027116fed49b2dceada29edf3086cb57f95311f7e9dba9fa38dc61",
+    "installation_provenance": "4f5a09e2dedcb95e9b753afc65f3f54aa115c0a3b5f86ec77c133484ac389e50",
     "scenarios": [
       {
         "fixture": "accepted",
@@ -131,27 +133,27 @@
     "schema": "codefriend.structure_installed_proof.v1",
     "issue": 882,
     "platform": "Darwin-arm64",
-    "binary_sha256": "090fa40ea5ad52fcd5d1499ba571d3726cacb8ec8cdb1f6127a7e22169af005d",
-    "installation_provenance": "af860d29db254a2513cdd6fb5e4ccf3dad89b2df099c4ac05161b4b57f0fd633",
-    "fixture_revision": "4b3c725caa49051891eff8c5bff191595190b373",
+    "binary_sha256": "230e4f1ec0027116fed49b2dceada29edf3086cb57f95311f7e9dba9fa38dc61",
+    "installation_provenance": "4f5a09e2dedcb95e9b753afc65f3f54aa115c0a3b5f86ec77c133484ac389e50",
+    "fixture_revision": "920848ce00e849757c575fbf7398a9b80f698bc0",
     "first_summary": {
-      "schema": "codefriend.structure.v1",
-      "digest": "a54fa9325275cf8610af92ab2e2fabe8835f27c5a98dd8525c00558645f7dbbc",
-      "run_id": "9d579530af97a4e08d1966d4951b7b9c388becc243e1a94f184007ac76803f42",
       "analysis_complete": true,
-      "nodes": 4,
+      "digest": "787b06310896ebfa67ccaa57e85e9ab942c12b52ecef2a8330b25c1c7ba06e6d",
       "edges": 2,
       "findings": 1,
+      "nodes": 4,
+      "run_id": "bf93f26d416891d24fde9db74fb052f15676352580ac6609c9c87f65ce6ab010",
+      "schema": "codefriend.structure.v1",
       "unknowns": 0
     },
     "changed_policy_summary": {
-      "schema": "codefriend.structure.v1",
-      "digest": "51cebf1386835fba93b08ce6b2d3da7d4ea3bb8200cba1de798814e014623f88",
-      "run_id": "b620e2dd8f76cccfb3cb14b6b2681807b20a399bd132f6d14b34cd0e647aea40",
       "analysis_complete": true,
-      "nodes": 4,
+      "digest": "d3139491127726dfdea0f4ec9ae6838cce727f7ed3432406b470b8e38ad44d1b",
       "edges": 2,
       "findings": 2,
+      "nodes": 4,
+      "run_id": "4d2972dffd7c4124727c349e76e2b4582b5ece73b36e2dd0bede2c752f686afc",
+      "schema": "codefriend.structure.v1",
       "unknowns": 0
     },
     "repeat_deterministic": true,
@@ -166,39 +168,39 @@
       {
         "fixture": "unary",
         "summary": {
-          "schema": "codefriend.structure.v1",
-          "digest": "03937b0afc698e3240134a912a4deeeb58fe2b4d53e378243d589e2d958cdf0a",
-          "run_id": "7493537b07d5c8c10f95a5beab393dd668a531cd1a59d6456fa3d6f2d98f0151",
           "analysis_complete": false,
-          "nodes": 0,
+          "digest": "00b18046038e8826b8d3de20046e29746dbc3001b75967f63cbb9761d294ac1c",
           "edges": 0,
           "findings": 0,
+          "nodes": 0,
+          "run_id": "97e1329bce1a62dacff97f57062757e8e6365e9612bec7aa7cd523387be6e930",
+          "schema": "codefriend.structure.v1",
           "unknowns": 1
         }
       },
       {
         "fixture": "keyword",
         "summary": {
-          "schema": "codefriend.structure.v1",
-          "digest": "84dba7854f32605cc66c9029c0b7d20be110a72b47ee5c72cd0c77b83d1b489f",
-          "run_id": "8e848e039ed9b020d9fa8a087e96950c88e1eee6e46ed84353923d3ffc79e00e",
           "analysis_complete": false,
-          "nodes": 0,
+          "digest": "750d09ce8258be5a0111084401b2a897010f44caf1126b03b5c8d040c7d346eb",
           "edges": 0,
           "findings": 0,
+          "nodes": 0,
+          "run_id": "f80b8a694a9c888c85d7395def5f6add168251cfc0ff94b6cdfdbd52de38d441",
+          "schema": "codefriend.structure.v1",
           "unknowns": 1
         }
       },
       {
         "fixture": "delimiter",
         "summary": {
-          "schema": "codefriend.structure.v1",
-          "digest": "8638631ddc54e15d2e665789eb64f09b0b805d2dc183f085a401c93937a5674c",
-          "run_id": "773db811a8ede06181543e435a1bacf88223b09f54f8ecc04259f3d142028c0f",
           "analysis_complete": false,
-          "nodes": 0,
+          "digest": "d98f7a1f7f89328df94ef2951821d56c5cd4560a433d88a045ee8dc41d4323ab",
           "edges": 0,
           "findings": 0,
+          "nodes": 0,
+          "run_id": "caf1715ea8b506c49d3ffa67f360e372d55a416d9546eac05fca0828158818f2",
+          "schema": "codefriend.structure.v1",
           "unknowns": 1
         }
       }
@@ -211,6 +213,104 @@
   "toolchain": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
   "test_correction": "Initial expanded negative test expected malformed JSON parser error, but ingestion omits malformed JSON. Corrected test to assert explicit unavailable/partial outcome. Original failed log preserved; full38 tests rerun passed.",
   "build_profile": "Isolated internal-disk Cargo target, dev/test debug=0; same-host dependency cache warmed through wrapper. Build cache is not proof.",
-  "ci": "not_yet_published",
-  "review": "Independent complete review PASS at33a2bcc16f9a9ab8ab48f1f5d1f54cbb8f4ab59e;10 tests independently rerun and calibration verified. Final record-only confirmation pending"
+  "ci": "Prior publication head af26a984 passed run35020504267; current integration revision requires new hosted CI.",
+  "review": "Independent working-resolution review PASS by /root/repair_882_ci/review_989_integration; final exact-head review pending.",
+  "installed_impact": {
+    "schema": "codefriend.impact_installed_proof.v1",
+    "issue": 883,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "230e4f1ec0027116fed49b2dceada29edf3086cb57f95311f7e9dba9fa38dc61",
+    "installation_provenance": "4f5a09e2dedcb95e9b753afc65f3f54aa115c0a3b5f86ec77c133484ac389e50",
+    "scenarios": [
+      "chain-reachability-repeat-readback",
+      "multiple-roots",
+      "unsupported-partial",
+      "stale-revision",
+      "stale-graph",
+      "malformed",
+      "target-bound",
+      "tamper",
+      "overwrite",
+      "deletion",
+      "cycle-reachability-repeat-readback",
+      "unknown-reachability-repeat-readback"
+    ],
+    "executed_scenarios": 12,
+    "calibration": [
+      {
+        "fixture": "chain",
+        "expected_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "observed_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "sample_false_positives": 0,
+        "sample_false_negatives": 0
+      },
+      {
+        "fixture": "cycle",
+        "expected_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "observed_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "sample_false_positives": 0,
+        "sample_false_negatives": 0
+      }
+    ],
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Synthetic syntactic potential-impact calibration is not measured runtime impact accuracy",
+      "No provider, source build or external repository execution",
+      "No Linux qualification from a macOS run"
+    ]
+  },
+  "installed_memory": {
+    "schema": "codefriend.memory_installed_proof.v1",
+    "issue": 885,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "230e4f1ec0027116fed49b2dceada29edf3086cb57f95311f7e9dba9fa38dc61",
+    "installation_provenance": "4f5a09e2dedcb95e9b753afc65f3f54aa115c0a3b5f86ec77c133484ac389e50",
+    "fixture_proof": {
+      "schema": "codefriend.memory_fixture.v1",
+      "revisions": [
+        "e6e1a0f4351397692401c67e6ff4074c6be89a9c",
+        "3c4e5e8bbe2332ed020e14a710852d81b17475b6"
+      ],
+      "producer": "production local acquisition, Store admission, Run and Finding contract constructors",
+      "source_unchanged": true
+    },
+    "outcomes": [
+      "added",
+      "resolved",
+      "changed",
+      "unchanged"
+    ],
+    "scenarios_passed": 8,
+    "deterministic": true,
+    "moved_evidence_stable_identity": true,
+    "incompatible_and_partial_no_resolution": true,
+    "tampering_denied": true,
+    "deletion_denies_saved_delta_and_resurrection": true,
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Known fixture assessments, not a new source analysis producer",
+      "No provider or external source execution"
+    ]
+  },
+  "integration": "Merge origin/main 2301d1d8 preserving impact and rationale dispatch, help and exports; all upstream memory and structure retained.",
+  "proof_log_sha256": {
+    "integration-tests.log": "a9f5c7b5572ce9e1797618249d92dee10462859fbe04f8c8e8c9c1f33422d62c",
+    "integration-clippy.log": "5ace253485063b70000c2bc35ad4331b0f9257f482fd8200e9db074a28e75b14",
+    "integration-build.log": "17e2f1370e92551e64b14555b1d0f57f6954510963816cce5da2c15c05391d4e",
+    "integration-install.log": "0eb5e7f0d9559bc4989757268952bc2d38940e9534366f2d3ded77b72b048d28"
+  }
 }
