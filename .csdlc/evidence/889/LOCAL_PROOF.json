@@ -73,7 +73,7 @@
       "No running Runtime kernel, network, provider, or production citizen admission claimed"
     ]
   },
-  "review": "Lineage repair and main integration awaiting independent exact-head review; prior published head reviewed separately",
+  "review": "Independent PASS at6c84a05170221f5969cdf3e5bbeb61d488893e5a in review/cli-coverage-review.json; record-only renewal required before native review/push",
   "ci": "PR997 draft; hosted checks required for repaired head after push",
   "notes": [
     "No test-support constructors used. Installed adl built separately with production binary feature graph before fixture examples.",

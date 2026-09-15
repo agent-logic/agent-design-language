@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][PLAT-MEMORY] Retrieve a compatible prior CodeFriend review through Memory Palace
 Branch: codex/889-v0922-production-memory-palace-retrieval
 Card Status: draft
-Status: IMPLEMENTED_REVIEW_PENDING
+Status: IMPLEMENTED_REVIEWED
 Generated: 2026-09-12T00:07:16.174214+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Production Memory Palace consumer, signed successor lineage repair and CLI coverage repair complete. 69 focused tests and 23 fresh installed scenarios pass; CLI coverage113/119=94.96% exceeds80%; strict Clippy/fmt pass. Main53e integrated locally; independent exact-head review and repaired PR997 push pending.
+Production Memory Palace consumer, signed successor lineage and CLI coverage repairs independently reviewed PASS at6c84a05170221f5969cdf3e5bbeb61d488893e5a. 69 focused tests and23 fresh installed scenarios pass; CLI113/119=94.96%, strict Clippy/fmt pass. Main53e integrated; record-only renewal/native review/push and hostedCI remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Production Memory Palace consumer, signed successor lineage repair and CLI cover
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_review_pending`
+- Completion state: `implemented_reviewed_push_pending`
 - Issue goal ref: `Active whole Sprint3 #929 goal includes #889; no separate child goal`
 - Sprint goal ref: `Sprint3 #929 across #882-#889; whole-sprint goal remains active`
 - Goal metrics rollup ref: `No separate issue metrics rollup recorded; whole Sprint3 goal accounting remains active`
@@ -81,7 +81,7 @@ Production Memory Palace consumer, signed successor lineage repair and CLI cover
 ## Actions taken
 - `Implemented bounded production Memory Palace index/retrieve with live admission and strict latest validation`
 - `Ran69 focused tests and23 installed scenario groups; added actual CLI roundtrip and isolation/authority negatives; measured94.96% CLI line coverage.`
-- `Repaired prepare to preserve supplied accepted lineage using an isolated clone and publish state only after full success; original-source regression fails as intended.`
+- `Preserved accepted lineage and atomic failure behavior; real signed successor regression proves original failure. Independent reviewer approved source, semantic CLI assertions and proof hashes.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main inspection-only`
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: local_passed_hosted_ci_pending
     checks_run:
-      - "Prior published head independently reviewed; successor repair and merge require fresh exact-head confirmation."
+      - "Independent successor and CLI coverage reviews passed; final record-only renewal required before native review/push."
   determinism:
     status: passed
     replay_verified: passed
@@ -174,5 +174,5 @@ verification_summary:
 - `Bound issue worktree used; isolated normal production binary installed without replacing shared binaries`
 
 ## Follow-ups / Deferred work
-- `Independent exact-head review, native review and push repaired PR997; required hosted CI pending.`
+- `Final record-only review renewal, native review and push repaired PR997; required hostedCI pending.`
 - `Explicit merge authorization required before integration; native finish and separate clean afterward.`
