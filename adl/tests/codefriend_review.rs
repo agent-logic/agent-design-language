@@ -359,6 +359,57 @@ fn review_run_fails_closed_for_findings_without_admitted_evidence() {
 }
 
 #[test]
+fn review_run_fails_closed_when_provider_omits_findings_field() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap();
+    let missing_findings_response = json!({}).to_string();
+    let (endpoint, _requests) = provider_server(vec![
+        missing_findings_response.clone(),
+        missing_findings_response.clone(),
+        missing_findings_response.clone(),
+        missing_findings_response,
+    ]);
+    let provider_request = fixture.provider_request(&endpoint);
+    let out_dir = fixture.temp.join("review-out-missing-findings");
+    let output = fixture.review_run(&provider_request, &out_dir, packet_id);
+    assert!(!output.status.success());
+    let run: serde_json::Value =
+        serde_json::from_slice(&fs::read(out_dir.join("run.json")).unwrap()).unwrap();
+    assert_eq!(run["completion"], "failed");
+    assert!(run["failures"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|failure| failure.as_str().unwrap().contains("malformed_lane_output")));
+}
+
+#[test]
+fn review_run_rejects_existing_output_directory_before_provider_execution() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap();
+    let (endpoint, requests) = provider_server(vec![json!({"findings":[]}).to_string()]);
+    let provider_request = fixture.provider_request(&endpoint);
+    let out_dir = fixture.temp.join("review-out-retained");
+    fs::create_dir(&out_dir).unwrap();
+    fs::write(out_dir.join("run.json"), "retained evidence\n").unwrap();
+    let output = fixture.review_run(&provider_request, &out_dir, packet_id);
+    assert!(!output.status.success());
+    assert!(
+        String::from_utf8_lossy(&output.stderr).contains("review_output_directory_already_exists")
+    );
+    assert_eq!(
+        fs::read_to_string(out_dir.join("run.json")).unwrap(),
+        "retained evidence\n"
+    );
+    assert!(
+        requests.try_recv().is_err(),
+        "provider must not be called when output would be overwritten"
+    );
+}
+
+#[test]
 fn review_run_rejects_rule_without_dot_lane_prefix() {
     let fixture = Fixture::new();
     let admission = fixture.admit();

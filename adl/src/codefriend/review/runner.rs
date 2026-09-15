@@ -83,7 +83,6 @@ pub struct ParsedLaneFinding {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct ProviderLaneOutput {
-    #[serde(default)]
     pub findings: Vec<ParsedLaneFinding>,
 }
 
@@ -171,6 +170,10 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
             .trim()
             .is_empty(),
         "provider_request_must_not_preload_review_input"
+    );
+    ensure!(
+        !options.out.exists(),
+        "review_output_directory_already_exists"
     );
     fs::create_dir_all(&options.out)?;
     let lanes_dir = options.out.join("lanes");
@@ -498,7 +501,11 @@ fn write_json<T: Serialize>(path: &Path, value: &T) -> Result<()> {
         fs::create_dir_all(parent)?;
     }
     let bytes = serde_json::to_vec_pretty(value)?;
-    let mut file = File::create(path)?;
+    let mut file = File::options()
+        .write(true)
+        .create_new(true)
+        .open(path)
+        .with_context(|| format!("create {}", path.display()))?;
     file.write_all(&bytes)?;
     file.write_all(b"\n")?;
     file.sync_all()?;
