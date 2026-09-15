@@ -1138,8 +1138,14 @@ impl DurableTransactionStore {
         write_exact_create_or_verify(&pending, &manifest, &projection_root)?;
         rebarrier([pending.clone()], &projection_root)?;
 
-        for path in stale_paths {
-            fs::remove_file(path).map_err(io)?;
+        for residue in &stale_paths {
+            for path in &residue.staged {
+                fs::remove_file(path).map_err(io)?;
+            }
+        }
+        sync_chain(&card_root, &projection_root)?;
+        for residue in stale_paths {
+            fs::remove_file(residue.pending).map_err(io)?;
         }
         sync_chain(&card_root, &projection_root)?;
 
@@ -1560,11 +1566,16 @@ fn projection_staging_paths(directory: &Path) -> Result<Vec<(PathBuf, String)>, 
 /// match the last committed manifest byte-for-byte, and every staged file must
 /// match the digest retained by that manifest. Validation completes before the
 /// caller removes any residue.
+struct AuthenticatedStaleProjectionResidue {
+    staged: Vec<PathBuf>,
+    pending: PathBuf,
+}
+
 fn authenticated_stale_projection_paths(
     directory: &Path,
     current_suffix: &str,
     acknowledged: Option<&Digest>,
-) -> Result<Vec<PathBuf>, Error> {
+) -> Result<Vec<AuthenticatedStaleProjectionResidue>, Error> {
     let staging = projection_staging_paths(directory)?;
     let mut by_suffix = BTreeMap::<String, Vec<PathBuf>>::new();
     for (path, suffix) in staging {
@@ -1671,9 +1682,15 @@ fn authenticated_stale_projection_paths(
                 return Err(Error::EvidenceMismatch);
             }
         }
-        authenticated.extend(paths);
+        authenticated.push(AuthenticatedStaleProjectionResidue {
+            staged: paths
+                .iter()
+                .filter(|path| *path != pending)
+                .cloned()
+                .collect(),
+            pending: pending.clone(),
+        });
     }
-    authenticated.sort();
     Ok(authenticated)
 }
 

@@ -526,3 +526,73 @@ fn corrupt_prior_projection_residue_fails_closed_without_mutation() {
         assert_eq!(inventory(&fixture.directory), before);
     }
 }
+
+#[test]
+fn recovery_resumes_when_stale_data_removal_was_synced_before_marker_removal() {
+    let fixture = Fixture::new();
+    let mut first = fixture.prepare();
+    let first_bundle = derive_semantic_card_projection(&first, &fixture.registry).unwrap();
+    let proof =
+        DurableTransactionStore::write_card_projection(&fixture.root, &first, first_bundle.clone())
+            .unwrap();
+    first = match DurableTransactionStore::commit_issue_local(
+        &fixture.root,
+        Admission::new(
+            fixture.key.clone(),
+            first.version().clone(),
+            first.inputs().authority().clone(),
+        ),
+        LocalChange::AcknowledgeProjection(proof),
+    )
+    .unwrap()
+    {
+        CommitOutcome::Committed(snapshot) => *snapshot,
+        CommitOutcome::Unchanged(_) => panic!("projection acknowledgement must commit"),
+    };
+
+    let card_root = fixture.root.card_projection_directory(&first).unwrap();
+    let old_suffix = first_bundle
+        .projection_digest()
+        .as_str()
+        .split(':')
+        .nth(1)
+        .unwrap();
+    let retained_marker = card_root.join(format!(".projection-{old_suffix}.pending"));
+    fs::write(&retained_marker, first_bundle.manifest_bytes().unwrap()).unwrap();
+    // This is the durable state produced if cleanup stops after removing and
+    // syncing stale staged data but before removing its pending marker.
+    assert!(!card_root
+        .join(format!(".stp.md-{old_suffix}.next"))
+        .exists());
+
+    let mut cards = first.inputs().cards().clone();
+    cards.get_mut("stp").unwrap()["status"] = Value::String("amended again".into());
+    let second = match DurableTransactionStore::commit_issue_local(
+        &fixture.root,
+        Admission::new(
+            fixture.key.clone(),
+            first.version().clone(),
+            first.inputs().authority().clone(),
+        ),
+        LocalChange::AmendCards(cards),
+    )
+    .unwrap()
+    {
+        CommitOutcome::Committed(snapshot) => *snapshot,
+        CommitOutcome::Unchanged(_) => panic!("amendment must commit"),
+    };
+    let second_bundle = derive_semantic_card_projection(&second, &fixture.registry).unwrap();
+    assert!(matches!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &second, &second_bundle)
+            .unwrap(),
+        CardProjectionObservation::Interrupted { .. }
+    ));
+    DurableTransactionStore::write_card_projection(&fixture.root, &second, second_bundle.clone())
+        .unwrap();
+    assert!(!retained_marker.exists());
+    assert_eq!(
+        DurableTransactionStore::observe_card_projection(&fixture.root, &second, &second_bundle)
+            .unwrap(),
+        CardProjectionObservation::Healthy
+    );
+}
