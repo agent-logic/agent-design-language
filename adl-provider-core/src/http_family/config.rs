@@ -187,10 +187,13 @@ pub(super) fn credential_from_env_or_file(
             ));
         }
     }
-    Err(invalid_config(
-        provider_label,
-        format!("missing required credential reference '{auth_env}'"),
-    ))
+    let message = match auth_file_env {
+        Some(file_env) => format!(
+            "missing required auth env var '{auth_env}' or credential file env var '{file_env}'"
+        ),
+        None => format!("missing required auth env var '{auth_env}'"),
+    };
+    Err(invalid_config(provider_label, message))
 }
 
 pub(super) fn vendor_endpoint(
