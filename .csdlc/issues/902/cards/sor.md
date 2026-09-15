@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and executed the five-row criterion evidence consumer against merged #899/#900/#901/#852 artifacts. After review found one P1 and three P2s, the validator now pins the full protected member set, validates semantic cross-links and review evidence, enforces residual risks, emits structured failure rows, and covers 21 negative mutations. Exact-head rereview, publication, CI, merge and terminal closeout remain pending.
+Implemented and executed the five-row criterion evidence consumer against merged #899/#900/#901/#852 artifacts. After review found one P1 and three P2s, the validator pins the full protected member set, validates semantic cross-links and review evidence, enforces residual risks, and covers 21 negative mutations. A follow-up review finding was repaired so late-row failure reports preserve the four prior passes. Exact-head rereview, publication, CI, merge and terminal closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -110,7 +110,7 @@ Rules:
   - `python3 adl/tools/validate_v0922_runtime_qualification.py --protected-root [git-common-dir]/csdlc-v3/local; python3 -m unittest adl/tools/test_validate_v0922_runtime_qualification.py; python3 -m py_compile the two issue scripts; git diff --check`
     `Actual merged producer evidence consumed; no provider, cloud, GPU, account, service or paid effect performed.`
 - Results:
-  - `Real producer run passed 5/5 rows with excluded=0 and missing=0. Six unittest methods passed, covering one positive synthetic fixture and 21 named negative mutations. Python compilation, diff hygiene and absolute-path scan passed.`
+  - `Real producer run passed 5/5 rows with excluded=0 and missing=0. Seven unittest methods passed, covering one positive synthetic fixture, 21 named negative mutations, and late-row failure preservation. Python compilation, diff hygiene and absolute-path scan passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,10 +125,10 @@ verification_summary:
   validation:
     status: local_complete_review_remediation_rereview_pending
     checks_run:
-      - "real five-row run passed; 21 negative mutations passed; Python compilation, path-hygiene scan and diff check passed"
+      - "real five-row run passed; 21 negative mutations and late-row failure preservation passed across seven unittest methods; Python compilation, path-hygiene scan and diff check passed"
   determinism:
     status: passed locally
-    replay_verified: not_run
+    replay_verified: passed against exact retained actual inputs
     ordering_guarantees_verified: passed
   security_privacy:
     status: passed for tracked sanitized packet; protected archives remain Git-local
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `21 isolated negative mutations plus one positive synthetic fixture across six unittest methods; all passed`
+- Determinism tests executed: `21 isolated negative mutations plus one positive synthetic fixture across seven unittest methods; all passed, including late-row failure reporting`
 - Fixtures or scripts used: `synthetic temporary JSON and tar archives in test_validate_v0922_runtime_qualification.py; real positive uses merged producer packets and allowlisted Git-local evidence`
 - Replay verification (same inputs -> same artifacts/order): `passed against exact retained actual inputs`
 - Ordering guarantees (sorting / tie-break rules used): `producer bytes and typed review receipt digests are checked before semantic admission; any row rejection blocks aggregate completion`

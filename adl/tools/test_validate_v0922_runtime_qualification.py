@@ -182,6 +182,18 @@ class QualificationContract(unittest.TestCase):
     def test_coherent_synthetic_archive_cannot_replace_canonical_identity(self):
         self.mutate_archive_member(901,"runtime-observations.json",lambda d:d.update(paid_calls=999),"canonical_artifact_identity",refresh_expected=False)
 
+    def test_late_failure_preserves_prior_row_results(self):
+        manifest=copy.deepcopy(self.manifest); manifest["rows"][-1]["criterion_text"]="changed"
+        try:
+            V.validate(manifest,self.root,self.protected,self.expected,self.expected_members)
+        except V.AdmissionError as error:
+            report=V.failure_report(error)
+        else:
+            self.fail("late invalid row accepted")
+        self.assertEqual(report["complete"],4)
+        self.assertEqual(report["missing"],0)
+        self.assertEqual([r["status"] for r in report["rows"]],["pass","pass","pass","pass","fail"])
+
 
 if __name__ == "__main__":
     unittest.main()

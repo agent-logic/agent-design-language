@@ -87,9 +87,11 @@ EXPECTED_RISKS = [
 
 
 class AdmissionError(ValueError):
-    def __init__(self, code: str, criterion_id: str | None = None):
+    def __init__(self, code: str, criterion_id: str | None = None,
+                 completed_rows: list[dict] | None = None):
         super().__init__(code)
         self.criterion_id = criterion_id
+        self.completed_rows = completed_rows or []
 
 
 def require(value: object, code: str) -> None:
@@ -322,10 +324,26 @@ def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path 
                 validate_runtime(primary)
             results.append({"criterion_id": criterion, "status": "pass", "producer_issue": producer_issue})
         except (ValueError, KeyError, OSError, tarfile.TarError) as error:
-            raise AdmissionError(str(error), criterion) from error
+            raise AdmissionError(str(error), criterion, list(results)) from error
     return {"status": "passed", "complete": 5, "excluded": 0, "missing": 0,
             "rows": results, "historical_boundary": history,
             "residual_risks": manifest["residual_risks"], "release_authorized": False}
+
+
+def failure_report(error: Exception) -> dict:
+    criterion = getattr(error, "criterion_id", None)
+    completed = {r["criterion_id"]: r for r in getattr(error, "completed_rows", [])}
+    rows = []
+    for item in CRITERIA:
+        if item in completed:
+            rows.append(completed[item])
+        else:
+            rows.append({"criterion_id": item,
+                         "status": "fail" if item == criterion else "not-proven"})
+    return {"status": "blocked", "error": str(error),
+            "complete": sum(r["status"] == "pass" for r in rows), "excluded": 0,
+            "missing": sum(r["status"] == "not-proven" for r in rows), "rows": rows,
+            "residual_risks": EXPECTED_RISKS, "release_authorized": False}
 
 
 def main() -> int:
@@ -339,14 +357,7 @@ def main() -> int:
                          indent=2, sort_keys=True))
         return 0
     except (ValueError, KeyError, OSError, json.JSONDecodeError, tarfile.TarError) as error:
-        criterion = getattr(error, "criterion_id", None)
-        ids = list(CRITERIA)
-        rows = [{"criterion_id": item, "status": "fail" if item == criterion else "not-proven"}
-                for item in ids]
-        print(json.dumps({"status": "blocked", "error": str(error), "complete": 0,
-                          "excluded": 0, "missing": sum(r["status"] == "not-proven" for r in rows),
-                          "rows": rows, "residual_risks": EXPECTED_RISKS,
-                          "release_authorized": False}, sort_keys=True))
+        print(json.dumps(failure_report(error), sort_keys=True))
         return 1
 
 

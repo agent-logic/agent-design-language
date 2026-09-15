@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 902,
   "phase": "bound",
-  "generation": 9,
+  "generation": 11,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/902-v0922-runtime-criterion-evidence",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-902-v0922-runtime-criterion-evidence",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "bf55ca78d2b8ca64e489c6c779b1ca6c10e05d3a4f9e61b3d51740c5d212c1c5"
+  "digest": "b5e6228c8494667635d5230241d41e137159887f7b967ec523adbef3c6828f2b"
 }

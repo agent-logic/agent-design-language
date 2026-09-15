@@ -30,6 +30,9 @@
         "coherent synthetic archive replacement"
       ],
       "proof_role": "evidence-integrity and behavioral admission regression",
+      "reporting_cases": [
+        "late-row rejection preserves four earlier pass results and reports complete=4, missing=0"
+      ],
       "release_gate": "required issue gate; no release approval conferred",
       "resource_profile": "small local Python CPU and temporary filesystem"
     }
