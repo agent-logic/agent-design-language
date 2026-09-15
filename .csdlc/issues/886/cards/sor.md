@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented architecture drift from validated graph pairs, original persistent CF-MEMORY comparison gate and shared structural Finding identities. 45 focused tests and11 installed scenarios passed; strict Clippy, fmt and diff checks passed. Independent review and hosted CI remain pending.
+Implemented architecture drift;45 focused tests and11 installed scenarios passed, plus strict Clippy/fmt. Independent review PASS at fbaa3e7e9b61f87efa0440b057e3ce976998df48 with9 tests and11 installed scenarios independently rerun. Final record-only confirmation and native publication pending; no hostedCI or merge claim.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented architecture drift from validated graph pairs, original persistent C
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_local_proof_complete_review_pending`
+- Completion state: `implemented_reviewed_publication_pending`
 - Issue goal ref: `Active whole Sprint929 goal includes886; parent assigned bounded implementation`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
 - Goal metrics rollup ref: `Whole Sprint929 goal accounting; no separate child token claim`
@@ -81,7 +81,7 @@ Implemented architecture drift from validated graph pairs, original persistent C
 ## Actions taken
 - `Implemented original graph compatibility gate and stable structural shared Finding comparison`
 - `Proved added/removed references, boundary crossings, relocation, partial/narrower/policy NotComparable, tampering, expiry and baseline deletion`
-- `Prepared exact-head independent review; no findings waived or review pass claimed`
+- `Independent implementation review passed without findings; final record-only review precedes native publication.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; root main inspection-only`
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: local_execution_yes_review_pending
     schema_changes:
       present: codefriend.drift.v1 artifact; unchanged shared Finding/BaselineRef/Comparison schemas
-      approved: awaiting_independent_review
+      approved: independent_review_passed
 ```
 
 ## Determinism Evidence
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserve original graph comparison; derived shared structural facts add drift lane without changing inherited guards. Policy changes remain NotComparable; boundary-crossing reference changes under identical policy are explainable edge deltas.`
 
 ## Follow-ups / Deferred work
-- `Independent full work-product review; repair findings before native publication; CI and merge authorization remain required`
+- `Final record-only exact-head review and native draft publication; required hosted CI and explicit merge authorization remain.`
 - `Parent owns sprint integration, native terminal reconciliation and cleanup after authorized merge`
