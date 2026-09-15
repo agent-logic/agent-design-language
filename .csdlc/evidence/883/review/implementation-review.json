@@ -1,0 +1,35 @@
+{
+  "schema": "codefriend.independent_review.v1",
+  "issue": 883,
+  "reviewer": "/root/review_987_conflicts",
+  "reviewed_revision": "4eb8184981fe46bad87a267cbf9d64536d8b951d",
+  "result": "PASS",
+  "findings": [],
+  "scope": [
+    "impact production reporter and CLI",
+    "tests and installed proof driver",
+    "CHANGE_IMPACT documentation",
+    "LOCAL_PROOF source/binary hashes and retained logs",
+    "fixture calibration against expected dependency sets and witness paths"
+  ],
+  "independent_validation": {
+    "command": "CARGO_TARGET_DIR=/Users/daniel/git/adl-build-cache/worker10-883 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_cog_impact",
+    "passed": 10,
+    "failed": 0,
+    "source_hashes_match": true,
+    "installed_binary_hash_matches": true,
+    "diff_check": "passed"
+  },
+  "retained_evidence_review": {
+    "focused_tests": 38,
+    "installed_impact_scenarios": 12,
+    "installed_structure_scenarios": 9,
+    "clippy": "passed in retained log"
+  },
+  "calibration_judgment": "PASS for bounded syntactic potential impact: chain edges api->domain->storage imply exactly api/domain for storage change; cycle adds storage->domain without adding unrelated crate/unused. Witness tests assert ordered direct/transitive paths; installed driver checks continuity and graph membership. Zero sampled false positives/negatives is justified for these fixtures only, not runtime impact accuracy. Unknown edges and unsupported targets suppress unimpacted claims.",
+  "limitations": [
+    "Hosted CI not yet published or reviewed",
+    "No Linux, external repository or runtime semantic accuracy claim",
+    "Installed scenarios inspected from retained proof and driver; not independently rerun"
+  ]
+}

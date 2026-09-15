@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented bounded evidence-linked potential module impact and installed artifact consumer. All 38 focused tests, 21 installed scenarios, strict Clippy, formatting and diff checks passed. Final exact-head review and hosted CI pending.
+Implemented bounded evidence-linked module impact with explicit partial unknowns and installed persistent readback. 38 focused tests,21 installed scenarios, strict Clippy and formatting passed. Independent complete implementation review PASS at4eb818498. Awaiting final record-only exact-head confirmation and native publication; CI and merge remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_cog_impact --test codefriend_cf_cog --test codefriend_evidence; installed impact and structure proof runners; cargo fmt --manifest-path adl/Cargo.toml --check`
     `10 impact +17 structure +11 evidence tests passed; installed impact12 +structure9 scenarios passed; strict Clippy, fmt and diff checks passed. CI not yet published.`
 - Results:
-  - `local_tests_passed_review_pending`
+  - `passed_local_ci_pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Preparation does not implement product behavior or bypass dependency gates`
 
 ## Follow-ups / Deferred work
-- `Complete final exact-head review, then native review and publication; hosted CI and explicit authorized integration remain pending.`
+- `Confirm final record-only exact head, execute native review and publish; monitor hosted CI. Integration requires explicit merge authorization.`
 - `Execute VPP and independent exact-head review, then native publication, terminal finish and separate cleanup`
