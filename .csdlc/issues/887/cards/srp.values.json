@@ -10,7 +10,7 @@
   "card_status": "draft",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-887-v0922-codefriend-local-fitness",
-  "review_findings": "Bounded integration review by /root/repair_882_ci/review_989_integration found no actionable issue; both command families and upstream changes retained. Final exact-head review follows record/proof refresh.",
+  "review_findings": "Independent /root/review_987_conflicts reviewed resolutions against both parents: no actionable findings; memory, fitness, architecture dispatch and upstream changes preserved. Final exact-head review follows commit.",
   "findings_status": "integration_review_passed_final_head_pending",
   "sor_card": ".csdlc/issues/887/cards/sor.md",
   "spp_card": ".csdlc/issues/887/cards/spp.md",

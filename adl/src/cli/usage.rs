@@ -4,6 +4,7 @@ pub fn usage() -> &'static str {
   adl codefriend fitness run --store <dir> --packet-id <id> --policy <policy.json> --out <new-report.json>
   adl codefriend fitness read --store <dir> --input <report.json>
   adl codefriend packet read --input <packet.json>
+  adl codefriend memory retain|read|delete|compare|delta-read --store <admission-store> --baselines <baseline-directory> ...
   adl codefriend architecture report --store <dir> --packet-id <id> --policy <policy.json> --out <new-report.json>
   adl codefriend architecture read --store <dir> --input <report.json>
   adl <adl.yaml> [--print-plan] [--print-prompts] [--trace] [--run] [--resume <run.json>] [--steer <steering.json>] [--overlay <overlay.json>] [--out <dir>] [--quiet] [--open]

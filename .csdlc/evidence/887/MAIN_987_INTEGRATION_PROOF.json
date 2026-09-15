@@ -1,0 +1,25 @@
+{
+  "schema": "codefriend.integration_proof.v1",
+  "issue": 887,
+  "base_sha": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+  "tests": {
+    "fitness": 8,
+    "memory": 8,
+    "structure": 17,
+    "evidence": 11
+  },
+  "strict_clippy": "passed",
+  "installed_scenarios": {
+    "fitness": 3,
+    "memory": 8,
+    "structure": 9
+  },
+  "logs": [
+    "main-987-tests.log",
+    "main-987-clippy.log",
+    "main-987-fitness.log",
+    "main-987-memory.log",
+    "main-987-structure.log"
+  ],
+  "hosted_ci": "pending new head"
+}

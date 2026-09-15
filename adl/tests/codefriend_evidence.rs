@@ -12,6 +12,9 @@ use std::{
         Arc,
     },
 };
+// Store locks can be inherited transiently by concurrently spawned Git processes.
+// Keep subprocess fixture lifetimes separate; assertions and production policy are unchanged.
+static FIXTURE_PROCESSES: std::sync::Mutex<()> = std::sync::Mutex::new(());
 fn git(root: &Path, args: &[&str]) -> String {
     let o = Command::new("git")
         .arg("-C")
@@ -119,6 +122,7 @@ impl Fixture {
 }
 #[test]
 fn local_adapter_cli_admission_restart_identity_and_deletion() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     let scope = f._dir.path().join("scope.json");
     fs::write(&scope, serde_json::to_vec(&f.scope).unwrap()).unwrap();
@@ -200,6 +204,7 @@ fn local_adapter_cli_admission_restart_identity_and_deletion() {
 }
 #[test]
 fn expiry_uses_live_clock_and_repeat_cannot_renew() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     let clock = Arc::new(AtomicU64::new(100));
     let c = clock.clone();
@@ -225,6 +230,7 @@ fn expiry_uses_live_clock_and_repeat_cannot_renew() {
 }
 #[test]
 fn interrupted_publication_and_tombstone_cleanup_never_expose_partial_content() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     let store = Store::open(&f.store, || 100).unwrap();
     let p = f.packet();
@@ -247,6 +253,7 @@ fn interrupted_publication_and_tombstone_cleanup_never_expose_partial_content() 
 }
 #[test]
 fn tampered_provenance_and_rehashed_retention_are_rejected_on_reopen() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     for field in ["retention", "provenance"] {
         let f = Fixture::new();
         let store = Store::open(&f.store, || 100).unwrap();
@@ -270,6 +277,7 @@ fn tampered_provenance_and_rehashed_retention_are_rejected_on_reopen() {
 }
 #[test]
 fn unsafe_packets_rejected_before_any_retained_content_and_source_omission() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     let mut p = f.packet();
     let object = p.objects.iter_mut().find(|o| o.path == "lib.rs").unwrap();
@@ -373,6 +381,7 @@ fn unsafe_packets_rejected_before_any_retained_content_and_source_omission() {
 }
 #[test]
 fn shared_consumers_reject_collisions_missing_evidence_and_versions() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     let r = f.record();
     for consumer in [Consumer::Review, Consumer::Memory, Consumer::Renderer] {
@@ -397,6 +406,7 @@ fn shared_consumers_reject_collisions_missing_evidence_and_versions() {
 }
 #[test]
 fn comparisons_require_compatible_complete_coverage_and_preserve_outcomes() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     let baseline = f.record();
     for state in [
@@ -468,6 +478,7 @@ fn comparisons_require_compatible_complete_coverage_and_preserve_outcomes() {
 }
 #[test]
 fn exact_publication_binding_invalidates_each_changed_surface() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     let r = f.record();
     let artifacts = vec![Artifact {
@@ -519,6 +530,7 @@ fn exact_publication_binding_invalidates_each_changed_surface() {
 #[cfg(unix)]
 #[test]
 fn store_rejects_symlinks_and_unowned_directories() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let f = Fixture::new();
     std::os::unix::fs::symlink(&f.root, &f.store).unwrap();
     assert!(Store::open(&f.store, || 100).is_err());
@@ -528,6 +540,7 @@ fn store_rejects_symlinks_and_unowned_directories() {
 
 #[test]
 fn canonical_versioned_fixture_is_shared_by_all_consumers() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     let bytes = include_bytes!("fixtures/codefriend/evidence/review-v1.json");
     let value: serde_json::Value = serde_json::from_slice(bytes).unwrap();
     let schema: serde_json::Value = serde_json::from_str(include_str!(
@@ -578,6 +591,7 @@ fn canonical_versioned_fixture_is_shared_by_all_consumers() {
 #[cfg(unix)]
 #[test]
 fn bootstrap_interruptions_leave_target_unowned_and_unrelated_paths_unchanged() {
+    let _isolation = FIXTURE_PROCESSES.lock().unwrap();
     use std::os::unix::fs::PermissionsExt;
     for partial in [false, true] {
         let f = Fixture::new();

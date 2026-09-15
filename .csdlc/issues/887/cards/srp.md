@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Bounded integration review by /root/repair_882_ci/review_989_integration found no actionable issue; both command families and upstream changes retained. Final exact-head review follows record/proof refresh.
+- Independent /root/review_987_conflicts reviewed resolutions against both parents: no actionable findings; memory, fitness, architecture dispatch and upstream changes preserved. Final exact-head review follows commit.
 
 ### Dispositions
 

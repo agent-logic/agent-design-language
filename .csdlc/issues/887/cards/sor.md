@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Integrated accepted main 9f15e6c47dc990e8feee4e606c882c577571752c into PR #989 after #982 merged. Preserved structure and fitness dispatch/help and removed duplicate identical Cargo dependency declarations. 8 fitness,11 evidence and17 structure tests, strict Clippy, fresh installed fitness3 and structure9 scenarios, and combined help proof passed. Prior head was fully green; current integration requires renewed exact-head review and CI. PR remains open and nondraft; no remote merge.
+Integrated main 7e586a34d6a6ee7e2103ca8d004bc0848a839e31 after PR #987 merged; preserved memory, fitness and architecture commands. 44 focused tests, strict Clippy and 20 installed scenarios passed. Independent conflict resolution review passed; final exact-head review and hosted CI follow. PR #989 remains open and nondraft.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -76,7 +76,7 @@ Integrated accepted main 9f15e6c47dc990e8feee4e606c882c577571752c into PR #989 a
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/887/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/governance; adl/src/cli/codefriend_fitness_cmd.rs; shared CLI/module registration; Cargo manifests; tests, fixtures, installed runner and docs.`
-- Additional proof artifacts: `.csdlc/evidence/887/LOCAL_PROOF.json; docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json; integration-* logs and fixtures under .csdlc/evidence/887/`
+- Additional proof artifacts: `.csdlc/evidence/887/MAIN_987_INTEGRATION_PROOF.json; main-987-* raw proof retained locally.`
 
 ## Actions taken
 - `Implemented policy validation, bounded literal use evaluation and shared ReviewRecord findings.`
@@ -92,7 +92,7 @@ Integrated accepted main 9f15e6c47dc990e8feee4e606c882c577571752c into PR #989 a
 - Verification performed:
   - `Native creation receipt and native publish --observe-github; live PR readback confirmed main base, exact head and draft state.`
     `Publication verified; no merge evidence.`
-- Result: `Local merge of origin/main 9f15e6c47dc990e8feee4e606c882c577571752c into #887 branch; published PR #989 remains at prior reviewed head until guarded push. No remote PR merge.`
+- Result: `Local merge of origin/main 7e586a34d6a6ee7e2103ca8d004bc0848a839e31 into #887 branch; no remote PR merge.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_gov --test codefriend_evidence; cargo llvm-cov with same targets; strict Clippy; installed proof runner`
     `Local accepted predicates and installed consumer proved; hosted integration pending.`
 - Results:
-  - `36 targeted tests passed (fitness8,evidence11,structure17); strict Clippy passed; newly installed binary passed fitness3 and structure9 scenarios and combined-help check. Full current-head hosted CI pending.`
+  - `44 focused tests (fitness8,memory8,structure17,evidence11), strict Clippy and 20 installed scenarios (fitness3,memory8,structure9) passed. Current-head hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
