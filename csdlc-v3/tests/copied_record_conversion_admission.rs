@@ -1,3 +1,6 @@
+use csdlc_v3::conversion::{
+    inspect_conversion_operation, restore_conversion_pre_effect, ConversionRequest,
+};
 use serde_json::{json, Value};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -243,12 +246,124 @@ fn converted_snapshot_is_acknowledged_before_installed_observation() {
     }));
 }
 
+#[test]
+fn production_evidence_and_restore_are_derived_from_durable_operation_state() {
+    let pre_effect = Fixture::new();
+    let pre_request = pre_effect.write_request(
+        &pre_effect.operation("pre-effect-restore"),
+        Some(json!({
+            "point": "whole_census_staging_complete",
+            "boundary": "after",
+            "mode": "once"
+        })),
+    );
+    let interrupted = invoke(&pre_request);
+    assert!(!interrupted.status.success());
+    assert_ne!(interrupted.status.code(), Some(2));
+    let pre: ConversionRequest = serde_json::from_slice(&fs::read(&pre_request).unwrap()).unwrap();
+    let evidence = inspect_conversion_operation(&pre).unwrap();
+    assert_eq!(evidence.outcome, "interrupted");
+    assert_eq!(
+        evidence.abrupt_fault_point.as_deref(),
+        Some("whole_census_staging_complete")
+    );
+    assert_eq!(evidence.abrupt_fault_boundary.as_deref(), Some("after"));
+    assert_eq!(evidence.semantic_effect_count, 0);
+    assert_eq!(evidence.remote_effect_count, 0);
+    let evidence_cli = invoke_route("operation-evidence", &pre_request);
+    assert!(evidence_cli.status.success());
+    let evidence_json: Value = serde_json::from_slice(&evidence_cli.stdout).unwrap();
+    assert_eq!(evidence_json["request_digest"], evidence.request_digest);
+    assert_eq!(evidence_json["outcome"], "interrupted");
+    let restored = restore_conversion_pre_effect(&pre).unwrap();
+    assert!(restored.allowed);
+    assert_eq!(restored.status, "restored_pre_effect");
+    assert_eq!(restored.source_hashes_before, restored.source_hashes_after);
+    assert_eq!(restored.source_record_count, RECORDS.len());
+    assert!(restored
+        .receipt_path
+        .as_ref()
+        .is_some_and(|path| path.is_file()));
+    let restored_cli = invoke_route("restore-pre-effect", &pre_request);
+    assert!(restored_cli.status.success());
+    let restored_json: Value = serde_json::from_slice(&restored_cli.stdout).unwrap();
+    assert_eq!(restored_json["status"], "restored_pre_effect");
+    assert_eq!(restored_json["allowed"], true);
+
+    let post_effect = Fixture::new();
+    let post_request = post_effect.write_request(
+        &post_effect.operation("post-effect-refusal"),
+        Some(json!({
+            "point": "semantic_state_activation",
+            "boundary": "after",
+            "mode": "once"
+        })),
+    );
+    let interrupted = invoke(&post_request);
+    assert!(!interrupted.status.success());
+    let post: ConversionRequest =
+        serde_json::from_slice(&fs::read(&post_request).unwrap()).unwrap();
+    let evidence = inspect_conversion_operation(&post).unwrap();
+    assert!(evidence.semantic_effect_count >= 1);
+    let refused = restore_conversion_pre_effect(&post).unwrap();
+    assert!(!refused.allowed);
+    assert_eq!(refused.status, "refused_post_effect");
+    assert!(refused.effect_count >= 1);
+    assert!(refused.receipt_path.is_none());
+    let refused_cli = invoke_route("restore-pre-effect", &post_request);
+    assert_eq!(refused_cli.status.code(), Some(2));
+    let refused_json: Value = serde_json::from_slice(&refused_cli.stdout).unwrap();
+    assert_eq!(refused_json["status"], "refused_post_effect");
+    assert_eq!(refused_json["allowed"], false);
+}
+
+#[test]
+fn remote_uncertainty_and_single_reconciliation_are_journal_derived() {
+    let fixture = Fixture::new();
+    let request = fixture.write_request(
+        &fixture.operation("remote-reconcile"),
+        Some(json!({
+            "point": "fake_remote_request_dispatch",
+            "boundary": "after",
+            "mode": "once"
+        })),
+    );
+    let interrupted = invoke(&request);
+    assert!(!interrupted.status.success());
+    assert_ne!(interrupted.status.code(), Some(2));
+    let request_value: ConversionRequest =
+        serde_json::from_slice(&fs::read(&request).unwrap()).unwrap();
+    let uncertain = inspect_conversion_operation(&request_value).unwrap();
+    assert_eq!(uncertain.remote_state, "uncertain");
+    assert_eq!(uncertain.remote_effect_count, 1);
+    assert_eq!(uncertain.remote_reconcile_count, 0);
+    assert_eq!(
+        uncertain.remote_operation_identity.as_deref(),
+        Some(request_value.operation_id.as_str())
+    );
+
+    assert_success(&invoke(&request));
+    let reconciled = inspect_conversion_operation(&request_value).unwrap();
+    assert_eq!(reconciled.outcome, "completed");
+    assert_eq!(reconciled.remote_state, "reconciled");
+    assert_eq!(reconciled.remote_effect_count, 1);
+    assert_eq!(reconciled.remote_reconcile_count, 1);
+}
+
 fn invoke(request: &Path) -> Output {
     Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
         .args(["convert", "--request"])
         .arg(request)
         .output()
         .expect("conversion process must start")
+}
+
+fn invoke_route(route: &str, request: &Path) -> Output {
+    Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
+        .args([route, "--request"])
+        .arg(request)
+        .output()
+        .expect("conversion evidence process must start")
 }
 
 fn assert_success(output: &Output) {

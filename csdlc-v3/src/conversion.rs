@@ -98,6 +98,39 @@ pub struct CurrentObservationRelocationResult {
     pub provenance_path: PathBuf,
 }
 
+#[derive(Clone, Debug, Serialize)]
+pub struct ConversionOperationEvidence {
+    pub schema: String,
+    pub operation_id: String,
+    pub request_digest: String,
+    pub outcome: String,
+    pub abrupt_fault_point: Option<String>,
+    pub abrupt_fault_boundary: Option<String>,
+    pub journal_path: PathBuf,
+    pub journal_event_count: usize,
+    pub semantic_effect_count: usize,
+    pub remote_effect_count: usize,
+    pub remote_operation_identity: Option<String>,
+    pub remote_state: String,
+    pub remote_reconcile_count: usize,
+    pub effect_paths: Vec<PathBuf>,
+    pub readback_paths: Vec<PathBuf>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct ConversionRestoreResult {
+    pub schema: String,
+    pub operation_id: String,
+    pub status: String,
+    pub allowed: bool,
+    pub request_digest: String,
+    pub source_record_count: usize,
+    pub source_hashes_before: Vec<String>,
+    pub source_hashes_after: Vec<String>,
+    pub effect_count: usize,
+    pub receipt_path: Option<PathBuf>,
+}
+
 const FAULT_POINTS: [&str; 16] = [
     "operation_journal_creation",
     "conversion_intent_durability",
@@ -1817,5 +1850,230 @@ pub fn relocate_current_observation_copy(
         relocated_hashes,
         journal_path,
         provenance_path,
+    })
+}
+
+fn retained_operation(
+    request: &ConversionRequest,
+) -> Result<(ConversionPreflight, Digest, PathBuf, PathBuf), String> {
+    if request.schema != "csdlc.v3.copied_record_conversion.v1" {
+        return Err("unsupported conversion request schema".to_owned());
+    }
+    if request.operation_id.is_empty()
+        || !request
+            .operation_id
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+    {
+        return Err("operation evidence requires an explicit valid operation_id".to_owned());
+    }
+    let preflight = preflight_conversion(request)?;
+    let digest = canonical_request_digest(request, &preflight)?;
+    let root = preflight
+        .canonical_git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .join(&request.operation_id);
+    let journal = root.join("journal.jsonl");
+    let bytes = fs::read(&journal).map_err(|error| format!("{}: {error}", journal.display()))?;
+    let retained = bytes
+        .split(|byte| *byte == b'\n')
+        .filter(|line| !line.is_empty())
+        .find_map(|line| serde_json::from_slice::<Value>(line).ok())
+        .and_then(|event| {
+            event
+                .pointer("/detail/request_digest")
+                .and_then(Value::as_str)
+                .map(str::to_owned)
+        });
+    if retained.as_deref() != Some(digest.as_str()) {
+        return Err("retained operation request digest mismatch".to_owned());
+    }
+    Ok((preflight, digest, root, journal))
+}
+
+pub fn inspect_conversion_operation(
+    request: &ConversionRequest,
+) -> Result<ConversionOperationEvidence, String> {
+    let (preflight, request_digest, root, journal_path) = retained_operation(request)?;
+    let journal_bytes =
+        fs::read(&journal_path).map_err(|error| format!("{}: {error}", journal_path.display()))?;
+    let events = journal_bytes
+        .split(|byte| *byte == b'\n')
+        .filter(|line| !line.is_empty())
+        .map(|line| serde_json::from_slice::<Value>(line).map_err(|error| error.to_string()))
+        .collect::<Result<Vec<_>, _>>()?;
+    let fault = events.iter().find_map(|event| {
+        let name = event.get("event").and_then(Value::as_str)?;
+        let suffix = name.strip_prefix("fault_injected:")?;
+        let (point, boundary) = suffix.rsplit_once(':')?;
+        Some((point.to_owned(), boundary.to_owned()))
+    });
+    let completed = events
+        .iter()
+        .any(|event| event.get("event").and_then(Value::as_str) == Some("operation_completed"));
+
+    let checkpoints = root.join("checkpoints");
+    let mut semantic_checkpoints = Vec::new();
+    if checkpoints.is_dir() {
+        let mut entries = fs::read_dir(&checkpoints)
+            .map_err(|error| format!("{}: {error}", checkpoints.display()))?
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(|error| error.to_string())?;
+        entries.sort_by_key(|entry| entry.file_name());
+        for entry in entries {
+            if entry
+                .file_name()
+                .to_string_lossy()
+                .starts_with("semantic-activation-")
+            {
+                semantic_checkpoints.push(entry.path());
+            }
+        }
+    }
+    // Detect an activation that reached durable semantic state before its checkpoint.
+    let mut semantic_effects = Vec::new();
+    for record in &request.records {
+        let path = preflight
+            .canonical_git_common
+            .join("csdlc-v3/semantic/issues")
+            .join(record.issue.to_string());
+        if path.exists() {
+            semantic_effects.push(path);
+        }
+    }
+    if semantic_effects.is_empty() {
+        semantic_effects = semantic_checkpoints;
+    }
+
+    let ledger = root.join("fake-transport-ledger.jsonl");
+    let remote_lines = if ledger.is_file() {
+        fs::read(&ledger)
+            .map_err(|error| format!("{}: {error}", ledger.display()))?
+            .split(|byte| *byte == b'\n')
+            .filter(|line| !line.is_empty())
+            .map(|line| serde_json::from_slice::<Value>(line).map_err(|error| error.to_string()))
+            .collect::<Result<Vec<_>, _>>()?
+    } else {
+        Vec::new()
+    };
+    let remote_operation_identity = remote_lines
+        .first()
+        .and_then(|line| line.get("operation_id"))
+        .and_then(Value::as_str)
+        .map(str::to_owned);
+    if remote_operation_identity
+        .as_deref()
+        .is_some_and(|identity| identity != request.operation_id)
+    {
+        return Err("remote effect operation identity mismatch".to_owned());
+    }
+    let remote_readback = root.join("remote/readback.json");
+    let remote_reconcile_count = usize::from(remote_readback.is_file());
+    let remote_state = match (remote_lines.is_empty(), remote_readback.is_file()) {
+        (true, false) => "not_dispatched",
+        (false, false) => "uncertain",
+        (false, true) => "reconciled",
+        (true, true) => "invalid_readback_without_effect",
+    }
+    .to_owned();
+    if remote_state == "invalid_readback_without_effect" {
+        return Err("remote readback exists without an authenticated effect".to_owned());
+    }
+    let mut effect_paths = semantic_effects.clone();
+    if ledger.is_file() {
+        effect_paths.push(ledger.clone());
+    }
+    let mut readback_paths = Vec::new();
+    if remote_readback.is_file() {
+        readback_paths.push(remote_readback);
+    }
+    Ok(ConversionOperationEvidence {
+        schema: "csdlc.v3.copied_record_conversion_operation_evidence.v1".to_owned(),
+        operation_id: request.operation_id.clone(),
+        request_digest: request_digest.as_str().to_owned(),
+        outcome: if completed {
+            "completed"
+        } else {
+            "interrupted"
+        }
+        .to_owned(),
+        abrupt_fault_point: fault.as_ref().map(|value| value.0.clone()),
+        abrupt_fault_boundary: fault.map(|value| value.1),
+        journal_path,
+        journal_event_count: events.len(),
+        semantic_effect_count: semantic_effects.len(),
+        remote_effect_count: remote_lines.len(),
+        remote_operation_identity,
+        remote_state,
+        remote_reconcile_count,
+        effect_paths,
+        readback_paths,
+    })
+}
+
+pub fn restore_conversion_pre_effect(
+    request: &ConversionRequest,
+) -> Result<ConversionRestoreResult, String> {
+    let (preflight, request_digest, _, _) = retained_operation(request)?;
+    let evidence = inspect_conversion_operation(request)?;
+    let effect_count = evidence.semantic_effect_count + evidence.remote_effect_count;
+    if effect_count > 0 {
+        return Ok(ConversionRestoreResult {
+            schema: "csdlc.v3.copied_record_conversion_restore_result.v1".to_owned(),
+            operation_id: request.operation_id.clone(),
+            status: "refused_post_effect".to_owned(),
+            allowed: false,
+            request_digest: request_digest.as_str().to_owned(),
+            source_record_count: request.records.len(),
+            source_hashes_before: preflight
+                .source_digests
+                .iter()
+                .map(|digest| digest.as_str().to_owned())
+                .collect(),
+            source_hashes_after: Vec::new(),
+            effect_count,
+            receipt_path: None,
+        });
+    }
+    let after = request
+        .records
+        .iter()
+        .map(|record| source_digest(&record.source))
+        .collect::<Result<Vec<_>, _>>()?;
+    if after != preflight.source_digests {
+        return Err("source census changed before pre-effect restore".to_owned());
+    }
+    let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
+    let fence = operation.root.join("conversion.fence");
+    if fence.is_file() {
+        replace_durable(&fence, b"released\n")?;
+    }
+    let receipt_path = operation.root.join("restore/pre-effect-receipt.json");
+    operation.marker(
+        "restore/pre-effect-receipt.json",
+        "pre_effect_restore_completed",
+        json!({
+            "source_record_count": request.records.len(),
+            "source_hashes": after.iter().map(Digest::as_str).collect::<Vec<_>>(),
+        }),
+    )?;
+    Ok(ConversionRestoreResult {
+        schema: "csdlc.v3.copied_record_conversion_restore_result.v1".to_owned(),
+        operation_id: request.operation_id.clone(),
+        status: "restored_pre_effect".to_owned(),
+        allowed: true,
+        request_digest: request_digest.as_str().to_owned(),
+        source_record_count: request.records.len(),
+        source_hashes_before: preflight
+            .source_digests
+            .iter()
+            .map(|digest| digest.as_str().to_owned())
+            .collect(),
+        source_hashes_after: after
+            .iter()
+            .map(|digest| digest.as_str().to_owned())
+            .collect(),
+        effect_count,
+        receipt_path: Some(receipt_path),
     })
 }
