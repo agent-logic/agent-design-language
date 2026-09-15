@@ -45,7 +45,11 @@ policy constructors or inventing verified tokens. The input caps are 16 KiB trus
 64 continuity manifests, and 32 projection fields. Errors omit input data and
 paths. Symlink and parent-traversal inputs are rejected.
 
-Private-state lineage checking is invocation-local. This route does not claim a
+The Runtime preparation API preserves the caller's accepted private-state lineage.
+It verifies on a cloned lineage and advances the caller only after all identity
+and continuity checks succeed, including valid successor records.
+
+Private-state lineage checking in the file-based CLI adapter is invocation-local. This route does not claim a
 new durable private-state lineage service. The existing Runtime Memory Palace
 service separately enforces identity and continuity succession across commits.
 

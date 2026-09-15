@@ -23,6 +23,12 @@ fn main() -> Result<()> {
     generate(Path::new(&output))
 }
 pub fn generate(root: &Path) -> Result<()> {
+    generate_with_successor(root, false)
+}
+pub fn verify_successor(root: &Path) -> Result<()> {
+    generate_with_successor(root, true)
+}
+fn generate_with_successor(root: &Path, successor: bool) -> Result<()> {
     fs::create_dir_all(root)?;
     let identity_authority = IdentityAuthority::from_bytes("identity-birthday-key", &[11_u8; 32]);
     let identity_keys = BTreeMap::from([(
@@ -74,7 +80,7 @@ pub fn generate(root: &Path) -> Result<()> {
         ),
         ("witness_status".to_owned(), "governed".to_owned()),
     ]);
-    let private_record = private_authority
+    let mut private_record = private_authority
         .issue_record(PrivateStateSealRequest {
             subject_id: binding.citizen_id.clone(),
             lineage_id: binding.continuity_id.clone(),
@@ -85,6 +91,28 @@ pub fn generate(root: &Path) -> Result<()> {
             sanctuary_level: 1,
         })
         .expect("signed private-state record");
+    let private_keys = BTreeMap::from([(
+        "private-birthday-key".to_owned(),
+        private_authority.verifying_key(),
+    )]);
+    let mut lineage = PrivateStateLineage::default();
+    if successor {
+        let predecessor = lineage
+            .append(&private_record, &private_keys)
+            .map_err(|_| anyhow!("fixture predecessor admission failed"))?;
+        private_record = private_authority
+            .issue_record(PrivateStateSealRequest {
+                subject_id: binding.citizen_id.clone(),
+                lineage_id: binding.continuity_id.clone(),
+                sequence: 2,
+                predecessor_hash: predecessor,
+                private_payload: b"successor private fixture state".to_vec(),
+                projection: available_projection.clone(),
+                sanctuary_level: 1,
+            })
+            .map_err(|_| anyhow!("fixture successor signing failed"))?;
+    }
+    let original_head = lineage.head(&binding.continuity_id).map(str::to_owned);
     let checkpoint_authority = CheckpointAuthority::from_bytes("runtime-continuity", &[19; 32]);
     let trust = Trust {
         schema: "codefriend.palace.trust.v1".to_owned(),
@@ -96,7 +124,7 @@ pub fn generate(root: &Path) -> Result<()> {
         continuity_public_key: hex::encode(checkpoint_authority.verifying_key().as_bytes()),
         identity_generation: 7,
         continuity_generation: 1,
-        projection_generation: 1,
+        projection_generation: if successor { 2 } else { 1 },
         runtime_state_dir: "runtime-authority-state".to_owned(),
     };
     let live = palace_authority::assembly(&trust, root)?;
@@ -105,7 +133,7 @@ pub fn generate(root: &Path) -> Result<()> {
             identity_binding: &binding,
             identity_checkpoint: &checkpoint,
             private_record: &private_record,
-            private_lineage: &mut PrivateStateLineage::default(),
+            private_lineage: &mut lineage.clone(),
             available_projection: &available_projection,
         })
         .map_err(|_| anyhow!("fixture identity admission failed"))?;
@@ -187,24 +215,28 @@ pub fn generate(root: &Path) -> Result<()> {
     let manifests = vec![manifest, second];
     let mut rejected_manifests = manifests.clone();
     rejected_manifests[0].signature = "00".repeat(64);
-    if live
-        .prepare_memory_palace_authority(
-            &candidate,
-            MemoryPalaceIdentityEvidence {
-                identity_binding: &binding,
-                identity_checkpoint: &checkpoint,
-                private_record: &private_record,
-                private_lineage: &mut PrivateStateLineage::default(),
-                available_projection: &available_projection,
-            },
-            &rejected_manifests,
-        )
-        .is_ok()
-    {
-        return Err(anyhow!(
-            "fixture counterfeited continuity unexpectedly accepted"
-        ));
-    }
+    let rejected = live.prepare_memory_palace_authority(
+        &candidate,
+        MemoryPalaceIdentityEvidence {
+            identity_binding: &binding,
+            identity_checkpoint: &checkpoint,
+            private_record: &private_record,
+            private_lineage: &mut lineage,
+            available_projection: &available_projection,
+        },
+        &rejected_manifests,
+    );
+    anyhow::ensure!(
+        matches!(
+            rejected,
+            Err(MemoryPalaceAuthorityError::ContinuityCycles(_))
+        ),
+        "counterfeited manifest must fail continuity verification after identity admission"
+    );
+    anyhow::ensure!(
+        lineage.head(&binding.continuity_id) == original_head.as_deref(),
+        "failed preparation changed caller lineage"
+    );
     let prepared = live
         .prepare_memory_palace_authority(
             &candidate,
@@ -212,12 +244,34 @@ pub fn generate(root: &Path) -> Result<()> {
                 identity_binding: &binding,
                 identity_checkpoint: &checkpoint,
                 private_record: &private_record,
-                private_lineage: &mut PrivateStateLineage::default(),
+                private_lineage: &mut lineage,
                 available_projection: &available_projection,
             },
             &manifests,
         )
         .map_err(|_| anyhow!("fixture authority preparation failed"))?;
+    let accepted_head = lineage.head(&binding.continuity_id).map(str::to_owned);
+    anyhow::ensure!(
+        accepted_head.as_deref()
+            == Some(
+                prepared
+                    .identity_evidence()
+                    .projection_receipt()
+                    .accepted_record_hash
+                    .as_str()
+            ),
+        "successful preparation did not advance caller lineage"
+    );
+    let replay = lineage
+        .append(&private_record, &private_keys)
+        .map_err(|_| anyhow!("accepted successor replay failed"))?;
+    anyhow::ensure!(
+        accepted_head.as_deref() == Some(replay.as_str()),
+        "replay changed accepted head"
+    );
+    if successor {
+        return Ok(());
+    }
     let identity = prepared.identity().clone();
     let continuity_record = prepared.continuity().record().clone();
     let input = Evidence {

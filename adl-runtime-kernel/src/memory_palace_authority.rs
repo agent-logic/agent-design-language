@@ -175,11 +175,14 @@ impl RuntimeMemoryPalaceProvisioner {
         input: MemoryPalaceIdentityEvidence<'_>,
         manifests: &[CheckpointManifest],
     ) -> Result<VerifiedMemoryPalaceAuthority, MemoryPalaceAuthorityError> {
+        // Preserve accepted history and commit lineage advancement only after
+        // all identity and continuity checks succeed.
+        let mut lineage = input.private_lineage.clone();
         let evidence = self.verify_identity_evidence(
             input.identity_binding,
             input.identity_checkpoint,
             input.private_record,
-            &mut PrivateStateLineage::default(),
+            &mut lineage,
             input.available_projection,
         )?;
         let identity = crate::build_birthday_identity(candidate, &evidence)
@@ -204,16 +207,18 @@ impl RuntimeMemoryPalaceProvisioner {
             .map_err(MemoryPalaceAuthorityError::ContinuityCycles)?;
         let continuity = crate::build_birthday_continuity(&identity, &verified)
             .map_err(MemoryPalaceAuthorityError::ContinuityRecord)?;
-        self.provision(MemoryPalaceAuthorityEvidence {
+        let authority = self.provision(MemoryPalaceAuthorityEvidence {
             identity_record: &identity,
             identity_binding: input.identity_binding,
             identity_checkpoint: input.identity_checkpoint,
             private_record: input.private_record,
-            private_lineage: input.private_lineage,
+            private_lineage: &mut lineage,
             available_projection: input.available_projection,
             continuity_record: &continuity,
             continuity_manifests: manifests,
-        })
+        })?;
+        *input.private_lineage = lineage;
+        Ok(authority)
     }
     pub(crate) fn from_bootstrap(
         bootstrap: BirthdayAuthorityBootstrap,

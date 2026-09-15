@@ -481,3 +481,10 @@ fn untrusted_keys_do_not_create_a_palace() {
     fs::write(&trust, serde_json::to_vec(&value).unwrap()).unwrap();
     assert!(palace_authority::provision(&trust, &evidence).is_err());
 }
+
+#[test]
+fn production_prepare_preserves_successor_lineage_and_failure_is_atomic() {
+    let _guard = TEST_LOCK.lock().unwrap();
+    let root = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
+    authority_fixture::verify_successor(root.path()).unwrap();
+}
