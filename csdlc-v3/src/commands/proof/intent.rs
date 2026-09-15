@@ -1126,36 +1126,6 @@ fn hashed_dep_info_matches_target(path: &Path, target: &str) -> bool {
     !hash.is_empty() && hash.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
-#[cfg(test)]
-mod dependency_record_tests {
-    use super::{hashed_dep_info_matches_target, positional_filter_admitted};
-    use std::path::Path;
-
-    #[test]
-    fn final_binary_dep_info_requires_exact_target_and_hash() {
-        assert!(hashed_dep_info_matches_target(
-            Path::new("foo-a1b2c3.d"),
-            "foo"
-        ));
-        assert!(!hashed_dep_info_matches_target(
-            Path::new("foo-bar-a1b2c3.d"),
-            "foo"
-        ));
-        assert!(!hashed_dep_info_matches_target(
-            Path::new("foo-release.d"),
-            "foo"
-        ));
-    }
-
-    #[test]
-    fn positional_filter_cannot_smuggle_an_unknown_cargo_option() {
-        assert!(positional_filter_admitted("semantic_gate_a"));
-        assert!(!positional_filter_admitted("--no-default-features"));
-        assert!(!positional_filter_admitted("--workspace"));
-        assert!(!positional_filter_admitted("--release"));
-    }
-}
-
 fn tracked_input_digest(root: &Path, validators: &[Validator]) -> Result<String, String> {
     manifest_inputs(root, validators)?;
     if !git_read(root, &["diff", "--name-only", "HEAD"])?.is_empty() {
@@ -1265,4 +1235,34 @@ pub(crate) fn verify_execution_inputs(
         return Err("intent_proof_current_inputs_mismatch".into());
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod dependency_record_tests {
+    use super::{hashed_dep_info_matches_target, positional_filter_admitted};
+    use std::path::Path;
+
+    #[test]
+    fn final_binary_dep_info_requires_exact_target_and_hash() {
+        assert!(hashed_dep_info_matches_target(
+            Path::new("foo-a1b2c3.d"),
+            "foo"
+        ));
+        assert!(!hashed_dep_info_matches_target(
+            Path::new("foo-bar-a1b2c3.d"),
+            "foo"
+        ));
+        assert!(!hashed_dep_info_matches_target(
+            Path::new("foo-release.d"),
+            "foo"
+        ));
+    }
+
+    #[test]
+    fn positional_filter_cannot_smuggle_an_unknown_cargo_option() {
+        assert!(positional_filter_admitted("semantic_gate_a"));
+        assert!(!positional_filter_admitted("--no-default-features"));
+        assert!(!positional_filter_admitted("--workspace"));
+        assert!(!positional_filter_admitted("--release"));
+    }
 }
