@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "Independent review by docs_final_review plus package and CI specialist lanes. Root verified narrow final documentation corrections. Exact-head publication review not claimed."
+notes: "Original audit review and local proof remain valid for unchanged source; publication metadata correction requires renewed exact-head review before ready."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- <review_dispositions>
+- PR #979 review found stale SOR no-PR wording. Corrected through native v3 to record the actual published/open PR and historical initial draft state. New exact-head review follows this metadata correction.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent review by docs_final_review plus package and CI specialist lanes. Root verified narrow final documentation corrections. Exact-head publication review not claimed.
+Original audit review and local proof remain valid for unchanged source; publication metadata correction requires renewed exact-head review before ready.

@@ -10,8 +10,9 @@
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-977-rd01-repository-audit",
-  "review_notes": "Independent review by docs_final_review plus package and CI specialist lanes. Root verified narrow final documentation corrections. Exact-head publication review not claimed.",
+  "review_notes": "Original audit review and local proof remain valid for unchanged source; publication metadata correction requires renewed exact-head review before ready.",
   "findings_status": "no_findings",
   "recommended_outcome": "approve",
-  "review_findings": "Probe directory reuse, wrong flag and stale plan state corrected. No additional material findings."
+  "review_findings": "Probe directory reuse, wrong flag and stale plan state corrected. No additional material findings.",
+  "review_dispositions": "PR #979 review found stale SOR no-PR wording. Corrected through native v3 to record the actual published/open PR and historical initial draft state. New exact-head review follows this metadata correction."
 }
