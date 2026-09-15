@@ -538,7 +538,7 @@ pub fn read_report(store: &Store, path: &std::path::Path) -> Result<StructureRep
     report.validate(store)?;
     Ok(report)
 }
-fn safe_artifact_path(path: &std::path::Path) -> Result<()> {
+pub(super) fn safe_artifact_path(path: &std::path::Path) -> Result<()> {
     ensure!(
         !path
             .components()

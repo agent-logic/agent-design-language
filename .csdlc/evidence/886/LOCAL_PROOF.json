@@ -1,0 +1,85 @@
+{
+  "schema": "codefriend.drift_local_proof.v1",
+  "issue": 886,
+  "base_revision": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+  "source_sha256": {
+    "adl/src/codefriend/architecture/drift.rs": "4dc0fc93854851ad3285909c2accc074a8f876ece44590edfbb0f109a930f774",
+    "adl/src/codefriend/architecture/structure.rs": "bf63e9a162ef8c9315cbbf5311d29d9a43b0ea93f4352856fc230645d9c0aacc",
+    "adl/src/codefriend/architecture/mod.rs": "d43fd1f220902f0bf4c999bc1d2f0a2e484ef75bb18b59148993a64a036d86de",
+    "adl/src/cli/codefriend_structure_cmd.rs": "3d642cac85a4e88f0fd468d8eac387f9cd3472532a72e330fa716b781d9a0bb2",
+    "adl/src/cli/usage.rs": "507c9780550e5f931026966c7e505783c8b9de99b487c60b553809c90f03709b",
+    "adl/tests/codefriend_cf_cog_drift.rs": "4f7eede087bcdcbf56e8273c7d688109275fbb02a988c5553684c526ab4c5f14",
+    "adl/tools/codefriend_drift_installed_proof.py": "da8df42fb40eff9e8c4fa730aeb94c6e5a5756642eeb245b238a99d029bc5193"
+  },
+  "tests": {
+    "codefriend_cf_cog_drift": 9,
+    "codefriend_cf_cog": 17,
+    "codefriend_cf_memory": 8,
+    "codefriend_evidence": 11
+  },
+  "focused_tests_result": "passed",
+  "strict_clippy": "passed --bin adl -- -D warnings",
+  "fmt": "passed",
+  "diff_check": "passed",
+  "installed_drift": {
+    "schema": "codefriend.drift_installed_proof.v1",
+    "issue": 886,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "5d28c8704df48cd048bdcb731a1129669a8478a97f853c487caec311bc9a0c2e",
+    "installation_provenance": "47a24781ebe3682c5bd39800061dbc901e25bb768b6465a76df5c03dac70b118",
+    "scenarios": [
+      "actual-memory-read",
+      "overwrite",
+      "tampered-delta",
+      "deleted-baseline-read",
+      "no-resurrection",
+      "changed-repeat-readback",
+      "unchanged-repeat-readback",
+      "relocated-repeat-readback",
+      "partial-repeat-readback",
+      "narrower-repeat-readback",
+      "policy-repeat-readback"
+    ],
+    "executed_scenarios": 11,
+    "calibration": [
+      {
+        "fixture": "changed",
+        "expected_deltas": [
+          "added",
+          "resolved"
+        ],
+        "observed_deltas": [
+          "added",
+          "resolved"
+        ],
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      {
+        "fixture": "unchanged",
+        "expected_deltas": [],
+        "observed_deltas": [],
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      {
+        "fixture": "relocated",
+        "expected_deltas": [],
+        "observed_deltas": [],
+        "false_positives": 0,
+        "false_negatives": 0
+      }
+    ],
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Synthetic scoped reference-change accuracy, not runtime architecture drift or semantic rename inference",
+      "No provider or external source execution",
+      "No Linux qualification from macOS proof"
+    ]
+  },
+  "build_profile": "Isolated internal-disk worker10-886 target; same-host wrapper dependency warm from worker10-887; dev/test debug=0. Cache warming is acceleration only.",
+  "ci": "not_yet_published; full required hosted coverage remains publication gate",
+  "review": "Independent exact-head review pending",
+  "semantic_guards": "Actual original StructureReport records compared through AdmittedBaselines before shared structural facts; no erased policy/scope/completion guards. Both compatibility outcomes/reasons must agree."
+}
