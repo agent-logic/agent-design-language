@@ -1,0 +1,30 @@
+{
+  "issue": 902,
+  "schema": "adl.pvf_test_manifest.v1",
+  "tests": [
+    {
+      "command": "python3 -m unittest adl/tools/test_validate_v0922_runtime_qualification.py",
+      "determinism": "isolated temporary files and archives; no clock, network, credentials, or provider",
+      "lane": "local-required",
+      "negative_cases": [
+        "altered criterion text",
+        "altered criterion digest",
+        "stale canonical source revision",
+        "stale producer revision",
+        "missing scenario set",
+        "changed execution artifact",
+        "changed signed protected member",
+        "missing independent review",
+        "self-authored approval",
+        "cross-criterion substitution",
+        "partial row denominator",
+        "changed historical 19/5/2 boundary",
+        "release-authority escalation",
+        "unresolved review finding"
+      ],
+      "proof_role": "evidence-integrity and behavioral admission regression",
+      "release_gate": "required issue gate; no release approval conferred",
+      "resource_profile": "small local Python CPU and temporary filesystem"
+    }
+  ]
+}

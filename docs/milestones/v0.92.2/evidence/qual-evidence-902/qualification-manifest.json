@@ -1,0 +1,294 @@
+{
+  "historical_boundary": {
+    "cloud_control_gaps": 5,
+    "execution_proof_gaps": 2,
+    "historical_consumers": [
+      522,
+      833
+    ],
+    "original_findings": 19,
+    "original_findings_newly_proved": false
+  },
+  "release_authorized": false,
+  "residual_risks": [
+    "Historical consumers #522 and #833 remain closed historical records; these five rows do not newly prove all 19 original findings.",
+    "Five cloud-control gaps and two execution-proof gaps remain separate from this five-row qualification mapping.",
+    "Protected #900/#901 raw evidence must remain locally accessible and digest-identical for admission.",
+    "This qualification grants no release approval."
+  ],
+  "rows": [
+    {
+      "canonical_source_issue": 499,
+      "canonical_source_revision": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+      "criterion_digest": "26638cbc6ff9b7650cdc449c920ff3a194d408d260d27747357862cb74f86848",
+      "criterion_id": "RUST-01-ac-4",
+      "criterion_text": "Validation-impact change is measured exactly",
+      "execution_profile": "two-revision deterministic Rust test inventory",
+      "independent_review": {
+        "artifact_sha256s": [
+          "b4f254ec0c7e819b62be2ccc0d10fd369ee3cfdbd7a9d0443c6a46e6affbe55c",
+          "c82d122ca7f41ea5bf4152e6c736cea28bee65d953616d154c4e53c1cd3222c7"
+        ],
+        "candidate_revision": "713776d7dd481b8f7ea06a1a20478be9ef3ae278",
+        "independent": true,
+        "producer_author": "worker9",
+        "result": "pass",
+        "reviewer": "review_899",
+        "unresolved_findings": []
+      },
+      "producer_artifact": {
+        "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/comparison.json",
+        "sha256": "c82d122ca7f41ea5bf4152e6c736cea28bee65d953616d154c4e53c1cd3222c7"
+      },
+      "producer_issue": 899,
+      "producer_pr": 961,
+      "producer_revision": "713776d7dd481b8f7ea06a1a20478be9ef3ae278",
+      "required_scenarios": [
+        "baseline_inventory",
+        "candidate_inventory",
+        "exact_delta"
+      ],
+      "review_receipt": {
+        "path": "evidence/899/retained/typed-review-receipt.json",
+        "sha256": "b4f254ec0c7e819b62be2ccc0d10fd369ee3cfdbd7a9d0443c6a46e6affbe55c"
+      }
+    },
+    {
+      "canonical_source_issue": 507,
+      "canonical_source_revision": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+      "criterion_digest": "ef452af05a9f7ebd3502782bbf7f0a35734cea3384b277bb22bd21846aafde45",
+      "criterion_id": "DRT-B-ac-2",
+      "criterion_text": "Six distinct residents complete assigned UTS work",
+      "execution_profile": "local Ollama six-resident governed UTS continuity run",
+      "independent_review": {
+        "artifact_sha256s": [
+          "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879",
+          "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3",
+          "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7",
+          "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295",
+          "c4ab81b8b43d2ff771e1bda0317da9d347ded71755732f39aacb8382343a1006",
+          "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60",
+          "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4",
+          "ed6182d3c00da9a21a28fc2dac8a93427128f0766cfec7f378a90f04b9dd9695"
+        ],
+        "candidate_revision": "2e406b75fbefd4a825dc2700bf5ae4dd668d1f77",
+        "independent": true,
+        "producer_author": "worker-9",
+        "result": "pass",
+        "reviewer": "/root/review_900_final",
+        "unresolved_findings": []
+      },
+      "producer_artifact": {
+        "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/validation.json",
+        "sha256": "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295"
+      },
+      "producer_issue": 900,
+      "producer_pr": 973,
+      "producer_revision": "2e406b75fbefd4a825dc2700bf5ae4dd668d1f77",
+      "protected_archive": {
+        "path": "evidence/900/retained/qualification-authority.tar.gz",
+        "sha256": "c4ab81b8b43d2ff771e1bda0317da9d347ded71755732f39aacb8382343a1006"
+      },
+      "protected_members": [
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-uts/qualification-receipt.json",
+          "sha256": "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-negatives/summary.json",
+          "sha256": "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-uts/dehydration.json",
+          "sha256": "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-uts/restore.json",
+          "sha256": "ed6182d3c00da9a21a28fc2dac8a93427128f0766cfec7f378a90f04b9dd9695"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/uts-state.json",
+          "sha256": "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3"
+        }
+      ],
+      "required_scenarios": [
+        "six_distinct_roles",
+        "six_distinct_workload_views",
+        "twelve_workload_effects"
+      ],
+      "review_receipt": {
+        "path": "evidence/900/retained/typed-review-receipt.json",
+        "sha256": "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60"
+      }
+    },
+    {
+      "canonical_source_issue": 507,
+      "canonical_source_revision": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+      "criterion_digest": "08234e4893ec01ee2fa8ab3821644680b4a1215e5a79dddd7d2a242070204164",
+      "criterion_id": "DRT-B-ac-3",
+      "criterion_text": "Dehydrate and restore preserve exact population",
+      "execution_profile": "local Ollama six-resident governed UTS continuity run",
+      "independent_review": {
+        "artifact_sha256s": [
+          "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879",
+          "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3",
+          "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7",
+          "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295",
+          "c4ab81b8b43d2ff771e1bda0317da9d347ded71755732f39aacb8382343a1006",
+          "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60",
+          "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4",
+          "ed6182d3c00da9a21a28fc2dac8a93427128f0766cfec7f378a90f04b9dd9695"
+        ],
+        "candidate_revision": "2e406b75fbefd4a825dc2700bf5ae4dd668d1f77",
+        "independent": true,
+        "producer_author": "worker-9",
+        "result": "pass",
+        "reviewer": "/root/review_900_final",
+        "unresolved_findings": []
+      },
+      "producer_artifact": {
+        "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/validation.json",
+        "sha256": "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295"
+      },
+      "producer_issue": 900,
+      "producer_pr": 973,
+      "producer_revision": "2e406b75fbefd4a825dc2700bf5ae4dd668d1f77",
+      "protected_archive": {
+        "path": "evidence/900/retained/qualification-authority.tar.gz",
+        "sha256": "c4ab81b8b43d2ff771e1bda0317da9d347ded71755732f39aacb8382343a1006"
+      },
+      "protected_members": [
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-uts/qualification-receipt.json",
+          "sha256": "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-negatives/summary.json",
+          "sha256": "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-uts/dehydration.json",
+          "sha256": "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/continuity-uts/restore.json",
+          "sha256": "ed6182d3c00da9a21a28fc2dac8a93427128f0766cfec7f378a90f04b9dd9695"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/uts-state.json",
+          "sha256": "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3"
+        }
+      ],
+      "required_scenarios": [
+        "dehydrate_six",
+        "restore_six",
+        "continuation_verified",
+        "seven_tamper_denials"
+      ],
+      "review_receipt": {
+        "path": "evidence/900/retained/typed-review-receipt.json",
+        "sha256": "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60"
+      }
+    },
+    {
+      "canonical_source_issue": 508,
+      "canonical_source_revision": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+      "criterion_digest": "0d0b0aa211933ac965683f99c99cbd24bd494e4872326fd215cbfea3a8656509",
+      "criterion_id": "DRT-C-ac-2",
+      "criterion_text": "Identity provider and transport failures fail closed",
+      "execution_profile": "registered Runtime v3 local provider recovery qualification",
+      "independent_review": {
+        "artifact_sha256s": [
+          "0a5b63f9e1c12ec39fe9616bb4b6a301edaf19826dcdb481aea8019567a0cbfa",
+          "9489030c0701112ad500b0be8f8350505cba5347602d1ec21984b3ae601a65ac",
+          "d0b280fc90553e8405bc4bdb19445e17764cc6ff0888f6cdad666f7f9502f911",
+          "ddde972b4b1cf8d5dd6f780440f124b2d17dec43673c4613eb35b650a909399e",
+          "e31299a7e44ee27715ac9c76252a857a1b9c3d87d86ac23fa6181af157470e22",
+          "f009f9425488e123b2ccefe68a98621b69ddc18a711ca7c6852b90a3ffc57c71",
+          "ff024700dc169e8c9fa5a3016a2de71758f74ac1cce8e4be24ae03964b00b960"
+        ],
+        "candidate_revision": "3fb8606a438dcc6e7c112eaaaad01cb1fa6012cc",
+        "independent": true,
+        "producer_author": "worker-9",
+        "result": "pass",
+        "reviewer": "/root/rereview_901_artifacts",
+        "unresolved_findings": []
+      },
+      "producer_artifact": {
+        "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/runtime-qualification-report.json",
+        "sha256": "e31299a7e44ee27715ac9c76252a857a1b9c3d87d86ac23fa6181af157470e22"
+      },
+      "producer_issue": 901,
+      "producer_pr": 974,
+      "producer_revision": "3fb8606a438dcc6e7c112eaaaad01cb1fa6012cc",
+      "protected_archive": {
+        "path": "evidence/901/retained/qualification-authority.tar.gz",
+        "sha256": "f009f9425488e123b2ccefe68a98621b69ddc18a711ca7c6852b90a3ffc57c71"
+      },
+      "protected_members": [
+        {
+          "path": ".csdlc/evidence/901/runtime-live-12/runtime-observations.json",
+          "sha256": "ddde972b4b1cf8d5dd6f780440f124b2d17dec43673c4613eb35b650a909399e"
+        },
+        {
+          "path": ".csdlc/evidence/901/runtime-live-12/checkpoint.json",
+          "sha256": "0a5b63f9e1c12ec39fe9616bb4b6a301edaf19826dcdb481aea8019567a0cbfa"
+        },
+        {
+          "path": ".csdlc/evidence/901/runtime-live-12/proxy-requests.json",
+          "sha256": "d0b280fc90553e8405bc4bdb19445e17764cc6ff0888f6cdad666f7f9502f911"
+        },
+        {
+          "path": ".csdlc/evidence/901/runtime-live-12/runtime-v3/generations/issue901-runtime/receipt.json",
+          "sha256": "ff024700dc169e8c9fa5a3016a2de71758f74ac1cce8e4be24ae03964b00b960"
+        }
+      ],
+      "required_scenarios": [
+        "provider_loss",
+        "provider_recovery",
+        "session_interruption"
+      ],
+      "review_receipt": {
+        "path": "evidence/901/retained/typed-review-receipt.json",
+        "sha256": "9489030c0701112ad500b0be8f8350505cba5347602d1ec21984b3ae601a65ac"
+      }
+    },
+    {
+      "canonical_source_issue": 508,
+      "canonical_source_revision": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+      "criterion_digest": "f40b83c223efb28a663d3d4bef347effa9b8b009bd6980178f2203853fbc55f9",
+      "criterion_id": "DRT-C-ac-3",
+      "criterion_text": "Observatory evidence is authentic",
+      "execution_profile": "local Runtime ingress and authenticated WSS regression",
+      "independent_review": {
+        "artifact_sha256s": [
+          "07892d3ea946dd001b19958e469ff572fd43712c509687d80cfcd77900060cd2",
+          "13368a3548d6f65d71b511e098933755d4a2407321e29dd9a93d25505cd02996"
+        ],
+        "candidate_revision": "a00a3d2286afe5b4b315517874a8b0b9939ed0c9",
+        "independent": true,
+        "producer_author": "worker9",
+        "result": "pass",
+        "reviewer": "review_852",
+        "unresolved_findings": []
+      },
+      "producer_artifact": {
+        "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/validation.json",
+        "sha256": "07892d3ea946dd001b19958e469ff572fd43712c509687d80cfcd77900060cd2"
+      },
+      "producer_issue": 852,
+      "producer_pr": 963,
+      "producer_revision": "a00a3d2286afe5b4b315517874a8b0b9939ed0c9",
+      "required_scenarios": [
+        "dispatch_failure_event",
+        "authenticated_wss",
+        "correlation_and_redaction"
+      ],
+      "review_receipt": {
+        "path": "evidence/852/retained/typed-review-receipt.json",
+        "sha256": "13368a3548d6f65d71b511e098933755d4a2407321e29dd9a93d25505cd02996"
+      }
+    }
+  ],
+  "schema": "adl.v0922.runtime_criterion_evidence.v1"
+}

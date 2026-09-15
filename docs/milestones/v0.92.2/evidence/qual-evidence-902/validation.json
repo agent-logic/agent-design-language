@@ -1,0 +1,78 @@
+{
+  "complete": 5,
+  "excluded": 0,
+  "historical_boundary": {
+    "cloud_control_gaps": 5,
+    "execution_proof_gaps": 2,
+    "historical_consumers": [
+      522,
+      833
+    ],
+    "original_findings": 19,
+    "original_findings_newly_proved": false
+  },
+  "issue": 902,
+  "missing": 0,
+  "negative_case_count": 14,
+  "protected_evidence": "verified locally from digest-bound allowlisted archives and typed review receipts; protected bytes are not published",
+  "release_authorized": false,
+  "residual_risks": [
+    "Historical consumers #522 and #833 remain closed historical records; these five rows do not newly prove all 19 original findings.",
+    "Five cloud-control gaps and two execution-proof gaps remain separate from this five-row qualification mapping.",
+    "Protected #900/#901 raw evidence must remain locally accessible and digest-identical for admission.",
+    "This qualification grants no release approval."
+  ],
+  "rows": [
+    {
+      "criterion_id": "RUST-01-ac-4",
+      "producer_issue": 899,
+      "status": "pass"
+    },
+    {
+      "criterion_id": "DRT-B-ac-2",
+      "producer_issue": 900,
+      "status": "pass"
+    },
+    {
+      "criterion_id": "DRT-B-ac-3",
+      "producer_issue": 900,
+      "status": "pass"
+    },
+    {
+      "criterion_id": "DRT-C-ac-2",
+      "producer_issue": 901,
+      "status": "pass"
+    },
+    {
+      "criterion_id": "DRT-C-ac-3",
+      "producer_issue": 852,
+      "status": "pass"
+    }
+  ],
+  "runs": {
+    "negative_contract": {
+      "argv": [
+        "[python3]",
+        "-m",
+        "unittest",
+        "adl/tools/test_validate_v0922_runtime_qualification.py"
+      ],
+      "exit_code": 0,
+      "stderr_sha256": "d1276a2d9d79b9ed0a61446aa751886a8b573a45c52c4fe838159bc8be061837",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "positive": {
+      "argv": [
+        "[python3]",
+        "adl/tools/validate_v0922_runtime_qualification.py",
+        "--protected-root",
+        "[git-common-dir]/csdlc-v3/local"
+      ],
+      "exit_code": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e48724f90ec088a58a1fc165701bee61ebb1fbd87a89b0232832cff3ead16e90"
+    }
+  },
+  "schema": "adl.v0922.runtime_criterion_validation.v1",
+  "status": "passed"
+}
