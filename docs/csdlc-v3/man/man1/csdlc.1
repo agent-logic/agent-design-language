@@ -32,7 +32,7 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 .PP
 \&The native csdlc install command is an issue\-bound proof/install route with a separate .adl/bin/csdlc destination and explicit approval. It is not the owner installer or manual installer. See csdlc\-install(1).
 .SH LIFECYCLE
-\&Candidate ordinary sequence: status ISSUE; prepare ISSUE \-\-plan PLAN; bind ISSUE; edit ISSUE \-\-changes CHANGES; validate ISSUE; proof ISSUE; review ISSUE \-\-evidence REVIEW; publish ISSUE; finish ISSUE; clean ISSUE. Recover ISSUE previews one retained native local transaction or remote operation for exact\-token recovery. The existing request\-based sequence follows below and remains supported; no activation is implied.
+\&Candidate ordinary sequence: status ISSUE; prepare ISSUE \-\-plan PLAN; bind ISSUE; edit ISSUE \-\-changes CHANGES; rebuild ISSUE; validate ISSUE; proof ISSUE; review ISSUE \-\-evidence REVIEW; publish ISSUE; finish ISSUE; clean ISSUE. Recover ISSUE previews one retained native local transaction or remote operation for exact\-token recovery. The existing request\-based sequence follows below and remains supported; no activation is implied.
 .PP
 \&Prepare issue\-specific SIP \-> STP \-> SPP \-> VPP \-> SRP \-> SOR using the active template registry. Native issue/edit/validate/doctor prepare a local issue; bind creates the registered execution worktree. Implement and validate proportionally, obtain independent exact\-head review, and check native review before publication. Native publish validates publication admission; github\-pr executes the actual create/update/ready/merge transport. Finish observes merged PR plus closed issue and may persist terminal records; clean independently previews and removes only the exact eligible registered checkout.
 .PP
@@ -76,4 +76,4 @@ csdlc \- operate the authenticated C\-SDLC v3 lifecycle
 .SH SEE ALSO
 \&csdlc\-workflow(1), csdlc\-requests(1), csdlc\-doctor(1), csdlc\-github\-pr(1), csdlc\-finish(1), csdlc\-clean(1). Repository policy: AGENTS.md, docs/csdlc\-v3/CURRENT_AUTHORITY.md, docs/csdlc\-v3/CONTRACT.md and docs/csdlc\-v3/PULL_REQUEST_MERGE.md.
 .PP
-\&csdlc\-status(1), csdlc\-prepare(1), csdlc\-recover(1), docs/csdlc\-v3/INTENT_COMMANDS.md.
+\&csdlc\-status(1), csdlc\-prepare(1), csdlc\-rebuild(1), csdlc\-recover(1), docs/csdlc\-v3/INTENT_COMMANDS.md.

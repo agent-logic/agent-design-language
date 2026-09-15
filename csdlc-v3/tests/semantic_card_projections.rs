@@ -43,13 +43,27 @@ impl Fixture {
         )
         .unwrap();
         let templates = directory.join("docs/templates/prompts/1.0.5");
-        fs::create_dir_all(&templates).unwrap();
+        fs::create_dir_all(templates.join("schemas")).unwrap();
         let mut template_paths = BTreeMap::new();
         for kind in SEMANTIC_CARD_KINDS {
             let path = templates.join(format!("{kind}.md"));
             fs::write(
                 &path,
                 format!("# {kind}\nTitle: <title>\nStatus: <status>\nEvidence: <evidence_ref>\n"),
+            )
+            .unwrap();
+            fs::write(
+                templates.join(format!("schemas/{kind}.structure.json")),
+                serde_json::to_vec(&serde_json::json!({
+                    "schema":"adl.csdlc.prompt_card_structure.v1",
+                    "template_set":"1.0.5",
+                    "card_kind":kind,
+                    "template_path":path,
+                    "scaffold_lines":[format!("# {kind}")],
+                    "headings":[{"level":1,"text":kind}],
+                    "locked_lines":[]
+                }))
+                .unwrap(),
             )
             .unwrap();
             template_paths.insert(kind.into(), path.to_string_lossy().into_owned());

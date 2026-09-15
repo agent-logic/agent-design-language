@@ -283,13 +283,6 @@ pub fn derive_semantic_card_projection(
             ))
         })?;
         let template_path = Path::new(template_ref);
-        let template = fs::read_to_string(template_path).map_err(|source| {
-            SemanticProjectionError::TemplateRead {
-                kind: kind.into(),
-                path: template_ref.clone(),
-                source,
-            }
-        })?;
         let values = snapshot.inputs().cards().get(kind).ok_or_else(|| {
             SemanticProjectionError::SemanticInput(format!(
                 "accepted semantic input is missing {kind} values"
@@ -300,7 +293,17 @@ pub fn derive_semantic_card_projection(
                 "{kind} values are not canonicalizable: {message}"
             ))
         })?;
-        let rendered = render_semantic_template(&template, values.as_slice())?;
+        let rendered_values: Value = serde_json::from_slice(&values).map_err(|error| {
+            SemanticProjectionError::SemanticInput(format!(
+                "{kind} canonical values are invalid: {error}"
+            ))
+        })?;
+        let rendered = crate::commands::local::render_semantic_card_projection(
+            registry,
+            kind,
+            &rendered_values,
+        )
+        .map_err(SemanticProjectionError::SemanticInput)?;
         let portable_template_ref = portable_template_ref(template_path).ok_or_else(|| {
             SemanticProjectionError::Registry(format!(
                 "{kind} template is outside docs/templates/prompts"
@@ -371,27 +374,6 @@ fn portable_template_ref(path: &Path) -> Option<String> {
         .windows(3)
         .position(|parts| parts == ["docs", "templates", "prompts"])?;
     Some(components[start..].join("/"))
-}
-
-fn render_semantic_template(
-    template: &str,
-    canonical_values: &[u8],
-) -> Result<String, SemanticProjectionError> {
-    let values: Value = serde_json::from_slice(canonical_values).map_err(|error| {
-        SemanticProjectionError::SemanticInput(format!("canonical values are invalid: {error}"))
-    })?;
-    let object = values.as_object().ok_or_else(|| {
-        SemanticProjectionError::SemanticInput("card values must be a JSON object".into())
-    })?;
-    let mut output = template.to_owned();
-    for (key, value) in object {
-        let rendered = value
-            .as_str()
-            .map(str::to_owned)
-            .unwrap_or_else(|| value.to_string());
-        output = output.replace(&format!("<{key}>"), &rendered);
-    }
-    Ok(output)
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

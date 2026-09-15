@@ -67,6 +67,9 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         return Err("intent_unexpected_content".into());
     }
     let native = owner(context, &request)?;
+    if intent.command == "rebuild" {
+        return semantic_rebuild(context, &registry);
+    }
     if intent.command == "recover" {
         return local::intent::recover(
             &request,
@@ -95,6 +98,27 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         .iter()
         .any(|finding| finding.status != PlanStatus::Passed);
     let mut output = json!({"schema":"csdlc.v3.intent_local.v1","read_only":!result.mutated,"operational_authority":true,"writes_v3_state":result.mutated,"status":if blocked{"blocked"}else{"completed"},"result":result});
+    if intent.command == "validate" {
+        let projection = semantic_card_projection_observation(context, &registry, false)?;
+        if let Some((_, bundle, observation)) = projection {
+            output["projection"] = json!({
+                "observation": observation,
+                "semantic_digest": bundle.semantic_digest().as_str(),
+                "projection_digest": bundle.projection_digest().as_str(),
+                "registry_version": bundle.registry_version(),
+            });
+            if observation != crate::storage::semantic::CardProjectionObservation::Healthy {
+                output["allowed_next"] = json!(if matches!(
+                    observation,
+                    crate::storage::semantic::CardProjectionObservation::Interrupted { .. }
+                ) {
+                    vec!["recover"]
+                } else {
+                    vec!["rebuild"]
+                });
+            }
+        }
+    }
     if intent.command == "status" {
         #[derive(Default, serde::Deserialize)]
         #[serde(deny_unknown_fields)]
@@ -113,14 +137,30 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
             serde_json::from_value(intent.content.clone())
                 .map_err(|_| "intent_status_decisions_invalid")?
         };
+        let projection = semantic_card_projection_observation(context, &registry, false)?;
         let proof_current = match semantic_proof_current(context) {
             Ok(current) => current,
             // Status is an observation route. A commit after binding makes proof
             // stale, but must not turn that read-only observation into a failure.
-            Err(error) if error == "intent_semantic_binding_stale" => false,
+            Err(error)
+                if matches!(
+                    error.as_str(),
+                    "intent_semantic_binding_stale" | "intent_semantic_projection_repair_required"
+                ) =>
+            {
+                false
+            }
             Err(error) => return Err(error),
         };
         output["evidence"] = json!({"proof_current":proof_current,"validators_run":false});
+        if let Some((_, bundle, observation)) = &projection {
+            output["projection"] = json!({
+                "observation": observation,
+                "semantic_digest": bundle.semantic_digest().as_str(),
+                "projection_digest": bundle.projection_digest().as_str(),
+                "registry_version": bundle.registry_version(),
+            });
+        }
         let unknown = decisions.design_ready.is_none()
             || decisions.dependencies_ready.is_none()
             || decisions.budget_available.is_none();
@@ -167,6 +207,21 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         } else {
             vec!["review"]
         });
+        if let Some((_, _, observation)) = projection {
+            use crate::storage::semantic::CardProjectionObservation;
+            match observation {
+                CardProjectionObservation::Healthy => {}
+                CardProjectionObservation::Missing { .. }
+                | CardProjectionObservation::Altered { .. } => {
+                    output["status"] = json!("blocked");
+                    output["allowed_next"] = json!(["rebuild"]);
+                }
+                CardProjectionObservation::Interrupted { .. } => {
+                    output["status"] = json!("recovery_required");
+                    output["allowed_next"] = json!(["recover"]);
+                }
+            }
+        }
         match crate::commands::remote::intent::pending_operations(
             &context.root,
             &context.repository,
@@ -188,6 +243,115 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         }
     }
     Ok(output)
+}
+
+fn semantic_card_projection_observation(
+    context: &Context,
+    registry: &local::PromptRegistry,
+    require_current_binding: bool,
+) -> Result<
+    Option<(
+        crate::storage::semantic::Snapshot,
+        crate::storage::semantic::CardProjectionBundle,
+        crate::storage::semantic::CardProjectionObservation,
+    )>,
+    String,
+> {
+    use crate::storage::{semantic::Observation, DurableTransactionStore};
+    let (root, key) = context.semantic_root_key()?;
+    let snapshot =
+        match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
+            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+                *snapshot
+            }
+            Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
+            Observation::LegacyMigrationRequired | Observation::Absent => return Ok(None),
+        };
+    if snapshot.inputs().authority() != &context.semantic_authority()? {
+        return Err("intent_semantic_authority_changed".into());
+    }
+    if let Some(binding) = snapshot.inputs().binding() {
+        if require_current_binding
+            && (binding.branch != context.branch
+                || binding.head != context.head
+                || binding.worktree != context.root)
+        {
+            return Err("intent_semantic_binding_stale".into());
+        }
+    } else if require_current_binding && context.root != context.primary {
+        return Err("intent_semantic_binding_stale".into());
+    }
+    let bundle = crate::application::derive_semantic_card_projection(&snapshot, registry)
+        .map_err(|error| format!("intent_semantic_projection_derivation_failed:{error}"))?;
+    let observation = DurableTransactionStore::observe_card_projection(&root, &snapshot, &bundle)
+        .map_err(semantic_error)?;
+    Ok(Some((snapshot, bundle, observation)))
+}
+
+fn semantic_rebuild(context: &Context, registry: &local::PromptRegistry) -> Result<Value, String> {
+    use crate::storage::{
+        semantic::{Admission, CardProjectionObservation, CommitOutcome, LocalChange},
+        DurableTransactionStore,
+    };
+    let Some((snapshot, bundle, before)) =
+        semantic_card_projection_observation(context, registry, true)?
+    else {
+        return Err("intent_semantic_state_missing".into());
+    };
+    if snapshot.pending().is_some() {
+        return Err("intent_semantic_recovery_required".into());
+    }
+    if before == CardProjectionObservation::Healthy && !snapshot.projection_required() {
+        return Ok(json!({
+            "schema":"csdlc.v3.intent_local.v1", "status":"expected_noop",
+            "read_only":true, "writes_v3_state":false, "operational_authority":true,
+            "projection":{"before":before,"after":CardProjectionObservation::Healthy,
+                "semantic_digest":bundle.semantic_digest().as_str(),
+                "projection_digest":bundle.projection_digest().as_str(),
+                "registry_version":bundle.registry_version()},
+            "semantic_version":snapshot.version(),
+        }));
+    }
+    if matches!(before, CardProjectionObservation::Interrupted { .. }) {
+        return Err("intent_semantic_recovery_required".into());
+    }
+    let (root, key) = context.semantic_root_key()?;
+    let semantic_digest = bundle.semantic_digest().as_str().to_owned();
+    let projection_digest = bundle.projection_digest().as_str().to_owned();
+    let registry_version = bundle.registry_version().to_owned();
+    let proof = DurableTransactionStore::write_card_projection(&root, &snapshot, bundle)
+        .map_err(semantic_error)?;
+    let admission = Admission::new(
+        key,
+        snapshot.version().clone(),
+        context.semantic_authority()?,
+    );
+    let committed = match DurableTransactionStore::commit_issue_local(
+        &root,
+        admission,
+        LocalChange::AcknowledgeProjection(proof),
+    )
+    .map_err(semantic_error)?
+    {
+        CommitOutcome::Committed(snapshot) | CommitOutcome::Unchanged(snapshot) => *snapshot,
+    };
+    let regenerated = crate::application::derive_semantic_card_projection(&committed, registry)
+        .map_err(|error| format!("intent_semantic_projection_derivation_failed:{error}"))?;
+    let after = DurableTransactionStore::observe_card_projection(&root, &committed, &regenerated)
+        .map_err(semantic_error)?;
+    if after != CardProjectionObservation::Healthy
+        || regenerated.semantic_digest().as_str() != semantic_digest
+        || regenerated.projection_digest().as_str() != projection_digest
+    {
+        return Err("intent_semantic_projection_readback_mismatch".into());
+    }
+    Ok(json!({
+        "schema":"csdlc.v3.intent_local.v1", "status":"completed",
+        "read_only":false, "writes_v3_state":true, "operational_authority":true,
+        "projection":{"before":before,"after":after,"semantic_digest":semantic_digest,
+            "projection_digest":projection_digest,"registry_version":registry_version},
+        "semantic_version":committed.version(),
+    }))
 }
 
 fn semantic_edit(
@@ -621,7 +785,10 @@ pub(crate) fn recover_semantic_projection(
     context: &Context,
     request: &IntentRequest,
 ) -> Result<Option<Value>, String> {
-    use crate::storage::{semantic::Observation, DurableTransactionStore};
+    use crate::storage::{
+        semantic::{CardProjectionObservation, CommitOutcome, LocalChange, Observation},
+        DurableTransactionStore,
+    };
     let (root, key) = context.semantic_root_key()?;
     let snapshot =
         match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
@@ -642,22 +809,62 @@ pub(crate) fn recover_semantic_projection(
             Err(_) => true,
         }
     });
-    if !snapshot.projection_required() && !proof_projection_required {
+    let registry = context.registry()?;
+    let bundle = crate::application::derive_semantic_card_projection(&snapshot, &registry)
+        .map_err(|error| format!("intent_semantic_projection_derivation_failed:{error}"))?;
+    let card_observation =
+        DurableTransactionStore::observe_card_projection(&root, &snapshot, &bundle)
+            .map_err(semantic_error)?;
+    let card_projection_required = matches!(
+        card_observation,
+        CardProjectionObservation::Interrupted { .. }
+    );
+    if !snapshot.projection_required() && !proof_projection_required && !card_projection_required {
         return Ok(None);
     }
-    let token = snapshot.audit_identity().as_str();
+    let token = if card_projection_required {
+        let identity = serde_json::to_vec(&json!({
+            "audit":snapshot.audit_identity(),
+            "projection":bundle.projection_digest(),
+            "observation":card_observation,
+        }))
+        .map_err(|_| "intent_projection_recovery_identity_invalid")?;
+        blake3::hash(&identity).to_hex().to_string()
+    } else {
+        snapshot.audit_identity().as_str().to_owned()
+    };
     if !request.execute {
         return Ok(Some(json!({"status":"recovery_required","read_only":true,
             "performed_mutation":false,"action":"repair_semantic_projection",
-            "preview_digest":token,"semantic_version":snapshot.version()})));
+            "preview_digest":token,"semantic_version":snapshot.version(),
+            "card_projection":card_observation})));
     }
-    if request.preview.as_deref() != Some(token) {
+    if request.preview.as_deref() != Some(token.as_str()) {
         return Err("intent_projection_recovery_preview_stale".into());
     }
     if let Some(receipt) = proof {
         crate::commands::proof::intent::write_semantic_proof_projection(context, &receipt)?;
     }
-    let repaired = context.complete_semantic_projection(&snapshot)?;
+    let repaired = if card_projection_required {
+        let projection = DurableTransactionStore::write_card_projection(&root, &snapshot, bundle)
+            .map_err(semantic_error)?;
+        let admission = crate::storage::semantic::Admission::new(
+            key,
+            snapshot.version().clone(),
+            context.semantic_authority()?,
+        );
+        match DurableTransactionStore::commit_issue_local(
+            &root,
+            admission,
+            LocalChange::AcknowledgeProjection(projection),
+        )
+        .map_err(semantic_error)?
+        {
+            CommitOutcome::Committed(snapshot) | CommitOutcome::Unchanged(snapshot) => *snapshot,
+        }
+    } else {
+        context.complete_semantic_projection(&snapshot)?
+    };
     Ok(Some(
         json!({"status":"completed","read_only":false,"performed_mutation":true,
         "action":"repaired_semantic_projection","semantic_version":repaired.version()}),

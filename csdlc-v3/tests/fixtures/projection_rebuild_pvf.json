@@ -1,0 +1,37 @@
+{
+  "issue": 871,
+  "schema": "csdlc.v3.projection_rebuild_pvf.v1",
+  "lane": "deterministic_local_cpu_contract_integration",
+  "proof_role": "Six-card projection derivation, amendment invalidation, read-only diagnosis and explicit rebuild recovery",
+  "determinism": "Fixed semantic records, active fixture registry and byte-for-byte projection comparisons in isolated repositories",
+  "resources": "Bounded local CPU and disk; no network, provider, paid or live-writer operations",
+  "release_gate": "Required SIM-07 pre-resume qualification input",
+  "required_states": [
+    "healthy",
+    "missing",
+    "altered",
+    "interrupted"
+  ],
+  "required_amendment_classes": [
+    "scope_acceptance",
+    "plan",
+    "proof_validator",
+    "binding",
+    "implementation",
+    "review",
+    "display_only"
+  ],
+  "required_paths": [
+    "application_unit",
+    "storage_transaction",
+    "installed_rebuild",
+    "installed_status",
+    "installed_validate",
+    "explicit_recovery"
+  ],
+  "non_claims": [
+    "No live semantic conversion or writer activation.",
+    "No shared owner-binary replacement.",
+    "Projection rebuild does not establish proof, review, publication, approval or terminal truth."
+  ]
+}

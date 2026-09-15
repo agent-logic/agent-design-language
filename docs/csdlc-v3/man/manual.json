@@ -24,7 +24,7 @@
           "The native csdlc install command is an issue-bound proof/install route with a separate .adl/bin/csdlc destination and explicit approval. It is not the owner installer or manual installer. See csdlc-install(1)."
         ],
         "LIFECYCLE": [
-          "Candidate ordinary sequence: status ISSUE; prepare ISSUE --plan PLAN; bind ISSUE; edit ISSUE --changes CHANGES; validate ISSUE; proof ISSUE; review ISSUE --evidence REVIEW; publish ISSUE; finish ISSUE; clean ISSUE. Recover ISSUE previews one retained native local transaction or remote operation for exact-token recovery. The existing request-based sequence follows below and remains supported; no activation is implied.",
+          "Candidate ordinary sequence: status ISSUE; prepare ISSUE --plan PLAN; bind ISSUE; edit ISSUE --changes CHANGES; rebuild ISSUE; validate ISSUE; proof ISSUE; review ISSUE --evidence REVIEW; publish ISSUE; finish ISSUE; clean ISSUE. Recover ISSUE previews one retained native local transaction or remote operation for exact-token recovery. The existing request-based sequence follows below and remains supported; no activation is implied.",
           "Prepare issue-specific SIP -> STP -> SPP -> VPP -> SRP -> SOR using the active template registry. Native issue/edit/validate/doctor prepare a local issue; bind creates the registered execution worktree. Implement and validate proportionally, obtain independent exact-head review, and check native review before publication. Native publish validates publication admission; github-pr executes the actual create/update/ready/merge transport. Finish observes merged PR plus closed issue and may persist terminal records; clean independently previews and removes only the exact eligible registered checkout.",
           "Use csdlc-workflow(1) for the complete operator sequence. A successful command exit is not sufficient: inspect operational_authority, result status/findings, exact issue/head and mutation flags. A ready model-only plan is not executed work."
         ],
@@ -58,7 +58,7 @@
         ],
         "SEE ALSO": [
           "csdlc-workflow(1), csdlc-requests(1), csdlc-doctor(1), csdlc-github-pr(1), csdlc-finish(1), csdlc-clean(1). Repository policy: AGENTS.md, docs/csdlc-v3/CURRENT_AUTHORITY.md, docs/csdlc-v3/CONTRACT.md and docs/csdlc-v3/PULL_REQUEST_MERGE.md.",
-          "csdlc-status(1), csdlc-prepare(1), csdlc-recover(1), docs/csdlc-v3/INTENT_COMMANDS.md."
+          "csdlc-status(1), csdlc-prepare(1), csdlc-rebuild(1), csdlc-recover(1), docs/csdlc-v3/INTENT_COMMANDS.md."
         ]
       }
     },
@@ -1808,6 +1808,42 @@
             "code": "csdlc prepare ISSUE --plan PLAN.json [--repo-root ROOT] [--json]\ncsdlc prepare ISSUE --plan PLAN.json --emit-request\ncsdlc prepare --intent-request REQUEST.json"
           },
           "These forms require a supporting selected candidate; they do not upgrade the active binary or authorize activation."
+        ]
+      }
+    },
+    {
+      "name": "csdlc-rebuild",
+      "summary": "explicitly rebuild all six cards from the semantic issue record",
+      "sections": {
+        "SYNOPSIS": [
+          {
+            "code": "csdlc rebuild ISSUE [--repo-root ROOT] [--json]\ncsdlc rebuild ISSUE --emit-request\ncsdlc rebuild --intent-request REQUEST.json"
+          }
+        ],
+        "DESCRIPTION": [
+          "Semantic issue intent forms are the current operational contract. Rebuild resolves the authenticated issue, bound checkout, active prompt registry and exact semantic source version before any write.",
+          "Derive all six SIP, STP, SPP, VPP, SRP and SOR values and rendered cards from the single semantic issue record. Write projection artifacts deterministically and publish the manifest last, then acknowledge that exact projection through the transaction owner.",
+          "Status and validate report healthy, missing, altered or interrupted projection state without writing. Rebuild is the explicit repair operation. An unchanged healthy projection is an expected no-op with identical bytes and digests.",
+          "Rebuild preserves semantic facts, evidence references and immutable receipt bytes. It cannot create approval, proof, accepted review findings, publication or terminal completion. Pending work, stale semantic identity, corrupted retained state and mismatched issue or checkout fail closed.",
+          "The generated wrapper emitted by --emit-request can be passed directly to --intent-request; its semantic_version prevents a reviewed request from silently rebuilding a later semantic record."
+        ],
+        "OUTPUT": [
+          "Machine JSON uses the common command-result envelope and reports projection health, semantic digest, projection digest, generated paths, mutation truth and semantic version."
+        ],
+        "RECOVERY": [
+          "If projection writing is interrupted, retain the pending marker and staged artifacts. Ordinary inspection remains read-only. Use the explicit recover route and exact preview digest; do not bless or hand-edit partial output."
+        ],
+        "SEE ALSO": [
+          "csdlc(1), csdlc-status(1), csdlc-validate(1), csdlc-recover(1), csdlc-workflow(1), docs/csdlc-v3/INTENT_COMMANDS.md."
+        ],
+        "OPTIONS": [
+          "Supported intent options: --emit-request, --help, --intent-request, --json, --repo-root, -h. Positional ISSUE is positive; unsupported content, preview and execute arguments fail closed."
+        ],
+        "EXAMPLES": [
+          {
+            "code": "csdlc status ISSUE\ncsdlc rebuild ISSUE\ncsdlc validate ISSUE"
+          },
+          "Use an isolated selected candidate for qualification. This operation does not authorize live conversion, writer activation or shared binary replacement."
         ]
       }
     },
