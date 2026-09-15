@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.issue_index.v1",
+  "issue": 1001,
+  "generation": 1,
+  "digest": "digest-prepared",
+  "phase": "ready",
+  "role_marker": "prepared",
+  "pending_transaction": null
+}

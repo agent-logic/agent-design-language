@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.issue_index.v1",
+  "issue": 1005,
+  "generation": 5,
+  "digest": "digest-published",
+  "phase": "published",
+  "role_marker": "published",
+  "pending_transaction": null
+}
