@@ -1117,6 +1117,17 @@ fn attach_locked(
             .ok_or(Error::EvidenceMismatch)?;
         payload.inputs.validate()?;
     }
+    if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendValidation {
+        let content: serde_json::Value =
+            codec::decode(&effect_request.canonical_content()?).map_err(encoding)?;
+        if content["schema"] != "csdlc.v3.semantic_validation_edit_request.v1" {
+            return Err(Error::EvidenceMismatch);
+        }
+        payload.inputs.intent_plan.validators =
+            serde_json::from_value(content["validators"].clone())
+                .map_err(|error| encoding(error.to_string()))?;
+        payload.inputs.validate()?;
+    }
     if payload.inputs != current.payload.inputs {
         payload.input_version = EvidenceInputVersion {
             revision: current

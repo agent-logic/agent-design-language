@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Fixed PR989 hosted coverage failure caused by missing-service unit test probing the live host manager with750ms deadline. Explicit thread-local transport fixtures now exercise real response routing without hostprocesses; undeclared unit-test daemon calls failclosed. Adjacent status test shares fixture and convergence-success test uses virtual clock. Production deadlines unchanged.100 normal and100 instrumented focusedtests pass; exactheadreview/newhostedCI pending.
+Integrated main53e2f55243 preserving governance and review registrations. Runtime service-manager repair unchanged.35 focused tests,14 installed scenarios, strict Clippy and fmt pass; final exact-head review and new CI pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -57,7 +57,7 @@ Fixed PR989 hosted coverage failure caused by missing-service unit test probing 
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `ci_repair_local_proof_passed`
+- Completion state: `implementation_complete_ci_pending`
 - Issue goal ref: `Active whole Sprint3#929 goal; #887 owns local machine-checkable fitness execution and installed proof.`
 - Sprint goal ref: `Sprint #929, all eight children #882 through #889; shared whole-sprint goal remains active.`
 - Goal metrics rollup ref: `.csdlc/evidence/887/goal-metrics.json (planned; absent until execution)`
@@ -86,13 +86,13 @@ Fixed PR989 hosted coverage failure caused by missing-service unit test probing 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main remains inspection-only`
 - Worktree-only paths remaining: `Integrated source and refreshed proof pending push; raw logs, isolated binaries, fixture repositories and receipts remain local evidence.`
-- Integration state: `published_ci_repair_pending_push`
+- Integration state: `published_pr_main_integration_review_pending`
 - Verification scope: `Bounded local fitness predicates and installed macOS consumer; hosted CI and Linux proof pending.`
 - Integration method used: `Local merge origin/main in bound issue worktree; no remote PR merge. Existing PR publication and ready state have authenticated native receipts.`
 - Verification performed:
   - `Native creation receipt and native publish --observe-github; live PR readback confirmed main base, exact head and draft state.`
     `Publication verified; no merge evidence.`
-- Result: `Existing PR989 remainsopen; bounded CI repair authored in registered887worktree. No remote merge.`
+- Result: `PR989 remains open; no remote merge. Previous70310856 CI remains separately observed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_gov --test codefriend_evidence; cargo llvm-cov with same targets; strict Clippy; installed proof runner`
     `Local accepted predicates and installed consumer proved; hosted integration pending.`
 - Results:
-  - `100 focused tests (50library+50binary) pass normally and under llvm-cov. Existing44CodeFriend integrationtests and20installedscenarios remain prior unchangedfeature proof. New hostedLinux CI required for repairedhead.`
+  - `35 focused integration tests and14 installed scenarios (fitness3+rationale11) pass. Strict Clippy/fmt pass. Unchanged Runtime repair retains100 normal and100 instrumented passing tests.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Raw identifier review finding fixed with IdentExt::unraw and three cases. Subprocess fixtures isolated to avoid inherited lock contention. Oversized acquisition rejects before admission, so partial proof uses a scoped missing file.`
 
 ## Follow-ups / Deferred work
-- `Final exact-head independentreview/native review,push,then confirm hostedLinux coverage and requiredCI green.`
+- `Finish installed integration proof, exact-head independent review and native review; push and verify hosted CI.`
 - `Resolve required CI, obtain explicit merge authorization, then native finish and clean.`

@@ -1,0 +1,168 @@
+{
+  "issue": 887,
+  "base": "53e2f5524359c1704d508fc22a871625d14b8816",
+  "resolution": "Additive governance and review module registrations; service-manager source unchanged.",
+  "tests": {
+    "fitness": 8,
+    "impact": 10,
+    "rationale": 10,
+    "review": 7
+  },
+  "strict_clippy": "passed",
+  "fmt": "passed",
+  "installed_fitness": {
+    "schema": "codefriend.fitness_installed_proof.v1",
+    "issue": 887,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "11ee5f46868afb892aadd122768eb29a5de139f07dfbf04eabe39de8447c924f",
+    "installation_provenance": "7771845eb64c5193debc972ec9092e8f75f33a6c184d706b52ab3fcc6773c3c2",
+    "scenarios": [
+      {
+        "fixture": "pass",
+        "revision": "40f83c74d4cfb24ec16f9cfd5021b1bc5aabc29b",
+        "exit": 0,
+        "repeat": true,
+        "readback": true,
+        "tamper_rejected": true,
+        "deletion_rejected": true,
+        "source_unchanged": true
+      },
+      {
+        "fixture": "fail",
+        "revision": "72cca44040d5580a91d4dcccebc831c321f8f3c3",
+        "exit": 1,
+        "repeat": true,
+        "readback": true,
+        "tamper_rejected": true,
+        "deletion_rejected": true,
+        "source_unchanged": true
+      },
+      {
+        "fixture": "error",
+        "revision": "d277806eaa314fb65fcdc27a53eb9000d78ce18a",
+        "exit": 2,
+        "repeat": true,
+        "readback": true,
+        "tamper_rejected": true,
+        "deletion_rejected": true,
+        "source_unchanged": true
+      }
+    ],
+    "scenarios_passed": 3,
+    "actual_ci_integration": false
+  },
+  "installed_rationale": {
+    "schema": "codefriend.rationale_installed_proof.v1",
+    "issue": 884,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "11ee5f46868afb892aadd122768eb29a5de139f07dfbf04eabe39de8447c924f",
+    "installation_provenance": "7771845eb64c5193debc972ec9092e8f75f33a6c184d706b52ab3fcc6773c3c2",
+    "scenarios": [
+      {
+        "fixture": "accepted",
+        "complete": true,
+        "conflicts": [],
+        "unknowns": [],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "candidate",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "superseded",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "conflict",
+        "complete": false,
+        "conflicts": [
+          "api-deployment"
+        ],
+        "unknowns": [],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "different-key",
+        "complete": true,
+        "conflicts": [],
+        "unknowns": [],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "empty",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "unknown-deployment",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "unsupported_or_unmatched_deployment_relationship"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "outside",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale",
+          "rationale_evidence_unavailable:unadmitted.md"
+        ],
+        "repeat_readback": true
+      }
+    ],
+    "executed_scenarios": 11,
+    "negative_guards": [
+      "tamper",
+      "stale-revision",
+      "post-deletion-read"
+    ],
+    "calibration": {
+      "fixed_sample": [
+        "conflict",
+        "different-key",
+        "candidate",
+        "superseded"
+      ],
+      "expected_conflict": [
+        "conflict"
+      ],
+      "observed_conflict": [
+        "conflict"
+      ],
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Synthetic explicit-choice conflict calibration only; no semantic prose contradiction accuracy",
+      "No measured runtime independent deployability",
+      "No provider or external repository execution",
+      "No Linux qualification from a macOS run"
+    ]
+  },
+  "source_sha256": {
+    "adl/src/codefriend/mod.rs": "25781ef67348c55e7dc2a1e0cfc1e8fc2d7d716369d151293b5a30b0c09db4c9",
+    "adl/src/cli/codefriend_cmd.rs": "3af8cf4c48716aa0c585517264fd65335bac008dd13945c2265160bef315d217",
+    "adl/src/cli/csm_runtime_v3_cmd.rs": "7ddec24e678caf59e98a044fbdc6c6dbc83aab56e434a3a8ef67c240939eafc7"
+  },
+  "ci": "New merged-head hosted CI pending"
+}

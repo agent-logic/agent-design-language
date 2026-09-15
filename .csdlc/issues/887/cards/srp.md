@@ -56,7 +56,7 @@ policy_refs:
   - ".csdlc/issues/887/cards/vpp.md"
 review_results:
   findings_status: "source_review_passed_exact_head_pending"
-  recommended_outcome: "publish_ci_repair_after_exact_head_review"
+  recommended_outcome: "publish_after_exact_head_review"
 notes: "Reviewer independently verified source/binary hashes, 8 fitness tests, 11 evidence regressions, strict Clippy, 3 installed scenarios, and library/CLI coverage. CI integration belongs to #888."
 ---
 
@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Independent /root/repair_882_ci reviewed deterministic transportfixture, absoluteprogram guard, virtualclock productionwrapper preservation and Linuxfixture responsecontract: noactionablefindings. Finalexacthead review followscommit.
+- Independent reviewer checked additive module union and unchanged service-manager source; no findings. Final exact-head review follows integration commit.
 
 ### Dispositions
 
@@ -131,7 +131,7 @@ review_results:
 
 ### Recommended Outcome
 
-- publish_ci_repair_after_exact_head_review
+- publish_after_exact_head_review
 
 ## Notes
 
