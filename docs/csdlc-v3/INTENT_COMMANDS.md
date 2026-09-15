@@ -30,6 +30,7 @@ it does not override a bound issue's ownership.
 | Prepare | `csdlc prepare ISSUE --plan PLAN.json` | Authenticate the existing source issue and initialize its six-card plan through the local owner. |
 | Bind | `csdlc bind ISSUE` | Bind the prepared issue through the registered worktree owner. |
 | Edit | `csdlc edit ISSUE --changes CHANGES.json` | Apply semantic card values through the typed editor and its transaction guards. |
+| Rebuild | `csdlc rebuild ISSUE` | Explicitly regenerate all six card projections from the current semantic record and active registry. |
 | Validate | `csdlc validate ISSUE` | Inspect native card/schema validation without mutation. |
 | Proof | `csdlc proof ISSUE` | Run the declared admitted validators and retain their actual outcomes. |
 | Review | `csdlc review ISSUE --evidence REVIEW.json` | Validate and retain externally supplied independent exact-head review. |
@@ -44,6 +45,18 @@ remain discovery, not execution. No ordinary command requires an operator to
 assemble internal registry, registration, adapter or lifecycle receipt inputs.
 External plan, edits, independent review and explicit operation content remain
 intentional user inputs.
+
+`status` and `validate` only diagnose semantic projection health. They report
+healthy, missing, altered or interrupted projections without repairing files or
+advancing semantic state. `rebuild` is the separate guarded mutation. It derives
+all six values and rendered cards from the current semantic record and active
+registry, writes the projection manifest last, and acknowledges the resulting
+projection through the transaction owner. Repeating it with unchanged inputs is
+an expected no-op with identical bytes and digests. Rebuild preserves evidence
+and lifecycle facts; it cannot create proof, review, publication, approval or
+terminal truth. Pending semantic work, a stale semantic request version,
+corrupted retained state, or a mismatched bound checkout fails closed and must
+use the explicit recovery path where applicable.
 
 ## Administrative authority operations
 
@@ -147,16 +160,50 @@ validation:
 ```json
 {
   "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "scope_acceptance",
+    "transition_approved": true
+  },
   "cards": {
     "sor": {"status": "IN_PROGRESS"}
   }
 }
 ```
 
+The amendment declaration is mandatory and retained with the native effect.
+`binding` is reserved for the topology-verified bind owner. An implementation
+amendment also supplies the exact 40-character `implementation_revision`; the
+owner requires it to match the bound effect head. `new_commit` records whether
+the change itself requires renewed exact-head review currency.
+
 Use the applicable card-editor skill to choose truthful fields. The command
 adapter does not authorize arbitrary handwritten card structure. Unsupported
 preview or execute flags on local preparation, editing, validation and proof
 are rejected before dispatch.
+
+## Amendment and evidence invalidation table
+
+Every semantic amendment first requires the current source version, matching
+issue checkout and intact retained evidence. Semantic transitions also require
+explicit transition admission. The native `amendment_rule` and
+`decide_amendment` functions expose and execute this table; their result records
+the amendment class as the cause of each invalidation.
+
+| Class | Admitted source states | Additional prerequisites | Resulting state | Invalidated evidence |
+| --- | --- | --- | --- | --- |
+| Scope or acceptance | Ready through Merge Ready | Approved semantic transition | Ready | Proof, readiness, review, publication, terminal, cleanup |
+| Plan | Ready through Merge Ready | Approved semantic transition | Ready stays Ready; later states return to Bound | Proof, readiness, review, publication, terminal, cleanup |
+| Proof or validator | Bound through Merge Ready | Approved semantic transition | Bound | Proof, readiness, review, publication, terminal, cleanup |
+| Binding | Bound through Merge Ready | Approved semantic transition and current bound topology | Bound | Proof, readiness, review, publication, terminal, cleanup |
+| Implementation | Bound through Merge Ready | Approved semantic transition and implementation revision | Bound | Proof, readiness, review, publication, terminal, cleanup |
+| Review | Implemented through Merge Ready | Approved semantic transition, current proof and independent review | Implemented | Readiness, review, publication, terminal, cleanup |
+| Display only | Ready through Closed Out | Actual projection change | Preserve | None |
+
+A source state outside a row is inapplicable. Missing current-version,
+checkout, evidence or class-specific facts is refused. A display request with no
+projection change is inapplicable. Formatting-only projection drift therefore
+does not invalidate semantic evidence. Any new Git commit still requires a
+fresh exact-head review, including a display-only commit.
 
 ## Independent review and publication
 

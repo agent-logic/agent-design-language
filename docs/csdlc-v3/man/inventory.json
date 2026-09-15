@@ -75,6 +75,26 @@
       ]
     },
     {
+      "command": "rebuild",
+      "options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ],
+      "family": "intent",
+      "intent_options": [
+        "--emit-request",
+        "--help",
+        "--intent-request",
+        "--json",
+        "--repo-root",
+        "-h"
+      ]
+    },
+    {
       "command": "validate",
       "options": [
         "--request",
@@ -1938,14 +1958,15 @@
     }
   ],
   "coverage": {
-    "installed_root_commands": 29,
+    "installed_root_commands": 30,
     "supported_aliases": 1,
-    "root_and_alias_dispositions": 30,
+    "root_and_alias_dispositions": 31,
     "frozen_sim03_predecessor_dispositions": 27,
     "additional_intents": [
       "status",
       "prepare",
-      "recover"
+      "recover",
+      "rebuild"
     ],
     "simple_issue_subforms": 2
   }

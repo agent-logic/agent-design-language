@@ -581,12 +581,32 @@ impl Context {
                 generation: self.index["generation"].as_u64(),
                 digest: self.index["digest"].as_str().map(str::to_owned),
             },
+            semantic_version: None,
             checkout: CheckoutIdentity {
                 branch: self.branch.clone(),
                 head: self.head.clone(),
                 root: self.root.clone(),
             },
         }
+    }
+    pub fn snapshot_for_intent(&self, command: &str) -> Snapshot {
+        let mut snapshot = self.snapshot();
+        if command == "rebuild" {
+            snapshot.semantic_version = self.semantic_root_key().ok().and_then(|(root, key)| {
+                match DurableTransactionStore::observe_issue(&root, &key).ok()? {
+                    Observation::Current(value) | Observation::ProjectionRepairRequired(value) => {
+                        Some(IssueVersion {
+                            generation: Some(value.version().generation()),
+                            digest: Some(value.version().digest().as_str().to_owned()),
+                        })
+                    }
+                    Observation::RecoveryRequired
+                    | Observation::LegacyMigrationRequired
+                    | Observation::Absent => None,
+                }
+            });
+        }
+        snapshot
     }
     pub fn fresh(&self) -> Result<(), String> {
         if Self::load_with_rollback_admission(&self.root, self.issue, self.rollback_admission)?
