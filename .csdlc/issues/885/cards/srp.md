@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/885/cards/sip.md"
   - ".csdlc/issues/885/cards/vpp.md"
 review_results:
-  findings_status: "interim_pass_final_review_pending"
-  recommended_outcome: "block"
+  findings_status: "passed_no_actionable_findings"
+  recommended_outcome: "pass"
 notes: "Independent exact-head review must trace actual caller and storage ownership, every acceptance and exclusion: 1. Execute two actual compatible admitted run artifacts through the installed comparison command. Known fixtures cover added/resolved/changed/unchanged findings, moved locations with stable identity and prose changes that do not create false identities. Emit match reasons and before/after references. 2. Deterministic identical inputs produce stable delta ordering and identities. Scope, schema, rule/lane versions and completion state determine comparability; unsupported compatibility yields not-comparable with reasons. 3. Missing baseline, deleted artifact, identity collision, altered provenance, incompatible version and partial/narrower current coverage must not silently produce resolution or success. An absent finding in an incomplete run cannot be declared resolved. 4. Demonstrate the real product comparison consumer opens its bounded prior run from the admission store, emits persisted delta artifacts and respects deletion/redaction. A matching library called only from tests is insufficient. 5. Keep backend retrieval separate from semantic matching; document the input/output contract PLAT-MEMORY will consume and avoid unbounded organizational memory claims. Retain these exact specification obligations and record evidence for each; the concrete acceptance scenarios above define how they are proved. - Acceptance: stable_matching, added_resolved_changed_classification, schema_policy, missing_baseline_explicit. - PVF obligations: two_run_fixture, version_mismatch, deleted_artifact, deterministic_delta. No unrelated scope, autonomous architecture/source rewrite, public publication, general CI platform or complete speculative memory system. Retain original exclusions: unbounded organizational_memory. Stop on silent_incompatible_compare, identity_collision; also stop for missing authority, unresolved ownership collision, privacy/provenance failure or incompatible shared contracts. Route a separately discovered concern explicitly rather than silently widening this task."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Interim source review by /root/sprint3_preparation_review PASS; final committed-head and proof review pending. Adapter trust contract documented; no findings waived.
+- Exacthead fd7156147f5a2d86b04b0a5254ebb275cde349c6 reviewed by /root/sprint3_preparation_review: PASS, no actionable findings. Source and installed binary/proof hashes verified. This subsequent proof/card-only change receives exacthead renewal.
 
 ### Dispositions
 
-- No implementation finding is accepted, resolved or waived by preparation.
+- No findings waived; trusted backend responsibility documented and core managed-root guard tested.
 
 ### Recommended Outcome
 
-- block
+- pass
 
 ## Notes
 

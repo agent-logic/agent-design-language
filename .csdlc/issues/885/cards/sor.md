@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented shared compatible comparison, admitted baseline adapter and installed memory CLI. Eight comparison tests,eleven evidence regressions,eight installed scenarios and strict Clippy pass. Interim independent source review PASS; focused coverage and final exacthead review pending.
+Implemented compatible comparison, live admitted baseline adapter and installed CLI. 8memorytests,11evidence regressions,8installed scenarios and strict Clippy pass. Exacthead review PASS at fd7156147f5a2d86b04b0a5254ebb275cde349c6. Focused coverage: comparison111/113,baseline194/199,CLI72/78; all changed production files above80%. Publication and full hostedCI pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented shared compatible comparison, admitted baseline adapter and installe
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_local_proof_passed_final_review_pending`
+- Completion state: `reviewed_local_proof_passed_publication_pending`
 - Issue goal ref: `Active appgoal: Complete all Sprint3#929; this bound issue owns #885 comparison implementation.`
 - Sprint goal ref: `Sprint #929 across all eight children`
 - Goal metrics rollup ref: `.csdlc/evidence/885/goal-metrics.json (planned, absent until execution)`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_memory --test codefriend_evidence; strict Clippy; isolated installed fixture/consumer proof`
     `Production library and actual installed CLI proof passed locally; no CI claim.`
 - Results:
-  - `8/8 comparison,11/11 evidence regressions,8 installed scenarios passed; strict Clippy passed; coverage pending.`
+  - `8/8 comparison;11/11 evidence regressions;8 installed scenarios; strict Clippy; focused instrumented coverage comparison98.23%,baseline97.49%,CLI92.31%,contracts92.31%,store93.68%. No full CI claim.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_passed_coverage_pending
+    status: local_passed_ci_pending
     checks_run:
       - "8 memory tests;11 evidence tests;8 installed scenarios; strict Clippy; fmt"
   determinism:
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_cf_memory.rs; docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json; docs/codefriend/MEMORY_INSTALLED_PROOF.json`
-- Required artifacts present: `Local implementation,tests,installed proof present; focused coverage and final review pending.`
+- Required artifacts present: `Local implementation,tests,installed and instrumented proof and independent review present; publication andCIpending.`
 - Artifact schema/version checks: `Shared Run/Finding/Comparison validation; bounded retained-record/delta digest readback; malformed/tampered input rejected.`
 - Hash/byte-stability checks: `Source SHA256 and installed binary/provenance retained; deterministic delta equality passed.`
 - Missing/optional artifacts and rationale: `Full hosted CI and final review pending. No provider call or external repository qualification belongs to this child.`
