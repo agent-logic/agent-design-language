@@ -24,7 +24,7 @@ const IMPLEMENTED_TERMINAL_COMMANDS: &[&str] = &["clean", "cutover", "finish"];
 
 const IMPLEMENTED_CONSTRUCTION_COMMANDS: &[&str] = &["install", "proof", "shadow", "soak"];
 const IMPLEMENTED_HELPER_COMMANDS: &[&str] = &["remote", "sprint", "release-preflight"];
-const NEW_INTENT_COMMANDS: &[&str] = &["status", "prepare", "recover"];
+const NEW_INTENT_COMMANDS: &[&str] = &["status", "prepare", "recover", "rebuild"];
 const RETIRED_WRITER_DISCOVERY_COMMANDS: &[&str] = &["issue", "github"];
 const IMPLEMENTED_STATUSES: &[&str] = &[
     "implemented",
@@ -55,6 +55,7 @@ fn help_exposes_one_binary_command_surface() {
     for usage in [
         "bind <issue>",
         "edit <issue> --changes <path>",
+        "rebuild <issue>",
         "proof <issue>",
         "recover <issue> [--disposition <path>]",
         "github-issue <issue> --operation <path>",
@@ -109,8 +110,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
         "pre_cutover_implemented_pending_authority_evidence"
     );
     assert_eq!(manifest["denominator"]["v2_entrypoints"], 21);
-    assert_eq!(manifest["denominator"]["current_v3_commands"], 29);
-    assert_eq!(manifest["denominator"]["implemented_commands"], 29);
+    assert_eq!(manifest["denominator"]["current_v3_commands"], 30);
+    assert_eq!(manifest["denominator"]["implemented_commands"], 30);
     assert_eq!(manifest["denominator"]["partial_commands"], 0);
     assert_eq!(manifest["denominator"]["fail_closed_commands"], 0);
     assert_eq!(
@@ -122,8 +123,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     assert_eq!(manifest["denominator"]["remaining_replacement_routes"], 0);
 
     let commands = manifest["commands"].as_array().expect("manifest commands");
-    assert_eq!(commands.len(), 29);
-    assert_eq!(implemented_status_count(commands), 29);
+    assert_eq!(commands.len(), 30);
+    assert_eq!(implemented_status_count(commands), 30);
     assert_eq!(status_count(commands, "partial"), 0);
     assert_eq!(status_count(commands, "fail_closed"), 0);
 
@@ -621,6 +622,32 @@ fn semantic_descriptor_schema_parity_includes_emitted_administrative_requests() 
         .map(|row| row["command"].as_str().unwrap())
         .collect();
     assert_eq!(descriptors, expected);
+    let rebuild = manifest["commands"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|row| row["command"] == "rebuild")
+        .unwrap();
+    assert_eq!(rebuild["effect_class"], "guarded_local");
+    assert_eq!(rebuild["intent_effect_class"], "guarded_local");
+    let rebuild_schema_rule = schema["allOf"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|rule| rule["if"]["properties"]["command"]["const"] == "rebuild")
+        .unwrap();
+    assert!(
+        rebuild_schema_rule["then"]["properties"]["snapshot"]["required"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|field| field == "semantic_version")
+    );
+    assert_eq!(
+        rebuild_schema_rule["then"]["properties"]["snapshot"]["properties"]["semantic_version"]
+            ["properties"]["digest"]["pattern"],
+        "^semantic-state-v1:[0-9a-f]{64}$"
+    );
     for command in &expected {
         assert!(csdlc_v3::application::intent::selected(
             command,

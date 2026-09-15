@@ -1011,18 +1011,98 @@ fn attach_locked(
             Invalidation::Cleanup,
         ]);
     }
-    let disposition = if outcome.kind == OutcomeKind::Success {
-        policy::Outcome::Success
-    } else {
-        policy::Outcome::Failure
-    };
-    let decision = policy::decide(
-        Some(current.phase()),
-        pending.command,
-        disposition,
-        &outcome.facts,
-    )
-    .map_err(|_| Error::AdmissionChanged)?;
+    let amendment =
+        if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendCards {
+            let content: serde_json::Value =
+                codec::decode(&effect_request.canonical_content()?).map_err(encoding)?;
+            if content["schema"] != "csdlc.v3.semantic_edit_request.v1" {
+                return Err(Error::EvidenceMismatch);
+            }
+            let cards: std::collections::BTreeMap<String, serde_json::Value> =
+                serde_json::from_value(content["cards"].clone())
+                    .map_err(|error| encoding(error.to_string()))?;
+            let class: policy::AmendmentClass =
+                serde_json::from_value(content["amendment"]["class"].clone())
+                    .map_err(|_| Error::EvidenceMismatch)?;
+            if class == policy::AmendmentClass::Binding {
+                return Err(Error::AdmissionChanged);
+            }
+            let transition_approved = content["amendment"]["transition_approved"]
+                .as_bool()
+                .ok_or(Error::EvidenceMismatch)?;
+            let implementation_revision = content["amendment"]["implementation_revision"].as_str();
+            let new_commit = content["amendment"]["new_commit"]
+                .as_bool()
+                .unwrap_or(false);
+            let phase = current.phase();
+            let facts = policy::AmendmentFacts {
+                source_version_current: !changed,
+                issue_checkout_match: !changed,
+                evidence_integrity: true,
+                transition_approved,
+                topology: current.inputs().binding().is_some(),
+                implementation_revision: implementation_revision
+                    .is_some_and(|revision| revision == pending.origin.source_head()),
+                current_proof: matches!(
+                    phase,
+                    crate::lifecycle::LifecycleState::Implemented
+                        | crate::lifecycle::LifecycleState::Reviewed
+                        | crate::lifecycle::LifecycleState::Published
+                        | crate::lifecycle::LifecycleState::MergeReady
+                ),
+                independent_review: matches!(
+                    phase,
+                    crate::lifecycle::LifecycleState::Reviewed
+                        | crate::lifecycle::LifecycleState::Published
+                        | crate::lifecycle::LifecycleState::MergeReady
+                ),
+                projection_change: cards != *current.inputs().cards(),
+                new_commit,
+            };
+            Some((cards, class, policy::decide_amendment(phase, class, &facts)))
+        } else {
+            None
+        };
+    let (phase, invalidations, causal_invalidations) =
+        if let Some((_, class, decision)) = &amendment {
+            match decision {
+                policy::AmendmentOutcome::Admitted {
+                    phase,
+                    invalidations,
+                    review_currency,
+                } => {
+                    let mut causal = invalidations.clone();
+                    if *review_currency == policy::ReviewCurrency::FreshExactHeadReviewRequired {
+                        causal.push(policy::CausalInvalidation {
+                            evidence: Invalidation::Review,
+                            cause: *class,
+                        });
+                        causal.sort();
+                        causal.dedup();
+                    }
+                    (
+                        *phase,
+                        causal.iter().map(|item| item.evidence).collect(),
+                        causal,
+                    )
+                }
+                _ => return Err(Error::AdmissionChanged),
+            }
+        } else {
+            let disposition = if outcome.kind == OutcomeKind::Success {
+                policy::Outcome::Success
+            } else {
+                policy::Outcome::Failure
+            };
+            let decision = policy::decide(
+                Some(current.phase()),
+                pending.command,
+                disposition,
+                &outcome.facts,
+            )
+            .map_err(|_| Error::AdmissionChanged)?;
+            (decision.phase, decision.invalidations, Vec::new())
+        };
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::Bind {
         let OriginData::Bind { target, .. } = &pending.origin.0 else {
             return Err(Error::AdmissionChanged);
@@ -1031,13 +1111,10 @@ fn attach_locked(
         payload.inputs.validate()?;
     }
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendCards {
-        let content: serde_json::Value =
-            codec::decode(&effect_request.canonical_content()?).map_err(encoding)?;
-        if content["schema"] != "csdlc.v3.semantic_edit_request.v1" {
-            return Err(Error::EvidenceMismatch);
-        }
-        payload.inputs.intent_plan.cards = serde_json::from_value(content["cards"].clone())
-            .map_err(|error| encoding(error.to_string()))?;
+        payload.inputs.intent_plan.cards = amendment
+            .as_ref()
+            .map(|(cards, _, _)| cards.clone())
+            .ok_or(Error::EvidenceMismatch)?;
         payload.inputs.validate()?;
     }
     if payload.inputs != current.payload.inputs {
@@ -1051,10 +1128,13 @@ fn attach_locked(
             digest: hash("semantic-input-v1", &payload.inputs)?,
         };
     }
-    payload.phase = decision.phase;
-    payload.invalidations.extend(decision.invalidations);
+    payload.phase = phase;
+    payload.invalidations.extend(invalidations);
     payload.invalidations.sort();
     payload.invalidations.dedup();
+    payload.causal_invalidations.extend(causal_invalidations);
+    payload.causal_invalidations.sort();
+    payload.causal_invalidations.dedup();
     payload.projection_required = true;
     payload.pending = None;
     payload.completed.push(CompletedOperation {
@@ -1325,6 +1405,62 @@ pub(super) mod tests {
             let _ = fs::remove_dir_all(&self.path);
         }
     }
+    #[test]
+    fn display_only_commit_change_retains_review_currency_invalidation() {
+        let f = Fixture::new();
+        f.bind();
+        let before = f.snapshot();
+        let mut cards = before.inputs().cards().clone();
+        cards
+            .get_mut("sip")
+            .unwrap()
+            .as_object_mut()
+            .unwrap()
+            .insert("display_note".into(), serde_json::json!("reformatted"));
+        let content = codec::bytes(&serde_json::json!({
+            "schema":"csdlc.v3.semantic_edit_request.v1",
+            "cards":cards,
+            "amendment":{
+                "class":"display_only",
+                "transition_approved":false,
+                "new_commit":true
+            }
+        }))
+        .unwrap();
+        let request = EffectRequest::new(
+            SemanticCommand::AmendCards,
+            NativeIdentity::new("edit".into(), "display-only-new-commit".into()).unwrap(),
+            EffectOrigin::bound(before.inputs().binding().unwrap().clone()),
+            &content,
+        )
+        .unwrap();
+        let ticket = f.reserve(&request);
+        DurableTransactionStore::attach_outcome(
+            &f.root,
+            ticket,
+            f.outcome(
+                &request,
+                OutcomeKind::Success,
+                EffectTruth::Performed,
+                b"display-only edit receipt",
+            ),
+            f.observed(&request),
+        )
+        .unwrap();
+        let after = f.snapshot();
+        assert_eq!(after.phase(), before.phase());
+        assert_eq!(
+            after.invalidations(),
+            &[Invalidation::Readiness, Invalidation::Review]
+        );
+        assert!(after
+            .causal_invalidations()
+            .contains(&policy::CausalInvalidation {
+                evidence: Invalidation::Review,
+                cause: policy::AmendmentClass::DisplayOnly,
+            }));
+    }
+
     #[test]
     fn review_routes_retain_operations_and_binding_amendment_invalidates_inputs() {
         let f = Fixture::new();

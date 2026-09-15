@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented compatible comparison, live admitted baseline adapter and installed CLI. Local proof: 8 comparison tests, 11 evidence regressions, 8 installed scenarios and strict Clippy pass; focused touched-file coverage exceeds 80%. Independent exact-head review passed at 55281315bcf699f051cee32e189914d64a281d5d. Native authenticated creation and publication readback opened draft PR #987 against main. Full hosted CI is in progress; no merge or closeout.
+Integrated current main 9f15e6c47dc990e8feee4e606c882c577571752c after accepted #882 merge. Preserved architecture and memory command dispatch/help and module registration. A local evidence fixture lock race was fixed through explicit per-test subprocess isolation without changing assertions. 8 memory +17 structure +11 evidence tests passed; strict CLI Clippy and installed memory8/architecture9 scenarios passed. Prior head CI was green; repaired-head exact review and CI pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented compatible comparison, live admitted baseline adapter and installed 
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `published_draft_ci_pending`
+- Completion state: `published_conflict_repair_review_pending`
 - Issue goal ref: `Active appgoal: Complete all Sprint3#929; this bound issue owns #885 comparison implementation.`
 - Sprint goal ref: `Sprint #929 across all eight children`
 - Goal metrics rollup ref: `.csdlc/evidence/885/goal-metrics.json (planned, absent until execution)`
@@ -76,7 +76,7 @@ Implemented compatible comparison, live admitted baseline adapter and installed 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/885/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/memory/; shared evidence contracts/store adapter boundary; memory CLI and dispatch/help; tests, fixture example, installed proof runner and docs`
-- Additional proof artifacts: `.csdlc/evidence/885/LOCAL_PROOF.json; retained logs and installed fixture proof`
+- Additional proof artifacts: `.csdlc/evidence/885/INTEGRATION_PROOF.json; original LOCAL_PROOF and MEMORY_INSTALLED_PROOF remain preserved.`
 
 ## Actions taken
 - `Native bind and accepted#881 prerequisite verified; complete comparison implementation in issueworktree.`
@@ -85,14 +85,14 @@ Implemented compatible comparison, live admitted baseline adapter and installed 
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue worktree only`
-- Worktree-only paths remaining: `Local logs, coverage JSON, isolated binaries, fixture repositories and review/native receipts remain evidence; implementation published in PR #987.`
+- Worktree-only paths remaining: `Repaired merge, native records and integration proof pending commit/review/push; bulky logs and installed fixtures retained locally.`
 - Integration state: `published_not_merged`
 - Verification scope: `Comparison/admitted-baseline/CLI plus shared evidence regression; isolated Darwinarm64 consumer.`
-- Integration method used: `Native github-pr pull_request_create with authenticated reconciliation; native publish --observe-github returned ready.`
+- Integration method used: `Local merge of origin/main in bound #885 worktree; native publication records retained.`
 - Verification performed:
   - `Native authenticated create receipt and native publish --observe-github readback, retained under .csdlc/evidence/885/.`
     `PR #987 exists with main base and exact published head; publication confirmed, no merge.`
-- Result: `Draft PR #987 published against main at 55281315bcf699f051cee32e189914d64a281d5d. CI run 35005571796 has passed completed checks including Runtime coverage; workspace coverage remains in progress. This publication-record update requires exact-head renewal and its own hosted check result.`
+- Result: `PR #987 is nondraft. Local merge of current main resolves conflicts; review and push of repaired head pending. No PR merge performed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_memory --test codefriend_evidence; strict Clippy; isolated installed fixture/consumer proof`
     `Production library and actual installed CLI proof passed locally; no CI claim.`
 - Results:
-  - `8/8 comparison;11/11 evidence regressions;8 installed scenarios; strict Clippy; focused instrumented coverage comparison98.23%,baseline97.49%,CLI92.31%,contracts92.31%,store93.68%. No full CI claim.`
+  - `passed_local_integration; new_head_ci_pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_passed_ci_pending
+    status: passed_local_ci_pending
     checks_run:
       - "8 memory tests;11 evidence tests;8 installed scenarios; strict Clippy; fmt"
   determinism:
@@ -174,5 +174,5 @@ verification_summary:
 - `User directs whole Sprint #929 goal and parallel CI subagent; active appgoal now covers all8children. #885 has no separate goalcounter.`
 
 ## Follow-ups / Deferred work
-- `Renew exact-head review for this publication record, push and shepherd full hosted CI; request explicit merge authorization only after checks pass.`
-- `Preserve dependencies and obtain explicit merge authorization before integration/native closeout.`
+- `Independent exact-head review, native review, push repaired head, and required hosted CI.`
+- `Explicit PR merge authorization, native finish and separate clean after actual merge.`

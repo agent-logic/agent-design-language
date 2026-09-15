@@ -10,7 +10,7 @@ csdlc\-edit \- edit declared card values transactionally
 .SH ISSUE INTENT FORM
 \&The semantic issue intent form is the current operational interface. It resolves issue identity and routes effects through the native semantic transaction owner.
 .PP
-\&Apply strict csdlc.v3.intent_changes.v1 content with schema and cards semantic values through the native editor. Unsupported preview/execute flags fail before dispatch.
+\&Apply strict csdlc.v3.intent_changes.v1 content with schema, cards and a mandatory amendment declaration through the native editor. The declaration selects scope_acceptance, plan, proof_validator, implementation, review or display_only; binding remains reserved for the topology\-verified bind owner. Unsupported preview/execute flags fail before dispatch.
 .PP
 \&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
 .SH DESCRIPTION

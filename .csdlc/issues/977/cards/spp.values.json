@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 977,
+  "issue_padded": "0977",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/977",
+  "title": "[RD-01] Execute repository dependency and ownership audit",
+  "branch": "codex/977-rd01-repository-audit",
+  "version": "v0.92.2",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-977-rd01-repository-audit",
+  "plan_summary": "Executed the pinned audit and probes; published implementation remains outside this worktree-delivery boundary. #882 owns the product architecture reporter; audit tool is a bounded static aid.",
+  "proposed_steps": "Inventory pinned baseline; map owners and edges; inspect private CodeFriend metadata; execute isolated build/test/package/release-preflight probes; synthesize findings/scheduling; validate coverage and review.",
+  "affected_areas": "docs/milestones/v0.92.2/repository-decomposition/; adl/tools/rd01_repository_audit.py; .csdlc/issues/977/ and .csdlc/evidence/977/",
+  "invariants_to_preserve": "Main read-only; public ADL no private dependency target; no secrets/private source; historical evidence immutable.",
+  "test_strategy": "Python audit assertions and corruption negatives; isolated Cargo/build/package/native release preview attempts with nonzero results; preserve failure and timeout evidence."
+}

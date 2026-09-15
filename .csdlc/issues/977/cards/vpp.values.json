@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 977,
+  "issue_padded": "0977",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/977",
+  "title": "[RD-01] Execute repository dependency and ownership audit",
+  "branch": "codex/977-rd01-repository-audit",
+  "version": "v0.92.2",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-977-rd01-repository-audit",
+  "planned_pvf_lane": "docs_diff_check",
+  "validation_resource_profile": "Bounded local CPU/disk, offline dependency cache; no paid/live provider effects.",
+  "validation_command": "python3 adl/tools/rd01_repository_audit.py --self-test; verify pinned inventory and retained probe outcomes",
+  "planned_validation_seconds": 900,
+  "issue_goal_ref": "issue-977",
+  "validation_result": "Not run yet."
+}

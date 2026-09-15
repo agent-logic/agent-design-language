@@ -1,3 +1,7 @@
+> Superseded by operator decision on 2026-09-15. The two-repository strategy
+> will not be executed. See the [current decomposition plan](../milestones/v0.92.2/repository-decomposition/PLAN.md).
+> The text below is retained historical context, not current scheduling or migration authority.
+
 # ADL Logistic Split
 
 ## Status
