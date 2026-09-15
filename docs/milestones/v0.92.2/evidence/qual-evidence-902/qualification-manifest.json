@@ -26,6 +26,7 @@
       "execution_profile": "two-revision deterministic Rust test inventory",
       "independent_review": {
         "artifact_sha256s": [
+          "03d145d989a39dae0c0ff02692d848e08722442202705181c74024d35e4a83ff",
           "b4f254ec0c7e819b62be2ccc0d10fd369ee3cfdbd7a9d0443c6a46e6affbe55c",
           "c82d122ca7f41ea5bf4152e6c736cea28bee65d953616d154c4e53c1cd3222c7"
         ],
@@ -48,6 +49,11 @@
         "candidate_inventory",
         "exact_delta"
       ],
+      "review_evidence": {
+        "path": "evidence/899/retained/independent-review.md",
+        "receipt_evidence_digest": "4f8fbfbfdd519030159c7733cc074d9f6f7fb3e76bb2a559b3112347acfdec88",
+        "sha256": "03d145d989a39dae0c0ff02692d848e08722442202705181c74024d35e4a83ff"
+      },
       "review_receipt": {
         "path": "evidence/899/retained/typed-review-receipt.json",
         "sha256": "b4f254ec0c7e819b62be2ccc0d10fd369ee3cfdbd7a9d0443c6a46e6affbe55c"
@@ -64,8 +70,10 @@
         "artifact_sha256s": [
           "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879",
           "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3",
+          "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7",
           "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7",
           "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295",
+          "c2dfe8cd06d391ffbe912b00d8698c7c3be8b4c852e2bbe6852e0fad441b07e8",
           "c4ab81b8b43d2ff771e1bda0317da9d347ded71755732f39aacb8382343a1006",
           "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60",
           "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4",
@@ -109,6 +117,10 @@
         {
           "path": ".csdlc/evidence/900/attempt-17/uts-state.json",
           "sha256": "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/runtime-state/restore-receipt.json",
+          "sha256": "c2dfe8cd06d391ffbe912b00d8698c7c3be8b4c852e2bbe6852e0fad441b07e8"
         }
       ],
       "required_scenarios": [
@@ -116,6 +128,11 @@
         "six_distinct_workload_views",
         "twelve_workload_effects"
       ],
+      "review_evidence": {
+        "path": "evidence/900/retained/independent-review.md",
+        "receipt_evidence_digest": "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7",
+        "sha256": "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7"
+      },
       "review_receipt": {
         "path": "evidence/900/retained/typed-review-receipt.json",
         "sha256": "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60"
@@ -132,8 +149,10 @@
         "artifact_sha256s": [
           "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879",
           "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3",
+          "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7",
           "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7",
           "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295",
+          "c2dfe8cd06d391ffbe912b00d8698c7c3be8b4c852e2bbe6852e0fad441b07e8",
           "c4ab81b8b43d2ff771e1bda0317da9d347ded71755732f39aacb8382343a1006",
           "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60",
           "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4",
@@ -177,6 +196,10 @@
         {
           "path": ".csdlc/evidence/900/attempt-17/uts-state.json",
           "sha256": "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3"
+        },
+        {
+          "path": ".csdlc/evidence/900/attempt-17/runtime-state/restore-receipt.json",
+          "sha256": "c2dfe8cd06d391ffbe912b00d8698c7c3be8b4c852e2bbe6852e0fad441b07e8"
         }
       ],
       "required_scenarios": [
@@ -185,6 +208,11 @@
         "continuation_verified",
         "seven_tamper_denials"
       ],
+      "review_evidence": {
+        "path": "evidence/900/retained/independent-review.md",
+        "receipt_evidence_digest": "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7",
+        "sha256": "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7"
+      },
       "review_receipt": {
         "path": "evidence/900/retained/typed-review-receipt.json",
         "sha256": "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60"
@@ -200,6 +228,7 @@
       "independent_review": {
         "artifact_sha256s": [
           "0a5b63f9e1c12ec39fe9616bb4b6a301edaf19826dcdb481aea8019567a0cbfa",
+          "85692bb9dcedcea377201e94932450aaeb756baa3b81886cedb2651aa879e3ad",
           "9489030c0701112ad500b0be8f8350505cba5347602d1ec21984b3ae601a65ac",
           "d0b280fc90553e8405bc4bdb19445e17764cc6ff0888f6cdad666f7f9502f911",
           "ddde972b4b1cf8d5dd6f780440f124b2d17dec43673c4613eb35b650a909399e",
@@ -248,6 +277,11 @@
         "provider_recovery",
         "session_interruption"
       ],
+      "review_evidence": {
+        "path": "evidence/901/retained/independent-review.md",
+        "receipt_evidence_digest": "85692bb9dcedcea377201e94932450aaeb756baa3b81886cedb2651aa879e3ad",
+        "sha256": "85692bb9dcedcea377201e94932450aaeb756baa3b81886cedb2651aa879e3ad"
+      },
       "review_receipt": {
         "path": "evidence/901/retained/typed-review-receipt.json",
         "sha256": "9489030c0701112ad500b0be8f8350505cba5347602d1ec21984b3ae601a65ac"
@@ -263,7 +297,8 @@
       "independent_review": {
         "artifact_sha256s": [
           "07892d3ea946dd001b19958e469ff572fd43712c509687d80cfcd77900060cd2",
-          "13368a3548d6f65d71b511e098933755d4a2407321e29dd9a93d25505cd02996"
+          "13368a3548d6f65d71b511e098933755d4a2407321e29dd9a93d25505cd02996",
+          "5442979660bf757885ed81e8f78c6c123fc404d95c12ff0738059fffc1208fbc"
         ],
         "candidate_revision": "a00a3d2286afe5b4b315517874a8b0b9939ed0c9",
         "independent": true,
@@ -284,6 +319,11 @@
         "authenticated_wss",
         "correlation_and_redaction"
       ],
+      "review_evidence": {
+        "path": "evidence/852/retained/independent-review.md",
+        "receipt_evidence_digest": "71a0cb9be6c3978aa63087c86d727b49a1cf6326ea8b31b897f92d0bfb4fcaee",
+        "sha256": "5442979660bf757885ed81e8f78c6c123fc404d95c12ff0738059fffc1208fbc"
+      },
       "review_receipt": {
         "path": "evidence/852/retained/typed-review-receipt.json",
         "sha256": "13368a3548d6f65d71b511e098933755d4a2407321e29dd9a93d25505cd02996"

@@ -26,20 +26,20 @@ Generated: 2026-09-12T00:14:10.636008+00:00
 
 Execution:
 - Actor: `Worker #9 under active Sprint 5 goal #931 and child #902`
-- Model: `unknown`
-- Provider: `unknown`
+- Model: `not applicable; deterministic Python validator`
+- Provider: `not applicable; no provider invoked`
 - Start Time: `2026-09-15T16:25:00Z`
 - End Time: `2026-09-15T17:05:00Z`
 
 ## Summary
 
-Implemented and executed the five-row criterion evidence consumer against merged #899/#900/#901/#852 artifacts. All five rows pass; 14 required evidence-integrity mutations are rejected. Independent exact-head review, publication, CI, merge and terminal closeout remain pending.
+Implemented and executed the five-row criterion evidence consumer against merged #899/#900/#901/#852 artifacts. After review found one P1 and three P2s, the validator now pins the full protected member set, validates semantic cross-links and review evidence, enforces residual risks, emits structured failure rows, and covers 21 negative mutations. Exact-head rereview, publication, CI, merge and terminal closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
 - Final PVF lane: `local deterministic evidence-integrity Python gate`
-- Lane change reason: `not_run; implementation has not started`
+- Lane change reason: `Issue scope consumes completed Runtime evidence but changes only a deterministic Python evidence-integrity validator and packet; no Runtime/provider source or live effect changed.`
 
 ## Issue Metrics Truth
 - Expected runtime class: `small local Python evidence-integrity validation`
@@ -57,7 +57,7 @@ Implemented and executed the five-row criterion evidence consumer against merged
 - Goal metrics source ref: `docs/milestones/v0.92.2/evidence/qual-evidence-902/validation.json`
 - Data-source confidence: `high for deterministic local evidence admission`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_and_local_proof_complete_review_pending`
+- Completion state: `implementation_and_review_remediation_complete_rereview_pending`
 - Issue goal ref: `active Sprint 5 goal #931 explicitly includes issue #902 criterion evidence and independent review`
 - Sprint goal ref: `issue-926; all-eleven-sprint management only, not an execution dependency`
 - Goal metrics rollup ref: `.csdlc/evidence/902/goal-metrics.json (planned; absent until execution)`
@@ -81,17 +81,17 @@ Implemented and executed the five-row criterion evidence consumer against merged
 ## Actions taken
 - `Implemented exact five-row criterion/source/producer/scenario/review admission with fixed criterion identities and revisions`
 - `Verified merged producer outcomes plus digest-bound protected #900/#901 archive members and all four typed review receipts`
-- `Ran the real positive and 14 named negative mutations; preserved 19 findings, five cloud-control gaps and two execution-proof gaps separately`
+- `Remediated exact-head review findings and ran the real positive plus 21 negative mutations; preserved 19 findings, five cloud-control gaps and two execution-proof gaps separately`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
+- Main-repo paths updated: `none; tracked changes exist only on codex/902-v0922-runtime-criterion-evidence`
 - Worktree-only paths remaining: `.csdlc/evidence/902 and native issue transaction records remain local-only`
 - Integration state: `not_published`
-- Verification scope: `not_run`
-- Integration method used: `not_run; implementation has not started`
+- Verification scope: `five exact criteria, four producer packets, two protected archives, eleven required archive members, four typed review receipts, four retained independent-review artifacts, 19/5/2 boundary and 21 negative mutations`
+- Integration method used: `not yet published; implementation is committed on the bound issue branch`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `git merge-base --is-ancestor f69019c24a9b61511e912c93f95442f96fa66d92 HEAD; git diff --check`
+    `verified branch ancestry and diff hygiene locally; no remote integration performed`
 - Result: `not_integrated`
 
 Rules:
@@ -110,7 +110,7 @@ Rules:
   - `python3 adl/tools/validate_v0922_runtime_qualification.py --protected-root [git-common-dir]/csdlc-v3/local; python3 -m unittest adl/tools/test_validate_v0922_runtime_qualification.py; python3 -m py_compile the two issue scripts; git diff --check`
     `Actual merged producer evidence consumed; no provider, cloud, GPU, account, service or paid effect performed.`
 - Results:
-  - `Real producer run passed 5/5 rows with excluded=0 and missing=0. Two unittest methods passed, covering one positive synthetic fixture and 14 named negative mutations. Python compilation, diff hygiene and absolute-path scan passed.`
+  - `Real producer run passed 5/5 rows with excluded=0 and missing=0. Six unittest methods passed, covering one positive synthetic fixture and 21 named negative mutations. Python compilation, diff hygiene and absolute-path scan passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_complete_review_pending
+    status: local_complete_review_remediation_rereview_pending
     checks_run:
-      - "not_run"
+      - "real five-row run passed; 21 negative mutations passed; Python compilation, path-hygiene scan and diff check passed"
   determinism:
     status: passed locally
     replay_verified: not_run
@@ -136,19 +136,19 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: not_run
-    required_artifacts_present: yes for local implementation proof; review and CI pending
+    status: complete for local implementation and remediation; exact-head rereview pending
+    required_artifacts_present: yes for local implementation/remediation proof; exact-head rereview and CI pending
     schema_changes:
-      present: not_run
-      approved: not_run
+      present: yes; new issue-owned qualification manifest and result schemas
+      approved: yes; expressly required by issue #902 owned implementation paths
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `14 isolated synthetic mutation cases plus one positive fixture; all passed`
+- Determinism tests executed: `21 isolated negative mutations plus one positive synthetic fixture across six unittest methods; all passed`
 - Fixtures or scripts used: `synthetic temporary JSON and tar archives in test_validate_v0922_runtime_qualification.py; real positive uses merged producer packets and allowlisted Git-local evidence`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
+- Replay verification (same inputs -> same artifacts/order): `passed against exact retained actual inputs`
 - Ordering guarantees (sorting / tie-break rules used): `producer bytes and typed review receipt digests are checked before semantic admission; any row rejection blocks aggregate completion`
-- Artifact stability notes: `not_run; implementation has not started`
+- Artifact stability notes: `Canonical producer, protected archive/member, review receipt and review-evidence digests are fixed in code and manifest; any byte drift blocks admission.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `performed on tracked packet; no credential values or protected raw bytes published`
@@ -157,17 +157,17 @@ verification_summary:
 - Sandbox / policy invariants preserved: `yes; no network or provider execution by the validator`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/902/positive.stdout; negative_contract.stderr`
 - Run artifact root: `.csdlc/evidence/902`
 - Replay command used for verification: `python3 adl/tools/validate_v0922_runtime_qualification.py --protected-root [git-common-dir]/csdlc-v3/local`
 - Replay result: `passed 5/5 on retained actual inputs`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.2/evidence/qual-evidence-902/validation.json`
-- Required artifacts present: `implementation and local proof present; independent exact-head review and CI pending`
+- Required artifacts present: `implementation, local proof and review-remediation evidence present; exact-head rereview and CI pending`
 - Artifact schema/version checks: `passed for manifest, five fixed rows, producer packet semantics, protected archive members and typed review receipts`
 - Hash/byte-stability checks: `passed for all tracked producer artifacts, two retained archives, allowlisted archive members and four typed review receipts`
-- Missing/optional artifacts and rationale: `Execution artifacts are absent because this is preparation, not completed delivery`
+- Missing/optional artifacts and rationale: `No optional local artifacts are missing. Independent rereview and CI are pending required later gates.`
 
 ## Decisions / Deviations
 - `All four producer prerequisites are accepted and merged: #899 via PR #961 at reviewed head 713776d7dd481b8f7ea06a1a20478be9ef3ae278; #852 via PR #963 at reviewed head a00a3d2286afe5b4b315517874a8b0b9939ed0c9; #900 via PR #973 at reviewed head 2e406b75fbefd4a825dc2700bf5ae4dd668d1f77 and merge b13069dd71d1ccd70083c4018c777f8e56daafd6; #901 via PR #974 at reviewed head 3fb8606a438dcc6e7c112eaaaad01cb1fa6012cc and merge f69019c24a9b61511e912c93f95442f96fa66d92. Hosted CI and aggregate coverage passed at each exact producer head. Authoritative private #900/#901 evidence is retained under .git/csdlc-v3/local/evidence/900/retained and .git/csdlc-v3/local/evidence/901/retained with verified archive hashes. The preserved #851 worktree remains dirty and unreviewed; its changed Runtime paths do not overlap this issue's proposed validator/test paths, and its bytes remain untouched. #931 is the Sprint 5 umbrella. No row may pass when producer execution or exact evidence binding is missing.`

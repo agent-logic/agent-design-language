@@ -13,8 +13,8 @@
   },
   "issue": 902,
   "missing": 0,
-  "negative_case_count": 14,
-  "protected_evidence": "verified locally from digest-bound allowlisted archives and typed review receipts; protected bytes are not published",
+  "negative_case_count": 21,
+  "protected_evidence": "verified locally from exact digest-bound allowlisted archives, cross-linked raw outcomes, typed review receipts and retained independent-review evidence; protected bytes are not published",
   "release_authorized": false,
   "residual_risks": [
     "Historical consumers #522 and #833 remain closed historical records; these five rows do not newly prove all 19 original findings.",
@@ -58,7 +58,7 @@
         "adl/tools/test_validate_v0922_runtime_qualification.py"
       ],
       "exit_code": 0,
-      "stderr_sha256": "d1276a2d9d79b9ed0a61446aa751886a8b573a45c52c4fe838159bc8be061837",
+      "stderr_sha256": "8f2c3cf5d3bf9284b6f5a737141442af9cd5313f865e0a157807be3354be9b86",
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "positive": {

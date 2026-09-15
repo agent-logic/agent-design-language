@@ -44,16 +44,52 @@ EXPECTED_SCENARIOS = {
 }
 EXPECTED_ARTIFACTS = {
     852: {"producer": "07892d3ea946dd001b19958e469ff572fd43712c509687d80cfcd77900060cd2",
-          "review": "13368a3548d6f65d71b511e098933755d4a2407321e29dd9a93d25505cd02996"},
+          "review": "13368a3548d6f65d71b511e098933755d4a2407321e29dd9a93d25505cd02996",
+          "review_evidence": "5442979660bf757885ed81e8f78c6c123fc404d95c12ff0738059fffc1208fbc",
+          "receipt_evidence_digest": "71a0cb9be6c3978aa63087c86d727b49a1cf6326ea8b31b897f92d0bfb4fcaee"},
     899: {"producer": "c82d122ca7f41ea5bf4152e6c736cea28bee65d953616d154c4e53c1cd3222c7",
-          "review": "b4f254ec0c7e819b62be2ccc0d10fd369ee3cfdbd7a9d0443c6a46e6affbe55c"},
+          "review": "b4f254ec0c7e819b62be2ccc0d10fd369ee3cfdbd7a9d0443c6a46e6affbe55c",
+          "review_evidence": "03d145d989a39dae0c0ff02692d848e08722442202705181c74024d35e4a83ff",
+          "receipt_evidence_digest": "4f8fbfbfdd519030159c7733cc074d9f6f7fb3e76bb2a559b3112347acfdec88"},
     900: {"producer": "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295",
           "review": "d2569f73fb41454e6f32554b23e0322b5f35ec5cf755e9298dcf64ddfea2bc60",
+          "review_evidence": "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7",
+          "receipt_evidence_digest": "8d38fff45de96bdaf1f1c4f864d5ee8ec765bd326946697ad6039231bb1e72e7",
           "archive": "c4ab81b8b43d2ff771e1bda0317da9d347ded71755732f39aacb8382343a1006"},
     901: {"producer": "e31299a7e44ee27715ac9c76252a857a1b9c3d87d86ac23fa6181af157470e22",
           "review": "9489030c0701112ad500b0be8f8350505cba5347602d1ec21984b3ae601a65ac",
+          "review_evidence": "85692bb9dcedcea377201e94932450aaeb756baa3b81886cedb2651aa879e3ad",
+          "receipt_evidence_digest": "85692bb9dcedcea377201e94932450aaeb756baa3b81886cedb2651aa879e3ad",
           "archive": "f009f9425488e123b2ccefe68a98621b69ddc18a711ca7c6852b90a3ffc57c71"},
 }
+EXPECTED_MEMBERS = {
+    900: {
+        ".csdlc/evidence/900/attempt-17/continuity-uts/qualification-receipt.json": "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7",
+        ".csdlc/evidence/900/attempt-17/continuity-negatives/summary.json": "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4",
+        ".csdlc/evidence/900/attempt-17/continuity-uts/dehydration.json": "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879",
+        ".csdlc/evidence/900/attempt-17/continuity-uts/restore.json": "ed6182d3c00da9a21a28fc2dac8a93427128f0766cfec7f378a90f04b9dd9695",
+        ".csdlc/evidence/900/attempt-17/runtime-state/restore-receipt.json": "c2dfe8cd06d391ffbe912b00d8698c7c3be8b4c852e2bbe6852e0fad441b07e8",
+        ".csdlc/evidence/900/attempt-17/uts-state.json": "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3",
+    },
+    901: {
+        ".csdlc/evidence/901/runtime-live-12/runtime-observations.json": "ddde972b4b1cf8d5dd6f780440f124b2d17dec43673c4613eb35b650a909399e",
+        ".csdlc/evidence/901/runtime-live-12/checkpoint.json": "0a5b63f9e1c12ec39fe9616bb4b6a301edaf19826dcdb481aea8019567a0cbfa",
+        ".csdlc/evidence/901/runtime-live-12/proxy-requests.json": "d0b280fc90553e8405bc4bdb19445e17764cc6ff0888f6cdad666f7f9502f911",
+        ".csdlc/evidence/901/runtime-live-12/runtime-v3/generations/issue901-runtime/receipt.json": "ff024700dc169e8c9fa5a3016a2de71758f74ac1cce8e4be24ae03964b00b960",
+    },
+}
+EXPECTED_RISKS = [
+    "Historical consumers #522 and #833 remain closed historical records; these five rows do not newly prove all 19 original findings.",
+    "Five cloud-control gaps and two execution-proof gaps remain separate from this five-row qualification mapping.",
+    "Protected #900/#901 raw evidence must remain locally accessible and digest-identical for admission.",
+    "This qualification grants no release approval.",
+]
+
+
+class AdmissionError(ValueError):
+    def __init__(self, code: str, criterion_id: str | None = None):
+        super().__init__(code)
+        self.criterion_id = criterion_id
 
 
 def require(value: object, code: str) -> None:
@@ -106,7 +142,8 @@ def checked_protected_file(root: Path, item: dict) -> dict:
     return json.loads(data)
 
 
-def validate_review(row: dict, artifact_digests: set[str], receipt: dict) -> None:
+def validate_review(row: dict, artifact_digests: set[str], receipt: dict,
+                    review_evidence: bytes, expected: dict) -> None:
     review = row["independent_review"]
     require(review["result"] == "pass" and review["independent"] is True, "independent_review_missing")
     require(review["reviewer"] != review["producer_author"], "self_authored_approval")
@@ -119,6 +156,10 @@ def validate_review(row: dict, artifact_digests: set[str], receipt: dict) -> Non
             "typed_review_receipt_identity")
     require(receipt["reviewer"] == review["reviewer"] and receipt["implementer"] == review["producer_author"] and
             receipt["reviewer"] != receipt["implementer"], "typed_review_receipt_independence")
+    require(digest(review_evidence) == row["review_evidence"]["sha256"] == expected["review_evidence"],
+            "review_evidence_digest_mismatch")
+    require(receipt["evidence_digest"] == row["review_evidence"]["receipt_evidence_digest"] ==
+            expected["receipt_evidence_digest"], "typed_review_evidence_digest_mismatch")
 
 
 def validate_inventory(data: dict) -> None:
@@ -144,10 +185,38 @@ def validate_resident(data: dict, protected: dict[str, dict]) -> None:
             "resident_workload_substitution")
     receipt = next(v for k, v in protected.items() if k.endswith("/qualification-receipt.json"))
     negatives = next(v for k, v in protected.items() if k.endswith("/continuity-negatives/summary.json"))
+    dehydration = next(v for k, v in protected.items() if k.endswith("/continuity-uts/dehydration.json"))
+    restore = next(v for k, v in protected.items() if k.endswith("/continuity-uts/restore.json"))
+    completion = next(v for k, v in protected.items() if k.endswith("/runtime-state/restore-receipt.json"))
+    uts_state = next(v for k, v in protected.items() if k.endswith("/uts-state.json"))
     require(receipt["status"] == "passed" and receipt["resident_count"] == 6 and
             receipt["continuation_verified"] is True, "resident_continuity")
     require(negatives["scenario_count"] >= 7 and negatives["all_restore_denied"] is True and
             negatives["all_no_inappropriate_effect"] is True, "resident_negative_outcomes")
+    require(receipt["dehydration_receipt_sha256"] == positive["dehydration_receipt_sha256"] and
+            receipt["restore_receipt_sha256"] == positive["restore_receipt_sha256"] and
+            receipt["completion_receipt_sha256"] == positive["completion_receipt_sha256"] and
+            receipt["completed_uts_state_sha256"] == positive["completed_uts_state_sha256"],
+            "resident_receipt_cross_link")
+    require(dehydration["resident_count"] == dehydration["capsule_count"] == 6 and
+            restore["resident_count"] == restore["capsule_count"] == 6 and
+            completion["resident_count"] == completion["capsule_count"] == 6 and
+            dehydration["population_sha256"] == restore["population_sha256"] ==
+            completion["population_sha256"] == positive["signed_population_sha256"],
+            "resident_population_cross_link")
+    require(uts_state["resident_count"] == len(uts_state["residents"]) == 6 and
+            uts_state["all_pending_empty"] is True and uts_state["phase"] == "post_complete" and
+            uts_state["plan_sha256"] == positive["materialized_plan_sha256"] and
+            uts_state["restore_receipt_sha256"] == positive["restore_receipt_sha256"],
+            "resident_uts_state_cross_link")
+    require(len(receipt["residents"]) == 6 and all(
+        r["pre_agent_test_outcome"] == r["post_agent_test_outcome"] == "executed" and
+        r["producer"]["source_revision"] == positive["producer_source_revision"]
+        for r in receipt["residents"]), "resident_execution_provenance")
+    require({s["scenario"] for s in negatives["scenarios"]} ==
+            {"changed_signature", "changed_payload", "removed_resident", "substituted_provider",
+             "substituted_configuration", "substituted_lineage", "stale_snapshot"},
+            "resident_negative_scenario_identity")
 
 
 def validate_provider(data: dict, protected: dict[str, dict]) -> None:
@@ -165,6 +234,23 @@ def validate_provider(data: dict, protected: dict[str, dict]) -> None:
     require(data["validation"]["status"] == "passed" and not data["validation"]["errors"],
             "provider_validation")
     require(all(HEX64.fullmatch(v) for v in declared.values()), "provider_raw_digest")
+    observations = next(v for k, v in protected.items() if k.endswith("/runtime-observations.json"))
+    checkpoint = next(v for k, v in protected.items() if k.endswith("/checkpoint.json"))
+    proxy = next(v for k, v in protected.items() if k.endswith("/proxy-requests.json"))
+    install = next(v for k, v in protected.items() if k.endswith("/receipt.json"))
+    require(observations["source_revision"] == install["source_revision"] == data["source_revision"] and
+            observations["runtime_identity"] == observations["runtime_identity_after"] == data["runtime_identity"] and
+            observations["scenarios"] == data["scenarios"], "provider_runtime_cross_link")
+    require(digest(json.dumps(checkpoint, sort_keys=True).encode()) != "", "provider_checkpoint_unreadable")
+    require(checkpoint["schema"] == "adl.runtime_v3.agent_checkpoint.v1" and
+            checkpoint["checkpoint_digest"] == data["checkpoint"]["binding"]["checkpoint_digest"],
+            "provider_checkpoint_cross_link")
+    require(len(proxy) == data["proxy_request_count"] and [x["request_id"] for x in proxy] ==
+            [x["request_id"] for x in data["proxy_requests"]] and
+            [x["body_sha256"] for x in proxy] == [x["body_sha256"] for x in data["proxy_requests"]],
+            "provider_proxy_cross_link")
+    require(install["schema"] == "adl.runtime_v3.install_generation.v1" and
+            set(install["artifacts"]) == {"csm", "guardian", "kernel"}, "provider_install_provenance")
 
 
 def validate_runtime(data: dict) -> None:
@@ -178,9 +264,10 @@ def validate_runtime(data: dict) -> None:
 
 
 def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path | None = None,
-             expected_artifacts: dict | None = None) -> dict:
+             expected_artifacts: dict | None = None, expected_members: dict | None = None) -> dict:
     require(manifest["schema"] == "adl.v0922.runtime_criterion_evidence.v1", "manifest_schema")
     require(manifest["release_authorized"] is False, "release_authority_boundary")
+    require(manifest["residual_risks"] == EXPECTED_RISKS, "residual_risk_boundary")
     history = manifest["historical_boundary"]
     require(history == {"historical_consumers": [522, 833], "original_findings": 19,
                         "cloud_control_gaps": 5, "execution_proof_gaps": 2,
@@ -189,48 +276,53 @@ def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path 
     require(len(rows) == 5 and {r["criterion_id"] for r in rows} == set(CRITERIA), "five_row_denominator")
     protected_root = protected_root or repository_root / ".git/csdlc-v3/local"
     expected_artifacts = EXPECTED_ARTIFACTS if expected_artifacts is None else expected_artifacts
+    expected_members = EXPECTED_MEMBERS if expected_members is None else expected_members
     results = []
     for row in rows:
         criterion = row["criterion_id"]
-        text, text_digest, source_issue, producer_issue = CRITERIA[criterion]
-        require(row["criterion_text"] == text and digest(text.encode()) == text_digest == row["criterion_digest"],
-                "criterion_identity")
-        require(row["canonical_source_issue"] == source_issue and
-                row["canonical_source_revision"] == CANONICAL_SOURCE_REVISION,
-                "criterion_source_revision")
-        require(row["producer_issue"] == producer_issue, "cross_criterion_substitution")
-        pr, head = PRODUCERS[producer_issue]
-        require(row["producer_pr"] == pr and row["producer_revision"] == head, "producer_revision")
-        require(row["execution_profile"] and row["required_scenarios"] == EXPECTED_SCENARIOS[criterion],
-                "execution_profile_or_scenarios_missing")
-        expected = expected_artifacts[producer_issue]
-        require(row["producer_artifact"]["sha256"] == expected["producer"] and
-                row["review_receipt"]["sha256"] == expected["review"], "canonical_artifact_identity")
-        if "archive" in expected:
-            require(row["protected_archive"]["sha256"] == expected["archive"], "canonical_artifact_identity")
-        primary = checked_file(repository_root, row["producer_artifact"])
-        artifact_digests = {row["producer_artifact"]["sha256"]}
-        protected = {}
-        if row.get("protected_archive"):
-            protected = checked_archive(protected_root, row["protected_archive"], row["protected_members"])
-            artifact_digests |= {row["protected_archive"]["sha256"]}
-            artifact_digests |= {m["sha256"] for m in row["protected_members"]}
-        if row.get("review_receipt"):
+        try:
+            text, text_digest, source_issue, producer_issue = CRITERIA[criterion]
+            require(row["criterion_text"] == text and digest(text.encode()) == text_digest == row["criterion_digest"],
+                    "criterion_identity")
+            require(row["canonical_source_issue"] == source_issue and
+                    row["canonical_source_revision"] == CANONICAL_SOURCE_REVISION,
+                    "criterion_source_revision")
+            require(row["producer_issue"] == producer_issue, "cross_criterion_substitution")
+            pr, head = PRODUCERS[producer_issue]
+            require(row["producer_pr"] == pr and row["producer_revision"] == head, "producer_revision")
+            require(row["execution_profile"] and row["required_scenarios"] == EXPECTED_SCENARIOS[criterion],
+                    "execution_profile_or_scenarios_missing")
+            expected = expected_artifacts[producer_issue]
+            require(row["producer_artifact"]["sha256"] == expected["producer"] and
+                    row["review_receipt"]["sha256"] == expected["review"], "canonical_artifact_identity")
+            if "archive" in expected:
+                require(row["protected_archive"]["sha256"] == expected["archive"], "canonical_artifact_identity")
+                require({m["path"]: m["sha256"] for m in row["protected_members"]} ==
+                        expected_members[producer_issue], "protected_member_set")
+            primary = checked_file(repository_root, row["producer_artifact"])
+            artifact_digests = {row["producer_artifact"]["sha256"]}
+            protected = {}
+            if row.get("protected_archive"):
+                protected = checked_archive(protected_root, row["protected_archive"], row["protected_members"])
+                artifact_digests |= {row["protected_archive"]["sha256"]}
+                artifact_digests |= {m["sha256"] for m in row["protected_members"]}
             receipt = checked_protected_file(protected_root, row["review_receipt"])
-            artifact_digests.add(row["review_receipt"]["sha256"])
-        else:
-            receipt = next((v for k, v in protected.items() if k.endswith("/typed-review-receipt.json")), None)
-            require(receipt is not None, "protected_review_unavailable")
-        validate_review(row, artifact_digests, receipt)
-        if producer_issue == 899:
-            validate_inventory(primary)
-        elif producer_issue == 900:
-            validate_resident(primary, protected)
-        elif producer_issue == 901:
-            validate_provider(primary, protected)
-        else:
-            validate_runtime(primary)
-        results.append({"criterion_id": criterion, "status": "pass", "producer_issue": producer_issue})
+            review_path = protected_root / row["review_evidence"]["path"]
+            require(review_path.is_file(), "protected_review_evidence_unavailable")
+            review_evidence = review_path.read_bytes()
+            artifact_digests |= {row["review_receipt"]["sha256"], row["review_evidence"]["sha256"]}
+            validate_review(row, artifact_digests, receipt, review_evidence, expected)
+            if producer_issue == 899:
+                validate_inventory(primary)
+            elif producer_issue == 900:
+                validate_resident(primary, protected)
+            elif producer_issue == 901:
+                validate_provider(primary, protected)
+            else:
+                validate_runtime(primary)
+            results.append({"criterion_id": criterion, "status": "pass", "producer_issue": producer_issue})
+        except (ValueError, KeyError, OSError, tarfile.TarError) as error:
+            raise AdmissionError(str(error), criterion) from error
     return {"status": "passed", "complete": 5, "excluded": 0, "missing": 0,
             "rows": results, "historical_boundary": history,
             "residual_risks": manifest["residual_risks"], "release_authorized": False}
@@ -247,7 +339,14 @@ def main() -> int:
                          indent=2, sort_keys=True))
         return 0
     except (ValueError, KeyError, OSError, json.JSONDecodeError, tarfile.TarError) as error:
-        print(json.dumps({"status": "blocked", "error": str(error)}, sort_keys=True))
+        criterion = getattr(error, "criterion_id", None)
+        ids = list(CRITERIA)
+        rows = [{"criterion_id": item, "status": "fail" if item == criterion else "not-proven"}
+                for item in ids]
+        print(json.dumps({"status": "blocked", "error": str(error), "complete": 0,
+                          "excluded": 0, "missing": sum(r["status"] == "not-proven" for r in rows),
+                          "rows": rows, "residual_risks": EXPECTED_RISKS,
+                          "release_authorized": False}, sort_keys=True))
         return 1
 
 

@@ -20,7 +20,14 @@
         "partial row denominator",
         "changed historical 19/5/2 boundary",
         "release-authority escalation",
-        "unresolved review finding"
+        "unresolved review finding",
+        "empty residual-risk boundary",
+        "reduced protected-member allowlist",
+        "typed review evidence-digest substitution",
+        "refreshed partial producer outcome",
+        "refreshed execution-log substitution",
+        "refreshed install provenance substitution",
+        "coherent synthetic archive replacement"
       ],
       "proof_role": "evidence-integrity and behavioral admission regression",
       "release_gate": "required issue gate; no release approval conferred",
