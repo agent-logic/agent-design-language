@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 977,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/977-rd01-repository-audit",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-977-rd01-repository-audit",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "6359d3cca93bcee6c3f80d81540082fe605157bd2bae5e181d0857ecdd835f81"
+}

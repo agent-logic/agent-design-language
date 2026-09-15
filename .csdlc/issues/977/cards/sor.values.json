@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 977,
+  "issue_padded": "0977",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/977",
+  "title": "[RD-01] Execute repository dependency and ownership audit",
+  "branch": "codex/977-rd01-repository-audit",
+  "version": "v0.92.2",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-977-rd01-repository-audit",
+  "status": "in_progress",
+  "summary": "Audit executed at f69019c24a9b61511e912c93f95442f96fa66d92: 31813 tracked paths, 9466 unresolved owner decisions, 211 manifest/module paths, 310 Cargo declarations. Isolated UTS20/provider107 pass; CSDLC owned bundle builds, lib122 pass/2 fail on authority context. Required extraction gates remain unresolved. Independent audit review findings addressed.",
+  "validation_result": "Audit executed at f69019c24a9b61511e912c93f95442f96fa66d92: 31813 tracked paths, 9466 unresolved owner decisions, 211 manifest/module paths, 310 Cargo declarations. Isolated UTS20/provider107 pass; CSDLC owned bundle builds, lib122 pass/2 fail on authority context. Required extraction gates remain unresolved. Independent audit review findings addressed.",
+  "validation_command": "python3 adl/tools/rd01_repository_audit.py --self-test; python3 adl/tools/rd01_repository_audit.py --verify; retained isolated probe matrix in rd01-977/probe-results.json",
+  "primary_proof_surface": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/AUDIT.md; docs/milestones/v0.92.2/evidence/rd01-977/summary.json",
+  "integration_status": "Bound worktree audit delivered; no PR, merge, terminal closeout or extraction claimed.",
+  "residual_risks": "H1-H3 unresolved; RD02 must resolve owners, private/public contracts, registry/access controls, independent lifecycle proof. #882 retains reusable production structure reporter scope."
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 977,
+  "issue_padded": "0977",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/977",
+  "title": "[RD-01] Execute repository dependency and ownership audit",
+  "branch": "codex/977-rd01-repository-audit",
+  "version": "v0.92.2",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-977-rd01-repository-audit",
+  "review_notes": "Independent review by docs_final_review plus package and CI specialist lanes. Root verified narrow final documentation corrections. Exact-head publication review not claimed.",
+  "findings_status": "no_findings",
+  "recommended_outcome": "approve",
+  "review_findings": "Probe directory reuse, wrong flag and stale plan state corrected. No additional material findings."
+}
