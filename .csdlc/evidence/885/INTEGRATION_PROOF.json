@@ -135,5 +135,5 @@
     "adl/tests/codefriend_evidence.rs": "c8c5eba55b6f8a7c8dfdbd05458dd9f53c558f5cac5b2464ee3f9b2e0c5764d7"
   },
   "hosted_ci": "pending repaired-head push",
-  "review": "Interim integration and fixture-isolation review PASS; final committed exact-head review pending."
+  "review": "Independent PASS at 9049edc2d79422edc7b196b9b97b4da26f43f05c; no findings. Final record-only renewal before push."
 }

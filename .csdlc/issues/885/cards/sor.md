@@ -57,7 +57,7 @@ Integrated current main 9f15e6c47dc990e8feee4e606c882c577571752c after accepted 
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `published_conflict_repair_review_pending`
+- Completion state: `reviewed_integration_ready_for_push`
 - Issue goal ref: `Active appgoal: Complete all Sprint3#929; this bound issue owns #885 comparison implementation.`
 - Sprint goal ref: `Sprint #929 across all eight children`
 - Goal metrics rollup ref: `.csdlc/evidence/885/goal-metrics.json (planned, absent until execution)`
@@ -174,5 +174,5 @@ verification_summary:
 - `User directs whole Sprint #929 goal and parallel CI subagent; active appgoal now covers all8children. #885 has no separate goalcounter.`
 
 ## Follow-ups / Deferred work
-- `Independent exact-head review, native review, push repaired head, and required hosted CI.`
+- `Push final record-reviewed integration head, preserve native publication readback and require fresh hosted CI.`
 - `Explicit PR merge authorization, native finish and separate clean after actual merge.`

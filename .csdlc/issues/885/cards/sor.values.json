@@ -13,7 +13,7 @@
   "estimate_error_percent": "unknown",
   "actual_total_tokens": "unknown",
   "primary_proof_surface": "adl/tests/codefriend_cf_memory.rs; docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json; docs/codefriend/MEMORY_INSTALLED_PROOF.json",
-  "follow_up_1": "Independent exact-head review, native review, push repaired head, and required hosted CI.",
+  "follow_up_1": "Push final record-reviewed integration head, preserve native publication readback and require fresh hosted CI.",
   "decision_or_deviation_1": "#881 accepted merged PR956 commit41aa503e80a31250ce8d1df05c46d16d99c843bf before binding.",
   "additional_proof_artifacts": ".csdlc/evidence/885/INTEGRATION_PROOF.json; original LOCAL_PROOF and MEMORY_INSTALLED_PROOF remain preserved.",
   "variance_analysis_required": "unknown",
@@ -66,7 +66,7 @@
   "sandbox_policy_invariants_preserved": "not_run; not separately assessed in this bounded proof",
   "missing_optional_artifacts_rationale": "Full hosted CI remains in progress. No provider call or external repository qualification belongs to this child.",
   "actual_pr_wait_seconds": "unknown",
-  "completion_state": "published_conflict_repair_review_pending",
+  "completion_state": "reviewed_integration_ready_for_push",
   "main_repo_paths_updated": "none; issue worktree only",
   "hash_byte_stability_checks": "Source SHA256 and installed binary/provenance retained; deterministic delta equality passed.",
   "actual_active_work_seconds": "unknown",
@@ -99,5 +99,5 @@
   "verification_required_artifacts_present": "local_proof_present",
   "initial_pvf_lane": "runtime",
   "output_card": ".csdlc/issues/885/cards/sor.md",
-  "validation_results": "Integrated current main 9f15e6c47dc990e8feee4e606c882c577571752c after accepted #882 merge. Preserved architecture and memory command dispatch/help and module registration. A local evidence fixture lock race was fixed through explicit per-test subprocess isolation without changing assertions. 8 memory +17 structure +11 evidence tests passed; strict CLI Clippy and installed memory8/architecture9 scenarios passed. Prior head CI was green; repaired-head exact review and CI pending."
+  "validation_results": "Integration review PASS at 9049edc2d79422edc7b196b9b97b4da26f43f05c. Local tests 36/36 across recorded runs; strict Clippy; installed memory8 and architecture9 scenarios passed. Repaired-head hosted CI follows push."
 }
