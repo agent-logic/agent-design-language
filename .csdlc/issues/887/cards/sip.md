@@ -7,7 +7,7 @@ Task ID: issue-0887
 Run ID: issue-0887
 Version: 0.92.2
 Title: [v0.92.2][CF-GOV] Execute local architecture fitness functions
-Branch: not bound yet; proposed codex/887-v0922-codefriend-local-fitness
+Branch: codex/887-v0922-codefriend-local-fitness
 Card Status: ready
 Generated: 2026-09-12T00:05:16.416878+00:00
 

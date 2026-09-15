@@ -4,7 +4,7 @@
   "issue_padded": "0887",
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/887",
   "title": "[v0.92.2][CF-GOV] Execute local architecture fitness functions",
-  "branch": "not bound yet; proposed codex/887-v0922-codefriend-local-fitness",
+  "branch": "codex/887-v0922-codefriend-local-fitness",
   "version": "0.92.2",
   "card": "sip",
   "card_status": "ready",

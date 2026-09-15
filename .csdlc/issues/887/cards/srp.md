@@ -6,7 +6,7 @@ issue: 887
 task_id: "issue-0887"
 version: "0.92.2"
 title: "[v0.92.2][CF-GOV] Execute local architecture fitness functions"
-branch: "not bound yet; proposed codex/887-v0922-codefriend-local-fitness"
+branch: "codex/887-v0922-codefriend-local-fitness"
 generated_at: "2026-09-12T00:05:16.416878+00:00"
 card_status: "draft"
 status: "draft"
@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Independent reviewer /root/sprint3_preparation_review PASS at 6e14e86bfb4df7d37d14227dff3f0c0bea4e921b; no actionable findings. Original raw identifier finding fixed and tested.
+- Independent exact-head review passed at 0ec971d78e4ce907b7baeae94c7c01a5f47f07ad. This publication-record and stale branch-label correction preserves source/proof bytes and receives exact-head renewal before push.
 
 ### Dispositions
 
