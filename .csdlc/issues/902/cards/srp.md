@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/902/cards/sip.md"
   - ".csdlc/issues/902/cards/vpp.md"
 review_results:
-  findings_status: "no_findings"
+  findings_status: "no_actionable_findings_all_six_resolved"
   recommended_outcome: "approve"
-notes: "Independent reviewer /root/review_902_exact_head reran the real protected 5/5 input, seven focused tests, reduced-member, empty-risk, review-digest and protected-member substitutions, Python compilation, full diff hygiene and the end-to-end fifth-row CLI failure. Exact head was rechecked and no files or remote state were changed. Native review admission is ready; this card-only metadata change requires a final exact-head delta review before publication."
+notes: "Independent reviewer /root/review_902_exact_head verified the original three bypasses reject, 13 focused methods and 28 named negatives pass, the real retained input passes exactly 5/5, canonical run-log hashes match, and all six review findings are resolved. The reviewer then inspected native generation 13 digest adb4ee269f34e49c47d5e3e0032566e043ec7b90dab6a97732e10fe28bda3a55 over exact tracked head 2bc26ac0a6ed5a13a358309b8f5a12e8bd798ca2 and reported no actionable findings."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Initial exact-head review found one P1 and three P2s; a follow-up review found the partial failure report discarded prior pass rows. All five findings were repaired. Final independent rereview found no actionable findings at 6dca1dcd7e778c5c99873e88aaeeedc47ae2d665.
+- Earlier exact-head review findings were fixed before PR #983. The subsequent PR review at 185a36f reported three P2 admission gaps: timeout evidence was not consumed, underlying #899/#852 execution evidence could be absent, and execution profiles were not bound. Remediation review then found three adjacent P2 truth gaps: retained review-evidence path confinement, canonical run-log hash retention, and stale SRP/SOR counts. The implementation and proof defects are fixed at 2bc26ac0a6ed5a13a358309b8f5a12e8bd798ca2; the native generation-13 card update resolved the remaining lifecycle-truth finding; final rereview found no actionable findings.
 
 ### Dispositions
 
-- Exact protected member and producer identities, semantic producer cross-links, typed review evidence, canonical residual risks, complete negative coverage, structured denominators and current SOR truth are enforced. Late-row CLI failure preserves four prior passes and reports the fifth failed with complete=4 and missing=0.
+- All PR-review findings were actionable and fixed. DRT-C-ac-2 now consumes digest-bound timeout request/result and 150 ms deadline observations; #899 and #852 rows require their underlying execution archives; all five row profiles are exact and cross-linked to producer evidence. Review evidence paths are confined to protected_root, retained run logs match validation.json, and the SOR records 13 methods and 28 named negatives. No finding was waived or deferred.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent reviewer /root/review_902_exact_head reran the real protected 5/5 input, seven focused tests, reduced-member, empty-risk, review-digest and protected-member substitutions, Python compilation, full diff hygiene and the end-to-end fifth-row CLI failure. Exact head was rechecked and no files or remote state were changed. Native review admission is ready; this card-only metadata change requires a final exact-head delta review before publication.
+Independent reviewer /root/review_902_exact_head verified the original three bypasses reject, 13 focused methods and 28 named negatives pass, the real retained input passes exactly 5/5, canonical run-log hashes match, and all six review findings are resolved. The reviewer then inspected native generation 13 digest adb4ee269f34e49c47d5e3e0032566e043ec7b90dab6a97732e10fe28bda3a55 over exact tracked head 2bc26ac0a6ed5a13a358309b8f5a12e8bd798ca2 and reported no actionable findings.
