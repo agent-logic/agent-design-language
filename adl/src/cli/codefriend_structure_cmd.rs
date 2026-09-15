@@ -1,15 +1,19 @@
 use adl::codefriend::{
-    architecture::structure::{self, BoundaryPolicy},
+    architecture::{
+        rationale::{self, RationaleSelection},
+        structure::{self, BoundaryPolicy},
+    },
     evidence::store::Store,
 };
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, io::Read, path::Path};
-pub(super) const USAGE:&str="adl codefriend architecture report --store <directory> --packet-id <id> --policy <policy.json> --out <new-report.json>\nadl codefriend architecture read --store <directory> --input <report.json>";
+pub(super) const USAGE:&str="adl codefriend architecture report --store <directory> --packet-id <id> --policy <policy.json> --out <new-report.json>\nadl codefriend architecture rationale --store <directory> --graph <structure.json> --selection <selection.json> --out <new-rationale.json>\nadl codefriend architecture rationale-read --store <directory> --input <rationale.json>\nadl codefriend architecture read --store <directory> --input <report.json>";
 pub(super) fn run(args: &[String]) -> Result<()> {
     ensure!(!args.is_empty(), "{USAGE}");
     let expected: &[&str] = match args[0].as_str() {
         "report" => &["--store", "--packet-id", "--policy", "--out"],
-        "read" => &["--store", "--input"],
+        "read" | "rationale-read" => &["--store", "--input"],
+        "rationale" => &["--store", "--graph", "--selection", "--out"],
         _ => anyhow::bail!("unsupported_architecture_command"),
     };
     let mut flags = BTreeMap::new();
@@ -39,6 +43,38 @@ pub(super) fn run(args: &[String]) -> Result<()> {
             .unwrap_or_default()
             .as_secs()
     })?;
+    if args[0] == "rationale" || args[0] == "rationale-read" {
+        let report = if args[0] == "rationale" {
+            let path = Path::new(flags["--selection"]);
+            ensure!(
+                std::fs::symlink_metadata(path)?.file_type().is_file(),
+                "rationale_selection_not_regular"
+            );
+            let mut bytes = Vec::new();
+            std::fs::File::open(path)?
+                .take(128 * 1024 + 1)
+                .read_to_end(&mut bytes)?;
+            ensure!(bytes.len() <= 128 * 1024, "rationale_selection_too_large");
+            let selection: RationaleSelection = serde_json::from_slice(&bytes)
+                .map_err(|_| anyhow::anyhow!("invalid_rationale_selection"))?;
+            let graph = structure::read_report(&store, Path::new(flags["--graph"]))?;
+            let report = rationale::architecture_rationale_reporter(&store, graph, selection)?;
+            rationale::write_report(&report, &store, Path::new(flags["--out"]))?;
+            report
+        } else {
+            rationale::read_report(&store, Path::new(flags["--input"]))?
+        };
+        println!(
+            "{}",
+            serde_json::json!({"schema":rationale::VERSION,"digest":report.digest,"run_id":report.record.run.id,"analysis_complete":report.analysis_complete,"boundaries":report.boundaries.len(),"findings":report.record.findings.len()})
+        );
+        eprintln!(
+            "adl_event kind=codefriend_rationale status=success analysis_complete={} boundaries={}",
+            report.analysis_complete,
+            report.boundaries.len()
+        );
+        return Ok(());
+    }
     let report = if args[0] == "report" {
         let mut bytes = Vec::new();
         std::fs::File::open(flags["--policy"])?

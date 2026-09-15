@@ -1,0 +1,216 @@
+{
+  "schema": "codefriend.rationale_local_proof.v1",
+  "issue": 884,
+  "base_revision": "4ea09540eea1a38d7ab2f79416b87a8cd4cb7690",
+  "source_sha256": {
+    "adl/src/codefriend/architecture/rationale.rs": "deecd6ded52cc4df2565218091e90671fcd1d471a4b36c06bb7933d52ebfbfa8",
+    "adl/src/cli/codefriend_structure_cmd.rs": "a9da16c4efc7f00999614f2672359f1fac500b06b684a9c717f9f573099bd975",
+    "adl/src/codefriend/architecture/structure.rs": "bf63e9a162ef8c9315cbbf5311d29d9a43b0ea93f4352856fc230645d9c0aacc",
+    "adl/src/codefriend/architecture/mod.rs": "e43fd0f9b59082fb7edd1255b8304a596bc48f8cddce5aacc398708a60eb1316",
+    "adl/tests/codefriend_cf_cog_rationale.rs": "89a2e9059f2dac7e2b487aff34c71552ab0ed30e24c8708cbbc7a91bcecf001e",
+    "adl/tools/codefriend_rationale_installed_proof.py": "5ecf0004e366aabb87141e96c95cb1b949d3cfd0ea31a164dd4c9d45e831094e"
+  },
+  "tests": {
+    "codefriend_cf_cog_rationale": 10,
+    "codefriend_cf_cog": 17,
+    "codefriend_evidence": 11
+  },
+  "focused_tests_result": "passed",
+  "fmt": "passed",
+  "diff_check": "passed",
+  "clippy": "passed: --bin adl -- -D warnings",
+  "installed_rationale": {
+    "schema": "codefriend.rationale_installed_proof.v1",
+    "issue": 884,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "090fa40ea5ad52fcd5d1499ba571d3726cacb8ec8cdb1f6127a7e22169af005d",
+    "installation_provenance": "af860d29db254a2513cdd6fb5e4ccf3dad89b2df099c4ac05161b4b57f0fd633",
+    "scenarios": [
+      {
+        "fixture": "accepted",
+        "complete": true,
+        "conflicts": [],
+        "unknowns": [],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "candidate",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "superseded",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "conflict",
+        "complete": false,
+        "conflicts": [
+          "api-deployment"
+        ],
+        "unknowns": [],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "different-key",
+        "complete": true,
+        "conflicts": [],
+        "unknowns": [],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "empty",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "unknown-deployment",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "unsupported_or_unmatched_deployment_relationship"
+        ],
+        "repeat_readback": true
+      },
+      {
+        "fixture": "outside",
+        "complete": false,
+        "conflicts": [],
+        "unknowns": [
+          "no_accepted_rationale",
+          "rationale_evidence_unavailable:unadmitted.md"
+        ],
+        "repeat_readback": true
+      }
+    ],
+    "executed_scenarios": 11,
+    "negative_guards": [
+      "tamper",
+      "stale-revision",
+      "post-deletion-read"
+    ],
+    "calibration": {
+      "fixed_sample": [
+        "conflict",
+        "different-key",
+        "candidate",
+        "superseded"
+      ],
+      "expected_conflict": [
+        "conflict"
+      ],
+      "observed_conflict": [
+        "conflict"
+      ],
+      "false_positives": 0,
+      "false_negatives": 0
+    },
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Synthetic explicit-choice conflict calibration only; no semantic prose contradiction accuracy",
+      "No measured runtime independent deployability",
+      "No provider or external repository execution",
+      "No Linux qualification from a macOS run"
+    ]
+  },
+  "installed_structure": {
+    "schema": "codefriend.structure_installed_proof.v1",
+    "issue": 882,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "090fa40ea5ad52fcd5d1499ba571d3726cacb8ec8cdb1f6127a7e22169af005d",
+    "installation_provenance": "af860d29db254a2513cdd6fb5e4ccf3dad89b2df099c4ac05161b4b57f0fd633",
+    "fixture_revision": "4b3c725caa49051891eff8c5bff191595190b373",
+    "first_summary": {
+      "schema": "codefriend.structure.v1",
+      "digest": "a54fa9325275cf8610af92ab2e2fabe8835f27c5a98dd8525c00558645f7dbbc",
+      "run_id": "9d579530af97a4e08d1966d4951b7b9c388becc243e1a94f184007ac76803f42",
+      "analysis_complete": true,
+      "nodes": 4,
+      "edges": 2,
+      "findings": 1,
+      "unknowns": 0
+    },
+    "changed_policy_summary": {
+      "schema": "codefriend.structure.v1",
+      "digest": "51cebf1386835fba93b08ce6b2d3da7d4ea3bb8200cba1de798814e014623f88",
+      "run_id": "b620e2dd8f76cccfb3cb14b6b2681807b20a399bd132f6d14b34cd0e647aea40",
+      "analysis_complete": true,
+      "nodes": 4,
+      "edges": 2,
+      "findings": 2,
+      "unknowns": 0
+    },
+    "repeat_deterministic": true,
+    "persisted_readback": true,
+    "policy_identity_distinct": true,
+    "tampering_denied": true,
+    "post_delete_read_denied": true,
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "executed_scenarios": 9,
+    "pathological_source_partial": [
+      {
+        "fixture": "unary",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "03937b0afc698e3240134a912a4deeeb58fe2b4d53e378243d589e2d958cdf0a",
+          "run_id": "7493537b07d5c8c10f95a5beab393dd668a531cd1a59d6456fa3d6f2d98f0151",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      },
+      {
+        "fixture": "keyword",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "84dba7854f32605cc66c9029c0b7d20be110a72b47ee5c72cd0c77b83d1b489f",
+          "run_id": "8e848e039ed9b020d9fa8a087e96950c88e1eee6e46ed84353923d3ffc79e00e",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      },
+      {
+        "fixture": "delimiter",
+        "summary": {
+          "schema": "codefriend.structure.v1",
+          "digest": "8638631ddc54e15d2e665789eb64f09b0b805d2dc183f085a401c93937a5674c",
+          "run_id": "773db811a8ede06181543e435a1bacf88223b09f54f8ecc04259f3d142028c0f",
+          "analysis_complete": false,
+          "nodes": 0,
+          "edges": 0,
+          "findings": 0,
+          "unknowns": 1
+        }
+      }
+    ],
+    "nonclaims": [
+      "No provider or external repository execution",
+      "No Linux qualification from this local run"
+    ]
+  },
+  "toolchain": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "test_correction": "Initial expanded negative test expected malformed JSON parser error, but ingestion omits malformed JSON. Corrected test to assert explicit unavailable/partial outcome. Original failed log preserved; full38 tests rerun passed.",
+  "build_profile": "Isolated internal-disk Cargo target, dev/test debug=0; same-host dependency cache warmed through wrapper. Build cache is not proof.",
+  "ci": "not_yet_published",
+  "review": "Interim implementation review passed; final exact-head review pending"
+}
