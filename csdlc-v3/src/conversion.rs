@@ -13,7 +13,8 @@ use serde_json::{json, Value};
 use std::collections::BTreeMap;
 use std::fs::{self, OpenOptions};
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
+use std::process::Command;
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -59,7 +60,8 @@ pub struct ConvertedRecord {
     pub disposition: String,
 }
 
-const FAULT_POINTS: [&str; 15] = [
+const FAULT_POINTS: [&str; 16] = [
+    "operation_journal_creation",
     "conversion_intent_durability",
     "per_issue_staging_write",
     "whole_census_staging_complete",
@@ -85,7 +87,11 @@ struct Operation<'a> {
 }
 
 impl<'a> Operation<'a> {
-    fn open(request: &'a ConversionRequest) -> Result<Self, String> {
+    fn open(
+        request: &'a ConversionRequest,
+        request_digest: &Digest,
+        canonical_git_common: &Path,
+    ) -> Result<Self, String> {
         let operation_id = if request.operation_id.is_empty() {
             let repository = request
                 .repository
@@ -122,8 +128,7 @@ impl<'a> Operation<'a> {
                 return Err(format!("unsupported fault mode {}", fault.mode));
             }
         }
-        let root = request
-            .git_common
+        let root = canonical_git_common
             .join("csdlc-v3/local/conversion-rehearsals")
             .join(&operation_id);
         fs::create_dir_all(&root).map_err(|error| format!("{}: {error}", root.display()))?;
@@ -135,9 +140,35 @@ impl<'a> Operation<'a> {
             root,
             journal,
         };
-        if !operation.journal.is_file() {
-            operation.append("operation_journal_created", json!({}))?;
+        if operation.journal.is_file() {
+            let bytes = fs::read(&operation.journal)
+                .map_err(|error| format!("{}: {error}", operation.journal.display()))?;
+            let retained = bytes
+                .split(|byte| *byte == b'\n')
+                .filter(|line| !line.is_empty())
+                .find_map(|line| serde_json::from_slice::<Value>(line).ok())
+                .filter(|event| {
+                    event.get("event").and_then(Value::as_str) == Some("operation_journal_created")
+                })
+                .and_then(|event| {
+                    event
+                        .pointer("/detail/request_digest")
+                        .and_then(Value::as_str)
+                        .map(str::to_owned)
+                });
+            if retained.as_deref() != Some(request_digest.as_str()) {
+                return Err(format!(
+                    "operation identity mismatch for {}: retained request digest does not match",
+                    operation.id()
+                ));
+            }
+        } else {
+            operation.append(
+                "operation_journal_created",
+                json!({"request_digest": request_digest.as_str()}),
+            )?;
         }
+        operation.fault("operation_journal_creation", "after")?;
         Ok(operation)
     }
 
@@ -160,6 +191,7 @@ impl<'a> Operation<'a> {
         serde_json::to_writer(&mut file, &line).map_err(|error| error.to_string())?;
         file.write_all(b"\n").map_err(|error| error.to_string())?;
         file.sync_all().map_err(|error| error.to_string())?;
+        sync_dir(self.journal.parent().expect("operation journal has parent"))?;
         Ok(())
     }
 
@@ -194,7 +226,7 @@ impl<'a> Operation<'a> {
             &event,
             json!({"point": point, "boundary": boundary, "mode": "once"}),
         )?;
-        Err(format!("controlled_interruption:{point}:{boundary}"))
+        std::process::abort()
     }
 
     fn marker(&self, relative: &str, event: &str, detail: Value) -> Result<(), String> {
@@ -325,6 +357,193 @@ fn copy_tree(source: &Path, destination: &Path) -> Result<(), String> {
         }
     }
     sync_dir(destination)
+}
+
+struct ConversionPreflight {
+    canonical_git_common: PathBuf,
+    canonical_linked_worktree: PathBuf,
+    source_digests: Vec<Digest>,
+    authority_bytes: Vec<u8>,
+    registry_bytes: Vec<u8>,
+}
+
+fn git_output(worktree: &Path, args: &[&str]) -> Result<String, String> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(worktree)
+        .args(args)
+        .output()
+        .map_err(|error| format!("git {:?}: {error}", args))?;
+    if !output.status.success() {
+        return Err(format!(
+            "git {:?} failed for {}: {}",
+            args,
+            worktree.display(),
+            String::from_utf8_lossy(&output.stderr).trim()
+        ));
+    }
+    String::from_utf8(output.stdout)
+        .map(|value| value.trim().to_owned())
+        .map_err(|error| format!("git {:?} returned non-UTF-8 output: {error}", args))
+}
+
+fn authenticate_linked_worktree(request: &ConversionRequest) -> Result<(PathBuf, PathBuf), String> {
+    if !request.linked_worktree.is_absolute()
+        || request
+            .linked_worktree
+            .components()
+            .any(|component| matches!(component, Component::ParentDir | Component::CurDir))
+    {
+        return Err("linked_worktree must be absolute without traversal components".to_owned());
+    }
+    let canonical_git_common = fs::canonicalize(&request.git_common)
+        .map_err(|error| format!("{}: {error}", request.git_common.display()))?;
+    let canonical_linked_worktree = fs::canonicalize(&request.linked_worktree)
+        .map_err(|error| format!("{}: {error}", request.linked_worktree.display()))?;
+    let observed_root = fs::canonicalize(git_output(
+        &canonical_linked_worktree,
+        &["rev-parse", "--show-toplevel"],
+    )?)
+    .map_err(|error| format!("linked worktree root: {error}"))?;
+    if observed_root != canonical_linked_worktree {
+        return Err("linked_worktree does not name the exact Git worktree root".to_owned());
+    }
+    let observed_common = fs::canonicalize(git_output(
+        &canonical_linked_worktree,
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    )?)
+    .map_err(|error| format!("linked worktree common directory: {error}"))?;
+    if observed_common != canonical_git_common {
+        return Err("linked_worktree belongs to a different Git common directory".to_owned());
+    }
+    let observed_branch = git_output(
+        &canonical_linked_worktree,
+        &["symbolic-ref", "--quiet", "--short", "HEAD"],
+    )?;
+    if observed_branch != request.linked_branch {
+        return Err(format!(
+            "linked_worktree branch mismatch: expected {}, observed {}",
+            request.linked_branch, observed_branch
+        ));
+    }
+    let observed_head = git_output(&canonical_linked_worktree, &["rev-parse", "HEAD"])?;
+    if observed_head != request.linked_head {
+        return Err(format!(
+            "linked_worktree HEAD mismatch: expected {}, observed {}",
+            request.linked_head, observed_head
+        ));
+    }
+
+    let listing = git_output(
+        &canonical_linked_worktree,
+        &["worktree", "list", "--porcelain"],
+    )?;
+    let mut registered = Vec::new();
+    for block in listing.split("\n\n") {
+        let mut path = None;
+        let mut head = None;
+        let mut branch = None;
+        for line in block.lines() {
+            if let Some(value) = line.strip_prefix("worktree ") {
+                path = fs::canonicalize(value).ok();
+            } else if let Some(value) = line.strip_prefix("HEAD ") {
+                head = Some(value.to_owned());
+            } else if let Some(value) = line.strip_prefix("branch ") {
+                branch = Some(value.to_owned());
+            }
+        }
+        if let (Some(path), Some(head), Some(branch)) = (path, head, branch) {
+            registered.push((path, head, branch));
+        }
+    }
+    let expected_ref = format!("refs/heads/{}", request.linked_branch);
+    let Some(position) = registered.iter().position(|(path, head, branch)| {
+        path == &canonical_linked_worktree
+            && head == &request.linked_head
+            && branch == &expected_ref
+    }) else {
+        return Err("linked_worktree is not registered with the exact branch and HEAD".to_owned());
+    };
+    if position == 0 {
+        return Err("linked_worktree must be a registered non-primary worktree".to_owned());
+    }
+    Ok((canonical_git_common, canonical_linked_worktree))
+}
+
+fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflight, String> {
+    let (canonical_git_common, canonical_linked_worktree) = authenticate_linked_worktree(request)?;
+    let mut source_digests = Vec::with_capacity(request.records.len());
+    for record in &request.records {
+        let digest = source_digest(&record.source).map_err(|error| {
+            format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: {error}",
+                record.issue
+            )
+        })?;
+        let index = read_json(&record.source.join("index.json")).map_err(|error| {
+            format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: {error}",
+                record.issue
+            )
+        })?;
+        load_cards(&record.source).map_err(|error| {
+            format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: {error}",
+                record.issue
+            )
+        })?;
+        source_phase(&record.role, &index).map_err(|error| {
+            format!(
+                "issue {} disposition=unsupported_ambiguous_incomplete_source: {error}",
+                record.issue
+            )
+        })?;
+        source_digests.push(digest);
+    }
+    let authority_bytes = fs::read(&request.authority_bytes_path)
+        .map_err(|error| format!("{}: {error}", request.authority_bytes_path.display()))?;
+    let registry_bytes = fs::read(&request.registry_path)
+        .map_err(|error| format!("{}: {error}", request.registry_path.display()))?;
+    Ok(ConversionPreflight {
+        canonical_git_common,
+        canonical_linked_worktree,
+        source_digests,
+        authority_bytes,
+        registry_bytes,
+    })
+}
+
+fn canonical_request_digest(
+    request: &ConversionRequest,
+    preflight: &ConversionPreflight,
+) -> Result<Digest, String> {
+    let records = request
+        .records
+        .iter()
+        .zip(&preflight.source_digests)
+        .map(|(record, digest)| {
+            json!({
+                "issue": record.issue,
+                "role": record.role,
+                "source_digest": digest.as_str(),
+            })
+        })
+        .collect::<Vec<_>>();
+    let identity = json!({
+        "schema": "csdlc.v3.copied_record_conversion_request_identity.v1",
+        "repository": request.repository,
+        "records": records,
+        "binding": {
+            "git_common": preflight.canonical_git_common,
+            "linked_worktree": preflight.canonical_linked_worktree,
+            "linked_branch": request.linked_branch,
+            "linked_head": request.linked_head,
+        },
+        "authority_digest": Digest::authority(&preflight.authority_bytes).as_str(),
+        "registry_digest": Digest::projection(&preflight.registry_bytes).as_str(),
+    });
+    let bytes = serde_json::to_vec(&identity).map_err(|error| error.to_string())?;
+    Ok(Digest::semantic_projection(&bytes))
 }
 
 fn read_json(path: &Path) -> Result<Value, String> {
@@ -460,7 +679,9 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         return Err("conversion requires the exact ordered seven-role census".to_owned());
     }
 
-    let operation = Operation::open(request)?;
+    let preflight = preflight_conversion(request)?;
+    let request_digest = canonical_request_digest(request, &preflight)?;
+    let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
     operation.fault("conversion_intent_durability", "before")?;
     operation.marker(
         "checkpoints/conversion-intent.json",
@@ -474,14 +695,21 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
     operation.fault("conversion_intent_durability", "after")?;
 
     let staging = operation.root.join("staging");
-    for record in &request.records {
+    for (record_index, record) in request.records.iter().enumerate() {
         operation.fault("per_issue_staging_write", "before")?;
         let destination = staging.join(record.issue.to_string());
         copy_tree(&record.source, &destination)?;
+        let staged_digest = source_digest(&destination)?;
+        if staged_digest != preflight.source_digests[record_index] {
+            return Err(format!(
+                "issue {} source changed after request identity was retained",
+                record.issue
+            ));
+        }
         operation.marker(
             &format!("checkpoints/staged-{}.json", record.issue),
             "per_issue_staging_write_completed",
-            json!({"issue": record.issue, "source_digest": source_digest(&destination)?.as_str()}),
+            json!({"issue": record.issue, "source_digest": staged_digest.as_str()}),
         )?;
         operation.fault("per_issue_staging_write", "after")?;
     }
@@ -493,33 +721,26 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
     )?;
     operation.fault("whole_census_staging_complete", "after")?;
 
-    let authority_bytes = fs::read(&request.authority_bytes_path)
-        .map_err(|error| format!("{}: {error}", request.authority_bytes_path.display()))?;
+    let (activation_git_common, activation_linked_worktree) =
+        authenticate_linked_worktree(request)?;
+    if activation_git_common != preflight.canonical_git_common
+        || activation_linked_worktree != preflight.canonical_linked_worktree
+    {
+        return Err("linked_worktree identity changed after conversion preflight".to_owned());
+    }
+
+    let authority_bytes = preflight.authority_bytes;
     let authority = Digest::authority(&authority_bytes);
-    let registry_bytes = fs::read(&request.registry_path)
-        .map_err(|error| format!("{}: {error}", request.registry_path.display()))?;
+    let registry_bytes = preflight.registry_bytes;
     let registry = PromptRegistry::from_current_json(&registry_bytes)
         .map_err(|findings| format!("invalid prompt registry: {findings:?}"))?;
-    let canonical_git_common = fs::canonicalize(&request.git_common)
-        .map_err(|error| format!("{}: {error}", request.git_common.display()))?;
-    let canonical_linked_worktree = fs::canonicalize(&request.linked_worktree)
-        .map_err(|error| format!("{}: {error}", request.linked_worktree.display()))?;
+    let canonical_git_common = preflight.canonical_git_common;
+    let canonical_linked_worktree = preflight.canonical_linked_worktree;
     let root = SemanticRoot::from_git_common(&canonical_git_common, request.repository.clone())
         .map_err(|error| format!("{error:?}"))?;
     let mut converted = Vec::new();
     for record in &request.records {
         let staged_source = staging.join(record.issue.to_string());
-        if record.role == "pending_recovery" && !staged_source.join("index.json").is_file() {
-            converted.push(ConvertedRecord {
-                role: record.role.clone(),
-                issue: record.issue,
-                generation: 0,
-                digest: source_digest(&staged_source)?.as_str().to_owned(),
-                projection_digest: String::new(),
-                disposition: "unsupported_ambiguous_incomplete_source".to_owned(),
-            });
-            continue;
-        }
         let index = read_json(&staged_source.join("index.json"))?;
         let cards = load_cards(&staged_source)?;
         let slug = index
