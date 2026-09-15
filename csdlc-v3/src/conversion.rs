@@ -1,6 +1,10 @@
 //! Isolated, explicit conversion owner for copied lifecycle records.
 
-use crate::commands::local::PromptRegistry;
+use crate::commands::local::{
+    discover_operational_local_context, execute_operational_local_route,
+    inspect_local_lifecycle_state, inspect_v3_local_state, required_local_commands,
+    LocalPreparationRequest, PlanStatus, PromptRegistry,
+};
 use crate::lifecycle::LifecycleState;
 use crate::storage::semantic::{
     AcceptedIntentPlan, Admission, Binding, CardProjectionArtifact, CardProjectionBundle,
@@ -59,6 +63,39 @@ pub struct ConvertedRecord {
     pub digest: String,
     pub projection_digest: String,
     pub disposition: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CurrentObservationRelocationRequest {
+    pub schema: String,
+    pub operation_id: String,
+    pub repository: String,
+    pub issue: u64,
+    pub source_local_issue: PathBuf,
+    pub source_semantic_current: PathBuf,
+    pub source_projection_state: PathBuf,
+    pub target_repository_root: PathBuf,
+    pub target_git_common: PathBuf,
+    pub target_worktree: PathBuf,
+    pub target_branch: String,
+    pub target_head: String,
+    pub target_worktree_role: String,
+    pub registry_path: PathBuf,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct CurrentObservationRelocationResult {
+    pub schema: String,
+    pub status: String,
+    pub operation_id: String,
+    pub issue: u64,
+    pub generation: u64,
+    pub digest: String,
+    pub source_hashes: BTreeMap<String, String>,
+    pub relocated_hashes: BTreeMap<String, String>,
+    pub journal_path: PathBuf,
+    pub provenance_path: PathBuf,
 }
 
 const FAULT_POINTS: [&str; 16] = [
@@ -488,6 +525,81 @@ fn authenticate_linked_worktree(request: &ConversionRequest) -> Result<(PathBuf,
         return Err("linked_worktree must be a registered non-primary worktree".to_owned());
     }
     Ok((canonical_git_common, canonical_linked_worktree))
+}
+
+fn authenticate_relocation_target(
+    request: &CurrentObservationRelocationRequest,
+) -> Result<(PathBuf, PathBuf, PathBuf), String> {
+    if !matches!(request.target_worktree_role.as_str(), "primary" | "linked") {
+        return Err("target_worktree_role must be primary or linked".to_owned());
+    }
+    for (name, path) in [
+        ("target_repository_root", &request.target_repository_root),
+        ("target_git_common", &request.target_git_common),
+        ("target_worktree", &request.target_worktree),
+    ] {
+        if !path.is_absolute()
+            || path
+                .components()
+                .any(|component| matches!(component, Component::ParentDir | Component::CurDir))
+        {
+            return Err(format!(
+                "{name} must be absolute without traversal components"
+            ));
+        }
+    }
+    let worktree = fs::canonicalize(&request.target_worktree)
+        .map_err(|error| format!("{}: {error}", request.target_worktree.display()))?;
+    let repository_root = fs::canonicalize(&request.target_repository_root)
+        .map_err(|error| format!("{}: {error}", request.target_repository_root.display()))?;
+    if repository_root != worktree {
+        return Err("target_repository_root must be the exact target worktree".to_owned());
+    }
+    let git_common = fs::canonicalize(&request.target_git_common)
+        .map_err(|error| format!("{}: {error}", request.target_git_common.display()))?;
+    let observed_common = fs::canonicalize(git_output(
+        &worktree,
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    )?)
+    .map_err(|error| format!("target Git common directory: {error}"))?;
+    if observed_common != git_common {
+        return Err("target worktree belongs to a different Git common directory".to_owned());
+    }
+    if git_output(&worktree, &["rev-parse", "--show-toplevel"])? != worktree.to_string_lossy()
+        || git_output(&worktree, &["symbolic-ref", "--quiet", "--short", "HEAD"])?
+            != request.target_branch
+        || git_output(&worktree, &["rev-parse", "HEAD"])? != request.target_head
+    {
+        return Err("target worktree branch, root, or HEAD mismatch".to_owned());
+    }
+    let listing = git_output(&worktree, &["worktree", "list", "--porcelain"])?;
+    let mut registrations = Vec::new();
+    for block in listing.split("\n\n") {
+        let path = block
+            .lines()
+            .find_map(|line| line.strip_prefix("worktree "))
+            .and_then(|path| fs::canonicalize(path).ok());
+        let head = block.lines().find_map(|line| line.strip_prefix("HEAD "));
+        let branch = block.lines().find_map(|line| line.strip_prefix("branch "));
+        if let (Some(path), Some(head), Some(branch)) = (path, head, branch) {
+            registrations.push((path, head.to_owned(), branch.to_owned()));
+        }
+    }
+    let expected_branch = format!("refs/heads/{}", request.target_branch);
+    let position = registrations
+        .iter()
+        .position(|(path, head, branch)| {
+            path == &worktree && head == &request.target_head && branch == &expected_branch
+        })
+        .ok_or_else(|| "target worktree is not registered with exact branch and HEAD".to_owned())?;
+    if (request.target_worktree_role == "primary") != (position == 0) {
+        return Err("target worktree role does not match Git registration".to_owned());
+    }
+    let primary = registrations
+        .first()
+        .map(|registration| registration.0.clone())
+        .ok_or_else(|| "target Git topology has no primary registration".to_owned())?;
+    Ok((git_common, worktree, primary))
 }
 
 fn preflight_conversion(request: &ConversionRequest) -> Result<ConversionPreflight, String> {
@@ -1224,4 +1336,486 @@ pub fn observe(git_common: &Path, repository: &str, issue: u64) -> Result<Value,
         Observation::RecoveryRequired => Err("conversion_recovery_required".to_owned()),
         Observation::Absent => Err("converted_issue_absent".to_owned()),
     }
+}
+
+fn findings(label: &str, values: Vec<crate::commands::local::DoctorFinding>) -> String {
+    format!("{label}: {values:?}")
+}
+
+fn relocation_source_git_common(path: &Path, issue: u64) -> Result<PathBuf, String> {
+    let canonical =
+        fs::canonicalize(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    let mut common = canonical.as_path();
+    for _ in 0..5 {
+        common = common.parent().ok_or_else(|| {
+            "source_semantic_current is outside the native semantic layout".to_owned()
+        })?;
+    }
+    let common = fs::canonicalize(common).map_err(|error| error.to_string())?;
+    let expected = common
+        .join("csdlc-v3/semantic/issues")
+        .join(issue.to_string())
+        .join("current.json");
+    if canonical != expected {
+        return Err(
+            "source_semantic_current does not name the exact native current pointer".to_owned(),
+        );
+    }
+    Ok(common)
+}
+
+fn relocation_hash_file(path: &Path) -> Result<Digest, String> {
+    let bytes = fs::read(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    Ok(Digest::semantic_projection(&bytes))
+}
+
+fn absolute_registry(
+    repository_root: &Path,
+    registry_path: &Path,
+) -> Result<(PromptRegistry, Vec<u8>), String> {
+    let bytes =
+        fs::read(registry_path).map_err(|error| format!("{}: {error}", registry_path.display()))?;
+    let mut registry = PromptRegistry::from_current_json(&bytes)
+        .map_err(|values| findings("invalid target registry", values))?;
+    for path in registry.template_paths.values_mut() {
+        let candidate = Path::new(path);
+        if !candidate.is_absolute() {
+            *path = repository_root
+                .join(candidate)
+                .to_string_lossy()
+                .into_owned();
+        }
+    }
+    Ok((registry, bytes))
+}
+
+/// Relocate one complete, currently observable copied record into an authenticated
+/// isolated checkout. This owner is deliberately separate from the seven-role
+/// legacy conversion denominator and never repairs or normalizes the source.
+pub fn relocate_current_observation_copy(
+    request: &CurrentObservationRelocationRequest,
+) -> Result<CurrentObservationRelocationResult, String> {
+    if request.schema != "csdlc.v3.current_observation_relocation.v1" {
+        return Err("unsupported current-observation relocation schema".to_owned());
+    }
+    if request.issue == 0
+        || request.operation_id.is_empty()
+        || !request
+            .operation_id
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+    {
+        return Err("invalid relocation issue or operation_id".to_owned());
+    }
+
+    // Authenticate and fully observe the copied source before the target obtains
+    // any local, semantic, projection, journal, or provenance entry.
+    let source_local = fs::canonicalize(&request.source_local_issue)
+        .map_err(|error| format!("{}: {error}", request.source_local_issue.display()))?;
+    if source_local.file_name().and_then(|value| value.to_str())
+        != Some(request.issue.to_string().as_str())
+        || source_local
+            .parent()
+            .and_then(Path::file_name)
+            .and_then(|value| value.to_str())
+            != Some("issues")
+    {
+        return Err("source_local_issue does not name the exact issue directory".to_owned());
+    }
+    let local_state_root = source_local
+        .parent()
+        .and_then(Path::parent)
+        .ok_or_else(|| "source local lifecycle layout is incomplete".to_owned())?;
+    let local_observation = inspect_v3_local_state(local_state_root, request.issue);
+    if local_observation.status != PlanStatus::Ready
+        || local_observation.digest.is_none()
+        || local_observation.generation.is_none()
+    {
+        return Err(format!(
+            "source local lifecycle is not a complete authentic record: {}",
+            local_observation.code
+        ));
+    }
+    let source_local_cards = load_cards(&source_local)?;
+    let source_common =
+        relocation_source_git_common(&request.source_semantic_current, request.issue)?;
+    let source_root = SemanticRoot::from_git_common(&source_common, request.repository.clone())
+        .map_err(|error| format!("source semantic root: {error:?}"))?;
+    let key = IssueKey::new(request.repository.clone(), request.issue)
+        .map_err(|error| format!("{error:?}"))?;
+    let source_snapshot = match DurableTransactionStore::observe_issue(&source_root, &key)
+        .map_err(|error| format!("source semantic observation: {error:?}"))?
+    {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        Observation::Absent => return Err("source semantic observation is absent".to_owned()),
+        Observation::RecoveryRequired => {
+            return Err("source semantic observation requires recovery".to_owned())
+        }
+        Observation::LegacyMigrationRequired => {
+            return Err("source semantic observation requires migration".to_owned())
+        }
+    };
+    if source_snapshot.phase() == LifecycleState::Bound {
+        return Err(
+            "source semantic observation is incomplete/recovery-required at bound phase".to_owned(),
+        );
+    }
+    if source_local_cards.len() != SEMANTIC_CARD_KINDS.len() {
+        return Err("source local lifecycle lacks the six-card denominator".to_owned());
+    }
+    let source_cards = source_snapshot.inputs().cards().clone();
+    let source_projection = fs::read(&request.source_projection_state)
+        .map_err(|error| format!("{}: {error}", request.source_projection_state.display()))?;
+    if source_projection
+        != source_snapshot
+            .projection_bytes()
+            .map_err(|error| format!("source projection: {error:?}"))?
+    {
+        return Err(
+            "source projection bytes do not match the authenticated semantic record".to_owned(),
+        );
+    }
+
+    let source_local_hash = source_digest(&source_local)?;
+    let source_semantic_hash = relocation_hash_file(&request.source_semantic_current)?;
+    let source_projection_hash = Digest::semantic_projection(&source_projection);
+    let (target_common, target_worktree, target_primary) = authenticate_relocation_target(request)?;
+    if (request.target_worktree_role == "linked") != source_snapshot.inputs().binding().is_some() {
+        return Err(
+            "source semantic binding does not match the authenticated target role".to_owned(),
+        );
+    }
+    let (registry, registry_bytes) = absolute_registry(&target_worktree, &request.registry_path)?;
+    let selector_bytes = fs::read(target_primary.join(crate::authority::SELECTOR_PATH))
+        .map_err(|error| format!("target authority selector: {error}"))?;
+    let target_authority = Digest::authority(&selector_bytes);
+    if source_snapshot.inputs().authority() != &target_authority {
+        return Err("source and target authority identities differ".to_owned());
+    }
+
+    let identity = json!({
+        "schema": request.schema,
+        "repository": request.repository,
+        "issue": request.issue,
+        "source": {
+            "local": source_local_hash.as_str(),
+            "semantic": source_semantic_hash.as_str(),
+            "projection": source_projection_hash.as_str(),
+        },
+        "target": {
+            "git_common": target_common,
+            "worktree": target_worktree,
+            "branch": request.target_branch,
+            "head": request.target_head,
+            "role": request.target_worktree_role,
+        },
+        "authority": target_authority.as_str(),
+        "registry": Digest::projection(&registry_bytes).as_str(),
+    });
+    let request_digest = Digest::semantic_projection(&canonical_json_bytes(&identity)?);
+    let csdlc = create_durable_child(&target_common, "csdlc-v3")?;
+    let local = create_durable_child(&csdlc, "local")?;
+    let relocations = create_durable_child(&local, "current-observation-relocations")?;
+    let operation_root = create_durable_child(&relocations, &request.operation_id)?;
+    let journal_path = operation_root.join("journal.json");
+    write_create_once(
+        &journal_path,
+        &serde_json::to_vec_pretty(&json!({
+            "schema":"csdlc.v3.current_observation_relocation_journal.v1",
+            "operation_id":request.operation_id,
+            "request_digest":request_digest.as_str(),
+            "status":"admitted"
+        }))
+        .map_err(|error| error.to_string())?,
+    )?;
+
+    let source_index = read_json(&source_local.join("index.json"))?;
+    let title = source_index
+        .get("title")
+        .and_then(Value::as_str)
+        .or_else(|| {
+            source_cards
+                .get("sip")
+                .and_then(|card| card.get("title"))
+                .and_then(Value::as_str)
+        })
+        .unwrap_or("Relocated current observation")
+        .to_owned();
+    let primary_state_root = target_common.join("csdlc-v3/local");
+    let target_issue_root = if request.target_worktree_role == "primary" {
+        primary_state_root
+            .join("issues")
+            .join(request.issue.to_string())
+    } else {
+        target_worktree
+            .join(".csdlc/issues")
+            .join(request.issue.to_string())
+    };
+    let mut expected_target_cards = source_cards.clone();
+    for (kind, card) in &mut expected_target_cards {
+        let object = card
+            .as_object_mut()
+            .ok_or_else(|| format!("source {kind} values are not an object"))?;
+        object.insert("issue".to_owned(), json!(request.issue));
+        object.insert(
+            "issue_padded".to_owned(),
+            json!(format!("{:04}", request.issue)),
+        );
+        object.insert(
+            "issue_url".to_owned(),
+            json!(format!(
+                "https://github.com/{}/issues/{}",
+                request.repository, request.issue
+            )),
+        );
+        object.insert("repository".to_owned(), json!(request.repository));
+        object.insert("branch".to_owned(), json!(request.target_branch));
+        object.insert("worktree".to_owned(), json!(target_worktree));
+        object.insert("title".to_owned(), json!(title));
+        object.insert("version".to_owned(), json!(registry.version));
+        object.insert("card".to_owned(), json!(kind));
+        object.insert("card_status".to_owned(), json!("ready"));
+    }
+    let card_updates = expected_target_cards.clone();
+    let mut accepted = source_snapshot.inputs().accepted_plan().clone();
+    accepted.cards = expected_target_cards.clone();
+    let binding = source_snapshot.inputs().binding().map(|_| Binding {
+        branch: request.target_branch.clone(),
+        head: request.target_head.clone(),
+        worktree: target_worktree.clone(),
+        registration: "git-worktree-list".to_owned(),
+    });
+    let target_inputs = IssueInputs::new(
+        source_snapshot.inputs().intent().to_owned(),
+        accepted,
+        source_snapshot.inputs().plan().to_vec(),
+        binding,
+        target_authority.clone(),
+    )
+    .map_err(|error| format!("relocated semantic input: {error:?}"))?;
+    let target_root = SemanticRoot::from_git_common(&target_common, request.repository.clone())
+        .map_err(|error| format!("target semantic root: {error:?}"))?;
+    let mut current = match DurableTransactionStore::observe_issue(&target_root, &key)
+        .map_err(|error| format!("target semantic observation: {error:?}"))?
+    {
+        Observation::Absent => snapshot(
+            DurableTransactionStore::convert_copied_issue(
+                &target_root,
+                CopiedRecordConversion {
+                    key: key.clone(),
+                    inputs: target_inputs.clone(),
+                    phase: source_snapshot.phase(),
+                    source_generation: source_snapshot.version().generation(),
+                    source_digest: source_local_hash.clone(),
+                },
+            )
+            .map_err(|error| format!("target semantic activation: {error:?}"))?,
+        ),
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot)
+            if snapshot.inputs() == &target_inputs
+                && snapshot.phase() == source_snapshot.phase() =>
+        {
+            snapshot
+        }
+        _ => return Err("target semantic state conflicts with relocation operation".to_owned()),
+    };
+    let final_request = |expected_lifecycle_digest: Option<String>| LocalPreparationRequest {
+        issue: request.issue,
+        title: title.clone(),
+        repository: request.repository.clone(),
+        branch: request.target_branch.clone(),
+        worktree: target_worktree.to_string_lossy().into_owned(),
+        registry_version: registry.version.clone(),
+        expected_lifecycle_digest,
+        commands: required_local_commands().to_vec(),
+        card_updates: card_updates.clone(),
+        schedule_readiness: None,
+        shepherd_routing: None,
+    };
+    let target_observation = || {
+        if request.target_worktree_role == "primary" {
+            inspect_v3_local_state(&primary_state_root, request.issue)
+        } else {
+            inspect_local_lifecycle_state(&target_worktree, request.issue)
+        }
+    };
+    let primary_observation = || inspect_v3_local_state(&primary_state_root, request.issue);
+    let observed = target_observation();
+    if observed.code == "missing_local_lifecycle_state" {
+        let primary_observed = primary_observation();
+        if primary_observed.code != "missing_local_lifecycle_state" {
+            return Err("target primary contains conflicting lifecycle state".to_owned());
+        }
+        let bootstrap_branch = format!("codex/relocate-{}", request.operation_id);
+        let bootstrap_worktree = target_primary
+            .parent()
+            .unwrap_or(&target_primary)
+            .join(format!(".relocate-{}", request.operation_id));
+        let bootstrap = LocalPreparationRequest {
+            branch: bootstrap_branch,
+            worktree: bootstrap_worktree.to_string_lossy().into_owned(),
+            card_updates: BTreeMap::new(),
+            ..final_request(None)
+        };
+        let context = discover_operational_local_context(&target_primary, &bootstrap)
+            .map_err(|values| findings("target local context", values))?
+            .ok_or_else(|| "target native v3 authority is inactive".to_owned())?;
+        execute_operational_local_route("issue", &bootstrap, &registry, &context)
+            .map_err(|values| findings("target local initialization", values))?;
+    }
+    let observed = target_observation();
+    if observed.code == "missing_local_lifecycle_state" {
+        let primary_observed = primary_observation();
+        let local_request = final_request(primary_observed.digest.clone());
+        let primary_issue_root = primary_state_root
+            .join("issues")
+            .join(request.issue.to_string());
+        let primary_cards_before = load_cards(&primary_issue_root)?;
+        if primary_cards_before != expected_target_cards
+            || read_json(&primary_issue_root.join("index.json"))?
+                .get("branch")
+                .and_then(Value::as_str)
+                != Some(request.target_branch.as_str())
+        {
+            let context = discover_operational_local_context(&target_primary, &local_request)
+                .map_err(|values| findings("target local edit context", values))?
+                .ok_or_else(|| "target native v3 authority is inactive".to_owned())?;
+            execute_operational_local_route("edit", &local_request, &registry, &context)
+                .map_err(|values| findings("target local relocation", values))?;
+        }
+        if request.target_worktree_role == "linked" {
+            let edited = primary_observation();
+            let bind_request = final_request(edited.digest.clone());
+            let context = discover_operational_local_context(&target_primary, &bind_request)
+                .map_err(|values| findings("target local bind context", values))?
+                .ok_or_else(|| "target native v3 authority is inactive".to_owned())?;
+            execute_operational_local_route("bind", &bind_request, &registry, &context)
+                .map_err(|values| findings("target local binding", values))?;
+        }
+    } else {
+        let local_request = final_request(observed.digest.clone());
+        let target_cards_before = load_cards(&target_issue_root)?;
+        if target_cards_before != expected_target_cards
+            || read_json(&target_issue_root.join("index.json"))?
+                .get("branch")
+                .and_then(Value::as_str)
+                != Some(request.target_branch.as_str())
+        {
+            let context = discover_operational_local_context(&target_worktree, &local_request)
+                .map_err(|values| findings("target local edit context", values))?
+                .ok_or_else(|| "target native v3 authority is inactive".to_owned())?;
+            execute_operational_local_route("edit", &local_request, &registry, &context)
+                .map_err(|values| findings("target local relocation", values))?;
+        }
+    }
+    let relocated_local = target_observation();
+    let relocated_cards = load_cards(&target_issue_root)?;
+    if relocated_local.status != PlanStatus::Ready || relocated_cards != expected_target_cards {
+        return Err(format!(
+            "relocated local lifecycle failed exact native readback: code={} cards_match={}",
+            relocated_local.code,
+            relocated_cards == expected_target_cards,
+        ));
+    }
+
+    DurableTransactionStore::write_issue_projection(&target_root, &current)
+        .map_err(|error| format!("target issue projection: {error:?}"))?;
+    let bundle = copied_card_projection(&current, &registry, &target_issue_root)?;
+    let projection_healthy = !current.projection_required()
+        && current.acknowledged_card_projection() == Some(bundle.projection_digest())
+        && DurableTransactionStore::observe_card_projection(&target_root, &current, &bundle)
+            .is_ok_and(|observation| observation == CardProjectionObservation::Healthy);
+    if !projection_healthy {
+        let proof = DurableTransactionStore::write_card_projection(&target_root, &current, bundle)
+            .map_err(|error| format!("target card projection: {error:?}"))?;
+        current = snapshot(
+            DurableTransactionStore::commit_issue_local(
+                &target_root,
+                Admission::new(key, current.version().clone(), target_authority),
+                LocalChange::AcknowledgeProjection(proof),
+            )
+            .map_err(|error| format!("target projection acknowledgement: {error:?}"))?,
+        );
+    }
+
+    let target_semantic_current = target_common
+        .join("csdlc-v3/semantic/issues")
+        .join(request.issue.to_string())
+        .join("current.json");
+    let target_projection_state = if request.target_worktree_role == "primary" {
+        target_common
+            .join("csdlc-v3/local/projections")
+            .join(request.issue.to_string())
+            .join("state.json")
+    } else {
+        target_worktree
+            .join(".csdlc/v3/issues")
+            .join(request.issue.to_string())
+            .join("state.json")
+    };
+    let mut source_hashes = BTreeMap::new();
+    source_hashes.insert(
+        "local_lifecycle".to_owned(),
+        source_local_hash.as_str().to_owned(),
+    );
+    source_hashes.insert(
+        "semantic_current".to_owned(),
+        source_semantic_hash.as_str().to_owned(),
+    );
+    source_hashes.insert(
+        "projection_state".to_owned(),
+        source_projection_hash.as_str().to_owned(),
+    );
+    let mut relocated_hashes = BTreeMap::new();
+    relocated_hashes.insert(
+        "local_lifecycle".to_owned(),
+        source_digest(&target_issue_root)?.as_str().to_owned(),
+    );
+    relocated_hashes.insert(
+        "semantic_current".to_owned(),
+        relocation_hash_file(&target_semantic_current)?
+            .as_str()
+            .to_owned(),
+    );
+    relocated_hashes.insert(
+        "projection_state".to_owned(),
+        relocation_hash_file(&target_projection_state)?
+            .as_str()
+            .to_owned(),
+    );
+    if source_digest(&source_local)? != source_local_hash
+        || relocation_hash_file(&request.source_semantic_current)? != source_semantic_hash
+        || relocation_hash_file(&request.source_projection_state)? != source_projection_hash
+    {
+        return Err("source bytes changed during relocation".to_owned());
+    }
+    let provenance_path = operation_root.join("provenance.json");
+    let provenance = json!({
+        "schema":"csdlc.v3.current_observation_relocation_provenance.v1",
+        "operation_id":request.operation_id,
+        "request_digest":request_digest.as_str(),
+        "issue":request.issue,
+        "source_hashes":source_hashes,
+        "relocated_hashes":relocated_hashes,
+        "generation":current.version().generation(),
+        "digest":current.version().digest().as_str(),
+    });
+    write_create_once(
+        &provenance_path,
+        &serde_json::to_vec_pretty(&provenance).map_err(|error| error.to_string())?,
+    )?;
+    Ok(CurrentObservationRelocationResult {
+        schema: "csdlc.v3.current_observation_relocation_result.v1".to_owned(),
+        status: "completed".to_owned(),
+        operation_id: request.operation_id.clone(),
+        issue: request.issue,
+        generation: current.version().generation(),
+        digest: current.version().digest().as_str().to_owned(),
+        source_hashes,
+        relocated_hashes,
+        journal_path,
+        provenance_path,
+    })
 }
