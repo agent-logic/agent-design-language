@@ -55,7 +55,7 @@ policy_refs:
   - ".csdlc/issues/882/cards/sip.md"
   - ".csdlc/issues/882/cards/vpp.md"
 review_results:
-  findings_status: "interim_findings_fixed_final_review_pending"
+  findings_status: "four_findings_fixed_renewed_review_pending"
   recommended_outcome: "block"
 notes: "Independent exact-head implementation review required before publication. Review every acceptance item: 1. Execute the production architecture path against known graph fixtures containing an allowed layering pattern, forbidden dependency/cycle and a bounded coupling/connascence case. Findings identify exact evidence objects, source locations, revision, inference, confidence or unknown, and an actionable explanation. 2. Demonstrate the actual `repository_structure_reporter` receives CF-EVIDENCE-admitted packets and produces persisted findings consumed by the product artifact path; a test-only graph builder or authored report is insufficient. 3. Unsupported language constructs, unresolved external dependencies, truncated scope and malformed/tampered evidence produce explicit partial/unknown/error outcomes. Never present an incomplete graph as a complete architecture assessment. 4. Review a fixed positive/negative sample, retain expected outcomes, false positives and reviewer calibration decisions. Repeat identical inputs deterministically. Explain limits on connascence detected from this selected bounded Rust analysis. 5. Preserve canonical identities and deterministic graph ordering without following repository scripts, hidden network requests or source mutation. No unrelated scope, autonomous architecture/source rewrite, public publication, general CI platform or complete speculative memory system. Retain original exclusions: unrelated_scope, schema_or_scaffold_only_completion, automatic_architecture_rewrite. Stop on unsupported_architecture_claim, opaque_score_only, required_proof_not_executed, partial_artifact_claimed_complete; also stop for missing authority, unresolved ownership collision, privacy/provenance failure or incompatible shared contracts. Route a separately discovered concern explicitly rather than silently widening this task."
 ---
@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Interim /root/sprint3_preparation_review found malformed root plus manifest panic, missing extern-crate unknown, and policy absent from run compatibility. All three corrected; two failure regressions reproduced then passed. Final committed-head review remains required.
+- Three interim findings fixed. Final review of a7ab8258d5f9e4840e6ae072acbe722931c6fc97 reproduced P1 stack overflow on admitted unary syntax. Added allocation-free 32KiB/128 raw lexical-unit pre-parse guard, including keyword recursion; six negative library cases and three installed pathological fixtures return partial. Renewed exact-head review pending.
 
 ### Dispositions
 

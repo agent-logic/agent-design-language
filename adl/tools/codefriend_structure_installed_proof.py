@@ -81,6 +81,28 @@ def main():
     cli("evidence", "delete", "--store", store, "--packet-id", packet)
     cli("architecture", "read", "--store", store, "--input", path, success=False)
     assert git("status", "--porcelain") == ""
+    resource_summaries = []
+    for name, content in [
+        ("unary", "pub fn f() { let _ = " + "!" * 12000 + "true; }"),
+        ("keyword", "pub fn f() { " + "return " * 4000 + "true }"),
+        ("delimiter", "pub fn f() { let _ = " + "(" * 12000 + "true" + ")" * 12000 + "; }"),
+    ]:
+        (source / "src/lib.rs").write_text(content)
+        git("add", "src/lib.rs")
+        git("-c", "user.name=fixture", "-c", "user.email=fixture@example.com", "commit", "-m", name)
+        bounded_scope = {"analysis": ["src/lib.rs"], "context": ["LICENSE"],
+                         "max_files": 2, "max_bytes": 65536, "max_file_bytes": 32768}
+        (root / "scope.json").write_text(json.dumps(bounded_scope))
+        packet = json.loads(cli("evidence", "admit-local", "--checkout", source,
+            "--repository", "https://example.com/owner/repo", "--revision", git("rev-parse", "HEAD"),
+            "--scope", root / "scope.json", "--store", store, "--retention-seconds", "3600").stdout)["packet_id"]
+        policy["layers"] = {"src/lib.rs": "core"}
+        policy_file.write_text(json.dumps(policy))
+        summary, resource_path = report(name + ".json")
+        assert not summary["analysis_complete"] and summary["nodes"] == 0 and summary["findings"] == 0
+        assert "rust_syntax_complexity_limit" in resource_path.read_text()
+        assert git("status", "--porcelain") == ""
+        resource_summaries.append({"fixture": name, "summary": summary})
     proof = {"schema": "codefriend.structure_installed_proof.v1", "issue": 882,
              "platform": platform.system() + "-" + platform.machine(),
              "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
@@ -88,7 +110,8 @@ def main():
              "first_summary": first, "changed_policy_summary": changed,
              "repeat_deterministic": True, "persisted_readback": True, "policy_identity_distinct": True,
              "tampering_denied": True, "post_delete_read_denied": True, "source_unchanged": True,
-             "stdout_json_stderr_events": True, "executed_scenarios": 6,
+             "stdout_json_stderr_events": True, "executed_scenarios": 9,
+             "pathological_source_partial": resource_summaries,
              "nonclaims": ["No provider or external repository execution", "No Linux qualification from this local run"]}
     (root / "proof.json").write_text(json.dumps(proof, indent=2) + "\n")
     print(json.dumps(proof, indent=2))

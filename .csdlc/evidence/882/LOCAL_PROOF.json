@@ -3,10 +3,10 @@
   "scope": "Local deterministic production and isolated installed proof; CI pending",
   "source_sha256": {
     "adl/src/codefriend/architecture/mod.rs": "207a2d05cc1eb942aafc2d4d05b71007f9b55de3e3dc057ebde933b739202019",
-    "adl/src/codefriend/architecture/syntax.rs": "8c9adfc2d5d3afa71892eba3601598c930015bd10872c456eb6e6c72559bacf8",
-    "adl/src/codefriend/architecture/structure.rs": "62111e43779e1221e6f1e028f9b42f5cbdcd81ce020e9923a6aa6e4543c16235",
+    "adl/src/codefriend/architecture/syntax.rs": "e8d185e05c7652b0048a61e1d9a0a833a6bfa400bd35df11daf4f974670b6712",
+    "adl/src/codefriend/architecture/structure.rs": "29a7296fd96eb83b14cc5889cd737e8bcf024f0415cd41063e2a48d0c2f54cd0",
     "adl/src/cli/codefriend_structure_cmd.rs": "bb22e4ed226b71d122ca13c713592e08e27bfe93f40fff3a683345a15af9e02a",
-    "adl/tests/codefriend_cf_cog.rs": "eeb20ef4d03021c607e85af587d97ac81de7fd0a0774e4c1c8e6721e64975e23",
+    "adl/tests/codefriend_cf_cog.rs": "ea99575f86e6afd297c495ef6d11cf2871d7dc187e8e69edcd489e5befa0b01f",
     "adl/Cargo.toml": "2ff2040558f68ca06b2bdaecfe6401c8687e2d99d9ee0883ff9384f01737bfa5",
     "adl/Cargo.lock": "381ad649d950d94950beda42a6f004a4a45339a469bd6c4a840d344ccbf81113"
   },
@@ -60,15 +60,56 @@
       "path": "installed-proof.log",
       "sha256": "cc656748f54683267f068bde106178d3cfd49a828839ecf42f4f3b46fb1ae250",
       "summary": []
+    },
+    {
+      "path": "resource-tests.log",
+      "sha256": "8507042aadf7e3cce82604547390525ad0dfef22159f5e3ef94b4095e2e16707",
+      "summary": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 25.48s",
+        "test result: FAILED. 15 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.13s"
+      ]
+    },
+    {
+      "path": "resource-tests-fixed.log",
+      "sha256": "2ab88956880aee700fae6fb7a22bc95d04eeeecd23c90d2d256a6bd43c52afb8",
+      "summary": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.62s",
+        "test result: FAILED. 14 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.16s"
+      ]
+    },
+    {
+      "path": "resource-final-tests.log",
+      "sha256": "139e7441021a036b8539ada30333ab51a2834294ba9a7c839947f6e4f00bb1c1",
+      "summary": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.78s",
+        "test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.91s"
+      ]
+    },
+    {
+      "path": "resource-clippy.log",
+      "sha256": "39fd8d27230d458e541e76d4685d641c5e324f098ac58f4f02651cfc807839de",
+      "summary": [
+        "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 36.86s"
+      ]
+    },
+    {
+      "path": "resource-install.log",
+      "sha256": "ab17d413de992f0104a85f67c6501305bb1024dcf2da591242c83d3574636c06",
+      "summary": []
+    },
+    {
+      "path": "resource-installed-proof.log",
+      "sha256": "a452f673fdd649f63e3d89254a6b7fb5917438f1264da600ebe701daba8a7daf",
+      "summary": []
     }
   ],
   "installed_proof": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
   "tests": {
-    "architecture": 15,
+    "architecture": 16,
     "evidence_store": 11,
-    "installed_scenarios": 6
+    "installed_scenarios": 9
   },
   "warm_cache": "16369 dependency artifacts linked; acceleration only",
-  "review": "Three interim findings fixed; exact committed-head review pending",
+  "review": "Three interim findings and final P1 parser resource finding fixed; renewed exact-head review pending. Two parallel test runs reproduced store_busy; fixtures now retain a single store handle and full suite passes.",
   "coverage": "No full local instrumented coverage run; required hosted lanes after publication"
 }

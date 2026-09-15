@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented production admitted-evidence structure graph and persisted report/readback. Fifteen architecture tests, eleven evidence regressions, six isolated installed scenarios and strict Clippy pass. Final exact-head review and hosted CI remain required.
+Implemented admitted-evidence structure reporter and persisted readback. 16 architecture tests, 11 evidence regressions and 9 isolated installed scenarios pass. Strict Clippy passes. Independent final review identified and reproduced a parser stack overflow; pre-parse lexical complexity guard fixes it and installed unary, keyword and delimiter cases now return explicit partial results. Renewed exact-head review and hosted CI pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_cog; cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo clippy --offline --locked --manifest-path adl/Cargo.toml --lib --bin adl --test codefriend_cf_cog -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; isolated installed adl/tools/codefriend_structure_installed_proof.py. Hosted CI/coverage after publication remains required and separate.`
     `No implementation proof attempted`
 - Results:
-  - `15/15 architecture tests; 11/11 evidence-store regressions; 6 installed scenarios on Darwin arm64; strict Clippy passed with -D warnings. Initial 13 pass/2 fail reproduced reviewer findings, both fixed before final 15/15 rerun. No hosted CI or full local coverage claim.`
+  - `16/16 architecture tests; 11/11 prior unchanged evidence regressions; 9 installed scenarios Darwin arm64; strict Clippy pass. Two resource test runs exposed transient store_busy; fixtures retain one store handle and final full suite passes. No hosted CI or full local coverage claim.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

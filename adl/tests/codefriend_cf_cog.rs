@@ -29,7 +29,7 @@ fn git(root: &Path, args: &[&str]) -> String {
 struct Fixture {
     _temp: tempfile::TempDir,
     source: PathBuf,
-    root: PathBuf,
+    store: Store,
     packet: String,
     policy: BoundaryPolicy,
     clock: Arc<AtomicU64>,
@@ -95,18 +95,17 @@ impl Fixture {
         Self {
             _temp: temp,
             source,
-            root,
+            store,
             packet: admission.packet.packet_id,
             policy,
             clock,
         }
     }
-    fn store(&self) -> Store {
-        let c = self.clock.clone();
-        Store::open(&self.root, move || c.load(Ordering::SeqCst)).unwrap()
+    fn store(&self) -> &Store {
+        &self.store
     }
     fn report(&self) -> structure::StructureReport {
-        structure::repository_structure_reporter(&self.store(), &self.packet, self.policy.clone())
+        structure::repository_structure_reporter(self.store(), &self.packet, self.policy.clone())
             .unwrap()
     }
     fn output(&self) -> PathBuf {
@@ -267,7 +266,7 @@ fn root_super_paths_and_missing_boundaries_do_not_invent_edges() {
     ]);
     let mut policy = f.policy.clone();
     policy.layers.remove("src/a.rs");
-    let r = structure::repository_structure_reporter(&f.store(), &f.packet, policy).unwrap();
+    let r = structure::repository_structure_reporter(f.store(), &f.packet, policy).unwrap();
     assert!(r.edges.is_empty());
     for reason in [
         "path_escapes_crate",
@@ -283,17 +282,17 @@ fn output_readback_rejects_tampering_and_never_overwrites() {
     let r = f.report();
     let store = f.store();
     let path = f.output();
-    structure::write_report(&r, &store, &path).unwrap();
-    assert_eq!(structure::read_report(&store, &path).unwrap(), r);
-    assert!(structure::write_report(&r, &store, &path).is_err());
+    structure::write_report(&r, store, &path).unwrap();
+    assert_eq!(structure::read_report(store, &path).unwrap(), r);
+    assert!(structure::write_report(&r, store, &path).is_err());
     let mut wrong = r.clone();
     wrong.edges.clear();
     fs::write(&path, serde_json::to_vec(&wrong).unwrap()).unwrap();
-    assert!(structure::read_report(&store, &path).is_err());
+    assert!(structure::read_report(store, &path).is_err());
     wrong = r;
     wrong.record.findings[0].evidence = vec!["0".repeat(64)];
     fs::write(&path, serde_json::to_vec(&wrong).unwrap()).unwrap();
-    assert!(structure::read_report(&store, &path).is_err());
+    assert!(structure::read_report(store, &path).is_err());
 }
 #[test]
 fn deletion_and_expiry_deny_saved_report_retrieval() {
@@ -302,15 +301,15 @@ fn deletion_and_expiry_deny_saved_report_retrieval() {
         let r = f.report();
         let path = f.output();
         let store = f.store();
-        structure::write_report(&r, &store, &path).unwrap();
+        structure::write_report(&r, store, &path).unwrap();
         if delete {
             store.delete(&f.packet).unwrap();
         } else {
             f.clock.store(1101, Ordering::SeqCst);
         }
-        assert!(structure::read_report(&store, &path).is_err());
+        assert!(structure::read_report(store, &path).is_err());
         assert!(
-            structure::repository_structure_reporter(&store, &f.packet, f.policy.clone()).is_err()
+            structure::repository_structure_reporter(store, &f.packet, f.policy.clone()).is_err()
         );
     }
 }
@@ -319,13 +318,13 @@ fn invalid_policy_and_bounds_fail_closed() {
     let f = known();
     let mut p = f.policy.clone();
     p.coupling_threshold = 0;
-    assert!(structure::repository_structure_reporter(&f.store(), &f.packet, p).is_err());
+    assert!(structure::repository_structure_reporter(f.store(), &f.packet, p).is_err());
     let mut p = f.policy.clone();
     p.layers.insert("outside.rs".into(), "core".into());
-    assert!(structure::repository_structure_reporter(&f.store(), &f.packet, p).is_err());
+    assert!(structure::repository_structure_reporter(f.store(), &f.packet, p).is_err());
     let mut p = f.policy.clone();
     p.schema = "other".into();
-    assert!(structure::repository_structure_reporter(&f.store(), &f.packet, p).is_err());
+    assert!(structure::repository_structure_reporter(f.store(), &f.packet, p).is_err());
 }
 #[cfg(unix)]
 #[test]
@@ -335,7 +334,7 @@ fn output_symlinks_are_rejected() {
     let target = f._temp.path().join("target");
     fs::write(&target, "keep").unwrap();
     std::os::unix::fs::symlink(&target, f.output()).unwrap();
-    assert!(structure::write_report(&r, &f.store(), &f.output()).is_err());
+    assert!(structure::write_report(&r, f.store(), &f.output()).is_err());
     assert_eq!(fs::read_to_string(target).unwrap(), "keep");
 }
 fn cli(args: &[&str]) -> Output {
@@ -447,4 +446,41 @@ fn extern_crate_and_unresolved_types_are_explicit_unknowns() {
         assert!(!r.analysis_complete);
         assert!(!r.unknowns.is_empty());
     }
+}
+
+#[test]
+fn pathological_rust_is_partial_before_recursive_parsing() {
+    let sources = [
+        format!("pub fn f() {{ {}true }}", "return ".repeat(4_000)),
+        format!("pub fn f() {{ let _ = {}true; }}", "!".repeat(12_000)),
+        format!(
+            "pub fn f() {{ let _ = {}true{}; }}",
+            "(".repeat(12_000),
+            ")".repeat(12_000)
+        ),
+        format!(
+            "type T = {}bool{};",
+            "Vec<".repeat(6_000),
+            ">".repeat(6_000)
+        ),
+        format!("// {}\npub fn f() {{}}", "!".repeat(129)),
+        format!("// {}\npub fn f() {{}}", "a".repeat(32 * 1024)),
+    ];
+    for source in &sources {
+        let f = Fixture::new(&[("src/lib.rs", source)]);
+        let report = f.report();
+        assert!(!report.analysis_complete);
+        assert!(report.nodes.is_empty());
+        assert!(report.edges.is_empty());
+        assert!(serde_json::to_string(&report.unknowns)
+            .unwrap()
+            .contains("rust_syntax_complexity_limit"));
+    }
+    let normal = Fixture::new(&[(
+        "src/lib.rs",
+        "pub fn f() -> bool { let x = !!!true; x && (false || true) }",
+    )]);
+    let report = normal.report();
+    assert!(report.analysis_complete);
+    assert_eq!(report.nodes.len(), 1);
 }

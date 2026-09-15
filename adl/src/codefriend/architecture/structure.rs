@@ -191,6 +191,10 @@ fn analyze(a: Admission, policy: BoundaryPolicy) -> Result<StructureReport> {
             continue;
         };
         if path.ends_with(".rs") {
+            if !super::syntax::within_parse_budget(content) {
+                unknown(&mut unknowns, &a, path, 1, "rust_syntax_complexity_limit");
+                continue;
+            }
             match syn::parse_file(content) {
                 Ok(file) => {
                     let mut refs = References::default();
