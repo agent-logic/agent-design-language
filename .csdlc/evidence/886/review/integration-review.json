@@ -1,0 +1,22 @@
+{
+  "schema": "independent_review.v1",
+  "issue": 886,
+  "reviewer": "/root/repair_882_ci/review_989_integration",
+  "reviewed_revision": "1a0079ba03199743d087ca496e2456be84c270a7",
+  "result": "PASS",
+  "findings": [],
+  "scope": "Bounded main integration versus dd609731f19d4f311bd6e968759c491f18a9e8d0 and 2301d1d8e4537a615be6c0900e061a2ec2fe4f3a",
+  "verified": [
+    "Additive impact and drift imports, flags, routes, help and exports preserve both parents",
+    "Integration source hashes match files",
+    "55 tests passed in focused combined log",
+    "Strict Clippy completed successfully",
+    "Fresh installed drift 11 and impact 12 scenario packets match embedded integration proof",
+    "Installed binary SHA256 matches both proof packets",
+    "Original proof preserved; native records accurately distinguish published old head from integration pending push and CI"
+  ],
+  "limits": [
+    "Hosted CI not yet proven on integration head",
+    "No remote merge authorization"
+  ]
+}

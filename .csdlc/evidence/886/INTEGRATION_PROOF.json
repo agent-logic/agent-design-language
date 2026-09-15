@@ -1,0 +1,139 @@
+{
+  "schema": "codefriend.drift_integration_proof.v1",
+  "issue": 886,
+  "pull_request": 996,
+  "previous_head": "dd609731f19d4f311bd6e968759c491f18a9e8d0",
+  "integrated_main": "2301d1d8e4537a615be6c0900e061a2ec2fe4f3a",
+  "resolution": "Preserve impact and drift dispatch/help; both architecture modules remain registered. No one-sided parent change lost.",
+  "tests": {
+    "drift": 9,
+    "impact": 10,
+    "structure": 17,
+    "memory": 8,
+    "evidence": 11
+  },
+  "strict_clippy": "passed",
+  "fmt": "passed",
+  "diff_check": "passed",
+  "installed_drift": {
+    "schema": "codefriend.drift_installed_proof.v1",
+    "issue": 886,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "abd50ad7d58ac2d89851309f38fbcfa0a06bc9de939f5145c2fa726e5e2c87a0",
+    "installation_provenance": "cc3e11e88d7bf9e54df634557043c0b9f04de3aec57909b087b574b30203d5ad",
+    "scenarios": [
+      "actual-memory-read",
+      "overwrite",
+      "tampered-delta",
+      "deleted-baseline-read",
+      "no-resurrection",
+      "changed-repeat-readback",
+      "unchanged-repeat-readback",
+      "relocated-repeat-readback",
+      "partial-repeat-readback",
+      "narrower-repeat-readback",
+      "policy-repeat-readback"
+    ],
+    "executed_scenarios": 11,
+    "calibration": [
+      {
+        "fixture": "changed",
+        "expected_deltas": [
+          "added",
+          "resolved"
+        ],
+        "observed_deltas": [
+          "added",
+          "resolved"
+        ],
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      {
+        "fixture": "unchanged",
+        "expected_deltas": [],
+        "observed_deltas": [],
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      {
+        "fixture": "relocated",
+        "expected_deltas": [],
+        "observed_deltas": [],
+        "false_positives": 0,
+        "false_negatives": 0
+      }
+    ],
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Synthetic scoped reference-change accuracy, not runtime architecture drift or semantic rename inference",
+      "No provider or external source execution",
+      "No Linux qualification from macOS proof"
+    ]
+  },
+  "installed_impact": {
+    "schema": "codefriend.impact_installed_proof.v1",
+    "issue": 883,
+    "platform": "Darwin-arm64",
+    "binary_sha256": "abd50ad7d58ac2d89851309f38fbcfa0a06bc9de939f5145c2fa726e5e2c87a0",
+    "installation_provenance": "cc3e11e88d7bf9e54df634557043c0b9f04de3aec57909b087b574b30203d5ad",
+    "scenarios": [
+      "chain-reachability-repeat-readback",
+      "multiple-roots",
+      "unsupported-partial",
+      "stale-revision",
+      "stale-graph",
+      "malformed",
+      "target-bound",
+      "tamper",
+      "overwrite",
+      "deletion",
+      "cycle-reachability-repeat-readback",
+      "unknown-reachability-repeat-readback"
+    ],
+    "executed_scenarios": 12,
+    "calibration": [
+      {
+        "fixture": "chain",
+        "expected_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "observed_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "sample_false_positives": 0,
+        "sample_false_negatives": 0
+      },
+      {
+        "fixture": "cycle",
+        "expected_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "observed_potential_modules": [
+          "crate::api",
+          "crate::domain"
+        ],
+        "sample_false_positives": 0,
+        "sample_false_negatives": 0
+      }
+    ],
+    "source_unchanged": true,
+    "stdout_json_stderr_events": true,
+    "nonclaims": [
+      "Synthetic syntactic potential-impact calibration is not measured runtime impact accuracy",
+      "No provider, source build or external repository execution",
+      "No Linux qualification from a macOS run"
+    ]
+  },
+  "source_sha256": {
+    "adl/src/cli/codefriend_structure_cmd.rs": "592964ffd43f0be598f9b6cdaee4d330c7d0faf207593826b1ff9a150a7b6e0d",
+    "adl/src/codefriend/architecture/mod.rs": "35d139d4fd12a1a9221db6329b04a9b40d4c828ad36e5ad96ec280a2d35085e7",
+    "adl/src/codefriend/architecture/drift.rs": "4dc0fc93854851ad3285909c2accc074a8f876ece44590edfbb0f109a930f774"
+  },
+  "review": "Final exact-head integration review pending",
+  "ci": "Repaired-head CI pending push"
+}
