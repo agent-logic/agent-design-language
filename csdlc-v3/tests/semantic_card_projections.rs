@@ -425,3 +425,57 @@ fn newer_projection_recovers_strict_staging_residue_from_prior_version() {
         CommitOutcome::Committed(_)
     ));
 }
+
+#[test]
+fn corrupt_prior_projection_residue_fails_closed_without_mutation() {
+    for corrupt_pending in [true, false] {
+        let fixture = Fixture::new();
+        let first = fixture.prepare();
+        let first_bundle = derive_semantic_card_projection(&first, &fixture.registry).unwrap();
+        DurableTransactionStore::write_card_projection(&fixture.root, &first, first_bundle.clone())
+            .unwrap();
+        let card_root = fixture.root.card_projection_directory(&first).unwrap();
+        let old_suffix = first_bundle
+            .projection_digest()
+            .as_str()
+            .split(':')
+            .nth(1)
+            .unwrap();
+        let old_pending = card_root.join(format!(".projection-{old_suffix}.pending"));
+        if corrupt_pending {
+            fs::write(&old_pending, b"{\"corrupt\":true}\n").unwrap();
+        } else {
+            fs::write(&old_pending, first_bundle.manifest_bytes().unwrap()).unwrap();
+            fs::write(
+                card_root.join(format!(".stp.md-{old_suffix}.next")),
+                b"torn staged bytes",
+            )
+            .unwrap();
+        }
+
+        let mut cards = first.inputs().cards().clone();
+        cards.get_mut("stp").unwrap()["status"] = Value::String("amended".into());
+        let second = match DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            Admission::new(
+                fixture.key.clone(),
+                first.version().clone(),
+                first.inputs().authority().clone(),
+            ),
+            LocalChange::AmendCards(cards),
+        )
+        .unwrap()
+        {
+            CommitOutcome::Committed(snapshot) => *snapshot,
+            CommitOutcome::Unchanged(_) => panic!("amendment must commit"),
+        };
+        DurableTransactionStore::write_issue_projection(&fixture.root, &second).unwrap();
+        let second_bundle = derive_semantic_card_projection(&second, &fixture.registry).unwrap();
+        let before = inventory(&fixture.directory);
+        assert!(matches!(
+            DurableTransactionStore::write_card_projection(&fixture.root, &second, second_bundle,),
+            Err(Error::EvidenceMismatch)
+        ));
+        assert_eq!(inventory(&fixture.directory), before);
+    }
+}

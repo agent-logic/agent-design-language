@@ -305,6 +305,25 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
     success(fixture.run(&linked, &["rebuild", "505"]));
     assert_eq!(intent_fixture::inventory(&card_root), first_projection);
 
+    let old_manifest = fs::read(card_root.join("manifest.json")).unwrap();
+    let old_manifest_value: Value = serde_json::from_slice(&old_manifest).unwrap();
+    let old_suffix = old_manifest_value["projection_digest"]
+        .as_str()
+        .unwrap()
+        .rsplit(':')
+        .next()
+        .unwrap();
+    fs::write(
+        card_root.join(format!(".projection-{old_suffix}.pending")),
+        &old_manifest,
+    )
+    .unwrap();
+    fs::write(
+        card_root.join(format!(".stp.md-{old_suffix}.next")),
+        fs::read(card_root.join("stp.md")).unwrap(),
+    )
+    .unwrap();
+
     let stale_path = fixture.write_json("stale-rebuild.json", &emitted);
     let changes = fixture.write_json(
         "projection-change.json",
@@ -320,7 +339,26 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
     );
     assert!(!stale.status.success());
     assert!(String::from_utf8_lossy(&stale.stdout).contains("intent_snapshot_stale"));
-    success(fixture.run(&linked, &["rebuild", "505"]));
+    let interrupted = intent_fixture::inventory(&fixture.root);
+    for route in ["status", "validate"] {
+        let result = success(fixture.run(&linked, &[route, "505"]));
+        assert_eq!(result["projection"]["observation"]["status"], "interrupted");
+        assert_same_inventory!(interrupted, intent_fixture::inventory(&fixture.root));
+    }
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["action"], "repair_semantic_projection");
+    let token = preview["preview_digest"].as_str().unwrap();
+    let recovered = success(fixture.run(
+        &linked,
+        &["recover", "505", "--execute", "--preview", token],
+    ));
+    assert_eq!(recovered["action"], "repaired_semantic_projection");
+    assert!(!card_root
+        .join(format!(".projection-{old_suffix}.pending"))
+        .exists());
+    assert!(!card_root
+        .join(format!(".stp.md-{old_suffix}.next"))
+        .exists());
 
     let manifest = fs::read(card_root.join("manifest.json")).unwrap();
     let manifest_value: Value = serde_json::from_slice(&manifest).unwrap();

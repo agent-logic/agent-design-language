@@ -1108,27 +1108,29 @@ impl DurableTransactionStore {
             return Err(Error::StaleVersion);
         }
         bundle.validate(&current)?;
-        // Keep version admission and every projection write under one lock.
-        write_issue_projection_unlocked(root, &current)?;
         let card_root = root.card_projection_directory(&current)?;
         reject_symlinks(&card_root)?;
         let projection_root = projection_root(root, &current, &card_root)?;
-        create_directories(&card_root, &projection_root)?;
         let suffix = bundle
             .projection_digest()
             .as_str()
             .rsplit(':')
             .next()
             .ok_or(Error::InvalidDigest)?;
+        // Validate every stale residue before the first mutation. A corrupt
+        // old marker must not be erased or hidden by a new pending marker.
+        let stale_paths = authenticated_stale_projection_paths(&card_root, suffix)?;
+
+        // Keep version admission and every projection write under one lock.
+        write_issue_projection_unlocked(root, &current)?;
+        create_directories(&card_root, &projection_root)?;
         let pending = card_root.join(format!(".projection-{suffix}.pending"));
         let manifest = bundle.manifest_bytes()?;
         write_exact_create_or_verify(&pending, &manifest, &projection_root)?;
         rebarrier([pending.clone()], &projection_root)?;
 
-        for (path, staged_suffix) in projection_staging_paths(&card_root)? {
-            if staged_suffix != suffix {
-                fs::remove_file(path).map_err(io)?;
-            }
+        for path in stale_paths {
+            fs::remove_file(path).map_err(io)?;
         }
         sync_chain(&card_root, &projection_root)?;
 
@@ -1538,6 +1540,87 @@ fn projection_staging_paths(directory: &Path) -> Result<Vec<(PathBuf, String)>, 
     }
     paths.sort_by(|left, right| left.0.cmp(&right.0));
     Ok(paths)
+}
+
+/// Authenticate residue from an older, durably committed projection before
+/// allowing the current rebuild to remove it. The old pending manifest must
+/// match the last committed manifest byte-for-byte, and every staged file must
+/// match the digest retained by that manifest. Validation completes before the
+/// caller removes any residue.
+fn authenticated_stale_projection_paths(
+    directory: &Path,
+    current_suffix: &str,
+) -> Result<Vec<PathBuf>, Error> {
+    let staging = projection_staging_paths(directory)?;
+    let mut by_suffix = BTreeMap::<String, Vec<PathBuf>>::new();
+    for (path, suffix) in staging {
+        if suffix != current_suffix {
+            by_suffix.entry(suffix).or_default().push(path);
+        }
+    }
+    if by_suffix.is_empty() {
+        return Ok(Vec::new());
+    }
+
+    let committed_manifest = fs::read(directory.join("manifest.json")).map_err(io)?;
+    let mut authenticated = Vec::new();
+    for (suffix, paths) in by_suffix {
+        let pending_name = format!(".projection-{suffix}.pending");
+        let pending = paths
+            .iter()
+            .find(|path| path.file_name().and_then(|name| name.to_str()) == Some(&pending_name))
+            .ok_or(Error::EvidenceMismatch)?;
+        let pending_bytes = fs::read(pending).map_err(io)?;
+        if pending_bytes != committed_manifest {
+            return Err(Error::EvidenceMismatch);
+        }
+        let manifest: serde_json::Value =
+            serde_json::from_slice(&pending_bytes).map_err(|_| Error::EvidenceMismatch)?;
+        if manifest["schema"] != "csdlc.v3.semantic_card_projection_manifest.v1"
+            || manifest["projection_digest"].as_str()
+                != Some(format!("card-projection-v1:{suffix}").as_str())
+        {
+            return Err(Error::EvidenceMismatch);
+        }
+
+        for path in &paths {
+            let name = path
+                .file_name()
+                .and_then(|name| name.to_str())
+                .ok_or(Error::EvidenceMismatch)?;
+            if name == pending_name {
+                continue;
+            }
+            let body = name
+                .strip_prefix('.')
+                .and_then(|name| name.strip_suffix(".next"))
+                .and_then(|name| name.strip_suffix(format!("-{suffix}").as_str()))
+                .ok_or(Error::EvidenceMismatch)?;
+            let bytes = fs::read(path).map_err(io)?;
+            if body == "manifest.json" {
+                if bytes != pending_bytes {
+                    return Err(Error::EvidenceMismatch);
+                }
+                continue;
+            }
+            let (kind, digest_field) = if let Some(kind) = body.strip_suffix(".values.json") {
+                (kind, "values_digest")
+            } else if let Some(kind) = body.strip_suffix(".md") {
+                (kind, "rendered_digest")
+            } else {
+                return Err(Error::EvidenceMismatch);
+            };
+            let expected = manifest["cards"][kind][digest_field]
+                .as_str()
+                .ok_or(Error::EvidenceMismatch)?;
+            if Digest::projection(&bytes).as_str() != expected {
+                return Err(Error::EvidenceMismatch);
+            }
+        }
+        authenticated.extend(paths);
+    }
+    authenticated.sort();
+    Ok(authenticated)
 }
 
 fn replace_projection_file(
