@@ -1,0 +1,68 @@
+{
+  "schema": "codefriend.fitness_proof_inventory.v1",
+  "issue": 887,
+  "lane": "runtime",
+  "proof_role": "semantic correctness and installed consumer integration",
+  "determinism": "bounded local Git fixtures, fixed admitted snapshots, no provider or network",
+  "resource_profile": "CPU/filesystem, small bounded Rust fixtures",
+  "release_gate": true,
+  "test_target": "codefriend_cf_gov",
+  "tests": {
+    "literal_imports_pass_fail_and_stable_evidence": [
+      "passing_invariant_executes",
+      "failing_invariant_executes",
+      "machine_checkable_invariants",
+      "repeatability",
+      "source_immutability",
+      "clear_failure_output"
+    ],
+    "raw_identifiers_do_not_bypass_boundary": [
+      "raw_identifier_regression",
+      "grouped_renamed_imports"
+    ],
+    "unprovable_inputs_are_errors_not_passes": [
+      "human_judgment_not_machine_pass",
+      "incomplete_required_evidence",
+      "bounded_parser",
+      "macro_and_relative_unknown"
+    ],
+    "invalid_policy_is_rejected_and_policy_is_run_identity": [
+      "hidden_policy_rejected",
+      "policy_identity",
+      "unsupported_rule"
+    ],
+    "tamper_and_deleted_admission_fail_readback": [
+      "artifact_integrity",
+      "retention"
+    ],
+    "cli_reports_distinct_outcomes_and_create_only_artifacts": [
+      "pass_fixture",
+      "fail_fixture",
+      "ci_contract",
+      "stdout_stderr",
+      "create_only_output"
+    ],
+    "cli_invalid_arguments_and_policy_are_machine_readable_errors": [
+      "runner_fault",
+      "clear_failure_output",
+      "redacted_errors"
+    ],
+    "cli_rejects_symlink_and_oversized_input": [
+      "unix_symlink_boundary",
+      "bounded_policy_input",
+      "preserve_existing_output"
+    ]
+  },
+  "fixtures": "adl/tests/fixtures/codefriend/fitness",
+  "installed_runner": "adl/tools/codefriend_fitness_installed_proof.py",
+  "installed_scenarios": [
+    "passing policy, repeat, readback, tamper, deletion and source immutability",
+    "violating policy with actionable location, repeat, readback, tamper, deletion and source immutability",
+    "error policy with unassessed macro, repeat, readback, tamper, deletion and source immutability"
+  ],
+  "nonclaims": [
+    "No architecture quality judgment",
+    "No actual CI integration (#888)",
+    "No external source or provider qualification"
+  ]
+}

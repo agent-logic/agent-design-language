@@ -1,0 +1,9 @@
+{
+  "schema": "codefriend.fitness.v1",
+  "rules": [{
+    "id": "no-forbidden-import",
+    "kind": "forbidden_declared_use",
+    "source_path": "lib.rs",
+    "forbidden_prefix": "crate::forbidden"
+  }]
+}

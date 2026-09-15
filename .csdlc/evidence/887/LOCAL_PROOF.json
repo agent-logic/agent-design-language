@@ -1,0 +1,52 @@
+{
+  "schema": "codefriend.local_fitness_local_proof.v1",
+  "issue": 887,
+  "base": "f69019c24a9b61511e912c93f95442f96fa66d92",
+  "platform": "Darwin-arm64",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "tests": {
+    "codefriend_cf_gov": 8,
+    "codefriend_evidence": 11
+  },
+  "all_tests_passed": true,
+  "clippy": "passed with -D warnings for lib, adl binary and codefriend_cf_gov",
+  "installed_proof": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+  "installed_scenarios_passed": 3,
+  "coverage": {
+    "adl/src/cli/codefriend_fitness_cmd.rs": {
+      "count": 92,
+      "covered": 84,
+      "percent": 91.30434782608695
+    },
+    "adl/src/codefriend/governance/local.rs": {
+      "count": 222,
+      "covered": 216,
+      "percent": 97.2972972972973
+    }
+  },
+  "source_sha256": {
+    "adl/Cargo.lock": "381ad649d950d94950beda42a6f004a4a45339a469bd6c4a840d344ccbf81113",
+    "adl/Cargo.toml": "4c31e52b57c815d3a3c77b005eddc28660e063cbe1c1c3f3d9178c2a65262297",
+    "adl/src/cli/codefriend_cmd.rs": "cb760f0dcae27abf3f11ad748324145db41c2598de84cf1872ace2e42d9a24f3",
+    "adl/src/cli/codefriend_fitness_cmd.rs": "4d6dafac10714418cb861e67e664e5e13fcf975c522fd4657a859a3a9a9ba0b9",
+    "adl/src/cli/mod.rs": "b4105c64abf24636248331a540f0b6ae0677331bbd0c51508c739ef6f53a5bac",
+    "adl/src/cli/usage.rs": "111f450c82f2f31f9e75b5f7d5e5c4c3a3907ef5833df406d5a6ed44bc72b548",
+    "adl/src/codefriend/governance/local.rs": "f3f9ec25d9d8a94609aba4d2b28f6b8cd67ae5bcbb920728458374b332b0635b",
+    "adl/src/codefriend/governance/mod.rs": "eabbe6746069220b55600d96a46f116411bd9b502b47df05835cee02ade53615",
+    "adl/src/codefriend/mod.rs": "2871dd98ebcda99f8ed3153271e3cf6952e47ca5feb21b37c9c26ddab689581f",
+    "adl/tests/codefriend_cf_gov.rs": "609a7013c6ad252391c5bf7e4799ce3d5b8d7ee68f927cfb798868358f96bea1",
+    "adl/tests/fixtures/codefriend/fitness/error.rs": "69633490bf59d909b1b015ebfe2809e13b13c7b34460cc8840f04177958d63c1",
+    "adl/tests/fixtures/codefriend/fitness/fail.rs": "a0b0a33fe50cb04489ce4438a2629678ec0a6571677c72416eae42186c4808c7",
+    "adl/tests/fixtures/codefriend/fitness/pass.rs": "715106d53551a50211c5b121aa28193d03fb78676cb5c58172bee76d6dd251d1",
+    "adl/tests/fixtures/codefriend/fitness/policy.json": "54e151c064772a5d2fbdbc7f6f32c1499fd1f8b0352a5304074ae107c807352a",
+    "adl/tools/codefriend_fitness_installed_proof.py": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d"
+  },
+  "review": "interim raw identifier finding fixed; committed exact-head review pending",
+  "hosted_ci": "pending publication",
+  "nonclaims": [
+    "No actual CI integration",
+    "No external source qualification",
+    "No provider execution",
+    "No merge or sprint completion"
+  ]
+}

@@ -75,6 +75,8 @@ slow-proof-tests = [
 slow-finish-tests = []
 
 [dependencies]
+syn = { version = "2", features = ["full", "visit"] }
+proc-macro2 = { version = "1", features = ["span-locations"] }
 adl-provider-core = { path = "../adl-provider-core" }
 adl-uts = { version = "=0.1.0", path = "../adl-uts" }
 adl-runtime = { path = "../adl-runtime" }
