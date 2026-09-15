@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented admitted-evidence structure reporter and persisted readback. 16 architecture tests, 11 evidence regressions and 9 isolated installed scenarios pass. Strict Clippy passes. Independent final review identified and reproduced a parser stack overflow; pre-parse lexical complexity guard fixes it and installed unary, keyword and delimiter cases now return explicit partial results. Renewed exact-head review and hosted CI pending.
+Implemented admitted-evidence structure reporter and persisted readback. 16 architecture tests,11 evidence regressions,9 isolated installed scenarios and strict Clippy pass. Independent source review passed at 08dfafcad0907bb8c4539da0c4be249b7489e0ff after four fixes. Record-only head renewal and hosted CI remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented admitted-evidence structure reporter and persisted readback. 16 arch
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_local_proof_passed_final_review_pending`
+- Completion state: `implemented_reviewed_local_proof_passed_publication_pending`
 - Issue goal ref: `Worker10 active issue goal: Sprint #929 child #882 implementation, installed proof, independent review and passing PR; no automatic merge.`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/882/goal-metrics.json (planned; absent until execution)`
@@ -88,10 +88,10 @@ Implemented admitted-evidence structure reporter and persisted readback. 16 arch
 - Worktree-only paths remaining: `All issue882 source, tests, docs and native cards await reviewed publication.`
 - Integration state: `worktree_only`
 - Verification scope: `not_run`
-- Integration method used: `not_run; implementation has not started`
+- Integration method used: `not_run; publication/integration not started`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `not_run; publication/integration not started`
+    `not_run; publication/integration not started`
 - Result: `Not published or merged; implementation and records are worktree-only.`
 
 Rules:
