@@ -32,13 +32,32 @@ use adl_uts::{
 };
 
 pub const RUNTIME_OBSERVE_ADAPTER_V1: &str = "adapter.runtime.observe.dry_run";
+const RUNTIME_OBSERVE_VIEWS_V1: [&str; 6] = [
+    "resident_population",
+    "checkpoint_readiness",
+    "tool_capability",
+    "runtime_redaction",
+    "continuity_lineage",
+    "review_audit",
+];
 
 pub fn runtime_observe_registry_v1() -> ToolRegistryV1 {
-    let empty_object = || UtsJsonSchemaFragmentV1 {
+    let output_object = || UtsJsonSchemaFragmentV1 {
         schema_type: "object".to_string(),
         keywords: BTreeMap::from([
             ("properties".to_string(), serde_json::json!({})),
             ("required".to_string(), serde_json::json!([])),
+            ("additionalProperties".to_string(), serde_json::json!(false)),
+        ]),
+    };
+    let input_object = UtsJsonSchemaFragmentV1 {
+        schema_type: "object".to_string(),
+        keywords: BTreeMap::from([
+            (
+                "properties".to_string(),
+                serde_json::json!({"view": {"type": "string", "enum": RUNTIME_OBSERVE_VIEWS_V1}}),
+            ),
+            ("required".to_string(), serde_json::json!(["view"])),
             ("additionalProperties".to_string(), serde_json::json!(false)),
         ]),
     };
@@ -52,8 +71,8 @@ pub fn runtime_observe_registry_v1() -> ToolRegistryV1 {
             UtsCategoryV1::ReadOnly,
             UtsCategoryV1::ObservabilitySensitive,
         ]),
-        input_schema: empty_object(),
-        output_schema: empty_object(),
+        input_schema: input_object,
+        output_schema: output_object(),
         side_effect_class: UtsSideEffectClassV1::Read,
         side_effects: Some(vec![UtsSideEffectTagV1::None]),
         determinism: UtsDeterminismV1::BoundedNondeterministic,
@@ -136,6 +155,12 @@ pub struct ResidentToolReceiptV1 {
     pub acc_contract_id: Option<String>,
     pub gate_reason_code: Option<String>,
     pub adapter_id: Option<String>,
+    #[serde(default)]
+    pub tool_name: Option<String>,
+    #[serde(default)]
+    pub arguments_sha256: Option<String>,
+    #[serde(default)]
+    pub effect_sha256: Option<String>,
     pub decision: ResidentToolReceiptDecisionV1,
     pub reason_code: String,
 }
@@ -349,10 +374,41 @@ impl GovernedToolAdapterV1 for RuntimeObserveAdapterV1 {
         if adapter_id != RUNTIME_OBSERVE_ADAPTER_V1 {
             return Err("unsupported_runtime_adapter".to_string());
         }
-        if !arguments.is_empty() {
+        if arguments.len() != 1 {
             return Err("runtime_observe_arguments_not_allowed".to_string());
         }
-        Ok(self.snapshot.clone())
+        let view = arguments
+            .get("view")
+            .and_then(Value::as_str)
+            .filter(|view| RUNTIME_OBSERVE_VIEWS_V1.contains(view))
+            .ok_or_else(|| "runtime_observe_view_invalid".to_string())?;
+        let snapshot = self
+            .snapshot
+            .as_object()
+            .ok_or_else(|| "runtime_observation_must_be_object".to_string())?;
+        let keys: &[&str] = match view {
+            "resident_population" => &["status", "resident_id"],
+            "checkpoint_readiness" => &["cycle_id", "checkpoint_lineage"],
+            "tool_capability" => &["kind", "status"],
+            "runtime_redaction" => &["redaction", "status"],
+            "continuity_lineage" => &["checkpoint_lineage", "status"],
+            "review_audit" => &["resident_id", "cycle_id", "redaction"],
+            _ => return Err("runtime_observe_view_invalid".to_string()),
+        };
+        let observation = keys
+            .iter()
+            .filter_map(|key| {
+                snapshot
+                    .get(*key)
+                    .cloned()
+                    .map(|value| ((*key).to_string(), value))
+            })
+            .collect::<serde_json::Map<String, Value>>();
+        Ok(serde_json::json!({
+            "kind": "runtime_observation",
+            "view": view,
+            "observation": observation,
+        }))
     }
 }
 
@@ -410,6 +466,9 @@ pub fn govern_resident_tool_output_v1(
         acc_contract_id: None,
         gate_reason_code: None,
         adapter_id: None,
+        tool_name: None,
+        arguments_sha256: None,
+        effect_sha256: None,
         decision: ResidentToolReceiptDecisionV1::Denied,
         reason_code: reason_code.to_string(),
     };
@@ -450,12 +509,9 @@ pub fn govern_resident_tool_output_v1(
     let Some(acc) = compiler.acc else {
         return denied("uts_acc_compiler_denied", Some(proposal.proposal_id));
     };
-    let private_argument_digest = format!(
-        "sha256:{}",
-        hex::encode(Sha256::digest(
-            serde_json::to_vec(&proposal.arguments).unwrap_or_default()
-        ))
-    );
+    let argument_bytes = serde_jcs::to_vec(&proposal.arguments).unwrap_or_default();
+    let private_argument_digest =
+        format!("sha256:{}", hex::encode(Sha256::digest(&argument_bytes)));
     let candidate = FreedomGateToolCandidateV1 {
         candidate_id: format!("candidate.{}", proposal.proposal_id),
         proposal_id: proposal.proposal_id.clone(),
@@ -466,7 +522,7 @@ pub fn govern_resident_tool_output_v1(
         risk_class: context.risk_class.to_string(),
         operator_actor_id: context.resident_id.to_string(),
         citizen_boundary_ref: context.citizen_boundary_ref.to_string(),
-        private_argument_digest,
+        private_argument_digest: private_argument_digest.clone(),
     };
     let gate = evaluate_tool_candidate_freedom_gate_v1(&candidate, &context.gate_context);
     let execution = execute_governed_action_with_adapter_v1(
@@ -482,6 +538,11 @@ pub fn govern_resident_tool_output_v1(
         adapter,
     );
     let executed = execution.execution_result.is_some() && execution.rejected_actions.is_empty();
+    let effect_sha256 = execution.execution_result.as_ref().and_then(|result| {
+        serde_jcs::to_vec(&result.payload)
+            .ok()
+            .map(|bytes| format!("sha256:{}", hex::encode(Sha256::digest(bytes))))
+    });
     ResidentToolReceiptV1 {
         schema: "adl.runtime.resident_tool_receipt.v1".to_string(),
         resident_id: context.resident_id.to_string(),
@@ -497,6 +558,9 @@ pub fn govern_resident_tool_output_v1(
         acc_contract_id: Some(acc.contract_id),
         gate_reason_code: Some(gate.reason_code),
         adapter_id: Some(acc.tool.adapter_id),
+        tool_name: Some(proposal.tool_name),
+        arguments_sha256: Some(private_argument_digest),
+        effect_sha256,
         decision: if executed {
             ResidentToolReceiptDecisionV1::Executed
         } else {
@@ -686,7 +750,10 @@ mod tests {
                 tool_name: "runtime.observe".to_string(),
                 tool_version: "1.0.0".to_string(),
                 adapter_id: RUNTIME_OBSERVE_ADAPTER_V1.to_string(),
-                arguments: BTreeMap::new(),
+                arguments: BTreeMap::from([(
+                    "view".to_string(),
+                    serde_json::json!("resident_population"),
+                )]),
                 dry_run_requested: true,
                 ambiguous: false,
             },
@@ -722,6 +789,17 @@ mod tests {
             receipt.adapter_id.as_deref(),
             Some(RUNTIME_OBSERVE_ADAPTER_V1)
         );
+        assert_eq!(receipt.tool_name.as_deref(), Some("runtime.observe"));
+        assert!(receipt
+            .arguments_sha256
+            .as_deref()
+            .unwrap()
+            .starts_with("sha256:"));
+        assert!(receipt
+            .effect_sha256
+            .as_deref()
+            .unwrap()
+            .starts_with("sha256:"));
     }
 
     #[test]

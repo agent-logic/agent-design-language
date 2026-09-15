@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import pathlib
 import subprocess
@@ -26,7 +27,18 @@ def main() -> None:
         tags_path.write_text(json.dumps(tags), encoding="utf-8")
         output = root / "materialized.json"
         specs = root / "agents"
-        command = [sys.executable, str(MATERIALIZER), "--tags-json", str(tags_path), "--output", str(output), "--agent-spec-dir", str(specs)]
+        command = [
+            sys.executable,
+            str(MATERIALIZER),
+            "--tags-json",
+            str(tags_path),
+            "--output",
+            str(output),
+            "--agent-spec-dir",
+            str(specs),
+            "--max-loaded-models",
+            "1",
+        ]
         subprocess.run(command, cwd=ROOT, check=True)
         plan = json.loads(output.read_text())
         assert len(plan["residents"]) == 6
@@ -35,17 +47,36 @@ def main() -> None:
         assert plan["materialization"]["source"] == "ollama_api_tags"
         assert plan["materialization"]["configuration_contract"] == {
             "context_tokens": 32768,
-            "num_predict": 1024,
-            "qualification_num_predict": 128,
-            "num_gpu": 0,
+            "num_predict": 128,
+            "gpu_placement": "ollama_server_default",
             "temperature": 0,
             "max_concurrent_inference": 1,
-            "max_loaded_models": 3,
+            "max_loaded_models": 1,
         }
+        assert plan["host"]["max_loaded_models"] == 1
+        qwen = next(row for row in plan["residents"] if row["model"] == "qwen3:8b")
+        expected_qwen_configuration = {
+            "provider_id": "local_ollama",
+            "provider_kind": "ollama",
+            "model": "qwen3:8b",
+            "artifact_sha256": qwen["model_ref_sha256"],
+            "quantization": qwen["quantization"],
+            "context_tokens": 32768,
+            "num_predict": 128,
+            "gpu_placement": "ollama_server_default",
+            "temperature": 0,
+            "max_concurrent_inference": 1,
+            "max_loaded_models": 1,
+            "qwen_think": "ollama_server_default",
+        }
+        assert qwen["configuration_sha256"] == hashlib.sha256(
+            json.dumps(expected_qwen_configuration, separators=(",", ":"), sort_keys=True).encode()
+        ).hexdigest()
         written_specs = [json.loads((specs / row["agent_id"] / "agent.yaml").read_text()) for row in plan["residents"]]
         assert len(written_specs) == 6
         assert {row["agent_id"] for row in written_specs} == {row["agent_id"] for row in plan["residents"]}
         assert all(row["schema"] == "adl.issue268.resident_agent_spec.v1" for row in written_specs)
+        assert all(row["provider_id"] == "local_ollama" for row in written_specs)
         subprocess.run(command, cwd=ROOT, check=True)
         assert json.loads(output.read_text()) == plan
 

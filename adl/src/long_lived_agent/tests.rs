@@ -259,7 +259,10 @@ fn tick_routes_provider_output_through_runtime_acc_and_adapter() {
             tool_name: "runtime.observe".to_string(),
             tool_version: "1.0.0".to_string(),
             adapter_id: crate::resident_tool_execution::RUNTIME_OBSERVE_ADAPTER_V1.to_string(),
-            arguments: BTreeMap::new(),
+            arguments: BTreeMap::from([(
+                "view".to_string(),
+                serde_json::json!("resident_population"),
+            )]),
             dry_run_requested: true,
             ambiguous: false,
         },
@@ -394,7 +397,10 @@ fn tick_adl_workflow_starts_hotload_owner_from_run_args() {
             tool_name: "runtime.observe".to_string(),
             tool_version: "1.0.0".to_string(),
             adapter_id: crate::resident_tool_execution::RUNTIME_OBSERVE_ADAPTER_V1.to_string(),
-            arguments: BTreeMap::new(),
+            arguments: BTreeMap::from([(
+                "view".to_string(),
+                serde_json::json!("resident_population"),
+            )]),
             dry_run_requested: true,
             ambiguous: false,
         },
@@ -537,6 +543,13 @@ providers:
         receipts[0].proposal_id.as_deref(),
         Some(hot_proposal_id_sha256.as_str())
     );
+    assert_eq!(
+        receipts[0].decision,
+        crate::resident_tool_execution::ResidentToolReceiptDecisionV1::Executed
+    );
+    assert_eq!(receipts[0].tool_name.as_deref(), Some("runtime.observe"));
+    assert!(receipts[0].arguments_sha256.is_some());
+    assert!(receipts[0].effect_sha256.is_some());
 }
 
 #[test]

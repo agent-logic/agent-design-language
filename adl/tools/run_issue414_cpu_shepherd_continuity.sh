@@ -158,7 +158,7 @@ for index, model in enumerate(models, start=1):
     thinking = "think=false" if model == "qwen3:8b" else "think=unsupported"
     configuration = hashlib.sha256(f'{model}:{metadata["digest"]}:{quantization}:8192:2:2:{thinking}'.encode()).hexdigest()
     residents.append({
-        "agent_id": f"resident-{index}", "model": model,
+        "agent_id": f"resident-{index}", "provider_id": "local_ollama", "model": model,
         "artifact_sha256": metadata["digest"], "quantization": quantization,
         "configuration_sha256": configuration,
         "completed_task_sha256": hashlib.sha256(f"preflight-cold-{index}".encode()).hexdigest(),
@@ -227,6 +227,7 @@ for index, model in enumerate(models, start=1):
     metadata = json.loads((tmp / f"{model}.metadata.json").read_text())
     residents.append({
         "agent_id": f"resident-{index}",
+        "provider_id": "local_ollama",
         "model": model,
         "artifact_sha256": metadata["digest"],
         "quantization": metadata["details"]["quantization_level"],
@@ -315,6 +316,7 @@ for index, model in enumerate(models, start=1):
     loaded = json.loads((tmp / f"{model}.ps.json").read_text())["models"]
     residents.append({
         "agent_id": f"resident-{index}",
+        "provider_id": "local_ollama",
         "model": model,
         "artifact_sha256": metadata["digest"],
         "quantization": metadata["details"]["quantization_level"],

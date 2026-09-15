@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import pathlib
 import shutil
@@ -11,6 +12,11 @@ import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RUNNER = ROOT / "adl/tools/run_issue268_six_resident_uts_cycle.py"
+PLAN = ROOT / "adl/tools/issue268_six_resident_uts_plan.json"
+
+
+def canonical_digest(value: object) -> str:
+    return hashlib.sha256(json.dumps(value, separators=(",", ":"), sort_keys=True).encode()).hexdigest()
 
 
 def main() -> None:
@@ -19,7 +25,7 @@ def main() -> None:
         fake = root / "fake_adl.py"
         fake.write_text(
             """#!/usr/bin/env python3
-import json,pathlib,sys
+import hashlib,json,pathlib,sys
 args=sys.argv[1:]
 spec=json.loads(pathlib.Path(args[args.index('--spec')+1]).read_text())
 state_value=pathlib.Path(spec['state_root'])
@@ -38,12 +44,18 @@ if args[0] == 'daemon':
 number=len(list(cycles.glob('cycle-*')))+1
 cycle=cycles/f'cycle-{number:06d}'
 cycle.mkdir()
-decision='denied' if number==2 or (spec['agent_instance_id']=='issue268-tool-executor' and number==1) else 'executed'
+(cycle/'csm_adl_run_status.json').write_text(json.dumps({'schema':'adl.csm.adl_workflow_run_status.v1','status':'success','records':[{'provider_id':'local_ollama','status':'success','step_id':'resident-tool-proposal'}]})+'\\n')
+decision='denied' if number==2 else 'executed'
+views={'issue268-shepherd-controller':'resident_population','issue268-planner':'checkpoint_readiness','issue268-tool-executor':'tool_capability','issue268-runtime-observer':'runtime_redaction','issue268-recovery-custodian':'continuity_lineage','issue268-reviewer-escalation':'review_audit'}
+view=views[spec['agent_instance_id']]
+arguments=json.dumps({'view':view},separators=(',',':'),sort_keys=True).encode()
+effect=json.dumps({'resident':spec['agent_instance_id'],'view':view,'cycle':number},separators=(',',':'),sort_keys=True).encode()
 receipt={'schema':'adl.runtime.resident_tool_receipt.v1','resident_id':spec['agent_instance_id'],
  'authority_id':spec['tool_authority']['authority_id'],'authority_sha256':spec['tool_authority']['authority_sha256'],
  'cycle_id':f'cycle-{number:06d}','checkpoint_lineage':f'continuity_checkpoint.json#sha256:{number:064x}',
  'proposal_sha256':'a'*64,'proposal_id':'sha256:'+'b'*64,'acc_contract_id':'acc.runtime.observe',
  'gate_reason_code':'allowed','adapter_id':'adapter.runtime.observe.dry_run','decision':decision,
+ 'tool_name':'runtime.observe','arguments_sha256':'sha256:'+hashlib.sha256(arguments).hexdigest(),'effect_sha256':None if decision=='denied' else 'sha256:'+hashlib.sha256(effect).hexdigest(),
  'reason_code':'governed_execution_completed' if decision=='executed' else ('proposal_replay_denied' if number==2 else 'tool_not_authorized')}
 (cycle/'resident_tool_receipts.json').write_text(json.dumps([receipt])+'\\n')
 print(json.dumps({'state':'idle','completed_cycle_count':number}))
@@ -53,6 +65,29 @@ raise SystemExit(0 if decision=='executed' else 1)
         )
         fake.chmod(0o755)
         shutil.copy2(fake, root / "csm")
+        materialized_plan = root / "materialized-plan.json"
+        plan = json.loads(PLAN.read_text())
+        contract = {
+            "context_tokens": 32768,
+            "num_predict": 128,
+            "gpu_placement": "ollama_server_default",
+            "temperature": 0,
+            "max_concurrent_inference": 1,
+            "max_loaded_models": 1,
+        }
+        plan["host"]["max_loaded_models"] = 1
+        plan["materialization"] = {"configuration_contract": contract}
+        for resident in plan["residents"]:
+            resident["configuration_sha256"] = canonical_digest({
+                "provider_id": "local_ollama",
+                "provider_kind": "ollama",
+                "model": resident["model"],
+                "artifact_sha256": resident["model_ref_sha256"],
+                "quantization": resident["quantization"],
+                **contract,
+                "qwen_think": "ollama_server_default" if resident["model"] == "qwen3:8b" else "unsupported",
+            })
+        materialized_plan.write_text(json.dumps(plan), encoding="utf-8")
         state = root / "state.json"
         evidence = root / "evidence"
         common = [
@@ -66,6 +101,12 @@ raise SystemExit(0 if decision=='executed' else 1)
             str(fake),
             "--runtime-root",
             str(root / "runtime"),
+            "--plan",
+            str(materialized_plan),
+            "--ollama-url",
+            "http://127.0.0.1:11435",
+            "--max-loaded-models",
+            "1",
         ]
         subprocess.run(common + ["--phase", "pre"], cwd=ROOT, check=True)
         pre = json.loads(state.read_text())
@@ -78,14 +119,37 @@ raise SystemExit(0 if decision=='executed' else 1)
         assert len({row["role_digest"] for row in pre["residents"].values()}) == 6
         assert len({row["tool_authority_digest"] for row in pre["residents"].values()}) == 6
         assert len({row["runtime_authority_sha256"] for row in pre["residents"].values()}) == 6
-        assert {row["pre_agent_test_outcome"] for row in pre["residents"].values()} == {"executed", "denied"}
+        assert {row["pre_agent_test_outcome"] for row in pre["residents"].values()} == {"executed"}
+        assert len({row["pre_workload_view"] for row in pre["residents"].values()}) == 6
+        assert len({row["pre_workload_effect_sha256"] for row in pre["residents"].values()}) == 6
         workflows = list((root / "runtime" / "agent-specs").glob("*/workflow.adl.yaml"))
         assert len(workflows) == 6
         assert all("timeout_secs: 900" in workflow.read_text() for workflow in workflows)
+        assert all("runtime_max_output_tokens: 128" in workflow.read_text() for workflow in workflows)
+        assert all("temperature: 0" in workflow.read_text() for workflow in workflows)
+        assert all('base_url: "http://127.0.0.1:11435"' in workflow.read_text() for workflow in workflows)
         assert len(list((root / "runtime" / "agent-specs").glob("*/state/daemon_status.json"))) == 6
         assert '"--test-supervisor-failure-after-restarts", "1"' in RUNNER.read_text()
         replay = subprocess.run(common + ["--phase", "pre"], cwd=ROOT, capture_output=True, text=True)
         assert replay.returncode != 0 and "refusing replay" in replay.stderr
+        remote = subprocess.run(
+            common + ["--ollama-url", "https://example.com", "--phase", "pre"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        assert remote.returncode != 0 and "explicit loopback HTTP endpoint" in remote.stderr
+        mismatched_plan = root / "mismatched-plan.json"
+        mismatched = json.loads(materialized_plan.read_text())
+        mismatched["materialization"]["configuration_contract"]["num_predict"] = 1024
+        mismatched_plan.write_text(json.dumps(mismatched), encoding="utf-8")
+        mismatch = subprocess.run(
+            [*common, "--plan", str(mismatched_plan), "--phase", "pre"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        assert mismatch.returncode != 0 and "does not match the requested qualification envelope" in mismatch.stderr
         restore_receipt = root / "restore.json"
         restore_receipt.write_text(json.dumps({"schema": "adl.runtime.resident_shepherd_restore_receipt.v1", "generation": 1, "admission_open": True}) + "\n")
         restored = root / "restored-populations" / "generation-1"
