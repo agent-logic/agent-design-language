@@ -26,14 +26,14 @@ Generated: 2026-09-12T00:09:56.378553+00:00
 
 Execution:
 - Actor: `codex:/root`
-- Model: `gpt-5`
+- Model: `gpt-4.1-mini`
 - Provider: `OpenAI`
 - Start Time: `2026-09-15T00:00:00-07:00`
 - End Time: `in_progress`
 
 ## Summary
 
-Implemented the bounded #890 CodeFriend four-perspective review runner and CLI dispatch in the bound FastWork worktree. After origin/main advanced, synced the issue branch with current main and reran focused validation successfully. Fresh review found a prompt/parser confidence-contract mismatch, stale SOR fields, and invalid-confidence fail-closed persistence gap; the prompt now requires the typed confidence object form, invalid typed confidence is retained as a failed lane/run artifact, SOR truth was repaired, and strict focused proof passed. Fresh exact-head review, PR publication, CI, PR merge and terminal finish remain pending.
+Implemented the bounded #890 CodeFriend four-perspective review runner and CLI dispatch in the bound FastWork worktree. After origin/main advanced to 4ea09540eea1a38d7ab2f79416b87a8cd4cb7690, synced the issue branch with current main and reran focused validation successfully. Fresh reviews found stale SOR fields, a prompt/parser confidence-contract mismatch, invalid-confidence fail-closed persistence gap, and deleted ignored registered-provider proof artifacts after worktree-local cargo clean. The prompt now requires typed confidence objects, lane-attributed rules, and admitted evidence_id values; invalid typed confidence is retained as a failed lane/run artifact; ignored registered OpenAI proof artifacts were regenerated; and strict focused proof passed. Fresh exact-head review, PR publication, CI, PR merge and terminal finish remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `invalid_confidence_fail_closed_repaired_validation_passed_review_pending`
+- Completion state: `registered_openai_proof_regenerated_validation_passed_review_pending`
 - Issue goal ref: `Codex goal created for #890 in thread 019ff3cb-e462-7343-be60-e4ab2b6080e3: Sprint 4 #890 CF-REVIEW execution—implement and prove the bounded four-perspective CodeFriend repository review runner in the bound FastWork worktree, preserve #891/#892+ sibling boundaries, run focused proof, obtain independent exact-head review, and reach publication-ready state without writing tracked issue work on main.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/890/goal-metrics.json (planned; absent until execution)`
@@ -76,7 +76,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/890/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/review/mod.rs; adl/src/codefriend/review/lanes.rs; adl/src/codefriend/review/runner.rs; adl/src/codefriend/mod.rs; adl/src/cli/codefriend_cmd.rs; adl/src/cli/usage.rs; adl/tests/codefriend_review.rs`
-- Additional proof artifacts: `Ignored proof artifacts under adl/target/codefriend-890-openai-proof: vector-scope.json, openai-provider-request.json, store, and run-openai. Admitted packet 6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f; admission digest e79b8853bd1d5896f9f93b070b46cd5855731449ab6fde72e3ac66a61c79de4c; run digest d8d007707a21cc84325dcb5c6390675a50bb612b24b3eda5b5a0fb0d33e53d0d.`
+- Additional proof artifacts: `Ignored proof artifacts under adl/target/codefriend-890-openai-proof: vector-scope.json, openai-provider-request.json, store, failed exploratory runs run-openai and run-openai-gpt41mini/run-openai-gpt41mini-r2, and successful regenerated run-openai-gpt41mini-r3. Admitted packet 43596ec8e5077543270da730b656188c109b35e2b380d30a1dd8863c55742c17; admission digest 6a74e04fdd9563f65b4f04a9c18ea1fb09c19b78a1a91682a88ffd45638266e2; successful run digest a82ad5ab4abd9e8de1f598964791107645171f5243e877b5b3b4e42cedeab3e2.`
 
 ## Actions taken
 - `Source issue reviewed for native preparation`
@@ -92,7 +92,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 - Verification performed:
   - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; git diff --check`
     `Confirmed the base-synced head compiles, keeps four-lane review-runner tests green, preserves evidence/ingestion compatibility, passes clippy warnings-as-errors for the review test target, and has clean diff hygiene.`
-- Result: `local deterministic proof, registered OpenAI proof, and post-base-sync focused validation passed; not published`
+- Result: `local deterministic proof, regenerated registered OpenAI proof, and current-base focused validation passed; not published`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; git diff --check; OPENAI_API_KEY=<operator-approved env from /Users/daniel/keys/openai2.key> ADL_OBSERVABILITY_OTEL=0 ./target/debug/adl codefriend review run --store adl/target/codefriend-890-openai-proof/store --packet-id 6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f --provider-request adl/target/codefriend-890-openai-proof/openai-provider-request.json --out adl/target/codefriend-890-openai-proof/run-openai --run-id issue-890-openai-vector-410da89a`
-    `Covers installed CLI review run, four isolated provider-adapter calls, committed lane input/result artifacts, peer-input rejection, missing-evidence fail-closed behavior, invalid typed-confidence fail-closed persistence, durable evidence-store compatibility, no source mutation in deterministic local fixtures, and actual registered OpenAI execution against the pinned Vector dnsmsg-parser scope.`
+  - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; git diff --check; OPENAI_API_KEY=<operator-approved env from /Users/daniel/keys/openai2.key> ADL_OBSERVABILITY_OTEL=0 ./adl/target/debug/adl codefriend review run --store adl/target/codefriend-890-openai-proof/store --packet-id 43596ec8e5077543270da730b656188c109b35e2b380d30a1dd8863c55742c17 --provider-request adl/target/codefriend-890-openai-proof/openai-provider-request.json --out adl/target/codefriend-890-openai-proof/run-openai-gpt41mini-r3 --run-id issue-890-openai-vector-410da89a-gpt41mini-r3`
+    `Covers installed CLI review run, four isolated provider-adapter calls, committed lane input/result artifacts, peer-input rejection, missing-evidence fail-closed behavior, invalid typed-confidence fail-closed persistence, lane-rule attribution, admitted evidence_id citation enforcement, durable evidence-store compatibility, no source mutation in deterministic local fixtures, and actual registered OpenAI execution against the pinned Vector dnsmsg-parser scope.`
 - Results:
-  - `passed locally in the bound #890 worktree before base sync: codefriend_review 3/3, codefriend_evidence 11/11, codefriend_ingestion 10/10; fmt --check passed; clippy -D warnings for codefriend_review passed; git diff --check passed; registered OpenAI proof completed four lanes with provider_status ok and finding_count 0. After syncing current origin/main into the issue branch, reran and passed: cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check HEAD~1..HEAD; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion (codefriend_review 3/3, codefriend_evidence 11/11, codefriend_ingestion 10/10). After invalid-confidence fail-closed repair, reran and passed: cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review (4/4); cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion (25/25); cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; git diff --check.`
+  - `passed locally in the bound #890 worktree after current-base sync and prompt-contract repair: cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion (25/25); cargo clippy --manifest-path adl/Cargo.toml --test codefriend_review -- -D warnings; git diff --check. Regenerated actual registered OpenAI proof against pinned Vector revision 410da89a0ed42c523143da89fffeb7f6402833e0 with provider model gpt-4.1-mini completed correctness/security/adversarial/constitutional lanes with provider_status ok, completion complete, finding_count 1, and no source mutation.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -157,7 +157,7 @@ verification_summary:
 - Sandbox / policy invariants preserved: `source checkout remained read-only during evidence admission/review; no runtime source mutation or publication authority is granted to repository contents`
 
 ## Replay Artifacts
-- Trace bundle path(s): `adl/target/codefriend-890-openai-proof/run-openai/review-record.json; adl/target/codefriend-890-openai-proof/run-openai/run.json`
+- Trace bundle path(s): `adl/target/codefriend-890-openai-proof/run-openai-gpt41mini-r3/review-record.json; adl/target/codefriend-890-openai-proof/run-openai-gpt41mini-r3/run.json`
 - Run artifact root: `.csdlc/evidence/890 (planned)`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_review`
 - Replay result: `passed 4/4 after invalid-confidence fail-closed regression was added`
@@ -174,5 +174,5 @@ verification_summary:
 - `Registered OpenAI proof artifacts remain ignored under adl/target/codefriend-890-openai-proof to avoid committing provider output or credential-adjacent runtime logs; SOR records their packet/admission/run digests and publication remains pending fresh exact-head review.`
 
 ## Follow-ups / Deferred work
-- `Validate final lifecycle digest, commit immutable head, then obtain fresh independent exact-head review`
+- `Obtain fresh independent exact-head review for the regenerated proof and prompt-contract repair commit.`
 - `Publish through native typed route if available after PASS, otherwise use only authorized audited PR-create transport and leave PR merge/finish to typed authority.`
