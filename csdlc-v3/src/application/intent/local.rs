@@ -1595,6 +1595,43 @@ pub(crate) fn recover_semantic_proof(
             _ => return Ok(None),
         };
     let Some(pending) = snapshot.pending() else {
+        if request.execute
+            && !request.content.is_null()
+            && request.content["schema"] == "csdlc.v3.semantic_proof_recovery_disposition.v1"
+            && request.content["action"] == "abandon_indeterminate_proof"
+        {
+            let operation_id = request.content["operation_id"]
+                .as_str()
+                .ok_or("intent_proof_recovery_disposition_invalid")?;
+            if let Some(done) = snapshot
+                .completed()
+                .iter()
+                .find(|done| done.id().as_str() == operation_id)
+            {
+                let inspection = DurableTransactionStore::inspect_effect(&root, &key, done.id())
+                    .map_err(semantic_error)?;
+                let evidence: Value = serde_json::from_slice(
+                    inspection
+                        .evidence()
+                        .ok_or("intent_proof_abandonment_evidence_missing")?,
+                )
+                .map_err(|_| "intent_proof_abandonment_evidence_invalid")?;
+                if done.outcome() == OutcomeKind::Failure
+                    && done.truth() == EffectTruth::Unknown
+                    && inspection.request().command() == SemanticCommand::RecordProof
+                    && evidence["schema"] == "csdlc.v3.semantic_proof_abandonment.v1"
+                    && evidence["operation_id"] == operation_id
+                    && evidence["preview_digest"].as_str() == request.preview.as_deref()
+                    && evidence["disposition"] == "abandoned_indeterminate"
+                {
+                    return Ok(Some(json!({"status":"expected_noop","read_only":true,
+                        "performed_mutation":false,"action":"abandoned_indeterminate_proof",
+                        "operation_id":operation_id,"native_effect_truth":done.truth(),
+                        "semantic_outcome":done.outcome()})));
+                }
+                return Err("intent_proof_recovery_disposition_mismatch".into());
+            }
+        }
         return Ok(None);
     };
     if pending.command() != SemanticCommand::RecordProof {
