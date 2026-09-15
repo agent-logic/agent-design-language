@@ -77,7 +77,7 @@
   "slug": "v0922-architecture-structure",
   "sandbox_policy_invariants_preserved": "not_run; not separately measured for this bounded implementation",
   "actions_taken_line_3": "Interim reviewer caught root/manifest panic and policy identity gap; added failing regressions and repaired; explicit extern crate/type unknowns retained.",
-  "verification_check_1": "not_run",
+  "verification_check_1": "codefriend_cf_cog16 tests; codefriend_evidence11 tests; strict Clippy; fmt; native six-card validation; isolated installed consumer9 scenarios",
   "verification_schema_changes_approved": "not_run",
   "start_time": "2026-09-15",
   "actual_pr_wait_seconds": "unknown",

@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: local_passed_ci_pending
     checks_run:
-      - "not_run"
+      - "codefriend_cf_cog16 tests; codefriend_evidence11 tests; strict Clippy; fmt; native six-card validation; isolated installed consumer9 scenarios"
   determinism:
     status: passed_local_repeat_fixtures
     replay_verified: not_run
