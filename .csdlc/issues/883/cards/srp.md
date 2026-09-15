@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "Evidence: .csdlc/evidence/883/review/implementation-review.json. Bounded syntactic potential-impact calibration passed; no semantic runtime accuracy, external repository or Linux qualification claimed. Hosted CI remains pending."
+notes: "Exact-head implementation review PASS at0abf97393353300ceb8e2205060ef055f43f4340; semantic source unchanged by publication records. PR#991 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- P2 contradictory preparation fields replaced with actual proof, explicit unmeasured checks and pending integration truth. No findings waived.
+- All prior actionable findings resolved; no waivers. Record-only publication update requires final exact-head confirmation.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Evidence: .csdlc/evidence/883/review/implementation-review.json. Bounded syntactic potential-impact calibration passed; no semantic runtime accuracy, external repository or Linux qualification claimed. Hosted CI remains pending.
+Exact-head implementation review PASS at0abf97393353300ceb8e2205060ef055f43f4340; semantic source unchanged by publication records. PR#991 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending.

@@ -17,9 +17,9 @@
   "spp_card": ".csdlc/issues/883/cards/spp.md",
   "slug": "v0922-architecture-impact",
   "review_findings": "Semantic complete implementation review PASS at4eb818498. Final294680586 review found P2 stale SOR preparation fields; corrected with this native edit. Final exact-head recheck pending.",
-  "review_notes": "Evidence: .csdlc/evidence/883/review/implementation-review.json. Bounded syntactic potential-impact calibration passed; no semantic runtime accuracy, external repository or Linux qualification claimed. Hosted CI remains pending.",
+  "review_notes": "Exact-head implementation review PASS at0abf97393353300ceb8e2205060ef055f43f4340; semantic source unchanged by publication records. PR#991 open/nondraft against main. Final record-only revision confirmation required before pushing this documentation update; hosted CI pending.",
   "findings_status": "no_findings",
   "vpp_card": ".csdlc/issues/883/cards/vpp.md",
-  "review_dispositions": "P2 contradictory preparation fields replaced with actual proof, explicit unmeasured checks and pending integration truth. No findings waived.",
+  "review_dispositions": "All prior actionable findings resolved; no waivers. Record-only publication update requires final exact-head confirmation.",
   "sip_card": ".csdlc/issues/883/cards/sip.md"
 }
