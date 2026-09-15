@@ -398,6 +398,16 @@ class QualificationContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "^execution_archive_unavailable$"):
             self.validate(self.manifest)
 
+    def test_review_evidence_path_escape_is_rejected(self):
+        manifest = copy.deepcopy(self.manifest)
+        row = manifest["rows"][0]
+        source = self.protected / row["review_evidence"]["path"]
+        escaped = self.root / "escaped-review.md"
+        escaped.write_bytes(source.read_bytes())
+        row["review_evidence"]["path"] = "../escaped-review.md"
+        with self.assertRaisesRegex(ValueError, "^protected_review_evidence_path$"):
+            self.validate(manifest)
+
     def test_timeout_outcome_substitution_is_rejected(self):
         self.mutate_archive_member(
             "timeout-result.json",

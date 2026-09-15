@@ -438,6 +438,8 @@ def validate(manifest: dict, repository_root: Path = ROOT, protected_root: Path 
                 artifact_digests |= {m["sha256"] for m in row["protected_members"]}
             receipt = checked_protected_file(protected_root, row["review_receipt"])
             review_path = protected_root / row["review_evidence"]["path"]
+            require(review_path.resolve().is_relative_to(protected_root.resolve()),
+                    "protected_review_evidence_path")
             require(review_path.is_file(), "protected_review_evidence_unavailable")
             review_evidence = review_path.read_bytes()
             artifact_digests |= {row["review_receipt"]["sha256"], row["review_evidence"]["sha256"]}

@@ -33,7 +33,8 @@
         "missing #852 execution-log archive",
         "refreshed timeout outcome substitution",
         "refreshed timeout deadline substitution",
-        "refreshed Runtime execution-profile substitution"
+        "refreshed Runtime execution-profile substitution",
+        "review-evidence path escape outside protected root"
       ],
       "proof_role": "evidence-integrity and behavioral admission regression",
       "release_gate": "required issue gate; no release approval conferred",

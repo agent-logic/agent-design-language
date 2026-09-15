@@ -13,7 +13,7 @@
   },
   "issue": 902,
   "missing": 0,
-  "negative_case_count": 27,
+  "negative_case_count": 28,
   "protected_evidence": "verified locally from exact digest-bound #899 inventories, #900/#901 protected members including #901 timeout deadline observations, #852 execution logs, cross-linked raw outcomes, typed review receipts and retained independent-review evidence; protected bytes are not published",
   "release_authorized": false,
   "residual_risks": [
@@ -58,7 +58,7 @@
         "adl/tools/test_validate_v0922_runtime_qualification.py"
       ],
       "exit_code": 0,
-      "stderr_sha256": "48e45b6e6e110696c2db3957e548a14d98d24eecc172f75f3aaf5d17fc7ce01b",
+      "stderr_sha256": "5167898cd46c11edd1aa10efaa61efe3984f0e81667a448bd30e560586a547bb",
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "positive": {
