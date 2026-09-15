@@ -25,19 +25,19 @@ use adl_runtime_kernel::{
     preload_resident_shepherd_model, resident_shepherd_runtime_id, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
     start_config_reload_with_applier_and_shutdown,
-    start_config_reload_with_fallback_and_applier_and_shutdown,
+    start_config_reload_with_fallback_applier_reporter_and_shutdown,
     validate_production_operation_executors, verifying_key_from_hex, AdapterKind, AdapterPolicy,
     AgentPopulationFeed, AuthorityMode, CatalogSigningAuthority, CheckpointShutdownRequest,
-    CheckpointingControl, ConfigApplier, ConfigParser, ConfigReloadError, ConfigReloadOptions,
-    ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
-    ControlService, DurableContinuityJournal, FailureClass, Kernel, KernelExit, LiveBindings,
-    LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth,
-    OperationRequest, OperationalAdapter, RecorderTrustedTime, ResidentShepherdExecutor,
-    ResidentShepherdProbeExecutor, ResidentShepherdRecoveryPolicy, RsntpTimeSampleSource,
-    RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
-    TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
-    TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
-    PRIVATE_ALPN,
+    CheckpointingControl, ConfigApplier, ConfigParser, ConfigRejectionReporter, ConfigReloadError,
+    ConfigReloadOptions, ConfigReloadRejection, ContinuityControlService, ControlApiPolicy,
+    ControlAuthority, ControlCapability, ControlService, DurableContinuityJournal, FailureClass,
+    Kernel, KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
+    ObservabilityHealth, OperationRequest, OperationalAdapter, RecorderTrustedTime,
+    ResidentShepherdExecutor, ResidentShepherdProbeExecutor, ResidentShepherdRecoveryPolicy,
+    RsntpTimeSampleSource, RunningState, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
+    TlsIdentityPaths, TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
+    OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -718,11 +718,15 @@ async fn main() -> ExitCode {
                     providers: Default::default(),
                     digest: "retained-active-provider-registry".to_owned(),
                 };
-                match start_config_reload_with_fallback_and_applier_and_shutdown(
+                let rejection_reporter: ConfigRejectionReporter = Arc::new(|reason| {
+                    eprintln!("{}", provider_reload_rejection_diagnostic(reason));
+                });
+                match start_config_reload_with_fallback_applier_reporter_and_shutdown(
                     provider_sidecar,
                     fallback,
                     parser,
                     Some(applier),
+                    Some(rejection_reporter),
                     ConfigReloadOptions::default(),
                     api_shutdown.child_token(),
                 )
@@ -1773,6 +1777,17 @@ fn config_reload_rejection_diagnostic(reason: &'static str) -> String {
     format!("adl_event schema=adl.runtime_v3.config_reload.v1 result=rejected reason={reason}")
 }
 
+fn provider_reload_rejection_diagnostic(reason: ConfigReloadRejection) -> String {
+    let reason = match reason {
+        ConfigReloadRejection::SourceUnavailable => "source_unavailable",
+        ConfigReloadRejection::ParseInvalid => "parse_invalid",
+        ConfigReloadRejection::ValidationInvalid => "validation_invalid",
+    };
+    format!(
+        "adl_event schema=adl.runtime_v3.provider_reload.v1 result=rejected reason={reason} action=retained_active_registry details=redacted"
+    )
+}
+
 /// Memory Palace birthday authority begins its own signed lineage at genesis.
 /// The live-continuity minimum is an anti-rollback floor enforced separately by
 /// `LiveContinuity`; treating that floor as a birthday generation greater than
@@ -1806,8 +1821,8 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability, resident_shepherd_probe_prompt,
-        ArchiveInFlightGuard,
+        preserve_runtime_result_after_observability, provider_reload_rejection_diagnostic,
+        resident_shepherd_probe_prompt, ArchiveInFlightGuard, ConfigReloadRejection,
     };
     use std::sync::{atomic::AtomicBool, Arc};
 
@@ -1829,6 +1844,31 @@ mod tests {
             assert!(!diagnostic.contains("token"));
             assert!(!diagnostic.contains("private_key"));
             assert!(!diagnostic.contains("operator-secret"));
+        }
+    }
+
+    #[test]
+    fn provider_reload_diagnostics_are_bounded_redacted_and_actionable() {
+        for (reason, expected) in [
+            (
+                ConfigReloadRejection::SourceUnavailable,
+                "source_unavailable",
+            ),
+            (ConfigReloadRejection::ParseInvalid, "parse_invalid"),
+            (
+                ConfigReloadRejection::ValidationInvalid,
+                "validation_invalid",
+            ),
+        ] {
+            let diagnostic = provider_reload_rejection_diagnostic(reason);
+            assert_eq!(
+                diagnostic,
+                format!("adl_event schema=adl.runtime_v3.provider_reload.v1 result=rejected reason={expected} action=retained_active_registry details=redacted")
+            );
+            assert!(diagnostic.len() < 192);
+            assert!(!diagnostic.contains("operator-secret"));
+            assert!(!diagnostic.contains("private_key"));
+            assert!(!diagnostic.contains("/Users/"));
         }
     }
 
