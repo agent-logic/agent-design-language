@@ -659,7 +659,13 @@ fn semantic_descriptor_schema_parity_includes_emitted_administrative_requests() 
     let plan = fixture.write_json("plan.json", &json!({
         "schema":"csdlc.v3.intent_plan.v1", "slug":"intent-schema-parity",
         "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"fixture","repo_inputs_inline":"fixture","target_files_surfaces_inline":"request schema","deliverables_inline":"schema parity","validation_plan_inline":"emitted shape","acceptance_criteria_inline":"command enum matches","notes_risks_inline":"no administrative effect"},"vpp":{},"srp":{},"sor":{}},
-        "validators":[],"publication":{"base":"main","title":"Schema fixture","body":"Closes #505","draft":true}
+        "validators":[{
+            "id":"fixture-proof",
+            "program":"cargo",
+            "args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline"],
+            "success_marker":"test result: ok."
+        }],
+        "publication":{"base":"main","title":"Schema fixture","body":"Closes #505","draft":true}
     }));
     let prepared = fixture.run(
         &primary,

@@ -315,13 +315,35 @@ fn prepare_semantic_authority_issue(f: &TerminalFixture) {
             fs::rename(entry.path(), stash.join(entry.file_name())).unwrap();
         }
     }
+    fs::create_dir_all(f.root.join("fixture-proof/src")).unwrap();
+    fs::write(
+        f.root.join("fixture-proof/Cargo.toml"),
+        "[package]\nname = \"predecessor-fixture-proof\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .unwrap();
+    fs::write(
+        f.root.join("fixture-proof/src/lib.rs"),
+        "#[test]\nfn predecessor_fixture_bytes_are_tracked() { assert_eq!(2 + 2, 4); }\n",
+    )
+    .unwrap();
+    intent_fixture::git(&f.root, &["add", "build", "docs", "fixture-proof"]);
+    intent_fixture::git(
+        &f.root,
+        &["commit", "--quiet", "-m", "fixture prepare inputs"],
+    );
     let review = fs::read(f.root.join(".csdlc/issues/505/index.json")).unwrap();
     fs::remove_dir_all(f.root.join(".csdlc/issues/505")).unwrap();
     let plan = f.root.join(".git/installed-candidate/authority-plan.json");
     fs::write(&plan, serde_json::to_vec(&json!({
         "schema":"csdlc.v3.intent_plan.v1","slug":"authority-administration",
         "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Authority evidence ready","repo_inputs_inline":"Isolated authority fixture","target_files_surfaces_inline":"cutover rollback","deliverables_inline":"Record administrative effects","validation_plan_inline":"Installed one-shot recovery","acceptance_criteria_inline":"Exact replay does not repeat effects","notes_risks_inline":"No live authority"},"vpp":{},"srp":{},"sor":{}},
-        "validators":[],"publication":{"base":"main","title":"Authority administration","body":"Closes #505","draft":true}
+        "validators":[{
+            "id":"fixture-proof",
+            "program":"cargo",
+            "args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline"],
+            "success_marker":"test result: ok."
+        }],
+        "publication":{"base":"main","title":"Authority administration","body":"Closes #505","draft":true}
     })).unwrap()).unwrap();
     let output = f.run_args(&["prepare", "505", "--plan", plan.to_str().unwrap()]);
     assert!(output.status.success(), "semantic prepare: {output:?}");

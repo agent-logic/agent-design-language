@@ -1,0 +1,70 @@
+{
+  "schema": "csdlc.v3.intent_plan.v1",
+  "slug": "validator-admission-plan-correction",
+  "cards": {
+    "sip": {},
+    "stp": {},
+    "spp": {
+      "dependencies_inline": "C-SDLC v3 intent local and validator admission code is available in this worktree; no external provider or paid runner is required.",
+      "repo_inputs_inline": "GitHub issue #984 and the intent local/proof/storage implementation under csdlc-v3.",
+      "target_files_surfaces_inline": "csdlc-v3/src/application/intent/local.rs, csdlc-v3/src/commands/proof/intent.rs, csdlc-v3/src/storage/semantic/protocol.rs, and csdlc-v3/tests/installed_intent_commands.rs.",
+      "deliverables_inline": "Prepare rejects validators proof would reject, typed validator edits can correct plans safely, repeated identical edits no-op, and interrupted validator edits recover.",
+      "validation_plan_inline": "Run the three focused installed_intent_commands regression tests added for #984.",
+      "acceptance_criteria_inline": "Validator admission is aligned across prepare/proof, typed plan correction is allowed for validators only, and semantic recovery applies retained validation edits exactly once.",
+      "notes_risks_inline": "Local CPU-only Rust tests; GitHub publication remains separate from semantic proof."
+    },
+    "vpp": {},
+    "srp": {},
+    "sor": {}
+  },
+  "validators": [
+    {
+      "id": "prepare-rejects-unadmitted-validators",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "installed_intent_commands",
+        "installed_prepare_rejects_validators_that_proof_would_not_admit"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "edit-corrects-validator-filter",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "installed_intent_commands",
+        "installed_edit_can_correct_validators_with_a_single_cargo_filter"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    },
+    {
+      "id": "recover-interrupted-validator-edit",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "installed_intent_commands",
+        "installed_recover_reconciles_interrupted_validator_edit"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    }
+  ],
+  "publication": {
+    "base": "main",
+    "title": "[v0.92.2][C-SDLC v3] Align validator admission and allow typed plan correction",
+    "body": "Closes #984\n\n## Summary\n- align prepare-time validator admission with semantic proof admission\n- allow typed validator-only plan correction with no-op handling for identical edits\n- recover interrupted validator edit reservations and apply retained validators exactly once\n\n## Validation\n- cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands installed_prepare_rejects_validators_that_proof_would_not_admit\n- cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands installed_edit_can_correct_validators_with_a_single_cargo_filter\n- cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands installed_recover_reconciles_interrupted_validator_edit\n- cargo fmt --manifest-path csdlc-v3/Cargo.toml --check\n- cargo check --manifest-path csdlc-v3/Cargo.toml",
+    "draft": true
+  }
+}
