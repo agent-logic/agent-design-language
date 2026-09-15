@@ -123,6 +123,7 @@ def execute(args):
         credential = write(
             service_root / "credential.txt", "issue990-local-fixture-value\n", True
         )
+        fixture.expected_authorization = "Bearer issue990-local-fixture-value"
         write(service_root / "guardian.stdout.log", "")
         write(service_root / "guardian.stderr.log", "")
         plist = root / "service.plist"
@@ -224,6 +225,12 @@ def execute(args):
             "managed restart did not replace the Runtime process",
         )
         require(len(fixture.calls) >= 2, "provider fixture did not receive both requests")
+        hosted_calls = [call for call in fixture.calls if call["path"].endswith("/responses")]
+        require(
+            len(hosted_calls) == 2
+            and all(call["authorization_matches"] for call in hosted_calls),
+            "file-based provider authorization was not observed before and after restart",
+        )
         report.update(
             result="pass",
             first_start_listener_ready=True,
@@ -233,6 +240,7 @@ def execute(args):
             provider_requests_observed=len(fixture.calls),
             pre_restart_reply_delivered=first_reply["status"] == "delivered",
             post_restart_reply_delivered=second_reply["status"] == "delivered",
+            file_authorization_observed_pre_and_post_restart=True,
             provider_sidecar_sha256=sha256(service_root / "providers.yaml"),
             init_sha256=sha256(init),
             binary_sha256={

@@ -677,15 +677,7 @@ async fn main() -> ExitCode {
             let provider_state_transaction = Arc::new(std::sync::Mutex::new(()));
             let provider_reload = {
                 let parser: ConfigParser<adl_provider_core::candidate::ValidatedProviderCandidate> =
-                    Arc::new(|raw| {
-                        adl_provider_core::candidate::parse_validated_provider_sidecar(raw).map_err(
-                            |_| {
-                                ConfigReloadError::validation(
-                                    "provider definitions rejected; details redacted",
-                                )
-                            },
-                        )
-                    });
+                    Arc::new(parse_provider_candidate);
                 let providers = Arc::clone(&recorder.providers);
                 let resident_bindings = init.resident_shepherd.clone();
                 let candidate_store_path = dynamic_agent_store_path.clone();
@@ -1788,6 +1780,17 @@ fn provider_reload_rejection_diagnostic(reason: ConfigReloadRejection) -> String
     )
 }
 
+fn parse_provider_candidate(
+    raw: &str,
+) -> Result<adl_provider_core::candidate::ValidatedProviderCandidate, ConfigReloadError> {
+    let sidecar = adl_provider_core::candidate::parse_provider_sidecar(raw).map_err(|_| {
+        ConfigReloadError::parse("provider definitions malformed; details redacted")
+    })?;
+    adl_provider_core::candidate::validate_provider_sidecar(sidecar).map_err(|_| {
+        ConfigReloadError::validation("provider definitions rejected; details redacted")
+    })
+}
+
 /// Memory Palace birthday authority begins its own signed lineage at genesis.
 /// The live-continuity minimum is an anti-rollback floor enforced separately by
 /// `LiveContinuity`; treating that floor as a birthday generation greater than
@@ -1821,8 +1824,9 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability, provider_reload_rejection_diagnostic,
-        resident_shepherd_probe_prompt, ArchiveInFlightGuard, ConfigReloadRejection,
+        parse_provider_candidate, preserve_runtime_result_after_observability,
+        provider_reload_rejection_diagnostic, resident_shepherd_probe_prompt, ArchiveInFlightGuard,
+        ConfigReloadError, ConfigReloadRejection,
     };
     use std::sync::{atomic::AtomicBool, Arc};
 
@@ -1870,6 +1874,18 @@ mod tests {
             assert!(!diagnostic.contains("private_key"));
             assert!(!diagnostic.contains("/Users/"));
         }
+    }
+
+    #[test]
+    fn provider_reload_parser_distinguishes_syntax_from_validation_rejection() {
+        assert!(matches!(
+            parse_provider_candidate("providers: ["),
+            Err(ConfigReloadError::Parse(_))
+        ));
+        assert!(matches!(
+            parse_provider_candidate("providers: {}"),
+            Err(ConfigReloadError::Validation(_))
+        ));
     }
 
     #[test]
