@@ -134,7 +134,7 @@ verification_summary:
     status: passed for no raw credential retention in persisted proof artifacts inspected
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
-    absolute_path_leakage_detected: not_run
+    absolute_path_leakage_detected: false_for_tracked_outputs; ignored proof artifact paths intentionally identify local proof storage
   artifacts:
     status: present for local proof and registered OpenAI proof; PR/CI/merge/terminal artifacts pending
     required_artifacts_present: true_for_prepublication_local_and_provider_proof_review_pending
@@ -165,13 +165,13 @@ verification_summary:
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/890 (planned)`
 - Required artifacts present: `true for deterministic local proof, registered OpenAI proof, and post-merge focused validation; independent exact-head review, PR, CI, merge and terminal receipts remain pending`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
+- Artifact schema/version checks: `passed through cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion and native csdlc validate for gen8`
+- Hash/byte-stability checks: `tracked lifecycle digest validated at gen8; registered OpenAI proof run digest d8d007707a21cc84325dcb5c6390675a50bb612b24b3eda5b5a0fb0d33e53d0d retained for proof identity`
 - Missing/optional artifacts and rationale: `PR, CI, merge and terminal receipts do not exist yet because publication is pending fresh exact-head review.`
 
 ## Decisions / Deviations
-- `Wait for accepted merged output of #881, #855. Re-observe upstream closure, merged implementation PR and required contract/proof acceptance before binding; refresh this plan against those exact revisions. #864 WP-01 has accepted planning delivery via merged PR #865; other listed upstream issues remain open at preparation snapshot. Preparation is allowed; implementation is blocked.`
-- `Preparation does not implement product behavior or bypass dependency gates`
+- `Dependencies #881 and #855 were accepted/merged before #890 implementation. After origin/main advanced, current main was merged into the bound #890 worktree and focused validation was rerun before fresh review.`
+- `Registered OpenAI proof artifacts remain ignored under adl/target/codefriend-890-openai-proof to avoid committing provider output or credential-adjacent runtime logs; SOR records their packet/admission/run digests and publication remains pending fresh exact-head review.`
 
 ## Follow-ups / Deferred work
 - `Obtain fresh independent exact-head review for merged head 73e5e19116986cd541f40a341ed645af9da471c9`
