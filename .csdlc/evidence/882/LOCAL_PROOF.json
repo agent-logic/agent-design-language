@@ -1,0 +1,74 @@
+{
+  "issue": 882,
+  "scope": "Local deterministic production and isolated installed proof; CI pending",
+  "source_sha256": {
+    "adl/src/codefriend/architecture/mod.rs": "207a2d05cc1eb942aafc2d4d05b71007f9b55de3e3dc057ebde933b739202019",
+    "adl/src/codefriend/architecture/syntax.rs": "8c9adfc2d5d3afa71892eba3601598c930015bd10872c456eb6e6c72559bacf8",
+    "adl/src/codefriend/architecture/structure.rs": "62111e43779e1221e6f1e028f9b42f5cbdcd81ce020e9923a6aa6e4543c16235",
+    "adl/src/cli/codefriend_structure_cmd.rs": "bb22e4ed226b71d122ca13c713592e08e27bfe93f40fff3a683345a15af9e02a",
+    "adl/tests/codefriend_cf_cog.rs": "eeb20ef4d03021c607e85af587d97ac81de7fd0a0774e4c1c8e6721e64975e23",
+    "adl/Cargo.toml": "2ff2040558f68ca06b2bdaecfe6401c8687e2d99d9ee0883ff9384f01737bfa5",
+    "adl/Cargo.lock": "381ad649d950d94950beda42a6f004a4a45339a469bd6c4a840d344ccbf81113"
+  },
+  "logs": [
+    {
+      "path": "check.log",
+      "sha256": "817c4670a9eb27ec6d9cd6b6c273dfa26602bdca4cb595d64c60b5e7bcebaf10",
+      "summary": [
+        "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 53s"
+      ]
+    },
+    {
+      "path": "tests.log",
+      "sha256": "2074220d09ab9b81afe5a52004698b0f0e484d90eabcf5f82954001ed30b99d2",
+      "summary": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 45s",
+        "test malformed_root_with_manifest_returns_partial_without_dangling_edges ... FAILED",
+        "test policy_changes_invalidate_run_compatibility ... FAILED",
+        "test result: FAILED. 13 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.93s"
+      ]
+    },
+    {
+      "path": "tests-fixed.log",
+      "sha256": "c10e644a7d7816fa5b2b7e5d6543259a03a7bf3e96bb8f0d27b897badde819aa",
+      "summary": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 21.92s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.85s"
+      ]
+    },
+    {
+      "path": "evidence-regression.log",
+      "sha256": "616ff4cd87924217dcbe56e5ef0750eaf15820e5c8e2f27beba22e590119bc15",
+      "summary": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.56s",
+        "test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.74s"
+      ]
+    },
+    {
+      "path": "clippy.log",
+      "sha256": "45f260563d90a24832fbcf6e72cc4132c88eb60381267281458add4599096f80",
+      "summary": [
+        "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 59s"
+      ]
+    },
+    {
+      "path": "install.log",
+      "sha256": "8247e2b0446cd11814478a8b89bccd889f69e2857b9d4aa08a97931b8474730b",
+      "summary": []
+    },
+    {
+      "path": "installed-proof.log",
+      "sha256": "cc656748f54683267f068bde106178d3cfd49a828839ecf42f4f3b46fb1ae250",
+      "summary": []
+    }
+  ],
+  "installed_proof": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
+  "tests": {
+    "architecture": 15,
+    "evidence_store": 11,
+    "installed_scenarios": 6
+  },
+  "warm_cache": "16369 dependency artifacts linked; acceleration only",
+  "review": "Three interim findings fixed; exact committed-head review pending",
+  "coverage": "No full local instrumented coverage run; required hosted lanes after publication"
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "codefriend.structure_installed_proof.v1",
+  "issue": 882,
+  "platform": "Darwin-arm64",
+  "binary_sha256": "be5819a8b415e3f9836933b589429b38f6daad8a0dba1df0ae3dbd46c854bf84",
+  "installation_provenance": "1a7ee67667007989195d0bc0e9e4b3ac851348936701b5fcabee8bb60d9c0596",
+  "fixture_revision": "03b382d5d08fdf6cf83032de9a19547cf399d811",
+  "first_summary": {
+    "schema": "codefriend.structure.v1",
+    "digest": "0c2fe8fdaf041c01e70184bafaf6320d55f4ac75cf4111ec7db0df6f2b943fbe",
+    "run_id": "b16433a0a482749a05bdc2ec65197cb03a1ca83c1df065a6404ccbd691fcb39c",
+    "analysis_complete": true,
+    "nodes": 4,
+    "edges": 2,
+    "findings": 1,
+    "unknowns": 0
+  },
+  "changed_policy_summary": {
+    "schema": "codefriend.structure.v1",
+    "digest": "97df229abe556b97d0aa970d0547f162440320e831c84e9b7f8e65c0de3a0d6d",
+    "run_id": "ccef80533b71c01733bbec34d89323829e72919fc85c7f254c83cd63ce832a7c",
+    "analysis_complete": true,
+    "nodes": 4,
+    "edges": 2,
+    "findings": 2,
+    "unknowns": 0
+  },
+  "repeat_deterministic": true,
+  "persisted_readback": true,
+  "policy_identity_distinct": true,
+  "tampering_denied": true,
+  "post_delete_read_denied": true,
+  "source_unchanged": true,
+  "stdout_json_stderr_events": true,
+  "executed_scenarios": 6,
+  "nonclaims": [
+    "No provider or external repository execution",
+    "No Linux qualification from this local run"
+  ]
+}

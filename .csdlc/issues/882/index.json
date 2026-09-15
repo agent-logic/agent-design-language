@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 882,
+  "phase": "bound",
+  "generation": 7,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/882-v0922-architecture-structure",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-882-v0922-architecture-structure",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "e17c327a640b5bbfaaa9538ff03690fba404e9a9d66150e5890cca87360a3a27"
+}
