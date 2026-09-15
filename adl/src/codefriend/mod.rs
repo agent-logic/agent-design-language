@@ -5,4 +5,5 @@ pub mod architecture;
 pub mod evidence;
 pub mod governance;
 pub mod memory;
+pub mod operator;
 pub mod review;
