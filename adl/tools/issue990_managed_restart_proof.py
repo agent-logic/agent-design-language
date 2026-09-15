@@ -33,16 +33,23 @@ def execute(args):
     root = args.output.resolve()
     root.mkdir(parents=True, exist_ok=False)
     root.chmod(0o700)
+    service_root = Path.home() / "Library/Application Support/AgentLogic" / f"issue990-{os.getpid()}"
+    service_root.mkdir(parents=True, mode=0o700, exist_ok=False)
     vector = write(
-        root / "vector-fixture.sh",
+        service_root / "vector-fixture.sh",
         "#!/bin/sh\n"
         "if [ \"$1\" = --version ]; then echo 'vector 0.56.0 issue990'; exit 0; fi\n"
         "if [ \"$1\" = validate ]; then exit 0; fi\n"
+        "while [ \"$#\" -gt 0 ]; do if [ \"$1\" = --config-json ]; then config=$2; break; fi; shift; done\n"
+        "ingress=$(/usr/bin/awk '/\"include\": \\[/ {getline; gsub(/^[[:space:]]*\"|\",?$/, \"\"); print; exit}' \"$config\")\n"
+        "master=$(/usr/bin/awk '/\"runtime_v3_master_log\":/ {sink=1} sink && /\"path\":/ {gsub(/^[^:]*:[[:space:]]*\"|\",?$/, \"\"); print; exit}' \"$config\")\n"
+        "/bin/mkdir -p \"$(/usr/bin/dirname \"$master\")\"\n"
+        "/bin/cat \"$ingress\" >> \"$master\"\n"
         "trap 'exit 0' TERM INT\n"
         "while :; do sleep 1; done\n",
     )
     vector.chmod(0o700)
-    tls = certificates(root / "state/tls")
+    tls = certificates(service_root / "state/tls")
     fixture = Fixture(tls)
     clock = LocalTime()
     label = f"com.agentlogic.adl-runtime-v3.issue990.{os.getpid()}"
@@ -55,6 +62,7 @@ def execute(args):
         "paid_provider_calls": 0,
         "secret_values_retained": False,
         "credential_transport": "file_env_path_only",
+        "managed_install_scope": "ephemeral_user_application_support",
     }
     csm_args = [
         args.csm,
@@ -73,7 +81,7 @@ def execute(args):
         "--json",
     ]
     try:
-        install = root / "runtime-v3"
+        install = service_root / "runtime-v3"
         run(
             [
                 args.repo / "adl/tools/install_runtime_v3_generation.sh",
@@ -95,7 +103,7 @@ def execute(args):
             ]
         )
         run([args.repo / "adl/tools/install_runtime_v3_generation.sh", "verify", "--root", install])
-        ctl = root / "csmctl"
+        ctl = service_root / "csmctl"
         shutil.copy2(args.csmctl, ctl)
         setup = SimpleNamespace(
             vector=vector,
@@ -103,18 +111,20 @@ def execute(args):
             hosted_mode=False,
             hosted_approved=False,
         )
-        init, api_port, tokens = prepare_init(root, tls, setup, clock, fixture)
-        providers = json.loads((root / "providers.yaml").read_text())
+        init, api_port, tokens = prepare_init(service_root, tls, setup, clock, fixture)
+        providers = json.loads((service_root / "providers.yaml").read_text())
         openai = providers["providers"]["openai"]
         openai["config"]["auth"] = {
             "type": "bearer",
             "env": "ISSUE990_UNUSED_DIRECT_SECRET",
             "file_env": "ISSUE990_OPENAI_KEY_FILE",
         }
-        write(root / "providers.yaml", providers)
-        credential = write(root / "credential.txt", "issue990-local-fixture-value\n", True)
-        write(root / "guardian.stdout.log", "")
-        write(root / "guardian.stderr.log", "")
+        write(service_root / "providers.yaml", providers)
+        credential = write(
+            service_root / "credential.txt", "issue990-local-fixture-value\n", True
+        )
+        write(service_root / "guardian.stdout.log", "")
+        write(service_root / "guardian.stderr.log", "")
         plist = root / "service.plist"
         plist.write_bytes(
             plistlib.dumps(
@@ -125,22 +135,22 @@ def execute(args):
                         "--init",
                         str(init),
                     ],
-                    "WorkingDirectory": str(args.repo),
+                    "WorkingDirectory": str(service_root),
                     "EnvironmentVariables": {
                         "HOME": str(Path.home()),
                         "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
-                        "TMPDIR": str(root / "tmp"),
+                        "TMPDIR": str(service_root / "tmp"),
                         "ADL_PROVIDER_CA_FILE": str(tls["ca"]),
                         "ISSUE990_OPENAI_KEY_FILE": str(credential),
                     },
                     "KeepAlive": True,
                     "RunAtLoad": False,
-                    "StandardOutPath": str(root / "guardian.stdout.log"),
-                    "StandardErrorPath": str(root / "guardian.stderr.log"),
+                    "StandardOutPath": str(service_root / "guardian.stdout.log"),
+                    "StandardErrorPath": str(service_root / "guardian.stderr.log"),
                 }
             )
         )
-        (root / "tmp").mkdir(mode=0o700)
+        (service_root / "tmp").mkdir(mode=0o700)
         csm_args.extend(["--init", init, "--plist", plist])
         stop_args.extend(["--init", init])
         env = {
@@ -171,7 +181,6 @@ def execute(args):
                     "kind": "openai",
                     "model": "fixture-model",
                     "required_capabilities": ["conversation", "agent_to_agent"],
-                    "credential_ref": "env:ISSUE990_UNUSED_DIRECT_SECRET",
                 },
             },
         )
@@ -224,7 +233,7 @@ def execute(args):
             provider_requests_observed=len(fixture.calls),
             pre_restart_reply_delivered=first_reply["status"] == "delivered",
             post_restart_reply_delivered=second_reply["status"] == "delivered",
-            provider_sidecar_sha256=sha256(root / "providers.yaml"),
+            provider_sidecar_sha256=sha256(service_root / "providers.yaml"),
             init_sha256=sha256(init),
             binary_sha256={
                 "csm": sha256(args.csm),
@@ -243,10 +252,12 @@ def execute(args):
         except Exception:
             pass
         installed_plist.unlink(missing_ok=True)
-        write(root / "report.json", report)
         fixture.server.shutdown()
         fixture.resident_server.shutdown()
         clock.sock.close()
+        shutil.rmtree(service_root, ignore_errors=True)
+        report["managed_install_removed"] = not service_root.exists()
+        write(root / "report.json", report)
     print(json.dumps({"result": report["result"], "report": str(root / "report.json")}))
 
 

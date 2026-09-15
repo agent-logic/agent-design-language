@@ -1,0 +1,29 @@
+{
+  "schema": "adl.issue990.managed_restart_evidence.v1",
+  "status": "pass",
+  "issue": 990,
+  "service_manager": "launchd",
+  "managed_install_scope": "ephemeral_user_application_support",
+  "managed_install_removed": true,
+  "credential_transport": "file_env_path_only",
+  "secret_values_retained": false,
+  "paid_provider_calls": 0,
+  "first_start_listener_ready": true,
+  "second_start_listener_ready": true,
+  "runtime_process_replaced": true,
+  "persisted_agent_ready_after_restart": true,
+  "provider_requests_observed": 4,
+  "pre_restart_reply_delivered": true,
+  "post_restart_reply_delivered": true,
+  "executed_source_revision": "b0dc596ed9",
+  "raw_report_sha256": "012e297d8019dff92ccd2c45ded1c2038dc9ea94f5c3c6daeec77797ccc51a7c",
+  "provider_sidecar_sha256": "473bc5937cd8a92ff34107c273df096f8cfcdef98ddea059eba704853c3e878d",
+  "init_sha256": "71d2e26fda9bf8f954536bb9675c7cbd4ac6cf55e7c536b779c385b7cbb405b5",
+  "binary_sha256": {
+    "csm": "31857dec3d53deecc98b3ac7d38efb757a045f0f17178f3eb12ce6515e6e951a",
+    "csmctl": "b707274e5a047600ba823c60f49a4749e74fb98c2ca7920f435d6c2502111a27",
+    "guardian": "9093e2a7612616e3128ecf512b17efa1b1d4e5dd0b3247bd4fd022a5ad5e39a5",
+    "kernel": "b6c1b26cb60bd1c1047820ee75eed533ffab6b5351d49c818c28f0195de37a92"
+  },
+  "claim_boundary": "This fixture proves a bounded local macOS managed-service stop/start with process replacement, persisted-agent recovery, and provider dispatch through a credential file path. It makes no hosted-provider, paid-call, deployment, or production-service claim."
+}
