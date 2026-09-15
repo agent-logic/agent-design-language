@@ -348,9 +348,36 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
     let preview = success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(preview["action"], "repair_semantic_projection");
     let token = preview["preview_digest"].as_str().unwrap();
-    let recovered = success(fixture.run(
+    let interrupted_recovery = fixture.run_with_env(
         &linked,
         &["recover", "505", "--execute", "--preview", token],
+        &[("CSDLC_TEST_INTERRUPT_AFTER_STALE_PROJECTION_DATA_SYNC", "1")],
+    );
+    assert!(!interrupted_recovery.status.success());
+    assert!(String::from_utf8_lossy(&interrupted_recovery.stdout)
+        .contains("injected interruption after stale projection data sync"));
+    assert!(card_root
+        .join(format!(".projection-{old_suffix}.pending"))
+        .exists());
+    assert!(!card_root
+        .join(format!(".stp.md-{old_suffix}.next"))
+        .exists());
+    let retained_after_interrupt = intent_fixture::inventory(&fixture.root);
+    let status_after_interrupt = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(
+        status_after_interrupt["projection"]["observation"]["status"],
+        "interrupted"
+    );
+    assert_same_inventory!(
+        retained_after_interrupt,
+        intent_fixture::inventory(&fixture.root)
+    );
+    let fresh_preview = success(fixture.run(&linked, &["recover", "505"]));
+    let fresh_token = fresh_preview["preview_digest"].as_str().unwrap();
+    assert_ne!(fresh_token, token);
+    let recovered = success(fixture.run(
+        &linked,
+        &["recover", "505", "--execute", "--preview", fresh_token],
     ));
     assert_eq!(recovered["action"], "repaired_semantic_projection");
     assert!(!card_root

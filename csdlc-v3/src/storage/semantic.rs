@@ -1138,12 +1138,22 @@ impl DurableTransactionStore {
         write_exact_create_or_verify(&pending, &manifest, &projection_root)?;
         rebarrier([pending.clone()], &projection_root)?;
 
+        #[cfg(debug_assertions)]
+        let removing_stale_residue = !stale_paths.is_empty();
         for residue in &stale_paths {
             for path in &residue.staged {
                 fs::remove_file(path).map_err(io)?;
             }
         }
         sync_chain(&card_root, &projection_root)?;
+        #[cfg(debug_assertions)]
+        if removing_stale_residue
+            && std::env::var_os("CSDLC_TEST_INTERRUPT_AFTER_STALE_PROJECTION_DATA_SYNC").is_some()
+        {
+            return Err(Error::Io(
+                "injected interruption after stale projection data sync".into(),
+            ));
+        }
         for residue in stale_paths {
             fs::remove_file(residue.pending).map_err(io)?;
         }
