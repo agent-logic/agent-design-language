@@ -12,18 +12,19 @@
   "second_start_listener_ready": true,
   "runtime_process_replaced": true,
   "persisted_agent_ready_after_restart": true,
-  "provider_requests_observed": 4,
+  "provider_requests_observed": 2,
   "pre_restart_reply_delivered": true,
   "post_restart_reply_delivered": true,
-  "executed_source_revision": "b0dc596ed9",
-  "raw_report_sha256": "012e297d8019dff92ccd2c45ded1c2038dc9ea94f5c3c6daeec77797ccc51a7c",
-  "provider_sidecar_sha256": "473bc5937cd8a92ff34107c273df096f8cfcdef98ddea059eba704853c3e878d",
-  "init_sha256": "71d2e26fda9bf8f954536bb9675c7cbd4ac6cf55e7c536b779c385b7cbb405b5",
+  "file_authorization_observed_pre_and_post_restart": true,
+  "executed_source_revision": "743efd14dc",
+  "raw_report_sha256": "88bc428c5f888a1daff9ca54f3734ca53f3d3557252a526fd1a05b6d9e0b3512",
+  "provider_sidecar_sha256": "6d3d6e2ced2afb5dd5f865d225b86a5cf590f2fe063586a6f9d2abe5ef71ed56",
+  "init_sha256": "36d3f3605c9bb66e07f29b0f129c360cfc4e18e42e5507ad2415435707e33026",
   "binary_sha256": {
     "csm": "31857dec3d53deecc98b3ac7d38efb757a045f0f17178f3eb12ce6515e6e951a",
     "csmctl": "b707274e5a047600ba823c60f49a4749e74fb98c2ca7920f435d6c2502111a27",
     "guardian": "9093e2a7612616e3128ecf512b17efa1b1d4e5dd0b3247bd4fd022a5ad5e39a5",
-    "kernel": "b6c1b26cb60bd1c1047820ee75eed533ffab6b5351d49c818c28f0195de37a92"
+    "kernel": "861ed3bf91c61799cb4a6a2f904a0156222a694b5e532c70e1c3b133dfe6bf6f"
   },
   "claim_boundary": "This fixture proves a bounded local macOS managed-service stop/start with process replacement, persisted-agent recovery, and provider dispatch through a credential file path. It makes no hosted-provider, paid-call, deployment, or production-service claim."
 }
