@@ -360,10 +360,25 @@ fn stale_semantic_snapshot_cannot_rebuild_or_acknowledge() {
 #[test]
 fn newer_projection_recovers_strict_staging_residue_from_prior_version() {
     let fixture = Fixture::new();
-    let first = fixture.prepare();
+    let mut first = fixture.prepare();
     let first_bundle = derive_semantic_card_projection(&first, &fixture.registry).unwrap();
-    DurableTransactionStore::write_card_projection(&fixture.root, &first, first_bundle.clone())
-        .unwrap();
+    let acknowledged =
+        DurableTransactionStore::write_card_projection(&fixture.root, &first, first_bundle.clone())
+            .unwrap();
+    first = match DurableTransactionStore::commit_issue_local(
+        &fixture.root,
+        Admission::new(
+            fixture.key.clone(),
+            first.version().clone(),
+            first.inputs().authority().clone(),
+        ),
+        LocalChange::AcknowledgeProjection(acknowledged),
+    )
+    .unwrap()
+    {
+        CommitOutcome::Committed(snapshot) => *snapshot,
+        CommitOutcome::Unchanged(_) => panic!("projection acknowledgement must commit"),
+    };
     let card_root = fixture.root.card_projection_directory(&first).unwrap();
     let old_suffix = first_bundle
         .projection_digest()
@@ -428,12 +443,30 @@ fn newer_projection_recovers_strict_staging_residue_from_prior_version() {
 
 #[test]
 fn corrupt_prior_projection_residue_fails_closed_without_mutation() {
-    for corrupt_pending in [true, false] {
+    for corruption in 0..3 {
         let fixture = Fixture::new();
-        let first = fixture.prepare();
+        let mut first = fixture.prepare();
         let first_bundle = derive_semantic_card_projection(&first, &fixture.registry).unwrap();
-        DurableTransactionStore::write_card_projection(&fixture.root, &first, first_bundle.clone())
-            .unwrap();
+        let acknowledged = DurableTransactionStore::write_card_projection(
+            &fixture.root,
+            &first,
+            first_bundle.clone(),
+        )
+        .unwrap();
+        first = match DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            Admission::new(
+                fixture.key.clone(),
+                first.version().clone(),
+                first.inputs().authority().clone(),
+            ),
+            LocalChange::AcknowledgeProjection(acknowledged),
+        )
+        .unwrap()
+        {
+            CommitOutcome::Committed(snapshot) => *snapshot,
+            CommitOutcome::Unchanged(_) => panic!("projection acknowledgement must commit"),
+        };
         let card_root = fixture.root.card_projection_directory(&first).unwrap();
         let old_suffix = first_bundle
             .projection_digest()
@@ -442,13 +475,27 @@ fn corrupt_prior_projection_residue_fails_closed_without_mutation() {
             .nth(1)
             .unwrap();
         let old_pending = card_root.join(format!(".projection-{old_suffix}.pending"));
-        if corrupt_pending {
+        if corruption == 0 {
             fs::write(&old_pending, b"{\"corrupt\":true}\n").unwrap();
-        } else {
+        } else if corruption == 1 {
             fs::write(&old_pending, first_bundle.manifest_bytes().unwrap()).unwrap();
             fs::write(
                 card_root.join(format!(".stp.md-{old_suffix}.next")),
                 b"torn staged bytes",
+            )
+            .unwrap();
+        } else {
+            let forged_staged = b"jointly forged staged bytes";
+            let mut forged_manifest: Value =
+                serde_json::from_slice(&first_bundle.manifest_bytes().unwrap()).unwrap();
+            forged_manifest["cards"]["stp"]["rendered_digest"] =
+                serde_json::to_value(Digest::projection(forged_staged)).unwrap();
+            let forged_manifest = serde_json::to_vec(&forged_manifest).unwrap();
+            fs::write(card_root.join("manifest.json"), &forged_manifest).unwrap();
+            fs::write(&old_pending, &forged_manifest).unwrap();
+            fs::write(
+                card_root.join(format!(".stp.md-{old_suffix}.next")),
+                forged_staged,
             )
             .unwrap();
         }

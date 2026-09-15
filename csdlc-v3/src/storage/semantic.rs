@@ -368,6 +368,8 @@ struct Payload {
     invalidations: Vec<Invalidation>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     causal_invalidations: Vec<CausalInvalidation>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    acknowledged_card_projection: Option<Digest>,
     projection_required: bool,
     pending: Option<protocol::PendingOperation>,
     completed: Vec<protocol::CompletedOperation>,
@@ -422,6 +424,9 @@ impl Snapshot {
     }
     pub fn causal_invalidations(&self) -> &[CausalInvalidation] {
         &self.payload.causal_invalidations
+    }
+    pub fn acknowledged_card_projection(&self) -> Option<&Digest> {
+        self.payload.acknowledged_card_projection.as_ref()
     }
     pub fn audit_identity(&self) -> &Digest {
         &self.audit_digest
@@ -1119,7 +1124,11 @@ impl DurableTransactionStore {
             .ok_or(Error::InvalidDigest)?;
         // Validate every stale residue before the first mutation. A corrupt
         // old marker must not be erased or hidden by a new pending marker.
-        let stale_paths = authenticated_stale_projection_paths(&card_root, suffix)?;
+        let stale_paths = authenticated_stale_projection_paths(
+            &card_root,
+            suffix,
+            current.acknowledged_card_projection(),
+        )?;
 
         // Keep version admission and every projection write under one lock.
         write_issue_projection_unlocked(root, &current)?;
@@ -1282,6 +1291,7 @@ impl DurableTransactionStore {
             input_version,
             invalidations: vec![],
             causal_invalidations: vec![],
+            acknowledged_card_projection: None,
             projection_required: true,
             pending: None,
             completed: Vec::new(),
@@ -1341,6 +1351,9 @@ impl DurableTransactionStore {
             }
             LocalChange::AcknowledgeProjection(proof) => {
                 proof.verify_current(root, &current)?;
+                if let Some(bundle) = &proof.card_projection {
+                    payload.acknowledged_card_projection = Some(bundle.projection_digest().clone());
+                }
                 payload.projection_required = false;
                 SemanticCommand::AcknowledgeProjection
             }
@@ -1550,6 +1563,7 @@ fn projection_staging_paths(directory: &Path) -> Result<Vec<(PathBuf, String)>, 
 fn authenticated_stale_projection_paths(
     directory: &Path,
     current_suffix: &str,
+    acknowledged: Option<&Digest>,
 ) -> Result<Vec<PathBuf>, Error> {
     let staging = projection_staging_paths(directory)?;
     let mut by_suffix = BTreeMap::<String, Vec<PathBuf>>::new();
@@ -1565,6 +1579,10 @@ fn authenticated_stale_projection_paths(
     let committed_manifest = fs::read(directory.join("manifest.json")).map_err(io)?;
     let mut authenticated = Vec::new();
     for (suffix, paths) in by_suffix {
+        let retained_digest = acknowledged.ok_or(Error::EvidenceMismatch)?;
+        if retained_digest.as_str() != format!("card-projection-v1:{suffix}") {
+            return Err(Error::EvidenceMismatch);
+        }
         let pending_name = format!(".projection-{suffix}.pending");
         let pending = paths
             .iter()
@@ -1577,8 +1595,44 @@ fn authenticated_stale_projection_paths(
         let manifest: serde_json::Value =
             serde_json::from_slice(&pending_bytes).map_err(|_| Error::EvidenceMismatch)?;
         if manifest["schema"] != "csdlc.v3.semantic_card_projection_manifest.v1"
-            || manifest["projection_digest"].as_str()
-                != Some(format!("card-projection-v1:{suffix}").as_str())
+            || manifest["projection_digest"].as_str() != Some(retained_digest.as_str())
+        {
+            return Err(Error::EvidenceMismatch);
+        }
+        let semantic_digest: Digest = serde_json::from_value(manifest["semantic_digest"].clone())
+            .map_err(|_| Error::EvidenceMismatch)?;
+        let registry_version = manifest["registry_version"]
+            .as_str()
+            .ok_or(Error::EvidenceMismatch)?;
+        let cards = manifest["cards"]
+            .as_object()
+            .ok_or(Error::EvidenceMismatch)?
+            .iter()
+            .map(|(kind, card)| {
+                let template_ref = card["template_ref"]
+                    .as_str()
+                    .ok_or(Error::EvidenceMismatch)?
+                    .to_owned();
+                let values: Digest = serde_json::from_value(card["values_digest"].clone())
+                    .map_err(|_| Error::EvidenceMismatch)?;
+                let rendered: Digest = serde_json::from_value(card["rendered_digest"].clone())
+                    .map_err(|_| Error::EvidenceMismatch)?;
+                Ok((kind.clone(), (template_ref, values, rendered)))
+            })
+            .collect::<Result<BTreeMap<_, _>, Error>>()?;
+        if cards.len() != SEMANTIC_CARD_KINDS.len()
+            || SEMANTIC_CARD_KINDS
+                .iter()
+                .any(|kind| !cards.contains_key(*kind))
+            || hash(
+                "card-projection-v1",
+                &(
+                    "csdlc.v3.semantic_card_projection.v1",
+                    semantic_digest,
+                    registry_version,
+                    cards,
+                ),
+            )? != *retained_digest
         {
             return Err(Error::EvidenceMismatch);
         }
