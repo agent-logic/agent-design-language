@@ -76,7 +76,7 @@ Implemented the bounded #890 CodeFriend four-perspective review runner and CLI d
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/890/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/review/mod.rs; adl/src/codefriend/review/lanes.rs; adl/src/codefriend/review/runner.rs; adl/src/codefriend/mod.rs; adl/src/cli/codefriend_cmd.rs; adl/src/cli/usage.rs; adl/tests/codefriend_review.rs`
-- Additional proof artifacts: `Ignored proof artifacts under adl/target/codefriend-890-openai-proof: vector-scope.json, openai-provider-request.json, store, failed exploratory runs run-openai and run-openai-gpt41mini/run-openai-gpt41mini-r2, successful regenerated run-openai-gpt41mini-r3, and successful post-rule-prefix-repair run-openai-gpt41mini-r4. Admitted packet 43596ec8e5077543270da730b656188c109b35e2b380d30a1dd8863c55742c17; admission digest 6a74e04fdd9563f65b4f04a9c18ea1fb09c19b78a1a91682a88ffd45638266e2; successful run digest a82ad5ab4abd9e8de1f598964791107645171f5243e877b5b3b4e42cedeab3e2.`
+- Additional proof artifacts: `Ignored proof artifacts under adl/target/codefriend-890-openai-proof: vector-scope.json, openai-provider-request.json, store, failed exploratory runs run-openai and run-openai-gpt41mini/run-openai-gpt41mini-r2, successful regenerated run-openai-gpt41mini-r3, and successful post-rule-prefix-repair run-openai-gpt41mini-r4. Admitted packet 43596ec8e5077543270da730b656188c109b35e2b380d30a1dd8863c55742c17; admission digest 6a74e04fdd9563f65b4f04a9c18ea1fb09c19b78a1a91682a88ffd45638266e2; retained review_record.run.id 469c73b02b07ba956be4e7221246a545bcdad20a4ea5fa010816cde3c4f9626b; CLI summary run_digest a82ad5ab4abd9e8de1f598964791107645171f5243e877b5b3b4e42cedeab3e2.`
 
 ## Actions taken
 - `Source issue reviewed for native preparation`
@@ -166,7 +166,7 @@ verification_summary:
 - Primary proof surface: `.csdlc/evidence/890 (planned)`
 - Required artifacts present: `true for deterministic local proof, registered OpenAI proof, and post-base-sync focused validation; independent exact-head review, PR, CI, PR merge and terminal receipts remain pending`
 - Artifact schema/version checks: `passed through cargo test --manifest-path adl/Cargo.toml --test codefriend_review --test codefriend_evidence --test codefriend_ingestion, native csdlc validate for gen10 before final proof recording, and cargo clippy warnings-as-errors for codefriend_review`
-- Hash/byte-stability checks: `registered OpenAI proof run digest a82ad5ab4abd9e8de1f598964791107645171f5243e877b5b3b4e42cedeab3e2 retained for proof identity; final tracked lifecycle digest will be validated after this proof recording`
+- Hash/byte-stability checks: `registered OpenAI proof retained review_record.run.id 469c73b02b07ba956be4e7221246a545bcdad20a4ea5fa010816cde3c4f9626b and CLI summary run_digest a82ad5ab4abd9e8de1f598964791107645171f5243e877b5b3b4e42cedeab3e2 are both recorded for proof identity; final tracked lifecycle digest will be validated after this proof recording`
 - Missing/optional artifacts and rationale: `PR, CI, PR merge and terminal receipts do not exist yet because publication is pending fresh exact-head review.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `Registered OpenAI proof artifacts remain ignored under adl/target/codefriend-890-openai-proof to avoid committing provider output or credential-adjacent runtime logs; SOR records their packet/admission/run digests and publication remains pending fresh exact-head review.`
 
 ## Follow-ups / Deferred work
-- `Obtain fresh independent exact-head review for the lane-prefix repair and regenerated proof commit.`
+- `Obtain fresh independent exact-head review for the run-identity SOR clarification and lane-prefix repair commit.`
 - `Publish through native typed route if available after PASS, otherwise use only authorized audited PR-create transport and leave PR merge/finish to typed authority.`
