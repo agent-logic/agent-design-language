@@ -1,6 +1,7 @@
 use adl::codefriend::{
     architecture::{
         drift,
+        impact::{self, ChangeSet},
         structure::{self, BoundaryPolicy},
     },
     evidence::store::Store,
@@ -8,14 +9,15 @@ use adl::codefriend::{
 };
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, io::Read, path::Path};
-pub(super) const USAGE:&str="adl codefriend architecture report --store <directory> --packet-id <id> --policy <policy.json> --out <new-report.json>\nadl codefriend architecture drift --store <directory> --baselines <directory> --baseline <graph.json> --current <graph.json> --out <new-drift.json>\nadl codefriend architecture drift-read --store <directory> --baselines <directory> --input <drift.json>\nadl codefriend architecture read --store <directory> --input <report.json>";
+pub(super) const USAGE:&str="adl codefriend architecture report --store <directory> --packet-id <id> --policy <policy.json> --out <new-report.json>\nadl codefriend architecture drift --store <directory> --baselines <directory> --baseline <graph.json> --current <graph.json> --out <new-drift.json>\nadl codefriend architecture drift-read --store <directory> --baselines <directory> --input <drift.json>\nadl codefriend architecture impact --store <directory> --graph <structure.json> --changes <changes.json> --out <new-impact.json>\nadl codefriend architecture impact-read --store <directory> --input <impact.json>\nadl codefriend architecture read --store <directory> --input <report.json>";
 pub(super) fn run(args: &[String]) -> Result<()> {
     ensure!(!args.is_empty(), "{USAGE}");
     let expected: &[&str] = match args[0].as_str() {
         "drift" => &["--store", "--baselines", "--baseline", "--current", "--out"],
         "drift-read" => &["--store", "--baselines", "--input"],
         "report" => &["--store", "--packet-id", "--policy", "--out"],
-        "read" => &["--store", "--input"],
+        "impact" => &["--store", "--graph", "--changes", "--out"],
+        "read" | "impact-read" => &["--store", "--input"],
         _ => anyhow::bail!("unsupported_architecture_command"),
     };
     let mut flags = BTreeMap::new();
@@ -45,6 +47,34 @@ pub(super) fn run(args: &[String]) -> Result<()> {
             .unwrap_or_default()
             .as_secs()
     })?;
+    if args[0] == "impact" || args[0] == "impact-read" {
+        let report = if args[0] == "impact" {
+            let path = Path::new(flags["--changes"]);
+            ensure!(
+                std::fs::symlink_metadata(path)?.file_type().is_file(),
+                "change_input_not_regular"
+            );
+            let mut bytes = Vec::new();
+            std::fs::File::open(path)?
+                .take(128 * 1024 + 1)
+                .read_to_end(&mut bytes)?;
+            ensure!(bytes.len() <= 128 * 1024, "change_input_too_large");
+            let changes: ChangeSet = serde_json::from_slice(&bytes)
+                .map_err(|_| anyhow::anyhow!("invalid_change_input"))?;
+            let graph = structure::read_report(&store, Path::new(flags["--graph"]))?;
+            let report = impact::change_impact_reporter(&store, graph, changes)?;
+            impact::write_report(&report, &store, Path::new(flags["--out"]))?;
+            report
+        } else {
+            impact::read_report(&store, Path::new(flags["--input"]))?
+        };
+        println!(
+            "{}",
+            serde_json::json!({"schema":impact::VERSION,"digest":report.digest,"run_id":report.record.run.id,"analysis_complete":report.analysis_complete,"impacts":report.impacts.len(),"unknowns":report.unknowns.len()})
+        );
+        eprintln!("adl_event kind=codefriend_impact status=success analysis_complete={} impacts={} unknowns={}",report.analysis_complete,report.impacts.len(),report.unknowns.len());
+        return Ok(());
+    }
     if args[0] == "drift" || args[0] == "drift-read" {
         let baselines_root = Path::new(flags["--baselines"]);
         let report = if args[0] == "drift" {

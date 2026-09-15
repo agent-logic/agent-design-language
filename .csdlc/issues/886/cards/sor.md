@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented architecture drift;45 focused tests and11 installed scenarios passed, plus strict Clippy/fmt. Independent review PASS at fbaa3e7e9b61f87efa0440b057e3ce976998df48 with9 tests and11 installed scenarios independently rerun. Final record-only confirmation and native publication pending; no hostedCI or merge claim.
+Draft PR996 published through authenticated native reconciliation against main. Integrated newer main2301d1d8 containing883 impact; preserve impact and drift CLI routes/help. 55 focused tests, strict Clippy and23 installed scenarios passed. Final exact-head integration review and repaired-head hosted CI pending. No merge performed.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented architecture drift;45 focused tests and11 installed scenarios passed
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_reviewed_publication_pending`
+- Completion state: `published_conflict_repaired_review_ci_pending`
 - Issue goal ref: `Active whole Sprint929 goal includes886; parent assigned bounded implementation`
 - Sprint goal ref: `v0.92.2 execution Sprint 3; umbrella management owned by #926`
 - Goal metrics rollup ref: `Whole Sprint929 goal accounting; no separate child token claim`
@@ -76,7 +76,7 @@ Implemented architecture drift;45 focused tests and11 installed scenarios passed
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/886/cards/sor.md`
 - Tracked implementation artifacts: `drift.rs; codefriend_structure_cmd.rs; module/help registration; codefriend_cf_cog_drift.rs; codefriend_drift_installed_proof.py; ARCHITECTURE_DRIFT.md; fixtures/drift/PVF.json`
-- Additional proof artifacts: `Local logs, installed binary/provenance and11-scenario fixture packet retained separately`
+- Additional proof artifacts: `.csdlc/evidence/886/INTEGRATION_PROOF.json; original LOCAL_PROOF and original installed output preserved`
 
 ## Actions taken
 - `Implemented original graph compatibility gate and stable structural shared Finding comparison`
@@ -85,14 +85,14 @@ Implemented architecture drift;45 focused tests and11 installed scenarios passed
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; root main inspection-only`
-- Worktree-only paths remaining: `All issue886 source/tests/docs/proof/cards; no PR yet`
-- Integration state: `worktree_only`
+- Worktree-only paths remaining: `Local integration pending push; retained logs/installed fixtures remain untracked evidence`
+- Integration state: `pr_open`
 - Verification scope: `Structural drift with real shared memory storage and graph producer`
-- Integration method used: `not_published_or_merged`
+- Integration method used: `Native reviewed draft publication; then local main integration with additive CLI resolution`
 - Verification performed:
-  - `Pending native publication and hosted CI`
-    `No remote or terminal claim`
-- Result: `not_published_or_merged`
+  - `Native create receipt .csdlc/evidence/886/native-create-result.json; live PR996 main/draft readback; integration proof before repaired-head push`
+    `Draft publication reconciled; no issue closure or merge claim`
+- Result: `PR996 draft/main; local integration resolves observed conflict pending reviewed-head push`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_cog_drift; producer structure/memory/evidence regressions; installed codefriend_drift_installed_proof.py; strict CLI Clippy; fmt; diff check`
-    `45 focused tests (drift9,structure17,memory8,evidence11) and installed11 drift scenarios passed.`
+    `55 focused tests (drift9,impact10,structure17,memory8,evidence11),23 installed scenarios (drift11,impact12), strict Clippy/fmt passed`
 - Results:
   - `passed_local_review_ci_pending`
 
@@ -174,5 +174,5 @@ verification_summary:
 - `Preserve original graph comparison; derived shared structural facts add drift lane without changing inherited guards. Policy changes remain NotComparable; boundary-crossing reference changes under identical policy are explainable edge deltas.`
 
 ## Follow-ups / Deferred work
-- `Final record-only exact-head review and native draft publication; required hosted CI and explicit merge authorization remain.`
+- `Final independent integration review, native exact-head review, push repaired head and observe hosted CI`
 - `Parent owns sprint integration, native terminal reconciliation and cleanup after authorized merge`

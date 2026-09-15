@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/886/cards/sip.md"
   - ".csdlc/issues/886/cards/vpp.md"
 review_results:
-  findings_status: "no_findings"
-  recommended_outcome: "approve"
+  findings_status: "integration_review_pending"
+  recommended_outcome: "await_integration_review"
 notes: "Independent exact-head implementation review required before publication. Review every acceptance item: 1. Execute `architecture_drift_reporter` on known graph deltas: introduced/removed edge, changed boundary/layering relationship, unchanged graph and scope-preserving relocation. Retain stable baseline selection, deterministic ordering and evidence-linked explanations. 2. Consume actual CF-COG outputs and the CF-MEMORY comparison boundary through the installed product command, then persist shared-contract drift findings. No private identity schema or test-only consumer. 3. Reject incompatible baselines, deleted/tampered evidence, version mismatch and ambiguous identity; partial/narrower coverage remains explicitly not-comparable and never marks findings resolved. 4. Record confidence/unknowns, reviewer calibration and sampled false-positive dispositions. An opaque score cannot replace observed structural delta and reasoning. 5. A changed-source fixture declares a separate controlled revision. Do not silently change the selected external repository pin to manufacture drift evidence. No unrelated scope, autonomous architecture/source rewrite, public publication, general CI platform or complete speculative memory system. Retain original exclusions: unrelated_scope, schema_or_scaffold_only_completion, automatic_architecture_rewrite. Stop on missing_required_input, required_proof_failed, scope_or_contract_conflict, required_proof_not_executed, partial_artifact_claimed_complete, unsupported_architecture_claim, opaque_score_only; also stop for missing authority, unresolved ownership collision, privacy/provenance failure or incompatible shared contracts. Route a separately discovered concern explicitly rather than silently widening this task."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Independent /root/repair_882_ci/review_989_integration PASS at fbaa3e7e9b61f87efa0440b057e3ce976998df48; no findings. Reviewer independently reran9 drift tests and11 installed scenarios, verified source hashes and CF-MEMORY compatibility/retention behavior.
+- Original implementation independently passed at fbaa3e7e9b61f87efa0440b057e3ce976998df48; record-only head dd609731f19d4f311bd6e968759c491f18a9e8d0 also approved. Integration with merged impact routes requires fresh exact-head review.
 
 ### Dispositions
 
-- No findings waived. Final record-only exact-head confirmation required before native review/publication.
+- No findings waived. Final integration commit must receive independent review before push.
 
 ### Recommended Outcome
 
-- approve
+- await_integration_review
 
 ## Notes
 
