@@ -14,15 +14,15 @@
     "adl-runtime/src/memory_palace.rs": "bd6264ef8e2e3da00655db301240e2fedc3b7d9b183098d1ffe17321d807b56e",
     "adl-runtime-kernel/src/memory_palace_authority.rs": "259f43b67e3af306518b999209ffc29a2e5dbdf33babd7af32a6e61b6c2c9e02",
     "adl-runtime-kernel/src/assembly.rs": "73059aa200696cbf49eaf78d0a4ce1d45fdefca2d0958223fd3dac80c0b62c16",
-    "adl/tests/codefriend_plat_memory.rs": "cae3ddbe64fcae496b3e67b24d6d183377900b7c378ad7617d7bb1ca0400d89b",
+    "adl/tests/codefriend_plat_memory.rs": "d28b97eb61bc5bc54e66f3634e16a2cbe17b1a6362d4e21b419687766e6e0d67",
     "adl/examples/codefriend_palace_fixture.rs": "aa7d1ac9609775b3bf0de9b2c5429a624214e47991b2ec05631bcbb46bc1de7f",
     "adl/tools/codefriend_palace_installed_proof.py": "daa9351f24ce8b114a92bac9f85a6672993f52a8fc1fc1f1668b011f3833ee8b",
-    "adl/tests/fixtures/codefriend/palace/PVF.json": "253db7c95036eac02a4f8726c6b2612158a83823ae0e4c58bdcab8aafc6348ce",
+    "adl/tests/fixtures/codefriend/palace/PVF.json": "51f7d28e430724b1afb31c370a0adf4ea45cfd523d85d1ff8b87d3311cf12e13",
     "docs/codefriend/MEMORY_PALACE.md": "87aaf8bf4f37a1cbcead35c4b84669f7ee6dec454d7b08174befb4ca29246e60",
     "adl-runtime-kernel/src/private_state.rs": "923fe1611f490668d2ae0b152e8991701e1d3146414644582ed30a337e441596"
   },
   "tests": {
-    "palace_consumer": 8,
+    "palace_consumer": 9,
     "memory_baseline": 8,
     "shared_evidence": 11,
     "runtime_memory": 13,
@@ -31,7 +31,7 @@
     "adl_memory_integration": 4,
     "private_state": 7
   },
-  "test_total": 68,
+  "test_total": 69,
   "strict_clippy": "passed",
   "fmt": "passed",
   "installed": {
@@ -80,6 +80,16 @@
     "Runtime and kernel source hashes explicitly bound because owner installer provenance excludes dependency source paths.",
     "Failed initial fixture runs and corrected zero-test filter retained locally; not counted as proof.",
     "Signed successor regression fails against original prepare and passes repaired prepare; failure specifically reaches ContinuityCycles and leaves caller lineage unchanged.",
-    "Fresh isolated successor-installed-bin installation binds repaired Runtime/kernel dependencies; prior installed proof retained."
-  ]
+    "Fresh isolated successor-installed-bin installation binds repaired Runtime/kernel dependencies; prior installed proof retained.",
+    "Real binary Rust roundtrip covers signed index/retrieval, expected added/resolved finding identities, authority provenance, repeat/save equality, managed-path guards and invalid-authority atomicity."
+  ],
+  "cli_coverage": {
+    "file": "adl/src/cli/codefriend_memory_cmd.rs",
+    "lines": 119,
+    "covered": 113,
+    "percent": 94.9579831932773,
+    "threshold": 80,
+    "proof": ".csdlc/evidence/889/cli-coverage-summary.json",
+    "instrumented_tests": 17
+  }
 }

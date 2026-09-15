@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- User P2: prepare discarded supplied private lineage and rejected valid successor records. Fixed with scratch lineage clone and atomic final assignment. Signed seq1/seq2 regression proves original failure, repaired success and continuity-error atomicity. Fresh independent exact-head review pending; previous publication review applies only to prior head.
+- User P2 lineage loss fixed with scratch accepted lineage and atomic final assignment; signed successor regression proves original failure and repaired success. CI coverage gap fixed with actual Rust CLI roundtrip, provenance/delta assertions and managed-path/authority negatives. CLI113/119=94.96% exceeds80%. Fresh independent exact-head review pending.
 
 ### Dispositions
 

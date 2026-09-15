@@ -18,5 +18,6 @@
     "Assembly construction is not live kernel startup or provider execution",
     "Private-state lineage verification is invocation-local; durable Memory Palace succession is separately enforced by Runtime service"
   ],
-  "successor_lineage_regression": "Real signed seq1 admission followed by seq2 preparation, continuity-error atomicity and accepted replay; original prepare must fail"
+  "successor_lineage_regression": "Real signed seq1 admission followed by seq2 preparation, continuity-error atomicity and accepted replay; original prepare must fail",
+  "cli_coverage_regression": "Rust integration invokes CARGO_BIN_EXE_adl for signed palace-index and repeat palace-compare, validates saved output, and proves root/output isolation and malformed-authority failure without advancing latest."
 }

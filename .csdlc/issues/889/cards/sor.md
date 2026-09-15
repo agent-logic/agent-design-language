@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Production Memory Palace consumer and signed successor lineage repair complete. 68 focused tests and 23 fresh installed scenarios pass with strict Clippy/fmt. Main53e merged locally preserving both CLI routes. Independent exact-head review and repaired PR997 push pending; hosted CI and merge not claimed.
+Production Memory Palace consumer, signed successor lineage repair and CLI coverage repair complete. 69 focused tests and 23 fresh installed scenarios pass; CLI coverage113/119=94.96% exceeds80%; strict Clippy/fmt pass. Main53e integrated locally; independent exact-head review and repaired PR997 push pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -80,7 +80,7 @@ Production Memory Palace consumer and signed successor lineage repair complete. 
 
 ## Actions taken
 - `Implemented bounded production Memory Palace index/retrieve with live admission and strict latest validation`
-- `Ran68 focused tests and23 installed scenario groups; fixed privacy and SHA256 findings`
+- `Ran69 focused tests and23 installed scenario groups; added actual CLI roundtrip and isolation/authority negatives; measured94.96% CLI line coverage.`
 - `Repaired prepare to preserve supplied accepted lineage using an isolated clone and publish state only after full success; original-source regression fails as intended.`
 
 ## Main Repo Integration (REQUIRED)
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `Focused cargo test targets and strict Clippy; exact commands and source inventory in LOCAL_PROOF.json and .csdlc/evidence/889 logs`
-    `68 focused tests and23 installed scenarios passed; hosted CI pending`
+    `69 focused tests and23 installed scenarios passed; CLIcoverage94.96%; hostedCI pending.`
 - Results:
-  - `68 focused tests: 8 consumer, 8 baseline, 11 evidence, 13 Runtime memory, 12 kernel memory integration, 7 private state, 5 ADL projection, 4 ADL memory integration. 23 fresh installed scenarios pass; strict Clippy/fmt/diffcheck pass. Repaired-head hosted CI pending.`
+  - `69 focused tests:9 consumer,8 baseline,11 evidence,13 Runtime memory,12 kernel memory integration,7 private state,5 ADL projection,4 ADL memory integration. 23 fresh installed scenarios pass; strict Clippy/fmt/diffcheck pass. Instrumented CLI113/119 lines=94.96% (80%gate); repaired-head hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `8 consumer tests and 23 installed scenarios, plus 60 existing regression tests`
+- Determinism tests executed: `9 consumer tests and23 installed scenarios, plus60 existing regression tests`
 - Fixtures or scripts used: `adl/examples/codefriend_memory_fixture.rs; adl/examples/codefriend_palace_fixture.rs; adl/tools/codefriend_palace_installed_proof.py; adl/tests/codefriend_plat_memory.rs`
 - Replay verification (same inputs -> same artifacts/order): `23 installed scenarios include deterministic repeat and restored state replay`
 - Ordering guarantees (sorting / tie-break rules used): `References sorted by run_id and record_digest; duplicate runs denied; repeated output equal`

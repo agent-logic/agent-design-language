@@ -488,3 +488,154 @@ fn production_prepare_preserves_successor_lineage_and_failure_is_atomic() {
     let root = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
     authority_fixture::verify_successor(root.path()).unwrap();
 }
+
+#[test]
+fn cli_palace_roundtrip_and_managed_path_guards() {
+    let _guard = TEST_LOCK.lock().unwrap();
+    let mut f = Fixture::new();
+    let (authority, authority_root) = setup_authority(&f);
+    let old = f.record(
+        "pub fn cli_before() {}",
+        &[("gone", "Gone")],
+        "1",
+        Completion::Complete,
+        false,
+    );
+    let new = f.record(
+        "pub fn cli_after() {}",
+        &[("new", "New")],
+        "1",
+        Completion::Complete,
+        false,
+    );
+    let backend = AdmittedBaselines::open(f.store(), &f.baselines(), true).unwrap();
+    let b = backend.retain(&old).unwrap();
+    let c = backend.retain(&new).unwrap();
+    let root = f.temp.path();
+    let input = root.join("index.json");
+    let query = root.join("query.json");
+    let output = root.join("delta.json");
+    let palace = root.join("palace");
+    fs::write(
+        &input,
+        serde_json::to_vec(&index_request(vec![b.clone()])).unwrap(),
+    )
+    .unwrap();
+    fs::write(
+        &query,
+        serde_json::to_vec(&retrieve_request(b, c, &authority)).unwrap(),
+    )
+    .unwrap();
+    let store = root.join("store");
+    let baselines = f.baselines();
+    drop(backend);
+    drop(f.store.take());
+    let run = |command: &str, pairs: &[(&str, &Path)]| {
+        let mut cmd = Command::new(env!("CARGO_BIN_EXE_adl"));
+        cmd.args(["codefriend", "memory", command]);
+        for (flag, value) in pairs {
+            cmd.arg(flag).arg(value);
+        }
+        cmd.output().unwrap()
+    };
+    let trust = authority_root.join("trust.json");
+    let evidence = authority_root.join("authority-evidence.json");
+    let index_args = [
+        ("--store", store.as_path()),
+        ("--baselines", baselines.as_path()),
+        ("--palace", palace.as_path()),
+        ("--trust", trust.as_path()),
+        ("--authority", evidence.as_path()),
+        ("--input", input.as_path()),
+    ];
+    let indexed = run("palace-index", &index_args);
+    assert!(
+        indexed.status.success(),
+        "{}",
+        String::from_utf8_lossy(&indexed.stderr)
+    );
+    let receipt: serde_json::Value = serde_json::from_slice(&indexed.stdout).unwrap();
+    assert_eq!(receipt["backend"], "RuntimeMemoryPalaceService");
+    let compare_args = [
+        ("--store", store.as_path()),
+        ("--baselines", baselines.as_path()),
+        ("--palace", palace.as_path()),
+        ("--input", query.as_path()),
+        ("--out", output.as_path()),
+    ];
+    let compared = run("palace-compare", &compare_args);
+    assert!(
+        compared.status.success(),
+        "{}",
+        String::from_utf8_lossy(&compared.stderr)
+    );
+    let report: serde_json::Value = serde_json::from_slice(&compared.stdout).unwrap();
+    assert_eq!(report["delta"]["comparable"], true);
+    let typed: palace::RetrievedComparison = serde_json::from_value(report.clone()).unwrap();
+    assert_eq!(
+        typed.provenance.identity_root,
+        authority.identity().identity_root
+    );
+    assert_eq!(
+        typed.provenance.continuity_head,
+        authority.continuity().record().continuity_head
+    );
+    assert_eq!(typed.delta.changes.len(), 2);
+    assert!(typed
+        .delta
+        .changes
+        .iter()
+        .any(|change| change.comparison.outcome == Delta::Added
+            && change
+                .after
+                .as_ref()
+                .is_some_and(|reference| reference.finding_id == new.findings[0].id)));
+    assert!(typed
+        .delta
+        .changes
+        .iter()
+        .any(|change| change.comparison.outcome == Delta::Resolved
+            && change
+                .before
+                .as_ref()
+                .is_some_and(|reference| reference.finding_id == old.findings[0].id)));
+
+    assert_eq!(
+        report,
+        serde_json::from_slice::<serde_json::Value>(&fs::read(&output).unwrap()).unwrap()
+    );
+    fs::remove_file(&output).unwrap();
+    let repeated = run("palace-compare", &compare_args);
+    assert!(
+        repeated.status.success(),
+        "{}",
+        String::from_utf8_lossy(&repeated.stderr)
+    );
+    assert_eq!(compared.stdout, repeated.stdout);
+    let forbidden = palace.join("must-not-write.json");
+    for (slot, path, error) in [
+        (2, store.as_path(), "palace_managed_roots_overlap"),
+        (4, forbidden.as_path(), "output_inside_palace_rejected"),
+        (
+            4,
+            baselines.as_path(),
+            "output_inside_managed_store_rejected",
+        ),
+    ] {
+        let mut bad = compare_args;
+        bad[slot].1 = path;
+        let denied = run("palace-compare", &bad);
+        assert!(!denied.status.success());
+        assert!(String::from_utf8_lossy(&denied.stderr).contains(error));
+        assert!(!forbidden.exists());
+    }
+    let latest = fs::read(palace.join("latest.json")).unwrap();
+    let invalid = root.join("invalid-authority.json");
+    fs::write(&invalid, b"{}").unwrap();
+    let mut bad = index_args;
+    bad[4].1 = &invalid;
+    let denied = run("palace-index", &bad);
+    assert!(!denied.status.success());
+    assert!(String::from_utf8_lossy(&denied.stderr).contains("authority input invalid"));
+    assert_eq!(latest, fs::read(palace.join("latest.json")).unwrap());
+}
