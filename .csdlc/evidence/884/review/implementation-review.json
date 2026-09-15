@@ -1,0 +1,33 @@
+{
+  "schema": "codefriend.independent_review.v1",
+  "issue": 884,
+  "reviewer": "/root/review_987_conflicts",
+  "reviewed_revision": "33a2bcc16f9a9ab8ab48f1f5d1f54cbb8f4ab59e",
+  "result": "PASS",
+  "findings": [],
+  "scope": [
+    "Production rationale and CLI behavior",
+    "Tests, documentation, PVF and lifecycle truth",
+    "Source and installed-binary hashes",
+    "Fixed conflict calibration and evidence references"
+  ],
+  "independent_validation": {
+    "command": "CARGO_TARGET_DIR=/Users/daniel/git/adl-build-cache/worker10-884 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 cargo test --offline --locked --manifest-path adl/Cargo.toml --test codefriend_cf_cog_rationale",
+    "passed": 10,
+    "failed": 0,
+    "source_hashes_match": true,
+    "installed_binary_hash_matches": true
+  },
+  "calibration_judgment": "PASS for explicit choice matching: two accepted differing choices under api-deployment conflict; differing keys do not; candidate and superseded records do not confer acceptance. Fixed sample is valid for this bounded classifier, not semantic prose contradiction or runtime deployability accuracy. Original statuses, source locations, revision and graph digest remain inspectable.",
+  "test_correction": "Malformed JSON omission by admission correctly yields explicit unavailable/partial evidence; revised predicate is appropriate to the production acquisition boundary and does not claim parser execution.",
+  "retained_proof": {
+    "focused_tests": 38,
+    "installed_rationale_scenarios": 11,
+    "installed_structure_scenarios": 9,
+    "clippy": "retained pass"
+  },
+  "limitations": [
+    "Installed scenarios reviewed from runner and retained proof, not independently rerun",
+    "Hosted CI, Linux and external qualification not established by this review"
+  ]
+}
