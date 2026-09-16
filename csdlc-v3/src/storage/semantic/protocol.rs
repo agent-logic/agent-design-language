@@ -468,6 +468,7 @@ pub struct VerifiedRecoveryResolution {
 enum RecoveryResolutionMode {
     AdoptObserved,
     AbandonUnobservedProof,
+    AbandonStaleReview,
 }
 impl VerifiedRecoveryResolution {
     #[cfg_attr(
@@ -491,6 +492,13 @@ impl VerifiedRecoveryResolution {
         Self {
             preview: preview.digest.clone(),
             mode: RecoveryResolutionMode::AbandonUnobservedProof,
+        }
+    }
+
+    pub(crate) fn abandon_stale_review(preview: &RecoveryPreview) -> Self {
+        Self {
+            preview: preview.digest.clone(),
+            mode: RecoveryResolutionMode::AbandonStaleReview,
         }
     }
 }
@@ -921,12 +929,23 @@ fn attach_locked(
     let adopt = resolution == Some(RecoveryResolutionMode::AdoptObserved);
     let abandon_unobserved_proof =
         resolution == Some(RecoveryResolutionMode::AbandonUnobservedProof);
+    let abandon_stale_review = resolution == Some(RecoveryResolutionMode::AbandonStaleReview);
     if abandon_unobserved_proof
         && (pending.command != SemanticCommand::RecordProof
             || pending.observed.is_some()
             || outcome.kind != OutcomeKind::Failure
             || outcome.truth != EffectTruth::Unknown
             || changed
+            || outcome.facts.current_proof)
+    {
+        return Err(Error::AdmissionChanged);
+    }
+    if abandon_stale_review
+        && (pending.command != SemanticCommand::RecordReviewPass
+            || pending.observed.is_some()
+            || outcome.kind != OutcomeKind::Failure
+            || outcome.truth != EffectTruth::Unknown
+            || outcome.facts.independent_review
             || outcome.facts.current_proof)
     {
         return Err(Error::AdmissionChanged);
@@ -951,6 +970,7 @@ fn attach_locked(
         || outcome.truth == EffectTruth::Unknown
         || outcome.kind == OutcomeKind::Unresolved)
         && !abandon_unobserved_proof
+        && !abandon_stale_review
     {
         if pending.observed.as_ref() == Some(&retained) {
             return Ok(Attachment::RecoveryRequired(current.version().clone()));
@@ -1090,6 +1110,12 @@ fn attach_locked(
                 }
                 _ => return Err(Error::AdmissionChanged),
             }
+        } else if abandon_stale_review {
+            (
+                current.phase(),
+                vec![Invalidation::Review, Invalidation::Publication],
+                vec![],
+            )
         } else {
             let disposition = if outcome.kind == OutcomeKind::Success {
                 policy::Outcome::Success
@@ -1338,6 +1364,15 @@ pub(super) mod tests {
             )
             .unwrap()
         }
+        fn review_request(&self, identity: &str) -> EffectRequest {
+            EffectRequest::new(
+                SemanticCommand::RecordReviewPass,
+                NativeIdentity::new("review".into(), identity.into()).unwrap(),
+                EffectOrigin::bound(self.snapshot().inputs().binding().unwrap().clone()),
+                br#"{"schema":"csdlc.v3.semantic_review_request.v1"}"#,
+            )
+            .unwrap()
+        }
         fn admission(&self, request: &EffectRequest) -> EffectAdmission {
             let s = self.snapshot();
             EffectAdmission::from_native_owner(
@@ -1351,6 +1386,7 @@ pub(super) mod tests {
                     bind_target: true,
                     topology: true,
                     current_proof: true,
+                    independent_review: true,
                     terminal_receipt: true,
                     ..Default::default()
                 },
@@ -1769,6 +1805,82 @@ pub(super) mod tests {
             Attachment::AlreadyCompleted(_)
         ));
         assert_eq!(f.snapshot().version().generation(), generation);
+    }
+
+    #[test]
+    fn stale_review_abandonment_rejects_retained_observed_outcome() {
+        let f = Fixture::new();
+        f.bind();
+        let proof = f.proof_request("proof-before-review");
+        let ticket = f.reserve(&proof);
+        DurableTransactionStore::attach_outcome(
+            &f.root,
+            ticket,
+            f.outcome(
+                &proof,
+                OutcomeKind::Success,
+                EffectTruth::Performed,
+                b"proof",
+            ),
+            f.observed(&proof),
+        )
+        .unwrap();
+        assert_eq!(f.snapshot().phase(), LifecycleState::Implemented);
+
+        let review = f.review_request("interrupted-review");
+        f.reserve(&review);
+        let initial_preview = DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+            .unwrap()
+            .unwrap();
+        let mut interrupted = f.outcome(
+            &review,
+            OutcomeKind::Failure,
+            EffectTruth::Unknown,
+            b"retained unknown review outcome",
+        );
+        interrupted.facts.current_proof = false;
+        interrupted.facts.independent_review = false;
+        assert!(matches!(
+            DurableTransactionStore::execute_effect_recovery(
+                &f.root,
+                initial_preview,
+                interrupted,
+                f.observed(&review),
+            )
+            .unwrap(),
+            Attachment::RecoveryRequired(_)
+        ));
+        assert_eq!(
+            f.snapshot().pending().unwrap().observed_truth(),
+            Some(EffectTruth::Unknown)
+        );
+
+        let preview = DurableTransactionStore::describe_effect_recovery(&f.root, &f.key)
+            .unwrap()
+            .unwrap();
+        let resolution = VerifiedRecoveryResolution::abandon_stale_review(&preview);
+        let mut abandonment = f.outcome(
+            &review,
+            OutcomeKind::Failure,
+            EffectTruth::Unknown,
+            b"attempted stale review abandonment",
+        );
+        abandonment.facts.current_proof = false;
+        abandonment.facts.independent_review = false;
+        assert_eq!(
+            DurableTransactionStore::execute_effect_recovery_with_resolution(
+                &f.root,
+                preview,
+                abandonment,
+                f.observed(&review),
+                Some(resolution),
+            ),
+            Err(Error::AdmissionChanged)
+        );
+        assert_eq!(
+            f.snapshot().pending().unwrap().observed_truth(),
+            Some(EffectTruth::Unknown)
+        );
     }
 
     #[test]

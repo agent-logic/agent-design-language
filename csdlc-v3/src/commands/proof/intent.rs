@@ -1036,7 +1036,10 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
             // admit every matching record so input validation remains
             // conservative when more than one build profile artifact exists.
             if records.is_empty()
-                && file.file_name().and_then(|v| v.to_str()) == Some(target.as_str())
+                && file
+                    .file_name()
+                    .and_then(|v| v.to_str())
+                    .is_some_and(|name| name.replace('-', "_") == target || name == target)
                 && parent == root.join("target/intent-validation/debug")
             {
                 let deps = parent.join("deps");
@@ -1117,9 +1120,16 @@ fn hashed_dep_info_matches_target(path: &Path, target: &str) -> bool {
     else {
         return false;
     };
+    let normalized_stem = stem.replace('-', "_");
+    let normalized_target = target.replace('-', "_");
     let Some(hash) = stem
         .strip_prefix(target)
         .and_then(|value| value.strip_prefix('-'))
+        .or_else(|| {
+            normalized_stem
+                .strip_prefix(&normalized_target)
+                .and_then(|value| value.strip_prefix('_'))
+        })
     else {
         return false;
     };
@@ -1247,6 +1257,14 @@ mod dependency_record_tests {
         assert!(hashed_dep_info_matches_target(
             Path::new("foo-a1b2c3.d"),
             "foo"
+        ));
+        assert!(hashed_dep_info_matches_target(
+            Path::new("csdlc_conversion_rehearsal-a1b2c3.d"),
+            "csdlc_conversion_rehearsal"
+        ));
+        assert!(hashed_dep_info_matches_target(
+            Path::new("csdlc-conversion-rehearsal-a1b2c3.d"),
+            "csdlc_conversion_rehearsal"
         ));
         assert!(!hashed_dep_info_matches_target(
             Path::new("foo-bar-a1b2c3.d"),

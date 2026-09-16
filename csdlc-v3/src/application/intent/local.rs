@@ -321,6 +321,7 @@ fn semantic_rebuild(context: &Context, registry: &local::PromptRegistry) -> Resu
         semantic::{Admission, CardProjectionObservation, CommitOutcome, LocalChange},
         DurableTransactionStore,
     };
+    context.refresh_semantic_binding()?;
     let Some((snapshot, bundle, before)) =
         semantic_card_projection_observation(context, registry, true)?
     else {
@@ -1225,10 +1226,21 @@ pub(crate) fn recover_semantic_bind(
     {
         return Err("intent_bind_retained_native_identity_mismatch".into());
     }
-    let mut observed_context = Context::load(&context.primary, context.issue)?;
-    let mut binding_path = observed_context
-        .git_common
-        .join(format!("csdlc-v3/local/bindings/{}.json", context.issue));
+    let recovery_source_exists =
+        local::intent::recovery_source(&context.git_common.join("csdlc-v3/local"), context.issue)
+            .map_err(errors)?
+            .is_some();
+    let mut observed_context = if recovery_source_exists {
+        Context::load(&context.primary, context.issue)?
+    } else {
+        Context::load(&target.worktree, context.issue)?
+    };
+    let binding_state_root = if recovery_source_exists {
+        context.git_common.join("csdlc-v3/local")
+    } else {
+        local::operational_state_root(&target.worktree).map_err(errors)?
+    };
+    let mut binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
     let mut native_bound = binding_path.exists()
         && read_json(&binding_path).is_ok_and(|binding| {
             binding["issue"] == context.issue
@@ -1239,17 +1251,19 @@ pub(crate) fn recover_semantic_bind(
         && observed_context.branch == target.branch
         && observed_context.head == target.head;
     let registration = super::context::git(&context.primary, &["worktree", "list", "--porcelain"])?;
-    let registered = registration.lines().any(|line| {
-        line == format!("worktree {}", target.worktree.display())
-            || line == format!("branch refs/heads/{}", target.branch)
+    let canonical_target = target.worktree.canonicalize().ok();
+    let branch_ref = format!("refs/heads/{}", target.branch);
+    let registered = registration.split("\n\n").any(|record| {
+        record.lines().any(|line| {
+            line.strip_prefix("worktree ")
+                .and_then(|path| std::path::Path::new(path).canonicalize().ok())
+                .is_some_and(|path| Some(path) == canonical_target)
+        }) && record
+            .lines()
+            .any(|line| line == format!("branch {branch_ref}"))
     });
     let mut definitely_absent = !binding_path.exists() && !target.worktree.exists() && !registered;
-    if !native_bound
-        && !definitely_absent
-        && local::intent::recovery_source(&context.git_common.join("csdlc-v3/local"), context.issue)
-            .map_err(errors)?
-            .is_some()
-    {
+    if !native_bound && !definitely_absent && recovery_source_exists {
         let native = local::discover_operational_local_context(&context.primary, &native_request)
             .map_err(errors)?
             .ok_or("intent_operational_authority_required")?;
@@ -1261,9 +1275,7 @@ pub(crate) fn recover_semantic_bind(
         local::intent::recover(&native_request, &native, true, Some(native_digest))
             .map_err(errors)?;
         observed_context = Context::load(&context.primary, context.issue)?;
-        binding_path = observed_context
-            .git_common
-            .join(format!("csdlc-v3/local/bindings/{}.json", context.issue));
+        binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
         native_bound = binding_path.exists()
             && read_json(&binding_path).is_ok_and(|binding| {
                 binding["issue"] == context.issue
@@ -1275,11 +1287,43 @@ pub(crate) fn recover_semantic_bind(
             && observed_context.head == target.head;
         let registration =
             super::context::git(&context.primary, &["worktree", "list", "--porcelain"])?;
-        let registered = registration.lines().any(|line| {
-            line == format!("worktree {}", target.worktree.display())
-                || line == format!("branch refs/heads/{}", target.branch)
+        let canonical_target = target.worktree.canonicalize().ok();
+        let registered = registration.split("\n\n").any(|record| {
+            record.lines().any(|line| {
+                line.strip_prefix("worktree ")
+                    .and_then(|path| std::path::Path::new(path).canonicalize().ok())
+                    .is_some_and(|path| Some(path) == canonical_target)
+            }) && record
+                .lines()
+                .any(|line| line == format!("branch {branch_ref}"))
         });
         definitely_absent = !binding_path.exists() && !target.worktree.exists() && !registered;
+    }
+    if !native_bound && !definitely_absent && !binding_path.exists() && registered {
+        let native = local::discover_operational_local_context(&target.worktree, &native_request)
+            .map_err(errors)?
+            .ok_or("intent_operational_authority_required")?;
+        let registry = context.registry()?;
+        let native_result =
+            local::execute_operational_local_route("bind", &native_request, &registry, &native)
+                .map_err(errors)?;
+        if !native_result
+            .findings
+            .iter()
+            .any(|finding| finding.status != PlanStatus::Passed)
+        {
+            observed_context = Context::load(&target.worktree, context.issue)?;
+            binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
+            native_bound = binding_path.exists()
+                && read_json(&binding_path).is_ok_and(|binding| {
+                    binding["issue"] == context.issue
+                        && binding["branch"] == target.branch
+                        && binding["worktree"].as_str() == target.worktree.to_str()
+                })
+                && observed_context.root == target.worktree
+                && observed_context.branch == target.branch
+                && observed_context.head == target.head;
+        }
     }
     let (kind, truth, facts, evidence) = if native_bound {
         (

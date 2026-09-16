@@ -255,8 +255,18 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
     context.fresh()?;
     let mut value = match command {
         "recover" if !request.content.is_null() => {
-            local::recover_semantic_proof(&context, &request)?
-                .ok_or("intent_recovery_disposition_not_applicable")?
+            if request
+                .content
+                .get("schema")
+                .and_then(serde_json::Value::as_str)
+                == Some("csdlc.v3.semantic_review_recovery_disposition.v1")
+            {
+                remote::recover(&context, &request)?
+                    .ok_or("intent_recovery_disposition_not_applicable")?
+            } else {
+                local::recover_semantic_proof(&context, &request)?
+                    .ok_or("intent_recovery_disposition_not_applicable")?
+            }
         }
         "recover" => match administrative::recover(&context, &request)? {
             Some(value) => value,

@@ -1825,6 +1825,31 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
             fs::remove_file(path).unwrap();
         }
     }
+    let stale_projection = primary
+        .parent()
+        .expect("fixture root has parent")
+        .join("stale-projection-worktree");
+    if stale_projection.exists() {
+        fs::remove_dir_all(&stale_projection).unwrap();
+    }
+    git(
+        &primary,
+        &[
+            "worktree",
+            "add",
+            "--quiet",
+            "-b",
+            "fixture-stale-projection",
+            stale_projection.to_str().unwrap(),
+        ],
+    );
+    let stale_issue_root = stale_projection.join(".csdlc/issues/505");
+    fs::create_dir_all(&stale_issue_root).unwrap();
+    fs::copy(
+        linked.join(".csdlc/issues/505/index.json"),
+        stale_issue_root.join("index.json"),
+    )
+    .unwrap();
     let before = intent_fixture::inventory(&primary);
     let clean = success(fixture.run(&primary, &["clean", "505"]));
     assert_same_inventory!(
@@ -1949,7 +1974,13 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
             .lines()
             .filter(|line| line.starts_with("worktree "))
             .count(),
-        1
+        2
+    );
+    assert!(
+        stale_projection
+            .join(".csdlc/issues/505/index.json")
+            .is_file(),
+        "cleanup removed unrelated stale projection"
     );
     assert!(terminal.is_file(), "cleanup lost terminal authority");
     let archived = fs::read_dir(primary.join(".git/csdlc-v3/local/archives"))
