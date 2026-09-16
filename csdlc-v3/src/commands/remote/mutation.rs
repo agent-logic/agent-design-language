@@ -467,7 +467,7 @@ pub fn execute_staged_github_mutation(
                 } else {
                     ensure_recovery_available(repo_root, &staged.operation_digest)?;
                 }
-                verify_pr_create_head_available(request, process)?;
+                verify_pr_create_head_branch(request, process)?;
                 if staged
                     .resolved_ready_target
                     .as_ref()
@@ -712,7 +712,7 @@ pub fn execute_github_mutation(
                 // Legacy intents are immutable. Resolve their missing target only
                 // for an explicitly authorized retry after authenticated absence.
                 ensure_recovery_available(repo_root, &operation_digest)?;
-                verify_pr_create_head_available(request, process)?;
+                verify_pr_create_head_branch(request, process)?;
                 let ready_target = match &intent.resolved_ready_target {
                     None if matches!(request.mutation, GithubMutation::PullRequestReady) => {
                         Some(resolve_ready_target(request, process)?)

@@ -519,7 +519,7 @@ impl Fixture {
   printf '['; if test -f "$base/remote-pr.json"; then cat "$base/remote-pr.json"; fi; printf ']' ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/git/matching-refs/heads/*)
   if test -f "$base/remote-head-present"; then
-   if test -f "$base/remote-head-wrong"; then sha=0000000000000000000000000000000000000000; else sha=@HEAD@; fi
+   if test -f "$base/remote-head-wrong" || test -f "$base/wrong-branch-head"; then sha=0000000000000000000000000000000000000000; else sha=@HEAD@; fi
    printf '[{"ref":"refs/heads/@BRANCH@","object":{"sha":"%s"}}]' "$sha"
   else printf '[]'; fi ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639)

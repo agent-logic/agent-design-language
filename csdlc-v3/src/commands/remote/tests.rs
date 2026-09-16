@@ -2216,10 +2216,10 @@ fn pr_create_recovery_checks_exact_remote_head_before_consuming_first_retry() {
         process_output(ProcessStatus::Exit(0), serde_json::json!([])),
         process_output(
             ProcessStatus::Exit(0),
-            serde_json::json!({
+            serde_json::json!([{
                 "ref": "refs/heads/codex/recovery-head",
-                "object": {"type": "commit", "sha": head}
-            }),
+                "object": {"sha": head}
+            }]),
         ),
         process_output(ProcessStatus::Exit(0), serde_json::json!({"number": 1019})),
         process_output(
@@ -2251,17 +2251,17 @@ fn pr_create_recovery_wrong_head_does_not_consume_allowance_or_dispatch() {
         process_output(ProcessStatus::Exit(0), serde_json::json!([])),
         process_output(
             ProcessStatus::Exit(0),
-            serde_json::json!({
+            serde_json::json!([{
                 "ref": "refs/heads/codex/recovery-head",
-                "object": {"type": "commit", "sha": "wrong-head"}
-            }),
+                "object": {"sha": "wrong-head"}
+            }]),
         ),
     ]);
     assert_eq!(
         super::execute_github_mutation(&root, &request, &mut process)
             .unwrap_err()
             .code,
-        "github_pr_create_recovery_head_mismatch"
+        "github_pr_head_branch_mismatch"
     );
     assert!(!super::github_mutation_recovery_path(&root, &digest)
         .unwrap()
@@ -2283,7 +2283,7 @@ fn pr_create_recovery_missing_head_does_not_consume_allowance_or_dispatch() {
         super::execute_github_mutation(&root, &request, &mut process)
             .unwrap_err()
             .code,
-        "github_pr_create_recovery_head_mismatch"
+        "github_pr_head_branch_missing"
     );
     assert!(!super::github_mutation_recovery_path(&root, &digest)
         .unwrap()
