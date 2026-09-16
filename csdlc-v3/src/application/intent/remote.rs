@@ -14,10 +14,6 @@ use serde_json::{json, Value};
 struct RecoveryOperation {
     operation: Value,
     recovery: GithubMutationRecovery,
-    #[serde(default)]
-    legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
-    #[serde(default)]
-    legacy_non_effect_disposition_source: Option<CoordinationEvidence>,
 }
 
 fn parse_operation(value: Value) -> Result<GithubMutation, String> {
@@ -156,8 +152,6 @@ fn mutation_request(
     recovery: Option<GithubMutationRecovery>,
     pull_request: Option<u64>,
     operator_approval: Option<String>,
-    legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
-    legacy_non_effect_disposition_source: Option<CoordinationEvidence>,
 ) -> GithubMutationRequest {
     GithubMutationRequest {
         repository: context.repository.clone(),
@@ -172,8 +166,6 @@ fn mutation_request(
         expected_head_sha: context.head.clone(),
         credential_names: vec!["GITHUB_TOKEN".into()],
         recovery,
-        legacy_non_effect_disposition,
-        legacy_non_effect_disposition_source,
         mutation: operation,
     }
 }
@@ -183,8 +175,6 @@ fn mutation(
     recovery: Option<GithubMutationRecovery>,
     pull_request: Option<u64>,
     operator_approval: Option<String>,
-    legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
-    legacy_non_effect_disposition_source: Option<CoordinationEvidence>,
 ) -> Result<Value, String> {
     context.fresh_integrity()?;
     let native = mutation_request(
@@ -193,8 +183,6 @@ fn mutation(
         recovery,
         pull_request,
         operator_approval,
-        legacy_non_effect_disposition,
-        legacy_non_effect_disposition_source,
     );
     owner::validate_intent_mutation(&context.root, &native).map_err(failure)?;
     let dispatch = OperationalRemoteDispatchRequest {
@@ -575,7 +563,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     body: Some(plan.publication.body),
                 },
             };
-            let mut outcome = mutation(context, operation, None, pull_request, None, None, None)?;
+            let mut outcome = mutation(context, operation, None, pull_request, None)?;
             if outcome["status"] == "recovery_required" {
                 return Ok(outcome);
             }
@@ -602,22 +590,12 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 .get("operator_approval")
                 .and_then(Value::as_str)
                 .map(str::to_owned);
-            let (
-                mut operation,
-                recovery,
-                legacy_non_effect_disposition,
-                legacy_non_effect_disposition_source,
-            ) = if request.content.get("operation").is_some() {
+            let (mut operation, recovery) = if request.content.get("operation").is_some() {
                 let content: RecoveryOperation = serde_json::from_value(request.content.clone())
                     .map_err(|_| "intent_remote_recovery_content_invalid")?;
-                (
-                    parse_operation(content.operation)?,
-                    Some(content.recovery),
-                    content.legacy_non_effect_disposition,
-                    content.legacy_non_effect_disposition_source,
-                )
+                (parse_operation(content.operation)?, Some(content.recovery))
             } else {
-                (parse_operation(request.content.clone())?, None, None, None)
+                (parse_operation(request.content.clone())?, None)
             };
             let issue_operation = matches!(
                 operation,
@@ -706,8 +684,6 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 recovery.clone(),
                 pull_request,
                 operator_approval.clone(),
-                legacy_non_effect_disposition.clone(),
-                legacy_non_effect_disposition_source.clone(),
             );
             owner::validate_intent_mutation(&context.root, &admission).map_err(failure)?;
             if !request.execute || request.preview.is_some() {
@@ -721,8 +697,6 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 recovery,
                 pull_request,
                 operator_approval,
-                legacy_non_effect_disposition,
-                legacy_non_effect_disposition_source,
             )
         }
         _ => Err("intent_remote_command_unknown".into()),

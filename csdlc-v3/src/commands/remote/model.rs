@@ -331,10 +331,6 @@ pub struct GithubMutationRequest {
     pub credential_names: Vec<String>,
     #[serde(default)]
     pub recovery: Option<GithubMutationRecovery>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub legacy_non_effect_disposition_source: Option<CoordinationEvidence>,
     pub mutation: GithubMutation,
 }
 
@@ -342,31 +338,6 @@ pub struct GithubMutationRequest {
 #[serde(rename_all = "snake_case")]
 pub enum GithubMutationRecovery {
     RetryAfterAuthenticatedAbsence,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct GithubMutationLegacyNonEffectDisposition {
-    pub schema: String,
-    pub repository: String,
-    pub issue: u64,
-    pub operation_digest: String,
-    pub intent_digest: String,
-    pub request_digest: String,
-    pub authority_selector_digest: String,
-    pub expected_head_sha: String,
-    pub definitive_non_effect_reason: GithubMutationDefinitiveNonEffectReason,
-    pub evidence_path: String,
-    pub evidence_digest: String,
-    pub operator: String,
-    pub authorization_ref: String,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum GithubMutationDefinitiveNonEffectReason {
-    TransportFailedBeforeDispatch,
-    ProviderRejectedBeforeAcceptance,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -407,25 +378,12 @@ pub(super) struct GithubMutationRecoveryReceipt {
     pub(super) resolved_ready_target: Option<GithubReadyTarget>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub(super) struct GithubMutationHeadAvailableRecoveryReceipt {
-    pub(super) schema: String,
-    pub(super) operation_digest: String,
-    pub(super) intent_digest: String,
-    pub(super) repository: String,
-    pub(super) issue: u64,
-    pub(super) head: String,
-    pub(super) expected_head_sha: String,
-}
-
 pub(super) struct GithubMutationDispatchContext<'a> {
     pub(super) operation_digest: &'a str,
     pub(super) operation_marker: &'a str,
     pub(super) credential_name: &'a str,
     pub(super) ready_target: Option<&'a GithubReadyTarget>,
     pub(super) recovery_intent_digest: Option<&'a str>,
-    pub(super) head_available_recovery: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -487,8 +445,6 @@ pub struct StagedGithubMutation {
     pub(super) merge: Option<StagedMerge>,
     pub(super) preexisting: bool,
     pub(super) recovery: Option<GithubMutationRecovery>,
-    pub(super) legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
-    pub(super) legacy_non_effect_disposition_source: Option<CoordinationEvidence>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

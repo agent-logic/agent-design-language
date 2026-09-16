@@ -555,8 +555,6 @@ fn run_simple_issue_create(args: &[String]) -> Result<String, String> {
             expected_head_sha: args.expected_head,
             credential_names: vec![args.credential_name],
             recovery: None,
-            legacy_non_effect_disposition: None,
-            legacy_non_effect_disposition_source: None,
             mutation: GithubMutation::IssueCreate {
                 title: args.title,
                 body,
@@ -606,8 +604,6 @@ fn run_simple_issue_close(args: &[String]) -> Result<String, String> {
             expected_head_sha: args.expected_head,
             credential_names: vec![args.credential_name],
             recovery: None,
-            legacy_non_effect_disposition: None,
-            legacy_non_effect_disposition_source: None,
             mutation: GithubMutation::IssueClose {
                 rationale: args.rationale,
                 current_body: args.current_body,

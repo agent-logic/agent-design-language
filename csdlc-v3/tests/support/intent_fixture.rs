@@ -509,8 +509,6 @@ impl Fixture {
   printf 'pr-update\n' >> "$base/remote-effects"; cat "$base/remote-pr.json" ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls\?*)
   printf '['; if test -f "$base/remote-pr.json"; then cat "$base/remote-pr.json"; fi; printf ']' ;;
- GET:https://api.github.com/repos/agent-logic/agent-design-language/git/ref/heads/*)
-  printf '%s' '{"ref":"refs/heads/@BRANCH@","object":{"type":"commit","sha":"@HEAD@"}}' ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639)
   if test -f "$base/drop-readback"; then exit 9; fi
   cat "$base/remote-pr.json" ;;

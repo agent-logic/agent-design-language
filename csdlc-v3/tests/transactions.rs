@@ -1643,8 +1643,6 @@ mod semantic_gate_a {
             expected_head_sha: "head".into(),
             credential_names: vec!["GITHUB_TOKEN".into()],
             recovery: None,
-            legacy_non_effect_disposition: None,
-            legacy_non_effect_disposition_source: None,
             mutation: GithubMutation::IssueCreate {
                 title: format!("created {assigned_issue}"),
                 body: "body".into(),

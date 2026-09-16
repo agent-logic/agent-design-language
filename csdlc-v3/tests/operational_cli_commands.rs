@@ -1086,8 +1086,6 @@ fn legacy_github_routes_are_retired_before_mutation_dispatch() {
             expected_head_sha: head.clone(),
             credential_names: vec!["GITHUB_TOKEN".into()],
             recovery: None,
-            legacy_non_effect_disposition: None,
-            legacy_non_effect_disposition_source: None,
             mutation: GithubMutation::IssueCreate {
                 title: "new issue".into(),
                 body: "body".into(),
@@ -1123,8 +1121,6 @@ fn legacy_github_routes_are_retired_before_mutation_dispatch() {
             expected_head_sha: head,
             credential_names: vec!["GITHUB_TOKEN".into()],
             recovery: None,
-            legacy_non_effect_disposition: None,
-            legacy_non_effect_disposition_source: None,
             mutation: GithubMutation::PullRequestReady,
         }),
     };
@@ -1163,8 +1159,6 @@ fn legacy_github_pr_ready_is_retired_before_transport() {
             expected_head_sha: head.clone(),
             credential_names: vec!["GITHUB_TOKEN".into()],
             recovery: None,
-            legacy_non_effect_disposition: None,
-            legacy_non_effect_disposition_source: None,
             mutation: GithubMutation::PullRequestReady,
         }),
     };

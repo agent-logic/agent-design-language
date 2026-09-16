@@ -256,42 +256,23 @@ dispatch, no-authorization and identity/lookup failures, already-ready races,
 one-shot uncertain recovery, reconciliation replay and private input cleanup.
 No live GitHub mutation or logging-channel change is involved.
 
-### Retained pull-request-create recovery after branch publication
+### Pull-request-create recovery after branch publication
 
-A first PR-create recovery now checks authenticated PR absence and resolves the
-remote branch to the retained expected SHA before consuming its recovery
-receipt or dispatching. A missing or wrong remote head therefore remains
-retryable without crossing the mutation boundary.
+Before consuming the single authenticated-absence recovery for PR creation,
+the owner now resolves the exact remote branch through authenticated readback
+and requires its commit SHA to match the retained expected head. A missing,
+malformed, or different branch remains retryable because the recovery receipt
+is not written and no mutation is dispatched.
 
-Already-consumed v1 receipts do not prove whether their prior POST crossed that
-boundary. They remain ineligible by default. A narrower migration stage is
-available only when an operation-bound typed disposition and its definitive
-non-effect evidence already exist as reviewed bytes on canonical `origin/main`.
-The route reads both objects from Git, verifies their BLAKE3 digests, and then
-requires the disposition to bind the repository, issue, operation and intent
-digests, immutable request digest, authority digest, expected head, enumerated
-reason, evidence path and digest, operator, and authorization reference. The
-recovery request therefore references prior authority; it cannot create that
-authority itself. The #1013 record added by #1018 is the first canonical
-disposition, not a compiled issue exception.
+An already-consumed recovery remains ineligible for another dispatch. Current
+PR absence, later branch availability, missing response bytes, and missing
+reconciliation receipts do not prove that the earlier request had no effect.
+The owner may reconcile an exact PR that later becomes observable, but it does
+not infer historical non-effect or create a second recovery allowance.
 
-An admitted operation still requires authenticated PR-by-head absence and exact
-Git-ref readback. A missing or changed canonical disposition, changed evidence,
-any PR for that head, a different or malformed branch result, stale authority,
-changed intent, or unavailable readback fails before mutation. Only after those
-checks pass does the route cache a create-only local copy of the disposition.
-
-Before dispatch, the route writes a separate create-only
-`github_mutation_head_available_recovery.v1` receipt. Its existence permanently
-prevents another dispatch through this stage; later invocations can only
-reconcile the exact PR. The original intent and recovery receipt remain
-immutable.
-
-PVF: `consumed_pr_create_recovery_*`,
-`pr_create_recovery_checks_remote_head_before_consuming_first_retry` and
+PVF: `pr_create_recovery_*` and
 `github_read_only_adapter_supports_exact_branch_head_readback` are required
-deterministic local tests with fake authenticated transport. They cover the
-semantic staged route, canonical disposition and evidence admission, arbitrary
-issue identities without an allowlist, rejection of unclassified or
-self-authored receipts, exact head and absence gates, stale authority,
-conflicting PR state and one-shot replay protection without live GitHub writes.
+deterministic tests with fake authenticated transport. They cover exact branch
+admission before the first retry, missing and wrong-head rejection without
+consuming the allowance, successful one-shot dispatch, and fail-closed handling
+of an already-consumed uncertain operation.
