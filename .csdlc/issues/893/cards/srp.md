@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "The remediation changed production path authority and tests after the failed review. A different canonical fresh-session reviewer must inspect the final current-base immutable commit. No #894/#895 implementation scope is included."
+notes: "The reviewer found no product-code defect and confirmed completed four-lane synthesis authority, exact evidence-path mapping including spaces and root dotfiles, removal of semantic-anchor inference, manifest-bound readback, canonical replanning, create-only output behavior, and no #894/#895 scope. A different canonical fresh-session reviewer must review the metadata-only lifecycle repair at the new immutable head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Canonical exact-head review of e090b75bf3922c642e09e749136e5e62b06f766f by fresh-session:1f19bfd4-51a6-4860-bbdf-a9da737c302d returned FAIL with one P1: ingestion admits valid repository paths containing spaces and other ASCII graphic characters, while remediation used a narrower grammar, silently discarded exact evidence paths, and could infer truncated semantic-anchor fragments such as docs/My and File.md instead of docs/My File.md. The generation-13 SOR therefore overstated complete evidence-path binding.
+- Canonical exact-head review of 2cf04aec0163c28ca92b98c8b1dc98da13b48ebb by fresh-session:f6894528-9800-450d-99a4-409d3f715bc2 returned FAIL with one P2 lifecycle-truth finding and no product-code findings: the SOR still described current-main reconciliation and proof replay as pending even though the reviewed revision already merged current origin/main e24e0438e40d1f716bd0653ea369d06450827230 and passed the complete focused proof.
 
 ### Dispositions
 
-- Finding accepted and remediated. Remediation now uses the shared ingestion validate_path contract, requires every synthesized evidence ID to resolve to an exact admitted evidence path, propagates any missing or invalid binding as an error, and no longer infers repository paths from semantic-anchor text. A completed canonical ReviewRecord fixture with docs/My File.md proves exact preservation and documentation ownership; the focused suite now passes 9/9.
+- Finding accepted and remediated through the typed SOR editor. The SOR now records current-main reconciliation as complete at merge head 2cf04aec0163c28ca92b98c8b1dc98da13b48ebb, records the post-merge 9/9 focused proof plus formatting, strict Clippy, and diff hygiene as complete, and leaves only a different fresh exact-head review and corrective native publication/CI pending.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-The remediation changed production path authority and tests after the failed review. A different canonical fresh-session reviewer must inspect the final current-base immutable commit. No #894/#895 implementation scope is included.
+The reviewer found no product-code defect and confirmed completed four-lane synthesis authority, exact evidence-path mapping including spaces and root dotfiles, removal of semantic-anchor inference, manifest-bound readback, canonical replanning, create-only output behavior, and no #894/#895 scope. A different canonical fresh-session reviewer must review the metadata-only lifecycle repair at the new immutable head.

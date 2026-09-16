@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][CF-REMEDIATE] Generate a bounded remediation plan from review findings
 Branch: codex/893-v0922-remediation-planner
 Card Status: ready
-Status: implemented_remediated_pending_fresh_review_publication_ci
+Status: implemented_current_main_reconciled_proof_passed_pending_fresh_review_publication_ci
 Generated: 2026-09-12T00:10:02.687479+00:00
 
 Execution:
@@ -57,7 +57,7 @@ Implemented and remediated the CodeFriend remediation planner for #893. Every pu
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
+- Completion state: `implemented_current_main_reconciled_proof_passed_pending_fresh_review_publication_ci`
 - Issue goal ref: `Sprint 4 #930 active goal covers #893 execution in this session; single goal slot prevented replacing it with a separate child goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/893/goal-metrics.json (planned, absent until execution)`
@@ -86,13 +86,13 @@ Implemented and remediated the CodeFriend remediation planner for #893. Every pu
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs`
 - Worktree-only paths remaining: `.csdlc/issues/893/ and .csdlc/transactions/completed/893/ are generated lifecycle material in the bound worktree until publication/finish; implementation source changes are tracked candidate paths.`
-- Integration state: `worktree_candidate_ready_for_current_base_reconciliation_and_fresh_review`
+- Integration state: `current_main_reconciled_post_merge_proof_passed_pending_fresh_review_and_corrective_publication`
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
     `Confirms every production planner verifies canonical completed synthesis, uses exact admitted evidence paths without semantic-anchor inference, reads only the declared plan artifact, preserves source bytes, and passes the PR lint surface.`
-- Result: `not_integrated`
+- Result: `Merged current origin/main e24e0438e40d1f716bd0653ea369d06450827230 into the issue branch without conflicts, producing 2cf04aec0163c28ca92b98c8b1dc98da13b48ebb; reran codefriend_remediate 9/9, cargo fmt, strict all-target/all-feature Clippy, and git diff --check successfully.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -174,5 +174,5 @@ verification_summary:
 - `The production proof consumes the retained completed Vector CF-SYNTHESIS bundle and exercises local negative fixtures. It does not rerun external providers, create GitHub issues, or claim publication authority.`
 
 ## Follow-ups / Deferred work
-- `Commit the evidence-path contract remediation, reconcile current origin/main without widening scope, rerun proof, and obtain a different canonical fresh-session exact-head review.`
+- `Obtain a different canonical fresh-session exact-head review of the metadata-only lifecycle-truth repair at the new immutable commit.`
 - `On PASS, publish the corrective PR through native C-SDLC and observe renewed CI before terminal reconciliation.`
