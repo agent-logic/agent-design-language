@@ -968,50 +968,7 @@ pub(super) fn dispatch_github_mutation_after_intent(
         ensure_recovery_available(repo_root, context.operation_digest)?;
     }
     verify_coordination(repo_root, request, process)?;
-    let input_path = write_mutation_input(
-        repo_root,
-        context.operation_digest,
-        context.operation_marker,
-        request,
-        context.ready_target,
-    )?;
-    let prepared = (|| {
-        let invocation = github_mutation_invocation(request, &input_path)?
-            .with_child_credential(context.credential_name.to_owned())
-            .map_err(|_| {
-                remote_finding(
-                    "github_credential_scope_invalid",
-                    "GitHub credential name is not safe for child-process injection",
-                )
-            })?;
-        if let Some(intent_digest) = context
-            .recovery_intent_digest
-            .filter(|_| !context.reuse_rejected_recovery)
-        {
-            persist_recovery_receipt(
-                repo_root,
-                request,
-                context.operation_digest,
-                intent_digest,
-                context.ready_target,
-            )?;
-        } else if let Some(intent_digest) = context.recovery_intent_digest {
-            persist_rejected_recovery_attempt(
-                repo_root,
-                request,
-                context.operation_digest,
-                intent_digest,
-            )?;
-        }
-        Ok(invocation)
-    })();
-    let invocation = match prepared {
-        Ok(invocation) => invocation,
-        Err(finding) => {
-            let _ = fs::remove_file(&input_path);
-            return Err(finding);
-        }
-    };
+    let (input_path, invocation) = prepare_github_mutation_dispatch(repo_root, request, &context)?;
     let output = process.run(invocation.clone());
     let _ = fs::remove_file(&input_path);
     // curl's --fail-with-body contract uses 22 only for an authenticated HTTP
