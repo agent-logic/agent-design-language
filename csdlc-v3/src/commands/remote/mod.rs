@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 
+mod coordination;
 pub mod intent;
+pub use coordination::{CoordinationCompletion, CoordinationEvidence};
 mod merge;
 mod merge_linkage;
 pub use merge::{merge_state_query, MergeMethod};
@@ -194,6 +196,9 @@ pub enum GithubMutation {
         duplicate_of: Option<u64>,
         #[serde(default)]
         github_state_reason: Option<IssueCloseStateReason>,
+    },
+    IssueCompleteCoordination {
+        completion: CoordinationCompletion,
     },
     PullRequestCreate {
         base: String,
@@ -1503,6 +1508,7 @@ pub fn stage_github_mutation(
         intent_digest = github_mutation_intent_digest(&intent);
         preflight_github_credential(&credential_name, process)?;
         if !preexisting {
+            coordination::verify(repo_root, request, process)?;
             persist_json_create_new(&intent_path, &intent)?;
         }
         None
@@ -1777,6 +1783,8 @@ pub fn execute_github_mutation(
         intent.resolved_edit = Some(resolve_issue_edit(request, process)?);
     } else if matches!(request.mutation, GithubMutation::PullRequestReady) {
         intent.resolved_ready_target = Some(resolve_ready_target(request, process)?);
+    } else {
+        coordination::verify(repo_root, request, process)?;
     }
     let intent_digest = github_mutation_intent_digest(&intent);
     let mut effective_request = request.clone();
@@ -2118,6 +2126,7 @@ fn dispatch_github_mutation_after_intent(
     if context.recovery_intent_digest.is_some() {
         ensure_recovery_available(repo_root, context.operation_digest)?;
     }
+    coordination::verify(repo_root, request, process)?;
     let input_path = write_mutation_input(
         repo_root,
         context.operation_digest,
@@ -2376,6 +2385,7 @@ fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteF
             "GitHub mutation requires the canonical exact review SHA",
         ));
     }
+    coordination::validate(request)?;
     match &request.mutation {
         GithubMutation::IssueCreate { title, body, .. }
             if title.trim().is_empty() || body.trim().is_empty() || request.pull_request.is_some() =>
@@ -2465,7 +2475,7 @@ fn github_mutation_invocation(
         GithubMutation::IssueEdit { .. } => {
             format!("repos/{}/issues/{}", request.repository, request.issue)
         }
-        GithubMutation::IssueClose { .. } => {
+        GithubMutation::IssueClose { .. } | GithubMutation::IssueCompleteCoordination { .. } => {
             format!("repos/{}/issues/{}", request.repository, request.issue)
         }
         GithubMutation::PullRequestCreate { .. } => format!("repos/{}/pulls", request.repository),
@@ -2501,6 +2511,7 @@ fn github_mutation_invocation(
         request.mutation,
         GithubMutation::IssueEdit { .. }
             | GithubMutation::IssueClose { .. }
+            | GithubMutation::IssueCompleteCoordination { .. }
             | GithubMutation::PullRequestUpdate { .. }
     ) {
         "PATCH"
@@ -2546,6 +2557,10 @@ fn write_mutation_input(
     })?;
     let path = dir.join(format!("github-mutation-{digest}.json"));
     let value = match &request.mutation {
+        GithubMutation::IssueCompleteCoordination { completion } => serde_json::json!({
+            "state":"closed", "state_reason":"completed",
+            "body":body_with_operation_marker(&completion.current_body, operation_marker)
+        }),
         GithubMutation::IssueCreate {
             title,
             body,
@@ -2740,6 +2755,16 @@ fn validate_mutation_response(
         ));
     }
     match request.mutation {
+        GithubMutation::IssueCompleteCoordination { .. }
+            if value["number"] != request.issue
+                || value["state"] != "closed"
+                || value["state_reason"] != "completed" =>
+        {
+            Err(remote_finding(
+                "github_coordination_readback_mismatch",
+                "coordination completion response identity or completed state mismatch",
+            ))
+        }
         GithubMutation::IssueCreate { .. } if value["number"].as_u64().is_none() => {
             Err(remote_finding(
                 "github_issue_readback_missing",
@@ -2962,11 +2987,13 @@ fn github_mutation_reconciliation_invocation(
             request.repository.clone(),
             request.issue.to_string(),
         ],
-        GithubMutation::IssueClose { .. } => vec![
-            "issue".into(),
-            request.repository.clone(),
-            request.issue.to_string(),
-        ],
+        GithubMutation::IssueClose { .. } | GithubMutation::IssueCompleteCoordination { .. } => {
+            vec![
+                "issue".into(),
+                request.repository.clone(),
+                request.issue.to_string(),
+            ]
+        }
         GithubMutation::PullRequestCreate { head, .. } => vec![
             "pull-requests-by-head".into(),
             request.repository.clone(),
@@ -3058,6 +3085,21 @@ fn match_reconciled_mutation(
                             .get("milestone")
                             .is_some_and(serde_json::Value::is_null),
                     })
+            }
+            GithubMutation::IssueCompleteCoordination { completion } => {
+                candidate["number"] == request.issue
+                    && candidate["html_url"]
+                        == format!(
+                            "https://github.com/{}/issues/{}",
+                            request.repository, request.issue
+                        )
+                    && candidate["state"] == "closed"
+                    && candidate["state_reason"] == "completed"
+                    && candidate["body"].as_str()
+                        == Some(
+                            body_with_operation_marker(&completion.current_body, operation_marker)
+                                .as_str(),
+                        )
             }
             GithubMutation::IssueClose {
                 rationale,

@@ -51,3 +51,7 @@ covers authenticated no-PR observation, missing/ambiguous request failures, stal
 closure timestamps, idempotent persistence, conflict preservation and cleanup
 identity. These are deterministic offline tooling tests; live issue reconciliation
 is separate operational evidence.
+
+For an open coordination-only umbrella, use the explicitly authorized
+[native coordination completion route](COORDINATION_COMPLETION.md) first.
+The existing no-PR finish route observes closure; it does not close an open issue.

@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1006,
+  "phase": "bound",
+  "generation": 6,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1006-v0922-native-coordination-completion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1006-v0922-native-coordination-completion",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "ae825ab4d8dc525c06fb49b221c35c9885565632285afc4786f7822ceeb739df"
+}

@@ -1,0 +1,472 @@
+{
+  "schema": "csdlc.v3.installed_intent_attempts.v1",
+  "issue": 869,
+  "provenance": {
+    "source_head": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+    "source_has_uncommitted_changes": true,
+    "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8",
+    "source_binding": "Candidate copied byte-for-byte from this test build; final accepted source installation requires renewed exact-head proof"
+  },
+  "attempted": 4,
+  "attempts": [
+    {
+      "argv": [
+        "prepare",
+        "505",
+        "--plan",
+        "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+      ],
+      "topology": "primary",
+      "attempt_id": "4716-7-changed_evidence-1",
+      "exit_code": 0,
+      "elapsed_millis": 958,
+      "result": {
+        "schema": "csdlc.v3.intent_local.v1",
+        "read_only": false,
+        "operational_authority": true,
+        "writes_v3_state": true,
+        "status": "completed",
+        "issue": 505,
+        "semantic_version": {
+          "generation": 2,
+          "digest": "semantic-state-v1:b3b741e7e18f4988ea1e5aacbda5bc55c68ddedc2e924c5e78b3a08287d97589"
+        },
+        "inputs": {
+          "revision": 1,
+          "digest": "semantic-input-v1:e2ef003d6397f08f05d3f3ee99ada6a2f60380c4cc081d0f2ac5b2ebb0f15a54"
+        },
+        "phase": "ready",
+        "request_issue": 505,
+        "request_expected_lifecycle_digest": null,
+        "intent_snapshot": {
+          "repository": "agent-logic/agent-design-language",
+          "issue": 505,
+          "platform": "macos",
+          "authority": {
+            "selector_digest": "0e456ad3d27203ed17bcc2203cd67b04472f132f657ee2cf3e941d2bca61cb8c"
+          },
+          "version": {
+            "generation": null,
+            "digest": null
+          },
+          "checkout": {
+            "branch": "main",
+            "head": "195a27a73f037c14ae02a174a36db7f2f084d3d4",
+            "root": "$FIXTURE_ROOT"
+          }
+        },
+        "resolution_metrics": {
+          "application_git_reads": 24,
+          "canonical_authority_file_reads": 36,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "envelope": {
+          "schema": "csdlc.v3.command_result.v1",
+          "command": "prepare",
+          "issue": {
+            "status": "identified",
+            "number": 505
+          },
+          "status": "completed",
+          "process_status": "succeeded",
+          "authority_status": "verified",
+          "issue_version": {
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": null
+            },
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            }
+          },
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "findings": [],
+          "reason_code": "command_completed",
+          "allowed_next_operations": [],
+          "correlation_id": "8522-1789527823338",
+          "intent_identity": null,
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "timing": {
+            "started_unix_ms": 1789527823338,
+            "monotonic_duration_ms": 955
+          },
+          "wait_owner": "none"
+        }
+      },
+      "input": {
+        "schema": "csdlc.v3.intent_plan.v1",
+        "slug": "installed-coordination-fixture",
+        "cards": {
+          "sip": {},
+          "stp": {},
+          "spp": {
+            "dependencies_inline": "Declared children complete",
+            "repo_inputs_inline": "Synthetic authenticated observations",
+            "target_files_surfaces_inline": "Installed coordination command",
+            "deliverables_inline": "Verify guarded completion",
+            "validation_plan_inline": "Installed synthetic transport",
+            "acceptance_criteria_inline": "Completion and finish reconcile",
+            "notes_risks_inline": "No live mutations"
+          },
+          "vpp": {},
+          "srp": {},
+          "sor": {}
+        },
+        "validators": [
+          {
+            "id": "fixture-proof",
+            "program": "cargo",
+            "args": [
+              "test",
+              "--manifest-path",
+              "fixture-proof/Cargo.toml",
+              "--offline"
+            ],
+            "success_marker": "test result: ok."
+          }
+        ],
+        "publication": {
+          "base": "main",
+          "title": "Installed coordination fixture",
+          "body": "Closes #505",
+          "draft": true
+        }
+      },
+      "stderr": "",
+      "git_observations": {
+        "read_invocations": 110,
+        "mutation_invocations": 0,
+        "unclassified_invocations": 1,
+        "authority_blob_reads": 27,
+        "total": 111,
+        "instrumentation": "actual child Git argv categories; observer log outside fixture inventory; in-process file reads are separate"
+      }
+    },
+    {
+      "argv": [
+        "bind",
+        "505"
+      ],
+      "topology": "primary",
+      "attempt_id": "4716-7-changed_evidence-2",
+      "exit_code": 0,
+      "elapsed_millis": 1137,
+      "result": {
+        "schema": "csdlc.v3.intent_local.v1",
+        "status": "completed",
+        "read_only": false,
+        "writes_v3_state": true,
+        "operational_authority": true,
+        "semantic_version": {
+          "generation": 5,
+          "digest": "semantic-state-v1:7ece9c36bee48a4c0e9722bbe0a7014ee294794f17d5da606a7dab3a7518daf3"
+        },
+        "operation_id": "semantic-operation-v1:06a271dea0dcb1650b9566faa19aff5b591ae5e832ca148f77b82cb495fb118b",
+        "native_effect_truth": "performed",
+        "request_issue": 505,
+        "request_expected_lifecycle_digest": "d0d10306ac718607f97e6822852b251b5ed012009a79c21eba68a2a689d79cae",
+        "intent_snapshot": {
+          "repository": "agent-logic/agent-design-language",
+          "issue": 505,
+          "platform": "macos",
+          "authority": {
+            "selector_digest": "0e456ad3d27203ed17bcc2203cd67b04472f132f657ee2cf3e941d2bca61cb8c"
+          },
+          "version": {
+            "generation": 1,
+            "digest": "d0d10306ac718607f97e6822852b251b5ed012009a79c21eba68a2a689d79cae"
+          },
+          "checkout": {
+            "branch": "main",
+            "head": "195a27a73f037c14ae02a174a36db7f2f084d3d4",
+            "root": "$FIXTURE_ROOT"
+          }
+        },
+        "resolution_metrics": {
+          "application_git_reads": 42,
+          "canonical_authority_file_reads": 40,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "envelope": {
+          "schema": "csdlc.v3.command_result.v1",
+          "command": "bind",
+          "issue": {
+            "status": "identified",
+            "number": 505
+          },
+          "status": "completed",
+          "process_status": "succeeded",
+          "authority_status": "verified",
+          "issue_version": {
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "d0d10306ac718607f97e6822852b251b5ed012009a79c21eba68a2a689d79cae"
+            },
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            }
+          },
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "findings": [],
+          "reason_code": "command_completed",
+          "allowed_next_operations": [],
+          "correlation_id": "8750-1789527824298",
+          "intent_identity": null,
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "timing": {
+            "started_unix_ms": 1789527824298,
+            "monotonic_duration_ms": 1134
+          },
+          "wait_owner": "none"
+        }
+      },
+      "input": null,
+      "stderr": "",
+      "git_observations": {
+        "read_invocations": 128,
+        "mutation_invocations": 2,
+        "unclassified_invocations": 3,
+        "authority_blob_reads": 30,
+        "total": 133,
+        "instrumentation": "actual child Git argv categories; observer log outside fixture inventory; in-process file reads are separate"
+      }
+    },
+    {
+      "argv": [
+        "github-issue",
+        "505",
+        "--operation",
+        "$FIXTURE_ROOT/.git/installed-candidate/completion.json",
+        "--execute"
+      ],
+      "topology": "linked",
+      "attempt_id": "4716-7-changed_evidence-3",
+      "exit_code": 2,
+      "elapsed_millis": 1471,
+      "result": {
+        "status": "recovery_required",
+        "read_only": false,
+        "operational_authority": true,
+        "performed_mutation": null,
+        "effects_unknown": true,
+        "allowed_next": [
+          "recover"
+        ],
+        "request_issue": 505,
+        "request_expected_lifecycle_digest": "99ad8cefb833fcb82bd42a69350b89fdac188766a682445545042e4ec07b2863",
+        "intent_snapshot": {
+          "repository": "agent-logic/agent-design-language",
+          "issue": 505,
+          "platform": "macos",
+          "authority": {
+            "selector_digest": "0e456ad3d27203ed17bcc2203cd67b04472f132f657ee2cf3e941d2bca61cb8c"
+          },
+          "version": {
+            "generation": 2,
+            "digest": "99ad8cefb833fcb82bd42a69350b89fdac188766a682445545042e4ec07b2863"
+          },
+          "checkout": {
+            "branch": "codex/505-installed-coordination-fixture",
+            "head": "195a27a73f037c14ae02a174a36db7f2f084d3d4",
+            "root": "$FIXTURE_ROOT/worktrees/adl-issue-505-installed-coordination-fixture"
+          }
+        },
+        "resolution_metrics": {
+          "application_git_reads": 60,
+          "canonical_authority_file_reads": 52,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "envelope": {
+          "schema": "csdlc.v3.command_result.v1",
+          "command": "github-issue",
+          "issue": {
+            "status": "identified",
+            "number": 505
+          },
+          "status": "recovery_required",
+          "process_status": "failed",
+          "authority_status": "verified",
+          "issue_version": {
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "99ad8cefb833fcb82bd42a69350b89fdac188766a682445545042e4ec07b2863"
+            },
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            }
+          },
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "unknown"
+          },
+          "findings": [],
+          "reason_code": "command_failed",
+          "allowed_next_operations": [
+            "recover"
+          ],
+          "correlation_id": "9032-1789527825442",
+          "intent_identity": null,
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "timing": {
+            "started_unix_ms": 1789527825442,
+            "monotonic_duration_ms": 1468
+          },
+          "wait_owner": "operator"
+        }
+      },
+      "input": {
+        "action": "issue_complete_coordination",
+        "operator_approval": "Synthetic operator approves this exact completion",
+        "completion": {
+          "current_body": "Preserve this coordinator prose exactly.\n\n<!-- csdlc-coordination:v1 {\"repository\":\"agent-logic/agent-design-language\",\"issue\":505,\"kind\":\"coordination_only\",\"children\":[{\"issue\":887,\"pull_request\":989,\"head_sha\":\"1111111111111111111111111111111111111111\"}]} -->",
+          "expected_updated_at": "2026-09-16T00:00:00Z",
+          "rationale": "All declared children have authenticated delivery evidence",
+          "evidence": [
+            {
+              "path": ".csdlc/evidence/505/coordination.json",
+              "digest": "6185a5721a498c5d03d81860e2b0cce3e41e6879bcb694f7aa11293b1aa35678"
+            }
+          ]
+        }
+      },
+      "stderr": "csdlc: command_failed; see structured stdout findings\n",
+      "git_observations": {
+        "read_invocations": 154,
+        "mutation_invocations": 0,
+        "unclassified_invocations": 0,
+        "authority_blob_reads": 39,
+        "total": 154,
+        "instrumentation": "actual child Git argv categories; observer log outside fixture inventory; in-process file reads are separate"
+      }
+    },
+    {
+      "argv": [
+        "github-issue",
+        "505",
+        "--operation",
+        "$FIXTURE_ROOT/.git/installed-candidate/retry.json",
+        "--execute"
+      ],
+      "topology": "linked",
+      "attempt_id": "4716-7-changed_evidence-4",
+      "exit_code": 2,
+      "elapsed_millis": 1308,
+      "result": {
+        "status": "recovery_required",
+        "read_only": false,
+        "operational_authority": true,
+        "performed_mutation": null,
+        "effects_unknown": true,
+        "allowed_next": [
+          "recover"
+        ],
+        "request_issue": 505,
+        "request_expected_lifecycle_digest": "99ad8cefb833fcb82bd42a69350b89fdac188766a682445545042e4ec07b2863",
+        "intent_snapshot": {
+          "repository": "agent-logic/agent-design-language",
+          "issue": 505,
+          "platform": "macos",
+          "authority": {
+            "selector_digest": "0e456ad3d27203ed17bcc2203cd67b04472f132f657ee2cf3e941d2bca61cb8c"
+          },
+          "version": {
+            "generation": 2,
+            "digest": "99ad8cefb833fcb82bd42a69350b89fdac188766a682445545042e4ec07b2863"
+          },
+          "checkout": {
+            "branch": "codex/505-installed-coordination-fixture",
+            "head": "195a27a73f037c14ae02a174a36db7f2f084d3d4",
+            "root": "$FIXTURE_ROOT/worktrees/adl-issue-505-installed-coordination-fixture"
+          }
+        },
+        "resolution_metrics": {
+          "application_git_reads": 60,
+          "canonical_authority_file_reads": 52,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "envelope": {
+          "schema": "csdlc.v3.command_result.v1",
+          "command": "github-issue",
+          "issue": {
+            "status": "identified",
+            "number": 505
+          },
+          "status": "recovery_required",
+          "process_status": "failed",
+          "authority_status": "verified",
+          "issue_version": {
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "99ad8cefb833fcb82bd42a69350b89fdac188766a682445545042e4ec07b2863"
+            },
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            }
+          },
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "unknown"
+          },
+          "findings": [],
+          "reason_code": "command_failed",
+          "allowed_next_operations": [
+            "recover"
+          ],
+          "correlation_id": "9413-1789527826915",
+          "intent_identity": null,
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "timing": {
+            "started_unix_ms": 1789527826915,
+            "monotonic_duration_ms": 1305
+          },
+          "wait_owner": "operator"
+        }
+      },
+      "input": {
+        "operation": {
+          "action": "issue_complete_coordination",
+          "operator_approval": "Synthetic operator approves this exact completion",
+          "completion": {
+            "current_body": "Preserve this coordinator prose exactly.\n\n<!-- csdlc-coordination:v1 {\"repository\":\"agent-logic/agent-design-language\",\"issue\":505,\"kind\":\"coordination_only\",\"children\":[{\"issue\":887,\"pull_request\":989,\"head_sha\":\"1111111111111111111111111111111111111111\"}]} -->",
+            "expected_updated_at": "2026-09-16T00:00:00Z",
+            "rationale": "All declared children have authenticated delivery evidence",
+            "evidence": [
+              {
+                "path": ".csdlc/evidence/505/coordination.json",
+                "digest": "6185a5721a498c5d03d81860e2b0cce3e41e6879bcb694f7aa11293b1aa35678"
+              }
+            ]
+          }
+        },
+        "recovery": "retry_after_authenticated_absence"
+      },
+      "stderr": "csdlc: command_failed; see structured stdout findings\n",
+      "git_observations": {
+        "read_invocations": 154,
+        "mutation_invocations": 0,
+        "unclassified_invocations": 0,
+        "authority_blob_reads": 39,
+        "total": 154,
+        "instrumentation": "actual child Git argv categories; observer log outside fixture inventory; in-process file reads are separate"
+      }
+    }
+  ]
+}
