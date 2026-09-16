@@ -6,3 +6,4 @@
 
 pub mod lanes;
 pub mod runner;
+pub mod synthesis;
