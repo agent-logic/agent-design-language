@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `Generated local test artifacts under adl/target/codefriend-remediate-tests; no durable release bundle created before review/publication.`
 - Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-remediate-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture.`
 - Replay command used for verification: `CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/issue-893 cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/issue-893 cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/issue-893 cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD`
-- Replay result: `codefriend_remediate 9 passed; codefriend_testplan 8 passed; codefriend_ux 7 passed; fresh exact-head review PASS`
+- Replay result: `codefriend_remediate 9 passed; codefriend_testplan 8 passed; codefriend_ux 7 passed; cargo fmt passed; git diff --check origin/main...HEAD passed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
@@ -174,5 +174,5 @@ verification_summary:
 - `The production proof consumes the retained completed Vector CF-SYNTHESIS bundle and exercises local negative fixtures. It does not rerun external providers, create GitHub issues, or claim publication authority.`
 
 ## Follow-ups / Deferred work
-- `Obtain a distinct fresh exact-head review of the generation-16 replay-truth metadata repair.`
+- `Obtain a different fresh exact-head review of the generation-17 replay-result truth repair.`
 - `On PASS, push and update PR #1024 through native C-SDLC, observe renewed required standard CI, and merge only when exact green and clean.`
