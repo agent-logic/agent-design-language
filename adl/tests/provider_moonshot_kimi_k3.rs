@@ -338,10 +338,10 @@ config:
         Ok(_) => panic!("invalid reasoning effort should fail"),
         Err(err) => err,
     };
+    let chain = format!("{err:#}");
     assert!(
-        err.to_string()
-            .contains("reasoning_effort must be one of low, high, max"),
-        "{err:#}"
+        chain.contains("reasoning_effort must be one of low, high, max"),
+        "{chain}"
     );
 
     let mut req = kimi_invocation_request(

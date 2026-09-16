@@ -74,6 +74,37 @@ no declared token-limit wire contract. Omitting the Runtime cap preserves legacy
 payloads. Native DeepSeek/Kimi/OpenRouter/Bedrock/Z.ai use the same cap helper.
 These are output limits; this package does not claim generic input tokenization.
 
+## Effective AProvider configuration proof — issue #970
+
+The #970 additions are release-required provider-lane contract tests. They use
+bounded CPU and loopback HTTP only, with no external provider, credentials,
+model download, cloud resource, or paid call.
+
+| Test | Proof role | Resource profile |
+| --- | --- | --- |
+| `canonical_effective_configuration_is_redacted_stable_and_runtime_capped` | Canonical typed normalization, Runtime-cap minimum, endpoint-free projection, stable fingerprint | CPU only |
+| `unsupported_invalid_conflicting_and_executable_controls_fail_before_dispatch` | Unsupported codec controls, invalid/excessive values, alias conflicts, and executable-authority keys reject during target construction | CPU only; no adapter I/O |
+| `ollama_profile_and_explicit_definition_share_effective_configuration` | Profile and explicit AProvider paths converge on identical effective values and fingerprint | CPU only |
+| `ollama_http_provider_forwards_canonical_effective_controls` | Context, effective output cap, temperature, top-p, seed, think, and keep-alive reach the Ollama request body; timeout remains client-side | One loopback request |
+| `vertex_adc_and_workload_identity_environment_overrides_are_supported` | Vertex ADC and workload-identity credential strategies retain their supported environment override through typed target normalization | CPU only; no credential resolution |
+| `vertex_thinking_controls_are_bound_into_inference_identity` | Vertex thinking budget and include-thoughts enter effective configuration and materially different budgets produce distinct fingerprints | CPU only |
+| `built_in_mock_profile_validates_without_phantom_inference_controls` | The built-in echo profile remains usable without claiming or materializing controls its in-process codec cannot consume | CPU only |
+| `deepgram_profile_materializes_only_its_consumed_timeout_control` | Reload-candidate validation routes Deepgram through its speech constructor, retains the client timeout, and omits unsupported text sampling/output defaults | CPU only; no credential resolution or request |
+
+Existing HTTP-family tests continue to exercise the declared common-control
+codecs. Issue #970 adds the canonical support declaration and makes supplied
+controls fail before dispatch when the selected codec does not consume them.
+The local CLI constructor test now also treats an invalid declared timeout as an
+error after Runtime mode is removed; it no longer preserves silently ignored
+invalid AProvider data.
+
+The ADL provider integration suite also runs against this boundary: 72 tests
+passed and the credentialed Deepgram live round trip remained explicitly
+ignored. Its compatibility assertions now require typed timeout scalars,
+fail-closed local Ollama controls, canonical credential-strategy errors, and
+profile expansion without phantom text-inference defaults for mock or Deepgram
+speech codecs.
+
 `ADL_PROVIDER_CA_FILE` is an optional process-owner PEM trust bundle, limited to
 64 KiB. It appends trusted roots to all HTTP-family reqwest clients and never disables
 certificate verification or redirects. Provider/agent configuration cannot set

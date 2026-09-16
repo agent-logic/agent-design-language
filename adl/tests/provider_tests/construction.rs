@@ -59,7 +59,7 @@ config:
 }
 
 #[test]
-fn ollama_from_spec_parses_temperature_float() {
+fn local_ollama_rejects_float_temperature_it_cannot_consume() {
     let spec = provider_spec_from_yaml(
         r#"
 type: ollama
@@ -69,13 +69,12 @@ config:
 "#,
     );
 
-    let p = OllamaProvider::from_spec(&spec, None).expect("from_spec failed");
-    assert_eq!(p.model, "llama3.1:8b");
-    assert_eq!(p.temperature, Some(0.7_f32));
+    let err = OllamaProvider::from_spec(&spec, None).unwrap_err();
+    assert!(err.to_string().contains("does not consume temperature"));
 }
 
 #[test]
-fn ollama_from_spec_parses_temperature_int() {
+fn local_ollama_rejects_integer_temperature_it_cannot_consume() {
     let spec = provider_spec_from_yaml(
         r#"
 type: ollama
@@ -85,12 +84,12 @@ config:
 "#,
     );
 
-    let p = OllamaProvider::from_spec(&spec, None).expect("from_spec failed");
-    assert_eq!(p.temperature, Some(1.0_f32));
+    let err = OllamaProvider::from_spec(&spec, None).unwrap_err();
+    assert!(err.to_string().contains("does not consume temperature"));
 }
 
 #[test]
-fn ollama_from_spec_parses_temperature_string() {
+fn local_ollama_rejects_quoted_temperature_before_codec_selection() {
     let spec = provider_spec_from_yaml(
         r#"
 type: ollama
@@ -100,8 +99,10 @@ config:
 "#,
     );
 
-    let p = OllamaProvider::from_spec(&spec, None).expect("from_spec failed");
-    assert_eq!(p.temperature, Some(0.25_f32));
+    let err = OllamaProvider::from_spec(&spec, None).unwrap_err();
+    assert!(err
+        .to_string()
+        .contains("config.temperature must be a finite number"));
 }
 
 #[test]

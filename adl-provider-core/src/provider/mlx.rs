@@ -35,7 +35,7 @@ impl MlxProvider {
         Self::validated(spec, target)
     }
 
-    fn validated(spec: &adl::ProviderSpec, target: &ProviderInvocationTargetV1) -> Result<Self> {
+    fn validated(_spec: &adl::ProviderSpec, target: &ProviderInvocationTargetV1) -> Result<Self> {
         if target.provider_kind != "mlx"
             || target.capabilities.tool_calling.supported
             || target.capabilities.semantic_tool_fallback.supported
@@ -78,51 +78,28 @@ impl MlxProvider {
                 "explicit bounded model identity is required",
             ));
         }
-        let integer = |key: &str, maximum| -> Result<u64> {
-            spec.config
-                .get(key)
-                .and_then(Value::as_u64)
-                .filter(|n| *n > 0 && *n <= maximum)
-                .ok_or_else(|| {
-                    invalid_config("mlx", format!("{key} must be an integer in 1..={maximum}"))
-                })
-        };
-        let number = |key: &str, default: f64, minimum: f64, maximum: f64| -> Result<f64> {
-            let value = match spec.config.get(key) {
-                None => default,
-                Some(v) => v
-                    .as_f64()
-                    .ok_or_else(|| invalid_config("mlx", format!("{key} must be numeric")))?,
-            };
-            if !value.is_finite() || value < minimum || value > maximum {
-                return Err(invalid_config(
-                    "mlx",
-                    format!("{key} outside supported range"),
-                ));
-            }
-            Ok(value)
-        };
+        let effective = &target.effective_inference;
         Ok(Self {
             endpoint,
             model: target.provider_model_id.clone(),
-            timeout: Duration::from_secs(integer("timeout_secs", 120)?),
-            max_tokens: integer("max_output_tokens", 512)?,
-            temperature: number("temperature", 0.0, 0.0, 2.0)?,
-            top_p: number("top_p", 1.0, 0.0, 1.0)?,
-            seed: match spec.config.get("deterministic_seed") {
-                None => None,
-                Some(value) => Some(
-                    value
-                        .as_u64()
-                        .and_then(|n| u32::try_from(n).ok())
-                        .ok_or_else(|| {
-                            invalid_config(
-                                "mlx",
-                                "deterministic_seed must be an integer in 0..=4294967295",
-                            )
-                        })?,
-                ),
-            },
+            timeout: Duration::from_secs(effective.timeout_secs.ok_or_else(|| {
+                invalid_config("mlx", "timeout_secs must be an integer in 1..=120")
+            })?),
+            max_tokens: effective.max_output_tokens.ok_or_else(|| {
+                invalid_config("mlx", "max_output_tokens must be an integer in 1..=512")
+            })?,
+            temperature: effective.temperature.unwrap_or(0.0),
+            top_p: effective.top_p.unwrap_or(1.0),
+            seed: effective
+                .deterministic_seed
+                .map(u32::try_from)
+                .transpose()
+                .map_err(|_| {
+                    invalid_config(
+                        "mlx",
+                        "deterministic_seed must be an integer in 0..=4294967295",
+                    )
+                })?,
         })
     }
 }

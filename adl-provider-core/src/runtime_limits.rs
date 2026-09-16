@@ -23,6 +23,7 @@ pub(crate) fn runtime_output_cap(cfg: &HashMap<String, Value>) -> Result<Option<
         },
     }
 }
+#[cfg(test)]
 pub(super) fn bound_output_tokens(cfg: &HashMap<String, Value>, configured: u64) -> Result<u64> {
     match runtime_output_cap(cfg)? {
         Some(_) if configured == 0 => Err(invalid_config(
