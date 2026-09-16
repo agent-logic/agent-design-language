@@ -193,3 +193,116 @@ fn no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal() {
         "completed cleanup replay wrote state"
     );
 }
+
+// PVF #1039: installed deterministic local Git fixture; required cleanup
+// preview/execute parity regression; no network, provider, or paid resources.
+#[test]
+fn cleanup_preview_execute_accepts_stale_generated_projection() {
+    let mut fixture = Fixture::new("cleanup-stale-tracked-projection");
+    fixture.enable_issue_transport();
+    let primary = fixture.root.clone();
+    let plan = fixture.write_json(
+        "cleanup-projection-plan.json",
+        &json!({
+            "schema":"csdlc.v3.intent_plan.v1","slug":"cleanup-projection-parity",
+            "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"terminal cleanup projection admission","deliverables_inline":"Remove the exact terminal checkout","validation_plan_inline":"Installed cleanup parity journey","acceptance_criteria_inline":"The accepted preview token executes once","notes_risks_inline":"Cleanup-only projection exception"},"vpp":{},"srp":{},"sor":{}},
+            "validators":[{"id":"fixture-proof","program":"cargo","args":["test","--manifest-path","fixture-proof/Cargo.toml","--offline"],"success_marker":"test result: ok."}],
+            "publication":{"base":"main","title":"Cleanup projection parity","body":"Closes #870","draft":true}
+        }),
+    );
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", plan.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let binding: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/bindings/870.json")).unwrap(),
+    )
+    .unwrap();
+    let linked = std::path::PathBuf::from(binding["worktree"].as_str().unwrap());
+
+    intent_fixture::git(&linked, &["add", ".csdlc/v3/issues/870"]);
+    intent_fixture::git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Track generated lifecycle projections",
+        ],
+    );
+    let tracked_projection_head = intent_fixture::git(&linked, &["rev-parse", "HEAD"]);
+    intent_fixture::git(
+        &primary,
+        &["merge", "--quiet", "--ff-only", &tracked_projection_head],
+    );
+    intent_fixture::git(
+        &primary,
+        &[
+            "update-ref",
+            "refs/remotes/origin/main",
+            &tracked_projection_head,
+        ],
+    );
+    success(fixture.run(&linked, &["bind", "870"]));
+
+    let disposition = fixture.write_json(
+        "cleanup-projection-disposition.json",
+        &json!({"disposition":"retired_without_execution","operator":"synthetic-fixture","rationale":"Explicit administrative retirement; no implementation delivery","evidence_refs":["fixture:cleanup-projection-parity"]}),
+    );
+    let mut remote = fixture.remote_issue();
+    remote["state"] = json!("closed");
+    remote["updated_at"] = json!("2026-09-16T12:00:00Z");
+    remote["closed_at"] = json!("2026-09-16T12:00:00Z");
+    fs::write(
+        primary.join(".git/installed-candidate/remote-issue.json"),
+        serde_json::to_vec(&remote).unwrap(),
+    )
+    .unwrap();
+    success(fixture.run(
+        &linked,
+        &[
+            "finish",
+            "870",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+
+    intent_fixture::git(&linked, &["restore", ".csdlc/v3/issues/870"]);
+    assert!(
+        intent_fixture::git(&linked, &["status", "--porcelain", "--untracked-files=no"]).is_empty(),
+        "fixture must reproduce no tracked dirt with stale generated projections"
+    );
+
+    let repository = "agent-logic/agent-design-language";
+    let root = SemanticRoot::from_git_common(primary.join(".git"), repository).unwrap();
+    let key = IssueKey::new(repository, 870).unwrap();
+    assert!(matches!(
+        DurableTransactionStore::observe_issue(&root, &key).unwrap(),
+        Observation::ProjectionRepairRequired(_)
+    ));
+
+    let preview = success(fixture.run(&primary, &["clean", "870"]));
+    let token = preview["preview_token"].as_str().expect("cleanup token");
+    let removed =
+        success(fixture.run(&primary, &["clean", "870", "--execute", "--preview", token]));
+    assert_eq!(removed["status"], "completed");
+    assert!(!linked.exists());
+
+    let after = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        other => panic!("{other:?}"),
+    };
+    assert_eq!(
+        after.phase(),
+        csdlc_v3::lifecycle::LifecycleState::ClosedOut
+    );
+    assert!(after.pending().is_none());
+    assert_eq!(
+        after.completed().last().unwrap().truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::Performed
+    );
+}

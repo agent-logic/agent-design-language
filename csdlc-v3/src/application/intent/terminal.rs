@@ -41,7 +41,11 @@ fn semantic_for(
             return context.semantic_recovery_context(pending.id());
         }
     }
-    context.semantic_context()
+    if command == SemanticCommand::RecordCleanup {
+        context.semantic_cleanup_context()
+    } else {
+        context.semantic_context()
+    }
 }
 fn effect_result(
     context: &Context,
