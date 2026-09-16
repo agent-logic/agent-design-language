@@ -216,6 +216,38 @@ fn mutation(
     let OperationalRemoteOperation::GithubMutation(native) = &dispatch.operation else {
         return Err("semantic_remote_mutation_required".into());
     };
+    // Coordination-only umbrellas can predate semantic lifecycle state. Their
+    // native mutation owner already retains the exact intent, rechecks the
+    // parent/child/evidence contract before dispatch, authenticates readback,
+    // and makes exact replay idempotent. Admit only that one operation through
+    // the retained native owner; every other legacy mutation continues through
+    // semantic_mutation and is denied by semantic_context.
+    if matches!(
+        native.mutation,
+        GithubMutation::IssueCompleteCoordination { .. }
+    ) && context.semantic_migration_required()?
+    {
+        let result = match execute_github_mutation(&context.root, native, &mut process) {
+            Ok(result) => result,
+            Err(finding) if finding.code == "github_mutation_reconciliation_pending" => {
+                return Ok(json!({
+                    "status":"recovery_required","read_only":false,
+                    "operational_authority":true,"performed_mutation":null,
+                    "effects_unknown":true,"allowed_next":["github-issue"],
+                    "recovery":"retry_after_authenticated_absence",
+                    "finding":{"code":finding.code,"message":finding.message},
+                    "compatibility":"legacy_coordination_only"
+                }));
+            }
+            Err(finding) => return Err(failure(finding)),
+        };
+        return Ok(json!({
+            "status":"completed","read_only":false,"operational_authority":true,
+            "performed_mutation":result.performed_mutation,"effects_unknown":false,
+            "result":{"receipt":result.receipt,"reconciliation":result.reconciliation},
+            "compatibility":"legacy_coordination_only"
+        }));
+    }
     semantic_mutation(context, native, &mut process)
 }
 

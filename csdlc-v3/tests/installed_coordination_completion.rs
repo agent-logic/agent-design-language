@@ -97,6 +97,9 @@ fn execute(fixture: &mut Fixture, linked: &Path, path: &Path) -> Output {
         ],
     )
 }
+fn retain_legacy_only(fixture: &Fixture) {
+    fs::remove_dir_all(fixture.root.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+}
 
 #[test]
 fn installed_coordination_completion_preserves_prose_reconciles_once_and_finishes() {
@@ -310,4 +313,164 @@ fn installed_coordination_accepts_child_closing_link_with_parent_reference() {
     assert_eq!(fixture.remote_effects(), 1);
     success(execute(&mut fixture, &linked, &op));
     assert_eq!(fixture.remote_effects(), 1, "replay repeated PATCH");
+}
+
+#[test]
+fn installed_legacy_coordination_completion_uses_native_guards_and_replays_once() {
+    let (mut fixture, linked, body) = setup("legacy-coordination-success");
+    retain_legacy_only(&fixture);
+    let op = fixture.write_json("legacy-completion.json", &operation(&body));
+    let first = success(execute(&mut fixture, &linked, &op));
+    assert_eq!(first["compatibility"], "legacy_coordination_only");
+    assert_eq!(first["performed_mutation"], true);
+    assert_eq!(fixture.remote_issue()["state"], "closed");
+    assert_eq!(fixture.remote_issue()["state_reason"], "completed");
+    assert_eq!(fixture.remote_effects(), 1);
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/semantic/issues/505")
+        .exists());
+
+    let replay = success(execute(&mut fixture, &linked, &op));
+    assert_eq!(replay["compatibility"], "legacy_coordination_only");
+    assert_eq!(replay["performed_mutation"], false);
+    assert_eq!(fixture.remote_effects(), 1, "legacy replay repeated PATCH");
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/semantic/issues/505")
+        .exists());
+}
+
+#[test]
+fn installed_legacy_coordination_completion_preserves_all_denials() {
+    for case in [
+        "ordinary_body",
+        "no_approval",
+        "stale_parent",
+        "stale_evidence",
+        "open_child",
+        "bad_head",
+    ] {
+        let (mut fixture, linked, body) = setup(&format!("legacy-{case}"));
+        retain_legacy_only(&fixture);
+        let mut op = operation(&body);
+        match case {
+            "ordinary_body" => {
+                op["completion"]["current_body"] = json!("Ordinary implementation issue")
+            }
+            "no_approval" => {
+                op.as_object_mut().unwrap().remove("operator_approval");
+            }
+            "stale_parent" => {
+                op["completion"]["expected_updated_at"] = json!("2026-09-16T00:00:01Z")
+            }
+            "stale_evidence" => fs::write(
+                linked.join(".csdlc/evidence/505/coordination.json"),
+                b"changed",
+            )
+            .unwrap(),
+            "open_child" => {
+                let path = base(&fixture).join("child.json");
+                let mut child: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                child["state"] = json!("open");
+                write(&path, &child);
+            }
+            "bad_head" => {
+                let path = base(&fixture).join("child-merge.json");
+                let mut child: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                child["data"]["repository"]["pullRequest"]["headRefOid"] =
+                    json!("3333333333333333333333333333333333333333");
+                write(&path, &child);
+            }
+            _ => unreachable!(),
+        }
+        let path = fixture.write_json("legacy-denial.json", &op);
+        let denied = execute(&mut fixture, &linked, &path);
+        assert!(!denied.status.success(), "legacy denial accepted: {case}");
+        let expected = if case == "no_approval" {
+            "intent_remote_operation_invalid"
+        } else {
+            "github_coordination_completion_denied"
+        };
+        assert!(
+            String::from_utf8_lossy(&denied.stdout).contains(expected),
+            "wrong legacy denial for {case}: {denied:?}"
+        );
+        assert_eq!(fixture.remote_effects(), 0);
+    }
+}
+
+#[test]
+fn installed_legacy_non_coordination_mutations_remain_denied() {
+    let (mut fixture, linked, _) = setup("legacy-non-coordination-denied");
+    retain_legacy_only(&fixture);
+    let comment = fixture.write_json(
+        "legacy-comment.json",
+        &json!({"action":"issue_comment","body":"must remain denied"}),
+    );
+    let denied = execute(&mut fixture, &linked, &comment);
+    assert!(!denied.status.success());
+    assert!(
+        String::from_utf8_lossy(&denied.stdout).contains("intent_semantic_migration_required"),
+        "wrong non-coordination denial: {denied:?}"
+    );
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
+fn installed_legacy_coordination_uncertainty_requires_guarded_exact_retry() {
+    let (mut fixture, linked, body) = setup("legacy-coordination-uncertain");
+    retain_legacy_only(&fixture);
+    let script = base(&fixture).join("fake-bin/curl");
+    let original = fs::read_to_string(&script).unwrap();
+    let patch =
+        " PATCH:https://api.github.com/repos/agent-logic/agent-design-language/issues/505)\n";
+    assert!(original.contains(patch));
+    let replacement = format!(
+        "{patch}  printf 'attempt\\n' >> \"$base/completion-attempts\"\n  if test -f \"$base/drop-completion\"; then exit 9; fi\n"
+    );
+    fs::write(&script, original.replacen(patch, &replacement, 1)).unwrap();
+    fs::write(base(&fixture).join("drop-completion"), b"synthetic").unwrap();
+
+    let completion = operation(&body);
+    let initial = fixture.write_json("legacy-uncertain.json", &completion);
+    let failed = execute(&mut fixture, &linked, &initial);
+    assert!(!failed.status.success());
+    let report: Value = serde_json::from_slice(&failed.stdout).unwrap();
+    assert_eq!(report["status"], "recovery_required");
+    assert_eq!(report["effects_unknown"], true);
+    assert_eq!(report["compatibility"], "legacy_coordination_only");
+    assert_eq!(fixture.remote_effects(), 0);
+    assert_eq!(
+        fs::read_to_string(base(&fixture).join("completion-attempts"))
+            .unwrap()
+            .lines()
+            .count(),
+        1
+    );
+
+    fs::remove_file(base(&fixture).join("drop-completion")).unwrap();
+    fs::write(
+        linked.join(".csdlc/evidence/505/coordination.json"),
+        b"changed before retry",
+    )
+    .unwrap();
+    let retry = fixture.write_json(
+        "legacy-uncertain-retry.json",
+        &json!({"operation":completion,"recovery":"retry_after_authenticated_absence"}),
+    );
+    let denied = execute(&mut fixture, &linked, &retry);
+    assert!(!denied.status.success());
+    assert!(
+        String::from_utf8_lossy(&denied.stdout).contains("github_coordination_completion_denied")
+    );
+    assert_eq!(fixture.remote_effects(), 0);
+    assert_eq!(
+        fs::read_to_string(base(&fixture).join("completion-attempts"))
+            .unwrap()
+            .lines()
+            .count(),
+        1,
+        "guard failure dispatched the retained completion"
+    );
 }
