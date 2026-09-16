@@ -7,9 +7,10 @@ use adl::codefriend::{
         plan, read_plan_from_file, validate_plan, RemediationManifest, RemediationPlan,
     },
     evidence::{
-        contracts::{ReviewRecord, Severity},
-        hash,
+        contracts::{Completion, ReviewRecord, Run, Severity},
+        hash, Admission,
     },
+    ingestion::digest,
     review::synthesis::{synthesize, ReviewSynthesis},
 };
 use std::{
@@ -83,6 +84,86 @@ fn synthesis_case(anchors: &[&str]) -> (ReviewSynthesis, ReviewRecord) {
     (synthesis, record)
 }
 
+fn completed_review_record_for_paths(paths: &[&str]) -> ReviewRecord {
+    let source = completed_review_record();
+    let mut packet = source.admission.packet.clone();
+    let base_object = packet
+        .objects
+        .iter()
+        .find(|object| object.content.is_some())
+        .unwrap()
+        .clone();
+    let mut paths = paths
+        .iter()
+        .map(|path| (*path).to_string())
+        .collect::<Vec<_>>();
+    paths.sort();
+    paths.dedup();
+    packet.scope.analysis = paths.clone();
+    packet.scope.context.clear();
+    packet.objects = paths
+        .iter()
+        .map(|path| {
+            let mut object = base_object.clone();
+            object.path = path.clone();
+            object.analysis_support = if path.ends_with(".rs") {
+                "rust_source_not_yet_analyzed".to_string()
+            } else {
+                "context_or_unsupported_analysis".to_string()
+            };
+            object
+        })
+        .collect();
+    packet.scope_digest = digest(&serde_json::to_vec(&packet.scope).unwrap());
+    packet.packet_id.clear();
+    packet.packet_id = digest(&serde_json::to_vec(&packet).unwrap());
+    packet.validate().unwrap();
+
+    let admission = Admission::new(
+        packet,
+        source.admission.retention.clone(),
+        source.admission.admitted_at,
+    )
+    .unwrap();
+    let run = Run::new(
+        &admission,
+        source.run.lane_versions.clone(),
+        source.run.provider_route.clone(),
+        Completion::Complete,
+        vec![],
+    )
+    .unwrap();
+    let base_finding = source.findings[0].clone();
+    let findings = admission
+        .evidence
+        .iter()
+        .enumerate()
+        .map(|(index, evidence)| {
+            let mut finding = base_finding.clone();
+            finding.repository = run.repository.clone();
+            finding.perspective = if index % 2 == 0 {
+                "correctness".to_string()
+            } else {
+                "security".to_string()
+            };
+            finding.rule = format!("bounded-path-contract-{index}");
+            finding.semantic_anchor = evidence.path.clone();
+            finding.title = format!("path contract finding {index}");
+            finding.scope_digest = run.scope_digest.clone();
+            finding.evidence = vec![evidence.id.clone()];
+            finding.id = finding.identity().unwrap();
+            finding
+        })
+        .collect();
+    let record = ReviewRecord {
+        admission,
+        run,
+        findings,
+    };
+    record.validate().unwrap();
+    record
+}
+
 fn synthesis() -> (ReviewSynthesis, ReviewRecord) {
     synthesis_case(&[
         "adl/src/codefriend/review/runner.rs:85",
@@ -102,7 +183,7 @@ fn remediation_plan_orders_traceable_bounded_actions() {
         .actions
         .iter()
         .all(|action| action.assignment_status == "unassigned"
-            && action.owner_role == "codefriend-owner"
+            && action.owner_role == "repository-owner"
             && action
                 .acceptance_criteria
                 .iter()
@@ -128,7 +209,8 @@ fn remediation_plan_resolves_evidence_ids_to_review_record_paths() {
 
 #[test]
 fn remediation_plan_preserves_dot_directories_and_root_files() {
-    let (synthesis, record) = synthesis_case(&[".github/workflows/ci.yml:42", "Cargo.toml"]);
+    let record = completed_review_record_for_paths(&[".github/workflows/ci.yml", "Cargo.toml"]);
+    let synthesis = synthesize(&record).unwrap();
 
     let plan = plan(&synthesis, &record).unwrap();
     let paths = plan
@@ -140,6 +222,16 @@ fn remediation_plan_preserves_dot_directories_and_root_files() {
     assert!(paths.contains(&"Cargo.toml"));
     assert!(!paths.contains(&"github/workflows/ci.yml"));
     assert!(plan.omitted_findings.is_empty());
+}
+
+#[test]
+fn remediation_plan_preserves_ingestion_valid_paths_with_spaces() {
+    let record = completed_review_record_for_paths(&["docs/My File.md"]);
+    let synthesis = synthesize(&record).unwrap();
+    let plan = plan(&synthesis, &record).unwrap();
+    assert_eq!(plan.actions.len(), 1);
+    assert_eq!(plan.actions[0].relevant_paths, ["docs/My File.md"]);
+    assert_eq!(plan.actions[0].owner_role, "documentation-owner");
 }
 
 #[test]
