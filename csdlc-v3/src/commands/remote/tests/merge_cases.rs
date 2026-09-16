@@ -378,7 +378,7 @@ fn merge_review_and_method_guards_before_network() {
 }
 
 #[test]
-fn merge_checks_base_again_and_rejects_postmerge_parent_drift() {
+fn merge_checks_base_again_and_accepts_authenticated_postmerge_base_advance() {
     for late in [false, true] {
         let root = mutation_repo(
             if late {
@@ -411,7 +411,18 @@ fn merge_checks_base_again_and_rejects_postmerge_parent_drift() {
             ]);
         }
         let mut p = adapter(&root, &r, outputs);
-        assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+        let result = super::super::execute_github_mutation(&root, &r, &mut p);
+        if late {
+            let result =
+                result.expect("authenticated requested merge should tolerate base advance");
+            assert_eq!(result.performed_mutation, Some(true));
+            assert_eq!(
+                result.reconciliation.merge.unwrap().merge_commit,
+                "2222222222222222222222222222222222222222"
+            );
+        } else {
+            assert!(result.is_err(), "pre-dispatch base drift must fail closed");
+        }
         assert_eq!(put_count(&p), usize::from(late));
         std::fs::remove_dir_all(root).unwrap();
     }

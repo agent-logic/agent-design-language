@@ -624,10 +624,17 @@ fn execute_inner(
         expected_intent_digest.is_none_or(|expected| expected == intent_digest),
         "staged merge intent identity mismatch",
     )?;
+    let response_path = dir.join(format!("{digest}.response.json"));
+    let has_retained_success_response = response_path.exists();
     let mut response_digest = None;
     let mut response_sha = None;
     let identity = if (replay && !dispatch_staged) || pr["merged"] == true {
-        merged(&observation, request, base, Some(&intent.base_sha), linkage)?
+        let expected_base = if has_retained_success_response {
+            None
+        } else {
+            Some(intent.base_sha.as_str())
+        };
+        merged(&observation, request, base, expected_base, linkage)?
     } else {
         // Repeat authenticated policy and PR checks immediately before dispatch.
         // REST SHA provides head CAS, not body/base/policy CAS; poststate proves base parent.
@@ -694,9 +701,13 @@ fn execute_inner(
             linkage.observation_target(request),
             process,
         )?;
-        merged(&after, request, base, Some(&intent.base_sha), linkage)?
+        let expected_base = if response_path.exists() {
+            None
+        } else {
+            Some(intent.base_sha.as_str())
+        };
+        merged(&after, request, base, expected_base, linkage)?
     };
-    let response_path = dir.join(format!("{digest}.response.json"));
     if response_path.exists() {
         let response: Value = serde_json::from_slice(
             &fs::read(response_path).map_err(|_| reject("retained response unavailable"))?,
