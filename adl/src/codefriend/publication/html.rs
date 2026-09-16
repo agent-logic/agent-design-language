@@ -194,6 +194,8 @@ pub fn render_html(options: HtmlRenderOptions) -> Result<HtmlRenderResult> {
         &manifest,
         &review,
         &synthesis,
+        &remediation,
+        &tests,
         &publication,
         &decision.digest,
     )?;
@@ -516,6 +518,8 @@ fn validate_manifest(
     manifest: &HtmlManifest,
     review: &ReviewRecord,
     synthesis: &ReviewSynthesis,
+    remediation: &remediation::RemediationPlan,
+    tests: &test_plan::TestPlan,
     publication: &crate::codefriend::evidence::contracts::Publication,
     decision_digest: &str,
 ) -> Result<()> {
@@ -526,6 +530,8 @@ fn validate_manifest(
             && manifest.run_digest == hash(&review.run)?
             && manifest.finding_set_digest == review.finding_digest()?
             && manifest.synthesis_digest == hash(synthesis)?
+            && manifest.remediation_plan_digest == hash(remediation)?
+            && manifest.test_plan_digest == hash(tests)?
             && manifest.publication_binding_digest == publication.binding_digest()?
             && manifest.approval_decision_digest == decision_digest
             && manifest.repository == review.run.repository

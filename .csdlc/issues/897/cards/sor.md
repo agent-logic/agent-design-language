@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][CF-RENDER-HTML] Render an approved review as HTML
 Branch: codex/897-v0922-codefriend-html-renderer
 Card Status: ready
-Status: <status>
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,12 +33,12 @@ Execution:
 
 ## Summary
 
-<summary>
+Implemented a real installed HTML exporter with complete governed report semantics, script-free accessible navigation, hostile-markup escaping, exact manifest binding and anchored create-only output. Local focused tests and strict static checks pass; retained browser evidence and independent review remain before publication.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
 - Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
+- Final PVF lane: `owner_binary`
 - Lane change reason: `<lane_change_reason>`
 
 ## Issue Metrics Truth
@@ -57,8 +57,8 @@ Execution:
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
+- Completion state: `implementation_local_proof_complete_review_pending`
+- Issue goal ref: `Bounded #897 child under active Sprint 4 #930 goal; no token budget assigned.`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
 - Validation planning prompt: `<vpp_card>`
@@ -75,7 +75,7 @@ Execution:
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
+- Tracked implementation artifacts: `HTML publisher, shared anchored publication parameterization, CLI registration, focused tests/PVF and operator docs.`
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
@@ -86,13 +86,13 @@ Execution:
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
+- Integration state: `not_published`
 - Verification scope: `<verification_scope>`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `<integration_result>`
+- Result: `not_integrated`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
+  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_html; cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo clippy --manifest-path adl/Cargo.toml --lib --bin adl -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
     `<validation_effect>`
 - Results:
-  - `<validation_result>`
+  - `PASS local: HTML 4/4, Markdown regression 5/5, strict relevant Clippy, formatting and diff hygiene.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

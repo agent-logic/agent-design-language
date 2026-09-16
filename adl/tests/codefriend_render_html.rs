@@ -221,6 +221,17 @@ fn installed_renderer_emits_navigable_bound_report_and_manifest() {
     assert_eq!(manifest.finding_ids.len(), 1);
     assert_eq!(manifest.claims, ["Approved exact review semantics"]);
     assert_eq!(manifest.report_digest, digest(report.as_bytes()));
+    if let Some(retain) = std::env::var_os("CODEFRIEND_HTML_RETAIN_DIR") {
+        let retain = PathBuf::from(retain);
+        fs::create_dir_all(&retain).unwrap();
+        fs::copy(fixture.out.join("report.html"), retain.join("report.html")).unwrap();
+        fs::copy(
+            fixture.out.join("manifest.json"),
+            retain.join("manifest.json"),
+        )
+        .unwrap();
+        fs::write(retain.join("render-result.json"), &output.stdout).unwrap();
+    }
     assert!(!fixture.cli().status.success(), "fresh target is mandatory");
 }
 
