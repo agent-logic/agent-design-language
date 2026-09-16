@@ -411,7 +411,7 @@ fn relevant_paths(finding: &SynthesizedFinding) -> Vec<String> {
 fn normalize_path_token(value: &str) -> &str {
     value
         .trim_matches(|c: char| matches!(c, '"' | '\'' | '`' | ',' | ';'))
-        .trim_end_matches(|c: char| matches!(c, '.' | ',' | ';'))
+        .trim_end_matches(['.', ',', ';'])
 }
 
 fn looks_like_path(value: &str) -> bool {

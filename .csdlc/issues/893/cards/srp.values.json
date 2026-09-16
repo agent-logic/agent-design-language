@@ -13,13 +13,13 @@
   "stp_card": ".csdlc/issues/893/cards/stp.md",
   "slug": "v0922-remediation-planner",
   "vpp_card": ".csdlc/issues/893/cards/vpp.md",
-  "review_findings": "Latest exact-head review at 03b0243814d35ac1d10f34e615acc27b4a110746 found one remaining P2 lifecycle-card issue: VPP `selected_lanes_inline` still said all runs were pending while the same VPP recorded local proof passed.",
-  "review_dispositions": "Finding accepted and remediated through native VPP edit. `selected_lanes_inline` now distinguishes completed focused local proof from still-pending CI observation, publication checks, and fresh exact-head review.",
+  "review_findings": "Post-publication PR #1012 CI at ca2e33f62bdcf0c1dedc2d5ee848617c1fc4fc15 failed `adl-rust-fmt-clippy` because `adl/src/codefriend/actions/remediation.rs` used a manual char-comparison closure in `trim_end_matches`.",
+  "review_dispositions": "Accepted and remediated as a style-only source change: replaced the closure with `trim_end_matches(['.', ',', ';'])`. Re-ran focused remediation tests, Rust formatting, full clippy with `-D warnings`, and diff hygiene successfully.",
   "sip_card": ".csdlc/issues/893/cards/sip.md",
   "sor_card": ".csdlc/issues/893/cards/sor.md",
   "findings_status": "findings_remediated_pending_fresh_review",
   "spp_card": ".csdlc/issues/893/cards/spp.md",
   "timestamp": "2026-09-12T00:10:02.687479+00:00",
-  "review_notes": "Prior review PASS/review truth is superseded by this remediation. Fresh independent exact-head review is required against the new immutable commit before publication or merge.",
+  "review_notes": "The prior exact-head PASS is superseded by this source change. A fresh independent exact-head review is required against the new immutable commit before publication/finish.",
   "recommended_outcome": "review_required"
 }

@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][CF-REMEDIATE] Generate a bounded remediation plan from review findings
 Branch: codex/893-v0922-remediation-planner
 Card Status: ready
-Status: implemented_remediated_pending_fresh_review
+Status: implemented_remediated_pending_fresh_review_publication_ci
 Generated: 2026-09-12T00:10:02.687479+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and remediated the CodeFriend remediation planner for #893. The latest repair fixes repository path extraction so leading-dot paths such as `.github/workflows/ci.yml` are preserved and root files such as `Cargo.toml` are included when validated as repository-relative paths.
+Implemented and remediated the CodeFriend remediation planner for #893. After the path-extraction review fix, PR #1012 CI exposed one clippy-only style defect in the new punctuation trimming code; it is repaired without behavior changes.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented and remediated the CodeFriend remediation planner for #893. The late
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_remediated_pending_fresh_review`
+- Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
 - Issue goal ref: `Sprint 4 #930 active goal covers #893 execution in this session; single goal slot prevented replacing it with a separate child goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/893/goal-metrics.json (planned, absent until execution)`
@@ -81,17 +81,17 @@ Implemented and remediated the CodeFriend remediation planner for #893. The late
 ## Actions taken
 - `Repaired remediation-plan path token normalization so leading `.` is preserved for repository paths.`
 - `Allowed validated root file paths containing `.` to be considered relevant repository paths.`
-- `Added focused regression coverage for `.github/workflows/ci.yml` and `Cargo.toml` extraction.`
+- `Replaced manual punctuation char-comparison closure with an array pattern accepted by clippy.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs`
 - Worktree-only paths remaining: `.csdlc/issues/893/ and .csdlc/transactions/completed/893/ are generated lifecycle material in the bound worktree until publication/finish; implementation source changes are tracked candidate paths.`
-- Integration state: `worktree_candidate_ready_for_fresh_review`
+- Integration state: `worktree_candidate_ready_for_fresh_review_after_clippy_repair`
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
-  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check`
-    `Proves the reviewed path extraction defect is fixed for dot-directory paths and root files after merging current origin/main, without widening product scope.`
+  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
+    `Confirms the remediated planner remains behaviorally covered and passes the PR failing lint lane before a new exact-head review.`
 - Result: `not_integrated`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo fmt --manifest-path adl/Cargo.toml --check`; `git diff --check``
-    `Focused #893 regression proof passed 5/5, including `.github/workflows/ci.yml` preservation and root `Cargo.toml` inclusion. Rust formatting and diff hygiene passed after merging current origin/main.`
+  - ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo fmt --manifest-path adl/Cargo.toml --check`; `cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings`; `git diff --check``
+    `Focused #893 regression proof passed 5/5, Rust formatting passed, full clippy with denied warnings passed, and diff hygiene passed after the clippy-only repair.`
 - Results:
   - `passed`
 
@@ -159,14 +159,14 @@ verification_summary:
 ## Replay Artifacts
 - Trace bundle path(s): `Generated local test artifacts under adl/target/codefriend-remediate-tests; no durable release bundle created before review/publication.`
 - Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-remediate-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture.`
-- Replay command used for verification: `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`
-- Replay result: `5 passed; 0 failed`
+- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
+- Replay result: `codefriend_remediate 5 passed; cargo fmt passed; cargo clippy passed; git diff --check passed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
 - Required artifacts present: `passed_for_local_fixture_scope`
 - Artifact schema/version checks: `Focused tests parse generated remediation-plan JSON and manifest output, validate schema tags, and reject tampered invalid plan shapes including non-topological action_order.`
-- Hash/byte-stability checks: `cargo fmt --check and git diff --check passed after the path-extraction review fix and after the merge from current origin/main.`
+- Hash/byte-stability checks: ``cargo fmt --manifest-path adl/Cargo.toml --check` passed; `git diff --check` passed.`
 - Missing/optional artifacts and rationale: `CI, independent exact-head review and publication proof are pending. Provider-generated reviews and GitHub issue creation are sibling/follow-on concerns and not required for this local remediation-plan generator.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `The proof uses synthesis-shaped local fixtures plus the existing synthesis regression suite. It does not claim a live external-provider review run or issue-creation authority.`
 
 ## Follow-ups / Deferred work
-- `Obtain fresh independent exact-head review against the card-truth repair commit.`
+- `Commit immutable remediated candidate and obtain fresh independent exact-head review.`
 - `Republish/update PR #1012 only after fresh review passes and native publication guard accepts current truth.`
