@@ -992,6 +992,13 @@ pub(super) fn dispatch_github_mutation_after_intent(
                 intent_digest,
                 context.ready_target,
             )?;
+        } else if let Some(intent_digest) = context.recovery_intent_digest {
+            persist_rejected_recovery_attempt(
+                repo_root,
+                request,
+                context.operation_digest,
+                intent_digest,
+            )?;
         }
         Ok(invocation)
     })();

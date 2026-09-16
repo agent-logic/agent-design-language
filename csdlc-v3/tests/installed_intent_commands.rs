@@ -1620,9 +1620,9 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             let payload: Value = serde_json::from_slice(&failed_readback.stdout).unwrap();
             assert_eq!(payload["status"], "recovery_required");
             assert!(
-                payload["findings"]
+                payload["envelope"]["findings"]
                     .as_array()
-                    .unwrap()
+                    .expect("common result envelope must expose structured findings")
                     .iter()
                     .all(|finding| {
                         let code = finding["code"].as_str().unwrap();
@@ -1634,10 +1634,24 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             );
             assert_eq!(payload["envelope"]["status"], "recovery_required");
             assert_eq!(payload["envelope"]["process_status"], "failed");
-            assert_eq!(payload["envelope"]["effects"]["outcome"], "performed");
+            assert_eq!(
+                payload["envelope"]["effects"]["outcome"], "unknown",
+                "a dropped authenticated readback must preserve unknown-effect truth"
+            );
             assert_eq!(fixture.remote_effects(), 1);
             fixture.remote_flag("drop-publication-readback", false);
             fixture.remote_flag("drop-readback", false);
+            let recovery = success(fixture.run(&primary, &["recover", "505"]));
+            success(fixture.run(
+                &primary,
+                &[
+                    "recover",
+                    "505",
+                    "--execute",
+                    "--preview",
+                    recovery["preview_digest"].as_str().unwrap(),
+                ],
+            ));
             observation(&mut fixture, cwd, "pr-state");
             assert_eq!(
                 fixture.remote_effects(),
@@ -2495,6 +2509,77 @@ fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejec
     success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(fixture.remote_effects(), 1, "replay duplicated PR creation");
     assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+}
+
+#[test]
+fn installed_remote_recover_rejected_reuse_crash_never_dispatches_twice() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-rejected-reuse-crash");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+
+    fixture.remote_flag("reject-pr-create", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fixture.remote_flag("reject-pr-create", false);
+    fixture.remote_flag("drop-publication-readback", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let crashed = fixture.run_with_env(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_recovery_after_native",
+        )],
+    );
+    assert_eq!(crashed.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+
+    fixture.remote_flag("drop-publication-readback", false);
+    fixture.remote_flag("drop-readback", false);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let restart = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!restart.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "old definite rejection authorized a second PR create after ambiguous dispatch"
+    );
 }
 
 #[test]

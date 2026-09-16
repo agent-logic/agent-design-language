@@ -59,6 +59,21 @@ pub(super) fn github_mutation_recovery_path(
         .join(format!("{digest}.json")))
 }
 
+pub(super) fn github_mutation_rejected_reuse_path(
+    repo_root: &Path,
+    digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let git_dir = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git control directory is required for rejected-recovery attempt receipts",
+        )
+    })?;
+    Ok(git_dir
+        .join("csdlc-v3/remote/rejected-recovery-attempts")
+        .join(format!("{digest}.json")))
+}
+
 pub(super) fn load_mutation_intent(
     path: &Path,
     operation_digest: &str,

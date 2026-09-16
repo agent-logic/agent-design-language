@@ -1030,6 +1030,12 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
             }
             let executed =
                 execute_staged_github_mutation(&context.root, &staged, true, &mut process);
+            #[cfg(debug_assertions)]
+            if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+                == Ok("semantic_remote_recovery_after_native")
+            {
+                std::process::exit(91);
+            }
             if let Err(finding) = &executed {
                 if matches!(
                     finding.code.as_str(),

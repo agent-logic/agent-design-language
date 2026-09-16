@@ -378,6 +378,16 @@ pub(super) struct GithubMutationRecoveryReceipt {
     pub(super) resolved_ready_target: Option<GithubReadyTarget>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub(super) struct GithubMutationRejectedReuseReceipt {
+    pub(super) schema: String,
+    pub(super) operation_digest: String,
+    pub(super) intent_digest: String,
+    pub(super) repository: String,
+    pub(super) issue: u64,
+    pub(super) expected_head_sha: String,
+}
+
 pub(super) struct GithubMutationDispatchContext<'a> {
     pub(super) operation_digest: &'a str,
     pub(super) operation_marker: &'a str,
