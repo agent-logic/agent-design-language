@@ -1,0 +1,35 @@
+{
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "openai",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gpt-4.1-mini",
+    "credential_ref": "env:OPENAI_API_KEY",
+    "source_registry": "operator-approved-openai-key"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "openai",
+    "model_ref": "gpt-4.1-mini",
+    "provider_model_id": "gpt-4.1-mini",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-09-15T00:00:00Z",
+    "source_registry": "operator-approved-openai-key",
+    "tool_surface": "none",
+    "governance_surface": "read_only_findings_only"
+  },
+  "prompt_contract_ref": "codefriend.review_lane.v1",
+  "lane_ref": "template.replaced.by.runner",
+  "attempt_policy": {
+    "max_attempts": 1,
+    "timeout_ms": 120000,
+    "retry_backoff_ms": 1
+  },
+  "max_output_tokens": 4096,
+  "clear_thinking": true,
+  "temperature": 0.0,
+  "inference_parameter_fingerprint": "temperature=0,max_output_tokens=4096",
+  "tool_surface": "none",
+  "governance_surface": "read_only_findings_only"
+}

@@ -439,8 +439,8 @@ fn parse_lane_output(
     text: &str,
     admission: &Admission,
 ) -> Result<ProviderLaneOutput> {
-    let output: ProviderLaneOutput =
-        serde_json::from_str(text).map_err(|_| anyhow::anyhow!("malformed_lane_output"))?;
+    let output: ProviderLaneOutput = serde_json::from_str(lane_output_json_text(text))
+        .map_err(|_| anyhow::anyhow!("malformed_lane_output"))?;
     ensure!(output.findings.len() <= 100, "too_many_lane_findings");
     for finding in &output.findings {
         ensure!(
@@ -464,6 +464,21 @@ fn parse_lane_output(
         );
     }
     Ok(output)
+}
+
+fn lane_output_json_text(text: &str) -> &str {
+    let trimmed = text.trim();
+    let Some(after_opening_fence) = trimmed.strip_prefix("```") else {
+        return trimmed;
+    };
+    let after_optional_language = after_opening_fence
+        .strip_prefix("json")
+        .unwrap_or(after_opening_fence)
+        .trim_start_matches(['\r', '\n', ' ', '\t']);
+    after_optional_language
+        .strip_suffix("```")
+        .map(str::trim)
+        .unwrap_or(trimmed)
 }
 
 fn finding_from_lane(
@@ -549,4 +564,33 @@ pub fn review_run_summary(output: &FourPerspectiveReviewRun) -> Result<serde_jso
         "review_record": "review-record.json",
         "run_record": "run.json",
     }))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::lane_output_json_text;
+
+    #[test]
+    fn lane_output_json_text_accepts_bare_json() {
+        assert_eq!(
+            lane_output_json_text(" {\"findings\":[]} \n"),
+            "{\"findings\":[]}"
+        );
+    }
+
+    #[test]
+    fn lane_output_json_text_accepts_markdown_json_fence() {
+        assert_eq!(
+            lane_output_json_text("```json\n{\"findings\":[]}\n```"),
+            "{\"findings\":[]}"
+        );
+    }
+
+    #[test]
+    fn lane_output_json_text_leaves_unclosed_fence_malformed() {
+        assert_eq!(
+            lane_output_json_text("```json\n{\"findings\":[]}"),
+            "```json\n{\"findings\":[]}"
+        );
+    }
 }
