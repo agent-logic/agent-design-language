@@ -3,7 +3,7 @@ mod github_command;
 use adl::codefriend::ingestion::{local, AdmissionInput, Scope};
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
-const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]";
+const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     if args.first().is_some_and(|arg| arg == "memory") {
         return super::codefriend_memory_cmd::run(&args[1..]);
@@ -32,6 +32,9 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     }
     if args.len() >= 2 && args[0] == "review" && args[1] == "run" {
         return review_run(&args[2..]);
+    }
+    if args.len() >= 2 && args[0] == "review" && args[1] == "synthesize" {
+        return review_synthesize(&args[2..]);
     }
     ensure!(args.len() >= 2, "{USAGE}");
     if args[0] == "ingest" && args[1] == "ci" {
@@ -93,6 +96,47 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
         serde_json::to_string(
             &serde_json::json!({"schema":"codefriend.acquisition_result.v1","packet_id":packet.packet_id,"revision":packet.revision,"objects":packet.objects.len(),"completeness":packet.completeness,"review_state":packet.review_state})
         )?
+    );
+    Ok(())
+}
+
+fn review_synthesize(args: &[String]) -> Result<()> {
+    let mut flags = BTreeMap::new();
+    for pair in args.chunks(2) {
+        ensure!(
+            pair.len() == 2
+                && matches!(pair[0].as_str(), "--input" | "--out")
+                && !pair[1].starts_with("--"),
+            "invalid_synthesis_arguments"
+        );
+        ensure!(
+            flags.insert(pair[0].as_str(), pair[1].as_str()).is_none(),
+            "duplicate_synthesis_argument"
+        );
+    }
+    ensure!(
+        ["--input", "--out"]
+            .iter()
+            .all(|flag| flags.contains_key(flag)),
+        "missing_synthesis_argument"
+    );
+    let synthesis = adl::codefriend::review::synthesis::synthesize_from_file(
+        adl::codefriend::review::synthesis::SynthesisOptions {
+            input: Path::new(flags["--input"]).to_path_buf(),
+            out: Path::new(flags["--out"]).to_path_buf(),
+        },
+    )?;
+    println!(
+        "{}",
+        serde_json::to_string(&serde_json::json!({
+            "schema": adl::codefriend::review::synthesis::SYNTHESIS_SCHEMA,
+            "review_record_digest": synthesis.review_record_digest,
+            "run_id": synthesis.run_id,
+            "input_finding_count": synthesis.input_finding_count,
+            "synthesized_finding_count": synthesis.synthesized_findings.len(),
+            "synthesis": "synthesis.json",
+            "manifest": "manifest.json"
+        }))?
     );
     Ok(())
 }
