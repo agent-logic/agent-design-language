@@ -935,6 +935,31 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         .current_dir(&repo)
         .output()
         .unwrap();
+    // Retain the raw packet before any success assertion: rejected evidence
+    // must survive disposable-fixture cleanup for diagnosis.
+    if let Some(destination) = std::env::var_os("ISSUE872_RETAIN_EVIDENCE") {
+        let destination = PathBuf::from(destination);
+        assert!(
+            !destination.exists(),
+            "retained evidence destination must be new"
+        );
+        copy_tree(&output, &destination);
+        let supplement = destination.with_extension("generation9-proof");
+        assert!(!supplement.exists(), "supplement destination must be new");
+        fs::create_dir_all(&supplement).unwrap();
+        fs::write(supplement.join("runner.stdout"), &run.stdout).unwrap();
+        fs::write(supplement.join("runner.stderr"), &run.stderr).unwrap();
+        write_json(
+            &supplement.join("materialization.json"),
+            &json!({
+                "authentic_lifecycle_digest":"db09a36738970942ae88401ee79508503967cbc39ae6d03e5d57f2dbd26928c8",
+                "portable_state_executable":false,
+                "materialized_lifecycle_digest":disposable_old_digest,
+                "fixture_validation":fixture_validation,
+                "fixture_manifest_sha256":sha256(&validated_old_state.join("manifest.json"))
+            }),
+        );
+    }
     assert!(
         run.status.success(),
         "runner stdout={} stderr={}",
@@ -964,22 +989,8 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         .current_dir(&repo)
         .output()
         .unwrap();
-    assert!(
-        validate.status.success(),
-        "validator stdout={} stderr={}",
-        String::from_utf8_lossy(&validate.stdout),
-        String::from_utf8_lossy(&validate.stderr)
-    );
     if let Some(destination) = std::env::var_os("ISSUE872_RETAIN_EVIDENCE") {
-        let destination = PathBuf::from(destination);
-        assert!(
-            !destination.exists(),
-            "retained evidence destination must be new"
-        );
-        copy_tree(&output, &destination);
-        let supplement = destination.with_extension("generation9-proof");
-        assert!(!supplement.exists(), "supplement destination must be new");
-        fs::create_dir_all(&supplement).unwrap();
+        let supplement = PathBuf::from(destination).with_extension("generation9-proof");
         fs::write(
             supplement.join("retained-validator.stdout"),
             &validate.stdout,
@@ -990,15 +1001,11 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
             &validate.stderr,
         )
         .unwrap();
-        write_json(
-            &supplement.join("materialization.json"),
-            &json!({
-                "authentic_lifecycle_digest": "db09a36738970942ae88401ee79508503967cbc39ae6d03e5d57f2dbd26928c8",
-                "portable_state_executable": false,
-                "materialized_lifecycle_digest": disposable_old_digest,
-                "fixture_validation": fixture_validation,
-                "fixture_manifest_sha256": sha256(&validated_old_state.join("manifest.json"))
-            }),
-        );
     }
+    assert!(
+        validate.status.success(),
+        "validator stdout={} stderr={}",
+        String::from_utf8_lossy(&validate.stdout),
+        String::from_utf8_lossy(&validate.stderr)
+    );
 }

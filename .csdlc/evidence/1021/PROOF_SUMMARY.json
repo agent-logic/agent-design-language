@@ -1,11 +1,11 @@
 {
   "schema": "csdlc.v3.issue1021.proof_summary.v1",
   "issue": 1021,
-  "status": "partial_full_gate_pending",
+  "status": "partial_repaired_full_gate_in_progress",
   "source_sha256": {
-    "adl/tools/run_issue872_conversion_rehearsal.py": "48697b8a522a5268cf1515fbfb64b117452cb7884aec69107184587474eabe2c",
+    "adl/tools/run_issue872_conversion_rehearsal.py": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
     "adl/tools/validate_issue872_generation9_fixture.py": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
-    "csdlc-v3/tests/copied_record_conversion_rehearsal.rs": "dbd3a92114d7b011ed23d8302460405e824ece8be225f566b5790e8207950f91",
+    "csdlc-v3/tests/copied_record_conversion_rehearsal.rs": "080a708d7cc23541271567b5b8cffda14a7a03830e849699e412a9ffdbf28361",
     "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/manifest.json": "438f0dafbb2a4b4b674e770bea1a748dadafbbf0d1f4d78c3ee495e7ddf07a52",
     "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/binding.json": "dd5a85eb6084563f5c040b3b831e10f4af56e2dcb8a35df931ac04bb5f8691c7",
     "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.md": "951300d90252b322768061654d2333abb6481746b96d934249daa007572c90ed",
@@ -32,7 +32,8 @@
     "gate-2.stdout": "06e1220d785b82e51bf163d7f68740842a6ba0f7e3e8f711dc206d6155c58c09",
     "gate-2.stderr": "36c30e46e97bb934326cbaa76e592616b6d6edd5c4dee4a71a73dc598880054e",
     "final-validator-negatives.json": "b27a16e2a38a8c4051a92b30fad22db75b4372c6cdeb12b5f5b9e7907e646f89",
-    "final-admission-review-regressions.json": "1ac3dfc33566540ecc6ea90d1f5f7273790999fd6e4024876d2401bd0a5c3b9b"
+    "final-admission-review-regressions.json": "1ac3dfc33566540ecc6ea90d1f5f7273790999fd6e4024876d2401bd0a5c3b9b",
+    "sequence-bundle-validation.json": "ee803b0444ba9eb6ede08f3ec140d01b9eba832fcece1e7dabfab257c7224988"
   },
   "accepted_old_binary": {
     "source_revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
@@ -62,13 +63,43 @@
     },
     "full_ignored_gate": {
       "status": "in_progress",
+      "attempt": 4,
       "required_roles": 7,
       "required_scenarios": 12,
       "required_fault_cases": 30,
       "proven_denominator": null,
-      "validator_source_sha256": "64221d352f190a5014eabe8bcf787a9cd6f7567f7e5937e759d2a82ef6e00585",
-      "rust_harness_source_sha256": "bb44dc334190ce29ad9a44d670e88f80d734358e9b89a405a0ff79a8e2d7deac",
-      "final_source_relationship": "Final validator admission fixes and Rust formatting applied after runner imported BLAKE3 and after all fixture validator subprocess calls. Candidate and runner bytes unchanged. Completed packet must be admitted with final validator."
+      "source_sha256": {
+        "adl/tools/run_issue872_conversion_rehearsal.py": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
+        "adl/tools/validate_issue872_generation9_fixture.py": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
+        "csdlc-v3/tests/copied_record_conversion_rehearsal.rs": "080a708d7cc23541271567b5b8cffda14a7a03830e849699e412a9ffdbf28361",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/manifest.json": "438f0dafbb2a4b4b674e770bea1a748dadafbbf0d1f4d78c3ee495e7ddf07a52",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/binding.json": "dd5a85eb6084563f5c040b3b831e10f4af56e2dcb8a35df931ac04bb5f8691c7",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.md": "951300d90252b322768061654d2333abb6481746b96d934249daa007572c90ed",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.values.json": "599307d701ed4650cd81e557224e6a7e29f65060c97d4525175af19b3e84d4ee",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sor.md": "ffd61c83f5dfa22838a2d812b207943e2f868a99b73ed3aaea479d6f64a17f55",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sor.values.json": "2104c0b485105c0b8a4c02c96913e225643ef8e47407034bc1df9813f8b261dd",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/spp.md": "7e81edf911b502be5d2cab2da55ef7d06a5c4c82957383e52e18d2b4242ddcc8",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/spp.values.json": "08c4a35d8d644489cde85dff3addd84eae3f9a324a9f2c15e916ff10adfd4b28",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/srp.md": "10db3f2f044b80af9822fb2dd13af92014939872b7f984ca5ab85a21ae7a194d",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/srp.values.json": "243090f49b0de86bf5175ff3245338c6d0251d4182b21fe05d75f44680518039",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/stp.md": "9a49cddd0c6fcf5ba7529c1a860dee609f995fad87b01041c284a6ae5adf8ffc",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/stp.values.json": "c240059df06690c17e413adba42c79478e4ec7173dc2dcad289e69b87ef9871e",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/vpp.md": "7bdcdb2449d3fcd062e47d36cf8c8b17f404ac36a8a53f3025379cccfaa71ea8",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/vpp.values.json": "0419cf559490524ced91c5b82dc206521be9550609a7e5ca4b5a447a8fcbdd6b",
+        "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/index.json": "26d1e9b76d8fd34ec198dd76ff1f51cbb14a7e62d7968e0a6ca1a7c16ed9d4e9"
+      },
+      "final_source_relationship": "Fresh full gate runs repaired runner and final validator/harness bytes. Complete packet admission remains pending."
+    },
+    "targeted_recovery_sequence": {
+      "status": "passed",
+      "cases": 2,
+      "boundaries": [
+        "before",
+        "after"
+      ],
+      "production_commands_each": 6,
+      "archived_writer_probe": "Retained separately and hash-covered; no fence checks removed.",
+      "evidence": "sequence-bundle-validation.json"
     }
   },
   "failed_attempts": [
@@ -81,13 +112,21 @@
       "attempt": 2,
       "outcome": "failed_at_old_writer_authority",
       "reason": "Disposable fault repository lacked accepted-owner operational authority; isolated runner repair explicitly authorized."
+    },
+    {
+      "attempt": 3,
+      "outcome": "failed_retained_packet_validation",
+      "reason": "Archived writer fence probe was mixed into the six-command production recovery bundle. Repair retains the probe in a separate hash-covered artifact; validator unchanged.",
+      "duration_seconds": 1081.6,
+      "failed_packet_retention": "Raw final streams retained; old harness cleaned disposable packet after validation assertion. Repair retains future packets before assertions."
     }
   ],
-  "publication": "Draft only requested; full gate pending. Native status blocked intent_semantic_migration_required; native publish preview blocked intent_plan_missing. No terminal completion claim.",
+  "publication": "Draft PR #1031 exists at reviewed commit 12148f8531d746941a705e6b21fc24e87f1b6774 through explicitly authorized gh transport. Authenticated native PR observation passed; semantic lifecycle reconciliation and full qualification remain pending.",
   "limits": [
     "Archive equality and before/after snapshots are read-only observations, not proof against transient external writes.",
     "Portable index preserves authentic lifecycle digest as lineage; it is non-executable until disposable rebinding recomputes a separate digest.",
     "#873 owns independent requalification; #874/#875 and sprint closure are not claimed.",
-    "Raw local logs and reproduction packets are retained separately; this summary contains portable identities and hashes only."
+    "Raw local logs and reproduction packets are retained separately; this summary contains portable identities and hashes only.",
+    "Gate-3 archive, portable fixture and live-root inventories were unchanged, but the shared installation changed during the run. Attribution is unknown; this task performed no shared installation. No all-four-inventories-unchanged claim applies to gate 3."
   ]
 }

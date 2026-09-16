@@ -1,8 +1,8 @@
 {
   "files": {
-    "adl/tools/run_issue872_conversion_rehearsal.py": "48697b8a522a5268cf1515fbfb64b117452cb7884aec69107184587474eabe2c",
+    "adl/tools/run_issue872_conversion_rehearsal.py": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
     "adl/tools/validate_issue872_generation9_fixture.py": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
-    "csdlc-v3/tests/copied_record_conversion_rehearsal.rs": "dbd3a92114d7b011ed23d8302460405e824ece8be225f566b5790e8207950f91",
+    "csdlc-v3/tests/copied_record_conversion_rehearsal.rs": "080a708d7cc23541271567b5b8cffda14a7a03830e849699e412a9ffdbf28361",
     "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/manifest.json": "438f0dafbb2a4b4b674e770bea1a748dadafbbf0d1f4d78c3ee495e7ddf07a52",
     "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/binding.json": "dd5a85eb6084563f5c040b3b831e10f4af56e2dcb8a35df931ac04bb5f8691c7",
     "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.md": "951300d90252b322768061654d2333abb6481746b96d934249daa007572c90ed",

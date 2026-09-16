@@ -505,10 +505,12 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
     if readback["stdout_sha256"] != evidence_after["stdout_sha256"]:
         raise ValueError(f"primary/linked operation readbacks differ at {point}:{boundary}")
     final_digest = sha256(canonical(files_under(common)))
-    commands = [crash]
+    # The six production commands have a stable validation contract. Preserve
+    # the additional authenticated writer probe separately, without hiding it
+    # or inserting a seventh command into that production sequence.
     if crash_writer is not None:
-        commands.append(crash_writer["command"])
-    commands.extend([evidence_before, restore, resumed, evidence_after, readback])
+        write_json(case / "archived-writer-crash-probe.json", crash_writer)
+    commands = [crash, evidence_before, restore, resumed, evidence_after, readback]
     retain_command_bundle(case, operation, commands, f"production_cli_convert_evidence_restore_resume_{point}_{boundary}",
                           before_digest, crash_digest, final_digest)
     journal = Path(completed["journal_path"])
