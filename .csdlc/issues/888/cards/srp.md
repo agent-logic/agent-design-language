@@ -56,8 +56,8 @@ policy_refs:
   - ".csdlc/issues/888/cards/vpp.md"
 review_results:
   findings_status: "resolved_no_open_findings"
-  recommended_outcome: "approve_revised_publication_hosted_ci_pending"
-notes: "Evidence: .csdlc/evidence/888/review/final-source-review.json. Scope is final source plus local proof; publication enables the required actual hosted CI, which is not yet claimed."
+  recommended_outcome: "approve_fitness_acceptance_pending_full_ci_and_merge"
+notes: "Source/local-proof review covers the published candidate 40db24d0f1511bf77e115c621cf9a858503ea81b. Bounded cross-feature review PASS is retained in Git metadata worker10-sprint3/929-cross-feature-source-review.json; it is not a fresh exhaustive repository audit. PR #1000 is published at reviewed head 40db24d0f1511bf77e115c621cf9a858503ea81b. Run 35040846113 has four successful fitness jobs; independent uploaded-artifact verification passed with original exits and exact report parity. Main Rust tests and coverage remain pending; contract, Clippy, acquisition and product build checks have passed. Full CI, merge and terminal closeout are not claimed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- R1/R2 and centralcaller/aggregate findings resolved. GitHub expressionvalidation rejected runner.temp at jobenv beforeexecution; moved to buildstepenv. Actions-specificlint passes bothworkflowfiles, revisedexactheadreview required beforepush. Hostedproofpending.
+- R1/R2 and workflow integration/expression findings fixed and independently reviewed. Hosted run 35040846113 artifact verification PASS: four groups, original exits 0/0/1/2, exact local report parity and cross-platform fixture semantics. Raw logs retain negative failures. Bounded cross-feature sprint source review reports no findings. Full CI and authorized merge remain integration gates.
 
 ### Dispositions
 
-- R1/R2 resolved and independentlyverified. Hostedworkflowpolicy defect resolved by centralci caller and fail-closed aggregate, without changingvalidator. No openfindings or waivers.
+- All actionable findings resolved without waivers. Negative qualification is not labeled policy success. Hosted candidate uses the exact GitHub merge checkout; cross-platform comparison uses fixed fixture commits.
 
 ### Recommended Outcome
 
-- approve_revised_publication_hosted_ci_pending
+- approve_fitness_acceptance_pending_full_ci_and_merge
 
 ## Notes
 
-Evidence: .csdlc/evidence/888/review/final-source-review.json. Scope is final source plus local proof; publication enables the required actual hosted CI, which is not yet claimed.
+Source/local-proof review covers the published candidate 40db24d0f1511bf77e115c621cf9a858503ea81b. Bounded cross-feature review PASS is retained in Git metadata worker10-sprint3/929-cross-feature-source-review.json; it is not a fresh exhaustive repository audit. PR #1000 is published at reviewed head 40db24d0f1511bf77e115c621cf9a858503ea81b. Run 35040846113 has four successful fitness jobs; independent uploaded-artifact verification passed with original exits and exact report parity. Main Rust tests and coverage remain pending; contract, Clippy, acquisition and product build checks have passed. Full CI, merge and terminal closeout are not claimed.

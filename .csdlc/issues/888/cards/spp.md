@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Preserve existing local runner limits and independently pinned installed CI verification. Dedicated workflow uses workflow_call and policy-required workflow_dispatch, invoked automatically only by central ci.yaml through the shared CodeFriend selector. Required aggregate fails closed on fitness failure/cancellation/unexpected skip. Candidate policy checks public governance facade only; broader local.rs unassessed. Execute normal automatic PR jobs, retain fourgroup artifacts, prove local/hosted parity before completion."
+plan_summary: "Implementation, local proof and reviewed native PR publication are complete. Central ci.yaml selects the reusable workflow through codefriend_ci_required; required aggregate fails closed. All four current fitness jobs passed. Finish original-artifact verification and full required CI before integration/closeout. Candidate policy covers the declared public governance facade boundary only; broader local.rs remains unassessed."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -80,7 +80,7 @@ codex_plan:
   - step: "Implement the bounded deliverables only."
     status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "in_progress"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "in_progress"
 affected_areas:
@@ -89,7 +89,7 @@ invariants_to_preserve:
   - "Keep SPP issue-local; do not turn it into sprint orchestration."
   - "Keep VPP as validation-planning truth, SRP as review-result truth, and SOR as output truth."
 risks_and_edge_cases:
-  - "A negative test may pass because it observed exit1; the production policy job may never invert exit1 into success. Retain original exit code, job classification and exact fixture/policy/revision to avoid confusing those claims. Accepted #887 merge is verified; actual hosted CI proof remains required."
+  - "Negative qualification success means an expected original exit 1 or 2 was observed; it is not a passing policy assessment. Hosted job success alone does not establish artifact completeness or local semantic parity. Retain exact identities and original exits; remaining main CI, explicit merge authorization and native terminal closeout remain required."
 test_strategy:
   - "Required local deterministic lane: production-module behavior plus installed `adl codefriend` consumer execution against isolated admitted fixtures, CPU/Rust/filesystem only and controlled clocks. Proof role: semantic correctness and actual consumer integration; required issue acceptance and later CF-PROOF/TAIL-01 input. Run `cargo test --manifest-path adl/Cargo.toml --test codefriend_cf_gov_ci` once authored, the focused touched shared-owner regressions and `cargo fmt --manifest-path adl/Cargo.toml --check`. Record actual nonzero test/fixture denominators and source/binary/OS/toolchain identities. New fixtures declare lane, role, determinism, resource profile and release-gate status in the tightly coupled manifest. CI/macOS/Linux evidence is separate from local proof; no unrun support claim. Use trusted same-host dependency warming where applicable. A schema, scaffold, authored packet, test-only consumer or zero-executed-scenario run cannot close this implementation issue. Report missing or failed proof as such; do not defer unfinished behavior to CF-INTEGRATE."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Execution prerequisite #887 is satisfied by accepted PR #989 merge 49ca9f2fcf785a2f8e6b75676279db4f0936f925 and passing hosted CI. #888 is bound in its registered FastWork worktree and integrates all seven merged Sprint #929 siblings. Preserve the existing dependency graph and serialize shared CLI edits under Worker #10. Source implementation exists at b6ba3f77f9dab09aa95e840f731176efc0451cc0. Fifteen focused tests passed; coverage, final build/installed proof and exact-head proof review remain in progress. No #888 PR or hosted CI result exists yet. Preserve original acceptance and non-goals; no provider calls, paid workflow dispatch or shared binary replacement is authorized."
+notes: "15 normal and 15 instrumented tests passed (7 CI adapter, 8 local fitness); strict Clippy passed. Four installed scenario groups retain original exits 0/0/1/2 and exact local semantic parity. Coverage: CI CLI 145/150, local CLI 92/100, adapter 59/59. Actionlint 1.7.7 passes both workflows with shellcheck/pyflakes disabled; workflow policy plus 24 aggregate and 12 path-selection contract cases pass. PR #1000 is published at reviewed head 40db24d0f1511bf77e115c621cf9a858503ea81b. Run 35040846113 has four successful fitness jobs; independent uploaded-artifact verification passed with original exits and exact report parity. Main Rust tests and coverage remain pending; contract, Clippy, acquisition and product build checks have passed. Full CI, merge and terminal closeout are not claimed. Earlier failed runs 35040094807 (workflow policy) and 35040528812 (job-level expression context) remain historical evidence; repaired current jobs are separate. No provider calls, paid dispatch or shared operational binary replacement is claimed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-GOV-CI] Execute architecture fitness functions as a CI gate`.
 
-Preserve existing local runner limits and independently pinned installed CI verification. Dedicated workflow uses workflow_call and policy-required workflow_dispatch, invoked automatically only by central ci.yaml through the shared CodeFriend selector. Required aggregate fails closed on fitness failure/cancellation/unexpected skip. Candidate policy checks public governance facade only; broader local.rs unassessed. Execute normal automatic PR jobs, retain fourgroup artifacts, prove local/hosted parity before completion.
+Implementation, local proof and reviewed native PR publication are complete. Central ci.yaml selects the reusable workflow through codefriend_ci_required; required aggregate fails closed. All four current fitness jobs passed. Finish original-artifact verification and full required CI before integration/closeout. Candidate policy covers the declared public governance facade boundary only; broader local.rs remains unassessed.
 
 ## PVF Lane Plan
 
@@ -145,7 +145,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
-4. [in_progress] Run focused validation and proof gates.
+4. [completed] Run focused validation and proof gates.
 5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
@@ -171,7 +171,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Risks And Edge Cases
 
-- A negative test may pass because it observed exit1; the production policy job may never invert exit1 into success. Retain original exit code, job classification and exact fixture/policy/revision to avoid confusing those claims. Accepted #887 merge is verified; actual hosted CI proof remains required.
+- Negative qualification success means an expected original exit 1 or 2 was observed; it is not a passing policy assessment. Hosted job success alone does not establish artifact completeness or local semantic parity. Retain exact identities and original exits; remaining main CI, explicit merge authorization and native terminal closeout remain required.
 
 ## Test Strategy
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Execution prerequisite #887 is satisfied by accepted PR #989 merge 49ca9f2fcf785a2f8e6b75676279db4f0936f925 and passing hosted CI. #888 is bound in its registered FastWork worktree and integrates all seven merged Sprint #929 siblings. Preserve the existing dependency graph and serialize shared CLI edits under Worker #10. Source implementation exists at b6ba3f77f9dab09aa95e840f731176efc0451cc0. Fifteen focused tests passed; coverage, final build/installed proof and exact-head proof review remain in progress. No #888 PR or hosted CI result exists yet. Preserve original acceptance and non-goals; no provider calls, paid workflow dispatch or shared binary replacement is authorized.
+15 normal and 15 instrumented tests passed (7 CI adapter, 8 local fitness); strict Clippy passed. Four installed scenario groups retain original exits 0/0/1/2 and exact local semantic parity. Coverage: CI CLI 145/150, local CLI 92/100, adapter 59/59. Actionlint 1.7.7 passes both workflows with shellcheck/pyflakes disabled; workflow policy plus 24 aggregate and 12 path-selection contract cases pass. PR #1000 is published at reviewed head 40db24d0f1511bf77e115c621cf9a858503ea81b. Run 35040846113 has four successful fitness jobs; independent uploaded-artifact verification passed with original exits and exact report parity. Main Rust tests and coverage remain pending; contract, Clippy, acquisition and product build checks have passed. Full CI, merge and terminal closeout are not claimed. Earlier failed runs 35040094807 (workflow policy) and 35040528812 (job-level expression context) remain historical evidence; repaired current jobs are separate. No provider calls, paid dispatch or shared operational binary replacement is claimed.

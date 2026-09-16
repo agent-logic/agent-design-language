@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Local15normal/15instrumentedtests and4installedgroups pass. Firsthostedrun rejected extraautomaticentrypoint; repaired centralcaller and requiredaggregate. Secondhostedrun35040528812 rejected runner.temp in job-level env beforejobs; moved path to step-level env. Official actionlint1.7.7 now validates bothworkflows with zeroerrors, and workflowpolicy/aggregatecontracts pass. FreshhostedCIpending.
+PR #1000 hosted fitness run 35040846113 passes all four jobs. Independent artifact review verifies identities, receipts, original exits 0/0/1/2 and exact local Linux report parity; three fixture results also match macOS semantics. Negative raw logs retain failure outcomes and exits 1/2. Local 15 normal and 15 instrumented tests, strict Clippy, four installed groups, workflow policy/contracts and Actions lint pass. Required full Rust tests and coverage were still running at this record; integration and merge remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -57,7 +57,7 @@ Local15normal/15instrumentedtests and4installedgroups pass. Firsthostedrun rejec
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `local_proof_complete_hosted_ci_pending`
+- Completion state: `implementation_and_fitness_acceptance_complete_integration_pending`
 - Issue goal ref: `Active whole Sprint 3 #929 goal includes #888 and all eight children; no replacement goal and no operator time or token cutoff.`
 - Sprint goal ref: `Active whole Sprint 3 #929 goal includes #888 and all eight children; no replacement goal and no operator time or token cutoff.`
 - Goal metrics rollup ref: `.csdlc/evidence/888/goal-metrics.json (planned; absent until execution)`
@@ -76,23 +76,23 @@ Local15normal/15instrumentedtests and4installedgroups pass. Firsthostedrun rejec
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/888/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/governance/ci.rs; scoped CLI wiring; adl/tools/codefriend_fitness_ci.sh and associated verifier/proof tooling; .github/workflows/codefriend-fitness.yml; focused tests, fixtures, PVF inventory and docs.`
-- Additional proof artifacts: `.csdlc/evidence/888/LOCAL_PROOF.json; integrated-coverage.json; integrated-installed-proof.json; integrated-clippy.log`
+- Additional proof artifacts: `.csdlc/evidence/888/HOSTED_PROOF.json; independent hosted verification retained in root Git sprint metadata`
 
 ## Actions taken
 - `Implemented candidate/packet/policy-bound CI adapter, original exit propagation and dedicated workflow.`
-- `Integrated accepted sibling changes and ran fifteen focused tests successfully.`
-- `Completed integrated15normal and15instrumentedtests,strictClippy,4installedscenario groups and independent source/localproof review. HostedCIpending.`
+- `Integrated all seven accepted Sprint #929 siblings; completed local normal/instrumented/installed proof and published PR #1000.`
+- `Ran actual hosted fitness jobs and independently inspected all four artifact groups and raw negative job logs.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; root main remains inspection-only. Changes are in the bound #888 worktree.`
-- Worktree-only paths remaining: `All #888 implementation, tests, workflow, documentation, proof and native card changes remain unpublished in its bound worktree.`
+- Worktree-only paths remaining: `Implementation, workflow, tests, docs and tracked cards have been published through PR #1000. Local generated evidence and retained invocation receipts remain in the bound worktree/Git metadata; they are not all tracked publication artifacts.`
 - Integration state: `pr_open`
-- Verification scope: `Independently reviewed source and installed local proof; actual hosted workflow proof pending`
-- Integration method used: `Native bind and local source integration only; no PR published.`
+- Verification scope: `Local installed proof plus independently verified actual hosted candidate/pass/fail/error jobs; full integration CI pending`
+- Integration method used: `Native reviewed publication to PR #1000; published head 40db24d0f1511bf77e115c621cf9a858503ea81b. No merge or terminal finish/clean has occurred.`
 - Verification performed:
-  - `Not applicable until PR publication; then authenticated native observation and exact-head hosted CI readback.`
-    `No remote integration or closeout claimed.`
-- Result: `pr_open_revised_hosted_ci_pending`
+  - `Authenticated native PR publication observation plus exact-head GitHub checks/run 35040846113 readback; independent original artifact verification is retained in HOSTED_PROOF.json and the root Git verification packet.`
+    `PR #1000 is published at reviewed head 40db24d0f1511bf77e115c621cf9a858503ea81b. Run 35040846113 has four successful fitness jobs; independent uploaded-artifact verification passed with original exits and exact report parity. Main Rust tests and coverage remain pending; contract, Clippy, acquisition and product build checks have passed. Full CI, merge and terminal closeout are not claimed.`
+- Result: `pr_open_fitness_acceptance_verified_full_ci_pending`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `Focused cargo test, cargo llvm-cov, strict cargo clippy; installed4group proof; Ruby workflowpolicy/aggregatecontracts; actionlint1.7.7 bothworkflows (-shellcheck= -pyflakes=)`
-    `15normal/15instrumented Rust tests and4installed groups pass; additional24aggregate outcomes and12path selections pass. First hostedrun failed dispatchpolicy beforeexecution; revisedworkflowawaitsCI.`
+    `Hosted original exits 0/0/1/2 and exact local report parity verified; negative qualification success is distinct from a policy pass. Source and integration review pass. Full CI remains separate.`
 - Results:
-  - `local_pass_revised_hosted_pending`
+  - `local_and_hosted_fitness_pass_full_ci_pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_pass_hosted_pending
+    status: local_and_hosted_fitness_pass_full_ci_pending
     checks_run:
-      - "Independent source/local proof review PASS, no open findings; native exact-head review and hosted CI next"
+      - "Independent source, hosted artifacts and bounded sprint integration reviews PASS; final record-only attestation and full CI remain gates."
   determinism:
-    status: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
-    replay_verified: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
-    ordering_guarantees_verified: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
+    status: Local semantic parity verified; original hosted-artifact comparison passed, including all three fixed fixtures across macOS/Linux.
+    replay_verified: Local semantic parity and output-reuse rejection verified; exact local/CI report equality and cross-platform fixture semantic parity independently verified.
+    ordering_guarantees_verified: Bounded adapter linkage verified; general ordering is outside this proof.
   security_privacy:
-    status: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
-    secrets_leakage_detected: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
-    prompt_or_tool_arg_leakage_detected: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
-    absolute_path_leakage_detected: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
+    status: Bounded local process tests assert machine-readable stdout, adl_event stderr and absence of the fixture absolute path in stderr; contract rejections use a generic error. This is not a comprehensive secret, prompt/tool-argument or whole-artifact privacy audit. Hosted identity/exit/parity inspection passed; no comprehensive privacy scan is claimed.
+    secrets_leakage_detected: Not established by a comprehensive scan; no clean-secret-scan claim.
+    prompt_or_tool_arg_leakage_detected: Not assessed by a dedicated scan; no absence-of-leakage claim.
+    absolute_path_leakage_detected: No fixture absolute path appeared in stderr in the exercised pass/fail/error process tests. Other output/artifact surfaces are not comprehensively certified.
   artifacts:
-    status: local_present_hosted_pending
-    required_artifacts_present: local proof present; actual hosted job/artifact proof pending
+    status: local_and_hosted_fitness_verified
+    required_artifacts_present: Local and actual hosted fitness acceptance proof present; full integration CI and merge remain pending
     schema_changes:
-      present: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
-      approved: Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.
+      present: The CI receipt contract codefriend.fitness.ci.v1 is implemented and tested; report contract codefriend.fitness.v1 is verified. No broader schema migration is claimed.
+      approved: Independent bounded source review passed the CI receipt/verification contract; this is not a separate platform-wide schema approval.
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Fixtures or scripts used: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Replay verification (same inputs -> same artifacts/order): `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Ordering guarantees (sorting / tie-break rules used): `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Artifact stability notes: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
+- Determinism tests executed: `15 normal and 15 instrumented tests plus four installed scenario groups; explicit identity/exit checks, direct-run semantic equality and existing-output rejection. General cross-host byte determinism is not claimed.`
+- Fixtures or scripts used: `adl/tests/codefriend_cf_gov_ci.rs; local fitness regression target; adl/tests/fixtures/codefriend/fitness-ci/{manifest.json,PVF.json}; codefriend_fitness_ci.sh and its fixture/proof/artifact tools; workflow contract tests. See LOCAL_PROOF.json for retained identities.`
+- Replay verification (same inputs -> same artifacts/order): `Local CI-adapter reports equal direct local reports for pass/fail/error; installed candidate/pass/fail/error groups preserve original exits 0/0/1/2 and semantic parity. Existing output reuse is rejected without altering the prior report. No repeated-run byte stability or original hosted-artifact replay is claimed.`
+- Ordering guarantees (sorting / tie-break rules used): `Receipt/report/exit linkage and fail-closed transport are tested. No additional execution-order or concurrency guarantee is claimed.`
+- Artifact stability notes: `Candidate/policy/packet pins and source/binary identities bind the local proof. Original hosted artifacts require their own acquisition and identity verification; historical failed runs remain retained.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Prompt / tool argument redaction verified: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Absolute path leakage check: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Sandbox / policy invariants preserved: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
+- Secret leakage scan performed: `No comprehensive secret scan is recorded in this proof packet. These deterministic local fixtures require no provider credentials; hosted identity/exit/parity inspection passed without a comprehensive secret scan.`
+- Prompt / tool argument redaction verified: `No dedicated prompt/tool-argument redaction scan is recorded; bounded generic-error/path assertions do not establish a general redaction guarantee.`
+- Absolute path leakage check: `Bounded local process tests assert machine-readable stdout, adl_event stderr and absence of the fixture absolute path in stderr; contract rejections use a generic error. This is not a comprehensive secret, prompt/tool-argument or whole-artifact privacy audit. Hosted identity/exit/parity inspection passed; no comprehensive privacy scan is claimed.`
+- Sandbox / policy invariants preserved: `Local tests reject malformed inputs, managed output destinations and reuse of existing output. No general sandbox or arbitrary-repository execution qualification is claimed.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/888/LOCAL_PROOF.json; integrated-installed-proof.json; integrated-coverage.json; review/final-source-review.json`
+- Trace bundle path(s): `.csdlc/evidence/888/LOCAL_PROOF.json; HOSTED_PROOF.json; root Git retained downloaded artifacts, raw negative logs and independent verification.`
 - Run artifact root: `.csdlc/evidence/888/`
-- Replay command used for verification: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Replay result: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
+- Replay command used for verification: `Retained commands and identities are recorded in .csdlc/evidence/888/integrated-installed-proof.json and LOCAL_PROOF.json; no separate hosted-artifact replay invocation is claimed.`
+- Replay result: `Local CI-adapter reports equal direct local reports for pass/fail/error; installed candidate/pass/fail/error groups preserve original exits 0/0/1/2 and semantic parity. Existing output reuse is rejected without altering the prior report. No repeated-run byte stability or original hosted-artifact replay is claimed.`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/888/`
-- Required artifacts present: `Local sourcehashinventory,coverage,installedproof,and independentreview present; hostedjob/artifactproof pending`
-- Artifact schema/version checks: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Hash/byte-stability checks: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Missing/optional artifacts and rationale: `No optional local proof missing. Required hosted CI proof awaits publication.`
+- Required artifacts present: `.csdlc/evidence/888/LOCAL_PROOF.json and HOSTED_PROOF.json; raw hosted artifacts retained in root Git evidence; independent verification retained`
+- Artifact schema/version checks: `Local typed receipt/report checks and independently pinned candidate, packet and policy digest checks pass. Missing, truncated, tampered and exit-inconsistent artifacts fail closed; optimized Python identity-mismatch regression passes. Hosted receipt/report identity, content and exit consistency were independently verified.`
+- Hash/byte-stability checks: `Source/binary SHA256 identities are retained in LOCAL_PROOF.json and exact-head review evidence. Reports are compared semantically; repeated-run byte identity is not established.`
+- Missing/optional artifacts and rationale: `No missing fitness acceptance proof. Full CI and authorized merge remain required integration gates.`
 
 ## Decisions / Deviations
 - `Execution prerequisite #887 is satisfied by accepted PR #989 merge 49ca9f2fcf785a2f8e6b75676279db4f0936f925 and passing hosted CI. #888 is bound in its registered FastWork worktree and integrates all seven merged Sprint #929 siblings. Preserve the existing dependency graph and serialize shared CLI edits under Worker #10.`
 - `Repository requires one automatic PR entrypoint. Dedicated workflow remains reusable and explicitly dispatchable but automatic selection is owned by centralci. No manual dispatch or paid infrastructure invoked.`
 
 ## Follow-ups / Deferred work
-- `Publish independently reviewed workflow expression repair; inspect actual hostedjobs/artifacts and originalexitparity.`
-- `Retain actual automatic hosted passing and violating job/artifact proof, then obtain authorized integration and native terminal finish/clean.`
+- `Complete final record-only exact-head review and full CI, then seek merge authorization.`
+- `Wait for required Rust tests and coverage, renew review for subsequent record changes, then obtain explicit merge authorization and perform native finish/clean only after actual merge/closure.`

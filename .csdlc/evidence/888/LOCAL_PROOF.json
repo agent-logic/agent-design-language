@@ -177,8 +177,8 @@
   "binary_sha256": "8fc8d4e5d71f048a19f16b08eae0e11030eb5fe8246e16bbfcd5be42fbf9d48e",
   "strict_clippy": "passed",
   "workflow_syntax": "actionlint1.7.7 validates bothworkflowfiles with shellcheck/pyflakes disabled; workflowpolicy and24aggregateoutcomes/12pathselectioncontracts pass",
-  "review": "PASS: Rust/localproof and bounded centralworkflowrepair independentlyreviewed. FreshhostedCIpending",
-  "hosted_ci": "Firsthosted run35040094807 failed workflowdispatchpolicy; second35040528812 failed runnercontext jobenv expression. Both sourceissues fixed; actualjobexecution stillpending.",
+  "review": "PASS: source, workflows, hosted artifacts and bounded cross-feature review; full CI and authorized merge remain gates",
+  "hosted_ci": "Four fitness jobs passed run35040846113 at head40db24d0; independently verified HOSTED_PROOF.json. Full integration tests/coverage pending at observation.",
   "limitations": [
     "The candidate policy checks one declared literal-import boundary, not complete architecture quality.",
     "Expected-negative qualification success is not a passing policy assessment.",
