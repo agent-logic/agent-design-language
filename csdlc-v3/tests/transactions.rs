@@ -1019,11 +1019,15 @@ fn adapter_branch_observation_never_authorizes_lifecycle_work() {
 // proof, no network/credentials. Process death proves lock release, not power-loss durability.
 mod semantic_gate_a {
     use super::*;
+    use csdlc_v3::commands::remote::{
+        github_mutation_operation_digest, github_mutation_operation_marker, GithubMutation,
+        GithubMutationIntent, GithubMutationRequest,
+    };
     use csdlc_v3::lifecycle::semantic::{self, Facts, Outcome, SemanticCommand};
     use csdlc_v3::storage::semantic::{
         AcceptedIntentPlan, Admission, CommitOutcome, Digest, Error, IssueInputs, IssueKey,
-        LocalChange, Observation, PlanStep, ProjectionWriteProof, Publication, SemanticRoot,
-        Snapshot, Validator,
+        LocalChange, NativeWriterFenceGuard, Observation, PlanStep, ProjectionWriteProof,
+        Publication, SemanticRoot, Snapshot, Validator,
     };
     use std::collections::BTreeMap;
     use std::path::{Path, PathBuf};
@@ -1122,6 +1126,24 @@ mod semantic_gate_a {
         IssueInputs::new(
             "bounded semantic work".into(),
             accepted_plan(),
+            vec![PlanStep {
+                id: "implement".into(),
+                acceptance: "semantic owner".into(),
+            }],
+            None,
+            Digest::authority(b"authority fixture"),
+        )
+        .unwrap()
+    }
+    fn legacy_inputs(worktree: &Path) -> IssueInputs {
+        let mut plan = accepted_plan();
+        for card in plan.cards.values_mut() {
+            card["branch"] = "codex/870-semantic-owner".into();
+            card["worktree"] = worktree.to_string_lossy().into_owned().into();
+        }
+        IssueInputs::new(
+            "bounded semantic work".into(),
+            plan,
             vec![PlanStep {
                 id: "implement".into(),
                 acceptance: "semantic owner".into(),
@@ -1371,6 +1393,412 @@ mod semantic_gate_a {
             ),
             Err(Error::WrongRepository)
         );
+    }
+
+    fn write_issue_1029_legacy_ready_fixture(fixture: &Fixture, worktree: &Path) {
+        let issue_root = fixture
+            .directory
+            .join("repo/.git/csdlc-v3/local/issues/870");
+        fs::create_dir_all(issue_root.join("cards")).unwrap();
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            fs::write(
+                issue_root.join("cards").join(format!("{kind}.md")),
+                "card\n",
+            )
+            .unwrap();
+            fs::write(
+                issue_root.join("cards").join(format!("{kind}.values.json")),
+                "{}\n",
+            )
+            .unwrap();
+        }
+        let mut index = serde_json::json!({
+            "schema":"csdlc.v3.local_state.v1","issue":870,
+            "repository":"example/repo","phase":"ready","generation":4,
+            "branch":"codex/870-semantic-owner","worktree":worktree,
+        });
+        let mut hasher = blake3::Hasher::new();
+        hasher.update(&serde_json::to_vec(&index).unwrap());
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["values.json", "md"] {
+                hasher.update(
+                    &fs::read(issue_root.join("cards").join(format!("{kind}.{suffix}"))).unwrap(),
+                );
+            }
+        }
+        index["digest"] = hasher.finalize().to_hex().to_string().into();
+        fs::write(
+            issue_root.join("index.json"),
+            serde_json::to_vec(&index).unwrap(),
+        )
+        .unwrap();
+    }
+
+    #[test]
+    fn issue_1029_explicit_fenced_prepare_preserves_valid_unbound_legacy_record() {
+        let fixture = Fixture::new();
+        let worktree = fixture.directory.join("missing-bound-worktree");
+        write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+        let issue_root = fixture
+            .directory
+            .join("repo/.git/csdlc-v3/local/issues/870");
+        let before = inventory(&issue_root);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::LegacyMigrationRequired
+        );
+        let fence =
+            NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870]).unwrap();
+        let committed = DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+            &fixture.root,
+            fixture.key.clone(),
+            legacy_inputs(&worktree),
+            &fence,
+        )
+        .unwrap();
+        assert!(matches!(committed, CommitOutcome::Committed(_)));
+        assert_eq!(before, inventory(&issue_root));
+        match DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap() {
+            Observation::Current(snapshot) => assert!(snapshot.projection_required()),
+            other => panic!("unexpected post-prepare observation: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn issue_1029_fenced_prepare_accepts_valid_completed_local_and_remote_receipts() {
+        for replay in [false, true] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            let request = GithubMutationRequest {
+                repository: "example/repo".into(),
+                issue: 870,
+                pull_request: None,
+                cutover_issue: None,
+                operator_approval: None,
+                expected_head_sha: "f".repeat(40),
+                credential_names: vec!["GITHUB_TOKEN".into()],
+                recovery: None,
+                mutation: GithubMutation::IssueEdit {
+                    title: None,
+                    body: Some("updated body".into()),
+                    labels: None,
+                    assignees: None,
+                    milestone: None,
+                },
+            };
+            let operation = github_mutation_operation_digest(&request);
+            let marker = github_mutation_operation_marker(&operation);
+            let intent = GithubMutationIntent {
+                schema: "csdlc.v3.github_mutation_intent.v1".into(),
+                operation_digest: operation.clone(),
+                operation_marker: marker.clone(),
+                authority_selector_digest: "a".repeat(64),
+                request,
+                adapter: "github-api-operational".into(),
+                resolved_edit: None,
+                resolved_ready_target: None,
+            };
+            let stable_digest = |values: &[&str]| {
+                let mut hasher = blake3::Hasher::new();
+                for value in values {
+                    hasher.update(value.as_bytes());
+                    hasher.update(b"\0");
+                }
+                hasher.finalize().to_hex().to_string()
+            };
+            let intent_digest = stable_digest(&[
+                &intent.schema,
+                &operation,
+                &marker,
+                &intent.authority_selector_digest,
+                &intent.adapter,
+            ]);
+            let completed = fixture.directory.join(format!(
+                "repo/.git/csdlc-v3/local/transactions/completed/870/edit-{operation}.json"
+            ));
+            fs::create_dir_all(completed.parent().unwrap()).unwrap();
+            fs::write(
+            &completed,
+            serde_json::to_vec(&serde_json::json!({
+                "schema":"csdlc.v3.local_mutation_completion.v1","issue":870,
+                "route":"edit","request_digest":operation,
+                "result":{"route":"edit","issue":870,"mutated":true,"phase":"ready",
+                    "generation":2,"digest":"e".repeat(64),"next_route":"validate","findings":[]}
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+            let receipt = fixture.directory.join(format!(
+                "repo/.git/csdlc-v3/remote/mutations/{operation}.json"
+            ));
+            fs::create_dir_all(receipt.parent().unwrap()).unwrap();
+            let intent_path = fixture.directory.join(format!(
+                "repo/.git/csdlc-v3/remote/intents/{operation}.json"
+            ));
+            fs::create_dir_all(intent_path.parent().unwrap()).unwrap();
+            fs::write(&intent_path, serde_json::to_vec(&intent).unwrap()).unwrap();
+            fs::write(
+                &receipt,
+                serde_json::to_vec(&serde_json::json!({
+                    "schema":"csdlc.v3.github_mutation_receipt.v2",
+                    "repository":"example/repo","issue":870,"pull_request":null,
+                    "expected_head_sha":"f".repeat(40),"operation_digest":operation,
+                    "response_digest":null,"readback_digest":"1".repeat(64),
+                    "intent_digest":intent_digest,"reconciliation_digest":"3".repeat(64),
+                    "adapter":"github-api-operational","authenticated":true,
+                    "idempotent_replay":replay
+                }))
+                .unwrap(),
+            )
+            .unwrap();
+            let completed_before = fs::read(&completed).unwrap();
+            let receipt_before = fs::read(&receipt).unwrap();
+            let intent_before = fs::read(&intent_path).unwrap();
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            assert!(matches!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                )
+                .unwrap(),
+                CommitOutcome::Committed(_)
+            ));
+            assert_eq!(completed_before, fs::read(completed).unwrap());
+            assert_eq!(receipt_before, fs::read(receipt).unwrap());
+            assert_eq!(intent_before, fs::read(intent_path).unwrap());
+        }
+    }
+
+    #[test]
+    fn issue_1029_merge_sidecars_are_scoped_through_their_retained_intent() {
+        for suffix in ["target", "input", "response", "dispatch-prestate"] {
+            for case in [
+                "unrelated",
+                "same_issue",
+                "missing_intent",
+                "wrong_repository",
+            ] {
+                if case == "wrong_repository" && suffix != "target" {
+                    continue;
+                }
+                let fixture = Fixture::new();
+                let worktree = fixture.directory.join("missing-bound-worktree");
+                write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+                let remote = fixture.directory.join("repo/.git/csdlc-v3/remote/merges");
+                fs::create_dir_all(&remote).unwrap();
+                if case != "missing_intent" {
+                    fs::write(remote.join("retained.intent.json"), serde_json::to_vec(
+                        &serde_json::json!({"schema":"csdlc.v3.merge_intent.v1",
+                            "request":{"repository":"example/repo", "issue":if case == "same_issue" {870} else {999}}})
+                    ).unwrap()).unwrap();
+                }
+                let value = if suffix == "target" {
+                    serde_json::json!({"schema":"csdlc.v3.merge_target.v1",
+                        "operation_digest":"retained", "repository":if case == "wrong_repository" {"foreign/repo"} else {"example/repo"}})
+                } else {
+                    serde_json::json!({"retained":"sidecar"})
+                };
+                fs::write(
+                    remote.join(format!("retained.{suffix}.json")),
+                    serde_json::to_vec(&value).unwrap(),
+                )
+                .unwrap();
+                let fence =
+                    NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                        .unwrap();
+                let before = inventory(&fixture.directory);
+                let remote_before = inventory(&remote);
+                let result =
+                    DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                        &fixture.root,
+                        fixture.key.clone(),
+                        legacy_inputs(&worktree),
+                        &fence,
+                    );
+                let allowed = case == "unrelated";
+                assert_eq!(result.is_ok(), allowed, "{suffix}: {case}: {result:?}");
+                assert_eq!(remote_before, inventory(&remote));
+                if !allowed {
+                    assert_eq!(before, inventory(&fixture.directory));
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn issue_1029_fenced_prepare_rejects_pending_or_bound_legacy_record() {
+        for forbidden in ["transactions/870.json", "bindings/870.json"] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            let path = fixture
+                .directory
+                .join("repo/.git/csdlc-v3/local")
+                .join(forbidden);
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, "pending\n").unwrap();
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            let before = inventory(&fixture.directory);
+            assert_eq!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                ),
+                Err(Error::PendingOperation),
+                "{forbidden}"
+            );
+            assert_eq!(before, inventory(&fixture.directory));
+        }
+    }
+
+    #[test]
+    fn issue_1029_fenced_prepare_rejects_stale_digest_and_wrong_identity() {
+        for case in ["stale_digest", "wrong_repository", "existing_worktree"] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            let issue_root = fixture
+                .directory
+                .join("repo/.git/csdlc-v3/local/issues/870");
+            match case {
+                "stale_digest" => fs::write(issue_root.join("cards/sip.md"), "changed\n").unwrap(),
+                "wrong_repository" => {
+                    let path = issue_root.join("index.json");
+                    let mut index: serde_json::Value =
+                        serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                    index["repository"] = "foreign/repo".into();
+                    fs::write(path, serde_json::to_vec(&index).unwrap()).unwrap();
+                }
+                "existing_worktree" => fs::create_dir_all(&worktree).unwrap(),
+                _ => unreachable!(),
+            }
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            let before = inventory(&fixture.directory);
+            assert!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                )
+                .is_err(),
+                "{case}"
+            );
+            assert_eq!(before, inventory(&fixture.directory), "{case}");
+        }
+    }
+
+    #[test]
+    fn issue_1029_fenced_prepare_rejects_remote_linked_and_damaged_completion_residue() {
+        for case in [
+            "remote_pending",
+            "orphan_remote_receipt",
+            "tampered_remote_intent",
+            "linked_residue",
+            "damaged_completion",
+        ] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            match case {
+                "remote_pending" => {
+                    let path = fixture
+                        .directory
+                        .join("repo/.git/csdlc-v3/remote/intents/pending.json");
+                    fs::create_dir_all(path.parent().unwrap()).unwrap();
+                    fs::write(
+                        path,
+                        serde_json::to_vec(&serde_json::json!({
+                            "schema":"csdlc.v3.github_mutation_intent.v2",
+                            "request":{"repository":"example/repo","issue":870}
+                        }))
+                        .unwrap(),
+                    )
+                    .unwrap();
+                }
+                "orphan_remote_receipt" | "tampered_remote_intent" => {
+                    let operation = "d".repeat(64);
+                    let mutation = fixture.directory.join(format!(
+                        "repo/.git/csdlc-v3/remote/mutations/{operation}.json"
+                    ));
+                    fs::create_dir_all(mutation.parent().unwrap()).unwrap();
+                    fs::write(
+                        mutation,
+                        serde_json::to_vec(&serde_json::json!({
+                            "schema":"csdlc.v3.github_mutation_receipt.v2",
+                            "repository":"example/repo","issue":870,"pull_request":null,
+                            "expected_head_sha":"f".repeat(40),"operation_digest":operation,
+                            "response_digest":null,"readback_digest":"1".repeat(64),
+                            "intent_digest":"2".repeat(64),"reconciliation_digest":"3".repeat(64),
+                            "adapter":"github-api-operational","authenticated":true,
+                            "idempotent_replay":true
+                        }))
+                        .unwrap(),
+                    )
+                    .unwrap();
+                    if case == "tampered_remote_intent" {
+                        let intent = fixture.directory.join(format!(
+                            "repo/.git/csdlc-v3/remote/intents/{operation}.json"
+                        ));
+                        fs::create_dir_all(intent.parent().unwrap()).unwrap();
+                        fs::write(intent, b"{}\n").unwrap();
+                    }
+                }
+                "linked_residue" => {
+                    let registration = fixture.directory.join("repo/.git/worktrees/linked");
+                    fs::create_dir_all(&registration).unwrap();
+                    fs::write(
+                        registration.join("gitdir"),
+                        fixture
+                            .directory
+                            .join("linked/.git")
+                            .to_string_lossy()
+                            .as_bytes(),
+                    )
+                    .unwrap();
+                    let residue = fixture
+                        .directory
+                        .join("linked/.csdlc/issues/870/index.json");
+                    fs::create_dir_all(residue.parent().unwrap()).unwrap();
+                    fs::write(residue, "damaged\n").unwrap();
+                }
+                "damaged_completion" => {
+                    let path = fixture.directory.join(format!(
+                        "repo/.git/csdlc-v3/local/transactions/completed/870/edit-{}.json",
+                        "c".repeat(64)
+                    ));
+                    fs::create_dir_all(path.parent().unwrap()).unwrap();
+                    fs::write(path, "{}\n").unwrap();
+                }
+                _ => unreachable!(),
+            }
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            let before = inventory(&fixture.directory);
+            assert!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                )
+                .is_err(),
+                "{case}"
+            );
+            assert_eq!(before, inventory(&fixture.directory), "{case}");
+        }
     }
 
     #[test]

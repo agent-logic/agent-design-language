@@ -806,6 +806,12 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             if (request.command == "github-issue") != issue_operation {
                 return Err("intent_remote_operation_family_mismatch".into());
             }
+            // Preview and execution share semantic admission for every mutation
+            // against an existing issue. Repository-scoped issue creation is the
+            // only operation that legitimately has no issue semantic state yet.
+            if issue_operation && !matches!(operation, GithubMutation::IssueCreate { .. }) {
+                context.semantic_context()?;
+            }
             let mut pull_request = None;
             if !issue_operation {
                 let review = evidence(context)?;

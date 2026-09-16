@@ -207,6 +207,48 @@ pub(crate) fn repository_scoped_issue_creation_receipt(
     Ok(receipt.issue == assigned_issue)
 }
 
+/// Verify that a retained ordinary issue mutation is the settled result of the
+/// exact native intent stored beside it. Legacy semantic activation may retain
+/// these records, but must never infer authority from an orphan receipt.
+pub(crate) fn settled_issue_mutation_receipt(
+    remote: &Path,
+    receipt_path: &Path,
+    repository: &str,
+    issue: u64,
+) -> Result<bool, RemoteRouteFinding> {
+    let Some(operation_digest) = receipt_path
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .filter(|value| value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit()))
+    else {
+        return Ok(false);
+    };
+    let intent_path = remote
+        .join("intents")
+        .join(format!("{operation_digest}.json"));
+    if !intent_path
+        .symlink_metadata()
+        .is_ok_and(|metadata| metadata.is_file() && !metadata.file_type().is_symlink())
+    {
+        return Ok(false);
+    }
+    let intent = load_mutation_intent(&intent_path, operation_digest)?;
+    let receipt = load_mutation_receipt(receipt_path, operation_digest)?;
+    if intent.request.repository != repository
+        || intent.request.issue != issue
+        || intent.request.pull_request.is_some()
+        || !matches!(intent.request.mutation, GithubMutation::IssueEdit { .. })
+        || receipt.repository != intent.request.repository
+        || receipt.issue != intent.request.issue
+        || receipt.pull_request != intent.request.pull_request
+        || receipt.expected_head_sha != intent.request.expected_head_sha
+        || receipt.intent_digest != github_mutation_intent_digest(&intent)
+    {
+        return Ok(false);
+    }
+    Ok(true)
+}
+
 pub(super) fn finalize_mutation_receipt(
     request: &GithubMutationRequest,
     operation_digest: &str,

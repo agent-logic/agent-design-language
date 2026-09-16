@@ -49,6 +49,26 @@ fn prepare(fixture: &mut Fixture) {
     ));
 }
 
+fn rehash_native_issue(issue_root: &Path) {
+    let index_path = issue_root.join("index.json");
+    let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index.as_object_mut().unwrap().remove("digest");
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&serde_json::to_vec(&index).unwrap());
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            hasher.update(&fs::read(issue_root.join(format!("cards/{kind}.{suffix}"))).unwrap());
+        }
+    }
+    let intent_plan = issue_root.join("intent-plan.json");
+    if intent_plan.is_file() {
+        hasher.update(b"csdlc.v3.intent_plan.v1\0");
+        hasher.update(&fs::read(intent_plan).unwrap());
+    }
+    index["digest"] = hasher.finalize().to_hex().to_string().into();
+    fs::write(index_path, serde_json::to_vec(&index).unwrap()).unwrap();
+}
+
 fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
     let before = intent_fixture::inventory(&fixture.root);
     let result = success(fixture.run(cwd, &[route, "505"]));
@@ -57,6 +77,71 @@ fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
         before,
         intent_fixture::inventory(&fixture.root),
         "{route} changed fixture bytes"
+    );
+}
+
+#[test]
+fn issue_1029_installed_prepare_reactivates_retained_unbound_native_record() {
+    let mut fixture = Fixture::new("legacy-native-preparation");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let native_issue = primary.join(".git/csdlc-v3/local/issues/505");
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+
+    let status = success(fixture.run(&primary, &["status", "505"]));
+    assert_eq!(status["allowed_next"], json!(["prepare"]));
+    assert_eq!(
+        status["preparation"]["structural_state"],
+        "native_record_present_semantic_preparation_required"
+    );
+    assert_eq!(status["preparation"]["execution_ready"], false);
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "legacy status changed retained source"
+    );
+
+    let input = fixture.write_json("legacy-plan.json", &plan());
+    let prepared = success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(prepared["status"], "completed");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "compatibility preparation changed retained source"
+    );
+    observation(&mut fixture, &primary, "status");
+    observation(&mut fixture, &primary, "validate");
+}
+
+#[test]
+fn issue_1029_installed_prepare_rejects_digest_consistent_invalid_legacy_cards_without_semantic_state(
+) {
+    let mut fixture = Fixture::new("legacy-native-invalid-cards");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let native_issue = primary.join(".git/csdlc-v3/local/issues/505");
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::write(native_issue.join("cards/sip.values.json"), b"[]\n").unwrap();
+    rehash_native_issue(&native_issue);
+    let native_before = intent_fixture::inventory(&native_issue);
+    let input = fixture.write_json("invalid-legacy-plan.json", &plan());
+    let rejected = fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    );
+    assert!(
+        !rejected.status.success(),
+        "invalid legacy cards were accepted"
+    );
+    assert!(!primary.join(".git/csdlc-v3/semantic/issues/505").exists());
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "invalid legacy preparation changed retained source"
     );
 }
 

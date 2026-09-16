@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1029,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1029-legacy-native-record-preparation-and-edits",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1029-legacy-native-record-preparation-and-edits",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "67a472b48ecd7c51c9f0f99e5c7892e34970d51772678d35ee7bb05d85b01402"
+}

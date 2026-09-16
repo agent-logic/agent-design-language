@@ -166,21 +166,35 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
                 .map_err(|_| "intent_status_decisions_invalid")?
         };
         let projection = semantic_card_projection_observation(context, &registry, false)?;
-        let proof_current = match semantic_proof_current(context) {
-            Ok(current) => current,
-            // Status is an observation route. A commit after binding makes proof
-            // stale, but must not turn that read-only observation into a failure.
-            Err(error)
-                if matches!(
-                    error.as_str(),
-                    "intent_semantic_binding_stale" | "intent_semantic_projection_repair_required"
-                ) =>
-            {
-                false
+        let semantic_preparation_required = projection.is_none();
+        let proof_current = if semantic_preparation_required {
+            false
+        } else {
+            match semantic_proof_current(context) {
+                Ok(current) => current,
+                // Status is an observation route. A commit after binding makes proof
+                // stale, but must not turn that read-only observation into a failure.
+                Err(error)
+                    if matches!(
+                        error.as_str(),
+                        "intent_semantic_binding_stale"
+                            | "intent_semantic_projection_repair_required"
+                    ) =>
+                {
+                    false
+                }
+                Err(error) => return Err(error),
             }
-            Err(error) => return Err(error),
         };
         output["evidence"] = json!({"proof_current":proof_current,"validators_run":false});
+        if semantic_preparation_required {
+            output["preparation"] = json!({
+                "structural_state":"native_record_present_semantic_preparation_required",
+                "dependencies_ready":decisions.dependencies_ready,
+                "execution_ready":false,
+                "allowed_next":["prepare"]
+            });
+        }
         if let Some((_, bundle, observation)) = &projection {
             output["projection"] = json!({
                 "observation": observation,
@@ -226,7 +240,9 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         )
         .map_err(errors)?);
         output["operator_decisions"] = json!({"required":unknown||decisions.operator_decision_needed,"design_ready":decisions.design_ready,"dependencies_ready":decisions.dependencies_ready,"budget_available":decisions.budget_available});
-        output["allowed_next"] = json!(if blocked {
+        output["allowed_next"] = json!(if semantic_preparation_required {
+            vec!["prepare"]
+        } else if blocked {
             vec!["status", "recover"]
         } else if context.index["phase"] == "ready" {
             vec!["bind"]
@@ -287,14 +303,15 @@ pub(super) fn semantic_card_projection_observation(
 > {
     use crate::storage::{semantic::Observation, DurableTransactionStore};
     let (root, key) = context.semantic_root_key()?;
-    let snapshot =
-        match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
-            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
-                *snapshot
-            }
-            Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
-            Observation::LegacyMigrationRequired | Observation::Absent => return Ok(None),
-        };
+    let snapshot = match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+        .map_err(semantic_error)?
+    {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            *snapshot
+        }
+        Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
+        Observation::LegacyMigrationRequired | Observation::Absent => return Ok(None),
+    };
     if snapshot.inputs().authority() != &context.semantic_authority()? {
         return Err("intent_semantic_authority_changed".into());
     }
@@ -793,9 +810,26 @@ fn semantic_bind(
 }
 
 fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
-    if !context.index.is_null() {
-        return Err("issue_already_initialized".into());
-    }
+    let legacy_native = if !context.index.is_null() {
+        let (root, key) = context.semantic_root_key()?;
+        match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+            .map_err(semantic_error)?
+        {
+            crate::storage::semantic::Observation::LegacyMigrationRequired => true,
+            crate::storage::semantic::Observation::RecoveryRequired => {
+                return Err("intent_semantic_recovery_required".into())
+            }
+            crate::storage::semantic::Observation::Absent => {
+                return Err("intent_native_state_without_semantic_classification".into())
+            }
+            crate::storage::semantic::Observation::Current(_)
+            | crate::storage::semantic::Observation::ProjectionRepairRequired(_) => {
+                return Err("issue_already_initialized".into())
+            }
+        }
+    } else {
+        false
+    };
     let plan: IntentPlan =
         serde_json::from_value(value.clone()).map_err(|_| "intent_plan_invalid")?;
     if plan.schema != "csdlc.v3.intent_plan.v1"
@@ -849,6 +883,15 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     )
     .canonicalize()
     .map_err(|_| "intent_worktree_parent_unavailable")?;
+    let expected_lifecycle_digest = legacy_native
+        .then(|| {
+            context.index["digest"]
+                .as_str()
+                .filter(|value| !value.is_empty())
+                .map(str::to_owned)
+                .ok_or("intent_legacy_lifecycle_digest_missing")
+        })
+        .transpose()?;
     let mut request = LocalPreparationRequest {
         issue: context.issue,
         title: title.into(),
@@ -859,7 +902,7 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
             .to_string_lossy()
             .into_owned(),
         registry_version: registry.version.clone(),
-        expected_lifecycle_digest: None,
+        expected_lifecycle_digest,
         commands: local::required_local_commands().to_vec(),
         card_updates: plan.cards.clone(),
         schedule_readiness: None,
@@ -892,9 +935,9 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
         context.semantic_authority()?,
     )
     .map_err(errors)?;
-    let native_result =
-        local::execute_operational_local_route("issue", &request, &registry, &native);
-    if let Err(findings) = native_result {
+    let native_result = (!legacy_native)
+        .then(|| local::execute_operational_local_route("issue", &request, &registry, &native));
+    if let Some(Err(findings)) = native_result {
         return Ok(
             json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",

@@ -362,7 +362,58 @@ pub(crate) fn prepare_semantic(
     }
     let inputs = prepared_inputs(request, registry, plan, authority)?;
     validate_context("issue", request, context)?;
-    match crate::storage::DurableTransactionStore::prepare_issue(root, key, inputs) {
+    let observed =
+        crate::storage::DurableTransactionStore::observe_issue(root, &key).map_err(|error| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "semantic_prepare_observation_failed",
+                &format!("{error:?}"),
+            )]
+        })?;
+    let prepared = if observed == crate::storage::semantic::Observation::LegacyMigrationRequired {
+        let legacy_issue_root = context
+            .state_root
+            .join("issues")
+            .join(request.issue.to_string());
+        let legacy_index = read_index_value(&legacy_issue_root)?;
+        verify_integrity(&legacy_issue_root, &legacy_index)?;
+        let common = context
+            .state_root
+            .parent()
+            .and_then(Path::parent)
+            .ok_or_else(|| {
+                vec![finding(
+                    PlanStatus::Blocked,
+                    "semantic_prepare_git_common_missing",
+                    "native state root has no Git common parent",
+                )]
+            })?;
+        let fence =
+            crate::storage::semantic::NativeWriterFenceGuard::acquire(common, [request.issue])
+                .map_err(|error| {
+                    vec![finding(
+                        PlanStatus::Blocked,
+                        "semantic_prepare_writer_fence_failed",
+                        &format!("{error:?}"),
+                    )]
+                })?;
+        validate_context("issue", request, context)?;
+        let diagnosis =
+            super::execute_operational_local_route("doctor", request, registry, context)?;
+        if diagnosis
+            .findings
+            .iter()
+            .any(|finding| matches!(finding.status, PlanStatus::Blocked | PlanStatus::Failed))
+        {
+            return Err(diagnosis.findings);
+        }
+        crate::storage::DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+            root, key, inputs, &fence,
+        )
+    } else {
+        crate::storage::DurableTransactionStore::prepare_issue(root, key, inputs)
+    };
+    match prepared {
         Ok(crate::storage::semantic::CommitOutcome::Committed(snapshot)) => Ok(*snapshot),
         Ok(crate::storage::semantic::CommitOutcome::Unchanged(snapshot)) => Ok(*snapshot),
         Err(error) => Err(vec![finding(
