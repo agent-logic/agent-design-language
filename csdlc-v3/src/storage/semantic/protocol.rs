@@ -127,12 +127,15 @@ impl EffectOrigin {
     pub(crate) fn with_bind_target(&self, target: Binding) -> Result<Self, Error> {
         match &self.0 {
             OriginData::Prepared { source } => Ok(Self::bind(source.clone(), target)),
+            // A scope amendment retains ownership while rewinding to Ready.
+            OriginData::Bound { binding } if binding == &target => Ok(self.clone()),
             _ => Err(Error::AdmissionChanged),
         }
     }
     pub(crate) fn bind_target(&self) -> Option<&Binding> {
         match &self.0 {
             OriginData::Bind { target, .. } => Some(target),
+            OriginData::Bound { binding } => Some(binding),
             _ => None,
         }
     }
@@ -169,8 +172,7 @@ impl EffectOrigin {
                     && target.head.len() == 40
             }
             OriginData::Bound { binding } => {
-                command != SemanticCommand::Bind
-                    && command != SemanticCommand::RecordCleanup
+                command != SemanticCommand::RecordCleanup
                     && snapshot.inputs().binding() == Some(binding)
             }
             OriginData::Cleanup { binding, identity } => {
@@ -1104,9 +1106,10 @@ fn attach_locked(
             (decision.phase, decision.invalidations, Vec::new())
         };
     if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::Bind {
-        let OriginData::Bind { target, .. } = &pending.origin.0 else {
-            return Err(Error::AdmissionChanged);
-        };
+        let target = pending
+            .origin
+            .bind_target()
+            .ok_or(Error::AdmissionChanged)?;
         payload.inputs.binding = Some(target.clone());
         payload.inputs.validate()?;
     }

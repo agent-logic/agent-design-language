@@ -1,0 +1,33 @@
+{
+  "issue": 1003,
+  "library_tests": 143,
+  "installed_semantic_local_tests": 12,
+  "installed_intent_tests": 43,
+  "strict_clippy": "passed",
+  "formatting": "passed",
+  "pre_fix_regressions": "AdmissionChanged and intent_semantic_binding_stale reproduced",
+  "review_finding": "P2 blocked native doctor accepted; fixed and regression passed",
+  "source_sha256": {
+    "csdlc-v3/src/application/intent/context.rs": "2b322731db53a6e9e393f3ec49ab79b828787cfa1761dde369f9b58dc8ee059c",
+    "csdlc-v3/src/application/intent/local.rs": "25e5b7164eb6d02dfc83cce67e9154f9c76a00d317349f461cf6cd20bd2bc648",
+    "csdlc-v3/src/lifecycle/semantic.rs": "3cc5811e70bbef20c6b7dd5d14f8876ae021b77fbb883a303d325a2a8c8949b7",
+    "csdlc-v3/src/storage/semantic/protocol.rs": "5b627414fc14b5441a2dea098641d68cd85f70530f15b721b4cfd4ea852c2661",
+    "csdlc-v3/tests/semantic_local_proof.rs": "79e5048bc6eaa46ccacf8e2f66815a76fb5dd9afd6349a171cab789f0aece920",
+    "csdlc-v3/tests/fixtures/scope_rebind_pvf.json": "03488a3897f00464224869826081544dfc4d2d1b1cdd35ab479187a8911a9426",
+    "docs/csdlc-v3/INTENT_COMMANDS.md": "a14215e15b4f7e28597dd8a3fa597707c8db0f55bb224b8a70869694fec64978"
+  },
+  "logs": [
+    "1003-before-fix.log",
+    "1003-stale-before-fix.log",
+    "1003-after-fix.log",
+    "1003-final-focused.log",
+    "1003-installed-regressions.log",
+    "1003-clippy.log"
+  ],
+  "ci": "pending",
+  "non_claims": [
+    "No active shared binary replacement",
+    "No repair of issue970 state",
+    "No live remote operations in fixtures"
+  ]
+}

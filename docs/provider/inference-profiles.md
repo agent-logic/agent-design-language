@@ -3,17 +3,92 @@
 ADL provider profiles materialize into explicit provider identity and bounded
 inference parameters before runtime activation.
 
+## AProvider and GeneralProvider boundary
+
+An AProvider document is declarative data. It can select a provider identity,
+model, endpoint or credential reference, capabilities, a built-in transport and
+codec, and bounded inference controls. It cannot declare an executable,
+command, script, dynamic library, plugin, embedded code, workflow, or lifecycle
+authority. Those fields are rejected before adapter construction.
+
+Profile expansion and explicit provider definitions both produce
+`EffectiveInferenceConfigV1` on the normalized
+`ProviderInvocationTargetV1`. GeneralProvider is the trusted execution
+boundary: it chooses a compiled-in codec, verifies that the codec consumes every
+supplied normalized control, and rejects unsupported controls before network or
+process I/O. The endpoint-free
+`adl.aprovider_effective_inference.v1` projection and its SHA-256 fingerprint
+bind the effective controls and codec without retaining prompts, credentials,
+endpoint values, or responses.
+
+Credential references are also codec-checked. Bearer environment references
+remain the common form. Vertex Gemini additionally accepts `adc` and
+`workload_identity` strategies with an optional access-token environment
+override; the reference is observable in typed target metadata but excluded
+from the inference projection and fingerprint.
+
+The canonical controls are:
+
+- `context_window_tokens`
+- `max_output_tokens` (with `max_tokens` accepted as a compatible alias only
+  when the two values agree)
+- `temperature` and `top_p`
+- `deterministic_seed`
+- `timeout_secs`
+- `reasoning_effort`, `clear_thinking`, and Ollama `think`
+- Vertex `thinking_budget`, `thinking_level`, and `include_thoughts`
+- `local_keep_alive`
+
+`runtime_max_output_tokens` remains a Runtime safety cap. When both it and a
+declared output limit exist, the normalized effective output limit is their
+minimum, and that effective value enters the request fingerprint.
+
+Inference numbers and booleans use their YAML/JSON scalar types. Quoted numeric
+compatibility values are no longer accepted at the canonical boundary because
+they made adapter-specific coercion part of execution behavior. Supplying both
+`max_tokens` and `max_output_tokens` is accepted only when their numeric
+values agree; new configuration should use `max_output_tokens`.
+
+Built-in codecs declare these consumption sets:
+
+| Built-in codec | Consumed normalized controls |
+| --- | --- |
+| Ollama HTTP generate | context, output, temperature, top-p, seed, timeout, think, keep-alive |
+| Ollama local CLI | timeout only |
+| MLX OpenAI-compatible chat | output, temperature, top-p, seed, timeout |
+| OpenAI, Anthropic, DeepSeek, OpenRouter, Bedrock Nova, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
+| Vertex Gemini | output, temperature, top-p, timeout, thinking budget or level, include-thoughts |
+| Legacy generic HTTP `{prompt}` payload | timeout only; supplied sampling or output controls reject before adapter construction |
+| Kimi chat | common chat controls plus reasoning effort |
+| Z.ai chat | common chat controls plus reasoning effort and clear-thinking |
+| Deepgram speech | timeout only |
+| Mock | no inference controls |
+
+Timeout controls govern the trusted client or local supervisor and are not
+serialized into provider request bodies. All other declared controls in a
+codec's set are serialized into that codec's provider request.
+
 The shared profile contract is:
 
 - `provider_model_id` binds the provider-native model selected by the profile.
-- `temperature`, `top_p`, `max_output_tokens`, and `timeout_secs` are present
-  after expansion and validated before activation. Compatibility overrides are
+- Text-inference profiles materialize `temperature`, `top_p`,
+  `max_output_tokens`, and `timeout_secs` after expansion and validate them
+  before activation. Compatibility overrides are
   bounded to `temperature` in `[0.0, 2.0]`, `top_p` in `[0.0, 1.0]`,
   `max_output_tokens` no greater than `32768`, and `timeout_secs` no greater
   than `600`.
+- Mock profiles materialize no inference controls. Deepgram speech profiles
+  materialize only `timeout_secs`, which bounds the HTTP client. Explicit text
+  sampling or output controls on either profile reject before adapter
+  construction.
 - Ollama profiles use `materialization_policy: deterministic_ollama_v1`,
   `temperature: 0.0`, `top_p: 1.0`, `max_output_tokens: 512`,
-  `timeout_secs: 120`, and `deterministic_seed: 0`.
+  `timeout_secs: 120`, and `deterministic_seed: 0`. They now materialize
+  the loopback Ollama HTTP endpoint `http://127.0.0.1:11434` so those controls
+  are executable through the pinned `/api/generate` codec. Select
+  `type: local_ollama` explicitly for the separate CLI transport; it consumes
+  only `timeout_secs` and rejects profile sampling, context, output-token,
+  seed, think, and keep-alive controls rather than silently ignoring them.
 - `profile_state.schema: adl.provider_profile_state.v1` retains the
   `last_known_good_profile` plus a redacted
   `last_known_good_materialization` from the previous valid state when one is
@@ -75,3 +150,9 @@ The direct Z.ai profile is separate from provider variants:
 Provider profiles are configuration contracts only. They do not authorize a
 paid provider call, cloud mutation, credential disclosure, or provider-specific
 acceptance claim.
+
+Server-owned settings remain outside this contract. For example, an Ollama
+server may enforce a lower model or resource ceiling than
+`context_window_tokens`; ADL proves that the bounded value reached the wire,
+not that a remote or separately managed server accepted more capacity than it
+supports.

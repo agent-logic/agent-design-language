@@ -1,0 +1,10 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "expected_lifecycle_digest": "93b10e34737e1f03aad5fa4727daec55f228c5d5779f8da7c04c3d3c85d9bffc"
+}

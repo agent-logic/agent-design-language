@@ -269,9 +269,9 @@ pub fn amendment_rule(class: AmendmentClass) -> AmendmentRule {
             all_semantic_invalidations(),
         ),
         Binding => (
-            EXECUTABLE_STATES.to_vec(),
+            ACTIVE_STATES.to_vec(),
             vec![ApprovedSemanticTransition, BoundTopology],
-            Bound,
+            PreserveReadyOtherwiseBound,
             all_semantic_invalidations(),
         ),
         Implementation => (
@@ -716,6 +716,20 @@ mod amendment_tests {
             &valid_facts(),
         ));
         assert_eq!(phase, LifecycleState::Bound);
+        assert!(invalidations
+            .iter()
+            .all(|item| item.cause == AmendmentClass::Binding));
+    }
+
+    #[test]
+    fn binding_head_refresh_preserves_ready_until_explicit_rebind() {
+        let (phase, invalidations, _) = admitted(decide_amendment(
+            LifecycleState::Ready,
+            AmendmentClass::Binding,
+            &valid_facts(),
+        ));
+        assert_eq!(phase, LifecycleState::Ready);
+        assert!(!invalidations.is_empty());
         assert!(invalidations
             .iter()
             .all(|item| item.cause == AmendmentClass::Binding));

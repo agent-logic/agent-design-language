@@ -1,6 +1,7 @@
 use csdlc_v3::conversion::{
     convert, inspect_conversion_operation, observe, relocate_current_observation_copy,
-    restore_conversion_pre_effect, ConversionRequest, CurrentObservationRelocationRequest,
+    restore_conversion_pre_effect, run_writer_fence_guardian, ConversionRequest,
+    CurrentObservationRelocationRequest,
 };
 use serde_json::json;
 use std::env;
@@ -17,6 +18,11 @@ fn argument(args: &[String], name: &str) -> Result<String, String> {
 fn run() -> Result<serde_json::Value, String> {
     let args: Vec<String> = env::args().skip(1).collect();
     match args.first().map(String::as_str) {
+        Some("writer-fence-guardian") => {
+            let path = PathBuf::from(argument(&args, "--request")?);
+            run_writer_fence_guardian(&path)?;
+            Ok(json!({"status":"released"}))
+        }
         Some("convert") => {
             let path = PathBuf::from(argument(&args, "--request")?);
             let request: ConversionRequest = serde_json::from_slice(

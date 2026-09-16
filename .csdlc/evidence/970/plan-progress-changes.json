@@ -1,0 +1,47 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true
+  },
+  "cards": {
+    "spp": {
+      "title": "[provider architecture] Make declared AProvider inference configuration effective and observable",
+      "slug": "aprovider-effective-inference-configuration",
+      "timestamp": "2026-09-15",
+      "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/970",
+      "status": "in_progress",
+      "activation_state": "bound",
+      "initial_pvf_lane": "provider",
+      "planned_pvf_lane": "provider",
+      "planned_pvf_lane_source": "docs/validation/pvf_lanes.json provider lane and issue #970 acceptance criteria",
+      "plan_summary": "Inventory current ad hoc controls; introduce typed effective normalization and codec support enforcement at ProviderInvocationTargetV1; consume the normalized controls in Ollama HTTP; expose redacted projection and fingerprint; prove profile/direct/reload parity and pre-call rejection; update operator docs; complete native proof and exact-head review.",
+      "risks_inline": "Codec-specific constraints differ, legacy profiles use loose keys, and observability must not retain prompts, credentials, private endpoint data, or responses.",
+      "non_goals_inline": "No provider lifecycle or recovery redesign, executable provider extensions, model downloads, live hosted calls, paid execution, benchmarks, or hardware provisioning.",
+      "step_1_status": "completed",
+      "step_2_status": "completed",
+      "step_3_status": "completed",
+      "step_4_status": "in_progress",
+      "step_5_status": "pending",
+      "estimate_elapsed_seconds": "10800",
+      "estimate_total_tokens": "90000",
+      "estimate_validation_seconds": "1800",
+      "issue_goal_token_budget": "unknown",
+      "variance_threshold_percent": "10",
+      "estimate_confidence": "medium",
+      "estimate_data_source": "bounded source survey and issue acceptance surface",
+      "estimate_source_ref": "issue-970",
+      "issue_goal_ref": "Active issue #970 implementation, native proof, independent review, and draft publication goal",
+      "sprint_goal_ref": "Sprint 5 provider follow-up",
+      "goal_metrics_rollup_ref": "not_collected",
+      "sip_card": ".csdlc/issues/970/cards/sip.md",
+      "stp_card": ".csdlc/issues/970/cards/stp.md",
+      "target_files_surfaces_inline": "adl-provider-core normalized substrate, candidate admission, profile materialization, GeneralProvider dispatch, Ollama HTTP codec/tests, and provider operator documentation.",
+      "dependencies_inline": "Closed dependencies #514, #876, and #855; #901 remains separate.",
+      "repo_inputs_inline": "Issue #970 and current provider-core profile, candidate, substrate, factory, codec, tests, and docs surfaces.",
+      "deliverables_inline": "Typed effective configuration, codec consumption contract, fail-closed admission, Ollama serialization, projection/fingerprint, compatibility documentation, and focused proof.",
+      "acceptance_criteria_inline": "AC-1 through AC-8 from the issue-specific STP, with every supplied control either consumed by the selected codec or rejected before provider I/O.",
+      "validation_plan_inline": "Focused local Rust tests and wire capture, fmt, diff hygiene, native proof, independent exact-head review, then CI."
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "codefriend.review_lane_result.v1",
+  "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+  "lane": "constitutional",
+  "lane_contract": "codefriend.review_lane.v1",
+  "input_manifest_ref": "lanes/constitutional/input.json",
+  "input_digest": "26b7572ed4a0b4ffc445fb7bab2260ef4a98b2069e9abb6be8e27d1d19094b9a",
+  "provider_status": "ok",
+  "provider_route": "openai:hosted_api:gpt-4.1-mini",
+  "output_digest": "bcb623b543b934ec3e5d1d82e486c41faf7fde109dc1439b495e3b3f0cf7c339",
+  "finding_ids": [],
+  "failure": null
+}

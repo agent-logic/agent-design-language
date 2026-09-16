@@ -270,6 +270,7 @@ impl DeepgramSpeechProvider {
                 "timeout_secs must be greater than zero",
             ));
         }
+        let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
         let client = Client::builder()
             .redirect(reqwest::redirect::Policy::none())
             .timeout(Duration::from_secs(timeout_secs))

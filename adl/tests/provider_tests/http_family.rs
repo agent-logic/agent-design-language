@@ -655,7 +655,7 @@ config:
   provider_model_id: "glm-5.3-flash"
   max_output_tokens: 131073
 "#,
-            "max_tokens/max_output_tokens must be no greater than 131072",
+            "config.max_output_tokens must be an integer in 1..=131072",
         ),
         (
             r#"
@@ -699,9 +699,10 @@ config:
             Ok(_) => panic!("invalid config should fail"),
             Err(err) => err,
         };
+        let message = format!("{err:#}");
         assert!(
-            err.to_string().contains(expected),
-            "expected {expected:?}, got {err:#}"
+            message.contains(expected),
+            "expected {expected:?}, got {message}"
         );
     }
 }
@@ -1029,14 +1030,13 @@ config:
         Err(err) => err,
     };
     assert!(
-        err.to_string()
-            .contains("config.auth.type must be 'bearer'"),
+        format!("{err:#}").contains("strategy is not supported by the selected codec"),
         "unexpected error: {err:#}"
     );
 }
 
 #[test]
-fn http_provider_supports_timeout_secs_string_and_rejects_negative_number() {
+fn http_provider_rejects_noncanonical_timeout_scalars() {
     let string_timeout = provider_spec_from_yaml(
         r#"
 type: http
@@ -1045,8 +1045,11 @@ config:
   timeout_secs: "7"
 "#,
     );
-    let _provider =
-        build_provider(&string_timeout, None).expect("string timeout should parse as u64");
+    let string_error = match build_provider(&string_timeout, None) {
+        Ok(_) => panic!("quoted timeout should fail canonical normalization"),
+        Err(err) => err,
+    };
+    assert!(format!("{string_error:#}").contains("config.timeout_secs must be an integer"));
 
     let negative_timeout = provider_spec_from_yaml(
         r#"
@@ -1056,8 +1059,11 @@ config:
   timeout_secs: -3
 "#,
     );
-    let _provider = build_provider(&negative_timeout, None)
-        .expect("negative timeout should be treated as absent, not a parse failure");
+    let negative_error = match build_provider(&negative_timeout, None) {
+        Ok(_) => panic!("negative timeout should fail canonical normalization"),
+        Err(err) => err,
+    };
+    assert!(format!("{negative_error:#}").contains("config.timeout_secs must be an integer"));
 }
 
 #[test]

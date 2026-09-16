@@ -1,0 +1,37 @@
+{
+  "schema": "codefriend.four_perspective_review_run.v1",
+  "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+  "packet_id": "64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515",
+  "admission_digest": "db8f5f73ed6db89e3f45b7aca787a3996e353bcd6264a58760565453d19777cd",
+  "run_digest": "ea86a2fa8acc5913151c476fff88b3e95128af41b2b05b885d5e2335ae7d4ea0",
+  "completion": "complete",
+  "lanes": [
+    {
+      "lane": "correctness",
+      "provider_status": "ok",
+      "finding_count": 0,
+      "failure": null
+    },
+    {
+      "lane": "security",
+      "provider_status": "ok",
+      "finding_count": 0,
+      "failure": null
+    },
+    {
+      "lane": "adversarial",
+      "provider_status": "ok",
+      "finding_count": 0,
+      "failure": null
+    },
+    {
+      "lane": "constitutional",
+      "provider_status": "ok",
+      "finding_count": 0,
+      "failure": null
+    }
+  ],
+  "finding_count": 0,
+  "review_record": "review-record.json",
+  "run_record": "run.json"
+}
