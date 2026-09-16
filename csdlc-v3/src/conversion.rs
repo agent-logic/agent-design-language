@@ -931,8 +931,14 @@ fn canonical_request_digest(
     Ok(Digest::semantic_projection(&bytes))
 }
 
-fn wait_for_writer_fence_probe(operation: &Operation<'_>) -> Result<(), String> {
-    let acknowledgement = operation.root.join("writer-fence-probe-complete");
+fn wait_for_writer_fence_probe(
+    operation: &Operation<'_>,
+    request_digest: &Digest,
+    acknowledgement_name: &str,
+    checkpoint: &str,
+    completed_event: &str,
+) -> Result<(), String> {
+    let acknowledgement = operation.root.join(acknowledgement_name);
     let deadline = Instant::now() + Duration::from_secs(30);
     while !acknowledgement.is_file() {
         if Instant::now() >= deadline {
@@ -943,9 +949,25 @@ fn wait_for_writer_fence_probe(operation: &Operation<'_>) -> Result<(), String> 
         }
         std::thread::sleep(Duration::from_millis(10));
     }
+    let retained = read_json(&acknowledgement)?;
+    if retained.get("schema").and_then(Value::as_str)
+        != Some("csdlc.v3.copied_record_writer_fence_probe_ack.v1")
+        || retained.get("operation_id").and_then(Value::as_str) != Some(operation.id())
+        || retained.get("request_digest").and_then(Value::as_str) != Some(request_digest.as_str())
+        || retained.get("checkpoint").and_then(Value::as_str) != Some(checkpoint)
+    {
+        return Err(format!(
+            "writer fence probe acknowledgement {} does not authenticate the current operation/request checkpoint",
+            acknowledgement.display()
+        ));
+    }
     operation.append(
-        "writer_fence_probe_completed",
-        json!({"acknowledgement": acknowledgement}),
+        completed_event,
+        json!({
+            "acknowledgement": acknowledgement,
+            "checkpoint": checkpoint,
+            "request_digest": request_digest.as_str(),
+        }),
     )
 }
 
@@ -1335,11 +1357,19 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         json!({
             "lock_contract":"native-local-state-root/locks/<issue>.lock",
             "issues":request.writer_fence_issues,
-            "paths":fence_paths,
+            "paths":&fence_paths,
+            "checkpoint":"during_conversion",
+            "request_digest":request_digest.as_str(),
         }),
     )?;
     if request.writer_fence_probe {
-        wait_for_writer_fence_probe(&operation)?;
+        wait_for_writer_fence_probe(
+            &operation,
+            &request_digest,
+            "writer-fence-probe-complete",
+            "during_conversion",
+            "writer_fence_probe_completed",
+        )?;
     }
     operation.fault("conversion_intent_durability", "before")?;
     operation.marker(
@@ -1737,6 +1767,26 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         "restore_receipt_persisted",
         json!({"status": "restored"}),
     )?;
+    if request.writer_fence_probe {
+        operation.marker(
+            "writer-fence-post-activation-held.json",
+            "native_issue_writer_fence_post_activation_held",
+            json!({
+                "lock_contract":"native-local-state-root/locks/<issue>.lock",
+                "issues":request.writer_fence_issues,
+                "paths":&fence_paths,
+                "checkpoint":"post_activation",
+                "request_digest":request_digest.as_str(),
+            }),
+        )?;
+        wait_for_writer_fence_probe(
+            &operation,
+            &request_digest,
+            "writer-fence-post-activation-probe-complete",
+            "post_activation",
+            "writer_fence_post_activation_probe_completed",
+        )?;
+    }
     drop(native_issue_writer_fences.take());
     replace_durable(&fence, b"released\n")?;
     operation.append(

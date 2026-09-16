@@ -120,6 +120,62 @@ fn converter_holds_exact_native_fence_denominator_and_unrelated_residue_still_re
     let mut value = fixture.request_value(&operation, None);
     value["writer_fence_probe"] = json!(true);
     let request = fixture.write_value("writer-fence.json", &value);
+    let mut child = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
+        .args(["convert", "--request"])
+        .arg(&request)
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let operation_root = fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .join(&operation);
+    let marker = wait_for_probe_marker(&operation_root, "writer-fence-held.json");
+    assert_native_writer_locks(&fixture.git_common, false);
+    assert!(child.try_wait().unwrap().is_none());
+    write_probe_ack(
+        &operation_root,
+        "writer-fence-probe-complete",
+        "during_conversion",
+        &marker,
+    );
+
+    let post_marker =
+        wait_for_probe_marker(&operation_root, "writer-fence-post-activation-held.json");
+    assert_native_writer_locks(&fixture.git_common, false);
+    let semantic_current = fixture
+        .git_common
+        .join("csdlc-v3/semantic/issues/511/current.json");
+    let before = fs::read(&semantic_current).unwrap();
+    std::thread::sleep(Duration::from_millis(50));
+    assert!(child.try_wait().unwrap().is_none());
+    assert_eq!(fs::read(&semantic_current).unwrap(), before);
+    write_probe_ack(
+        &operation_root,
+        "writer-fence-post-activation-probe-complete",
+        "post_activation",
+        &post_marker,
+    );
+    assert_success(&child.wait_with_output().unwrap());
+    assert_native_writer_locks(&fixture.git_common, true);
+
+    let fixture = Fixture::new();
+    let unrelated = fixture.linked.join(".csdlc/locks");
+    fs::create_dir_all(&unrelated).unwrap();
+    fs::write(unrelated.join("511.lock"), b"unrelated residue\n").unwrap();
+    assert_normal_rejection(
+        &invoke(&fixture.write_request(&fixture.operation("unrelated-lock"), None)),
+        "legacy state",
+    );
+}
+
+#[test]
+fn stale_writer_fence_probe_acknowledgement_cannot_resume_conversion() {
+    let fixture = Fixture::new();
+    let operation = fixture.operation("stale-writer-fence-ack");
+    let mut value = fixture.request_value(&operation, None);
+    value["writer_fence_probe"] = json!(true);
+    let request = fixture.write_value("stale-writer-fence-ack.json", &value);
     let child = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
         .args(["convert", "--request"])
         .arg(&request)
@@ -130,41 +186,30 @@ fn converter_holds_exact_native_fence_denominator_and_unrelated_residue_still_re
         .git_common
         .join("csdlc-v3/local/conversion-rehearsals")
         .join(&operation);
-    let marker = operation_root.join("writer-fence-held.json");
-    let deadline = Instant::now() + Duration::from_secs(10);
-    while !marker.is_file() && Instant::now() < deadline {
-        std::thread::sleep(Duration::from_millis(10));
-    }
-    assert!(
-        marker.is_file(),
-        "converter never exposed held-fence evidence"
-    );
-    for issue in [511_u64, 517, 497, 3, 505, 122, 113, 868] {
-        let path = fixture
-            .git_common
-            .join("csdlc-v3/local/locks")
-            .join(format!("{issue}.lock"));
-        let file = fs::OpenOptions::new()
-            .read(true)
-            .write(true)
-            .open(path)
-            .unwrap();
-        assert!(
-            file.try_lock_exclusive().is_err(),
-            "native writer lock {issue} was not held"
-        );
-    }
-    fs::write(operation_root.join("writer-fence-probe-complete"), b"ok\n").unwrap();
-    assert_success(&child.wait_with_output().unwrap());
-
-    let fixture = Fixture::new();
-    let unrelated = fixture.linked.join(".csdlc/locks");
-    fs::create_dir_all(&unrelated).unwrap();
-    fs::write(unrelated.join("511.lock"), b"unrelated residue\n").unwrap();
+    let marker = wait_for_probe_marker(&operation_root, "writer-fence-held.json");
+    let mut stale = marker["detail"]["request_digest"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    stale.push_str("-stale");
+    fs::write(
+        operation_root.join("writer-fence-probe-complete"),
+        serde_json::to_vec_pretty(&json!({
+            "schema":"csdlc.v3.copied_record_writer_fence_probe_ack.v1",
+            "operation_id":operation,
+            "request_digest":stale,
+            "checkpoint":"during_conversion",
+        }))
+        .unwrap(),
+    )
+    .unwrap();
     assert_normal_rejection(
-        &invoke(&fixture.write_request(&fixture.operation("unrelated-lock"), None)),
-        "legacy state",
+        &child.wait_with_output().unwrap(),
+        "does not authenticate the current operation/request checkpoint",
     );
+    assert!(!operation_root
+        .join("writer-fence-post-activation-held.json")
+        .exists());
 }
 
 #[test]
@@ -554,6 +599,48 @@ fn assert_success(output: &Output) {
         value.get("status").and_then(Value::as_str),
         Some("completed")
     );
+}
+
+fn wait_for_probe_marker(operation_root: &Path, name: &str) -> Value {
+    let marker = operation_root.join(name);
+    let deadline = Instant::now() + Duration::from_secs(30);
+    while !marker.is_file() && Instant::now() < deadline {
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    assert!(marker.is_file(), "converter never exposed {name}");
+    serde_json::from_slice(&fs::read(marker).unwrap()).unwrap()
+}
+
+fn write_probe_ack(operation_root: &Path, name: &str, checkpoint: &str, marker: &Value) {
+    fs::write(
+        operation_root.join(name),
+        serde_json::to_vec_pretty(&json!({
+            "schema":"csdlc.v3.copied_record_writer_fence_probe_ack.v1",
+            "operation_id":marker["operation_id"],
+            "request_digest":marker["detail"]["request_digest"],
+            "checkpoint":checkpoint,
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+}
+
+fn assert_native_writer_locks(git_common: &Path, available: bool) {
+    for issue in [511_u64, 517, 497, 3, 505, 122, 113, 868] {
+        let path = git_common
+            .join("csdlc-v3/local/locks")
+            .join(format!("{issue}.lock"));
+        let file = fs::OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(path)
+            .unwrap();
+        assert_eq!(
+            file.try_lock_exclusive().is_ok(),
+            available,
+            "native writer lock {issue} availability mismatch"
+        );
+    }
 }
 
 fn assert_normal_rejection(output: &Output, expected: &str) {
