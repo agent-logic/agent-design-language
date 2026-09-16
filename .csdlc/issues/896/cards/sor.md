@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis --test codefriend_remediate --test codefriend_testplan --test codefriend_ux; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_render_md -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check`
-    `Focused renderer proof passed 5/5; citation/create-only/confinement units passed 3/3; current installed output hashes matched; strict focused Clippy passed; formatting and diff hygiene are rerun before immutable commit.`
+    `Focused renderer proof passed 5/5; citation/create-only/confinement units passed 3/3; current installed output hashes matched; strict focused Clippy, formatting, and diff hygiene passed before immutable commit f9ec5ee00a7fd4bb0841d83293eb7108a6893816.`
 - Results:
   - `passed`
 
@@ -174,5 +174,5 @@ verification_summary:
 - `Evidence citations use variable-length CommonMark code spans; complete source/action/test semantics are rendered; output publication uses opened directory handles and platform no-replace rename. HTML/PDF and external publication remain non-goals.`
 
 ## Follow-ups / Deferred work
-- `Commit the remediation candidate and obtain a distinct fresh independent exact-head review.`
+- `Obtain a distinct fresh independent exact-head review of committed remediation candidate f9ec5ee00a7fd4bb0841d83293eb7108a6893816.`
 - `Publish only after review PASS; then shepherd required CI and merge under current native authority.`
