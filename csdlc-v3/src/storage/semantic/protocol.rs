@@ -73,7 +73,7 @@ pub struct CleanupIdentity {
     terminal_receipt: Vec<u8>,
     preview: Vec<u8>,
     archive: Vec<u8>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     absence_disposition: Vec<u8>,
 }
 impl CleanupIdentity {
@@ -2151,6 +2151,39 @@ pub(super) mod tests {
         .unwrap();
         assert_eq!(f.snapshot().phase(), LifecycleState::ClosedOut);
         assert!(f.snapshot().pending().is_none());
+    }
+    #[test]
+    fn legacy_cleanup_request_roundtrip_preserves_operation_identity() {
+        let f = Fixture::new();
+        f.bind();
+        let binding = f.snapshot().inputs().binding().unwrap().clone();
+        let request = EffectRequest::new(
+            SemanticCommand::RecordCleanup,
+            NativeIdentity::new("cleanup".into(), "legacy-cleanup".into()).unwrap(),
+            EffectOrigin::cleanup(
+                binding,
+                CleanupIdentity::from_native_owner(
+                    b"terminal".to_vec(),
+                    b"preview".to_vec(),
+                    b"archive".to_vec(),
+                )
+                .unwrap(),
+            ),
+            br#"{"preview":"legacy"}"#,
+        )
+        .unwrap();
+        let legacy_bytes = serde_json::to_vec(&request).unwrap();
+        assert!(
+            !String::from_utf8_lossy(&legacy_bytes).contains("absence_disposition"),
+            "normal cleanup encoding changed historical request bytes"
+        );
+        let decoded: EffectRequest = serde_json::from_slice(&legacy_bytes).unwrap();
+        assert_eq!(
+            operation_id(&f.key, &decoded).unwrap(),
+            operation_id(&f.key, &request).unwrap(),
+            "defaulted absence field changed a retained cleanup operation ID"
+        );
+        assert_eq!(serde_json::to_vec(&decoded).unwrap(), legacy_bytes);
     }
     #[test]
     fn cleanup_projection_moves_only_after_successful_performed_cleanup() {
