@@ -313,6 +313,123 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
 }
 
 #[test]
+fn installed_commands_reject_bad_flags_and_record_withholding_and_invalidation() {
+    let fixture = Fixture::new();
+    let publication = fixture.root.join("publication.json");
+    let decisions = fixture.root.join("decisions");
+    fs::create_dir(&decisions).unwrap();
+
+    for args in [
+        vec![],
+        vec!["unsupported"],
+        vec!["prepare", "--review-record"],
+        vec!["prepare", "--unknown", "value"],
+        vec![
+            "inspect",
+            "--review-record",
+            fixture.review_path.to_str().unwrap(),
+            "--review-record",
+            fixture.review_path.to_str().unwrap(),
+            "--publication",
+            publication.to_str().unwrap(),
+            "--approval-store",
+            decisions.to_str().unwrap(),
+        ],
+    ] {
+        assert!(
+            !cli(&args).status.success(),
+            "unexpected success for {args:?}"
+        );
+    }
+
+    assert_success(&cli(&[
+        "prepare",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--manifest",
+        fixture.manifest_path.to_str().unwrap(),
+        "--artifact-root",
+        fixture.artifact_root.to_str().unwrap(),
+        "--destination-root",
+        fixture.destination_root.to_str().unwrap(),
+        "--out",
+        publication.to_str().unwrap(),
+    ]));
+
+    assert!(!cli(&[
+        "invalidate",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
+        decisions.to_str().unwrap(),
+        "--actor",
+        "operator-fixture",
+        "--reason",
+        "No prior decision exists",
+    ])
+    .status
+    .success());
+
+    assert_success(&cli(&[
+        "withhold",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        publication.to_str().unwrap(),
+        "--actor",
+        "operator-fixture",
+        "--reason",
+        "Awaiting approval",
+        "--approval-store",
+        decisions.to_str().unwrap(),
+    ]));
+    let inspected = cli(&[
+        "inspect",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
+        decisions.to_str().unwrap(),
+    ]);
+    assert_success(&inspected);
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(&inspected.stdout).unwrap()["decision"],
+        "withheld"
+    );
+
+    assert_success(&cli(&[
+        "invalidate",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
+        decisions.to_str().unwrap(),
+        "--actor",
+        "operator-fixture",
+        "--reason",
+        "Publication identity changed",
+    ]));
+    let inspected = cli(&[
+        "inspect",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
+        decisions.to_str().unwrap(),
+    ]);
+    assert_success(&inspected);
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(&inspected.stdout).unwrap()["decision"],
+        "invalidated"
+    );
+}
+
+#[test]
 fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     let fixture = Fixture::new();
     let review = fixture.review();
