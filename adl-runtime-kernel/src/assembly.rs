@@ -116,6 +116,32 @@ impl LiveAssembly {
         self.memory_palace_provisioner.provision(evidence)
     }
 
+    /// Derive identity references under the assembly's pinned Birthday policy.
+    pub fn verify_memory_palace_identity_evidence(
+        &self,
+        input: crate::MemoryPalaceIdentityEvidence<'_>,
+    ) -> Result<crate::VerifiedBirthdayEvidence, crate::MemoryPalaceAuthorityError> {
+        self.memory_palace_provisioner.verify_identity_evidence(
+            input.identity_binding,
+            input.identity_checkpoint,
+            input.private_record,
+            input.private_lineage,
+            input.available_projection,
+        )
+    }
+
+    /// Prepare durable Birthday records and re-admit them through the existing
+    /// Runtime Memory Palace authority boundary, without changing trusted keys.
+    pub fn prepare_memory_palace_authority(
+        &self,
+        candidate: &crate::BirthdayIdentityCandidate,
+        input: crate::MemoryPalaceIdentityEvidence<'_>,
+        manifests: &[crate::CheckpointManifest],
+    ) -> Result<crate::VerifiedMemoryPalaceAuthority, crate::MemoryPalaceAuthorityError> {
+        self.memory_palace_provisioner
+            .prepare(candidate, input, manifests)
+    }
+
     /// Runtime-owned resident-cycle integration for capability envelopes and
     /// governed cognitive profiles.
     ///

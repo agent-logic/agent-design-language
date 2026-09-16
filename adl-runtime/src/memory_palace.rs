@@ -380,6 +380,35 @@ impl RuntimeMemoryPalaceService {
         self.load_generation_locked(head.generation).map(Some)
     }
 
+    /// Strict consumer read: validate one snapshot under the writer lock without repairing pointers.
+    /// Missing or stale latest state must remain unavailable to retention-sensitive consumers.
+    pub fn load_latest_strict(
+        &self,
+    ) -> Result<Option<RuntimeMemoryPalaceCommit>, RuntimeMemoryPalaceError> {
+        if !self.root.exists() {
+            return Ok(None);
+        }
+        let lock = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(self.root.join("writer.lock"))?;
+        lock.lock_exclusive()?;
+        let Some(head) = self.validated_journal_head_locked()? else {
+            return Ok(None);
+        };
+        let latest: RuntimeMemoryPalaceLatest = read_json(&self.root.join("latest.json"))?;
+        if latest.schema != LATEST_SCHEMA
+            || latest.generation != head.generation
+            || latest.packet_sha256 != head.packet_sha256
+            || latest.checkpoint_sha256 != head.checkpoint_sha256
+        {
+            return Err(RuntimeMemoryPalaceError::Corrupt(
+                "strict latest pointer mismatch".to_owned(),
+            ));
+        }
+        self.load_generation_locked(head.generation).map(Some)
+    }
+
     pub fn retained_status(&self) -> Value {
         match self.load_latest_read_only() {
             Ok(Some(commit)) => json!({
@@ -774,6 +803,48 @@ mod tests {
     fn rehash_packet(packet: &mut MemoryPalaceContextPacket) {
         packet.packet_sha256.clear();
         packet.packet_sha256 = sha256_jcs(packet).unwrap();
+    }
+
+    #[test]
+    fn strict_latest_denies_missing_stale_and_corrupt_without_repair() {
+        let root = tempfile::tempdir().unwrap();
+        let service = RuntimeMemoryPalaceService::new(root.path().join("memory-palace"));
+        service
+            .commit_validated_packet(packet("a", "first"), 1)
+            .unwrap();
+        let pointer = service.root.join("latest.json");
+        let first = fs::read(&pointer).unwrap();
+        service
+            .commit_validated_packet(packet("b", "second"), 1)
+            .unwrap();
+        assert_eq!(
+            service
+                .load_latest_strict()
+                .unwrap()
+                .unwrap()
+                .checkpoint
+                .memory_palace_generation,
+            2
+        );
+        fs::write(&pointer, &first).unwrap();
+        assert!(service.load_latest_strict().is_err());
+        assert_eq!(fs::read(&pointer).unwrap(), first);
+        fs::remove_file(&pointer).unwrap();
+        assert!(service.load_latest_strict().is_err());
+        assert!(!pointer.exists());
+        // Existing recovery callers retain their established behavior.
+        assert_eq!(
+            service
+                .load_latest()
+                .unwrap()
+                .unwrap()
+                .checkpoint
+                .memory_palace_generation,
+            2
+        );
+        fs::write(&pointer, b"corrupt").unwrap();
+        assert!(service.load_latest_strict().is_err());
+        assert_eq!(fs::read(&pointer).unwrap(), b"corrupt");
     }
 
     #[test]

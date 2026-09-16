@@ -1,0 +1,23 @@
+{
+  "schema": "adl.pvf.fixture.v1",
+  "issue": 889,
+  "lane_class": "runtime",
+  "proof_role": "production Memory Palace authority and installed consumer acceptance",
+  "determinism_posture": "fixed signed fixture evidence, explicit observation time, deterministic comparison; local temporary Git repositories",
+  "resource_profile": "CPU and filesystem; no provider, network, listener, or running kernel",
+  "release_gate": true,
+  "surfaces": [
+    "adl/tests/codefriend_plat_memory.rs",
+    "adl/examples/codefriend_palace_fixture.rs",
+    "adl/tools/codefriend_palace_installed_proof.py",
+    "adl/tests/memory_palace_tests.rs"
+  ],
+  "authority": "LiveAssembly::provision_memory_palace_authority verifies separately pinned operator trust and signed evidence before RuntimeMemoryPalaceService::commit",
+  "nonclaims": [
+    "Public fixture signing seeds do not establish production citizen trust",
+    "Assembly construction is not live kernel startup or provider execution",
+    "Private-state lineage verification is invocation-local; durable Memory Palace succession is separately enforced by Runtime service"
+  ],
+  "successor_lineage_regression": "Real signed seq1 admission followed by seq2 preparation, continuity-error atomicity and accepted replay; original prepare must fail",
+  "cli_coverage_regression": "Rust integration invokes CARGO_BIN_EXE_adl for signed palace-index and repeat palace-compare, validates saved output, and proves root/output isolation and malformed-authority failure without advancing latest."
+}
