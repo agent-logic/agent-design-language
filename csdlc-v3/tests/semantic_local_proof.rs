@@ -834,6 +834,21 @@ fn tracked_projection_rebind_converges_before_proof() {
     ));
     let proof = success(fixture.run(&linked, &["proof", "870"]));
     assert_eq!(proof["proof"]["status"], "passed");
+    let retained: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/870/proof.json")).unwrap())
+            .unwrap();
+    csdlc_v3::commands::proof::intent::verify_current_inputs(&linked, &retained).unwrap();
+
+    let spp = linked.join(".csdlc/v3/issues/870/cards/spp.md");
+    fs::write(&spp, "tampered projection\n").unwrap();
+    let rejected = fixture.run(&linked, &["proof", "870"]);
+    assert!(!rejected.status.success());
+    assert!(
+        String::from_utf8_lossy(&rejected.stderr)
+            .contains("intent_semantic_projection_not_healthy"),
+        "{rejected:?}"
+    );
+    success(fixture.run(&linked, &["rebuild", "870"]));
 
     fs::write(linked.join("tracked"), "tampered\n").unwrap();
     let rejected = fixture.run(&linked, &["proof", "870"]);

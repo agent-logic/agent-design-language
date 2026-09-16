@@ -175,11 +175,19 @@ pub(crate) fn admit_semantic_validators(
     context: &Context,
     validators: &[Validator],
 ) -> Result<AdmittedValidators, String> {
+    verify_semantic_projection_health(context)?;
     admit_validators_with_projection_inputs(
         &context.root,
         validators,
         semantic_projection_inputs(context.issue),
     )
+}
+
+fn verify_semantic_projection_health(context: &Context) -> Result<(), String> {
+    if !crate::application::intent::semantic_card_projection_healthy(context)? {
+        return Err("intent_semantic_projection_not_healthy".into());
+    }
+    Ok(())
 }
 
 fn admit_validators_with_projection_inputs(
@@ -1286,7 +1294,11 @@ pub fn verify_current_inputs(root: &Path, proof: &Value) -> Result<(), String> {
         return Err("intent_proof_identity_or_digest_mismatch".into());
     }
     let plan = context.plan()?;
-    verify_execution_inputs(root, &plan.validators, proof)
+    if context.semantic_context().is_ok() {
+        verify_semantic_execution_inputs(&context, &plan.validators, proof)
+    } else {
+        verify_execution_inputs(root, &plan.validators, proof)
+    }
 }
 
 /// Revalidate actual retained producer records against the admitted current plan.
@@ -1304,6 +1316,7 @@ pub(crate) fn verify_semantic_execution_inputs(
     validators: &[Validator],
     proof: &Value,
 ) -> Result<(), String> {
+    verify_semantic_projection_health(context)?;
     verify_execution_inputs_with_projection_inputs(
         &context.root,
         validators,

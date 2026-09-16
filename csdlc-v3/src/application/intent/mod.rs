@@ -10,6 +10,17 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, fs, path::PathBuf};
 
+pub(crate) fn semantic_card_projection_healthy(context: &Context) -> Result<bool, String> {
+    let registry = context.registry()?;
+    Ok(
+        local::semantic_card_projection_observation(context, &registry, false)?.is_some_and(
+            |(_, _, observation)| {
+                observation == crate::storage::semantic::CardProjectionObservation::Healthy
+            },
+        ),
+    )
+}
+
 pub const INTENTS: [&str; 15] = [
     "status", "prepare", "bind", "edit", "rebuild", "validate", "proof", "review", "publish",
     "finish", "clean", "recover", "install", "cutover", "rollback",

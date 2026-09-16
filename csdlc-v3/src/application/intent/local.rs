@@ -273,7 +273,7 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
     Ok(output)
 }
 
-fn semantic_card_projection_observation(
+pub(super) fn semantic_card_projection_observation(
     context: &Context,
     registry: &local::PromptRegistry,
     require_current_binding: bool,
@@ -560,6 +560,7 @@ fn semantic_edit(
                     _ => return Err("intent_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
+            semantic_rebuild(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
@@ -594,6 +595,9 @@ fn semantic_bind(
     // Explicit bind is the recovery route even when retained validators are no
     // longer admitted. Refresh only the exact registered checkout, never run proof.
     let refreshed = context.refresh_semantic_binding()?;
+    if refreshed {
+        semantic_rebuild(context, registry)?;
+    }
     let semantic = context.semantic_context()?;
     if semantic.snapshot.inputs().binding().is_some()
         && semantic.snapshot.phase() != crate::lifecycle::LifecycleState::Ready
@@ -750,6 +754,8 @@ fn semantic_bind(
                     _ => return Err("intent_bind_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
+            let bound = Context::load(&context.primary, context.issue)?;
+            semantic_rebuild(&bound, registry)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":if kind == OutcomeKind::Success {"completed"} else {"failed"},"read_only":false,
                 "writes_v3_state":true,"operational_authority":true,"semantic_version":projected.version(),
@@ -1001,6 +1007,7 @@ fn semantic_validation_edit(
                     _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
+            semantic_rebuild(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
@@ -1349,6 +1356,7 @@ pub(crate) fn recover_semantic_bind(
             _ => return Err("intent_bind_semantic_state_unavailable".into()),
         };
     let projected = semantic.complete_projection(&current)?;
+    semantic_rebuild(context, &context.registry()?)?;
     Ok(Some(
         json!({"status":if kind==OutcomeKind::Success {"completed"} else {"failed"},
         "read_only":false,"performed_mutation":false,"operation_id":completed.operation_id().as_str(),
@@ -1460,6 +1468,7 @@ pub(crate) fn recover_semantic_edit(
                     _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
                 };
                 let projected = semantic.complete_projection(&snapshot)?;
+                semantic_rebuild(context, &context.registry()?)?;
                 json!({"status":"completed","read_only":false,"performed_mutation":true,
                     "operation_id":done.operation_id().as_str(),
                     "native_effect_truth":done.truth(),
@@ -1541,6 +1550,7 @@ pub(crate) fn recover_semantic_edit(
                     _ => return Err("intent_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
+            semantic_rebuild(context, &context.registry()?)?;
             json!({"status":"completed","read_only":false,"performed_mutation":true,
                 "action":"reconciled_native_edit","operation_id":done.operation_id().as_str(),
                 "native_effect_truth":truth,"semantic_version":projected.version(),
@@ -1999,6 +2009,7 @@ pub(crate) fn recover_semantic_proof(
                     _ => return Err("intent_proof_semantic_state_unavailable".into()),
                 };
                 let projected = admitted.complete_projection(&snapshot)?;
+                semantic_rebuild(context, &context.registry()?)?;
                 json!({"status":"completed","read_only":false,"performed_mutation":true,
                     "action":"abandoned_indeterminate_proof","operation_id":done.operation_id().as_str(),
                     "native_effect_truth":done.truth(),"semantic_outcome":done.outcome_kind(),
@@ -2132,6 +2143,7 @@ fn finish_proof_projection(
         Ok(snapshot) => {
             value["current_version"] = serde_json::to_value(snapshot.version())
                 .map_err(|_| "semantic_version_serialization_failed")?;
+            semantic_rebuild(native, &native.registry()?)?;
         }
         Err(error) => {
             value["status"] = json!("recovery_required");
