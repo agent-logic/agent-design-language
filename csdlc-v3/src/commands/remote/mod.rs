@@ -23,6 +23,7 @@ pub use model::*;
 pub use mutation::{
     execute_github_mutation, execute_staged_github_mutation, stage_github_mutation,
     stage_retained_github_mutation_recovery,
+    stage_retained_github_mutation_recovery_after_rejection,
 };
 pub use publication::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,

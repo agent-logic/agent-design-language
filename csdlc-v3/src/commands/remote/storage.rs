@@ -59,6 +59,21 @@ pub(super) fn github_mutation_recovery_path(
         .join(format!("{digest}.json")))
 }
 
+pub(super) fn github_mutation_rejected_reuse_path(
+    repo_root: &Path,
+    digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let git_dir = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git control directory is required for rejected-recovery attempt receipts",
+        )
+    })?;
+    Ok(git_dir
+        .join("csdlc-v3/remote/rejected-recovery-attempts")
+        .join(format!("{digest}.json")))
+}
+
 pub(super) fn load_mutation_intent(
     path: &Path,
     operation_digest: &str,
@@ -205,6 +220,132 @@ pub(crate) fn repository_scoped_issue_creation_receipt(
         ));
     }
     Ok(receipt.issue == assigned_issue)
+}
+
+pub(super) fn persist_recovery_receipt(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+    ready_target: Option<&GithubReadyTarget>,
+) -> Result<(), RemoteRouteFinding> {
+    let path = ensure_recovery_available(repo_root, operation_digest)?;
+    let receipt = GithubMutationRecoveryReceipt {
+        schema: "csdlc.v3.github_mutation_recovery.v1".into(),
+        operation_digest: operation_digest.into(),
+        intent_digest: intent_digest.into(),
+        recovery: GithubMutationRecovery::RetryAfterAuthenticatedAbsence,
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request: request.pull_request,
+        expected_head_sha: request.expected_head_sha.clone(),
+        resolved_ready_target: ready_target.cloned(),
+    };
+    persist_json_create_new(&path, &receipt)
+}
+
+pub(super) fn ensure_recovery_available(
+    repo_root: &Path,
+    operation_digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let path = github_mutation_recovery_path(repo_root, operation_digest)?;
+    if path.exists() {
+        return Err(remote_finding(
+            "github_mutation_recovery_already_consumed",
+            "the single authenticated-absence recovery was already consumed",
+        ));
+    }
+    Ok(path)
+}
+
+pub(super) fn verify_rejected_recovery_receipt(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<(), RemoteRouteFinding> {
+    let reuse_path = github_mutation_rejected_reuse_path(repo_root, operation_digest)?;
+    if reuse_path.exists() {
+        let reuse: GithubMutationRejectedReuseReceipt =
+            serde_json::from_slice(&fs::read(&reuse_path).map_err(|_| {
+                remote_finding(
+                    "github_mutation_rejected_reuse_unreadable",
+                    "definite-rejection retry reservation cannot be read",
+                )
+            })?)
+            .map_err(|_| {
+                remote_finding(
+                    "github_mutation_rejected_reuse_invalid",
+                    "definite-rejection retry reservation is invalid",
+                )
+            })?;
+        if reuse.schema != "csdlc.v3.github_mutation_rejected_reuse.v1"
+            || reuse.operation_digest != operation_digest
+            || reuse.intent_digest != intent_digest
+            || reuse.repository != request.repository
+            || reuse.issue != request.issue
+            || reuse.expected_head_sha != request.expected_head_sha
+        {
+            return Err(remote_finding(
+                "github_mutation_rejected_reuse_mismatch",
+                "definite-rejection retry reservation does not match the retained operation",
+            ));
+        }
+        return Err(remote_finding(
+            "github_mutation_recovery_already_consumed",
+            "the definite-rejection compatibility retry was already attempted",
+        ));
+    }
+    let path = github_mutation_recovery_path(repo_root, operation_digest)?;
+    let receipt: GithubMutationRecoveryReceipt =
+        serde_json::from_slice(&fs::read(&path).map_err(|_| {
+            remote_finding(
+                "github_mutation_rejected_recovery_missing",
+                "definitely rejected recovery requires its retained recovery receipt",
+            )
+        })?)
+        .map_err(|_| {
+            remote_finding(
+                "github_mutation_rejected_recovery_invalid",
+                "definitely rejected recovery receipt is invalid",
+            )
+        })?;
+    if receipt.schema != "csdlc.v3.github_mutation_recovery.v1"
+        || receipt.operation_digest != operation_digest
+        || receipt.intent_digest != intent_digest
+        || receipt.recovery != GithubMutationRecovery::RetryAfterAuthenticatedAbsence
+        || receipt.repository != request.repository
+        || receipt.issue != request.issue
+        || receipt.pull_request != request.pull_request
+        || receipt.expected_head_sha != request.expected_head_sha
+    {
+        return Err(remote_finding(
+            "github_mutation_rejected_recovery_mismatch",
+            "definitely rejected recovery receipt does not match the retained operation",
+        ));
+    }
+    Ok(())
+}
+
+pub(super) fn persist_rejected_recovery_attempt(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<(), RemoteRouteFinding> {
+    verify_rejected_recovery_receipt(repo_root, request, operation_digest, intent_digest)?;
+    let receipt = GithubMutationRejectedReuseReceipt {
+        schema: "csdlc.v3.github_mutation_rejected_reuse.v1".into(),
+        operation_digest: operation_digest.into(),
+        intent_digest: intent_digest.into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        expected_head_sha: request.expected_head_sha.clone(),
+    };
+    persist_json_create_new(
+        &github_mutation_rejected_reuse_path(repo_root, operation_digest)?,
+        &receipt,
+    )
 }
 
 /// Verify that a retained ordinary issue mutation is the settled result of the

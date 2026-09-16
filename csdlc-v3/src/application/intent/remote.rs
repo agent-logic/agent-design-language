@@ -257,8 +257,17 @@ fn semantic_recover_remote_effect(
     request: &GithubMutationRequest,
     process: &mut impl crate::adapters::ProcessAdapter,
 ) -> Result<Value, String> {
+    let definitely_rejected = retained.evidence().is_some_and(|bytes| {
+        serde_json::from_slice::<Value>(bytes).is_ok_and(|evidence| {
+            evidence["schema"] == "csdlc.v3.semantic_remote_uncertainty.v1"
+                && evidence["code"] == "github_mutation_rejected"
+        })
+    });
     let staged = if matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
         stage_github_mutation(&context.root, request, process).map_err(failure)?
+    } else if definitely_rejected {
+        stage_retained_github_mutation_recovery_after_rejection(&context.root, request, process)
+            .map_err(failure)?
     } else {
         stage_retained_github_mutation_recovery(&context.root, request, process).map_err(failure)?
     };
@@ -346,13 +355,27 @@ fn semantic_recover_remote_effect(
         }
     }
     let native = execute_staged_github_mutation(&context.root, &staged, true, process);
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_remote_recovery_after_native")
+    {
+        std::process::exit(91);
+    }
+    if let Err(finding) = &native {
+        if matches!(
+            finding.code.as_str(),
+            "github_pr_head_branch_missing" | "github_pr_head_branch_mismatch"
+        ) {
+            return Err(failure(finding.clone()));
+        }
+    }
     let outcome = match &native {
         Ok(result) => staged.verified_outcome(result).map_err(failure)?,
         Err(finding)
             if request.recovery == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
                 && matches!(
                     finding.code.as_str(),
-                    "github_mutation_rejected" | "github_mutation_recovery_already_consumed"
+                    "github_mutation_recovery_already_consumed"
                 ) =>
         {
             transaction::VerifiedOutcome::from_native_owner(
