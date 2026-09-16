@@ -1,0 +1,20 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.54s
+     Running tests/semantic_local_proof.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/semantic_local_proof-8c5859c0fc6ad006)
+
+running 12 tests
+test failed_proof_replay_retains_the_failed_attempt_without_rerun ... ok
+test installed_bind_recovers_after_target_activation_without_ambiguous_topology ... ok
+test installed_edit_recovers_one_retained_semantic_amendment_after_native_crash ... ok
+test installed_local_proof_uses_one_history_and_replays_without_validator_effects ... ok
+test installed_prepare_refuses_retained_native_journal_without_creating_semantic_state ... ok
+test installed_semantic_proof_rejects_live_topology_and_output_escape_before_validator ... ok
+test interrupted_proof_is_explicitly_abandoned_without_rerun_and_can_retry ... ok
+test prelaunch_proof_interruption_requires_exact_explicit_disposition ... ok
+test rebind_rejects_stale_generated_request_and_wrong_branch_without_state_changes ... ok
+test scope_rebind_does_not_advance_when_native_doctor_is_blocked ... ok
+test scope_rebind_refreshes_head_before_replacing_an_inadmissible_validator ... ok
+test scope_rewound_binding_can_rebind_at_the_same_head ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 103.75s
+

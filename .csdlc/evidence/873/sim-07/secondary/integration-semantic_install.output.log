@@ -1,0 +1,12 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.38s
+     Running tests/semantic_install.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/semantic_install-7046bd0f28cd531b)
+
+running 4 tests
+test installed_semantic_install_invalidates_proof_until_new_execution ... ok
+test installed_semantic_install_is_one_shot_and_replay_is_observational ... ok
+test installed_semantic_install_preserves_preexisting_foreign_receipt ... ok
+test installed_semantic_install_recovers_reservation_and_completed_native_effect ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 154.28s
+

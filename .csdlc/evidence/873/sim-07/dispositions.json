@@ -1,0 +1,14 @@
+{
+  "schema": "adl.csdlc.issue873.dispositions.v1",
+  "dispositions": [
+    {"finding_id":"QUAL-873-001","disposition":"unresolved_blocker","owner":"conversion qualification harness owner","reason":"Issue #873 may not invent or normalize missing generation-9 state."},
+    {"finding_id":"QUAL-873-002","disposition":"unresolved_blocker","owner":"qualification operator","reason":"The executed protocol explicitly did not establish OS-cold conditions."},
+    {"finding_id":"QUAL-873-003","disposition":"unresolved_blocker","owner":"qualification operator","reason":"No comparable predecessor retry denominator was executed."},
+    {"finding_id":"QUAL-873-004","disposition":"unresolved_blocker","owner":"publication lifecycle","reason":"Publication is outside this evidence-only assignment."},
+    {"finding_id":"QUAL-873-005","disposition":"unresolved_blocker","owner":"independent reviewer","reason":"A new exact-head review must evaluate the remediation commit."},
+    {"finding_id":"REVIEW-873-001","disposition":"resolved","owner":"issue #873 qualifier","reason":"Exact frozen candidate digest is now present on every candidate timing sample."},
+    {"finding_id":"REVIEW-873-002","disposition":"resolved","owner":"issue #873 qualifier","reason":"Replay inputs are parameterized or derived and authored metadata uses logical references."},
+    {"finding_id":"REVIEW-873-003","disposition":"resolved","owner":"issue #873 qualifier","reason":"Scorecard vocabulary is normalized and incomplete gates fail closed as not_proven."},
+    {"finding_id":"REVIEW-873-004","disposition":"resolved","owner":"issue #873 qualifier","reason":"Cargo build and harness discovery now share the selected target and the non-default-target probe passed."}
+  ]
+}

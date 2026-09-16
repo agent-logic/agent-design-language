@@ -1,0 +1,24 @@
+
+running 19 tests
+test baseline_journeys::attempt_recorder_retains_spawn_parse_and_collector_failures ... ok
+test installed_diagnostics_preserve_healthy_missing_and_corrupt_state ... ok
+test installed_helper_envelopes_normalize_release_and_sprint_reports ... ok
+test installed_pr_state_observes_fake_remote_without_mutation ... ok
+test installed_shepherd_result_states_preserve_owner_routing ... ok
+test legacy_bind_after_branch_creation_direct_writer_is_retired ... ok
+test legacy_bind_after_git_direct_writer_is_retired ... ok
+test legacy_edit_after_backup_rename_direct_writer_is_retired ... ok
+test legacy_github_pr_ready_is_retired_before_transport ... ok
+test legacy_github_routes_are_retired_before_mutation_dispatch ... ok
+test legacy_local_writer_is_retired_while_construction_inspection_remains ... ok
+test legacy_merge_writer_routes_are_retired ... ok
+test legacy_proof_and_rollback_direct_writers_are_retired ... ok
+test legacy_remote_writer_is_retired_before_v2_authority_dispatch ... ok
+test legacy_simple_issue_close_is_retired ... ok
+test legacy_simple_issue_create_body_file_is_retired_and_invalid_input_is_rejected ... ok
+test legacy_simple_issue_create_execute_is_retired_before_authority_dispatch ... ok
+test legacy_simple_issue_create_is_retired ... ok
+test simple_issue_close_rejects_ambiguous_or_invalid_input ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 34.88s
+

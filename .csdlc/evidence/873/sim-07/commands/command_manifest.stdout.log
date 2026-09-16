@@ -1,0 +1,16 @@
+
+running 11 tests
+test active_boot_path_guard_rejects_stale_v2_current_guidance_but_allows_history ... ok
+test active_boot_path_inventory_is_complete_source_backed_and_unambiguous ... ok
+test authority_fitness_rejects_obsolete_policy_help_and_automatic_v2_fallback ... ok
+test current_surfaces_agree_with_authenticated_post_cutover_authority ... ok
+test help_exposes_one_binary_command_surface ... ok
+test implemented_local_routes_expose_guarded_operational_help ... ok
+test implemented_remote_publication_routes_expose_guarded_operational_help ... ok
+test implemented_terminal_routes_expose_guarded_operational_help ... ok
+test proof_routes_distinguish_operational_and_historical_execution ... ok
+test semantic_descriptor_schema_parity_includes_emitted_administrative_requests ... ok
+test tracked_command_denominators_match_cli_surface_and_cutover_boundary ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.02s
+

@@ -1,0 +1,2003 @@
+{
+  "attempted": 16,
+  "attempts": [
+    {
+      "argv": [
+        "issue",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local",
+        "--preview",
+        "plan"
+      ],
+      "attempt_id": "predecessor-primary-1",
+      "elapsed_millis": 17,
+      "exit_code": 2,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "issue",
+          "correlation_id": "17257-1789555553953",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "usage",
+              "message": "usage: csdlc issue --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]; unexpected argument --preview"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "usage",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "failed",
+          "timing": {
+            "monotonic_duration_ms": 6,
+            "started_unix_ms": 1789555553953
+          },
+          "wait_owner": "operator"
+        },
+        "findings": [
+          {
+            "code": "usage",
+            "message": "usage: csdlc issue --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]; unexpected argument --preview"
+          }
+        ],
+        "schema": "csdlc.v3.command_failure.v1",
+        "status": "failed"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "issue",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-2",
+      "elapsed_millis": 197,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "issue",
+        "envelope": {
+          "allowed_next_operations": [
+            "bind"
+          ],
+          "authority_status": "verified",
+          "command": "issue",
+          "correlation_id": "17258-1789555553965",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 194,
+            "started_unix_ms": 1789555553965
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": false,
+        "read_only": false,
+        "request_expected_lifecycle_digest": null,
+        "request_issue": 1505,
+        "result": {
+          "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+          "findings": [],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "bind",
+          "phase": "ready",
+          "route": "issue"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": true
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "doctor",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/status-ready-primary-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-3",
+      "elapsed_millis": 86,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "doctor",
+        "envelope": {
+          "allowed_next_operations": [
+            "bind"
+          ],
+          "authority_status": "verified",
+          "command": "doctor",
+          "correlation_id": "17293-1789555554164",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 83,
+            "started_unix_ms": 1789555554164
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": true,
+        "read_only": true,
+        "request_expected_lifecycle_digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+        "request_issue": 1505,
+        "result": {
+          "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "bind",
+          "phase": "ready",
+          "route": "doctor"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "validate",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/validate-ready-primary-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-4",
+      "elapsed_millis": 88,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "validate",
+        "envelope": {
+          "allowed_next_operations": [
+            "bind"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "17314-1789555554250",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 85,
+            "started_unix_ms": 1789555554250
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": true,
+        "read_only": true,
+        "request_expected_lifecycle_digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+        "request_issue": 1505,
+        "result": {
+          "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "bind",
+          "phase": "ready",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "bind",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/bind-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-5",
+      "elapsed_millis": 207,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "bind",
+        "envelope": {
+          "allowed_next_operations": [
+            "edit"
+          ],
+          "authority_status": "verified",
+          "command": "bind",
+          "correlation_id": "17335-1789555554339",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 204,
+            "started_unix_ms": 1789555554339
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": false,
+        "read_only": false,
+        "request_expected_lifecycle_digest": "17e5a422b0945c080a491e7f731fc5cd9fd27d0e38368cb35a63eb5741abe239",
+        "request_issue": 1505,
+        "result": {
+          "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+          "findings": [],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "edit",
+          "phase": "bound",
+          "route": "bind"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": true
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "doctor",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-primary-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-6",
+      "elapsed_millis": 50,
+      "exit_code": 2,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "doctor",
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "doctor",
+          "correlation_id": "17382-1789555554547",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "issue_already_bound",
+              "message": "the bound checkout owns this issue; primary preparation and edits are denied",
+              "status": "blocked"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "issue_already_bound",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "blocked",
+          "timing": {
+            "monotonic_duration_ms": 47,
+            "started_unix_ms": 1789555554547
+          },
+          "wait_owner": "operator"
+        },
+        "findings": [
+          {
+            "code": "issue_already_bound",
+            "message": "the bound checkout owns this issue; primary preparation and edits are denied",
+            "status": "blocked"
+          }
+        ],
+        "read_only": true,
+        "schema": "csdlc.v3.operational_diagnostic.v1",
+        "status": "blocked",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "doctor",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-primary-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-7-retry",
+      "elapsed_millis": 97,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "doctor",
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "doctor",
+          "correlation_id": "17395-1789555554598",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 94,
+            "started_unix_ms": 1789555554598
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": true,
+        "read_only": true,
+        "request_expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "request_issue": 1505,
+        "result": {
+          "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "doctor"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "validate",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-primary-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-8",
+      "elapsed_millis": 48,
+      "exit_code": 2,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "validate",
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "validate",
+          "correlation_id": "17418-1789555554696",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "issue_already_bound",
+              "message": "the bound checkout owns this issue; primary preparation and edits are denied",
+              "status": "blocked"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "issue_already_bound",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "blocked",
+          "timing": {
+            "monotonic_duration_ms": 45,
+            "started_unix_ms": 1789555554696
+          },
+          "wait_owner": "operator"
+        },
+        "findings": [
+          {
+            "code": "issue_already_bound",
+            "message": "the bound checkout owns this issue; primary preparation and edits are denied",
+            "status": "blocked"
+          }
+        ],
+        "read_only": true,
+        "schema": "csdlc.v3.operational_diagnostic.v1",
+        "status": "blocked",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "validate",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-primary-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-9-retry",
+      "elapsed_millis": 94,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "validate",
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "17431-1789555554744",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 91,
+            "started_unix_ms": 1789555554744
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": true,
+        "read_only": true,
+        "request_expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "request_issue": 1505,
+        "result": {
+          "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "doctor",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-linked-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-10",
+      "elapsed_millis": 100,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "doctor",
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "doctor",
+          "correlation_id": "17459-1789555554839",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 97,
+            "started_unix_ms": 1789555554839
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": true,
+        "read_only": true,
+        "request_expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "request_issue": 1505,
+        "result": {
+          "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "doctor"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "validate",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-linked-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-11",
+      "elapsed_millis": 97,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "validate",
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "17485-1789555554940",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 94,
+            "started_unix_ms": 1789555554940
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": true,
+        "read_only": true,
+        "request_expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "request_issue": 1505,
+        "result": {
+          "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "edit",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/linked-edit-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local",
+        "--preview",
+        "plan"
+      ],
+      "attempt_id": "predecessor-primary-12",
+      "elapsed_millis": 3,
+      "exit_code": 2,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_updates": {
+          "sip": {
+            "title": "Edited through ordinary intent"
+          }
+        },
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "edit",
+          "correlation_id": "17507-1789555555038",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "usage",
+              "message": "usage: csdlc edit --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]; unexpected argument --preview"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "usage",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "failed",
+          "timing": {
+            "monotonic_duration_ms": 0,
+            "started_unix_ms": 1789555555038
+          },
+          "wait_owner": "operator"
+        },
+        "findings": [
+          {
+            "code": "usage",
+            "message": "usage: csdlc edit --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]; unexpected argument --preview"
+          }
+        ],
+        "schema": "csdlc.v3.command_failure.v1",
+        "status": "failed"
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "edit",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/linked-edit-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-13",
+      "elapsed_millis": 159,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_updates": {
+          "sip": {
+            "title": "Edited through ordinary intent"
+          }
+        },
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "edit",
+        "envelope": {
+          "allowed_next_operations": [
+            "validate"
+          ],
+          "authority_status": "verified",
+          "command": "edit",
+          "correlation_id": "17508-1789555555042",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "be9d9ea362a2a1c6a187ecabe42708b4fb9b205e3611fc639d8b46a3b4ba2ae1"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 157,
+            "started_unix_ms": 1789555555042
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": false,
+        "read_only": false,
+        "request_expected_lifecycle_digest": "90e8a3fdd2e158d1851d10bdf35a68c58ab2a02e42520fdcc39dda4060ca3c34",
+        "request_issue": 1505,
+        "result": {
+          "digest": "be9d9ea362a2a1c6a187ecabe42708b4fb9b205e3611fc639d8b46a3b4ba2ae1",
+          "findings": [],
+          "generation": 3,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "validate",
+          "phase": "bound",
+          "route": "edit"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": true
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "edit",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/primary-edit-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-14",
+      "elapsed_millis": 49,
+      "exit_code": 2,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_updates": {
+          "sip": {
+            "title": "Edited through ordinary intent"
+          }
+        },
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "be9d9ea362a2a1c6a187ecabe42708b4fb9b205e3611fc639d8b46a3b4ba2ae1",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "edit",
+          "correlation_id": "17543-1789555555203",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "issue_already_bound",
+              "message": "the bound checkout owns this issue; primary preparation and edits are denied",
+              "status": "blocked"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "issue_already_bound",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "blocked",
+          "timing": {
+            "monotonic_duration_ms": 46,
+            "started_unix_ms": 1789555555203
+          },
+          "wait_owner": "operator"
+        },
+        "findings": [
+          {
+            "code": "issue_already_bound",
+            "message": "the bound checkout owns this issue; primary preparation and edits are denied",
+            "status": "blocked"
+          }
+        ]
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "edit",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/primary-edit-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-15-retry",
+      "elapsed_millis": 158,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_updates": {
+          "sip": {
+            "title": "Edited through ordinary intent"
+          }
+        },
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "be9d9ea362a2a1c6a187ecabe42708b4fb9b205e3611fc639d8b46a3b4ba2ae1",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "edit",
+        "envelope": {
+          "allowed_next_operations": [
+            "validate"
+          ],
+          "authority_status": "verified",
+          "command": "edit",
+          "correlation_id": "17556-1789555555253",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "7bd658cdc48097084e17da46f3cea17e0076bcfc6efc8cf32fbcdc946832d642"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "be9d9ea362a2a1c6a187ecabe42708b4fb9b205e3611fc639d8b46a3b4ba2ae1"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 155,
+            "started_unix_ms": 1789555555253
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": false,
+        "read_only": false,
+        "request_expected_lifecycle_digest": "be9d9ea362a2a1c6a187ecabe42708b4fb9b205e3611fc639d8b46a3b4ba2ae1",
+        "request_issue": 1505,
+        "result": {
+          "digest": "7bd658cdc48097084e17da46f3cea17e0076bcfc6efc8cf32fbcdc946832d642",
+          "findings": [],
+          "generation": 4,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "validate",
+          "phase": "bound",
+          "route": "edit"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": true
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "validate",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/validate-projection-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$BOUND_WORKTREE",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-primary-16",
+      "elapsed_millis": 94,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "7bd658cdc48097084e17da46f3cea17e0076bcfc6efc8cf32fbcdc946832d642",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/17212-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "validate",
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "17592-1789555555412",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "7bd658cdc48097084e17da46f3cea17e0076bcfc6efc8cf32fbcdc946832d642"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "7bd658cdc48097084e17da46f3cea17e0076bcfc6efc8cf32fbcdc946832d642"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 91,
+            "started_unix_ms": 1789555555412
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": true,
+        "read_only": true,
+        "request_expected_lifecycle_digest": "7bd658cdc48097084e17da46f3cea17e0076bcfc6efc8cf32fbcdc946832d642",
+        "request_issue": 1505,
+        "result": {
+          "digest": "7bd658cdc48097084e17da46f3cea17e0076bcfc6efc8cf32fbcdc946832d642",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 4,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    }
+  ],
+  "issue": 873,
+  "provenance": {
+    "installed_binary_blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
+    "source_binding": "Exact retained predecessor bytes; isolated fixture generated by the installed candidate harness",
+    "source_has_uncommitted_changes": false,
+    "source_head": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8"
+  },
+  "schema": "csdlc.v3.installed_intent_attempts.v1"
+}

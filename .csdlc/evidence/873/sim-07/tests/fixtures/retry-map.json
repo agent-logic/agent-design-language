@@ -1,0 +1,95 @@
+{
+  "schema": "adl.csdlc.issue873.retry_scenario_map.v1",
+  "corpus_id": "retry-comparator-fixture-v1",
+  "binaries": {
+    "predecessor": {
+      "revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+      "sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+      "blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64"
+    },
+    "candidate": {
+      "revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+      "sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
+      "blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "fixture-journey",
+      "relevant_facts": {
+        "fixture_family": "retry-comparator-test",
+        "remote_transport": "synthetic",
+        "semantic_scope": "transition-and-guard",
+        "topologies": [
+          "primary"
+        ],
+        "initial_fixture_facts": {
+          "issue_number": 873,
+          "lifecycle_phase": "prepared",
+          "authority": "native-v3",
+          "remote_state": "synthetic"
+        },
+        "fake_remote_schedule": [
+          "observe-initial",
+          "apply-scripted-result",
+          "observe-final"
+        ]
+      },
+      "relevant_facts_sha256": "f656f498c2ea9bba636e3d8ce5ec6d13d4cfa2dafc6adb888343b6ef06d94691",
+      "semantic_steps": [
+        {
+          "id": "transition",
+          "retry_policy": "eligible",
+          "intended_operation": "transition",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "argv": {
+            "predecessor": [
+              "csdlc-predecessor",
+              "transition",
+              "--synthetic-remote-schedule"
+            ],
+            "candidate": [
+              "csdlc-candidate",
+              "transition",
+              "--synthetic-remote-schedule"
+            ]
+          },
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ]
+        },
+        {
+          "id": "guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "guard",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "csdlc-predecessor",
+              "guard",
+              "--synthetic-remote-schedule"
+            ],
+            "candidate": [
+              "csdlc-candidate",
+              "guard",
+              "--synthetic-remote-schedule"
+            ]
+          },
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ]
+        }
+      ]
+    }
+  ]
+}

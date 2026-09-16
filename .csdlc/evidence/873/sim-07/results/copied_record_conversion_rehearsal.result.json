@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "copied_record_conversion_rehearsal",
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --test-threads=1",
+  "started_at": "2026-09-16T06:49:27Z",
+  "ended_at": "2026-09-16T06:49:27Z",
+  "elapsed_seconds": 0,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 1
+  },
+  "stdout_sha256": "f701007fe5592c7713ff85ff7d1f12e846ef3276e2bf087381e54bab96b391a4",
+  "stderr_sha256": "787182c7afdde2637eb4e394a22cddbfd1c23fec83c8b8d4ce9f234560595627"
+}

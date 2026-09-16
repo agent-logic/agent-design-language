@@ -1,0 +1,37 @@
+{
+  "authority_valid_clean_without_seed_receipt": 0,
+  "clean_without_seed_receipt": 2,
+  "conclusion": "No authority-valid clean fixture without the tracked issue-505 terminal receipt exists in the retained corpus. The two clean normalized fixtures both retain operational_context_required; the third exception is dirty and retains the receipt in the index.",
+  "exceptions": [
+    {
+      "clean": false,
+      "head": "3b8632c556a3ae95a9cedce00c07c453059c15b0",
+      "path": "csdlc-v3/target/sim03-installed-intent/85719-0-merge-finish-clean/worktrees/adl-issue-505-installed-intent-fixture",
+      "receipt_tracked_in_index": true,
+      "receipt_worktree_present": false
+    },
+    {
+      "clean": true,
+      "head": "d3611cfbe76733e0e5c7a97788bb891031f1eba4",
+      "path": ".csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-19/fixture",
+      "receipt_tracked_in_index": false,
+      "receipt_worktree_present": false,
+      "retained_failure_reason": "operational_context_required",
+      "retained_failure_sha256": "14468a243af0474cdf19ca7de459005614fc32b9ea09279b95cc9ba396bb78c7"
+    },
+    {
+      "clean": true,
+      "head": "85d16dbd8ea42212299ef133954754adf2226f3c",
+      "path": ".csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-18/fixture",
+      "receipt_tracked_in_index": false,
+      "receipt_worktree_present": false,
+      "retained_failure_reason": "operational_context_required",
+      "retained_failure_sha256": "367e113efa03b9aaf2167ba451b36fb1d8fdc998e442879262b17380c83eb0ba"
+    }
+  ],
+  "fixture_roots_examined": 89,
+  "schema": "adl.csdlc.issue873.retry_baseline_audit_result.v1",
+  "status": "not_proven",
+  "with_seed_receipt": 86,
+  "without_seed_receipt": 3
+}

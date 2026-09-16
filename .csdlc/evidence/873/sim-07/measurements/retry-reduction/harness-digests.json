@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "path": "retry-scenario-map.json",
+      "sha256": "b4fc99d453001bf0a6ad5c1c66a9753990511d0b14bce4919f0b82b7515c4366"
+    },
+    {
+      "path": "normalize_retry_ledger.py",
+      "sha256": "2b09fbccb709185bf6f51c993f935944ae898963ac841bd35cb0d141730dce34"
+    },
+    {
+      "path": "validate_retry_comparison.py",
+      "sha256": "181cfaccbcb45fdae30786fbdeec71e03d5a5766cd850325ee60b6d7d9b8471c"
+    },
+    {
+      "path": "run-retry-qualification.sh",
+      "sha256": "a2840b17b4dd7527ff67c822dea8c0d46003746647cac38e52b665daee06dea0"
+    },
+    {
+      "path": "run_predecessor_retry_journeys.py",
+      "sha256": "c47afc62da007dfddd78fbc9a209de8f0b49a7eb7da87e78351a205bed675da6"
+    },
+    {
+      "path": "run_candidate_retry_journeys.py",
+      "sha256": "d0976445ca0ea42b28e7b8264946e3305df9a6654ec17dd5f0ecf5e81acd559f"
+    }
+  ],
+  "implementation_commit": "e39eab3d8f22368485c3e66c7a66fa1190c73709",
+  "schema": "adl.csdlc.issue873.retry_harness_digests.v1"
+}

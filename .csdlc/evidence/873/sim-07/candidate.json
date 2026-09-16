@@ -1,0 +1,19 @@
+{
+  "schema": "adl.csdlc.issue873.candidate.v1",
+  "issue": 873,
+  "candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+  "branch": "codex/873-v0922-independent-qualification",
+  "installed_binary_ref": "issue873_frozen_candidate",
+  "installed_binary_path_input": "ADL_ISSUE873_CANDIDATE_BINARY",
+  "installed_sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
+  "installed_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+  "source_provenance_sha256": "bc34fd209f8e918dbc036e76425708f1039f7d10208b7d2e7d8d382f3d1ef56b",
+  "baseline_binary_ref": "accepted_issue868_predecessor",
+  "baseline_binary_path_input": "ADL_SIM03_BASELINE_BINARY",
+  "baseline_revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+  "baseline_sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+  "baseline_blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
+  "qualifier": "/root/qualify_873",
+  "vpp_generation": 11,
+  "vpp_digest": "7a6945ec18e17bb24108fdacea20fed7ebc93425f0f945c3e033007e7ee8d68c"
+}

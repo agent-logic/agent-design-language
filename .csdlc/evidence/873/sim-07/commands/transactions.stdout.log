@@ -1,0 +1,64 @@
+
+running 45 tests
+test adapter_branch_observation_never_authorizes_lifecycle_work ... ok
+test adapter_invocations_are_argv_based_and_shell_strings_are_rejected ... ok
+test adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction ... ok
+test durable_failed_state_replacement_does_not_advance_live_memory ... ok
+test durable_open_fails_closed_on_interrupted_intent ... ok
+test durable_projection_failure_after_state_commit_is_repair_authority ... ok
+test durable_projection_success_is_repair_required_until_projection_is_written ... ok
+test durable_transaction_store_persists_intent_before_atomic_state_replacement ... ok
+test durable_transaction_store_rejects_stale_intent_before_journal_append ... ok
+test real_process_adapter_fails_closed_on_missing_credentials_and_truncates_output ... ok
+test real_process_adapter_injects_child_credentials_and_redacts_process_output ... ok
+test recovery_classifies_interrupted_writes_without_losing_provenance ... ok
+test recovery_honors_projection_repair_flag_from_committed_state ... ok
+test recovery_rejects_committed_state_intent_mismatches ... ok
+test recovery_rejects_no_commit_records_with_invalid_integrity ... ok
+test review_recovery_requires_structured_stale_truth_provenance ... ok
+test semantic_gate_a::repository_scoped_issue_creation_receipt_does_not_block_created_issue_preparation ... ok
+test semantic_gate_a::repository_scoped_issue_creation_receipt_mismatches_fail_closed ... ok
+test semantic_gate_a::semantic_bookkeeping_preserves_evidence_inputs_and_amendments_advance_them ... ok
+test semantic_gate_a::semantic_create_only_and_observation_do_not_repair_or_mutate ... ok
+test semantic_gate_a::semantic_held_native_issue_lock_is_collision_without_unlink ... ok
+test semantic_gate_a::semantic_intent_plan_roundtrips_native_contract_without_losing_fields ... ok
+test semantic_gate_a::semantic_legacy_residue_refuses_conversion_and_foreign_identity ... ok
+test semantic_gate_a::semantic_native_residue_collision_matrix_is_read_only ... ok
+test semantic_gate_a::semantic_no_pr_policy_and_amendment_invalidation ... ok
+test semantic_gate_a::semantic_process_child ... ok
+test semantic_gate_a::semantic_projection_acknowledgement_rechecks_exact_view ... ok
+test semantic_gate_a::semantic_readers_observe_only_coherent_commit_boundaries ... ok
+test semantic_gate_a::semantic_remote_residue_is_repository_issue_scoped_and_ambiguous_fails_closed ... ok
+test semantic_gate_a::semantic_reservation_and_failure_do_not_require_success_witnesses ... ok
+test semantic_gate_a::semantic_schema_canonical_order_duplicate_unknown_and_tamper ... ok
+test semantic_gate_a::semantic_stale_projection_after_ack_is_observational_repair ... ok
+test semantic_gate_a::semantic_symlink_store_is_refused_without_following_writer ... ok
+test semantic_gate_a::semantic_two_process_cas_and_crash_releasing_lock ... 
+running 1 test
+
+running 1 test
+
+running 1 test
+test semantic_gate_a::semantic_process_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.08s
+
+test semantic_gate_a::semantic_process_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.08s
+
+ok
+test semantic_gate_a::semantic_unactivated_intent_is_observational_recovery ... ok
+test transaction_commit_rechecks_cas_and_digest_binds_contents ... ok
+test transaction_commits_preserve_projection_invalidations ... ok
+test transaction_stale_writer_fails_before_commit ... ok
+test transaction_state_commit_is_atomic_and_projection_failure_requires_repair ... ok
+test transaction_store_rejects_tampered_record_digest_on_ingress ... ok
+test transition_branch_observation_alone_does_not_authorize_bind ... ok
+test transition_finish_requires_live_terminal_evidence_not_existing_receipt ... ok
+test transition_matrix_explicitly_classifies_every_state_command_pair ... ok
+test transition_merge_ready_requires_current_readiness_evidence ... ok
+test transition_review_recovery_matches_retained_v2_behavior ... ok
+
+test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.64s
+

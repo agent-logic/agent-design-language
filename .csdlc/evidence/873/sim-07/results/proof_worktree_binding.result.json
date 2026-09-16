@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "proof_worktree_binding",
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test proof_worktree_binding -- --test-threads=1",
+  "started_at": "2026-09-16T06:49:29Z",
+  "ended_at": "2026-09-16T06:49:30Z",
+  "elapsed_seconds": 1,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "7bad6237de1aa5b8c326bef1a59653635a215e5ad5ac391a6e9cac0941f1db05",
+  "stderr_sha256": "e6baa148e63be5c64c7dc2912b92cf7b30e0838079df6ed3ae802728ed52443d"
+}
