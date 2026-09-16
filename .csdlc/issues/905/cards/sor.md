@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Current Runtime correctness and recovery remain proved; performance remains repair_inconclusive. PR #1004 alias ownership and failure-evidence defects now include pre-create namespace ownership and finally-guaranteed model cleanup; exact-head re-review is pending.
+Current Runtime correctness and recovery remain proved; performance remains repair_inconclusive. PR #1004 alias ownership and failure-evidence defects now include pre-create namespace ownership and a finally-guaranteed, durably recorded model-removal attempt; exact-head re-review is pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -81,7 +81,7 @@ Current Runtime correctness and recovery remain proved; performance remains repa
 ## Actions taken
 - `Added a bounded current Runtime harness that creates and verifies same-blob baseline/speculative aliases and reuses the exact Runtime identity for both arms.`
 - `Executed four counterbalanced blocks with symmetric direct preload and excluded Runtime prewarm; all eight measured output pairs matched exactly.`
-- `Rejected invalid draft configuration, verified healthy operator-selected ordinary generation, claimed cryptographically run-scoped alias namespaces before create, and guaranteed model cleanup despite ambiguous create or unrelated resource cleanup failures.`
+- `Rejected invalid draft configuration, verified healthy operator-selected ordinary generation, claimed cryptographically run-scoped alias namespaces before create, and guaranteed a durably recorded model-removal attempt despite ambiguous create or unrelated resource cleanup failures.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
