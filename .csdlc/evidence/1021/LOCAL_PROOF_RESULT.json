@@ -1,0 +1,131 @@
+{
+  "schema": "csdlc.v3.issue1021.completed_local_proof.v1",
+  "issue": 1021,
+  "pull_request": 1031,
+  "status": "local_proof_passed_ci_and_lifecycle_pending",
+  "proved_source_commit": "717056d405dc01d75402d33b2bf0d0e7ec3e4768",
+  "source_identity": "All 18 execution-source files matched the published commit before and after the run. Launch revision is retained separately and is not relabelled.",
+  "gate": {
+    "cargo_tests": 1,
+    "roles": 7,
+    "scenarios": 12,
+    "fault_cases": 30,
+    "process_exit": 0,
+    "elapsed_seconds": 322.2
+  },
+  "final_packet_admission": "passed",
+  "independent_retained_validator": "passed",
+  "independent_final_validator_with_execution_report_and_effect_evidence": "passed",
+  "candidate_provenance": {
+    "candidate": {
+      "identity": "retained-candidate-owner",
+      "sha256": "f52c2915fbd708b6c78a7ce20262a3bde276caf188c35336f2c4b422ca867e8e",
+      "size": 15024768,
+      "source_revision": "12148f8531d746941a705e6b21fc24e87f1b6774"
+    },
+    "old": {
+      "identity": "retained-old-owner",
+      "sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+      "size": 10721624,
+      "source_revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8"
+    }
+  },
+  "launch_revision": "12148f8531d746941a705e6b21fc24e87f1b6774",
+  "source_sha256": {
+    "adl/tools/run_issue872_conversion_rehearsal.py": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
+    "adl/tools/validate_issue872_generation9_fixture.py": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
+    "csdlc-v3/tests/copied_record_conversion_rehearsal.rs": "080a708d7cc23541271567b5b8cffda14a7a03830e849699e412a9ffdbf28361",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/manifest.json": "438f0dafbb2a4b4b674e770bea1a748dadafbbf0d1f4d78c3ee495e7ddf07a52",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/binding.json": "dd5a85eb6084563f5c040b3b831e10f4af56e2dcb8a35df931ac04bb5f8691c7",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.md": "951300d90252b322768061654d2333abb6481746b96d934249daa007572c90ed",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.values.json": "599307d701ed4650cd81e557224e6a7e29f65060c97d4525175af19b3e84d4ee",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sor.md": "ffd61c83f5dfa22838a2d812b207943e2f868a99b73ed3aaea479d6f64a17f55",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sor.values.json": "2104c0b485105c0b8a4c02c96913e225643ef8e47407034bc1df9813f8b261dd",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/spp.md": "7e81edf911b502be5d2cab2da55ef7d06a5c4c82957383e52e18d2b4242ddcc8",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/spp.values.json": "08c4a35d8d644489cde85dff3addd84eae3f9a324a9f2c15e916ff10adfd4b28",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/srp.md": "10db3f2f044b80af9822fb2dd13af92014939872b7f984ca5ab85a21ae7a194d",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/srp.values.json": "243090f49b0de86bf5175ff3245338c6d0251d4182b21fe05d75f44680518039",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/stp.md": "9a49cddd0c6fcf5ba7529c1a860dee609f995fad87b01041c284a6ae5adf8ffc",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/stp.values.json": "c240059df06690c17e413adba42c79478e4ec7173dc2dcad289e69b87ef9871e",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/vpp.md": "7bdcdb2449d3fcd062e47d36cf8c8b17f404ac36a8a53f3025379cccfaa71ea8",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/vpp.values.json": "0419cf559490524ced91c5b82dc206521be9550609a7e5ca4b5a447a8fcbdd6b",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/index.json": "26d1e9b76d8fd34ec198dd76ff1f51cbb14a7e62d7968e0a6ca1a7c16ed9d4e9"
+  },
+  "materialization": {
+    "authentic_lifecycle_digest": "db09a36738970942ae88401ee79508503967cbc39ae6d03e5d57f2dbd26928c8",
+    "portable_state_executable": false,
+    "materialized_lifecycle_digest": "62cf333d177e9ccf39e48c389479d5ded58f787ed94a28779d5fee5a267e14fa",
+    "fixture_validation": {
+      "detail": "generation-9 fixture and exact old binary validated read-only",
+      "effect_claim": "not_proven_without_hash_bound_before_after_evidence",
+      "proof_denominator": {
+        "archive_copies": 0,
+        "authentic_files": 0,
+        "old_binaries": 1,
+        "portable_files": 14,
+        "transformations": 8
+      },
+      "reason_code": "fixture_validated",
+      "schema": "csdlc.v3.issue872_generation9_fixture_validation.v1",
+      "status": "pass"
+    },
+    "fixture_manifest_sha256": "438f0dafbb2a4b4b674e770bea1a748dadafbbf0d1f4d78c3ee495e7ddf07a52"
+  },
+  "retained_artifact_sha256": {
+    "gate-4.stdout": "b875d49b02d7ad68d1af4d39cc30a68b558cbdaa526ce15b9c5d1c3fef916871",
+    "gate-4.stderr": "0533388805be742b98e930369563bd0f784a4f098c399985b384e66bdde56afd",
+    "final-packet-admission.stdout": "e190bfcb88257139b9690514b49eb5b0838f508ce7b5a6cd6b5b8c785d25d398",
+    "final-packet-admission.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "manifest.json": "81a9f1e3b42e31447671cc82caa613e4d6eedc8401a428e563b34d2804777f89",
+    "summary.json": "bfc77125af52490917f5de9376886a9a65110f584efd4d446d8d9ce34e1806f2",
+    "binary-provenance.json": "8250afc887530469b061d7dc00062eccf1e59888846ef695b2445136f8147ea1",
+    "retained-validator.stdout": "dc76497a453e3908b4d56e6e5d5b629f32fde5bdd7c4d118b2b38372b1835710",
+    "retained-validator.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "materialization.json": "2f4a638f49419546dd14fccf49616c9d772a5faf8f07f70fe3487afcc5383908",
+    "worker10-1021-final-report.json": "2faf8c60703b1c63aea03a63e102c4e33a168ab5e3450ce6aa34d667d3ea136f"
+  },
+  "effect_observations": {
+    "retained_archives": {
+      "before_sha256": "3181c49303b101e5a7fe53e9fad7d688d69127410795abfa25dbeb5257e23e0d",
+      "after_sha256": "3181c49303b101e5a7fe53e9fad7d688d69127410795abfa25dbeb5257e23e0d",
+      "unchanged": true
+    },
+    "portable_fixture": {
+      "before_sha256": "60b11b317303abe3c4a4ff6ad1a7c3c6e58ea15385dd8c690884eca885e0a168",
+      "after_sha256": "60b11b317303abe3c4a4ff6ad1a7c3c6e58ea15385dd8c690884eca885e0a168",
+      "unchanged": true
+    },
+    "live_roots": {
+      "before_sha256": "0e4fa33aa71217b2920e90cb58526dfc3e6589ef89dc4f68aba58c234ab48acc",
+      "after_sha256": "0e4fa33aa71217b2920e90cb58526dfc3e6589ef89dc4f68aba58c234ab48acc",
+      "unchanged": true
+    },
+    "shared_binary": {
+      "before_sha256": "7a979bfbcd6065ff4a5635c0d43cf3d563349c5790d25e2a468c57618536edc3",
+      "after_sha256": "7a979bfbcd6065ff4a5635c0d43cf3d563349c5790d25e2a468c57618536edc3",
+      "unchanged": true
+    }
+  },
+  "effect_scope": "The isolated proof performed no live conversion, shared installation, writer activation or GitHub mutation. Inventory equality is before/after evidence and does not exclude unobserved transient external writes; authorized PR transport is separate.",
+  "durable_archive": {
+    "root_basis": "Git common directory",
+    "relative_path": "csdlc-v3/local/evidence/1021/worker10-gate4-717056d405",
+    "inventory_sha256": "210bed12a0384b5775c361fda9e0747a3aadfda96318ca3e91196e7d2c1a9d37",
+    "file_count": 1900,
+    "copy_hashes_match": true,
+    "usage": "Archive is retained evidence, not a live input. Copy to an isolated non-live directory before routine validator admission."
+  },
+  "pending": [
+    "Required hosted CI on final PR head",
+    "Native semantic lifecycle/card reconciliation for the existing legacy record",
+    "Independent downstream #873 requalification"
+  ],
+  "not_authorized_or_claimed": [
+    "merge",
+    "terminal closeout",
+    "cleanup",
+    "writer activation",
+    "shared owner replacement",
+    "sprint completion"
+  ]
+}
