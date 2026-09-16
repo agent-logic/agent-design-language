@@ -2044,7 +2044,7 @@ mod tests {
             default_model: None,
             config: HashMap::from([("timeout_secs".to_string(), json!(45))]),
         };
-        let expanded = crate::profiles::expand_provider_profiles(&HashMap::from([(
+        let expanded = crate::candidate::validate_provider_candidate(&HashMap::from([(
             "speech".to_string(),
             profile,
         )]))

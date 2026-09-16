@@ -70,13 +70,17 @@ pub fn validate_provider_specs(providers: &HashMap<String, ProviderSpec>) -> Res
         crate::registry::runtime_budget_limits(&spec.config)?;
         crate::provider::runtime_limits::runtime_bounded_calls(&spec.config)?;
         crate::provider::runtime_limits::runtime_output_cap(&spec.config)?;
-        provider_substrate::provider_substrate_v1(provider_id, spec)
+        let substrate = provider_substrate::provider_substrate_v1(provider_id, spec)
             .with_context(|| format!("validate provider reload spec '{provider_id}'"))?;
         // Constructors validate adapter configuration without performing inference,
         // resolving credential values, launching processes or creating resources.
         // Keep this before promotion so dispatch cannot discover an invalid endpoint
         // only after the last-known-good definition has already been replaced.
-        let _ = crate::build_provider_for_id(provider_id, spec, None)?;
+        if substrate.codec_controls.codec == "deepgram_speech_v1" {
+            let _ = crate::build_speech_provider(provider_id, spec)?;
+        } else {
+            let _ = crate::build_provider_for_id(provider_id, spec, None)?;
+        }
     }
     Ok(())
 }
