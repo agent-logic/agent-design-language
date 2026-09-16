@@ -289,6 +289,49 @@ fn installed_semantic_install_invalidates_proof_until_new_execution() {
 }
 
 #[test]
+fn completed_install_replay_repairs_projection_after_interruption() {
+    let (mut f, linked, operation) = setup("semantic-install-projection-recovery");
+    success(f.run(&linked, &["proof", "505"]));
+    let crash = f.run_with_env(
+        &linked,
+        &[
+            "install",
+            "505",
+            "--operation",
+            operation.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_install_after_projection",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(
+        success(f.run(&linked, &["status", "505"]))["evidence"]["proof_current"],
+        false
+    );
+    let repaired = success(f.run(
+        &linked,
+        &[
+            "install",
+            "505",
+            "--operation",
+            operation.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    assert_eq!(repaired["status"], "completed");
+    assert_eq!(repaired["read_only"], false);
+    assert_eq!(repaired["performed_mutation"], true);
+    assert_eq!(repaired["projection"]["after"]["status"], "healthy");
+    assert_eq!(
+        success(f.run(&linked, &["proof", "505"]))["status"],
+        "completed"
+    );
+}
+
+#[test]
 fn installed_semantic_install_preserves_preexisting_foreign_receipt() {
     let (mut f, linked, operation) = setup("semantic-install-foreign-receipt");
     let receipt = linked.join(".csdlc/evidence/505/v3-install/receipt.json");
