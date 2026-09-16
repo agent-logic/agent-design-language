@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][PLAT-RUST] Complete one selected production Rust responsibility refactor"
 branch: "codex/906-v0922-process-parser-simplification"
 generated_at: "2026-09-12T00:22:05.416044+00:00"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/906/cards/sip.md"
   - ".csdlc/issues/906/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
-  recommended_outcome: "block"
-notes: "Independent exact-head implementation review required before publication. Review every acceptance item: 1. Deliver the complete pure parser used by production `real_process_status`, preserving accepted/rejected argv, repeated options and option order, error text/order, defaults, mutually exclusive target semantics, zero PID/port rejection and loopback-only host rules. Keep syscall/network probes and output schema unchanged. 2. Reduce duplicated target-selection logic/control-flow complexity with an explicit before/after measure and reviewed rationale. Count recursive source totals and explain additions. A smaller parent facade, moved lines or more tests alone is not reduction; no arbitrary net-line claim substitutes for the actual simplification. 3. Exercise installed `adl process status` via existing `adl/tests/cli_smoke/process_status.rs` and focused parser cases, including malformed/missing/duplicate/conflicting flags and boundary values. Test safety denials without broad process scans or unsafe network targets. Preserve existing public outputs on all supported platforms. 4. Focused regressions, diff/format checks and required CI pass at independent exact-head review. No design-only refactor proposal, unused helper or compilation-only evidence closes the issue. Update narrowly affected process-status documentation if necessary. PVF: deterministic local parser/CLI behavior-preservation contract, small CPU and controlled local process fixtures, required milestone support gate. No broad Rust rewrite, process-control feature changes, unrelated cleanup or other-owner takeover. Stop on unresolved dirty ownership, behavior drift, measurement without simplification or missing/failed proof. acceptance: `bounded_surface`, `behavior_preserved`, `measurable_reduction`, `exact_module_and_invariant_selected_before_creation`, `production_callers_preserved`, `recursive_before_after_inventory`. pvf: `focused_regression`, `before_after_measurement`, `exact_module_and_invariant_selected_before_creation`, `production_callers_preserved`, `recursive_before_after_inventory`, `unselected_surface_rejected`, `facade_only_reduction_claim_rejected`. stop_conditions: `scope_sprawl`, `behavior_redesign`, `required_proof_not_executed`, `partial_artifact_claimed_complete`, `production_responsibility_unselected`. non_goals: `repo_wide_rewrite`. Canonical sources: `docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml`, `WP_ISSUE_WAVE_v0.92.2.yaml`, `ATOMIC_TASK_CONTRACTS_v0.92.2.json` and `CREATION_SELECTIONS_v0.92.2.md`."
+  findings_status: "resolved_no_open_findings"
+  recommended_outcome: "pass"
+notes: "Reviewed implementation and evidence at 9a1578aca9bf52d269369b3745ea2cac4b64b8a8 by /root/review_906. Local proof: 12 focused parser binary-path executions, 11 standalone adl-process tests, 16 installed CLI tests, strict clippy, formatting, diff hygiene, native six-card validation, inventory reproduction, and merge-tree conflict check. Hosted required CI remains a publication gate."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Implementation review has not run; no implementation exists from this preparation.
+- Independent review by /root/review_906 found two P2 documentation-truth defects and no code-behavior defect. The first required exact source hashes plus before/after production-line, owned-function, and lexical control-site accounting. The second required removal of stale pre-implementation SOR claims. Both were fixed. Final exact-head re-review at 9a1578aca9bf52d269369b3745ea2cac4b64b8a8 reported no actionable findings.
 
 ### Dispositions
 
-- No implementation findings have been accepted or waived.
+- All actionable findings were fixed without waiver. The reviewer reproduced every hash and count, independently passed native generation-7 six-card and digest validation, verified a conflict-free merge against current origin/main, and confirmed the historical dirty worktree remains unchanged at 1ea9140 with patch SHA-256 aef64c67a22d74ff5dc4962d5c6f25ab09a06ca64bb1763c48984d73558fbf84.
 
 ### Recommended Outcome
 
-- block
+- pass
 
 ## Notes
 
-Independent exact-head implementation review required before publication. Review every acceptance item: 1. Deliver the complete pure parser used by production `real_process_status`, preserving accepted/rejected argv, repeated options and option order, error text/order, defaults, mutually exclusive target semantics, zero PID/port rejection and loopback-only host rules. Keep syscall/network probes and output schema unchanged. 2. Reduce duplicated target-selection logic/control-flow complexity with an explicit before/after measure and reviewed rationale. Count recursive source totals and explain additions. A smaller parent facade, moved lines or more tests alone is not reduction; no arbitrary net-line claim substitutes for the actual simplification. 3. Exercise installed `adl process status` via existing `adl/tests/cli_smoke/process_status.rs` and focused parser cases, including malformed/missing/duplicate/conflicting flags and boundary values. Test safety denials without broad process scans or unsafe network targets. Preserve existing public outputs on all supported platforms. 4. Focused regressions, diff/format checks and required CI pass at independent exact-head review. No design-only refactor proposal, unused helper or compilation-only evidence closes the issue. Update narrowly affected process-status documentation if necessary. PVF: deterministic local parser/CLI behavior-preservation contract, small CPU and controlled local process fixtures, required milestone support gate. No broad Rust rewrite, process-control feature changes, unrelated cleanup or other-owner takeover. Stop on unresolved dirty ownership, behavior drift, measurement without simplification or missing/failed proof. acceptance: `bounded_surface`, `behavior_preserved`, `measurable_reduction`, `exact_module_and_invariant_selected_before_creation`, `production_callers_preserved`, `recursive_before_after_inventory`. pvf: `focused_regression`, `before_after_measurement`, `exact_module_and_invariant_selected_before_creation`, `production_callers_preserved`, `recursive_before_after_inventory`, `unselected_surface_rejected`, `facade_only_reduction_claim_rejected`. stop_conditions: `scope_sprawl`, `behavior_redesign`, `required_proof_not_executed`, `partial_artifact_claimed_complete`, `production_responsibility_unselected`. non_goals: `repo_wide_rewrite`. Canonical sources: `docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml`, `WP_ISSUE_WAVE_v0.92.2.yaml`, `ATOMIC_TASK_CONTRACTS_v0.92.2.json` and `CREATION_SELECTIONS_v0.92.2.md`.
+Reviewed implementation and evidence at 9a1578aca9bf52d269369b3745ea2cac4b64b8a8 by /root/review_906. Local proof: 12 focused parser binary-path executions, 11 standalone adl-process tests, 16 installed CLI tests, strict clippy, formatting, diff hygiene, native six-card validation, inventory reproduction, and merge-tree conflict check. Hosted required CI remains a publication gate.
