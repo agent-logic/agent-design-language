@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Bounded bootstrap repair implemented; 27 focused semantic transaction tests passed and independent changed-diff review found no actionable correctness defect. #1017 setup readback pending; no PR or merge.
+Issue-bound Worker #9 goal created. Verified retained native #1017 prepare, bind, validate and doctor results. Repair implemented and 27 semantic transaction tests rerun successfully; formatting and all-target clippy passed. Independent source review of a9f8c7419814519af72501768ba46f58e5cec6fa found no actionable findings. Publication and CI remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -57,7 +57,7 @@ Bounded bootstrap repair implemented; 27 focused semantic transaction tests pass
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `setup_repair_validated_handoff_pending`
+- Completion state: `implementation_validated_review_handoff`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -86,7 +86,7 @@ Bounded bootstrap repair implemented; 27 focused semantic transaction tests pass
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `not_published`
+- Integration state: `worktree_only`
 - Verification scope: `<verification_scope>`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
@@ -110,7 +110,7 @@ Rules:
   - `<validation_command>`
     `<validation_effect>`
 - Results:
-  - `27 focused transaction tests passed; diff hygiene passed. Synthetic local owner-contract proof only.`
+  - `27 focused transaction tests passed; cargo fmt --check and cargo clippy --all-targets -- -D warnings passed. Retained candidate #1017 prepare/bind validated; no fresh cloud or provider calls.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
