@@ -1,7 +1,7 @@
 {
   "schema": "csdlc.v3.issue1021.proof_summary.v1",
   "issue": 1021,
-  "status": "partial_repaired_full_gate_in_progress",
+  "status": "local_proof_passed_ci_and_lifecycle_pending",
   "source_sha256": {
     "adl/tools/run_issue872_conversion_rehearsal.py": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
     "adl/tools/validate_issue872_generation9_fixture.py": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
@@ -62,12 +62,17 @@
       "portable_positive_cases": 1
     },
     "full_ignored_gate": {
-      "status": "in_progress",
+      "status": "passed",
       "attempt": 4,
       "required_roles": 7,
       "required_scenarios": 12,
       "required_fault_cases": 30,
-      "proven_denominator": null,
+      "proven_denominator": {
+        "cargo_tests": 1,
+        "roles": 7,
+        "scenarios": 12,
+        "fault_cases": 30
+      },
       "source_sha256": {
         "adl/tools/run_issue872_conversion_rehearsal.py": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
         "adl/tools/validate_issue872_generation9_fixture.py": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
@@ -88,7 +93,7 @@
         "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/vpp.values.json": "0419cf559490524ced91c5b82dc206521be9550609a7e5ca4b5a447a8fcbdd6b",
         "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/index.json": "26d1e9b76d8fd34ec198dd76ff1f51cbb14a7e62d7968e0a6ca1a7c16ed9d4e9"
       },
-      "final_source_relationship": "Fresh full gate runs repaired runner and final validator/harness bytes. Complete packet admission remains pending."
+      "final_source_relationship": "Fresh gate4 ran the final source bytes, independently matched to published717056d405; final packet admission and retained validator passed."
     },
     "targeted_recovery_sequence": {
       "status": "passed",
@@ -100,6 +105,10 @@
       "production_commands_each": 6,
       "archived_writer_probe": "Retained separately and hash-covered; no fence checks removed.",
       "evidence": "sequence-bundle-validation.json"
+    },
+    "final_packet_admission": {
+      "status": "passed",
+      "record": "LOCAL_PROOF_RESULT.json"
     }
   },
   "failed_attempts": [
@@ -121,7 +130,7 @@
       "failed_packet_retention": "Raw final streams retained; old harness cleaned disposable packet after validation assertion. Repair retains future packets before assertions."
     }
   ],
-  "publication": "Draft PR #1031 exists at reviewed commit 12148f8531d746941a705e6b21fc24e87f1b6774 through explicitly authorized gh transport. Authenticated native PR observation passed; semantic lifecycle reconciliation and full qualification remain pending.",
+  "publication": "Draft PR #1031 exists through authorized gh transport. Full local proof and final packet admission passed. Hosted CI and native semantic lifecycle reconciliation remain pending; no terminal or downstream completion claim.",
   "limits": [
     "Archive equality and before/after snapshots are read-only observations, not proof against transient external writes.",
     "Portable index preserves authentic lifecycle digest as lineage; it is non-executable until disposable rebinding recomputes a separate digest.",

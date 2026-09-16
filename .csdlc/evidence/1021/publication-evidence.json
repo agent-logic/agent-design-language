@@ -1,7 +1,7 @@
 {
   "schema": "adl.issue1021.publication_evidence.v1",
   "issue": 1021,
-  "status": "draft_repaired_full_conversion_gate_in_progress",
+  "status": "local_proof_passed_ci_and_lifecycle_pending",
   "scope": "Authenticated portable generation-9 fixture, read-only validator, isolated test harness and explicitly authorized test-runner repair.",
   "passed": {
     "conversion_admission_tests": 14,
@@ -14,10 +14,10 @@
     "targeted_recovery_sequence_cases": 2
   },
   "proof_boundaries": {
-    "full_gate": "The six-command mismatch is repaired. Targeted before/after production sequences passed the unchanged validator. Fresh full gate 4 is in progress; no complete 7/12/30 claim.",
+    "full_gate": "Gate4 passed: 1 Cargo test, 7 roles, 12 scenarios and 30 fault cases; final packet admission and independent retained validator passed. See LOCAL_PROOF_RESULT.json.",
     "source_revision": "PROOF_SUMMARY.json binds exact final source hashes for gate 4. Product candidate implementation is unchanged; runner and harness evidence handling were repaired. Earlier failed attempts remain recorded.",
-    "final_packet_admission": "Pending full gate completion.",
-    "ci": "PR #1031 CI is in progress at initial draft head; no final CI claim.",
+    "final_packet_admission": "Passed with the final validator, actual execution report and observed before/after effect evidence.",
+    "ci": "Required hosted CI remains pending; local proof is not hosted CI.",
     "native_lifecycle": "status rejects legacy record with intent_semantic_migration_required; publication preview rejects intent_plan_missing. No live conversion or fallback writer used.",
     "downstream": "Issue 873 owns independent requalification. No sprint or downstream completion claim."
   },
@@ -57,6 +57,6 @@
   "review_remediation": {
     "reviewed_prior_head": "12148f8531d746941a705e6b21fc24e87f1b6774",
     "finding": "P2: seven fault-runner commands versus six-command validator contract",
-    "disposition": "Separate hash-covered writer probe; canonical six-command bundle preserved; targeted two-boundary proof passed; full rerun pending."
+    "disposition": "Resolved: six-command bundle preserved, separate writer probe retained, targeted before/after proof and complete gate4 passed."
   }
 }
