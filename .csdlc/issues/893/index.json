@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 893,
   "phase": "bound",
-  "generation": 4,
+  "generation": 5,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/893-v0922-remediation-planner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-893-v0922-remediation-planner",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "bef987ffee0dab10d28b9944fec21ded06f482a7171326336986db1b2668f9d7"
+  "digest": "35c23b548f9072ceb91c4b2f6d71660ebb34b00a6da086595e959637b54a3b99"
 }

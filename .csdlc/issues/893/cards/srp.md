@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/893/cards/sip.md"
   - ".csdlc/issues/893/cards/vpp.md"
 review_results:
-  findings_status: "review_required"
+  findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "Fresh independent exact-head review must verify the installed remediation planner consumes synthesized findings, preserves evidence/source traceability, rejects unsafe/untraceable/cyclic actions, writes create-only artifacts, exposes complete reader output, does not mutate source, and does not absorb repair execution or GitHub issue creation."
+notes: "Fresh independent exact-head review is required against the remediated commit before publication. Prior review is not a PASS."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Implementation review has not yet run for the #893 exact head.
+- First independent exact-head review of daa3cb59083b63c99c393f63807d5790530bd22b by fresh-session:3645C5B0-8201-4525-B765-A1D5E98EAB00 returned BLOCK with two findings: High action_order tampering accepted by reader validation, and Medium stale SOR truth mixing implemented claims with not_started/not_run fields.
 
 ### Dispositions
 
-- No implementation finding is accepted, resolved or waived before fresh exact-head review.
+- Both findings accepted for remediation. Source validation now compares the recorded action_order to the recomputed topological order and rejects mismatches; focused regression covers reversed action_order. SOR fields are updated through native edit to remove stale not_started/not_run implementation-proof claims and record implemented-remediated-pending-fresh-review truth.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Fresh independent exact-head review must verify the installed remediation planner consumes synthesized findings, preserves evidence/source traceability, rejects unsafe/untraceable/cyclic actions, writes create-only artifacts, exposes complete reader output, does not mutate source, and does not absorb repair execution or GitHub issue creation.
+Fresh independent exact-head review is required against the remediated commit before publication. Prior review is not a PASS.

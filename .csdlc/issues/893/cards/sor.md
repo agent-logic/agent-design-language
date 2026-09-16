@@ -21,28 +21,28 @@ Version: 0.92.2
 Title: [v0.92.2][CF-REMEDIATE] Generate a bounded remediation plan from review findings
 Branch: codex/893-v0922-remediation-planner
 Card Status: ready
-Status: implemented_pending_review
+Status: implemented_remediated_pending_fresh_review
 Generated: 2026-09-12T00:10:02.687479+00:00
 
 Execution:
 - Actor: `unassigned implementation owner`
 - Model: `unknown`
 - Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Start Time: `not_collected; work resumed under active Sprint 4 goal`
+- End Time: `not_collected; implementation remediation still in progress until fresh review and publication`
 
 ## Summary
 
-Implemented the CodeFriend remediation planner for #893. The installed CLI now exposes `adl codefriend plan remediation --input <synthesis.json> --out <new-dir>` and `adl codefriend plan remediation read --input <remediation-plan.json>`. The planner consumes synthesized review findings, derives bounded evidence-linked actions with owner-role/unassigned status, relevant paths, dependencies, acceptance criteria, validation and risk/non-goals, records omitted untraceable findings, and writes create-only plan/manifest/synthesis-snapshot artifacts without mutating source.
+Implemented and remediated the CodeFriend remediation planner for #893. The installed CLI exposes `adl codefriend plan remediation --input <synthesis.json> --out <new-dir>` and `adl codefriend plan remediation read --input <remediation-plan.json>`. The planner consumes synthesized review findings, derives bounded evidence-linked actions with owner-role/unassigned status, relevant paths, dependencies, acceptance criteria, validation and risk/non-goals, records omitted untraceable findings, writes create-only plan/manifest/synthesis-snapshot artifacts, and now rejects tampered non-topological action_order values.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
 - Final PVF lane: `runtime`
-- Lane change reason: `not_run; implementation has not started`
+- Lane change reason: `No lane change; runtime lane executed for deterministic local planner/reader proof.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `bounded_local`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -57,7 +57,7 @@ Implemented the CodeFriend remediation planner for #893. The installed CLI now e
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_pending_fresh_review_publication_ci`
+- Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
 - Issue goal ref: `Sprint 4 #930 active goal covers #893 execution in this session; single goal slot prevented replacing it with a separate child goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/893/goal-metrics.json (planned, absent until execution)`
@@ -75,13 +75,13 @@ Implemented the CodeFriend remediation planner for #893. The installed CLI now e
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/893/cards/sor.md`
-- Tracked implementation artifacts: `none; implementation not started`
-- Additional proof artifacts: `none; acceptance proof not started`
+- Tracked implementation artifacts: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs; .csdlc/issues/893; .csdlc/transactions/completed/893`
+- Additional proof artifacts: `Focused local proof output retained in terminal history; no external provider or GitHub mutation proof claimed.`
 
 ## Actions taken
 - `Added `adl/src/codefriend/actions/remediation.rs` and module registration for deterministic remediation-plan generation, validation and artifact writing.`
 - `Wired installed CLI commands in `adl/src/cli/codefriend_cmd.rs` for remediation-plan generation and complete JSON plan reading.`
-- `Added `adl/tests/codefriend_remediate.rs` covering bounded action ordering, omitted findings, tampered path/acceptance/cycle rejection, create-only output behavior and installed CLI readback.`
+- `Added `adl/tests/codefriend_remediate.rs` covering bounded action ordering, omitted findings, tampered path/acceptance/cycle/order rejection, create-only output behavior and installed CLI readback.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs`
@@ -90,8 +90,8 @@ Implemented the CodeFriend remediation planner for #893. The installed CLI now e
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `native C-SDLC validate passed at generation 4 before review-fix source edit; focused tests and diff hygiene rerun after source fix`
+    `Candidate remains worktree-local and implemented pending fresh review/publication; no main integration claimed.`
 - Result: `not_integrated`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `No implementation proof attempted`
+  - ``cargo fmt --manifest-path adl/Cargo.toml --check`; `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis`; `git diff --check``
+    `Focused proof verifies installed planner/reader behavior, unsafe/untraceable/cyclic/order rejection, synthesis regression compatibility and diff hygiene.`
 - Results:
   - `passed`
 
@@ -125,48 +125,48 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "not_run"
+      - "`cargo fmt --manifest-path adl/Cargo.toml --check` verifies Rust formatting for the candidate."
   determinism:
     status: passed_for_deterministic_local_fixtures
     replay_verified: focused tests create isolated local synthesis input and output directories under adl/target/codefriend-remediate-tests; installed CLI generation and reader paths are executed.
-    ordering_guarantees_verified: not_run
+    ordering_guarantees_verified: passed; validator recomputes topological order and rejects tampered non-topological action_order.
   security_privacy:
     status: passed_for_local_fixture_scope
     secrets_leakage_detected: not_run
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: not_run
+    status: passed_for_local_fixture_scope
     required_artifacts_present: passed_for_local_fixture_scope
     schema_changes:
-      present: not_run
-      approved: not_run
+      present: true; new remediation plan and manifest schema tags are introduced inside CodeFriend action planning output.
+      approved: issue-local implementation pending fresh review; not merged or published yet
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
+- Determinism tests executed: ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate``
+- Fixtures or scripts used: `Synthetic CodeFriend synthesis JSON created by the focused Rust tests; no network/provider credentials used.`
+- Replay verification (same inputs -> same artifacts/order): `passed_for_focused_local_tests`
+- Ordering guarantees (sorting / tie-break rules used): `Generated remediation actions are dependency-ordered with deterministic severity/id tie-breaks; reader validation rejects action_order values that differ from recomputed topological order.`
 - Artifact stability notes: `Planner refuses an existing output directory and writes output artifacts with create-new semantics before returning success.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Secret leakage scan performed: `not_applicable; no provider credentials or secret-bearing inputs used`
+- Prompt / tool argument redaction verified: `not_applicable; no provider prompts or secret tool arguments used`
+- Absolute path leakage check: `passed_for_recorded_candidate; SOR records repo-relative commands/paths except declared FastWork worktree identity in lifecycle metadata.`
+- Sandbox / policy invariants preserved: `passed; implementation reads local synthesis JSON and writes only caller-selected fresh output directory artifacts.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `Generated local test artifacts under adl/target/codefriend-remediate-tests; no durable release bundle created before review/publication.`
 - Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-remediate-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture.`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`
-- Replay result: `not_run; implementation has not started`
+- Replay result: `passed`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/893 (planned)`
-- Required artifacts present: `not_run; implementation has not started`
-- Artifact schema/version checks: `Focused tests parse generated remediation-plan JSON and manifest output, validate schema tags and reject tampered invalid plan shapes.`
-- Hash/byte-stability checks: `cargo fmt --check and git diff --check passed after implementation.`
+- Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
+- Required artifacts present: `passed_for_local_fixture_scope`
+- Artifact schema/version checks: `Focused tests parse generated remediation-plan JSON and manifest output, validate schema tags, and reject tampered invalid plan shapes including non-topological action_order.`
+- Hash/byte-stability checks: `cargo fmt --check and git diff --check passed after implementation and after review-fix source edit.`
 - Missing/optional artifacts and rationale: `CI, independent exact-head review and publication proof are pending. Provider-generated reviews and GitHub issue creation are sibling/follow-on concerns and not required for this local remediation-plan generator.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `The proof uses synthesis-shaped local fixtures plus the existing synthesis regression suite. It does not claim a live external-provider review run or issue-creation authority.`
 
 ## Follow-ups / Deferred work
-- `Wait for accepted prerequisites, recheck shared owners, bind natively and create the issue goal`
-- `Implement complete source contract, execute VPP, obtain independent exact-head review and use native publication/finish/clean`
+- `Obtain fresh independent exact-head review against the remediated immutable commit.`
+- `If review passes, publish through native C-SDLC with Closes #893, observe CI, and finish only at green/terminal authority.`

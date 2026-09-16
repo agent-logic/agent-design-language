@@ -221,7 +221,10 @@ pub fn validate_plan(plan: &RemediationPlan) -> Result<()> {
     for action in &plan.actions {
         validate_action(action, &action_ids)?;
     }
-    topological_order(&plan.actions)?;
+    ensure!(
+        topological_order(&plan.actions)? == plan.action_order,
+        "remediation_action_order_not_topological"
+    );
     let omitted = plan
         .omitted_findings
         .iter()

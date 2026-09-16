@@ -133,6 +133,11 @@ fn remediation_reader_rejects_tampered_paths_acceptance_and_cycles() {
     let err = validate_plan(&bad_acceptance).unwrap_err().to_string();
     assert!(err.contains("untraceable_remediation_acceptance"));
 
+    let mut bad_order = plan.clone();
+    bad_order.action_order.reverse();
+    let err = validate_plan(&bad_order).unwrap_err().to_string();
+    assert!(err.contains("remediation_action_order_not_topological"));
+
     let mut cycle = plan;
     let first = cycle.actions[0].id.clone();
     let second = cycle.actions[1].id.clone();
