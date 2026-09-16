@@ -13,13 +13,13 @@
   "stp_card": ".csdlc/issues/893/cards/stp.md",
   "slug": "v0922-remediation-planner",
   "vpp_card": ".csdlc/issues/893/cards/vpp.md",
-  "review_findings": "Fresh exact-head review of ed970b2443aadd818f02bf482cb29a5aecbaa966 by fresh-session:/root/review_893_clippy_final returned one P2 lifecycle truth finding: `.csdlc/issues/893/cards/sor.values.json` field `validation_commands_inline` still omitted clippy and described the repair as path-extraction-only.",
-  "review_dispositions": "Finding accepted and remediated through native SOR value update. `validation_commands_inline` now includes focused tests, fmt, full clippy with denied warnings, and diff hygiene, and names the clippy-only repair after the path-extraction fix.",
+  "review_findings": "Fresh metadata review of a3b1bc0e178b4bbd26da3bd173b1ed482a308b68 by fresh-session:c0e6ed7d-f990-4f36-a21f-55f542dd7c50 returned FAIL with one P2 truth mismatch and no product finding: replay_command included rustfmt and exact-range diff hygiene, while replay_result omitted those results and instead included a separate review PASS.",
+  "review_dispositions": "P2 accepted and remediated through the native SOR editor. replay_result now exactly reports the 9 remediation, 8 test-plan, 7 UX, rustfmt, and exact-range diff outputs produced by replay_command; independent review remains recorded separately in SRP/integration verification truth.",
   "sip_card": ".csdlc/issues/893/cards/sip.md",
   "sor_card": ".csdlc/issues/893/cards/sor.md",
-  "findings_status": "findings_remediated_pending_fresh_review",
+  "findings_status": "metadata_finding_remediated_pending_fresh_review",
   "spp_card": ".csdlc/issues/893/cards/spp.md",
   "timestamp": "2026-09-12T00:10:02.687479+00:00",
-  "review_notes": "No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish.",
+  "review_notes": "A different fresh reviewer must verify the generation-17 replay-result repair at the new immutable head. Product parent a7cddf07dea4f557ed089e0be02adffbe3985717 remains unchanged and reviewed PASS.",
   "recommended_outcome": "review_required"
 }
