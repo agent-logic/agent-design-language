@@ -39,10 +39,10 @@ class RetryComparisonTests(unittest.TestCase):
 
     def validate(self):
         predecessor = MODULE.validate_ledger(
-            self.predecessor, "predecessor", self.scenario_map, self.map_sha256
+            self.predecessor, "predecessor", self.scenario_map, self.map_sha256, FIXTURES
         )
         candidate = MODULE.validate_ledger(
-            self.candidate, "candidate", self.scenario_map, self.map_sha256
+            self.candidate, "candidate", self.scenario_map, self.map_sha256, FIXTURES
         )
         return MODULE.compare(self.scenario_map, predecessor, candidate)
 
@@ -144,6 +144,21 @@ class RetryComparisonTests(unittest.TestCase):
     def test_binary_provenance_mismatch_is_rejected(self):
         self.candidate["binary"]["sha256"] = "0" * 64
         with self.assertRaisesRegex(MODULE.ValidationError, "binary provenance"):
+            self.validate()
+
+    def test_changed_retained_observation_is_rejected(self):
+        self.candidate["observations"][0]["sha256"] = "0" * 64
+        with self.assertRaisesRegex(MODULE.ValidationError, "observation digest mismatch"):
+            self.validate()
+
+    def test_deleted_retained_observation_is_rejected(self):
+        self.candidate["observations"][0]["path"] = "missing-raw.json"
+        with self.assertRaisesRegex(MODULE.ValidationError, "observation is missing"):
+            self.validate()
+
+    def test_outside_retained_observation_path_is_rejected(self):
+        self.candidate["observations"][0]["path"] = "../candidate-raw.json"
+        with self.assertRaisesRegex(MODULE.ValidationError, "relative and contained"):
             self.validate()
 
     def test_operational_scenario_map_is_strictly_valid(self):

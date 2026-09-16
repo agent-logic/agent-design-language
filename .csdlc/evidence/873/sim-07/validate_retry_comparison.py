@@ -187,6 +187,7 @@ def validate_ledger(
     variant: str,
     scenario_map: dict[str, Any],
     map_sha256: str,
+    ledger_root: Path | None = None,
 ) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValidationError(f"{variant} ledger must be an object")
@@ -198,6 +199,7 @@ def validate_ledger(
             "scenario_map_sha256",
             "variant",
             "binary",
+            "observations",
             "journeys",
             "attempts",
         },
@@ -225,6 +227,39 @@ def validate_ledger(
         for step in scenario["semantic_steps"]
     }
     required_steps = set(step_by_key)
+
+    observations = value["observations"]
+    if not isinstance(observations, list):
+        raise ValidationError(f"{variant} observations must be an array")
+    observed_scenarios: set[str] = set()
+    for index, observation in enumerate(observations):
+        where = f"{variant} observation[{index}]"
+        if not isinstance(observation, dict):
+            raise ValidationError(f"{where} must be an object")
+        require_exact_keys(observation, {"scenario_id", "path", "sha256"}, where)
+        scenario_id = observation["scenario_id"]
+        if scenario_id not in scenario_by_id or scenario_id in observed_scenarios:
+            raise ValidationError(f"{where} scenario is unknown or duplicated")
+        observed_scenarios.add(scenario_id)
+        if not isinstance(observation["path"], str) or not observation["path"]:
+            raise ValidationError(f"{where}.path must be nonempty")
+        declared_sha256 = require_hex(observation["sha256"], f"{where}.sha256")
+        observation_path = Path(observation["path"])
+        if observation_path.is_absolute() or ".." in observation_path.parts:
+            raise ValidationError(f"{where}.path must be relative and contained")
+        if ledger_root is not None:
+            root = ledger_root.resolve()
+            retained = (root / observation_path).resolve()
+            try:
+                retained.relative_to(root)
+            except ValueError as error:
+                raise ValidationError(f"{where}.path escapes ledger root") from error
+            if not retained.is_file():
+                raise ValidationError(f"{where} retained observation is missing")
+            if sha256_bytes(retained) != declared_sha256:
+                raise ValidationError(f"{where} retained observation digest mismatch")
+    if observed_scenarios != set(scenario_by_id):
+        raise ValidationError(f"{variant} observation denominator differs from scenario map")
 
     journeys = value["journeys"]
     if not isinstance(journeys, list):
@@ -453,10 +488,18 @@ def main() -> int:
         scenario_map = validate_map(read_json(args.scenario_map))
         map_sha256 = sha256_bytes(args.scenario_map)
         predecessor = validate_ledger(
-            read_json(args.predecessor_ledger), "predecessor", scenario_map, map_sha256
+            read_json(args.predecessor_ledger),
+            "predecessor",
+            scenario_map,
+            map_sha256,
+            args.predecessor_ledger.parent,
         )
         candidate = validate_ledger(
-            read_json(args.candidate_ledger), "candidate", scenario_map, map_sha256
+            read_json(args.candidate_ledger),
+            "candidate",
+            scenario_map,
+            map_sha256,
+            args.candidate_ledger.parent,
         )
         result = compare(scenario_map, predecessor, candidate)
     except (OSError, json.JSONDecodeError, ValidationError) as error:

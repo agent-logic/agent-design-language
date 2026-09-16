@@ -920,17 +920,15 @@
         },
         {
           "id": "cleanup-recovery-preview",
-          "retry_policy": "useful_only",
+          "retry_policy": "excluded_required_observation",
           "intended_operation": "recover_cleanup_preview",
           "expected_outcomes": [
-            "transition_applied",
             "successful_no_op",
-            "recovery_required",
-            "interrupted"
+            "expected_wait"
           ],
           "completion_outcomes": [
-            "transition_applied",
-            "successful_no_op"
+            "successful_no_op",
+            "expected_wait"
           ],
           "argv": {
             "predecessor": [

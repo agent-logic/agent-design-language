@@ -8,6 +8,13 @@
     "sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
     "blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64"
   },
+  "observations": [
+    {
+      "scenario_id": "fixture-journey",
+      "path": "predecessor-raw.json",
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    }
+  ],
   "journeys": [
     {
       "scenario_id": "fixture-journey",
