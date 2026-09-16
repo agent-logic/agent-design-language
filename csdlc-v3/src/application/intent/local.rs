@@ -464,6 +464,7 @@ fn semantic_edit(
     {
         return Err("intent_semantic_binding_stale".into());
     }
+    let binding_advances = binding.head != context.head;
     let mut cards = preflight.inputs().cards().clone();
     for (kind, update) in &request.card_updates {
         let card = cards
@@ -491,7 +492,26 @@ fn semantic_edit(
     {
         return Err("intent_amendment_revision_mismatch".into());
     }
-    let phase = preflight.phase();
+    let phase = if binding_advances {
+        match crate::lifecycle::semantic::decide_amendment(
+            preflight.phase(),
+            crate::lifecycle::semantic::AmendmentClass::Binding,
+            &crate::lifecycle::semantic::AmendmentFacts {
+                source_version_current: true,
+                issue_checkout_match: true,
+                evidence_integrity: true,
+                transition_approved: true,
+                topology: true,
+                new_commit: true,
+                ..Default::default()
+            },
+        ) {
+            crate::lifecycle::semantic::AmendmentOutcome::Admitted { phase, .. } => phase,
+            _ => return Err("intent_semantic_binding_stale".into()),
+        }
+    } else {
+        preflight.phase()
+    };
     let amendment_facts = crate::lifecycle::semantic::AmendmentFacts {
         source_version_current: true,
         issue_checkout_match: true,
@@ -524,6 +544,7 @@ fn semantic_edit(
     ) {
         return Err("intent_amendment_policy_rejected".into());
     }
+    let admitted_cards = cards;
     if context.refresh_semantic_binding()? {
         super::rebuild_semantic_card_projection(context)?;
     }
@@ -535,6 +556,19 @@ fn semantic_edit(
             .get_mut(kind)
             .ok_or("intent_semantic_card_kind_invalid")?;
         merge(card, update);
+    }
+    if semantic.snapshot.phase() != phase
+        || cards != admitted_cards
+        || !matches!(
+            crate::lifecycle::semantic::decide_amendment(
+                semantic.snapshot.phase(),
+                amendment.class,
+                &amendment_facts,
+            ),
+            crate::lifecycle::semantic::AmendmentOutcome::Admitted { .. }
+        )
+    {
+        return Err("intent_amendment_admission_changed_after_binding_refresh".into());
     }
     let request_bytes = serde_json::to_vec(&json!({
         "schema":"csdlc.v3.semantic_edit_request.v1",

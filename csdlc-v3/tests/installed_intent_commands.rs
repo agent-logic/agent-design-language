@@ -2070,6 +2070,48 @@ fn reviewed_fixture(label: &str) -> (Fixture, std::path::PathBuf) {
 }
 
 #[test]
+fn issue_1036_review_amendment_rejects_before_head_refresh_invalidates_evidence() {
+    let (mut fixture, linked) = reviewed_fixture("review-head-drift-admission");
+    let primary = fixture.root.clone();
+    let binding_a: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    let head_a = binding_a["inputs"]["binding"]["head"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    assert_eq!(binding_a["phase"], "reviewed");
+
+    fs::write(linked.join("review-drift.txt"), "candidate B\n").unwrap();
+    git(&linked, &["add", "review-drift.txt"]);
+    git(&linked, &["commit", "--quiet", "-m", "candidate B"]);
+    assert_ne!(git(&linked, &["rev-parse", "HEAD"]), head_a);
+    let changes = fixture.write_json(
+        "stale-review-amendment.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1",
+            "amendment":{"class":"review","transition_approved":true,"new_commit":true},
+            "cards":{"srp":{"summary":"stale review must not authorize this edit"}}}),
+    );
+    let before = intent_fixture::inventory(&fixture.root);
+    let rejected = fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    );
+    assert!(
+        !rejected.status.success(),
+        "stale review amendment was admitted"
+    );
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("intent_amendment_policy_rejected"));
+    assert_same_inventory!(before, intent_fixture::inventory(&fixture.root));
+    let retained: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    assert_eq!(retained["phase"], "reviewed");
+    assert_eq!(retained["inputs"]["binding"]["head"], head_a);
+    assert!(primary.join(".git/csdlc-v3/semantic/issues/505").is_dir());
+}
+
+#[test]
 fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_receipts() {
     for ordinary_publication in [false, true] {
         let (mut fixture, linked) =
