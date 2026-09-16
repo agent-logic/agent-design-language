@@ -32,6 +32,19 @@ fn success(output: Output) -> Value {
     result
 }
 
+fn publication_reservation_inventory(
+    root: &Path,
+) -> std::collections::BTreeMap<std::path::PathBuf, String> {
+    intent_fixture::inventory(root)
+        .into_iter()
+        .filter(|(path, _)| {
+            let path = path.to_string_lossy();
+            path.starts_with(".git/csdlc-v3/remote/intents")
+                || path.starts_with(".git/csdlc-v3/semantic")
+        })
+        .collect()
+}
+
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1", "slug":"installed-intent-fixture",
       "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"installed intent commands","deliverables_inline":"Run installed lifecycle commands","validation_plan_inline":"Declared Cargo validator","acceptance_criteria_inline":"Installed command behavior is proven","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
@@ -2434,6 +2447,7 @@ fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejec
         ],
     );
     assert!(!missing.status.success());
+    assert!(String::from_utf8_lossy(&missing.stdout).contains("github_pr_head_branch_missing"));
     assert_eq!(fixture.remote_effects(), 0);
     let recoveries = primary.join(".git/csdlc-v3/remote/recoveries");
     assert!(
@@ -2481,6 +2495,35 @@ fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejec
     success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(fixture.remote_effects(), 1, "replay duplicated PR creation");
     assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+}
+
+#[test]
+fn installed_remote_recover_pr_create_rejects_missing_or_wrong_head_before_reservation() {
+    for (name, flag, code) in [
+        (
+            "pr-create-initial-missing-head",
+            "remote-head-present",
+            "github_pr_head_branch_missing",
+        ),
+        (
+            "pr-create-initial-wrong-head",
+            "remote-head-wrong",
+            "github_pr_head_branch_mismatch",
+        ),
+    ] {
+        let (mut fixture, linked) = reviewed_fixture(name);
+        fixture.remote_flag(flag, flag == "remote-head-wrong");
+        let before = publication_reservation_inventory(&fixture.root);
+        let rejected = fixture.run(&linked, &["publish", "505"]);
+        assert!(!rejected.status.success());
+        assert!(String::from_utf8_lossy(&rejected.stdout).contains(code));
+        assert_eq!(fixture.remote_effects(), 0);
+        assert_eq!(
+            before,
+            publication_reservation_inventory(&fixture.root),
+            "{name} changed native intent or semantic reservation state"
+        );
+    }
 }
 
 #[test]
@@ -2535,10 +2578,12 @@ fn installed_remote_recover_pr_create_never_reuses_ambiguous_dispatch_or_wrong_b
 
     let (mut wrong, wrong_linked) = reviewed_fixture("pr-create-recovery-wrong-head");
     wrong.remote_flag("remote-head-wrong", true);
+    let before = publication_reservation_inventory(&wrong.root);
     let rejected = wrong.run(&wrong_linked, &["publish", "505"]);
     assert!(!rejected.status.success());
     assert!(String::from_utf8_lossy(&rejected.stdout).contains("github_pr_head_branch_mismatch"));
     assert_eq!(wrong.remote_effects(), 0);
+    assert_eq!(before, publication_reservation_inventory(&wrong.root));
 }
 
 #[test]

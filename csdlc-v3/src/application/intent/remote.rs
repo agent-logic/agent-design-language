@@ -1030,6 +1030,14 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
             }
             let executed =
                 execute_staged_github_mutation(&context.root, &staged, true, &mut process);
+            if let Err(finding) = &executed {
+                if matches!(
+                    finding.code.as_str(),
+                    "github_pr_head_branch_missing" | "github_pr_head_branch_mismatch"
+                ) {
+                    return Err(failure(finding.clone()));
+                }
+            }
             let outcome = match &executed {
                 Ok(result) => staged.verified_outcome(result).map_err(failure)?,
                 Err(finding)
