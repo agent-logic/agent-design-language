@@ -411,6 +411,14 @@ impl Publication {
             version(v)?;
         }
         crate::codefriend::ingestion::validate_path(&self.target)?;
+        let target_name = std::path::Path::new(&self.target)
+            .file_name()
+            .and_then(|name| name.to_str())
+            .ok_or_else(|| anyhow::anyhow!("invalid_publication_target"))?;
+        ensure!(
+            !target_name.starts_with(".codefriend-publication-"),
+            "reserved_publication_target"
+        );
         ensure!(
             valid_digest(&self.destination_digest),
             "invalid_publication_destination"

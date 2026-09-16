@@ -199,6 +199,35 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
     .success());
     assert!(!fixture.root.join("escaped-output").exists());
 
+    let reserved_publication = fixture.root.join("reserved-publication.json");
+    let mut reserved: serde_json::Value =
+        serde_json::from_slice(&fs::read(&publication).unwrap()).unwrap();
+    reserved["target"] = json!(format!(".codefriend-publication-{}-0", std::process::id()));
+    fs::write(
+        &reserved_publication,
+        serde_json::to_vec_pretty(&reserved).unwrap(),
+    )
+    .unwrap();
+    assert!(!cli(&[
+        "approve",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        reserved_publication.to_str().unwrap(),
+        "--actor",
+        "operator-fixture",
+        "--reason",
+        "Internal staging targets must be rejected",
+        "--approval-store",
+        decisions.to_str().unwrap(),
+    ])
+    .status
+    .success());
+    assert!(!fixture
+        .destination_root
+        .join(reserved["target"].as_str().unwrap())
+        .exists());
+
     let output = cli(&[
         "approve",
         "--review-record",

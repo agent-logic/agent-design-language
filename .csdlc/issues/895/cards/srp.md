@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- First review at b1d8dbc835823f7151c5987dfb5c34e278876340 found stale approval and verified-byte check/use defects. Second review at 1e1cd45c208232844530971ef8ff84b707123bfe found alternate/truncated-directory replay and stale/overclaimed lifecycle truth. Third review at 3d61abcab14a5b26756b8996453f28376dfd6b31 found a revocation race between approval read and destination visibility. Fourth review at f7b801c73090b4414898fac00a1ad4751b404509 found missing actual-destination binding and coherent same-store rollback replay. Fifth review at e2223c5fc09bf974764c60671ad856d5170834ce found absolute targets escaping the approved root, a reserved store name placing the anchor inside the store, and aggregate byte accounting based on stale pre-read metadata.
+- First review at b1d8dbc835823f7151c5987dfb5c34e278876340 found stale approval and verified-byte check/use defects. Second review at 1e1cd45c208232844530971ef8ff84b707123bfe found alternate/truncated-directory replay and stale/overclaimed lifecycle truth. Third review at 3d61abcab14a5b26756b8996453f28376dfd6b31 found a revocation race. Fourth review at f7b801c73090b4414898fac00a1ad4751b404509 found missing destination binding and coherent rollback replay. Fifth review at e2223c5fc09bf974764c60671ad856d5170834ce found absolute-target escape, nested-anchor topology, and stale aggregate byte accounting. Sixth review at f8245b6c56a3872ddd276434f5f7bec2110f76fc found that a target equal to the deterministic staging directory could return success and then be deleted by cleanup.
 
 ### Dispositions
 
-- All five review rounds' findings are accepted and remediated. Publication target validation is shared between preparation, persisted-record validation, and final admission containment. Canonical anchor/store non-ancestry prevents the reserved-name topology. Snapshot resource accounting uses the exact retained byte lengths and rejects file-size changes during snapshot. Destination-root binding, external rollback anchoring, canonical store binding, deleted-tail detection, verified-byte snapshot admission, and lock-held read-to-visibility serialization remain enforced. Publication remains held for a different fresh exact-head reviewer.
+- All six review rounds' findings are accepted and remediated. The internal staging namespace is reserved at persisted-record validation, the allocator skips equality with the target, and successful rename is never followed by staging cleanup. Collision proof asserts successful publication remains visible with exact bytes. All prior destination, anchor, rollback, snapshot, and serialization defenses remain enforced. Publication remains held for a different fresh exact-head reviewer.
 
 ### Recommended Outcome
 

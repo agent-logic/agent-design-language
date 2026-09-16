@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implementation and focused local proof are complete after five exact-head review rounds. The fifth review found that a forged absolute target could escape the approved destination root, the reserved anchor directory name could place the rollback anchor inside the decision store, and concurrent artifact growth could bypass the aggregate snapshot byte cap. Persisted publications now require the shared relative-path contract; admission revalidates that contract and target containment. Anchor construction checks canonical non-ancestry with the decision store. Snapshot accounting uses actual retained bytes and rejects size changes between initial and final file metadata. Installed and focused regressions cover all three findings. The immutable candidate requires a distinct fresh exact-head review before publication."
+plan_summary: "Implementation and focused local proof are complete after six exact-head review rounds. The sixth review found that a target equal to the deterministic staging directory could make rename a same-path no-op and then be deleted by unconditional cleanup. Persisted publication validation now reserves the internal staging namespace, the allocator defensively skips a candidate equal to the target, and cleanup runs only after failure. Focused proof asserts collision-safe publication leaves the verified bytes visible; the installed path rejects reserved target names. The immutable candidate requires a distinct fresh exact-head review before publication."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-UX] Enforce exact-artifact publication approval`.
 
-Implementation and focused local proof are complete after five exact-head review rounds. The fifth review found that a forged absolute target could escape the approved destination root, the reserved anchor directory name could place the rollback anchor inside the decision store, and concurrent artifact growth could bypass the aggregate snapshot byte cap. Persisted publications now require the shared relative-path contract; admission revalidates that contract and target containment. Anchor construction checks canonical non-ancestry with the decision store. Snapshot accounting uses actual retained bytes and rejects size changes between initial and final file metadata. Installed and focused regressions cover all three findings. The immutable candidate requires a distinct fresh exact-head review before publication.
+Implementation and focused local proof are complete after six exact-head review rounds. The sixth review found that a target equal to the deterministic staging directory could make rename a same-path no-op and then be deleted by unconditional cleanup. Persisted publication validation now reserves the internal staging namespace, the allocator defensively skips a candidate equal to the target, and cleanup runs only after failure. Focused proof asserts collision-safe publication leaves the verified bytes visible; the installed path rejects reserved target names. The immutable candidate requires a distinct fresh exact-head review before publication.
 
 ## PVF Lane Plan
 

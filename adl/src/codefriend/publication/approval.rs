@@ -23,6 +23,7 @@ pub const DECISION_SCHEMA: &str = "codefriend.publication_decision.v1";
 pub const ADMISSION_SCHEMA: &str = "codefriend.publication_admission.v1";
 const STORE_SCHEMA: &str = "codefriend.publication_store.v1";
 const HEAD_SCHEMA: &str = "codefriend.publication_head.v1";
+static NEXT_PUBLICATION_STAGE: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -654,13 +655,15 @@ fn publish_atomically(
         .ok_or_else(|| anyhow::anyhow!("invalid_publication_target"))?;
     fs::create_dir_all(parent)?;
     reject_symlink_components(parent)?;
-    static NEXT: AtomicU64 = AtomicU64::new(0);
     let stage = loop {
-        let serial = NEXT.fetch_add(1, Ordering::Relaxed);
+        let serial = NEXT_PUBLICATION_STAGE.fetch_add(1, Ordering::Relaxed);
         let candidate = parent.join(format!(
             ".codefriend-publication-{}-{serial}",
             std::process::id()
         ));
+        if candidate == target {
+            continue;
+        }
         match fs::create_dir(&candidate) {
             Ok(()) => break candidate,
             Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
@@ -691,7 +694,7 @@ fn publish_atomically(
         File::open(parent)?.sync_all()?;
         Ok(())
     })();
-    if stage.exists() {
+    if result.is_err() && stage.exists() {
         fs::remove_dir_all(&stage)?;
     }
     result
@@ -855,6 +858,67 @@ mod tests {
         assert_eq!(
             fs::read(destination.join("published/report.md")).unwrap(),
             approved_bytes
+        );
+    }
+
+    #[test]
+    fn staging_name_collision_cannot_delete_a_successful_publication() {
+        let target_tmp = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/test-tmp");
+        fs::create_dir_all(&target_tmp).unwrap();
+        let directory = tempfile::tempdir_in(target_tmp).unwrap();
+        let destination = directory.path().join("destination");
+        fs::create_dir(&destination).unwrap();
+        let serial = NEXT_PUBLICATION_STAGE.load(Ordering::Relaxed);
+        let target = destination.join(format!(
+            ".codefriend-publication-{}-{serial}",
+            std::process::id()
+        ));
+        let review: ReviewRecord = serde_json::from_slice(include_bytes!(
+            "../../../tests/fixtures/codefriend/evidence/review-v1.json"
+        ))
+        .unwrap();
+        let input = ManifestInput {
+            schema: MANIFEST_INPUT_SCHEMA.into(),
+            artifact_manifest: vec![Artifact {
+                path: "report.md".into(),
+                digest: digest(b"approved bytes\n"),
+            }],
+            renderer_versions: BTreeMap::from([("markdown".into(), "v1".into())]),
+            target: "published".into(),
+            claims: vec!["Collision-safe publication".into()],
+            nonclaims: vec!["No remote publication".into()],
+        };
+        let publication = input.publication(&review, &destination).unwrap();
+        let decision = DecisionRecord::new(
+            &review,
+            &publication,
+            DecisionKind::Approved,
+            "operator-fixture",
+            "Exact snapshot approved",
+            10,
+            None,
+        )
+        .unwrap();
+        let artifacts = vec![VerifiedArtifact {
+            path: "report.md".into(),
+            bytes: b"approved bytes\n".to_vec(),
+        }];
+        let mut receipt = AdmissionReceipt {
+            schema: ADMISSION_SCHEMA.into(),
+            decision_digest: decision.digest.clone(),
+            binding_digest: publication.binding_digest().unwrap(),
+            target: target.file_name().unwrap().to_str().unwrap().into(),
+            admitted_at: 11,
+            artifact_manifest_digest: publication.manifest_digest.clone(),
+            digest: String::new(),
+        };
+        receipt.digest = receipt.expected_digest().unwrap();
+
+        publish_atomically(&artifacts, &target, &decision, &receipt).unwrap();
+
+        assert_eq!(
+            fs::read(target.join("report.md")).unwrap(),
+            b"approved bytes\n"
         );
     }
 
