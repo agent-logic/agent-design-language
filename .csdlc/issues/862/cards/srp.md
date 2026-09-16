@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner"
 branch: "codex/862-v0922-local-command-decomposition"
 generated_at: "2026-09-16T00:27:06.103043+00:00"
-card_status: "ready"
+card_status: "in_progress"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/862/cards/sip.md"
   - ".csdlc/issues/862/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
-  recommended_outcome: "block"
-notes: "Independent exact-head review must trace complete production route migration, responsibility ownership, unchanged public/durable contracts and negative behavior, every acceptance and exclusion: 1. Every extracted local module has one named responsibility and no command-domain cycles. 2. All local production routes use the decomposition; moving code into a replacement god module does not qualify. 3. Public and serialized contracts, digests, error codes and paths remain compatible. 4. Local/native authority, mutation, terminal and negative-path regression proof passes at the reviewed revision. Remote command decomposition in this issue, lifecycle feature changes, schema redesign, weakened guards, or unrelated cleanup. Coordinate shared paths and installed-binary ownership with the SIM sprint before implementation. `CSDLC-REMOTE` separately completes the remote command owner, after this local extraction and CSDLC-MERGE/#849. It retains authority/credentials, GitHub issue/PR operations, publication/readback, mutation reconciliation, receipts and validation decomposition plus its own unchanged-contract proof. No remote work is discarded when #862 closes, and no child is created by this scope correction."
+  findings_status: "changes_required_resolved_pending_rereview"
+  recommended_outcome: "Re-review the amended exact head; do not publish until it has no actionable findings."
+notes: "Independent read-only subagent review completed at 02fe25eca4. Reviewer reran 38 focused tests and confirmed the production graph was manually acyclic, public exports were preserved, baseline function inventory was complete, and the disclosed owner-lane mismatch was unchanged from baseline."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Implementation review has not run; no implementation exists from this preparation.
+- P2: alternate sibling import forms could bypass the dependency-rank test. P2: storage.rs mixed persistence with result construction and crash injection. P2: lifecycle cards retained contradictory preparation-era claims.
 
 ### Dispositions
 
-- No implementation finding is accepted, resolved or waived by preparation.
+- Accepted all three findings. The candidate now enforces canonical sibling imports, separates filesystem/result/failpoint owners, and refreshes lifecycle truth through native edit. Exact-head re-review remains required.
 
 ### Recommended Outcome
 
-- block
+- Re-review the amended exact head; do not publish until it has no actionable findings.
 
 ## Notes
 
-Independent exact-head review must trace complete production route migration, responsibility ownership, unchanged public/durable contracts and negative behavior, every acceptance and exclusion: 1. Every extracted local module has one named responsibility and no command-domain cycles. 2. All local production routes use the decomposition; moving code into a replacement god module does not qualify. 3. Public and serialized contracts, digests, error codes and paths remain compatible. 4. Local/native authority, mutation, terminal and negative-path regression proof passes at the reviewed revision. Remote command decomposition in this issue, lifecycle feature changes, schema redesign, weakened guards, or unrelated cleanup. Coordinate shared paths and installed-binary ownership with the SIM sprint before implementation. `CSDLC-REMOTE` separately completes the remote command owner, after this local extraction and CSDLC-MERGE/#849. It retains authority/credentials, GitHub issue/PR operations, publication/readback, mutation reconciliation, receipts and validation decomposition plus its own unchanged-contract proof. No remote work is discarded when #862 closes, and no child is created by this scope correction.
+Independent read-only subagent review completed at 02fe25eca4. Reviewer reran 38 focused tests and confirmed the production graph was manually acyclic, public exports were preserved, baseline function inventory was complete, and the disclosed owner-lane mismatch was unchanged from baseline.

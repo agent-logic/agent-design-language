@@ -8,7 +8,7 @@ use std::{
 
 use serde_json::Value;
 
-use super::storage::io_finding;
+use super::filesystem::io_finding;
 use super::transactions::{
     local_request_digest, local_transaction_paths, read_pending_local_transaction,
 };

@@ -9,10 +9,11 @@ use serde_json::Value;
 
 use super::cards::{initial_card_values, merge_json_object, render_template, structure_valid};
 use super::context::{require_operational_cas, validate_context};
+use super::filesystem::io_finding;
 use super::issue::initialize_operational_issue_with_plan;
 use super::lifecycle::inspect_lifecycle_issue_root;
 use super::planning::{plan_cards, validate_contract};
-use super::storage::{io_finding, lifecycle_digest, read_index_value};
+use super::storage::{lifecycle_digest, read_index_value};
 use super::transactions::{
     acquire_issue_mutation_lock, local_transaction_journal_path, read_pending_local_transaction,
     recover_pending_local_transaction,

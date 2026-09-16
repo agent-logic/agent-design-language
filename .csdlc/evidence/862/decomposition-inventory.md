@@ -34,6 +34,9 @@
 ## Implemented owners
 
 - `planning.rs`: typed contract, registry planning, non-authoritative route planning.
+- `filesystem.rs`: atomic filesystem writes, I/O diagnostics and rollback cleanup.
+- `failpoints.rs`: test-only mutation crash injection.
+- `results.rs`: construction of operational local route results.
 - `lifecycle.rs`: lifecycle observation and fixture state.
 - `transactions.rs`: durable mutation journal and recovery.
 - `worktree.rs`: Git registration and bound-checkout verification.
@@ -51,13 +54,14 @@ The production module graph is ordered as follows. Every dependency points to
 an earlier layer; lateral and upward command-domain dependencies are rejected
 by `tests/local_module_decomposition.rs`.
 
-1. `planning`, `storage`
-2. `lifecycle`, `worktree`
-3. `transactions`
-4. `cards`, `context`
-5. `binding`, `issue`
-6. `intent`
-7. `routing`
+1. `planning`, `filesystem`, `failpoints`, `results`
+2. `storage`, `worktree`
+3. `lifecycle`
+4. `transactions`
+5. `cards`, `context`
+6. `binding`, `issue`
+7. `intent`
+8. `routing`
 
 ## Focused structural proof classification
 
@@ -67,12 +71,15 @@ by `tests/local_module_decomposition.rs`.
 
 ## Candidate inventory
 
-- `local/mod.rs`: `341` lines, SHA-256
-  `3638df71c9b8e5372b2504eff14be15fbb2114aac90a7b8093a70297c7fbd468`.
-- Recursive production source after decomposition: `3790` lines across twelve
+- `local/mod.rs`: `344` lines, SHA-256
+  `4f8d3de5eefc1a16a008693a515403a4ce66779b6d100b41c432f78bc11584e7`.
+- Recursive production source after decomposition: `3815` lines across fifteen
   files. The explicit imports and module responsibility documentation account
-  for the modest recursive increase; the public facade is 2915 lines smaller.
+  for the modest recursive increase; the public facade is 2912 lines smaller.
 - No production module uses `use super::*`; dependencies are declared by owner.
+- The structural contract rejects alternate absolute and braced sibling import
+  forms, so every command-domain edge uses the canonical `super::<module>` form
+  checked against the reviewed rank order.
 
 ## Route and boundary proof
 

@@ -8,11 +8,12 @@ use std::{
 
 use serde_json::Value;
 
-use super::lifecycle::inspect_lifecycle_issue_root;
-use super::storage::{
+use super::filesystem::{
     append_directory_rollback_finding, atomic_write, atomic_write_json, io_finding,
-    lifecycle_digest, operational_result, persist_index, read_index_value,
 };
+use super::lifecycle::inspect_lifecycle_issue_root;
+use super::results::operational_result;
+use super::storage::{lifecycle_digest, persist_index, read_index_value};
 use super::transactions::{
     begin_local_transaction, commit_pending_local_transaction, local_request_digest,
     prepare_local_transaction_stage,

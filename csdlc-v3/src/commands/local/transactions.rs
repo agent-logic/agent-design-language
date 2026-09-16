@@ -7,8 +7,9 @@ use std::{
 
 use fs2::FileExt;
 
+use super::failpoints::local_transaction_failpoint;
+use super::filesystem::{atomic_write_json, io_finding};
 use super::lifecycle::inspect_lifecycle_issue_root;
-use super::storage::{atomic_write_json, io_finding, local_transaction_failpoint};
 use super::worktree::{
     ensure_bind_registration, git_worktree_registration, has_canonical_existing_ancestor,
     verify_bound_worktree,

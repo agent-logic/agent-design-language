@@ -15,10 +15,13 @@ const REQUIRED_CARD_KINDS: [&str; 6] = ["sip", "stp", "spp", "vpp", "srp", "sor"
 mod binding;
 mod cards;
 mod context;
+mod failpoints;
+mod filesystem;
 pub mod intent;
 mod issue;
 mod lifecycle;
 mod planning;
+mod results;
 mod routing;
 mod storage;
 mod transactions;

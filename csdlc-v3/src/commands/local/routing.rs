@@ -8,7 +8,7 @@ use super::context::{require_operational_cas, validate_context};
 use super::issue::initialize_operational_issue;
 use super::lifecycle::inspect_lifecycle_issue_root;
 use super::planning::{plan_cards, validate_contract};
-use super::storage::operational_result;
+use super::results::operational_result;
 use super::transactions::{
     acquire_issue_mutation_lock, load_local_completion, local_request_digest,
     local_transaction_journal_path, recover_pending_local_transaction,

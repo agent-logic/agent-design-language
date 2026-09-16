@@ -5,11 +5,11 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use super::failpoints::local_transaction_failpoint;
+use super::filesystem::atomic_write_json;
 use super::lifecycle::inspect_lifecycle_issue_root;
-use super::storage::{
-    atomic_write_json, local_transaction_failpoint, operational_result, persist_index,
-    read_index_value,
-};
+use super::results::operational_result;
+use super::storage::{persist_index, read_index_value};
 use super::transactions::{
     begin_local_transaction, commit_pending_local_transaction, local_request_digest,
     prepare_local_transaction_stage,

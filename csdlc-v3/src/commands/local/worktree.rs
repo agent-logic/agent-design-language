@@ -5,7 +5,8 @@ use std::{
     process::Command,
 };
 
-use super::storage::{io_finding, local_transaction_failpoint};
+use super::failpoints::local_transaction_failpoint;
+use super::filesystem::io_finding;
 use super::{finding, DoctorFinding, PlanStatus};
 
 pub(super) fn ensure_bind_registration(
