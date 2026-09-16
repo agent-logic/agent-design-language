@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 1044,
   "phase": "bound",
-  "generation": 4,
+  "generation": 5,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/1044-prepare-settled-issue-edits",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1044-prepare-settled-issue-edits",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "64f47f28159b9a4cd9ee488085fb1f5f28ca209b82134b9d67528519ba2b3087"
+  "digest": "0340d1adbce3f02d78e9d20cedd8973fa41f3a1cd52069a7038241366b079f04"
 }
