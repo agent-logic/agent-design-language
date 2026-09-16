@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-PR1000 first hostedrun failed dispatchpolicy. Reusableworkflow now invoked bycentralci, with requiredaggregate and selectorcoverage. Independent boundedrepair reviewPASS andbothRubycontracts pass; noRustchange.15normal/15instrumentedtests and4installedgroups remain proven; revisedhostedCIpending.
+Local15normal/15instrumentedtests and4installedgroups pass. Firsthostedrun rejected extraautomaticentrypoint; repaired centralcaller and requiredaggregate. Secondhostedrun35040528812 rejected runner.temp in job-level env beforejobs; moved path to step-level env. Official actionlint1.7.7 now validates bothworkflows with zeroerrors, and workflowpolicy/aggregatecontracts pass. FreshhostedCIpending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -107,7 +107,7 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test and cargo llvm-cov --test codefriend_cf_gov_ci --test codefriend_cf_gov; strict cargo clippy; installed candidate/pass/fail/error proof`
+  - `Focused cargo test, cargo llvm-cov, strict cargo clippy; installed4group proof; Ruby workflowpolicy/aggregatecontracts; actionlint1.7.7 bothworkflows (-shellcheck= -pyflakes=)`
     `15normal/15instrumented Rust tests and4installed groups pass; additional24aggregate outcomes and12path selections pass. First hostedrun failed dispatchpolicy beforeexecution; revisedworkflowawaitsCI.`
 - Results:
   - `local_pass_revised_hosted_pending`
@@ -174,5 +174,5 @@ verification_summary:
 - `Repository requires one automatic PR entrypoint. Dedicated workflow remains reusable and explicitly dispatchable but automatic selection is owned by centralci. No manual dispatch or paid infrastructure invoked.`
 
 ## Follow-ups / Deferred work
-- `Complete review of centralworkflowrouting repair, publish revisedhead, inspect actual hostedjobs/artifacts and originalexitparity.`
+- `Publish independently reviewed workflow expression repair; inspect actual hostedjobs/artifacts and originalexitparity.`
 - `Retain actual automatic hosted passing and violating job/artifact proof, then obtain authorized integration and native terminal finish/clean.`

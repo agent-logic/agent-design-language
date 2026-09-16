@@ -18,7 +18,7 @@
   "slug": "v0922-codefriend-fitness-ci",
   "stp_card": ".csdlc/issues/888/cards/stp.md",
   "sip_card": ".csdlc/issues/888/cards/sip.md",
-  "review_findings": "Independent centralCI repair review PASS: workflowpolicy and24aggregateoutcomes/12pathselections rerun; sole automaticentrypoint retained, requiredaggregatefailclosed, candidatefailureunsuppressed, minimalpermissions. NoRustchange; prior15tests/4installedproofremainapplicable. Freshhostedexecutionpending.",
+  "review_findings": "R1/R2 and centralcaller/aggregate findings resolved. GitHub expressionvalidation rejected runner.temp at jobenv beforeexecution; moved to buildstepenv. Actions-specificlint passes bothworkflowfiles, revisedexactheadreview required beforepush. Hostedproofpending.",
   "review_notes": "Evidence: .csdlc/evidence/888/review/final-source-review.json. Scope is final source plus local proof; publication enables the required actual hosted CI, which is not yet claimed.",
   "review_dispositions": "R1/R2 resolved and independentlyverified. Hostedworkflowpolicy defect resolved by centralci caller and fail-closed aggregate, without changingvalidator. No openfindings or waivers.",
   "vpp_card": ".csdlc/issues/888/cards/vpp.md"

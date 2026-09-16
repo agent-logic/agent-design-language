@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Independent centralCI repair review PASS: workflowpolicy and24aggregateoutcomes/12pathselections rerun; sole automaticentrypoint retained, requiredaggregatefailclosed, candidatefailureunsuppressed, minimalpermissions. NoRustchange; prior15tests/4installedproofremainapplicable. Freshhostedexecutionpending.
+- R1/R2 and centralcaller/aggregate findings resolved. GitHub expressionvalidation rejected runner.temp at jobenv beforeexecution; moved to buildstepenv. Actions-specificlint passes bothworkflowfiles, revisedexactheadreview required beforepush. Hostedproofpending.
 
 ### Dispositions
 
