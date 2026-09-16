@@ -658,3 +658,199 @@ fn installed_semantic_proof_rejects_live_topology_and_output_escape_before_valid
         assert_eq!(fixture.remote_effects(), 0);
     }
 }
+
+// PVF #1003: deterministic installed regression, local Git/CPU only, required gate.
+#[test]
+fn scope_rewound_binding_can_rebind_at_the_same_head() {
+    let mut fixture = Fixture::new("scope-rebind-same-head");
+    let primary = fixture.root.clone();
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let changes = fixture.write_json("scope.json", &json!({"schema":"csdlc.v3.intent_changes.v1", "amendment":{"class":"scope_acceptance","transition_approved":true}, "cards":{"sip":{"goal":"Amended accepted scope"}}}));
+    success(fixture.run(
+        &linked,
+        &["edit", "870", "--changes", changes.to_str().unwrap()],
+    ));
+    let rewound = snapshot(&primary);
+    assert_eq!(rewound.phase(), csdlc_v3::lifecycle::LifecycleState::Ready);
+    success(fixture.run(&linked, &["bind", "870"]));
+    let rebound = snapshot(&primary);
+    assert_eq!(rebound.phase(), csdlc_v3::lifecycle::LifecycleState::Bound);
+    assert_eq!(rebound.inputs().binding(), rewound.inputs().binding());
+    assert!(rebound.version().generation() > rewound.version().generation());
+    assert_eq!(
+        success(fixture.run(&linked, &["status", "870"]))["evidence"]["proof_current"],
+        false
+    );
+}
+
+#[test]
+fn scope_rebind_refreshes_head_before_replacing_an_inadmissible_validator() {
+    let mut fixture = Fixture::new("scope-rebind-validator-repair");
+    let primary = fixture.root.clone();
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let changes = fixture.write_json("scope.json", &json!({"schema":"csdlc.v3.intent_changes.v1", "amendment":{"class":"scope_acceptance","transition_approved":true}, "cards":{"sip":{"goal":"Amended scope requiring a new validator"}}}));
+    success(fixture.run(
+        &linked,
+        &["edit", "870", "--changes", changes.to_str().unwrap()],
+    ));
+    fs::create_dir_all(linked.join("fixture-proof/tests")).unwrap();
+    fs::write(
+        linked.join("fixture-proof/tests/unselected.rs"),
+        "fn main() { panic!(\"inadmissible validator executed\"); }\n",
+    )
+    .unwrap();
+    let manifest = linked.join("fixture-proof/Cargo.toml");
+    let mut content = fs::read_to_string(&manifest).unwrap();
+    content.push_str(
+        "\n[[test]]\nname = \"unselected\"\npath = \"tests/unselected.rs\"\nharness = false\n",
+    );
+    fs::write(manifest, content).unwrap();
+    fixture::git(&linked, &["add", "fixture-proof"]);
+    fixture::git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Change validator admission surface",
+        ],
+    );
+    let proof = fixture.run(&linked, &["proof", "870"]);
+    assert!(!proof.status.success());
+    assert!(
+        String::from_utf8_lossy(&proof.stderr)
+            .contains("intent_validator_custom_harness_not_admitted"),
+        "{proof:?}"
+    );
+    success(fixture.run(&linked, &["bind", "870"]));
+    let rebound = snapshot(&primary);
+    assert_eq!(rebound.phase(), csdlc_v3::lifecycle::LifecycleState::Bound);
+    assert_eq!(
+        rebound.inputs().binding().unwrap().head,
+        fixture::git(&linked, &["rev-parse", "HEAD"])
+    );
+    let mut validators = plan()["validators"].clone();
+    validators[0]["args"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!("--lib"));
+    let changes = fixture.write_json(
+        "validators.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","validators":validators}),
+    );
+    success(fixture.run(
+        &linked,
+        &["edit", "870", "--changes", changes.to_str().unwrap()],
+    ));
+    let proof = success(fixture.run(&linked, &["proof", "870"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    assert_eq!(proof["proof"]["validators"][0]["tests_passed"], 1);
+}
+
+#[test]
+fn rebind_rejects_stale_generated_request_and_wrong_branch_without_state_changes() {
+    let mut fixture = Fixture::new("rebind-identity-guards");
+    let primary = fixture.root.clone();
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let generated = fixture.run(&linked, &["bind", "870", "--emit-request"]);
+    assert!(generated.status.success());
+    let generated: Value = serde_json::from_slice(&generated.stdout).unwrap();
+    let request = fixture.write_json("stale-bind.json", &generated);
+    fixture::git(
+        &linked,
+        &["commit", "--allow-empty", "--quiet", "-m", "New candidate"],
+    );
+    let before = snapshot(&primary);
+    let denied = fixture.run(
+        &linked,
+        &["bind", "--intent-request", request.to_str().unwrap()],
+    );
+    assert!(!denied.status.success());
+    let failure: Value = serde_json::from_slice(&denied.stdout).unwrap();
+    assert_eq!(failure["findings"][0]["code"], "intent_snapshot_stale");
+    assert_eq!(before.version(), snapshot(&primary).version());
+    fixture::git(
+        &linked,
+        &["switch", "--quiet", "-c", "codex/870-wrong-owner"],
+    );
+    let denied = fixture.run(&linked, &["bind", "870"]);
+    assert!(!denied.status.success());
+    let failure: Value = serde_json::from_slice(&denied.stdout).unwrap();
+    assert_eq!(
+        failure["findings"][0]["code"],
+        "intent_bound_checkout_mismatch"
+    );
+    assert_eq!(before.version(), snapshot(&primary).version());
+}
+
+#[test]
+fn scope_rebind_does_not_advance_when_native_doctor_is_blocked() {
+    let mut fixture = Fixture::new("rebind-blocked-doctor");
+    let primary = fixture.root.clone();
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+    let changes = fixture.write_json("scope.json", &json!({"schema":"csdlc.v3.intent_changes.v1", "amendment":{"class":"scope_acceptance","transition_approved":true}, "cards":{"sip":{"goal":"Scope changed"}}}));
+    success(fixture.run(
+        &linked,
+        &["edit", "870", "--changes", changes.to_str().unwrap()],
+    ));
+    let before = snapshot(&primary);
+    let template = linked.join("docs/templates/prompts/1.0.5/sip.md");
+    let mut content = fs::read_to_string(&template).unwrap();
+    content.push_str("\nUnexpected template drift\n");
+    fs::write(template, content).unwrap();
+    let denied = fixture.run(&linked, &["bind", "870"]);
+    assert!(!denied.status.success(), "{denied:?}");
+    assert!(
+        String::from_utf8_lossy(&denied.stdout).contains("rendered_card_drift"),
+        "{denied:?}"
+    );
+    assert_eq!(before.version(), snapshot(&primary).version());
+    assert_eq!(
+        snapshot(&primary).phase(),
+        csdlc_v3::lifecycle::LifecycleState::Ready
+    );
+}

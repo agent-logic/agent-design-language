@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.v3.scope_rebind_pvf.v1",
+  "issue": 1003,
+  "target": "semantic_local_proof",
+  "lane": "deterministic local installed integration",
+  "proof_role": "Scope-rewound same-head rebind, changed-head refresh before replacing inadmissible validators, and refusal of stale snapshots, wrong ownership and blocked diagnostics",
+  "determinism": "Isolated Git repositories and synthetic issue transport; actual installed candidate commands; no latency assertions",
+  "resources": "Local CPU, Cargo, Git and fixture disk; no live providers or cloud",
+  "release_gate": "Required #1003 regression proof; existing installed intent and semantic owner regressions also required",
+  "non_claims": [
+    "Does not upgrade the shared operator binary",
+    "Does not repair another issue state as part of tests"
+  ]
+}

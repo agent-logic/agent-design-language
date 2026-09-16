@@ -241,6 +241,25 @@ available remotely; this adapter does not add a hidden Git push. A successful
 remote mutation followed by failed authenticated readback remains visible as
 recovery-required with its effects preserved.
 
+## Rebind after a scope amendment
+
+A `scope_acceptance` amendment returns semantic state to Ready while retaining
+its registered checkout. Run `csdlc bind ISSUE` again to revalidate that exact
+checkout and return to Bound. Rebind does not create another worktree or execute
+validators. If HEAD changed, the native binding amendment records the new exact
+revision and invalidates prior proof, review, publication and terminal evidence.
+A Ready issue stays Ready during that head refresh until the explicit bind
+transition succeeds.
+
+This is also the recovery path when a retained validator is no longer admitted:
+run `bind ISSUE`, then `edit ISSUE --changes FILE` with the replacement
+`validators` declaration, then `proof ISSUE`. The replacement validators must
+pass current admission. The old validator is never executed by bind or edit.
+Unchanged active bindings return an observational no-op. Stale generated intent
+requests, changed branch/worktree registration, authority drift and pending
+recovery remain errors; obtain a fresh request or resolve the named recovery
+instead of editing state files.
+
 ## Explicit GitHub operations
 
 `csdlc github-issue ISSUE --operation OPERATION.json` and

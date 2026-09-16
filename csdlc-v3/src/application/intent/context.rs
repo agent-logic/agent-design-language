@@ -527,7 +527,8 @@ impl Context {
         complete_projection(&root, &key, snapshot)
     }
 
-    pub(crate) fn refresh_semantic_binding(&self) -> Result<(), String> {
+    pub(crate) fn refresh_semantic_binding(&self) -> Result<bool, String> {
+        self.fresh_integrity()?;
         let (root, key) = self.semantic_root_key()?;
         let snapshot =
             match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
@@ -537,13 +538,29 @@ impl Context {
                 }
                 _ => return Err("intent_semantic_state_missing".into()),
             };
+        if snapshot.inputs().authority() != &self.semantic_authority()? {
+            return Err("intent_semantic_authority_changed".into());
+        }
+        if snapshot.pending().is_some() {
+            return Err("intent_semantic_recovery_required".into());
+        }
         let Some(binding) = snapshot.inputs().binding() else {
-            return Ok(());
+            return Ok(false);
         };
-        if binding.branch == self.branch
-            && binding.worktree == self.root
-            && binding.head != self.head
+        let registration = blake3::hash(
+            serde_json::to_string(&serde_json::json!({"branch":self.branch,"worktree":self.root}))
+                .map_err(|_| "intent_bind_identity_invalid")?
+                .as_bytes(),
+        )
+        .to_hex()
+        .to_string();
+        if binding.branch != self.branch
+            || binding.worktree != self.root
+            || binding.registration != registration
         {
+            return Err("intent_semantic_binding_stale".into());
+        }
+        if binding.head != self.head {
             let mut refreshed = binding.clone();
             refreshed.head = self.head.clone();
             let admission = SemanticAdmission::new(
@@ -566,8 +583,9 @@ impl Context {
                 | crate::storage::semantic::CommitOutcome::Unchanged(value) => *value,
             };
             complete_projection(&root, &key, &committed)?;
+            return Ok(true);
         }
-        Ok(())
+        Ok(false)
     }
     pub fn snapshot(&self) -> Snapshot {
         Snapshot {
