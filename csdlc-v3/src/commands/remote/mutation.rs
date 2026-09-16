@@ -454,8 +454,9 @@ pub fn execute_staged_github_mutation(
                 if finding.code == "github_mutation_not_reconciled"
                     && !receipt_path.exists()
                     && !matches!(request.mutation, GithubMutation::IssueEdit { .. })
-                    && staged.recovery
-                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
+                    && (staged.recovery
+                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
+                        || matches!(request.mutation, GithubMutation::PullRequestReady)) =>
             {
                 if staged.reuse_rejected_recovery {
                     verify_rejected_recovery_receipt(
@@ -706,8 +707,9 @@ pub fn execute_github_mutation(
             Err(finding)
                 if finding.code == "github_mutation_not_reconciled"
                     && !matches!(request.mutation, GithubMutation::IssueEdit { .. })
-                    && request.recovery
-                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
+                    && (request.recovery
+                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
+                        || matches!(request.mutation, GithubMutation::PullRequestReady)) =>
             {
                 // Legacy intents are immutable. Resolve their missing target only
                 // for an explicitly authorized retry after authenticated absence.

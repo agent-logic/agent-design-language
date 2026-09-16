@@ -2409,6 +2409,51 @@ fn installed_remote_recover_retries_once_only_after_authenticated_absence() {
 }
 
 #[test]
+fn installed_remote_recover_retries_ready_once_after_crash_before_dispatch() {
+    let (mut fixture, linked) = reviewed_fixture("remote-ready-reserved-crash");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(fixture.remote_pr()["draft"], true);
+
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 2);
+    assert_eq!(fixture.remote_pr()["draft"], false);
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(
+        fixture.remote_effects(),
+        2,
+        "ready recovery replayed dispatch"
+    );
+}
+
+#[test]
 fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let (mut fixture, linked) = reviewed_fixture("remote-recover-reserved-crash");
     let primary = fixture.root.clone();
