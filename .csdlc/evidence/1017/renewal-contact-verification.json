@@ -1,0 +1,70 @@
+{
+  "domains": [
+    {
+      "domain": "v-dev.ai",
+      "auto_renew_enabled": true,
+      "contacts": {
+        "AdminContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        },
+        "RegistrantContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        },
+        "TechContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        }
+      }
+    },
+    {
+      "domain": "v-fin.ai",
+      "auto_renew_enabled": true,
+      "contacts": {
+        "AdminContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        },
+        "RegistrantContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        },
+        "TechContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        }
+      }
+    },
+    {
+      "domain": "v-sec.ai",
+      "auto_renew_enabled": true,
+      "contacts": {
+        "AdminContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        },
+        "RegistrantContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        },
+        "TechContact": {
+          "type_company": true,
+          "organization_agent_logic": true,
+          "email_matches_existing_company_domain": true
+        }
+      }
+    }
+  ],
+  "monitoring": "Retain standard registrar renewal notification workflow to existing company registrant email and company-account Route53 operation status. No new custom monitoring or test email delivery claimed.",
+  "reference_domain": "agent-logic.ai",
+  "documentation": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-renew.html"
+}

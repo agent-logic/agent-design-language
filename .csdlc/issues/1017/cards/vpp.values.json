@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1017,
+  "issue_padded": "1017",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1017",
+  "title": "[v0.92.2][corporate][AWS] Migrate v-*.ai domains from personal AWS to the company account",
+  "branch": "codex/1017-v0922-company-domain-migration",
+  "version": "1.0.5",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1017-v0922-company-domain-migration",
+  "status": "ready",
+  "notes_risks_inline": "Require separate live AWS transfer/control/configuration and public DNS before/after evidence. Empty source zones retained with owner approval until v0.93 website work. No DNS cutover is planned, so TTL propagation observation is not applicable. Retain standard registrar contact notification path; do not claim custom alarms or delivered-email proof. Local card tests prove lifecycle structure only.",
+  "validation_commands_inline": "Native validate plus declared semantic_card_projections Cargo tests for local lifecycle structure only; git diff --check and independent privacy review. Live AWS source/destination inventory, six operation statuses, destination details, before/after zone records, and public NS/SOA/A/AAAA/MX/TXT/DS comparison recorded separately. Company contact types/organization and contact-email equality with agent-logic.ai verified privately."
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "domain": "v-dev.ai",
+    "observed_at": "2026-09-16T23:44:57.314364+00:00",
+    "dns": {
+      "NS": {
+        "returncode": 0,
+        "answer": "v-dev.ai.\t\t172800\tIN\tNS\tns-1040.awsdns-02.org.\nv-dev.ai.\t\t172800\tIN\tNS\tns-1947.awsdns-51.co.uk.\nv-dev.ai.\t\t172800\tIN\tNS\tns-340.awsdns-42.com.\nv-dev.ai.\t\t172800\tIN\tNS\tns-612.awsdns-12.net."
+      },
+      "SOA": {
+        "returncode": 0,
+        "answer": "v-dev.ai.\t\t900\tIN\tSOA\tns-340.awsdns-42.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+      },
+      "A": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "AAAA": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "MX": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "TXT": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "DS": {
+        "returncode": 0,
+        "answer": ""
+      }
+    }
+  },
+  {
+    "domain": "v-fin.ai",
+    "observed_at": "2026-09-16T23:44:57.698087+00:00",
+    "dns": {
+      "NS": {
+        "returncode": 0,
+        "answer": "v-fin.ai.\t\t172800\tIN\tNS\tns-128.awsdns-16.com.\nv-fin.ai.\t\t172800\tIN\tNS\tns-1429.awsdns-50.org.\nv-fin.ai.\t\t172800\tIN\tNS\tns-1552.awsdns-02.co.uk.\nv-fin.ai.\t\t172800\tIN\tNS\tns-550.awsdns-04.net."
+      },
+      "SOA": {
+        "returncode": 0,
+        "answer": "v-fin.ai.\t\t900\tIN\tSOA\tns-128.awsdns-16.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+      },
+      "A": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "AAAA": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "MX": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "TXT": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "DS": {
+        "returncode": 0,
+        "answer": ""
+      }
+    }
+  },
+  {
+    "domain": "v-sec.ai",
+    "observed_at": "2026-09-16T23:44:58.180692+00:00",
+    "dns": {
+      "NS": {
+        "returncode": 0,
+        "answer": "v-sec.ai.\t\t172800\tIN\tNS\tns-1477.awsdns-56.org.\nv-sec.ai.\t\t172800\tIN\tNS\tns-168.awsdns-21.com.\nv-sec.ai.\t\t172800\tIN\tNS\tns-1878.awsdns-42.co.uk.\nv-sec.ai.\t\t172800\tIN\tNS\tns-786.awsdns-34.net."
+      },
+      "SOA": {
+        "returncode": 0,
+        "answer": "v-sec.ai.\t\t900\tIN\tSOA\tns-786.awsdns-34.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
+      },
+      "A": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "AAAA": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "MX": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "TXT": {
+        "returncode": 0,
+        "answer": ""
+      },
+      "DS": {
+        "returncode": 0,
+        "answer": ""
+      }
+    }
+  }
+]

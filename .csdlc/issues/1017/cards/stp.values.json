@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1017,
+  "issue_padded": "1017",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1017",
+  "title": "[v0.92.2][corporate][AWS] Migrate v-*.ai domains from personal AWS to the company account",
+  "branch": "codex/1017-v0922-company-domain-migration",
+  "version": "1.0.5",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1017-v0922-company-domain-migration"
+}
