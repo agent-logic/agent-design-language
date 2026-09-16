@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/893/cards/sip.md"
   - ".csdlc/issues/893/cards/vpp.md"
 review_results:
-  findings_status: "fresh_exact_head_pass_no_actionable_findings"
-  recommended_outcome: "pass"
-notes: "Fresh exact-head PASS at a7cddf07dea4f557ed089e0be02adffbe3985717. Final combined focused proof passed: codefriend_remediate 9/9, codefriend_testplan 8/8, and codefriend_ux 7/7, plus rustfmt and diff hygiene. Corrective PR #1024 still requires this metadata commit, final metadata-only exact-head review, push, renewed CI, and merge."
+  findings_status: "metadata_finding_remediated_pending_fresh_review"
+  recommended_outcome: "review_required"
+notes: "A distinct fresh reviewer must verify the metadata-only generation-16 repair at the new immutable head before push or publication refresh."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Fresh no-context exact-head review of a7cddf07dea4f557ed089e0be02adffbe3985717 by fresh-session:dbc5ab4c-d227-4810-a553-41b35d812e26 returned PASS with no actionable findings after terminal #894 was merged and the three reviewed #893 corrective commits were forward-reapplied.
+- Final metadata-only review of a9f004da94bfb053d7c24b2b58920f135515f469 by fresh-session:deff830f-e5e9-4730-9d51-d2f6d2d44b47 returned FAIL with one P2 truth mismatch and no product finding: replay_result listed all 24 focused tests while replay_command listed only the remediation suite plus hygiene checks.
 
 ### Dispositions
 
-- All prior corrective findings remain remediated. The reviewer verified canonical completed-synthesis admission, exact admitted evidence paths including spaces and root dotfiles, manifest-bound readback, canonical replanning equality, create-only output behavior, intact #894 test-plan and #895 publication routes, and no #896 absorption.
+- P2 accepted and remediated through the native SOR editor. replay_command now enumerates the same remediation 9/9, test-plan 8/8, UX 7/7, rustfmt, and exact-range diff proof represented by replay_result. Product parent a7cddf07dea4f557ed089e0be02adffbe3985717 remains unchanged and reviewed PASS.
 
 ### Recommended Outcome
 
-- pass
+- review_required
 
 ## Notes
 
-Fresh exact-head PASS at a7cddf07dea4f557ed089e0be02adffbe3985717. Final combined focused proof passed: codefriend_remediate 9/9, codefriend_testplan 8/8, and codefriend_ux 7/7, plus rustfmt and diff hygiene. Corrective PR #1024 still requires this metadata commit, final metadata-only exact-head review, push, renewed CI, and merge.
+A distinct fresh reviewer must verify the metadata-only generation-16 repair at the new immutable head before push or publication refresh.
