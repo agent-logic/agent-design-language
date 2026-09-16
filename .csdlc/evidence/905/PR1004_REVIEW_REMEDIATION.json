@@ -1,0 +1,36 @@
+{
+  "schema": "adl.issue905.pr_review_remediation.v1",
+  "pull_request": 1004,
+  "reviewed_head": "e3159b6e5ba225e07d9bc8110ed655939ffe0a04",
+  "findings": [
+    {
+      "severity": "P2",
+      "summary": "Model aliases could overwrite and delete existing models",
+      "disposition": "fixed",
+      "proof": [
+        "All temporary aliases are canonicalized and must be nonempty, distinct, different from the source model, and absent from the pre-run Ollama inventory.",
+        "Cleanup removes only aliases recorded after a successful create call.",
+        "Collision regressions assert zero create and zero remove calls."
+      ]
+    },
+    {
+      "severity": "P2",
+      "summary": "Setup failures bypassed evidence recording and cleanup",
+      "disposition": "fixed",
+      "proof": [
+        "All setup and execution stages now run inside the same failure-recording and cleanup scope.",
+        "A mocked identity-query failure writes a failed report and removes exactly the successfully created aliases.",
+        "Cleanup results are retained in report.json without recording exception text."
+      ]
+    }
+  ],
+  "validation": {
+    "deterministic_tests": 16,
+    "new_safety_regressions": 3,
+    "python_compile": "passed",
+    "diff_check": "passed"
+  },
+  "hardware_benchmark_rerun": false,
+  "benchmark_rerun_reason": "The remediation changes setup ownership and failure cleanup only; retained measured model execution and statistics are unchanged.",
+  "disposition": "repair_inconclusive"
+}

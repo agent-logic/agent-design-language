@@ -23,7 +23,14 @@ Repair the benchmark before requalification. A follow-on should define an explic
 ## Validation classification
 
 - `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py`: 13 deterministic accounting and negative-contract tests passed.
+- `python3 -m unittest adl/tools/test_issue905_runtime_speculative_retest.py`: 3 deterministic safety regressions passed. They prove source/existing/duplicate aliases fail before model creation, collision failures never delete existing models, and identity/setup failure writes `report.json` while removing only aliases successfully created by that run.
 - `issue905_runtime_speculative_retest.py`: actual local Runtime/hardware lane; immutable model/tokenizer checks; eight exact pairs; symmetric preload/prewarm; counterbalanced order; per-block robustness classification; invalid draft rejection; operator-selected ordinary recovery.
 - `python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py`: passed.
 - `git diff --check`: passed.
 - Local evidence is hardware-dependent. Hosted CI validates repository bytes; it cannot replace model execution or repair statistical instability.
+
+## PR #1004 review remediation
+
+The post-publication review found that arbitrary aliases could overwrite and later delete an existing model, and that setup failures before the original reporting scope could leave created aliases without a failure report. The harness now canonicalizes all three temporary aliases, requires them to be nonempty, mutually distinct, different from the source model, and absent from the pre-run Ollama inventory before any creation. Cleanup tracks successful `ollama create` calls and removes only that run-owned list in reverse order. Binary checks, alias creation, identity checks, Runtime setup, execution, failure recording, cleanup, and final report writing now share one guarded lifecycle.
+
+These changes harden the harness and do not alter or rerun the retained hardware measurements. The eight matching output pairs, variable per-block performance, and `repair_inconclusive` disposition remain unchanged.

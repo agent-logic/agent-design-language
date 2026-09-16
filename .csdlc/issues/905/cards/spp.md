@@ -11,7 +11,7 @@ branch: "codex/905-v0922-speculative-decoding-retest"
 generated_at: "2026-09-12T00:18:14.558347+00:00"
 card_status: "ready"
 status: "completed"
-activation_state: "reviewed_publication_pending"
+activation_state: "review_changes_applied_re_review_pending"
 plan_revision: 1
 initial_pvf_lane: "runtime"
 planned_pvf_lane: "runtime"
@@ -26,7 +26,7 @@ estimate_data_source: "Conservative retest harness/accounting and measurement es
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/905"
 issue_goal_ref: "Active goal: complete #905 current Runtime requalification, publish and close, then close Sprint 6 #932."
 sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
-goal_metrics_rollup_ref: ".csdlc/evidence/905/goal-metrics.json (planned; absent until execution)"
+goal_metrics_rollup_ref: ".csdlc/evidence/905/RUNTIME_RETEST.json"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/905"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Implementation, current Runtime proof, conservative repair/inconclusive disposition and independent review are complete. Exact reviewed source 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec has no actionable findings. Native publication, hosted CI, merge and terminal closeout remain pending."
+notes: "Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. PR #1004 review found two P2 harness-safety defects; both are repaired with fresh/distinct alias admission, run-owned cleanup, whole-setup failure recording and three focused regressions. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Implementation, current Runtime proof, conservative repair/inconclusive disposition and independent review are complete. Exact reviewed source 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec has no actionable findings. Native publication, hosted CI, merge and terminal closeout remain pending.
+Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. PR #1004 review found two P2 harness-safety defects; both are repaired with fresh/distinct alias admission, run-owned cleanup, whole-setup failure recording and three focused regressions. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator.

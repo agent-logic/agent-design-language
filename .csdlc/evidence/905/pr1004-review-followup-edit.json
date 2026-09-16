@@ -1,0 +1,31 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "153bac1d21a38eb1cdedafd28782da356e95d18717b283f44973abda7ec6598d",
+  "card_updates": {
+    "spp": {
+      "activation_state": "review_changes_applied_re_review_pending",
+      "notes_risks_inline": "Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. PR #1004 review found two P2 harness-safety defects; both are repaired with fresh/distinct alias admission, run-owned cleanup, whole-setup failure recording and three focused regressions. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator.",
+      "goal_metrics_rollup_ref": ".csdlc/evidence/905/RUNTIME_RETEST.json"
+    },
+    "vpp": {
+      "validation_commands_inline": "cd adl/tools && python3 -m unittest -v test_issue905_runtime_speculative_retest.py test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile issue905_runtime_speculative_retest.py test_issue905_runtime_speculative_retest.py; retained current Runtime hardware command at .adl/runs/905/runtime-run-14; git diff --check; native validate. Tracked result: .csdlc/evidence/905/RUNTIME_RETEST.json; review remediation: .csdlc/evidence/905/PR1004_REVIEW_REMEDIATION.json.",
+      "notes_risks_inline": "Correctness and bounded recovery passed; performance remains repair_inconclusive. Post-publication safety review found model-alias collision/deletion and setup-failure cleanup gaps; both are repaired and covered by three deterministic local-unit regressions. Hardware measurements were not rerun because setup ownership/cleanup changed without altering measured execution. Accepted/proposed counters remain unavailable.",
+      "goal_metrics_rollup_ref": ".csdlc/evidence/905/RUNTIME_RETEST.json"
+    }
+  }
+}

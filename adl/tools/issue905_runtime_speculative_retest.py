@@ -163,6 +163,89 @@ def create_model(name: str, modelfile: Path, allow_failure: bool = False) -> tup
     return completed.returncode, stderr
 
 
+def canonical_model_name(name: str) -> str:
+    """Normalize the local Ollama tag form used for collision checks."""
+    value = name.strip().casefold()
+    final_component = value.rsplit("/", 1)[-1]
+    if ":" not in final_component:
+        value += ":latest"
+    return value
+
+
+def installed_model_names() -> set[str]:
+    models = ollama_json("/api/tags").get("models", [])
+    return {
+        canonical_model_name(item["name"])
+        for item in models
+        if isinstance(item, dict) and isinstance(item.get("name"), str)
+    }
+
+
+def validate_model_aliases(source_model: str, aliases: tuple[str, ...], existing: set[str]) -> None:
+    normalized = [canonical_model_name(name) for name in aliases]
+    require(all(name.strip() for name in aliases), "model aliases must be nonempty")
+    require(len(set(normalized)) == len(normalized), "model aliases must be distinct")
+    require(
+        canonical_model_name(source_model) not in set(normalized),
+        "model aliases must not overwrite the source model",
+    )
+    collisions = sorted(set(normalized) & existing)
+    require(not collisions, "model aliases must be fresh; existing aliases: " + ", ".join(collisions))
+
+
+def cleanup(resources: dict[str, object], created_models: list[str]) -> dict:
+    """Best-effort cleanup limited to resources and aliases owned by this run."""
+    results: dict[str, object] = {"models": [], "errors": []}
+    guardian = resources.get("guardian")
+    if guardian is not None:
+        try:
+            os.killpg(guardian.pid, signal.SIGTERM)
+            guardian.wait(timeout=20)
+        except (ProcessLookupError, subprocess.TimeoutExpired):
+            try:
+                os.killpg(guardian.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        except Exception as error:
+            results["errors"].append({"resource": "guardian", "error_class": type(error).__name__})
+    guardian_log = resources.get("guardian_log")
+    if guardian_log is not None:
+        try:
+            guardian_log.close()
+        except Exception as error:
+            results["errors"].append({"resource": "guardian_log", "error_class": type(error).__name__})
+    for key, attributes in (
+        ("fixture", ("server", "resident_server")),
+        ("proxy", ("server",)),
+    ):
+        resource = resources.get(key)
+        if resource is None:
+            continue
+        for attribute in attributes:
+            server = getattr(resource, attribute, None)
+            if server is not None:
+                try:
+                    server.shutdown()
+                except Exception as error:
+                    results["errors"].append({"resource": f"{key}.{attribute}", "error_class": type(error).__name__})
+    clock = resources.get("clock")
+    sock = getattr(clock, "sock", None) if clock is not None else None
+    if sock is not None:
+        try:
+            sock.close()
+        except Exception as error:
+            results["errors"].append({"resource": "clock.sock", "error_class": type(error).__name__})
+    for model in reversed(created_models):
+        try:
+            completed = subprocess.run(
+                ["ollama", "rm", model], capture_output=True, text=True, timeout=60
+            )
+            results["models"].append({"name": model, "removed": completed.returncode == 0})
+        except Exception as error:
+            results["models"].append({"name": model, "removed": False, "error_class": type(error).__name__})
+    return results
+
+
 def run_json(argv: list[object], env: dict[str, str], allow_failure: bool = False) -> tuple[int, dict | None, str]:
     completed = subprocess.run(
         [str(item) for item in argv], capture_output=True, text=True, timeout=90, env=env
@@ -181,27 +264,15 @@ def run_json(argv: list[object], env: dict[str, str], allow_failure: bool = Fals
     return completed.returncode, payload, completed.stderr[-1000:]
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    for name in ("csm", "csmctl", "guardian", "kernel", "vector"):
-        parser.add_argument("--" + name, type=Path, required=True)
-    parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--source-revision", required=True)
-    parser.add_argument("--source-model", default="Qwen3.5:9b")
-    parser.add_argument("--baseline-model", default="adl-905-arm-a:latest")
-    parser.add_argument("--speculative-model", default="adl-905-arm-b:latest")
-    parser.add_argument("--repeats", type=int, default=2)
-    args = parser.parse_args()
-    args.hosted_mode = False
-    args.hosted_approved = False
-    require(args.repeats > 0, "repeats must be positive")
-    root = args.output.resolve()
-    root.mkdir(parents=True, exist_ok=False)
-    root.chmod(0o700)
+def execute(args: argparse.Namespace, root: Path, report: dict, created_models: list[str], resources: dict[str, object]) -> None:
     for name in ("csm", "csmctl", "guardian", "kernel", "vector"):
         path = getattr(args, name).resolve()
         require(path.is_file(), f"missing {name} binary")
         setattr(args, name, path)
+
+    invalid_model = "adl-905-invalid-draft:latest"
+    aliases = (args.baseline_model, args.speculative_model, invalid_model)
+    validate_model_aliases(args.source_model, aliases, installed_model_names())
 
     model_dir = root / "models"
     model_dir.mkdir()
@@ -216,9 +287,12 @@ def main() -> int:
     speculative_modelfile.write_text(common + "PARAMETER draft_num_predict 4\n")
     invalid_modelfile.write_text(common + "PARAMETER draft_num_predict invalid\n")
     create_model(args.baseline_model, baseline_modelfile)
+    created_models.append(args.baseline_model)
     create_model(args.speculative_model, speculative_modelfile)
-    invalid_model = "adl-905-invalid-draft:latest"
+    created_models.append(args.speculative_model)
     invalid_code, invalid_stderr = create_model(invalid_model, invalid_modelfile, True)
+    if invalid_code == 0:
+        created_models.append(invalid_model)
     require(invalid_code != 0, "invalid speculative draft configuration was accepted")
 
     baseline_identity = model_identity(args.baseline_model)
@@ -246,8 +320,11 @@ def main() -> int:
 
     tls = lifecycle.certificates(root / "state/tls")
     fixture = lifecycle.Fixture(tls)
+    resources["fixture"] = fixture
     proxy = OllamaProxy()
+    resources["proxy"] = proxy
     clock = lifecycle.LocalTime()
+    resources["clock"] = clock
     env = dict(os.environ)
     for key in list(env):
         if any(part in key for part in ("API_KEY", "ACCESS_TOKEN", "GOOGLE_APPLICATION_CREDENTIALS")):
@@ -289,12 +366,14 @@ def main() -> int:
     label = "ai.agent-logic.issue905-" + str(os.getpid())
     plist.write_bytes(plistlib.dumps({"Label": label, "ProgramArguments": [str(install / "current/bin/adl-runtime-guardian"), "--init", str(init)]}))
     guardian_log = (root / "guardian.log").open("w")
+    resources["guardian_log"] = guardian_log
     guardian = subprocess.Popen(
         [str(install / "current/bin/adl-runtime-guardian"), "--init", str(init)],
         stdout=guardian_log, stderr=subprocess.STDOUT, env=env, start_new_session=True,
     )
+    resources["guardian"] = guardian
     ctx = ssl.create_default_context(cafile=str(tls["ca"]))
-    report = {
+    report.update({
         "schema": "adl.issue905.runtime_speculative_retest.v1",
         "source_revision": args.source_revision,
         "runtime_route": "Runtime v3 Observatory conversation -> provider registry -> Ollama /api/chat",
@@ -314,216 +393,228 @@ def main() -> int:
         "block_preloads": [],
         "runs": [],
         "result": "running",
-    }
-    try:
+    })
+    deadline = time.monotonic() + 60
+    snapshot = None
+    while time.monotonic() < deadline:
+        require(guardian.poll() is None, "Guardian exited before Runtime readiness")
+        try:
+            snapshot = lifecycle.api(ctx, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
+            if snapshot.get("runtime_incarnation_id"):
+                break
+        except (OSError, ValueError):
+            pass
+        time.sleep(0.1)
+    require(snapshot and snapshot.get("runtime_incarnation_id"), "Runtime readiness deadline")
+    report["runtime_identity"] = lifecycle.identity(snapshot)
+
+    def admit(agent_id: str, model: str, allow_failure: bool = False) -> tuple[int, dict | None, str]:
+        agent_name = "ember." + agent_id.replace("-", "")
+        config = {
+            "schema": "adl.csm.agent_config.v1",
+            "runtime": {"init": str(init)},
+            "identity": {"id": agent_id, "name": agent_name, "display_name": agent_name},
+            "office": "benchmark",
+            "provider": {"kind": "ollama", "model": model, "required_capabilities": ["conversation"]},
+        }
+        path = lifecycle.write(root / f"{agent_id}.json", config)
+        return run_json([ctl, "agent", "add", "--config", path], env, allow_failure)
+
+    def await_agent(agent_id: str) -> dict:
         deadline = time.monotonic() + 60
-        snapshot = None
+        last = None
         while time.monotonic() < deadline:
-            require(guardian.poll() is None, "Guardian exited before Runtime readiness")
-            try:
-                snapshot = lifecycle.api(ctx, api_port, tokens["observatory"], "/v1/observatory?schema=v3")
-                if snapshot.get("runtime_incarnation_id"):
-                    break
-            except (OSError, ValueError):
-                pass
-            time.sleep(0.1)
-        require(snapshot and snapshot.get("runtime_incarnation_id"), "Runtime readiness deadline")
-        report["runtime_identity"] = lifecycle.identity(snapshot)
+            _, last, _ = run_json([ctl, "agent", "get", "--init", init, "--id", agent_id], env)
+            if last and last.get("communication_eligible"):
+                return last
+            time.sleep(0.2)
+        raise AssertionError(f"agent did not become ready: {agent_id}: {last}")
 
-        def admit(agent_id: str, model: str, allow_failure: bool = False) -> tuple[int, dict | None, str]:
-            agent_name = "ember." + agent_id.replace("-", "")
-            config = {
-                "schema": "adl.csm.agent_config.v1",
-                "runtime": {"init": str(init)},
-                "identity": {"id": agent_id, "name": agent_name, "display_name": agent_name},
-                "office": "benchmark",
-                "provider": {"kind": "ollama", "model": model, "required_capabilities": ["conversation"]},
-            }
-            path = lifecycle.write(root / f"{agent_id}.json", config)
-            return run_json([ctl, "agent", "add", "--config", path], env, allow_failure)
-
-        def await_agent(agent_id: str) -> dict:
-            deadline = time.monotonic() + 60
-            last = None
-            while time.monotonic() < deadline:
-                _, last, _ = run_json([ctl, "agent", "get", "--init", init, "--id", agent_id], env)
-                if last and last.get("communication_eligible"):
-                    return last
-                time.sleep(0.2)
-            raise AssertionError(f"agent did not become ready: {agent_id}: {last}")
-
-        # Each repeat is a counterbalanced block. Prewarm the selected arm after
-        # every alias switch, exclude that call, then measure the fixed corpus.
-        # Even repeats are A/B and odd repeats B/A so cache/order effects do not
-        # consistently favor either arm.
-        for repeat in range(args.repeats):
-            order = ("baseline", "speculative") if repeat % 2 == 0 else ("speculative", "baseline")
-            for order_index, mode in enumerate(order):
-                # Reuse the identical Runtime identity for both arms so agent
-                # metadata cannot alter the provider prompt denominator.
-                agent_id = "issue905-arm"
-                model = args.baseline_model if mode == "baseline" else args.speculative_model
-                code, payload, _ = admit(agent_id, model)
-                require(code == 0 and payload and payload.get("status") == "admitted", f"{mode} admission failed")
-                await_agent(agent_id)
-                preload_started = time.perf_counter()
-                preload = ollama_json("/api/generate", {
-                    "model": model,
-                    "prompt": PROMPTS[0][0],
-                    "stream": False,
-                    "think": False,
-                })
-                report["block_preloads"].append({
+    # Each repeat is a counterbalanced block. Prewarm the selected arm after
+    # every alias switch, exclude that call, then measure the fixed corpus.
+    # Even repeats are A/B and odd repeats B/A so cache/order effects do not
+    # consistently favor either arm.
+    for repeat in range(args.repeats):
+        order = ("baseline", "speculative") if repeat % 2 == 0 else ("speculative", "baseline")
+        for order_index, mode in enumerate(order):
+            # Reuse the identical Runtime identity for both arms so agent
+            # metadata cannot alter the provider prompt denominator.
+            agent_id = "issue905-arm"
+            model = args.baseline_model if mode == "baseline" else args.speculative_model
+            code, payload, _ = admit(agent_id, model)
+            require(code == 0 and payload and payload.get("status") == "admitted", f"{mode} admission failed")
+            await_agent(agent_id)
+            preload_started = time.perf_counter()
+            preload = ollama_json("/api/generate", {
+                "model": model,
+                "prompt": PROMPTS[0][0],
+                "stream": False,
+                "think": False,
+            })
+            report["block_preloads"].append({
+                "mode": mode,
+                "repeat": repeat,
+                "elapsed_seconds": time.perf_counter() - preload_started,
+                "response_sha256": hashlib.sha256(preload.get("response", "").encode()).hexdigest(),
+            })
+            require(preload.get("response", "").strip() == PROMPTS[0][1], f"{mode} direct preload correctness marker mismatch")
+            proxy.context = {"mode": mode, "repeat": repeat, "phase": "prewarm"}
+            warmup = lifecycle.conversation(api_port, ctx, tokens["observatory"], agent_id, PROMPTS[0][0])
+            require(warmup["reply"].strip() == PROMPTS[0][1], f"{mode} prewarm correctness marker mismatch")
+            for prompt_index, (prompt, expected) in enumerate(PROMPTS):
+                proxy.context = {"mode": mode, "repeat": repeat, "phase": "measured", "prompt_index": prompt_index}
+                started = time.perf_counter()
+                result = lifecycle.conversation(api_port, ctx, tokens["observatory"], agent_id, prompt)
+                elapsed = time.perf_counter() - started
+                reply = result["reply"]
+                require(reply.strip() == expected, f"{mode} correctness marker mismatch")
+                report["runs"].append({
                     "mode": mode,
                     "repeat": repeat,
-                    "elapsed_seconds": time.perf_counter() - preload_started,
-                    "response_sha256": hashlib.sha256(preload.get("response", "").encode()).hexdigest(),
+                    "order_index": order_index,
+                    "prompt_index": prompt_index,
+                    "elapsed_seconds": elapsed,
+                    "reply_sha256": hashlib.sha256(reply.encode()).hexdigest(),
+                    "reply_bytes": len(reply.encode()),
                 })
-                require(preload.get("response", "").strip() == PROMPTS[0][1], f"{mode} direct preload correctness marker mismatch")
-                proxy.context = {"mode": mode, "repeat": repeat, "phase": "prewarm"}
-                warmup = lifecycle.conversation(api_port, ctx, tokens["observatory"], agent_id, PROMPTS[0][0])
-                require(warmup["reply"].strip() == PROMPTS[0][1], f"{mode} prewarm correctness marker mismatch")
-                for prompt_index, (prompt, expected) in enumerate(PROMPTS):
-                    proxy.context = {"mode": mode, "repeat": repeat, "phase": "measured", "prompt_index": prompt_index}
-                    started = time.perf_counter()
-                    result = lifecycle.conversation(api_port, ctx, tokens["observatory"], agent_id, prompt)
-                    elapsed = time.perf_counter() - started
-                    reply = result["reply"]
-                    require(reply.strip() == expected, f"{mode} correctness marker mismatch")
-                    report["runs"].append({
-                        "mode": mode,
-                        "repeat": repeat,
-                        "order_index": order_index,
-                        "prompt_index": prompt_index,
-                        "elapsed_seconds": elapsed,
-                        "reply_sha256": hashlib.sha256(reply.encode()).hexdigest(),
-                        "reply_bytes": len(reply.encode()),
-                    })
-                run_json([ctl, "agent", "remove", "--init", init, "--id", agent_id], env)
+            run_json([ctl, "agent", "remove", "--init", init, "--id", agent_id], env)
 
-        report["failure_probe"] = {
-            "kind": "invalid_draft_configuration",
-            "source_model": args.source_model,
-            "draft_num_predict": "invalid",
-            "exit_code": invalid_code,
-            "stderr_sha256": hashlib.sha256(invalid_stderr.encode()).hexdigest(),
-            "rejected_before_runtime_admission": True,
-        }
-        code, payload, _ = admit("issue905-fallback", args.baseline_model)
-        require(code == 0 and payload and payload.get("status") == "admitted", "baseline fallback admission failed")
-        await_agent("issue905-fallback")
-        proxy.context = {"mode": "baseline", "phase": "fallback"}
-        fallback = lifecycle.conversation(api_port, ctx, tokens["observatory"], "issue905-fallback", PROMPTS[0][0])
-        require(fallback["reply"].strip() == PROMPTS[0][1], "fallback correctness marker mismatch")
-        report["fallback"] = {
-            "kind": "operator_selected_ordinary_generation_after_invalid_draft_rejection",
-            "automatic": False,
-            "status": fallback["status"],
-            "reply_sha256": hashlib.sha256(fallback["reply"].encode()).hexdigest(),
-        }
+    report["failure_probe"] = {
+        "kind": "invalid_draft_configuration",
+        "source_model": args.source_model,
+        "draft_num_predict": "invalid",
+        "exit_code": invalid_code,
+        "stderr_sha256": hashlib.sha256(invalid_stderr.encode()).hexdigest(),
+        "rejected_before_runtime_admission": True,
+    }
+    code, payload, _ = admit("issue905-fallback", args.baseline_model)
+    require(code == 0 and payload and payload.get("status") == "admitted", "baseline fallback admission failed")
+    await_agent("issue905-fallback")
+    proxy.context = {"mode": "baseline", "phase": "fallback"}
+    fallback = lifecycle.conversation(api_port, ctx, tokens["observatory"], "issue905-fallback", PROMPTS[0][0])
+    require(fallback["reply"].strip() == PROMPTS[0][1], "fallback correctness marker mismatch")
+    report["fallback"] = {
+        "kind": "operator_selected_ordinary_generation_after_invalid_draft_rejection",
+        "automatic": False,
+        "status": fallback["status"],
+        "reply_sha256": hashlib.sha256(fallback["reply"].encode()).hexdigest(),
+    }
 
-        baseline = {(r["repeat"], r["prompt_index"]): r for r in report["runs"] if r["mode"] == "baseline"}
-        speculative = {(r["repeat"], r["prompt_index"]): r for r in report["runs"] if r["mode"] == "speculative"}
-        require(baseline.keys() == speculative.keys(), "comparison grid mismatch")
-        exact = sum(baseline[key]["reply_sha256"] == speculative[key]["reply_sha256"] for key in baseline)
-        baseline_seconds = sum(item["elapsed_seconds"] for item in baseline.values())
-        speculative_seconds = sum(item["elapsed_seconds"] for item in speculative.values())
-        report["comparison"] = {
-            "pairs": len(baseline),
-            "exact_reply_pairs": exact,
-            "output_equivalence": exact == len(baseline),
-            "baseline_total_seconds": baseline_seconds,
-            "speculative_total_seconds": speculative_seconds,
-            "speedup_ratio": baseline_seconds / speculative_seconds,
-            "benefit_percent": (baseline_seconds / speculative_seconds - 1.0) * 100.0,
-            "measurement": "counterbalanced_prewarmed",
-        }
-        measured_calls = [
-            item for item in proxy.calls
-            if item.get("phase") == "measured" and item.get("path") == "/api/generate"
-        ]
-        decode_rates = {}
+    baseline = {(r["repeat"], r["prompt_index"]): r for r in report["runs"] if r["mode"] == "baseline"}
+    speculative = {(r["repeat"], r["prompt_index"]): r for r in report["runs"] if r["mode"] == "speculative"}
+    require(baseline.keys() == speculative.keys(), "comparison grid mismatch")
+    exact = sum(baseline[key]["reply_sha256"] == speculative[key]["reply_sha256"] for key in baseline)
+    baseline_seconds = sum(item["elapsed_seconds"] for item in baseline.values())
+    speculative_seconds = sum(item["elapsed_seconds"] for item in speculative.values())
+    report["comparison"] = {
+        "pairs": len(baseline),
+        "exact_reply_pairs": exact,
+        "output_equivalence": exact == len(baseline),
+        "baseline_total_seconds": baseline_seconds,
+        "speculative_total_seconds": speculative_seconds,
+        "speedup_ratio": baseline_seconds / speculative_seconds,
+        "benefit_percent": (baseline_seconds / speculative_seconds - 1.0) * 100.0,
+        "measurement": "counterbalanced_prewarmed",
+    }
+    measured_calls = [
+        item for item in proxy.calls
+        if item.get("phase") == "measured" and item.get("path") == "/api/generate"
+    ]
+    decode_rates = {}
+    for mode in ("baseline", "speculative"):
+        calls = [item for item in measured_calls if item.get("mode") == mode]
+        eval_count = sum(item.get("eval_count") or 0 for item in calls)
+        eval_duration_ns = sum(item.get("eval_duration_ns") or 0 for item in calls)
+        require(eval_count > 0 and eval_duration_ns > 0, f"missing {mode} decode accounting")
+        decode_rates[mode] = eval_count / (eval_duration_ns / 1_000_000_000)
+    report["comparison"]["decode_tokens_per_second"] = decode_rates
+    blocks = []
+    for repeat in range(args.repeats):
+        block_runs = [item for item in report["runs"] if item["repeat"] == repeat]
+        block_baseline = sum(item["elapsed_seconds"] for item in block_runs if item["mode"] == "baseline")
+        block_speculative = sum(item["elapsed_seconds"] for item in block_runs if item["mode"] == "speculative")
+        block_decode = {}
         for mode in ("baseline", "speculative"):
-            calls = [item for item in measured_calls if item.get("mode") == mode]
-            eval_count = sum(item.get("eval_count") or 0 for item in calls)
-            eval_duration_ns = sum(item.get("eval_duration_ns") or 0 for item in calls)
-            require(eval_count > 0 and eval_duration_ns > 0, f"missing {mode} decode accounting")
-            decode_rates[mode] = eval_count / (eval_duration_ns / 1_000_000_000)
-        report["comparison"]["decode_tokens_per_second"] = decode_rates
-        blocks = []
-        for repeat in range(args.repeats):
-            block_runs = [item for item in report["runs"] if item["repeat"] == repeat]
-            block_baseline = sum(item["elapsed_seconds"] for item in block_runs if item["mode"] == "baseline")
-            block_speculative = sum(item["elapsed_seconds"] for item in block_runs if item["mode"] == "speculative")
-            block_decode = {}
-            for mode in ("baseline", "speculative"):
-                calls = [
-                    item for item in measured_calls
-                    if item.get("repeat") == repeat and item.get("mode") == mode
-                ]
-                block_decode[mode] = sum(item.get("eval_count") or 0 for item in calls) / (
-                    sum(item.get("eval_duration_ns") or 0 for item in calls) / 1_000_000_000
-                )
-            blocks.append({
-                "repeat": repeat,
-                "baseline_seconds": block_baseline,
-                "speculative_seconds": block_speculative,
-                "end_to_end_benefit_percent": (block_baseline / block_speculative - 1.0) * 100.0,
-                "baseline_decode_tokens_per_second": block_decode["baseline"],
-                "speculative_decode_tokens_per_second": block_decode["speculative"],
-                "decode_benefit_percent": (block_decode["speculative"] / block_decode["baseline"] - 1.0) * 100.0,
-            })
-        end_benefits = [item["end_to_end_benefit_percent"] for item in blocks]
-        decode_benefits = [item["decode_benefit_percent"] for item in blocks]
-        required_wins = max(1, (3 * len(blocks) + 3) // 4)
-        end_wins = sum(value > 0 for value in end_benefits)
-        decode_wins = sum(value > 0 for value in decode_benefits)
-        robust_keep = (
-            end_wins >= required_wins
-            and decode_wins >= required_wins
-            and statistics.median(end_benefits) > 5.0
-            and statistics.median(decode_benefits) > 0.0
-        )
-        robust_retire = (
-            len(blocks) - end_wins >= required_wins
-            and len(blocks) - decode_wins >= required_wins
-            and statistics.median(end_benefits) < -5.0
-            and statistics.median(decode_benefits) < 0.0
-        )
-        report["comparison"]["per_block"] = blocks
-        report["comparison"]["robustness"] = {
-            "required_wins": required_wins,
-            "end_to_end_wins": end_wins,
-            "decode_wins": decode_wins,
-            "median_end_to_end_benefit_percent": statistics.median(end_benefits),
-            "median_decode_benefit_percent": statistics.median(decode_benefits),
-            "classification": "keep" if robust_keep else ("retire" if robust_retire else "repair_inconclusive"),
-        }
-        require(report["comparison"]["output_equivalence"], "speculative output differs from baseline")
-        report["runtime_provider_calls"] = proxy.calls
-        report["result"] = "pass"
+            calls = [
+                item for item in measured_calls
+                if item.get("repeat") == repeat and item.get("mode") == mode
+            ]
+            block_decode[mode] = sum(item.get("eval_count") or 0 for item in calls) / (
+                sum(item.get("eval_duration_ns") or 0 for item in calls) / 1_000_000_000
+            )
+        blocks.append({
+            "repeat": repeat,
+            "baseline_seconds": block_baseline,
+            "speculative_seconds": block_speculative,
+            "end_to_end_benefit_percent": (block_baseline / block_speculative - 1.0) * 100.0,
+            "baseline_decode_tokens_per_second": block_decode["baseline"],
+            "speculative_decode_tokens_per_second": block_decode["speculative"],
+            "decode_benefit_percent": (block_decode["speculative"] / block_decode["baseline"] - 1.0) * 100.0,
+        })
+    end_benefits = [item["end_to_end_benefit_percent"] for item in blocks]
+    decode_benefits = [item["decode_benefit_percent"] for item in blocks]
+    required_wins = max(1, (3 * len(blocks) + 3) // 4)
+    end_wins = sum(value > 0 for value in end_benefits)
+    decode_wins = sum(value > 0 for value in decode_benefits)
+    robust_keep = (
+        end_wins >= required_wins
+        and decode_wins >= required_wins
+        and statistics.median(end_benefits) > 5.0
+        and statistics.median(decode_benefits) > 0.0
+    )
+    robust_retire = (
+        len(blocks) - end_wins >= required_wins
+        and len(blocks) - decode_wins >= required_wins
+        and statistics.median(end_benefits) < -5.0
+        and statistics.median(decode_benefits) < 0.0
+    )
+    report["comparison"]["per_block"] = blocks
+    report["comparison"]["robustness"] = {
+        "required_wins": required_wins,
+        "end_to_end_wins": end_wins,
+        "decode_wins": decode_wins,
+        "median_end_to_end_benefit_percent": statistics.median(end_benefits),
+        "median_decode_benefit_percent": statistics.median(decode_benefits),
+        "classification": "keep" if robust_keep else ("retire" if robust_retire else "repair_inconclusive"),
+    }
+    require(report["comparison"]["output_equivalence"], "speculative output differs from baseline")
+    report["runtime_provider_calls"] = proxy.calls
+    report["result"] = "pass"
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    for name in ("csm", "csmctl", "guardian", "kernel", "vector"):
+        parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--source-revision", required=True)
+    parser.add_argument("--source-model", default="Qwen3.5:9b")
+    parser.add_argument("--baseline-model", default="adl-905-arm-a:latest")
+    parser.add_argument("--speculative-model", default="adl-905-arm-b:latest")
+    parser.add_argument("--repeats", type=int, default=2)
+    args = parser.parse_args()
+    args.hosted_mode = False
+    args.hosted_approved = False
+    require(args.repeats > 0, "repeats must be positive")
+    root = args.output.resolve()
+    root.mkdir(parents=True, exist_ok=False)
+    root.chmod(0o700)
+    report = {
+        "schema": "adl.issue905.runtime_speculative_retest.v1",
+        "source_revision": args.source_revision,
+        "result": "setup",
+    }
+    created_models: list[str] = []
+    resources: dict[str, object] = {}
+    try:
+        execute(args, root, report, created_models, resources)
     except Exception as error:
         report["result"] = "failed"
         report["error_class"] = type(error).__name__
         raise
     finally:
-        report["runtime_provider_calls"] = proxy.calls
+        report["cleanup"] = cleanup(resources, created_models)
         lifecycle.write(root / "report.json", report)
-        try:
-            os.killpg(guardian.pid, signal.SIGTERM)
-            guardian.wait(timeout=20)
-        except (ProcessLookupError, subprocess.TimeoutExpired):
-            try:
-                os.killpg(guardian.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-        guardian_log.close()
-        fixture.server.shutdown()
-        fixture.resident_server.shutdown()
-        proxy.server.shutdown()
-        clock.sock.close()
-        for model in (args.baseline_model, args.speculative_model, invalid_model):
-            subprocess.run(["ollama", "rm", model], capture_output=True, text=True, timeout=60)
     print(json.dumps({"result": report["result"], "report": str(root / "report.json"), "comparison": report.get("comparison")}))
     return 0
 

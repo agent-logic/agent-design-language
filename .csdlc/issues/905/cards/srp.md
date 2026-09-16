@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/905/cards/sip.md"
   - ".csdlc/issues/905/cards/vpp.md"
 review_results:
-  findings_status: "no_findings"
-  recommended_outcome: "pass"
-notes: "Exact-head review passed at 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec. Thirteen focused tests, Python compilation, diff hygiene, all changed JSON parsing and independent robustness recalculation passed. Hardware execution was not repeated; retained raw per-call data was sufficient for the conservative inconclusive disposition."
+  findings_status: "findings_resolved_re_review_pending"
+  recommended_outcome: "block_pending_re_review"
+notes: "The reviewer accepted the retained eight exact pairs and repair_inconclusive disposition without hardware rerun. Remediation changes harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- No actionable findings at independently reviewed exact source 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec.
+- Post-publication review of PR #1004 at e3159b6e5ba225e07d9bc8110ed655939ffe0a04 found two P2s: arbitrary aliases could overwrite and cleanup existing Ollama models, and setup failures before the reporting try/finally could leave aliases without report.json.
 
 ### Dispositions
 
-- review_905 independently recalculated every per-block metric and robustness threshold, confirmed repair_inconclusive, confirmed all earlier P2/P3 findings resolved, and found no new actionable regression.
+- Both P2s are repaired. All temporary aliases must be nonempty, canonical-distinct, different from the source model, and absent from the pre-run inventory. Cleanup removes only aliases recorded after successful create calls. The entire setup/execution path now shares failure recording and conditional cleanup. Three focused mocked regressions pass; exact-head re-review is pending.
 
 ### Recommended Outcome
 
-- pass
+- block_pending_re_review
 
 ## Notes
 
-Exact-head review passed at 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec. Thirteen focused tests, Python compilation, diff hygiene, all changed JSON parsing and independent robustness recalculation passed. Hardware execution was not repeated; retained raw per-call data was sufficient for the conservative inconclusive disposition.
+The reviewer accepted the retained eight exact pairs and repair_inconclusive disposition without hardware rerun. Remediation changes harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes.
