@@ -1550,6 +1550,88 @@ pub fn stage_github_mutation(
     })
 }
 
+/// Reconstruct an already-retained, non-merge mutation for reconciliation.
+///
+/// Unlike ordinary staging, recovery is allowed after the bound checkout has
+/// advanced: the effect remains bound to the original request/head while the
+/// current checkout proves that native v3 authority is still active. This
+/// route never creates an intent and requires the single-retry recovery flag.
+pub fn stage_retained_github_mutation_recovery(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<StagedGithubMutation, RemoteRouteFinding> {
+    validate_repository_name(&request.repository)?;
+    validate_mutation(request)?;
+    if request.recovery != Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
+        || matches!(request.mutation, GithubMutation::PullRequestMerge { .. })
+    {
+        return Err(remote_finding(
+            "github_mutation_recovery_ineligible",
+            "retained recovery requires a non-merge mutation and the explicit single-retry policy",
+        ));
+    }
+
+    let current_head = git_head(repo_root)?;
+    let authority = verify_canonical_v3_authority(repo_root, None, &current_head)?;
+    let credential_name = mutation_credential_name(request)?;
+    let operation_digest = github_mutation_operation_digest(request);
+    let operation_marker = github_mutation_operation_marker(&operation_digest);
+    let intent_path = github_mutation_intent_path(repo_root, &operation_digest)?;
+    let retained = load_mutation_intent(&intent_path, &operation_digest)?;
+    let mut effective_request = request.clone();
+    effective_request.recovery = None;
+    if retained.request != effective_request
+        || retained.authority_selector_digest != authority.selector_digest
+    {
+        return Err(remote_finding(
+            "github_mutation_intent_mismatch",
+            "retained recovery intent differs from this operation or current authority",
+        ));
+    }
+    if let Some(edit) = &retained.resolved_edit {
+        effective_request.mutation = edit.clone();
+    }
+    let resolved_ready_target = retained.resolved_ready_target.clone();
+    let intent_digest = github_mutation_intent_digest(&retained);
+    preflight_github_credential(&credential_name, process)?;
+    let request_bytes = serde_json::to_vec(&serde_json::json!({
+        "schema":"csdlc.v3.staged_github_mutation.v1",
+        "operation_digest":operation_digest,
+        "intent_digest":intent_digest,
+        "request":effective_request
+    }))
+    .map_err(|_| {
+        remote_finding(
+            "github_mutation_intent_invalid",
+            "staged mutation cannot serialize",
+        )
+    })?;
+    let native_identity = crate::storage::semantic::protocol::NativeIdentity::new(
+        "csdlc-v3-github".into(),
+        intent_digest.clone(),
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_mutation_intent_invalid",
+            "native mutation identity is invalid",
+        )
+    })?;
+    Ok(StagedGithubMutation {
+        request: effective_request,
+        native_identity,
+        request_bytes,
+        operation_digest,
+        operation_marker,
+        intent_digest,
+        credential_name,
+        resolved_ready_target,
+        merge: None,
+        preexisting: true,
+        recovery: request.recovery.clone(),
+    })
+}
+
 pub fn execute_staged_github_mutation(
     repo_root: &Path,
     staged: &StagedGithubMutation,

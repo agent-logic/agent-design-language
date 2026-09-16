@@ -658,6 +658,58 @@ fn installed_recovery_requires_fresh_preview_of_actual_interrupted_transaction()
 }
 
 #[test]
+fn installed_bind_recovery_handles_absent_target_before_loading_worktree() {
+    let mut fixture = Fixture::new("bind-recovery-absent-target");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let crash = fixture.run_with_env(
+        &primary,
+        &["bind", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_bind_after_reservation",
+        )],
+    );
+    assert_eq!(
+        crash.status.code(),
+        Some(91),
+        "did not reach bind reservation interruption: {crash:?}"
+    );
+    assert!(
+        git(&primary, &["worktree", "list", "--porcelain"])
+            .lines()
+            .filter(|line| line.starts_with("worktree "))
+            .count()
+            == 1,
+        "bind crash unexpectedly created a target worktree"
+    );
+
+    let before = intent_fixture::inventory(&primary);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_eq!(preview["action"], "reconcile_native_bind");
+    assert_same_inventory!(
+        before,
+        intent_fixture::inventory(&primary),
+        "bind recovery preview mutated state"
+    );
+    let recovered = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(recovered["status"], "completed");
+    assert_eq!(recovered["semantic_outcome"], "failure");
+    assert_eq!(recovered["native_effect_truth"], "not_performed");
+    assert_eq!(recovered["performed_mutation"], false);
+}
+
+#[test]
 fn installed_proof_runs_real_validator_and_rejects_zero_test_success() {
     for zero_tests in [false, true] {
         let mut fixture = Fixture::new(if zero_tests {
@@ -2344,6 +2396,52 @@ fn installed_remote_recover_attaches_retained_receipt_after_native_dispatch_cras
     assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
     let settled = success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(settled["envelope"]["effects"]["outcome"], "none");
+}
+
+#[test]
+fn installed_remote_recover_uses_retained_origin_after_bound_head_advances() {
+    let (mut fixture, linked) = reviewed_fixture("remote-recover-advanced-bound-head");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[("CSDLC_V3_TEST_CRASH_POINT", "semantic_remote_after_native")],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+
+    fs::write(
+        linked.join("advanced-head.txt"),
+        "unrelated later revision\n",
+    )
+    .unwrap();
+    git(&linked, &["add", "advanced-head.txt"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "advance bound head after publication",
+        ],
+    );
+
+    let before = intent_fixture::inventory(&primary);
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_eq!(preview["action"], "reconcile_retained_remote_effect");
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
 }
 
 #[test]

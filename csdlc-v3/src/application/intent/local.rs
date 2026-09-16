@@ -679,6 +679,12 @@ fn semantic_bind(
         }
         Reservation::Reserved(ticket) => ticket,
     };
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_bind_after_reservation")
+    {
+        std::process::exit(91);
+    }
     semantic.admit_before_effect(ticket.id())?;
     // Rebinding a retained checkout revalidates its native ownership/cards;
     // it must not invoke the create/move binder again on native Bound state.
@@ -1230,26 +1236,6 @@ pub(crate) fn recover_semantic_bind(
         local::intent::recovery_source(&context.git_common.join("csdlc-v3/local"), context.issue)
             .map_err(errors)?
             .is_some();
-    let mut observed_context = if recovery_source_exists {
-        Context::load(&context.primary, context.issue)?
-    } else {
-        Context::load(&target.worktree, context.issue)?
-    };
-    let binding_state_root = if recovery_source_exists {
-        context.git_common.join("csdlc-v3/local")
-    } else {
-        local::operational_state_root(&target.worktree).map_err(errors)?
-    };
-    let mut binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
-    let mut native_bound = binding_path.exists()
-        && read_json(&binding_path).is_ok_and(|binding| {
-            binding["issue"] == context.issue
-                && binding["branch"] == target.branch
-                && binding["worktree"].as_str() == target.worktree.to_str()
-        })
-        && observed_context.root == target.worktree
-        && observed_context.branch == target.branch
-        && observed_context.head == target.head;
     let registration = super::context::git(&context.primary, &["worktree", "list", "--porcelain"])?;
     let canonical_target = target.worktree.canonicalize().ok();
     let branch_ref = format!("refs/heads/{}", target.branch);
@@ -1262,7 +1248,30 @@ pub(crate) fn recover_semantic_bind(
             .lines()
             .any(|line| line == format!("branch {branch_ref}"))
     });
+    let binding_state_root = if recovery_source_exists {
+        context.git_common.join("csdlc-v3/local")
+    } else if target.worktree.exists() {
+        local::operational_state_root(&target.worktree).map_err(errors)?
+    } else {
+        target.worktree.join(".git/csdlc-v3/local")
+    };
+    let mut binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
     let mut definitely_absent = !binding_path.exists() && !target.worktree.exists() && !registered;
+    let mut observed_context = if recovery_source_exists || definitely_absent {
+        Context::load(&context.primary, context.issue)?
+    } else {
+        Context::load(&target.worktree, context.issue)?
+    };
+    let mut native_bound = !definitely_absent
+        && binding_path.exists()
+        && read_json(&binding_path).is_ok_and(|binding| {
+            binding["issue"] == context.issue
+                && binding["branch"] == target.branch
+                && binding["worktree"].as_str() == target.worktree.to_str()
+        })
+        && observed_context.root == target.worktree
+        && observed_context.branch == target.branch
+        && observed_context.head == target.head;
     if !native_bound && !definitely_absent && recovery_source_exists {
         let native = local::discover_operational_local_context(&context.primary, &native_request)
             .map_err(errors)?
@@ -1353,12 +1362,19 @@ pub(crate) fn recover_semantic_bind(
             "reason":"native_bind_partial_or_ambiguous"})));
     };
     let semantic = observed_context.semantic_recovery_context(pending.id())?;
-    let admission = match semantic.fresh_for_effect(pending.id()) {
-        Ok(value) => value,
-        Err(error) => {
-            return Ok(Some(json!({"status":"recovery_required","read_only":true,
-                "performed_mutation":null,"operation_id":pending.id().as_str(),
-                "reason":"bind_target_changed_before_attachment","finding":error})))
+    let admission = if definitely_absent {
+        AttachmentAdmission::from_native_owner(
+            semantic.snapshot.inputs().authority().clone(),
+            inspection.request().origin().clone(),
+        )
+    } else {
+        match semantic.fresh_for_effect(pending.id()) {
+            Ok(value) => value,
+            Err(error) => {
+                return Ok(Some(json!({"status":"recovery_required","read_only":true,
+                    "performed_mutation":null,"operation_id":pending.id().as_str(),
+                    "reason":"bind_target_changed_before_attachment","finding":error})))
+            }
         }
     };
     let outcome = VerifiedOutcome::from_native_owner(
@@ -1393,11 +1409,10 @@ pub(crate) fn recover_semantic_bind(
             _ => return Err("intent_bind_semantic_state_unavailable".into()),
         };
     let projected = semantic.complete_projection(&current)?;
-    Ok(Some(
-        json!({"status":if kind==OutcomeKind::Success {"completed"} else {"failed"},
+    Ok(Some(json!({"status":"completed",
         "read_only":false,"performed_mutation":false,"operation_id":completed.operation_id().as_str(),
-        "native_effect_truth":truth,"semantic_version":projected.version()}),
-    ))
+        "semantic_outcome":kind,
+        "native_effect_truth":truth,"semantic_version":projected.version()})))
 }
 
 pub(crate) fn recover_semantic_edit(

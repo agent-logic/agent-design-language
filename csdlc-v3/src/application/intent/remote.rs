@@ -747,7 +747,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
     // Review's native recovery is identical-packet completion, not a GitHub retry.
     // Inspect the semantic operation first because a partial local review write
     // does not appear in the native remote mutation inventory.
-    let review_session = match context.semantic_context() {
+    let semantic_session = match context.semantic_context() {
         Ok(session) => Some(session),
         Err(_) => {
             let (root, key) = context.semantic_root_key()?;
@@ -755,10 +755,6 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                 semantic::Observation::Current(snapshot)
                 | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot
                     .pending()
-                    .filter(|pending| {
-                        pending.command()
-                            == crate::lifecycle::semantic::SemanticCommand::RecordReviewPass
-                    })
                     .map(|pending| context.semantic_recovery_context(pending.id()))
                     .transpose()?,
                 semantic::Observation::RecoveryRequired
@@ -767,7 +763,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
             }
         }
     };
-    if let Some(session) = review_session {
+    if let Some(session) = semantic_session {
         if let Some(pending) = session.snapshot.pending().filter(|pending| {
             pending.command() == crate::lifecycle::semantic::SemanticCommand::RecordReviewPass
         }) {
@@ -1006,8 +1002,12 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                 native.recovery = Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
             }
             let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
-            let staged =
-                stage_github_mutation(&context.root, &native, &mut process).map_err(failure)?;
+            let staged = if matches!(native.mutation, GithubMutation::PullRequestMerge { .. }) {
+                stage_github_mutation(&context.root, &native, &mut process).map_err(failure)?
+            } else {
+                stage_retained_github_mutation_recovery(&context.root, &native, &mut process)
+                    .map_err(failure)?
+            };
             if staged.native_identity() != retained.request().native_identity().clone() {
                 return Err("semantic_remote_recovery_identity_changed".into());
             }
@@ -1047,10 +1047,10 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                 .map_err(failure)?,
             };
             let semantic = context.semantic_recovery_context(pending.id())?;
-            let admission = match semantic.fresh_for_recovery_effect(pending.id()) {
-                Ok(value) => value,
-                Err(_) => return Ok(Some(recovery_result())),
-            };
+            let admission = transaction::AttachmentAdmission::from_native_owner(
+                semantic.snapshot.inputs().authority().clone(),
+                retained.request().origin().clone(),
+            );
             let attached = DurableTransactionStore::execute_effect_recovery(
                 &semantic.root,
                 preview,
