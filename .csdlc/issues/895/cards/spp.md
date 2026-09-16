@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implemented exact-artifact publication control in the bound #895 worktree. The production CLI prepares an identity-bound withheld publication, records explicit approve/withhold/invalidate decisions with provenance, revalidates complete review and exact artifact bytes at admission, rejects changed or unsafe inputs, and atomically admits only to a controlled local target. Focused proof and touched-owner regressions pass; independent exact-head review, publication, CI, merge, and terminal reconciliation remain pending."
+plan_summary: "Implementation and local proof are complete after resolving the first exact-head review's two P1 findings. The publication boundary now resolves one append-only authoritative decision chain/head so later withholding or invalidation revokes the earlier approval, and admission copies the exact verified byte snapshot rather than reopening mutable source paths. Local proof passes; a new immutable remediation commit and distinct fresh exact-head review remain pending."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-UX] Enforce exact-artifact publication approval`.
 
-Implemented exact-artifact publication control in the bound #895 worktree. The production CLI prepares an identity-bound withheld publication, records explicit approve/withhold/invalidate decisions with provenance, revalidates complete review and exact artifact bytes at admission, rejects changed or unsafe inputs, and atomically admits only to a controlled local target. Focused proof and touched-owner regressions pass; independent exact-head review, publication, CI, merge, and terminal reconciliation remain pending.
+Implementation and local proof are complete after resolving the first exact-head review's two P1 findings. The publication boundary now resolves one append-only authoritative decision chain/head so later withholding or invalidation revokes the earlier approval, and admission copies the exact verified byte snapshot rather than reopening mutable source paths. Local proof passes; a new immutable remediation commit and distinct fresh exact-head review remain pending.
 
 ## PVF Lane Plan
 

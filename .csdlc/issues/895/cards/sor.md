@@ -28,7 +28,7 @@ Execution:
 - Actor: `codex/root`
 - Model: `GPT-5`
 - Provider: `OpenAI`
-- Start Time: `not_started`
+- Start Time: `2026-09-16; exact start time not collected`
 - End Time: `in_progress`
 
 ## Summary
@@ -42,7 +42,7 @@ Implemented #895 exact-artifact publication approval in the bound issue worktree
 - Lane change reason: `No lane change; proof uses isolated local CPU/filesystem fixtures with no provider, network, cloud, or remote publication effect.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `bounded_local`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -76,18 +76,18 @@ Implemented #895 exact-artifact publication approval in the bound issue worktree
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/895/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/publication/{mod.rs,manifest.rs,approval.rs}; adl/src/codefriend/mod.rs; adl/src/cli/codefriend_publication_cmd.rs; adl/src/cli/codefriend_cmd.rs; adl/src/cli/mod.rs; adl/tests/codefriend_ux.rs; adl/tests/fixtures/codefriend/publication/PVF.json; native issue cards and transaction receipt`
-- Additional proof artifacts: `Four installed publication-control scenarios plus eleven evidence regressions and fourteen review regressions executed locally; strict all-target/all-feature Clippy, rustfmt, and diff hygiene passed.`
+- Additional proof artifacts: `Installed publication-control scenarios 4/4, exact verified-snapshot unit regression 1/1, evidence regressions 11/11, review regressions 14/14, rustfmt, strict all-target/all-feature Clippy, and diff hygiene passed after remediation.`
 
 ## Actions taken
-- `Added exact identity-bound withheld publication manifests and explicit approve, withhold, and invalidate decision records with actor, reason, time, and digest provenance.`
-- `Added a production CLI that inspects decisions and admits only matching approved artifacts to a controlled local target using create-only staging and atomic rename.`
-- `Proved changed identities, incomplete reviews, absent or forged approvals, undeclared files, digest changes, unsafe text, symlinks, traversal, and destination collisions fail closed without partial publication.`
+- `Added exact identity-bound withheld manifests and one append-only authoritative decision chain/head; approve, withhold, and invalidate records carry actor, reason, time, prior-decision digest, and binding provenance.`
+- `Added a production CLI whose inspect and admit routes resolve only the current decision head, so later withholding or invalidation revokes all earlier approval files.`
+- `Admission now stages the exact bytes retained from verified open file handles, preventing a second source read; deterministic regression proves later source mutation cannot change published bytes.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch implementation is not merged`
 - Worktree-only paths remaining: `all #895 implementation and lifecycle paths pending exact review and PR merge`
 - Integration state: `worktree_only`
-- Verification scope: `bound #895 worktree current uncommitted implementation bytes`
+- Verification scope: `bound #895 worktree; first reviewed commit b1d8dbc835823f7151c5987dfb5c34e278876340 plus current review-remediation bytes pending immutable commit`
 - Integration method used: `bound issue worktree; commit and PR pending`
 - Verification performed:
   - `git status --short --branch; git diff --check`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml -- --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Exercises the installed CLI success journey and fail-closed publication boundary, preserves evidence/review compatibility, and verifies formatting, warnings, and patch hygiene.`
+  - `cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml -- --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
+    `Proves current decision-head revocation, exact verified-byte snapshot use, installed CLI success/failure behavior, retained evidence/review compatibility, formatting, warnings, and patch hygiene.`
 - Results:
-  - `passed locally: codefriend_ux 4/4; codefriend_evidence 11/11; codefriend_review 14/14; rustfmt passed; strict Clippy passed; diff check passed`
+  - `passed after review remediation: verified-snapshot unit 1/1; codefriend_ux 4/4; codefriend_evidence 11/11; codefriend_review 14/14; rustfmt passed; strict Clippy passed; diff check passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `yes; isolated temporary artifact roots, deterministic digests, controlled decision timestamps, create-only outputs, and local atomic admission`
+- Determinism tests executed: `yes; isolated decision directories, deterministic append-only chain validation, controlled timestamps, exact verified byte snapshots, create-only outputs, and local atomic admission`
 - Fixtures or scripts used: `adl/tests/codefriend_ux.rs; adl/tests/fixtures/codefriend/evidence/review-v1.json; adl/tests/fixtures/codefriend/publication/PVF.json`
-- Replay verification (same inputs -> same artifacts/order): `Repeated test execution reconstructs the exact manifest/decision/admission sequence in isolated roots.`
-- Ordering guarantees (sorting / tie-break rules used): `all validation and approval checks precede staging; publication becomes visible only after complete staged copy and atomic rename`
-- Artifact stability notes: `Artifacts are sorted and exact-manifest complete; destination and decision files are create-only.`
+- Replay verification (same inputs -> same artifacts/order): `The suite reconstructs approve/invalidate/withhold chains and proves the copied bytes come from the verified snapshot even after source mutation.`
+- Ordering guarantees (sorting / tie-break rules used): `decision head resolution and all validation precede staging; one verified byte snapshot feeds the copy; publication becomes visible only after complete staged copy and atomic rename`
+- Artifact stability notes: `Decision files are digest-named and create-only; chain forks, gaps, cycles, mixed bindings, stale heads, and non-JSON entries fail closed; artifact inventory is canonical.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `credential/path scanner exercised with negative fixtures before any publication write`
@@ -159,20 +159,20 @@ verification_summary:
 ## Replay Artifacts
 - Trace bundle path(s): `adl/tests/fixtures/codefriend/publication/PVF.json and installed CLI test output`
 - Run artifact root: `.csdlc/evidence/895 (native review and publication evidence pending)`
-- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_ux`
-- Replay result: `passed 4/4`
+- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux`
+- Replay result: `passed 1/1 unit and 4/4 installed integration scenarios`
 
 ## Artifact Verification
-- Primary proof surface: `adl/tests/codefriend_ux.rs`
+- Primary proof surface: `adl/tests/codefriend_ux.rs and codefriend::publication::approval::tests::atomic_publication_uses_the_verified_snapshot_not_a_second_source_read`
 - Required artifacts present: `yes for implementation and local prepublication proof; independent review, PR, CI, merge, and terminal receipts remain pending`
 - Artifact schema/version checks: `passed through strict serde schemas and installed CLI parsing`
-- Hash/byte-stability checks: `passed for review, finding set, artifact manifest, decisions, and admission receipt bindings`
+- Hash/byte-stability checks: `passed for review, finding set, manifest, authoritative decision chain/head, exact snapshot bytes, and admission receipts`
 - Missing/optional artifacts and rationale: `Independent review, PR, CI, merge, and terminal evidence cannot exist before publication.`
 
 ## Decisions / Deviations
-- `#891 (CF-SHELL) and #881 (CF-EVIDENCE) are closed/accepted as of live read on 2026-09-16; remaining pre-bind gate is active path ownership/collision recheck.`
-- `No branch/worktree binding, shared binary replacement or live provider effect is authorized here`
+- `#891 and #881 are closed/accepted; #895 is bound and implementation is complete within its publication-control scope without #894 renderer ownership.`
+- `First exact-head review FAIL found stale-approval revocation and check/use byte races; both were repaired with an authoritative append-only decision head and verified byte snapshots. No shared binary, provider, network, cloud, or remote publication effect was used.`
 
 ## Follow-ups / Deferred work
-- `Commit the coherent implementation and lifecycle truth, then obtain independent exact-head review.`
+- `Commit the P1 and lifecycle-truth remediation coherently and obtain a distinct fresh exact-head review.`
 - `After PASS and current-base reconciliation, publish with Closes #895, shepherd CI, merge, finish, and clean through native authority.`

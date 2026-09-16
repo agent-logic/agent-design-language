@@ -10,7 +10,7 @@ title: "[v0.92.2][CF-UX] Enforce exact-artifact publication approval"
 branch: "codex/895-v0922-publication-approval"
 generated_at: "2026-09-12T00:10:15.986006+00:00"
 card_status: "ready"
-status: "planned"
+status: "executed_local_review_pending"
 initial_pvf_lane: "runtime"
 planned_pvf_lane: "runtime"
 lane_registry_path: "docs/validation/pvf_lanes.json"
@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/895/cards/spp.md"
 selected_lanes:
-  - "runtime; deterministic semantic correctness plus actual installed consumer integration; issue acceptance and later release input; all runs pending"
+  - "runtime; deterministic installed CLI, authoritative decision-chain revocation, exact verified-byte snapshot admission, evidence/review regressions; local runs passed and distinct remediation review pending"
 parallel_groups:
-  - "Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review"
+  - "Focused local proof serialized around the shared Cargo target; exact-head review follows the immutable remediation commit."
 validation_commands:
-  - "cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml -- --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check"
+  - "cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml -- --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check"
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No canned plan, fixture-only admission, helper-only success, unexecuted platform claim or provider permission inference. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
-notes: "Executed local proof covers the installed CLI journey, explicit decisions, stale identity rejection, exact manifest enforcement, credential and host-path redaction rejection, symlink/traversal defenses, create-only decision artifacts, and atomic local admission. Binary artifact bytes are digest-bound but semantic binary/PDF redaction remains a successor-renderer obligation. No remote publication, provider, cloud, or customer-scale hosting is claimed. Independent exact-head review and CI remain pending."
+notes: "Executed local proof covers approve-to-invalidate and approve-to-withhold revocation through one authoritative append-only decision head, chain fork/missing predecessor rejection, exact verified-byte snapshot publication without a second source read, the installed CLI journey, identity and manifest changes, credential/host-path leakage, symlink/traversal defenses, create-only decision records, and atomic local admission. Binary semantic redaction remains a successor-renderer obligation. No remote publication, provider, cloud, or hosting claim. The first independent exact-head review failed with two P1 implementation findings and one P2 lifecycle-truth finding; fixes are local and a distinct fresh review is required."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -61,11 +61,11 @@ With #891 and #881 accepted, recheck shared-owner paths and then adopt exact evi
 
 ## Selected Validation Lanes
 
-- runtime; deterministic semantic correctness plus actual installed consumer integration; issue acceptance and later release input; all runs pending
+- runtime; deterministic installed CLI, authoritative decision-chain revocation, exact verified-byte snapshot admission, evidence/review regressions; local runs passed and distinct remediation review pending
 
 ## Parallelization Plan
 
-- Parallel groups: Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review
+- Parallel groups: Focused local proof serialized around the shared Cargo target; exact-head review follows the immutable remediation commit.
 - Validation runtime class: `bounded_local`
 - Validation resource profile: `Isolated local CPU/Rust/filesystem, controlled observation time, bounded admitted fixtures; no network/provider/cloud execution`
 - Validation family: `codefriend_publication_admission`
@@ -86,7 +86,7 @@ With #891 and #881 accepted, recheck shared-owner paths and then adopt exact evi
 
 ## Validation Commands
 
-- cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml -- --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check
+- cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml -- --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Executed local proof covers the installed CLI journey, explicit decisions, stale identity rejection, exact manifest enforcement, credential and host-path redaction rejection, symlink/traversal defenses, create-only decision artifacts, and atomic local admission. Binary artifact bytes are digest-bound but semantic binary/PDF redaction remains a successor-renderer obligation. No remote publication, provider, cloud, or customer-scale hosting is claimed. Independent exact-head review and CI remain pending.
+Executed local proof covers approve-to-invalidate and approve-to-withhold revocation through one authoritative append-only decision head, chain fork/missing predecessor rejection, exact verified-byte snapshot publication without a second source read, the installed CLI journey, identity and manifest changes, credential/host-path leakage, symlink/traversal defenses, create-only decision records, and atomic local admission. Binary semantic redaction remains a successor-renderer obligation. No remote publication, provider, cloud, or hosting claim. The first independent exact-head review failed with two P1 implementation findings and one P2 lifecycle-truth finding; fixes are local and a distinct fresh review is required.

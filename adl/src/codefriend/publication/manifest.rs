@@ -71,6 +71,21 @@ pub fn read_publication(path: &Path) -> Result<Publication> {
 }
 
 pub fn verify_artifacts(root: &Path, artifacts: &[Artifact]) -> Result<()> {
+    snapshot_artifacts(root, artifacts).map(|_| ())
+}
+
+#[derive(Debug)]
+pub(crate) struct VerifiedArtifact {
+    pub(crate) path: String,
+    pub(crate) bytes: Vec<u8>,
+}
+
+/// Open, validate and retain the exact bytes that may be published. Admission
+/// consumes this snapshot instead of reopening attacker-mutable source paths.
+pub(crate) fn snapshot_artifacts(
+    root: &Path,
+    artifacts: &[Artifact],
+) -> Result<Vec<VerifiedArtifact>> {
     ensure!(!artifacts.is_empty(), "empty_artifact_manifest");
     ensure!(root.exists(), "artifact_root_missing");
     ensure!(
@@ -91,19 +106,26 @@ pub fn verify_artifacts(root: &Path, artifacts: &[Artifact]) -> Result<()> {
     ensure!(actual == declared, "artifact_manifest_incomplete");
 
     let mut total = 0_u64;
+    let mut verified = Vec::with_capacity(artifacts.len());
     for artifact in artifacts {
         validate_path(&artifact.path)?;
         ensure!(valid_digest(&artifact.digest), "invalid_artifact_digest");
         let path = root.join(&artifact.path);
         reject_symlink_components(&path)?;
-        let metadata = fs::symlink_metadata(&path)?;
+        let file = File::open(&path)?;
+        let metadata = file.metadata()?;
         ensure!(metadata.file_type().is_file(), "invalid_artifact_file");
         ensure!(metadata.len() <= MAX_ARTIFACT_BYTES, "artifact_too_large");
         total = total
             .checked_add(metadata.len())
             .ok_or_else(|| anyhow::anyhow!("artifact_size_overflow"))?;
         ensure!(total <= MAX_TOTAL_ARTIFACT_BYTES, "artifact_set_too_large");
-        let bytes = fs::read(&path)?;
+        let mut bytes = Vec::new();
+        file.take(MAX_ARTIFACT_BYTES + 1).read_to_end(&mut bytes)?;
+        ensure!(
+            bytes.len() as u64 <= MAX_ARTIFACT_BYTES,
+            "artifact_too_large"
+        );
         ensure!(
             crate::codefriend::ingestion::digest(&bytes) == artifact.digest,
             "artifact_digest_mismatch"
@@ -114,8 +136,12 @@ pub fn verify_artifacts(root: &Path, artifacts: &[Artifact]) -> Result<()> {
                 "artifact_redaction_failed"
             );
         }
+        verified.push(VerifiedArtifact {
+            path: artifact.path.clone(),
+            bytes,
+        });
     }
-    Ok(())
+    Ok(verified)
 }
 
 fn inventory(root: &Path) -> Result<Vec<String>> {

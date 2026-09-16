@@ -5,7 +5,9 @@ use adl::codefriend::{
         hash,
     },
     ingestion::digest,
-    publication::{admit_local, verify_artifacts, DecisionKind, DecisionRecord, ManifestInput},
+    publication::{
+        admit_local, append_decision, verify_artifacts, DecisionKind, DecisionRecord, ManifestInput,
+    },
 };
 use serde_json::json;
 use std::{
@@ -115,8 +117,9 @@ fn assert_success(output: &Output) {
 fn installed_prepare_approve_inspect_and_atomic_local_admission() {
     let fixture = Fixture::new();
     let publication = fixture.root.join("publication.json");
-    let approved = fixture.root.join("approved.json");
+    let decisions = fixture.root.join("decisions");
     let destination = fixture.root.join("destination");
+    fs::create_dir(&decisions).unwrap();
     fs::create_dir(&destination).unwrap();
 
     let output = cli(&[
@@ -155,16 +158,16 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         "operator-fixture",
         "--reason",
         "Exact local artifacts approved",
-        "--out",
-        approved.to_str().unwrap(),
+        "--decision-dir",
+        decisions.to_str().unwrap(),
     ]);
     assert_success(&output);
     let output = cli(&[
         "inspect",
         "--review-record",
         fixture.review_path.to_str().unwrap(),
-        "--decision",
-        approved.to_str().unwrap(),
+        "--decision-dir",
+        decisions.to_str().unwrap(),
     ]);
     assert_success(&output);
     let inspected: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
@@ -175,8 +178,8 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         "admit-local",
         "--review-record",
         fixture.review_path.to_str().unwrap(),
-        "--decision",
-        approved.to_str().unwrap(),
+        "--decision-dir",
+        decisions.to_str().unwrap(),
         "--artifact-root",
         fixture.artifact_root.to_str().unwrap(),
         "--destination-root",
@@ -194,8 +197,8 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         "admit-local",
         "--review-record",
         fixture.review_path.to_str().unwrap(),
-        "--decision",
-        approved.to_str().unwrap(),
+        "--decision-dir",
+        decisions.to_str().unwrap(),
         "--artifact-root",
         fixture.artifact_root.to_str().unwrap(),
         "--destination-root",
@@ -210,43 +213,83 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     let fixture = Fixture::new();
     let review = fixture.review();
     let publication = fixture.publication();
-    let withheld = DecisionRecord::new(
+    let decisions = fixture.root.join("decisions");
+    fs::create_dir(&decisions).unwrap();
+    append_decision(
+        &decisions,
         &review,
         &publication,
         DecisionKind::Withheld,
         "operator-fixture",
         "Needs another review",
         10,
-        None,
     )
     .unwrap();
     let destination = fixture.root.join("destination");
     fs::create_dir(&destination).unwrap();
-    assert!(admit_local(&review, &withheld, &fixture.artifact_root, &destination, 11).is_err());
+    assert!(admit_local(
+        &review,
+        &decisions,
+        &fixture.artifact_root,
+        &destination,
+        11
+    )
+    .is_err());
 
-    let approved = DecisionRecord::new(
+    let approved = append_decision(
+        &decisions,
         &review,
         &publication,
         DecisionKind::Approved,
         "operator-fixture",
         "Exact artifacts accepted",
         12,
-        None,
     )
     .unwrap();
-    let invalidated = DecisionRecord::new(
+    append_decision(
+        &decisions,
         &review,
         &approved.publication,
         DecisionKind::Invalidated,
         "operator-fixture",
         "Destination changed",
         13,
-        Some(&approved),
     )
     .unwrap();
     assert!(admit_local(
         &review,
-        &invalidated,
+        &decisions,
+        &fixture.artifact_root,
+        &destination,
+        14
+    )
+    .is_err());
+
+    let withheld_after_approval = fixture.root.join("withheld-after-approval");
+    fs::create_dir(&withheld_after_approval).unwrap();
+    append_decision(
+        &withheld_after_approval,
+        &review,
+        &publication,
+        DecisionKind::Approved,
+        "operator-fixture",
+        "Exact artifacts accepted",
+        12,
+    )
+    .unwrap();
+    append_decision(
+        &withheld_after_approval,
+        &review,
+        &publication,
+        DecisionKind::Withheld,
+        "operator-fixture",
+        "Approval withdrawn",
+        13,
+    )
+    .unwrap();
+    assert!(admit_local(
+        &review,
+        &withheld_after_approval,
         &fixture.artifact_root,
         &destination,
         14
@@ -278,7 +321,26 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
         "# Mutated after approval\n",
     )
     .unwrap();
-    assert!(admit_local(&review, &approved, &fixture.artifact_root, &destination, 15).is_err());
+    let stale_approval = fixture.root.join("stale-approval");
+    fs::create_dir(&stale_approval).unwrap();
+    append_decision(
+        &stale_approval,
+        &review,
+        &publication,
+        DecisionKind::Approved,
+        "operator-fixture",
+        "Original artifact accepted",
+        14,
+    )
+    .unwrap();
+    assert!(admit_local(
+        &review,
+        &stale_approval,
+        &fixture.artifact_root,
+        &destination,
+        15
+    )
+    .is_err());
     assert!(!destination.join("review-output").exists());
 
     let input: ManifestInput =
@@ -287,17 +349,26 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     updated.artifact_manifest[1].digest =
         digest(&fs::read(fixture.artifact_root.join("report.md")).unwrap());
     let new_publication = updated.publication(&review).unwrap();
-    let renewed = DecisionRecord::new(
+    let renewed_decisions = fixture.root.join("renewed-decisions");
+    fs::create_dir(&renewed_decisions).unwrap();
+    append_decision(
+        &renewed_decisions,
         &review,
         &new_publication,
         DecisionKind::Approved,
         "operator-fixture",
         "Mutated artifact explicitly re-reviewed",
         16,
-        None,
     )
     .unwrap();
-    admit_local(&review, &renewed, &fixture.artifact_root, &destination, 17).unwrap();
+    admit_local(
+        &review,
+        &renewed_decisions,
+        &fixture.artifact_root,
+        &destination,
+        17,
+    )
+    .unwrap();
 }
 
 #[test]
@@ -380,17 +451,19 @@ fn symlink_artifacts_and_destination_collision_leave_no_partial_target() {
     let fixture = Fixture::new();
     let review = fixture.review();
     let publication = fixture.publication();
-    let approved = DecisionRecord::new(
+    let destination = fixture.root.join("destination");
+    let decisions = fixture.root.join("decisions");
+    fs::create_dir(&decisions).unwrap();
+    append_decision(
+        &decisions,
         &review,
         &publication,
         DecisionKind::Approved,
         "operator-fixture",
         "Exact artifacts accepted",
         10,
-        None,
     )
     .unwrap();
-    let destination = fixture.root.join("destination");
     fs::create_dir(&destination).unwrap();
     fs::remove_file(fixture.artifact_root.join("report.md")).unwrap();
     symlink(
@@ -398,6 +471,13 @@ fn symlink_artifacts_and_destination_collision_leave_no_partial_target() {
         fixture.artifact_root.join("report.md"),
     )
     .unwrap();
-    assert!(admit_local(&review, &approved, &fixture.artifact_root, &destination, 11).is_err());
+    assert!(admit_local(
+        &review,
+        &decisions,
+        &fixture.artifact_root,
+        &destination,
+        11
+    )
+    .is_err());
     assert!(!destination.join("review-output").exists());
 }

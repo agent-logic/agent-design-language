@@ -1,4 +1,4 @@
-use super::manifest::{read_json, reject_symlink_components, verify_artifacts};
+use super::manifest::{read_json, reject_symlink_components, snapshot_artifacts, VerifiedArtifact};
 use crate::codefriend::{
     evidence::{
         contracts::{Approval, Completion, Publication, PublicationState, ReviewRecord},
@@ -9,6 +9,7 @@ use crate::codefriend::{
 use anyhow::{ensure, Result};
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::{BTreeMap, BTreeSet},
     fs::{self, File, OpenOptions},
     io::Write,
     path::{Path, PathBuf},
@@ -146,6 +147,127 @@ impl DecisionRecord {
     }
 }
 
+pub fn read_decision_head(
+    directory: &Path,
+    review: &ReviewRecord,
+) -> Result<Option<DecisionRecord>> {
+    reject_symlink_components(directory)?;
+    ensure!(
+        fs::symlink_metadata(directory)?.file_type().is_dir(),
+        "invalid_decision_directory"
+    );
+    let mut records = BTreeMap::new();
+    for entry in fs::read_dir(directory)? {
+        let entry = entry?;
+        ensure!(records.len() < 1000, "too_many_decisions");
+        ensure!(
+            entry.file_type()?.is_file() && !entry.file_type()?.is_symlink(),
+            "invalid_decision_entry"
+        );
+        ensure!(
+            entry.path().extension().and_then(|value| value.to_str()) == Some("json"),
+            "invalid_decision_entry"
+        );
+        let record = DecisionRecord::read(&entry.path(), review)?;
+        ensure!(
+            entry.file_name().to_string_lossy() == format!("{}.json", record.digest),
+            "decision_filename_mismatch"
+        );
+        ensure!(
+            records.insert(record.digest.clone(), record).is_none(),
+            "duplicate_decision"
+        );
+    }
+    if records.is_empty() {
+        return Ok(None);
+    }
+    let binding = records
+        .values()
+        .next()
+        .expect("nonempty")
+        .publication
+        .binding_digest()?;
+    let mut referenced = BTreeSet::new();
+    let mut roots = 0_usize;
+    for record in records.values() {
+        ensure!(
+            record.publication.binding_digest()? == binding,
+            "decision_directory_mixed_bindings"
+        );
+        match &record.previous_decision_digest {
+            Some(previous) => {
+                let prior = records
+                    .get(previous)
+                    .ok_or_else(|| anyhow::anyhow!("decision_predecessor_missing"))?;
+                ensure!(
+                    prior.decided_at <= record.decided_at,
+                    "decision_time_regressed"
+                );
+                ensure!(referenced.insert(previous.clone()), "decision_chain_forked");
+            }
+            None => roots += 1,
+        }
+    }
+    ensure!(roots == 1, "decision_chain_root_invalid");
+    let heads = records
+        .keys()
+        .filter(|digest| !referenced.contains(*digest))
+        .collect::<Vec<_>>();
+    ensure!(heads.len() == 1, "decision_chain_head_invalid");
+    let mut cursor = records.get(heads[0]).expect("known head");
+    let mut visited = BTreeSet::new();
+    loop {
+        ensure!(
+            visited.insert(cursor.digest.clone()),
+            "decision_chain_cycle"
+        );
+        let Some(previous) = &cursor.previous_decision_digest else {
+            break;
+        };
+        cursor = records.get(previous).expect("predecessor checked");
+    }
+    ensure!(
+        visited.len() == records.len(),
+        "decision_chain_disconnected"
+    );
+    Ok(Some(records.get(heads[0]).expect("known head").clone()))
+}
+
+pub fn append_decision(
+    directory: &Path,
+    review: &ReviewRecord,
+    publication: &Publication,
+    decision: DecisionKind,
+    actor: &str,
+    reason: &str,
+    decided_at: u64,
+) -> Result<DecisionRecord> {
+    publication.validate(review)?;
+    let previous = read_decision_head(directory, review)?;
+    if let Some(previous) = &previous {
+        ensure!(
+            previous.publication.binding_digest()? == publication.binding_digest()?,
+            "decision_binding_changed"
+        );
+    }
+    let record = DecisionRecord::new(
+        review,
+        publication,
+        decision,
+        actor,
+        reason,
+        decided_at,
+        previous.as_ref(),
+    )?;
+    write_json_create_only(&directory.join(format!("{}.json", record.digest)), &record)?;
+    File::open(directory)?.sync_all()?;
+    ensure!(
+        read_decision_head(directory, review)?.as_ref() == Some(&record),
+        "decision_head_readback_failed"
+    );
+    Ok(record)
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct AdmissionReceipt {
@@ -168,12 +290,13 @@ impl AdmissionReceipt {
 
 pub fn admit_local(
     review: &ReviewRecord,
-    decision: &DecisionRecord,
+    decision_directory: &Path,
     artifact_root: &Path,
     destination_root: &Path,
     admitted_at: u64,
 ) -> Result<AdmissionReceipt> {
-    decision.validate(review)?;
+    let decision = read_decision_head(decision_directory, review)?
+        .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
     ensure!(
         decision.decision == DecisionKind::Approved,
         "publication_not_approved"
@@ -182,7 +305,7 @@ pub fn admit_local(
         admitted_at >= decision.decided_at,
         "admission_precedes_approval"
     );
-    verify_artifacts(artifact_root, &decision.publication.artifact_manifest)?;
+    let artifacts = snapshot_artifacts(artifact_root, &decision.publication.artifact_manifest)?;
     reject_symlink_components(destination_root)?;
     ensure!(
         fs::symlink_metadata(destination_root)?.file_type().is_dir(),
@@ -201,12 +324,12 @@ pub fn admit_local(
         digest: String::new(),
     };
     receipt.digest = receipt.expected_digest()?;
-    publish_atomically(artifact_root, &target, decision, &receipt)?;
+    publish_atomically(&artifacts, &target, &decision, &receipt)?;
     Ok(receipt)
 }
 
 fn publish_atomically(
-    artifact_root: &Path,
+    artifacts: &[VerifiedArtifact],
     target: &Path,
     decision: &DecisionRecord,
     receipt: &AdmissionReceipt,
@@ -230,13 +353,11 @@ fn publish_atomically(
         }
     };
     let result = (|| -> Result<()> {
-        for artifact in &decision.publication.artifact_manifest {
-            let source = artifact_root.join(&artifact.path);
+        for artifact in artifacts {
             let output = stage.join(&artifact.path);
             if let Some(parent) = output.parent() {
                 fs::create_dir_all(parent)?;
             }
-            let bytes = fs::read(source)?;
             let mut options = OpenOptions::new();
             options.write(true).create_new(true);
             #[cfg(unix)]
@@ -245,7 +366,7 @@ fn publish_atomically(
                 options.mode(0o600);
             }
             let mut file = options.open(output)?;
-            file.write_all(&bytes)?;
+            file.write_all(&artifact.bytes)?;
             file.sync_all()?;
         }
         write_json_create_only(&stage.join("publication-control.json"), decision)?;
@@ -318,4 +439,77 @@ fn safe_text(value: &str, label: &str) -> Result<()> {
         "invalid_{label}"
     );
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::codefriend::{
+        evidence::contracts::Artifact,
+        ingestion::digest,
+        publication::manifest::{ManifestInput, MANIFEST_INPUT_SCHEMA},
+    };
+
+    #[test]
+    fn atomic_publication_uses_the_verified_snapshot_not_a_second_source_read() {
+        let target_tmp = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/test-tmp");
+        fs::create_dir_all(&target_tmp).unwrap();
+        let directory = tempfile::tempdir_in(target_tmp).unwrap();
+        let artifact_root = directory.path().join("artifacts");
+        let destination = directory.path().join("destination");
+        fs::create_dir(&artifact_root).unwrap();
+        fs::create_dir(&destination).unwrap();
+        let path = artifact_root.join("report.md");
+        let approved_bytes = b"approved bytes\n";
+        fs::write(&path, approved_bytes).unwrap();
+        let review: ReviewRecord = serde_json::from_slice(include_bytes!(
+            "../../../tests/fixtures/codefriend/evidence/review-v1.json"
+        ))
+        .unwrap();
+        let input = ManifestInput {
+            schema: MANIFEST_INPUT_SCHEMA.into(),
+            artifact_manifest: vec![Artifact {
+                path: "report.md".into(),
+                digest: digest(approved_bytes),
+            }],
+            renderer_versions: BTreeMap::from([("markdown".into(), "v1".into())]),
+            target: "published".into(),
+            claims: vec!["Verified snapshot".into()],
+            nonclaims: vec!["No remote publication".into()],
+        };
+        let publication = input.publication(&review).unwrap();
+        let decision = DecisionRecord::new(
+            &review,
+            &publication,
+            DecisionKind::Approved,
+            "operator-fixture",
+            "Exact snapshot approved",
+            10,
+            None,
+        )
+        .unwrap();
+        let snapshot = snapshot_artifacts(&artifact_root, &publication.artifact_manifest).unwrap();
+        fs::write(&path, b"mutated after verification\n").unwrap();
+        let mut receipt = AdmissionReceipt {
+            schema: ADMISSION_SCHEMA.into(),
+            decision_digest: decision.digest.clone(),
+            binding_digest: publication.binding_digest().unwrap(),
+            target: publication.target.clone(),
+            admitted_at: 11,
+            artifact_manifest_digest: publication.manifest_digest.clone(),
+            digest: String::new(),
+        };
+        receipt.digest = receipt.expected_digest().unwrap();
+        publish_atomically(
+            &snapshot,
+            &destination.join("published"),
+            &decision,
+            &receipt,
+        )
+        .unwrap();
+        assert_eq!(
+            fs::read(destination.join("published/report.md")).unwrap(),
+            approved_bytes
+        );
+    }
 }

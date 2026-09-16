@@ -1,6 +1,6 @@
 use adl::codefriend::publication::{
-    admit_local, read_publication, read_review, verify_artifacts, write_json_create_only,
-    DecisionKind, DecisionRecord, ManifestInput,
+    admit_local, append_decision, read_decision_head, read_publication, read_review,
+    verify_artifacts, write_json_create_only, DecisionKind, ManifestInput,
 };
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
@@ -52,21 +52,20 @@ fn decide(args: &[String], kind: DecisionKind) -> Result<()> {
             "--publication",
             "--actor",
             "--reason",
-            "--out",
+            "--decision-dir",
         ],
     )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
     let publication = read_publication(Path::new(flags["--publication"]))?;
-    let decision = DecisionRecord::new(
+    let decision = append_decision(
+        Path::new(flags["--decision-dir"]),
         &review,
         &publication,
         kind,
         flags["--actor"],
         flags["--reason"],
         unix_time(),
-        None,
     )?;
-    write_json_create_only(Path::new(flags["--out"]), &decision)?;
     println!("{}", serde_json::to_string(&decision)?);
     Ok(())
 }
@@ -74,34 +73,29 @@ fn decide(args: &[String], kind: DecisionKind) -> Result<()> {
 fn invalidate(args: &[String]) -> Result<()> {
     let flags = exact_flags(
         args,
-        &[
-            "--review-record",
-            "--decision",
-            "--actor",
-            "--reason",
-            "--out",
-        ],
+        &["--review-record", "--decision-dir", "--actor", "--reason"],
     )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
-    let previous = DecisionRecord::read(Path::new(flags["--decision"]), &review)?;
-    let decision = DecisionRecord::new(
+    let previous = read_decision_head(Path::new(flags["--decision-dir"]), &review)?
+        .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
+    let decision = append_decision(
+        Path::new(flags["--decision-dir"]),
         &review,
         &previous.publication,
         DecisionKind::Invalidated,
         flags["--actor"],
         flags["--reason"],
         unix_time(),
-        Some(&previous),
     )?;
-    write_json_create_only(Path::new(flags["--out"]), &decision)?;
     println!("{}", serde_json::to_string(&decision)?);
     Ok(())
 }
 
 fn inspect(args: &[String]) -> Result<()> {
-    let flags = exact_flags(args, &["--review-record", "--decision"])?;
+    let flags = exact_flags(args, &["--review-record", "--decision-dir"])?;
     let review = read_review(Path::new(flags["--review-record"]))?;
-    let decision = DecisionRecord::read(Path::new(flags["--decision"]), &review)?;
+    let decision = read_decision_head(Path::new(flags["--decision-dir"]), &review)?
+        .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
     println!("{}", serde_json::to_string(&decision)?);
     Ok(())
 }
@@ -111,16 +105,15 @@ fn admit(args: &[String]) -> Result<()> {
         args,
         &[
             "--review-record",
-            "--decision",
+            "--decision-dir",
             "--artifact-root",
             "--destination-root",
         ],
     )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
-    let decision = DecisionRecord::read(Path::new(flags["--decision"]), &review)?;
     let receipt = admit_local(
         &review,
-        &decision,
+        Path::new(flags["--decision-dir"]),
         Path::new(flags["--artifact-root"]),
         Path::new(flags["--destination-root"]),
         unix_time(),
