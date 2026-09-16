@@ -20,6 +20,7 @@ import plistlib
 import re
 import signal
 import ssl
+import statistics
 import subprocess
 import time
 import urllib.request
@@ -449,6 +450,55 @@ def main() -> int:
             require(eval_count > 0 and eval_duration_ns > 0, f"missing {mode} decode accounting")
             decode_rates[mode] = eval_count / (eval_duration_ns / 1_000_000_000)
         report["comparison"]["decode_tokens_per_second"] = decode_rates
+        blocks = []
+        for repeat in range(args.repeats):
+            block_runs = [item for item in report["runs"] if item["repeat"] == repeat]
+            block_baseline = sum(item["elapsed_seconds"] for item in block_runs if item["mode"] == "baseline")
+            block_speculative = sum(item["elapsed_seconds"] for item in block_runs if item["mode"] == "speculative")
+            block_decode = {}
+            for mode in ("baseline", "speculative"):
+                calls = [
+                    item for item in measured_calls
+                    if item.get("repeat") == repeat and item.get("mode") == mode
+                ]
+                block_decode[mode] = sum(item.get("eval_count") or 0 for item in calls) / (
+                    sum(item.get("eval_duration_ns") or 0 for item in calls) / 1_000_000_000
+                )
+            blocks.append({
+                "repeat": repeat,
+                "baseline_seconds": block_baseline,
+                "speculative_seconds": block_speculative,
+                "end_to_end_benefit_percent": (block_baseline / block_speculative - 1.0) * 100.0,
+                "baseline_decode_tokens_per_second": block_decode["baseline"],
+                "speculative_decode_tokens_per_second": block_decode["speculative"],
+                "decode_benefit_percent": (block_decode["speculative"] / block_decode["baseline"] - 1.0) * 100.0,
+            })
+        end_benefits = [item["end_to_end_benefit_percent"] for item in blocks]
+        decode_benefits = [item["decode_benefit_percent"] for item in blocks]
+        required_wins = max(1, (3 * len(blocks) + 3) // 4)
+        end_wins = sum(value > 0 for value in end_benefits)
+        decode_wins = sum(value > 0 for value in decode_benefits)
+        robust_keep = (
+            end_wins >= required_wins
+            and decode_wins >= required_wins
+            and statistics.median(end_benefits) > 5.0
+            and statistics.median(decode_benefits) > 0.0
+        )
+        robust_retire = (
+            len(blocks) - end_wins >= required_wins
+            and len(blocks) - decode_wins >= required_wins
+            and statistics.median(end_benefits) < -5.0
+            and statistics.median(decode_benefits) < 0.0
+        )
+        report["comparison"]["per_block"] = blocks
+        report["comparison"]["robustness"] = {
+            "required_wins": required_wins,
+            "end_to_end_wins": end_wins,
+            "decode_wins": decode_wins,
+            "median_end_to_end_benefit_percent": statistics.median(end_benefits),
+            "median_decode_benefit_percent": statistics.median(decode_benefits),
+            "classification": "keep" if robust_keep else ("retire" if robust_retire else "repair_inconclusive"),
+        }
         require(report["comparison"]["output_equivalence"], "speculative output differs from baseline")
         report["runtime_provider_calls"] = proxy.calls
         report["result"] = "pass"

@@ -11,7 +11,7 @@ branch: "codex/905-v0922-speculative-decoding-retest"
 generated_at: "2026-09-12T00:18:14.558347+00:00"
 card_status: "ready"
 status: "completed"
-activation_state: "executed_re_review_pending"
+activation_state: "executed_final_review_pending"
 plan_revision: 1
 initial_pvf_lane: "runtime"
 planned_pvf_lane: "runtime"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Final comparable run reuses the exact Runtime agent identity across both arms, verifies the same immutable GGUF blob plus full model/tokenizer metadata, alternates A/B then B/A, and symmetrically preloads/prewarms every arm switch. Eight exact output pairs passed. Speculative execution was 12.98% faster end-to-end and 17.29% faster in decode throughput. Invalid draft configuration failed closed; operator-selected ordinary generation delivered. Accepted/proposed counters remain unavailable. Independent re-review, publication, CI, merge and terminal closeout remain pending."
+notes: "Final same-identity comparison completed with eight exact output pairs, immutable model/tokenizer identity, counterbalanced symmetric preload/prewarm, invalid-draft rejection, and healthy operator-selected ordinary recovery. Performance is inconclusive: speculative lost end-to-end in three of four blocks and decode wins were two of four; positive aggregates were outlier/regime-shift dominated. Recommendation is repair the benchmark and leave speculative decoding unqualified. Final exact-head review, publication, CI, merge and terminal closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Final comparable run reuses the exact Runtime agent identity across both arms, verifies the same immutable GGUF blob plus full model/tokenizer metadata, alternates A/B then B/A, and symmetrically preloads/prewarms every arm switch. Eight exact output pairs passed. Speculative execution was 12.98% faster end-to-end and 17.29% faster in decode throughput. Invalid draft configuration failed closed; operator-selected ordinary generation delivered. Accepted/proposed counters remain unavailable. Independent re-review, publication, CI, merge and terminal closeout remain pending.
+Final same-identity comparison completed with eight exact output pairs, immutable model/tokenizer identity, counterbalanced symmetric preload/prewarm, invalid-draft rejection, and healthy operator-selected ordinary recovery. Performance is inconclusive: speculative lost end-to-end in three of four blocks and decode wins were two of four; positive aggregates were outlier/regime-shift dominated. Recommendation is repair the benchmark and leave speculative decoding unqualified. Final exact-head review, publication, CI, merge and terminal closeout remain pending.

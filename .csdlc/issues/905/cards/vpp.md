@@ -41,7 +41,7 @@ parallel_groups:
 validation_commands:
   - "python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; bundled Python adl/tools/issue905_runtime_speculative_retest.py with current Runtime binaries, source model Qwen3.5:9b, output .adl/runs/905/runtime-run-14 and four counterbalanced repeats; git diff --check; native validate. Final tracked report: .csdlc/evidence/905/RUNTIME_RETEST.json."
 failure_policy: "Required failures, skipped or zero-test proof block acceptance. Preserve guards; record durable anomalies; repair and rerun affected proof and independent exact-head review. CI evidence is separate from local proof."
-notes: "Executed current Runtime path with immutable model/tokenizer identity and the exact same Runtime agent identity in both arms. Eight exact pairs passed. Speculative execution improved end-to-end latency 12.98% and decode throughput 17.29%. Invalid draft configuration was rejected before admission; operator-selected ordinary recovery delivered. This does not claim automatic fallback or accepted/proposed-token telemetry. CI remains separate."
+notes: "Correctness and bounded recovery passed. Performance robustness failed: end-to-end wins 1/4 with -5.96% median benefit; decode wins 2/4 with -11.33% median benefit. Positive aggregates are not qualification evidence. Accepted/proposed counters are unavailable. Repair requires a stationarity criterion, larger paired denominator and robust aggregate/confidence rule."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Executed current Runtime path with immutable model/tokenizer identity and the exact same Runtime agent identity in both arms. Eight exact pairs passed. Speculative execution improved end-to-end latency 12.98% and decode throughput 17.29%. Invalid draft configuration was rejected before admission; operator-selected ordinary recovery delivered. This does not claim automatic fallback or accepted/proposed-token telemetry. CI remains separate.
+Correctness and bounded recovery passed. Performance robustness failed: end-to-end wins 1/4 with -5.96% median benefit; decode wins 2/4 with -11.33% median benefit. Positive aggregates are not qualification evidence. Accepted/proposed counters are unavailable. Repair requires a stationarity criterion, larger paired denominator and robust aggregate/confidence rule.

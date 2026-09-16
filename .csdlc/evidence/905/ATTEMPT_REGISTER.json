@@ -82,9 +82,9 @@
     },
     {
       "attempt": 14,
-      "result": "pass",
+      "result": "completed_inconclusive",
       "stage": "same_identity_counterbalanced_comparison_and_invalid_draft_recovery",
-      "reason": "same Runtime identity for both arms; eight exact pairs; speculative 12.98 percent faster end-to-end and 17.29 percent faster decode; invalid draft configuration rejected and operator-selected ordinary generation delivered"
+      "reason": "same Runtime identity and eight exact pairs; aggregate appeared positive but per-block robustness failed: speculative lost end-to-end in three of four blocks and decode wins were two of four"
     }
   ],
   "final_attempt": 14

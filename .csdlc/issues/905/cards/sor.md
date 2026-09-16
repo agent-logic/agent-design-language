@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][SPEC-RETEST] Speculative-decoding requalification
 Branch: codex/905-v0922-speculative-decoding-retest
 Card Status: draft
-Status: implementation_complete_re_review_pending
+Status: implementation_complete_final_review_pending
 Generated: 2026-09-12T00:18:14.558347+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Current Runtime requalification completed with a keep disposition for the declared configuration. Eight exact-output pairs passed. Under counterbalanced symmetric preload/prewarm using the same Runtime identity, speculative execution was 12.98% faster end-to-end and 17.29% faster in decode throughput. Invalid draft configuration failed closed and operator-selected ordinary recovery delivered.
+Current Runtime requalification completed with a repair/inconclusive disposition. Eight exact-output pairs passed and invalid draft configuration failed closed with healthy operator-selected ordinary recovery. Performance did not meet robustness: speculative lost end-to-end in three of four blocks and decode wins were two of four; positive aggregate metrics were regime-shift/outlier dominated.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -55,9 +55,9 @@ Current Runtime requalification completed with a keep disposition for the declar
 - Budget source: `no operator token budget assigned`
 - Goal metrics data source: `.csdlc/evidence/905/RUNTIME_RETEST.json`
 - Goal metrics source ref: `.csdlc/evidence/905/RUNTIME_RETEST.json`
-- Data-source confidence: `high for the declared local engine/model/hardware/corpus configuration; external generalization unclaimed`
+- Data-source confidence: `high that this declared run is statistically inconclusive; low for any keep/retire performance conclusion`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_re_review_pending`
+- Completion state: `implementation_complete_final_review_pending`
 - Issue goal ref: `Active #905 full implementation and executed requalification goal under Sprint 6 #932`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/905/RUNTIME_RETEST.json`
@@ -69,8 +69,8 @@ Current Runtime requalification completed with a keep disposition for the declar
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
 - Variance analysis required: `true`
 - Variance analysis completed: `true`
-- Variance category: `measured_benefit`
-- Variance note: `Speculative arm was 12.98% faster end-to-end and 17.29% faster in decode throughput in the final same-identity counterbalanced warm comparison.`
+- Variance category: `performance_regime_shift`
+- Variance note: `Aggregate suggested +12.98% end-to-end and +17.29% decode, but end-to-end block wins were 1/4 with -5.96% median and decode wins 2/4 with -11.33% median; robustness gate failed.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
@@ -92,7 +92,7 @@ Current Runtime requalification completed with a keep disposition for the declar
 - Verification performed:
   - `Pending hosted CI and post-merge ancestry verification`
     `Local candidate complete; no integration claim before publication and merge.`
-- Result: `not_integrated; independent review, PR, CI and merge pending`
+- Result: `not_integrated; final independent review, PR, CI and merge pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; current Runtime command recorded in VPP; git diff --check; native validate`
-    `Establishes correctness and a 12.98% end-to-end / 17.29% decode-throughput benefit for the declared current Runtime, model, engine and hardware configuration; records fallback and telemetry limits.`
+    `Establishes same-model/tokenizer correctness and bounded invalid-draft recovery, and prevents aggregate-only speed claims by recording per-block distributions and a robustness gate.`
 - Results:
-  - `PASS: 13 deterministic accounting tests, Python compile, immutable model/tokenizer identity checks, eight-pair current Runtime proof, counterbalanced symmetric warm procedure, controlled invalid-draft rejection, healthy operator-selected ordinary recovery and diff hygiene. Exact-head re-review and CI pending.`
+  - `PASS for correctness, identity, bounded recovery, focused tests and artifact hygiene. PERFORMANCE INCONCLUSIVE: declared per-block robustness gate failed. Final exact-head review and CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: pass_local_re_review_pending
+    status: pass_correctness_performance_inconclusive_final_review_pending
     checks_run:
-      - "Eight of eight paired outputs exactly matched expected markers; speculative improved end-to-end latency and decode throughput."
+      - "Eight of eight paired outputs matched exactly; performance robustness gate failed and is recorded as repair_inconclusive."
   determinism:
     status: pass for declared exact-output fixed-marker corpus
     replay_verified: true
@@ -166,13 +166,13 @@ verification_summary:
 - Primary proof surface: `.csdlc/evidence/905/RUNTIME_RETEST.json`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `JSON parse and native card validation`
-- Hash/byte-stability checks: `Four exact response pairs; tracked evidence JSON parse`
-- Missing/optional artifacts and rationale: `Ollama 0.32.14 does not expose accepted/proposed draft-token counters. The result records this limitation and makes no counter claim.`
+- Hash/byte-stability checks: `Eight exact response pairs; tracked evidence JSON parse`
+- Missing/optional artifacts and rationale: `Accepted/proposed draft-token counters are unavailable. Performance qualification is withheld because block-level robustness also failed; neither limitation is waived.`
 
 ## Decisions / Deviations
 - `#864 CLOSED; PR #865 MERGED at f1c4e2a915c215797f0d2708cb8b0568f2b80b32, ancestor of selected main`
-- `Keep speculative decoding qualified for the declared Runtime/Ollama/Qwen3.5:9b/Apple M4 Pro configuration. This bounded result does not generalize across engines, models or hardware and does not claim automatic fallback.`
+- `Repair the qualification benchmark and leave speculative decoding unqualified. Add stationarity criteria, a larger paired denominator and robust aggregate/confidence rule in follow-on work. No feature decommissioning or model deletion.`
 
 ## Follow-ups / Deferred work
-- `Complete exact-head re-review, native review/publication and CI; fix any actionable finding before merge.`
-- `Continue per-model/hardware qualification; strengthen attribution when accepted/proposed draft-token telemetry becomes available.`
+- `Complete final exact-head review, native review/publication and CI; fix any actionable finding before merge.`
+- `Follow-on benchmark repair: explicit stabilization, larger paired blocks, per-block distribution and robust confidence/qualification threshold.`

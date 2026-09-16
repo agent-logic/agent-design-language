@@ -341,7 +341,53 @@
       }
     },
     "prompt_token_delta": -2,
-    "prompt_token_delta_percent": -0.0127420998980632
+    "prompt_token_delta_percent": -0.0127420998980632,
+    "per_block": [
+      {
+        "repeat": 0,
+        "baseline_seconds": 15.344241999999213,
+        "speculative_seconds": 17.540831041002093,
+        "end_to_end_benefit_percent": -12.522719339056987,
+        "baseline_decode_tokens_per_second": 35.14732587428973,
+        "speculative_decode_tokens_per_second": 16.37897899996506,
+        "decode_benefit_percent": -53.39907491526608
+      },
+      {
+        "repeat": 1,
+        "baseline_seconds": 16.946424041998398,
+        "speculative_seconds": 17.004550625002594,
+        "end_to_end_benefit_percent": -0.34182957424778726,
+        "baseline_decode_tokens_per_second": 6.988826729746264,
+        "speculative_decode_tokens_per_second": 16.134028619759697,
+        "decode_benefit_percent": 130.85460898735798
+      },
+      {
+        "repeat": 2,
+        "baseline_seconds": 19.623526458002743,
+        "speculative_seconds": 9.56416879200333,
+        "end_to_end_benefit_percent": 105.1775421865214,
+        "baseline_decode_tokens_per_second": 11.13916530521313,
+        "speculative_decode_tokens_per_second": 13.634677894369423,
+        "decode_benefit_percent": 22.403048350385756
+      },
+      {
+        "repeat": 3,
+        "baseline_seconds": 7.481197207998775,
+        "speculative_seconds": 8.459904208000808,
+        "end_to_end_benefit_percent": -11.568771654369758,
+        "baseline_decode_tokens_per_second": 36.66190876561797,
+        "speculative_decode_tokens_per_second": 20.137985476484875,
+        "decode_benefit_percent": -45.071093801393815
+      }
+    ],
+    "robustness": {
+      "required_wins": 3,
+      "end_to_end_wins": 1,
+      "decode_wins": 2,
+      "median_end_to_end_benefit_percent": -5.955300614308773,
+      "median_decode_benefit_percent": -11.33402272550403,
+      "classification": "repair_inconclusive"
+    }
   },
   "runtime_provider_calls": [
     {
@@ -762,13 +808,13 @@
   ],
   "accepted_proposed_tokens": "not_exposed_by_ollama_0.32.14_api",
   "decision": {
-    "recommendation": "keep",
-    "scope": "keep speculative decoding qualified for this declared current Runtime, model and hardware configuration",
-    "reason": "eight exact output pairs; 12.98 percent lower measured end-to-end time and 17.29 percent higher decode throughput under counterbalanced prewarmed execution",
+    "recommendation": "repair",
+    "scope": "do not qualify speculative decoding from this run; repair the benchmark with an explicit stabilization criterion and larger robust denominator",
+    "reason": "aggregate gain is dominated by one regime-shift block and baseline decode outliers; speculative lost end-to-end in three of four blocks and did not meet the 3-of-4 decode-win gate",
     "limitations": [
       "accepted/proposed draft-token counters unavailable",
       "two-prompt fixed-marker corpus",
-      "operator-selected fallback after invalid draft configuration rejection is not automatic Runtime fallback"
+      "operator-selected recovery after invalid draft configuration rejection is not automatic Runtime fallback"
     ]
   }
 }

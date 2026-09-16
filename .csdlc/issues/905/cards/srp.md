@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/905/cards/sip.md"
   - ".csdlc/issues/905/cards/vpp.md"
 review_results:
-  findings_status: "findings_resolved_re_review_pending"
-  recommended_outcome: "block_pending_re_review"
-notes: "Reviewer review_905 validated the original focused tests and diff hygiene, then requested four proof corrections. Corrected final run is runtime-run-14. Publication remains blocked until exact-head re-review passes."
+  findings_status: "findings_resolved_final_review_pending"
+  recommended_outcome: "block_pending_final_review"
+notes: "review_905 reviewed d032988e8287872dc332d4aa3d9fc293e8ee0632 and f3e46f75438ea64bf46f4137e962e9a2f87ef705. The final remediation rejects aggregate-only qualification and records repair/unqualified disposition. Publication is blocked until final exact-head clearance."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent review at d032988e8287872dc332d4aa3d9fc293e8ee0632 found four P2s: missing immutable model/tokenizer identity proof; generic missing-model rather than invalid-draft recovery; order/cache-confounded cold metrics; and stale SOR execution fields.
+- First review found four P2 proof/lifecycle defects; remediation review confirmed three resolved and found one remaining P2 statistical robustness defect plus a stale P3 pair count. The aggregate gain was driven by a regime shift/outliers while speculative lost end-to-end in three of four blocks.
 
 ### Dispositions
 
-- All four P2s were repaired. The harness now proves identical base blob/model/tokenizer metadata and only draft_num_predict differs; rejects an invalid draft setting and records operator-selected ordinary recovery; uses counterbalanced symmetric preload/prewarm with the exact same Runtime identity; and lifecycle truth is normalized. Exact-head re-review is pending.
+- All findings are now addressed. The harness and evidence retain per-block end-to-end/decode benefits, medians, win counts and a 3-of-4 robustness gate. The gate classifies this run repair_inconclusive, so cards no longer claim keep/high confidence. SOR pair count is eight. Final exact-head review remains pending.
 
 ### Recommended Outcome
 
-- block_pending_re_review
+- block_pending_final_review
 
 ## Notes
 
-Reviewer review_905 validated the original focused tests and diff hygiene, then requested four proof corrections. Corrected final run is runtime-run-14. Publication remains blocked until exact-head re-review passes.
+review_905 reviewed d032988e8287872dc332d4aa3d9fc293e8ee0632 and f3e46f75438ea64bf46f4137e962e9a2f87ef705. The final remediation rejects aggregate-only qualification and records repair/unqualified disposition. Publication is blocked until final exact-head clearance.
