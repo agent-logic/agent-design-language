@@ -604,12 +604,32 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .filter_map(|line| line.strip_prefix("worktree "))
             .any(|path| path == bound_path);
         let (root, key) = context.semantic_root_key()?;
-        let snapshot =
-            match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
-                semantic::Observation::Current(snapshot)
-                | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
-                _ => return Err("intent_cleanup_semantic_state_required".into()),
-            };
+        let observation =
+            DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)?;
+        if receipt
+            .no_pr_closeout
+            .as_ref()
+            .is_some_and(|closeout| closeout.disposition == NoPrDisposition::CoordinationCompleted)
+            && matches!(observation, semantic::Observation::LegacyMigrationRequired)
+            && !registered
+            && !candidate.exists()
+        {
+            context.fresh()?;
+            return Ok(json!({
+                "status":"expected_noop",
+                "read_only":true,
+                "operational_authority":false,
+                "performed_mutation":false,
+                "issue":context.issue,
+                "terminal_head":receipt.head_sha,
+                "compatibility":"legacy_coordination_only"
+            }));
+        }
+        let snapshot = match observation {
+            semantic::Observation::Current(snapshot)
+            | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
+            _ => return Err("intent_cleanup_semantic_state_required".into()),
+        };
         if registered || candidate.exists() {
             // A missing source index does not mean Git removal completed. Resume
             // only the exact registered checkout backed by verified archive bytes
@@ -850,6 +870,11 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
     } else {
         native_request(context)?
     };
+    let legacy_coordination_compatibility = native
+        .no_pr_closeout
+        .as_ref()
+        .is_some_and(|closeout| closeout.disposition == NoPrDisposition::CoordinationCompleted)
+        && context.semantic_migration_required()?;
     match request.command.as_str() {
         "finish" => {
             if request.execute
@@ -879,6 +904,53 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             };
             if command == SemanticCommand::Finish {
                 catch_up_terminal_merge_state(context, &staged)?;
+            }
+            if legacy_coordination_compatibility {
+                if receipt_path.exists() {
+                    let receipt: DurableTerminalReceipt = serde_json::from_slice(
+                        &fs::read(&receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
+                    )
+                    .map_err(|_| "intent_terminal_receipt_invalid")?;
+                    if receipt.repository != context.repository
+                        || receipt.issue != context.issue
+                        || receipt.head_sha != context.head
+                        || receipt.disposition != "closed_out"
+                        || receipt.no_pr_closeout != native.no_pr_closeout
+                        || receipt.state_digest.is_none()
+                        || receipt.state_digest != file_digest(&state_path)?
+                    {
+                        return Err("intent_terminal_receipt_mismatch".into());
+                    }
+                    return Ok(json!({
+                        "status":"expected_noop",
+                        "read_only":true,
+                        "operational_authority":true,
+                        "performed_mutation":false,
+                        "effects_unknown":false,
+                        "result":staged,
+                        "compatibility":"legacy_coordination_only"
+                    }));
+                }
+                native.terminal_state = Some(TerminalStateWriteRequest {
+                    repository_root: context.primary.clone(),
+                    state_path,
+                    receipt_path: receipt_path.clone(),
+                    expected_state_digest: file_digest(
+                        &output_root.join(format!("v3/issues/{}/terminal.json", context.issue)),
+                    )?,
+                });
+                let result = prepare_terminal_finish_with_github_observation(&native, &mut process)
+                    .map_err(|finding| finding.code)?;
+                let completed = result.status == TerminalRouteStatus::Ready;
+                return Ok(json!({
+                    "status":if completed {"completed"} else {"blocked"},
+                    "read_only":false,
+                    "operational_authority":result.operational_authority,
+                    "performed_mutation":if completed {Some(true)} else {None},
+                    "effects_unknown":!completed,
+                    "result":result,
+                    "compatibility":"legacy_coordination_only"
+                }));
             }
             let semantic = semantic_for(context, command)?;
             let bytes = encode(&native)?;
@@ -1033,6 +1105,23 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let cleanup = native.cleanup.as_mut().expect("cleanup constructed above");
             cleanup.remove = true;
             cleanup.preview_receipt_digest = Some(native_digest);
+            if legacy_coordination_compatibility {
+                let result = prepare_intent_cleanup(&native).map_err(|finding| finding.code)?;
+                let removed = matches!(result.cleanup, Some(CleanupDecision::Removed { .. }));
+                let noop = matches!(
+                    result.cleanup,
+                    Some(CleanupDecision::Absent { .. } | CleanupDecision::AlreadyRemoved { .. })
+                );
+                return Ok(json!({
+                    "status":if removed {"completed"} else if noop {"expected_noop"} else {"blocked"},
+                    "read_only":false,
+                    "operational_authority":removed,
+                    "performed_mutation":if removed {Some(true)} else if noop {Some(false)} else {None},
+                    "effects_unknown":!removed&&!noop,
+                    "result":result,
+                    "compatibility":"legacy_coordination_only"
+                }));
+            }
             let semantic = semantic_for(context, SemanticCommand::RecordCleanup)?;
             let archive = if semantic
                 .snapshot

@@ -342,6 +342,69 @@ fn installed_legacy_coordination_completion_uses_native_guards_and_replays_once(
         .root
         .join(".git/csdlc-v3/semantic/issues/505")
         .exists());
+
+    let disposition=fixture.write_json("legacy-disposition.json",&json!({"disposition":"coordination_completed","operator":"synthetic-fixture-operator","rationale":"Verified legacy coordination delivery","evidence_refs":[".csdlc/evidence/505/coordination.json"]}));
+    let finish = success(fixture.run(
+        &linked,
+        &[
+            "finish",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    assert_eq!(finish["status"], "completed");
+    assert_eq!(finish["compatibility"], "legacy_coordination_only");
+    let receipt: Value = serde_json::from_slice(
+        &fs::read(
+            fixture
+                .root
+                .join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        receipt["no_pr_closeout"]["disposition"],
+        "coordination_completed"
+    );
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/semantic/issues/505")
+        .exists());
+    let finish_replay = success(fixture.run(
+        &linked,
+        &[
+            "finish",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    assert_eq!(finish_replay["status"], "expected_noop");
+    assert_eq!(finish_replay["performed_mutation"], false);
+    assert_eq!(finish_replay["compatibility"], "legacy_coordination_only");
+
+    let cleanup_preview = success(fixture.run(&linked, &["clean", "505", "--preview", "plan"]));
+    let cleanup_token = cleanup_preview["preview_token"]
+        .as_str()
+        .expect("legacy cleanup preview token");
+    let cleanup = success(fixture.run(
+        &linked,
+        &["clean", "505", "--execute", "--preview", cleanup_token],
+    ));
+    assert_eq!(cleanup["status"], "completed");
+    assert_eq!(cleanup["compatibility"], "legacy_coordination_only");
+    assert!(!linked.exists());
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/semantic/issues/505")
+        .exists());
+    let primary = fixture.root.clone();
+    let cleanup_replay = success(fixture.run(&primary, &["clean", "505"]));
+    assert_eq!(cleanup_replay["status"], "expected_noop");
+    assert_eq!(cleanup_replay["performed_mutation"], false);
+    assert_eq!(cleanup_replay["compatibility"], "legacy_coordination_only");
 }
 
 #[test]
