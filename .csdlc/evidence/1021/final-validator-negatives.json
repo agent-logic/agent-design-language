@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "case": "missing_inputs",
+      "exit": 2,
+      "reason_code": "missing_inputs",
+      "stdout_sha256": "88a31f2c8856c9b5c6f2f980608da8c0810de38de2e013730f2e8cf9e47994be"
+    },
+    {
+      "case": "manifest_symlink",
+      "exit": 1,
+      "reason_code": "symlink_rejected",
+      "stdout_sha256": "9ab2e385a9add1b74883d64ecaff087385479bfa6a88b1c17e5bd770ee597497"
+    },
+    {
+      "case": "special_file",
+      "exit": 1,
+      "reason_code": "special_file_rejected",
+      "stdout_sha256": "24019686587841cf12401effcecbaab419d24c40887a93ab14312e162a70c9ef"
+    },
+    {
+      "case": "ancestor_symlink",
+      "exit": 1,
+      "reason_code": "symlink_rejected",
+      "stdout_sha256": "9ab2e385a9add1b74883d64ecaff087385479bfa6a88b1c17e5bd770ee597497"
+    },
+    {
+      "case": "reviewed_manifest_pin",
+      "exit": 1,
+      "reason_code": "reviewed_manifest_mismatch",
+      "stdout_sha256": "e7e5692144f4d8c5c3aace84ae6d2094cbc7904948ae448a93666170e967bc48"
+    },
+    {
+      "case": "authentic_inventory_recomputation",
+      "exit": 1,
+      "reason_code": "source_inventory_mismatch",
+      "stdout_sha256": "8151368dcdbbc4ebe6856ea52f13fdbab4551cf7ce60c956518406955d73ae08"
+    },
+    {
+      "case": "consistent_portable_manifest_forgery",
+      "exit": 1,
+      "reason_code": "reviewed_manifest_mismatch",
+      "stdout_sha256": "e7e5692144f4d8c5c3aace84ae6d2094cbc7904948ae448a93666170e967bc48"
+    },
+    {
+      "case": "git_census_failure",
+      "exit": 1,
+      "reason_code": "worktree_census_unavailable",
+      "stdout_sha256": "010b3a515cd48c51015967aefa3f0cdb95887f53990676a7300401a4a5ef5708"
+    },
+    {
+      "case": "report_fifo",
+      "exit": 1,
+      "reason_code": "execution_report_invalid",
+      "stdout_sha256": "530947abc0e3b102a3219c3349e3763c40c2202942bd23c51eadc0250cd0f2de"
+    }
+  ],
+  "denominator": 9,
+  "lane": "tooling",
+  "proof_role": "read-only validator denial",
+  "determinism": "fixed fixture mutations",
+  "release_gate": false
+}

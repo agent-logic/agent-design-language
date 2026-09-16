@@ -1,0 +1,51 @@
+{
+  "schema": "adl.issue1021.publication_evidence.v1",
+  "issue": 1021,
+  "status": "draft_pending_full_conversion_gate",
+  "scope": "Authenticated portable generation-9 fixture, read-only validator, isolated test harness and explicitly authorized test-runner repair.",
+  "passed": {
+    "conversion_admission_tests": 14,
+    "conversion_fault_recovery_tests": 1,
+    "final_validator_negative_cases": 9,
+    "final_review_admission_regressions": 3,
+    "independent_blake3_vectors": 13,
+    "retained_conversion_validator_unit_tests": 8,
+    "format_and_diff_checks": true
+  },
+  "proof_boundaries": {
+    "full_gate": "In progress; no claim that all 7 roles, 12 scenarios and 30 fault cases passed.",
+    "source_revision": "Finite and full-gate candidate binaries were built at base 81b22474956a6e0b4a3b54ffa5b648b303536c6b. PROOF_SUMMARY.json distinguishes harness/validator versions. Candidate product implementation and runner bytes are unchanged by final validator admission fixes and Rust formatting.",
+    "final_packet_admission": "Pending full gate completion.",
+    "ci": "Not yet run for this unpublished branch.",
+    "native_lifecycle": "status rejects legacy record with intent_semantic_migration_required; publication preview rejects intent_plan_missing. No live conversion or fallback writer used.",
+    "downstream": "Issue 873 owns independent requalification. No sprint or downstream completion claim."
+  },
+  "earlier_attempts": [
+    {
+      "attempt": "gate-1",
+      "status": "failed",
+      "reason": "Windows path denial assertion; fixed."
+    },
+    {
+      "attempt": "gate-2",
+      "status": "failed",
+      "reason": "Archived writer lacked isolated operational repository context; runner repair authorized and implemented."
+    }
+  ],
+  "scope_authorization": "Operator explicitly authorized adl/tools/run_issue872_conversion_rehearsal.py test-runner repair and gh draft PR creation after native failure was shown.",
+  "pvf": {
+    "lane": "deterministic_local_integration",
+    "proof_role": "portable fixture authentication and old-owner conversion admission",
+    "determinism": "fixed immutable inventories, controlled fixture mutations and isolated repositories",
+    "resources": "local CPU and filesystem; no cloud/provider/live-service work",
+    "release_gate": true,
+    "ignored_gate": "Requires explicit exact old binary and isolated generation-9 fixture inputs; ignored or zero-test results do not prove conversion."
+  },
+  "retained_stream_sha256": {
+    "finite.stdout": "b10cb369c7e05bfe5f7cb54e4855e27ebc7f20af99748ab222cba2009cf9ea83",
+    "finite.stderr": "7e2612fc09424a9e24d1b753a37adf20232e56ce01f051fba858a028187ae9df",
+    "final-admission-review-regressions.json": "1ac3dfc33566540ecc6ea90d1f5f7273790999fd6e4024876d2401bd0a5c3b9b",
+    "final-validator-negatives.json": "b27a16e2a38a8c4051a92b30fad22db75b4372c6cdeb12b5f5b9e7907e646f89"
+  },
+  "effects": "No product code, live conversion, activation or shared binary installation. GitHub draft PR transport is separate from isolated fixture proof effects."
+}

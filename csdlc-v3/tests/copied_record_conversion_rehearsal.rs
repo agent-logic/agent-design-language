@@ -84,16 +84,119 @@ fn repository_root() -> PathBuf {
 }
 
 fn copy_tree(source: &Path, destination: &Path) {
+    assert!(
+        fs::symlink_metadata(source).unwrap().is_dir(),
+        "copy source must be a directory"
+    );
     fs::create_dir_all(destination).unwrap();
     for entry in fs::read_dir(source).unwrap() {
         let entry = entry.unwrap();
         let target = destination.join(entry.file_name());
-        if entry.file_type().unwrap().is_dir() {
+        let kind = entry.file_type().unwrap();
+        assert!(!kind.is_symlink(), "symlink copy source rejected");
+        if kind.is_dir() {
             copy_tree(&entry.path(), &target);
         } else {
+            assert!(kind.is_file(), "special copy source rejected");
             fs::copy(entry.path(), target).unwrap();
         }
     }
+}
+
+fn generation9_validation(fixture_root: &Path, old_binary: &Path, extra: &[&str]) -> (bool, Value) {
+    let repo = repository_root();
+    let mut command = Command::new("python3");
+    command.args([
+        repo.join("adl/tools/validate_issue872_generation9_fixture.py")
+            .to_str()
+            .unwrap(),
+        "--fixture-root",
+        fixture_root.to_str().unwrap(),
+        "--old-binary",
+        old_binary.to_str().unwrap(),
+    ]);
+    command.args(extra).current_dir(&repo);
+    let output = command.output().unwrap();
+    let result: Value = serde_json::from_slice(&output.stdout).unwrap_or_else(|error| {
+        panic!(
+            "generation-9 validator emitted invalid JSON: {error}; stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        )
+    });
+    (output.status.success(), result)
+}
+
+fn assert_generation9_rejected(fixture_root: &Path, old_binary: &Path, reason: &str) {
+    let (success, result) = generation9_validation(fixture_root, old_binary, &[]);
+    assert!(!success, "negative fixture unexpectedly passed: {reason}");
+    assert_eq!(result["status"], "fail", "negative fixture: {reason}");
+    let expected = match reason {
+        "missing" | "extra" => "inventory_coverage_mismatch",
+        "changed" | "unrecorded-normalization" => "portable_hash_mismatch",
+        "host-path" | "windows-host-path" => "absolute_host_path",
+        "credential" => "credential_like_content",
+        "symlink" => "symlink_rejected",
+        "generation10" | "wrong-digest" => "identity_mismatch",
+        "traversal" => "path_escape",
+        "wrong binary" => "old_binary_mismatch",
+        "registered worktree root" => "registered_worktree_rejected",
+        "direct archive" | "missing input" => "manifest_missing",
+        _ => panic!("negative case has no declared reason: {reason}"),
+    };
+    assert_eq!(
+        result["reason_code"], expected,
+        "negative fixture: {reason}"
+    );
+}
+
+fn bind_portable_generation9_state(root: &Path, worktree: &Path) -> String {
+    const LOGICAL_WORKTREE: &str = "adl://worktree/issue/868";
+    let mut substitutions = 0;
+    for relative in [
+        "binding.json",
+        "index.json",
+        "cards/sip.values.json",
+        "cards/stp.values.json",
+        "cards/spp.values.json",
+        "cards/vpp.values.json",
+        "cards/srp.values.json",
+        "cards/sor.values.json",
+    ] {
+        let path = root.join(relative);
+        let before = fs::read_to_string(&path).unwrap();
+        substitutions += before.matches(LOGICAL_WORKTREE).count();
+        fs::write(
+            &path,
+            before.replace(LOGICAL_WORKTREE, worktree.to_str().unwrap()),
+        )
+        .unwrap();
+    }
+    assert_eq!(
+        substitutions, 8,
+        "portable worktree substitution denominator"
+    );
+
+    let index_path = root.join("index.json");
+    let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index.as_object_mut().unwrap().remove("digest");
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&serde_json::to_vec(&index).unwrap());
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            hasher.update(&fs::read(root.join(format!("cards/{kind}.{suffix}"))).unwrap());
+        }
+    }
+    hasher.update(&fs::read(root.join("binding.json")).unwrap());
+    let intent_plan = root.join("intent-plan.json");
+    if intent_plan.is_file() {
+        hasher.update(b"csdlc.v3.intent_plan.v1\0");
+        hasher.update(&fs::read(intent_plan).unwrap());
+    }
+    let digest = hasher.finalize().to_hex().to_string();
+    index["digest"] = json!(digest);
+    write_json(&index_path, &index);
+    digest
 }
 
 fn normalize_observation_seed(root: &Path, issue: u64) {
@@ -169,6 +272,12 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         std::env::var_os("ISSUE872_OLD_STATE")
             .expect("ISSUE872_OLD_STATE is required with ISSUE872_OLD_CSDLC"),
     );
+    let (input_ok, input_result) =
+        generation9_validation(&proving_old_state, &proving_old_owner, &[]);
+    assert!(
+        input_ok,
+        "original inputs rejected before copying: {input_result}"
+    );
     let nonce = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
@@ -177,6 +286,179 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         PathBuf::from("/Volumes/FastWork/adl-worktrees")
             .join(format!(".csdlc-872-fixture-{nonce}")),
     );
+    let old = fixture.0.join("old-csdlc");
+    let validated_old_state = fixture.0.join("validated-generation9-state");
+    fs::create_dir_all(&fixture.0).unwrap();
+    fs::copy(&proving_old_owner, &old).unwrap();
+    copy_tree(&proving_old_state, &validated_old_state);
+    command(&fixture.0, "chmod", &["+x", old.to_str().unwrap()]);
+    let (fixture_validation_success, fixture_validation) =
+        generation9_validation(&validated_old_state, &old, &[]);
+    assert!(
+        fixture_validation_success,
+        "generation-9 fixture validation failed: {fixture_validation}"
+    );
+    assert_eq!(fixture_validation["status"], "pass");
+    assert_eq!(
+        fixture_validation["proof_denominator"]["portable_files"],
+        14
+    );
+    assert_eq!(
+        fixture_validation["proof_denominator"]["transformations"],
+        8
+    );
+    assert_eq!(fixture_validation["proof_denominator"]["old_binaries"], 1);
+
+    let negatives = fixture.0.join("generation9-negatives");
+    for name in [
+        "missing",
+        "extra",
+        "changed",
+        "unrecorded-normalization",
+        "host-path",
+        "windows-host-path",
+        "credential",
+    ] {
+        copy_tree(&validated_old_state, &negatives.join(name));
+    }
+    fs::remove_file(negatives.join("missing/portable/cards/sip.md")).unwrap();
+    fs::write(negatives.join("extra/portable/extra.json"), "{}\n").unwrap();
+    fs::write(negatives.join("changed/portable/cards/sip.md"), "changed\n").unwrap();
+    fs::write(
+        negatives.join("unrecorded-normalization/portable/binding.json"),
+        "{\"worktree\":\"adl://worktree/issue/other\"}\n",
+    )
+    .unwrap();
+    fs::write(
+        negatives.join("host-path/portable/binding.json"),
+        "{\"worktree\":\"/Users/example/live\"}\n",
+    )
+    .unwrap();
+    fs::write(
+        negatives.join("windows-host-path/portable/binding.json"),
+        "{\"worktree\":\"C:\\\\Users\\\\example\\\\live\"}\n",
+    )
+    .unwrap();
+    fs::write(
+        negatives.join("credential/portable/binding.json"),
+        "{\"token\":\"ghp_abcdefghijklmnopqrstuvwxyz123456\"}\n",
+    )
+    .unwrap();
+    for name in [
+        "missing",
+        "extra",
+        "changed",
+        "unrecorded-normalization",
+        "host-path",
+        "windows-host-path",
+        "credential",
+    ] {
+        assert_generation9_rejected(&negatives.join(name), &old, name);
+    }
+    let symlink_fixture = negatives.join("symlink");
+    copy_tree(&validated_old_state, &symlink_fixture);
+    fs::remove_file(symlink_fixture.join("portable/cards/sip.md")).unwrap();
+    std::os::unix::fs::symlink(
+        symlink_fixture.join("portable/cards/stp.md"),
+        symlink_fixture.join("portable/cards/sip.md"),
+    )
+    .unwrap();
+    assert_generation9_rejected(&symlink_fixture, &old, "symlink");
+
+    for (name, key, value) in [
+        ("generation10", "generation", json!(10)),
+        ("wrong-digest", "lifecycle_digest", json!("0".repeat(64))),
+    ] {
+        let root = negatives.join(name);
+        copy_tree(&validated_old_state, &root);
+        let manifest_path = root.join("manifest.json");
+        let mut manifest: Value =
+            serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+        manifest[key] = value;
+        write_json(&manifest_path, &manifest);
+        assert_generation9_rejected(&root, &old, name);
+    }
+    let traversal = negatives.join("traversal");
+    copy_tree(&validated_old_state, &traversal);
+    let traversal_manifest = traversal.join("manifest.json");
+    let mut manifest: Value =
+        serde_json::from_slice(&fs::read(&traversal_manifest).unwrap()).unwrap();
+    manifest["files"][0]["path"] = json!("../escape");
+    write_json(&traversal_manifest, &manifest);
+    assert_generation9_rejected(&traversal, &old, "traversal");
+
+    let wrong_binary = fixture.0.join("wrong-old-csdlc");
+    fs::write(&wrong_binary, "not the accepted binary\n").unwrap();
+    assert_generation9_rejected(&validated_old_state, &wrong_binary, "wrong binary");
+    assert_generation9_rejected(
+        &repository_root().join("csdlc-v3/tests/fixtures"),
+        &old,
+        "registered worktree root",
+    );
+    assert_generation9_rejected(
+        &validated_old_state.join("portable"),
+        &old,
+        "direct archive",
+    );
+    assert_generation9_rejected(&fixture.0.join("missing-input"), &old, "missing input");
+
+    let marker_report = fixture.0.join("marker-only-report.json");
+    write_json(
+        &marker_report,
+        &json!({"proof_denominator":1,"candidate_behavior_reached":true}),
+    );
+    let (marker_success, marker_result) = generation9_validation(
+        &validated_old_state,
+        &old,
+        &["--execution-report", marker_report.to_str().unwrap()],
+    );
+    assert!(!marker_success);
+    assert_eq!(marker_result["reason_code"], "marker_only_proof");
+    let zero_report = fixture.0.join("zero-report.json");
+    write_json(
+        &zero_report,
+        &json!({
+            "schema":"csdlc.v3.issue872_generation9_release_gate_report.v1",
+            "evidence_kind":"observed_process_streams","status":"passed",
+            "test_name":"copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_denominator",
+            "process_exit":0,"proof_denominator":{"tests":0},"candidate_behavior_reached":true
+        }),
+    );
+    let (zero_success, zero_result) = generation9_validation(
+        &validated_old_state,
+        &old,
+        &["--execution-report", zero_report.to_str().unwrap()],
+    );
+    assert!(!zero_success);
+    assert_eq!(zero_result["reason_code"], "zero_test_denominator");
+    // Even exact synthetic Cargo markers and matching stream hashes cannot
+    // replace the underlying retained conversion packet.
+    let fake_stdout = fixture.0.join("synthetic.stdout");
+    let fake_stderr = fixture.0.join("synthetic.stderr");
+    fs::write(&fake_stdout, "test copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_denominator ... ok\ntest result: ok. 1 passed; 0 failed; 0 ignored\n").unwrap();
+    fs::write(&fake_stderr, "").unwrap();
+    let forged_report = fixture.0.join("forged-report.json");
+    write_json(
+        &forged_report,
+        &json!({
+            "schema":"csdlc.v3.issue872_generation9_release_gate_report.v1",
+            "evidence_kind":"observed_process_streams","status":"passed",
+            "test_name":"copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_denominator",
+            "process_exit":0,"proof_denominator":{"tests":1},"candidate_behavior_reached":true,
+            "streams":{"stdout":{"path":"synthetic.stdout","sha256":sha256(&fake_stdout)},
+                       "stderr":{"path":"synthetic.stderr","sha256":sha256(&fake_stderr)}},
+            "provenance":{"old_binary_sha256":sha256(&old),
+                          "fixture_manifest_sha256":sha256(&validated_old_state.join("manifest.json"))}
+        }),
+    );
+    let (forged_success, forged_result) = generation9_validation(
+        &validated_old_state,
+        &old,
+        &["--execution-report", forged_report.to_str().unwrap()],
+    );
+    assert!(!forged_success);
+    assert_eq!(forged_result["reason_code"], "conversion_packet_missing");
+
     let primary = fixture.0.join("primary");
     let linked = fixture.0.join("linked");
     let observation_linked = fixture.0.join("observation-linked");
@@ -253,7 +535,7 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         &[
             "update-ref",
             "refs/remotes/origin/main",
-            &command_output(&repository_root(), "git", &["rev-parse", "origin/main"]),
+            &command_output(&repository_root(), "git", &["rev-parse", "HEAD"]),
         ],
     );
     copy_tree(
@@ -406,10 +688,8 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         }),
     );
 
-    let old = fixture.0.join("old-csdlc");
     let candidate = fixture.0.join("candidate-csdlc");
     let production_owner = fixture.0.join("csdlc-conversion-rehearsal");
-    fs::copy(&proving_old_owner, &old).unwrap();
     fs::copy(env!("CARGO_BIN_EXE_csdlc"), &candidate).unwrap();
     fs::copy(
         env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"),
@@ -430,12 +710,19 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         &repository_root().join("docs/templates/prompts"),
         &primary.join("docs/templates/prompts"),
     );
+    fs::create_dir_all(primary.join("csdlc-v3")).unwrap();
+    fs::copy(
+        repository_root().join("csdlc-v3/Cargo.toml"),
+        primary.join("csdlc-v3/Cargo.toml"),
+    )
+    .unwrap();
     command(
         &primary,
         "git",
         &[
             "add",
             "docs/templates/prompts",
+            "csdlc-v3/Cargo.toml",
             "csdlc-v3/operator",
             ".csdlc/evidence/505",
             ".adl/worktree-policy.json",
@@ -584,10 +871,16 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         &["rev-parse", "--path-format=absolute", "--git-common-dir"],
     );
     let old_state = PathBuf::from(&fixture_git_common).join("csdlc-v3/local");
-    copy_tree(&proving_old_state, &old_state.join("issues/868"));
+    copy_tree(
+        &validated_old_state.join("portable"),
+        &old_state.join("issues/868"),
+    );
+    let disposable_old_digest =
+        bind_portable_generation9_state(&old_state.join("issues/868"), &linked);
     let old_index: Value =
         serde_json::from_slice(&fs::read(old_state.join("issues/868/index.json")).unwrap())
             .unwrap();
+    assert_eq!(old_index["digest"], disposable_old_digest);
     let registrations = fixture.0.join("old-writer-registrations.json");
     write_json(
         &registrations,
@@ -679,9 +972,33 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
     );
     if let Some(destination) = std::env::var_os("ISSUE872_RETAIN_EVIDENCE") {
         let destination = PathBuf::from(destination);
-        if destination.exists() {
-            fs::remove_dir_all(&destination).unwrap();
-        }
+        assert!(
+            !destination.exists(),
+            "retained evidence destination must be new"
+        );
         copy_tree(&output, &destination);
+        let supplement = destination.with_extension("generation9-proof");
+        assert!(!supplement.exists(), "supplement destination must be new");
+        fs::create_dir_all(&supplement).unwrap();
+        fs::write(
+            supplement.join("retained-validator.stdout"),
+            &validate.stdout,
+        )
+        .unwrap();
+        fs::write(
+            supplement.join("retained-validator.stderr"),
+            &validate.stderr,
+        )
+        .unwrap();
+        write_json(
+            &supplement.join("materialization.json"),
+            &json!({
+                "authentic_lifecycle_digest": "db09a36738970942ae88401ee79508503967cbc39ae6d03e5d57f2dbd26928c8",
+                "portable_state_executable": false,
+                "materialized_lifecycle_digest": disposable_old_digest,
+                "fixture_validation": fixture_validation,
+                "fixture_manifest_sha256": sha256(&validated_old_state.join("manifest.json"))
+            }),
+        );
     }
 }

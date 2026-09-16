@@ -15,6 +15,8 @@ import time
 from pathlib import Path
 from typing import Callable
 
+from validate_issue872_generation9_fixture import blake3_bytes
+
 
 ROLES = (
     "prepared", "bound_dirty", "implemented", "reviewed", "published",
@@ -310,16 +312,31 @@ def initialize_fault_repository(case: Path, registry_path: Path,
     primary.mkdir(parents=True, exist_ok=True)
     for argv in (["git", "init", "-q", "-b", "main"],
                  ["git", "config", "user.email", "issue872@example.invalid"],
-                 ["git", "config", "user.name", "Issue 872 Fixture"]):
+                 ["git", "config", "user.name", "Issue 872 Fixture"],
+                 ["git", "remote", "add", "origin",
+                  "git@github.com:agent-logic/agent-design-language.git"]):
         result = run_command(list(argv), primary)
         if result["process_status"] != 0:
             raise ValueError(f"fault repository setup failed: {result['stderr']}")
     atomic_write(primary / "README", b"isolated issue 872 fault fixture\n")
-    (primary / "docs/templates/prompts").mkdir(parents=True, exist_ok=True)
-    shutil.copy2(registry_path, primary / "docs/templates/prompts/current.json")
-    (primary / "csdlc-v3/operator").mkdir(parents=True, exist_ok=True)
-    shutil.copy2(authority_bytes_path,
-                 primary / "csdlc-v3/operator/authority-selector.json")
+    shutil.copytree(registry_path.parent, primary / "docs/templates/prompts")
+    authority_checkout = authority_bytes_path.resolve().parents[2]
+    shutil.copytree(authority_checkout / "csdlc-v3/operator",
+                    primary / "csdlc-v3/operator", dirs_exist_ok=True)
+    shutil.copy2(authority_checkout / "csdlc-v3/Cargo.toml",
+                 primary / "csdlc-v3/Cargo.toml")
+    terminal_receipt = authority_checkout / ".csdlc/evidence/505/terminal-receipt.json"
+    if not terminal_receipt.is_file():
+        raise ValueError(f"fault authority terminal receipt is missing: {terminal_receipt}")
+    (primary / ".csdlc/evidence/505").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(terminal_receipt, primary / ".csdlc/evidence/505/terminal-receipt.json")
+    worktree_policy = authority_checkout / ".adl/worktree-policy.json"
+    if not worktree_policy.is_file():
+        raise ValueError(f"fault authority worktree policy is missing: {worktree_policy}")
+    (primary / ".adl").mkdir(parents=True, exist_ok=True)
+    policy = json.loads(worktree_policy.read_text())
+    policy["required_parent"] = str(case)
+    write_json(primary / ".adl/worktree-policy.json", policy)
     for argv in (["git", "add", "."], ["git", "commit", "-qm", "fixture"]):
         result = run_command(list(argv), primary)
         if result["process_status"] != 0:
@@ -331,7 +348,65 @@ def initialize_fault_repository(case: Path, registry_path: Path,
     if result["process_status"] != 0:
         raise ValueError(f"fault linked worktree setup failed: {result['stderr']}")
     common = Path(git_output(primary, "rev-parse", "--path-format=absolute", "--git-common-dir"))
+    source_common = Path(git_output(authority_checkout, "rev-parse", "--path-format=absolute",
+                                    "--git-common-dir"))
+    (common / "objects/info").mkdir(parents=True, exist_ok=True)
+    atomic_write(common / "objects/info/alternates",
+                 f"{source_common / 'objects'}\n".encode())
+    result = run_command(
+        ["git", "update-ref", "refs/remotes/origin/main",
+         git_output(authority_checkout, "rev-parse", "origin/main")],
+        primary,
+    )
+    if result["process_status"] != 0:
+        raise ValueError(f"fault authority ref setup failed: {result['stderr']}")
     return primary, linked, common
+
+
+def _replace_exact_strings(value: object, replacements: dict[str, str]) -> object:
+    if isinstance(value, str):
+        return replacements.get(value, value)
+    if isinstance(value, list):
+        return [_replace_exact_strings(item, replacements) for item in value]
+    if isinstance(value, dict):
+        return {key: _replace_exact_strings(item, replacements)
+                for key, item in value.items()}
+    return value
+
+
+def rebind_old_writer_state(issue_root: Path, linked: Path, branch: str) -> str:
+    index_path = issue_root / "index.json"
+    binding_path = issue_root / "binding.json"
+    index = json.loads(index_path.read_text())
+    source_worktree = index.get("worktree")
+    source_branch = index.get("branch")
+    if not isinstance(source_worktree, str) or not isinstance(source_branch, str):
+        raise ValueError("fault old-writer state lacks bound branch/worktree identity")
+    replacements = {source_worktree: str(linked), source_branch: branch}
+    for path in sorted(issue_root.rglob("*.json")):
+        value = _replace_exact_strings(json.loads(path.read_text()), replacements)
+        if path == index_path:
+            value["branch"] = branch
+            value["worktree"] = str(linked)
+        elif path == binding_path:
+            value["branch"] = branch
+            value["worktree"] = str(linked)
+        write_json(path, value)
+
+    index = json.loads(index_path.read_text())
+    index.pop("digest", None)
+    digest_input = json.dumps(index, sort_keys=True, separators=(",", ":")).encode()
+    for kind in ("sip", "stp", "spp", "vpp", "srp", "sor"):
+        for suffix in ("values.json", "md"):
+            digest_input += (issue_root / "cards" / f"{kind}.{suffix}").read_bytes()
+    digest_input += binding_path.read_bytes()
+    intent_plan = issue_root / "intent-plan.json"
+    if intent_plan.is_file():
+        digest_input += b"csdlc.v3.intent_plan.v1\0" + intent_plan.read_bytes()
+    digest = blake3_bytes(digest_input)
+    index["digest"] = digest
+    write_json(index_path, index)
+    return digest
 
 
 def fault_result(output: Path, point: str, boundary: str, operation: str,
@@ -379,9 +454,13 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
     fault_state = common / "csdlc-v3/local"
     (fault_state / "issues").mkdir(parents=True, exist_ok=True)
     shutil.copytree(old_writer_issue_root, fault_state / "issues/868")
+    fault_writer_digest = rebind_old_writer_state(
+        fault_state / "issues/868", linked, "codex/fault-linked")
     fault_writer_request = case / "old-writer-request.json"
     old_request = json.loads(Path(old_writer_command[3]).read_text())
     old_request["worktree"] = str(linked)
+    old_request["branch"] = "codex/fault-linked"
+    old_request["expected_lifecycle_digest"] = fault_writer_digest
     write_json(fault_writer_request, old_request)
     fault_registrations = case / "old-writer-registrations.json"
     write_json(fault_registrations, [
