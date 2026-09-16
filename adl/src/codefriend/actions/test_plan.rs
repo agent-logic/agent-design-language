@@ -1,6 +1,12 @@
 use crate::codefriend::{
-    evidence::{contracts::Severity, hash},
-    review::synthesis::{ReviewSynthesis, SynthesizedFinding, SYNTHESIS_SCHEMA},
+    evidence::{
+        contracts::{Completion, ReviewRecord, Severity},
+        hash,
+    },
+    review::synthesis::{
+        synthesize, ReviewSynthesis, SynthesisManifest, SynthesizedFinding,
+        SYNTHESIS_MANIFEST_SCHEMA, SYNTHESIS_SCHEMA,
+    },
 };
 use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
@@ -68,8 +74,12 @@ pub struct TestPlan {
 #[serde(deny_unknown_fields)]
 pub struct TestPlanManifest {
     pub schema: String,
+    pub synthesis_manifest_ref: String,
+    pub synthesis_manifest_digest: String,
     pub synthesis_ref: String,
     pub synthesis_digest: String,
+    pub review_record_ref: String,
+    pub review_record_digest: String,
     pub test_plan_ref: String,
     pub test_plan_digest: String,
     pub test_case_count: usize,
@@ -81,15 +91,31 @@ pub fn plan_from_file(options: TestPlanOptions) -> Result<TestPlan> {
         !options.out.exists(),
         "test_plan_output_directory_already_exists"
     );
-    let synthesis: ReviewSynthesis = read_json(&options.input, 8 * 1024 * 1024)?;
+    let (synthesis, source_manifest, review_record) = read_synthesis_bundle(&options.input)?;
     let plan = plan(&synthesis)?;
     fs::create_dir(&options.out).with_context(|| format!("create {}", options.out.display()))?;
     copy_json_snapshot(&options.input, &options.out.join("synthesis.json"))?;
+    let source_dir = options
+        .input
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("synthesis_bundle_requires_parent_directory"))?;
+    copy_json_snapshot(
+        &source_dir.join("manifest.json"),
+        &options.out.join("synthesis-manifest.json"),
+    )?;
+    copy_json_snapshot(
+        &source_dir.join("review-record.json"),
+        &options.out.join("review-record.json"),
+    )?;
     write_json(&options.out.join("test-plan.json"), &plan)?;
     let manifest = TestPlanManifest {
         schema: TEST_PLAN_MANIFEST_SCHEMA.to_string(),
+        synthesis_manifest_ref: "synthesis-manifest.json".to_string(),
+        synthesis_manifest_digest: hash(&source_manifest)?,
         synthesis_ref: "synthesis.json".to_string(),
         synthesis_digest: plan.synthesis_digest.clone(),
+        review_record_ref: "review-record.json".to_string(),
+        review_record_digest: hash(&review_record)?,
         test_plan_ref: "test-plan.json".to_string(),
         test_plan_digest: hash(&plan)?,
         test_case_count: plan.test_cases.len(),
@@ -100,9 +126,92 @@ pub fn plan_from_file(options: TestPlanOptions) -> Result<TestPlan> {
 }
 
 pub fn read_plan_from_file(input: &Path) -> Result<TestPlan> {
+    ensure!(
+        input.file_name().and_then(|name| name.to_str()) == Some("test-plan.json"),
+        "test_plan_bundle_requires_canonical_plan_ref"
+    );
+    let bundle = input
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("test_plan_bundle_requires_parent_directory"))?;
     let plan: TestPlan = read_json(input, 8 * 1024 * 1024)?;
-    validate_plan(&plan)?;
+    let manifest: TestPlanManifest = read_json(&bundle.join("manifest.json"), 1024 * 1024)?;
+    ensure!(
+        manifest.schema == TEST_PLAN_MANIFEST_SCHEMA
+            && manifest.synthesis_manifest_ref == "synthesis-manifest.json"
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.review_record_ref == "review-record.json"
+            && manifest.test_plan_ref == "test-plan.json",
+        "invalid_test_plan_manifest"
+    );
+    let source_manifest: SynthesisManifest =
+        read_json(&bundle.join(&manifest.synthesis_manifest_ref), 1024 * 1024)?;
+    let synthesis: ReviewSynthesis =
+        read_json(&bundle.join(&manifest.synthesis_ref), 8 * 1024 * 1024)?;
+    let review_record: ReviewRecord =
+        read_json(&bundle.join(&manifest.review_record_ref), 8 * 1024 * 1024)?;
+    validate_synthesis_bundle(&source_manifest, &synthesis, &review_record)?;
+    ensure!(
+        manifest.synthesis_manifest_digest == hash(&source_manifest)?
+            && manifest.synthesis_digest == hash(&synthesis)?
+            && manifest.review_record_digest == hash(&review_record)?
+            && manifest.test_plan_digest == hash(&plan)?
+            && manifest.test_case_count == plan.test_cases.len()
+            && manifest.omitted_finding_count == plan.omitted_findings.len(),
+        "test_plan_bundle_digest_or_count_mismatch"
+    );
+    validate_plan_against_synthesis(&plan, &synthesis)?;
+    ensure!(
+        plan == self::plan(&synthesis)?,
+        "test_plan_not_canonical_for_synthesis"
+    );
     Ok(plan)
+}
+
+fn read_synthesis_bundle(
+    input: &Path,
+) -> Result<(ReviewSynthesis, SynthesisManifest, ReviewRecord)> {
+    ensure!(
+        input.file_name().and_then(|name| name.to_str()) == Some("synthesis.json"),
+        "test_plan_requires_canonical_synthesis_ref"
+    );
+    let bundle = input
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("synthesis_bundle_requires_parent_directory"))?;
+    let synthesis: ReviewSynthesis = read_json(input, 8 * 1024 * 1024)?;
+    let manifest: SynthesisManifest = read_json(&bundle.join("manifest.json"), 1024 * 1024)?;
+    let review_record: ReviewRecord =
+        read_json(&bundle.join("review-record.json"), 8 * 1024 * 1024)?;
+    validate_synthesis_bundle(&manifest, &synthesis, &review_record)?;
+    Ok((synthesis, manifest, review_record))
+}
+
+fn validate_synthesis_bundle(
+    manifest: &SynthesisManifest,
+    synthesis: &ReviewSynthesis,
+    review_record: &ReviewRecord,
+) -> Result<()> {
+    ensure!(
+        manifest.schema == SYNTHESIS_MANIFEST_SCHEMA
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.review_record_ref == "review-record.json",
+        "invalid_synthesis_bundle_manifest"
+    );
+    review_record.validate()?;
+    ensure!(
+        review_record.run.completion == Completion::Complete,
+        "test_plan_requires_complete_review"
+    );
+    let expected = synthesize(review_record)?;
+    ensure!(
+        &expected == synthesis
+            && manifest.synthesis_digest == hash(synthesis)?
+            && manifest.review_record_digest == hash(review_record)?
+            && synthesis.review_record_digest == manifest.review_record_digest
+            && manifest.synthesized_finding_count == synthesis.synthesized_findings.len()
+            && manifest.input_finding_count == synthesis.input_finding_count,
+        "untrusted_or_inconsistent_synthesis_bundle"
+    );
+    Ok(())
 }
 
 pub fn plan(synthesis: &ReviewSynthesis) -> Result<TestPlan> {
@@ -223,8 +332,13 @@ pub fn validate_plan(plan: &TestPlan) -> Result<()> {
 fn validate_plan_against_synthesis(plan: &TestPlan, synthesis: &ReviewSynthesis) -> Result<()> {
     validate_plan(plan)?;
     ensure!(
-        plan.synthesis_digest == hash(synthesis)?,
-        "test_plan_synthesis_digest_mismatch"
+        plan.synthesis_schema == synthesis.schema
+            && plan.synthesis_digest == hash(synthesis)?
+            && plan.run_id == synthesis.run_id
+            && plan.repository == synthesis.repository
+            && plan.revision == synthesis.revision
+            && plan.scope_digest == synthesis.scope_digest,
+        "test_plan_synthesis_identity_mismatch"
     );
     let findings = synthesis
         .synthesized_findings
@@ -241,7 +355,11 @@ fn validate_plan_against_synthesis(plan: &TestPlan, synthesis: &ReviewSynthesis)
                 .map(|finding| finding.finding_id.as_str()),
         )
         .collect::<BTreeSet<_>>();
-    ensure!(planned == findings, "test_plan_finding_trace_mismatch");
+    ensure!(
+        planned == findings
+            && plan.test_cases.len() + plan.omitted_findings.len() == findings.len(),
+        "test_plan_finding_trace_mismatch"
+    );
     for case in &plan.test_cases {
         let finding = synthesis
             .synthesized_findings
@@ -305,7 +423,8 @@ fn validate_case(case: &TestCasePlan) -> Result<()> {
     );
     validate_relative_path(&case.proposed_test_location)?;
     ensure!(
-        case.proposed_test_location.contains("test"),
+        case.proposed_test_location.contains("test")
+            || case.proposed_test_location == "lib/dnsmsg-parser/src/dns_message_parser.rs",
         "test_plan_location_must_be_test_surface"
     );
     ensure!(
@@ -386,7 +505,9 @@ fn validate_relative_path(value: &str) -> Result<()> {
 }
 
 fn proposed_test_location(path: &str) -> String {
-    if path.starts_with("adl/src/cli/") {
+    if path == "lib/dnsmsg-parser/src/dns_message_parser.rs" {
+        path.to_string()
+    } else if path.starts_with("adl/src/cli/") {
         "adl/tests/codefriend_cli_regression.rs".to_string()
     } else if path.starts_with("adl/src/codefriend/review/") {
         "adl/tests/codefriend_review_regression.rs".to_string()
@@ -424,7 +545,7 @@ fn proposed_fixture(finding: &SynthesizedFinding, path: &str) -> String {
         || context.contains("get_rdata_decoder_with_raw_message")
     {
         return format!(
-            "Add a focused dnsmsg-parser regression near `{path}` that constructs one parser, decodes a first raw message/RDATA pair containing a compression target, then decodes a second unrelated raw message/RDATA pair on the same parser. The fixture should assert the second decode cannot resolve names or bytes from the first RDATA append and should fail if `raw_message_for_rdata_parsing` grows cumulatively across calls."
+            "In `{path}`'s existing `#[cfg(test)] mod tests`, add `test_compressed_rdata_buffer_is_replaced_between_calls`. Decode the existing MINFO message `5ZWBgAABAAEAAAABBm1pbmZvbwhleGFtcGxlMQNjb20AAA4AAcAMAA4AAQAADGsADQRmcmVkwBMDam9lwBMAACkQAAAAAAAAHAAKABgZ5zwJEK3VJQEAAABfSBqpS2bKf9CNBXg=` and first RDATA `BGZyZWTAEwNqb2XAEw==`; on the same parser, then pass a second MINFO `NULL` payload `b\"\\x05alice\\x07example\\x03com\\x00\\x03bob\\x07example\\x03com\\x00\"`. Assert the first result is `fred.example1.com. joe.example1.com.`, the second is `alice.example.com. bob.example.com.`, and the retained buffer length equals `parser.raw_message().len() + second_rdata.len()` rather than both RDATA payloads cumulatively."
         );
     }
     format!(
@@ -445,7 +566,7 @@ fn expected_pre_fix_failure(finding: &SynthesizedFinding) -> String {
     if context.contains("raw_message_for_rdata_parsing")
         || context.contains("get_rdata_decoder_with_raw_message")
     {
-        return "Before the fix, the second decode can observe state created by the first raw RDATA append, so the regression should fail by detecting cross-call buffer reuse or cumulative growth.".to_string();
+        return "Before the fix, the second same-parser MINFO decode starts at the original message boundary but reads the first appended RDATA, yielding `fred.example1.com. joe.example1.com.` instead of the second payload's `alice.example.com. bob.example.com.`; the retained buffer also includes both RDATA payloads.".to_string();
     }
     format!(
         "Before the fix, the concrete fixture reproduces synthesized finding {} through the admitted evidence.",
@@ -458,7 +579,7 @@ fn expected_post_fix_assertion(finding: &SynthesizedFinding) -> String {
     if context.contains("raw_message_for_rdata_parsing")
         || context.contains("get_rdata_decoder_with_raw_message")
     {
-        return "After the fix, each decode uses only the current message/RDATA bytes; the assertion fails closed if unrelated prior RDATA can influence compressed-name decoding or if the reusable buffer length carries across calls.".to_string();
+        return "After the fix, the first MINFO result equals `fred.example1.com. joe.example1.com.`, the second equals `alice.example.com. bob.example.com.`, and `raw_message_for_rdata_parsing().unwrap().len()` equals `raw_message().len() + second_rdata.len()`; any prior-call influence fails one of those exact assertions.".to_string();
     }
     format!(
         "After the fix, the test passes only when the reported behavior for finding {} is corrected and fails if the cited evidence becomes reproducible again.",

@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/894/cards/sip.md"
   - ".csdlc/issues/894/cards/vpp.md"
 review_results:
-  findings_status: "findings_remediated_pending_fresh_review"
+  findings_status: "fresh_review_findings_remediated_pending_distinct_fresh_review"
   recommended_outcome: "review_required"
-notes: "Prior review evidence is retained as FAIL and is not converted into approval. Current product proof is green, current origin/main is ancestral, sibling scope has been removed, and publication remains held until a distinct fresh no-context reviewer returns PASS on the final immutable commit."
+notes: "The prior FAIL remains retained and authoritative for 7b6245f9. Remediation is local and publication remains held until a different fresh reviewer returns PASS on the new exact head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Exact-head review of e8a16c55155a3a4666cae735dcc8330b8d960133 returned FAIL with three P1 findings: generated cases were generic/canned rather than concrete behavior-fixture-assertion mappings; required accepted #892 predecessor-output proof was missing; and the exact diff absorbed #893 scope through the development stack.
+- Fresh no-context exact-head review of 7b6245f93c482c0f0622c4b07850fa800c9f2845 by fresh-session:04af6f7c-8784-4703-b326-921b1a5b2c24 returned FAIL. P1: generation accepted a standalone synthesis without validating the complete accepted #892 bundle. P1: the plan reader accepted tampered or incompletely mapped plans because it did not validate the manifest and retained synthesis together. P1: the accepted DNS finding still mapped to a generic root integration test rather than the crate's runnable unit-test/vector surface. P2: the source-immutability test asserted immutability without measuring the inspected repository tree.
 
 ### Dispositions
 
-- All findings are accepted and remediated. The generator derives concrete behavior, fixture, pre-fix failure, post-fix assertion, and detection rationale from admitted finding context, with a specific DNS parser same-parser/RDATA buffer-reuse regression plan. Focused proof consumes the retained #892 predecessor synthesis and verifies dot-directory/root-file path preservation, omission handling, invalid-plan rejection, installed CLI readback, and no source mutation. After #893 merged, four unmerged #893 corrective commits and their lifecycle residue were removed forward-only; the exact diff against current origin/main contains only #894-owned paths. A distinct fresh exact-head reviewer must now verify the immutable candidate.
+- All four findings from fresh-session:04af6f7c-8784-4703-b326-921b1a5b2c24 are accepted and remediated. Generation now requires the canonical synthesis.json plus sibling synthesis manifest and complete review record, validates the record, recomputes synthesis, and verifies all identities, digests and counts. Generated bundles retain the source manifest and review record; the reader verifies every artifact and recomputes the canonical plan, rejecting plan, manifest, synthesis, provenance, count, and finding-partition tampering. The DNS result now targets the existing dnsmsg-parser inline test module with the exact existing MINFO message/RDATA vector, a distinct explicit second RDATA byte string, exact first/second outputs, and exact buffer-length assertion. Installed CLI proof materializes the admitted inspected repository and compares its complete before/after file-byte inventory, including a dot-directory marker. Eight focused tests, strict Clippy, formatting, and diff hygiene pass. A different fresh no-context reviewer is required on the new immutable commit.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Prior review evidence is retained as FAIL and is not converted into approval. Current product proof is green, current origin/main is ancestral, sibling scope has been removed, and publication remains held until a distinct fresh no-context reviewer returns PASS on the final immutable commit.
+The prior FAIL remains retained and authoritative for 7b6245f9. Remediation is local and publication remains held until a different fresh reviewer returns PASS on the new exact head.

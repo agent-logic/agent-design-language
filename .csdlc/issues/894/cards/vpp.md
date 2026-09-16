@@ -35,11 +35,11 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/894/cards/spp.md"
 selected_lanes:
-  - "Runtime-focused deterministic local contract/integration lane: six named codefriend_testplan scenarios including installed CLI generation/readback, retained #892 predecessor consumption, concrete behavior/fixture/assertion mapping, path preservation, omission handling, invalid-plan rejection, and source immutability. Rust formatting, focused Clippy with denied warnings, and exact diff hygiene accompany the lane. Standard CI remains required after publication; no optional, paid, provider, or cloud lane is selected."
+  - "Runtime-focused deterministic local contract/integration lane: eight named codefriend_testplan scenarios covering installed CLI generation/readback, complete accepted #892 synthesis-bundle validation, synthesis/manifest/plan tamper rejection, canonical one-to-one selected-finding partition validation, concrete dnsmsg-parser unit-test/vector mapping, dot-directory/root-file path preservation, explicit omission handling, invalid-plan rejection, create-only output, and measured inspected-tree immutability. Rust formatting, focused Clippy with denied warnings, and exact diff hygiene accompany the lane. Standard CI remains required after publication; no optional, paid, provider, or cloud lane is selected."
 parallel_groups:
   - "Serialize the Rust test and Clippy commands against the same issue-local target cache; formatting and diff hygiene are independent lightweight checks. Fresh exact-head review follows an immutable clean commit. Standard CI follows native publication."
 validation_commands:
-  - "Declared focused commands: CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD. Missing, skipped, zero-scenario, or failed proof blocks acceptance. Standard CI is observed after native publication."
+  - "Declared focused commands: CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD plus worktree diff hygiene. Missing, skipped, zero-scenario, or failed proof blocks acceptance. Standard CI is observed after native publication."
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No canned plan, fixture-only admission, helper-only success, unexecuted platform claim or provider permission inference. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
 notes: "The selected proof is bounded local CPU/Rust/filesystem with no network, provider credential, paid job, or cloud execution. VPP declares the lane but does not claim its result; actual results are recorded in SOR. Any substantive change refreshes proof and exact-head review."
 ---
@@ -61,7 +61,7 @@ With #892 accepted, consume the merged synthesis artifact contract and implement
 
 ## Selected Validation Lanes
 
-- Runtime-focused deterministic local contract/integration lane: six named codefriend_testplan scenarios including installed CLI generation/readback, retained #892 predecessor consumption, concrete behavior/fixture/assertion mapping, path preservation, omission handling, invalid-plan rejection, and source immutability. Rust formatting, focused Clippy with denied warnings, and exact diff hygiene accompany the lane. Standard CI remains required after publication; no optional, paid, provider, or cloud lane is selected.
+- Runtime-focused deterministic local contract/integration lane: eight named codefriend_testplan scenarios covering installed CLI generation/readback, complete accepted #892 synthesis-bundle validation, synthesis/manifest/plan tamper rejection, canonical one-to-one selected-finding partition validation, concrete dnsmsg-parser unit-test/vector mapping, dot-directory/root-file path preservation, explicit omission handling, invalid-plan rejection, create-only output, and measured inspected-tree immutability. Rust formatting, focused Clippy with denied warnings, and exact diff hygiene accompany the lane. Standard CI remains required after publication; no optional, paid, provider, or cloud lane is selected.
 
 ## Parallelization Plan
 
@@ -86,7 +86,7 @@ With #892 accepted, consume the merged synthesis artifact contract and implement
 
 ## Validation Commands
 
-- Declared focused commands: CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD. Missing, skipped, zero-scenario, or failed proof blocks acceptance. Standard CI is observed after native publication.
+- Declared focused commands: CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD plus worktree diff hygiene. Missing, skipped, zero-scenario, or failed proof blocks acceptance. Standard CI is observed after native publication.
 
 ## Failure Semantics
 

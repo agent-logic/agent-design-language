@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][CF-TESTPLAN] Generate a bounded test plan from review findings
 Branch: codex/894-v0922-test-planner
 Card Status: ready
-Status: implemented_current_main_reconciled_proof_passed_pending_fresh_review
+Status: implemented_review_findings_remediated_proof_passed_pending_fresh_review
 Generated: 2026-09-12T00:10:09.925246+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and remediated adl codefriend plan tests as a bounded generator over accepted review synthesis. It maps each traceable selected finding to source evidence, behavior under test, proposed test location, concrete fixture/input, expected pre-fix failure, expected post-fix assertion, validation lane/resource notes, detection rationale, and non-goals. It consumes the retained #892 predecessor synthesis and produces a concrete DNS parser same-parser/RDATA buffer-reuse regression plan. Findings without a supported repository path are explicitly omitted. Current origin/main is ancestral and former unmerged #893 corrective scope has been removed; fresh exact-head review, native publication, and standard CI remain pending.
+Implemented the bounded test-plan generator and remediated all current exact-head findings. The product now consumes and validates a complete accepted synthesis bundle, emits and reads an integrity-bound generated bundle, enforces canonical one-to-one selected-finding mapping, produces a runnable repository-grounded DNS unit-test plan, and proves installed CLI source immutability with a complete controlled inspected-tree byte inventory. Current origin/main remains ancestral; publication and standard CI remain pending a distinct fresh exact-head PASS.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented and remediated adl codefriend plan tests as a bounded generator over
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_current_main_reconciled_proof_passed_pending_fresh_review`
+- Completion state: `implemented_review_findings_remediated_proof_passed_pending_fresh_review`
 - Issue goal ref: `Sprint 4 #930 active goal covers #894 execution; this delegated lane advances #894 without replacing the root sprint goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/894/goal-metrics.json (planned, absent until execution)`
@@ -86,12 +86,12 @@ Implemented and remediated adl codefriend plan tests as a bounded generator over
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; implementation is in bound FastWork worktree only`
 - Worktree-only paths remaining: `#894 lifecycle records plus adl/src/codefriend/actions/test_plan.rs, action/CLI registration changes, and adl/tests/codefriend_testplan.rs remain on the bound branch pending review/publication.`
-- Integration state: `current_main_ancestral_exact_894_diff_proof_passed_pending_fresh_review`
+- Integration state: `current_main_ancestral_exact_894_diff_review_findings_remediated_proof_passed`
 - Verification scope: `bound issue worktree`
 - Integration method used: `Current origin/main e24e0438e40d1f716bd0653ea369d06450827230 is ancestral. After #893 merged, four unmerged #893 corrective commits and lifecycle residue formerly present through the development stack were removed by forward scope-cleanup commit 4e3ff76d5086c7133f442f060f30253712134c63.`
 - Verification performed:
-  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD`
-    `Proves six nonzero generator/reader scenarios, retained predecessor consumption with concrete DNS parser mapping, dot-directory/root-file path preservation, omission handling, invalid-plan rejection, installed CLI readback, source immutability, focused lint cleanliness, formatting, and exact diff hygiene after sibling-scope cleanup.`
+  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD; git diff --check`
+    `Proves complete predecessor and generated-bundle authority/integrity, canonical selected-finding partitioning, concrete runnable DNS mapping, installed CLI behavior, controlled inspected-tree immutability, strict warnings, formatting, and diff hygiene without provider, network, paid, cloud, or source-mutation activity.`
 - Result: `Exact diff against current origin/main contains only #894 lifecycle, test-plan generator, CLI registration, and focused test paths; local proof passed and review/publication remain pending.`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD`
-    `Focused #894 runtime proof passed 6/6 after current-main reconciliation and #893 scope cleanup; focused Clippy with denied warnings, Rust formatting, and exact diff hygiene passed.`
+  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD; git diff --check`
+    `Eight nonzero focused tests passed, including accepted predecessor bundle validation, standalone/tampered synthesis rejection, generated plan/manifest/synthesis tamper rejection, exact DNS unit-test/vector mapping, and measured source-tree immutability. Focused Clippy with denied warnings, formatting, and both committed/worktree diff hygiene passed.`
 - Results:
   - `passed`
 
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Focused installed CodeFriend test-plan generator proof: 6 tests passed"
+      - "Focused installed CodeFriend test-plan generator proof: 8 tests passed"
   determinism:
     status: passed
     replay_verified: true
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `test_plan_maps_every_traceable_finding_to_executable_case; test_plan_omits_findings_without_repository_path; test_plan_preserves_dot_directories_and_root_files; test_plan_consumes_tracked_predecessor_synthesis_with_concrete_mapping; test_plan_reader_rejects_placeholder_untraceable_or_non_test_cases; installed_cli_generates_and_reads_test_plan_without_source_mutation`
+- Determinism tests executed: `test_plan_maps_every_traceable_finding_to_executable_case; test_plan_omits_findings_without_repository_path; test_plan_preserves_dot_directories_and_root_files; test_plan_consumes_tracked_predecessor_synthesis_with_concrete_mapping; test_plan_reader_rejects_placeholder_untraceable_or_non_test_cases; installed_cli_generates_and_reads_test_plan_without_source_mutation; generator_rejects_standalone_or_tampered_synthesis_bundle; reader_rejects_plan_manifest_synthesis_and_partition_tampering`
 - Fixtures or scripts used: `adl/tests/codefriend_testplan.rs synthetic ReviewSynthesis fixtures plus tracked `.csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json`; installed `adl` test binary; no provider calls`
 - Replay verification (same inputs -> same artifacts/order): `passed_for_retained_predecessor_and_negative_fixtures`
 - Ordering guarantees (sorting / tie-break rules used): `deterministic sorted test case ids; omitted findings tracked explicitly`
@@ -160,12 +160,12 @@ verification_summary:
 - Trace bundle path(s): `No separate trace bundle is required for this deterministic local consumer; retained predecessor input is .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json and focused generated artifacts remain test-local.`
 - Run artifact root: `.csdlc/evidence/894 (planned; focused proof output retained in session transcript)`
 - Replay command used for verification: `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan`
-- Replay result: `codefriend_testplan 6 passed; focused clippy passed; cargo fmt passed; git diff --check passed`
+- Replay result: `codefriend_testplan 8 passed; focused clippy passed; cargo fmt passed; committed and worktree git diff --check passed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_testplan.rs plus installed CLI invocation under Cargo test and tracked #892 predecessor synthesis fixture`
 - Required artifacts present: `true`
-- Artifact schema/version checks: `Six focused tests parse generated test-plan and manifest artifacts, execute installed CLI generation/readback, reject invalid or placeholder plans, and bind the output to synthesis identity.`
+- Artifact schema/version checks: `Eight focused tests validate the complete source synthesis bundle, generated plan bundle, exact digests/counts/references, canonical plan recomputation, one-to-one selected-finding partition, installed CLI generation/readback, and tamper rejection.`
 - Hash/byte-stability checks: `synthesis_digest and test_plan_digest are produced through existing CodeFriend hash helper`
 - Missing/optional artifacts and rationale: `Execution artifacts are absent because preparation is not delivery`
 
@@ -174,5 +174,5 @@ verification_summary:
 - `The proof uses the retained accepted #892 synthesis plus deterministic local fixtures. It does not claim a new external-provider run, autonomous test implementation, source mutation, issue creation, publication, or merge.`
 
 ## Follow-ups / Deferred work
-- `Commit the normalized lifecycle truth as an immutable #894 candidate and obtain a distinct fresh no-context exact-head review.`
+- `Commit the remediated product, proof, and lifecycle truth as a new immutable #894 candidate and obtain a different fresh no-context exact-head review.`
 - `On PASS, publish through native C-SDLC with Closes #894 and observe required standard CI; do not run optional, paid, provider, or cloud jobs.`
