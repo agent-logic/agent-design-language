@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "The remediation changed production code and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit before publication or merge. No #894/#895 scope is absorbed."
+notes: "The remediation changed production API and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit. No #894/#895 implementation scope is included."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Canonical exact-head review of 3d2dc0e008535107841cc299ce153f7fdcf92d84 by fresh-session:c00e1373-7c54-4690-b635-bbc64252e726 returned FAIL: P1 production planning accepted a bare or synthetic ReviewSynthesis without proving a completed four-lane CF-SYNTHESIS bundle; P1 the installed reader validated only plan structure and could accept unrelated action, evidence, or path substitution; P2 VPP/SOR proof truth did not execute or accurately record the planned real-synthesis, unrelated-action, missing-evidence, invalid-input, and source-immutability checks.
+- Canonical exact-head review of b1060f8c61904e2e0452048fda46d23513ad1a02 by fresh-session:83a5713c-fba0-4ae4-9a34-8334aca3f725 returned FAIL: P1 the public production `plan(&ReviewSynthesis)` API still accepted bare synthesis outside the file/CLI gate; P1 the installed reader did not require its caller-supplied filename to match manifest.remediation_plan_ref, allowing an aliased plan artifact; P2 SRP/SOR consequently overstated complete binding and used inaccurate byte-equivalent wording.
 
 ### Dispositions
 
-- All findings accepted and remediated. Production planning now requires synthesis.json plus its manifest.json and review-record.json, verifies schemas, digests, counts, completion, exact supported four-lane set, and canonical synthesis identity, and resolves finding evidence IDs through retained review-record paths. Generated bundles retain source manifest and review record. The installed reader verifies the retained bundle and requires byte-equivalent canonical replanning, rejecting unrelated action/evidence/path substitution. Focused proof now executes the real retained Vector synthesis bundle, source immutability, bare synthesis rejection, missing evidence, unrelated path substitution, tampered bundle, output freshness, and structural failures.
+- All findings accepted and remediated. The public planner now requires both ReviewSynthesis and ReviewRecord and independently recomputes canonical completed synthesis before planning, so no public bare-synthesis API remains. The reader requires its input filename to equal manifest.remediation_plan_ref and a focused alias negative proves rejection. All planner algorithm tests now derive synthesis from valid completed review records instead of hand-built ReviewSynthesis objects. Lifecycle wording now claims structurally canonical, digest-bound replanning rather than byte equivalence.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-The remediation changed production code and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit before publication or merge. No #894/#895 scope is absorbed.
+The remediation changed production API and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit. No #894/#895 implementation scope is included.
