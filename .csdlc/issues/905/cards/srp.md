@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/905/cards/sip.md"
   - ".csdlc/issues/905/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
-  recommended_outcome: "block"
-notes: "Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication."
+  findings_status: "findings_resolved_re_review_pending"
+  recommended_outcome: "block_pending_re_review"
+notes: "Reviewer review_905 validated the original focused tests and diff hygiene, then requested four proof corrections. Corrected final run is runtime-run-14. Publication remains blocked until exact-head re-review passes."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Implementation review has not run; no implementation exists from this preparation.
+- Independent review at d032988e8287872dc332d4aa3d9fc293e8ee0632 found four P2s: missing immutable model/tokenizer identity proof; generic missing-model rather than invalid-draft recovery; order/cache-confounded cold metrics; and stale SOR execution fields.
 
 ### Dispositions
 
-- No implementation findings have been accepted or waived.
+- All four P2s were repaired. The harness now proves identical base blob/model/tokenizer metadata and only draft_num_predict differs; rejects an invalid draft setting and records operator-selected ordinary recovery; uses counterbalanced symmetric preload/prewarm with the exact same Runtime identity; and lifecycle truth is normalized. Exact-head re-review is pending.
 
 ### Recommended Outcome
 
-- block
+- block_pending_re_review
 
 ## Notes
 
-Independent setup review required for normalized cards, dependencies and launch plan. Implementation review remains not run and mandatory at exact implementation head before publication.
+Reviewer review_905 validated the original focused tests and diff hygiene, then requested four proof corrections. Corrected final run is runtime-run-14. Publication remains blocked until exact-head re-review passes.

@@ -55,6 +55,37 @@
       "result": "pass",
       "stage": "deterministic_marker_comparison_and_fallback",
       "reason": "four of four pairs exact; missing draft rejected; ordinary fallback delivered; speculative was 18.07 percent slower cold-inclusive"
+    },
+    {
+      "attempt": 10,
+      "result": "pass_superseded",
+      "stage": "identity_and_counterbalanced_comparison",
+      "reason": "four exact pairs and immutable model/tokenizer identity; reviewer requested a larger denominator and exact Runtime identity symmetry"
+    },
+    {
+      "attempt": 11,
+      "result": "failed",
+      "stage": "runtime_prewarm",
+      "reason": "initial alias load exceeded the Runtime conversation deadline although Ollama completed; prompted symmetric direct preload before Runtime prewarm"
+    },
+    {
+      "attempt": 12,
+      "result": "pass_superseded",
+      "stage": "six_block_counterbalanced_comparison",
+      "reason": "twelve exact pairs and 19.39 percent end-to-end benefit; unequal semantic agent identifiers left a small prompt-token denominator difference"
+    },
+    {
+      "attempt": 13,
+      "result": "pass_superseded",
+      "stage": "equal_length_identity_comparison",
+      "reason": "eight exact pairs; equal-length but semantically distinct agent identifiers still tokenized differently"
+    },
+    {
+      "attempt": 14,
+      "result": "pass",
+      "stage": "same_identity_counterbalanced_comparison_and_invalid_draft_recovery",
+      "reason": "same Runtime identity for both arms; eight exact pairs; speculative 12.98 percent faster end-to-end and 17.29 percent faster decode; invalid draft configuration rejected and operator-selected ordinary generation delivered"
     }
-  ]
+  ],
+  "final_attempt": 14
 }

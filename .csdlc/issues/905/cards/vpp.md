@@ -16,7 +16,7 @@ planned_pvf_lane: "runtime"
 lane_registry_path: "docs/validation/pvf_lanes.json"
 lane_registry_template_set: "1.0.5"
 validation_runtime_class: "local_deterministic_accounting_plus_actual_hardware_runtime_comparison"
-validation_resource_profile: "Local Apple M4 Pro: 14 CPU cores, 20 GPU cores, 64 GB unified memory; Ollama 0.32.14; resident Qwen3.5:9b only; no download or paid/cloud allocation."
+validation_resource_profile: "Local Apple M4 Pro: 14 CPU cores, 20 GPU cores, 64 GB unified memory; Ollama 0.32.14; resident Qwen3.5:9b immutable GGUF blob; no download or paid/cloud allocation."
 validation_family: "speculative_current_runtime_requalification"
 validation_size_split: "focused per source acceptance; no reflexive full workspace suite"
 expected_proof_cost: "Planning estimate: local CPU/disk plus normal CI; reestimate after predecessor integration, not a budget authorization"
@@ -39,9 +39,9 @@ selected_lanes:
 parallel_groups:
   - "Future disjoint adapter/harness authoring may run in parallel after execution authorization. Serialize shared provider registration edits and any use of the same accelerator/models; no hardware runs during setup."
 validation_commands:
-  - "python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; python3 adl/tools/issue905_runtime_speculative_retest.py --repo-root . --runtime-binary adl/target/debug/csm --csmctl-binary adl/target/debug/csmctl --guardian-binary adl-runtime/target/debug/adl-runtime-guardian --kernel-binary adl-runtime-kernel/target/debug/adl-runtime-kernel --ollama-model Qwen3.5:9b --ollama-base-url http://127.0.0.1:11434 --out-dir .adl/runs/905/runtime-run-09; git diff --check; native validate. Final tracked report: .csdlc/evidence/905/RUNTIME_RETEST.json."
+  - "python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; bundled Python adl/tools/issue905_runtime_speculative_retest.py with current Runtime binaries, source model Qwen3.5:9b, output .adl/runs/905/runtime-run-14 and four counterbalanced repeats; git diff --check; native validate. Final tracked report: .csdlc/evidence/905/RUNTIME_RETEST.json."
 failure_policy: "Required failures, skipped or zero-test proof block acceptance. Preserve guards; record durable anomalies; repair and rerun affected proof and independent exact-head review. CI evidence is separate from local proof."
-notes: "Executed current Runtime conversation path through provider registry and the documented Ollama chat-to-generate compatibility fallback. Four exact output pairs passed. Speculative configuration regressed latency and decode throughput. Invalid draft admission was rejected and the ordinary route delivered the expected fallback marker. The engine does not expose accepted/proposed draft-token counters, which remains a stated measurement limitation. CI is separate from local proof."
+notes: "Executed current Runtime path with immutable model/tokenizer identity and the exact same Runtime agent identity in both arms. Eight exact pairs passed. Speculative execution improved end-to-end latency 12.98% and decode throughput 17.29%. Invalid draft configuration was rejected before admission; operator-selected ordinary recovery delivered. This does not claim automatic fallback or accepted/proposed-token telemetry. CI remains separate."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -67,7 +67,7 @@ Verify accepted WP-01 and reconcile current harness/Runtime owner; locate a real
 
 - Parallel groups: Future disjoint adapter/harness authoring may run in parallel after execution authorization. Serialize shared provider registration edits and any use of the same accelerator/models; no hardware runs during setup.
 - Validation runtime class: `local_deterministic_accounting_plus_actual_hardware_runtime_comparison`
-- Validation resource profile: `Local Apple M4 Pro: 14 CPU cores, 20 GPU cores, 64 GB unified memory; Ollama 0.32.14; resident Qwen3.5:9b only; no download or paid/cloud allocation.`
+- Validation resource profile: `Local Apple M4 Pro: 14 CPU cores, 20 GPU cores, 64 GB unified memory; Ollama 0.32.14; resident Qwen3.5:9b immutable GGUF blob; no download or paid/cloud allocation.`
 - Validation family: `speculative_current_runtime_requalification`
 - Validation size split: `focused per source acceptance; no reflexive full workspace suite`
 
@@ -86,7 +86,7 @@ Verify accepted WP-01 and reconcile current harness/Runtime owner; locate a real
 
 ## Validation Commands
 
-- python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; python3 adl/tools/issue905_runtime_speculative_retest.py --repo-root . --runtime-binary adl/target/debug/csm --csmctl-binary adl/target/debug/csmctl --guardian-binary adl-runtime/target/debug/adl-runtime-guardian --kernel-binary adl-runtime-kernel/target/debug/adl-runtime-kernel --ollama-model Qwen3.5:9b --ollama-base-url http://127.0.0.1:11434 --out-dir .adl/runs/905/runtime-run-09; git diff --check; native validate. Final tracked report: .csdlc/evidence/905/RUNTIME_RETEST.json.
+- python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; bundled Python adl/tools/issue905_runtime_speculative_retest.py with current Runtime binaries, source model Qwen3.5:9b, output .adl/runs/905/runtime-run-14 and four counterbalanced repeats; git diff --check; native validate. Final tracked report: .csdlc/evidence/905/RUNTIME_RETEST.json.
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Executed current Runtime conversation path through provider registry and the documented Ollama chat-to-generate compatibility fallback. Four exact output pairs passed. Speculative configuration regressed latency and decode throughput. Invalid draft admission was rejected and the ordinary route delivered the expected fallback marker. The engine does not expose accepted/proposed draft-token counters, which remains a stated measurement limitation. CI is separate from local proof.
+Executed current Runtime path with immutable model/tokenizer identity and the exact same Runtime agent identity in both arms. Eight exact pairs passed. Speculative execution improved end-to-end latency 12.98% and decode throughput 17.29%. Invalid draft configuration was rejected before admission; operator-selected ordinary recovery delivered. This does not claim automatic fallback or accepted/proposed-token telemetry. CI remains separate.

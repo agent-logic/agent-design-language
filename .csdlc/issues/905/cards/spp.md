@@ -11,7 +11,7 @@ branch: "codex/905-v0922-speculative-decoding-retest"
 generated_at: "2026-09-12T00:18:14.558347+00:00"
 card_status: "ready"
 status: "completed"
-activation_state: "executed_review_pending"
+activation_state: "executed_re_review_pending"
 plan_revision: 1
 initial_pvf_lane: "runtime"
 planned_pvf_lane: "runtime"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Current Runtime proof is complete on Apple M4 Pro with Ollama 0.32.14 and resident Qwen3.5:9b aliases. Four paired conversations produced exact expected outputs. Speculative configuration was 18.07% slower cold-inclusive and 4.34% slower after first-arm warmup; decode throughput was 15.81 versus 36.01 tokens/s. Invalid draft admission failed closed and ordinary fallback remained healthy. Accepted/proposed draft-token counters are unavailable from this engine API, so no such claim is made. Independent review, publication, CI, merge and terminal closeout remain pending."
+notes: "Final comparable run reuses the exact Runtime agent identity across both arms, verifies the same immutable GGUF blob plus full model/tokenizer metadata, alternates A/B then B/A, and symmetrically preloads/prewarms every arm switch. Eight exact output pairs passed. Speculative execution was 12.98% faster end-to-end and 17.29% faster in decode throughput. Invalid draft configuration failed closed; operator-selected ordinary generation delivered. Accepted/proposed counters remain unavailable. Independent re-review, publication, CI, merge and terminal closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Current Runtime proof is complete on Apple M4 Pro with Ollama 0.32.14 and resident Qwen3.5:9b aliases. Four paired conversations produced exact expected outputs. Speculative configuration was 18.07% slower cold-inclusive and 4.34% slower after first-arm warmup; decode throughput was 15.81 versus 36.01 tokens/s. Invalid draft admission failed closed and ordinary fallback remained healthy. Accepted/proposed draft-token counters are unavailable from this engine API, so no such claim is made. Independent review, publication, CI, merge and terminal closeout remain pending.
+Final comparable run reuses the exact Runtime agent identity across both arms, verifies the same immutable GGUF blob plus full model/tokenizer metadata, alternates A/B then B/A, and symmetrically preloads/prewarms every arm switch. Eight exact output pairs passed. Speculative execution was 12.98% faster end-to-end and 17.29% faster in decode throughput. Invalid draft configuration failed closed; operator-selected ordinary generation delivered. Accepted/proposed counters remain unavailable. Independent re-review, publication, CI, merge and terminal closeout remain pending.
