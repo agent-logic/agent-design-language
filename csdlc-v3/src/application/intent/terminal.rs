@@ -146,6 +146,130 @@ fn native_request(context: &Context) -> Result<TerminalRouteRequest, String> {
         "expected_head_sha":context.head,"mode":"closing","credential_names":["GITHUB_TOKEN"]}))
         .map_err(|_|"intent_terminal_request_invalid".into())
 }
+fn attach_terminal_observation(
+    context: &Context,
+    command: SemanticCommand,
+    identity: &str,
+    evidence: &Value,
+    facts: Facts,
+) -> Result<(), String> {
+    let semantic = semantic_for(context, command)?;
+    let bytes = encode(evidence)?;
+    let operation = EffectRequest::new(
+        command,
+        NativeIdentity::new("terminal-finish".into(), identity.to_owned())
+            .map_err(semantic_error)?,
+        semantic.origin.clone(),
+        &bytes,
+    )
+    .map_err(semantic_error)?;
+    let reservation = DurableTransactionStore::reserve_effect(
+        &semantic.root,
+        EffectAdmission::from_native_owner(
+            semantic.admission.clone(),
+            operation.origin().clone(),
+            facts.clone(),
+        ),
+        operation.clone(),
+    )
+    .map_err(semantic_error)?;
+    let ticket = match reservation {
+        Reservation::AlreadyCompleted(_) => return Ok(()),
+        Reservation::AlreadyPending(ticket) | Reservation::Reserved(ticket) => ticket,
+    };
+    let outcome = VerifiedOutcome::from_native_owner(
+        OutcomeKind::Success,
+        EffectTruth::NotPerformed,
+        bytes,
+        facts,
+        operation.native_identity().clone(),
+    )
+    .map_err(semantic_error)?;
+    let observed = semantic.fresh_for_effect(ticket.id()).unwrap_or_else(|_| {
+        AttachmentAdmission::from_native_owner(
+            semantic.snapshot.inputs().authority().clone(),
+            operation.origin().clone(),
+        )
+    });
+    match DurableTransactionStore::attach_outcome(&semantic.root, ticket, outcome, observed)
+        .map_err(semantic_error)?
+    {
+        Attachment::AlreadyCompleted(_) | Attachment::Completed(_) => {
+            let snapshot =
+                match DurableTransactionStore::observe_issue(&semantic.root, &semantic.key)
+                    .map_err(semantic_error)?
+                {
+                    semantic::Observation::Current(value)
+                    | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                    _ => return Err("intent_terminal_semantic_state_unavailable".into()),
+                };
+            let _ = semantic.complete_projection(&snapshot)?;
+            Ok(())
+        }
+        Attachment::RecoveryRequired(_) => Err("intent_terminal_merge_recovery_required".into()),
+    }
+}
+fn catch_up_terminal_merge_state(
+    context: &Context,
+    staged: &TerminalRoutePlan,
+) -> Result<(), String> {
+    if staged.status != TerminalRouteStatus::Ready {
+        return Ok(());
+    }
+    let Some(finish) = staged.finish.as_ref() else {
+        return Ok(());
+    };
+    let evidence = json!({
+        "schema":"csdlc.v3.semantic_terminal_merge_observation.v1",
+        "repository":context.repository,
+        "issue":context.issue,
+        "head":context.head,
+        "finish":finish
+    });
+    let semantic = semantic_for(context, SemanticCommand::MarkMergeReady)
+        .or_else(|_| semantic_for(context, SemanticCommand::RecordMerge))
+        .or_else(|_| semantic_for(context, SemanticCommand::Finish))?;
+    match semantic.snapshot.phase() {
+        crate::lifecycle::LifecycleState::Published => {
+            attach_terminal_observation(
+                context,
+                SemanticCommand::MarkMergeReady,
+                &format!("merge-ready:{}", context.head),
+                &evidence,
+                Facts {
+                    merge_ready: true,
+                    ..Default::default()
+                },
+            )?;
+            attach_terminal_observation(
+                context,
+                SemanticCommand::RecordMerge,
+                &format!("merged:{}", context.head),
+                &evidence,
+                Facts {
+                    merge_ready: true,
+                    merged: true,
+                    ..Default::default()
+                },
+            )?;
+        }
+        crate::lifecycle::LifecycleState::MergeReady => {
+            attach_terminal_observation(
+                context,
+                SemanticCommand::RecordMerge,
+                &format!("merged:{}", context.head),
+                &evidence,
+                Facts {
+                    merge_ready: true,
+                    merged: true,
+                    ..Default::default()
+                },
+            )?;
+        }
+        _ => {}
+    }
+    Ok(())
+}
 fn state_root(context: &Context) -> Result<PathBuf, String> {
     operational_state_root(&context.primary)
         .map_err(|_| "intent_terminal_state_root_invalid".into())
@@ -446,6 +570,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             } else {
                 SemanticCommand::Finish
             };
+            if command == SemanticCommand::Finish {
+                catch_up_terminal_merge_state(context, &staged)?;
+            }
             let semantic = semantic_for(context, command)?;
             let bytes = encode(&native)?;
             let operation = EffectRequest::new(
@@ -461,6 +588,8 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .map_err(semantic_error)?;
             let facts = Facts {
                 terminal: true,
+                merged: native.no_pr_closeout.is_none()
+                    && staged.status == TerminalRouteStatus::Ready,
                 no_pr_disposition: native.no_pr_closeout.is_some(),
                 ..Default::default()
             };

@@ -633,6 +633,93 @@ pub(super) fn persist_rejected_recovery_attempt(
     )
 }
 
+pub(super) fn verify_pr_create_head_branch(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), RemoteRouteFinding> {
+    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        return Ok(());
+    };
+    let credential_name = mutation_credential_name(request)?;
+    let invocation = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        ["branch-ref", request.repository.as_str(), head.as_str()],
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_pr_head_branch_observation_invalid",
+            "PR head branch observation must use structured argv",
+        )
+    })?
+    .with_child_credential(credential_name)
+    .map_err(|_| {
+        remote_finding(
+            "github_credential_scope_invalid",
+            "GitHub credential name is not safe for child-process injection",
+        )
+    })?;
+    let value = read_mutation_reconciliation_page(invocation, process).map_err(|finding| {
+        remote_finding(
+            "github_pr_head_branch_observation_unavailable",
+            &format!(
+                "authenticated PR head branch observation failed: {}",
+                finding.code
+            ),
+        )
+    })?;
+    let expected_ref = format!("refs/heads/{head}");
+    let exact = value.as_array().and_then(|refs| {
+        refs.iter()
+            .find(|candidate| candidate["ref"].as_str() == Some(expected_ref.as_str()))
+    });
+    let Some(exact) = exact else {
+        return Err(remote_finding(
+            "github_pr_head_branch_missing",
+            "the exact PR head branch must exist before publication or recovery can reserve a remote effect",
+        ));
+    };
+    if exact["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str()) {
+        return Err(remote_finding(
+            "github_pr_head_branch_mismatch",
+            "the exact PR head branch must resolve to the expected candidate head",
+        ));
+    }
+    Ok(())
+}
+
+pub(super) fn verify_pr_create_head_available(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), RemoteRouteFinding> {
+    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        return Ok(());
+    };
+    let credential_name = mutation_credential_name(request)?;
+    let branch = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        ["branch-head", &request.repository, head],
+    )
+    .and_then(|invocation| invocation.with_child_credential(credential_name))
+    .map_err(|_| {
+        remote_finding(
+            "github_reconciliation_invocation_rejected",
+            "invalid remote branch-head readback invocation",
+        )
+    })?;
+    let value = read_mutation_reconciliation_page(branch, process)?;
+    let expected_ref = format!("refs/heads/{head}");
+    if value["ref"].as_str() != Some(expected_ref.as_str())
+        || value["object"]["type"].as_str() != Some("commit")
+        || value["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str())
+    {
+        return Err(remote_finding(
+            "github_pr_create_recovery_head_mismatch",
+            "guarded PR-create recovery requires the exact remote branch head",
+        ));
+    }
+    Ok(())
+}
+
 pub(super) fn reconcile_github_mutation(
     request: &GithubMutationRequest,
     operation_digest: &str,
@@ -734,60 +821,6 @@ pub(super) fn read_mutation_reconciliation_page(
             "authenticated GitHub reconciliation returned non-JSON output",
         )
     })
-}
-
-pub(super) fn verify_pr_create_head_branch(
-    request: &GithubMutationRequest,
-    process: &mut impl ProcessAdapter,
-) -> Result<(), RemoteRouteFinding> {
-    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
-        return Ok(());
-    };
-    let credential_name = mutation_credential_name(request)?;
-    let invocation = CommandInvocation::new(
-        GITHUB_READ_ONLY_ADAPTER,
-        ["branch-ref", request.repository.as_str(), head.as_str()],
-    )
-    .map_err(|_| {
-        remote_finding(
-            "github_pr_head_branch_observation_invalid",
-            "PR head branch observation must use structured argv",
-        )
-    })?
-    .with_child_credential(credential_name)
-    .map_err(|_| {
-        remote_finding(
-            "github_credential_scope_invalid",
-            "GitHub credential name is not safe for child-process injection",
-        )
-    })?;
-    let value = read_mutation_reconciliation_page(invocation, process).map_err(|finding| {
-        remote_finding(
-            "github_pr_head_branch_observation_unavailable",
-            &format!(
-                "authenticated PR head branch observation failed: {}",
-                finding.code
-            ),
-        )
-    })?;
-    let expected_ref = format!("refs/heads/{head}");
-    let exact = value.as_array().and_then(|refs| {
-        refs.iter()
-            .find(|candidate| candidate["ref"].as_str() == Some(expected_ref.as_str()))
-    });
-    let Some(exact) = exact else {
-        return Err(remote_finding(
-            "github_pr_head_branch_missing",
-            "the exact PR head branch must exist before publication or recovery can reserve a remote effect",
-        ));
-    };
-    if exact["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str()) {
-        return Err(remote_finding(
-            "github_pr_head_branch_mismatch",
-            "the exact PR head branch must resolve to the expected candidate head",
-        ));
-    }
-    Ok(())
 }
 
 pub(super) fn github_mutation_reconciliation_invocation(

@@ -442,6 +442,7 @@ fn github_read_only_curl_invocation(
             | "pull-request-merge-linkage"
             | "branch-merge-rules"
             | "branch-ref"
+            | "branch-head"
             | "pull-requests-by-head"
             | "issue"
             | "issue-comments"
@@ -452,6 +453,7 @@ fn github_read_only_curl_invocation(
             | "pull-requests-by-head"
             | "branch-merge-rules"
             | "branch-ref"
+            | "branch-head"
             | "pull-request-merge-linkage"
     ) && number.parse::<u64>().is_err())
         || (operation == "issues-by-marker"
@@ -461,7 +463,7 @@ fn github_read_only_curl_invocation(
                     .any(|ch| !(ch.is_ascii_alphanumeric() || ch == '-'))))
         || (matches!(
             operation.as_str(),
-            "pull-requests-by-head" | "branch-merge-rules" | "branch-ref"
+            "pull-requests-by-head" | "branch-merge-rules" | "branch-ref" | "branch-head"
         ) && !supported_pr_branch(number))
     {
         return Err(ProcessOutput {
@@ -493,31 +495,6 @@ fn github_read_only_curl_invocation(
             "--header".to_owned(), "X-GitHub-Api-Version: 2022-11-28".to_owned(),
             format!("https://api.github.com/repos/{repository}/rules/branches/{}?per_page=100&page=1", encode_query_value(number)),
         ]).map_err(|_| ProcessOutput { status: ProcessStatus::Exit(2), stdout: String::new(), stderr: "invalid rule observation".into(), truncated: false });
-    }
-    if operation == "branch-ref" {
-        return CommandInvocation::new(
-            "curl",
-            [
-                "--fail-with-body".to_owned(),
-                "--silent".to_owned(),
-                "--show-error".to_owned(),
-                "--location".to_owned(),
-                "--header".to_owned(),
-                "Accept: application/vnd.github+json".to_owned(),
-                "--header".to_owned(),
-                "X-GitHub-Api-Version: 2022-11-28".to_owned(),
-                format!(
-                    "https://api.github.com/repos/{repository}/git/matching-refs/heads/{}",
-                    encode_query_value(number)
-                ),
-            ],
-        )
-        .map_err(|_| ProcessOutput {
-            status: ProcessStatus::Exit(2),
-            stdout: String::new(),
-            stderr: "github read-only adapter rejected unsafe branch request".into(),
-            truncated: false,
-        });
     }
     if matches!(
         operation.as_str(),
@@ -643,6 +620,56 @@ fn github_read_only_curl_invocation(
             status: ProcessStatus::Exit(2),
             stdout: String::new(),
             stderr: "github read-only adapter rejected unsafe request".into(),
+            truncated: false,
+        });
+    }
+    if operation == "branch-head" {
+        return CommandInvocation::new(
+            "curl",
+            [
+                "--fail-with-body".to_owned(),
+                "--silent".to_owned(),
+                "--show-error".to_owned(),
+                "--location".to_owned(),
+                "--header".to_owned(),
+                "Accept: application/vnd.github+json".to_owned(),
+                "--header".to_owned(),
+                "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+                format!(
+                    "https://api.github.com/repos/{repository}/git/ref/heads/{}",
+                    encode_query_value(number)
+                ),
+            ],
+        )
+        .map_err(|_| ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter rejected unsafe request".into(),
+            truncated: false,
+        });
+    }
+    if operation == "branch-ref" {
+        return CommandInvocation::new(
+            "curl",
+            [
+                "--fail-with-body".to_owned(),
+                "--silent".to_owned(),
+                "--show-error".to_owned(),
+                "--location".to_owned(),
+                "--header".to_owned(),
+                "Accept: application/vnd.github+json".to_owned(),
+                "--header".to_owned(),
+                "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+                format!(
+                    "https://api.github.com/repos/{repository}/git/matching-refs/heads/{}",
+                    encode_query_value(number)
+                ),
+            ],
+        )
+        .map_err(|_| ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter rejected unsafe branch request".into(),
             truncated: false,
         });
     }
@@ -1200,6 +1227,28 @@ mod tests {
             curl.argv().last().map(String::as_str),
             Some(
                 "https://api.github.com/repos/agent-logic/agent-design-language/pulls?head=agent-logic%3Acodex%2F517-tail-01-quality-gate&state=all&per_page=100"
+            )
+        );
+    }
+
+    #[test]
+    fn github_read_only_adapter_supports_exact_branch_head_readback() {
+        let invocation = CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            [
+                "branch-head",
+                "agent-logic/agent-design-language",
+                "codex/1013-tracked-projection-rebind-proof-convergence",
+            ],
+        )
+        .expect("safe typed invocation");
+
+        let curl = github_read_only_curl_invocation(&invocation).expect("supported readback");
+        assert_eq!(curl.program, "curl");
+        assert_eq!(
+            curl.argv().last().map(String::as_str),
+            Some(
+                "https://api.github.com/repos/agent-logic/agent-design-language/git/ref/heads/codex%2F1013-tracked-projection-rebind-proof-convergence"
             )
         );
     }

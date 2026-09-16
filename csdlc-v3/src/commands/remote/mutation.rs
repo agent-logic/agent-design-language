@@ -16,6 +16,9 @@ use super::support::{
 use super::transport::*;
 
 impl StagedGithubMutation {
+    pub fn retained_receipt_exists(&self, repo_root: &Path) -> Result<bool, RemoteRouteFinding> {
+        Ok(github_mutation_receipt_path(repo_root, &self.operation_digest)?.exists())
+    }
     pub fn native_identity(&self) -> crate::storage::semantic::protocol::NativeIdentity {
         self.native_identity.clone()
     }
@@ -393,8 +396,7 @@ pub fn stage_retained_github_mutation_recovery(
 }
 
 /// Reconstruct a retained operation whose authenticated recovery dispatch was
-/// definitively rejected. The semantic owner selects this path only from the
-/// exact retained rejection evidence; ambiguous outcomes remain ineligible.
+/// definitely rejected. Ambiguous outcomes remain ineligible.
 pub fn stage_retained_github_mutation_recovery_after_rejection(
     repo_root: &Path,
     request: &GithubMutationRequest,
@@ -465,6 +467,7 @@ pub fn execute_staged_github_mutation(
                 } else {
                     ensure_recovery_available(repo_root, &staged.operation_digest)?;
                 }
+                verify_pr_create_head_available(request, process)?;
                 if staged
                     .resolved_ready_target
                     .as_ref()
@@ -709,6 +712,7 @@ pub fn execute_github_mutation(
                 // Legacy intents are immutable. Resolve their missing target only
                 // for an explicitly authorized retry after authenticated absence.
                 ensure_recovery_available(repo_root, &operation_digest)?;
+                verify_pr_create_head_available(request, process)?;
                 let ready_target = match &intent.resolved_ready_target {
                     None if matches!(request.mutation, GithubMutation::PullRequestReady) => {
                         Some(resolve_ready_target(request, process)?)
@@ -771,6 +775,7 @@ pub fn execute_github_mutation(
     }
 
     preflight_github_credential(&credential_name, process)?;
+    verify_pr_create_head_branch(request, process)?;
     persist_json_create_new(&intent_path, &intent)?;
     if intent
         .resolved_ready_target
@@ -958,9 +963,6 @@ pub(super) fn dispatch_github_mutation_after_intent(
     process: &mut impl ProcessAdapter,
 ) -> Result<(Option<String>, CommandInvocation), RemoteRouteFinding> {
     preflight_github_credential(context.credential_name, process)?;
-    // A missing PR head is a local publication prerequisite, not a remote
-    // mutation attempt. Observe it before consuming the single recovery token.
-    verify_pr_create_head_branch(request, process)?;
     if context.recovery_intent_digest.is_some() && !context.reuse_rejected_recovery {
         ensure_recovery_available(repo_root, context.operation_digest)?;
     }

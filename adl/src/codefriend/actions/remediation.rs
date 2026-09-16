@@ -441,10 +441,9 @@ fn validate_synthesis(synthesis: &ReviewSynthesis) -> Result<()> {
         synthesis.schema == SYNTHESIS_SCHEMA,
         "invalid_synthesis_schema"
     );
-    ensure!(
-        !synthesis.synthesized_findings.is_empty(),
-        "remediation_requires_synthesized_findings"
-    );
+    // A complete review may truthfully contain no findings. Its canonical
+    // remediation output is therefore an empty, provenance-bound plan rather
+    // than an error or an invented action.
     ensure!(
         !synthesis.repository.trim().is_empty()
             && !synthesis.revision.trim().is_empty()

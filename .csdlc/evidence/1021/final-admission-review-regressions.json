@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "case": "archive_suffix_in_live_root",
+      "exit": 1,
+      "result": {
+        "detail": "old binary uses a live or shared root",
+        "effect_claim": "not_proven_without_hash_bound_before_after_evidence",
+        "proof_denominator": {
+          "archive_copies": 0,
+          "authentic_files": 0,
+          "old_binaries": 0,
+          "portable_files": 14,
+          "transformations": 8
+        },
+        "reason_code": "live_root_rejected",
+        "schema": "csdlc.v3.issue872_generation9_fixture_validation.v1",
+        "status": "fail"
+      },
+      "stdout_sha256": "849d92a50b2f0c070df7c3bf1b406ef7cea911ee94858e8db42413eb4732740a"
+    },
+    {
+      "case": "census_anchored_from_unrelated_repository",
+      "exit": 1,
+      "result": {
+        "detail": "fixture root is beneath registered worktree adl-issue-1021-v0922-portable-generation9-old-state",
+        "effect_claim": "not_proven_without_hash_bound_before_after_evidence",
+        "proof_denominator": {
+          "archive_copies": 0,
+          "authentic_files": 0,
+          "old_binaries": 0,
+          "portable_files": 0,
+          "transformations": 0
+        },
+        "reason_code": "registered_worktree_rejected",
+        "schema": "csdlc.v3.issue872_generation9_fixture_validation.v1",
+        "status": "fail"
+      },
+      "stdout_sha256": "d62e5c171404cb0f73c8816916a6d981ca8f9d5e73de1d80ab599ac7c9f756ab"
+    },
+    {
+      "case": "portable_positive_from_unrelated_repository",
+      "exit": 0,
+      "result": {
+        "detail": "generation-9 fixture and exact old binary validated read-only",
+        "effect_claim": "not_proven_without_hash_bound_before_after_evidence",
+        "proof_denominator": {
+          "archive_copies": 0,
+          "authentic_files": 0,
+          "old_binaries": 1,
+          "portable_files": 14,
+          "transformations": 8
+        },
+        "reason_code": "fixture_validated",
+        "schema": "csdlc.v3.issue872_generation9_fixture_validation.v1",
+        "status": "pass"
+      },
+      "stdout_sha256": "e190bfcb88257139b9690514b49eb5b0838f508ce7b5a6cd6b5b8c785d25d398"
+    }
+  ]
+}

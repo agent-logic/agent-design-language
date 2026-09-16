@@ -201,6 +201,17 @@ pub fn pending_operations(
                 }
             }
             if request.expected_head_sha != head {
+                if let GithubMutation::PullRequestCreate {
+                    head: published_branch,
+                    ..
+                } = &request.mutation
+                {
+                    if publication_target(root, repository, issue, published_branch, head)?
+                        .is_some()
+                    {
+                        continue;
+                    }
+                }
                 return Err(remote_finding(
                     "remote_recovery_head_mismatch",
                     "pending remote operation belongs to another exact checkout head",
@@ -554,6 +565,7 @@ pub fn publication_target(
         return Ok(None);
     }
     let mut targets = std::collections::BTreeSet::new();
+    let mut stale_unresolved_create = false;
     for entry in fs::read_dir(directory).map_err(|_| {
         remote_finding(
             "intent_publication_inventory_unreadable",
@@ -581,28 +593,33 @@ pub fn publication_target(
         if intent.request.repository != repository || intent.request.issue != issue {
             continue;
         }
-        let GithubMutation::PullRequestCreate {
-            head: ref published_branch,
-            ..
-        } = intent.request.mutation
-        else {
-            continue;
-        };
-        if published_branch != branch {
-            return Err(remote_finding(
-                "intent_publication_branch_conflict",
-                "issue has publication intent on another branch",
-            ));
-        }
         let receipt_path = github_mutation_receipt_path(root, digest)?;
-        if !receipt_path.exists() {
-            if intent.request.expected_head_sha != head {
-                return Err(remote_finding(
-                    "intent_publication_uncertain_head",
-                    "reconcile the retained publication intent before changing its candidate",
-                ));
+        match &intent.request.mutation {
+            GithubMutation::PullRequestCreate {
+                head: published_branch,
+                ..
+            } => {
+                if published_branch != branch {
+                    return Err(remote_finding(
+                        "intent_publication_branch_conflict",
+                        "issue has publication intent on another branch",
+                    ));
+                }
+                if !receipt_path.exists() {
+                    if intent.request.expected_head_sha != head {
+                        stale_unresolved_create = true;
+                    }
+                    continue;
+                }
             }
-            continue;
+            GithubMutation::PullRequestUpdate { .. }
+            | GithubMutation::PullRequestReady
+            | GithubMutation::PullRequestMerge { .. } => {
+                if !receipt_path.exists() {
+                    continue;
+                }
+            }
+            _ => continue,
         }
         let receipt = load_mutation_receipt(&receipt_path, digest)?;
         if receipt.intent_digest != github_mutation_intent_digest(&intent)
@@ -622,6 +639,12 @@ pub fn publication_target(
             )
         })?;
         targets.insert(number);
+    }
+    if targets.is_empty() && stale_unresolved_create {
+        return Err(remote_finding(
+            "intent_publication_uncertain_head",
+            "reconcile the retained publication intent before changing its candidate",
+        ));
     }
     if targets.len() > 1 {
         return Err(remote_finding(

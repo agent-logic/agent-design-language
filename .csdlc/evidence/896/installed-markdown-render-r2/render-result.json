@@ -1,0 +1,9 @@
+{
+  "schema": "codefriend.markdown_render_result.v1",
+  "target": "installed-markdown-render-r2",
+  "renderer_version": "v1",
+  "report_digest": "b9af969342e2108d3d827e69c68e73a5b3f07d6fca9d8c862c3efc3b5541da88",
+  "manifest_digest": "13c3ab6a7c2aa7dafa66698d0089eb4a74ad2bad9ca0038da56ed60a6e2cbc02",
+  "finding_count": 1,
+  "approval_decision_digest": "61eee0193e185d5022d2e613c00cd6943002a16877ac9a365119a57e39a5c4b1"
+}
