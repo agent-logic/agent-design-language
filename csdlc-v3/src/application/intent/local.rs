@@ -563,6 +563,12 @@ fn semantic_edit(
                     _ => return Err("intent_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
+            #[cfg(debug_assertions)]
+            if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+                == Ok("semantic_edit_before_projection_rebuild")
+            {
+                std::process::exit(91);
+            }
             semantic_rebuild(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
@@ -1051,7 +1057,9 @@ pub fn proof(context: &Context, intent: &IntentRequest) -> Result<Value, String>
         // Complete every no-effect validator/input admission check before a
         // changed checkout HEAD amends the semantic binding or reserves proof.
         crate::commands::proof::intent::admit_semantic_validators(context, &validators)?;
-        context.refresh_semantic_binding()?;
+        if context.refresh_semantic_binding()? {
+            super::rebuild_semantic_card_projection(context)?;
+        }
         let refreshed = Context::load(&context.primary, context.issue)?;
         semantic_proof(&refreshed)
     }

@@ -155,6 +155,9 @@ pub(crate) fn admit_validator_declarations(
                 "--manifest-path" => {
                     let path = args.next().ok_or("intent_validator_manifest_missing")?;
                     resolve_repo_path(root, path, true).map_err(|finding| finding.code)?;
+                    if git_read(root, &["ls-files", "--error-unmatch", "--", path]).is_err() {
+                        return Err("intent_validator_input_not_tracked".into());
+                    }
                 }
                 "--test" => {
                     safe_component(args.next().ok_or("intent_validator_test_missing")?)
