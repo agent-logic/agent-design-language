@@ -578,3 +578,28 @@ pub struct RemoteRouteFinding {
     pub code: String,
     pub message: String,
 }
+
+pub(super) fn audited_legacy_pr_create_recovery(
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> bool {
+    const OPERATION: &str = "684e3f5a051e4117ee30afb2dd2c31101580960ab9fd4404c577ed65b731c85a";
+    const INTENT: &str = "c8aabcac4e7c614b7050d76e19958353980fe32332b10f05ea25f91cd5b86144";
+    const HEAD_SHA: &str = "476528f696a11b995411ea62598ac97295e17817";
+    operation_digest == OPERATION
+        && intent_digest == INTENT
+        && request.repository == "agent-logic/agent-design-language"
+        && request.issue == 1013
+        && request.pull_request.is_none()
+        && request.expected_head_sha == HEAD_SHA
+        && matches!(
+            &request.mutation,
+            GithubMutation::PullRequestCreate { base, head, title, body, draft }
+                if base == "main"
+                    && head == "codex/1013-tracked-projection-rebind-proof-convergence"
+                    && title == "Make tracked projection rebind converge before proof"
+                    && body == "Closes #1013"
+                    && *draft
+        )
+}

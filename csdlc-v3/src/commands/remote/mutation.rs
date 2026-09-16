@@ -360,6 +360,7 @@ pub fn execute_staged_github_mutation(
                         true
                     } else {
                         ensure_recovery_available(repo_root, &staged.operation_digest)?;
+                        verify_pr_create_head_available(request, process)?;
                         false
                     };
                 if staged
@@ -617,6 +618,7 @@ pub fn execute_github_mutation(
                         true
                     } else {
                         ensure_recovery_available(repo_root, &operation_digest)?;
+                        verify_pr_create_head_available(request, process)?;
                         false
                     };
                 let ready_target = match &intent.resolved_ready_target {

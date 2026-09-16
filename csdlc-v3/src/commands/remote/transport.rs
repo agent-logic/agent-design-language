@@ -10,8 +10,9 @@ use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use super::model::*;
 use super::storage::*;
 use super::support::{
-    exact_issue_names, git_control_dir, remote_finding, same_names, stable_digest,
-    GITHUB_OPERATIONAL_ADAPTER, GITHUB_READ_ONLY_ADAPTER,
+    exact_issue_names, git_control_dir, github_readback_candidates, json_string_array_contains_all,
+    remote_finding, same_names, stable_digest, GITHUB_OPERATIONAL_ADAPTER,
+    GITHUB_READ_ONLY_ADAPTER,
 };
 
 pub(super) fn mutation_credential_name(
@@ -550,7 +551,7 @@ pub(super) fn verify_consumed_pr_create_recovery(
     intent_digest: &str,
     process: &mut impl ProcessAdapter,
 ) -> Result<(), RemoteRouteFinding> {
-    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+    let GithubMutation::PullRequestCreate { .. } = &request.mutation else {
         return Err(remote_finding(
             "github_mutation_recovery_already_consumed",
             "the single authenticated-absence recovery was already consumed",
@@ -558,6 +559,12 @@ pub(super) fn verify_consumed_pr_create_recovery(
     };
     let recovery_path = github_mutation_recovery_path(repo_root, operation_digest)?;
     load_mutation_recovery_receipt(&recovery_path, request, operation_digest, intent_digest)?;
+    if !audited_legacy_pr_create_recovery(request, operation_digest, intent_digest) {
+        return Err(remote_finding(
+            "github_mutation_recovery_already_consumed",
+            "the consumed recovery has no audited definitive non-effect migration",
+        ));
+    }
     if github_mutation_head_available_recovery_path(repo_root, operation_digest)?.exists() {
         return Err(remote_finding(
             "github_mutation_head_available_recovery_already_consumed",
@@ -565,6 +572,16 @@ pub(super) fn verify_consumed_pr_create_recovery(
         ));
     }
 
+    verify_pr_create_head_available(request, process)
+}
+
+pub(super) fn verify_pr_create_head_available(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), RemoteRouteFinding> {
+    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        return Ok(());
+    };
     let credential_name = mutation_credential_name(request)?;
     let absence = CommandInvocation::new(
         GITHUB_READ_ONLY_ADAPTER,
@@ -965,31 +982,4 @@ pub(super) fn match_reconciled_mutation(
         pull_request,
         matched["id"].as_u64().or(pull_request).or(Some(issue)),
     ))
-}
-
-pub(super) fn json_string_array_contains_all(
-    value: &serde_json::Value,
-    expected: &[String],
-) -> bool {
-    expected.iter().all(|expected| {
-        github_readback_candidates(value)
-            .into_iter()
-            .any(|candidate| {
-                candidate.as_str() == Some(expected.as_str())
-                    || candidate["name"].as_str() == Some(expected.as_str())
-                    || candidate["login"].as_str() == Some(expected.as_str())
-            })
-    })
-}
-
-pub(super) fn github_readback_candidates(value: &serde_json::Value) -> Vec<&serde_json::Value> {
-    if let Some(values) = value.as_array() {
-        return values.iter().collect();
-    }
-    for key in ["items", "comments", "pull_requests"] {
-        if let Some(values) = value[key].as_array() {
-            return values.iter().collect();
-        }
-    }
-    vec![value]
 }
