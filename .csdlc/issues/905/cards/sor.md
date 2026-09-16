@@ -29,7 +29,7 @@ Execution:
 - Model: `Qwen3.5:9b resident immutable GGUF target; equal-length temporary arm aliases differ only by draft_num_predict`
 - Provider: `Ollama 0.32.14 through current Runtime provider registry and compatibility fallback`
 - Start Time: `2026-09-15 bounded execution session`
-- End Time: `Local execution complete; exact-head re-review and publication pending`
+- End Time: `Local execution and independent review complete; publication and CI pending`
 
 ## Summary
 
@@ -88,7 +88,7 @@ Independent review_905 approved exact source 7dd86a1bd95cd9e5bc6310b38204cfc14f2
 - Worktree-only paths remaining: `tracked issue implementation/evidence/cards pending publication`
 - Integration state: `worktree_only`
 - Verification scope: `Current Runtime paired correctness and performance with immutable same-model/tokenizer identity, same Runtime identity, counterbalanced symmetric warm procedure, invalid draft rejection and operator-selected ordinary recovery.`
-- Integration method used: `Pending native PR publication after exact-head independent re-review`
+- Integration method used: `Native exact-head review complete; native PR publication pending`
 - Verification performed:
   - `Pending hosted CI and post-merge ancestry verification`
     `Local candidate complete; no integration claim before publication and merge.`
@@ -110,7 +110,7 @@ Rules:
   - `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; current Runtime command recorded in VPP; git diff --check; native validate`
     `Establishes same-model/tokenizer correctness and bounded invalid-draft recovery, and prevents aggregate-only speed claims by recording per-block distributions and a robustness gate.`
 - Results:
-  - `PASS for correctness, identity, bounded recovery, focused tests and artifact hygiene. PERFORMANCE INCONCLUSIVE: declared per-block robustness gate failed. Final exact-head review and CI pending.`
+  - `PASS for correctness, identity, bounded recovery, focused tests, artifact hygiene and independent review. PERFORMANCE INCONCLUSIVE: declared per-block robustness gate failed. Hosted CI pending publication.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -136,7 +136,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: complete_local_re_review_pending
+    status: complete_reviewed_publication_pending
     required_artifacts_present: true
     schema_changes:
       present: false
