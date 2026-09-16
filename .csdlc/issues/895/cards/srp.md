@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- First review at b1d8dbc835823f7151c5987dfb5c34e278876340 found stale approval and verified-byte check/use defects. Second review at 1e1cd45c208232844530971ef8ff84b707123bfe found alternate/truncated-directory replay and stale/overclaimed lifecycle truth. Third review at 3d61abcab14a5b26756b8996453f28376dfd6b31 found one P1 race: admission released the store lock after reading approval, allowing invalidate or withhold to commit before the destination became visible while the stale approved admission still completed.
+- First review at b1d8dbc835823f7151c5987dfb5c34e278876340 found stale approval and verified-byte check/use defects. Second review at 1e1cd45c208232844530971ef8ff84b707123bfe found alternate/truncated-directory replay and stale/overclaimed lifecycle truth. Third review at 3d61abcab14a5b26756b8996453f28376dfd6b31 found a revocation race between approval read and destination visibility. Fourth review at f7b801c73090b4414898fac00a1ad4751b404509 found two P1 defects: approval was not bound to the actual destination root, and coherent restoration of an old decision plus matching local head at the same store path could replay approval after revocation.
 
 ### Dispositions
 
-- All findings accepted and remediated. Canonical store/head binding and deleted-tail detection prevent replay; admission publishes the already verified byte snapshot; and the DecisionStore lock now remains owned across authoritative head resolution, snapshotting, staging, and atomic visibility. A deterministic hook proves both invalidate and withhold attempts fail with publication_store_busy during that interval, then succeed only after publication is visible and deny later admission. Publication remains held for a different fresh exact-head reviewer.
+- All four review rounds' findings are accepted and remediated. Publication identity now binds the canonical symlink-free destination root and admission recomputes that identity. The canonical decision store's local head must match a deterministic external anchor stored outside the replayable store, so same-store decision-plus-head rollback fails closed after both invalidation and withholding. Canonical store binding, deleted-tail detection, verified-byte snapshot admission, and lock-held read-to-visibility serialization remain enforced. Publication remains held for a different fresh exact-head reviewer.
 
 ### Recommended Outcome
 

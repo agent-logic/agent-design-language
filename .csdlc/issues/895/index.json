@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 895,
   "phase": "bound",
-  "generation": 9,
+  "generation": 10,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/895-v0922-publication-approval",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-895-v0922-publication-approval",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "ac1d3fdd372aecb98e16b6e5a64aaff17c246cf3af9ae63708b88f9352b2df93"
+  "digest": "a49846b07b63cafbb19568c6e416c2ea9502dfc04e2059fad8b91e6dd2d14661"
 }

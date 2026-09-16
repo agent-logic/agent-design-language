@@ -35,7 +35,11 @@ impl ManifestInput {
         read_json(path, "publication_manifest_input")
     }
 
-    pub fn publication(&self, review: &ReviewRecord) -> Result<Publication> {
+    pub fn publication(
+        &self,
+        review: &ReviewRecord,
+        destination_root: &Path,
+    ) -> Result<Publication> {
         ensure!(
             self.schema == MANIFEST_INPUT_SCHEMA,
             "unsupported_manifest_input_version"
@@ -50,6 +54,7 @@ impl ManifestInput {
             renderer_versions: self.renderer_versions.clone(),
             scope_digest: review.run.scope_digest.clone(),
             target: self.target.clone(),
+            destination_digest: destination_digest(destination_root)?,
             claims: self.claims.clone(),
             nonclaims: self.nonclaims.clone(),
             state: PublicationState::Withheld,
@@ -58,6 +63,20 @@ impl ManifestInput {
         publication.validate(review)?;
         Ok(publication)
     }
+}
+
+pub(crate) fn destination_digest(root: &Path) -> Result<String> {
+    ensure!(root.exists(), "destination_root_missing");
+    reject_symlink_components(root)?;
+    ensure!(
+        fs::symlink_metadata(root)?.file_type().is_dir(),
+        "invalid_destination_root"
+    );
+    let canonical = root.canonicalize()?;
+    let value = canonical
+        .to_str()
+        .ok_or_else(|| anyhow::anyhow!("destination_root_not_utf8"))?;
+    hash(&("codefriend.publication_destination.v1", value))
 }
 
 pub fn read_review(path: &Path) -> Result<ReviewRecord> {

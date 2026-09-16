@@ -358,6 +358,7 @@ pub struct Publication {
     pub renderer_versions: BTreeMap<String, String>,
     pub scope_digest: String,
     pub target: String,
+    pub destination_digest: String,
     pub claims: Vec<String>,
     pub nonclaims: Vec<String>,
     pub state: PublicationState,
@@ -373,6 +374,7 @@ impl Publication {
             &self.renderer_versions,
             &self.scope_digest,
             &self.target,
+            &self.destination_digest,
             &self.claims,
             &self.nonclaims,
         ))
@@ -409,6 +411,10 @@ impl Publication {
             version(v)?;
         }
         text(&self.target)?;
+        ensure!(
+            valid_digest(&self.destination_digest),
+            "invalid_publication_destination"
+        );
         ensure!(
             self.claims.len() <= 100 && self.nonclaims.len() <= 100,
             "too_many_publication_claims"

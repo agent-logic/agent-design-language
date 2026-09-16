@@ -21,7 +21,13 @@ pub(super) fn run(args: &[String]) -> Result<()> {
 fn prepare(args: &[String]) -> Result<()> {
     let flags = exact_flags(
         args,
-        &["--review-record", "--manifest", "--artifact-root", "--out"],
+        &[
+            "--review-record",
+            "--manifest",
+            "--artifact-root",
+            "--destination-root",
+            "--out",
+        ],
     )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
     let input = ManifestInput::read(Path::new(flags["--manifest"]))?;
@@ -29,7 +35,7 @@ fn prepare(args: &[String]) -> Result<()> {
         Path::new(flags["--artifact-root"]),
         &input.artifact_manifest,
     )?;
-    let publication = input.publication(&review)?;
+    let publication = input.publication(&review, Path::new(flags["--destination-root"]))?;
     write_json_create_only(Path::new(flags["--out"]), &publication)?;
     println!(
         "{}",

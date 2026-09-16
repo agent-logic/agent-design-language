@@ -1,4 +1,6 @@
-use super::manifest::{read_json, reject_symlink_components, snapshot_artifacts, VerifiedArtifact};
+use super::manifest::{
+    destination_digest, read_json, reject_symlink_components, snapshot_artifacts, VerifiedArtifact,
+};
 use crate::codefriend::{
     evidence::{
         contracts::{Approval, Completion, Publication, PublicationState, ReviewRecord},
@@ -196,6 +198,28 @@ impl DecisionStore {
         Ok(self.root.join("heads").join(format!("{binding}.json")))
     }
 
+    fn external_head_path(&self, binding: &str) -> Result<PathBuf> {
+        ensure!(valid_digest(binding), "invalid_publication_binding");
+        let parent = self
+            .root
+            .parent()
+            .ok_or_else(|| anyhow::anyhow!("invalid_publication_store_root"))?;
+        let anchors = parent
+            .join(".codefriend-publication-anchors")
+            .join(&self.marker.digest);
+        reject_symlink_components(&anchors)?;
+        if !anchors.exists() {
+            fs::create_dir_all(&anchors)?;
+            File::open(parent)?.sync_all()?;
+        }
+        reject_symlink_components(&anchors)?;
+        ensure!(
+            fs::symlink_metadata(&anchors)?.is_dir(),
+            "invalid_publication_anchor_root"
+        );
+        Ok(anchors.join(format!("{binding}.json")))
+    }
+
     fn head(
         &self,
         review: &ReviewRecord,
@@ -205,15 +229,20 @@ impl DecisionStore {
         let binding = publication.binding_digest()?;
         let directory = self.decision_directory(&binding)?;
         let head_path = self.head_path(&binding)?;
-        if !directory.exists() && !head_path.exists() {
+        let external_head_path = self.external_head_path(&binding)?;
+        if !directory.exists() && !head_path.exists() && !external_head_path.exists() {
             return Ok(None);
         }
         ensure!(
-            directory.exists() && head_path.exists(),
+            directory.exists() && head_path.exists() && external_head_path.exists(),
             "publication_store_incomplete"
         );
         let head: HeadCommitment = read_json(&head_path, "publication_head")?;
         head.validate(&self.marker, &binding)?;
+        let external_head: HeadCommitment =
+            read_json(&external_head_path, "publication_external_head")?;
+        external_head.validate(&self.marker, &binding)?;
+        ensure!(head == external_head, "publication_external_head_mismatch");
         let record = read_chain_head(&directory, review)?
             .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
         ensure!(
@@ -263,6 +292,7 @@ impl DecisionStore {
         let generation = fs::read_dir(&directory)?.count() as u64;
         let head = HeadCommitment::new(&self.marker, binding, record.digest.clone(), generation)?;
         replace_json_atomically(&self.head_path(&head.binding_digest)?, &head)?;
+        replace_json_atomically(&self.external_head_path(&head.binding_digest)?, &head)?;
         ensure!(
             self.head(review, publication)?.as_ref() == Some(&record),
             "decision_head_readback_failed"
@@ -298,6 +328,10 @@ impl DecisionStore {
         ensure!(
             fs::symlink_metadata(destination_root)?.file_type().is_dir(),
             "invalid_destination_root"
+        );
+        ensure!(
+            destination_digest(destination_root)? == decision.publication.destination_digest,
+            "publication_destination_mismatch"
         );
         let target = destination_root.join(&decision.publication.target);
         reject_symlink_components(&target)?;
@@ -773,7 +807,7 @@ mod tests {
             claims: vec!["Verified snapshot".into()],
             nonclaims: vec!["No remote publication".into()],
         };
-        let publication = input.publication(&review).unwrap();
+        let publication = input.publication(&review, &destination).unwrap();
         let decision = DecisionRecord::new(
             &review,
             &publication,
@@ -833,14 +867,15 @@ mod tests {
             claims: vec!["Serialized admission".into()],
             nonclaims: vec!["No remote publication".into()],
         };
-        let publication = input.publication(&review).unwrap();
-
         for (index, revocation) in [DecisionKind::Invalidated, DecisionKind::Withheld]
             .into_iter()
             .enumerate()
         {
             let store_root = directory.path().join(format!("store-{index}"));
             fs::create_dir(&store_root).unwrap();
+            let destination = directory.path().join(format!("destination-{index}"));
+            fs::create_dir(&destination).unwrap();
+            let publication = input.publication(&review, &destination).unwrap();
             append_decision(
                 &store_root,
                 &review,
@@ -851,8 +886,6 @@ mod tests {
                 10,
             )
             .unwrap();
-            let destination = directory.path().join(format!("destination-{index}"));
-            fs::create_dir(&destination).unwrap();
             let store = DecisionStore::open(&store_root).unwrap();
             store
                 .admit_local(
@@ -898,18 +931,17 @@ mod tests {
                 12,
             )
             .unwrap();
-            let denied_destination = directory.path().join(format!("denied-{index}"));
-            fs::create_dir(&denied_destination).unwrap();
+            fs::remove_dir_all(destination.join("published")).unwrap();
             assert!(admit_local(
                 &review,
                 &publication,
                 &store_root,
                 &artifact_root,
-                &denied_destination,
+                &destination,
                 13,
             )
             .is_err());
-            assert!(!denied_destination.join("published").exists());
+            assert!(!destination.join("published").exists());
         }
     }
 }

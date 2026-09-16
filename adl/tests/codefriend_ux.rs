@@ -23,6 +23,7 @@ struct Fixture {
     review_path: PathBuf,
     artifact_root: PathBuf,
     manifest_path: PathBuf,
+    destination_root: PathBuf,
 }
 
 impl Fixture {
@@ -74,12 +75,15 @@ impl Fixture {
             .unwrap(),
         )
         .unwrap();
+        let destination_root = root.join("destination");
+        fs::create_dir(&destination_root).unwrap();
         Self {
             _dir: dir,
             root,
             review_path,
             artifact_root,
             manifest_path,
+            destination_root,
         }
     }
 
@@ -91,7 +95,9 @@ impl Fixture {
         let review = self.review();
         let manifest = ManifestInput::read(&self.manifest_path).unwrap();
         verify_artifacts(&self.artifact_root, &manifest.artifact_manifest).unwrap();
-        manifest.publication(&review).unwrap()
+        manifest
+            .publication(&review, &self.destination_root)
+            .unwrap()
     }
 }
 
@@ -119,9 +125,8 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
     let fixture = Fixture::new();
     let publication = fixture.root.join("publication.json");
     let decisions = fixture.root.join("decisions");
-    let destination = fixture.root.join("destination");
+    let destination = fixture.destination_root.clone();
     fs::create_dir(&decisions).unwrap();
-    fs::create_dir(&destination).unwrap();
 
     let output = cli(&[
         "prepare",
@@ -131,6 +136,8 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         fixture.manifest_path.to_str().unwrap(),
         "--artifact-root",
         fixture.artifact_root.to_str().unwrap(),
+        "--destination-root",
+        destination.to_str().unwrap(),
         "--out",
         publication.to_str().unwrap(),
     ]);
@@ -143,6 +150,8 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         fixture.manifest_path.to_str().unwrap(),
         "--artifact-root",
         fixture.artifact_root.to_str().unwrap(),
+        "--destination-root",
+        destination.to_str().unwrap(),
         "--out",
         publication.to_str().unwrap(),
     ])
@@ -176,6 +185,24 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
     let inspected: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
     assert_eq!(inspected["decision"], "approved");
     assert_eq!(inspected["channel"], "explicit_cli");
+
+    let wrong_destination = fixture.root.join("wrong-destination");
+    fs::create_dir(&wrong_destination).unwrap();
+    assert!(!cli(&[
+        "admit-local",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
+        decisions.to_str().unwrap(),
+        "--artifact-root",
+        fixture.artifact_root.to_str().unwrap(),
+        "--destination-root",
+        wrong_destination.to_str().unwrap(),
+    ])
+    .status
+    .success());
 
     let output = cli(&[
         "admit-local",
@@ -232,8 +259,7 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
         10,
     )
     .unwrap();
-    let destination = fixture.root.join("destination");
-    fs::create_dir(&destination).unwrap();
+    let destination = fixture.destination_root.clone();
     assert!(admit_local(
         &review,
         &publication,
@@ -306,7 +332,14 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     )
     .is_err());
 
-    for change in ["renderer", "target", "claims", "scope", "findings"] {
+    for change in [
+        "renderer",
+        "target",
+        "destination",
+        "claims",
+        "scope",
+        "findings",
+    ] {
         let mut changed = approved.clone();
         match change {
             "renderer" => {
@@ -316,6 +349,7 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
                     .insert("markdown".into(), "v2".into());
             }
             "target" => changed.publication.target = "other-output".into(),
+            "destination" => changed.publication.destination_digest = "0".repeat(64),
             "claims" => changed.publication.claims.push("Additional claim".into()),
             "scope" => changed.publication.scope_digest = "0".repeat(64),
             _ => changed.publication.finding_set_digest = "0".repeat(64),
@@ -359,7 +393,9 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     let mut updated = input;
     updated.artifact_manifest[1].digest =
         digest(&fs::read(fixture.artifact_root.join("report.md")).unwrap());
-    let new_publication = updated.publication(&review).unwrap();
+    let new_publication = updated
+        .publication(&review, &fixture.destination_root)
+        .unwrap();
     let renewed_decisions = fixture.root.join("renewed-decisions");
     fs::create_dir(&renewed_decisions).unwrap();
     append_decision(
@@ -389,8 +425,7 @@ fn revoked_approval_cannot_be_replayed_from_an_alternate_or_truncated_store() {
     let review = fixture.review();
     let publication = fixture.publication();
     let binding = publication.binding_digest().unwrap();
-    let destination = fixture.root.join("destination");
-    fs::create_dir(&destination).unwrap();
+    let destination = fixture.destination_root.clone();
 
     for revocation in [DecisionKind::Invalidated, DecisionKind::Withheld] {
         let name = match revocation {
@@ -410,6 +445,8 @@ fn revoked_approval_cannot_be_replayed_from_an_alternate_or_truncated_store() {
             10,
         )
         .unwrap();
+        let local_head = store.join("heads").join(format!("{binding}.json"));
+        let approved_head = fs::read(&local_head).unwrap();
         let revoked = append_decision(
             &store,
             &review,
@@ -463,6 +500,19 @@ fn revoked_approval_cannot_be_replayed_from_an_alternate_or_truncated_store() {
         .unwrap_err()
         .to_string();
         assert_eq!(error, "publication_head_replayed");
+
+        fs::write(&local_head, &approved_head).unwrap();
+        let error = admit_local(
+            &review,
+            &publication,
+            &store,
+            &fixture.artifact_root,
+            &destination,
+            12,
+        )
+        .unwrap_err()
+        .to_string();
+        assert_eq!(error, "publication_external_head_mismatch");
     }
 }
 
@@ -496,7 +546,7 @@ fn incomplete_runs_missing_provenance_and_manifest_attacks_fail_closed() {
     incomplete.validate().unwrap();
     let incomplete_publication = ManifestInput::read(&fixture.manifest_path)
         .unwrap()
-        .publication(&incomplete)
+        .publication(&incomplete, &fixture.destination_root)
         .unwrap();
     assert!(DecisionRecord::new(
         &incomplete,
@@ -546,7 +596,7 @@ fn symlink_artifacts_and_destination_collision_leave_no_partial_target() {
     let fixture = Fixture::new();
     let review = fixture.review();
     let publication = fixture.publication();
-    let destination = fixture.root.join("destination");
+    let destination = fixture.destination_root.clone();
     let decisions = fixture.root.join("decisions");
     fs::create_dir(&decisions).unwrap();
     append_decision(
@@ -559,7 +609,6 @@ fn symlink_artifacts_and_destination_collision_leave_no_partial_target() {
         10,
     )
     .unwrap();
-    fs::create_dir(&destination).unwrap();
     fs::remove_file(fixture.artifact_root.join("report.md")).unwrap();
     symlink(
         fixture.artifact_root.join("details/findings.json"),
