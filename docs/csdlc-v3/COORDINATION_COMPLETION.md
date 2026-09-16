@@ -65,6 +65,10 @@ Before dispatch the owner verifies the exact open parent issue, body and timesta
 each child must be authentically `closed` with an explicit `completed` reason.
 Authenticated PR linkage must identify the same repository, PR and approved head,
 report a merged commit, and contain exactly the corresponding closing issue link.
+A child body may also contain non-closing parent references, for example
+`Closes #887` followed by `Part of #505`. These references do not replace the
+child's required closing directive or authorize any extra closing issue. The
+pre-merge reviewed-publication linkage policy remains unchanged.
 Incomplete linkage pagination, partial GraphQL errors, unmerged PRs and stale or
 missing evidence fail closed. The parent snapshot and evidence bytes are rechecked
 after child observations. GitHub does not offer a transaction across these reads

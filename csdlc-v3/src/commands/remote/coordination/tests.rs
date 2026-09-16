@@ -278,3 +278,80 @@ fn coordination_rechecks_parent_before_dispatch_evidence() {
         .join(".git/csdlc-v3/coordination-readiness")
         .exists());
 }
+
+#[test]
+fn completed_child_allows_parent_context_without_weakening_merge_admission() {
+    for parent in [
+        "Part of #505",
+        "Part-of agent-logic/agent-design-language#505",
+        "Part of https://github.com/agent-logic/agent-design-language/issues/505",
+    ] {
+        let mut fixture = Fixture::new();
+        fixture.linkage["data"]["repository"]["pullRequest"]["body"] =
+            json!(format!("Closes #887\n\n{parent}"));
+        let mut adapter = fixture.adapter();
+        verify(&fixture.root, &fixture.request, &mut adapter).unwrap();
+        let linkage = PublicationLinkage {
+            repository: REPO.into(),
+            issue: 887,
+            mode: RemotePublicationMode::Closing,
+        };
+        let mut request = fixture.request.clone();
+        request.issue = 887;
+        request.pull_request = Some(989);
+        assert_eq!(
+            linkage
+                .validate(&fixture.linkage, &request, true)
+                .unwrap_err()
+                .code,
+            "github_merge_linkage_ineligible"
+        );
+    }
+}
+
+#[test]
+fn parent_context_cannot_replace_or_expand_child_closing_evidence() {
+    for case in [
+        "part_of_only",
+        "wrong_child",
+        "extra_closing",
+        "extra_authenticated_link",
+        "wrong_authenticated_link",
+        "open_linked_child",
+        "truncated_links",
+    ] {
+        let mut fixture = Fixture::new();
+        fixture.linkage["data"]["repository"]["pullRequest"]["body"] =
+            json!("Closes #887\nPart of #505");
+        let pr = &mut fixture.linkage["data"]["repository"]["pullRequest"];
+        match case {
+            "part_of_only" => pr["body"] = json!("Part of #887\nPart of #505"),
+            "wrong_child" => pr["body"] = json!("Closes #888\nPart of #505"),
+            "extra_closing" => pr["body"] = json!("Closes #887\nCloses #888\nPart of #505"),
+            "extra_authenticated_link" => {
+                let extra = json!({"number":888,"url":format!("https://github.com/{REPO}/issues/888"),"repository":{"nameWithOwner":REPO}});
+                pr["closingIssuesReferences"]["nodes"]
+                    .as_array_mut()
+                    .unwrap()
+                    .push(extra);
+            }
+            "wrong_authenticated_link" => {
+                pr["closingIssuesReferences"]["nodes"][0]["number"] = json!(888)
+            }
+            "truncated_links" => {
+                pr["closingIssuesReferences"]["pageInfo"]["hasNextPage"] = json!(true)
+            }
+            "open_linked_child" => {
+                fixture.linkage["data"]["linkedRepository"]["issue"]["state"] = json!("OPEN")
+            }
+            _ => unreachable!(),
+        }
+        assert_eq!(
+            verify(&fixture.root, &fixture.request, &mut fixture.adapter())
+                .unwrap_err()
+                .code,
+            "github_merge_linkage_ineligible",
+            "accepted {case}"
+        );
+    }
+}

@@ -45,5 +45,5 @@
   "sprint_goal_ref": "No active sprint execution budget assigned to this repair.",
   "sip_card": ".csdlc/issues/1006/cards/sip.md",
   "estimate_validation_seconds": "not_budgeted_by_operator",
-  "notes_risks_inline": "Coordination classification and evidence freshness must be verified, not self-certified. Prevent stale state/replay, identity substitution and implicit ordinary-issue completion. #929 workaround is historical evidence, not authority for new bypasses."
+  "notes_risks_inline": "Review P2 at6498d655 reproduced and fixed: completed child may contain Closes its issue plus nonclosing Part of parent context. Pre-merge publication linkage policy remains strict. Original plan and implementation otherwise preserved."
 }

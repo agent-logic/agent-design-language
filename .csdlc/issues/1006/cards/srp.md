@@ -55,8 +55,8 @@ policy_refs:
   - ".csdlc/issues/1006/cards/sip.md"
   - ".csdlc/issues/1006/cards/vpp.md"
 review_results:
-  findings_status: "pass"
-  recommended_outcome: "PASS"
+  findings_status: "resolved"
+  recommended_outcome: "Approve updated publication after exact-head review; new CI pending."
 notes: "Reviewer is independent of implementer /root/palace_authority. Explicit coordination-only contract, operator authority, authenticated child state/merged linkage, admin preservation, installed ordinary path, semantic retry controls and retained proof reviewed. No remote publication or merge performed."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Independent reviewer /root/repair_882_ci PASS at exact implementation head 8ffeeaab035dd1da9b1d472c0a723b22e00dd74d: seven source hashes, nine installed report hashes, five test-log hashes and123 passing tests verified. No source or privacy findings.
+- External review P2 at6498d655: valid child Closes #887 plus Part of #505 wrongly rejected with github_merge_linkage_ineligible. Independently reproduced installed beforefix. Added completed-child-only parent-context handling and exact closing/evidence negative regressions.
 
 ### Dispositions
 
-- Requested retry-after-authenticated-absence regression resolved: unchanged control succeeds; reopened child and altered evidence prevent second PATCH. Final record-only head renewal remains separate before publication.
+- P2 fixed; /root/repair_882_ci working-diff review PASS with no findings. Exact updated-head receipt and fresh CI remain required. Earlier independent review and original proof preserved as historical baseline.
 
 ### Recommended Outcome
 
-- PASS
+- Approve updated publication after exact-head review; new CI pending.
 
 ## Notes
 

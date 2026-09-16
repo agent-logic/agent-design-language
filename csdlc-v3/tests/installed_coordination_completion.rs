@@ -294,3 +294,20 @@ fn installed_coordination_absence_retry_rechecks_changed_child_and_evidence() {
         );
     }
 }
+
+// PVF #1006 review regression: parent references do not change child delivery.
+#[test]
+fn installed_coordination_accepts_child_closing_link_with_parent_reference() {
+    let (mut fixture, linked, body) = setup("coordination-child-parent-reference");
+    let path = base(&fixture).join("child-merge.json");
+    let mut child: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    child["data"]["repository"]["pullRequest"]["body"] = json!("Closes #887\n\nPart of #505");
+    write(&path, &child);
+    let op = fixture.write_json("completion.json", &operation(&body));
+    success(execute(&mut fixture, &linked, &op));
+    assert_eq!(fixture.remote_issue()["state"], "closed");
+    assert_eq!(fixture.remote_issue()["state_reason"], "completed");
+    assert_eq!(fixture.remote_effects(), 1);
+    success(execute(&mut fixture, &linked, &op));
+    assert_eq!(fixture.remote_effects(), 1, "replay repeated PATCH");
+}

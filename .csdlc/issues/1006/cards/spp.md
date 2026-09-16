@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Coordination classification and evidence freshness must be verified, not self-certified. Prevent stale state/replay, identity substitution and implicit ordinary-issue completion. #929 workaround is historical evidence, not authority for new bypasses."
+notes: "Review P2 at6498d655 reproduced and fixed: completed child may contain Closes its issue plus nonclosing Part of parent context. Pre-merge publication linkage policy remains strict. Original plan and implementation otherwise preserved."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Coordination classification and evidence freshness must be verified, not self-certified. Prevent stale state/replay, identity substitution and implicit ordinary-issue completion. #929 workaround is historical evidence, not authority for new bypasses.
+Review P2 at6498d655 reproduced and fixed: completed child may contain Closes its issue plus nonclosing Part of parent context. Pre-merge publication linkage policy remains strict. Original plan and implementation otherwise preserved.

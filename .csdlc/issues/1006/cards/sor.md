@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented native coordination-only completion;123 focused tests and strict checks PASS. Independent review PASS at8ffeeaab035dd1da9b1d472c0a723b22e00dd74d. This records local implementation/proof/review, not publication, CI, merge or terminal completion.
+Guarded native coordination completion implemented; follow-up P2 fixed to permit nonclosing parent context on an already merged child while retaining exact sole child closure evidence and strict pre-merge admission.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -86,13 +86,13 @@ Implemented native coordination-only completion;123 focused tests and strict che
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main inspection-only`
 - Worktree-only paths remaining: `Record-only SRP/SOR/SPP review truth update pending commit; implementation already committed at8ffeeaab.`
-- Integration state: `not_published`
+- Integration state: `pr_open`
 - Verification scope: `Independent source/proof review PASS; bounded coordination completion owner, ordinary CLI, admin closure and terminal integration proven. Hosted CI pending.`
 - Integration method used: `none; no publication or merge performed`
 - Verification performed:
   - `not run; no PR yet`
     `no integration claim`
-- Result: `not_integrated`
+- Result: `PR1011 open; reviewed source repair awaits current-head CI; not merged.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::; --test remote_publication_commands --test terminal_cleanup_cutover_commands; --test installed_coordination_completion; focused installed_intent_commands admin and no-PR terminal tests; cargo clippy --all-targets -- -D warnings; cargo fmt -- --check`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml --lib commands::remote; cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_coordination_completion; cargo test --manifest-path csdlc-v3/Cargo.toml --test remote_publication_commands; cargo clippy --all-targets -- -D warnings; cargo fmt --check`
     `Proves deterministic native behavior with synthetic authenticated transport; not completion of any real GitHub coordination issue.`
 - Results:
-  - `PASS: 70 remote-owner + 13 remote-publication + 35 terminal integration + 3 installed coordination + 1 installed admin matrix + 1 installed terminal = 123 tests. Strict all-target Clippy, fmt and diff checks pass.`
+  - `Fresh P2 validation:72 remote-owner tests,4 installed coordination tests,13 publication regressions, strict all-target Clippy,formatting passed. Original123-case proof retained at prior head; new hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -163,7 +163,7 @@ verification_summary:
 - Replay result: `PASS: completed replay emits no second PATCH; unchanged absence retry succeeds; reopened child or changed evidence prevents retry dispatch.`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/1006/LOCAL_PROOF.json`
+- Primary proof surface: `.csdlc/evidence/1006/LINKAGE_REVIEW_FIX.json`
 - Required artifacts present: `local proof, owner/installed tests, nine installed receipts, logs and operator docs`
 - Artifact schema/version checks: `Strict serde contracts reject unknown fields; native card validation follows this update.`
 - Hash/byte-stability checks: `LOCAL_PROOF.json pins source SHA256, candidate SHA256, installed BLAKE3 and retained scenario SHA256. Owner positive verifies immutable readiness receipt bytes across repetition.`

@@ -261,7 +261,7 @@ pub(super) fn verify(
                     .is_some_and(|v| hex(v, 40)),
             "coordination child merged PR identity mismatch",
         )?;
-        linkage.validate(&merged, &child_request, true)?;
+        linkage.validate_completed_child(&merged, &child_request)?;
         observed_children.push(json!({"issue":child.issue,"pull_request":child.pull_request,"head_sha":child.head_sha,
             "issue_observation_digest":blake3::hash(&serde_json::to_vec(&issue).map_err(|_| reject("observation encoding failed"))?).to_hex().to_string(),
             "merge_observation_digest":blake3::hash(&serde_json::to_vec(&merged).map_err(|_| reject("observation encoding failed"))?).to_hex().to_string()}));
