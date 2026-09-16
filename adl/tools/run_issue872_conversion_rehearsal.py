@@ -338,7 +338,9 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
                  production_owner: Path, repository: str, records: list[dict],
                  registry_path: Path, authority_bytes_path: Path,
                  prior_executable_path: Path, prior_executable_blake3: str,
-                 fault_workspace_root: Path) -> tuple[str, dict]:
+                 fault_workspace_root: Path, old_writer_command: list[str],
+                 old_writer_issue_root: Path, old_writer_attestation: dict
+                 ) -> tuple[str, dict]:
     rel = Path("faults") / point / boundary / "result.json"
     case = output / rel.parent
     primary, linked, common = initialize_fault_repository(
@@ -374,6 +376,32 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
     if crash["process_status"] == 0:
         raise ValueError(f"production fault did not interrupt at {point}:{boundary}")
     crash_digest = sha256(canonical(files_under(common)))
+    fault_state = common / "csdlc-v3/local"
+    (fault_state / "issues").mkdir(parents=True, exist_ok=True)
+    shutil.copytree(old_writer_issue_root, fault_state / "issues/868")
+    fault_writer_request = case / "old-writer-request.json"
+    old_request = json.loads(Path(old_writer_command[3]).read_text())
+    old_request["worktree"] = str(linked)
+    write_json(fault_writer_request, old_request)
+    fault_registrations = case / "old-writer-registrations.json"
+    write_json(fault_registrations, [
+        {"branch":"main", "worktree":str(primary), "primary":True},
+        {"branch":"codex/fault-linked", "worktree":str(linked), "primary":False},
+    ])
+    fault_writer_argv = [old_writer_command[0], "edit", "--request", str(fault_writer_request),
+                         "--registry", str(linked_registry),
+                         "--registrations", str(fault_registrations),
+                         "--repo-root", str(primary),
+                         "--v3-state-root", str(fault_state)]
+    fence_path = common / "csdlc-v3/local/conversion-rehearsals" / operation / "conversion.fence"
+    fence_state = fence_path.read_bytes()
+    crash_writer = None
+    if fence_state == b"active\n":
+        crash_writer = prove_writer_blocked(
+            fault_writer_argv, linked, fault_state / "issues/868", old_writer_attestation)
+    elif fence_state != b"released\n":
+        raise ValueError(
+            f"unsupported durable writer-fence state at {point}:{boundary}: {fence_state!r}")
     evidence_before = run_command(evidence_argv, primary)
     if evidence_before["process_status"] != 0:
         raise ValueError(f"operation evidence failed at {point}:{boundary}: {evidence_before['stdout']}")
@@ -398,7 +426,10 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
     if readback["stdout_sha256"] != evidence_after["stdout_sha256"]:
         raise ValueError(f"primary/linked operation readbacks differ at {point}:{boundary}")
     final_digest = sha256(canonical(files_under(common)))
-    commands = [crash, evidence_before, restore, resumed, evidence_after, readback]
+    commands = [crash]
+    if crash_writer is not None:
+        commands.append(crash_writer["command"])
+    commands.extend([evidence_before, restore, resumed, evidence_after, readback])
     retain_command_bundle(case, operation, commands, f"production_cli_convert_evidence_restore_resume_{point}_{boundary}",
                           before_digest, crash_digest, final_digest)
     journal = Path(completed["journal_path"])
@@ -431,6 +462,9 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
     })
     return rel.as_posix(), {
         "crash_process_status": crash["process_status"],
+        "archived_writer_blocked_after_crash": crash_writer is not None,
+        "durable_writer_fence_state_after_crash": fence_state.decode().strip(),
+        "archived_writer_crash_probe": crash_writer,
         "interrupted_evidence": interrupted,
         "restore_result": restore_payload,
         "resume_process_status": resumed["process_status"],
@@ -696,6 +730,7 @@ def run(request_path: Path) -> dict:
                     request["repository"], fault_records, registry_path,
                     authority_bytes_path, Path(request["old_executable"]),
                     request["old_executable_blake3"], fixture / "fault-workspaces",
+                    writer_command, writer_state_root, old_attestation,
                 )
                 evidence[point][boundary] = result
         return {"schema":"csdlc.v3.issue872_fault_probe.v1",
@@ -973,6 +1008,7 @@ def run(request_path: Path) -> dict:
                 request["repository"], fault_records, registry_path,
                 authority_bytes_path, Path(request["old_executable"]),
                 request["old_executable_blake3"], fixture / "fault-workspaces",
+                writer_command, writer_state_root, old_attestation,
             )
             fault_results[point][boundary] = ref
             fault_evidence[point][boundary] = evidence

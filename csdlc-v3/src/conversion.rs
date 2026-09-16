@@ -13,14 +13,20 @@ use crate::storage::semantic::{
     SemanticRoot, Snapshot, Validator, SEMANTIC_CARD_KINDS,
 };
 use crate::storage::DurableTransactionStore;
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
+use std::net::{SocketAddr, UdpSocket};
 use std::path::{Component, Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::thread;
 use std::time::{Duration, Instant};
+
+static CREATE_ONCE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -136,6 +142,28 @@ pub struct ConversionRestoreResult {
     pub source_hashes_after: Vec<String>,
     pub effect_count: usize,
     pub receipt_path: Option<PathBuf>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct WriterFenceGuardianRequest {
+    schema: String,
+    operation_id: String,
+    request_digest: String,
+    git_common: PathBuf,
+    issues: Vec<u64>,
+    fence_path: PathBuf,
+    ready_path: PathBuf,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct WriterFenceGuardianReady {
+    schema: String,
+    operation_id: String,
+    request_digest: String,
+    issues: Vec<u64>,
+    challenge_port: u16,
 }
 
 const FAULT_POINTS: [&str; 16] = [
@@ -353,27 +381,62 @@ fn create_durable_child(parent: &Path, name: &str) -> Result<PathBuf, String> {
 }
 
 fn write_create_once(path: &Path, bytes: &[u8]) -> Result<(), String> {
-    match OpenOptions::new().write(true).create_new(true).open(path) {
-        Ok(mut file) => {
-            file.write_all(bytes)
-                .map_err(|error| format!("{}: {error}", path.display()))?;
-            file.sync_all()
-                .map_err(|error| format!("{}: {error}", path.display()))?;
-            sync_dir(path.parent().expect("created file has parent"))
-        }
-        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
-            let existing =
-                fs::read(path).map_err(|read_error| format!("{}: {read_error}", path.display()))?;
-            if existing == bytes {
-                Ok(())
-            } else {
-                Err(format!(
-                    "{} already exists with different bytes",
-                    path.display()
-                ))
+    if path.is_file() {
+        return compare_create_once_bytes(path, bytes);
+    }
+
+    let parent = path.parent().expect("created file has parent");
+    let file_name = path
+        .file_name()
+        .expect("created file has file name")
+        .to_string_lossy();
+    let sequence = CREATE_ONCE_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    let temporary = parent.join(format!(
+        ".{file_name}.{}.{}.create-once",
+        std::process::id(),
+        sequence
+    ));
+    let publish = (|| {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&temporary)
+            .map_err(|error| format!("{}: {error}", temporary.display()))?;
+        file.write_all(bytes)
+            .map_err(|error| format!("{}: {error}", temporary.display()))?;
+        file.sync_all()
+            .map_err(|error| format!("{}: {error}", temporary.display()))?;
+        drop(file);
+
+        match fs::hard_link(&temporary, path) {
+            Ok(()) => sync_dir(parent),
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+                compare_create_once_bytes(path, bytes)
             }
+            Err(error) => Err(format!(
+                "publish {} as {}: {error}",
+                temporary.display(),
+                path.display()
+            )),
         }
-        Err(error) => Err(format!("{}: {error}", path.display())),
+    })();
+    let cleanup = match fs::remove_file(&temporary) {
+        Ok(()) => sync_dir(parent),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(format!("{}: {error}", temporary.display())),
+    };
+    publish.and(cleanup)
+}
+
+fn compare_create_once_bytes(path: &Path, bytes: &[u8]) -> Result<(), String> {
+    let existing = fs::read(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    if existing == bytes {
+        Ok(())
+    } else {
+        Err(format!(
+            "{} already exists with different bytes",
+            path.display()
+        ))
     }
 }
 
@@ -411,6 +474,300 @@ fn replace_durable(path: &Path, bytes: &[u8]) -> Result<(), String> {
         )
     })?;
     sync_dir(parent)
+}
+
+fn guardian_ready(
+    path: &Path,
+    request: &WriterFenceGuardianRequest,
+) -> Option<WriterFenceGuardianReady> {
+    let Ok(bytes) = fs::read(path) else {
+        return None;
+    };
+    let Ok(value) = serde_json::from_slice::<WriterFenceGuardianReady>(&bytes) else {
+        return None;
+    };
+    (value.schema == "csdlc.v3.copied_record_writer_fence_guardian_ready.v1"
+        && value.operation_id == request.operation_id
+        && value.request_digest == request.request_digest
+        && value.issues == request.issues
+        && value.challenge_port != 0)
+        .then_some(value)
+}
+
+fn guardian_challenge(request: &WriterFenceGuardianRequest) -> Vec<u8> {
+    format!(
+        "csdlc.v3.writer_fence_guardian.challenge.v1\n{}\n{}\n",
+        request.operation_id, request.request_digest
+    )
+    .into_bytes()
+}
+
+fn guardian_response(challenge: &[u8]) -> Vec<u8> {
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(b"csdlc.v3.writer_fence_guardian.response.v1\0");
+    hasher.update(challenge);
+    format!("{}\n", hasher.finalize().to_hex()).into_bytes()
+}
+
+fn guardian_channel_authenticates(
+    ready: &WriterFenceGuardianReady,
+    request: &WriterFenceGuardianRequest,
+) -> bool {
+    let address = SocketAddr::from(([127, 0, 0, 1], ready.challenge_port));
+    let Ok(socket) = UdpSocket::bind(("127.0.0.1", 0)) else {
+        return false;
+    };
+    let _ = socket.set_read_timeout(Some(Duration::from_millis(250)));
+    let _ = socket.set_write_timeout(Some(Duration::from_millis(250)));
+    if socket.connect(address).is_err() {
+        return false;
+    }
+    let challenge = guardian_challenge(request);
+    if socket.send(&challenge).ok() != Some(challenge.len()) {
+        return false;
+    }
+    let mut response = [0_u8; 128];
+    let Ok(size) = socket.recv(&mut response) else {
+        return false;
+    };
+    response[..size] == guardian_response(&challenge)
+}
+
+fn retained_guardian_authenticates(
+    ready_path: &Path,
+    request: &WriterFenceGuardianRequest,
+    common: &Path,
+    issues: &[u64],
+) -> Result<bool, String> {
+    let retained_ready = guardian_ready(ready_path, request);
+    if retained_ready.as_ref().is_some_and(|ready| {
+        guardian_channel_authenticates(ready, request) && native_writer_locks_held(common, issues)
+    }) {
+        return Ok(true);
+    }
+    if retained_ready.is_some() && native_writer_locks_held(common, issues) {
+        return Err(
+            "stale writer-fence guardian readiness cannot authenticate busy native locks"
+                .to_owned(),
+        );
+    }
+    Ok(false)
+}
+
+fn native_writer_locks_held(common: &Path, issues: &[u64]) -> bool {
+    issues.iter().all(|issue| {
+        let path = common
+            .join("csdlc-v3/local/locks")
+            .join(format!("{issue}.lock"));
+        let Ok(file) = OpenOptions::new().read(true).write(true).open(path) else {
+            return false;
+        };
+        file.try_lock_exclusive().is_err()
+    })
+}
+
+fn native_writer_locks_available(common: &Path, issues: &[u64]) -> bool {
+    issues.iter().all(|issue| {
+        let path = common
+            .join("csdlc-v3/local/locks")
+            .join(format!("{issue}.lock"));
+        let Ok(file) = OpenOptions::new().read(true).write(true).open(path) else {
+            return false;
+        };
+        file.try_lock_exclusive().is_ok()
+    })
+}
+
+fn acquire_guarded_writer_fence(
+    operation: &Operation<'_>,
+    request_digest: &Digest,
+    common: &Path,
+    issues: &[u64],
+) -> Result<NativeWriterFenceGuard, String> {
+    let fence_path = operation.root.join("conversion.fence");
+    let ready_path = operation.root.join("writer-fence-guardian-ready.json");
+    let guardian_request = WriterFenceGuardianRequest {
+        schema: "csdlc.v3.copied_record_writer_fence_guardian_request.v1".to_owned(),
+        operation_id: operation.id().to_owned(),
+        request_digest: request_digest.as_str().to_owned(),
+        git_common: common.to_path_buf(),
+        issues: issues.to_vec(),
+        fence_path,
+        ready_path: ready_path.clone(),
+    };
+    let request_path = operation.root.join("writer-fence-guardian-request.json");
+    let request_bytes = serde_json::to_vec_pretty(&guardian_request).map_err(|e| e.to_string())?;
+    write_create_once(&request_path, &request_bytes)?;
+
+    if !retained_guardian_authenticates(&ready_path, &guardian_request, common, issues)? {
+        let executable = std::env::current_exe().map_err(|error| error.to_string())?;
+        Command::new(executable)
+            .args(["writer-fence-guardian", "--request"])
+            .arg(&request_path)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .map_err(|error| format!("start writer-fence guardian: {error}"))?;
+    }
+
+    let deadline = Instant::now() + Duration::from_secs(15);
+    while !guardian_ready(&ready_path, &guardian_request).is_some_and(|ready| {
+        guardian_channel_authenticates(&ready, &guardian_request)
+            && native_writer_locks_held(common, issues)
+    }) {
+        if Instant::now() >= deadline {
+            return Err("writer-fence guardian did not authenticate held native locks".to_owned());
+        }
+        thread::sleep(Duration::from_millis(10));
+    }
+    NativeWriterFenceGuard::authenticated_guardian(common, issues.iter().copied())
+        .map_err(|error| format!("authenticate writer-fence guardian: {error:?}"))
+}
+
+fn release_guarded_writer_fence(
+    operation: &Operation<'_>,
+    common: &Path,
+    issues: &[u64],
+) -> Result<(), String> {
+    replace_durable(&operation.root.join("conversion.fence"), b"released\n")?;
+    let deadline = Instant::now() + Duration::from_secs(15);
+    while !native_writer_locks_available(common, issues) {
+        if Instant::now() >= deadline {
+            return Err("writer-fence guardian did not release native locks".to_owned());
+        }
+        thread::sleep(Duration::from_millis(10));
+    }
+    Ok(())
+}
+
+pub fn run_writer_fence_guardian(request_path: &Path) -> Result<(), String> {
+    let request: WriterFenceGuardianRequest = serde_json::from_slice(
+        &fs::read(request_path).map_err(|error| format!("{}: {error}", request_path.display()))?,
+    )
+    .map_err(|error| error.to_string())?;
+    if request.schema != "csdlc.v3.copied_record_writer_fence_guardian_request.v1" {
+        return Err("unsupported writer-fence guardian request schema".to_owned());
+    }
+    validate_operation_id(&request.operation_id)?;
+    let common = fs::canonicalize(&request.git_common)
+        .map_err(|error| format!("{}: {error}", request.git_common.display()))?;
+    let operation_root = common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .join(&request.operation_id);
+    if request_path != operation_root.join("writer-fence-guardian-request.json")
+        || request.fence_path != operation_root.join("conversion.fence")
+        || request.ready_path != operation_root.join("writer-fence-guardian-ready.json")
+    {
+        return Err("writer-fence guardian paths escaped the authenticated operation".to_owned());
+    }
+    let guard = NativeWriterFenceGuard::acquire(&common, request.issues.iter().copied())
+        .map_err(|error| format!("guardian acquire native issue writer fences: {error:?}"))?;
+    let retained_port = guardian_ready(&request.ready_path, &request)
+        .map(|ready| ready.challenge_port)
+        .unwrap_or(0);
+    let listener = UdpSocket::bind(("127.0.0.1", retained_port))
+        .map_err(|error| format!("bind writer-fence guardian challenge channel: {error}"))?;
+    listener
+        .set_nonblocking(true)
+        .map_err(|error| format!("configure writer-fence guardian challenge channel: {error}"))?;
+    let challenge_port = listener
+        .local_addr()
+        .map_err(|error| format!("inspect writer-fence guardian challenge channel: {error}"))?
+        .port();
+    replace_durable(&request.fence_path, b"active\n")?;
+    write_create_once(
+        &request.ready_path,
+        &serde_json::to_vec_pretty(&WriterFenceGuardianReady {
+            schema: "csdlc.v3.copied_record_writer_fence_guardian_ready.v1".to_owned(),
+            operation_id: request.operation_id.clone(),
+            request_digest: request.request_digest.clone(),
+            issues: request.issues.clone(),
+            challenge_port,
+        })
+        .map_err(|error| error.to_string())?,
+    )?;
+    let challenge = guardian_challenge(&request);
+    let response = guardian_response(&challenge);
+    loop {
+        match fs::read(&request.fence_path) {
+            Ok(bytes) if bytes == b"released\n" => break,
+            _ => {}
+        }
+        let mut received = [0_u8; 512];
+        match listener.recv_from(&mut received) {
+            Ok((size, peer)) => {
+                if received[..size] == challenge {
+                    let _ = listener.send_to(&response, peer);
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                thread::sleep(Duration::from_millis(10));
+            }
+            Err(error) => {
+                return Err(format!(
+                    "accept writer-fence guardian challenge channel: {error}"
+                ));
+            }
+        }
+    }
+    drop(guard);
+    Ok(())
+}
+
+#[cfg(test)]
+mod writer_fence_guardian_tests {
+    use super::*;
+
+    #[test]
+    fn stale_ready_and_foreign_eight_lock_holder_fail_closed() {
+        let nonce = CREATE_ONCE_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+        let common = std::env::temp_dir().join(format!(
+            "csdlc-stale-guardian-{}-{nonce}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&common).unwrap();
+        let issues = vec![511, 517, 497, 3, 505, 122, 113, 868];
+        let operation_id = "stale-guardian-negative";
+        let operation_root = common
+            .join("csdlc-v3/local/conversion-rehearsals")
+            .join(operation_id);
+        fs::create_dir_all(&operation_root).unwrap();
+        let ready_path = operation_root.join("writer-fence-guardian-ready.json");
+        let request = WriterFenceGuardianRequest {
+            schema: "csdlc.v3.copied_record_writer_fence_guardian_request.v1".to_owned(),
+            operation_id: operation_id.to_owned(),
+            request_digest: "semantic-projection-v1:stale-guardian".to_owned(),
+            git_common: common.clone(),
+            issues: issues.clone(),
+            fence_path: operation_root.join("conversion.fence"),
+            ready_path: ready_path.clone(),
+        };
+        let stale_listener = UdpSocket::bind(("127.0.0.1", 0)).unwrap();
+        let stale_port = stale_listener.local_addr().unwrap().port();
+        drop(stale_listener);
+        fs::write(
+            &ready_path,
+            serde_json::to_vec_pretty(&WriterFenceGuardianReady {
+                schema: "csdlc.v3.copied_record_writer_fence_guardian_ready.v1".to_owned(),
+                operation_id: operation_id.to_owned(),
+                request_digest: request.request_digest.clone(),
+                issues: issues.clone(),
+                challenge_port: stale_port,
+            })
+            .unwrap(),
+        )
+        .unwrap();
+        let foreign_holder = NativeWriterFenceGuard::acquire(&common, issues.iter().copied())
+            .expect("foreign process fixture must hold all eight native locks");
+
+        let rejected = retained_guardian_authenticates(&ready_path, &request, &common, &issues)
+            .expect_err("stale readiness plus foreign locks must not mint admission");
+        assert!(rejected.contains("stale writer-fence guardian readiness"));
+
+        drop(foreign_holder);
+        fs::remove_dir_all(common).unwrap();
+    }
 }
 
 fn copy_tree(source: &Path, destination: &Path) -> Result<(), String> {
@@ -940,16 +1297,32 @@ fn wait_for_writer_fence_probe(
 ) -> Result<(), String> {
     let acknowledgement = operation.root.join(acknowledgement_name);
     let deadline = Instant::now() + Duration::from_secs(30);
-    while !acknowledgement.is_file() {
-        if Instant::now() >= deadline {
-            return Err(format!(
-                "writer fence probe timed out waiting for {}",
-                acknowledgement.display()
-            ));
+    let retained = loop {
+        while !acknowledgement.is_file() {
+            if Instant::now() >= deadline {
+                return Err(format!(
+                    "writer fence probe timed out waiting for {}",
+                    acknowledgement.display()
+                ));
+            }
+            std::thread::sleep(Duration::from_millis(10));
         }
-        std::thread::sleep(Duration::from_millis(10));
-    }
-    let retained = read_json(&acknowledgement)?;
+        let bytes = fs::read(&acknowledgement)
+            .map_err(|error| format!("{}: {error}", acknowledgement.display()))?;
+        match serde_json::from_slice::<Value>(&bytes) {
+            Ok(value) => break value,
+            Err(error) if error.is_eof() && Instant::now() < deadline => {
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            Err(error) if error.is_eof() => {
+                return Err(format!(
+                    "writer fence probe timed out waiting for complete acknowledgement {}",
+                    acknowledgement.display()
+                ));
+            }
+            Err(error) => return Err(format!("{}: {error}", acknowledgement.display())),
+        }
+    };
     if retained.get("schema").and_then(Value::as_str)
         != Some("csdlc.v3.copied_record_writer_fence_probe_ack.v1")
         || retained.get("operation_id").and_then(Value::as_str) != Some(operation.id())
@@ -1363,14 +1736,15 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
 
     let preflight = preflight_conversion(request)?;
     let request_digest = canonical_request_digest(request, &preflight)?;
-    let native_issue_writer_fences = NativeWriterFenceGuard::acquire(
+    let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
+    let native_issue_writer_fences = acquire_guarded_writer_fence(
+        &operation,
+        &request_digest,
         &preflight.canonical_git_common,
-        request.writer_fence_issues.iter().copied(),
-    )
-    .map_err(|error| format!("acquire native issue writer fences: {error:?}"))?;
+        &request.writer_fence_issues,
+    )?;
     let fence_paths = native_issue_writer_fences.paths().to_vec();
     let mut native_issue_writer_fences = Some(native_issue_writer_fences);
-    let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
     operation.marker(
         "writer-fence-held.json",
         "native_issue_writer_fence_held",
@@ -1397,10 +1771,6 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         "conversion_intent_durable",
         json!({"repository": request.repository, "record_count": request.records.len()}),
     )?;
-    let fence = operation.root.join("conversion.fence");
-    if !fence.is_file() {
-        write_create_once(&fence, b"active\n")?;
-    }
     operation.fault("conversion_intent_durability", "after")?;
 
     let staging = operation.root.join("staging");
@@ -1808,7 +2178,11 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         )?;
     }
     drop(native_issue_writer_fences.take());
-    replace_durable(&fence, b"released\n")?;
+    release_guarded_writer_fence(
+        &operation,
+        &canonical_git_common,
+        &request.writer_fence_issues,
+    )?;
     operation.append(
         "conversion_fence_released",
         json!({"native_issue_writer_fences_released":true}),
@@ -2574,7 +2948,11 @@ pub fn restore_conversion_pre_effect(
     let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
     let fence = operation.root.join("conversion.fence");
     if fence.is_file() {
-        replace_durable(&fence, b"released\n")?;
+        release_guarded_writer_fence(
+            &operation,
+            &preflight.canonical_git_common,
+            &request.writer_fence_issues,
+        )?;
     }
     let receipt_path = operation.root.join("restore/pre-effect-receipt.json");
     operation.marker(
@@ -2604,4 +2982,63 @@ pub fn restore_conversion_pre_effect(
         effect_count,
         receipt_path: Some(receipt_path),
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::write_create_once;
+    use std::fs;
+    use std::sync::{Arc, Barrier};
+    use std::thread;
+
+    fn scratch(name: &str) -> std::path::PathBuf {
+        let root = std::env::temp_dir().join(format!(
+            "csdlc-conversion-{name}-{}-{}",
+            std::process::id(),
+            super::CREATE_ONCE_SEQUENCE.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+        ));
+        fs::create_dir(&root).unwrap();
+        root
+    }
+
+    #[test]
+    fn interrupted_create_once_staging_never_publishes_partial_final_bytes() {
+        let root = scratch("interrupted-checkpoint");
+        let final_path = root.join("checkpoint.json");
+        let orphan = root.join(".checkpoint.json.interrupted.create-once");
+        fs::write(&orphan, br#"{"schema":"partial"#).unwrap();
+
+        assert!(!final_path.exists());
+        let complete = br#"{"schema":"complete","status":"ready"}"#;
+        write_create_once(&final_path, complete).unwrap();
+
+        assert_eq!(fs::read(&final_path).unwrap(), complete);
+        assert_eq!(fs::read(&orphan).unwrap(), br#"{"schema":"partial"#);
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn concurrent_create_once_publishes_one_complete_candidate() {
+        let root = scratch("concurrent-checkpoint");
+        let final_path = root.join("checkpoint.json");
+        let first = br#"{"writer":"first","padding":"aaaaaaaaaaaaaaaa"}"#.to_vec();
+        let second = br#"{"writer":"second","padding":"bbbbbbbbbbbbbbbb"}"#.to_vec();
+        let barrier = Arc::new(Barrier::new(3));
+
+        let handles = [first.clone(), second.clone()].map(|candidate| {
+            let path = final_path.clone();
+            let barrier = Arc::clone(&barrier);
+            thread::spawn(move || {
+                barrier.wait();
+                write_create_once(&path, &candidate)
+            })
+        });
+        barrier.wait();
+        let results = handles.map(|handle| handle.join().unwrap());
+
+        assert_eq!(results.iter().filter(|result| result.is_ok()).count(), 1);
+        let retained = fs::read(&final_path).unwrap();
+        assert!(retained == first || retained == second);
+        fs::remove_dir_all(root).unwrap();
+    }
 }
