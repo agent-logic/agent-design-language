@@ -20,8 +20,8 @@ Run ID: issue-0907
 Version: 0.92.2
 Title: [v0.92.2][CSDLC-REMOTE] Decompose the remote C-SDLC command owner
 Branch: codex/907-v0922-remote-command-decomposition
-Card Status: implemented
-Status: IMPLEMENTED
+Card Status: ready
+Status: IMPLEMENTED_REVIEWED
 Generated: 2026-09-16T00:27:06.103043+00:00
 
 Execution:
@@ -57,7 +57,7 @@ Decomposed the 4,046-line remote command owner into a 48-line stable facade and 
 - Goal metrics source ref: `.csdlc/evidence/907/decomposition-inventory.md`
 - Data-source confidence: `high`
 - Estimate error percent: `not_collected`
-- Completion state: `implemented`
+- Completion state: `implemented_reviewed_publication_pending`
 - Issue goal ref: `active issue-bound goal for #907`
 - Sprint goal ref: `v0.92.2 Sprint 7 coordination issue #933; descriptive only`
 - Goal metrics rollup ref: `not_collected; no durable goal metrics artifact emitted`
@@ -174,5 +174,5 @@ verification_summary:
 - `No branch/worktree binding, shared binary replacement or live provider effect is authorized here`
 
 ## Follow-ups / Deferred work
-- `Obtain independent exact-head review and resolve every actionable finding`
-- `Publish through native v3 and observe required CI; merge remains operator-authorized`
+- `Run native review on the final record-only head and publish the draft PR`
+- `Observe required CI and route any findings; merge remains operator-authorized`
