@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and remediated the CodeFriend remediation planner for #893. Every public planning route now requires a retained completed canonical CF-SYNTHESIS review record, and installed reading is bound to the manifest-declared remediation-plan artifact and structurally canonical digest-bound replanning.
+Implemented and remediated the CodeFriend remediation planner for #893. Every public planning route requires canonical completed synthesis, every relevant path is resolved exactly from admitted evidence under the shared ingestion path contract, and installed reading is bound to the manifest-declared remediation-plan artifact and canonical replanning.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -79,19 +79,19 @@ Implemented and remediated the CodeFriend remediation planner for #893. Every pu
 - Additional proof artifacts: `Focused local proof output retained in terminal history; no external provider or GitHub mutation proof claimed.`
 
 ## Actions taken
-- `Required ReviewSynthesis plus its ReviewRecord at the public Rust planning API and recomputed canonical completed synthesis before any plan is produced.`
-- `Bound installed plan reading to manifest.remediation_plan_ref and to structurally canonical digest-bound replanning from the retained synthesis manifest and review record.`
-- `Replaced bare hand-built synthesis planner tests with synthesis derived from validated completed review records and added explicit aliased-plan rejection.`
+- `Made admitted evidence records the sole repository-path authority for remediation actions and removed semantic-anchor path inference.`
+- `Reused the ingestion path validator and made missing or unrepresentable evidence-ID path bindings fail closed instead of silently omitting or truncating them.`
+- `Added a completed canonical review fixture proving exact preservation of docs/My File.md, alongside public API, plan alias, substitution, tamper, and source-immutability negatives.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs`
 - Worktree-only paths remaining: `.csdlc/issues/893/ and .csdlc/transactions/completed/893/ are generated lifecycle material in the bound worktree until publication/finish; implementation source changes are tracked candidate paths.`
-- Integration state: `worktree_candidate_ready_for_fresh_review_after_public_api_and_plan_alias_repair`
+- Integration state: `worktree_candidate_ready_for_current_base_reconciliation_and_fresh_review`
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Confirms every production planner entrypoint verifies canonical completed synthesis, the reader accepts only the manifest-declared plan artifact, retained evidence resolves to repository paths, source bytes remain stable, and the PR lint surface passes.`
+    `Confirms every production planner verifies canonical completed synthesis, uses exact admitted evidence paths without semantic-anchor inference, reads only the declared plan artifact, preserves source bytes, and passes the PR lint surface.`
 - Result: `not_integrated`
 
 Rules:
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo fmt --manifest-path adl/Cargo.toml --check`; `cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings`; `git diff --check``
-    `Proves all public planners require canonical completed synthesis, installed readback rejects artifact aliases and plan substitution, retained evidence resolves to repository paths, source bytes remain unchanged, and the candidate is lint-clean.`
+    `Proves canonical completed-synthesis enforcement, exact evidence-path authority across the full ingestion-valid path contract, alias/substitution/tamper rejection, source immutability, and strict lint cleanliness.`
 - Results:
   - `passed`
 
@@ -128,7 +128,7 @@ verification_summary:
       - "`cargo fmt --manifest-path adl/Cargo.toml --check` verifies Rust formatting for the candidate."
   determinism:
     status: passed_for_completed_synthesis_bundle_and_negative_fixtures
-    replay_verified: The installed CLI generated one remediation action from the retained completed Vector bundle, resolved evidence to lib/dnsmsg-parser/src/dns_message.rs, parsed and asserted its manifest, reread only the manifest-declared plan artifact, rejected an aliased plan filename, preserved all source bundle files byte-for-byte, and rejected duplicate output.
+    replay_verified: The planner preserves exact paths from completed admitted evidence, including docs/My File.md, and the installed CLI generates and rereads the retained Vector action only from the manifest-declared artifact while preserving source bundle bytes.
     ordering_guarantees_verified: passed; validator recomputes topological order and rejects tampered non-topological action_order.
   security_privacy:
     status: passed_for_completed_synthesis_bundle_and_local_negative_fixture_scope
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Eight focused tests cover completed-review-derived deterministic ordering, evidence-ID path resolution, dot-directory/root-file preservation, structural tamper rejection, real completed Vector synthesis generation/readback, bare synthesis-file rejection, aliased plan rejection, unrelated action/path rejection, missing evidence, bundle tamper rejection, source-byte immutability, and fresh-output enforcement.`
+- Determinism tests executed: `Nine focused tests cover completed-review-derived ordering, exact evidence-ID path resolution, ingestion-valid space paths, dot-directory/root-file paths, structural tamper rejection, real Vector generation/readback, bare synthesis rejection, aliased plan rejection, unrelated action rejection, missing evidence, bundle tamper rejection, source immutability, and fresh-output enforcement.`
 - Fixtures or scripts used: `Retained completed Vector CF-SYNTHESIS bundle at .csdlc/evidence/892/predecessor-openai-r5-synthesis plus focused local negative fixtures generated under the Cargo target directory; no network or provider credentials used.`
 - Replay verification (same inputs -> same artifacts/order): `passed_for_real_completed_synthesis_bundle_and_negative_fixtures`
 - Ordering guarantees (sorting / tie-break rules used): `Generated remediation actions are dependency-ordered with deterministic severity/id tie-breaks; reader validation rejects action_order values that differ from recomputed topological order.`
@@ -160,12 +160,12 @@ verification_summary:
 - Trace bundle path(s): `Generated local test artifacts under adl/target/codefriend-remediate-tests; no durable release bundle created before review/publication.`
 - Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-remediate-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture.`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-- Replay result: `codefriend_remediate 8 passed; cargo fmt passed; full all-target/all-feature clippy with denied warnings passed; git diff --check passed`
+- Replay result: `codefriend_remediate 9 passed; cargo fmt passed; full all-target/all-feature clippy with denied warnings passed; git diff --check passed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
 - Required artifacts present: `passed_for_completed_synthesis_bundle_scope`
-- Artifact schema/version checks: `Focused tests parse and assert the remediation manifest, retained synthesis-manifest and review-record references, action counts, and installed readback; they reject bare synthesis files, aliased plan filenames, missing evidence, unrelated path substitution, tampered bundles, invalid plan shapes, and non-topological order.`
+- Artifact schema/version checks: `Nine focused tests parse and assert remediation and source manifests, completed review references and counts, exact evidence-bound paths including docs/My File.md, and installed readback; they reject bare synthesis files, aliased plan filenames, missing evidence, unrelated substitution, tampered bundles, invalid shapes, and non-topological order.`
 - Hash/byte-stability checks: ``cargo fmt --manifest-path adl/Cargo.toml --check` passed; `git diff --check` passed.`
 - Missing/optional artifacts and rationale: `CI, independent exact-head review and publication proof are pending. Provider-generated reviews and GitHub issue creation are sibling/follow-on concerns and not required for this local remediation-plan generator.`
 
@@ -174,5 +174,5 @@ verification_summary:
 - `The production proof consumes the retained completed Vector CF-SYNTHESIS bundle and exercises local negative fixtures. It does not rerun external providers, create GitHub issues, or claim publication authority.`
 
 ## Follow-ups / Deferred work
-- `Commit the immutable public-API and plan-alias remediation and obtain a different canonical fresh-session exact-head review.`
-- `If review passes, update PR #1012 through native C-SDLC, observe renewed CI, and finish only at green terminal authority.`
+- `Commit the evidence-path contract remediation, reconcile current origin/main without widening scope, rerun proof, and obtain a different canonical fresh-session exact-head review.`
+- `On PASS, publish the corrective PR through native C-SDLC and observe renewed CI before terminal reconciliation.`

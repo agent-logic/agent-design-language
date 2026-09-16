@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "The remediation changed production API and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit. No #894/#895 implementation scope is included."
+notes: "The remediation changed production path authority and tests after the failed review. A different canonical fresh-session reviewer must inspect the final current-base immutable commit. No #894/#895 implementation scope is included."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Canonical exact-head review of b1060f8c61904e2e0452048fda46d23513ad1a02 by fresh-session:83a5713c-fba0-4ae4-9a34-8334aca3f725 returned FAIL: P1 the public production `plan(&ReviewSynthesis)` API still accepted bare synthesis outside the file/CLI gate; P1 the installed reader did not require its caller-supplied filename to match manifest.remediation_plan_ref, allowing an aliased plan artifact; P2 SRP/SOR consequently overstated complete binding and used inaccurate byte-equivalent wording.
+- Canonical exact-head review of e090b75bf3922c642e09e749136e5e62b06f766f by fresh-session:1f19bfd4-51a6-4860-bbdf-a9da737c302d returned FAIL with one P1: ingestion admits valid repository paths containing spaces and other ASCII graphic characters, while remediation used a narrower grammar, silently discarded exact evidence paths, and could infer truncated semantic-anchor fragments such as docs/My and File.md instead of docs/My File.md. The generation-13 SOR therefore overstated complete evidence-path binding.
 
 ### Dispositions
 
-- All findings accepted and remediated. The public planner now requires both ReviewSynthesis and ReviewRecord and independently recomputes canonical completed synthesis before planning, so no public bare-synthesis API remains. The reader requires its input filename to equal manifest.remediation_plan_ref and a focused alias negative proves rejection. All planner algorithm tests now derive synthesis from valid completed review records instead of hand-built ReviewSynthesis objects. Lifecycle wording now claims structurally canonical, digest-bound replanning rather than byte equivalence.
+- Finding accepted and remediated. Remediation now uses the shared ingestion validate_path contract, requires every synthesized evidence ID to resolve to an exact admitted evidence path, propagates any missing or invalid binding as an error, and no longer infers repository paths from semantic-anchor text. A completed canonical ReviewRecord fixture with docs/My File.md proves exact preservation and documentation ownership; the focused suite now passes 9/9.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-The remediation changed production API and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit. No #894/#895 implementation scope is included.
+The remediation changed production path authority and tests after the failed review. A different canonical fresh-session reviewer must inspect the final current-base immutable commit. No #894/#895 implementation scope is included.

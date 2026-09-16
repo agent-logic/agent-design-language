@@ -3,6 +3,7 @@ use crate::codefriend::{
         contracts::{ReviewRecord, Severity},
         hash,
     },
+    ingestion::validate_path as validate_ingestion_path,
     review::synthesis::{
         synthesize, ReviewSynthesis, SynthesisManifest, SynthesizedFinding,
         SYNTHESIS_MANIFEST_SCHEMA, SYNTHESIS_SCHEMA,
@@ -257,18 +258,10 @@ fn plan_with_evidence_paths(
     validate_synthesis(synthesis)?;
     let synthesis_digest = hash(synthesis)?;
     let mut actions = Vec::new();
-    let mut omitted_findings = Vec::new();
+    let omitted_findings = Vec::new();
     let mut prior_for_path: BTreeMap<String, String> = BTreeMap::new();
     for finding in &synthesis.synthesized_findings {
-        let relevant_paths = relevant_paths(finding, evidence_paths);
-        if relevant_paths.is_empty() {
-            omitted_findings.push(OmittedFinding {
-                finding_id: finding.id.clone(),
-                title: finding.title.clone(),
-                reason: "no_supported_repository_path_in_synthesized_finding".to_string(),
-            });
-            continue;
-        }
+        let relevant_paths = relevant_paths(finding, evidence_paths)?;
         let mut evidence_ids = finding.evidence.clone();
         evidence_ids.sort();
         evidence_ids.dedup();
@@ -545,58 +538,31 @@ fn visit<'a>(
 fn relevant_paths(
     finding: &SynthesizedFinding,
     evidence_paths: &BTreeMap<&str, &str>,
-) -> Vec<String> {
+) -> Result<Vec<String>> {
     let mut paths = BTreeSet::new();
-    for token in finding
-        .semantic_anchor
-        .split(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | ':' | '(' | ')' | '[' | ']'))
-        .chain(finding.evidence.iter().map(String::as_str))
-    {
-        let trimmed = normalize_path_token(token);
-        if looks_like_path(trimmed) && validate_relative_path(trimmed).is_ok() {
-            paths.insert(trimmed.to_string());
-        }
-    }
     for evidence_id in &finding.evidence {
-        if let Some(path) = evidence_paths.get(evidence_id.as_str()) {
-            if validate_relative_path(path).is_ok() {
-                paths.insert((*path).to_string());
-            }
-        }
+        let path = evidence_paths
+            .get(evidence_id.as_str())
+            .ok_or_else(|| anyhow::anyhow!("remediation_evidence_path_missing"))?;
+        validate_relative_path(path).context("remediation_evidence_path_invalid")?;
+        paths.insert((*path).to_string());
     }
-    paths.into_iter().collect()
-}
-
-fn normalize_path_token(value: &str) -> &str {
-    value
-        .trim_matches(|c: char| matches!(c, '"' | '\'' | '`' | ',' | ';'))
-        .trim_end_matches(['.', ',', ';'])
-}
-
-fn looks_like_path(value: &str) -> bool {
-    (value.contains('/') || value.contains('.'))
-        && value.len() <= 240
-        && !value.starts_with('/')
-        && !value.starts_with("http://")
-        && !value.starts_with("https://")
+    ensure!(
+        !paths.is_empty(),
+        "remediation_finding_without_evidence_path"
+    );
+    Ok(paths.into_iter().collect())
 }
 
 fn validate_relative_path(value: &str) -> Result<()> {
-    ensure!(!value.trim().is_empty(), "empty_remediation_path");
+    validate_ingestion_path(value).context("unsupported_remediation_path")?;
     let path = Path::new(value);
-    ensure!(!path.is_absolute(), "unsupported_remediation_path");
     for component in path.components() {
         ensure!(
             matches!(component, Component::Normal(_)),
             "unsupported_remediation_path"
         );
     }
-    ensure!(
-        value
-            .bytes()
-            .all(|b| { b.is_ascii_alphanumeric() || matches!(b, b'.' | b'_' | b'-' | b'/') }),
-        "unsupported_remediation_path"
-    );
     Ok(())
 }
 
