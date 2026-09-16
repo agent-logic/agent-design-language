@@ -269,7 +269,9 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
     context.fresh()?;
     let mut value = match command {
         "recover" if !request.content.is_null() => {
-            if request
+            if let Some(value) = terminal::recover_absent_cleanup(&context, &request)? {
+                value
+            } else if request
                 .content
                 .get("schema")
                 .and_then(serde_json::Value::as_str)
