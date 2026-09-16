@@ -49,13 +49,13 @@
     },
     {
       "gate": "current ignored old-owner conversion release gate",
-      "status": "not_proven",
-      "evidence": "findings.json#QUAL-873-001"
+      "status": "pass",
+      "evidence": "results/copied_record_conversion_rehearsal_release_gate.result.json"
     },
     {
       "gate": "finite recovery including conversion",
-      "status": "not_proven",
-      "evidence": "findings.json#QUAL-873-001"
+      "status": "pass",
+      "evidence": "results/copied_record_conversion_rehearsal_release_gate.result.json"
     },
     {
       "gate": "idempotent duplicate remote effects",

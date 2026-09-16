@@ -4,17 +4,17 @@
     {
       "id": "QUAL-873-001",
       "priority": "P1",
-      "title": "Required old-owner conversion release gate cannot execute without retained old state",
-      "status": "open_blocker",
+      "title": "Old-owner conversion release gate passes with portable generation-9 fixture",
+      "status": "resolved",
       "evidence": [
-        "commands/copied_record_conversion_rehearsal_release_gate.command.txt",
-        "commands/copied_record_conversion_rehearsal_release_gate.stderr.log",
-        "results/copied_record_conversion_rehearsal_release_gate.result.json"
+        "results/copied_record_conversion_rehearsal_release_gate.result.json",
+        ".csdlc/evidence/1021/LOCAL_PROOF_RESULT.json"
       ],
-      "observed": "With the exact accepted #868 old binary supplied, the ignored release-gate test exits 101 before exercising candidate behavior because ISSUE872_OLD_STATE is required.",
-      "impact": "The complete conversion/recovery denominator and finite recovery gate remain not proven.",
+      "observed": "The merged #1021 portable fixture enabled an isolated exact rerun. The ignored gate passed in 636 seconds with one Cargo test covering seven roles, 12 scenarios, and 30 fault cases.",
+      "impact": "The complete conversion and finite recovery denominator is proven for the corrected harness and portable fixture.",
       "scope_boundary": "The passing retained #872 validator and current-candidate conversion suites remain valid corroboration, but neither substitutes for this gate.",
-      "recommended_disposition": "Restore an authenticated portable old-state fixture or repair the owning harness, then rerun this exact gate."
+      "recommended_disposition": "Resolved by merged #1021 and independently rerun for #873.",
+      "resolution": "Passed against source commit 717056d405dc01d75402d33b2bf0d0e7ec3e4768; no live conversion, shared installation, or writer activation occurred."
     },
     {
       "id": "QUAL-873-002",
