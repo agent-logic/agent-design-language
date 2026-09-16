@@ -257,7 +257,14 @@ fn semantic_recover_remote_effect(
     request: &GithubMutationRequest,
     process: &mut impl crate::adapters::ProcessAdapter,
 ) -> Result<Value, String> {
-    let staged = stage_github_mutation(&context.root, request, process).map_err(failure)?;
+    let staged = if matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
+        stage_github_mutation(&context.root, request, process).map_err(failure)?
+    } else {
+        stage_retained_github_mutation_recovery(&context.root, request, process).map_err(failure)?
+    };
+    if staged.native_identity() != retained.request().native_identity().clone() {
+        return Err("semantic_remote_recovery_identity_changed".into());
+    }
     if !staged
         .retained_receipt_exists(&context.root)
         .map_err(failure)?
