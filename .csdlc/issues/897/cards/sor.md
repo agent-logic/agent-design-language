@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented a real installed HTML exporter with complete governed report semantics, script-free accessible navigation, hostile-markup escaping, exact manifest binding and anchored create-only output. Local focused tests and strict static checks pass; retained browser evidence and independent review remain before publication.
+Implemented the installed HTML exporter and resolved the first exact-head review findings: library tests compile again and failed HTML publication now removes its format-specific staging residue. Retained browser proof and all focused validation pass; replacement independent review remains before publication.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -57,7 +57,7 @@ Implemented a real installed HTML exporter with complete governed report semanti
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `implementation_local_proof_complete_review_pending`
+- Completion state: `implementation_local_proof_complete_re_review_pending`
 - Issue goal ref: `Bounded #897 child under active Sprint 4 #930 goal; no token budget assigned.`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -75,7 +75,7 @@ Implemented a real installed HTML exporter with complete governed report semanti
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `HTML publisher, shared anchored publication parameterization, CLI registration, focused tests/PVF and operator docs.`
+- Tracked implementation artifacts: `HTML publisher, shared anchored publication cleanup, CLI registration, focused tests/PVF, retained browser proof and operator docs.`
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_html; cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo clippy --manifest-path adl/Cargo.toml --lib --bin adl -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
+  - `cargo test --manifest-path adl/Cargo.toml --lib codefriend::publication::markdown::tests::; cargo test --manifest-path adl/Cargo.toml --test codefriend_render_html; cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo clippy --manifest-path adl/Cargo.toml --lib --bin adl -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
     `<validation_effect>`
 - Results:
-  - `PASS local: HTML 4/4, Markdown regression 5/5, strict relevant Clippy, formatting and diff hygiene.`
+  - `PASS local: shared publication library tests 5/5, HTML 4/4, Markdown regression 5/5, strict relevant Clippy, formatting and diff hygiene. Prior P1 library-test compile and P2 HTML stage-residue findings are fixed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
