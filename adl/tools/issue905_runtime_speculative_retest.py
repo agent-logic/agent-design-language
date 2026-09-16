@@ -146,9 +146,9 @@ def main() -> int:
                 "config": {
                     "endpoint": "http://127.0.0.1:11434",
                     "runtime_max_attempts": 1,
-                    "runtime_max_output_tokens": 64,
-                    "max_tokens": 64,
-                    "max_output_tokens": 64,
+                    "runtime_max_output_tokens": 256,
+                    "max_tokens": 256,
+                    "max_output_tokens": 256,
                 },
             }
         },
@@ -169,7 +169,7 @@ def main() -> int:
         "ollama_version": subprocess.run(["ollama", "--version"], capture_output=True, text=True).stdout.strip(),
         "hardware": {"system": os.uname().sysname, "machine": os.uname().machine},
         "models": {"baseline": baseline_identity, "speculative": speculative_identity},
-        "sampling": {"temperature": 0, "seed": 905, "num_predict": 64},
+        "sampling": {"temperature": 0, "seed": 905, "num_predict": 256},
         "prompts": len(PROMPTS),
         "repeats": args.repeats,
         "runs": [],
