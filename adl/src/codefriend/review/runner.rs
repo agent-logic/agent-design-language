@@ -31,6 +31,7 @@ pub struct ReviewRunOptions {
     pub provider_request: ProviderInvocationRequestV1,
     pub out: PathBuf,
     pub run_id: String,
+    pub cancel_file: Option<PathBuf>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -190,6 +191,14 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
     let mut failures = Vec::new();
 
     for lane in ReviewLane::ALL {
+        if options
+            .cancel_file
+            .as_ref()
+            .is_some_and(|path| path.exists())
+        {
+            failures.push(format!("{}:review_cancelled_by_operator", lane.id()));
+            break;
+        }
         let lane_id = lane.id();
         let dir = lanes_dir.join(lane_id);
         fs::create_dir_all(&dir)?;
@@ -269,6 +278,16 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
         write_json(&dir.join("result.json"), &result)?;
         write_json(&dir.join("provider-result.json"), &provider_result)?;
         lane_results.push(result);
+    }
+    if options
+        .cancel_file
+        .as_ref()
+        .is_some_and(|path| path.exists())
+        && !failures
+            .iter()
+            .any(|failure| failure.contains("review_cancelled_by_operator"))
+    {
+        failures.push("run:review_cancelled_by_operator".to_string());
     }
 
     let completion = if failures.is_empty() && lane_results.len() == ReviewLane::ALL.len() {
