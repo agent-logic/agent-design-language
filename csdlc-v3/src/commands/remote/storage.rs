@@ -3,6 +3,7 @@
 use std::{
     fs,
     path::{Path, PathBuf},
+    process::Command,
 };
 
 use serde::Serialize;
@@ -95,6 +96,7 @@ pub(super) fn admit_legacy_non_effect_disposition(
     operation_digest: &str,
     intent_digest: &str,
     disposition: Option<&GithubMutationLegacyNonEffectDisposition>,
+    source: Option<&CoordinationEvidence>,
 ) -> Result<(), RemoteRouteFinding> {
     let disposition = disposition.ok_or_else(|| {
         remote_finding(
@@ -102,6 +104,87 @@ pub(super) fn admit_legacy_non_effect_disposition(
             "the consumed recovery requires a typed definitive non-effect disposition",
         )
     })?;
+    let source = source.ok_or_else(|| {
+        remote_finding(
+            "github_mutation_recovery_disposition_source_missing",
+            "the consumed recovery requires a canonical disposition source",
+        )
+    })?;
+    let expected_path = format!("docs/csdlc-v3/recovery-dispositions/{operation_digest}.json");
+    if source.path != expected_path
+        || source.digest.len() != 64
+        || !source.digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(remote_finding(
+            "github_mutation_recovery_disposition_source_invalid",
+            "the disposition source must be the exact operation-bound canonical path and digest",
+        ));
+    }
+    let object = format!("origin/main:{}", source.path);
+    let output = Command::new("git")
+        .env("GIT_OPTIONAL_LOCKS", "0")
+        .arg("-C")
+        .arg(repo_root)
+        .args(["show", &object])
+        .output()
+        .map_err(|_| {
+            remote_finding(
+                "github_mutation_recovery_disposition_source_unavailable",
+                "the canonical disposition source could not be read",
+            )
+        })?;
+    if !output.status.success() || blake3::hash(&output.stdout).to_hex().as_str() != source.digest {
+        return Err(remote_finding(
+            "github_mutation_recovery_disposition_source_mismatch",
+            "the canonical disposition source bytes do not match the approved digest",
+        ));
+    }
+    let approved: GithubMutationLegacyNonEffectDisposition = serde_json::from_slice(&output.stdout)
+        .map_err(|_| {
+            remote_finding(
+                "github_mutation_recovery_disposition_source_invalid",
+                "the canonical disposition source is not a typed disposition",
+            )
+        })?;
+    if &approved != disposition {
+        return Err(remote_finding(
+            "github_mutation_recovery_disposition_source_mismatch",
+            "the recovery disposition differs from canonical origin/main bytes",
+        ));
+    }
+    let expected_evidence_prefix = format!(".csdlc/evidence/{}/", disposition.issue);
+    if !disposition
+        .evidence_path
+        .starts_with(&expected_evidence_prefix)
+        || disposition.evidence_path.contains("..")
+        || disposition.evidence_path.starts_with('/')
+    {
+        return Err(remote_finding(
+            "github_mutation_recovery_disposition_evidence_invalid",
+            "the definitive non-effect evidence path is outside the issue evidence boundary",
+        ));
+    }
+    let evidence_object = format!("origin/main:{}", disposition.evidence_path);
+    let evidence = Command::new("git")
+        .env("GIT_OPTIONAL_LOCKS", "0")
+        .arg("-C")
+        .arg(repo_root)
+        .args(["show", &evidence_object])
+        .output()
+        .map_err(|_| {
+            remote_finding(
+                "github_mutation_recovery_disposition_evidence_unavailable",
+                "the definitive non-effect evidence could not be read",
+            )
+        })?;
+    if !evidence.status.success()
+        || blake3::hash(&evidence.stdout).to_hex().as_str() != disposition.evidence_digest
+    {
+        return Err(remote_finding(
+            "github_mutation_recovery_disposition_evidence_mismatch",
+            "the definitive non-effect evidence bytes do not match the approved digest",
+        ));
+    }
     let retained = load_mutation_intent(
         &github_mutation_intent_path(repo_root, operation_digest)?,
         operation_digest,

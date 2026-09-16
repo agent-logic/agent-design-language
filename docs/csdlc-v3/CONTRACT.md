@@ -264,12 +264,22 @@ receipt or dispatching. A missing or wrong remote head therefore remains
 retryable without crossing the mutation boundary.
 
 Already-consumed v1 receipts do not prove whether their prior POST crossed that
-boundary. They remain ineligible by default. The one audited legacy operation
-recorded by #1018 (repository, issue, operation digest, intent digest, request
-bytes and expected head) has one narrower migration stage. It still requires
-authenticated PR-by-head absence and exact Git-ref readback. Any other consumed
-receipt, any PR for that head, a different or malformed branch result, stale
-authority, changed intent, or unavailable readback fails before mutation.
+boundary. They remain ineligible by default. A narrower migration stage is
+available only when an operation-bound typed disposition and its definitive
+non-effect evidence already exist as reviewed bytes on canonical `origin/main`.
+The route reads both objects from Git, verifies their BLAKE3 digests, and then
+requires the disposition to bind the repository, issue, operation and intent
+digests, immutable request digest, authority digest, expected head, enumerated
+reason, evidence path and digest, operator, and authorization reference. The
+recovery request therefore references prior authority; it cannot create that
+authority itself. The #1013 record added by #1018 is the first canonical
+disposition, not a compiled issue exception.
+
+An admitted operation still requires authenticated PR-by-head absence and exact
+Git-ref readback. A missing or changed canonical disposition, changed evidence,
+any PR for that head, a different or malformed branch result, stale authority,
+changed intent, or unavailable readback fails before mutation. Only after those
+checks pass does the route cache a create-only local copy of the disposition.
 
 Before dispatch, the route writes a separate create-only
 `github_mutation_head_available_recovery.v1` receipt. Its existence permanently
@@ -281,6 +291,7 @@ PVF: `consumed_pr_create_recovery_*`,
 `pr_create_recovery_checks_remote_head_before_consuming_first_retry` and
 `github_read_only_adapter_supports_exact_branch_head_readback` are required
 deterministic local tests with fake authenticated transport. They cover the
-semantic staged route, the audited legacy identity, rejection of unclassified
-receipts, exact head and absence gates, stale authority, conflicting PR state
-and one-shot replay protection without live GitHub writes.
+semantic staged route, canonical disposition and evidence admission, arbitrary
+issue identities without an allowlist, rejection of unclassified or
+self-authored receipts, exact head and absence gates, stale authority,
+conflicting PR state and one-shot replay protection without live GitHub writes.

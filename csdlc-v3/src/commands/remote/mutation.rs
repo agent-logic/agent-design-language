@@ -211,9 +211,11 @@ pub fn stage_github_mutation(
     }
     let recovery = request.recovery.clone();
     let legacy_non_effect_disposition = request.legacy_non_effect_disposition.clone();
+    let legacy_non_effect_disposition_source = request.legacy_non_effect_disposition_source.clone();
     let mut effective_request = request.clone();
     effective_request.recovery = None;
     effective_request.legacy_non_effect_disposition = None;
+    effective_request.legacy_non_effect_disposition_source = None;
     let mut resolved_ready_target = None;
     let intent_digest;
     let mut preexisting = false;
@@ -303,6 +305,7 @@ pub fn stage_github_mutation(
         preexisting,
         recovery,
         legacy_non_effect_disposition,
+        legacy_non_effect_disposition_source,
     })
 }
 
@@ -359,6 +362,7 @@ pub fn execute_staged_github_mutation(
                             &staged.operation_digest,
                             &staged.intent_digest,
                             staged.legacy_non_effect_disposition.as_ref(),
+                            staged.legacy_non_effect_disposition_source.as_ref(),
                             process,
                         )?;
                         true
@@ -530,7 +534,10 @@ pub fn execute_github_mutation(
     let mut intent_request = request.clone();
     intent_request.recovery = None;
     let legacy_non_effect_disposition = request.legacy_non_effect_disposition.as_ref();
+    let legacy_non_effect_disposition_source =
+        request.legacy_non_effect_disposition_source.as_ref();
     intent_request.legacy_non_effect_disposition = None;
+    intent_request.legacy_non_effect_disposition_source = None;
     let mut intent = GithubMutationIntent {
         schema: "csdlc.v3.github_mutation_intent.v1".into(),
         operation_digest: operation_digest.clone(),
@@ -620,6 +627,7 @@ pub fn execute_github_mutation(
                             &operation_digest,
                             &intent_digest,
                             legacy_non_effect_disposition,
+                            legacy_non_effect_disposition_source,
                             process,
                         )?;
                         true

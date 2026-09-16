@@ -333,6 +333,8 @@ pub struct GithubMutationRequest {
     pub recovery: Option<GithubMutationRecovery>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub legacy_non_effect_disposition_source: Option<CoordinationEvidence>,
     pub mutation: GithubMutation,
 }
 
@@ -354,6 +356,7 @@ pub struct GithubMutationLegacyNonEffectDisposition {
     pub authority_selector_digest: String,
     pub expected_head_sha: String,
     pub definitive_non_effect_reason: GithubMutationDefinitiveNonEffectReason,
+    pub evidence_path: String,
     pub evidence_digest: String,
     pub operator: String,
     pub authorization_ref: String,
@@ -485,6 +488,7 @@ pub struct StagedGithubMutation {
     pub(super) preexisting: bool,
     pub(super) recovery: Option<GithubMutationRecovery>,
     pub(super) legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
+    pub(super) legacy_non_effect_disposition_source: Option<CoordinationEvidence>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

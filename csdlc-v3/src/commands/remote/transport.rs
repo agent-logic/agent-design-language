@@ -550,6 +550,7 @@ pub(super) fn verify_consumed_pr_create_recovery(
     operation_digest: &str,
     intent_digest: &str,
     disposition: Option<&GithubMutationLegacyNonEffectDisposition>,
+    disposition_source: Option<&CoordinationEvidence>,
     process: &mut impl ProcessAdapter,
 ) -> Result<(), RemoteRouteFinding> {
     let GithubMutation::PullRequestCreate { .. } = &request.mutation else {
@@ -566,6 +567,7 @@ pub(super) fn verify_consumed_pr_create_recovery(
         operation_digest,
         intent_digest,
         disposition,
+        disposition_source,
     )?;
     if github_mutation_head_available_recovery_path(repo_root, operation_digest)?.exists() {
         return Err(remote_finding(

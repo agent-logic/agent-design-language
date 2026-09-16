@@ -1528,6 +1528,7 @@ fn mutation_request(
         credential_names: vec!["GITHUB_TOKEN".into()],
         recovery: None,
         legacy_non_effect_disposition: None,
+        legacy_non_effect_disposition_source: None,
         mutation,
     }
 }
@@ -2108,7 +2109,16 @@ fn consumed_pr_create_fixture_for_issue(
     let intent_digest = super::github_mutation_intent_digest(&intent);
     super::persist_recovery_receipt(&root, &request, &operation_digest, &intent_digest, None)
         .unwrap();
-    request.legacy_non_effect_disposition = Some(super::GithubMutationLegacyNonEffectDisposition {
+    let evidence_path = format!(".csdlc/evidence/{issue}/legacy-pr-create-non-effect.json");
+    let evidence_bytes = serde_json::to_vec(&serde_json::json!({
+        "schema":"csdlc.v3.github_mutation_legacy_non_effect_evidence.v1",
+        "repository":request.repository,
+        "issue":issue,
+        "operation_digest":operation_digest,
+        "finding":"transport_failed_before_dispatch"
+    }))
+    .unwrap();
+    let disposition = super::GithubMutationLegacyNonEffectDisposition {
         schema: "csdlc.v3.github_mutation_legacy_non_effect_disposition.v1".into(),
         repository: request.repository.clone(),
         issue: request.issue,
@@ -2119,9 +2129,36 @@ fn consumed_pr_create_fixture_for_issue(
         expected_head_sha: request.expected_head_sha.clone(),
         definitive_non_effect_reason:
             super::GithubMutationDefinitiveNonEffectReason::TransportFailedBeforeDispatch,
-        evidence_digest: "a".repeat(64),
+        evidence_path: evidence_path.clone(),
+        evidence_digest: blake3::hash(&evidence_bytes).to_hex().to_string(),
         operator: "test-operator".into(),
         authorization_ref: "test-authorization".into(),
+    };
+    let source_path = format!("docs/csdlc-v3/recovery-dispositions/{operation_digest}.json");
+    let source_bytes = serde_json::to_vec(&disposition).unwrap();
+    let full_source_path = root.join(&source_path);
+    fs::create_dir_all(full_source_path.parent().unwrap()).unwrap();
+    fs::write(&full_source_path, &source_bytes).unwrap();
+    let full_evidence_path = root.join(&evidence_path);
+    fs::create_dir_all(full_evidence_path.parent().unwrap()).unwrap();
+    fs::write(&full_evidence_path, &evidence_bytes).unwrap();
+    let git = |args: &[&str]| {
+        let output = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&root)
+            .args(args)
+            .output()
+            .unwrap();
+        assert!(output.status.success(), "git {args:?}: {output:?}");
+    };
+    git(&["add", &source_path, &evidence_path]);
+    git(&["commit", "-q", "-m", "Approve recovery disposition"]);
+    git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
+    git(&["reset", "--hard", &request.expected_head_sha]);
+    request.legacy_non_effect_disposition = Some(disposition);
+    request.legacy_non_effect_disposition_source = Some(super::CoordinationEvidence {
+        path: source_path,
+        digest: blake3::hash(&source_bytes).to_hex().to_string(),
     });
     request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
     (
@@ -2161,6 +2198,42 @@ fn audited_consumed_pr_create_fixture(
     (root, request, digest, intent_digest)
 }
 
+#[test]
+fn issue_1013_legacy_pr_create_request_digest_is_stable() {
+    let request = super::GithubMutationRequest {
+        repository: "agent-logic/agent-design-language".into(),
+        issue: 1013,
+        pull_request: None,
+        cutover_issue: None,
+        operator_approval: None,
+        expected_head_sha: "476528f696a11b995411ea62598ac97295e17817".into(),
+        credential_names: vec!["GITHUB_TOKEN".into()],
+        recovery: None,
+        legacy_non_effect_disposition: None,
+        legacy_non_effect_disposition_source: None,
+        mutation: super::GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: "codex/1013-tracked-projection-rebind-proof-convergence".into(),
+            title: "Make tracked projection rebind converge before proof".into(),
+            body: "Closes #1013".into(),
+            draft: true,
+        },
+    };
+    assert_eq!(
+        super::github_mutation_request_digest(&request),
+        "5dda4dbcbbb10ad5415f496819260b65e2180c78f33e693d476d6dce36654f3e"
+    );
+    assert_eq!(
+        blake3::hash(include_bytes!(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/../.csdlc/evidence/1013/legacy-pr-create-non-effect.json"
+        )))
+        .to_hex()
+        .as_str(),
+        "38983b3a20ae657bcbaa9c8193ebd3bc354631becc0c64dfef514088b581adef"
+    );
+}
+
 // PVF: required deterministic local recovery contract; fake authenticated transport.
 #[test]
 fn consumed_pr_create_recovery_requires_exact_absence_and_head_and_is_one_shot() {
@@ -2182,6 +2255,7 @@ fn consumed_pr_create_recovery_requires_exact_absence_and_head_and_is_one_shot()
         &digest,
         &intent_digest,
         request.legacy_non_effect_disposition.as_ref(),
+        request.legacy_non_effect_disposition_source.as_ref(),
         &mut process,
     )
     .expect("the audited legacy operation admits exact head availability");
@@ -2201,6 +2275,7 @@ fn consumed_pr_create_recovery_requires_exact_absence_and_head_and_is_one_shot()
             &digest,
             &intent_digest,
             request.legacy_non_effect_disposition.as_ref(),
+            request.legacy_non_effect_disposition_source.as_ref(),
             &mut repeated,
         )
         .unwrap_err()
@@ -2234,6 +2309,7 @@ fn consumed_pr_create_recovery_uses_typed_disposition_without_issue_allowlist() 
         &digest,
         &intent_digest,
         request.legacy_non_effect_disposition.as_ref(),
+        request.legacy_non_effect_disposition_source.as_ref(),
         &mut process,
     )
     .expect("a fully bound typed disposition admits an arbitrary issue operation");
@@ -2258,11 +2334,12 @@ fn consumed_pr_create_recovery_rejects_disposition_identity_drift_before_readbac
             &digest,
             &intent_digest,
             Some(&disposition),
+            request.legacy_non_effect_disposition_source.as_ref(),
             &mut process,
         )
         .unwrap_err()
         .code,
-        "github_mutation_recovery_disposition_mismatch"
+        "github_mutation_recovery_disposition_source_mismatch"
     );
     assert!(process.invocations.is_empty());
 }
@@ -2320,6 +2397,7 @@ fn consumed_pr_create_recovery_rejects_wrong_head_and_existing_pr_before_dispatc
             &digest,
             &intent_digest,
             request.legacy_non_effect_disposition.as_ref(),
+            request.legacy_non_effect_disposition_source.as_ref(),
             &mut wrong_head,
         )
         .unwrap_err()
@@ -2345,6 +2423,7 @@ fn consumed_pr_create_recovery_rejects_wrong_head_and_existing_pr_before_dispatc
             &digest,
             &intent_digest,
             request.legacy_non_effect_disposition.as_ref(),
+            request.legacy_non_effect_disposition_source.as_ref(),
             &mut existing,
         )
         .unwrap_err()

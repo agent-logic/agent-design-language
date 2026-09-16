@@ -43,6 +43,7 @@ pub(super) fn github_mutation_request_digest(request: &GithubMutationRequest) ->
     let mut immutable = request.clone();
     immutable.recovery = None;
     immutable.legacy_non_effect_disposition = None;
+    immutable.legacy_non_effect_disposition_source = None;
     let bytes = serde_json::to_vec(&immutable).unwrap_or_default();
     stable_digest(&[
         "csdlc.v3.github_mutation_immutable_request.v1",

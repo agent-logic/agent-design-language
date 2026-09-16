@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.v3.github_mutation_legacy_non_effect_evidence.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 1013,
+  "semantic_operation": "semantic-operation-v1:8183fed55ea860e352b5183060c66f8e870502844b131558cf13d4009fe963ba",
+  "operation_digest": "684e3f5a051e4117ee30afb2dd2c31101580960ab9fd4404c577ed65b731c85a",
+  "intent_digest": "c8aabcac4e7c614b7050d76e19958353980fe32332b10f05ea25f91cd5b86144",
+  "expected_head_sha": "476528f696a11b995411ea62598ac97295e17817",
+  "classification": "transport_failed_before_dispatch",
+  "basis": [
+    "The retained authenticated-absence recovery receipt was written while the remote head branch was unavailable.",
+    "Native coordination verifies the remote branch before constructing and dispatching the PR-create POST.",
+    "No mutation receipt or reconciled PR target exists for the retained operation."
+  ],
+  "continuing_guards": [
+    "Recovery must authenticate complete PR-by-head absence again.",
+    "Recovery must authenticate the exact remote branch SHA again.",
+    "Recovery must consume a separate create-only head-available receipt before dispatch."
+  ]
+}

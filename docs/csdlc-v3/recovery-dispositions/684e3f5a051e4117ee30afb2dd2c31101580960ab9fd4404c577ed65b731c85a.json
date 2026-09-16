@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.github_mutation_legacy_non_effect_disposition.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 1013,
+  "operation_digest": "684e3f5a051e4117ee30afb2dd2c31101580960ab9fd4404c577ed65b731c85a",
+  "intent_digest": "c8aabcac4e7c614b7050d76e19958353980fe32332b10f05ea25f91cd5b86144",
+  "request_digest": "5dda4dbcbbb10ad5415f496819260b65e2180c78f33e693d476d6dce36654f3e",
+  "authority_selector_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "expected_head_sha": "476528f696a11b995411ea62598ac97295e17817",
+  "definitive_non_effect_reason": "transport_failed_before_dispatch",
+  "evidence_path": ".csdlc/evidence/1013/legacy-pr-create-non-effect.json",
+  "evidence_digest": "38983b3a20ae657bcbaa9c8193ebd3bc354631becc0c64dfef514088b581adef",
+  "operator": "Planning #7",
+  "authorization_ref": "issue-1018-reviewed-disposition"
+}
