@@ -412,3 +412,9 @@ terminal owners. Focused installed fixtures exercise isolated candidate binaries
 and synthetic authenticated transport. Required exact-head review, full coverage
 and CI acceptance must be checked in the issue evidence before publication;
 this document makes no live delivery, installed upgrade or activation claim.
+
+Coordination-only completion uses the distinct `issue_complete_coordination`
+operation, with an explicit live parent contract, operator approval, durable
+evidence digests and authenticated child deliveries. See
+[Coordination completion](COORDINATION_COMPLETION.md) for the complete
+ordinary edit, completion, reconciliation and finish sequence.

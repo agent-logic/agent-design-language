@@ -796,6 +796,7 @@ pub fn semantic_mutation_target(
         GithubMutation::IssueCreate { .. } => SemanticMutationTarget::RepositoryCreation,
         GithubMutation::IssueComment { .. }
         | GithubMutation::IssueEdit { .. }
+        | GithubMutation::IssueCompleteCoordination { .. }
         | GithubMutation::IssueClose { .. } => {
             SemanticMutationTarget::Issue(SemanticCommand::RecordIssueMutation)
         }

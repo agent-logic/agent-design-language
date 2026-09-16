@@ -1,0 +1,10 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1006-v0922-native-coordination-completion/csdlc-v3)
+    Finished `test` profile [unoptimized] target(s) in 1.05s
+     Running tests/installed_coordination_completion.rs (/Users/daniel/git/adl-build-cache/worker10-1006/debug/deps/installed_coordination_completion-134858c5c6419cfb)
+
+running 3 tests
+test installed_coordination_completion_preserves_prose_reconciles_once_and_finishes ... ok
+test installed_coordination_absence_retry_rechecks_changed_child_and_evidence ... ok
+test installed_coordination_completion_denials_have_no_remote_effects ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.38s

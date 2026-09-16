@@ -61,6 +61,33 @@ impl PublicationLinkage {
         request: &GithubMutationRequest,
         merged: bool,
     ) -> Result<String, RemoteRouteFinding> {
+        self.validate_relations(value, request, merged, false)
+    }
+
+    /// A completed child may also describe its parent. Those non-closing
+    /// references are context, not an alternative delivery mode for the child.
+    /// Keep the pre-merge reviewed-publication validator above strict.
+    pub(super) fn validate_completed_child(
+        &self,
+        value: &Value,
+        request: &GithubMutationRequest,
+    ) -> Result<String, RemoteRouteFinding> {
+        if self.mode != RemotePublicationMode::Closing {
+            return Err(remote_finding(
+                "github_merge_linkage_ineligible",
+                "completed child requires closing publication linkage",
+            ));
+        }
+        self.validate_relations(value, request, true, true)
+    }
+
+    fn validate_relations(
+        &self,
+        value: &Value,
+        request: &GithubMutationRequest,
+        merged: bool,
+        allow_parent_references: bool,
+    ) -> Result<String, RemoteRouteFinding> {
         let reject = || {
             remote_finding(
                 "github_merge_linkage_ineligible",
@@ -154,11 +181,13 @@ impl PublicationLinkage {
             };
             matched |= relation.is_some_and(reference_matches);
         }
-        let expected_counts = match self.mode {
-            RemotePublicationMode::Closing => (1, 0),
-            RemotePublicationMode::PartOf => (0, 1),
+        let counts_match = match self.mode {
+            RemotePublicationMode::Closing => {
+                closing == 1 && (allow_parent_references || part_of == 0)
+            }
+            RemotePublicationMode::PartOf => closing == 0 && part_of == 1,
         };
-        if !matched || (closing, part_of) != expected_counts {
+        if !matched || !counts_match {
             return Err(reject());
         }
         let links = &pr["closingIssuesReferences"];
