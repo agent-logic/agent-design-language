@@ -403,6 +403,73 @@ fn issue_1036_interrupted_bound_legacy_adoption_replays_to_completion() {
 }
 
 #[test]
+fn issue_1036_concurrent_rejected_adoption_cannot_release_active_fence() {
+    let mut fixture = Fixture::new("bound-legacy-concurrent-adoption");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    let native = bound.join(".csdlc/issues/505");
+    let before = intent_fixture::inventory(&native);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let valid = fixture.write_json("concurrent-valid.json", &plan());
+    let mut changed = plan();
+    changed["cards"]["sip"] = json!({"goal":"different retained truth"});
+    let invalid = fixture.write_json("concurrent-invalid.json", &changed);
+    let barrier = primary.join(".git/installed-candidate/adoption-continue");
+    let mut first = fixture
+        .command(
+            &bound,
+            &["prepare", "505", "--plan", valid.to_str().unwrap()],
+        )
+        .env("CSDLC_V3_TEST_ADOPTION_BARRIER", &barrier)
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn()
+        .unwrap();
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(20);
+    while !barrier.with_extension("ready").exists() {
+        if first.try_wait().unwrap().is_some() || std::time::Instant::now() >= deadline {
+            let _ = first.kill();
+            panic!(
+                "first adoption did not reach the fenced barrier: {:?}",
+                first.wait_with_output()
+            );
+        }
+        std::thread::sleep(std::time::Duration::from_millis(10));
+    }
+    let second = fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", invalid.to_str().unwrap()],
+    );
+    let native_lock = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(primary.join(".git/csdlc-v3/local/locks/505.lock"))
+        .unwrap();
+    let old_writer_entered = native_lock.try_lock_exclusive().is_ok();
+    if old_writer_entered {
+        FileExt::unlock(&native_lock).unwrap();
+    }
+    fs::write(&barrier, b"continue\n").unwrap();
+    let accepted = first.wait_with_output().unwrap();
+    assert!(
+        !old_writer_entered,
+        "rejected concurrent caller released the accepted caller's fence"
+    );
+    assert!(!second.status.success());
+    assert!(String::from_utf8_lossy(&second.stdout)
+        .contains("bound legacy adoption is already in progress"));
+    assert_eq!(success(accepted)["status"], "completed");
+    assert!(native_lock.try_lock_exclusive().is_ok());
+    FileExt::unlock(&native_lock).unwrap();
+    assert_same_inventory!(before, intent_fixture::inventory(&native));
+    observation(&mut fixture, &bound, "status");
+}
+
+#[test]
 fn issue_1036_bound_legacy_adoption_rejects_changed_plan_and_damaged_completion() {
     for case in [
         "changed_plan",
@@ -460,6 +527,13 @@ fn issue_1036_bound_legacy_adoption_rejects_changed_plan_and_damaged_completion(
             _ => unreachable!(),
         }
         let input = fixture.write_json(&format!("{case}-plan.json"), &candidate);
+        // The persistent empty client-lock inode is coordination state, not
+        // retained issue truth; it must survive rejected-attempt cleanup.
+        fs::write(
+            primary.join(".git/csdlc-v3/local/locks/505.adoption.lock"),
+            b"",
+        )
+        .unwrap();
         let before = intent_fixture::inventory(&fixture.root);
         let rejected = fixture.run(
             &bound,

@@ -381,6 +381,10 @@ struct AdoptionFenceReady {
 pub(crate) struct AdoptionFenceLease {
     request: AdoptionFenceRequest,
     guard: crate::storage::semantic::NativeWriterFenceGuard,
+    // Stable per-issue client lock survives guardian journal cleanup. Keep it
+    // through activation, projection, and release so another caller cannot
+    // acquire or abort this caller's guardian.
+    _client: File,
 }
 
 pub(crate) struct SemanticPrepareResult {
@@ -527,6 +531,22 @@ fn acquire_durable_adoption_fence(
     request_digest: &str,
     durable_required: bool,
 ) -> Result<Option<AdoptionFenceLease>, String> {
+    let client_path = common
+        .join("csdlc-v3/local/locks")
+        .join(format!("{issue}.adoption.lock"));
+    if fs::symlink_metadata(&client_path).is_ok_and(|metadata| metadata.file_type().is_symlink()) {
+        return Err("adoption client lock must not be a symlink".into());
+    }
+    let client = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .open(client_path)
+        .map_err(|error| error.to_string())?;
+    client
+        .try_lock_exclusive()
+        .map_err(|_| "bound legacy adoption is already in progress".to_owned())?;
     let request = adoption_fence_request(common, issue, request_digest)?;
     let active = fs::read(&request.release_path).ok().as_deref() == Some(b"active\n");
     if !durable_required && !active {
@@ -587,7 +607,11 @@ fn acquire_durable_adoption_fence(
                 [issue],
             )
             .map_err(|error| format!("authenticate adoption guardian: {error:?}"))?;
-            return Ok(Some(AdoptionFenceLease { request, guard }));
+            return Ok(Some(AdoptionFenceLease {
+                request,
+                guard,
+                _client: client,
+            }));
         }
         if Instant::now() >= deadline {
             return Err("adoption fence guardian did not authenticate held native lock".into());
@@ -598,6 +622,10 @@ fn acquire_durable_adoption_fence(
 
 impl AdoptionFenceLease {
     pub(crate) fn release(self) -> Result<(), String> {
+        self.release_guardian()
+    }
+
+    fn release_guardian(&self) -> Result<(), String> {
         replace_file(&self.request.release_path, b"released\n")?;
         let deadline = Instant::now() + Duration::from_secs(15);
         while native_lock_is_held(&self.request.git_common, self.request.issue) {
@@ -616,7 +644,7 @@ impl AdoptionFenceLease {
             .parent()
             .ok_or("adoption fence root missing")?
             .to_owned();
-        self.release()?;
+        self.release_guardian()?;
         fs::remove_dir_all(&root).map_err(|error| error.to_string())?;
         if let Some(issue_root) = root.parent() {
             let _ = fs::remove_dir(issue_root);
@@ -955,6 +983,17 @@ pub(crate) fn prepare_semantic(
                         "durable adoption fence was not established",
                     )]
                 })?;
+            #[cfg(debug_assertions)]
+            if let Some(barrier) = std::env::var_os("CSDLC_V3_TEST_ADOPTION_BARRIER") {
+                let barrier = PathBuf::from(barrier);
+                fs::write(barrier.with_extension("ready"), b"fenced\n")
+                    .expect("write adoption test barrier");
+                let deadline = Instant::now() + Duration::from_secs(30);
+                while !barrier.exists() {
+                    assert!(Instant::now() < deadline, "adoption test barrier timed out");
+                    thread::sleep(Duration::from_millis(10));
+                }
+            }
             let result = prepare_legacy_under_fence(
                 request,
                 registry,

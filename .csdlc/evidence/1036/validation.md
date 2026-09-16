@@ -8,6 +8,8 @@ The initial candidate at `9b248b5baa021befdfb93bfebdb57bbb43901df3` passed 59 in
 
 Commit `d084c20be99f35741c993dfe53eef80409f9adce` corrects the issue-creation receipt classification and adds positive byte-preservation and six tamper regressions. Main was merged with both installed-test imports preserved. Qualification must be rerun against the corrected exact executable; earlier candidate results do not establish corrected-candidate acceptance.
 
+The corrected receipt candidate at `b41d4c940ab6dacf2024f10aeff4938cc7fae592` passed 60 installed journey tests, the conversion release gate, and authentic copied #874/#898 prepare/rebuild/status/validate with all 927 retained record files present. Exact-head review then found overlapping adoption callers could release a shared guardian prematurely. The final correction retains a stable per-issue client lock through activation, projection, release and rejected-attempt cleanup, with a concurrent valid/changed-plan regression. Final-head results must be assessed separately from the earlier candidates.
+
 ## Boundaries
 
 - Original lifecycle and receipt records remain unchanged; qualification uses isolated copies and deterministic remote transport.
