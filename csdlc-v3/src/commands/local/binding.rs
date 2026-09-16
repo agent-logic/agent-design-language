@@ -66,7 +66,9 @@ pub(super) fn bind_operational_issue(
             "operational bind requires an absolute path below the allowed worktree parent",
         )]);
     }
-    if target == context.repository_root {
+    let target_is_invoking_registered_checkout = target == context.repository_root
+        && git_worktree_registration(&context.repository_root, &request.branch, &target)?;
+    if target == context.repository_root && !target_is_invoking_registered_checkout {
         return Err(vec![finding(
             PlanStatus::Blocked,
             "primary_worktree_denied",
@@ -131,7 +133,7 @@ pub(super) fn bind_operational_issue(
         &request.branch,
         &target,
         &context.expected_head_sha,
-        true,
+        !target_is_invoking_registered_checkout,
     )?;
     local_transaction_failpoint("bind_after_git");
     commit_pending_local_transaction(context, request.issue)?;

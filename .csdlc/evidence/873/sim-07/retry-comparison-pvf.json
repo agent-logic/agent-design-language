@@ -1,0 +1,15 @@
+{
+  "schema": "adl.csdlc.issue873.retry_comparison_pvf.v1",
+  "issue": 873,
+  "lane": "deterministic_local_evidence_contract",
+  "proof_role": "Validate exact predecessor/candidate provenance, a shared semantic scenario denominator, unchanged relevant facts, attempt correlation, retry classification, and the 50 percent calculation.",
+  "determinism": "Pure JSON validation and arithmetic over retained ledgers; no process, network, provider, GitHub, lifecycle or writer effects.",
+  "resources": "Local CPU and filesystem only.",
+  "release_gate": "Required SIM-07 evidence input. Synthetic fixture success does not prove the operational retry-reduction gate.",
+  "non_claims": [
+    "Does not generate predecessor or candidate journey ledgers",
+    "Does not classify expected guard denials, waits or injected interruptions as avoidable retries",
+    "Does not activate writers or change the shared owner binary",
+    "Does not make the overall SIM-07 qualification decision"
+  ]
+}

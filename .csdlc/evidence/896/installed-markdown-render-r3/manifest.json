@@ -1,0 +1,27 @@
+{
+  "schema": "codefriend.markdown_report_manifest.v1",
+  "renderer_version": "v1",
+  "review_record_digest": "d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8",
+  "run_digest": "a82ad5ab4abd9e8de1f598964791107645171f5243e877b5b3b4e42cedeab3e2",
+  "finding_set_digest": "9afaf17728f447cc404abba2ddb87fbdfae27c631cb12e6737ba956b731ea94b",
+  "synthesis_digest": "3d3946dce7eba779558a8ed4fe56872507c0ef1e2864d9d15a590c4c029cd3ec",
+  "remediation_plan_digest": "c34daa4126d1db8b0e6d4e4582929e7fbab570fecc27d44b1920aa547685ac10",
+  "test_plan_digest": "dd20d663239d05733d4fcca83b8454da01c4e69d888b00d1ea806dd4e97028cf",
+  "publication_binding_digest": "5ececdd3c4e53fd738e75e20691e30b5705d773ba4a34b48400fcf08d347749c",
+  "approval_decision_digest": "61aa42483ff0940636848c21ca1e5ff7df554f794b484964159efbd9338d01fc",
+  "repository": "https://github.com/vectordotdev/vector",
+  "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+  "scope_digest": "9ab817de155ee4d1a207d0d61adeb3d02c7fc3317c99c9be1f56e56482fac421",
+  "target": "installed-markdown-render-r3",
+  "report_path": "report.md",
+  "report_digest": "800ef2bba83879093386f2727a1d23aa5c5ea05c55ccc4c3aa594da322c9cf11",
+  "finding_ids": [
+    "444d15b0eae2ba3720852d84136753351fb94e180d7313056d0ef9aff96d88c2"
+  ],
+  "claims": [
+    "Complete approved Markdown report with exact governed semantic parity"
+  ],
+  "nonclaims": [
+    "No HTML, PDF, remote, browser, or customer publication"
+  ]
+}

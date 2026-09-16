@@ -22,6 +22,7 @@ pub use merge_linkage::{merge_linkage_query, merge_state_query};
 pub use model::*;
 pub use mutation::{
     execute_github_mutation, execute_staged_github_mutation, stage_github_mutation,
+    stage_retained_github_mutation_recovery,
 };
 pub use publication::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,

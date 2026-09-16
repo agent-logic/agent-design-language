@@ -1,0 +1,34 @@
+{
+  "schema": "adl.csdlc.issue873.qualification_decision.v1",
+  "issue": 873,
+  "candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+  "decision": "not_proven",
+  "pass_available": false,
+  "blocking_findings": [
+    "QUAL-873-001",
+    "QUAL-873-002",
+    "QUAL-873-003",
+    "QUAL-873-004",
+    "QUAL-873-005"
+  ],
+  "not_proven_gates": [
+    "old-owner conversion release gate",
+    "finite recovery including conversion",
+    "OS-cold prepared-start",
+    "comparable retry reduction",
+    "independent exact-head remediation review",
+    "issue #873 evidence PR CI"
+  ],
+  "adjudication": "The frozen installed binary passed both exact public-command journeys, 252 unique focused tests, retained conversion validation, and three exact-binary warm prepared-start samples. The retry qualification now retains a 34-attempt predecessor ledger with three avoidable retries, but the candidate refused the only authority-valid source baseline with LegacyMigrationRequired; the 89-fixture audit found no authority-valid clean alternative, so no candidate ledger, comparison payload, retry percentage, or 50 percent claim exists. Finite recovery including conversion, true OS-cold timing, comparable retry reduction, remediation review, and evidence-PR CI remain not proven and prevent a passing decision.",
+  "main_advancement": {
+    "observed_main": "553232dbe6244c204f040fdd6e50c47a4161623b",
+    "classification": "unaffected_record_only_advancement",
+    "reason": "The advancement from the frozen candidate contains #932 lifecycle, evidence, and transaction records only; no csdlc-v3 source, manuals, templates, or #873 surfaces changed."
+  },
+  "retry_reduction_boundary": {
+    "status": "not_proven",
+    "evidence": "measurements/retry-reduction/run-status.json",
+    "comparison_payload": null,
+    "fifty_percent_claim": false
+  }
+}

@@ -7,17 +7,14 @@ use std::time::Duration;
 use anyhow::{anyhow, Context, Result};
 use serde::Serialize;
 
+#[path = "process_cmd/args.rs"]
+mod args;
+
+use args::{parse_pid, parse_status_args, status_usage, Check};
+
 const SCHEMA: &str = "adl.process_status.v1";
 const MAX_PID_FILE_BYTES: u64 = 64;
 const PORT_CONNECT_TIMEOUT: Duration = Duration::from_millis(150);
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-enum Check {
-    Pid(u32),
-    PidFile(PathBuf),
-    Port { host: String, port: u16 },
-    Name(String),
-}
 
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
 struct ProcessStatusReport {
@@ -69,130 +66,6 @@ fn real_process_status(args: &[String]) -> Result<()> {
     }
 
     Ok(())
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-struct ParsedStatus {
-    check: Check,
-    json: bool,
-}
-
-fn parse_status_args(args: &[String]) -> Result<ParsedStatus> {
-    let mut json = false;
-    let mut pid: Option<u32> = None;
-    let mut pid_file: Option<PathBuf> = None;
-    let mut host = String::from("127.0.0.1");
-    let mut port: Option<u16> = None;
-    let mut name: Option<String> = None;
-
-    let mut i = 0;
-    while i < args.len() {
-        match args[i].as_str() {
-            "--json" => {
-                json = true;
-                i += 1;
-            }
-            "--pid" => {
-                let value = take_value(args, i, "--pid")?;
-                pid = Some(parse_pid(value)?);
-                i += 2;
-            }
-            "--pid-file" => {
-                let value = take_value(args, i, "--pid-file")?;
-                pid_file = Some(PathBuf::from(value));
-                i += 2;
-            }
-            "--host" => {
-                host = take_value(args, i, "--host")?.to_string();
-                validate_loopback_host(&host)?;
-                i += 2;
-            }
-            "--port" => {
-                let value = take_value(args, i, "--port")?;
-                port = Some(parse_port(value)?);
-                i += 2;
-            }
-            "--name" => {
-                let value = take_value(args, i, "--name")?;
-                if value.trim().is_empty() {
-                    return Err(anyhow!("--name cannot be empty"));
-                }
-                name = Some(value.to_string());
-                i += 2;
-            }
-            other => {
-                return Err(anyhow!(
-                    "unknown process status option '{other}'\n\n{}",
-                    status_usage()
-                ));
-            }
-        }
-    }
-
-    let target_count = [
-        pid.is_some(),
-        pid_file.is_some(),
-        port.is_some(),
-        name.is_some(),
-    ]
-    .into_iter()
-    .filter(|present| *present)
-    .count();
-    if target_count != 1 {
-        return Err(anyhow!(
-            "process status requires exactly one of --pid, --pid-file, --port, or --name\n\n{}",
-            status_usage()
-        ));
-    }
-
-    let check = if let Some(pid) = pid {
-        Check::Pid(pid)
-    } else if let Some(pid_file) = pid_file {
-        Check::PidFile(pid_file)
-    } else if let Some(port) = port {
-        Check::Port { host, port }
-    } else {
-        Check::Name(name.expect("target_count already proved name is present"))
-    };
-
-    Ok(ParsedStatus { check, json })
-}
-
-fn take_value<'a>(args: &'a [String], index: usize, flag: &str) -> Result<&'a str> {
-    args.get(index + 1)
-        .map(String::as_str)
-        .filter(|value| !value.starts_with("--"))
-        .ok_or_else(|| anyhow!("{flag} requires a value"))
-}
-
-fn parse_pid(value: &str) -> Result<u32> {
-    let pid: u32 = value
-        .parse()
-        .with_context(|| format!("invalid --pid value '{value}'"))?;
-    if pid == 0 {
-        return Err(anyhow!("--pid must be greater than zero"));
-    }
-    Ok(pid)
-}
-
-fn parse_port(value: &str) -> Result<u16> {
-    let port: u16 = value
-        .parse()
-        .with_context(|| format!("invalid --port value '{value}'"))?;
-    if port == 0 {
-        return Err(anyhow!("--port must be greater than zero"));
-    }
-    Ok(port)
-}
-
-fn validate_loopback_host(host: &str) -> Result<()> {
-    match host {
-        "127.0.0.1" | "::1" | "localhost" => Ok(()),
-        "" => Err(anyhow!("--host cannot be empty")),
-        other => Err(anyhow!(
-            "--host must be a loopback target (127.0.0.1, ::1, or localhost); got '{other}'"
-        )),
-    }
 }
 
 fn classify_status(check: Check) -> Result<ProcessStatusReport> {
@@ -410,23 +283,6 @@ fn process_usage() -> &'static str {
 
 Compatibility:
   adl process status (--pid <pid> | --pid-file <path> | --port <port> [--host <host>] | --name <label>) [--json]"
-}
-
-fn status_usage() -> &'static str {
-    "Usage:
-  adl-process status --pid <pid> [--json]
-  adl-process status --pid-file <path> [--json]
-  adl-process status --port <port> [--host <host>] [--json]
-  adl-process status --name <label> [--json]
-
-Compatibility:
-  adl process status --pid <pid> [--json]
-  adl process status --pid-file <path> [--json]
-  adl process status --port <port> [--host <host>] [--json]
-  adl process status --name <label> [--json]
-
-Notes:
-  The helper classifies exact metadata targets only. It does not run ps, pgrep, lsof, or broad process scans."
 }
 
 #[cfg(test)]

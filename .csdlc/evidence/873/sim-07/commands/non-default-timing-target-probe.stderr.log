@@ -1,0 +1,3 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.49s
+  Executable tests/installed_prepared_start_measurement.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/installed_prepared_start_measurement-416bd90fffbebee4)

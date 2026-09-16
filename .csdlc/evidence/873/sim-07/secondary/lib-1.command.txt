@@ -1,0 +1,1 @@
+CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/873-secondary cargo test --manifest-path csdlc-v3/Cargo.toml --locked --lib commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation -- --exact --test-threads=1 

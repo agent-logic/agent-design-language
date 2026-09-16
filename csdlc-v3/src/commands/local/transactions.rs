@@ -149,6 +149,31 @@ pub(super) fn copy_local_issue_tree(
     }
     Ok(())
 }
+fn lifecycle_index_matches(
+    path: &Path,
+    issue: u64,
+    phase: &str,
+    digest: &str,
+) -> Result<bool, Vec<DoctorFinding>> {
+    let index_path = path.join("index.json");
+    if !index_path.exists() {
+        return Ok(false);
+    }
+    let value: serde_json::Value = serde_json::from_slice(
+        &fs::read(index_path).map_err(io_finding("local_transaction_index_read_failed"))?,
+    )
+    .map_err(|error| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_index_invalid",
+            &error.to_string(),
+        )]
+    })?;
+    Ok(value["schema"] == "csdlc.v3.local_state.v1"
+        && value["issue"] == issue
+        && value["phase"] == phase
+        && value["digest"] == digest)
+}
 pub(super) fn begin_local_transaction(
     context: &OperationalLocalContext,
     journal: LocalMutationJournal,
@@ -387,11 +412,37 @@ pub(super) fn commit_bind_local_transaction(
         )]);
     }
     if target_issue_root.exists() && target_stage.exists() {
-        return Err(vec![finding(
-            PlanStatus::Blocked,
-            "local_transaction_state_ambiguous",
-            "bind transaction cannot reconcile target issue and stage state",
-        )]);
+        let target_is_source = source_issue_root == target_issue_root;
+        let target_root_is_ready =
+            context
+                .expected_lifecycle_digest
+                .as_deref()
+                .is_some_and(|digest| {
+                    lifecycle_index_matches(&target_issue_root, journal.issue, "ready", digest)
+                        .unwrap_or(false)
+                });
+        let target_stage_is_result = match (
+            journal.result.phase.as_deref(),
+            journal.result.digest.as_deref(),
+        ) {
+            (Some(phase), Some(digest)) => {
+                lifecycle_index_matches(&target_stage, journal.issue, phase, digest)?
+            }
+            _ => false,
+        };
+        if target_is_source && target_root_is_ready && target_stage_is_result {
+            fs::remove_dir_all(&target_issue_root)
+                .map_err(io_finding("local_transaction_target_ready_cleanup_failed"))?;
+            fs::rename(&target_stage, &target_issue_root)
+                .map_err(io_finding("local_transaction_target_stage_commit_failed"))?;
+            local_transaction_failpoint("bind_after_same_checkout_stage_rename");
+        } else {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_state_ambiguous",
+                "bind transaction cannot reconcile target issue and stage state",
+            )]);
+        }
     }
     if source_issue_root.exists() && source_stage.exists() && !source_backup.exists() {
         fs::rename(&source_issue_root, &source_backup)

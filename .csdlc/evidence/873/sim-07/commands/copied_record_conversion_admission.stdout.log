@@ -1,0 +1,19 @@
+
+running 14 tests
+test converted_snapshot_is_acknowledged_before_installed_observation ... ok
+test converter_holds_exact_native_fence_denominator_and_unrelated_residue_still_rejects ... ok
+test first_journal_entry_survives_abrupt_exit_and_same_request_resumes ... ok
+test incomplete_convertible_record_stops_the_whole_census_before_effects ... ok
+test incomplete_probe_acknowledgement_is_retried_until_atomically_completed ... ok
+test invalid_generation_in_a_late_record_stops_before_any_semantic_effect ... ok
+test linked_worktree_admission_rejects_primary_arbitrary_and_identity_mismatch ... ok
+test operation_id_dot_segments_and_substituted_topology_bytes_fail_before_effects ... ok
+test production_evidence_and_restore_are_derived_from_durable_operation_state ... ok
+test remote_uncertainty_and_single_reconciliation_are_journal_derived ... ok
+test same_operation_rejects_an_altered_source_census_before_effects ... ok
+test source_identity_phase_and_prior_executable_mismatches_fail_before_effects ... ok
+test stale_writer_fence_probe_acknowledgement_cannot_resume_conversion ... ok
+test swapped_wrapped_and_flat_card_kinds_fail_before_effects ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 44.38s
+

@@ -309,20 +309,6 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         {
             return Err("intent_terminal_receipt_mismatch".into());
         }
-        let topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
-        for worktree in topology
-            .lines()
-            .filter_map(|line| line.strip_prefix("worktree "))
-        {
-            let worktree = PathBuf::from(worktree);
-            if worktree != context.root
-                && worktree
-                    .join(format!(".csdlc/issues/{}/index.json", context.issue))
-                    .exists()
-            {
-                return Err("intent_cleanup_registration_ambiguous".into());
-            }
-        }
         let binding_path = output_root.join(format!("bindings/{}.json", context.issue));
         let binding =
             super::read_json(&binding_path).map_err(|_| "intent_cleanup_binding_required")?;
@@ -333,6 +319,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .as_str()
             .ok_or("intent_cleanup_binding_invalid")?;
         let candidate = PathBuf::from(bound_path);
+        let topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
         let registered = topology
             .lines()
             .filter_map(|line| line.strip_prefix("worktree "))

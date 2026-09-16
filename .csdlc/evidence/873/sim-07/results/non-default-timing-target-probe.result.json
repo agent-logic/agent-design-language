@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.issue873.non_default_timing_target_probe_result.v1",
+  "status": "pass",
+  "exit_status": 0,
+  "target": "non_default_isolated_target",
+  "cargo_target_binding": "CARGO_TARGET_DIR=ADL_ISSUE873_TIMING_TARGET_DIR",
+  "harness_discovered_under_selected_target": true,
+  "candidate_slot_discovered_under_selected_target": true,
+  "stdout_sha256": "f9121cf23172246434a586341809bae67a077dbe80d4eae734f311831acf81cc",
+  "stderr_sha256": "b2fdc98021752a77a2a7ce196318df715a698ba5b40d2297f4854aa738bbbcf4",
+  "evidence": [
+    "commands/non-default-timing-target-probe.command.txt",
+    "commands/non-default-timing-target-probe.stdout.log",
+    "commands/non-default-timing-target-probe.stderr.log"
+  ]
+}

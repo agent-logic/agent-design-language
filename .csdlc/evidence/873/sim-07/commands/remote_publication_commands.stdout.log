@@ -1,0 +1,18 @@
+
+running 13 tests
+test authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json ... ok
+test authenticated_github_observation_requires_title_readback_for_pr_identity ... ok
+test cli_observe_github_fails_before_network_without_an_explicit_credential_name ... ok
+test cli_receipt_loader_rejects_disposable_target_receipts ... ok
+test existing_issue_help_describes_metadata_omission_and_clear ... ok
+test github_pr_receipt_binds_observed_title_not_caller_title ... ok
+test github_pr_receipt_rejects_titleless_request_and_receipt_pair ... ok
+test pr_state_rejects_unexpected_observed_closing_issue_references ... ok
+test pr_state_route_rejects_caller_forged_readback ... ok
+test publication_rejects_unexpected_closing_issue_references ... ok
+test publish_route_requires_current_review_and_closing_relation ... ok
+test retained_pr_state_observation_is_typed_and_non_authoritative ... ok
+test review_route_rejects_self_review_even_with_whitespace ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+

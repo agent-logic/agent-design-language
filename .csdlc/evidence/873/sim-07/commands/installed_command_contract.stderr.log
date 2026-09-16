@@ -1,0 +1,3 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.32s
+     Running tests/installed_command_contract.rs (csdlc-v3/target/debug/deps/installed_command_contract-8be0dcb395eaec47)

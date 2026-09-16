@@ -1,0 +1,1 @@
+CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/873-secondary cargo test --manifest-path csdlc-v3/Cargo.toml --locked --test installed_command_contract -- --test-threads=1 

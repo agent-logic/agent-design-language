@@ -1,0 +1,7 @@
+{
+  "schema": "adl.csdlc.issue873.non_default_timing_target_probe.v1",
+  "status": "pass",
+  "target_ref": "ADL_ISSUE873_TIMING_TARGET_DIR",
+  "harness": "installed_prepared_start_measurement-416bd90fffbebee4",
+  "candidate_slot": "csdlc"
+}

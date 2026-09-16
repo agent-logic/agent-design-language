@@ -147,10 +147,26 @@ impl Context {
         let registrations = git(&invoking, &["worktree", "list", "--porcelain"])?;
         let mut candidates = Vec::new();
         let prepared = common.join(format!("csdlc-v3/local/issues/{issue}"));
+        let binding_path = common.join(format!("csdlc-v3/local/bindings/{issue}.json"));
+        let canonical_bound_worktree = if binding_path.exists() {
+            let binding = read_json(&binding_path)?;
+            if binding["schema"] != "csdlc.v3.binding.v1" || binding["issue"] != issue {
+                return Err("intent_native_binding_invalid".into());
+            }
+            Some(PathBuf::from(
+                binding["worktree"]
+                    .as_str()
+                    .ok_or("intent_native_binding_invalid")?,
+            ))
+        } else {
+            None
+        };
         let prepared_recovery =
             crate::commands::local::intent::recovery_source(&common.join("csdlc-v3/local"), issue)
                 .map_err(|_| "intent_recovery_journal_invalid")?;
-        if prepared.join("index.json").exists() || prepared_recovery.is_some() {
+        if canonical_bound_worktree.is_none()
+            && (prepared.join("index.json").exists() || prepared_recovery.is_some())
+        {
             candidates.push((primary.clone(), prepared.clone()));
         }
         for line in registrations
@@ -159,6 +175,12 @@ impl Context {
         {
             let path = PathBuf::from(line);
             if path == primary {
+                continue;
+            }
+            if canonical_bound_worktree
+                .as_ref()
+                .is_some_and(|canonical| &path != canonical)
+            {
                 continue;
             }
             let issue_root = path.join(format!(".csdlc/issues/{issue}"));
@@ -213,53 +235,50 @@ impl Context {
             return Err("intent_issue_topology_ambiguous".into());
         }
         let mut archived_index = None;
-        if candidates.is_empty() {
-            let binding_path = common.join(format!("csdlc-v3/local/bindings/{issue}.json"));
-            if binding_path.exists() {
-                let binding = read_json(&binding_path)?;
-                if binding["schema"] != "csdlc.v3.binding.v1" || binding["issue"] != issue {
-                    return Err("intent_native_binding_invalid".into());
-                }
-                let target = PathBuf::from(
-                    binding["worktree"]
-                        .as_str()
-                        .ok_or("intent_native_binding_invalid")?,
-                );
-                if registrations
-                    .lines()
-                    .any(|line| line.strip_prefix("worktree ") == target.to_str())
-                    && target.exists()
-                {
-                    let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
-                        .map_err(semantic_error)?;
-                    let semantic_key =
-                        IssueKey::new(repository.clone(), issue).map_err(semantic_error)?;
-                    let exact_digest =
-                        match DurableTransactionStore::observe_issue(&semantic_root, &semantic_key)
-                            .map_err(semantic_error)?
-                        {
-                            Observation::Current(snapshot)
-                            | Observation::ProjectionRepairRequired(snapshot) => {
-                                cleanup_archive_digest(&semantic_root, &semantic_key, &snapshot)?
-                            }
-                            _ => None,
-                        };
-                    let retained = if let Some(digest) = exact_digest {
-                        crate::commands::terminal::matching_retained_cleanup_index(
-                            &primary, &target, issue, &digest,
-                        )
-                        .map_err(|finding| finding.code)?
-                    } else {
-                        crate::commands::terminal::retained_cleanup_index(&primary, &target, issue)
-                            .map_err(|finding| finding.code)?
+        if candidates.is_empty() && binding_path.exists() {
+            let binding = read_json(&binding_path)?;
+            if binding["schema"] != "csdlc.v3.binding.v1" || binding["issue"] != issue {
+                return Err("intent_native_binding_invalid".into());
+            }
+            let target = PathBuf::from(
+                binding["worktree"]
+                    .as_str()
+                    .ok_or("intent_native_binding_invalid")?,
+            );
+            if registrations
+                .lines()
+                .any(|line| line.strip_prefix("worktree ") == target.to_str())
+                && target.exists()
+            {
+                let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
+                    .map_err(semantic_error)?;
+                let semantic_key =
+                    IssueKey::new(repository.clone(), issue).map_err(semantic_error)?;
+                let exact_digest =
+                    match DurableTransactionStore::observe_issue(&semantic_root, &semantic_key)
+                        .map_err(semantic_error)?
+                    {
+                        Observation::Current(snapshot)
+                        | Observation::ProjectionRepairRequired(snapshot) => {
+                            cleanup_archive_digest(&semantic_root, &semantic_key, &snapshot)?
+                        }
+                        _ => None,
                     };
-                    if let Some(index) = retained {
-                        candidates.push((
-                            target.clone(),
-                            target.join(format!(".csdlc/issues/{issue}")),
-                        ));
-                        archived_index = Some(index);
-                    }
+                let retained = if let Some(digest) = exact_digest {
+                    crate::commands::terminal::matching_retained_cleanup_index(
+                        &primary, &target, issue, &digest,
+                    )
+                    .map_err(|finding| finding.code)?
+                } else {
+                    crate::commands::terminal::retained_cleanup_index(&primary, &target, issue)
+                        .map_err(|finding| finding.code)?
+                };
+                if let Some(index) = retained {
+                    candidates.push((
+                        target.clone(),
+                        target.join(format!(".csdlc/issues/{issue}")),
+                    ));
+                    archived_index = Some(index);
                 }
             }
         }
@@ -530,14 +549,12 @@ impl Context {
     pub(crate) fn refresh_semantic_binding(&self) -> Result<bool, String> {
         self.fresh_integrity()?;
         let (root, key) = self.semantic_root_key()?;
-        let snapshot =
-            match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
-                Observation::Current(value) => *value,
-                Observation::ProjectionRepairRequired(_) => {
-                    return Err("intent_semantic_projection_repair_required".into())
-                }
-                _ => return Err("intent_semantic_state_missing".into()),
-            };
+        let snapshot = match DurableTransactionStore::observe_issue(&root, &key)
+            .map_err(semantic_error)?
+        {
+            Observation::Current(value) | Observation::ProjectionRepairRequired(value) => *value,
+            _ => return Err("intent_semantic_state_missing".into()),
+        };
         if snapshot.inputs().authority() != &self.semantic_authority()? {
             return Err("intent_semantic_authority_changed".into());
         }
@@ -766,6 +783,22 @@ impl SemanticContext {
         operation: &OperationId,
     ) -> Result<AttachmentAdmission, String> {
         let refreshed = Context::load(&self.primary, self.issue)?;
+        self.fresh_for_effect_from(refreshed, operation)
+    }
+
+    pub(crate) fn fresh_for_recovery_effect(
+        &self,
+        operation: &OperationId,
+    ) -> Result<AttachmentAdmission, String> {
+        let refreshed = Context::load_for_intent(&self.primary, self.issue, "recover")?;
+        self.fresh_for_effect_from(refreshed, operation)
+    }
+
+    fn fresh_for_effect_from(
+        &self,
+        refreshed: Context,
+        operation: &OperationId,
+    ) -> Result<AttachmentAdmission, String> {
         let (root, key) = refreshed.semantic_root_key()?;
         if key != self.key {
             return Err("intent_semantic_issue_changed".into());

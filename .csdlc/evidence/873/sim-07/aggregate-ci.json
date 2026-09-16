@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.issue873.aggregate_ci.v1",
+  "source_candidate": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+  "source_pr": 1011,
+  "status": "passed",
+  "required_lanes": {
+    "csdlc-v3-standalone": "passed in 6m44s",
+    "tooling-contracts": "passed in 5m2s",
+    "path-policy": "passed",
+    "adl-ci": "passed",
+    "coverage": "passed"
+  },
+  "unrelated_lanes": "policy-skipped",
+  "issue873_evidence_pr_ci": "not_proven",
+  "qualification_effect": "Source-candidate CI corroborates the frozen implementation. It does not substitute for CI on the issue #873 evidence PR."
+}

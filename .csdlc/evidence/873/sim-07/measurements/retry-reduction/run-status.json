@@ -1,0 +1,27 @@
+{
+  "baseline_audit": "baseline-audit-result.json",
+  "boundary": "The authority-valid source fixture contains the tracked issue-505 terminal receipt, which the frozen candidate classifies as LegacyMigrationRequired. Removing it makes the authenticated authority receipt stale; no authority-valid clean retained fixture without it exists.",
+  "candidate": {
+    "finding_message": "LegacyMigrationRequired",
+    "journeys_completed": 0,
+    "reason_code": "semantic_prepare_refused",
+    "refusal": "candidate/refusal.raw.json"
+  },
+  "comparison_payload": null,
+  "corpus_id": "sim07-pre-resume-installed-journeys-v1",
+  "fifty_percent_claim": false,
+  "non_claims": [
+    "No comparable candidate ledger exists.",
+    "No retry-reduction percentage was calculated.",
+    "The 50 percent gate did not pass."
+  ],
+  "predecessor": {
+    "attempts": 34,
+    "avoidable_retries": 3,
+    "journeys_completed": 2,
+    "ledger": "predecessor/ledger.json"
+  },
+  "retry_reduction_percent": null,
+  "schema": "adl.csdlc.issue873.retry_run_status.v1",
+  "status": "not_proven"
+}
