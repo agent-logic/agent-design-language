@@ -245,10 +245,24 @@ fn ensure_inference_profile_config(
     preset: ProviderProfilePreset,
     config: &mut BTreeMap<String, Value>,
 ) -> Result<()> {
-    // These codecs do not perform text inference. Keep their profiles useful
-    // without materializing defaults that they cannot consume; explicit
-    // controls remain present and fail closed downstream.
-    if matches!(preset.kind, "mock" | "deepgram") {
+    // The in-process echo codec consumes no inference controls.
+    if preset.kind == "mock" {
+        return Ok(());
+    }
+    // Deepgram is a speech codec: it consumes the bounded client timeout but
+    // none of the text sampling or output controls.
+    if preset.kind == "deepgram" {
+        let timeout_secs = config_u64(provider_id, config, "timeout_secs")?
+            .unwrap_or(DEFAULT_INFERENCE_PROFILE.timeout_secs);
+        validate_bounded_u64(
+            provider_id,
+            "timeout_secs",
+            timeout_secs,
+            MAX_PROFILE_TIMEOUT_SECS,
+        )?;
+        config
+            .entry("timeout_secs".to_string())
+            .or_insert_with(|| json!(DEFAULT_INFERENCE_PROFILE.timeout_secs));
         return Ok(());
     }
     let inference = inference_profile_for(preset);

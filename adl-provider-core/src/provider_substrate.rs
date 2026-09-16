@@ -772,6 +772,7 @@ fn codec_controls(
         ("ollama", ProviderTransportV1::LocalCli)
         | ("local_ollama", ProviderTransportV1::LocalCli) => ("ollama_cli_v1", vec![TimeoutSecs]),
         ("mock", ProviderTransportV1::InProcess) => ("mock_v1", vec![]),
+        ("deepgram", ProviderTransportV1::Http) => ("deepgram_speech_v1", vec![TimeoutSecs]),
         ("openai", ProviderTransportV1::Http) => ("openai_responses_v1", common.clone()),
         ("anthropic", ProviderTransportV1::Http) => ("anthropic_messages_v1", common.clone()),
         ("deepseek", ProviderTransportV1::Http) => ("deepseek_chat_v1", common.clone()),
@@ -2031,6 +2032,34 @@ mod tests {
             target.effective_inference,
             EffectiveInferenceConfigV1::default()
         );
+    }
+
+    #[test]
+    fn deepgram_profile_materializes_only_its_consumed_timeout_control() {
+        let profile = adl::ProviderSpec {
+            id: Some("speech".to_string()),
+            profile: Some("deepgram:nova-3".to_string()),
+            kind: String::new(),
+            base_url: None,
+            default_model: None,
+            config: HashMap::from([("timeout_secs".to_string(), json!(45))]),
+        };
+        let expanded = crate::profiles::expand_provider_profiles(&HashMap::from([(
+            "speech".to_string(),
+            profile,
+        )]))
+        .unwrap();
+        let target = provider_invocation_target_v1("speech", &expanded["speech"], None).unwrap();
+
+        assert_eq!(target.codec_controls.codec, "deepgram_speech_v1");
+        assert_eq!(
+            target.codec_controls.consumes,
+            vec![InferenceControlV1::TimeoutSecs]
+        );
+        assert_eq!(target.effective_inference.timeout_secs, Some(45));
+        assert_eq!(target.effective_inference.max_output_tokens, None);
+        assert_eq!(target.effective_inference.temperature, None);
+        assert_eq!(target.effective_inference.top_p, None);
     }
 
     #[test]

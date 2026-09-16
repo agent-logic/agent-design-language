@@ -61,6 +61,7 @@ Built-in codecs declare these consumption sets:
 | Legacy generic HTTP `{prompt}` payload | timeout only; supplied sampling or output controls reject before adapter construction |
 | Kimi chat | common chat controls plus reasoning effort |
 | Z.ai chat | common chat controls plus reasoning effort and clear-thinking |
+| Deepgram speech | timeout only |
 | Mock | no inference controls |
 
 Timeout controls govern the trusted client or local supervisor and are not
@@ -70,15 +71,16 @@ codec's set are serialized into that codec's provider request.
 The shared profile contract is:
 
 - `provider_model_id` binds the provider-native model selected by the profile.
-- Except for mock and Deepgram speech profiles, `temperature`, `top_p`,
-  `max_output_tokens`, and `timeout_secs` are present
-  after expansion and validated before activation. Compatibility overrides are
+- Text-inference profiles materialize `temperature`, `top_p`,
+  `max_output_tokens`, and `timeout_secs` after expansion and validate them
+  before activation. Compatibility overrides are
   bounded to `temperature` in `[0.0, 2.0]`, `top_p` in `[0.0, 1.0]`,
   `max_output_tokens` no greater than `32768`, and `timeout_secs` no greater
   than `600`.
-- Mock and Deepgram speech profiles materialize no text-inference controls
-  because their codecs consume none. Explicit text-inference controls on those
-  profiles reject before adapter construction.
+- Mock profiles materialize no inference controls. Deepgram speech profiles
+  materialize only `timeout_secs`, which bounds the HTTP client. Explicit text
+  sampling or output controls on either profile reject before adapter
+  construction.
 - Ollama profiles use `materialization_policy: deterministic_ollama_v1`,
   `temperature: 0.0`, `top_p: 1.0`, `max_output_tokens: 512`,
   `timeout_secs: 120`, and `deterministic_seed: 0`. They now materialize

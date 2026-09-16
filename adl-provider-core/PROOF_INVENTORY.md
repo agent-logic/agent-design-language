@@ -89,6 +89,7 @@ model download, cloud resource, or paid call.
 | `vertex_adc_and_workload_identity_environment_overrides_are_supported` | Vertex ADC and workload-identity credential strategies retain their supported environment override through typed target normalization | CPU only; no credential resolution |
 | `vertex_thinking_controls_are_bound_into_inference_identity` | Vertex thinking budget and include-thoughts enter effective configuration and materially different budgets produce distinct fingerprints | CPU only |
 | `built_in_mock_profile_validates_without_phantom_inference_controls` | The built-in echo profile remains usable without claiming or materializing controls its in-process codec cannot consume | CPU only |
+| `deepgram_profile_materializes_only_its_consumed_timeout_control` | Deepgram speech profiles retain the client timeout while omitting unsupported text sampling and output defaults | CPU only; no credential resolution or request |
 
 Existing HTTP-family tests continue to exercise the declared common-control
 codecs. Issue #970 adds the canonical support declaration and makes supplied
