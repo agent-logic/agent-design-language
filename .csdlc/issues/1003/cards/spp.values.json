@@ -21,7 +21,7 @@
   "plan_summary": "Reproduce both #1003 failure paths in focused tests. Inspect semantic bind operation identity and admission after scope_acceptance. Add the smallest explicit rebind/head-refresh path preserving registered topology and version guards. Permit typed validator replacement after the guarded refresh without executing retained validators. Test negative ownership/authority/recovery and evidence invalidation cases; run installed candidate scenarios, independent review and CI.",
   "estimate_total_tokens": "60000",
   "planned_pvf_lane": "csdlc",
-  "status": "planned",
+  "status": "in_progress",
   "stp_card": ".csdlc/issues/1003/cards/stp.md",
   "estimate_elapsed_seconds": "3600",
   "timestamp": "2026-09-16T02:43:15.759077+00:00",

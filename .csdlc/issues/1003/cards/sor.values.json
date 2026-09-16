@@ -12,7 +12,7 @@
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1003-scope-rebind-validator-recovery",
   "actions_taken_line_2": "Added exact registration/authority/recovery checks and blocked-doctor refusal.",
   "sandbox_policy_invariants_preserved": "Pending execution; no result claimed.",
-  "summary": "Explicit bind revalidates retained checkout, refreshes changed HEAD with evidence invalidation, and restores scope-rewound Ready to Bound. Validators can then be replaced through typed edit without executing inadmissible retained commands.",
+  "summary": "Implemented and independently reviewed guarded rebind/head refresh and typed validator recovery. Local proof passed; publication and hosted CI remain pending.",
   "end_time": "Pending execution; no result claimed.",
   "primary_proof_surface": ".csdlc/evidence/1003/LOCAL_PROOF.json",
   "integration_method_used": "Pending execution; no result claimed.",
@@ -20,7 +20,7 @@
   "hash_byte_stability_checks": "Pending execution; no result claimed.",
   "estimate_error_percent": "Pending execution; no result claimed.",
   "verification_check_1": "Pending execution; no result claimed.",
-  "follow_up_2": "Pending execution; no result claimed.",
+  "follow_up_2": "#1006 remains separately owned and reviewed.",
   "verification_absolute_path_leakage_detected": "Pending execution; no result claimed.",
   "validation_effect": "Actual isolated installed CLI transitions and negative guards; no live issue mutation in tests.",
   "completion_state": "implementation_complete_pending_review_ci",
@@ -96,7 +96,7 @@
   "decision_or_deviation_1": "Pending execution; no result claimed.",
   "issue_goal_ref": "Worker10 #1003 and #1006 implementation",
   "sprint_goal_ref": "Not a sprint child; follow-up tooling repair",
-  "follow_up_1": "Pending execution; no result claimed.",
+  "follow_up_1": "Publish reviewed separate PR closing #1003, require full CI and explicit merge authorization.",
   "verification_schema_changes_present": "Pending execution; no result claimed.",
   "estimated_elapsed_seconds": "Pending execution; no result claimed."
 }

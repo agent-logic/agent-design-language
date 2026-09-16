@@ -10,7 +10,7 @@ title: "[v0.92.2][C-SDLC] Restore rebind and validator replacement after scope a
 branch: "codex/1003-scope-rebind-validator-recovery"
 generated_at: "2026-09-16T02:43:15.759077+00:00"
 card_status: "ready"
-status: "planned"
+status: "in_progress"
 activation_state: "ready_for_binding"
 plan_revision: 1
 initial_pvf_lane: "csdlc"

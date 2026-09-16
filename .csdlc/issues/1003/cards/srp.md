@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/1003/cards/sip.md"
   - ".csdlc/issues/1003/cards/vpp.md"
 review_results:
-  findings_status: "not_reviewed"
-  recommended_outcome: "Pending final exact-head independent review and CI"
-notes: "Review exact head and both positive/negative authority paths."
+  findings_status: "resolved"
+  recommended_outcome: "Approve publication after final record-only head receipt; required CI pending."
+notes: "Reviewer /root/repair_882_ci inspected exact implementation head and retained proof; source unchanged by final record update. Hosted CI remains separate pending proof."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Working-diff review found P2: blocked doctor results could advance rebind. Fixed by diagnostic admission before refresh and success gating after reservation. Installed blocked-doctor regression passes.
+- Independent review at6c2f1374b4 verified source, seven proof hashes, 143 library tests,12 installed semantic tests,43 installed intent regressions and Clippy. Earlier P2 accepting blocked doctor diagnostics was fixed and regressed; no remaining source findings.
 
 ### Dispositions
 
-- P2 resolved in source and regression proof; exact-head review pending.
+- P2 blocked-doctor finding resolved. Planning-status drift corrected from planned to in_progress. Final record-only head review receipt required before publication.
 
 ### Recommended Outcome
 
-- Pending final exact-head independent review and CI
+- Approve publication after final record-only head receipt; required CI pending.
 
 ## Notes
 
-Review exact head and both positive/negative authority paths.
+Reviewer /root/repair_882_ci inspected exact implementation head and retained proof; source unchanged by final record update. Hosted CI remains separate pending proof.

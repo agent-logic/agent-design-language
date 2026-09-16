@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Explicit bind revalidates retained checkout, refreshes changed HEAD with evidence invalidation, and restores scope-rewound Ready to Bound. Validators can then be replaced through typed edit without executing inadmissible retained commands.
+Implemented and independently reviewed guarded rebind/head refresh and typed validator recovery. Local proof passed; publication and hosted CI remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `csdlc`
@@ -174,5 +174,5 @@ verification_summary:
 - `Pending execution; no result claimed.`
 
 ## Follow-ups / Deferred work
-- `Pending execution; no result claimed.`
-- `Pending execution; no result claimed.`
+- `Publish reviewed separate PR closing #1003, require full CI and explicit merge authorization.`
+- `#1006 remains separately owned and reviewed.`
