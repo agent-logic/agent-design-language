@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented fail-closed PR-create recovery. First retries prove authenticated exact PR absence and the exact remote branch SHA before consuming their retry. Consumed receipts require an operation-bound typed disposition and definitive non-effect evidence already committed on canonical origin/main; both byte digests and the full immutable identity are verified before a separate one-shot dispatch stage. Rebuild can repair altered projections before refreshing an otherwise exact binding head. Local validation is green; exact-head independent re-review is pending.
+Implemented fail-closed PR-create recovery. The first and only authorized retry proves authenticated exact PR absence and the exact remote branch SHA before consuming its allowance. An already-consumed uncertain operation remains ineligible and cannot dispatch again; current absence, later branch availability, missing response data, or missing reconciliation do not establish historical non-effect. The retained issue #1013 operation already has authenticated reconciliation to PR #1019, so no additional dispatch is required. Rebuild can repair altered projections before refreshing an otherwise exact binding head. The false legacy non-effect evidence and disposition path were removed. Local validation is green; exact-head independent re-review is pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -75,7 +75,7 @@ Implemented fail-closed PR-create recovery. First retries prove authenticated ex
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `csdlc-v3/src/application/intent/{local,remote}.rs; csdlc-v3/src/commands/remote/{model,mutation,storage,support,tests,transport}.rs; csdlc-v3/src/main.rs; csdlc-v3/tests/{installed_intent_commands,operational_cli_commands,transactions}.rs; docs/csdlc-v3/CONTRACT.md; docs/csdlc-v3/recovery-dispositions/*.json; .csdlc/evidence/1013/*.json`
+- Tracked implementation artifacts: `csdlc-v3/src/adapters/mod.rs; csdlc-v3/src/application/intent/local.rs; csdlc-v3/src/commands/remote/{mutation,tests,transport}.rs; csdlc-v3/tests/installed_intent_commands.rs; docs/csdlc-v3/CONTRACT.md`
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml remote --no-fail-fast; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; git diff --check`
-    `Proves the semantic staged recovery path, canonical origin/main disposition and evidence admission without issue allowlists, immutable identity and authority binding, authenticated absence and exact-head gates, stale-authority and conflicting-PR rejection, durable one-shot replay protection, projection repair before binding-head refresh, remote regression compatibility, formatting, lint, and patch hygiene.`
+    `Proves authenticated absence and exact-head gates before the first retry allowance is consumed; missing or mismatched branch heads cannot consume the allowance or dispatch; consumed uncertain operations remain fail-closed with no operational dispatch; projection repair precedes binding-head refresh; remote regression compatibility, formatting, lint, module boundaries, and patch hygiene hold.`
 - Results:
-  - `passed locally: 80 remote unit tests, 6 focused consumed-recovery tests, installed projection-rebuild regression, installed recovery coverage, module decomposition, strict Clippy, formatting, and diff hygiene passed`
+  - `passed locally: 76 remote unit tests including 4 focused PR-create recovery regressions, installed projection-rebuild regression, 3 module-decomposition tests, strict Clippy, formatting, and diff hygiene`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Generic consumed PR-create disposition and recovery tests, projection-rebuild regression, full remote lane, module decomposition, strict Clippy, rustfmt and diff hygiene"
+      - "First-retry exact-head, wrong-head, missing-head, and consumed-uncertain recovery tests; projection-rebuild regression; full remote lane; module decomposition; strict Clippy; rustfmt; diff hygiene"
   determinism:
     status: passed
     replay_verified: true
