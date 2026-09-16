@@ -714,6 +714,14 @@ bash "$SCRIPT" \
 grep -F "Coverage-impact preflight passed for changed Rust source files" \
   "$distributed_lease_out" >/dev/null
 
+codefriend_publication_changed="$TMP/codefriend-publication-changed.txt"
+printf 'M\tadl/src/cli/codefriend_publication_cmd.rs\n' >"$codefriend_publication_changed"
+codefriend_publication_filters="$TMP/codefriend-publication-filters.txt"
+bash "$SCRIPT" --changed-files "$codefriend_publication_changed" --print-risk-filters >"$codefriend_publication_filters"
+grep -Fx "codefriend_ux" "$codefriend_publication_filters" >/dev/null
+codefriend_publication_expression="$(bash "$SCRIPT" --changed-files "$codefriend_publication_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl::codefriend_ux)" <<<"$codefriend_publication_expression" >/dev/null
+
 gws_live_changed="$TMP/gws-live-changed.txt"
 cat >"$gws_live_changed" <<'EOF'
 M	adl/src/gws_live_test_support.rs
