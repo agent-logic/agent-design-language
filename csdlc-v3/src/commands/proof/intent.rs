@@ -208,6 +208,7 @@ fn admit_validators_with_projection_inputs(
 fn semantic_projection_inputs(issue: u64) -> Vec<String> {
     let root = format!(".csdlc/v3/issues/{issue}");
     std::iter::once(format!("{root}/state.json"))
+        .chain(std::iter::once(format!("{root}/proof.json")))
         .chain(
             ["sip", "stp", "spp", "vpp", "srp", "sor"]
                 .into_iter()
