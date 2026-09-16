@@ -1,6 +1,6 @@
 {
   "issue": 896,
-  "lane": "runtime",
+  "lane": "owner_binary",
   "proof_role": "installed approved-review Markdown rendering, complete governed semantic parity, exact manifest binding, non-clickable citations, and anchored create-only export",
   "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, isolated filesystem races, no provider or network",
   "resource_profile": "bounded CPU and issue-owned filesystem only",
