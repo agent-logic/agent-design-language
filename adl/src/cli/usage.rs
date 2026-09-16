@@ -3,6 +3,8 @@ pub fn usage() -> &'static str {
   adl codefriend ingest local --checkout <dir> --repository <https-url> --revision <commit> --scope <scope.json> --out <new-packet.json>
   adl codefriend fitness run --store <dir> --packet-id <id> --policy <policy.json> --out <new-report.json>
   adl codefriend fitness read --store <dir> --input <report.json>
+  adl codefriend fitness ci-run --store <dir> --packet-id <id> --policy <policy.json> --candidate <sha> --policy-digest <digest> --out <new-directory>
+  adl codefriend fitness ci-verify --store <dir> --input <report.json> --candidate <sha> --packet-id <id> --policy-digest <digest> --runner-exit <0|1|2> --out <new-receipt.json>
   adl codefriend packet read --input <packet.json>
   adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]
   adl codefriend memory retain|read|delete|compare|delta-read --store <admission-store> --baselines <baseline-directory> ...

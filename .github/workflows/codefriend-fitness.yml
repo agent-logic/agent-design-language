@@ -1,0 +1,102 @@
+name: codefriend-fitness
+on:
+  pull_request:
+    paths:
+      - 'adl/**'
+      - 'adl-runtime/**'
+      - 'adl-runtime-kernel/**'
+      - '.github/codefriend-fitness-policy.json'
+      - '.github/workflows/codefriend-fitness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'adl/**'
+      - 'adl-runtime/**'
+      - 'adl-runtime-kernel/**'
+      - '.github/codefriend-fitness-policy.json'
+      - '.github/workflows/codefriend-fitness.yml'
+permissions:
+  contents: read
+jobs:
+  installed-product:
+    runs-on: ubuntu-latest
+    env:
+      CARGO_TARGET_DIR: ${{ runner.temp }}/fitness-target
+      CARGO_PROFILE_DEV_DEBUG: '0'
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7
+        with:
+          toolchain: 1.92.0
+      - name: Build and install the product
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo build --locked --manifest-path adl/Cargo.toml --bin adl
+          bash adl/tools/install_owner_binaries.sh --bin adl --no-build --source-bin-dir "$CARGO_TARGET_DIR/debug" --stable-bin-dir "$RUNNER_TEMP/fitness-installed"
+          tar -C "$RUNNER_TEMP" -czf "$RUNNER_TEMP/fitness-installed.tar.gz" fitness-installed
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: fitness-installed-product
+          path: ${{ runner.temp }}/fitness-installed.tar.gz
+          if-no-files-found: error
+          retention-days: 7
+  fitness:
+    needs: installed-product
+    runs-on: ubuntu-latest
+    name: ${{ matrix.case == 'candidate' && 'fitness candidate policy gate' || format('fitness fixture qualification ({0})', matrix.case) }}
+    strategy:
+      fail-fast: false
+      matrix:
+        case: [candidate, pass, fail, error]
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        with:
+          name: fitness-installed-product
+          path: ${{ runner.temp }}
+      - name: Prepare declared candidate and local parity evidence
+        env:
+          FITNESS_CASE: ${{ matrix.case }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C "$RUNNER_TEMP" -xzf "$RUNNER_TEMP/fitness-installed.tar.gz"
+          python3 adl/tools/codefriend_fitness_ci_fixture.py --binary "$RUNNER_TEMP/fitness-installed/adl" --output-root "$RUNNER_TEMP/fitness-proof" --case "$FITNESS_CASE" --checkout "$GITHUB_WORKSPACE" --candidate "$GITHUB_SHA"
+      - name: Execute unmodified policy gate (negative fixtures explicitly qualified below)
+        id: gate
+        # Only the named fixture qualification jobs may observe an expected failure.
+        # The actual candidate gate always propagates violations/errors as job failure.
+        continue-on-error: ${{ matrix.case != 'candidate' }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess, sys
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          args = json.loads((root / 'fitness-proof/invocation.json').read_text())
+          sys.exit(subprocess.call(['bash', 'adl/tools/codefriend_fitness_ci.sh', '--binary', str(root / 'fitness-installed/adl'), *args]))
+          PY
+      - name: Verify original outcome and local result parity
+        if: always() && steps.gate.outcome != 'skipped'
+        env:
+          GATE_OUTCOME: ${{ steps.gate.outcome }}
+        run: python3 adl/tools/codefriend_fitness_ci_proof.py --root "$RUNNER_TEMP/fitness-proof" --gate-outcome "$GATE_OUTCOME"
+      - name: Retain bounded results even when the policy gate fails
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: fitness-${{ matrix.case }}-proof
+          path: |
+            ${{ runner.temp }}/fitness-proof/context.json
+            ${{ runner.temp }}/fitness-proof/proof.json
+            ${{ runner.temp }}/fitness-proof/local-report.json
+            ${{ runner.temp }}/fitness-proof/ci/*.json
+            ${{ runner.temp }}/fitness-proof/ci/*.txt
+            ${{ runner.temp }}/fitness-proof/ci/*.log
+          if-no-files-found: error
+          retention-days: 7

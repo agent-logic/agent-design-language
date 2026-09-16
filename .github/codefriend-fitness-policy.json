@@ -1,0 +1,11 @@
+{
+  "schema": "codefriend.fitness.v1",
+  "rules": [
+    {
+      "id": "governance-facade-no-http-client",
+      "kind": "forbidden_declared_use",
+      "source_path": "adl/src/codefriend/governance/mod.rs",
+      "forbidden_prefix": "reqwest"
+    }
+  ]
+}
