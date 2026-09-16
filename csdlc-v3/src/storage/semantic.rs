@@ -845,6 +845,37 @@ impl NativeWriterFenceGuard {
         &self.paths
     }
 
+    /// Construct the in-process admission token after the conversion owner has
+    /// authenticated that its durable guardian process holds the same native
+    /// lock denominator. The guardian owns the file descriptors so an abrupt
+    /// converter exit cannot release the archived writer fence.
+    pub(crate) fn authenticated_guardian(
+        common: &Path,
+        issues: impl IntoIterator<Item = u64>,
+    ) -> Result<Self, Error> {
+        let common = fs::canonicalize(common).map_err(io)?;
+        let issues = issues.into_iter().collect::<BTreeSet<_>>();
+        if issues.is_empty() || issues.contains(&0) {
+            return Err(Error::InvalidInput(
+                "invalid writer-fence denominator".into(),
+            ));
+        }
+        let paths = issues
+            .iter()
+            .map(|issue| {
+                common
+                    .join("csdlc-v3/local/locks")
+                    .join(format!("{issue}.lock"))
+            })
+            .collect();
+        Ok(Self {
+            common,
+            issues,
+            paths,
+            _locks: Vec::new(),
+        })
+    }
+
     fn authenticates(&self, root: &SemanticRoot, issue: u64) -> bool {
         self.common == root.common && self.issues.contains(&issue)
     }

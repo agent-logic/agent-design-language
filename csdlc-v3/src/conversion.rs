@@ -13,14 +13,16 @@ use crate::storage::semantic::{
     SemanticRoot, Snapshot, Validator, SEMANTIC_CARD_KINDS,
 };
 use crate::storage::DurableTransactionStore;
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicU64, Ordering};
+use std::thread;
 use std::time::{Duration, Instant};
 
 static CREATE_ONCE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
@@ -139,6 +141,18 @@ pub struct ConversionRestoreResult {
     pub source_hashes_after: Vec<String>,
     pub effect_count: usize,
     pub receipt_path: Option<PathBuf>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct WriterFenceGuardianRequest {
+    schema: String,
+    operation_id: String,
+    request_digest: String,
+    git_common: PathBuf,
+    issues: Vec<u64>,
+    fence_path: PathBuf,
+    ready_path: PathBuf,
 }
 
 const FAULT_POINTS: [&str; 16] = [
@@ -449,6 +463,150 @@ fn replace_durable(path: &Path, bytes: &[u8]) -> Result<(), String> {
         )
     })?;
     sync_dir(parent)
+}
+
+fn guardian_ready_matches(path: &Path, request: &WriterFenceGuardianRequest) -> bool {
+    let Ok(bytes) = fs::read(path) else {
+        return false;
+    };
+    let Ok(value) = serde_json::from_slice::<Value>(&bytes) else {
+        return false;
+    };
+    value["schema"] == "csdlc.v3.copied_record_writer_fence_guardian_ready.v1"
+        && value["operation_id"] == request.operation_id
+        && value["request_digest"] == request.request_digest
+        && value["issues"] == json!(request.issues)
+}
+
+fn native_writer_locks_held(common: &Path, issues: &[u64]) -> bool {
+    issues.iter().all(|issue| {
+        let path = common
+            .join("csdlc-v3/local/locks")
+            .join(format!("{issue}.lock"));
+        let Ok(file) = OpenOptions::new().read(true).write(true).open(path) else {
+            return false;
+        };
+        file.try_lock_exclusive().is_err()
+    })
+}
+
+fn native_writer_locks_available(common: &Path, issues: &[u64]) -> bool {
+    issues.iter().all(|issue| {
+        let path = common
+            .join("csdlc-v3/local/locks")
+            .join(format!("{issue}.lock"));
+        let Ok(file) = OpenOptions::new().read(true).write(true).open(path) else {
+            return false;
+        };
+        file.try_lock_exclusive().is_ok()
+    })
+}
+
+fn acquire_guarded_writer_fence(
+    operation: &Operation<'_>,
+    request_digest: &Digest,
+    common: &Path,
+    issues: &[u64],
+) -> Result<NativeWriterFenceGuard, String> {
+    let fence_path = operation.root.join("conversion.fence");
+    let ready_path = operation.root.join("writer-fence-guardian-ready.json");
+    let guardian_request = WriterFenceGuardianRequest {
+        schema: "csdlc.v3.copied_record_writer_fence_guardian_request.v1".to_owned(),
+        operation_id: operation.id().to_owned(),
+        request_digest: request_digest.as_str().to_owned(),
+        git_common: common.to_path_buf(),
+        issues: issues.to_vec(),
+        fence_path,
+        ready_path: ready_path.clone(),
+    };
+    let request_path = operation.root.join("writer-fence-guardian-request.json");
+    let request_bytes = serde_json::to_vec_pretty(&guardian_request).map_err(|e| e.to_string())?;
+    write_create_once(&request_path, &request_bytes)?;
+
+    if !(guardian_ready_matches(&ready_path, &guardian_request)
+        && native_writer_locks_held(common, issues))
+    {
+        let executable = std::env::current_exe().map_err(|error| error.to_string())?;
+        Command::new(executable)
+            .args(["writer-fence-guardian", "--request"])
+            .arg(&request_path)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .map_err(|error| format!("start writer-fence guardian: {error}"))?;
+    }
+
+    let deadline = Instant::now() + Duration::from_secs(15);
+    while !(guardian_ready_matches(&ready_path, &guardian_request)
+        && native_writer_locks_held(common, issues))
+    {
+        if Instant::now() >= deadline {
+            return Err("writer-fence guardian did not authenticate held native locks".to_owned());
+        }
+        thread::sleep(Duration::from_millis(10));
+    }
+    NativeWriterFenceGuard::authenticated_guardian(common, issues.iter().copied())
+        .map_err(|error| format!("authenticate writer-fence guardian: {error:?}"))
+}
+
+fn release_guarded_writer_fence(
+    operation: &Operation<'_>,
+    common: &Path,
+    issues: &[u64],
+) -> Result<(), String> {
+    replace_durable(&operation.root.join("conversion.fence"), b"released\n")?;
+    let deadline = Instant::now() + Duration::from_secs(15);
+    while !native_writer_locks_available(common, issues) {
+        if Instant::now() >= deadline {
+            return Err("writer-fence guardian did not release native locks".to_owned());
+        }
+        thread::sleep(Duration::from_millis(10));
+    }
+    Ok(())
+}
+
+pub fn run_writer_fence_guardian(request_path: &Path) -> Result<(), String> {
+    let request: WriterFenceGuardianRequest = serde_json::from_slice(
+        &fs::read(request_path).map_err(|error| format!("{}: {error}", request_path.display()))?,
+    )
+    .map_err(|error| error.to_string())?;
+    if request.schema != "csdlc.v3.copied_record_writer_fence_guardian_request.v1" {
+        return Err("unsupported writer-fence guardian request schema".to_owned());
+    }
+    validate_operation_id(&request.operation_id)?;
+    let common = fs::canonicalize(&request.git_common)
+        .map_err(|error| format!("{}: {error}", request.git_common.display()))?;
+    let operation_root = common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .join(&request.operation_id);
+    if request_path != operation_root.join("writer-fence-guardian-request.json")
+        || request.fence_path != operation_root.join("conversion.fence")
+        || request.ready_path != operation_root.join("writer-fence-guardian-ready.json")
+    {
+        return Err("writer-fence guardian paths escaped the authenticated operation".to_owned());
+    }
+    let guard = NativeWriterFenceGuard::acquire(&common, request.issues.iter().copied())
+        .map_err(|error| format!("guardian acquire native issue writer fences: {error:?}"))?;
+    replace_durable(&request.fence_path, b"active\n")?;
+    write_create_once(
+        &request.ready_path,
+        &serde_json::to_vec_pretty(&json!({
+            "schema":"csdlc.v3.copied_record_writer_fence_guardian_ready.v1",
+            "operation_id":request.operation_id,
+            "request_digest":request.request_digest,
+            "issues":request.issues,
+        }))
+        .map_err(|error| error.to_string())?,
+    )?;
+    loop {
+        match fs::read(&request.fence_path) {
+            Ok(bytes) if bytes == b"released\n" => break,
+            _ => thread::sleep(Duration::from_millis(20)),
+        }
+    }
+    drop(guard);
+    Ok(())
 }
 
 fn copy_tree(source: &Path, destination: &Path) -> Result<(), String> {
@@ -1401,14 +1559,15 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
 
     let preflight = preflight_conversion(request)?;
     let request_digest = canonical_request_digest(request, &preflight)?;
-    let native_issue_writer_fences = NativeWriterFenceGuard::acquire(
+    let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
+    let native_issue_writer_fences = acquire_guarded_writer_fence(
+        &operation,
+        &request_digest,
         &preflight.canonical_git_common,
-        request.writer_fence_issues.iter().copied(),
-    )
-    .map_err(|error| format!("acquire native issue writer fences: {error:?}"))?;
+        &request.writer_fence_issues,
+    )?;
     let fence_paths = native_issue_writer_fences.paths().to_vec();
     let mut native_issue_writer_fences = Some(native_issue_writer_fences);
-    let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
     operation.marker(
         "writer-fence-held.json",
         "native_issue_writer_fence_held",
@@ -1435,10 +1594,6 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         "conversion_intent_durable",
         json!({"repository": request.repository, "record_count": request.records.len()}),
     )?;
-    let fence = operation.root.join("conversion.fence");
-    if !fence.is_file() {
-        write_create_once(&fence, b"active\n")?;
-    }
     operation.fault("conversion_intent_durability", "after")?;
 
     let staging = operation.root.join("staging");
@@ -1846,7 +2001,11 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
         )?;
     }
     drop(native_issue_writer_fences.take());
-    replace_durable(&fence, b"released\n")?;
+    release_guarded_writer_fence(
+        &operation,
+        &canonical_git_common,
+        &request.writer_fence_issues,
+    )?;
     operation.append(
         "conversion_fence_released",
         json!({"native_issue_writer_fences_released":true}),
@@ -2612,7 +2771,11 @@ pub fn restore_conversion_pre_effect(
     let operation = Operation::open(request, &request_digest, &preflight.canonical_git_common)?;
     let fence = operation.root.join("conversion.fence");
     if fence.is_file() {
-        replace_durable(&fence, b"released\n")?;
+        release_guarded_writer_fence(
+            &operation,
+            &preflight.canonical_git_common,
+            &request.writer_fence_issues,
+        )?;
     }
     let receipt_path = operation.root.join("restore/pre-effect-receipt.json");
     operation.marker(
