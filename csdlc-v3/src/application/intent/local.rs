@@ -785,7 +785,7 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     {
         return Err("intent_plan_six_cards_required".into());
     }
-    crate::commands::proof::intent::admit_validators(&context.root, &plan.validators)?;
+    crate::commands::proof::intent::admit_validator_declarations(&context.root, &plan.validators)?;
     let invocation = CommandInvocation::new(
         "github-api-read-only",
         [
@@ -905,8 +905,8 @@ fn semantic_validation_edit(
 ) -> Result<Value, String> {
     use crate::lifecycle::semantic::{Facts, SemanticCommand};
     use crate::storage::{semantic::protocol::*, DurableTransactionStore};
-    crate::commands::proof::intent::admit_validators(&context.root, &validators)?;
     let semantic = context.semantic_context()?;
+    crate::commands::proof::intent::admit_semantic_validators(context, &validators)?;
     let storage_validators = storage_validators(validators)?;
     if semantic.snapshot.inputs().validation() == storage_validators.as_slice() {
         return Ok(
@@ -1040,7 +1040,7 @@ pub fn proof(context: &Context, intent: &IntentRequest) -> Result<Value, String>
             .collect::<Vec<_>>();
         // Complete every no-effect validator/input admission check before a
         // changed checkout HEAD amends the semantic binding or reserves proof.
-        crate::commands::proof::intent::admit_validators(&context.root, &validators)?;
+        crate::commands::proof::intent::admit_semantic_validators(context, &validators)?;
         context.refresh_semantic_binding()?;
         let refreshed = Context::load(&context.primary, context.issue)?;
         semantic_proof(&refreshed)
@@ -1571,7 +1571,7 @@ fn semantic_proof(context: &Context) -> Result<Value, String> {
             timeout_seconds: value.timeout_seconds,
         })
         .collect::<Vec<_>>();
-    let admitted = crate::commands::proof::intent::admit_validators(&context.root, &validators)?;
+    let admitted = crate::commands::proof::intent::admit_semantic_validators(context, &validators)?;
     let producer: Value = serde_json::from_slice(&admitted.request_bytes()?)
         .map_err(|_| "intent_validator_request_invalid")?;
     let administrative_epoch = latest_administrative_epoch(&admitted_context)?;
@@ -1833,12 +1833,14 @@ pub(crate) fn semantic_proof_current(context: &Context) -> Result<bool, String> 
                 timeout_seconds: v.timeout_seconds,
             })
             .collect::<Vec<_>>();
-        return Ok(crate::commands::proof::intent::verify_execution_inputs(
-            &context.root,
-            &validators,
-            &evidence["execution"],
-        )
-        .is_ok());
+        return Ok(
+            crate::commands::proof::intent::verify_semantic_execution_inputs(
+                context,
+                &validators,
+                &evidence["execution"],
+            )
+            .is_ok(),
+        );
     }
     Ok(false)
 }
@@ -2054,8 +2056,8 @@ pub(crate) fn recover_semantic_proof(
                 timeout_seconds: value.timeout_seconds,
             })
             .collect::<Vec<_>>();
-        crate::commands::proof::intent::verify_execution_inputs(
-            &context.root,
+        crate::commands::proof::intent::verify_semantic_execution_inputs(
+            context,
             &validators,
             &evidence["execution"],
         )?;
