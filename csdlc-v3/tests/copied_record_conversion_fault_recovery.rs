@@ -1,3 +1,4 @@
+use fs2::FileExt;
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 use std::fs;
@@ -75,6 +76,7 @@ fn exercise_fault(point: &str, boundary: &str) {
         "{point}/{boundary}: interruption retained no durable operation journal; files={:?}",
         crash_files.keys().collect::<Vec<_>>()
     );
+    assert_writer_fence_matches_durable_state(point, boundary, &fixture.git_common, &operation_id);
 
     // A new Command creates a new process. The request bytes, including operation identity
     // and one-shot fault declaration, remain unchanged so recovery cannot substitute a new
@@ -106,6 +108,45 @@ fn exercise_fault(point: &str, boundary: &str) {
         prior_executable_bytes,
         "{point}/{boundary}: immutable prior executable input changed across crash recovery"
     );
+}
+
+fn assert_writer_fence_matches_durable_state(
+    point: &str,
+    boundary: &str,
+    common: &Path,
+    operation_id: &str,
+) {
+    let fence = fs::read(
+        common
+            .join("csdlc-v3/local/conversion-rehearsals")
+            .join(operation_id)
+            .join("conversion.fence"),
+    )
+    .unwrap_or_else(|error| panic!("{point}/{boundary}: read durable fence: {error}"));
+    for issue in [511, 517, 497, 3, 505, 122, 113, 868] {
+        let path = common
+            .join("csdlc-v3/local/locks")
+            .join(format!("{issue}.lock"));
+        let file = fs::OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(&path)
+            .unwrap_or_else(|error| panic!("{point}/{boundary}: {}: {error}", path.display()));
+        match fence.as_slice() {
+            b"active\n" => assert!(
+                file.try_lock_exclusive().is_err(),
+                "{point}/{boundary}: active writer lock {issue} was released by converter crash"
+            ),
+            b"released\n" => assert!(
+                file.try_lock_exclusive().is_ok(),
+                "{point}/{boundary}: released writer lock {issue} remained held"
+            ),
+            value => panic!(
+                "{point}/{boundary}: unsupported durable fence state {:?}",
+                String::from_utf8_lossy(value)
+            ),
+        }
+    }
 }
 
 fn invoke_convert(request: &Path) -> Output {

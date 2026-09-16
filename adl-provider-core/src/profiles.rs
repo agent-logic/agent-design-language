@@ -245,6 +245,26 @@ fn ensure_inference_profile_config(
     preset: ProviderProfilePreset,
     config: &mut BTreeMap<String, Value>,
 ) -> Result<()> {
+    // The in-process echo codec consumes no inference controls.
+    if preset.kind == "mock" {
+        return Ok(());
+    }
+    // Deepgram is a speech codec: it consumes the bounded client timeout but
+    // none of the text sampling or output controls.
+    if preset.kind == "deepgram" {
+        let timeout_secs = config_u64(provider_id, config, "timeout_secs")?
+            .unwrap_or(DEFAULT_INFERENCE_PROFILE.timeout_secs);
+        validate_bounded_u64(
+            provider_id,
+            "timeout_secs",
+            timeout_secs,
+            MAX_PROFILE_TIMEOUT_SECS,
+        )?;
+        config
+            .entry("timeout_secs".to_string())
+            .or_insert_with(|| json!(DEFAULT_INFERENCE_PROFILE.timeout_secs));
+        return Ok(());
+    }
     let inference = inference_profile_for(preset);
     let max_profile_output_tokens = if is_reasoning_effort_profile(preset) {
         131_072
@@ -602,7 +622,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("phi4-mini"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     m.insert(
@@ -611,7 +631,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("qwen2.5:7b"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     m.insert(
@@ -620,7 +640,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("llama3.1:8b"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     m.insert(
@@ -629,7 +649,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("mistral:7b"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     // Mock/testing preset

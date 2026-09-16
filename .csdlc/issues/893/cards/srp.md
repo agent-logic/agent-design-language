@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "Fresh independent exact-head review is required against the remediated commit before publication. Prior review is not a PASS."
+notes: "The reviewer found no product-code defect and confirmed completed four-lane synthesis authority, exact evidence-path mapping including spaces and root dotfiles, removal of semantic-anchor inference, manifest-bound readback, canonical replanning, create-only output behavior, and no #894/#895 scope. A different canonical fresh-session reviewer must review the metadata-only lifecycle repair at the new immutable head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- First independent exact-head review of daa3cb59083b63c99c393f63807d5790530bd22b by fresh-session:3645C5B0-8201-4525-B765-A1D5E98EAB00 returned BLOCK with two findings: High action_order tampering accepted by reader validation, and Medium stale SOR truth mixing implemented claims with not_started/not_run fields.
+- Canonical exact-head review of 2cf04aec0163c28ca92b98c8b1dc98da13b48ebb by fresh-session:f6894528-9800-450d-99a4-409d3f715bc2 returned FAIL with one P2 lifecycle-truth finding and no product-code findings: the SOR still described current-main reconciliation and proof replay as pending even though the reviewed revision already merged current origin/main e24e0438e40d1f716bd0653ea369d06450827230 and passed the complete focused proof.
 
 ### Dispositions
 
-- Both findings accepted for remediation. Source validation now compares the recorded action_order to the recomputed topological order and rejects mismatches; focused regression covers reversed action_order. SOR fields are updated through native edit to remove stale not_started/not_run implementation-proof claims and record implemented-remediated-pending-fresh-review truth.
+- Finding accepted and remediated through the typed SOR editor. The SOR now records current-main reconciliation as complete at merge head 2cf04aec0163c28ca92b98c8b1dc98da13b48ebb, records the post-merge 9/9 focused proof plus formatting, strict Clippy, and diff hygiene as complete, and leaves only a different fresh exact-head review and corrective native publication/CI pending.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Fresh independent exact-head review is required against the remediated commit before publication. Prior review is not a PASS.
+The reviewer found no product-code defect and confirmed completed four-lane synthesis authority, exact evidence-path mapping including spaces and root dotfiles, removal of semantic-anchor inference, manifest-bound readback, canonical replanning, create-only output behavior, and no #894/#895 scope. A different canonical fresh-session reviewer must review the metadata-only lifecycle repair at the new immutable head.

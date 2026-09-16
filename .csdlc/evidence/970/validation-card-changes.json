@@ -1,0 +1,38 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "proof_validator",
+    "transition_approved": true
+  },
+  "cards": {
+    "vpp": {
+      "title": "[provider architecture] Make declared AProvider inference configuration effective and observable",
+      "slug": "aprovider-effective-inference-configuration",
+      "timestamp": "2026-09-15",
+      "status": "ready",
+      "initial_pvf_lane": "provider",
+      "planned_pvf_lane": "provider",
+      "lane_registry_path": "docs/validation/pvf_lanes.json",
+      "lane_registry_template_set": "1.0.5",
+      "validation_runtime_class": "local_bounded",
+      "validation_resource_profile": "local CPU and loopback wire capture; no provider credentials, cloud, model download, or paid calls",
+      "validation_family": "provider_contract",
+      "validation_size_split": "focused component tests first; component-wide test only if focused proof or CI requires it",
+      "expected_proof_cost": "bounded local Rust compile and test",
+      "planned_validation_seconds": "1800",
+      "planned_validation_tokens": "20000",
+      "issue_goal_ref": "Active issue #970 implementation, native proof, independent review, and draft publication goal",
+      "sprint_goal_ref": "Sprint 5 provider follow-up",
+      "goal_metrics_rollup_ref": "not_collected",
+      "stp_card": ".csdlc/issues/970/cards/stp.md",
+      "sip_card": ".csdlc/issues/970/cards/sip.md",
+      "spp_card": ".csdlc/issues/970/cards/spp.md",
+      "selected_lanes_inline": "provider normalization and rejection; Ollama HTTP wire capture; profile/reload/direct parity; documentation and diff hygiene; independent exact-head review",
+      "parallel_groups_inline": "Run independent focused Rust test filters sequentially against one warmed target; docs and diff checks may follow without provider execution.",
+      "validation_commands_inline": ".csdlc/evidence/970/validate.sh for full local proof; native proof runs cargo test --manifest-path adl-provider-core/Cargo.toml",
+      "failure_policy": "Fail closed on any ignored supplied control, executable authority field, pre-dispatch I/O in negative tests, unstable fingerprint, private-data leakage, profile/direct mismatch, zero-test result, live-provider dependency, or unresolved review finding.",
+      "plan_summary": "Prove the canonical effective configuration and selected-codec consumption boundary with deterministic local component tests and loopback wire capture.",
+      "notes_risks_inline": "Runtime and direct paths must converge through the same factory; if a codec cannot consume an explicitly supplied normalized control, admission must reject it before network or process execution."
+    }
+  }
+}

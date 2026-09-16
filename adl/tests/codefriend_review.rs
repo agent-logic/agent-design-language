@@ -825,6 +825,219 @@ fn review_shell_retry_after_cancel_archives_cancel_request_and_completes_new_att
 }
 
 #[test]
+fn review_shell_immediate_retry_after_cancel_preserves_active_attempt_settlement() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap().to_string();
+    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (endpoint, _requests) = provider_server_with_delay(responses, Duration::from_secs(2));
+    let provider_request = fixture.provider_request(&endpoint);
+    let out_dir = fixture.temp.join("review-shell-immediate-cancel-retry");
+    let mut child = Some(
+        Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args([
+                "codefriend",
+                "review",
+                "shell",
+                "start",
+                "--store",
+                fixture.store.to_str().unwrap(),
+                "--packet-id",
+                &packet_id,
+                "--provider-request",
+                provider_request.to_str().unwrap(),
+                "--out",
+                out_dir.to_str().unwrap(),
+                "--run-id",
+                "shell-immediate-cancel-before-retry",
+            ])
+            .env("ADL_CODEFRIEND_REVIEW_FIXTURE_KEY", "fixture-key")
+            .env("ADL_OBSERVABILITY_OTEL", "0")
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap(),
+    );
+    let deadline = Instant::now() + Duration::from_secs(5);
+    while !out_dir.join("operator-state.json").exists() && Instant::now() < deadline {
+        thread::sleep(Duration::from_millis(20));
+    }
+    assert!(out_dir.join("operator-state.json").exists());
+    let cancelled = shell_state(&codefriend_review_shell(&[
+        "cancel",
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--reason",
+        "operator requested immediate retry",
+    ]));
+    assert_eq!(cancelled["status"], "cancelled");
+
+    let retry_responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (retry_endpoint, _retry_requests) = provider_server(retry_responses);
+    let retry_provider_request = fixture.provider_request(&retry_endpoint);
+    let early_retry = codefriend_review_shell(&[
+        "retry",
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--provider-request",
+        retry_provider_request.to_str().unwrap(),
+        "--run-id",
+        "shell-immediate-retry-after-cancel",
+    ]);
+    let early_retry_succeeded = early_retry.status.success();
+    let retried = if early_retry_succeeded {
+        serde_json::from_slice(&early_retry.stdout).unwrap()
+    } else {
+        assert!(String::from_utf8_lossy(&early_retry.stderr)
+            .contains("retry_requires_settled_active_attempt"));
+        assert!(out_dir.join("cancel-request.json").exists());
+        assert!(out_dir.join("attempts/1/cancel-request.json").exists());
+
+        let output = child.take().unwrap().wait_with_output().unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let settled: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(settled["status"], "cancelled");
+
+        let retry_responses = ["correctness", "security", "adversarial", "constitutional"]
+            .iter()
+            .map(|lane| lane_response(lane, evidence_id))
+            .collect();
+        let (retry_endpoint, _retry_requests) = provider_server(retry_responses);
+        let retry_provider_request = fixture.provider_request(&retry_endpoint);
+        shell_state(&codefriend_review_shell(&[
+            "retry",
+            "--out",
+            out_dir.to_str().unwrap(),
+            "--provider-request",
+            retry_provider_request.to_str().unwrap(),
+            "--run-id",
+            "shell-retry-after-settled-cancel",
+        ]))
+    };
+    assert_eq!(retried["status"], "complete");
+    assert_eq!(retried["active_attempt"], 2);
+
+    if let Some(child) = child {
+        let output = child.wait_with_output().unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    let final_state = shell_state(&codefriend_review_shell(&[
+        "inspect",
+        "--out",
+        out_dir.to_str().unwrap(),
+    ]));
+    assert_eq!(final_state["status"], "complete");
+    assert_eq!(final_state["active_attempt"], 2);
+    assert_eq!(final_state["attempts"].as_array().unwrap().len(), 2);
+    assert_eq!(final_state["attempts"][0]["status"], "cancelled");
+    assert_eq!(final_state["attempts"][1]["status"], "complete");
+    assert!(out_dir.join("attempts/1/cancel-request.json").exists());
+    assert!(!out_dir.join("cancel-request.json").exists());
+    assert!(out_dir.join("attempts/1/review/run.json").exists());
+    assert!(out_dir.join("attempts/2/review/run.json").exists());
+}
+
+#[test]
+fn review_shell_retry_after_pre_run_failure_uses_settlement_marker() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap().to_string();
+    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (endpoint, _requests) = provider_server(responses);
+    let provider_request = fixture.provider_request(&endpoint);
+    let out_dir = fixture.temp.join("review-shell-pre-run-failure-retry");
+    let packet_path = fixture.store.join(format!("{packet_id}.json"));
+    let anchor_path = fixture.store.join(format!("{packet_id}.anchor"));
+    let saved_packet_path = fixture.temp.join(format!("{packet_id}.json.saved"));
+    let saved_anchor_path = fixture.temp.join(format!("{packet_id}.anchor.saved"));
+    fs::rename(&packet_path, &saved_packet_path).unwrap();
+    fs::rename(&anchor_path, &saved_anchor_path).unwrap();
+
+    let failed = shell_state(&codefriend_review_shell(&[
+        "start",
+        "--store",
+        fixture.store.to_str().unwrap(),
+        "--packet-id",
+        &packet_id,
+        "--provider-request",
+        provider_request.to_str().unwrap(),
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--run-id",
+        "shell-pre-run-failure",
+    ]));
+    assert_eq!(failed["status"], "failed");
+    assert_eq!(failed["active_attempt"], 1);
+    assert_eq!(failed["attempts"][0]["status"], "failed");
+    assert!(!out_dir.join("attempts/1/review/run.json").exists());
+    assert!(out_dir.join("attempts/1/settlement.json").exists());
+    assert!(failed["artifact_navigation"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|artifact| artifact == "attempts/1/settlement.json"));
+    fs::rename(&saved_packet_path, &packet_path).unwrap();
+    fs::rename(&saved_anchor_path, &anchor_path).unwrap();
+
+    let retry_responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (retry_endpoint, _retry_requests) = provider_server(retry_responses);
+    let retry_provider_request = fixture.provider_request(&retry_endpoint);
+    let retried = shell_state(&codefriend_review_shell(&[
+        "retry",
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--provider-request",
+        retry_provider_request.to_str().unwrap(),
+        "--run-id",
+        "shell-retry-after-pre-run-failure",
+    ]));
+    assert_eq!(retried["status"], "complete");
+    assert_eq!(retried["active_attempt"], 2);
+    assert_eq!(retried["attempts"].as_array().unwrap().len(), 2);
+    assert_eq!(retried["attempts"][0]["status"], "failed");
+    assert_eq!(retried["attempts"][1]["status"], "complete");
+    assert!(out_dir.join("attempts/2/review/run.json").exists());
+    assert!(out_dir.join("attempts/1/settlement.json").exists());
+
+    let settlement: serde_json::Value =
+        serde_json::from_slice(&fs::read(out_dir.join("attempts/1/settlement.json")).unwrap())
+            .unwrap();
+    assert_eq!(
+        settlement["schema"],
+        "codefriend.operator_attempt_settlement.v1"
+    );
+    assert_eq!(settlement["attempt"], 1);
+    assert_eq!(settlement["run_id"], "shell-pre-run-failure");
+    assert_eq!(settlement["status"], "failed");
+    assert_eq!(settlement["review_out"], "attempts/1/review");
+    assert!(settlement["summary_ref"].is_null());
+    assert!(!settlement["failure"].as_str().unwrap().is_empty());
+}
+
+#[test]
 fn review_shell_cancel_during_final_lane_does_not_fabricate_completion() {
     let fixture = Fixture::new();
     let admission = fixture.admit();

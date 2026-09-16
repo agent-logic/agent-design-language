@@ -1,0 +1,11 @@
+{
+  "action": "issue_create",
+  "title": "Allow a scope-rewound bound issue to rebind and replace an inadmissible validator",
+  "body": "## Problem\n\nA native v3 issue can become unable to progress after a scope amendment rewinds an already-bound semantic issue to Ready. The completed bind rejects an unchanged-head rebind with `semantic_owner_error: AdmissionChanged`; after the implementation commit, bind and edit reject with `intent_semantic_binding_stale`. Proof is the only route that refreshes the exact-head binding, but if the prepared validator predates current validator admission (for example a `bash` lane validator), proof fails first with `intent_validator_not_admitted`. The issue then cannot reach Bound, replace its validator, or execute proof through native authority.\n\n## Reproduction\n\n1. Prepare and bind an issue.\n2. Apply a `scope_acceptance` amendment that truthfully rewinds the semantic phase to Ready.\n3. Attempt `csdlc bind <issue>` at the unchanged head: observe `AdmissionChanged`.\n4. Commit implementation and attempt bind or edit: observe `intent_semantic_binding_stale`.\n5. Attempt proof when the retained validator is no longer admitted: observe `intent_validator_not_admitted` before `refresh_semantic_binding`.\n\nObserved on #970 with native authority current at repository main `b0311902d77668d6f126d501fffe4c752232af87`. No raw GitHub or lifecycle-state write was used.\n\n## Acceptance criteria\n\n- A scope-rewound issue can perform an authenticated, guarded rebind at the same registered branch/worktree after semantic inputs change.\n- A changed exact head can refresh binding without executing or trusting an inadmissible retained validator.\n- The operator can replace an inadmissible validator through a typed native route before proof.\n- Existing branch, worktree, authority, registration, exact-head, recovery, and evidence invalidation guards remain fail-closed.\n- Regression tests cover the unchanged-head `AdmissionChanged` path and the stale-head plus inadmissible-validator path.\n\n## Non-goals\n\nNo raw state editing, automatic phase advancement, validator admission weakening, or fallback lifecycle authority.",
+  "labels": [
+    "type:defect",
+    "area:csdlc",
+    "v0.92.2"
+  ],
+  "assignees": []
+}

@@ -1,0 +1,192 @@
+{
+  "schema": "adl.issue1006.local_proof.v1",
+  "issue": 1006,
+  "base_head": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+  "source_state": "working implementation; exact source hashes below; independent final committed-head review pending",
+  "classification": {
+    "pvf_lane": "tooling",
+    "role": "deterministic owner and installed integration",
+    "resource_profile": "CPU/local filesystem and controlled synthetic HTTP transport",
+    "required_issue_proof": true,
+    "live_github_writes": false,
+    "shared_stable_binary_replaced": false
+  },
+  "source_sha256": {
+    "csdlc-v3/src/application/intent/remote.rs": "12110d0e6db824577286b041c56ab368835db614dbfb93a4b025b2fd265fe54f",
+    "csdlc-v3/src/commands/remote/intent.rs": "df17945d293b8f55fabb3c3906a9b130f9dc97de3ab201df4d7c1dbf8000b2a1",
+    "csdlc-v3/src/commands/remote/mod.rs": "77072c6b14fc01e488687bd1bbe58fbcac21de37bbdd5b8872c8f4c0c827acef",
+    "csdlc-v3/src/commands/remote/coordination.rs": "5f80c51ce0f5a8f1fd230287b419b1368dc92e0f373ddfd2140c83774aba3d84",
+    "csdlc-v3/src/commands/remote/coordination/tests.rs": "48ad8d06d9ccee5436ffdc231b4543cd9551be7d05316d68a1602a44a563b982",
+    "csdlc-v3/src/main.rs": "f99cd3538c3c5e981d666c61f923a24811aa94f62bab715519ab761ee8de604d",
+    "csdlc-v3/tests/installed_coordination_completion.rs": "5d72dfd86aaf302a93f283377d2d3373c28da4b2078a433d64f64e8e43ed12be"
+  },
+  "candidate_binary_sha256": "dead6f8f31606569b4d13dd949b4702007187d314fcd23ce7a0836779aa88019",
+  "installed_reports": [
+    {
+      "scenario": "coordination-success",
+      "path": ".csdlc/evidence/1006/installed-reports/coordination-success.json",
+      "sha256": "dd0000e873753df334298cae8bca98a7647ac54de0e7c5c30a891de9b0e02e42",
+      "attempted": 6,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "ordinary_body",
+      "path": ".csdlc/evidence/1006/installed-reports/ordinary_body.json",
+      "sha256": "8464d59c884fe3881291902ca39286f00a80a542ea520fe5457ccacdf1eebc17",
+      "attempted": 3,
+      "exit_codes": [
+        0,
+        0,
+        2
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "no_approval",
+      "path": ".csdlc/evidence/1006/installed-reports/no_approval.json",
+      "sha256": "3168aff478f5ea05bc1a3ff7d9967ea2e9d4a97f5be22f06a04ad252eba68cab",
+      "attempted": 3,
+      "exit_codes": [
+        0,
+        0,
+        2
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "stale_evidence",
+      "path": ".csdlc/evidence/1006/installed-reports/stale_evidence.json",
+      "sha256": "aa60dceb0331eb97d75a8ffbbe8ad381adb0080549df52bd2dc7235978b6457c",
+      "attempted": 3,
+      "exit_codes": [
+        0,
+        0,
+        2
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "open_child",
+      "path": ".csdlc/evidence/1006/installed-reports/open_child.json",
+      "sha256": "40c972381f2e65d542155bc240050ccf36e1532c7c07f46a6ce148ead0d23c67",
+      "attempted": 3,
+      "exit_codes": [
+        0,
+        0,
+        2
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "bad_head",
+      "path": ".csdlc/evidence/1006/installed-reports/bad_head.json",
+      "sha256": "c7037fe24d18ea011a19301f1b886652b95d7e02213c88ec0fca49ba61ca2d73",
+      "attempted": 3,
+      "exit_codes": [
+        0,
+        0,
+        2
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "unchanged",
+      "path": ".csdlc/evidence/1006/installed-reports/unchanged.json",
+      "sha256": "e3220d7a7c243852835beead6eb75e4a6056f00e46a1c5c52031f8d0efc49fe7",
+      "attempted": 4,
+      "exit_codes": [
+        0,
+        0,
+        2,
+        0
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "changed_child",
+      "path": ".csdlc/evidence/1006/installed-reports/changed_child.json",
+      "sha256": "ae445b34af88f6c4836cd18a246b8fe73bf115e0629a33162ea1adc8d0754ac7",
+      "attempted": 4,
+      "exit_codes": [
+        0,
+        0,
+        2,
+        2
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    },
+    {
+      "scenario": "changed_evidence",
+      "path": ".csdlc/evidence/1006/installed-reports/changed_evidence.json",
+      "sha256": "3cb809698d3aa4ee8c6e65fe5d780d9d3422843942ef75ec9d48691dd748b1ca",
+      "attempted": 4,
+      "exit_codes": [
+        0,
+        0,
+        2,
+        2
+      ],
+      "installed_binary_blake3": "63bbc3d609a3836aaf4f7f13758989811bb03db9b610bf4478c1b0fe13b534c8"
+    }
+  ],
+  "claims": [
+    "Explicit coordination-only live-body contract with exact body/update, operator approval, durable evidence byte digests.",
+    "Authenticated completed child issues and exact merged closing PR linkage checked before new intent and every dispatch/retry.",
+    "Ordinary installed edit preserves prose, completion preserves edit marker, replay has no second PATCH, native coordination_completed finish succeeds.",
+    "Unchanged absence retry succeeds; reopened child and changed evidence prevent a second PATCH.",
+    "Existing administrative closure behavior remains covered."
+  ],
+  "limitations": [
+    "Synthetic transport proves native behavior, not completion of a real GitHub issue.",
+    "Operator must explicitly establish complete coordination-only contract; arbitrary prose acceptance and GitHub sub-issue membership are not inferred.",
+    "Authenticated observations and PATCH are not one atomic GitHub transaction.",
+    "Independent exact-head review, hosted CI, publication and merge remain pending."
+  ],
+  "test_checks": [
+    {
+      "log": ".csdlc/evidence/1006/remote-owner-tests.log",
+      "passed": 70,
+      "failed": 0,
+      "sha256": "8f3cbc350bbd3e78d5cf802e81c933ccfc7efab1c2d2128b36f3933295217ae7"
+    },
+    {
+      "log": ".csdlc/evidence/1006/remote-terminal-integration-tests.log",
+      "passed": 48,
+      "failed": 0,
+      "sha256": "7ee9917278cf383a6e2832199c3814effc5b63d870928681f959a49be70935d2"
+    },
+    {
+      "log": ".csdlc/evidence/1006/installed-coordination-tests.log",
+      "passed": 3,
+      "failed": 0,
+      "sha256": "0a3f40cd55d02b9e61bb88ad5f872f9f852f8698f6015dcc59f3b18f8429f384"
+    },
+    {
+      "log": ".csdlc/evidence/1006/installed-admin-tests.log",
+      "passed": 1,
+      "failed": 0,
+      "sha256": "6d10a259579f4c26b1013eb982d3fee6a9300b840de7377351e6a7c0089b4d14"
+    },
+    {
+      "log": ".csdlc/evidence/1006/installed-terminal-tests.log",
+      "passed": 1,
+      "failed": 0,
+      "sha256": "1e5e0546ed99dd5008783d073959a3cc1b481d76ee801ddec51b2402d510767b"
+    }
+  ],
+  "total_passed": 123,
+  "static_checks": {
+    "clippy_all_targets_deny_warnings": "PASS",
+    "cargo_fmt_check": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "log_normalization": "Trailing blank lines removed for repository whitespace hygiene; raw logs retained under resolved Git invocations/worker10-1006/raw-logs."
+}
