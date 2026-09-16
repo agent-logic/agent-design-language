@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "cards": {
+    "spp": {
+      "dependencies_inline": "Issue #1013 exposed a consumed PR-create retry. Retained absence or later remote branch availability does not prove historical non-effect; preserve existing operation identity and reconciliation evidence.",
+      "deliverables_inline": "Remove the unsupported legacy non-effect disposition and second-dispatch authorization. Keep consumed uncertain PR-create operations ineligible. Before the sole first retry, require authenticated PR absence and an exact remote branch SHA. Retain projection-rebuild recovery and focused regression coverage.",
+      "acceptance_criteria_inline": "No consumed uncertain operation may dispatch again. Current absence, missing receipts, or later branch availability cannot authorize a second retry. The first retry must reject missing or wrong remote heads before consuming its allowance. Installed CLI recovery must prove rejection followed by a single effect after exact-head admission.",
+      "notes_risks_inline": "Preserve immutable operation and reconciliation evidence. Remove only unsupported candidate evidence. Do not infer historical non-effect from absence or replay the retained operation. Run focused native proof, independent exact-head review, and CI before review handoff."
+    }
+  },
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true
+  }
+}

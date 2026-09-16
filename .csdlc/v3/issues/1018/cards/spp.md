@@ -53,7 +53,7 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: Issue #1013 exposed the retained operation semantic-operation-v1:8183fed55ea860e352b5183060c66f8e870502844b131558cf13d4009fe963ba at reviewed head 476528f696a11b995411ea62598ac97295e17817. Authenticated readback proves no PR exists and the remote head now resolves to the retained expected SHA."
+    description: "Confirm dependency readiness and starting state: Issue #1013 exposed a consumed PR-create retry. Retained absence or later remote branch availability does not prove historical non-effect; preserve existing operation identity and reconciliation evidence."
     expected_output: "<sip_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
@@ -61,11 +61,11 @@ proposed_steps:
     expected_output: "<stp_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: A guarded reconciliation route that admits exactly the retained PR-create operation after authenticated absence and exact remote-head verification, plus positive and negative regression tests for wrong head, mismatched existing PR, stale authority and repeated recovery."
+    description: "Implement only the bounded deliverables: Remove the unsupported legacy non-effect disposition and second-dispatch authorization. Keep consumed uncertain PR-create operations ineligible. Before the sole first retry, require authenticated PR absence and an exact remote branch SHA. Retain projection-rebuild recovery and focused regression coverage."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: Consumed authenticated-absence recovery can complete only when the exact retained operation and request remain unchanged, authenticated readback proves the target PR absent, the remote head equals the retained expected SHA and authority is current; blind replay and mutable replacement remain rejected; existing mismatched PR, wrong head, stale authority and repeated recovery fail safely; focused tests have nonzero denominators."
+    description: "Run focused proof gates for acceptance: No consumed uncertain operation may dispatch again. Current absence, missing receipts, or later branch availability cannot authorize a second retry. The first retry must reject missing or wrong remote heads before consuming its allowance. Installed CLI recovery must prove rejection followed by a single effect after exact-head admission."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Do not delete or replace retained intents, weaken authenticated readback, permit a second external effect, use raw GitHub lifecycle writes, or widen into unrelated publication behavior. Preserve the #1013 recovery evidence."
+notes: "Preserve immutable operation and reconciliation evidence. Remove only unsupported candidate evidence. Do not infer historical non-effect from absence or replay the retained operation. Run focused native proof, independent exact-head review, and CI before review handoff."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -154,10 +154,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: Issue #1013 exposed the retained operation semantic-operation-v1:8183fed55ea860e352b5183060c66f8e870502844b131558cf13d4009fe963ba at reviewed head 476528f696a11b995411ea62598ac97295e17817. Authenticated readback proves no PR exists and the remote head now resolves to the retained expected SHA.
+1. Confirm dependency readiness and starting state: Issue #1013 exposed a consumed PR-create retry. Retained absence or later remote branch availability does not prove historical non-effect; preserve existing operation identity and reconciliation evidence.
 2. Review repo inputs and scoped surfaces before editing: Issue #1018; csdlc-v3 semantic remote mutation intent, recovery and publication owners; retained PR-create recovery tests and fixtures; current operator manuals and schemas.
-3. Implement only the bounded deliverables: A guarded reconciliation route that admits exactly the retained PR-create operation after authenticated absence and exact remote-head verification, plus positive and negative regression tests for wrong head, mismatched existing PR, stale authority and repeated recovery.
-4. Run focused proof gates for acceptance: Consumed authenticated-absence recovery can complete only when the exact retained operation and request remain unchanged, authenticated readback proves the target PR absent, the remote head equals the retained expected SHA and authority is current; blind replay and mutable replacement remain rejected; existing mismatched PR, wrong head, stale authority and repeated recovery fail safely; focused tests have nonzero denominators.
+3. Implement only the bounded deliverables: Remove the unsupported legacy non-effect disposition and second-dispatch authorization. Keep consumed uncertain PR-create operations ineligible. Before the sole first retry, require authenticated PR absence and an exact remote branch SHA. Retain projection-rebuild recovery and focused regression coverage.
+4. Run focused proof gates for acceptance: No consumed uncertain operation may dispatch again. Current absence, missing receipts, or later branch availability cannot authorize a second retry. The first retry must reject missing or wrong remote heads before consuming its allowance. Installed CLI recovery must prove rejection followed by a single effect after exact-head admission.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Do not delete or replace retained intents, weaken authenticated readback, permit a second external effect, use raw GitHub lifecycle writes, or widen into unrelated publication behavior. Preserve the #1013 recovery evidence.
+Preserve immutable operation and reconciliation evidence. Remove only unsupported candidate evidence. Do not infer historical non-effect from absence or replay the retained operation. Run focused native proof, independent exact-head review, and CI before review handoff.

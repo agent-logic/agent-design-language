@@ -2311,6 +2311,21 @@ fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let preview = success(fixture.run(&primary, &["recover", "505"]));
     assert_eq!(preview["status"], "recovery_required");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    fixture.remote_flag("wrong-branch-head", true);
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+    fixture.remote_flag("wrong-branch-head", false);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
     success(fixture.run(
         &primary,
         &[

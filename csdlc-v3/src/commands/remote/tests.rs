@@ -862,6 +862,80 @@ fn persist_mutation_intent(root: &Path, request: &super::GithubMutationRequest) 
     path
 }
 
+#[test]
+fn publication_target_ignores_stale_unresolved_create_after_current_receipt() {
+    let root = mutation_repo("publication-target-stale-create", true);
+    let branch = "codex/505-fixture-publication";
+    mutation_git(&root, &["checkout", "-q", "-b", branch]);
+    let stale_head = mutation_head(&root);
+    let stale = mutation_request(
+        &stale_head,
+        super::GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: branch.into(),
+            title: "Stale fixture publication".into(),
+            body: "Closes #505".into(),
+            draft: true,
+        },
+    );
+    persist_mutation_intent(&root, &stale);
+    assert_eq!(
+        super::intent::publication_target(
+            &root,
+            "agent-logic/agent-design-language",
+            505,
+            branch,
+            "1111111111111111111111111111111111111111",
+        )
+        .unwrap_err()
+        .code,
+        "intent_publication_uncertain_head"
+    );
+
+    fs::write(root.join("tracked"), b"advanced publication candidate\n").unwrap();
+    mutation_git(&root, &["add", "tracked"]);
+    mutation_git(&root, &["commit", "-q", "-m", "advance candidate"]);
+    let current_head = mutation_head(&root);
+    let mut current = mutation_request(&current_head, super::GithubMutation::PullRequestReady);
+    current.pull_request = Some(639);
+    let current_intent_path = persist_mutation_intent(&root, &current);
+    let current_operation = super::github_mutation_operation_digest(&current);
+    let current_intent =
+        super::load_mutation_intent(&current_intent_path, &current_operation).unwrap();
+    let receipt = super::GithubMutationReceipt {
+        schema: "csdlc.v3.github_mutation_receipt.v2".into(),
+        repository: current.repository.clone(),
+        issue: current.issue,
+        pull_request: Some(639),
+        expected_head_sha: current.expected_head_sha.clone(),
+        operation_digest: current_operation.clone(),
+        response_digest: Some("fixture-response".into()),
+        readback_digest: Some("fixture-readback".into()),
+        intent_digest: super::github_mutation_intent_digest(&current_intent),
+        reconciliation_digest: "fixture-reconciliation".into(),
+        adapter: super::GITHUB_OPERATIONAL_ADAPTER.into(),
+        authenticated: true,
+        idempotent_replay: false,
+    };
+    super::persist_json_create_new(
+        &super::github_mutation_receipt_path(&root, &current_operation).unwrap(),
+        &receipt,
+    )
+    .unwrap();
+
+    assert_eq!(
+        super::intent::publication_target(
+            &root,
+            "agent-logic/agent-design-language",
+            505,
+            branch,
+            &current_head,
+        )
+        .unwrap(),
+        Some(639)
+    );
+}
+
 fn process_output(
     status: crate::adapters::ProcessStatus,
     value: serde_json::Value,
@@ -872,6 +946,17 @@ fn process_output(
         stderr: String::new(),
         truncated: false,
     }
+}
+
+fn mutation_git(root: &Path, args: &[&str]) -> String {
+    let output = std::process::Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .expect("run fixture git");
+    assert!(output.status.success(), "git {args:?}: {output:?}");
+    String::from_utf8(output.stdout).unwrap().trim().to_owned()
 }
 
 fn ready_request(head: &str) -> super::GithubMutationRequest {

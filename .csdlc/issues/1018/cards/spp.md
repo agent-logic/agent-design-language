@@ -53,7 +53,7 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: <dependencies_inline>"
+    description: "Confirm dependency readiness and starting state: Issue #1013 exposed a consumed PR-create retry. Retained absence or later remote branch availability does not prove historical non-effect; preserve existing operation identity and reconciliation evidence."
     expected_output: "<sip_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
@@ -61,11 +61,11 @@ proposed_steps:
     expected_output: "<stp_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: <deliverables_inline>"
+    description: "Implement only the bounded deliverables: Remove the unsupported legacy non-effect disposition and second-dispatch authorization. Keep consumed uncertain PR-create operations ineligible. Before the sole first retry, require authenticated PR absence and an exact remote branch SHA. Retain projection-rebuild recovery and focused regression coverage."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: <acceptance_criteria_inline>"
+    description: "Run focused proof gates for acceptance: No consumed uncertain operation may dispatch again. Current absence, missing receipts, or later branch availability cannot authorize a second retry. The first retry must reject missing or wrong remote heads before consuming its allowance. Installed CLI recovery must prove rejection followed by a single effect after exact-head admission."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "<notes_risks_inline>"
+notes: "Preserve immutable operation and reconciliation evidence. Remove only unsupported candidate evidence. Do not infer historical non-effect from absence or replay the retained operation. Run focused native proof, independent exact-head review, and CI before review handoff."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -154,10 +154,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: <dependencies_inline>
+1. Confirm dependency readiness and starting state: Issue #1013 exposed a consumed PR-create retry. Retained absence or later remote branch availability does not prove historical non-effect; preserve existing operation identity and reconciliation evidence.
 2. Review repo inputs and scoped surfaces before editing: <repo_inputs_inline>
-3. Implement only the bounded deliverables: <deliverables_inline>
-4. Run focused proof gates for acceptance: <acceptance_criteria_inline>
+3. Implement only the bounded deliverables: Remove the unsupported legacy non-effect disposition and second-dispatch authorization. Keep consumed uncertain PR-create operations ineligible. Before the sole first retry, require authenticated PR absence and an exact remote branch SHA. Retain projection-rebuild recovery and focused regression coverage.
+4. Run focused proof gates for acceptance: No consumed uncertain operation may dispatch again. Current absence, missing receipts, or later branch availability cannot authorize a second retry. The first retry must reject missing or wrong remote heads before consuming its allowance. Installed CLI recovery must prove rejection followed by a single effect after exact-head admission.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-<notes_risks_inline>
+Preserve immutable operation and reconciliation evidence. Remove only unsupported candidate evidence. Do not infer historical non-effect from absence or replay the retained operation. Run focused native proof, independent exact-head review, and CI before review handoff.

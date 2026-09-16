@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 1018,
   "phase": "bound",
-  "generation": 6,
+  "generation": 7,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/1018-recover-consumed-pr-create-absence-retry",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1018-recover-consumed-pr-create-absence-retry",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "f570119e276c7612aa3f0e80e430ddcff0d1fac389aceb17b3c2c0716abf48ac"
+  "digest": "677a410ce609a3f63ff190f70897d88fa23e9edc18981e568158ca954fba3caf"
 }

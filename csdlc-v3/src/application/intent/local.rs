@@ -324,12 +324,12 @@ pub(super) fn semantic_rebuild(
         semantic::{Admission, CardProjectionObservation, CommitOutcome, LocalChange},
         DurableTransactionStore,
     };
-    let Some((snapshot, bundle, before)) =
+    let Some((mut snapshot, mut bundle, mut before)) =
         semantic_card_projection_observation(context, registry, false)?
     else {
         return Err("intent_semantic_state_missing".into());
     };
-    if let Some(binding) = snapshot.inputs().binding() {
+    let binding_stale = if let Some(binding) = snapshot.inputs().binding() {
         let registration = blake3::hash(
             serde_json::to_string(&json!({"branch":context.branch,"worktree":context.root}))
                 .map_err(|_| "intent_bind_identity_invalid")?
@@ -337,14 +337,22 @@ pub(super) fn semantic_rebuild(
         )
         .to_hex()
         .to_string();
-        if binding.branch != context.branch
+        binding.branch != context.branch
             || binding.worktree != context.root
             || binding.registration != registration
-        {
-            return Err("intent_semantic_binding_stale".into());
-        }
-    } else if context.root != context.primary {
-        return Err("intent_semantic_binding_stale".into());
+    } else {
+        context.root != context.primary
+    };
+    if binding_stale {
+        context.refresh_semantic_binding()?;
+        let Some((current_snapshot, current_bundle, current_before)) =
+            semantic_card_projection_observation(context, registry, true)?
+        else {
+            return Err("intent_semantic_state_missing".into());
+        };
+        snapshot = current_snapshot;
+        bundle = current_bundle;
+        before = current_before;
     }
     if snapshot.pending().is_some() {
         return Err("intent_semantic_recovery_required".into());

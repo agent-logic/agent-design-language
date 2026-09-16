@@ -16,6 +16,9 @@ use super::support::{
 use super::transport::*;
 
 impl StagedGithubMutation {
+    pub fn retained_receipt_exists(&self, repo_root: &Path) -> Result<bool, RemoteRouteFinding> {
+        Ok(github_mutation_receipt_path(repo_root, &self.operation_digest)?.exists())
+    }
     pub fn native_identity(&self) -> crate::storage::semantic::protocol::NativeIdentity {
         self.native_identity.clone()
     }
