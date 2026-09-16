@@ -14,6 +14,7 @@
   },
   "scope_digest": "7dd3791df6fd1ddcebab125e7770972aa4d58b72f2ed08a214841e19ffa2dc1d",
   "target": "local-report",
+  "destination_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
   "claims": [
     "bounded fixture"
   ],

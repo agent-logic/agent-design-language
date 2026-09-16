@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/893/cards/sip.md"
   - ".csdlc/issues/893/cards/vpp.md"
 review_results:
-  findings_status: "findings_remediated_pending_fresh_review"
+  findings_status: "metadata_finding_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish."
+notes: "A different fresh reviewer must verify the generation-17 replay-result repair at the new immutable head. Product parent a7cddf07dea4f557ed089e0be02adffbe3985717 remains unchanged and reviewed PASS."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Fresh exact-head review of ed970b2443aadd818f02bf482cb29a5aecbaa966 by fresh-session:/root/review_893_clippy_final returned one P2 lifecycle truth finding: `.csdlc/issues/893/cards/sor.values.json` field `validation_commands_inline` still omitted clippy and described the repair as path-extraction-only.
+- Fresh metadata review of a3b1bc0e178b4bbd26da3bd173b1ed482a308b68 by fresh-session:c0e6ed7d-f990-4f36-a21f-55f542dd7c50 returned FAIL with one P2 truth mismatch and no product finding: replay_command included rustfmt and exact-range diff hygiene, while replay_result omitted those results and instead included a separate review PASS.
 
 ### Dispositions
 
-- Finding accepted and remediated through native SOR value update. `validation_commands_inline` now includes focused tests, fmt, full clippy with denied warnings, and diff hygiene, and names the clippy-only repair after the path-extraction fix.
+- P2 accepted and remediated through the native SOR editor. replay_result now exactly reports the 9 remediation, 8 test-plan, 7 UX, rustfmt, and exact-range diff outputs produced by replay_command; independent review remains recorded separately in SRP/integration verification truth.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish.
+A different fresh reviewer must verify the generation-17 replay-result repair at the new immutable head. Product parent a7cddf07dea4f557ed089e0be02adffbe3985717 remains unchanged and reviewed PASS.

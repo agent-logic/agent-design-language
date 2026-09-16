@@ -769,6 +769,101 @@ fn scope_rebind_refreshes_head_before_replacing_an_inadmissible_validator() {
     assert_eq!(proof["proof"]["validators"][0]["tests_passed"], 1);
 }
 
+// PVF #1013: deterministic installed regression, local Git/CPU only, required gate.
+#[test]
+fn prepare_admits_declarations_without_treating_primary_operator_state_as_candidate() {
+    let mut fixture = Fixture::new("prepare-operator-state");
+    let primary = fixture.root.clone();
+    fs::write(
+        primary.join(".git/info/exclude"),
+        ".adl/session-operator-state/\n",
+    )
+    .unwrap();
+    fs::create_dir_all(primary.join(".adl/session-operator-state")).unwrap();
+    fs::write(
+        primary.join(".adl/session-operator-state/retained.json"),
+        "{}\n",
+    )
+    .unwrap();
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+}
+
+// PVF #1013: deterministic installed regression, local Git/CPU only, required gate.
+#[test]
+fn tracked_projection_rebind_converges_before_proof() {
+    let mut fixture = Fixture::new("tracked-projection-rebind");
+    let primary = fixture.root.clone();
+    let input = fixture.write_json("semantic-plan.json", &plan());
+    success(fixture.run(
+        &primary,
+        &["prepare", "870", "--plan", input.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["bind", "870"]));
+    let linked = snapshot(&primary)
+        .inputs()
+        .binding()
+        .unwrap()
+        .worktree
+        .clone();
+
+    fixture::git(&linked, &["add", ".csdlc/v3/issues/870"]);
+    fixture::git(
+        &linked,
+        &["commit", "--quiet", "-m", "Track lifecycle projections"],
+    );
+    success(fixture.run(&linked, &["bind", "870"]));
+    let changed = fixture::git(&linked, &["diff", "--name-only", "HEAD"]);
+    assert!(changed.contains(".csdlc/v3/issues/870/state.json"));
+
+    let mut validators = plan()["validators"].clone();
+    validators[0]["args"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!("--lib"));
+    let changes = fixture.write_json(
+        "validators.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","validators":validators}),
+    );
+    success(fixture.run(
+        &linked,
+        &["edit", "870", "--changes", changes.to_str().unwrap()],
+    ));
+    let proof = success(fixture.run(&linked, &["proof", "870"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    let retained: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/870/proof.json")).unwrap())
+            .unwrap();
+    csdlc_v3::commands::proof::intent::verify_current_inputs(&linked, &retained).unwrap();
+
+    let state = linked.join(".csdlc/v3/issues/870/state.json");
+    fs::write(&state, "{}\n").unwrap();
+    assert!(csdlc_v3::commands::proof::intent::verify_current_inputs(&linked, &retained).is_err());
+    success(fixture.run(&linked, &["rebuild", "870"]));
+
+    let spp = linked.join(".csdlc/v3/issues/870/cards/spp.md");
+    fs::write(&spp, "tampered projection\n").unwrap();
+    let rejected = fixture.run(&linked, &["proof", "870"]);
+    assert!(!rejected.status.success());
+    assert!(
+        String::from_utf8_lossy(&rejected.stderr)
+            .contains("intent_semantic_projection_not_healthy"),
+        "{rejected:?}"
+    );
+    success(fixture.run(&linked, &["rebuild", "870"]));
+
+    fs::write(linked.join("tracked"), "tampered\n").unwrap();
+    let rejected = fixture.run(&linked, &["proof", "870"]);
+    assert!(!rejected.status.success());
+    assert!(
+        String::from_utf8_lossy(&rejected.stderr).contains("intent_candidate_tracked_changes"),
+        "{rejected:?}"
+    );
+}
+
 #[test]
 fn rebind_rejects_stale_generated_request_and_wrong_branch_without_state_changes() {
     let mut fixture = Fixture::new("rebind-identity-guards");

@@ -211,6 +211,7 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
     prepare(&mut fixture);
     success(fixture.run(&primary, &["bind", "505"]));
     let linked = linked_worktree(&primary);
+    fs::remove_dir_all(linked.join(".csdlc/v3/issues/505/cards")).unwrap();
     let before = intent_fixture::inventory(&fixture.root);
     for route in ["status", "validate"] {
         let result = success(fixture.run(&linked, &[route, "505"]));
@@ -319,6 +320,20 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
         .rsplit(':')
         .next()
         .unwrap();
+    let stale_path = fixture.write_json("stale-rebuild.json", &emitted);
+    let changes = fixture.write_json(
+        "projection-change.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"New semantic title"}}}),
+    );
+    let interrupted_edit = fixture.run_with_env(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_edit_before_projection_rebuild",
+        )],
+    );
+    assert_eq!(interrupted_edit.status.code(), Some(91));
     fs::write(
         card_root.join(format!(".projection-{old_suffix}.pending")),
         &old_manifest,
@@ -329,16 +344,6 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
         fs::read(card_root.join("stp.md")).unwrap(),
     )
     .unwrap();
-
-    let stale_path = fixture.write_json("stale-rebuild.json", &emitted);
-    let changes = fixture.write_json(
-        "projection-change.json",
-        &json!({"schema":"csdlc.v3.intent_changes.v1","amendment":{"class":"scope_acceptance","transition_approved":true},"cards":{"sip":{"title":"New semantic title"}}}),
-    );
-    success(fixture.run(
-        &linked,
-        &["edit", "505", "--changes", changes.to_str().unwrap()],
-    ));
     let stale = fixture.run(
         &linked,
         &["rebuild", "--intent-request", stale_path.to_str().unwrap()],
@@ -360,8 +365,11 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
         &[("CSDLC_TEST_INTERRUPT_AFTER_STALE_PROJECTION_DATA_SYNC", "1")],
     );
     assert!(!interrupted_recovery.status.success());
-    assert!(String::from_utf8_lossy(&interrupted_recovery.stdout)
-        .contains("injected interruption after stale projection data sync"));
+    assert!(
+        String::from_utf8_lossy(&interrupted_recovery.stdout)
+            .contains("injected interruption after stale projection data sync"),
+        "{interrupted_recovery:?}"
+    );
     assert!(card_root
         .join(format!(".projection-{old_suffix}.pending"))
         .exists());

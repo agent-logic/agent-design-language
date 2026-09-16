@@ -494,6 +494,7 @@ fn exact_publication_binding_invalidates_each_changed_surface() {
         renderer_versions: [("markdown".into(), "v1".into())].into(),
         scope_digest: r.run.scope_digest.clone(),
         target: "local-report".into(),
+        destination_digest: "d".repeat(64),
         claims: vec!["bounded review".into()],
         nonclaims: vec!["no publication performed".into()],
         state: PublicationState::Approved,
@@ -505,11 +506,18 @@ fn exact_publication_binding_invalidates_each_changed_surface() {
     });
     p.validate(&r).unwrap();
     for field in [
-        "target", "renderer", "manifest", "scope", "finding", "claims",
+        "target",
+        "destination",
+        "renderer",
+        "manifest",
+        "scope",
+        "finding",
+        "claims",
     ] {
         let mut q = p.clone();
         match field {
             "target" => q.target = "other".into(),
+            "destination" => q.destination_digest = "e".repeat(64),
             "renderer" => {
                 q.renderer_versions.insert("markdown".into(), "v2".into());
             }
