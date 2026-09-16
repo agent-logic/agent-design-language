@@ -20,8 +20,8 @@ Run ID: issue-0862
 Version: 0.92.2
 Title: [v0.92.2][C-SDLC v3][refactor] Decompose the local command owner
 Branch: codex/862-v0922-local-command-decomposition
-Card Status: in_progress
-Status: IN_PROGRESS
+Card Status: ready
+Status: READY_FOR_PUBLICATION
 Generated: 2026-09-16T00:27:06.103043+00:00
 
 Execution:
@@ -29,11 +29,11 @@ Execution:
 - Model: `unknown`
 - Provider: `unknown`
 - Start Time: `recorded in active issue session; exact elapsed metric unavailable`
-- End Time: `2026-09-16T02:03:59.731311+00:00`
+- End Time: `2026-09-16T02:20:43.813294+00:00`
 
 ## Summary
 
-Decomposed the C-SDLC v3 local owner into explicit acyclic responsibility modules while preserving the public facade and operational contracts. Independent review, CI, publication, merge and terminal closeout remain pending.
+Decomposed the C-SDLC v3 local owner into explicit acyclic responsibility modules while preserving public and serialized behavior. Local proof and independent exact-head review pass; publication, hosted CI, merge and terminal closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -57,7 +57,7 @@ Decomposed the C-SDLC v3 local owner into explicit acyclic responsibility module
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_rereview_pending`
+- Completion state: `review_complete_publication_pending`
 - Issue goal ref: `active Codex goal for Sprint #933 / issue #862`
 - Sprint goal ref: `v0.92.2 Sprint 7 coordination issue #933; descriptive only`
 - Goal metrics rollup ref: `.csdlc/evidence/862/goal-metrics.json (planned, absent until execution)`
@@ -76,7 +76,7 @@ Decomposed the C-SDLC v3 local owner into explicit acyclic responsibility module
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/862/cards/sor.md`
 - Tracked implementation artifacts: `csdlc-v3/src/commands/local/*.rs; csdlc-v3/tests/local_module_decomposition.rs; .csdlc/evidence/862/decomposition-inventory.md`
-- Additional proof artifacts: `Independent review at 02fe25eca4 recorded three accepted P2s; amended exact-head re-review pending`
+- Additional proof artifacts: `Independent final exact-head review at b0bcbe6cec: no actionable findings. The unchanged owner-lane template mismatch remains separately disclosed.`
 
 ## Actions taken
 - `Extracted planning, lifecycle, storage, worktree, transaction, context, card, issue, binding and routing owners from local/mod.rs`
@@ -86,13 +86,13 @@ Decomposed the C-SDLC v3 local owner into explicit acyclic responsibility module
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
 - Worktree-only paths remaining: `all implementation remains on codex/862-v0922-local-command-decomposition until publication`
-- Integration state: `review_pending`
+- Integration state: `publication_pending`
 - Verification scope: `issue #862 local command owner decomposition`
-- Integration method used: `pending native review and publication`
+- Integration method used: `native C-SDLC v3 review and publication`
 - Verification performed:
   - `pending CI`
     `pending`
-- Result: `not_integrated`
+- Result: `not_integrated; publication pending`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -136,7 +136,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: none observed
     absolute_path_leakage_detected: only the required bound-worktree lifecycle identity
   artifacts:
-    status: local proof complete; independent proof pending
+    status: local proof and independent review complete; hosted CI pending
     required_artifacts_present: implementation, lifecycle cards and decomposition inventory present; final review and CI pending
     schema_changes:
       present: false
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/862/decomposition-inventory.md`
-- Required artifacts present: `implementation and local evidence present; review and CI pending`
+- Required artifacts present: `implementation, lifecycle cards, decomposition inventory and independent review present; hosted CI and terminal artifacts pending`
 - Artifact schema/version checks: `local module structural contract passed`
 - Hash/byte-stability checks: `Unchanged contract suites cover lifecycle digests and serialized behavior; no separate exhaustive byte snapshot was added`
 - Missing/optional artifacts and rationale: `Execution artifacts are absent because preparation is not delivery`
@@ -174,5 +174,5 @@ verification_summary:
 - `No branch/worktree binding, shared binary replacement or live provider effect is authorized here`
 
 ## Follow-ups / Deferred work
-- `Run independent exact-head review and resolve every actionable finding`
-- `Publish through native C-SDLC v3, observe required CI, then await merge authority`
+- `Run native review and publish a PR with Closes #862`
+- `Observe required hosted CI, resolve any findings, then await explicit merge authority`

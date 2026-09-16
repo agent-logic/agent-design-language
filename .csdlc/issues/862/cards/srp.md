@@ -8,7 +8,7 @@ version: "0.92.2"
 title: "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner"
 branch: "codex/862-v0922-local-command-decomposition"
 generated_at: "2026-09-16T00:27:06.103043+00:00"
-card_status: "in_progress"
+card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/862/cards/sip.md"
   - ".csdlc/issues/862/cards/vpp.md"
 review_results:
-  findings_status: "changes_required_resolved_pending_rereview"
-  recommended_outcome: "Re-review the amended exact head; do not publish until it has no actionable findings."
-notes: "Independent read-only subagent review completed at 02fe25eca4. Reviewer reran 38 focused tests and confirmed the production graph was manually acyclic, public exports were preserved, baseline function inventory was complete, and the disclosed owner-lane mismatch was unchanged from baseline."
+  findings_status: "no_actionable_findings"
+  recommended_outcome: "Ready for native review and publication; hosted CI, merge and terminal closeout remain pending."
+notes: "Independent reviewer reran the structural suite 3/3 at b0bcbe6cec and found no public or serialized contract drift, lost routes, cycles or behavioral changes. The full focused result is 152/152 with strict clippy, formatting, diff checks and native card validation green. The unchanged owner-lane 1.0.3-versus-1.0.5 mismatch remains separately disclosed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- P2: alternate sibling import forms could bypass the dependency-rank test. P2: storage.rs mixed persistence with result construction and crash injection. P2: lifecycle cards retained contradictory preparation-era claims.
+- Final exact-head independent re-review at b0bcbe6cec found no actionable findings. The three earlier P2 findings are resolved.
 
 ### Dispositions
 
-- Accepted all three findings. The candidate now enforces canonical sibling imports, separates filesystem/result/failpoint owners, and refreshes lifecycle truth through native edit. Exact-head re-review remains required.
+- Resolved: alternate, absolute, grouped and aliased sibling imports fail closed while canonical imports remain rank checked. Resolved: filesystem, results and failpoints are cohesive leaf owners separate from lifecycle storage. Resolved: lifecycle cards consistently record implementation and review state.
 
 ### Recommended Outcome
 
-- Re-review the amended exact head; do not publish until it has no actionable findings.
+- Ready for native review and publication; hosted CI, merge and terminal closeout remain pending.
 
 ## Notes
 
-Independent read-only subagent review completed at 02fe25eca4. Reviewer reran 38 focused tests and confirmed the production graph was manually acyclic, public exports were preserved, baseline function inventory was complete, and the disclosed owner-lane mismatch was unchanged from baseline.
+Independent reviewer reran the structural suite 3/3 at b0bcbe6cec and found no public or serialized contract drift, lost routes, cycles or behavioral changes. The full focused result is 152/152 with strict clippy, formatting, diff checks and native card validation green. The unchanged owner-lane 1.0.3-versus-1.0.5 mismatch remains separately disclosed.

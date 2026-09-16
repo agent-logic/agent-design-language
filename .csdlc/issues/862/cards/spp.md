@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress: independent review and publication remain"
+    status: "implementation, validation and independent review complete; native publication and CI pending"
 affected_areas:
   - "v0922-local-command-decomposition"
 invariants_to_preserve:
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [in_progress: independent review and publication remain] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [implementation, validation and independent review complete; native publication and CI pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
