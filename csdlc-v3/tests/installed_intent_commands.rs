@@ -1,5 +1,9 @@
 //! PVF: installed integration proof, deterministic local Git and synthetic transport.
 //! Required #869/SIM-07 lane; fixture bootstrap is not issue execution evidence.
+use csdlc_v3::storage::{
+    semantic::{IssueKey, Observation, SemanticRoot},
+    DurableTransactionStore,
+};
 use serde_json::{json, Value};
 use std::{
     fs,
@@ -2219,6 +2223,210 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
     let noop = success(fixture.run(&primary, &["clean", "505"]));
     assert_eq!(noop["envelope"]["status"], "expected_noop");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
+}
+
+// PVF #1041: installed deterministic local Git fixture. This proves the
+// explicit no-effect reconciliation for a merged terminal issue whose exact
+// checkout was removed outside native cleanup; no network or paid runner.
+#[test]
+fn cleanup_recover_reconciles_explicit_already_absent_without_prior_operation() {
+    let (mut fixture, linked) = reviewed_fixture("cleanup-already-absent-reconciliation");
+    let primary = fixture.root.clone();
+    success(fixture.run(&primary, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json(
+        "merge.json",
+        &json!({
+            "action":"pull_request_merge",
+            "base":"main",
+            "method":"merge",
+            "operator_approval":"synthetic operator authorizes only fixture PR639 exact candidate merge"
+        }),
+    );
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    success(fixture.run(&linked, &["finish", "505"]));
+
+    let binding_path = primary.join(".git/csdlc-v3/local/bindings/505.json");
+    let binding: Value = serde_json::from_slice(&fs::read(&binding_path).unwrap()).unwrap();
+    let receipt_path = primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json");
+    let receipt = fs::read(&receipt_path).unwrap();
+    let disposition = fixture.write_json(
+        "absent-cleanup-disposition.json",
+        &json!({
+            "schema":"csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1",
+            "disposition":"reconcile_already_absent_cleanup",
+            "repository":"agent-logic/agent-design-language",
+            "issue":505,
+            "worktree":binding["worktree"],
+            "branch":binding["branch"],
+            "head":intent_fixture::git(&linked, &["rev-parse", "HEAD"]),
+            "terminal_receipt_digest":blake3::hash(&receipt).to_hex().to_string(),
+            "operator":"synthetic-fixture-operator",
+            "rationale":"The exact terminal checkout was externally removed before native cleanup reserved an operation.",
+            "evidence_refs":["fixture:externally-removed-worktree"]
+        }),
+    );
+
+    let present = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !present.status.success(),
+        "present checkout was reconciled as absent"
+    );
+    assert!(
+        String::from_utf8_lossy(&present.stdout).contains("intent_cleanup_absence_target_present"),
+        "unexpected present-target failure: stdout={} stderr={}",
+        String::from_utf8_lossy(&present.stdout),
+        String::from_utf8_lossy(&present.stderr)
+    );
+
+    intent_fixture::git(
+        &primary,
+        &["worktree", "remove", "--force", linked.to_str().unwrap()],
+    );
+    assert!(!linked.exists());
+    let binding_bytes = fs::read(&binding_path).unwrap();
+    let mut stale_binding = binding.clone();
+    stale_binding["head"] = json!("0".repeat(40));
+    stale_binding["registration"] = json!("0".repeat(64));
+    fs::write(&binding_path, serde_json::to_vec(&stale_binding).unwrap()).unwrap();
+    let stale = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !stale.status.success()
+            && String::from_utf8_lossy(&stale.stdout).contains("intent_cleanup_binding_invalid"),
+        "stale local binding was accepted: {stale:?}"
+    );
+    fs::write(&binding_path, binding_bytes).unwrap();
+    let preview = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    assert_eq!(preview["status"], "ready");
+    assert_eq!(preview["performed_mutation"], false);
+    let token = preview["preview_token"].as_str().expect("preview token");
+    let interrupted = fixture.run_with_env(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            token,
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "cleanup_absence_after_reservation",
+        )],
+    );
+    assert_eq!(interrupted.status.code(), Some(91));
+    fs::create_dir_all(&linked).unwrap();
+    let overlapped = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !overlapped.status.success()
+            && String::from_utf8_lossy(&overlapped.stdout)
+                .contains("intent_cleanup_absence_target_present"),
+        "restored checkout was reconciled as absent: {overlapped:?}"
+    );
+    fs::remove_dir(&linked).unwrap();
+    let resumed = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    let resumed_token = resumed["preview_token"].as_str().expect("resumed token");
+    let reconciled = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            resumed_token,
+        ],
+    ));
+    assert_eq!(reconciled["status"], "expected_noop");
+    assert_eq!(reconciled["performed_mutation"], false);
+    assert_eq!(
+        reconciled["semantic"]["effect_truth"], "not_performed",
+        "reconciliation fabricated a native cleanup effect"
+    );
+
+    let root =
+        SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
+            .unwrap();
+    let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+    let snapshot = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        other => panic!("{other:?}"),
+    };
+    assert!(snapshot.pending().is_none());
+    assert_eq!(
+        snapshot.completed().last().unwrap().truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::NotPerformed
+    );
+    assert!(
+        !intent_fixture::git(&primary, &["worktree", "list", "--porcelain"])
+            .contains(linked.to_str().unwrap()),
+        "externally removed checkout remained registered"
+    );
 }
 
 #[test]
