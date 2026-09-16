@@ -1,0 +1,91 @@
+{
+  "schema": "adl.issue905.attempt_register.v1",
+  "final_source_revision": "1872cf04b6d2641f32ff63d58dd64385f69e5b5e",
+  "attempts": [
+    {
+      "attempt": 1,
+      "result": "failed",
+      "stage": "agent_admission",
+      "reason": "noncanonical harness agent identity"
+    },
+    {
+      "attempt": 2,
+      "result": "failed",
+      "stage": "agent_admission",
+      "reason": "Ollama model identity lacked canonical tag"
+    },
+    {
+      "attempt": 3,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning-only chat response produced no normal content"
+    },
+    {
+      "attempt": 4,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning output consumed 256-token cap"
+    },
+    {
+      "attempt": 5,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning output remained incompatible with Runtime normal-content contract"
+    },
+    {
+      "attempt": 6,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "compatibility fallback still lacked explicit non-thinking provider boundary"
+    },
+    {
+      "attempt": 7,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning output consumed 512-token cap"
+    },
+    {
+      "attempt": 8,
+      "result": "completed_negative",
+      "stage": "natural_language_comparison",
+      "reason": "all eight conversations completed; speculative was 52.18 percent slower and dynamic Runtime wrapper made exact prose hash comparison non-deterministic"
+    },
+    {
+      "attempt": 9,
+      "result": "pass",
+      "stage": "deterministic_marker_comparison_and_fallback",
+      "reason": "four of four pairs exact; missing draft rejected; ordinary fallback delivered; speculative was 18.07 percent slower cold-inclusive"
+    },
+    {
+      "attempt": 10,
+      "result": "pass_superseded",
+      "stage": "identity_and_counterbalanced_comparison",
+      "reason": "four exact pairs and immutable model/tokenizer identity; reviewer requested a larger denominator and exact Runtime identity symmetry"
+    },
+    {
+      "attempt": 11,
+      "result": "failed",
+      "stage": "runtime_prewarm",
+      "reason": "initial alias load exceeded the Runtime conversation deadline although Ollama completed; prompted symmetric direct preload before Runtime prewarm"
+    },
+    {
+      "attempt": 12,
+      "result": "pass_superseded",
+      "stage": "six_block_counterbalanced_comparison",
+      "reason": "twelve exact pairs and 19.39 percent end-to-end benefit; unequal semantic agent identifiers left a small prompt-token denominator difference"
+    },
+    {
+      "attempt": 13,
+      "result": "pass_superseded",
+      "stage": "equal_length_identity_comparison",
+      "reason": "eight exact pairs; equal-length but semantically distinct agent identifiers still tokenized differently"
+    },
+    {
+      "attempt": 14,
+      "result": "completed_inconclusive",
+      "stage": "same_identity_counterbalanced_comparison_and_invalid_draft_recovery",
+      "reason": "same Runtime identity and eight exact pairs; aggregate appeared positive but per-block robustness failed: speculative lost end-to-end in three of four blocks and decode wins were two of four"
+    }
+  ],
+  "final_attempt": 14
+}

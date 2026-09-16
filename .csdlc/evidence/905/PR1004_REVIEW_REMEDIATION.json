@@ -1,0 +1,41 @@
+{
+  "schema": "adl.issue905.pr_review_remediation.v1",
+  "pull_request": 1004,
+  "initial_reviewed_head": "e3159b6e5ba225e07d9bc8110ed655939ffe0a04",
+  "followup_reviewed_head": "b7b73d8a6855abfee47ba0c89f33d1add782e1e6",
+  "findings": [
+    {
+      "severity": "P2",
+      "summary": "Model aliases could overwrite and delete existing models, including through a check/use race",
+      "disposition": "fixed_re_review_pending",
+      "proof": [
+        "Every requested alias is materialized with a cryptographically random 128-bit run suffix before collision validation or creation.",
+        "Materialized aliases must remain canonical-distinct, different from the source model, and absent from the pre-run Ollama inventory.",
+        "Each materialized alias namespace is claimed before create so ambiguous daemon completion is followed by a removal attempt.",
+        "Model removal runs in a cleanup finally even if another resource accessor fails.",
+        "Focused regressions prove tag-preserving run scoping, requested-name isolation, ambiguous-create cleanup, and resource-error cleanup continuation."
+      ]
+    },
+    {
+      "severity": "P2",
+      "summary": "Setup and cleanup failures could bypass evidence recording",
+      "disposition": "fixed_re_review_pending",
+      "proof": [
+        "All argument validation, setup, execution, and cleanup stages run inside the failure-recording scope after the output root and report are initialized.",
+        "Cleanup captures guardian termination errors instead of masking the primary failure.",
+        "The outer reporting scope converts an unexpected cleanup exception to structured cleanup evidence before writing report.json.",
+        "Focused regressions cover identity failure, ambiguous create completion, resource accessor failure, guardian kill failure, outer cleanup failure, and nonpositive repeats."
+      ]
+    }
+  ],
+  "validation": {
+    "deterministic_tests": 21,
+    "new_safety_regressions": 8,
+    "python_compile": "passed",
+    "diff_check": "passed"
+  },
+  "hardware_benchmark_rerun": false,
+  "benchmark_rerun_reason": "The remediation changes alias ownership and failure cleanup only; retained measured model execution and statistics are unchanged.",
+  "disposition": "repair_inconclusive",
+  "review_state": "exact_head_re_review_pending"
+}

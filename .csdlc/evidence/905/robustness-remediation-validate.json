@@ -1,0 +1,57 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "9a4a5ff871d5e5e8b58496ca749a2fc0030ca6bdc3a0cf91e2fb053797ffbef5",
+  "card_updates": {
+    "spp": {
+      "status": "completed",
+      "activation_state": "executed_final_review_pending",
+      "notes_risks_inline": "Final same-identity comparison completed with eight exact output pairs, immutable model/tokenizer identity, counterbalanced symmetric preload/prewarm, invalid-draft rejection, and healthy operator-selected ordinary recovery. Performance is inconclusive: speculative lost end-to-end in three of four blocks and decode wins were two of four; positive aggregates were outlier/regime-shift dominated. Recommendation is repair the benchmark and leave speculative decoding unqualified. Final exact-head review, publication, CI, merge and terminal closeout remain pending."
+    },
+    "vpp": {
+      "status": "completed",
+      "notes_risks_inline": "Correctness and bounded recovery passed. Performance robustness failed: end-to-end wins 1/4 with -5.96% median benefit; decode wins 2/4 with -11.33% median benefit. Positive aggregates are not qualification evidence. Accepted/proposed counters are unavailable. Repair requires a stationarity criterion, larger paired denominator and robust aggregate/confidence rule."
+    },
+    "srp": {
+      "findings_status": "findings_resolved_final_review_pending",
+      "recommended_outcome": "block_pending_final_review",
+      "review_findings": "First review found four P2 proof/lifecycle defects; remediation review confirmed three resolved and found one remaining P2 statistical robustness defect plus a stale P3 pair count. The aggregate gain was driven by a regime shift/outliers while speculative lost end-to-end in three of four blocks.",
+      "review_dispositions": "All findings are now addressed. The harness and evidence retain per-block end-to-end/decode benefits, medians, win counts and a 3-of-4 robustness gate. The gate classifies this run repair_inconclusive, so cards no longer claim keep/high confidence. SOR pair count is eight. Final exact-head review remains pending.",
+      "review_notes": "review_905 reviewed d032988e8287872dc332d4aa3d9fc293e8ee0632 and f3e46f75438ea64bf46f4137e962e9a2f87ef705. The final remediation rejects aggregate-only qualification and records repair/unqualified disposition. Publication is blocked until final exact-head clearance."
+    },
+    "sor": {
+      "status": "implementation_complete_final_review_pending",
+      "completion_state": "implementation_complete_final_review_pending",
+      "summary": "Current Runtime requalification completed with a repair/inconclusive disposition. Eight exact-output pairs passed and invalid draft configuration failed closed with healthy operator-selected ordinary recovery. Performance did not meet robustness: speculative lost end-to-end in three of four blocks and decode wins were two of four; positive aggregate metrics were regime-shift/outlier dominated.",
+      "validation_result": "PASS for correctness, identity, bounded recovery, focused tests and artifact hygiene. PERFORMANCE INCONCLUSIVE: declared per-block robustness gate failed. Final exact-head review and CI pending.",
+      "validation_effect": "Establishes same-model/tokenizer correctness and bounded invalid-draft recovery, and prevents aggregate-only speed claims by recording per-block distributions and a robustness gate.",
+      "decision_or_deviation_2": "Repair the qualification benchmark and leave speculative decoding unqualified. Add stationarity criteria, a larger paired denominator and robust aggregate/confidence rule in follow-on work. No feature decommissioning or model deletion.",
+      "follow_up_1": "Complete final exact-head review, native review/publication and CI; fix any actionable finding before merge.",
+      "follow_up_2": "Follow-on benchmark repair: explicit stabilization, larger paired blocks, per-block distribution and robust confidence/qualification threshold.",
+      "actual_metrics_confidence": "high that this declared run is statistically inconclusive; low for any keep/retire performance conclusion",
+      "variance_category": "performance_regime_shift",
+      "variance_note": "Aggregate suggested +12.98% end-to-end and +17.29% decode, but end-to-end block wins were 1/4 with -5.96% median and decode wins 2/4 with -11.33% median; robustness gate failed.",
+      "hash_byte_stability_checks": "Eight exact response pairs; tracked evidence JSON parse",
+      "verification_check_1": "Eight of eight paired outputs matched exactly; performance robustness gate failed and is recorded as repair_inconclusive.",
+      "verification_validation_status": "pass_correctness_performance_inconclusive_final_review_pending",
+      "required_artifacts_present": "true",
+      "verification_required_artifacts_present": "true",
+      "missing_optional_artifacts_rationale": "Accepted/proposed draft-token counters are unavailable. Performance qualification is withheld because block-level robustness also failed; neither limitation is waived.",
+      "integration_result": "not_integrated; final independent review, PR, CI and merge pending."
+    }
+  }
+}

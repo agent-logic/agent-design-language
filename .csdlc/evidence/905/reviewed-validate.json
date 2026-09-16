@@ -1,0 +1,41 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "13d5e37c7eb5d0637b48584f18c8f3a68eb362189482032399571223264ffa1d",
+  "card_updates": {
+    "srp": {
+      "findings_status": "no_findings",
+      "recommended_outcome": "pass",
+      "review_findings": "No actionable findings at independently reviewed exact source 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec.",
+      "review_dispositions": "review_905 independently recalculated every per-block metric and robustness threshold, confirmed repair_inconclusive, confirmed all earlier P2/P3 findings resolved, and found no new actionable regression.",
+      "review_notes": "Exact-head review passed at 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec. Thirteen focused tests, Python compilation, diff hygiene, all changed JSON parsing and independent robustness recalculation passed. Hardware execution was not repeated; retained raw per-call data was sufficient for the conservative inconclusive disposition."
+    },
+    "spp": {
+      "activation_state": "reviewed_publication_pending",
+      "notes_risks_inline": "Implementation, current Runtime proof, conservative repair/inconclusive disposition and independent review are complete. Exact reviewed source 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec has no actionable findings. Native publication, hosted CI, merge and terminal closeout remain pending."
+    },
+    "sor": {
+      "status": "reviewed_publication_pending",
+      "completion_state": "publication_pending",
+      "card_status": "reviewed",
+      "summary": "Independent review_905 approved exact source 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec with no actionable findings. Current Runtime correctness/recovery passed; performance remains repair_inconclusive under independently recalculated per-block robustness. Native publication, CI and merge remain pending.",
+      "integration_result": "Implementation and conservative disposition independently approved; PR publication, hosted CI and merge pending.",
+      "follow_up_1": "Native review/publication, hosted CI, merge, finish and exact cleanup.",
+      "verification_validation_status": "pass_reviewed_performance_inconclusive"
+    }
+  }
+}
