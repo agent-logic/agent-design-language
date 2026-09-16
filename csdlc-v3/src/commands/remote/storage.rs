@@ -243,7 +243,6 @@ pub(crate) fn settled_issue_mutation_receipt(
         || receipt.pull_request != intent.request.pull_request
         || receipt.expected_head_sha != intent.request.expected_head_sha
         || receipt.intent_digest != github_mutation_intent_digest(&intent)
-        || !receipt.idempotent_replay
     {
         return Ok(false);
     }

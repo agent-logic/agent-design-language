@@ -1149,6 +1149,59 @@ fn repository_scoped_issue_creation_result(
     .map_err(|_| Error::RecoveryRequired)
 }
 
+fn remote_file_identity(
+    namespace: &str,
+    directory: &Path,
+    path: &Path,
+    value: &serde_json::Value,
+) -> Result<(String, u64), Error> {
+    let name = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or(Error::RecoveryRequired)?;
+    Ok(
+        if namespace == "merges"
+            && [
+                ".target.json",
+                ".input.json",
+                ".response.json",
+                ".dispatch-prestate.json",
+            ]
+            .iter()
+            .any(|suffix| name.ends_with(suffix))
+        {
+            let digest = if name.ends_with(".target.json") {
+                if value["schema"] != "csdlc.v3.merge_target.v1" {
+                    return Err(Error::RecoveryRequired);
+                }
+                value["operation_digest"]
+                    .as_str()
+                    .ok_or(Error::RecoveryRequired)?
+            } else {
+                name.split('.').next().ok_or(Error::RecoveryRequired)?
+            };
+            if digest.is_empty()
+                || !digest
+                    .bytes()
+                    .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
+            {
+                return Err(Error::RecoveryRequired);
+            }
+            let identity = remote_identity(&read_remote_json(
+                &directory.join(format!("{digest}.intent.json")),
+            )?)?;
+            if name.ends_with(".target.json")
+                && value["repository"].as_str() != Some(identity.0.as_str())
+            {
+                return Err(Error::RecoveryRequired);
+            }
+            identity
+        } else {
+            remote_identity(value)?
+        },
+    )
+}
+
 fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
     for namespace in ["intents", "mutations", "recoveries", "merges"] {
         let directory = remote.join(namespace);
@@ -1170,45 +1223,7 @@ fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
                 continue;
             }
             let value = read_remote_json(&path)?;
-            let identity = if namespace == "merges"
-                && [
-                    ".target.json",
-                    ".input.json",
-                    ".response.json",
-                    ".dispatch-prestate.json",
-                ]
-                .iter()
-                .any(|suffix| name.ends_with(suffix))
-            {
-                let digest = if name.ends_with(".target.json") {
-                    if value["schema"] != "csdlc.v3.merge_target.v1" {
-                        return Err(Error::RecoveryRequired);
-                    }
-                    value["operation_digest"]
-                        .as_str()
-                        .ok_or(Error::RecoveryRequired)?
-                } else {
-                    name.split('.').next().ok_or(Error::RecoveryRequired)?
-                };
-                if digest.is_empty()
-                    || !digest
-                        .bytes()
-                        .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
-                {
-                    return Err(Error::RecoveryRequired);
-                }
-                let identity = remote_identity(&read_remote_json(
-                    &directory.join(format!("{digest}.intent.json")),
-                )?)?;
-                if name.ends_with(".target.json")
-                    && value["repository"].as_str() != Some(identity.0.as_str())
-                {
-                    return Err(Error::RecoveryRequired);
-                }
-                identity
-            } else {
-                remote_identity(&value)?
-            };
+            let identity = remote_file_identity(namespace, &directory, &path, &value)?;
             // Creation before a positive issue exists is repository-scoped. Never
             // assign that effect to whichever issue happens to be prepared next.
             // Its reconciled receipt names the GitHub-assigned issue, but remains
@@ -1349,7 +1364,7 @@ fn legacy_compatibility_census(root: &SemanticRoot, key: &IssueKey) -> Result<()
                 continue;
             }
             let value = read_remote_json(&path)?;
-            let identity = remote_identity(&value)?;
+            let identity = remote_file_identity(namespace, &directory, &path, &value)?;
             if identity != (key.repository.clone(), key.issue) {
                 continue;
             }
