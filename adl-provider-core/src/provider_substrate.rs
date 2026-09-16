@@ -288,7 +288,17 @@ fn reject_executable_aprovider_fields(value: &Value) -> Result<()> {
         Value::Object(map) => {
             for (key, value) in map {
                 let normalized = key.trim().to_ascii_lowercase().replace('-', "_");
-                if FORBIDDEN.contains(&normalized.as_str()) {
+                let forbidden_reference = ["plugin", "executable", "binary", "library"]
+                    .into_iter()
+                    .any(|authority| {
+                        normalized == authority
+                            || normalized.starts_with(&format!("{authority}_"))
+                                && matches!(
+                                    normalized.strip_prefix(&format!("{authority}_")),
+                                    Some("path" | "file" | "ref" | "reference")
+                                )
+                    });
+                if FORBIDDEN.contains(&normalized.as_str()) || forbidden_reference {
                     return Err(anyhow!(
                         "aprovider_executable_authority_forbidden: config.{normalized}"
                     ));
@@ -616,7 +626,32 @@ fn normalized_provider_kind(kind: &str) -> String {
     }
 }
 
-fn codec_controls(provider_kind: &str, transport: &ProviderTransportV1) -> ProviderCodecControlsV1 {
+fn generic_http_chat_mode(spec: &adl::ProviderSpec) -> bool {
+    spec.config.get("api_format").and_then(Value::as_str) == Some("openai_chat_completions")
+        || spec
+            .profile
+            .as_deref()
+            .and_then(|profile| profile.split(':').next())
+            .is_some_and(|family| {
+                matches!(
+                    family,
+                    "kimi"
+                        | "minimax"
+                        | "qwen"
+                        | "xai"
+                        | "mistral"
+                        | "cohere"
+                        | "deepseek"
+                        | "gemini"
+                )
+            })
+}
+
+fn codec_controls(
+    provider_kind: &str,
+    transport: &ProviderTransportV1,
+    spec: &adl::ProviderSpec,
+) -> ProviderCodecControlsV1 {
     use InferenceControlV1::*;
     let common = vec![MaxOutputTokens, Temperature, TopP, TimeoutSecs];
     let (codec, consumes) = match (provider_kind, transport) {
@@ -680,7 +715,11 @@ fn codec_controls(provider_kind: &str, transport: &ProviderTransportV1) -> Provi
         | ("vertex_ai", ProviderTransportV1::Http)
         | ("vertex", ProviderTransportV1::Http) => ("vertex_gemini_v1", common.clone()),
         ("http", ProviderTransportV1::Http) | ("http_remote", ProviderTransportV1::Http) => {
-            ("generic_http_v1", common)
+            if generic_http_chat_mode(spec) {
+                ("generic_http_chat_v1", common)
+            } else {
+                ("generic_http_legacy_v1", vec![TimeoutSecs])
+            }
         }
         _ => ("unsupported_builtin_codec", vec![]),
     };
@@ -753,6 +792,38 @@ fn apply_codec_defaults(
         "vertex_gemini_v1" => Some(1024),
         _ => None,
     });
+}
+
+fn apply_model_defaults(
+    effective: &mut EffectiveInferenceConfigV1,
+    codec: &ProviderCodecControlsV1,
+    provider_model_id: Option<&str>,
+) -> Result<()> {
+    if codec.codec == "kimi_chat_v1" && provider_model_id == Some("kimi-k3") {
+        match effective.reasoning_effort.as_deref() {
+            None => effective.reasoning_effort = Some("max".to_string()),
+            Some("low" | "high" | "max") => {}
+            Some(_) => {
+                return Err(invalid_control(
+                    "reasoning_effort",
+                    "must be one of low, high, max for kimi-k3",
+                ))
+            }
+        }
+    }
+    Ok(())
+}
+
+fn normalized_effective_inference(
+    spec: &adl::ProviderSpec,
+    codec: &ProviderCodecControlsV1,
+    provider_model_id: Option<&str>,
+) -> Result<EffectiveInferenceConfigV1> {
+    let mut effective = effective_inference_config_v1(spec)?;
+    validate_codec_controls(&effective, codec)?;
+    apply_codec_defaults(&mut effective, codec);
+    apply_model_defaults(&mut effective, codec, provider_model_id)?;
+    Ok(effective)
 }
 
 fn redacted_effective_projection(
@@ -1011,11 +1082,14 @@ pub fn provider_substrate_v1(
     let transport = infer_transport(spec)?;
     let vendor = infer_vendor(spec);
     let provider_kind = normalized_provider_kind(&spec.kind);
-    let mut effective_inference = effective_inference_config_v1(spec)?;
     let credential_reference = credential_reference_v1(spec)?;
-    let codec_controls = codec_controls(&provider_kind, &transport);
-    validate_codec_controls(&effective_inference, &codec_controls)?;
-    apply_codec_defaults(&mut effective_inference, &codec_controls);
+    let codec_controls = codec_controls(&provider_kind, &transport, spec);
+    let provider_default_model_id = default_provider_model_id(spec);
+    let effective_inference = normalized_effective_inference(
+        spec,
+        &codec_controls,
+        provider_default_model_id.as_deref(),
+    )?;
     let projection = redacted_effective_projection(
         provider_id,
         &provider_kind,
@@ -1034,7 +1108,7 @@ pub fn provider_substrate_v1(
         endpoint: cfg_str(&spec.config, "endpoint").map(ToString::to_string),
         base_url: spec.base_url.clone(),
         default_model_ref: default_model_ref.clone(),
-        provider_default_model_id: default_provider_model_id(spec),
+        provider_default_model_id,
         capabilities: provider_capabilities_v1(
             spec,
             &transport,
@@ -1082,19 +1156,8 @@ pub fn provider_invocation_target_v1(
         .map(ToString::to_string)
         .or_else(|| cfg_str(&spec.config, "model").map(ToString::to_string))
         .unwrap_or_else(|| model_ref.clone());
-    let mut effective_inference = substrate.effective_inference.clone();
-    if substrate.codec_controls.codec == "kimi_chat_v1" && provider_model_id == "kimi-k3" {
-        match effective_inference.reasoning_effort.as_deref() {
-            None => effective_inference.reasoning_effort = Some("max".to_string()),
-            Some("low" | "high" | "max") => {}
-            Some(_) => {
-                return Err(invalid_control(
-                    "reasoning_effort",
-                    "must be one of low, high, max for kimi-k3",
-                ))
-            }
-        }
-    }
+    let effective_inference =
+        normalized_effective_inference(spec, &substrate.codec_controls, Some(&provider_model_id))?;
     let target_projection = redacted_effective_projection(
         &substrate.provider_id,
         &substrate.provider_kind,
@@ -1684,6 +1747,10 @@ mod tests {
             "script_path",
             "dynamic_library",
             "plugin",
+            "plugin_ref",
+            "binary_path",
+            "executable_file",
+            "library_path",
             "embedded_code",
             "workflow_authority",
             "lifecycle_authority",
@@ -1700,6 +1767,29 @@ mod tests {
                 "{key}"
             );
         }
+
+        let mut legacy_http = provider_spec("http");
+        legacy_http.config.insert(
+            "endpoint".to_string(),
+            json!("http://127.0.0.1:8765/complete"),
+        );
+        legacy_http
+            .config
+            .insert("temperature".to_string(), json!(0.2));
+        let error = provider_invocation_target_v1("legacy", &legacy_http, None).unwrap_err();
+        assert_eq!(
+            crate::provider::failure_category(&error),
+            "unsupported_capability"
+        );
+        assert!(error
+            .to_string()
+            .contains("unsupported_aprovider_inference_control"));
+
+        legacy_http
+            .config
+            .insert("api_format".to_string(), json!("openai_chat_completions"));
+        let chat_target = provider_invocation_target_v1("chat", &legacy_http, None).unwrap();
+        assert_eq!(chat_target.codec_controls.codec, "generic_http_chat_v1");
     }
 
     #[test]
@@ -1786,6 +1876,7 @@ mod tests {
             .insert("provider_model_id".to_string(), json!("kimi-k3"));
 
         let target = provider_invocation_target_v1("reasoner", &spec, None).unwrap();
+        let substrate = provider_substrate_v1("reasoner", &spec).unwrap();
         let projection = redacted_effective_inference_projection_v1("reasoner", &spec).unwrap();
         let projection_fingerprint = inference_fingerprint(&projection).unwrap();
 
@@ -1799,6 +1890,11 @@ mod tests {
                 .inference_parameter_fingerprint
                 .as_deref(),
             Some(projection_fingerprint.as_str())
+        );
+        assert_eq!(substrate.effective_inference, target.effective_inference);
+        assert_eq!(
+            substrate.inference_parameter_fingerprint,
+            projection_fingerprint
         );
     }
 }

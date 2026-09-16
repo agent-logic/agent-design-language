@@ -49,7 +49,8 @@ Built-in codecs declare these consumption sets:
 | Ollama HTTP generate | context, output, temperature, top-p, seed, timeout, think, keep-alive |
 | Ollama local CLI | timeout only |
 | MLX OpenAI-compatible chat | output, temperature, top-p, seed, timeout |
-| OpenAI, Anthropic, DeepSeek, OpenRouter, Bedrock Nova, Vertex Gemini, generic chat HTTP | output, temperature, top-p, timeout |
+| OpenAI, Anthropic, DeepSeek, OpenRouter, Bedrock Nova, Vertex Gemini, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
+| Legacy generic HTTP `{prompt}` payload | timeout only; supplied sampling or output controls reject before adapter construction |
 | Kimi chat | common chat controls plus reasoning effort |
 | Z.ai chat | common chat controls plus reasoning effort and clear-thinking |
 | Mock | no inference controls |
