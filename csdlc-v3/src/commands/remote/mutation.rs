@@ -5,7 +5,7 @@ use std::{fs, path::Path};
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 
 use super::authority::verify_canonical_v3_authority;
-use super::coordination;
+use super::coordination::{validate as validate_coordination, verify as verify_coordination};
 use super::model::*;
 use super::storage::*;
 use super::support::{
@@ -197,6 +197,7 @@ pub fn stage_github_mutation(
 ) -> Result<StagedGithubMutation, RemoteRouteFinding> {
     validate_repository_name(&request.repository)?;
     validate_mutation(request)?;
+    validate_coordination(request)?;
     let credential_name = mutation_credential_name(request)?;
     let authority = verify_canonical_v3_authority(repo_root, None, &request.expected_head_sha)?;
     let operation_digest = github_mutation_operation_digest(request);
@@ -260,7 +261,7 @@ pub fn stage_github_mutation(
         intent_digest = github_mutation_intent_digest(&intent);
         preflight_github_credential(&credential_name, process)?;
         if !preexisting {
-            coordination::verify(repo_root, request, process)?;
+            verify_coordination(repo_root, request, process)?;
             persist_json_create_new(&intent_path, &intent)?;
         }
         None
@@ -496,6 +497,7 @@ pub fn execute_github_mutation(
     validate_repository_name(&request.repository)?;
     let credential_name = mutation_credential_name(request)?;
     validate_mutation(request)?;
+    validate_coordination(request)?;
     let authority = verify_canonical_v3_authority(repo_root, None, &request.expected_head_sha)?;
 
     if matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
@@ -536,7 +538,7 @@ pub fn execute_github_mutation(
     } else if matches!(request.mutation, GithubMutation::PullRequestReady) {
         intent.resolved_ready_target = Some(resolve_ready_target(request, process)?);
     } else {
-        coordination::verify(repo_root, request, process)?;
+        verify_coordination(repo_root, request, process)?;
     }
     let intent_digest = github_mutation_intent_digest(&intent);
     let mut effective_request = request.clone();
@@ -838,7 +840,7 @@ pub(super) fn dispatch_github_mutation_after_intent(
     if context.recovery_intent_digest.is_some() {
         ensure_recovery_available(repo_root, context.operation_digest)?;
     }
-    coordination::verify(repo_root, request, process)?;
+    verify_coordination(repo_root, request, process)?;
     let input_path = write_mutation_input(
         repo_root,
         context.operation_digest,

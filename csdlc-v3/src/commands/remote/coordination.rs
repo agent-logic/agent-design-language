@@ -1,11 +1,16 @@
 //! Explicit coordination-only completion; administrative closure remains separate.
+use super::model::{
+    CoordinationCompletion, CoordinationEvidence, GithubMutation, GithubMutationRequest,
+    PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
+};
 use super::publication::{is_durable_receipt_path, is_repo_or_git_receipt_path};
 use super::storage::persist_json_create_new;
-use super::support::{git_control_dir, remote_finding, GITHUB_READ_ONLY_ADAPTER};
+use super::support::{
+    git_control_dir, github_mutation_operation_digest, remote_finding, GITHUB_READ_ONLY_ADAPTER,
+};
 use super::transport::{mutation_credential_name, read_mutation_reconciliation_page};
-use super::*;
 use crate::adapters::{CommandInvocation, ProcessAdapter};
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use serde_json::{json, Value};
 use std::collections::BTreeSet;
 use std::fs;
@@ -14,23 +19,6 @@ use std::path::Path;
 
 const CONTRACT_PREFIX: &str = "<!-- csdlc-coordination:v1 ";
 const MAX_EVIDENCE_BYTES: u64 = 4 * 1024 * 1024;
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct CoordinationEvidence {
-    pub path: String,
-    /// BLAKE3 of the exact durable evidence bytes approved by the operator.
-    pub digest: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct CoordinationCompletion {
-    pub current_body: String,
-    pub expected_updated_at: String,
-    pub rationale: String,
-    pub evidence: Vec<CoordinationEvidence>,
-}
 
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]

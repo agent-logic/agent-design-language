@@ -1,9 +1,13 @@
 use std::collections::BTreeMap;
 
-const MODULES: [(&str, &str); 12] = [
+const MODULES: [(&str, &str); 13] = [
     (
         "authority",
         include_str!("../src/commands/remote/authority.rs"),
+    ),
+    (
+        "coordination",
+        include_str!("../src/commands/remote/coordination.rs"),
     ),
     (
         "delivery",
@@ -104,6 +108,7 @@ fn remote_owner_remains_a_thin_acyclic_module_graph() {
         ("storage", 2),
         ("publication", 3),
         ("transport", 3),
+        ("coordination", 4),
         ("merge", 4),
         ("mutation", 5),
         ("routing", 6),
@@ -186,6 +191,7 @@ fn remote_responsibilities_have_one_production_owner() {
         ("delivery", "pub(crate) fn deliver("),
         ("merge_linkage", "pub fn merge_linkage_query("),
         ("transport", "fn github_mutation_invocation("),
+        ("coordination", "const CONTRACT_PREFIX"),
         ("publication", "pub fn prepare_remote_publication_route("),
         ("merge", "fn execute_inner("),
         ("mutation", "pub fn stage_github_mutation("),

@@ -7,7 +7,6 @@ use std::{
 
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 
-use super::coordination;
 use super::model::*;
 use super::storage::*;
 use super::support::{
@@ -66,7 +65,6 @@ pub(super) fn validate_mutation(request: &GithubMutationRequest) -> Result<(), R
             "GitHub mutation requires the canonical exact review SHA",
         ));
     }
-    coordination::validate(request)?;
     match &request.mutation {
         GithubMutation::IssueCreate { title, body, .. }
             if title.trim().is_empty() || body.trim().is_empty() || request.pull_request.is_some() =>

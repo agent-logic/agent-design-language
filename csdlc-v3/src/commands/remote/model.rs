@@ -1,6 +1,5 @@
 //! Stable remote request, receipt, result and dispatch contracts.
 
-use super::coordination::CoordinationCompletion;
 use crate::adapters::CommandInvocation;
 use serde::{Deserialize, Serialize};
 
@@ -14,6 +13,23 @@ pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [
     "publish",
     "review",
 ];
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CoordinationEvidence {
+    pub path: String,
+    /// BLAKE3 of the exact durable evidence bytes approved by the operator.
+    pub digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CoordinationCompletion {
+    pub current_body: String,
+    pub expected_updated_at: String,
+    pub rationale: String,
+    pub evidence: Vec<CoordinationEvidence>,
+}
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PublicationLinkage {

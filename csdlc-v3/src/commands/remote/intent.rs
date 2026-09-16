@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use super::authority::{read_canonical_authority_selector, verify_canonical_v3_authority};
+use super::coordination::validate as validate_coordination;
 use super::model::*;
 use super::publication::{
     body_closing_issue_references, body_has_relation, review_findings, same_principal,
@@ -717,6 +718,7 @@ pub fn validate_intent_mutation(
     validate_repository_name(&request.repository)?;
     mutation_credential_name(request)?;
     validate_mutation(request)?;
+    validate_coordination(request)?;
     verify_canonical_v3_authority(root, None, &request.expected_head_sha)?;
     admit_publication_attempt(root, request)
 }
@@ -806,6 +808,7 @@ pub fn semantic_mutation_target(
     use crate::lifecycle::semantic::SemanticCommand;
     validate_repository_name(&request.repository)?;
     validate_mutation(request)?;
+    validate_coordination(request)?;
     Ok(match &request.mutation {
         GithubMutation::IssueCreate { .. } => SemanticMutationTarget::RepositoryCreation,
         GithubMutation::IssueComment { .. }
