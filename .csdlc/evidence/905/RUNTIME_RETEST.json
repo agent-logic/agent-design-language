@@ -1,0 +1,304 @@
+{
+  "schema": "adl.issue905.runtime_speculative_retest.v1",
+  "source_revision": "1872cf04b6d2641f32ff63d58dd64385f69e5b5e",
+  "runtime_route": "Runtime v3 Observatory conversation -> provider registry -> Ollama /api/chat",
+  "ollama_version": "ollama version is 0.32.14",
+  "hardware": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "chip": "Apple M4 Pro",
+    "cpu_cores": 14,
+    "cpu_performance_cores": 10,
+    "cpu_efficiency_cores": 4,
+    "gpu_cores": 20,
+    "unified_memory_gb": 64
+  },
+  "models": {
+    "baseline": {
+      "name": "adl-905-baseline:latest",
+      "manifest_digest": "abc7370873d0797fea48db285213a0158bfe9a263e40a1b1faaa9b5fcf2774f6",
+      "size_bytes": 6594474508,
+      "details": {
+        "parent_model": "Qwen3.5:9b",
+        "format": "gguf",
+        "family": "qwen35",
+        "families": [
+          "qwen35"
+        ],
+        "parameter_size": "9.7B",
+        "quantization_level": "Q4_K_M"
+      },
+      "mtp_tensor_count": 15,
+      "parameters": {
+        "num_predict": "64",
+        "presence_penalty": "1.5",
+        "seed": "905",
+        "temperature": "0",
+        "top_k": "20",
+        "top_p": "0.95",
+        "draft_num_predict": "0"
+      }
+    },
+    "speculative": {
+      "name": "adl-905-speculative:latest",
+      "manifest_digest": "ee78f2313d98dc780742869d155b689dd6553ef1db257320d6f12b7653fbaa7d",
+      "size_bytes": 6594474508,
+      "details": {
+        "parent_model": "Qwen3.5:9b",
+        "format": "gguf",
+        "family": "qwen35",
+        "families": [
+          "qwen35"
+        ],
+        "parameter_size": "9.7B",
+        "quantization_level": "Q4_K_M"
+      },
+      "mtp_tensor_count": 15,
+      "parameters": {
+        "draft_num_predict": "4",
+        "num_predict": "64",
+        "presence_penalty": "1.5",
+        "seed": "905",
+        "temperature": "0",
+        "top_k": "20",
+        "top_p": "0.95"
+      }
+    }
+  },
+  "sampling": {
+    "temperature": 0,
+    "seed": 905,
+    "num_predict": 64
+  },
+  "provider_boundary": {
+    "force_generate_fallback": true,
+    "think": false
+  },
+  "prompts": 2,
+  "repeats": 2,
+  "runs": [
+    {
+      "mode": "baseline",
+      "repeat": 0,
+      "prompt_index": 0,
+      "elapsed_seconds": 7.7987431660003494,
+      "reply_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683",
+      "reply_bytes": 20
+    },
+    {
+      "mode": "baseline",
+      "repeat": 0,
+      "prompt_index": 1,
+      "elapsed_seconds": 7.843422792000638,
+      "reply_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5",
+      "reply_bytes": 16
+    },
+    {
+      "mode": "baseline",
+      "repeat": 1,
+      "prompt_index": 0,
+      "elapsed_seconds": 7.689550833001704,
+      "reply_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683",
+      "reply_bytes": 20
+    },
+    {
+      "mode": "baseline",
+      "repeat": 1,
+      "prompt_index": 1,
+      "elapsed_seconds": 7.532938500000455,
+      "reply_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5",
+      "reply_bytes": 16
+    },
+    {
+      "mode": "speculative",
+      "repeat": 0,
+      "prompt_index": 0,
+      "elapsed_seconds": 13.561140374997194,
+      "reply_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683",
+      "reply_bytes": 20
+    },
+    {
+      "mode": "speculative",
+      "repeat": 0,
+      "prompt_index": 1,
+      "elapsed_seconds": 8.19326241700037,
+      "reply_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5",
+      "reply_bytes": 16
+    },
+    {
+      "mode": "speculative",
+      "repeat": 1,
+      "prompt_index": 0,
+      "elapsed_seconds": 7.8966334169999755,
+      "reply_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683",
+      "reply_bytes": 20
+    },
+    {
+      "mode": "speculative",
+      "repeat": 1,
+      "prompt_index": 1,
+      "elapsed_seconds": 8.022126125000796,
+      "reply_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5",
+      "reply_bytes": 16
+    }
+  ],
+  "result": "pass",
+  "runtime_identity": {
+    "runtime_incarnation_id": "c30367cb-e4a6-4adb-b371-d5a9b19f3f0e",
+    "runtime_process_id": 9152
+  },
+  "failure_probe": {
+    "model": "adl-905-missing-draft",
+    "exit_code": 1,
+    "payload": null,
+    "stderr_sha256": "d926225f6d00b0da6555e177ebb7d7a71f142776285109b26417e5b01cb09c31"
+  },
+  "fallback": {
+    "status": "delivered",
+    "reply_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683"
+  },
+  "comparison": {
+    "pairs": 4,
+    "exact_reply_pairs": 4,
+    "output_equivalence": true,
+    "baseline_total_seconds": 30.864655291003146,
+    "speculative_total_seconds": 37.673162333998334,
+    "speedup_ratio": 0.8192743422324593,
+    "benefit_percent": -18.072565776754068,
+    "warm_excluding_first": {
+      "baseline_total_seconds": 23.065912125002797,
+      "speculative_total_seconds": 24.11202195900114,
+      "speedup_ratio": 0.9566145951684559,
+      "benefit_percent": -4.338540483154407
+    },
+    "decode_tokens_per_second": {
+      "baseline": 36.01012604744454,
+      "speculative": 15.811943287830074
+    }
+  },
+  "runtime_provider_calls": [
+    {
+      "path": "/api/generate",
+      "model": "adl-905-baseline:latest",
+      "status": 200,
+      "elapsed_seconds": 7.752670917001524,
+      "total_duration_ns": 7748417292,
+      "load_duration_ns": 210120125,
+      "prompt_eval_count": 1965,
+      "prompt_eval_duration_ns": 7343285000,
+      "eval_count": 7,
+      "eval_duration_ns": 188114000,
+      "response_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-baseline:latest",
+      "status": 200,
+      "elapsed_seconds": 7.8035968330004835,
+      "total_duration_ns": 7798972416,
+      "load_duration_ns": 212326291,
+      "prompt_eval_count": 1958,
+      "prompt_eval_duration_ns": 7352306000,
+      "eval_count": 8,
+      "eval_duration_ns": 226899000,
+      "response_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-baseline:latest",
+      "status": 200,
+      "elapsed_seconds": 7.662620666000294,
+      "total_duration_ns": 7655072042,
+      "load_duration_ns": 231544500,
+      "prompt_eval_count": 1961,
+      "prompt_eval_duration_ns": 7222268000,
+      "eval_count": 7,
+      "eval_duration_ns": 193748000,
+      "response_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-baseline:latest",
+      "status": 200,
+      "elapsed_seconds": 7.504321374999563,
+      "total_duration_ns": 7499916250,
+      "load_duration_ns": 208139708,
+      "prompt_eval_count": 1965,
+      "prompt_eval_duration_ns": 7057513000,
+      "eval_count": 8,
+      "eval_duration_ns": 224338000,
+      "response_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-speculative:latest",
+      "status": 200,
+      "elapsed_seconds": 13.51741441699778,
+      "total_duration_ns": 13513022709,
+      "load_duration_ns": 7744265542,
+      "prompt_eval_count": 1957,
+      "prompt_eval_duration_ns": 5426843000,
+      "eval_count": 7,
+      "eval_duration_ns": 334728000,
+      "response_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-speculative:latest",
+      "status": 200,
+      "elapsed_seconds": 8.16238741699999,
+      "total_duration_ns": 8157402542,
+      "load_duration_ns": 206375250,
+      "prompt_eval_count": 1967,
+      "prompt_eval_duration_ns": 7382054000,
+      "eval_count": 8,
+      "eval_duration_ns": 561923000,
+      "response_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-speculative:latest",
+      "status": 200,
+      "elapsed_seconds": 7.868948583000019,
+      "total_duration_ns": 7864629792,
+      "load_duration_ns": 206000292,
+      "prompt_eval_count": 1961,
+      "prompt_eval_duration_ns": 7235788000,
+      "eval_count": 7,
+      "eval_duration_ns": 416008000,
+      "response_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-speculative:latest",
+      "status": 200,
+      "elapsed_seconds": 7.995482416998129,
+      "total_duration_ns": 7991226084,
+      "load_duration_ns": 210020459,
+      "prompt_eval_count": 1961,
+      "prompt_eval_duration_ns": 7188110000,
+      "eval_count": 8,
+      "eval_duration_ns": 584641000,
+      "response_sha256": "08eccd9da469e80166f2b68c8e4e9aec03ba6593910acce65a9ffc8349869ac5"
+    },
+    {
+      "path": "/api/generate",
+      "model": "adl-905-baseline:latest",
+      "status": 200,
+      "elapsed_seconds": 23.16905491599755,
+      "total_duration_ns": 23164251333,
+      "load_duration_ns": 15948405583,
+      "prompt_eval_count": 1958,
+      "prompt_eval_duration_ns": 7017741000,
+      "eval_count": 7,
+      "eval_duration_ns": 190824000,
+      "response_sha256": "aab02475aed5d0d2b08382db3240e2d4c71160a8d73c4628546dd6125a3fa683"
+    }
+  ],
+  "accepted_proposed_tokens": "not_exposed_by_ollama_0.32.14_api",
+  "decision": {
+    "recommendation": "retire",
+    "scope": "retire speculative decoding from the current Runtime qualification path; no service decommissioning",
+    "reason": "exact outputs were preserved, but speculative decoding was slower cold-inclusive and warm; engine decode throughput also fell"
+  }
+}

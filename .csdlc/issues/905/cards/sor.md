@@ -21,28 +21,28 @@ Version: 0.92.2
 Title: [v0.92.2][SPEC-RETEST] Speculative-decoding requalification
 Branch: codex/905-v0922-speculative-decoding-retest
 Card Status: draft
-Status: partial_implementation_environment_gated
+Status: implementation_complete_review_pending
 Generated: 2026-09-12T00:18:14.558347+00:00
 
 Execution:
 - Actor: `Planning #7 / sprint8_909; bounded #905 implementation under #932`
-- Model: `unknown`
-- Provider: `unknown`
+- Model: `Qwen3.5:9b resident target; same-model temporary baseline/speculative aliases`
+- Provider: `Ollama 0.32.14 through current Runtime provider registry and compatibility fallback`
 - Start Time: `not_started`
 - End Time: `not_started`
 
 ## Summary
 
-Partial retest accounting/output identity/attempt preservation implemented and independently reviewed at ec4c1c3ba2e8fa005a476f575280c0ca3cf867cc. Thirteen deterministic tests pass. Actual current Runtime baseline/speculative comparison and draft failure/fallback remain unexecuted; no keep/repair/retire conclusion or PR.
+Current Runtime requalification completed. Four exact-output baseline/speculative pairs passed, but speculative decoding was 18.07% slower cold-inclusive and 4.34% slower warm, with 15.81 versus 36.01 decode tokens/s. Invalid draft admission failed closed and ordinary fallback remained healthy. Recommendation: retire speculative decoding from the current Runtime qualification path; reconsider only with a newer engine/model and accepted/proposed-token telemetry.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
-- Final PVF lane: `deterministic local accounting and correctness negatives; real Runtime/hardware lane pending`
-- Lane change reason: `not_run; implementation has not started`
+- Final PVF lane: `runtime`
+- Lane change reason: `No lane change; the runtime lane now includes executed current Runtime comparison and fallback proof.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `local current Runtime integration`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -53,46 +53,46 @@ Partial retest accounting/output identity/attempt preservation implemented and i
 - Actual PR wait seconds: `unknown`
 - Actual CI wait seconds: `unknown`
 - Budget source: `no operator token budget assigned`
-- Goal metrics data source: `unknown`
-- Goal metrics source ref: `unknown`
-- Data-source confidence: `unknown`
+- Goal metrics data source: `.csdlc/evidence/905/RUNTIME_RETEST.json`
+- Goal metrics source ref: `.csdlc/evidence/905/RUNTIME_RETEST.json`
+- Data-source confidence: `high for this declared local engine/model/hardware configuration`
 - Estimate error percent: `unknown`
-- Completion state: `incomplete_actual_runtime_proof_pending`
+- Completion state: `implementation_complete_review_pending`
 - Issue goal ref: `Active #905 full implementation and executed requalification goal under Sprint 6 #932`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
-- Goal metrics rollup ref: `.csdlc/evidence/905/goal-metrics.json (planned; absent until execution)`
+- Goal metrics rollup ref: `.csdlc/evidence/905/RUNTIME_RETEST.json`
 - Validation planning prompt: `.csdlc/issues/905/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `unknown`
-- Variance analysis completed: `not_applicable`
-- Variance category: `not_applicable`
-- Variance note: `No measured execution or estimate pair exists`
+- Variance analysis required: `true`
+- Variance analysis completed: `true`
+- Variance category: `measured_regression`
+- Variance note: `Speculative arm 18.07% slower cold-inclusive and 4.34% slower warm; decode throughput 15.81 versus 36.01 tokens/s.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/905/cards/sor.md`
-- Tracked implementation artifacts: `adl/tools/vllm_qwen_speculative_decoding_benchmark.py; adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; .csdlc/evidence/905/RETEST_STATUS.md`
-- Additional proof artifacts: `none; acceptance proof not started`
+- Tracked implementation artifacts: `adl/tools/vllm_qwen_speculative_decoding_benchmark.py; adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; adl/tools/issue905_runtime_speculative_retest.py; .csdlc/evidence/905`
+- Additional proof artifacts: `.csdlc/evidence/905/RUNTIME_RETEST.json; .csdlc/evidence/905/ATTEMPT_REGISTER.json`
 
 ## Actions taken
-- `Verified bound native doctor and created child905 full goal; mapped actual kernel Ollama-only generation route and missing speculative controls`
-- `Implemented fail-closed counters/summary/pair comparison and output identities; preserved all observed setup/generation attempts without raw exception text`
-- `Independent source review found historical output overwrite; exclusive result/journal reservation corrected and13tests independently pass`
+- `Added a bounded current Runtime integration harness using isolated Observatory/provider/guardian/kernel processes and resident Ollama model aliases.`
+- `Executed four paired baseline/speculative conversations with deterministic expected markers and recorded latency, decode throughput, startup and attempt history.`
+- `Rejected an invalid draft alias at admission and verified healthy ordinary fallback through the current Runtime path.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
-- Worktree-only paths remaining: `.csdlc/issues/905/cards; native bound setup only`
+- Worktree-only paths remaining: `tracked issue implementation/evidence/cards pending publication`
 - Integration state: `worktree_only`
-- Verification scope: `Bounded deterministic accounting/correctness, complete declared grid, output identity, exclusive artifact preservation and redacted failure journaling; raw fake engine tests do not prove inference.`
-- Integration method used: `not_run; implementation has not started`
+- Verification scope: `Current Runtime paired correctness, latency, decode throughput, invalid draft admission and ordinary fallback; accepted/proposed counters unavailable and unclaimed.`
+- Integration method used: `native PR publication after independent review`
 - Verification performed:
   - `not_run; implementation has not started`
     `not_run; implementation has not started`
-- Result: `not_integrated`
+- Result: `not_integrated; independent review, PR, CI and merge pending`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; git diff --check; native validate`
-    `No implementation proof attempted`
+  - `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; current Runtime command recorded in VPP; git diff --check; native validate`
+    `Establishes current Runtime correctness, paired latency/throughput, bounded failure and fallback behavior, and an evidence-bound retire disposition.`
 - Results:
-  - `13 deterministic tests passed locally and independently; diff hygiene passed. No hardware/engine/Runtime/CI proof.`
+  - `PASS: 13 deterministic accounting tests, Python compile, four-pair current Runtime proof, controlled invalid-draft rejection and healthy ordinary fallback; diff hygiene passed. Independent review and CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: pass_local_review_pending
     checks_run:
-      - "not_run"
+      - "Four of four paired outputs exactly matched expected markers."
   determinism:
     status: not_run
-    replay_verified: not_run
-    ordering_guarantees_verified: not_run
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: not_run
-    secrets_leakage_detected: not_run
-    prompt_or_tool_arg_leakage_detected: not_run
-    absolute_path_leakage_detected: not_run
+    status: pass
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: not_run
-    required_artifacts_present: not_run
+    status: complete_local_review_pending
+    required_artifacts_present: true
     schema_changes:
       present: not_run
-      approved: not_run
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
+- Determinism tests executed: `13 deterministic accounting tests plus exact expected-marker paired Runtime proof`
+- Fixtures or scripts used: `adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; adl/tools/issue905_runtime_speculative_retest.py`
 - Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
-- Artifact stability notes: `not_run; implementation has not started`
+- Ordering guarantees (sorting / tie-break rules used): `Serialized baseline/speculative pairs with per-arm first-run warm classification`
+- Artifact stability notes: `Tracked evidence omits machine-local absolute paths and preserves explicit engine/hardware/model identities and limitations.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `Bound worktree only; no cloud/service/model/credential mutation; source changes confined to retest harness/tests`
+- Secret leakage scan performed: `true`
+- Prompt / tool argument redaction verified: `true`
+- Absolute path leakage check: `pass`
+- Sandbox / policy invariants preserved: `Bound issue worktree; no cloud spend or model download; isolated transient ports/processes; temporary same-model aliases only.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/905/RUNTIME_RETEST.json; .csdlc/evidence/905/ATTEMPT_REGISTER.json; .csdlc/evidence/905/RETEST_STATUS.md`
 - Run artifact root: `.adl/runs/905`
-- Replay command used for verification: `not_run; implementation has not started`
-- Replay result: `not_run; implementation has not started`
+- Replay command used for verification: `Use the declared command in VPP; temporary aliases use the same resident Qwen3.5:9b model with draft_num_predict 0 and 4.`
+- Replay result: `pass at .adl/runs/905/runtime-run-09; tracked sanitized result at .csdlc/evidence/905/RUNTIME_RETEST.json`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/905/RETEST_STATUS.md`
-- Required artifacts present: `not_run; implementation has not started`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
-- Missing/optional artifacts and rationale: `Actual Runtime comparison, hardware resource/cost and fallback evidence are required but unavailable; not optional or waived`
+- Primary proof surface: `.csdlc/evidence/905/RUNTIME_RETEST.json`
+- Required artifacts present: `true`
+- Artifact schema/version checks: `JSON parse and native card validation`
+- Hash/byte-stability checks: `Four exact response pairs; tracked evidence JSON parse`
+- Missing/optional artifacts and rationale: `Ollama 0.32.14 does not expose accepted/proposed draft-token counters; the evidence makes no claim for them. All other required local proof is present.`
 
 ## Decisions / Deviations
 - `#864 CLOSED; PR #865 MERGED at f1c4e2a915c215797f0d2708cb8b0568f2b80b32, ancestor of selected main`
-- `Planning #5 released903/904/905 setup ownership; native FastWork bind completed. Implementation, hardware execution, model loading/download and service mutations remain outside setup scope.`
+- `Retire speculative decoding from the current Runtime qualification path because exact outputs were preserved but latency and decode throughput regressed. This is a qualification disposition, not service decommissioning or model deletion.`
 
 ## Follow-ups / Deferred work
-- `Select approved engine/model/tokenizer/hardware and actual current Runtime route for paired modes; no provider integration or acquisition silently authorized`
-- `Execute comparable real routes and controlled draft failure/fallback before final disposition/closingPR`
+- `Run independent exact-head review, native review, publication and CI; fix any actionable finding before merge.`
+- `Any future reconsideration requires a separate issue using a newer engine/model combination with accepted/proposed draft-token telemetry.`

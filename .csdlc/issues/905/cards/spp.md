@@ -10,8 +10,8 @@ title: "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification"
 branch: "codex/905-v0922-speculative-decoding-retest"
 generated_at: "2026-09-12T00:18:14.558347+00:00"
 card_status: "ready"
-status: "planned"
-activation_state: "prepared_not_bound"
+status: "completed"
+activation_state: "executed_review_pending"
 plan_revision: 1
 initial_pvf_lane: "runtime"
 planned_pvf_lane: "runtime"
@@ -24,7 +24,7 @@ variance_threshold_percent: "10"
 estimate_confidence: "low"
 estimate_data_source: "Conservative retest harness/accounting and measurement estimate; hardware elapsed time reestimated after route/resource selection, not operator budget"
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/905"
-issue_goal_ref: "Active child #905 implementation and executed requalification goal under Sprint 6 #932"
+issue_goal_ref: "Active goal: complete #905 current Runtime requalification, publish and close, then close Sprint 6 #932."
 sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
 goal_metrics_rollup_ref: ".csdlc/evidence/905/goal-metrics.json (planned; absent until execution)"
 source_refs:
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "in_progress"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "completed"
 affected_areas:
   - "v0922-speculative-decoding-retest"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "User authorized implementation through #932. Local arm64 default Python lacks vllm/torch; no selected current Runtime speculative route, compatible target/draft/tokenizer revisions or hardware budget. Bounded harness/negative accounting work proceeds; actual comparison remains mandatory and not proved. No shared provider edits, provisioning/download/model loading or service mutation."
+notes: "Current Runtime proof is complete on Apple M4 Pro with Ollama 0.32.14 and resident Qwen3.5:9b aliases. Four paired conversations produced exact expected outputs. Speculative configuration was 18.07% slower cold-inclusive and 4.34% slower after first-arm warmup; decode throughput was 15.81 versus 36.01 tokens/s. Invalid draft admission failed closed and ordinary fallback remained healthy. Accepted/proposed draft-token counters are unavailable from this engine API, so no such claim is made. Independent review, publication, CI, merge and terminal closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-User authorized implementation through #932. Local arm64 default Python lacks vllm/torch; no selected current Runtime speculative route, compatible target/draft/tokenizer revisions or hardware budget. Bounded harness/negative accounting work proceeds; actual comparison remains mandatory and not proved. No shared provider edits, provisioning/download/model loading or service mutation.
+Current Runtime proof is complete on Apple M4 Pro with Ollama 0.32.14 and resident Qwen3.5:9b aliases. Four paired conversations produced exact expected outputs. Speculative configuration was 18.07% slower cold-inclusive and 4.34% slower after first-arm warmup; decode throughput was 15.81 versus 36.01 tokens/s. Invalid draft admission failed closed and ordinary fallback remained healthy. Accepted/proposed draft-token counters are unavailable from this engine API, so no such claim is made. Independent review, publication, CI, merge and terminal closeout remain pending.

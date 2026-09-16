@@ -1,0 +1,60 @@
+{
+  "schema": "adl.issue905.attempt_register.v1",
+  "final_source_revision": "1872cf04b6d2641f32ff63d58dd64385f69e5b5e",
+  "attempts": [
+    {
+      "attempt": 1,
+      "result": "failed",
+      "stage": "agent_admission",
+      "reason": "noncanonical harness agent identity"
+    },
+    {
+      "attempt": 2,
+      "result": "failed",
+      "stage": "agent_admission",
+      "reason": "Ollama model identity lacked canonical tag"
+    },
+    {
+      "attempt": 3,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning-only chat response produced no normal content"
+    },
+    {
+      "attempt": 4,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning output consumed 256-token cap"
+    },
+    {
+      "attempt": 5,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning output remained incompatible with Runtime normal-content contract"
+    },
+    {
+      "attempt": 6,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "compatibility fallback still lacked explicit non-thinking provider boundary"
+    },
+    {
+      "attempt": 7,
+      "result": "failed",
+      "stage": "conversation",
+      "reason": "reasoning output consumed 512-token cap"
+    },
+    {
+      "attempt": 8,
+      "result": "completed_negative",
+      "stage": "natural_language_comparison",
+      "reason": "all eight conversations completed; speculative was 52.18 percent slower and dynamic Runtime wrapper made exact prose hash comparison non-deterministic"
+    },
+    {
+      "attempt": 9,
+      "result": "pass",
+      "stage": "deterministic_marker_comparison_and_fallback",
+      "reason": "four of four pairs exact; missing draft rejected; ordinary fallback delivered; speculative was 18.07 percent slower cold-inclusive"
+    }
+  ]
+}

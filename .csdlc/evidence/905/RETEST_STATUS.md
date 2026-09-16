@@ -1,26 +1,26 @@
-# #905 current speculative requalification checkpoint
+# #905 speculative-decoding requalification
 
-Status: **incomplete; deterministic harness work only**. No keep/repair/retire performance recommendation, actual Runtime comparison, hardware smoke or fallback execution is claimed.
+Status: **complete; recommendation: retire speculative decoding from the current Runtime qualification path**. This is a qualification disposition, not service decommissioning or a production Runtime change.
 
-## Current route and environment
+## Current Runtime route and pinned environment
 
-Inspected source candidate: `6ff1f023f62a4c0e1044483506ff0137626607b1` (bounded harness changes still uncommitted at capture). Current `adl-runtime-kernel/src/assembly.rs` dispatches conversation work through `control::invoke_provider_conversation` / `invoke_provider_model`. In `adl-runtime-kernel/src/control.rs`, `invoke_provider_model` accepts only `ollama` for live generation; Vertex AI validates then returns live-call-deferred and other providers fail. No speculative/draft-model controls were located in provider/kernel/execute source. The separate `adl-provider-adapter --request --out --log` invokes the Rust provider adapter, but that CLI alone does not establish this production Runtime route.
+Candidate `1872cf04b6d2641f32ff63d58dd64385f69e5b5e` was built locally and exercised through Runtime v3's Observatory conversation path, provider registry, Ollama chat compatibility fallback, and `/api/generate`. The provider boundary forced `think=false` because the generic Runtime request does not yet carry Ollama's explicit thinking control and reasoning-only responses are invalid normal conversation output.
 
-The historical benchmark directly constructs vLLM.LLM, uses historical engine arguments and unpinned model defaults, and does not call current Runtime. Default local Python on arm64 has neither vllm nor torch, and nvidia-smi is unavailable. Root separately owns Apple/MLX investigation; no model was loaded/downloaded or service changed here. The historical vLLM path is not silently replaced by an MLX benchmark. No approved current engine/model/tokenizer pair, comparable Runtime routes, sampling/seed control, hardware resource ceiling or controlled draft-failure execution has been selected.
+The run used Ollama `0.32.14` on an Apple M4 Pro with 14 CPU cores, 20 GPU cores and 64 GB unified memory. Both aliases referenced the same resident `Qwen3.5:9b` Q4_K_M model family and the same 15 embedded MTP tensors. Baseline set `draft_num_predict=0`; speculative set `draft_num_predict=4`. Both used temperature 0, seed 905, `num_predict=64`, the same two-prompt fixed-marker corpus and two repetitions. No model download, cloud call or paid resource occurred.
 
-## Bounded changes and proof
+## Executed result
 
-`adl/tools/vllm_qwen_speculative_decoding_benchmark.py` now rejects nonfinite/fractional/negative token counters, duplicate ambiguous metric series, counter resets, changed vector lengths and accepted counts above proposals. Run summaries reject empty/duplicate runs, invalid elapsed time, empty output and inconsistent throughput. Token-output SHA-256 provides an identity without publishing generated text. A paired comparison helper requires the complete declared prompt/repeat grid and exact token-output identity, reports null/negative speed benefit honestly, and explicitly denies Runtime execution proof. Same model/tokenizer/corpus/sampling provenance is a separate mandatory prerequisite; caller-provided hashes do not authenticate execution.
+All four paired outputs were byte-equivalent and matched their declared correctness markers. Baseline completed in 30.865 seconds; speculative completed in 37.673 seconds. The measured ratio was `0.819x`, so speculative decoding was **18.07% slower** cold-inclusive. Excluding the first call in each arm, baseline took 23.066 seconds and speculative took 24.112 seconds, a `0.957x` ratio or **4.34% slower**. Engine decode throughput was 36.01 tokens/s baseline and 15.81 tokens/s speculative. Ollama did not expose accepted/proposed draft-token counters through this API, so none are claimed.
 
-Focused command: `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py` — thirteen deterministic test methods pass. PVF: required local CPU accounting/correctness negative contracts, no engine imports, network, inference or accelerator. `git diff --check` passes. No numerical line/branch coverage or hosted CI claimed. These tests do not prove real model fallback or output equivalence of actual engines.
+The controlled missing-draft model was rejected at admission. A subsequent ordinary baseline agent became communication-eligible and returned the exact expected marker, proving bounded healthy fallback. Failed harness attempts and the completed natural-language negative run are retained in `ATTEMPT_REGISTER.json`; the final machine-readable packet is `RUNTIME_RETEST.json`.
 
-## Remaining execution gates
+## Disposition
 
-1. Select an available approved engine and compatible pinned target/draft/tokenizer snapshots; bound time/memory/resource cost and sampling/repetitions.
-2. Demonstrate a current production Runtime route for both modes with comparable settings. A missing route is a blocker; #905 limits code changes to the retest harness, not a provider integration repair.
-3. Dependency setup, initialization, warmup and measured generation now append started/completed/failed records to a create-only attempt journal, retaining exception class without exception text. Interrupted started-only attempts remain censored. Final execution still needs source/model/engine/corpus provenance, actual resource/cost measurements; raw legacy output is not sufficient for final qualification.
-4. Execute both routes and controlled draft failure/incompatibility with verified healthy normal fallback. Review actual correctness/benefit including no-benefit results before a keep/repair/retire recommendation.
+Retire speculative decoding from the current Runtime qualification path. The current MTP configuration preserves the fixed-marker outputs but produces no speed benefit and materially reduces decode throughput. Reconsideration requires a separately bounded issue with a newer engine/model pairing, accepted/proposed-token telemetry, and a fresh comparable Runtime run. No product integration, model deletion, or running-service change is performed by #905.
 
-No implementation PR should claim #905 complete while these gates remain. Native setup was refreshed through doctor/edit/validate generation6; full acceptance criteria remain unchanged. Parent and sibling #904 received exact source/environment blockers. No shared provider/kernel edits, cloud provisioning, credential access or paid execution performed.
+## Validation classification
 
-Independent partial review by sprint8_720 and sprint8_908 identified historical output overwrite when no journal existed. Both output and journal identities are now exclusively reserved before engine import/initialization, with collision regression preserving historical bytes and no engine initialization. Dependency failures are journaled without exception text. Requested speculative mode is recorded separately from activation (not proved); unverified container identity is null, model revisions remain explicitly unverified, and current harness/corpus hashes plus sampling are retained. Fake-engine output tests prove record semantics only, not inference.
+- `python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py`: 13 deterministic accounting and negative-contract tests passed.
+- `issue905_runtime_speculative_retest.py`: actual local hardware/Runtime lane, four paired comparisons, nonzero denominator, exact output checks, negative draft admission and healthy ordinary fallback.
+- `git diff --check`: passed.
+- Local evidence is hardware-dependent and release-supporting. Hosted CI remains integration proof for repository bytes; it cannot replace this local model execution.

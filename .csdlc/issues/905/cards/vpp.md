@@ -10,19 +10,19 @@ title: "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification"
 branch: "codex/905-v0922-speculative-decoding-retest"
 generated_at: "2026-09-12T00:18:14.558347+00:00"
 card_status: "ready"
-status: "planned"
+status: "completed"
 initial_pvf_lane: "runtime"
 planned_pvf_lane: "runtime"
 lane_registry_path: "docs/validation/pvf_lanes.json"
 lane_registry_template_set: "1.0.5"
 validation_runtime_class: "local_deterministic_accounting_plus_actual_hardware_runtime_comparison"
-validation_resource_profile: "local Python/CPU/disk accounting tests; actual CPU/GPU/provider resources only after exact available hardware/model/resource/cost authority is recorded; no provisioning, model download or shared service disruption implied"
+validation_resource_profile: "Local Apple M4 Pro: 14 CPU cores, 20 GPU cores, 64 GB unified memory; Ollama 0.32.14; resident Qwen3.5:9b only; no download or paid/cloud allocation."
 validation_family: "speculative_current_runtime_requalification"
 validation_size_split: "focused per source acceptance; no reflexive full workspace suite"
 expected_proof_cost: "Planning estimate: local CPU/disk plus normal CI; reestimate after predecessor integration, not a budget authorization"
 planned_validation_seconds: "3600"
 planned_validation_tokens: "20000"
-issue_goal_ref: "not_created; create issue-bound goal before implementation"
+issue_goal_ref: "Active goal: complete #905 current Runtime requalification, publish and close, then close Sprint 6 #932."
 sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
 goal_metrics_rollup_ref: ".csdlc/evidence/905/goal-metrics.json (planned; absent until execution)"
 source_refs:
@@ -39,9 +39,9 @@ selected_lanes:
 parallel_groups:
   - "Future disjoint adapter/harness authoring may run in parallel after execution authorization. Serialize shared provider registration edits and any use of the same accelerator/models; no hardware runs during setup."
 validation_commands:
-  - "Planned local command after authoring: python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; git diff --check. Deterministic accounting tests cover empty/zero or censored denominators, malformed/nonfinite metrics, missing output, corpus/model/revision mismatch, contradictory correctness and unsupported speed claims. Existing raw harness flags are --mode target_only|speculative, --target-model, --draft-model, --out, --repeats, --prompt-limit, --warmup-runs and --gpu-memory-utilization; inspect current help before authorized execution. Raw LLM invocation alone is insufficient: record the current Runtime command/path in SPP/VPP before running both actual routes. Retain every attempt; measure output correctness under declared compatible sampling rather than assuming exact equality. Real controlled draft failure/incompatibility must demonstrate healthy normal fallback. Actual hardware/provider execution and required CI remain separate from local fixture proof, with nonzero completed denominator."
+  - "python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; python3 adl/tools/issue905_runtime_speculative_retest.py --repo-root . --runtime-binary adl/target/debug/csm --csmctl-binary adl/target/debug/csmctl --guardian-binary adl-runtime/target/debug/adl-runtime-guardian --kernel-binary adl-runtime-kernel/target/debug/adl-runtime-kernel --ollama-model Qwen3.5:9b --ollama-base-url http://127.0.0.1:11434 --out-dir .adl/runs/905/runtime-run-09; git diff --check; native validate. Final tracked report: .csdlc/evidence/905/RUNTIME_RETEST.json."
 failure_policy: "Required failures, skipped or zero-test proof block acceptance. Preserve guards; record durable anomalies; repair and rerun affected proof and independent exact-head review. CI evidence is separate from local proof."
-notes: "#864 CLOSED; PR #865 MERGED at f1c4e2a915c215797f0d2708cb8b0568f2b80b32, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Current Runtime speculative route, compatible target/draft model and tokenizer revisions, engine and approved comparison resource ceiling remain unselected. Existing vLLM harness is historical starting material, not demonstrated current Runtime integration."
+notes: "Executed current Runtime conversation path through provider registry and the documented Ollama chat-to-generate compatibility fallback. Four exact output pairs passed. Speculative configuration regressed latency and decode throughput. Invalid draft admission was rejected and the ordinary route delivered the expected fallback marker. The engine does not expose accepted/proposed draft-token counters, which remains a stated measurement limitation. CI is separate from local proof."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -67,13 +67,13 @@ Verify accepted WP-01 and reconcile current harness/Runtime owner; locate a real
 
 - Parallel groups: Future disjoint adapter/harness authoring may run in parallel after execution authorization. Serialize shared provider registration edits and any use of the same accelerator/models; no hardware runs during setup.
 - Validation runtime class: `local_deterministic_accounting_plus_actual_hardware_runtime_comparison`
-- Validation resource profile: `local Python/CPU/disk accounting tests; actual CPU/GPU/provider resources only after exact available hardware/model/resource/cost authority is recorded; no provisioning, model download or shared service disruption implied`
+- Validation resource profile: `Local Apple M4 Pro: 14 CPU cores, 20 GPU cores, 64 GB unified memory; Ollama 0.32.14; resident Qwen3.5:9b only; no download or paid/cloud allocation.`
 - Validation family: `speculative_current_runtime_requalification`
 - Validation size split: `focused per source acceptance; no reflexive full workspace suite`
 
 ## Goal Accounting Hooks
 
-- Issue goal ref: `not_created; create issue-bound goal before implementation`
+- Issue goal ref: `Active goal: complete #905 current Runtime requalification, publish and close, then close Sprint 6 #932.`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/905/goal-metrics.json (planned; absent until execution)`
 
@@ -86,7 +86,7 @@ Verify accepted WP-01 and reconcile current harness/Runtime owner; locate a real
 
 ## Validation Commands
 
-- Planned local command after authoring: python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; git diff --check. Deterministic accounting tests cover empty/zero or censored denominators, malformed/nonfinite metrics, missing output, corpus/model/revision mismatch, contradictory correctness and unsupported speed claims. Existing raw harness flags are --mode target_only|speculative, --target-model, --draft-model, --out, --repeats, --prompt-limit, --warmup-runs and --gpu-memory-utilization; inspect current help before authorized execution. Raw LLM invocation alone is insufficient: record the current Runtime command/path in SPP/VPP before running both actual routes. Retain every attempt; measure output correctness under declared compatible sampling rather than assuming exact equality. Real controlled draft failure/incompatibility must demonstrate healthy normal fallback. Actual hardware/provider execution and required CI remain separate from local fixture proof, with nonzero completed denominator.
+- python3 adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile adl/tools/issue905_runtime_speculative_retest.py; python3 adl/tools/issue905_runtime_speculative_retest.py --repo-root . --runtime-binary adl/target/debug/csm --csmctl-binary adl/target/debug/csmctl --guardian-binary adl-runtime/target/debug/adl-runtime-guardian --kernel-binary adl-runtime-kernel/target/debug/adl-runtime-kernel --ollama-model Qwen3.5:9b --ollama-base-url http://127.0.0.1:11434 --out-dir .adl/runs/905/runtime-run-09; git diff --check; native validate. Final tracked report: .csdlc/evidence/905/RUNTIME_RETEST.json.
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-#864 CLOSED; PR #865 MERGED at f1c4e2a915c215797f0d2708cb8b0568f2b80b32, ancestor of selected main. Setup only under Sprint 6 umbrella #932; no implementation, model loading/download, provider/service mutation, paid allocation or hardware experiment is authorized by this preparation. All 69 startup gate and #864 are accepted. Keep implementation steps pending and require each future worker to create its child-bound execution goal. Current Runtime speculative route, compatible target/draft model and tokenizer revisions, engine and approved comparison resource ceiling remain unselected. Existing vLLM harness is historical starting material, not demonstrated current Runtime integration.
+Executed current Runtime conversation path through provider registry and the documented Ollama chat-to-generate compatibility fallback. Four exact output pairs passed. Speculative configuration regressed latency and decode throughput. Invalid draft admission was rejected and the ordinary route delivered the expected fallback marker. The engine does not expose accepted/proposed draft-token counters, which remains a stated measurement limitation. CI is separate from local proof.
