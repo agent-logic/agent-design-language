@@ -1,0 +1,214 @@
+{
+  "schema": "codefriend.fitness.hosted-proof.v1",
+  "issue": 888,
+  "pull_request": 1000,
+  "head_sha": "40db24d0f1511bf77e115c621cf9a858503ea81b",
+  "run_id": 35040846113,
+  "workflow_url": "https://github.com/agent-logic/agent-design-language/actions/runs/35040846113",
+  "results": [
+    {
+      "case": "candidate",
+      "original_exit": 0,
+      "gate_original_outcome": "success",
+      "gate_api_conclusion": "success",
+      "job_conclusion": "success",
+      "job_id": 104621173001,
+      "local_report_exact_parity": true,
+      "local_macos_fixture_semantic_parity": false,
+      "proof": {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "candidate",
+        "candidate": "65ef58aded0c6ad8f5ee766a2002b243f2f139bc",
+        "packet_id": "0bd35f6cca4212d94f46500bd96c2a15041a679c1a6800fca358c89ea33c0e17",
+        "policy_digest": "8cd24439ec645e44c8b49a073948d5d1bfe16dff3f7b75d19778588c16b5bfc9",
+        "local_exit": 0,
+        "binary_sha256": "87532947d598d6fafa1919068c7c0352fcd060bff7428c717f5e8ddf36a6c6bf",
+        "source_unchanged": true,
+        "workflow_revision": "65ef58aded0c6ad8f5ee766a2002b243f2f139bc",
+        "workflow_run_id": "35040846113",
+        "original_exit": 0,
+        "observed_gate_outcome": "success",
+        "classification": "production_policy_pass",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "65ef58aded0c6ad8f5ee766a2002b243f2f139bc",
+          "policy_digest": "8cd24439ec645e44c8b49a073948d5d1bfe16dff3f7b75d19778588c16b5bfc9",
+          "status": "pass",
+          "violations": [],
+          "errors": [],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      }
+    },
+    {
+      "case": "pass",
+      "original_exit": 0,
+      "gate_original_outcome": "success",
+      "gate_api_conclusion": "success",
+      "job_conclusion": "success",
+      "job_id": 104621173021,
+      "local_report_exact_parity": true,
+      "local_macos_fixture_semantic_parity": true,
+      "proof": {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "pass",
+        "candidate": "4a82734feb53ecae287ed68ade667ef168a83b05",
+        "packet_id": "eebceafb90eb0dc612ce8ce97593ce4bbaabb96a3259ae244772355710908f2e",
+        "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+        "local_exit": 0,
+        "binary_sha256": "87532947d598d6fafa1919068c7c0352fcd060bff7428c717f5e8ddf36a6c6bf",
+        "source_unchanged": true,
+        "workflow_revision": "65ef58aded0c6ad8f5ee766a2002b243f2f139bc",
+        "workflow_run_id": "35040846113",
+        "original_exit": 0,
+        "observed_gate_outcome": "success",
+        "classification": "fixture_contract_assertion",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "4a82734feb53ecae287ed68ade667ef168a83b05",
+          "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+          "status": "pass",
+          "violations": [],
+          "errors": [],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      }
+    },
+    {
+      "case": "fail",
+      "original_exit": 1,
+      "gate_original_outcome": "failure",
+      "gate_api_conclusion": "success",
+      "job_conclusion": "success",
+      "job_id": 104621172997,
+      "local_report_exact_parity": true,
+      "local_macos_fixture_semantic_parity": true,
+      "proof": {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "fail",
+        "candidate": "38d47e03126b5a28b586302d1f407768a54f711c",
+        "packet_id": "12caf7eb50f65b098b94f2105d836264b5d13a3c6bb06a4f81834ae0b4171bfe",
+        "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+        "local_exit": 1,
+        "binary_sha256": "87532947d598d6fafa1919068c7c0352fcd060bff7428c717f5e8ddf36a6c6bf",
+        "source_unchanged": true,
+        "workflow_revision": "65ef58aded0c6ad8f5ee766a2002b243f2f139bc",
+        "workflow_run_id": "35040846113",
+        "original_exit": 1,
+        "observed_gate_outcome": "failure",
+        "classification": "fixture_contract_assertion",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "38d47e03126b5a28b586302d1f407768a54f711c",
+          "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+          "status": "fail",
+          "violations": [
+            {
+              "rule_id": "no-forbidden-import",
+              "path": "lib.rs",
+              "line": 1
+            }
+          ],
+          "errors": [],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      }
+    },
+    {
+      "case": "error",
+      "original_exit": 2,
+      "gate_original_outcome": "failure",
+      "gate_api_conclusion": "success",
+      "job_conclusion": "success",
+      "job_id": 104621173010,
+      "local_report_exact_parity": true,
+      "local_macos_fixture_semantic_parity": true,
+      "proof": {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "error",
+        "candidate": "708698fd0c77cb6c8379a19425be1ae738c863fa",
+        "packet_id": "24ff7ec157d86187ae143f551b80cf914b3afa12877f7b4c4ee49f6426a658b0",
+        "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+        "local_exit": 2,
+        "binary_sha256": "87532947d598d6fafa1919068c7c0352fcd060bff7428c717f5e8ddf36a6c6bf",
+        "source_unchanged": true,
+        "workflow_revision": "65ef58aded0c6ad8f5ee766a2002b243f2f139bc",
+        "workflow_run_id": "35040846113",
+        "original_exit": 2,
+        "observed_gate_outcome": "failure",
+        "classification": "fixture_contract_assertion",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "708698fd0c77cb6c8379a19425be1ae738c863fa",
+          "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+          "status": "error",
+          "violations": [],
+          "errors": [
+            "macro_expansion_unassessed:no-forbidden-import"
+          ],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      }
+    }
+  ],
+  "artifact_sha256": {
+    "fitness-candidate-proof/ci/expectations.json": "fb9ecd4fb0e487b5757db57f91b3d8ee4654b8d17a0be6add84a7b272e88e12a",
+    "fitness-candidate-proof/ci/receipt.json": "ec17f339e1660f08aafb2a9738257249d3bb64c52e363b23d9b938e0d5cefe35",
+    "fitness-candidate-proof/ci/report.json": "e9843d414eade6018c05ed61fe97be4ab7240fa60d646445d985552df0dc0142",
+    "fitness-candidate-proof/ci/runner-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "fitness-candidate-proof/ci/runner.stderr.log": "04f70506eea82c1c5f8b200caca2a1feabcbf78569018a1df58ad6b67d379d7b",
+    "fitness-candidate-proof/ci/runner.stdout.json": "87bd57950d988d7e26ee29882c87d22c9999430fa1d1fb153fdca5e1a1cf8615",
+    "fitness-candidate-proof/context.json": "9e5ce68c192e49b3e116f5d1d3b313358540ac3406472a9a08887f2937a5a534",
+    "fitness-candidate-proof/local-report.json": "e9843d414eade6018c05ed61fe97be4ab7240fa60d646445d985552df0dc0142",
+    "fitness-candidate-proof/proof.json": "2c2590d1a978f6d11c253a84340a93a222505197da42a9392288863174c5b9b5",
+    "fitness-error-proof/ci/expectations.json": "0f3c0b0f8e59c07a9f2a89f71a505af599420a69b19431ca70be85000b958909",
+    "fitness-error-proof/ci/receipt.json": "103b346ac463a34fea04aaf4f6e06a8e2d5452042800bdd11e04fbf035ef22f3",
+    "fitness-error-proof/ci/report.json": "a51d1bd08c0e4a1dbd12e04a1506fa8810d7ec0a8cd555403145aa132eef393d",
+    "fitness-error-proof/ci/runner-exit.txt": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+    "fitness-error-proof/ci/runner.stderr.log": "48dacaa4530fa7c031a537bea854ee007bb770fb75423597f6a6af4f08972af8",
+    "fitness-error-proof/ci/runner.stdout.json": "a5883a6a66d18a64bcddd67220345f2e826c9ce7a7305cc48b528373cf96c422",
+    "fitness-error-proof/context.json": "e1006b6a798de4fac048eeca8543eb0f9745e0a4afc4214f4eb274e158b72607",
+    "fitness-error-proof/local-report.json": "a51d1bd08c0e4a1dbd12e04a1506fa8810d7ec0a8cd555403145aa132eef393d",
+    "fitness-error-proof/proof.json": "98b52888d8c9583432444d5147f89b7b88c80e7b20f7b24d4d2518a4bde24bd0",
+    "fitness-fail-proof/ci/expectations.json": "8feb39a1a5343d1c5087e510e77f54006bd8f00d0538bc079eaea1224fe89410",
+    "fitness-fail-proof/ci/receipt.json": "6f4bc01856fd5ffd6fa7e1181773f80544f68af7dc122f405aae699d7c1dd880",
+    "fitness-fail-proof/ci/report.json": "3ec3de0123d3cc4fe159ab8a0892111d07d53fb00c5dc311fcd5d9f8faaa976c",
+    "fitness-fail-proof/ci/runner-exit.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "fitness-fail-proof/ci/runner.stderr.log": "0979bf6c744d4957bdbe613a4270c8330113b4f0e1220a4f19929f56f6e977ca",
+    "fitness-fail-proof/ci/runner.stdout.json": "532a467f90759420c1c2e6d41392390f1e64c07d06a3c42f198cfa62b23c62cd",
+    "fitness-fail-proof/context.json": "8b20a9a65ebd5296a69fd7d1294ed35e049879fdc744415a97d152b2f24c58f8",
+    "fitness-fail-proof/local-report.json": "3ec3de0123d3cc4fe159ab8a0892111d07d53fb00c5dc311fcd5d9f8faaa976c",
+    "fitness-fail-proof/proof.json": "2562a3bc8497e95eeeeb7ff004282d7bcb4e4ba8d0de9aba0c9a78d81523e156",
+    "fitness-pass-proof/ci/expectations.json": "466e601c65a3fcd1b42e8c744c6c5ae42c4e99136bd1818554a4378ac4536b37",
+    "fitness-pass-proof/ci/receipt.json": "0b8482772c76d72471402cf90a2aa189dbe62c4a9c8d6523bd20b3efdd2c5add",
+    "fitness-pass-proof/ci/report.json": "14512a909091d32649587557a22bc390e5aea7fe5c5aef7c03730dd28542d5f7",
+    "fitness-pass-proof/ci/runner-exit.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "fitness-pass-proof/ci/runner.stderr.log": "04f70506eea82c1c5f8b200caca2a1feabcbf78569018a1df58ad6b67d379d7b",
+    "fitness-pass-proof/ci/runner.stdout.json": "e2b6f63104e98586c075c5058936b5cf93906e8d8808cd8086900a4872792590",
+    "fitness-pass-proof/context.json": "1b7dbd126615e378acfeb518dd183ec5940f9a2b4b72cde55adccba3ce86e392",
+    "fitness-pass-proof/local-report.json": "14512a909091d32649587557a22bc390e5aea7fe5c5aef7c03730dd28542d5f7",
+    "fitness-pass-proof/proof.json": "52d08ec7ffda3c1cc3d9a415f17dc867b5a3a664972cda91f2fef4daa03b42eb"
+  },
+  "normal_tests_coverage": "pending_at_observation",
+  "limits": [
+    "Negative qualification success is not a passing policy assessment. GitHub API step conclusion is post-continue-on-error; original failing outcome/exit verified from raw job logs and steps.gate.outcome proof.",
+    "Hosted candidate is GitHub PR merge revision; local Linux report uses that exact candidate.",
+    "Cross-platform fixture semantic parity compares fixed fixture commits."
+  ]
+}

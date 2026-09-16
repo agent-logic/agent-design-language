@@ -23,10 +23,13 @@ pub struct ValidatedProviderCandidate {
     pub providers: ProviderMap,
     pub digest: String,
 }
+pub fn parse_provider_sidecar(raw: &str) -> Result<ProviderReloadSidecar> {
+    serde_yaml::from_str(raw)
+        .map_err(|_| anyhow!("provider sidecar parse rejected; input details <redacted>"))
+}
 /// Parse and validate an entire replacement map without exposing input in errors.
 pub fn parse_validated_provider_sidecar(raw: &str) -> Result<ValidatedProviderCandidate> {
-    let sidecar: ProviderReloadSidecar = serde_yaml::from_str(raw)
-        .map_err(|_| anyhow!("provider sidecar parse rejected; input details <redacted>"))?;
+    let sidecar = parse_provider_sidecar(raw)?;
     validate_provider_sidecar(sidecar)
         .map_err(|_| anyhow!("provider sidecar validation rejected; input details <redacted>"))
 }

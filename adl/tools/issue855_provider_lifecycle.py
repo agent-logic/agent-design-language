@@ -142,6 +142,7 @@ class Fixture:
     def __init__(self, tls):
         self.calls = []
         self.lock = threading.Lock()
+        self.expected_authorization = None
         owner = self
         class Handler(http.server.BaseHTTPRequestHandler):
             def log_message(self, *args):
@@ -156,6 +157,13 @@ class Fixture:
                 self.end_headers()
                 self.wfile.write(data)
             def do_POST(self):
+                authorization_matches = (
+                    owner.expected_authorization is None
+                    or self.headers.get('Authorization') == owner.expected_authorization
+                )
+                if not authorization_matches:
+                    self.send_error(401)
+                    return
                 size = int(self.headers.get('Content-Length', 0))
                 require(size <= 1000000, 'fixture request exceeds bound')
                 data = json.loads(self.rfile.read(size))
@@ -176,7 +184,7 @@ class Fixture:
                 else:
                     answer = 'Fixture generated response for the requested local lifecycle proof.'
                 with owner.lock:
-                    owner.calls.append({'path': self.path, 'model': model, 'prompt_bytes': len(prompt.encode()), 'wire_output_cap': data.get('max_output_tokens', data.get('max_tokens', data.get('generationConfig', {}).get('maxOutputTokens', data.get('options', {}).get('num_predict')))), 'answer_digest': hashlib.sha256(answer.encode()).hexdigest()})
+                    owner.calls.append({'path': self.path, 'model': model, 'prompt_bytes': len(prompt.encode()), 'wire_output_cap': data.get('max_output_tokens', data.get('max_tokens', data.get('generationConfig', {}).get('maxOutputTokens', data.get('options', {}).get('num_predict')))), 'answer_digest': hashlib.sha256(answer.encode()).hexdigest(), 'authorization_matches': authorization_matches})
                 if self.path.endswith('/responses'):
                     self.reply({'output_text': answer})
                 elif self.path.endswith('/messages'):

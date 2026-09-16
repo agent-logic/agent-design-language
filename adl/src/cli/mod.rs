@@ -737,5 +737,6 @@ mod tests {
 }
 
 mod codefriend_evidence_cmd;
+mod codefriend_fitness_ci_cmd;
 mod codefriend_fitness_cmd;
 mod codefriend_memory_cmd;

@@ -29,3 +29,20 @@ end
 value, status = Open3.capture2('python3', root.join('adl/tools/codefriend/ci_select.py').to_s, stdin_data: "README.md\n")
 raise 'unrelated doc selected' unless status.success? && value.strip == 'false'
 puts 'PASS: 12 aggregate outcomes, 5 path selections, required installed/upload wiring'
+
+raise 'missing required fitness need' unless aggregate.fetch('needs').include?('codefriend_fitness_ci')
+fitness_block = script.split('# BEGIN CI fitness aggregate contract', 2)[1].split('# END CI fitness aggregate contract', 2)[0]
+%w[true false garbage].product(%w[success skipped failure cancelled]).each do |selected, result|
+  _, status = Open3.capture2e({'CODEFRIEND_CI_REQUIRED'=>selected, 'CODEFRIEND_FITNESS_RESULT'=>result}, 'bash', '-eu', '-c', fitness_block)
+  expected = (selected == 'true' && result == 'success') || (selected == 'false' && result == 'skipped')
+  raise "incorrect fitness gate #{selected}:#{result}" unless status.success? == expected
+end
+fitness = jobs.fetch('codefriend_fitness_ci')
+raise 'fitness permissions' unless fitness.fetch('permissions') == {'contents'=>'read'}
+raise 'fitness selector' unless fitness.fetch('if').include?("outputs.codefriend_ci_required == 'true'")
+raise 'fitness callable route' unless fitness.fetch('uses') == './.github/workflows/codefriend-fitness.yml'
+%w[.github/codefriend-fitness-policy.json .github/workflows/codefriend-fitness.yml adl/tools/codefriend_fitness_ci_artifacts.py adl/tests/fixtures/codefriend/fitness-ci/manifest.json adl-runtime/src/lib.rs adl-runtime-kernel/src/lib.rs adl-provider-core/Cargo.toml].each do |path|
+  value, status = Open3.capture2('python3', root.join('adl/tools/codefriend/ci_select.py').to_s, stdin_data: path+"\n")
+  raise "fitness path skipped: #{path}" unless status.success? && value.strip == 'true'
+end
+puts 'PASS: 12 fitness aggregate outcomes, 7 fitness path selections, callable workflow wiring'

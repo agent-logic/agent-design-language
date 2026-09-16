@@ -1,0 +1,19 @@
+{
+  "schema": "codefriend.fitness.ci.fixture.v1",
+  "policies": {
+    "candidate": {
+      "policy": ".github/codefriend-fitness-policy.json",
+      "policy_digest": "8cd24439ec645e44c8b49a073948d5d1bfe16dff3f7b75d19778588c16b5bfc9"
+    },
+    "fixture": {
+      "policy": "adl/tests/fixtures/codefriend/fitness/policy.json",
+      "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8"
+    }
+  },
+  "fixture_commit_time": "2000-01-01T00:00:00Z",
+  "cases": {
+    "pass": 0,
+    "fail": 1,
+    "error": 2
+  }
+}
