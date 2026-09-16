@@ -76,6 +76,15 @@
       "status": "resolved",
       "evidence": ["scorecard.json"],
       "resolution": "All scorecard gates now use only pass, fail, or not_proven; finite recovery, evidence PR CI, and exact-head review are not_proven."
+    },
+    {
+      "id": "REVIEW-873-004",
+      "priority": "P2",
+      "title": "Prepared-start replay built outside a selected non-default target directory",
+      "status": "resolved",
+      "evidence": ["run-special-corpus.sh", "results/non-default-timing-target-probe.result.json"],
+      "observed": "The replay script searched ADL_ISSUE873_TIMING_TARGET_DIR but its Cargo no-run build previously used Cargo's default target directory.",
+      "resolution": "The build now receives CARGO_TARGET_DIR equal to the selected target. A build-only probe passed with a non-default target and discovered both required executables beneath it."
     }
   ]
 }

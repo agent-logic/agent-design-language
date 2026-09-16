@@ -66,13 +66,22 @@ if [[ "$actual_candidate_sha" != "$EXPECTED_CANDIDATE_SHA256" ]]; then
   exit 2
 fi
 
-cargo test --locked --manifest-path "$MANIFEST" --test installed_prepared_start_measurement --no-run
+CARGO_TARGET_DIR="$TARGET_DIR" cargo test --locked --manifest-path "$MANIFEST" --test installed_prepared_start_measurement --no-run
 TIMING_TEST_BIN="${ADL_ISSUE873_TIMING_HARNESS:-$(find "$TARGET_DIR/debug/deps" -maxdepth 1 -type f -perm -111 -name 'installed_prepared_start_measurement-*' -print | sort | tail -1)}"
 HARNESS_CANDIDATE="$TARGET_DIR/debug/csdlc"
 HARNESS_BACKUP="$TARGET_DIR/debug/csdlc.sim07-timing-backup"
 if [[ ! -x "$TIMING_TEST_BIN" || ! -x "$HARNESS_CANDIDATE" ]]; then
   printf 'prepared-start harness or candidate slot missing\n' >&2
   exit 2
+fi
+if [[ "${ADL_ISSUE873_TIMING_BUILD_ONLY:-0}" == "1" ]]; then
+  jq -n \
+    --arg schema "adl.csdlc.issue873.non_default_timing_target_probe.v1" \
+    --arg target_ref "ADL_ISSUE873_TIMING_TARGET_DIR" \
+    --arg harness "$(basename "$TIMING_TEST_BIN")" \
+    --arg candidate_slot "$(basename "$HARNESS_CANDIDATE")" \
+    '{schema:$schema,status:"pass",target_ref:$target_ref,harness:$harness,candidate_slot:$candidate_slot}'
+  exit 0
 fi
 cp "$HARNESS_CANDIDATE" "$HARNESS_BACKUP"
 restore_timing_candidate() {

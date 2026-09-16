@@ -1,0 +1,1 @@
+ADL_SIM03_BASELINE_BINARY=[accepted issue #868 binary] ADL_ISSUE873_CANDIDATE_BINARY=[frozen issue #873 binary] ADL_ISSUE872_WORKTREE=[retained issue #872 worktree] ADL_ISSUE873_TIMING_TARGET_DIR=[non-default isolated target] ADL_ISSUE873_TIMING_BUILD_ONLY=1 ./run-special-corpus.sh

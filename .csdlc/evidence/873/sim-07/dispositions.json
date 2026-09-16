@@ -8,6 +8,7 @@
     {"finding_id":"QUAL-873-005","disposition":"unresolved_blocker","owner":"independent reviewer","reason":"A new exact-head review must evaluate the remediation commit."},
     {"finding_id":"REVIEW-873-001","disposition":"resolved","owner":"issue #873 qualifier","reason":"Exact frozen candidate digest is now present on every candidate timing sample."},
     {"finding_id":"REVIEW-873-002","disposition":"resolved","owner":"issue #873 qualifier","reason":"Replay inputs are parameterized or derived and authored metadata uses logical references."},
-    {"finding_id":"REVIEW-873-003","disposition":"resolved","owner":"issue #873 qualifier","reason":"Scorecard vocabulary is normalized and incomplete gates fail closed as not_proven."}
+    {"finding_id":"REVIEW-873-003","disposition":"resolved","owner":"issue #873 qualifier","reason":"Scorecard vocabulary is normalized and incomplete gates fail closed as not_proven."},
+    {"finding_id":"REVIEW-873-004","disposition":"resolved","owner":"issue #873 qualifier","reason":"Cargo build and harness discovery now share the selected target and the non-default-target probe passed."}
   ]
 }
