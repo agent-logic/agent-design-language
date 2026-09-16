@@ -20,8 +20,8 @@ Run ID: issue-0905
 Version: 0.92.2
 Title: [v0.92.2][SPEC-RETEST] Speculative-decoding requalification
 Branch: codex/905-v0922-speculative-decoding-retest
-Card Status: draft
-Status: implementation_complete_final_review_pending
+Card Status: reviewed
+Status: reviewed_publication_pending
 Generated: 2026-09-12T00:18:14.558347+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Current Runtime requalification completed with a repair/inconclusive disposition. Eight exact-output pairs passed and invalid draft configuration failed closed with healthy operator-selected ordinary recovery. Performance did not meet robustness: speculative lost end-to-end in three of four blocks and decode wins were two of four; positive aggregate metrics were regime-shift/outlier dominated.
+Independent review_905 approved exact source 7dd86a1bd95cd9e5bc6310b38204cfc14f24f5ec with no actionable findings. Current Runtime correctness/recovery passed; performance remains repair_inconclusive under independently recalculated per-block robustness. Native publication, CI and merge remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Current Runtime requalification completed with a repair/inconclusive disposition
 - Goal metrics source ref: `.csdlc/evidence/905/RUNTIME_RETEST.json`
 - Data-source confidence: `high that this declared run is statistically inconclusive; low for any keep/retire performance conclusion`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_final_review_pending`
+- Completion state: `publication_pending`
 - Issue goal ref: `Active #905 full implementation and executed requalification goal under Sprint 6 #932`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
 - Goal metrics rollup ref: `.csdlc/evidence/905/RUNTIME_RETEST.json`
@@ -92,7 +92,7 @@ Current Runtime requalification completed with a repair/inconclusive disposition
 - Verification performed:
   - `Pending hosted CI and post-merge ancestry verification`
     `Local candidate complete; no integration claim before publication and merge.`
-- Result: `not_integrated; final independent review, PR, CI and merge pending.`
+- Result: `Implementation and conservative disposition independently approved; PR publication, hosted CI and merge pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: pass_correctness_performance_inconclusive_final_review_pending
+    status: pass_reviewed_performance_inconclusive
     checks_run:
       - "Eight of eight paired outputs matched exactly; performance robustness gate failed and is recorded as repair_inconclusive."
   determinism:
@@ -174,5 +174,5 @@ verification_summary:
 - `Repair the qualification benchmark and leave speculative decoding unqualified. Add stationarity criteria, a larger paired denominator and robust aggregate/confidence rule in follow-on work. No feature decommissioning or model deletion.`
 
 ## Follow-ups / Deferred work
-- `Complete final exact-head review, native review/publication and CI; fix any actionable finding before merge.`
+- `Native review/publication, hosted CI, merge, finish and exact cleanup.`
 - `Follow-on benchmark repair: explicit stabilization, larger paired blocks, per-block distribution and robust confidence/qualification threshold.`
