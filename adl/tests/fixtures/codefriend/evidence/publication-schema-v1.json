@@ -10,6 +10,7 @@
     "renderer_versions",
     "scope_digest",
     "target",
+    "destination_digest",
     "claims",
     "nonclaims",
     "state",
@@ -58,6 +59,9 @@
       "type": "string"
     },
     "target": {
+      "type": "string"
+    },
+    "destination_digest": {
       "type": "string"
     },
     "claims": {
