@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. PR #1004 review found two P2 harness-safety defects; both are repaired with fresh/distinct alias admission, run-owned cleanup, whole-setup failure recording and three focused regressions. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator."
+notes: "Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. Follow-up review found a residual alias check/use race and cleanup exceptions that could suppress report.json. Aliases now receive cryptographically random 128-bit run suffixes before admission and cleanup is failure-safe. Nineteen focused tests pass. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. PR #1004 review found two P2 harness-safety defects; both are repaired with fresh/distinct alias admission, run-owned cleanup, whole-setup failure recording and three focused regressions. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator.
+Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. Follow-up review found a residual alias check/use race and cleanup exceptions that could suppress report.json. Aliases now receive cryptographically random 128-bit run suffixes before admission and cleanup is failure-safe. Nineteen focused tests pass. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator.

@@ -18,6 +18,7 @@ import os
 from pathlib import Path
 import plistlib
 import re
+import secrets
 import signal
 import ssl
 import statistics
@@ -172,6 +173,19 @@ def canonical_model_name(name: str) -> str:
     return value
 
 
+def run_scoped_model_name(requested: str, run_id: str) -> str:
+    """Derive an alias that cannot collide with a user-owned requested name."""
+    name = requested.strip()
+    require(bool(name), "model aliases must be nonempty")
+    slash = name.rfind("/")
+    colon = name.rfind(":")
+    if colon > slash:
+        stem, tag = name[:colon], name[colon:]
+    else:
+        stem, tag = name, ":latest"
+    return f"{stem}-{run_id}{tag}"
+
+
 def installed_model_names() -> set[str]:
     models = ollama_json("/api/tags").get("models", [])
     return {
@@ -206,6 +220,10 @@ def cleanup(resources: dict[str, object], created_models: list[str]) -> dict:
                 os.killpg(guardian.pid, signal.SIGKILL)
             except ProcessLookupError:
                 pass
+            except Exception as error:
+                results["errors"].append(
+                    {"resource": "guardian", "error_class": type(error).__name__}
+                )
         except Exception as error:
             results["errors"].append({"resource": "guardian", "error_class": type(error).__name__})
     guardian_log = resources.get("guardian_log")
@@ -265,12 +283,30 @@ def run_json(argv: list[object], env: dict[str, str], allow_failure: bool = Fals
 
 
 def execute(args: argparse.Namespace, root: Path, report: dict, created_models: list[str], resources: dict[str, object]) -> None:
+    require(args.repeats > 0, "repeats must be positive")
     for name in ("csm", "csmctl", "guardian", "kernel", "vector"):
         path = getattr(args, name).resolve()
         require(path.is_file(), f"missing {name} binary")
         setattr(args, name, path)
 
-    invalid_model = "adl-905-invalid-draft:latest"
+    run_id = secrets.token_hex(16)
+    requested_models = {
+        "baseline": args.baseline_model,
+        "speculative": args.speculative_model,
+        "invalid": "adl-905-invalid-draft:latest",
+    }
+    args.baseline_model = run_scoped_model_name(args.baseline_model, run_id)
+    args.speculative_model = run_scoped_model_name(args.speculative_model, run_id)
+    invalid_model = run_scoped_model_name(requested_models["invalid"], run_id)
+    report["model_aliases"] = {
+        "run_id": run_id,
+        "requested": requested_models,
+        "materialized": {
+            "baseline": args.baseline_model,
+            "speculative": args.speculative_model,
+            "invalid": invalid_model,
+        },
+    }
     aliases = (args.baseline_model, args.speculative_model, invalid_model)
     validate_model_aliases(args.source_model, aliases, installed_model_names())
 
@@ -595,7 +631,6 @@ def main() -> int:
     args = parser.parse_args()
     args.hosted_mode = False
     args.hosted_approved = False
-    require(args.repeats > 0, "repeats must be positive")
     root = args.output.resolve()
     root.mkdir(parents=True, exist_ok=False)
     root.chmod(0o700)
@@ -613,7 +648,18 @@ def main() -> int:
         report["error_class"] = type(error).__name__
         raise
     finally:
-        report["cleanup"] = cleanup(resources, created_models)
+        try:
+            report["cleanup"] = cleanup(resources, created_models)
+        except Exception as cleanup_error:
+            report["cleanup"] = {
+                "models": [],
+                "errors": [
+                    {
+                        "resource": "cleanup",
+                        "error_class": type(cleanup_error).__name__,
+                    }
+                ],
+            }
         lifecycle.write(root / "report.json", report)
     print(json.dumps({"result": report["result"], "report": str(root / "report.json"), "comparison": report.get("comparison")}))
     return 0

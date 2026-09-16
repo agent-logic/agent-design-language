@@ -34,7 +34,7 @@ else:
 
 
 class RuntimeRetestSafetyTests(unittest.TestCase):
-    def argv(self, root: Path, *, source: str = "Qwen3.5:9b", baseline: str = "adl-905-arm-a:latest", speculative: str = "adl-905-arm-b:latest") -> list[str]:
+    def argv(self, root: Path, *, source: str = "Qwen3.5:9b", baseline: str = "adl-905-arm-a:latest", speculative: str = "adl-905-arm-b:latest", repeats: int = 2) -> list[str]:
         binaries = []
         for name in ("csm", "csmctl", "guardian", "kernel", "vector"):
             path = root / name
@@ -48,7 +48,18 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
             "--source-model", source,
             "--baseline-model", baseline,
             "--speculative-model", speculative,
+            "--repeats", str(repeats),
         ]
+
+    def test_run_scoped_alias_preserves_registry_and_tag(self):
+        self.assertEqual(
+            retest.run_scoped_model_name("registry.example/team/model:9b", "run123"),
+            "registry.example/team/model-run123:9b",
+        )
+        self.assertEqual(
+            retest.run_scoped_model_name("team/model", "run123"),
+            "team/model-run123:latest",
+        )
 
     def test_aliases_reject_source_existing_and_duplicate_names(self):
         existing = {"qwen3.5:9b", "occupied:latest"}
@@ -61,10 +72,10 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
             with self.subTest(aliases=aliases), self.assertRaises(AssertionError):
                 retest.validate_model_aliases(source, aliases, existing)
 
-    def test_collision_fails_before_creation_and_never_deletes_existing_model(self):
+    def test_existing_requested_alias_is_replaced_by_run_scoped_name(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            argv = self.argv(root, baseline="Qwen3.5:9b")
+            argv = self.argv(root, baseline="occupied:latest")
             cleanup_calls = []
 
             def subprocess_run(args, **_kwargs):
@@ -72,17 +83,19 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
                 return SimpleNamespace(returncode=0, stdout="", stderr="")
 
             with patch("sys.argv", argv), \
-                    patch.object(retest, "installed_model_names", return_value={"qwen3.5:9b"}), \
-                    patch.object(retest, "create_model") as create, \
+                    patch.object(retest.secrets, "token_hex", return_value="run123"), \
+                    patch.object(retest, "installed_model_names", return_value={"qwen3.5:9b", "occupied:latest"}), \
+                    patch.object(retest, "create_model", side_effect=RuntimeError("stop after collision proof")) as create, \
                     patch.object(retest.subprocess, "run", side_effect=subprocess_run):
-                with self.assertRaises(AssertionError):
+                with self.assertRaises(RuntimeError):
                     retest.main()
 
-            create.assert_not_called()
+            create.assert_called_once()
+            self.assertEqual(create.call_args.args[0], "occupied-run123:latest")
             self.assertEqual(cleanup_calls, [])
             report = json.loads((root / "run/report.json").read_text())
             self.assertEqual(report["result"], "failed")
-            self.assertEqual(report["error_class"], "AssertionError")
+            self.assertEqual(report["error_class"], "RuntimeError")
             self.assertEqual(report["cleanup"]["models"], [])
 
     def test_identity_setup_failure_records_report_and_removes_only_created_aliases(self):
@@ -100,6 +113,7 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
                 return SimpleNamespace(returncode=0, stdout="", stderr="")
 
             with patch("sys.argv", argv), \
+                    patch.object(retest.secrets, "token_hex", return_value="run123"), \
                     patch.object(retest, "installed_model_names", return_value={"qwen3.5:9b"}), \
                     patch.object(retest, "create_model", side_effect=create), \
                     patch.object(retest, "model_identity", side_effect=RuntimeError("fixture identity failure")), \
@@ -107,7 +121,10 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
                 with self.assertRaises(RuntimeError):
                     retest.main()
 
-            self.assertEqual(removed, ["adl-905-arm-b:latest", "adl-905-arm-a:latest"])
+            self.assertEqual(
+                removed,
+                ["adl-905-arm-b-run123:latest", "adl-905-arm-a-run123:latest"],
+            )
             report = json.loads((root / "run/report.json").read_text())
             self.assertEqual(report["result"], "failed")
             self.assertEqual(report["error_class"], "RuntimeError")
@@ -116,6 +133,34 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
                 removed,
             )
             self.assertTrue(all(item["removed"] for item in report["cleanup"]["models"]))
+
+    def test_guardian_kill_error_is_recorded_without_escaping_cleanup(self):
+        guardian = SimpleNamespace(pid=905)
+        guardian.wait = unittest.mock.Mock(
+            side_effect=retest.subprocess.TimeoutExpired("guardian", 20)
+        )
+        with patch.object(retest.os, "killpg", side_effect=(None, PermissionError("denied"))):
+            result = retest.cleanup({"guardian": guardian}, [])
+        self.assertEqual(result["models"], [])
+        self.assertEqual(
+            result["errors"],
+            [{"resource": "guardian", "error_class": "PermissionError"}],
+        )
+
+    def test_nonpositive_repeats_records_failure_report(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            argv = self.argv(root, repeats=0)
+            with patch("sys.argv", argv), patch.object(retest, "cleanup", side_effect=PermissionError("cleanup denied")):
+                with self.assertRaises(AssertionError):
+                    retest.main()
+            report = json.loads((root / "run/report.json").read_text())
+            self.assertEqual(report["result"], "failed")
+            self.assertEqual(report["error_class"], "AssertionError")
+            self.assertEqual(
+                report["cleanup"]["errors"],
+                [{"resource": "cleanup", "error_class": "PermissionError"}],
+            )
 
 
 if __name__ == "__main__":

@@ -41,7 +41,7 @@ parallel_groups:
 validation_commands:
   - "cd adl/tools && python3 -m unittest -v test_issue905_runtime_speculative_retest.py test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile issue905_runtime_speculative_retest.py test_issue905_runtime_speculative_retest.py; retained current Runtime hardware command at .adl/runs/905/runtime-run-14; git diff --check; native validate. Tracked result: .csdlc/evidence/905/RUNTIME_RETEST.json; review remediation: .csdlc/evidence/905/PR1004_REVIEW_REMEDIATION.json."
 failure_policy: "Required failures, skipped or zero-test proof block acceptance. Preserve guards; record durable anomalies; repair and rerun affected proof and independent exact-head review. CI evidence is separate from local proof."
-notes: "Correctness and bounded recovery passed; performance remains repair_inconclusive. Post-publication safety review found model-alias collision/deletion and setup-failure cleanup gaps; both are repaired and covered by three deterministic local-unit regressions. Hardware measurements were not rerun because setup ownership/cleanup changed without altering measured execution. Accepted/proposed counters remain unavailable."
+notes: "Correctness and bounded recovery passed; performance remains repair_inconclusive. Six deterministic safety regressions now cover run-scoped alias derivation, requested-name collision safety, owned cleanup, identity failure, guardian kill failure, outer cleanup failure and nonpositive repeats. Hardware measurements were not rerun because setup ownership and cleanup changed without altering measured execution. Accepted/proposed counters remain unavailable."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Correctness and bounded recovery passed; performance remains repair_inconclusive. Post-publication safety review found model-alias collision/deletion and setup-failure cleanup gaps; both are repaired and covered by three deterministic local-unit regressions. Hardware measurements were not rerun because setup ownership/cleanup changed without altering measured execution. Accepted/proposed counters remain unavailable.
+Correctness and bounded recovery passed; performance remains repair_inconclusive. Six deterministic safety regressions now cover run-scoped alias derivation, requested-name collision safety, owned cleanup, identity failure, guardian kill failure, outer cleanup failure and nonpositive repeats. Hardware measurements were not rerun because setup ownership and cleanup changed without altering measured execution. Accepted/proposed counters remain unavailable.

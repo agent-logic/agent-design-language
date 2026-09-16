@@ -1,36 +1,40 @@
 {
   "schema": "adl.issue905.pr_review_remediation.v1",
   "pull_request": 1004,
-  "reviewed_head": "e3159b6e5ba225e07d9bc8110ed655939ffe0a04",
+  "initial_reviewed_head": "e3159b6e5ba225e07d9bc8110ed655939ffe0a04",
+  "followup_reviewed_head": "b7b73d8a6855abfee47ba0c89f33d1add782e1e6",
   "findings": [
     {
       "severity": "P2",
-      "summary": "Model aliases could overwrite and delete existing models",
-      "disposition": "fixed",
+      "summary": "Model aliases could overwrite and delete existing models, including through a check/use race",
+      "disposition": "fixed_re_review_pending",
       "proof": [
-        "All temporary aliases are canonicalized and must be nonempty, distinct, different from the source model, and absent from the pre-run Ollama inventory.",
-        "Cleanup removes only aliases recorded after a successful create call.",
-        "Collision regressions assert zero create and zero remove calls."
+        "Every requested alias is materialized with a cryptographically random 128-bit run suffix before collision validation or creation.",
+        "Materialized aliases must remain canonical-distinct, different from the source model, and absent from the pre-run Ollama inventory.",
+        "Cleanup removes only materialized aliases recorded after a successful create call.",
+        "Focused regressions prove tag-preserving run scoping and that a requested source-model name cannot be created or removed under its existing name."
       ]
     },
     {
       "severity": "P2",
-      "summary": "Setup failures bypassed evidence recording and cleanup",
-      "disposition": "fixed",
+      "summary": "Setup and cleanup failures could bypass evidence recording",
+      "disposition": "fixed_re_review_pending",
       "proof": [
-        "All setup and execution stages now run inside the same failure-recording and cleanup scope.",
-        "A mocked identity-query failure writes a failed report and removes exactly the successfully created aliases.",
-        "Cleanup results are retained in report.json without recording exception text."
+        "All argument validation, setup, execution, and cleanup stages run inside the failure-recording scope after the output root and report are initialized.",
+        "Cleanup captures guardian termination errors instead of masking the primary failure.",
+        "The outer reporting scope converts an unexpected cleanup exception to structured cleanup evidence before writing report.json.",
+        "Focused regressions cover identity failure, guardian kill failure, cleanup failure, and nonpositive repeats."
       ]
     }
   ],
   "validation": {
-    "deterministic_tests": 16,
-    "new_safety_regressions": 3,
+    "deterministic_tests": 19,
+    "new_safety_regressions": 6,
     "python_compile": "passed",
     "diff_check": "passed"
   },
   "hardware_benchmark_rerun": false,
-  "benchmark_rerun_reason": "The remediation changes setup ownership and failure cleanup only; retained measured model execution and statistics are unchanged.",
-  "disposition": "repair_inconclusive"
+  "benchmark_rerun_reason": "The remediation changes alias ownership and failure cleanup only; retained measured model execution and statistics are unchanged.",
+  "disposition": "repair_inconclusive",
+  "review_state": "exact_head_re_review_pending"
 }

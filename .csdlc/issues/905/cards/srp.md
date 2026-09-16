@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_resolved_re_review_pending"
   recommended_outcome: "block_pending_re_review"
-notes: "The reviewer accepted the retained eight exact pairs and repair_inconclusive disposition without hardware rerun. Remediation changes harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes."
+notes: "Both reviewers accepted the retained eight exact pairs and repair_inconclusive disposition without a hardware rerun. Remediation affects harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Post-publication review of PR #1004 at e3159b6e5ba225e07d9bc8110ed655939ffe0a04 found two P2s: arbitrary aliases could overwrite and cleanup existing Ollama models, and setup failures before the reporting try/finally could leave aliases without report.json.
+- Initial review of PR #1004 at e3159b6e5ba225e07d9bc8110ed655939ffe0a04 found two P2s. Follow-up review at b7b73d8a6855abfee47ba0c89f33d1add782e1e6 found a residual alias check/use race and cleanup paths that could still suppress report.json, including nonpositive repeats.
 
 ### Dispositions
 
-- Both P2s are repaired. All temporary aliases must be nonempty, canonical-distinct, different from the source model, and absent from the pre-run inventory. Cleanup removes only aliases recorded after successful create calls. The entire setup/execution path now shares failure recording and conditional cleanup. Three focused mocked regressions pass; exact-head re-review is pending.
+- Both residual P2s are repaired. Requested aliases are transformed into run-unique names with a cryptographically random 128-bit suffix before collision checks and creation; cleanup removes only successfully created run-scoped names. Validation now occurs inside the reporting scope, guardian kill errors are captured, and unexpected cleanup errors are serialized before report.json is written. Nineteen focused tests pass; exact-head re-review is pending.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-The reviewer accepted the retained eight exact pairs and repair_inconclusive disposition without hardware rerun. Remediation changes harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes.
+Both reviewers accepted the retained eight exact pairs and repair_inconclusive disposition without a hardware rerun. Remediation affects harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes.
