@@ -56,12 +56,13 @@ fn pending(id: &OperationId, detail: &str) -> Value {
     json!({"status":"recovery_required","read_only":false,"performed_mutation":null,"effects_unknown":true,"operation_id":id.as_str(),"finding":detail,"allowed_next":["recover"]})
 }
 fn complete(
-    context: &super::context::SemanticContext,
+    context: &Context,
+    semantic: &super::context::SemanticContext,
     done: &Completion,
     witness: Value,
     replay: bool,
 ) -> Result<Value, String> {
-    let snapshot = match DurableTransactionStore::observe_issue(&context.root, &context.key)
+    let snapshot = match DurableTransactionStore::observe_issue(&semantic.root, &semantic.key)
         .map_err(error)?
     {
         semantic::Observation::Current(s) | semantic::Observation::ProjectionRepairRequired(s) => s,
@@ -70,12 +71,24 @@ fn complete(
     let current = if replay {
         *snapshot
     } else {
-        context.complete_projection(&snapshot)?
+        semantic.complete_projection(&snapshot)?
     };
+    #[cfg(debug_assertions)]
+    if !replay
+        && std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+            == Ok("semantic_install_after_projection")
+    {
+        std::process::exit(91);
+    }
+    let registry = context.registry()?;
+    let projection = super::local::semantic_rebuild(context, &registry)?;
+    let projection_repaired = projection["status"] == "completed";
     Ok(
-        json!({"status":if done.outcome_kind()!=OutcomeKind::Success {"failed"} else if replay {"expected_noop"} else {"completed"},
-        "read_only":replay,"performed_mutation":!replay,"native_effect_truth":done.truth(),"operational_authority":true,
-        "operation_id":done.operation_id().as_str(),"semantic_version":current.version(),"phase":current.phase(),"install":witness}),
+        json!({"status":if done.outcome_kind()!=OutcomeKind::Success {"failed"} else if replay && !projection_repaired {"expected_noop"} else {"completed"},
+        "read_only":replay && !projection_repaired,"performed_mutation":!replay || projection_repaired,
+        "native_effect_truth":done.truth(),"operational_authority":true,
+        "operation_id":done.operation_id().as_str(),"semantic_version":projection["semantic_version"],
+        "phase":current.phase(),"install":witness,"projection":projection["projection"]}),
     )
 }
 fn perform(
@@ -161,10 +174,9 @@ fn perform(
         }),
     )
     .map_err(error)?;
-    let _ = context;
     match attached {
         Attachment::Completed(done) | Attachment::AlreadyCompleted(done) => {
-            complete(session, &done, result, false)
+            complete(context, session, &done, result, false)
         }
         Attachment::RecoveryRequired(_) => Ok(pending(
             ticket.id(),
@@ -217,7 +229,7 @@ pub(super) fn run(context: &Context, intent: &IntentRequest) -> Result<Value, St
             let Reservation::AlreadyCompleted(done) = reserved else {
                 return Err("install_completed_replay_changed".into());
             };
-            return complete(&session, &done, witness, true);
+            return complete(context, &session, &done, witness, true);
         }
     }
     if !preimage["receipt"].is_null() {
@@ -258,6 +270,7 @@ pub(super) fn run(context: &Context, intent: &IntentRequest) -> Result<Value, St
         }
         Reservation::AlreadyCompleted(done) => {
             return complete(
+                context,
                 &session,
                 &done,
                 proof::semantic_install_witness(&request).map_err(native_error)?,

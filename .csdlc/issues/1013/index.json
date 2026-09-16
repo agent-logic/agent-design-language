@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1013,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1013-tracked-projection-rebind-proof-convergence",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1013-tracked-projection-rebind-proof-convergence",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "263fd0d1515ce1d3a16b0c8c0c7a9468d3b2cd8f219560d66f52613ef7f856b0"
+}
