@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis passed 4/4 after remediation"
+      - "cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis passed 5/5 after unsupported lane contract-version remediation"
   determinism:
     status: passed_focused_tests_and_predecessor_synthesis
     replay_verified: focused tests create isolated local fixture repositories and deterministic ReviewRecord JSON; installed CLI writes create-only output directories and rejects reuse.
@@ -165,7 +165,7 @@ verification_summary:
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/892/predecessor-openai-r5-synthesis`
 - Required artifacts present: `yes_for_local_execution_and_predecessor_output_snapshot; hosted CI, publication and terminal reconciliation pending`
-- Artifact schema/version checks: `ReviewRecord input snapshot, synthesis.json and manifest.json are parsed by focused tests; manifest now points to the committed local review-record.json snapshot and records review_record_digest d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8.`
+- Artifact schema/version checks: `Synthesis artifacts and focused tests now cover complete lane set validation, supported lane contract-version validation, create-only output behavior, deterministic grouping, source attribution, and severity rationale retention.`
 - Hash/byte-stability checks: `cargo fmt check and git diff --check passed`
 - Missing/optional artifacts and rationale: `Actual external provider execution and CI are deferred to required publication/CI gates; #892 consumes ReviewRecord output and does not require a new live provider call.`
 

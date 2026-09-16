@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "review_r2_failed_findings_remediated_pending_fresh_review"
   recommended_outcome: "block_until_fresh_exact_head_review_passes"
-notes: "Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the four focused synthesis tests, the actual predecessor-output artifacts including review-record.json, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority."
+notes: "Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the five focused synthesis tests including unsupported lane contract-version rejection, the actual predecessor-output artifacts including review-record.json, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the four focused synthesis tests, the actual predecessor-output artifacts including review-record.json, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority.
+Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the five focused synthesis tests including unsupported lane contract-version rejection, the actual predecessor-output artifacts including review-record.json, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority.
