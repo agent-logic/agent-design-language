@@ -83,6 +83,7 @@ pub fn synthesize_from_file(options: SynthesisOptions) -> Result<ReviewSynthesis
     let record: ReviewRecord = read_json(&options.input, 8 * 1024 * 1024)?;
     let synthesis = synthesize(&record)?;
     fs::create_dir_all(&options.out)?;
+    copy_json_snapshot(&options.input, &options.out.join("review-record.json"))?;
     let synthesis_path = options.out.join("synthesis.json");
     write_json(&synthesis_path, &synthesis)?;
     let synthesis_digest = hash(&synthesis)?;
@@ -91,12 +92,7 @@ pub fn synthesize_from_file(options: SynthesisOptions) -> Result<ReviewSynthesis
         schema: SYNTHESIS_MANIFEST_SCHEMA.to_string(),
         synthesis_ref: "synthesis.json".to_string(),
         synthesis_digest,
-        review_record_ref: options
-            .input
-            .file_name()
-            .and_then(|name| name.to_str())
-            .unwrap_or("review-record.json")
-            .to_string(),
+        review_record_ref: "review-record.json".to_string(),
         review_record_digest,
         synthesized_finding_count: synthesis.synthesized_findings.len(),
         input_finding_count: synthesis.input_finding_count,
@@ -146,12 +142,21 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
         let mut evidence = BTreeSet::new();
         let mut perspectives = BTreeSet::new();
         let mut severities = BTreeSet::new();
+        let mut claim_variants = BTreeSet::new();
         let mut rationales = Vec::new();
         let mut scope_limits = BTreeSet::new();
         let mut sources = Vec::new();
         for finding in findings {
             perspectives.insert(finding.perspective.clone());
             severities.insert(format!("{:?}", finding.severity));
+            claim_variants.insert(format!(
+                "{}\n{}\n{}\n{:?}\n{}",
+                finding.rule,
+                finding.rationale,
+                finding.inference,
+                finding.confidence,
+                finding.limitations.join("\n")
+            ));
             rationales.push(format!("{}: {}", finding.perspective, finding.rationale));
             for id in &finding.evidence {
                 evidence.insert(id.clone());
@@ -179,6 +184,11 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
                 "severity disagreement retained across {} perspectives: {}",
                 perspectives.len(),
                 severities.into_iter().collect::<Vec<_>>().join(",")
+            ))
+        } else if claim_variants.len() > 1 {
+            Some(format!(
+                "distinct claim variants retained with explicit source attribution: {} variants",
+                claim_variants.len()
             ))
         } else if perspectives.len() > 1 {
             Some(format!(
@@ -263,6 +273,23 @@ fn write_json<T: Serialize>(path: &Path, value: &T) -> Result<()> {
         .with_context(|| format!("create {}", path.display()))?;
     file.write_all(&bytes)?;
     file.write_all(b"\n")?;
+    file.sync_all()?;
+    Ok(())
+}
+
+fn copy_json_snapshot(input: &Path, output: &Path) -> Result<()> {
+    let mut bytes = Vec::new();
+    File::open(input)
+        .with_context(|| format!("open {}", input.display()))?
+        .take(8 * 1024 * 1024 + 1)
+        .read_to_end(&mut bytes)?;
+    ensure!(bytes.len() <= 8 * 1024 * 1024, "synthesis_input_too_large");
+    let mut file = File::options()
+        .write(true)
+        .create_new(true)
+        .open(output)
+        .with_context(|| format!("create {}", output.display()))?;
+    file.write_all(&bytes)?;
     file.sync_all()?;
     Ok(())
 }

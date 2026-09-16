@@ -282,6 +282,47 @@ fn synthesis_rejects_incomplete_lane_sets() {
 }
 
 #[test]
+fn synthesis_flags_same_severity_distinct_claim_variants() {
+    let fixture = Fixture::new();
+    let mut record = fixture.review_record();
+    let run = record.run.clone();
+    let evidence_id = fixture.admission.evidence[0].id.clone();
+    record.findings = vec![
+        fixture.finding(
+            &run,
+            "correctness",
+            "correctness.unchecked_zero",
+            "src/lib.rs:divide",
+            "Division by zero is unchecked",
+            Severity::High,
+            "Division panics when right is zero",
+            &evidence_id,
+        ),
+        fixture.finding(
+            &run,
+            "security",
+            "security.remote_denial_of_service",
+            "src/lib.rs:divide",
+            "Division by zero is unchecked",
+            Severity::High,
+            "Remote input can trigger denial of service through a panic",
+            &evidence_id,
+        ),
+    ];
+    record.findings.sort_by(|a, b| a.id.cmp(&b.id));
+    record.validate().unwrap();
+    let synthesis = synthesize(&record).unwrap();
+    assert_eq!(synthesis.synthesized_findings.len(), 1);
+    let finding = &synthesis.synthesized_findings[0];
+    assert_eq!(finding.sources.len(), 2);
+    assert!(finding
+        .disagreement
+        .as_deref()
+        .unwrap()
+        .contains("distinct claim variants retained"));
+}
+
+#[test]
 fn installed_cli_writes_create_only_synthesis_artifacts() {
     let fixture = Fixture::new();
     let record = fixture.review_record();
@@ -306,7 +347,13 @@ fn installed_cli_writes_create_only_synthesis_artifacts() {
     let synthesis: ReviewSynthesis =
         serde_json::from_slice(&fs::read(out_dir.join("synthesis.json")).unwrap()).unwrap();
     assert_eq!(synthesis.synthesized_findings.len(), 2);
-    assert!(out_dir.join("manifest.json").is_file());
+    let manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(out_dir.join("manifest.json")).unwrap()).unwrap();
+    assert_eq!(manifest["review_record_ref"], "review-record.json");
+    assert_eq!(
+        fs::read(out_dir.join("review-record.json")).unwrap(),
+        fs::read(&input).unwrap()
+    );
     let second = Command::new(env!("CARGO_BIN_EXE_adl"))
         .args(["codefriend", "review", "synthesize", "--input"])
         .arg(&input)

@@ -33,16 +33,16 @@ Execution:
 
 ## Summary
 
-Implemented #892 CodeFriend review synthesis. The installed CLI now exposes `adl codefriend review synthesize --input <review-record.json> --out <new-dir>` to consume a committed complete four-lane ReviewRecord, validate provenance, deduplicate equivalent findings, preserve source attribution, severity rationale, disagreement and scope limits, and emit create-only `synthesis.json` plus `manifest.json` artifacts without source mutation, issue mutation, publication, remediation or rendering authority.
+Implemented #892 CodeFriend review synthesis and remediated the first exact-head review findings. The installed CLI exposes `adl codefriend review synthesize --input <review-record.json> --out <new-dir>` to consume a complete committed four-lane ReviewRecord, validate provenance, reject incomplete or malformed lane sets, deduplicate equivalent findings while preserving source attribution and severity rationale, retain explicit disagreement for distinct claim variants, and emit create-only `synthesis.json` plus `manifest.json` artifacts without source mutation, issue mutation, publication, remediation or rendering authority.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
 - Final PVF lane: `runtime`
-- Lane change reason: `not_run; implementation has not started`
+- Lane change reason: `No lane change; runtime local deterministic proof with actual accepted #890 predecessor output.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `bounded local CPU/filesystem deterministic analysis; no provider calls or external publication.`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -57,7 +57,7 @@ Implemented #892 CodeFriend review synthesis. The installed CLI now exposes `adl
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_pending_review_publication_ci`
+- Completion state: `implemented_review_findings_remediated_pending_fresh_review_publication_ci`
 - Issue goal ref: `Sprint 4 #930 active goal covers #892 execution in this session; single goal slot prevented replacing it with a separate child goal`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/892/goal-metrics.json (planned; absent until execution)`
@@ -75,23 +75,23 @@ Implemented #892 CodeFriend review synthesis. The installed CLI now exposes `adl
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/892/cards/sor.md`
-- Tracked implementation artifacts: `none; implementation not started`
-- Additional proof artifacts: `none; acceptance proof not started`
+- Tracked implementation artifacts: `adl/src/codefriend/review/synthesis.rs; adl/src/codefriend/review/mod.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_synthesis.rs`
+- Additional proof artifacts: `.csdlc/evidence/892/predecessor-openai-r5-synthesis/manifest.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json`
 
 ## Actions taken
-- `Added `adl/src/codefriend/review/synthesis.rs` with validated synthesis types and a create-only artifact writer.`
-- `Exported the synthesis module from `adl/src/codefriend/review/mod.rs` and wired the installed CLI command in `adl/src/cli/codefriend_cmd.rs`.`
-- `Added focused deterministic coverage in `adl/tests/codefriend_synthesis.rs` for deduplication, disagreement preservation, incomplete-lane rejection and installed CLI artifact creation.`
+- `Added production CodeFriend review synthesis types, validation, deduplication and create-only artifact writer.`
+- `Exported the synthesis module and wired `adl codefriend review synthesize` through the installed CLI.`
+- `Remediated review r1 findings by retaining same-severity distinct claim variants as explicit disagreement and executing actual #890 predecessor-output synthesis proof.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/codefriend/review/synthesis.rs; adl/src/codefriend/review/mod.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_synthesis.rs`
 - Worktree-only paths remaining: `.csdlc/issues/892/ and .csdlc/transactions/completed/892/ are generated lifecycle material in the bound worktree until publication/finish; implementation source changes are tracked candidate paths.`
-- Integration state: `worktree_candidate_ready_for_review`
+- Integration state: `worktree_candidate_ready_for_fresh_exact_head_review`
 - Verification scope: `bound_issue_worktree`
-- Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
+- Integration method used: `not_yet_published_or_merged`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `pending native publication, hosted CI and terminal finish after fresh review`
+    `No remote PR or merge claim yet`
 - Result: `not_integrated`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `No implementation proof attempted`
+  - `cargo fmt --manifest-path adl/Cargo.toml --check && cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis && git diff --check && cargo run --manifest-path adl/Cargo.toml -- codefriend review synthesize --input /Volumes/FastWork/adl-worktrees/adl-issue-890-v0922-four-perspective-review/adl/target/codefriend-890-openai-proof/run-openai-gpt41mini-r5/review-record.json --out .csdlc/evidence/892/predecessor-openai-r5-synthesis`
+    `Local proof covers complete-lane synthesis, incomplete-lane rejection, create-only artifact behavior, same-severity distinct-claim disagreement preservation, and actual accepted predecessor output consumption.`
 - Results:
   - `passed`
 
@@ -125,46 +125,46 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "not_run"
+      - "cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis passed 4/4 after remediation"
   determinism:
-    status: passed_for_deterministic_control_fixtures
+    status: passed_focused_tests_and_predecessor_synthesis
     replay_verified: focused tests create isolated local fixture repositories and deterministic ReviewRecord JSON; installed CLI writes create-only output directories and rejects reuse.
-    ordering_guarantees_verified: not_run
+    ordering_guarantees_verified: yes_by_regression_tests_and_stable_predecessor_synthesis
   security_privacy:
-    status: passed_for_local_fixture_scope
-    secrets_leakage_detected: not_run
-    prompt_or_tool_arg_leakage_detected: false
+    status: bounded_source_and_output_checks_passed
+    secrets_leakage_detected: none_in_bounded_local_proof
+    prompt_or_tool_arg_leakage_detected: no_provider_prompt_or_secret_args_used
     absolute_path_leakage_detected: false
   artifacts:
-    status: not_run
-    required_artifacts_present: passed_for_local_fixture_scope
+    status: local_artifacts_present_review_pending
+    required_artifacts_present: yes_for_local_execution;ci_pending
     schema_changes:
-      present: not_run
-      approved: not_run
+      present: new codefriend.review_synthesis.v1 and codefriend.review_synthesis_manifest.v1 product artifacts
+      approved: pending_fresh_exact_head_review
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
-- Artifact stability notes: `Synthesis output directory must not exist before execution; reruns cannot overwrite prior synthesis artifacts.`
+- Determinism tests executed: `Focused synthesis tests include deterministic artifact writes and false-merge/disagreement cases; actual predecessor command produced stable manifest digest 3d3946dce7eba779558a8ed4fe56872507c0ef1e2864d9d15a590c4c029cd3ec for synthesis.json.`
+- Fixtures or scripts used: `adl/tests/codefriend_synthesis.rs fixtures; accepted #890 OpenAI r5 review-record.json predecessor artifact.`
+- Replay verification (same inputs -> same artifacts/order): `Same exact predecessor input was consumed through installed CLI once into a fresh create-only output directory; repeated replay would require a fresh output path because create-only writes intentionally refuse overwrites.`
+- Ordering guarantees (sorting / tie-break rules used): `Synthesized findings preserve deterministic grouping by semantic anchor/title, deterministic digest-derived finding ids, sorted sources/evidence/scope limits, and explicit disagreement when severity, perspective or claim variants diverge.`
+- Artifact stability notes: `Create-only output prevents rerun overwrite; manifest records review_record_digest d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8 and synthesis_digest 3d3946dce7eba779558a8ed4fe56872507c0ef1e2864d9d15a590c4c029cd3ec.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Secret leakage scan performed: `No provider credentials used; bounded source/output review and no credential-bearing command arguments in local proof.`
+- Prompt / tool argument redaction verified: `No provider prompts used; predecessor path and repository metadata are intentionally recorded proof identity, not credentials.`
+- Absolute path leakage check: `Predecessor input path is recorded as local proof identity in SOR only; product artifacts record review record digest and relative manifest/synthesis refs.`
+- Sandbox / policy invariants preserved: `No source mutation or issue/publication side effects from synthesis command; artifact writer is create-only and issue-local.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
-- Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-synthesis-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture`
-- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis`
-- Replay result: `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/892/predecessor-openai-r5-synthesis/manifest.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json`
+- Run artifact root: `.csdlc/evidence/892/predecessor-openai-r5-synthesis`
+- Replay command used for verification: `cargo run --manifest-path adl/Cargo.toml -- codefriend review synthesize --input /Volumes/FastWork/adl-worktrees/adl-issue-890-v0922-four-perspective-review/adl/target/codefriend-890-openai-proof/run-openai-gpt41mini-r5/review-record.json --out .csdlc/evidence/892/predecessor-openai-r5-synthesis`
+- Replay result: `Passed: synthesized accepted #890 OpenAI r5 retained review record run 469c73b02b07ba956be4e7221246a545bcdad20a4ea5fa010816cde3c4f9626b into one synthesized finding from one input finding over four lanes.`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/892 (planned)`
-- Required artifacts present: `not_run; implementation has not started`
+- Required artifacts present: `yes_for_local_execution_and_predecessor_output; hosted CI, publication and terminal reconciliation pending`
 - Artifact schema/version checks: `ReviewRecord input, synthesis.json and manifest.json are parsed by focused tests; native C-SDLC validate pending after this edit`
 - Hash/byte-stability checks: `cargo fmt check and git diff --check passed`
 - Missing/optional artifacts and rationale: `Actual external provider execution and CI are deferred to required publication/CI gates; #892 consumes ReviewRecord output and does not require a new live provider call.`
