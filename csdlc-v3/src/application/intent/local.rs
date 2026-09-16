@@ -419,8 +419,10 @@ fn semantic_edit(
     amendment: &AmendmentDeclaration,
 ) -> Result<Value, String> {
     use crate::lifecycle::semantic::{Facts, SemanticCommand};
-    use crate::storage::{semantic::protocol::*, DurableTransactionStore};
-    let semantic = context.semantic_context()?;
+    use crate::storage::{
+        semantic::{protocol::*, CardProjectionObservation},
+        DurableTransactionStore,
+    };
     fn merge(base: &mut Value, update: &Value) {
         if let (Some(base), Some(update)) = (base.as_object_mut(), update.as_object()) {
             for (key, value) in update {
@@ -435,7 +437,34 @@ fn semantic_edit(
             }
         }
     }
-    let mut cards = semantic.snapshot.inputs().cards().clone();
+    let Some((preflight, _, projection)) =
+        semantic_card_projection_observation(context, registry, false)?
+    else {
+        return Err("intent_semantic_state_missing".into());
+    };
+    if preflight.pending().is_some() {
+        return Err("intent_semantic_recovery_required".into());
+    }
+    if preflight.projection_required() || projection != CardProjectionObservation::Healthy {
+        return Err("intent_semantic_projection_repair_required".into());
+    }
+    let Some(binding) = preflight.inputs().binding() else {
+        return Err("intent_semantic_binding_stale".into());
+    };
+    let registration = blake3::hash(
+        serde_json::to_string(&json!({"branch":context.branch,"worktree":context.root}))
+            .map_err(|_| "intent_bind_identity_invalid")?
+            .as_bytes(),
+    )
+    .to_hex()
+    .to_string();
+    if binding.branch != context.branch
+        || binding.worktree != context.root
+        || binding.registration != registration
+    {
+        return Err("intent_semantic_binding_stale".into());
+    }
+    let mut cards = preflight.inputs().cards().clone();
     for (kind, update) in &request.card_updates {
         let card = cards
             .get_mut(kind)
@@ -462,13 +491,13 @@ fn semantic_edit(
     {
         return Err("intent_amendment_revision_mismatch".into());
     }
-    let phase = semantic.snapshot.phase();
+    let phase = preflight.phase();
     let amendment_facts = crate::lifecycle::semantic::AmendmentFacts {
         source_version_current: true,
         issue_checkout_match: true,
         evidence_integrity: true,
         transition_approved: amendment.transition_approved,
-        topology: semantic.snapshot.inputs().binding().is_some(),
+        topology: preflight.inputs().binding().is_some(),
         implementation_revision: amendment
             .implementation_revision
             .as_deref()
@@ -486,7 +515,7 @@ fn semantic_edit(
                 | crate::lifecycle::LifecycleState::Published
                 | crate::lifecycle::LifecycleState::MergeReady
         ),
-        projection_change: cards != *semantic.snapshot.inputs().cards(),
+        projection_change: cards != *preflight.inputs().cards(),
         new_commit: amendment.new_commit,
     };
     if !matches!(
@@ -494,6 +523,18 @@ fn semantic_edit(
         crate::lifecycle::semantic::AmendmentOutcome::Admitted { .. }
     ) {
         return Err("intent_amendment_policy_rejected".into());
+    }
+    if context.refresh_semantic_binding()? {
+        super::rebuild_semantic_card_projection(context)?;
+    }
+    let refreshed = Context::load(&context.root, context.issue)?;
+    let semantic = refreshed.semantic_context()?;
+    let mut cards = semantic.snapshot.inputs().cards().clone();
+    for (kind, update) in &request.card_updates {
+        let card = cards
+            .get_mut(kind)
+            .ok_or("intent_semantic_card_kind_invalid")?;
+        merge(card, update);
     }
     let request_bytes = serde_json::to_vec(&json!({
         "schema":"csdlc.v3.semantic_edit_request.v1",
