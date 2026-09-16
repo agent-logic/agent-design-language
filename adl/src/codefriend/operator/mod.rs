@@ -112,6 +112,10 @@ pub fn cancel_review(out: &Path, reason: &str) -> Result<OperatorReviewState> {
         reason: reason.trim().to_string(),
     };
     write_json(&out.join("cancel-request.json"), &cancel)?;
+    write_json(
+        &out.join(attempt_cancel_ref(state.active_attempt.max(1))),
+        &cancel,
+    )?;
     state.cancel_request_ref = Some("cancel-request.json".to_string());
     if state.status == OperatorReviewStatus::Incomplete {
         state.status = OperatorReviewStatus::Cancelled;
@@ -146,6 +150,10 @@ pub fn retry_review(
     ensure!(
         state.status != OperatorReviewStatus::Complete,
         "retry_requires_noncomplete_run"
+    );
+    ensure!(
+        active_attempt_settled(out, &state),
+        "retry_requires_settled_active_attempt"
     );
     archive_cancel_request_for_retry(out, &state)?;
     let attempt = state
@@ -192,6 +200,11 @@ fn archive_cancel_request_for_retry(out: &Path, state: &OperatorReviewState) -> 
     if let Some(parent) = archive_path.parent() {
         fs::create_dir_all(parent)?;
     }
+    if archive_path.exists() {
+        fs::remove_file(&cancel_path)
+            .with_context(|| format!("remove duplicate {}", cancel_path.display()))?;
+        return Ok(());
+    }
     ensure!(
         !archive_path.exists(),
         "cancel_request_archive_already_exists"
@@ -204,6 +217,22 @@ fn archive_cancel_request_for_retry(out: &Path, state: &OperatorReviewState) -> 
         )
     })?;
     Ok(())
+}
+
+fn active_attempt_settled(out: &Path, state: &OperatorReviewState) -> bool {
+    let Some(active) = state
+        .attempts
+        .iter()
+        .find(|attempt| attempt.attempt == state.active_attempt)
+    else {
+        return true;
+    };
+    match active.status {
+        OperatorReviewStatus::Cancelled | OperatorReviewStatus::Failed => {
+            out.join(&active.review_out).join("run.json").exists()
+        }
+        _ => true,
+    }
 }
 
 pub fn withhold_publication(out: &Path, reason: &str) -> Result<OperatorReviewState> {
@@ -251,52 +280,63 @@ fn run_attempt(
         provider_request,
         out: review_out.clone(),
         run_id,
-        cancel_file: Some(out.join("cancel-request.json")),
+        cancel_file: Some(out.join(attempt_cancel_ref(attempt))),
     });
     let summary_ref = if review_out.join("run.json").exists() {
         Some(format!("{}/run.json", attempt_review_ref(attempt)))
     } else {
         None
     };
-    match result {
-        Ok(output) => {
-            let summary_path = out.join(format!("attempt-{attempt}-summary.json"));
-            write_json(&summary_path, &review_run_summary(&output)?)?;
-            set_attempt(
-                state,
-                attempt,
-                OperatorReviewStatus::Complete,
-                Some(format!("attempt-{attempt}-summary.json")),
-                None,
-            );
-            state.status = OperatorReviewStatus::Complete;
-            state.message =
-                "review complete; publication is still a separate downstream authority".to_string();
-        }
-        Err(error) => {
-            let cancelled = out.join("cancel-request.json").exists();
-            let status = if cancelled {
-                OperatorReviewStatus::Cancelled
-            } else {
-                OperatorReviewStatus::Failed
-            };
-            set_attempt(
-                state,
-                attempt,
-                status.clone(),
-                summary_ref,
-                Some(sanitize_failure(&error.to_string())),
-            );
-            state.status = status;
-            state.message = if cancelled {
-                "review cancelled and settled safely".to_string()
-            } else {
-                "review failed; retry preserves prior attempt evidence".to_string()
-            };
-        }
+    let (attempt_status, attempt_summary_ref, attempt_failure, overall_status, overall_message) =
+        match result {
+            Ok(output) => {
+                let summary_path = out.join(format!("attempt-{attempt}-summary.json"));
+                write_json(&summary_path, &review_run_summary(&output)?)?;
+                (
+                    OperatorReviewStatus::Complete,
+                    Some(format!("attempt-{attempt}-summary.json")),
+                    None,
+                    OperatorReviewStatus::Complete,
+                    "review complete; publication is still a separate downstream authority"
+                        .to_string(),
+                )
+            }
+            Err(error) => {
+                let cancelled = out.join(attempt_cancel_ref(attempt)).exists();
+                let status = if cancelled {
+                    OperatorReviewStatus::Cancelled
+                } else {
+                    OperatorReviewStatus::Failed
+                };
+                let message = if cancelled {
+                    "review cancelled and settled safely".to_string()
+                } else {
+                    "review failed; retry preserves prior attempt evidence".to_string()
+                };
+                (
+                    status.clone(),
+                    summary_ref,
+                    Some(sanitize_failure(&error.to_string())),
+                    status,
+                    message,
+                )
+            }
+        };
+    let mut persisted = read_state(out).unwrap_or_else(|_| state.clone());
+    set_attempt(
+        &mut persisted,
+        attempt,
+        attempt_status,
+        attempt_summary_ref,
+        attempt_failure,
+    );
+    if persisted.active_attempt == attempt {
+        persisted.status = overall_status;
+        persisted.message = overall_message;
     }
-    state.artifact_navigation = artifact_navigation(out)?;
-    write_state(out, state)?;
+    persisted.artifact_navigation = artifact_navigation(out)?;
+    write_state(out, &persisted)?;
+    *state = persisted;
     Ok(())
 }
 
@@ -320,6 +360,10 @@ fn set_attempt(
 
 fn attempt_review_ref(attempt: u64) -> String {
     format!("attempts/{attempt}/review")
+}
+
+fn attempt_cancel_ref(attempt: u64) -> String {
+    format!("attempts/{attempt}/cancel-request.json")
 }
 
 fn provider_route_identity(request: &ProviderInvocationRequestV1) -> String {
