@@ -1,0 +1,27 @@
+{
+  "issue": 895,
+  "lane": "runtime",
+  "proof_role": "exact-artifact publication approval, invalidation, and local admission boundary",
+  "determinism": "fixed local review and artifact fixtures, controlled library timestamps, no provider or network",
+  "resource_profile": "bounded CPU and issue-owned filesystem only",
+  "release_gate": true,
+  "test_target": "codefriend_ux",
+  "success_cases": [
+    "installed prepare approve inspect admit-local journey",
+    "explicit new approval after artifact mutation"
+  ],
+  "negative_cases": [
+    "withheld and invalidated decisions",
+    "changed identity surfaces",
+    "partial review",
+    "missing provenance",
+    "manifest tampering and unsafe text",
+    "symlink and existing-target attacks"
+  ],
+  "nonclaims": [
+    "remote publication",
+    "renderer implementation",
+    "binary semantic redaction",
+    "provider execution"
+  ]
+}

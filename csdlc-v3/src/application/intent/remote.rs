@@ -353,6 +353,7 @@ fn semantic_mutation(
                 _ => return Err("semantic_remote_projection_state_unavailable".into()),
             };
             let projected = session.complete_projection(&snapshot)?;
+            super::rebuild_semantic_card_projection(context)?;
             match native {
                 Ok(result) => Ok(
                     json!({"status":"completed","read_only":false,"operational_authority":true,
@@ -524,6 +525,7 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
                 _ => return Err("semantic_review_projection_state_unavailable".into()),
             };
             let projected = session.complete_projection(&snapshot)?;
+            super::rebuild_semantic_card_projection(context)?;
             Ok(json!({"status":"completed",
                 "read_only":false,"operational_authority":true,"performed_mutation":recorded.map_err(failure)?,
                 "review_receipt_path":owner::review_path(context.issue,&context.head),

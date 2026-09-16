@@ -11,6 +11,7 @@ pub(crate) struct AdmittedValidators {
     root: PathBuf,
     validators: Vec<Validator>,
     input_digest: String,
+    excluded_projection_inputs: Vec<String>,
 }
 impl AdmittedValidators {
     pub(crate) fn request_bytes(&self) -> Result<Vec<u8>, String> {
@@ -119,6 +120,17 @@ pub(crate) fn admit_validators(
     root: &Path,
     validators: &[Validator],
 ) -> Result<AdmittedValidators, String> {
+    admit_validators_with_projection_inputs(root, validators, Vec::new())
+}
+
+/// Validate the bounded validator declaration without claiming that the current
+/// checkout is its future execution candidate. Preparation runs in the primary
+/// checkout before a worktree exists; candidate-byte admission belongs to edit
+/// and proof in the eventual bound worktree.
+pub(crate) fn admit_validator_declarations(
+    root: &Path,
+    validators: &[Validator],
+) -> Result<(), String> {
     if validators.is_empty() {
         return Err("intent_validators_missing".into());
     }
@@ -143,6 +155,9 @@ pub(crate) fn admit_validators(
                 "--manifest-path" => {
                     let path = args.next().ok_or("intent_validator_manifest_missing")?;
                     resolve_repo_path(root, path, true).map_err(|finding| finding.code)?;
+                    if git_read(root, &["ls-files", "--error-unmatch", "--", path]).is_err() {
+                        return Err("intent_validator_input_not_tracked".into());
+                    }
                 }
                 "--test" => {
                     safe_component(args.next().ok_or("intent_validator_test_missing")?)
@@ -156,12 +171,59 @@ pub(crate) fn admit_validators(
             }
         }
     }
-    let input_digest = tracked_input_digest(root, validators)?;
+    Ok(())
+}
+
+pub(crate) fn admit_semantic_validators(
+    context: &Context,
+    validators: &[Validator],
+) -> Result<AdmittedValidators, String> {
+    verify_semantic_projection_health(context)?;
+    admit_validators_with_projection_inputs(
+        &context.root,
+        validators,
+        semantic_projection_inputs(context.issue),
+    )
+}
+
+fn verify_semantic_projection_health(context: &Context) -> Result<(), String> {
+    if !crate::application::intent::semantic_card_projection_healthy(context)? {
+        return Err("intent_semantic_projection_not_healthy".into());
+    }
+    Ok(())
+}
+
+fn admit_validators_with_projection_inputs(
+    root: &Path,
+    validators: &[Validator],
+    excluded_projection_inputs: Vec<String>,
+) -> Result<AdmittedValidators, String> {
+    admit_validator_declarations(root, validators)?;
+    let input_digest = tracked_input_digest(root, validators, &excluded_projection_inputs)?;
     Ok(AdmittedValidators {
         root: root.to_path_buf(),
         validators: validators.to_vec(),
         input_digest,
+        excluded_projection_inputs,
     })
+}
+
+fn semantic_projection_inputs(issue: u64) -> Vec<String> {
+    let root = format!(".csdlc/v3/issues/{issue}");
+    std::iter::once(format!("{root}/state.json"))
+        .chain(std::iter::once(format!("{root}/proof.json")))
+        .chain(
+            ["sip", "stp", "spp", "vpp", "srp", "sor"]
+                .into_iter()
+                .flat_map(|kind| {
+                    [
+                        format!("{root}/cards/{kind}.md"),
+                        format!("{root}/cards/{kind}.values.json"),
+                    ]
+                }),
+        )
+        .chain(std::iter::once(format!("{root}/cards/manifest.json")))
+        .collect()
 }
 
 fn positional_filter_admitted(value: &str) -> bool {
@@ -232,11 +294,17 @@ pub(crate) fn execute_admitted(
     }
     let input_revalidation = fresh()
         .and_then(|()| {
-            outcomes
-                .iter()
-                .try_for_each(|record| compiler_inputs_tracked(root, &record["compiler_artifacts"]))
+            outcomes.iter().try_for_each(|record| {
+                compiler_inputs_tracked(
+                    root,
+                    &record["compiler_artifacts"],
+                    &admitted.excluded_projection_inputs,
+                )
+            })
         })
-        .and_then(|()| tracked_input_digest(root, validators));
+        .and_then(|()| {
+            tracked_input_digest(root, validators, &admitted.excluded_projection_inputs)
+        });
     let unchanged = input_revalidation
         .as_ref()
         .is_ok_and(|digest| digest == input_digest);
@@ -940,7 +1008,11 @@ fn compiler_artifacts(root: &Path, stdout: &str) -> Value {
     json!(artifacts)
 }
 
-fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String> {
+fn compiler_inputs_tracked(
+    root: &Path,
+    artifacts: &Value,
+    excluded_projection_inputs: &[String],
+) -> Result<(), String> {
     let artifacts = artifacts
         .as_array()
         .filter(|values| !values.is_empty())
@@ -1036,10 +1108,7 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
             // admit every matching record so input validation remains
             // conservative when more than one build profile artifact exists.
             if records.is_empty()
-                && file
-                    .file_name()
-                    .and_then(|v| v.to_str())
-                    .is_some_and(|name| name.replace('-', "_") == target || name == target)
+                && final_binary_matches_target(&file, &target)
                 && parent == root.join("target/intent-validation/debug")
             {
                 let deps = parent.join("deps");
@@ -1102,7 +1171,13 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
                     .join(token)
                     .canonicalize()
                     .map_err(|_| "intent_validator_compiler_input_unavailable")?;
-                if !tracked.contains(&candidate) {
+                if !tracked.contains(&candidate)
+                    || excluded_projection_inputs.iter().any(|name| {
+                        root.join(name)
+                            .canonicalize()
+                            .is_ok_and(|excluded| excluded == candidate)
+                    })
+                {
                     return Err("intent_validator_compiler_input_not_tracked".into());
                 }
             }
@@ -1136,9 +1211,28 @@ fn hashed_dep_info_matches_target(path: &Path, target: &str) -> bool {
     !hash.is_empty() && hash.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
-fn tracked_input_digest(root: &Path, validators: &[Validator]) -> Result<String, String> {
+fn final_binary_matches_target(path: &Path, target: &str) -> bool {
+    path.file_name()
+        .and_then(|value| value.to_str())
+        .is_some_and(|value| value.replace('-', "_") == target)
+}
+
+fn tracked_input_digest(
+    root: &Path,
+    validators: &[Validator],
+    excluded_projection_inputs: &[String],
+) -> Result<String, String> {
     manifest_inputs(root, validators)?;
-    if !git_read(root, &["diff", "--name-only", "HEAD"])?.is_empty() {
+    let changed = git_read(root, &["diff", "--name-only", "-z", "HEAD"])?;
+    if changed
+        .split('\0')
+        .filter(|name| !name.is_empty())
+        .any(|name| {
+            !excluded_projection_inputs
+                .iter()
+                .any(|allowed| allowed == name)
+        })
+    {
         return Err("intent_candidate_tracked_changes".into());
     }
     if git_read(root, &["ls-files", "--others", "--exclude-standard", "-z"])?
@@ -1175,6 +1269,12 @@ fn tracked_input_digest(root: &Path, validators: &[Validator]) -> Result<String,
         &serde_json::to_vec(validators).map_err(|_| "intent_validator_serialization_failed")?,
     );
     for name in files.split('\0').filter(|name| !name.is_empty()) {
+        if excluded_projection_inputs
+            .iter()
+            .any(|excluded| excluded == name)
+        {
+            continue;
+        }
         let path = resolve_repo_path(root, name, true).map_err(|finding| finding.code)?;
         hash.update(name.as_bytes());
         hash.update(&fs::read(path).map_err(|_| "intent_validator_input_unreadable")?);
@@ -1205,7 +1305,23 @@ pub fn verify_current_inputs(root: &Path, proof: &Value) -> Result<(), String> {
         return Err("intent_proof_identity_or_digest_mismatch".into());
     }
     let plan = context.plan()?;
-    verify_execution_inputs(root, &plan.validators, proof)
+    let (semantic_root, key) = context.semantic_root_key()?;
+    match crate::storage::DurableTransactionStore::observe_issue(&semantic_root, &key)
+        .map_err(|_| "intent_semantic_state_observation_failed")?
+    {
+        crate::storage::semantic::Observation::Absent
+        | crate::storage::semantic::Observation::LegacyMigrationRequired => {
+            verify_execution_inputs(root, &plan.validators, proof)
+        }
+        crate::storage::semantic::Observation::Current(_)
+        | crate::storage::semantic::Observation::ProjectionRepairRequired(_) => {
+            context.semantic_context()?;
+            verify_semantic_execution_inputs(&context, &plan.validators, proof)
+        }
+        crate::storage::semantic::Observation::RecoveryRequired => {
+            Err("intent_semantic_recovery_required".into())
+        }
+    }
 }
 
 /// Revalidate actual retained producer records against the admitted current plan.
@@ -1215,12 +1331,39 @@ pub(crate) fn verify_execution_inputs(
     validators: &[Validator],
     proof: &Value,
 ) -> Result<(), String> {
-    let digest = tracked_input_digest(root, validators)?;
+    verify_execution_inputs_with_projection_inputs(root, validators, proof, &[])
+}
+
+pub(crate) fn verify_semantic_execution_inputs(
+    context: &Context,
+    validators: &[Validator],
+    proof: &Value,
+) -> Result<(), String> {
+    verify_semantic_projection_health(context)?;
+    verify_execution_inputs_with_projection_inputs(
+        &context.root,
+        validators,
+        proof,
+        &semantic_projection_inputs(context.issue),
+    )
+}
+
+fn verify_execution_inputs_with_projection_inputs(
+    root: &Path,
+    validators: &[Validator],
+    proof: &Value,
+    excluded_projection_inputs: &[String],
+) -> Result<(), String> {
+    let digest = tracked_input_digest(root, validators, excluded_projection_inputs)?;
     let records = proof["validators"]
         .as_array()
         .ok_or("intent_proof_validators_missing")?;
     for record in records {
-        compiler_inputs_tracked(root, &record["compiler_artifacts"])?;
+        compiler_inputs_tracked(
+            root,
+            &record["compiler_artifacts"],
+            excluded_projection_inputs,
+        )?;
     }
     if records.is_empty()
         || records.len() != validators.len()
@@ -1249,7 +1392,9 @@ pub(crate) fn verify_execution_inputs(
 
 #[cfg(test)]
 mod dependency_record_tests {
-    use super::{hashed_dep_info_matches_target, positional_filter_admitted};
+    use super::{
+        final_binary_matches_target, hashed_dep_info_matches_target, positional_filter_admitted,
+    };
     use std::path::Path;
 
     #[test]
@@ -1273,6 +1418,18 @@ mod dependency_record_tests {
         assert!(!hashed_dep_info_matches_target(
             Path::new("foo-release.d"),
             "foo"
+        ));
+    }
+
+    #[test]
+    fn final_binary_matches_cargo_hyphenated_target_name() {
+        assert!(final_binary_matches_target(
+            Path::new("target/debug/csdlc-conversion-rehearsal"),
+            "csdlc_conversion_rehearsal"
+        ));
+        assert!(!final_binary_matches_target(
+            Path::new("target/debug/other"),
+            "csdlc_conversion_rehearsal"
         ));
     }
 
