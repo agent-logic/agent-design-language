@@ -1227,6 +1227,160 @@ fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
     Ok(false)
 }
 
+fn legacy_compatibility_census(root: &SemanticRoot, key: &IssueKey) -> Result<(), Error> {
+    let state = root.common.join("csdlc-v3/local");
+    for forbidden in [
+        state.join("bindings").join(format!("{}.json", key.issue)),
+        state
+            .join("transactions")
+            .join(format!("{}.json", key.issue)),
+        state
+            .join("transactions/pending")
+            .join(format!("{}.json", key.issue)),
+        state.join("prepared/issues").join(key.issue.to_string()),
+        state.join("v3/issues").join(key.issue.to_string()),
+        state.join("evidence").join(key.issue.to_string()),
+    ] {
+        reject_symlinks(&forbidden)?;
+        if forbidden.try_exists().map_err(io)? {
+            return Err(Error::LegacyMigrationRequired);
+        }
+    }
+    for (parent, prefixes) in [
+        (
+            "issues",
+            vec![
+                format!(".issue-{}-", key.issue),
+                format!(".issue-{}.", key.issue),
+            ],
+        ),
+        (
+            "archives",
+            vec![format!("{}-", key.issue), format!("{}.", key.issue)],
+        ),
+    ] {
+        let directory = state.join(parent);
+        reject_symlinks(&directory)?;
+        if directory.try_exists().map_err(io)? {
+            for entry in fs::read_dir(directory).map_err(io)? {
+                let entry = entry.map_err(io)?;
+                let name = entry
+                    .file_name()
+                    .into_string()
+                    .map_err(|_| Error::UnsafePath)?;
+                if prefixes.iter().any(|prefix| name.starts_with(prefix)) {
+                    return Err(Error::LegacyMigrationRequired);
+                }
+            }
+        }
+    }
+
+    let completed = state
+        .join("transactions/completed")
+        .join(key.issue.to_string());
+    reject_symlinks(&completed)?;
+    if completed.try_exists().map_err(io)? {
+        if !completed.is_dir() {
+            return Err(Error::RecoveryRequired);
+        }
+        for entry in fs::read_dir(&completed).map_err(io)? {
+            let path = entry.map_err(io)?.path();
+            let name = path
+                .file_name()
+                .and_then(|value| value.to_str())
+                .ok_or(Error::RecoveryRequired)?;
+            let digest = name
+                .strip_prefix("edit-")
+                .and_then(|value| value.strip_suffix(".json"))
+                .filter(|value| {
+                    value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+                })
+                .ok_or(Error::RecoveryRequired)?;
+            let value = read_remote_json(&path)?;
+            if value["schema"] != "csdlc.v3.local_mutation_completion.v1"
+                || value["issue"].as_u64() != Some(key.issue)
+                || value["route"] != "edit"
+                || value["request_digest"].as_str() != Some(digest)
+                || value["result"]["issue"].as_u64() != Some(key.issue)
+                || value["result"]["route"] != "edit"
+                || value["result"]["phase"] != "ready"
+                || value["result"]["generation"]
+                    .as_u64()
+                    .is_none_or(|generation| generation == 0)
+                || value["result"]["digest"].as_str().is_none_or(|digest| {
+                    digest.len() != 64 || !digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+                })
+            {
+                return Err(Error::RecoveryRequired);
+            }
+        }
+    }
+
+    if let Some(primary) = root.common.parent() {
+        if legacy_residue(&primary.join(".csdlc"), key.issue, None)? {
+            return Err(Error::LegacyMigrationRequired);
+        }
+    }
+    let registrations = root.common.join("worktrees");
+    if registrations.try_exists().map_err(io)? {
+        reject_symlinks(&registrations)?;
+        for entry in fs::read_dir(registrations).map_err(io)? {
+            let gitdir = entry.map_err(io)?.path().join("gitdir");
+            reject_symlinks(&gitdir)?;
+            let target = fs::read_to_string(gitdir).map_err(io)?;
+            if let Some(checkout) = Path::new(target.trim()).parent() {
+                if legacy_residue(&checkout.join(".csdlc"), key.issue, None)? {
+                    return Err(Error::LegacyMigrationRequired);
+                }
+            }
+        }
+    }
+
+    let remote = root.common.join("csdlc-v3/remote");
+    for namespace in ["intents", "mutations", "recoveries", "merges"] {
+        let directory = remote.join(namespace);
+        reject_symlinks(&directory)?;
+        if !directory.try_exists().map_err(io)? {
+            continue;
+        }
+        for entry in fs::read_dir(&directory).map_err(io)? {
+            let path = entry.map_err(io)?.path();
+            if path.extension().and_then(|value| value.to_str()) != Some("json") {
+                continue;
+            }
+            let value = read_remote_json(&path)?;
+            let identity = remote_identity(&value)?;
+            if identity != (key.repository.clone(), key.issue) {
+                continue;
+            }
+            if namespace != "mutations" {
+                return Err(Error::LegacyMigrationRequired);
+            }
+            let filename_digest = path
+                .file_stem()
+                .and_then(|value| value.to_str())
+                .ok_or(Error::RecoveryRequired)?;
+            let valid_digest = |field: &str| {
+                value[field].as_str().is_some_and(|digest| {
+                    digest.len() == 64 && digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+                })
+            };
+            if value["schema"] != "csdlc.v3.github_mutation_receipt.v2"
+                || value["operation_digest"].as_str() != Some(filename_digest)
+                || !valid_digest("operation_digest")
+                || !valid_digest("intent_digest")
+                || !valid_digest("readback_digest")
+                || !valid_digest("reconciliation_digest")
+                || value["authenticated"] != true
+                || value["idempotent_replay"] != true
+            {
+                return Err(Error::RecoveryRequired);
+            }
+        }
+    }
+    Ok(())
+}
+
 // These associated methods deliberately do not construct the historical session,
 // whose retained construction API holds a lock for its lifetime.
 impl DurableTransactionStore {
@@ -1514,6 +1668,7 @@ impl DurableTransactionStore {
         if Path::new(expected_worktree).try_exists().map_err(io)? {
             return Err(Error::LegacyMigrationRequired);
         }
+        legacy_compatibility_census(root, &key)?;
         Self::prepare_issue_inner(root, key, inputs, Some(fence))
     }
 

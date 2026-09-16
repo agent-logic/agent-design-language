@@ -1461,6 +1461,63 @@ mod semantic_gate_a {
     }
 
     #[test]
+    fn issue_1029_fenced_prepare_accepts_valid_completed_local_and_remote_receipts() {
+        let fixture = Fixture::new();
+        let worktree = fixture.directory.join("missing-bound-worktree");
+        write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+        let operation = "d".repeat(64);
+        let completed = fixture.directory.join(format!(
+            "repo/.git/csdlc-v3/local/transactions/completed/870/edit-{operation}.json"
+        ));
+        fs::create_dir_all(completed.parent().unwrap()).unwrap();
+        fs::write(
+            &completed,
+            serde_json::to_vec(&serde_json::json!({
+                "schema":"csdlc.v3.local_mutation_completion.v1","issue":870,
+                "route":"edit","request_digest":operation,
+                "result":{"route":"edit","issue":870,"mutated":true,"phase":"ready",
+                    "generation":2,"digest":"e".repeat(64),"next_route":"validate","findings":[]}
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let receipt = fixture.directory.join(format!(
+            "repo/.git/csdlc-v3/remote/mutations/{operation}.json"
+        ));
+        fs::create_dir_all(receipt.parent().unwrap()).unwrap();
+        fs::write(
+            &receipt,
+            serde_json::to_vec(&serde_json::json!({
+                "schema":"csdlc.v3.github_mutation_receipt.v2",
+                "repository":"example/repo","issue":870,"pull_request":null,
+                "expected_head_sha":"f".repeat(40),"operation_digest":operation,
+                "response_digest":null,"readback_digest":"1".repeat(64),
+                "intent_digest":"2".repeat(64),"reconciliation_digest":"3".repeat(64),
+                "adapter":"github-api-operational","authenticated":true,
+                "idempotent_replay":true
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let completed_before = fs::read(&completed).unwrap();
+        let receipt_before = fs::read(&receipt).unwrap();
+        let fence =
+            NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870]).unwrap();
+        assert!(matches!(
+            DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                &fixture.root,
+                fixture.key.clone(),
+                legacy_inputs(&worktree),
+                &fence,
+            )
+            .unwrap(),
+            CommitOutcome::Committed(_)
+        ));
+        assert_eq!(completed_before, fs::read(completed).unwrap());
+        assert_eq!(receipt_before, fs::read(receipt).unwrap());
+    }
+
+    #[test]
     fn issue_1029_fenced_prepare_rejects_pending_or_bound_legacy_record() {
         for forbidden in ["transactions/870.json", "bindings/870.json"] {
             let fixture = Fixture::new();
@@ -1509,6 +1566,74 @@ mod semantic_gate_a {
                     fs::write(path, serde_json::to_vec(&index).unwrap()).unwrap();
                 }
                 "existing_worktree" => fs::create_dir_all(&worktree).unwrap(),
+                _ => unreachable!(),
+            }
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            let before = inventory(&fixture.directory);
+            assert!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                )
+                .is_err(),
+                "{case}"
+            );
+            assert_eq!(before, inventory(&fixture.directory), "{case}");
+        }
+    }
+
+    #[test]
+    fn issue_1029_fenced_prepare_rejects_remote_linked_and_damaged_completion_residue() {
+        for case in ["remote_pending", "linked_residue", "damaged_completion"] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            match case {
+                "remote_pending" => {
+                    let path = fixture
+                        .directory
+                        .join("repo/.git/csdlc-v3/remote/intents/pending.json");
+                    fs::create_dir_all(path.parent().unwrap()).unwrap();
+                    fs::write(
+                        path,
+                        serde_json::to_vec(&serde_json::json!({
+                            "schema":"csdlc.v3.github_mutation_intent.v2",
+                            "request":{"repository":"example/repo","issue":870}
+                        }))
+                        .unwrap(),
+                    )
+                    .unwrap();
+                }
+                "linked_residue" => {
+                    let registration = fixture.directory.join("repo/.git/worktrees/linked");
+                    fs::create_dir_all(&registration).unwrap();
+                    fs::write(
+                        registration.join("gitdir"),
+                        fixture
+                            .directory
+                            .join("linked/.git")
+                            .to_string_lossy()
+                            .as_bytes(),
+                    )
+                    .unwrap();
+                    let residue = fixture
+                        .directory
+                        .join("linked/.csdlc/issues/870/index.json");
+                    fs::create_dir_all(residue.parent().unwrap()).unwrap();
+                    fs::write(residue, "damaged\n").unwrap();
+                }
+                "damaged_completion" => {
+                    let path = fixture.directory.join(format!(
+                        "repo/.git/csdlc-v3/local/transactions/completed/870/edit-{}.json",
+                        "c".repeat(64)
+                    ));
+                    fs::create_dir_all(path.parent().unwrap()).unwrap();
+                    fs::write(path, "{}\n").unwrap();
+                }
                 _ => unreachable!(),
             }
             let fence =

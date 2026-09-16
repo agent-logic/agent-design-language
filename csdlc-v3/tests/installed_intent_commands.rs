@@ -61,6 +61,43 @@ fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
 }
 
 #[test]
+fn issue_1029_installed_prepare_reactivates_retained_unbound_native_record() {
+    let mut fixture = Fixture::new("legacy-native-preparation");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let native_issue = primary.join(".git/csdlc-v3/local/issues/505");
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+
+    let status = success(fixture.run(&primary, &["status", "505"]));
+    assert_eq!(status["allowed_next"], json!(["prepare"]));
+    assert_eq!(
+        status["preparation"]["structural_state"],
+        "native_record_present_semantic_preparation_required"
+    );
+    assert_eq!(status["preparation"]["execution_ready"], false);
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "legacy status changed retained source"
+    );
+
+    let input = fixture.write_json("legacy-plan.json", &plan());
+    let prepared = success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(prepared["status"], "completed");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "compatibility preparation changed retained source"
+    );
+    observation(&mut fixture, &primary, "status");
+    observation(&mut fixture, &primary, "validate");
+}
+
+#[test]
 fn installed_prepare_and_bind_from_unrelated_linked_checkout_resolve_primary_state() {
     let mut fixture = Fixture::new("linked-prepared-start");
     let primary = fixture.root.clone();
