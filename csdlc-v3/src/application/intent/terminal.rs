@@ -379,7 +379,10 @@ pub fn recover_absent_cleanup(
     {
         return Err("intent_cleanup_semantic_binding_mismatch".into());
     }
-    if semantic.snapshot.pending().is_some()
+    if semantic
+        .snapshot
+        .pending()
+        .is_some_and(|pending| pending.command() != SemanticCommand::RecordCleanup)
         || semantic.snapshot.completed().iter().any(|done| {
             DurableTransactionStore::inspect_effect(&semantic.root, &semantic.key, done.id())
                 .is_ok_and(|inspection| {
@@ -433,6 +436,17 @@ pub fn recover_absent_cleanup(
     context.fresh()?;
     if approved.worktree.exists()
         || git(&context.primary, &["worktree", "list", "--porcelain"])? != packet["topology"]
+        || file_digest(&receipt_path)?.as_deref() != Some(approved.terminal_receipt_digest.as_str())
+    {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let refreshed_terminal = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|finding| finding.code)?;
+    if refreshed_terminal.status != TerminalRouteStatus::Ready
+        || serde_json::to_value(&refreshed_terminal)
+            .map_err(|_| "intent_terminal_observation_invalid")?
+            != packet["remote_terminal"]
     {
         return Err("intent_cleanup_preview_stale".into());
     }
@@ -446,7 +460,7 @@ pub fn recover_absent_cleanup(
         )
         .map_err(semantic_error)?,
     );
-    let operation = EffectRequest::new(
+    let proposed = EffectRequest::new(
         SemanticCommand::RecordCleanup,
         NativeIdentity::new("terminal-cleanup-absence-reconciliation".into(), token)
             .map_err(semantic_error)?,
@@ -458,6 +472,17 @@ pub fn recover_absent_cleanup(
         }))?,
     )
     .map_err(semantic_error)?;
+    let operation = if let Some(pending) = semantic.snapshot.pending() {
+        let retained =
+            DurableTransactionStore::inspect_effect(&semantic.root, &semantic.key, pending.id())
+                .map_err(semantic_error)?;
+        if retained.request() != &proposed {
+            return Err("intent_cleanup_absence_operation_already_exists".into());
+        }
+        retained.request().clone()
+    } else {
+        proposed
+    };
     let facts = Facts {
         terminal_receipt: true,
         cleanup: true,
@@ -474,8 +499,8 @@ pub fn recover_absent_cleanup(
     )
     .map_err(semantic_error)?
     {
-        Reservation::Reserved(ticket) => ticket,
-        Reservation::AlreadyPending(_) | Reservation::AlreadyCompleted(_) => {
+        Reservation::Reserved(ticket) | Reservation::AlreadyPending(ticket) => ticket,
+        Reservation::AlreadyCompleted(_) => {
             return Err("intent_cleanup_absence_operation_already_exists".into())
         }
     };
