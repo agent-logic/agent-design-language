@@ -214,6 +214,52 @@ fn converter_holds_exact_native_fence_denominator_and_unrelated_residue_still_re
 }
 
 #[test]
+fn incomplete_probe_acknowledgement_is_retried_until_atomically_completed() {
+    let fixture = Fixture::new();
+    let operation = fixture.operation("partial-writer-fence-ack");
+    let mut value = fixture.request_value(&operation, None);
+    value["writer_fence_probe"] = json!(true);
+    let request = fixture.write_value("partial-writer-fence-ack.json", &value);
+    let mut child = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
+        .args(["convert", "--request"])
+        .arg(&request)
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let operation_root = fixture
+        .git_common
+        .join("csdlc-v3/local/conversion-rehearsals")
+        .join(&operation);
+    let marker = wait_for_probe_marker(&operation_root, "writer-fence-held.json");
+    fs::write(
+        operation_root.join("writer-fence-probe-complete"),
+        br#"{"schema":"csdlc.v3.copied_record_writer_fence_probe_ack.v1"#,
+    )
+    .unwrap();
+    std::thread::sleep(Duration::from_millis(50));
+    assert!(
+        child.try_wait().unwrap().is_none(),
+        "converter rejected an acknowledgement while its JSON write was incomplete"
+    );
+    write_probe_ack(
+        &operation_root,
+        "writer-fence-probe-complete",
+        "during_conversion",
+        &marker,
+    );
+
+    let post_marker =
+        wait_for_probe_marker(&operation_root, "writer-fence-post-activation-held.json");
+    write_probe_ack(
+        &operation_root,
+        "writer-fence-post-activation-probe-complete",
+        "post_activation",
+        &post_marker,
+    );
+    assert_success(&child.wait_with_output().unwrap());
+}
+
+#[test]
 fn stale_writer_fence_probe_acknowledgement_cannot_resume_conversion() {
     let fixture = Fixture::new();
     let operation = fixture.operation("stale-writer-fence-ack");
@@ -656,8 +702,10 @@ fn wait_for_probe_marker(operation_root: &Path, name: &str) -> Value {
 }
 
 fn write_probe_ack(operation_root: &Path, name: &str, checkpoint: &str, marker: &Value) {
+    let path = operation_root.join(name);
+    let temporary = operation_root.join(format!(".{name}.next"));
     fs::write(
-        operation_root.join(name),
+        &temporary,
         serde_json::to_vec_pretty(&json!({
             "schema":"csdlc.v3.copied_record_writer_fence_probe_ack.v1",
             "operation_id":marker["operation_id"],
@@ -667,6 +715,7 @@ fn write_probe_ack(operation_root: &Path, name: &str, checkpoint: &str, marker: 
         .unwrap(),
     )
     .unwrap();
+    fs::rename(temporary, path).unwrap();
 }
 
 fn assert_native_writer_locks(git_common: &Path, available: bool) {

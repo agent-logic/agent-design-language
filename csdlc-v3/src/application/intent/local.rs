@@ -582,7 +582,38 @@ fn semantic_bind(
 ) -> Result<Value, String> {
     use crate::lifecycle::semantic::{Facts, SemanticCommand};
     use crate::storage::{semantic::protocol::*, semantic::Binding, DurableTransactionStore};
+    let diagnostic = local::execute_operational_local_route("doctor", request, registry, native)
+        .map_err(errors)?;
+    if diagnostic
+        .findings
+        .iter()
+        .any(|finding| finding.status != PlanStatus::Passed)
+    {
+        return Err(errors(diagnostic.findings));
+    }
+    // Explicit bind is the recovery route even when retained validators are no
+    // longer admitted. Refresh only the exact registered checkout, never run proof.
+    let refreshed = context.refresh_semantic_binding()?;
     let semantic = context.semantic_context()?;
+    if semantic.snapshot.inputs().binding().is_some()
+        && semantic.snapshot.phase() != crate::lifecycle::LifecycleState::Ready
+    {
+        if !matches!(
+            semantic.snapshot.phase(),
+            crate::lifecycle::LifecycleState::Bound
+                | crate::lifecycle::LifecycleState::Implemented
+                | crate::lifecycle::LifecycleState::Reviewed
+                | crate::lifecycle::LifecycleState::Published
+                | crate::lifecycle::LifecycleState::MergeReady
+        ) {
+            return Err("intent_bind_phase_invalid".into());
+        }
+        return Ok(json!({"schema":"csdlc.v3.intent_local.v1",
+            "status":if refreshed {"completed"} else {"expected_noop"},
+            "read_only":!refreshed,"writes_v3_state":refreshed,"operational_authority":true,
+            "semantic_version":semantic.snapshot.version(),"binding_refreshed":refreshed,
+            "validators_run":false}));
+    }
     let target = Binding {
         branch: request.branch.clone(),
         head: context.head.clone(),
@@ -648,8 +679,29 @@ fn semantic_bind(
         Reservation::Reserved(ticket) => ticket,
     };
     semantic.admit_before_effect(ticket.id())?;
-    let native_result = local::execute_operational_local_route("bind", request, registry, native);
+    // Rebinding a retained checkout revalidates its native ownership/cards;
+    // it must not invoke the create/move binder again on native Bound state.
+    let native_route = if semantic.snapshot.inputs().binding().is_some() {
+        "doctor"
+    } else {
+        "bind"
+    };
+    let native_result =
+        local::execute_operational_local_route(native_route, request, registry, native);
     let (mut kind, truth, evidence, facts) = match native_result {
+        Ok(result)
+            if result
+                .findings
+                .iter()
+                .any(|finding| finding.status != PlanStatus::Passed) =>
+        {
+            (
+                OutcomeKind::Failure,
+                EffectTruth::NotPerformed,
+                serde_json::to_vec(&result).map_err(|_| "intent_bind_result_invalid")?,
+                Facts::default(),
+            )
+        }
         Ok(result) => (
             OutcomeKind::Success,
             if result.mutated {
@@ -699,7 +751,7 @@ fn semantic_bind(
                 };
             let projected = semantic.complete_projection(&snapshot)?;
             Ok(
-                json!({"schema":"csdlc.v3.intent_local.v1","status":"completed","read_only":false,
+                json!({"schema":"csdlc.v3.intent_local.v1","status":if kind == OutcomeKind::Success {"completed"} else {"failed"},"read_only":false,
                 "writes_v3_state":true,"operational_authority":true,"semantic_version":projected.version(),
                 "operation_id":done.operation_id().as_str(),"native_effect_truth":done.truth()}),
             )

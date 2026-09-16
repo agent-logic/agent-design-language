@@ -5,6 +5,7 @@ use std::{fs, path::Path};
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 
 use super::authority::verify_canonical_v3_authority;
+use super::coordination;
 use super::model::*;
 use super::storage::*;
 use super::support::{
@@ -259,6 +260,7 @@ pub fn stage_github_mutation(
         intent_digest = github_mutation_intent_digest(&intent);
         preflight_github_credential(&credential_name, process)?;
         if !preexisting {
+            coordination::verify(repo_root, request, process)?;
             persist_json_create_new(&intent_path, &intent)?;
         }
         None
@@ -533,6 +535,8 @@ pub fn execute_github_mutation(
         intent.resolved_edit = Some(resolve_issue_edit(request, process)?);
     } else if matches!(request.mutation, GithubMutation::PullRequestReady) {
         intent.resolved_ready_target = Some(resolve_ready_target(request, process)?);
+    } else {
+        coordination::verify(repo_root, request, process)?;
     }
     let intent_digest = github_mutation_intent_digest(&intent);
     let mut effective_request = request.clone();
@@ -834,6 +838,7 @@ pub(super) fn dispatch_github_mutation_after_intent(
     if context.recovery_intent_digest.is_some() {
         ensure_recovery_available(repo_root, context.operation_digest)?;
     }
+    coordination::verify(repo_root, request, process)?;
     let input_path = write_mutation_input(
         repo_root,
         context.operation_digest,

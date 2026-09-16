@@ -1,0 +1,164 @@
+{
+  "schema": "codefriend.four_perspective_review_run.v1",
+  "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+  "completion": "complete",
+  "review_record": {
+    "admission": {
+      "schema": "codefriend.evidence.v1",
+      "packet": {
+        "schema": "codefriend.repository_packet.v1",
+        "repository": "https://example.com/agent-logic/codefriend-proof-fixture-891",
+        "revision": "38540ae0591600e86964f99efc5c61252210ecba",
+        "object_format": "sha1",
+        "scope": {
+          "analysis": [
+            "src/lib.rs"
+          ],
+          "context": [
+            "README.md"
+          ],
+          "max_files": 2,
+          "max_bytes": 65536,
+          "max_file_bytes": 32768
+        },
+        "scope_digest": "e839dc53017384bc56c98ebdb190956a9681d7c859fa755741a76fe5dce03fb5",
+        "objects": [
+          {
+            "path": "README.md",
+            "source_object": "3f6dbbd738c08c5e38c962d03f2d66820f8b4554",
+            "source_bytes": 129,
+            "content_digest": "dbc64ff99e3f9671ac7ffaffdbcc889f2de68f3c080b4d6bb5c43ae7f6a9b00c",
+            "content": "# CodeFriend proof fixture\n\nSmall inert repository used to qualify the installed CodeFriend operator shell with a real provider.\n",
+            "disposition": "included",
+            "analysis_support": "context_or_unsupported_analysis"
+          },
+          {
+            "path": "src/lib.rs",
+            "source_object": "a986d5d9f002e28f384cdce3894fb89e2cfe6ca4",
+            "source_bytes": 62,
+            "content_digest": "f1c339009c0a71301fab57468d7b2882c09b9345817c0026e08823319984b3de",
+            "content": "pub fn add(left: u32, right: u32) -> u32 {\n    left + right\n}\n",
+            "disposition": "included",
+            "analysis_support": "rust_source_not_yet_analyzed"
+          }
+        ],
+        "excluded_surfaces": "all_paths_outside_declared_scope",
+        "checkout_policy": "committed_blobs_only_dirty_and_untracked_excluded",
+        "review_state": "not_reviewed",
+        "completeness": "complete_scoped_acquisition",
+        "packet_id": "64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515"
+      },
+      "evidence": [
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "e2c305087610f90a172575c94fea5d5632e1f4f99bc6ab2a710897576a77199a",
+          "repository": "https://example.com/agent-logic/codefriend-proof-fixture-891",
+          "revision": "38540ae0591600e86964f99efc5c61252210ecba",
+          "path": "README.md",
+          "source_object": "3f6dbbd738c08c5e38c962d03f2d66820f8b4554",
+          "content_digest": "dbc64ff99e3f9671ac7ffaffdbcc889f2de68f3c080b4d6bb5c43ae7f6a9b00c",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        },
+        {
+          "schema": "codefriend.evidence.v1",
+          "id": "b967bfcbcdcae49ded8c32282129acd4444add0ebf3e566db3ffdc4e5fa8e7ca",
+          "repository": "https://example.com/agent-logic/codefriend-proof-fixture-891",
+          "revision": "38540ae0591600e86964f99efc5c61252210ecba",
+          "path": "src/lib.rs",
+          "source_object": "a986d5d9f002e28f384cdce3894fb89e2cfe6ca4",
+          "content_digest": "f1c339009c0a71301fab57468d7b2882c09b9345817c0026e08823319984b3de",
+          "redaction": "known_unsafe_whole_object_omission_v1",
+          "trust": "untrusted_repository_text"
+        }
+      ],
+      "retention": {
+        "seconds": 86400
+      },
+      "admitted_at": 1789520376,
+      "expires_at": 1789606776,
+      "digest": "db8f5f73ed6db89e3f45b7aca787a3996e353bcd6264a58760565453d19777cd"
+    },
+    "run": {
+      "schema": "codefriend.contracts.v1",
+      "id": "ee0f9b68f13894f4da0ea11d3ba927d82123d7649889a51374d452ddfb486556",
+      "repository": "https://example.com/agent-logic/codefriend-proof-fixture-891",
+      "revision": "38540ae0591600e86964f99efc5c61252210ecba",
+      "scope_digest": "e839dc53017384bc56c98ebdb190956a9681d7c859fa755741a76fe5dce03fb5",
+      "included": [
+        "README.md",
+        "src/lib.rs"
+      ],
+      "excluded": [
+        "all_paths_outside_declared_scope"
+      ],
+      "packet_id": "64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515",
+      "admission_digest": "db8f5f73ed6db89e3f45b7aca787a3996e353bcd6264a58760565453d19777cd",
+      "lane_versions": {
+        "adversarial": "codefriend.review_lane.v1",
+        "constitutional": "codefriend.review_lane.v1",
+        "correctness": "codefriend.review_lane.v1",
+        "security": "codefriend.review_lane.v1"
+      },
+      "provider_route": "openai:hosted_api:gpt-4.1-mini",
+      "completion": "complete",
+      "failures": []
+    },
+    "findings": []
+  },
+  "lane_results": [
+    {
+      "schema": "codefriend.review_lane_result.v1",
+      "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+      "lane": "correctness",
+      "lane_contract": "codefriend.review_lane.v1",
+      "input_manifest_ref": "lanes/correctness/input.json",
+      "input_digest": "7bcfef6ba8f379e51ffd8568441f3673cd7192e5c465ad996c2f69915d6729b1",
+      "provider_status": "ok",
+      "provider_route": "openai:hosted_api:gpt-4.1-mini",
+      "output_digest": "bcb623b543b934ec3e5d1d82e486c41faf7fde109dc1439b495e3b3f0cf7c339",
+      "finding_ids": [],
+      "failure": null
+    },
+    {
+      "schema": "codefriend.review_lane_result.v1",
+      "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+      "lane": "security",
+      "lane_contract": "codefriend.review_lane.v1",
+      "input_manifest_ref": "lanes/security/input.json",
+      "input_digest": "1c8e3d6f8bfc4333f5e1b7f772d25c52636b55788a6b0e046b2fac0083f3a5b1",
+      "provider_status": "ok",
+      "provider_route": "openai:hosted_api:gpt-4.1-mini",
+      "output_digest": "bcb623b543b934ec3e5d1d82e486c41faf7fde109dc1439b495e3b3f0cf7c339",
+      "finding_ids": [],
+      "failure": null
+    },
+    {
+      "schema": "codefriend.review_lane_result.v1",
+      "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+      "lane": "adversarial",
+      "lane_contract": "codefriend.review_lane.v1",
+      "input_manifest_ref": "lanes/adversarial/input.json",
+      "input_digest": "db5c72cc1d636771721abbe143379221d83bd7110af14b827758c36dcec30a6c",
+      "provider_status": "ok",
+      "provider_route": "openai:hosted_api:gpt-4.1-mini",
+      "output_digest": "bcb623b543b934ec3e5d1d82e486c41faf7fde109dc1439b495e3b3f0cf7c339",
+      "finding_ids": [],
+      "failure": null
+    },
+    {
+      "schema": "codefriend.review_lane_result.v1",
+      "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+      "lane": "constitutional",
+      "lane_contract": "codefriend.review_lane.v1",
+      "input_manifest_ref": "lanes/constitutional/input.json",
+      "input_digest": "26b7572ed4a0b4ffc445fb7bab2260ef4a98b2069e9abb6be8e27d1d19094b9a",
+      "provider_status": "ok",
+      "provider_route": "openai:hosted_api:gpt-4.1-mini",
+      "output_digest": "bcb623b543b934ec3e5d1d82e486c41faf7fde109dc1439b495e3b3f0cf7c339",
+      "finding_ids": [],
+      "failure": null
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,7 @@
+    Finished `test` profile [unoptimized] target(s) in 0.04s
+     Running tests/installed_intent_commands.rs (/Users/daniel/git/adl-build-cache/worker10-1006/debug/deps/installed_intent_commands-5853913ce4f11678)
+
+running 1 test
+test installed_no_pr_finish_requires_closed_authenticated_issue_and_retains_disposition ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 7.42s

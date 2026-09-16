@@ -1,5 +1,6 @@
 //! Stable remote request, receipt, result and dispatch contracts.
 
+use super::coordination::CoordinationCompletion;
 use crate::adapters::CommandInvocation;
 use serde::{Deserialize, Serialize};
 
@@ -235,6 +236,9 @@ pub enum GithubMutation {
         duplicate_of: Option<u64>,
         #[serde(default)]
         github_state_reason: Option<IssueCloseStateReason>,
+    },
+    IssueCompleteCoordination {
+        completion: CoordinationCompletion,
     },
     PullRequestCreate {
         base: String,

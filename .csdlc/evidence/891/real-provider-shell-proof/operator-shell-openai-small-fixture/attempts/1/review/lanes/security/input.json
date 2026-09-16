@@ -1,0 +1,35 @@
+{
+  "schema": "codefriend.review_lane_input_manifest.v1",
+  "run_id": "issue-891-real-provider-shell-openai-small-fixture",
+  "packet_id": "64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515",
+  "admission_digest": "db8f5f73ed6db89e3f45b7aca787a3996e353bcd6264a58760565453d19777cd",
+  "lane": "security",
+  "lane_contract": "codefriend.review_lane.v1",
+  "prompt_contract": "codefriend.four_perspective_review_prompt.v1:security",
+  "repository": "https://example.com/agent-logic/codefriend-proof-fixture-891",
+  "revision": "38540ae0591600e86964f99efc5c61252210ecba",
+  "scope_digest": "e839dc53017384bc56c98ebdb190956a9681d7c859fa755741a76fe5dce03fb5",
+  "evidence": [
+    {
+      "evidence_id": "e2c305087610f90a172575c94fea5d5632e1f4f99bc6ab2a710897576a77199a",
+      "path": "README.md",
+      "source_object": "3f6dbbd738c08c5e38c962d03f2d66820f8b4554",
+      "content_digest": "dbc64ff99e3f9671ac7ffaffdbcc889f2de68f3c080b4d6bb5c43ae7f6a9b00c",
+      "redaction": "known_unsafe_whole_object_omission_v1",
+      "trust": "untrusted_repository_text"
+    },
+    {
+      "evidence_id": "b967bfcbcdcae49ded8c32282129acd4444add0ebf3e566db3ffdc4e5fa8e7ca",
+      "path": "src/lib.rs",
+      "source_object": "a986d5d9f002e28f384cdce3894fb89e2cfe6ca4",
+      "content_digest": "f1c339009c0a71301fab57468d7b2882c09b9345817c0026e08823319984b3de",
+      "redaction": "known_unsafe_whole_object_omission_v1",
+      "trust": "untrusted_repository_text"
+    }
+  ],
+  "peer_result_refs": [],
+  "source_mutation_authority": "none",
+  "tool_authority": "none",
+  "publication_authority": "none",
+  "input_digest": "1c8e3d6f8bfc4333f5e1b7f772d25c52636b55788a6b0e046b2fac0083f3a5b1"
+}

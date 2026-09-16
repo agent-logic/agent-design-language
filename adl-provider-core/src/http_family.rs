@@ -16,8 +16,8 @@ use std::time::Duration;
 mod config;
 
 use config::{
-    auth_env_for, auth_file_env_for, cfg_bool_opt, cfg_f64_strict, cfg_u64_strict,
-    credential_from_env_or_file, endpoint_host, is_loopback_endpoint, ollama_generate_endpoint,
+    auth_env_for, auth_file_env_for, cfg_bool_opt, cfg_u64_strict, credential_from_env_or_file,
+    endpoint_host, is_loopback_endpoint, ollama_generate_endpoint,
     validate_http_credential_endpoint, validate_vendor_credential_endpoint, vendor_endpoint,
     HttpAuth,
 };
@@ -521,6 +521,8 @@ pub struct OpenAiProvider {
     auth_file_env: Option<String>,
     model: String,
     max_output_tokens: u64,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
 }
 
@@ -547,11 +549,10 @@ impl OpenAiProvider {
             auth_env,
             auth_file_env,
             model: target.provider_model_id.clone(),
-            max_output_tokens: bound_output_tokens(
-                &spec.config,
-                cfg_u64(&spec.config, "max_output_tokens").unwrap_or(220),
-            )?,
-            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            max_output_tokens: target.effective_inference.max_output_tokens.unwrap_or(220),
+            temperature: target.effective_inference.temperature,
+            top_p: target.effective_inference.top_p,
+            timeout_secs: target.effective_inference.timeout_secs,
         })
     }
 }
@@ -568,15 +569,22 @@ impl Provider for OpenAiProvider {
             .build()
             .context("failed to build OpenAI client")
             .map_err(|err| runtime_error("openai", err.to_string()))?;
+        let mut body = serde_json::json!({
+            "model": self.model,
+            "input": prompt,
+            "max_output_tokens": self.max_output_tokens,
+        });
+        if let Some(value) = self.temperature {
+            body["temperature"] = value.into();
+        }
+        if let Some(value) = self.top_p {
+            body["top_p"] = value.into();
+        }
         let req = client
             .post(&self.endpoint)
             .header("Content-Type", "application/json")
             .bearer_auth(token)
-            .json(&serde_json::json!({
-                "model": self.model,
-                "input": prompt,
-                "max_output_tokens": self.max_output_tokens,
-            }));
+            .json(&body);
         let (json, http_status) = provider_http_json("openai", req)?;
         let output = extract_openai_output_text(&json)
             .ok_or_else(|| runtime_error_non_retryable("openai", "response missing text output"))?;
@@ -594,6 +602,8 @@ pub struct AnthropicProvider {
     auth_file_env: Option<String>,
     model: String,
     max_tokens: u64,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
 }
 
@@ -620,13 +630,10 @@ impl AnthropicProvider {
             auth_env,
             auth_file_env,
             model: target.provider_model_id.clone(),
-            max_tokens: bound_output_tokens(
-                &spec.config,
-                cfg_u64(&spec.config, "max_tokens")
-                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                    .unwrap_or(220),
-            )?,
-            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            max_tokens: target.effective_inference.max_output_tokens.unwrap_or(220),
+            temperature: target.effective_inference.temperature,
+            top_p: target.effective_inference.top_p,
+            timeout_secs: target.effective_inference.timeout_secs,
         })
     }
 }
@@ -646,16 +653,23 @@ impl Provider for AnthropicProvider {
             .build()
             .context("failed to build Anthropic client")
             .map_err(|err| runtime_error("anthropic", err.to_string()))?;
+        let mut body = serde_json::json!({
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "messages": [{"role": "user", "content": prompt}],
+        });
+        if let Some(value) = self.temperature {
+            body["temperature"] = value.into();
+        }
+        if let Some(value) = self.top_p {
+            body["top_p"] = value.into();
+        }
         let req = client
             .post(&self.endpoint)
             .header("Content-Type", "application/json")
             .header("x-api-key", token)
             .header("anthropic-version", ANTHROPIC_VERSION)
-            .json(&serde_json::json!({
-                "model": self.model,
-                "max_tokens": self.max_tokens,
-                "messages": [{"role": "user", "content": prompt}],
-            }));
+            .json(&body);
         let (json, http_status) = provider_http_json("anthropic", req)?;
         let output = extract_anthropic_output_text(&json).ok_or_else(|| {
             runtime_error_non_retryable("anthropic", "response missing text output")
@@ -673,6 +687,8 @@ pub struct DeepSeekProvider {
     auth_env: String,
     model: String,
     max_tokens: u64,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
 }
 
@@ -698,13 +714,10 @@ impl DeepSeekProvider {
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: bound_output_tokens(
-                &spec.config,
-                cfg_u64(&spec.config, "max_tokens")
-                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                    .unwrap_or(220),
-            )?,
-            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            max_tokens: target.effective_inference.max_output_tokens.unwrap_or(220),
+            temperature: target.effective_inference.temperature,
+            top_p: target.effective_inference.top_p,
+            timeout_secs: target.effective_inference.timeout_secs,
         })
     }
 }
@@ -725,16 +738,23 @@ impl Provider for DeepSeekProvider {
             .build()
             .context("failed to build DeepSeek client")
             .map_err(|err| runtime_error("deepseek", err.to_string()))?;
+        let mut body = serde_json::json!({
+            "model": self.model,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": self.max_tokens,
+            "stream": false,
+        });
+        if let Some(value) = self.temperature {
+            body["temperature"] = value.into();
+        }
+        if let Some(value) = self.top_p {
+            body["top_p"] = value.into();
+        }
         let req = client
             .post(&self.endpoint)
             .header("Content-Type", "application/json")
             .bearer_auth(token)
-            .json(&serde_json::json!({
-                "model": self.model,
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": self.max_tokens,
-                "stream": false,
-            }));
+            .json(&body);
         let (json, http_status) = provider_http_json("deepseek", req)?;
         let output = extract_deepseek_output_text(&json).ok_or_else(|| {
             runtime_error_non_retryable("deepseek", "response missing message content")
@@ -753,6 +773,8 @@ pub struct KimiProvider {
     model: String,
     max_tokens: u64,
     reasoning_effort: Option<String>,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
 }
 
@@ -772,46 +794,17 @@ impl KimiProvider {
             "MOONSHOT_API_KEY",
             &["api.moonshot.ai"],
         )?;
-        let reasoning_effort = match spec.config.get("reasoning_effort") {
-            Some(Value::String(value)) => {
-                let trimmed = value.trim();
-                if trimmed.is_empty() {
-                    return Err(invalid_config(
-                        "kimi",
-                        "config.reasoning_effort must not be empty when provided",
-                    ));
-                }
-                if target.provider_model_id == "kimi-k3"
-                    && !matches!(trimmed, "low" | "high" | "max")
-                {
-                    return Err(invalid_config(
-                        "kimi",
-                        "config.reasoning_effort must be one of low, high, max for kimi-k3",
-                    ));
-                }
-                Some(trimmed.to_string())
-            }
-            Some(_) => {
-                return Err(invalid_config(
-                    "kimi",
-                    "config.reasoning_effort must be a string when provided",
-                ));
-            }
-            None => (target.provider_model_id == "kimi-k3").then(|| "max".to_string()),
-        };
+        let reasoning_effort = target.effective_inference.reasoning_effort.clone();
         Ok(Self {
             runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: bound_output_tokens(
-                &spec.config,
-                cfg_u64(&spec.config, "max_tokens")
-                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                    .unwrap_or(220),
-            )?,
+            max_tokens: target.effective_inference.max_output_tokens.unwrap_or(220),
             reasoning_effort,
-            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            temperature: target.effective_inference.temperature,
+            top_p: target.effective_inference.top_p,
+            timeout_secs: target.effective_inference.timeout_secs,
         })
     }
 }
@@ -841,6 +834,12 @@ impl Provider for KimiProvider {
         if let Some(reasoning_effort) = &self.reasoning_effort {
             body["reasoning_effort"] = serde_json::json!(reasoning_effort);
         }
+        if let Some(value) = self.temperature {
+            body["temperature"] = value.into();
+        }
+        if let Some(value) = self.top_p {
+            body["top_p"] = value.into();
+        }
         let req = client
             .post(&self.endpoint)
             .header("Content-Type", "application/json")
@@ -863,6 +862,8 @@ pub struct OpenRouterProvider {
     auth_env: String,
     model: String,
     max_tokens: u64,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
 }
 
@@ -892,13 +893,10 @@ impl OpenRouterProvider {
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: bound_output_tokens(
-                &spec.config,
-                cfg_u64(&spec.config, "max_tokens")
-                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                    .unwrap_or(220),
-            )?,
-            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            max_tokens: target.effective_inference.max_output_tokens.unwrap_or(220),
+            temperature: target.effective_inference.temperature,
+            top_p: target.effective_inference.top_p,
+            timeout_secs: target.effective_inference.timeout_secs,
         })
     }
 }
@@ -919,16 +917,23 @@ impl Provider for OpenRouterProvider {
             .build()
             .context("failed to build OpenRouter client")
             .map_err(|err| runtime_error("openrouter", err.to_string()))?;
+        let mut body = serde_json::json!({
+            "model": self.model,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": self.max_tokens,
+            "stream": false,
+        });
+        if let Some(value) = self.temperature {
+            body["temperature"] = value.into();
+        }
+        if let Some(value) = self.top_p {
+            body["top_p"] = value.into();
+        }
         let req = client
             .post(&self.endpoint)
             .header("Content-Type", "application/json")
             .bearer_auth(token)
-            .json(&serde_json::json!({
-                "model": self.model,
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": self.max_tokens,
-                "stream": false,
-            }));
+            .json(&body);
         let (json, http_status) = provider_http_json("openrouter", req)?;
         let output = extract_openrouter_output_text(&json).ok_or_else(|| {
             runtime_error_non_retryable("openrouter", "response missing message content")
@@ -951,6 +956,8 @@ pub struct AwsBedrockProvider {
     profile: String,
     expected_account_sha256: Option<String>,
     max_tokens: u64,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
 }
 
@@ -1017,13 +1024,10 @@ impl AwsBedrockProvider {
             region,
             profile,
             expected_account_sha256,
-            max_tokens: bound_output_tokens(
-                &spec.config,
-                cfg_u64(&spec.config, "max_tokens")
-                    .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                    .unwrap_or(220),
-            )?,
-            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            max_tokens: target.effective_inference.max_output_tokens.unwrap_or(220),
+            temperature: target.effective_inference.temperature,
+            top_p: target.effective_inference.top_p,
+            timeout_secs: target.effective_inference.timeout_secs,
         })
     }
 
@@ -1063,7 +1067,12 @@ impl AwsBedrockProvider {
             account_id_sha256.as_deref(),
             self.expected_account_sha256.as_deref(),
         )?;
-        let body = bedrock_nova_request_body(prompt, self.max_tokens);
+        let body = bedrock_nova_request_body_with_sampling(
+            prompt,
+            self.max_tokens,
+            self.temperature,
+            self.top_p,
+        );
         let response = bedrockruntime::Client::new(&shared_config)
             .invoke_model()
             .model_id(&self.model)
@@ -1220,6 +1229,8 @@ pub struct VertexAiGeminiProvider {
     auth: VertexAiAuth,
     model: String,
     max_output_tokens: u64,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
     tools: Option<Value>,
     thinking_config: Option<Value>,
@@ -1244,11 +1255,10 @@ impl VertexAiGeminiProvider {
             endpoint,
             auth: vertex_ai_auth_from_config(spec)?,
             model: target.provider_model_id.clone(),
-            max_output_tokens: bound_output_tokens(
-                &spec.config,
-                cfg_u64(&spec.config, "max_output_tokens").unwrap_or(1024),
-            )?,
-            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            max_output_tokens: target.effective_inference.max_output_tokens.unwrap_or(1024),
+            temperature: target.effective_inference.temperature,
+            top_p: target.effective_inference.top_p,
+            timeout_secs: target.effective_inference.timeout_secs,
             tools: vertex_ai_tools_from_config(&spec.config)?,
             thinking_config: vertex_ai_thinking_config_from_config(&spec.config)?,
         })
@@ -1278,11 +1288,13 @@ impl VertexAiGeminiProvider {
             .post(&endpoint)
             .header("Content-Type", "application/json")
             .bearer_auth(token)
-            .json(&vertex_ai_gemini_request_body(
+            .json(&vertex_ai_gemini_request_body_with_sampling(
                 prompt,
                 self.max_output_tokens,
                 self.thinking_config.as_ref(),
                 self.tools.as_ref(),
+                self.temperature,
+                self.top_p,
             ));
         let (output, http_status) = if streaming {
             let (body, http_status) = provider_http_text("vertex_ai_gemini", req)?;
@@ -1506,11 +1518,30 @@ fn vertex_ai_gemini_stream_endpoint(endpoint: &str) -> String {
         .unwrap_or_else(|| endpoint.to_string())
 }
 
+#[cfg(test)]
 fn vertex_ai_gemini_request_body(
     prompt: &str,
     max_output_tokens: u64,
     thinking_config: Option<&Value>,
     tools: Option<&Value>,
+) -> Value {
+    vertex_ai_gemini_request_body_with_sampling(
+        prompt,
+        max_output_tokens,
+        thinking_config,
+        tools,
+        None,
+        None,
+    )
+}
+
+fn vertex_ai_gemini_request_body_with_sampling(
+    prompt: &str,
+    max_output_tokens: u64,
+    thinking_config: Option<&Value>,
+    tools: Option<&Value>,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
 ) -> Value {
     let mut body = serde_json::json!({
         "contents": [{"role": "user", "parts": [{"text": prompt}]}],
@@ -1523,6 +1554,12 @@ fn vertex_ai_gemini_request_body(
     }
     if let Some(tools) = tools {
         body["tools"] = tools.clone();
+    }
+    if let Some(value) = temperature {
+        body["generationConfig"]["temperature"] = value.into();
+    }
+    if let Some(value) = top_p {
+        body["generationConfig"]["topP"] = value.into();
     }
     body
 }
@@ -1737,8 +1774,18 @@ fn cfg_string(cfg: &HashMap<String, Value>, key: &str) -> Option<String> {
         .map(ToString::to_string)
 }
 
+#[cfg(test)]
 fn bedrock_nova_request_body(prompt: &str, max_tokens: u64) -> Value {
-    serde_json::json!({
+    bedrock_nova_request_body_with_sampling(prompt, max_tokens, None, None)
+}
+
+fn bedrock_nova_request_body_with_sampling(
+    prompt: &str,
+    max_tokens: u64,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
+) -> Value {
+    let mut body = serde_json::json!({
         "schemaVersion": "messages-v1",
         "messages": [{
             "role": "user",
@@ -1747,7 +1794,14 @@ fn bedrock_nova_request_body(prompt: &str, max_tokens: u64) -> Value {
         "inferenceConfig": {
             "maxTokens": max_tokens,
         },
-    })
+    });
+    if let Some(value) = temperature {
+        body["inferenceConfig"]["temperature"] = value.into();
+    }
+    if let Some(value) = top_p {
+        body["inferenceConfig"]["topP"] = value.into();
+    }
+    body
 }
 
 fn bedrock_sdk_error(message: String) -> anyhow::Error {
@@ -1914,36 +1968,14 @@ impl ZAiProvider {
             "ZAI_API_KEY",
             &["open.bigmodel.cn", "api.z.ai"],
         )?;
-        let max_tokens = match cfg_u64_strict(&spec.config, "max_tokens", "z_ai")? {
-            Some(value) => value,
-            None => cfg_u64_strict(&spec.config, "max_output_tokens", "z_ai")?.unwrap_or(220),
-        };
-        let max_tokens = bound_output_tokens(&spec.config, max_tokens)?;
+        let max_tokens = target.effective_inference.max_output_tokens.unwrap_or(220);
         if target.provider_model_id == "glm-5.3-flash" && max_tokens > 131_072 {
             return Err(invalid_config(
                 "z_ai",
                 "config.max_tokens/max_output_tokens must be no greater than 131072 for glm-5.3-flash",
             ));
         }
-        let reasoning_effort = match spec.config.get("reasoning_effort") {
-            Some(Value::String(value)) => {
-                let trimmed = value.trim();
-                if trimmed.is_empty() {
-                    return Err(invalid_config(
-                        "z_ai",
-                        "config.reasoning_effort must not be empty when provided",
-                    ));
-                }
-                Some(trimmed.to_string())
-            }
-            Some(_) => {
-                return Err(invalid_config(
-                    "z_ai",
-                    "config.reasoning_effort must be a string when provided",
-                ));
-            }
-            None => None,
-        };
+        let reasoning_effort = target.effective_inference.reasoning_effort.clone();
         if target.provider_model_id == "glm-5.3-flash" {
             if let Some(value) = reasoning_effort.as_deref() {
                 if !matches!(value, "low" | "high" | "max") {
@@ -1954,8 +1986,8 @@ impl ZAiProvider {
                 }
             }
         }
-        let clear_thinking = cfg_bool_opt(&spec.config, "clear_thinking", "z_ai")?;
-        let temperature = cfg_f64_strict(&spec.config, "temperature", "z_ai")?;
+        let clear_thinking = target.effective_inference.clear_thinking;
+        let temperature = target.effective_inference.temperature;
         if let Some(value) = temperature {
             let max = if target.provider_model_id == "glm-5.3-flash" {
                 1.0
@@ -1969,7 +2001,7 @@ impl ZAiProvider {
                 ));
             }
         }
-        let top_p = cfg_f64_strict(&spec.config, "top_p", "z_ai")?;
+        let top_p = target.effective_inference.top_p;
         if let Some(value) = top_p {
             let min = if target.provider_model_id == "glm-5.3-flash" {
                 0.01
@@ -2058,17 +2090,16 @@ pub struct HttpProvider {
     vendor: String,
     model: String,
     chat_mode: bool,
-    runtime_output_cap: Option<u64>,
+    effective_inference: provider_substrate::EffectiveInferenceConfigV1,
 }
 
 #[derive(Debug, Clone)]
 /// Ollama-specific HTTP provider with prompt/model serialization.
 pub struct OllamaHttpProvider {
     runtime_bounded: bool,
-    runtime_output_cap: Option<u64>,
     endpoint: String,
     model: String,
-    temperature: Option<f32>,
+    effective_inference: provider_substrate::EffectiveInferenceConfigV1,
     timeout_secs: Option<u64>,
 }
 
@@ -2084,10 +2115,9 @@ impl OllamaHttpProvider {
         };
         Ok(Self {
             runtime_bounded: runtime_bounded_calls(&spec.config)?,
-            runtime_output_cap: runtime_output_cap(&spec.config)?,
             endpoint: ollama_generate_endpoint(spec)?,
             model: target.provider_model_id.clone(),
-            temperature: super::local::cfg_f32(&spec.config, "temperature"),
+            effective_inference: target.effective_inference.clone(),
             timeout_secs: Some(timeout_secs),
         })
     }
@@ -2152,14 +2182,37 @@ impl Provider for OllamaHttpProvider {
             "prompt": prompt,
             "stream": false,
         });
-        if let Some(temperature) = self.temperature {
-            body["options"] = serde_json::json!({ "temperature": temperature });
+        let effective = &self.effective_inference;
+        let mut options = serde_json::Map::new();
+        if let Some(value) = effective.context_window_tokens {
+            options.insert("num_ctx".to_string(), value.into());
         }
-        if let Some(cap) = self.runtime_output_cap {
-            if body.get("options").is_none() {
-                body["options"] = serde_json::json!({});
-            }
-            body["options"]["num_predict"] = cap.into();
+        if let Some(value) = effective.max_output_tokens {
+            options.insert("num_predict".to_string(), value.into());
+        }
+        if let Some(value) = effective.temperature {
+            options.insert("temperature".to_string(), value.into());
+        }
+        if let Some(value) = effective.top_p {
+            options.insert("top_p".to_string(), value.into());
+        }
+        if let Some(value) = effective.deterministic_seed {
+            options.insert("seed".to_string(), value.into());
+        }
+        if !options.is_empty() {
+            body["options"] = Value::Object(options);
+        }
+        if let Some(think) = &effective.think {
+            body["think"] = match think {
+                provider_substrate::OllamaThinkV1::Enabled(value) => (*value).into(),
+                provider_substrate::OllamaThinkV1::Level(value) => value.clone().into(),
+            };
+        }
+        if let Some(keep_alive) = &effective.local_keep_alive {
+            body["keep_alive"] = match keep_alive {
+                provider_substrate::LocalKeepAliveV1::Seconds(value) => (*value).into(),
+                provider_substrate::LocalKeepAliveV1::Duration(value) => value.clone().into(),
+            };
         }
 
         let req = client
@@ -2246,10 +2299,15 @@ impl HttpProvider {
                             | "gemini"
                     )
                 });
-        if runtime_output_cap(&spec.config)?.is_some() && !chat_mode {
+        let effective_inference = target.effective_inference.clone();
+        if !chat_mode
+            && (effective_inference.max_output_tokens.is_some()
+                || effective_inference.temperature.is_some()
+                || effective_inference.top_p.is_some())
+        {
             return Err(invalid_config(
                 "http",
-                "runtime output cap requires a declared chat API format",
+                "inference controls require a declared chat API format",
             ));
         }
         let private_chat_endpoint = explicit_chat_mode
@@ -2329,7 +2387,7 @@ impl HttpProvider {
             vendor: target.vendor.clone(),
             model: target.provider_model_id.clone(),
             chat_mode,
-            runtime_output_cap: runtime_output_cap(&spec.config)?,
+            effective_inference,
         })
     }
 }
@@ -2379,11 +2437,25 @@ impl Provider for HttpProvider {
             })
         };
 
-        if let Some(cap) = self.runtime_output_cap {
+        if let Some(cap) = self.effective_inference.max_output_tokens {
             if self.chat_mode && self.vendor == "google" {
                 body["generationConfig"] = serde_json::json!({"maxOutputTokens": cap});
             } else if self.chat_mode {
                 body["max_tokens"] = cap.into();
+            }
+        }
+        if let Some(value) = self.effective_inference.temperature {
+            if self.vendor == "google" {
+                body["generationConfig"]["temperature"] = value.into();
+            } else if self.chat_mode {
+                body["temperature"] = value.into();
+            }
+        }
+        if let Some(value) = self.effective_inference.top_p {
+            if self.vendor == "google" {
+                body["generationConfig"]["topP"] = value.into();
+            } else if self.chat_mode {
+                body["top_p"] = value.into();
             }
         }
         let resp = match req.json(&body).send() {

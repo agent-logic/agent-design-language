@@ -17,6 +17,26 @@ struct RecoveryOperation {
 }
 
 fn parse_operation(value: Value) -> Result<GithubMutation, String> {
+    if value.get("action").and_then(Value::as_str) == Some("issue_complete_coordination") {
+        #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct CompletionIntent {
+            action: String,
+            completion: CoordinationCompletion,
+            operator_approval: String,
+        }
+        let parsed: CompletionIntent =
+            serde_json::from_value(value).map_err(|_| "intent_remote_operation_invalid")?;
+        if parsed.action != "issue_complete_coordination"
+            || parsed.operator_approval.trim().is_empty()
+        {
+            return Err("intent_remote_operation_invalid".into());
+        }
+        return Ok(GithubMutation::IssueCompleteCoordination {
+            completion: parsed.completion,
+        });
+    }
+
     if value.get("action").and_then(Value::as_str) == Some("pull_request_merge") {
         #[derive(Deserialize)]
         #[serde(deny_unknown_fields)]
@@ -580,6 +600,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 GithubMutation::IssueCreate { .. }
                     | GithubMutation::IssueComment { .. }
                     | GithubMutation::IssueEdit { .. }
+                    | GithubMutation::IssueCompleteCoordination { .. }
                     | GithubMutation::IssueClose { .. }
             );
             if (request.command == "github-issue") != issue_operation {

@@ -3,6 +3,7 @@
 //! Native C-SDLC v3 remote route contracts and stable public dispatch.
 
 mod authority;
+mod coordination;
 mod delivery;
 pub mod intent;
 mod merge;
@@ -16,6 +17,7 @@ mod support;
 mod transport;
 
 pub use authority::canonical_authority_selector_digest;
+pub use coordination::{CoordinationCompletion, CoordinationEvidence};
 pub use delivery::*;
 pub use merge_linkage::{merge_linkage_query, merge_state_query};
 pub use model::*;

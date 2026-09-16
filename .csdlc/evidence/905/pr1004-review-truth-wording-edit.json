@@ -1,0 +1,16 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "expected_lifecycle_digest": "a8976c2350ce8d9049ea73c0c62197ea218b379d6fdedb5843508f3faabb7ae7",
+  "card_updates": {
+    "sor": {
+      "summary": "Current Runtime correctness and recovery remain proved; performance remains repair_inconclusive. PR #1004 alias ownership and failure-evidence defects now include pre-create namespace ownership and a finally-guaranteed, durably recorded model-removal attempt; exact-head re-review is pending.",
+      "actions_taken_line_3": "Rejected invalid draft configuration, verified healthy operator-selected ordinary generation, claimed cryptographically run-scoped alias namespaces before create, and guaranteed a durably recorded model-removal attempt despite ambiguous create or unrelated resource cleanup failures."
+    }
+  }
+}

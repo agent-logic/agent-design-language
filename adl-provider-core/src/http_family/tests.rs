@@ -151,6 +151,12 @@ fn provider_target(
             benchmark_ref: None,
         },
         capabilities: provider_caps(),
+        credential_reference: None,
+        codec_controls: provider_substrate::ProviderCodecControlsV1 {
+            codec: format!("{provider_kind}_test"),
+            consumes: Vec::new(),
+        },
+        effective_inference: provider_substrate::EffectiveInferenceConfigV1::default(),
     }
 }
 
@@ -654,14 +660,11 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
                 "provider_model_id".to_string(),
                 json!("amazon.nova-lite-v1:0"),
             ),
-            ("max_output_tokens".to_string(), json!("321")),
+            ("max_output_tokens".to_string(), json!(321)),
         ]),
     };
-    let target = provider_target(
-        "bedrock",
-        "aws-bedrock-runtime".to_string(),
-        "amazon.nova-lite-v1:0",
-    );
+    let target =
+        provider_substrate::provider_invocation_target_v1("bedrock_primary", &spec, None).unwrap();
     let provider = AwsBedrockProvider::from_target(&spec, &target)
         .expect("default Agent Logic profile should construct without AWS calls");
     assert_eq!(provider.model, "amazon.nova-lite-v1:0");
@@ -896,6 +899,59 @@ fn ollama_http_provider_complete_posts_to_generate_endpoint() {
     assert!(captured.body.contains(r#""model":"phi4-mini""#));
     assert!(captured.body.contains(r#""prompt":"hello ollama""#));
     assert!(captured.body.contains(r#""stream":false"#));
+
+    let _ = handle.join();
+}
+
+#[test]
+fn ollama_http_provider_forwards_canonical_effective_controls() {
+    let _guard = env_lock();
+    let Some((endpoint, captured, handle)) =
+        spawn_json_server(200, r#"{"response":"configured","done":true}"#)
+    else {
+        return;
+    };
+
+    let mut spec = ollama_provider_spec_with_base_url(&endpoint);
+    for (key, value) in [
+        ("context_window_tokens", json!(32_768)),
+        ("max_output_tokens", json!(768)),
+        ("runtime_max_output_tokens", json!(512)),
+        ("temperature", json!(0.25)),
+        ("top_p", json!(0.9)),
+        ("deterministic_seed", json!(42)),
+        ("timeout_secs", json!(10)),
+        ("think", json!("high")),
+        ("local_keep_alive", json!("-1")),
+    ] {
+        spec.config.insert(key.to_string(), value);
+    }
+    let target = provider_substrate::provider_invocation_target_v1("ollama_primary", &spec, None)
+        .expect("normalized target");
+    let fingerprint = target
+        .model_identity
+        .inference_parameter_fingerprint
+        .clone()
+        .expect("effective fingerprint");
+    assert_eq!(fingerprint.len(), 64);
+
+    let provider = OllamaHttpProvider::from_target(&spec, &target).expect("provider");
+    assert_eq!(
+        provider.complete("configured prompt").unwrap(),
+        "configured"
+    );
+
+    let captured = captured.lock().expect("capture").clone().expect("request");
+    let body: Value = serde_json::from_str(&captured.body).expect("wire JSON");
+    assert_eq!(body["options"]["num_ctx"], json!(32_768));
+    assert_eq!(body["options"]["num_predict"], json!(512));
+    assert_eq!(body["options"]["temperature"], json!(0.25));
+    assert_eq!(body["options"]["top_p"], json!(0.9));
+    assert_eq!(body["options"]["seed"], json!(42));
+    assert_eq!(body["think"], json!("high"));
+    assert_eq!(body["keep_alive"], json!(-1));
+    assert!(body.get("timeout_secs").is_none());
+    assert!(body.get("runtime_max_output_tokens").is_none());
 
     let _ = handle.join();
 }
@@ -2385,6 +2441,8 @@ fn five_adapter_transport_matrix_serializes_generates_and_classifies_failures() 
             spec.config.insert("max_tokens".into(), json!(1024));
             spec.config.insert("max_output_tokens".into(), json!(1024));
             spec.config.insert("runtime_max_output_tokens".into(), json!(256));
+            spec.config.insert("temperature".into(), json!(0.25));
+            spec.config.insert("top_p".into(), json!(0.9));
             spec.config.insert("auth".into(), json!({"type":"bearer","env":TOKEN_ENV}));
             if kind == "vertex_ai_gemini" {
                 spec.config.insert("thinking_budget".into(), json!(0));
@@ -2409,6 +2467,24 @@ fn five_adapter_transport_matrix_serializes_generates_and_classifies_failures() 
                 "vertex_ai_gemini" => "/generationConfig/maxOutputTokens", "ollama" => "/options/num_predict", _ => unreachable!(),
             };
             assert_eq!(body.pointer(cap_pointer).and_then(Value::as_u64), Some(256), "{kind}: actual serialized cap");
+            let (temperature_pointer, top_p_pointer) = match kind {
+                "vertex_ai_gemini" => (
+                    "/generationConfig/temperature",
+                    "/generationConfig/topP",
+                ),
+                "ollama" => ("/options/temperature", "/options/top_p"),
+                _ => ("/temperature", "/top_p"),
+            };
+            assert_eq!(
+                body.pointer(temperature_pointer).and_then(Value::as_f64),
+                Some(0.25),
+                "{kind}: actual serialized temperature"
+            );
+            assert_eq!(
+                body.pointer(top_p_pointer).and_then(Value::as_f64),
+                Some(0.9),
+                "{kind}: actual serialized top-p"
+            );
             if kind == "vertex_ai_gemini" { assert_eq!(body.pointer("/generationConfig/thinkingConfig/thinkingBudget").and_then(Value::as_u64), Some(0)); }
         }
     }

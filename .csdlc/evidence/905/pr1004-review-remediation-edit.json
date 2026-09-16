@@ -1,0 +1,47 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "40e06a88a196bcfde4fc9aa9baeecda54d60053066f2ac0ef787cc3f4228b34a",
+  "card_updates": {
+    "srp": {
+      "findings_status": "findings_resolved_re_review_pending",
+      "recommended_outcome": "block_pending_re_review",
+      "review_findings": "Post-publication review of PR #1004 at e3159b6e5ba225e07d9bc8110ed655939ffe0a04 found two P2s: arbitrary aliases could overwrite and cleanup existing Ollama models, and setup failures before the reporting try/finally could leave aliases without report.json.",
+      "review_dispositions": "Both P2s are repaired. All temporary aliases must be nonempty, canonical-distinct, different from the source model, and absent from the pre-run inventory. Cleanup removes only aliases recorded after successful create calls. The entire setup/execution path now shares failure recording and conditional cleanup. Three focused mocked regressions pass; exact-head re-review is pending.",
+      "review_notes": "The reviewer accepted the retained eight exact pairs and repair_inconclusive disposition without hardware rerun. Remediation changes harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes."
+    },
+    "sor": {
+      "status": "review_changes_applied_re_review_pending",
+      "card_status": "draft",
+      "completion_state": "review_changes_applied_re_review_pending",
+      "verification_artifacts_status": "complete_review_changes_applied_re_review_pending",
+      "summary": "Current Runtime correctness and recovery remain proved; performance remains repair_inconclusive. PR #1004 review findings about model-alias ownership and setup-failure cleanup are repaired with focused regressions; exact-head re-review is pending.",
+      "validation_result": "PASS: 13 deterministic benchmark/accounting tests plus 3 deterministic alias-ownership/setup-cleanup regressions, Python compilation, immutable model/tokenizer identity checks, eight-pair current Runtime proof, counterbalanced symmetric warm procedure, controlled invalid-draft rejection, healthy operator-selected ordinary recovery and diff hygiene. Exact-head re-review and renewed CI pending.",
+      "tracked_implementation_artifacts": "adl/tools/vllm_qwen_speculative_decoding_benchmark.py; adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; adl/tools/issue905_runtime_speculative_retest.py; adl/tools/test_issue905_runtime_speculative_retest.py; .csdlc/evidence/905",
+      "trace_bundle_paths": ".csdlc/evidence/905/RUNTIME_RETEST.json; .csdlc/evidence/905/ATTEMPT_REGISTER.json; .csdlc/evidence/905/RETEST_STATUS.md; .csdlc/evidence/905/PR1004_REVIEW_REMEDIATION.json",
+      "actions_taken_line_3": "Rejected invalid draft configuration, verified healthy operator-selected ordinary generation, and hardened all temporary aliases and setup cleanup against pre-existing-model deletion and missing failure reports.",
+      "determinism_tests_executed": "16 deterministic tests: 13 benchmark/accounting cases and 3 alias-ownership/setup-cleanup regressions; plus eight exact expected-marker paired Runtime comparisons",
+      "validation_command": "cd adl/tools && python3 -m unittest -v test_issue905_runtime_speculative_retest.py test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile issue905_runtime_speculative_retest.py test_issue905_runtime_speculative_retest.py; git diff --check; native validate",
+      "follow_up_1": "Complete renewed exact-head independent review and native review/publication update; do not merge without operator instruction.",
+      "integration_result": "PR #1004 is open; review changes are local pending commit/push, renewed review and CI. No merge authorized.",
+      "integration_method_used": "Existing PR #1004 update pending renewed exact-head independent review",
+      "integration_verification_command": "Pending renewed hosted CI; merge explicitly withheld by operator",
+      "integration_verification_effect": "No merge or terminal integration claim; conservative repair_inconclusive disposition unchanged.",
+      "end_time": "Review remediation implemented and locally validated; exact-head re-review pending"
+    }
+  }
+}

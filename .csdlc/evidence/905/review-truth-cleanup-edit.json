@@ -1,0 +1,28 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "13d5e37c7eb5d0637b48584f18c8f3a68eb362189482032399571223264ffa1d",
+  "card_updates": {
+    "sor": {
+      "verification_artifacts_status": "complete_reviewed_publication_pending",
+      "integration_method_used": "Native exact-head review complete; native PR publication pending",
+      "validation_result": "PASS for correctness, identity, bounded recovery, focused tests, artifact hygiene and independent review. PERFORMANCE INCONCLUSIVE: declared per-block robustness gate failed. Hosted CI pending publication.",
+      "end_time": "Local execution and independent review complete; publication and CI pending",
+      "integration_result": "Implementation and conservative disposition independently approved; PR publication, hosted CI and merge pending."
+    }
+  }
+}

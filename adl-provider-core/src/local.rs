@@ -480,7 +480,7 @@ mod tests {
     // Fake local subprocesses only; no Ollama executable, provider credentials,
     // network calls or hosted inference. Unix group cleanup is exercised below.
     #[test]
-    fn runtime_cli_constructor_rejects_token_cap_and_preserves_legacy_literal_api() {
+    fn runtime_cli_constructor_rejects_token_cap_and_invalid_declared_timeout() {
         let mut spec = adl::ProviderSpec {
             id: None,
             profile: None,
@@ -514,8 +514,8 @@ mod tests {
         assert!(build_provider_for_id("fixture", &spec, None).is_err());
         spec.config.remove("runtime_max_attempts");
         assert!(
-            build_provider_for_id("fixture", &spec, None).is_ok(),
-            "legacy constructor behavior remains intact"
+            build_provider_for_id("fixture", &spec, None).is_err(),
+            "invalid declared controls must not become silently ignored legacy data"
         );
     }
 

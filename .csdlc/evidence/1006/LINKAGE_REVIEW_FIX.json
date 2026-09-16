@@ -1,0 +1,39 @@
+{
+  "schema": "adl.issue1006.linkage_review_fix.v1",
+  "issue": 1006,
+  "pull_request": 1011,
+  "supersedes_source_head": "6498d65583186eea5df12e4361e6c434324130ef",
+  "finding": "P2 valid child closing relation plus nonclosing parent reference rejected",
+  "reproduction": "Installed regression failed with github_merge_linkage_ineligible before fix and passed after fix",
+  "behavior": "Completed-child-only validation permits nonclosing parent context. Pre-merge merge admission unchanged. Sole exact authenticated closing link and canonical closing directive remain required.",
+  "source_sha256": {
+    "csdlc-v3/src/application/intent/remote.rs": "12110d0e6db824577286b041c56ab368835db614dbfb93a4b025b2fd265fe54f",
+    "csdlc-v3/src/commands/remote/intent.rs": "df17945d293b8f55fabb3c3906a9b130f9dc97de3ab201df4d7c1dbf8000b2a1",
+    "csdlc-v3/src/commands/remote/mod.rs": "77072c6b14fc01e488687bd1bbe58fbcac21de37bbdd5b8872c8f4c0c827acef",
+    "csdlc-v3/src/commands/remote/coordination.rs": "7bfa9e9f8604720d0e7fcb9921de495a5fb0df289d2a393d341d4fde37233ca8",
+    "csdlc-v3/src/commands/remote/coordination/tests.rs": "2d5fb09f4867b736f5a554c0aa2c683c47f33f1b85a31e394743cb2f2e3f70a9",
+    "csdlc-v3/src/main.rs": "f99cd3538c3c5e981d666c61f923a24811aa94f62bab715519ab761ee8de604d",
+    "csdlc-v3/tests/installed_coordination_completion.rs": "d75e3392d3db9a55dbafa5235cab7f7fae763f770eff1403790efff8d7a010cf",
+    "csdlc-v3/src/commands/remote/merge_linkage.rs": "0079309eaeb6dfc31efdcb1d129d41a9a5bdda7dfaa8453285c11b075191b9e1",
+    "docs/csdlc-v3/COORDINATION_COMPLETION.md": "3519a3995b9578887e109b79fcd8963d427bff4a82ab4b99e2a07b41dc602666"
+  },
+  "proof": {
+    "remote_owner_tests": 72,
+    "installed_coordination_tests": 4,
+    "publication_regressions": 13,
+    "clippy": "passed",
+    "format": "passed",
+    "filtered_zero_tests": "Initial owner-filter invocation selected zero installed tests; separate unfiltered installed invocation passed all4. No zero-test proof claim."
+  },
+  "log_sha256": {
+    ".csdlc/evidence/1006/revision-linkage/before-fix.log": "5e5211492562f1be713710d1d87df4d7ddda5e692b363ad5d1e8112d56677c43",
+    ".csdlc/evidence/1006/revision-linkage/focused.log": "0cdbd9ffdd5e47244a84013f6bbde7e284b42cea843412a3dd467f4a918dbd9d",
+    ".csdlc/evidence/1006/revision-linkage/installed.log": "6052b6f4a31015b9e2c3424ecc794e0b90e4a15a73d4c8d24f0e694495235eea",
+    ".csdlc/evidence/1006/revision-linkage/publication-regressions.log": "69083024cd1419d71f39573ffb86e10ba1bd84e05cd08c3ca0d2e08f83477678",
+    ".csdlc/evidence/1006/revision-linkage/clippy.log": "ce102e0040b774364786cfcbb2dca686699b70614d0bc0eb96fbd1c2c9e4e31c"
+  },
+  "review": "Working-diff independent review PASS; final exact-head receipt required",
+  "ci": "pending for revised head",
+  "preserved_prior_proof": ".csdlc/evidence/1006/LOCAL_PROOF.json",
+  "timestamp": "2026-09-16T06:03:19.818960+00:00"
+}

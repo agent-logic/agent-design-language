@@ -62,7 +62,7 @@ pub fn validate_provider_candidate(providers: &ProviderMap) -> Result<ProviderMa
     if !activation.accepted {
         return Err(anyhow!("provider profile candidate rejected"));
     }
-    reject_credential_values(&activation.document)?;
+    reject_credential_values_with_generated_profile_state(&activation.document)?;
     validate_provider_specs(&activation.document)?;
     Ok(activation.document)
 }
@@ -73,18 +73,35 @@ pub fn validate_provider_specs(providers: &HashMap<String, ProviderSpec>) -> Res
         crate::registry::runtime_budget_limits(&spec.config)?;
         crate::provider::runtime_limits::runtime_bounded_calls(&spec.config)?;
         crate::provider::runtime_limits::runtime_output_cap(&spec.config)?;
-        provider_substrate::provider_substrate_v1(provider_id, spec)
+        let substrate = provider_substrate::provider_substrate_v1(provider_id, spec)
             .with_context(|| format!("validate provider reload spec '{provider_id}'"))?;
         // Constructors validate adapter configuration without performing inference,
         // resolving credential values, launching processes or creating resources.
         // Keep this before promotion so dispatch cannot discover an invalid endpoint
         // only after the last-known-good definition has already been replaced.
-        let _ = crate::build_provider_for_id(provider_id, spec, None)?;
+        if substrate.codec_controls.codec == "deepgram_speech_v1" {
+            let _ = crate::build_speech_provider(provider_id, spec)?;
+        } else {
+            let _ = crate::build_provider_for_id(provider_id, spec, None)?;
+        }
     }
     Ok(())
 }
 
 pub fn reject_credential_values(providers: &HashMap<String, ProviderSpec>) -> Result<()> {
+    reject_credential_values_inner(providers, false)
+}
+
+fn reject_credential_values_with_generated_profile_state(
+    providers: &HashMap<String, ProviderSpec>,
+) -> Result<()> {
+    reject_credential_values_inner(providers, true)
+}
+
+fn reject_credential_values_inner(
+    providers: &HashMap<String, ProviderSpec>,
+    allow_generated_profile_state: bool,
+) -> Result<()> {
     for spec in providers.values() {
         // These declared strings select transport, identity or credential references.
         // Adapter cfg_str helpers treat malformed values as absent; admission must
@@ -125,12 +142,16 @@ pub fn reject_credential_values(providers: &HashMap<String, ProviderSpec>) -> Re
         }
         let value =
             serde_json::to_value(&spec.config).context("serialize provider reload config")?;
-        reject_credential_value_at(&[], &value)?;
+        reject_credential_value_at(&[], &value, allow_generated_profile_state)?;
     }
     Ok(())
 }
 
-fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
+fn reject_credential_value_at(
+    path: &[&str],
+    value: &Value,
+    allow_generated_profile_state: bool,
+) -> Result<()> {
     if matches!(
         path,
         ["expected_account_sha256"] | ["expected-account-sha256"]
@@ -158,14 +179,14 @@ fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
                 }
                 let mut next = path.to_vec();
                 next.push(key);
-                reject_credential_value_at(&next, value)?;
+                reject_credential_value_at(&next, value, allow_generated_profile_state)?;
             }
         }
         Value::Array(values) => {
             let mut next = path.to_vec();
             next.push("[]");
             for value in values {
-                reject_credential_value_at(&next, value)?;
+                reject_credential_value_at(&next, value, allow_generated_profile_state)?;
             }
         }
         Value::String(raw) => {
@@ -188,14 +209,16 @@ fn reject_credential_value_at(path: &[&str], value: &Value) -> Result<()> {
                     ));
                 }
             } else {
-                let declared_data = matches!(
-                    path,
-                    ["provider_model_id"]
-                        | ["model"]
-                        | ["local_shadow_model"]
-                        | ["local_shadow_evidence_path"]
-                        | ["local_shadow_rule_set"]
-                );
+                let declared_data = (allow_generated_profile_state
+                    && path.first() == Some(&"profile_state"))
+                    || matches!(
+                        path,
+                        ["provider_model_id"]
+                            | ["model"]
+                            | ["local_shadow_model"]
+                            | ["local_shadow_evidence_path"]
+                            | ["local_shadow_rule_set"]
+                    );
                 if has_credential_marker(raw) || (!declared_data && looks_like_raw_credential(raw))
                 {
                     return Err(anyhow!("provider reload sidecar contains credential value"));

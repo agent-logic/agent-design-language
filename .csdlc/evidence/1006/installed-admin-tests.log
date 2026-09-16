@@ -1,0 +1,8 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1006-v0922-native-coordination-completion/csdlc-v3)
+    Finished `test` profile [unoptimized] target(s) in 1.16s
+     Running tests/installed_intent_commands.rs (/Users/daniel/git/adl-build-cache/worker10-1006/debug/deps/installed_intent_commands-5853913ce4f11678)
+
+running 1 test
+test installed_issue_mutations_execute_exact_targets_and_preserve_omitted_metadata ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 43.03s
