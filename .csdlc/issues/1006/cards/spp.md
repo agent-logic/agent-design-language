@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Separate coordination completion implemented; all123 bounded tests and static checks pass. Record final independent exact-head review and outcome before publication."
+plan_summary: "Implementation,123-test local proof and independent source review complete. Record-only review renewal, native publication, required hosted checks and operator merge remain separate; issue goal stays active."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress"
+    status: "completed"
 affected_areas:
   - "v0922-native-coordination-completion"
 invariants_to_preserve:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][C-SDLC] Support native completion closure for coordination issues`.
 
-Separate coordination completion implemented; all123 bounded tests and static checks pass. Record final independent exact-head review and outcome before publication.
+Implementation,123-test local proof and independent source review complete. Record-only review renewal, native publication, required hosted checks and operator merge remain separate; issue goal stays active.
 
 ## PVF Lane Plan
 
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
