@@ -1255,12 +1255,16 @@ fn validate_legacy_local_completions(
 ) -> Result<(), Error> {
     reject_symlinks(completed)?;
     if !completed.try_exists().map_err(io)? {
-        return Ok(());
+        return if expected_tip.is_some() {
+            Err(Error::RecoveryRequired)
+        } else {
+            Ok(())
+        };
     }
     if !completed.is_dir() {
         return Err(Error::RecoveryRequired);
     }
-    let mut tip = None;
+    let mut generations = BTreeMap::new();
     for entry in fs::read_dir(completed).map_err(io)? {
         let path = entry.map_err(io)?.path();
         let name = path
@@ -1297,18 +1301,16 @@ fn validate_legacy_local_completions(
         {
             return Err(Error::RecoveryRequired);
         }
-        match tip.as_ref() {
-            Some((current, current_digest)) if generation == *current => {
-                if result_digest != current_digest {
-                    return Err(Error::RecoveryRequired);
-                }
-            }
-            Some((current, _)) if generation < *current => {}
-            _ => tip = Some((generation, result_digest.to_owned())),
+        if generations
+            .insert(generation, result_digest.to_owned())
+            .is_some_and(|retained| retained != result_digest)
+        {
+            return Err(Error::RecoveryRequired);
         }
     }
     if let Some((generation, digest)) = expected_tip {
-        if tip.as_ref().map(|(g, d)| (*g, d.as_str())) != Some((generation, digest)) {
+        if generations.last_key_value().map(|(g, d)| (*g, d.as_str())) != Some((generation, digest))
+        {
             return Err(Error::RecoveryRequired);
         }
     }

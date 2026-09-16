@@ -964,7 +964,7 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     } else {
         None
     };
-    let snapshot = local::intent::prepare_semantic(
+    let prepared = local::intent::prepare_semantic(
         &request,
         &registry,
         &native,
@@ -977,6 +977,7 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
         },
     )
     .map_err(errors)?;
+    let snapshot = prepared.snapshot;
     let native_result = (!legacy_native)
         .then(|| local::execute_operational_local_route("issue", &request, &registry, &native));
     if let Some(Err(findings)) = native_result {
@@ -993,11 +994,23 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
         std::process::exit(91);
     }
     match context.complete_semantic_projection(&snapshot) {
-        Ok(current) => Ok(
-            json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
-            "operational_authority":true,"writes_v3_state":true,"status":"completed",
-            "issue":context.issue,"semantic_version":current.version(),"inputs":current.inputs_version(),"phase":current.phase()}),
-        ),
+        Ok(current) => {
+            if let Some(fence) = prepared.adoption_fence {
+                if let Err(error) = fence.release() {
+                    return Ok(
+                        json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
+                        "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",
+                        "issue":context.issue,"semantic_version":current.version(),
+                        "adoption_fence":{"release_required":true,"finding":error}}),
+                    );
+                }
+            }
+            Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
+                "operational_authority":true,"writes_v3_state":true,"status":"completed",
+                "issue":context.issue,"semantic_version":current.version(),"inputs":current.inputs_version(),"phase":current.phase()}),
+            )
+        }
         Err(error) => Ok(
             json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",

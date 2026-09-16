@@ -1,8 +1,10 @@
 //! PVF: installed integration proof, deterministic local Git and synthetic transport.
 //! Required #869/SIM-07 lane; fixture bootstrap is not issue execution evidence.
+use fs2::FileExt;
 use serde_json::{json, Value};
 use std::{
     fs,
+    fs::OpenOptions,
     path::Path,
     process::{Command, Output},
 };
@@ -231,18 +233,46 @@ fn issue_1036_interrupted_bound_legacy_adoption_replays_to_completion() {
     );
     assert_eq!(interrupted.status.code(), Some(91));
     assert!(primary.join(".git/csdlc-v3/semantic/issues/505").is_dir());
+    let lock_path = primary.join(".git/csdlc-v3/local/locks/505.lock");
+    let old_writer_lock = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(&lock_path)
+        .unwrap();
+    let old_writer_admitted = old_writer_lock.try_lock_exclusive().is_ok();
+    if old_writer_admitted {
+        fs::write(native_issue.join("index.json"), b"old writer mutation\n").unwrap();
+    }
+    assert!(!old_writer_admitted, "old writer entered after activation");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "old writer changed retained bytes while adoption awaited recovery"
+    );
     let recovered = success(fixture.run(
         &bound,
         &["prepare", "505", "--plan", input.to_str().unwrap()],
     ));
     assert_eq!(recovered["status"], "completed");
+    let released_lock = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(lock_path)
+        .unwrap();
+    assert!(released_lock.try_lock_exclusive().is_ok());
     assert_same_inventory!(native_before, intent_fixture::inventory(&native_issue));
     observation(&mut fixture, &bound, "status");
 }
 
 #[test]
 fn issue_1036_bound_legacy_adoption_rejects_changed_plan_and_damaged_completion() {
-    for case in ["changed_plan", "damaged_completion"] {
+    for case in [
+        "changed_plan",
+        "damaged_completion",
+        "missing_completion_chain",
+        "empty_completion_chain",
+        "conflicting_non_tip_generation",
+    ] {
         let mut fixture = Fixture::new(case);
         let primary = fixture.root.clone();
         prepare(&mut fixture);
@@ -252,17 +282,44 @@ fn issue_1036_bound_legacy_adoption_rejects_changed_plan_and_damaged_completion(
         fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
         fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
         let mut candidate = plan();
-        if case == "changed_plan" {
-            candidate["cards"]["sip"] = json!({"goal":"different retained truth"});
-        } else {
-            let completed = bound.join(".csdlc/transactions/completed/505");
-            let receipt = fs::read_dir(&completed)
-                .unwrap()
-                .map(Result::unwrap)
-                .map(|entry| entry.path())
-                .max()
-                .expect("bound completion receipt");
-            fs::write(receipt, b"{}\n").unwrap();
+        let completed = bound.join(".csdlc/transactions/completed/505");
+        match case {
+            "changed_plan" => {
+                candidate["cards"]["sip"] = json!({"goal":"different retained truth"});
+            }
+            "damaged_completion" => {
+                let receipt = fs::read_dir(&completed)
+                    .unwrap()
+                    .map(Result::unwrap)
+                    .map(|entry| entry.path())
+                    .max()
+                    .expect("bound completion receipt");
+                fs::write(receipt, b"{}\n").unwrap();
+            }
+            "missing_completion_chain" => fs::remove_dir_all(&completed).unwrap(),
+            "empty_completion_chain" => {
+                fs::remove_dir_all(&completed).unwrap();
+                fs::create_dir_all(&completed).unwrap();
+            }
+            "conflicting_non_tip_generation" => {
+                for (request_digest, result_digest) in [("b", "d"), ("c", "e")] {
+                    let request_digest = request_digest.repeat(64);
+                    fs::write(
+                        completed.join(format!("edit-{request_digest}.json")),
+                        serde_json::to_vec(&json!({
+                            "schema":"csdlc.v3.local_mutation_completion.v1",
+                            "issue":505,"route":"edit","request_digest":request_digest,
+                            "result":{"route":"edit","issue":505,"mutated":true,
+                                "phase":"bound","generation":1,
+                                "digest":result_digest.repeat(64),"next_route":"validate",
+                                "findings":[]}
+                        }))
+                        .unwrap(),
+                    )
+                    .unwrap();
+                }
+            }
+            _ => unreachable!(),
         }
         let input = fixture.write_json(&format!("{case}-plan.json"), &candidate);
         let before = intent_fixture::inventory(&fixture.root);
