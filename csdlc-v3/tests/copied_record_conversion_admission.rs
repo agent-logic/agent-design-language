@@ -114,6 +114,50 @@ fn source_identity_phase_and_prior_executable_mismatches_fail_before_effects() {
 }
 
 #[test]
+fn swapped_wrapped_and_flat_card_kinds_fail_before_effects() {
+    for (issue, first, second, expected) in [
+        (
+            511_u64,
+            "sip",
+            "srp",
+            "declared card kind srp does not match sip",
+        ),
+        (
+            517_u64,
+            "stp",
+            "vpp",
+            "declared card kind vpp does not match stp",
+        ),
+    ] {
+        let fixture = Fixture::new();
+        let cards = fixture.copied.join(issue.to_string()).join("cards");
+        let first_path = cards.join(format!("{first}.values.json"));
+        let second_path = cards.join(format!("{second}.values.json"));
+        let first_bytes = fs::read(&first_path).unwrap();
+        let second_bytes = fs::read(&second_path).unwrap();
+        fs::write(&first_path, second_bytes).unwrap();
+        fs::write(&second_path, first_bytes).unwrap();
+
+        assert_normal_rejection(
+            &invoke(&fixture.write_request(
+                &fixture.operation(&format!("swapped-{issue}-{first}-{second}")),
+                None,
+            )),
+            expected,
+        );
+        assert!(!fixture.git_common.join("csdlc-v3/semantic").exists());
+        assert!(!fixture
+            .git_common
+            .join("csdlc-v3/local/projections")
+            .exists());
+        assert!(!fixture
+            .git_common
+            .join("csdlc-v3/local/conversion-rehearsals")
+            .exists());
+    }
+}
+
+#[test]
 fn converter_holds_exact_native_fence_denominator_and_unrelated_residue_still_rejects() {
     let fixture = Fixture::new();
     let operation = fixture.operation("writer-fence");

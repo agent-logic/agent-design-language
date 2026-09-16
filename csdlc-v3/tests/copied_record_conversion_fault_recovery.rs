@@ -44,6 +44,7 @@ fn every_durability_fault_crashes_then_resumes_once_in_a_fresh_process() {
 
 fn exercise_fault(point: &str, boundary: &str) {
     let fixture = Fixture::new(point, boundary);
+    let prior_executable_bytes = fs::read(&fixture.prior_executable).unwrap();
     let operation_id = format!(
         "issue872-{point}-{boundary}-{}-{}",
         std::process::id(),
@@ -100,6 +101,11 @@ fn exercise_fault(point: &str, boundary: &str) {
     assert_crash_artifacts_are_continuous(point, boundary, &crash_files);
     assert_single_semantic_effect(point, boundary, &fixture.git_common);
     assert_remote_effect_is_not_duplicated(point, boundary, &fixture.git_common, &operation_id);
+    assert_eq!(
+        fs::read(&fixture.prior_executable).unwrap(),
+        prior_executable_bytes,
+        "{point}/{boundary}: immutable prior executable input changed across crash recovery"
+    );
 }
 
 fn invoke_convert(request: &Path) -> Output {
@@ -260,6 +266,7 @@ struct Fixture {
     linked: PathBuf,
     git_common: PathBuf,
     linked_head: String,
+    prior_executable: PathBuf,
 }
 
 impl Fixture {
@@ -297,6 +304,12 @@ impl Fixture {
         );
         let linked_head = git_stdout(&["rev-parse", "HEAD"], &linked);
         let git_common = primary.join(".git");
+        let prior_executable = root.join("prior-executable");
+        fs::copy(
+            env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"),
+            &prior_executable,
+        )
+        .expect("prior executable must be snapshotted before fault recovery");
 
         let source =
             Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/issue872-copied-records");
@@ -329,6 +342,7 @@ impl Fixture {
             linked,
             git_common,
             linked_head,
+            prior_executable,
         }
     }
 
@@ -348,8 +362,8 @@ impl Fixture {
             "repository": "agent-logic/agent-design-language",
             "operation_id": operation_id,
             "authority_bytes_path": self.linked.join("csdlc-v3/operator/authority-selector.json"),
-            "prior_executable_path": env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"),
-            "prior_executable_blake3": blake3::hash(&fs::read(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal")).unwrap()).to_hex().to_string(),
+            "prior_executable_path": self.prior_executable,
+            "prior_executable_blake3": blake3::hash(&fs::read(&self.prior_executable).unwrap()).to_hex().to_string(),
             "writer_fence_issues": [511, 517, 497, 3, 505, 122, 113, 868],
             "writer_probe_issue": 868,
             "git_common": self.git_common,

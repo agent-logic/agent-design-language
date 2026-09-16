@@ -984,7 +984,27 @@ fn load_cards(source: &Path) -> Result<BTreeMap<String, Value>, String> {
         if !rendered.is_file() {
             return Err(format!("missing rendered card {}", rendered.display()));
         }
-        cards.insert(kind.to_owned(), read_json(&values)?);
+        let card = read_json(&values)?;
+        let wrapped = card.pointer("/content/values").is_some();
+        let declared_kind = if wrapped {
+            card.pointer("/content/card_kind")
+                .and_then(Value::as_str)
+                .filter(|value| !value.is_empty())
+                .ok_or_else(|| {
+                    format!("wrapped {kind} card lacks its required content.card_kind declaration")
+                })?
+        } else {
+            card.get("card")
+                .and_then(Value::as_str)
+                .filter(|value| !value.is_empty())
+                .ok_or_else(|| format!("flat {kind} card lacks its required card declaration"))?
+        };
+        if declared_kind != kind {
+            return Err(format!(
+                "declared card kind {declared_kind} does not match {kind} values filename"
+            ));
+        }
+        cards.insert(kind.to_owned(), card);
     }
     Ok(cards)
 }
