@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "The prior exact-head PASS is superseded by this source change. A fresh independent exact-head review is required against the new immutable commit before publication/finish."
+notes: "No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Post-publication PR #1012 CI at ca2e33f62bdcf0c1dedc2d5ee848617c1fc4fc15 failed `adl-rust-fmt-clippy` because `adl/src/codefriend/actions/remediation.rs` used a manual char-comparison closure in `trim_end_matches`.
+- Fresh exact-head review of ed970b2443aadd818f02bf482cb29a5aecbaa966 by fresh-session:/root/review_893_clippy_final returned one P2 lifecycle truth finding: `.csdlc/issues/893/cards/sor.values.json` field `validation_commands_inline` still omitted clippy and described the repair as path-extraction-only.
 
 ### Dispositions
 
-- Accepted and remediated as a style-only source change: replaced the closure with `trim_end_matches(['.', ',', ';'])`. Re-ran focused remediation tests, Rust formatting, full clippy with `-D warnings`, and diff hygiene successfully.
+- Finding accepted and remediated through native SOR value update. `validation_commands_inline` now includes focused tests, fmt, full clippy with denied warnings, and diff hygiene, and names the clippy-only repair after the path-extraction fix.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-The prior exact-head PASS is superseded by this source change. A fresh independent exact-head review is required against the new immutable commit before publication/finish.
+No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish.

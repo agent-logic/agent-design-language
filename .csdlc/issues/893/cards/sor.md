@@ -174,5 +174,5 @@ verification_summary:
 - `The proof uses synthesis-shaped local fixtures plus the existing synthesis regression suite. It does not claim a live external-provider review run or issue-creation authority.`
 
 ## Follow-ups / Deferred work
-- `Commit immutable remediated candidate and obtain fresh independent exact-head review.`
-- `Republish/update PR #1012 only after fresh review passes and native publication guard accepts current truth.`
+- `Commit immutable lifecycle-truth repair and obtain fresh independent exact-head review.`
+- `If review passes, republish/update PR #1012 through native C-SDLC, observe CI, and finish only at green/terminal authority.`
