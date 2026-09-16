@@ -3,7 +3,7 @@ mod github_command;
 use adl::codefriend::ingestion::{local, AdmissionInput, Scope};
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
-const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend plan tests --input <synthesis.json> --out <new-dir>\n       adl codefriend plan tests read --input <test-plan.json>\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
+const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend plan tests --input <synthesis.json> --out <new-dir>\n       adl codefriend plan tests read --input <test-plan.json>\n       adl codefriend publication prepare|approve|withhold|invalidate|inspect|admit ...\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     if args.first().is_some_and(|arg| arg == "memory") {
         return super::codefriend_memory_cmd::run(&args[1..]);
@@ -38,6 +38,9 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     }
     if args.len() >= 2 && args[0] == "review" && args[1] == "shell" {
         return review_shell(&args[2..]);
+    }
+    if args.first().is_some_and(|arg| arg == "publication") {
+        return super::codefriend_publication_cmd::run(&args[1..]);
     }
     if args.len() >= 2 && args[0] == "plan" && args[1] == "remediation" {
         return plan_remediation(&args[2..]);
