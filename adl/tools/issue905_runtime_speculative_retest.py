@@ -91,8 +91,8 @@ def main() -> int:
         parser.add_argument("--" + name, type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-revision", required=True)
-    parser.add_argument("--baseline-model", default="adl-905-baseline")
-    parser.add_argument("--speculative-model", default="adl-905-speculative")
+    parser.add_argument("--baseline-model", default="adl-905-baseline:latest")
+    parser.add_argument("--speculative-model", default="adl-905-speculative:latest")
     parser.add_argument("--repeats", type=int, default=2)
     args = parser.parse_args()
     args.hosted_mode = False
