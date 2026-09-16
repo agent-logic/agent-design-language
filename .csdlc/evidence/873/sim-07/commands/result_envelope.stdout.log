@@ -1,0 +1,13 @@
+
+running 9 tests
+test an_observation_descriptor_cannot_hide_an_owner_reported_mutation ... ok
+test blocked_owner_results_are_not_completed_or_reclassified_by_exit_status ... ok
+test expected_noop_and_missing_identity_remain_explicit ... ok
+test failed_and_uncertain_operations_preserve_effect_evidence ... ok
+test pure_review_and_publication_admission_do_not_claim_persisted_effects ... ok
+test receipt_replay_effects_follow_producer_evidence_for_wrapped_and_direct_dispatch ... ok
+test sprint_completion_and_invalidity_do_not_create_operational_authority ... ok
+test string_findings_are_normalized_without_rewriting_owner_evidence ... ok
+test unvalidated_request_fields_do_not_become_asserted_identity_or_version ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

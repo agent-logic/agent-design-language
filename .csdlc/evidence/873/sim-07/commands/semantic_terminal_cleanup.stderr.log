@@ -1,0 +1,3 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.32s
+     Running tests/semantic_terminal_cleanup.rs (csdlc-v3/target/debug/deps/semantic_terminal_cleanup-453be6c439678497)

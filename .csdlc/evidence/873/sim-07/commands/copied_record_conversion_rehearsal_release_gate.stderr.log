@@ -1,7 +1,0 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
-     Running tests/copied_record_conversion_rehearsal.rs (csdlc-v3/target/debug/deps/copied_record_conversion_rehearsal-e02326650befb5e3)
-
-thread 'copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_denominator' (5553290) panicked at tests/copied_record_conversion_rehearsal.rs:170:14:
-ISSUE872_OLD_STATE is required with ISSUE872_OLD_CSDLC
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-error: test failed, to rerun pass `--test copied_record_conversion_rehearsal`

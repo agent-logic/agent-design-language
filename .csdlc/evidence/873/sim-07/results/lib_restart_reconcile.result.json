@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "lib_restart_reconcile",
+  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation -- --exact --test-threads=1",
+  "started_at": "2026-09-16T18:08:34Z",
+  "ended_at": "2026-09-16T18:08:35Z",
+  "elapsed_seconds": 1,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "47bf779d1f4061154aaafb58b6dc4aad674b53e2af0a919579f88af14fdfb550",
+  "stderr_sha256": "239587b4215222d7794c18d7b34388bf6965a570a70de286df8e6d9da26da84e"
+}

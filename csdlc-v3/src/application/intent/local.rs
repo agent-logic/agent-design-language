@@ -166,21 +166,35 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
                 .map_err(|_| "intent_status_decisions_invalid")?
         };
         let projection = semantic_card_projection_observation(context, &registry, false)?;
-        let proof_current = match semantic_proof_current(context) {
-            Ok(current) => current,
-            // Status is an observation route. A commit after binding makes proof
-            // stale, but must not turn that read-only observation into a failure.
-            Err(error)
-                if matches!(
-                    error.as_str(),
-                    "intent_semantic_binding_stale" | "intent_semantic_projection_repair_required"
-                ) =>
-            {
-                false
+        let semantic_preparation_required = projection.is_none();
+        let proof_current = if semantic_preparation_required {
+            false
+        } else {
+            match semantic_proof_current(context) {
+                Ok(current) => current,
+                // Status is an observation route. A commit after binding makes proof
+                // stale, but must not turn that read-only observation into a failure.
+                Err(error)
+                    if matches!(
+                        error.as_str(),
+                        "intent_semantic_binding_stale"
+                            | "intent_semantic_projection_repair_required"
+                    ) =>
+                {
+                    false
+                }
+                Err(error) => return Err(error),
             }
-            Err(error) => return Err(error),
         };
         output["evidence"] = json!({"proof_current":proof_current,"validators_run":false});
+        if semantic_preparation_required {
+            output["preparation"] = json!({
+                "structural_state":"native_record_present_semantic_preparation_required",
+                "dependencies_ready":decisions.dependencies_ready,
+                "execution_ready":false,
+                "allowed_next":["prepare"]
+            });
+        }
         if let Some((_, bundle, observation)) = &projection {
             output["projection"] = json!({
                 "observation": observation,
@@ -226,7 +240,9 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         )
         .map_err(errors)?);
         output["operator_decisions"] = json!({"required":unknown||decisions.operator_decision_needed,"design_ready":decisions.design_ready,"dependencies_ready":decisions.dependencies_ready,"budget_available":decisions.budget_available});
-        output["allowed_next"] = json!(if blocked {
+        output["allowed_next"] = json!(if semantic_preparation_required {
+            vec!["prepare"]
+        } else if blocked {
             vec!["status", "recover"]
         } else if context.index["phase"] == "ready" {
             vec!["bind"]
@@ -287,14 +303,15 @@ pub(super) fn semantic_card_projection_observation(
 > {
     use crate::storage::{semantic::Observation, DurableTransactionStore};
     let (root, key) = context.semantic_root_key()?;
-    let snapshot =
-        match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
-            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
-                *snapshot
-            }
-            Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
-            Observation::LegacyMigrationRequired | Observation::Absent => return Ok(None),
-        };
+    let snapshot = match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+        .map_err(semantic_error)?
+    {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            *snapshot
+        }
+        Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
+        Observation::LegacyMigrationRequired | Observation::Absent => return Ok(None),
+    };
     if snapshot.inputs().authority() != &context.semantic_authority()? {
         return Err("intent_semantic_authority_changed".into());
     }
@@ -324,6 +341,7 @@ pub(super) fn semantic_rebuild(
         semantic::{Admission, CardProjectionObservation, CommitOutcome, LocalChange},
         DurableTransactionStore,
     };
+    context.refresh_semantic_binding()?;
     let Some((snapshot, bundle, before)) =
         semantic_card_projection_observation(context, registry, true)?
     else {
@@ -383,6 +401,14 @@ pub(super) fn semantic_rebuild(
             "projection_digest":projection_digest,"registry_version":registry_version},
         "semantic_version":committed.version(),
     }))
+}
+
+fn semantic_rebuild_current(
+    context: &Context,
+    registry: &local::PromptRegistry,
+) -> Result<Value, String> {
+    let current = Context::load(&context.root, context.issue)?;
+    semantic_rebuild(&current, registry)
 }
 
 fn semantic_edit(
@@ -569,7 +595,7 @@ fn semantic_edit(
             {
                 std::process::exit(91);
             }
-            semantic_rebuild(context, &context.registry()?)?;
+            semantic_rebuild_current(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
@@ -691,6 +717,12 @@ fn semantic_bind(
         }
         Reservation::Reserved(ticket) => ticket,
     };
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_bind_after_reservation")
+    {
+        std::process::exit(91);
+    }
     semantic.admit_before_effect(ticket.id())?;
     // Rebinding a retained checkout revalidates its native ownership/cards;
     // it must not invoke the create/move binder again on native Bound state.
@@ -778,9 +810,26 @@ fn semantic_bind(
 }
 
 fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
-    if !context.index.is_null() {
-        return Err("issue_already_initialized".into());
-    }
+    let legacy_native = if !context.index.is_null() {
+        let (root, key) = context.semantic_root_key()?;
+        match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+            .map_err(semantic_error)?
+        {
+            crate::storage::semantic::Observation::LegacyMigrationRequired => true,
+            crate::storage::semantic::Observation::RecoveryRequired => {
+                return Err("intent_semantic_recovery_required".into())
+            }
+            crate::storage::semantic::Observation::Absent => {
+                return Err("intent_native_state_without_semantic_classification".into())
+            }
+            crate::storage::semantic::Observation::Current(_)
+            | crate::storage::semantic::Observation::ProjectionRepairRequired(_) => {
+                return Err("issue_already_initialized".into())
+            }
+        }
+    } else {
+        false
+    };
     let plan: IntentPlan =
         serde_json::from_value(value.clone()).map_err(|_| "intent_plan_invalid")?;
     if plan.schema != "csdlc.v3.intent_plan.v1"
@@ -834,6 +883,15 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     )
     .canonicalize()
     .map_err(|_| "intent_worktree_parent_unavailable")?;
+    let expected_lifecycle_digest = legacy_native
+        .then(|| {
+            context.index["digest"]
+                .as_str()
+                .filter(|value| !value.is_empty())
+                .map(str::to_owned)
+                .ok_or("intent_legacy_lifecycle_digest_missing")
+        })
+        .transpose()?;
     let mut request = LocalPreparationRequest {
         issue: context.issue,
         title: title.into(),
@@ -844,7 +902,7 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
             .to_string_lossy()
             .into_owned(),
         registry_version: registry.version.clone(),
-        expected_lifecycle_digest: None,
+        expected_lifecycle_digest,
         commands: local::required_local_commands().to_vec(),
         card_updates: plan.cards.clone(),
         schedule_readiness: None,
@@ -877,9 +935,9 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
         context.semantic_authority()?,
     )
     .map_err(errors)?;
-    let native_result =
-        local::execute_operational_local_route("issue", &request, &registry, &native);
-    if let Err(findings) = native_result {
+    let native_result = (!legacy_native)
+        .then(|| local::execute_operational_local_route("issue", &request, &registry, &native));
+    if let Some(Err(findings)) = native_result {
         return Ok(
             json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",
@@ -1016,7 +1074,7 @@ fn semantic_validation_edit(
                     _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
-            semantic_rebuild(context, &context.registry()?)?;
+            semantic_rebuild_current(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
@@ -1243,11 +1301,38 @@ pub(crate) fn recover_semantic_bind(
     {
         return Err("intent_bind_retained_native_identity_mismatch".into());
     }
-    let mut observed_context = Context::load(&context.primary, context.issue)?;
-    let mut binding_path = observed_context
-        .git_common
-        .join(format!("csdlc-v3/local/bindings/{}.json", context.issue));
-    let mut native_bound = binding_path.exists()
+    let recovery_source_exists =
+        local::intent::recovery_source(&context.git_common.join("csdlc-v3/local"), context.issue)
+            .map_err(errors)?
+            .is_some();
+    let registration = super::context::git(&context.primary, &["worktree", "list", "--porcelain"])?;
+    let canonical_target = target.worktree.canonicalize().ok();
+    let branch_ref = format!("refs/heads/{}", target.branch);
+    let registered = registration.split("\n\n").any(|record| {
+        record.lines().any(|line| {
+            line.strip_prefix("worktree ")
+                .and_then(|path| std::path::Path::new(path).canonicalize().ok())
+                .is_some_and(|path| Some(path) == canonical_target)
+        }) && record
+            .lines()
+            .any(|line| line == format!("branch {branch_ref}"))
+    });
+    let binding_state_root = if recovery_source_exists {
+        context.git_common.join("csdlc-v3/local")
+    } else if target.worktree.exists() {
+        local::operational_state_root(&target.worktree).map_err(errors)?
+    } else {
+        target.worktree.join(".git/csdlc-v3/local")
+    };
+    let mut binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
+    let mut definitely_absent = !binding_path.exists() && !target.worktree.exists() && !registered;
+    let mut observed_context = if recovery_source_exists || definitely_absent {
+        Context::load(&context.primary, context.issue)?
+    } else {
+        Context::load(&target.worktree, context.issue)?
+    };
+    let mut native_bound = !definitely_absent
+        && binding_path.exists()
         && read_json(&binding_path).is_ok_and(|binding| {
             binding["issue"] == context.issue
                 && binding["branch"] == target.branch
@@ -1256,18 +1341,7 @@ pub(crate) fn recover_semantic_bind(
         && observed_context.root == target.worktree
         && observed_context.branch == target.branch
         && observed_context.head == target.head;
-    let registration = super::context::git(&context.primary, &["worktree", "list", "--porcelain"])?;
-    let registered = registration.lines().any(|line| {
-        line == format!("worktree {}", target.worktree.display())
-            || line == format!("branch refs/heads/{}", target.branch)
-    });
-    let mut definitely_absent = !binding_path.exists() && !target.worktree.exists() && !registered;
-    if !native_bound
-        && !definitely_absent
-        && local::intent::recovery_source(&context.git_common.join("csdlc-v3/local"), context.issue)
-            .map_err(errors)?
-            .is_some()
-    {
+    if !native_bound && !definitely_absent && recovery_source_exists {
         let native = local::discover_operational_local_context(&context.primary, &native_request)
             .map_err(errors)?
             .ok_or("intent_operational_authority_required")?;
@@ -1279,9 +1353,7 @@ pub(crate) fn recover_semantic_bind(
         local::intent::recover(&native_request, &native, true, Some(native_digest))
             .map_err(errors)?;
         observed_context = Context::load(&context.primary, context.issue)?;
-        binding_path = observed_context
-            .git_common
-            .join(format!("csdlc-v3/local/bindings/{}.json", context.issue));
+        binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
         native_bound = binding_path.exists()
             && read_json(&binding_path).is_ok_and(|binding| {
                 binding["issue"] == context.issue
@@ -1293,11 +1365,43 @@ pub(crate) fn recover_semantic_bind(
             && observed_context.head == target.head;
         let registration =
             super::context::git(&context.primary, &["worktree", "list", "--porcelain"])?;
-        let registered = registration.lines().any(|line| {
-            line == format!("worktree {}", target.worktree.display())
-                || line == format!("branch refs/heads/{}", target.branch)
+        let canonical_target = target.worktree.canonicalize().ok();
+        let registered = registration.split("\n\n").any(|record| {
+            record.lines().any(|line| {
+                line.strip_prefix("worktree ")
+                    .and_then(|path| std::path::Path::new(path).canonicalize().ok())
+                    .is_some_and(|path| Some(path) == canonical_target)
+            }) && record
+                .lines()
+                .any(|line| line == format!("branch {branch_ref}"))
         });
         definitely_absent = !binding_path.exists() && !target.worktree.exists() && !registered;
+    }
+    if !native_bound && !definitely_absent && !binding_path.exists() && registered {
+        let native = local::discover_operational_local_context(&target.worktree, &native_request)
+            .map_err(errors)?
+            .ok_or("intent_operational_authority_required")?;
+        let registry = context.registry()?;
+        let native_result =
+            local::execute_operational_local_route("bind", &native_request, &registry, &native)
+                .map_err(errors)?;
+        if !native_result
+            .findings
+            .iter()
+            .any(|finding| finding.status != PlanStatus::Passed)
+        {
+            observed_context = Context::load(&target.worktree, context.issue)?;
+            binding_path = binding_state_root.join(format!("bindings/{}.json", context.issue));
+            native_bound = binding_path.exists()
+                && read_json(&binding_path).is_ok_and(|binding| {
+                    binding["issue"] == context.issue
+                        && binding["branch"] == target.branch
+                        && binding["worktree"].as_str() == target.worktree.to_str()
+                })
+                && observed_context.root == target.worktree
+                && observed_context.branch == target.branch
+                && observed_context.head == target.head;
+        }
     }
     let (kind, truth, facts, evidence) = if native_bound {
         (
@@ -1327,12 +1431,19 @@ pub(crate) fn recover_semantic_bind(
             "reason":"native_bind_partial_or_ambiguous"})));
     };
     let semantic = observed_context.semantic_recovery_context(pending.id())?;
-    let admission = match semantic.fresh_for_effect(pending.id()) {
-        Ok(value) => value,
-        Err(error) => {
-            return Ok(Some(json!({"status":"recovery_required","read_only":true,
-                "performed_mutation":null,"operation_id":pending.id().as_str(),
-                "reason":"bind_target_changed_before_attachment","finding":error})))
+    let admission = if definitely_absent {
+        AttachmentAdmission::from_native_owner(
+            semantic.snapshot.inputs().authority().clone(),
+            inspection.request().origin().clone(),
+        )
+    } else {
+        match semantic.fresh_for_effect(pending.id()) {
+            Ok(value) => value,
+            Err(error) => {
+                return Ok(Some(json!({"status":"recovery_required","read_only":true,
+                    "performed_mutation":null,"operation_id":pending.id().as_str(),
+                    "reason":"bind_target_changed_before_attachment","finding":error})))
+            }
         }
     };
     let outcome = VerifiedOutcome::from_native_owner(
@@ -1368,11 +1479,10 @@ pub(crate) fn recover_semantic_bind(
         };
     let projected = semantic.complete_projection(&current)?;
     semantic_rebuild(context, &context.registry()?)?;
-    Ok(Some(
-        json!({"status":if kind==OutcomeKind::Success {"completed"} else {"failed"},
+    Ok(Some(json!({"status":"completed",
         "read_only":false,"performed_mutation":false,"operation_id":completed.operation_id().as_str(),
-        "native_effect_truth":truth,"semantic_version":projected.version()}),
-    ))
+        "semantic_outcome":kind,
+        "native_effect_truth":truth,"semantic_version":projected.version()})))
 }
 
 pub(crate) fn recover_semantic_edit(
@@ -1479,7 +1589,7 @@ pub(crate) fn recover_semantic_edit(
                     _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
                 };
                 let projected = semantic.complete_projection(&snapshot)?;
-                semantic_rebuild(context, &context.registry()?)?;
+                semantic_rebuild_current(context, &context.registry()?)?;
                 json!({"status":"completed","read_only":false,"performed_mutation":true,
                     "operation_id":done.operation_id().as_str(),
                     "native_effect_truth":done.truth(),
@@ -1561,7 +1671,7 @@ pub(crate) fn recover_semantic_edit(
                     _ => return Err("intent_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
-            semantic_rebuild(context, &context.registry()?)?;
+            semantic_rebuild_current(context, &context.registry()?)?;
             json!({"status":"completed","read_only":false,"performed_mutation":true,
                 "action":"reconciled_native_edit","operation_id":done.operation_id().as_str(),
                 "native_effect_truth":truth,"semantic_version":projected.version(),
@@ -1829,14 +1939,13 @@ pub(crate) fn semantic_proof_current(context: &Context) -> Result<bool, String> 
         };
         let evidence: Value =
             serde_json::from_slice(bytes).map_err(|_| "intent_retained_proof_invalid")?;
+        let expected_inputs = serde_json::to_value(admitted.snapshot.inputs_version())
+            .map_err(|_| "intent_input_version_invalid")?;
         if evidence["schema"] != "csdlc.v3.semantic_proof_evidence.v1"
             || evidence["repository"] != context.repository
             || evidence["issue"] != context.issue
             || evidence["head"] != context.head
-            || evidence["issue_digest"] != context.index["digest"]
-            || evidence["inputs"]
-                != serde_json::to_value(admitted.snapshot.inputs_version())
-                    .map_err(|_| "intent_input_version_invalid")?
+            || evidence["inputs"] != expected_inputs
             || evidence["administrative_epoch"] != administrative_epoch
         {
             return Ok(false);
@@ -1854,14 +1963,13 @@ pub(crate) fn semantic_proof_current(context: &Context) -> Result<bool, String> 
                 timeout_seconds: v.timeout_seconds,
             })
             .collect::<Vec<_>>();
-        return Ok(
-            crate::commands::proof::intent::verify_semantic_execution_inputs(
-                context,
-                &validators,
-                &evidence["execution"],
-            )
-            .is_ok(),
+        let current = Context::load(&context.root, context.issue)?;
+        let proof_current = crate::commands::proof::intent::verify_semantic_execution_inputs(
+            &current,
+            &validators,
+            &evidence["execution"],
         );
+        return Ok(proof_current.is_ok());
     }
     Ok(false)
 }
@@ -2020,7 +2128,7 @@ pub(crate) fn recover_semantic_proof(
                     _ => return Err("intent_proof_semantic_state_unavailable".into()),
                 };
                 let projected = admitted.complete_projection(&snapshot)?;
-                semantic_rebuild(context, &context.registry()?)?;
+                semantic_rebuild_current(context, &context.registry()?)?;
                 json!({"status":"completed","read_only":false,"performed_mutation":true,
                     "action":"abandoned_indeterminate_proof","operation_id":done.operation_id().as_str(),
                     "native_effect_truth":done.truth(),"semantic_outcome":done.outcome_kind(),

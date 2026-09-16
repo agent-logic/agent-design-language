@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "proof_scope": "targeted production CLI before/after sequence regression; not full release gate",
+  "cases": [
+    {
+      "boundary": "before",
+      "production_commands": 6,
+      "archived_writer_probe_retained": true,
+      "retained_validator_bundle": "passed",
+      "probe_sha256": "1d7e4708675091621005accf164444eccc5a7e07e2b006bd1fa01ca398146bd6"
+    },
+    {
+      "boundary": "after",
+      "production_commands": 6,
+      "archived_writer_probe_retained": true,
+      "retained_validator_bundle": "passed",
+      "probe_sha256": "66e1b642898bcb1fd0546d717164325d39a7a3437d36cdc9c30067d1325596a0"
+    }
+  ]
+}

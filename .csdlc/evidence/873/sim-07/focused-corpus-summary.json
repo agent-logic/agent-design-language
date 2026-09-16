@@ -1,0 +1,891 @@
+{
+  "schema": "adl.csdlc.sim07.focused_corpus.v2",
+  "evidence_scope": {
+    "frozen_candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+    "requalification_observed_source_head": "8b482221e6a6c0eccab1175c2320aa1f7d441ce1",
+    "exact_head_aggregate_claim": false,
+    "classification": "bounded retained and refreshed exact captures; totals do not claim that all records ran at one source head"
+  },
+  "results": [
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "command_manifest",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test command_manifest -- --test-threads=1",
+      "started_at": "2026-09-16T06:50:28Z",
+      "ended_at": "2026-09-16T06:50:32Z",
+      "elapsed_seconds": 4,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 11,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "f659179a3bbf05b97ed4101abb92a16d17cb8794679453b59983098e53c28919",
+      "stderr_sha256": "e355ed026b18f0eb28cdcdaaaaa12df93557ab2565e442e658f5bb951c8cccff",
+      "evidence": [
+        "results/command_manifest.result.json",
+        "commands/command_manifest.command.txt",
+        "commands/command_manifest.stdout.log",
+        "commands/command_manifest.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "copied_current_observation_relocation",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test copied_current_observation_relocation -- --test-threads=1",
+      "started_at": "2026-09-16T06:49:27Z",
+      "ended_at": "2026-09-16T06:49:29Z",
+      "elapsed_seconds": 2,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "6489b033ff7f97dfeb7ca9559c5c122d41d5b0e3e226c93830cf0c9ab7f5e94e",
+      "stderr_sha256": "523a5c03b39d558ab389c539c048d8f459c594abc546393786f17a120a1c2b57",
+      "evidence": [
+        "results/copied_current_observation_relocation.result.json",
+        "commands/copied_current_observation_relocation.command.txt",
+        "commands/copied_current_observation_relocation.stdout.log",
+        "commands/copied_current_observation_relocation.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "copied_record_conversion_admission",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test copied_record_conversion_admission -- --test-threads=1",
+      "started_at": "2026-09-16T06:44:51Z",
+      "ended_at": "2026-09-16T06:45:36Z",
+      "elapsed_seconds": 45,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 14,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "852507a87282d4754e919b0a723972d2f7f27b515ec4a209a01b2449a647948a",
+      "stderr_sha256": "132799050361adf26a736a63dfdb8d0a0c4e78b7bb1f6e61e432ef5e584ca7a7",
+      "evidence": [
+        "results/copied_record_conversion_admission.result.json",
+        "commands/copied_record_conversion_admission.command.txt",
+        "commands/copied_record_conversion_admission.stdout.log",
+        "commands/copied_record_conversion_admission.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "copied_record_conversion_fault_recovery",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test copied_record_conversion_fault_recovery -- --test-threads=1",
+      "started_at": "2026-09-16T06:45:36Z",
+      "ended_at": "2026-09-16T06:49:27Z",
+      "elapsed_seconds": 231,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "1f8170b699d682e28c4af72168cde48dfeaf580714414e65a7d735328de23dd1",
+      "stderr_sha256": "fafb970363cd30df572da0512311d1d6122edca2691c58b6aa9e0518e402a16f",
+      "evidence": [
+        "results/copied_record_conversion_fault_recovery.result.json",
+        "commands/copied_record_conversion_fault_recovery.command.txt",
+        "commands/copied_record_conversion_fault_recovery.stdout.log",
+        "commands/copied_record_conversion_fault_recovery.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "copied_record_conversion_rehearsal",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --test-threads=1",
+      "started_at": "2026-09-16T06:49:27Z",
+      "ended_at": "2026-09-16T06:49:27Z",
+      "elapsed_seconds": 0,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 1
+      },
+      "stdout_sha256": "f701007fe5592c7713ff85ff7d1f12e846ef3276e2bf087381e54bab96b391a4",
+      "stderr_sha256": "787182c7afdde2637eb4e394a22cddbfd1c23fec83c8b8d4ce9f234560595627",
+      "evidence": [
+        "results/copied_record_conversion_rehearsal.result.json",
+        "commands/copied_record_conversion_rehearsal.command.txt",
+        "commands/copied_record_conversion_rehearsal.stdout.log",
+        "commands/copied_record_conversion_rehearsal.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "copied_record_conversion_rehearsal_release_gate",
+      "command": "env ISSUE872_OLD_CSDLC=$ISOLATED_OLD_BINARY ISSUE872_OLD_STATE=$ISOLATED_PORTABLE_GENERATION9 CARGO_TARGET_DIR=$TRUSTED_ISSUE1021_TARGET cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture",
+      "started_at": "2026-09-16T19:10:58Z",
+      "ended_at": "2026-09-16T19:21:34Z",
+      "elapsed_seconds": 636,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "89453532af520559f55ce72577de05e3d77e621793770f22ead0026b49ef76ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence": [
+        "results/copied_record_conversion_rehearsal_release_gate.result.json",
+        "commands/copied_record_conversion_rehearsal_release_gate.command.txt",
+        "commands/copied_record_conversion_rehearsal_release_gate.stdout.log",
+        "commands/copied_record_conversion_rehearsal_release_gate.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command",
+      "source_proof": ".csdlc/evidence/1021/LOCAL_PROOF_RESULT.json"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_amendment_classification",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test installed_amendment_classification -- --test-threads=1",
+      "started_at": "2026-09-16T06:42:32Z",
+      "ended_at": "2026-09-16T06:42:39Z",
+      "elapsed_seconds": 7,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "2f01a7ce7c73660efca03e05de3f774ca43f33c3d0f05540686c9b34bfb7b57b",
+      "stderr_sha256": "e6bf47c3cf086495adfaeb17162d7c3d63a7fdf9df51fa3ac9122a2c10a28a03",
+      "evidence": [
+        "results/installed_amendment_classification.result.json",
+        "commands/installed_amendment_classification.command.txt",
+        "commands/installed_amendment_classification.stdout.log",
+        "commands/installed_amendment_classification.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_command_contract",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test installed_command_contract -- --test-threads=1",
+      "started_at": "2026-09-16T18:00:59Z",
+      "ended_at": "2026-09-16T18:01:36Z",
+      "elapsed_seconds": 37,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 6,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "b822106c4e4544349a04567fa5312e72a422f6fd6a6a03fbac12e85423125016",
+      "stderr_sha256": "d4f22454b75647d32a63f2bf9c306df762171ed4adc4459904b6aa07d4efc42c",
+      "evidence": [
+        "results/installed_command_contract.result.json",
+        "commands/installed_command_contract.command.txt",
+        "commands/installed_command_contract.stdout.log",
+        "commands/installed_command_contract.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_coordination_completion",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test installed_coordination_completion -- --test-threads=1",
+      "started_at": "2026-09-16T06:42:52Z",
+      "ended_at": "2026-09-16T06:43:46Z",
+      "elapsed_seconds": 54,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 4,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "5f75e533e17a51a670b89e674b655cb69c62b3009e831e1e7f414160c38fa125",
+      "stderr_sha256": "34ac12673bc68e7fe62be2afbccc0c826dc6926c139efc1dc6db49e3ba286d26",
+      "evidence": [
+        "results/installed_coordination_completion.result.json",
+        "commands/installed_coordination_completion.command.txt",
+        "commands/installed_coordination_completion.stdout.log",
+        "commands/installed_coordination_completion.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.installed_result.v1",
+      "scenario_id": "installed_exact_primary_linked_edit",
+      "command": "exact installed binary copied into isolated compiled-harness candidate slot; $REPO_ROOT/csdlc-v3/target/debug/deps/installed_intent_commands-8040852d50831805 installed_prepare_bind_edit_and_observations_use_canonical_context --exact --nocapture",
+      "started_at": "2026-09-16T06:58:43Z",
+      "ended_at": "2026-09-16T06:58:58Z",
+      "elapsed_seconds": 15,
+      "exit_status": 0,
+      "source_head": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+      "installed_sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
+      "installed_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+      "expected_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+      "exact_installed_binary": true,
+      "attempts": 13,
+      "ledger": "observations/installed_exact_primary_linked_edit.attempts.json",
+      "status": "passed",
+      "record_classification": "passed_exact_installed_journey",
+      "evidence": [
+        "results/installed_exact_primary_linked_edit.result.json",
+        "observations/installed_exact_primary_linked_edit.attempts.json"
+      ]
+    },
+    {
+      "schema": "adl.csdlc.sim07.installed_result.v1",
+      "scenario_id": "installed_exact_terminal_journey",
+      "command": "exact installed binary copied into isolated compiled-harness candidate slot; $REPO_ROOT/csdlc-v3/target/debug/deps/installed_intent_commands-8040852d50831805 installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue --exact --nocapture",
+      "started_at": "2026-09-16T06:58:58Z",
+      "ended_at": "2026-09-16T06:59:41Z",
+      "elapsed_seconds": 43,
+      "exit_status": 0,
+      "source_head": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+      "installed_sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
+      "installed_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+      "expected_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+      "exact_installed_binary": true,
+      "attempts": 22,
+      "ledger": "observations/installed_exact_terminal_journey.attempts.json",
+      "status": "passed",
+      "record_classification": "passed_exact_installed_journey",
+      "evidence": [
+        "results/installed_exact_terminal_journey.result.json",
+        "observations/installed_exact_terminal_journey.attempts.json"
+      ]
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_intent_commands",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test installed_intent_commands -- --test-threads=1",
+      "started_at": "2026-09-16T06:32:32Z",
+      "ended_at": "2026-09-16T06:42:32Z",
+      "elapsed_seconds": 600,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 43,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "51f0393cfa9521b472c81cd97ee35f71a8317487cd67ce43be7d755895256bb2",
+      "stderr_sha256": "def514c6051fe1ea63c203751c7d087cd080feb5a554841b862b78daa750814e",
+      "evidence": [
+        "results/installed_intent_commands.result.json",
+        "commands/installed_intent_commands.command.txt",
+        "commands/installed_intent_commands.stdout.log",
+        "commands/installed_intent_commands.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_intent_timeout",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test installed_intent_timeout -- --test-threads=1",
+      "started_at": "2026-09-16T06:42:39Z",
+      "ended_at": "2026-09-16T06:42:52Z",
+      "elapsed_seconds": 13,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 2,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "0396b2010e7f64eaa051164e805f7f414ec2eb8e7e02daca1383f50b1b3937b6",
+      "stderr_sha256": "fc5828ae057ef801eeb0542dae7c7a06d6c4dd1d51f7ce90a97e5c43ac2d26c8",
+      "evidence": [
+        "results/installed_intent_timeout.result.json",
+        "commands/installed_intent_timeout.command.txt",
+        "commands/installed_intent_timeout.stdout.log",
+        "commands/installed_intent_timeout.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_predecessor_dispositions",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test installed_predecessor_dispositions -- --test-threads=1",
+      "started_at": "2026-09-16T06:44:11Z",
+      "ended_at": "2026-09-16T06:44:51Z",
+      "elapsed_seconds": 40,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 3,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "5fa3b3152981429fa4cb680df536ddcead31dca6a3c72ca4c4030becdf1ff4cc",
+      "stderr_sha256": "0e39796b7e0503d9317cabf42cf1a9d05e7d62ae3115ef51cdc8c980752fd336",
+      "evidence": [
+        "results/installed_predecessor_dispositions.result.json",
+        "commands/installed_predecessor_dispositions.command.txt",
+        "commands/installed_predecessor_dispositions.stdout.log",
+        "commands/installed_predecessor_dispositions.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_prepared_start_measurement",
+      "command": "env ADL_SIM03_BASELINE_BINARY=$REPOSITORY_GIT_DIR/csdlc-v3/local/archives/868-20260912-closeout/relocated-original-.csdlc/evidence/868/execution/candidate-6425ba9bb/bin/csdlc $REPO_ROOT/csdlc-v3/target/debug/deps/installed_prepared_start_measurement-416bd90fffbebee4 --ignored --test-threads=1 --nocapture",
+      "started_at": "2026-09-16T07:13:37Z",
+      "ended_at": "2026-09-16T07:14:02Z",
+      "elapsed_seconds": 25,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "2c07d5067d7f23c28cca7c19e00831c83ae6be40c88709d9ec9516f068b1b4b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence": [
+        "results/installed_prepared_start_measurement.result.json",
+        "commands/installed_prepared_start_measurement.command.txt",
+        "commands/installed_prepared_start_measurement.stdout.log",
+        "commands/installed_prepared_start_measurement.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "installed_recovery_scope",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test installed_recovery_scope -- --test-threads=1",
+      "started_at": "2026-09-16T06:43:46Z",
+      "ended_at": "2026-09-16T06:44:11Z",
+      "elapsed_seconds": 25,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "d2daf5a7b8e52a5e09b8c63d82c808c67abfe144e5f72c6835a1deab3cd30863",
+      "stderr_sha256": "3184f2865df2b324847a738616fda0a75a44e6082cd27d23f125b99382b17e03",
+      "evidence": [
+        "results/installed_recovery_scope.result.json",
+        "commands/installed_recovery_scope.command.txt",
+        "commands/installed_recovery_scope.stdout.log",
+        "commands/installed_recovery_scope.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "lib_merge_positive",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation -- --exact --test-threads=1",
+      "started_at": "2026-09-16T18:08:28Z",
+      "ended_at": "2026-09-16T18:08:34Z",
+      "elapsed_seconds": 6,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "c3ce1e989ae55f88008cdea4bd6501a079bb494682602df76790de301d5ce889",
+      "stderr_sha256": "ce1cdf5418d0cbc55729b244f5cd15b22c6044f3220a40d999780a424ce53a1c",
+      "evidence": [
+        "results/lib_merge_positive.result.json",
+        "commands/lib_merge_positive.command.txt",
+        "commands/lib_merge_positive.stdout.log",
+        "commands/lib_merge_positive.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "lib_observational_curl_q",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib adapters::tests::observational_curl_disables_default_config_before_other_arguments -- --exact --test-threads=1",
+      "started_at": "2026-09-16T18:08:35Z",
+      "ended_at": "2026-09-16T18:08:35Z",
+      "elapsed_seconds": 0,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "c661ba7627d39a83cc959beaf6fdcdb0c906f91a5618ce25e64773ae51c23fab",
+      "stderr_sha256": "239587b4215222d7794c18d7b34388bf6965a570a70de286df8e6d9da26da84e",
+      "evidence": [
+        "results/lib_observational_curl_q.result.json",
+        "commands/lib_observational_curl_q.command.txt",
+        "commands/lib_observational_curl_q.stdout.log",
+        "commands/lib_observational_curl_q.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "lib_observational_curl_stdin",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib adapters::tests::observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments -- --exact --test-threads=1",
+      "started_at": "2026-09-16T18:08:35Z",
+      "ended_at": "2026-09-16T18:08:35Z",
+      "elapsed_seconds": 0,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "b3170b5d1b44481e32a5081647ddad4ab99c3005fec4fdff418d9cc17e151a11",
+      "stderr_sha256": "239587b4215222d7794c18d7b34388bf6965a570a70de286df8e6d9da26da84e",
+      "evidence": [
+        "results/lib_observational_curl_stdin.result.json",
+        "commands/lib_observational_curl_stdin.command.txt",
+        "commands/lib_observational_curl_stdin.stdout.log",
+        "commands/lib_observational_curl_stdin.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "lib_observational_missing_executable",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib adapters::tests::observational_transport_preserves_missing_executable_classification -- --exact --test-threads=1",
+      "started_at": "2026-09-16T18:08:35Z",
+      "ended_at": "2026-09-16T18:08:35Z",
+      "elapsed_seconds": 0,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "a26a78f09f09dfc5409949df1aa71515459e76c0ee2c5c27d7f9fbf5ff46ad41",
+      "stderr_sha256": "239587b4215222d7794c18d7b34388bf6965a570a70de286df8e6d9da26da84e",
+      "evidence": [
+        "results/lib_observational_missing_executable.result.json",
+        "commands/lib_observational_missing_executable.command.txt",
+        "commands/lib_observational_missing_executable.stdout.log",
+        "commands/lib_observational_missing_executable.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "lib_restart_reconcile",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation -- --exact --test-threads=1",
+      "started_at": "2026-09-16T18:08:34Z",
+      "ended_at": "2026-09-16T18:08:35Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "47bf779d1f4061154aaafb58b6dc4aad674b53e2af0a919579f88af14fdfb550",
+      "stderr_sha256": "239587b4215222d7794c18d7b34388bf6965a570a70de286df8e6d9da26da84e",
+      "evidence": [
+        "results/lib_restart_reconcile.result.json",
+        "commands/lib_restart_reconcile.command.txt",
+        "commands/lib_restart_reconcile.stdout.log",
+        "commands/lib_restart_reconcile.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.issue873.non_default_timing_target_probe_result.v1",
+      "status": "pass",
+      "exit_status": 0,
+      "target": "non_default_isolated_target",
+      "cargo_target_binding": "CARGO_TARGET_DIR=ADL_ISSUE873_TIMING_TARGET_DIR",
+      "harness_discovered_under_selected_target": true,
+      "candidate_slot_discovered_under_selected_target": true,
+      "stdout_sha256": "f9121cf23172246434a586341809bae67a077dbe80d4eae734f311831acf81cc",
+      "stderr_sha256": "b2fdc98021752a77a2a7ce196318df715a698ba5b40d2297f4854aa738bbbcf4",
+      "evidence": [
+        "results/non-default-timing-target-probe.result.json",
+        "commands/non-default-timing-target-probe.command.txt",
+        "commands/non-default-timing-target-probe.stdout.log",
+        "commands/non-default-timing-target-probe.stderr.log"
+      ],
+      "record_classification": "passed_non_test_probe"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "operational_cli_commands",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test operational_cli_commands -- --test-threads=1",
+      "started_at": "2026-09-16T06:49:30Z",
+      "ended_at": "2026-09-16T06:50:05Z",
+      "elapsed_seconds": 35,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 19,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "f2b82a1e63324dc638e8e87fdb0395a0eb932d3bcc962d697662a509aa17f748",
+      "stderr_sha256": "d5b23a481617dc107dce23db78e52dc5a3aaff2cd2b10f5f41f9eaf9dcd2470f",
+      "evidence": [
+        "results/operational_cli_commands.result.json",
+        "commands/operational_cli_commands.command.txt",
+        "commands/operational_cli_commands.stdout.log",
+        "commands/operational_cli_commands.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "operator_man_pages",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test operator_man_pages -- --test-threads=1",
+      "started_at": "2026-09-16T18:01:37Z",
+      "ended_at": "2026-09-16T18:01:38Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 6,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "416fd676c06ee3f16c79b0cd0b2ff5504360f0e26b5d574404339e83715a93ec",
+      "stderr_sha256": "62221021d49e80086a910fa5d0443bcbcb8ade3ec87cc1233820b2d953777cff",
+      "evidence": [
+        "results/operator_man_pages.result.json",
+        "commands/operator_man_pages.command.txt",
+        "commands/operator_man_pages.stdout.log",
+        "commands/operator_man_pages.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "proof_parity_install_commands",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test proof_parity_install_commands -- --test-threads=1",
+      "started_at": "2026-09-16T06:50:05Z",
+      "ended_at": "2026-09-16T06:50:06Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "394b3186f86cc9f7d9d10ae688be4eda55799393ef5c23dd64b23a561c8cbc82",
+      "stderr_sha256": "5157560f192ae09c82b2bba592d22c77a0493f0a9d1d0f2e0ea4c7d7e9f3ef99",
+      "evidence": [
+        "results/proof_parity_install_commands.result.json",
+        "commands/proof_parity_install_commands.command.txt",
+        "commands/proof_parity_install_commands.stdout.log",
+        "commands/proof_parity_install_commands.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "proof_worktree_binding",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test proof_worktree_binding -- --test-threads=1",
+      "started_at": "2026-09-16T06:49:29Z",
+      "ended_at": "2026-09-16T06:49:30Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "7bad6237de1aa5b8c326bef1a59653635a215e5ad5ac391a6e9cac0941f1db05",
+      "stderr_sha256": "e6baa148e63be5c64c7dc2912b92cf7b30e0838079df6ed3ae802728ed52443d",
+      "evidence": [
+        "results/proof_worktree_binding.result.json",
+        "commands/proof_worktree_binding.command.txt",
+        "commands/proof_worktree_binding.stdout.log",
+        "commands/proof_worktree_binding.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "release_preflight",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test release_preflight -- --test-threads=1",
+      "started_at": "2026-09-16T18:01:38Z",
+      "ended_at": "2026-09-16T18:02:50Z",
+      "elapsed_seconds": 72,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "76db1efb3c827f75ab00e24d16057f1395025161e26ffdfe33bd73edfdf22a71",
+      "stderr_sha256": "b2cd0f0447d3745bc3205e8ef61fcc0ce54d6cbfc0d8cb79b251650a44657fc0",
+      "evidence": [
+        "results/release_preflight.result.json",
+        "commands/release_preflight.command.txt",
+        "commands/release_preflight.stdout.log",
+        "commands/release_preflight.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "remote_publication_commands",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test remote_publication_commands -- --test-threads=1",
+      "started_at": "2026-09-16T06:50:10Z",
+      "ended_at": "2026-09-16T06:50:11Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 13,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "c38dc745c8fa819e317306bbdba8bebbcd94c4ff05a99aeac13411415d6e954e",
+      "stderr_sha256": "5c08ef9171cfebbf44f806a6ff0d4c9b8a7a2e573639f3836888c0ef2a92c472",
+      "evidence": [
+        "results/remote_publication_commands.result.json",
+        "commands/remote_publication_commands.command.txt",
+        "commands/remote_publication_commands.stdout.log",
+        "commands/remote_publication_commands.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "result_envelope",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test result_envelope -- --test-threads=1",
+      "started_at": "2026-09-16T18:01:36Z",
+      "ended_at": "2026-09-16T18:01:37Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 9,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "b4846145c3e4881df37e70d40f4dcae8c8baa379487872bdad394f0d19a3976a",
+      "stderr_sha256": "1a7307bd8fa8573d976cf5240a97bbc4d1f1f07269ab574744ea57b4beac5f56",
+      "evidence": [
+        "results/result_envelope.result.json",
+        "commands/result_envelope.command.txt",
+        "commands/result_envelope.stdout.log",
+        "commands/result_envelope.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "retained_issue872_conversion_validator",
+      "command": "python3 $ISSUE872_WORKTREE/adl/tools/validate_issue872_conversion_rehearsal.py --evidence-root $ISSUE872_WORKTREE/.csdlc/evidence/872/conversion-rehearsal",
+      "started_at": "2026-09-16T07:14:02Z",
+      "ended_at": "2026-09-16T07:14:03Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 0,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "3c17e30ecdc6a0090d637d11c9b1172c29a4acf9620c3f8b56682d978a46cd8e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence": [
+        "results/retained_issue872_conversion_validator.result.json",
+        "commands/retained_issue872_conversion_validator.command.txt",
+        "commands/retained_issue872_conversion_validator.stdout.log",
+        "commands/retained_issue872_conversion_validator.stderr.log"
+      ],
+      "record_classification": "passed_validator_without_test_summary"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "semantic_card_projections",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_card_projections -- --test-threads=1",
+      "started_at": "2026-09-16T18:02:50Z",
+      "ended_at": "2026-09-16T18:02:56Z",
+      "elapsed_seconds": 6,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 6,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "8d52606ffd785d31573c788c06ec8756f26265a0e82d1825d165cc55b5ea4fff",
+      "stderr_sha256": "146e6efe6c03e78b82a08fc4de9f7b37b55d2f97a1beafc93c493dc6ad4202af",
+      "evidence": [
+        "results/semantic_card_projections.result.json",
+        "commands/semantic_card_projections.command.txt",
+        "commands/semantic_card_projections.stdout.log",
+        "commands/semantic_card_projections.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "semantic_install",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_install -- --test-threads=1",
+      "started_at": "2026-09-16T18:02:56Z",
+      "ended_at": "2026-09-16T18:06:05Z",
+      "elapsed_seconds": 189,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 5,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "8be61d3946c48c90cdbd9631724cf16a5e341eb706ecc0c83541023603bdcbcb",
+      "stderr_sha256": "49b3767da5d48b110c5b91b648bc1e33c4de46fd53ccd4ba1a38dea813f0fefb",
+      "evidence": [
+        "results/semantic_install.result.json",
+        "commands/semantic_install.command.txt",
+        "commands/semantic_install.stdout.log",
+        "commands/semantic_install.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "semantic_local_proof",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_local_proof -- --test-threads=1",
+      "started_at": "2026-09-16T18:06:05Z",
+      "ended_at": "2026-09-16T18:08:14Z",
+      "elapsed_seconds": 129,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 14,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "7bce5f95e502a7a231903dd85fb9b308504d547364d15c17c3e67a1a6b13a371",
+      "stderr_sha256": "abe907ee2edcb45812b7312923d3acd67268980f12ae317876af0a8e5be9d5d0",
+      "evidence": [
+        "results/semantic_local_proof.result.json",
+        "commands/semantic_local_proof.command.txt",
+        "commands/semantic_local_proof.stdout.log",
+        "commands/semantic_local_proof.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "semantic_remote_review",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_remote_review -- --test-threads=1",
+      "started_at": "2026-09-16T18:08:14Z",
+      "ended_at": "2026-09-16T18:08:15Z",
+      "elapsed_seconds": 1,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 2,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "8da0375fe8220afaba10d3dbc12650540efeea7e4f7d795fabc417eb33dcf6ca",
+      "stderr_sha256": "9aca2cff523d41bf5ecec01ad4d5d0d4b927de244d6df1fe4788001e7cea44b7",
+      "evidence": [
+        "results/semantic_remote_review.result.json",
+        "commands/semantic_remote_review.command.txt",
+        "commands/semantic_remote_review.stdout.log",
+        "commands/semantic_remote_review.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "semantic_terminal_cleanup",
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_terminal_cleanup -- --test-threads=1",
+      "started_at": "2026-09-16T18:08:15Z",
+      "ended_at": "2026-09-16T18:08:28Z",
+      "elapsed_seconds": 13,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "0de4a09850a70a57206f6b03c7b7db397eacb36f6adc8f22a1aeb0c061ea085a",
+      "stderr_sha256": "0699223f30a2f1265c205c10395fac7f958bf34e28a7f8427278b2d811d26a8c",
+      "evidence": [
+        "results/semantic_terminal_cleanup.result.json",
+        "commands/semantic_terminal_cleanup.command.txt",
+        "commands/semantic_terminal_cleanup.stdout.log",
+        "commands/semantic_terminal_cleanup.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "terminal_cleanup_cutover_commands",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands -- --test-threads=1",
+      "started_at": "2026-09-16T06:50:11Z",
+      "ended_at": "2026-09-16T06:50:28Z",
+      "elapsed_seconds": 17,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 35,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "8a31c010d04cb912369dfe9295461f886adbbe41b9eaaf1d0768edf2eee98b52",
+      "stderr_sha256": "d2e0c57b7f53e44471b66999219c71b355988afe5333ab6edba68115c2ebd375",
+      "evidence": [
+        "results/terminal_cleanup_cutover_commands.result.json",
+        "commands/terminal_cleanup_cutover_commands.command.txt",
+        "commands/terminal_cleanup_cutover_commands.stdout.log",
+        "commands/terminal_cleanup_cutover_commands.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    },
+    {
+      "schema": "adl.csdlc.sim07.command_result.v1",
+      "scenario_id": "transactions",
+      "command": "cargo test --locked --manifest-path $REPO_ROOT/csdlc-v3/Cargo.toml --test transactions -- --test-threads=1",
+      "started_at": "2026-09-16T06:50:06Z",
+      "ended_at": "2026-09-16T06:50:10Z",
+      "elapsed_seconds": 4,
+      "exit_status": 0,
+      "test_counts": {
+        "passed": 45,
+        "failed": 0,
+        "ignored": 0
+      },
+      "stdout_sha256": "96318e34e199ac0972fa31c277faf58d9fa71d1373f88df5b38f5856ec7fc65d",
+      "stderr_sha256": "ad30015c23cdf42f16dbd1301488df90644c6fd4da2ca39e334c598b73b833f8",
+      "evidence": [
+        "results/transactions.result.json",
+        "commands/transactions.command.txt",
+        "commands/transactions.stdout.log",
+        "commands/transactions.stderr.log"
+      ],
+      "record_classification": "passed_counted_test_command"
+    }
+  ],
+  "summary": {
+    "records_attempted": 37,
+    "records_passed": 37,
+    "records_failed": 0,
+    "records_omitted": 0,
+    "tests_passed": 256,
+    "tests_failed": 0,
+    "tests_ignored": 1,
+    "record_classifications": {
+      "passed_counted_test_command": 33,
+      "passed_exact_installed_journey": 2,
+      "passed_non_test_probe": 1,
+      "passed_validator_without_test_summary": 1
+    },
+    "previously_omitted_records": [
+      {
+        "result": "installed_exact_primary_linked_edit",
+        "classification": "passed_exact_installed_journey"
+      },
+      {
+        "result": "installed_exact_terminal_journey",
+        "classification": "passed_exact_installed_journey"
+      },
+      {
+        "result": "non-default-timing-target-probe",
+        "classification": "passed_non_test_probe"
+      }
+    ],
+    "zero_test_validator": {
+      "result": "retained_issue872_conversion_validator",
+      "classification": "passed_validator_without_test_summary",
+      "exit_status": 0,
+      "counted_as_test_command": false
+    }
+  }
+}

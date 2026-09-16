@@ -170,12 +170,21 @@ pub(super) fn git_worktree_registration(
     }
     let text = String::from_utf8_lossy(&output.stdout);
     let branch_ref = format!("refs/heads/{branch}");
+    let canonical_target = target.canonicalize().ok();
     Ok(text.split("\n\n").any(|record| {
-        record
+        record.lines().any(|line| {
+            let Some(path) = line.strip_prefix("worktree ") else {
+                return false;
+            };
+            if let Some(canonical_target) = canonical_target.as_ref() {
+                Path::new(path)
+                    .canonicalize()
+                    .is_ok_and(|path| path == *canonical_target)
+            } else {
+                path == target.display().to_string()
+            }
+        }) && record
             .lines()
-            .any(|line| line == format!("worktree {}", target.display()))
-            && record
-                .lines()
-                .any(|line| line == format!("branch {branch_ref}"))
+            .any(|line| line == format!("branch {branch_ref}"))
     }))
 }

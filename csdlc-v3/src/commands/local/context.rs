@@ -293,16 +293,33 @@ pub(super) fn validate_context(
         } else {
             false
         };
-        let bound_checkout = !matches!(route, "issue" | "bind")
-            && (binding_matches || interrupted_binding_matches)
-            && repository_root.starts_with(&context.allowed_worktree_parent)
+        let exact_registered_checkout = repository_root
+            .starts_with(&context.allowed_worktree_parent)
             && repository_root != context.allowed_worktree_parent
             && repository_root.join(".git").is_file()
             && Path::new(&request.worktree)
                 .canonicalize()
                 .is_ok_and(|path| path == repository_root)
             && git_worktree_registration(&repository_root, &request.branch, &repository_root)?;
-        if !bound_checkout {
+        let issue_initialization_checkout = route == "issue"
+            && exact_registered_checkout
+            && !state_root
+                .join(format!("issues/{}/index.json", request.issue))
+                .exists();
+        let bind_prepared_checkout = route == "bind" && exact_registered_checkout;
+        let prebind_observation_checkout = is_observation_route(route)
+            && exact_registered_checkout
+            && state_root
+                .join(format!("issues/{}/index.json", request.issue))
+                .is_file();
+        let bound_checkout = !matches!(route, "issue" | "bind")
+            && (binding_matches || interrupted_binding_matches)
+            && exact_registered_checkout;
+        if !issue_initialization_checkout
+            && !bind_prepared_checkout
+            && !prebind_observation_checkout
+            && !bound_checkout
+        {
             return Err(vec![finding(
                 PlanStatus::Failed,
                 "invalid_operational_roots",

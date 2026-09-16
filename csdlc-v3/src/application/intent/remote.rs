@@ -283,6 +283,190 @@ fn creation_recovery_result() -> Value {
         "finding":{"code":"semantic_issue_creation_exact_replay_required",
         "message":"replay the exact issue-create operation with the one-shot authenticated-absence recovery"}})
 }
+fn semantic_recover_remote_effect(
+    context: &Context,
+    session: &super::context::SemanticContext,
+    retained: &transaction::EffectInspection,
+    preview: transaction::RecoveryPreview,
+    request: &GithubMutationRequest,
+    process: &mut impl crate::adapters::ProcessAdapter,
+) -> Result<Value, String> {
+    let definitely_rejected = retained.evidence().is_some_and(|bytes| {
+        serde_json::from_slice::<Value>(bytes).is_ok_and(|evidence| {
+            evidence["schema"] == "csdlc.v3.semantic_remote_uncertainty.v1"
+                && evidence["code"] == "github_mutation_rejected"
+        })
+    });
+    let staged = if matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
+        stage_github_mutation(&context.root, request, process).map_err(failure)?
+    } else if definitely_rejected {
+        stage_retained_github_mutation_recovery_after_rejection(&context.root, request, process)
+            .map_err(failure)?
+    } else {
+        stage_retained_github_mutation_recovery(&context.root, request, process).map_err(failure)?
+    };
+    if staged.native_identity() != retained.request().native_identity().clone() {
+        return Err("semantic_remote_recovery_identity_changed".into());
+    }
+    if !staged
+        .retained_receipt_exists(&context.root)
+        .map_err(failure)?
+        && matches!(
+            retained.request().command(),
+            crate::lifecycle::semantic::SemanticCommand::Publish
+        )
+        && matches!(
+            request.mutation,
+            GithubMutation::PullRequestCreate { .. } | GithubMutation::PullRequestUpdate { .. }
+        )
+    {
+        if let Some(pull_request) = owner::publication_target(
+            &context.root,
+            &context.repository,
+            context.issue,
+            &context.branch,
+            &context.head,
+        )
+        .map_err(failure)?
+        {
+            let evidence = serde_json::to_vec(&json!({
+                "schema":"csdlc.v3.semantic_remote_publication_recovery.v1",
+                "recovery":"authenticated_retained_publication_target",
+                "repository":context.repository,
+                "issue":context.issue,
+                "pull_request":pull_request,
+                "branch":context.branch,
+                "head":context.head
+            }))
+            .map_err(|_| "semantic_outcome_encoding_failed")?;
+            let outcome = transaction::VerifiedOutcome::from_native_owner(
+                transaction::OutcomeKind::Success,
+                transaction::EffectTruth::NotPerformed,
+                evidence,
+                crate::lifecycle::semantic::Facts {
+                    current_proof: true,
+                    independent_review: true,
+                    publication: true,
+                    ..Default::default()
+                },
+                retained.request().native_identity().clone(),
+            )
+            .map_err(semantic_error)?;
+            let observed = transaction::AttachmentAdmission::from_native_owner(
+                session.snapshot.inputs().authority().clone(),
+                session.origin.clone(),
+            );
+            return match DurableTransactionStore::execute_effect_recovery(
+                &session.root,
+                preview,
+                outcome,
+                observed,
+            )
+            .map_err(semantic_error)?
+            {
+                transaction::Attachment::AlreadyCompleted(done) => Ok(semantic_replay(&done)),
+                transaction::Attachment::RecoveryRequired(_) => Ok(recovery_result()),
+                transaction::Attachment::Completed(done) => {
+                    let snapshot =
+                        match DurableTransactionStore::observe_issue(&session.root, &session.key)
+                            .map_err(semantic_error)?
+                        {
+                            semantic::Observation::Current(value)
+                            | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                            _ => return Err("semantic_remote_projection_state_unavailable".into()),
+                        };
+                    let projected = session.complete_projection(&snapshot)?;
+                    super::rebuild_semantic_card_projection(context)?;
+                    Ok(
+                        json!({"status":"completed","read_only":false,"operational_authority":true,
+                        "performed_mutation":false,"effects_unknown":false,
+                        "result":{"publication_target":pull_request,"recovery":"authenticated_retained_publication_target"},
+                        "semantic":{"original_version":done.original_version(),"current_version":projected.version(),
+                        "operation":done.operation_id().as_str(),"outcome":done.outcome_kind(),"effect_truth":done.truth()}}),
+                    )
+                }
+            };
+        }
+    }
+    let native = execute_staged_github_mutation(&context.root, &staged, true, process);
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_remote_recovery_after_native")
+    {
+        std::process::exit(91);
+    }
+    if let Err(finding) = &native {
+        if matches!(
+            finding.code.as_str(),
+            "github_pr_head_branch_missing" | "github_pr_head_branch_mismatch"
+        ) {
+            return Err(failure(finding.clone()));
+        }
+    }
+    let outcome = match &native {
+        Ok(result) => staged.verified_outcome(result).map_err(failure)?,
+        Err(finding)
+            if request.recovery == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
+                && matches!(
+                    finding.code.as_str(),
+                    "github_mutation_recovery_already_consumed"
+                ) =>
+        {
+            transaction::VerifiedOutcome::from_native_owner(
+                transaction::OutcomeKind::Failure,
+                transaction::EffectTruth::NotPerformed,
+                serde_json::to_vec(&json!({
+                    "schema":"csdlc.v3.semantic_remote_recovery_absence.v1",
+                    "code":finding.code,
+                    "effects":"not_performed",
+                    "recovery":"retry_after_authenticated_absence",
+                    "disposition":"authenticated_absence_retry_exhausted"
+                }))
+                .map_err(|_| "semantic_outcome_encoding_failed")?,
+                crate::lifecycle::semantic::Facts::default(),
+                retained.request().native_identity().clone(),
+            )
+            .map_err(semantic_error)?
+        }
+        Err(finding) => {
+            owner::semantic_uncertain_outcome(staged.native_identity(), finding).map_err(failure)?
+        }
+    };
+    let observed = transaction::AttachmentAdmission::from_native_owner(
+        session.snapshot.inputs().authority().clone(),
+        session.origin.clone(),
+    );
+    match DurableTransactionStore::execute_effect_recovery(
+        &session.root,
+        preview,
+        outcome,
+        observed,
+    )
+    .map_err(semantic_error)?
+    {
+        transaction::Attachment::AlreadyCompleted(done) => Ok(semantic_replay(&done)),
+        transaction::Attachment::RecoveryRequired(_) => Ok(recovery_result()),
+        transaction::Attachment::Completed(done) => {
+            let result = native.map_err(failure)?;
+            let snapshot = match DurableTransactionStore::observe_issue(&session.root, &session.key)
+                .map_err(semantic_error)?
+            {
+                semantic::Observation::Current(value)
+                | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                _ => return Err("semantic_remote_projection_state_unavailable".into()),
+            };
+            let projected = session.complete_projection(&snapshot)?;
+            super::rebuild_semantic_card_projection(context)?;
+            Ok(
+                json!({"status":"completed","read_only":false,"operational_authority":true,
+                "performed_mutation":result.performed_mutation,"effects_unknown":false,
+                "result":{"receipt":result.receipt,"reconciliation":result.reconciliation},
+                "semantic":{"original_version":done.original_version(),"current_version":projected.version(),
+                "operation":done.operation_id().as_str(),"outcome":done.outcome_kind(),"effect_truth":done.truth()}}),
+            )
+        }
+    }
+}
 fn semantic_mutation(
     context: &Context,
     request: &GithubMutationRequest,
@@ -334,13 +518,42 @@ fn semantic_mutation(
     }
     let outcome = match &native {
         Ok(result) => staged.verified_outcome(result).map_err(failure)?,
+        Err(finding)
+            if reconciliation_only
+                && request.recovery
+                    == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
+                && matches!(
+                    finding.code.as_str(),
+                    "github_mutation_rejected" | "github_mutation_recovery_already_consumed"
+                ) =>
+        {
+            transaction::VerifiedOutcome::from_native_owner(
+                transaction::OutcomeKind::Failure,
+                transaction::EffectTruth::NotPerformed,
+                serde_json::to_vec(&json!({
+                    "schema":"csdlc.v3.semantic_remote_recovery_absence.v1",
+                    "code":finding.code,
+                    "effects":"not_performed",
+                    "recovery":"retry_after_authenticated_absence",
+                    "disposition":"authenticated_absence_retry_exhausted"
+                }))
+                .map_err(|_| "semantic_outcome_encoding_failed")?,
+                crate::lifecycle::semantic::Facts::default(),
+                staged.native_identity(),
+            )
+            .map_err(semantic_error)?
+        }
         Err(finding) => {
             owner::semantic_uncertain_outcome(staged.native_identity(), finding).map_err(failure)?
         }
     };
     // If freshness fails, retain the native intent/readback and semantic pending
     // operation. Never manufacture an attachment witness or retry the effect.
-    let observed = match session.fresh_for_effect(ticket.id()) {
+    let observed = match if reconciliation_only {
+        session.fresh_for_recovery_effect(ticket.id())
+    } else {
+        session.fresh_for_effect(ticket.id())
+    } {
         Ok(observed) => observed,
         Err(_) => return Ok(recovery_result()),
     };
@@ -350,7 +563,6 @@ fn semantic_mutation(
         transaction::Attachment::AlreadyCompleted(done) => Ok(semantic_replay(&done)),
         transaction::Attachment::RecoveryRequired(_) => Ok(recovery_result()),
         transaction::Attachment::Completed(done) => {
-            let result = native.map_err(failure)?;
             let snapshot = match DurableTransactionStore::observe_issue(&session.root, &session.key)
                 .map_err(semantic_error)?
             {
@@ -360,13 +572,22 @@ fn semantic_mutation(
             };
             let projected = session.complete_projection(&snapshot)?;
             super::rebuild_semantic_card_projection(context)?;
-            Ok(
-                json!({"status":"completed","read_only":false,"operational_authority":true,
-                "performed_mutation":result.performed_mutation,"effects_unknown":false,
-                "result":{"receipt":result.receipt,"reconciliation":result.reconciliation},
-                "semantic":{"original_version":done.original_version(),"current_version":projected.version(),
-                "operation":done.operation_id().as_str(),"outcome":done.outcome_kind(),"effect_truth":done.truth()}}),
-            )
+            match native {
+                Ok(result) => Ok(
+                    json!({"status":"completed","read_only":false,"operational_authority":true,
+                    "performed_mutation":result.performed_mutation,"effects_unknown":false,
+                    "result":{"receipt":result.receipt,"reconciliation":result.reconciliation},
+                    "semantic":{"original_version":done.original_version(),"current_version":projected.version(),
+                    "operation":done.operation_id().as_str(),"outcome":done.outcome_kind(),"effect_truth":done.truth()}}),
+                ),
+                Err(finding) => Ok(
+                    json!({"status":"completed","read_only":false,"operational_authority":true,
+                    "performed_mutation":false,"effects_unknown":false,
+                    "result":{"recovered_absence":finding.code},
+                    "semantic":{"original_version":done.original_version(),"current_version":projected.version(),
+                    "operation":done.operation_id().as_str(),"outcome":done.outcome_kind(),"effect_truth":done.truth()}}),
+                ),
+            }
         }
     }
 }
@@ -642,11 +863,20 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             if (request.command == "github-issue") != issue_operation {
                 return Err("intent_remote_operation_family_mismatch".into());
             }
+            // Preview and execution share semantic admission for every mutation
+            // against an existing issue. Repository-scoped issue creation is the
+            // only operation that legitimately has no issue semantic state yet.
             let legacy_migration_required = context.semantic_migration_required()?;
             if legacy_migration_required
                 && !matches!(operation, GithubMutation::IssueCompleteCoordination { .. })
             {
                 return Err("intent_semantic_migration_required".into());
+            }
+            if issue_operation
+                && !matches!(operation, GithubMutation::IssueCreate { .. })
+                && !legacy_migration_required
+            {
+                context.semantic_context()?;
             }
             let mut pull_request = None;
             if !issue_operation {
@@ -745,13 +975,31 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
 }
 
 pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Value>, String> {
-    if !request.content.is_null() {
+    let review_disposition = request.content.get("schema").and_then(Value::as_str)
+        == Some("csdlc.v3.semantic_review_recovery_disposition.v1");
+    if !request.content.is_null() && !review_disposition {
         return Err("intent_recover_unexpected_content".into());
     }
     // Review's native recovery is identical-packet completion, not a GitHub retry.
     // Inspect the semantic operation first because a partial local review write
     // does not appear in the native remote mutation inventory.
-    if let Ok(session) = context.semantic_context() {
+    let semantic_session = match context.semantic_context() {
+        Ok(session) => Some(session),
+        Err(_) => {
+            let (root, key) = context.semantic_root_key()?;
+            match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
+                semantic::Observation::Current(snapshot)
+                | semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot
+                    .pending()
+                    .map(|pending| context.semantic_recovery_context(pending.id()))
+                    .transpose()?,
+                semantic::Observation::RecoveryRequired
+                | semantic::Observation::LegacyMigrationRequired
+                | semantic::Observation::Absent => None,
+            }
+        }
+    };
+    if let Some(session) = semantic_session {
         if let Some(pending) = session.snapshot.pending().filter(|pending| {
             pending.command() == crate::lifecycle::semantic::SemanticCommand::RecordReviewPass
         }) {
@@ -759,17 +1007,6 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                 DurableTransactionStore::describe_effect_recovery(&session.root, &session.key)
                     .map_err(semantic_error)?
                     .ok_or("semantic_review_recovery_missing")?;
-            if !request.execute {
-                if request.preview.is_some() {
-                    return Err("intent_recovery_preview_argument_invalid".into());
-                }
-                return Ok(Some(json!({"status":"recovery_required","read_only":true,
-                    "performed_mutation":false,"preview_digest":preview.digest().as_str(),
-                    "operation":pending.id().as_str(),"action":"complete_identical_review_packet"})));
-            }
-            if request.preview.as_deref() != Some(preview.digest().as_str()) {
-                return Err("intent_recovery_preview_stale_or_missing".into());
-            }
             let retained =
                 DurableTransactionStore::inspect_effect(&session.root, &session.key, pending.id())
                     .map_err(semantic_error)?;
@@ -780,7 +1017,184 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                     .map_err(semantic_error)?,
             )
             .map_err(|_| "semantic_review_recovery_packet_invalid")?;
-            return semantic_review(context, &evidence).map(Some);
+            let review_head_stale = evidence.receipt.reviewed_revision != context.head
+                || evidence.receipt.expected_head_sha != context.head;
+            let review_valid = verify_semantic_external_review(context, &evidence);
+            let stale_review = review_head_stale
+                || matches!(
+                    review_valid.as_ref().map_err(String::as_str),
+                    Err("intent_review_semantic_proof_not_current")
+                );
+            if review_disposition && !stale_review {
+                return Err("intent_review_recovery_disposition_not_applicable".into());
+            }
+            if !request.execute {
+                if request.preview.is_some() {
+                    return Err("intent_recovery_preview_argument_invalid".into());
+                }
+                return Ok(Some(json!({"status":"recovery_required","read_only":true,
+                    "performed_mutation":false,"preview_digest":preview.digest().as_str(),
+                    "operation":pending.id().as_str(),
+                    "action":if stale_review{"abandon_stale_review"}else{"complete_identical_review_packet"},
+                    "required_disposition":if stale_review{
+                        json!({"flag":"--disposition","schema":"csdlc.v3.semantic_review_recovery_disposition.v1",
+                            "fields":["schema","action","operation_id","rationale"]})
+                    }else{Value::Null}})));
+            }
+            if request.preview.as_deref() != Some(preview.digest().as_str()) {
+                return Err("intent_recovery_preview_stale_or_missing".into());
+            }
+            let bytes = retained
+                .request()
+                .canonical_content()
+                .map_err(semantic_error)?;
+            if stale_review {
+                if request.content["schema"] != "csdlc.v3.semantic_review_recovery_disposition.v1"
+                    || request.content["action"] != "abandon_stale_review"
+                    || request.content["operation_id"] != pending.id().as_str()
+                    || request.content["rationale"]
+                        .as_str()
+                        .is_none_or(|value| value.trim().is_empty())
+                {
+                    return Err("intent_review_recovery_disposition_invalid".into());
+                }
+                let abandonment = json!({
+                    "schema":"csdlc.v3.semantic_review_abandonment.v1",
+                    "repository":context.repository,"issue":context.issue,"head":context.head,
+                    "operation_id":pending.id().as_str(),
+                    "native_identity":retained.request().native_identity(),
+                    "preview_digest":preview.digest().as_str(),
+                    "disposition":"abandoned_stale_review",
+                    "effect_truth":"unknown",
+                    "rationale":request.content["rationale"]
+                });
+                let outcome = transaction::VerifiedOutcome::from_native_owner(
+                    transaction::OutcomeKind::Failure,
+                    transaction::EffectTruth::Unknown,
+                    serde_json::to_vec(&abandonment)
+                        .map_err(|_| "semantic_review_abandonment_encoding_failed")?,
+                    crate::lifecycle::semantic::Facts::default(),
+                    retained.request().native_identity().clone(),
+                )
+                .map_err(semantic_error)?;
+                let authority = context.semantic_authority()?;
+                let observed = transaction::AttachmentAdmission::from_native_owner(
+                    authority,
+                    retained.request().origin().clone(),
+                );
+                let resolution =
+                    transaction::VerifiedRecoveryResolution::abandon_stale_review(&preview);
+                let attached = DurableTransactionStore::execute_effect_recovery_with_resolution(
+                    &session.root,
+                    preview,
+                    outcome,
+                    observed,
+                    Some(resolution),
+                )
+                .map_err(semantic_error)?;
+                return Ok(Some(match attached {
+                    transaction::Attachment::Completed(done)
+                    | transaction::Attachment::AlreadyCompleted(done) => {
+                        let snapshot = match DurableTransactionStore::observe_issue(
+                            &session.root,
+                            &session.key,
+                        )
+                        .map_err(semantic_error)?
+                        {
+                            semantic::Observation::Current(value)
+                            | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                            _ => return Err("semantic_review_projection_state_unavailable".into()),
+                        };
+                        let projected = session.complete_projection(&snapshot)?;
+                        super::rebuild_semantic_card_projection(context)?;
+                        json!({"status":"completed","read_only":false,
+                            "performed_mutation":true,"action":"abandoned_stale_review",
+                            "operation_id":done.operation_id().as_str(),
+                            "native_effect_truth":done.truth(),"semantic_outcome":done.outcome_kind(),
+                            "semantic_version":projected.version()})
+                    }
+                    transaction::Attachment::RecoveryRequired(version) => {
+                        json!({"status":"recovery_required","read_only":false,
+                            "performed_mutation":true,"operation_id":pending.id().as_str(),
+                            "semantic_version":version})
+                    }
+                }));
+            }
+            review_valid?;
+            let facts = crate::lifecycle::semantic::Facts {
+                current_proof: true,
+                independent_review: true,
+                ..Default::default()
+            };
+            let recorded = owner::record_external_review(
+                &context.root,
+                &context.repository,
+                context.issue,
+                &context.head,
+                issue_digest(context)?,
+                &context.authority_digest,
+                &evidence,
+            );
+            let outcome = match &recorded {
+                Ok(wrote) => transaction::VerifiedOutcome::from_native_owner(
+                    transaction::OutcomeKind::Success,
+                    if *wrote {
+                        transaction::EffectTruth::Performed
+                    } else {
+                        transaction::EffectTruth::NotPerformed
+                    },
+                    bytes,
+                    facts,
+                    retained.request().native_identity().clone(),
+                )
+                .map_err(semantic_error)?,
+                Err(finding) => owner::semantic_uncertain_outcome(
+                    retained.request().native_identity().clone(),
+                    finding,
+                )
+                .map_err(failure)?,
+            };
+            let semantic = context.semantic_recovery_context(pending.id())?;
+            let admission = match semantic.fresh_for_effect(pending.id()) {
+                Ok(value) => value,
+                Err(_) => return Ok(Some(recovery_result())),
+            };
+            return match DurableTransactionStore::attach_outcome(
+                &semantic.root,
+                retained
+                    .ticket()
+                    .ok_or("semantic_review_recovery_ticket_missing")?
+                    .clone(),
+                outcome,
+                admission,
+            )
+            .map_err(semantic_error)?
+            {
+                transaction::Attachment::RecoveryRequired(_) => Ok(Some(recovery_result())),
+                transaction::Attachment::AlreadyCompleted(done)
+                | transaction::Attachment::Completed(done) => {
+                    let snapshot =
+                        match DurableTransactionStore::observe_issue(&semantic.root, &semantic.key)
+                            .map_err(semantic_error)?
+                        {
+                            semantic::Observation::Current(value)
+                            | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                            _ => return Err("semantic_review_projection_state_unavailable".into()),
+                        };
+                    let projected = semantic.complete_projection(&snapshot)?;
+                    super::rebuild_semantic_card_projection(context)?;
+                    Ok(Some(json!({"status":"completed",
+                        "read_only":false,"operational_authority":true,
+                        "performed_mutation":recorded.map_err(failure)?,
+                        "review_receipt_path":owner::review_path(context.issue,&context.head),
+                        "review_receipt_digest":evidence.receipt_digest,
+                        "semantic":{"operation":done.operation_id().as_str(),"original_version":done.original_version(),
+                        "current_version":projected.version()}})))
+                }
+            };
+        }
+        if review_disposition {
+            return Err("intent_review_recovery_disposition_not_applicable".into());
         }
         if let Some(pending) = session.snapshot.pending().filter(|pending| {
             matches!(
@@ -825,13 +1239,21 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
             if !matches!(native.mutation, GithubMutation::PullRequestMerge { .. }) {
                 native.recovery = Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
             }
-            return semantic_mutation(
+
+            let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+            return semantic_recover_remote_effect(
                 context,
+                &session,
+                &retained,
+                preview,
                 &native,
-                &mut RealProcessAdapter::new(EnvironmentCredentialResolver),
+                &mut process,
             )
             .map(Some);
         }
+    }
+    if review_disposition {
+        return Err("intent_review_recovery_disposition_not_applicable".into());
     }
     let pending = owner::pending_operations(
         &context.root,

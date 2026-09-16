@@ -1,5 +1,9 @@
 //! PVF: installed integration proof, deterministic local Git and synthetic transport.
 //! Required #869/SIM-07 lane; fixture bootstrap is not issue execution evidence.
+use csdlc_v3::storage::{
+    semantic::{IssueKey, Observation, SemanticRoot},
+    DurableTransactionStore,
+};
 use serde_json::{json, Value};
 use std::{
     fs,
@@ -32,6 +36,19 @@ fn success(output: Output) -> Value {
     result
 }
 
+fn publication_reservation_inventory(
+    root: &Path,
+) -> std::collections::BTreeMap<std::path::PathBuf, String> {
+    intent_fixture::inventory(root)
+        .into_iter()
+        .filter(|(path, _)| {
+            let path = path.to_string_lossy();
+            path.starts_with(".git/csdlc-v3/remote/intents")
+                || path.starts_with(".git/csdlc-v3/semantic")
+        })
+        .collect()
+}
+
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1", "slug":"installed-intent-fixture",
       "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"installed intent commands","deliverables_inline":"Run installed lifecycle commands","validation_plan_inline":"Declared Cargo validator","acceptance_criteria_inline":"Installed command behavior is proven","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
@@ -49,6 +66,26 @@ fn prepare(fixture: &mut Fixture) {
     ));
 }
 
+fn rehash_native_issue(issue_root: &Path) {
+    let index_path = issue_root.join("index.json");
+    let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index.as_object_mut().unwrap().remove("digest");
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&serde_json::to_vec(&index).unwrap());
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            hasher.update(&fs::read(issue_root.join(format!("cards/{kind}.{suffix}"))).unwrap());
+        }
+    }
+    let intent_plan = issue_root.join("intent-plan.json");
+    if intent_plan.is_file() {
+        hasher.update(b"csdlc.v3.intent_plan.v1\0");
+        hasher.update(&fs::read(intent_plan).unwrap());
+    }
+    index["digest"] = hasher.finalize().to_hex().to_string().into();
+    fs::write(index_path, serde_json::to_vec(&index).unwrap()).unwrap();
+}
+
 fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
     let before = intent_fixture::inventory(&fixture.root);
     let result = success(fixture.run(cwd, &[route, "505"]));
@@ -57,6 +94,71 @@ fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
         before,
         intent_fixture::inventory(&fixture.root),
         "{route} changed fixture bytes"
+    );
+}
+
+#[test]
+fn issue_1029_installed_prepare_reactivates_retained_unbound_native_record() {
+    let mut fixture = Fixture::new("legacy-native-preparation");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let native_issue = primary.join(".git/csdlc-v3/local/issues/505");
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+
+    let status = success(fixture.run(&primary, &["status", "505"]));
+    assert_eq!(status["allowed_next"], json!(["prepare"]));
+    assert_eq!(
+        status["preparation"]["structural_state"],
+        "native_record_present_semantic_preparation_required"
+    );
+    assert_eq!(status["preparation"]["execution_ready"], false);
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "legacy status changed retained source"
+    );
+
+    let input = fixture.write_json("legacy-plan.json", &plan());
+    let prepared = success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(prepared["status"], "completed");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "compatibility preparation changed retained source"
+    );
+    observation(&mut fixture, &primary, "status");
+    observation(&mut fixture, &primary, "validate");
+}
+
+#[test]
+fn issue_1029_installed_prepare_rejects_digest_consistent_invalid_legacy_cards_without_semantic_state(
+) {
+    let mut fixture = Fixture::new("legacy-native-invalid-cards");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let native_issue = primary.join(".git/csdlc-v3/local/issues/505");
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::write(native_issue.join("cards/sip.values.json"), b"[]\n").unwrap();
+    rehash_native_issue(&native_issue);
+    let native_before = intent_fixture::inventory(&native_issue);
+    let input = fixture.write_json("invalid-legacy-plan.json", &plan());
+    let rejected = fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    );
+    assert!(
+        !rejected.status.success(),
+        "invalid legacy cards were accepted"
+    );
+    assert!(!primary.join(".git/csdlc-v3/semantic/issues/505").exists());
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "invalid legacy preparation changed retained source"
     );
 }
 
@@ -441,6 +543,51 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
 }
 
 #[test]
+fn installed_rebuild_repairs_projection_before_exact_binding_head_refresh() {
+    let mut fixture = Fixture::new("projection-rebuild-before-rebind");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    success(fixture.run(&linked, &["rebuild", "505"]));
+
+    let manifest = linked.join(".csdlc/v3/issues/505/cards/manifest.json");
+    fs::write(&manifest, b"{}\n").unwrap();
+    git(&linked, &["add", ".csdlc/v3/issues/505"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Retain interrupted projection bytes",
+        ],
+    );
+
+    let blocked = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(blocked["projection"]["observation"]["status"], "altered");
+    assert_eq!(blocked["allowed_next"], json!(["rebuild"]));
+
+    let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(rebuilt["status"], "completed");
+    assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
+    git(&linked, &["add", ".csdlc/v3/issues/505"]);
+    git(
+        &linked,
+        &["commit", "--quiet", "-m", "Repair retained projection"],
+    );
+
+    let rebound = success(fixture.run(&linked, &["bind", "505"]));
+    assert_eq!(rebound["status"], "completed");
+    assert_eq!(rebound["binding_refreshed"], true);
+    let rebuilt_after_bind = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(
+        rebuilt_after_bind["projection"]["after"]["status"],
+        "healthy"
+    );
+}
+
+#[test]
 fn installed_intent_rejects_old_and_unsupported_content_without_preparation_effects() {
     for (label, input) in [
         ("old-schema", json!({"schema":"csdlc.v3.intent_plan.v0"})),
@@ -663,6 +810,58 @@ fn installed_recovery_requires_fresh_preview_of_actual_interrupted_transaction()
         "consumed preview accepted for changed transaction state"
     );
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
+}
+
+#[test]
+fn installed_bind_recovery_handles_absent_target_before_loading_worktree() {
+    let mut fixture = Fixture::new("bind-recovery-absent-target");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let crash = fixture.run_with_env(
+        &primary,
+        &["bind", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_bind_after_reservation",
+        )],
+    );
+    assert_eq!(
+        crash.status.code(),
+        Some(91),
+        "did not reach bind reservation interruption: {crash:?}"
+    );
+    assert!(
+        git(&primary, &["worktree", "list", "--porcelain"])
+            .lines()
+            .filter(|line| line.starts_with("worktree "))
+            .count()
+            == 1,
+        "bind crash unexpectedly created a target worktree"
+    );
+
+    let before = intent_fixture::inventory(&primary);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_eq!(preview["action"], "reconcile_native_bind");
+    assert_same_inventory!(
+        before,
+        intent_fixture::inventory(&primary),
+        "bind recovery preview mutated state"
+    );
+    let recovered = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(recovered["status"], "completed");
+    assert_eq!(recovered["semantic_outcome"], "failure");
+    assert_eq!(recovered["native_effect_truth"], "not_performed");
+    assert_eq!(recovered["performed_mutation"], false);
 }
 
 #[test]
@@ -1555,9 +1754,9 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             let payload: Value = serde_json::from_slice(&failed_readback.stdout).unwrap();
             assert_eq!(payload["status"], "recovery_required");
             assert!(
-                payload["findings"]
+                payload["envelope"]["findings"]
                     .as_array()
-                    .unwrap()
+                    .expect("common result envelope must expose structured findings")
                     .iter()
                     .all(|finding| {
                         let code = finding["code"].as_str().unwrap();
@@ -1569,10 +1768,24 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             );
             assert_eq!(payload["envelope"]["status"], "recovery_required");
             assert_eq!(payload["envelope"]["process_status"], "failed");
-            assert_eq!(payload["envelope"]["effects"]["outcome"], "performed");
+            assert_eq!(
+                payload["envelope"]["effects"]["outcome"], "unknown",
+                "a dropped authenticated readback must preserve unknown-effect truth"
+            );
             assert_eq!(fixture.remote_effects(), 1);
             fixture.remote_flag("drop-publication-readback", false);
             fixture.remote_flag("drop-readback", false);
+            let recovery = success(fixture.run(&primary, &["recover", "505"]));
+            success(fixture.run(
+                &primary,
+                &[
+                    "recover",
+                    "505",
+                    "--execute",
+                    "--preview",
+                    recovery["preview_digest"].as_str().unwrap(),
+                ],
+            ));
             observation(&mut fixture, cwd, "pr-state");
             assert_eq!(
                 fixture.remote_effects(),
@@ -1765,6 +1978,13 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
         ],
     ));
     fixture.enable_merge_transport(&linked);
+    let stale_primary_issue = primary.join(".csdlc/issues/505");
+    fs::create_dir_all(&stale_primary_issue).unwrap();
+    fs::copy(
+        linked.join(".csdlc/issues/505/index.json"),
+        stale_primary_issue.join("index.json"),
+    )
+    .unwrap();
     let missing_approval = fixture.write_json(
         "merge.json",
         &json!({"action":"pull_request_merge","base":"main","method":"merge"}),
@@ -1798,6 +2018,7 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
     assert_eq!(fixture.remote_effects(), 3);
     assert_eq!(fixture.remote_pr()["merged"], true);
     assert_eq!(fixture.remote_issue()["state"], "closed");
+    fs::remove_dir_all(primary.join(".csdlc/issues")).unwrap();
     let before = intent_fixture::inventory(&primary);
     let replay = success(fixture.run(
         &primary,
@@ -1833,6 +2054,31 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
             fs::remove_file(path).unwrap();
         }
     }
+    let stale_projection = primary
+        .parent()
+        .expect("fixture root has parent")
+        .join("stale-projection-worktree");
+    if stale_projection.exists() {
+        fs::remove_dir_all(&stale_projection).unwrap();
+    }
+    git(
+        &primary,
+        &[
+            "worktree",
+            "add",
+            "--quiet",
+            "-b",
+            "fixture-stale-projection",
+            stale_projection.to_str().unwrap(),
+        ],
+    );
+    let stale_issue_root = stale_projection.join(".csdlc/issues/505");
+    fs::create_dir_all(&stale_issue_root).unwrap();
+    fs::copy(
+        linked.join(".csdlc/issues/505/index.json"),
+        stale_issue_root.join("index.json"),
+    )
+    .unwrap();
     let before = intent_fixture::inventory(&primary);
     let clean = success(fixture.run(&primary, &["clean", "505"]));
     assert_same_inventory!(
@@ -1957,7 +2203,13 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
             .lines()
             .filter(|line| line.starts_with("worktree "))
             .count(),
-        1
+        2
+    );
+    assert!(
+        stale_projection
+            .join(".csdlc/issues/505/index.json")
+            .is_file(),
+        "cleanup removed unrelated stale projection"
     );
     assert!(terminal.is_file(), "cleanup lost terminal authority");
     let archived = fs::read_dir(primary.join(".git/csdlc-v3/local/archives"))
@@ -1971,6 +2223,210 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
     let noop = success(fixture.run(&primary, &["clean", "505"]));
     assert_eq!(noop["envelope"]["status"], "expected_noop");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
+}
+
+// PVF #1041: installed deterministic local Git fixture. This proves the
+// explicit no-effect reconciliation for a merged terminal issue whose exact
+// checkout was removed outside native cleanup; no network or paid runner.
+#[test]
+fn cleanup_recover_reconciles_explicit_already_absent_without_prior_operation() {
+    let (mut fixture, linked) = reviewed_fixture("cleanup-already-absent-reconciliation");
+    let primary = fixture.root.clone();
+    success(fixture.run(&primary, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json(
+        "merge.json",
+        &json!({
+            "action":"pull_request_merge",
+            "base":"main",
+            "method":"merge",
+            "operator_approval":"synthetic operator authorizes only fixture PR639 exact candidate merge"
+        }),
+    );
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    success(fixture.run(&linked, &["finish", "505"]));
+
+    let binding_path = primary.join(".git/csdlc-v3/local/bindings/505.json");
+    let binding: Value = serde_json::from_slice(&fs::read(&binding_path).unwrap()).unwrap();
+    let receipt_path = primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json");
+    let receipt = fs::read(&receipt_path).unwrap();
+    let disposition = fixture.write_json(
+        "absent-cleanup-disposition.json",
+        &json!({
+            "schema":"csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1",
+            "disposition":"reconcile_already_absent_cleanup",
+            "repository":"agent-logic/agent-design-language",
+            "issue":505,
+            "worktree":binding["worktree"],
+            "branch":binding["branch"],
+            "head":intent_fixture::git(&linked, &["rev-parse", "HEAD"]),
+            "terminal_receipt_digest":blake3::hash(&receipt).to_hex().to_string(),
+            "operator":"synthetic-fixture-operator",
+            "rationale":"The exact terminal checkout was externally removed before native cleanup reserved an operation.",
+            "evidence_refs":["fixture:externally-removed-worktree"]
+        }),
+    );
+
+    let present = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !present.status.success(),
+        "present checkout was reconciled as absent"
+    );
+    assert!(
+        String::from_utf8_lossy(&present.stdout).contains("intent_cleanup_absence_target_present"),
+        "unexpected present-target failure: stdout={} stderr={}",
+        String::from_utf8_lossy(&present.stdout),
+        String::from_utf8_lossy(&present.stderr)
+    );
+
+    intent_fixture::git(
+        &primary,
+        &["worktree", "remove", "--force", linked.to_str().unwrap()],
+    );
+    assert!(!linked.exists());
+    let binding_bytes = fs::read(&binding_path).unwrap();
+    let mut stale_binding = binding.clone();
+    stale_binding["head"] = json!("0".repeat(40));
+    stale_binding["registration"] = json!("0".repeat(64));
+    fs::write(&binding_path, serde_json::to_vec(&stale_binding).unwrap()).unwrap();
+    let stale = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !stale.status.success()
+            && String::from_utf8_lossy(&stale.stdout).contains("intent_cleanup_binding_invalid"),
+        "stale local binding was accepted: {stale:?}"
+    );
+    fs::write(&binding_path, binding_bytes).unwrap();
+    let preview = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    assert_eq!(preview["status"], "ready");
+    assert_eq!(preview["performed_mutation"], false);
+    let token = preview["preview_token"].as_str().expect("preview token");
+    let interrupted = fixture.run_with_env(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            token,
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "cleanup_absence_after_reservation",
+        )],
+    );
+    assert_eq!(interrupted.status.code(), Some(91));
+    fs::create_dir_all(&linked).unwrap();
+    let overlapped = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !overlapped.status.success()
+            && String::from_utf8_lossy(&overlapped.stdout)
+                .contains("intent_cleanup_absence_target_present"),
+        "restored checkout was reconciled as absent: {overlapped:?}"
+    );
+    fs::remove_dir(&linked).unwrap();
+    let resumed = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    let resumed_token = resumed["preview_token"].as_str().expect("resumed token");
+    let reconciled = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            resumed_token,
+        ],
+    ));
+    assert_eq!(reconciled["status"], "expected_noop");
+    assert_eq!(reconciled["performed_mutation"], false);
+    assert_eq!(
+        reconciled["semantic"]["effect_truth"], "not_performed",
+        "reconciliation fabricated a native cleanup effect"
+    );
+
+    let root =
+        SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
+            .unwrap();
+    let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+    let snapshot = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        other => panic!("{other:?}"),
+    };
+    assert!(snapshot.pending().is_none());
+    assert_eq!(
+        snapshot.completed().last().unwrap().truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::NotPerformed
+    );
+    assert!(
+        !intent_fixture::git(&primary, &["worktree", "list", "--porcelain"])
+            .contains(linked.to_str().unwrap()),
+        "externally removed checkout remained registered"
+    );
 }
 
 #[test]
@@ -2246,6 +2702,51 @@ fn installed_remote_recover_retries_once_only_after_authenticated_absence() {
 }
 
 #[test]
+fn installed_remote_recover_retries_ready_once_after_crash_before_dispatch() {
+    let (mut fixture, linked) = reviewed_fixture("remote-ready-reserved-crash");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(fixture.remote_pr()["draft"], true);
+
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 2);
+    assert_eq!(fixture.remote_pr()["draft"], false);
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(
+        fixture.remote_effects(),
+        2,
+        "ready recovery replayed dispatch"
+    );
+}
+
+#[test]
 fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let (mut fixture, linked) = reviewed_fixture("remote-recover-reserved-crash");
     let primary = fixture.root.clone();
@@ -2266,6 +2767,21 @@ fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let preview = success(fixture.run(&primary, &["recover", "505"]));
     assert_eq!(preview["status"], "recovery_required");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    fixture.remote_flag("wrong-branch-head", true);
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+    fixture.remote_flag("wrong-branch-head", false);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
     success(fixture.run(
         &primary,
         &[
@@ -2313,6 +2829,290 @@ fn installed_remote_recover_attaches_retained_receipt_after_native_dispatch_cras
     assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
     let settled = success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(settled["envelope"]["effects"]["outcome"], "none");
+}
+
+#[test]
+fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejection_once() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-branch-later");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fixture.remote_flag("remote-head-present", false);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let missing = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!missing.status.success());
+    assert!(String::from_utf8_lossy(&missing.stdout).contains("github_pr_head_branch_missing"));
+    assert_eq!(fixture.remote_effects(), 0);
+    let recoveries = primary.join(".git/csdlc-v3/remote/recoveries");
+    assert!(
+        !recoveries.exists() || fs::read_dir(&recoveries).unwrap().next().is_none(),
+        "missing branch consumed recovery"
+    );
+
+    // Model the #1028 compatibility shape: branch observation races with an
+    // authenticated create rejection, so the recovery receipt is durable but
+    // the semantic operation retains the definite rejection.
+    fixture.remote_flag("remote-head-present", true);
+    fixture.remote_flag("reject-pr-create", true);
+    let rejected_preview = success(fixture.run(&primary, &["recover", "505"]));
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            rejected_preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+    assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+
+    fixture.remote_flag("reject-pr-create", false);
+    let converging = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            converging["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(
+        fixture.remote_pr()["head"]["sha"],
+        git(&linked, &["rev-parse", "HEAD"])
+    );
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(fixture.remote_effects(), 1, "replay duplicated PR creation");
+    assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+}
+
+#[test]
+fn installed_remote_recover_rejected_reuse_crash_never_dispatches_twice() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-rejected-reuse-crash");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+
+    fixture.remote_flag("reject-pr-create", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fixture.remote_flag("reject-pr-create", false);
+    fixture.remote_flag("drop-publication-readback", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let crashed = fixture.run_with_env(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_recovery_after_native",
+        )],
+    );
+    assert_eq!(crashed.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+
+    fixture.remote_flag("drop-publication-readback", false);
+    fixture.remote_flag("drop-readback", false);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let restart = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!restart.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "old definite rejection authorized a second PR create after ambiguous dispatch"
+    );
+}
+
+#[test]
+fn installed_remote_recover_pr_create_rejects_missing_or_wrong_head_before_reservation() {
+    for (name, flag, code) in [
+        (
+            "pr-create-initial-missing-head",
+            "remote-head-present",
+            "github_pr_head_branch_missing",
+        ),
+        (
+            "pr-create-initial-wrong-head",
+            "remote-head-wrong",
+            "github_pr_head_branch_mismatch",
+        ),
+    ] {
+        let (mut fixture, linked) = reviewed_fixture(name);
+        fixture.remote_flag(flag, flag == "remote-head-wrong");
+        let before = publication_reservation_inventory(&fixture.root);
+        let rejected = fixture.run(&linked, &["publish", "505"]);
+        assert!(!rejected.status.success());
+        assert!(String::from_utf8_lossy(&rejected.stdout).contains(code));
+        assert_eq!(fixture.remote_effects(), 0);
+        assert_eq!(
+            before,
+            publication_reservation_inventory(&fixture.root),
+            "{name} changed native intent or semantic reservation state"
+        );
+    }
+}
+
+#[test]
+fn installed_remote_recover_pr_create_never_reuses_ambiguous_dispatch_or_wrong_branch() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-ambiguous");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    fixture.remote_flag("drop-publication-readback", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let uncertain_output = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!uncertain_output.status.success());
+    let uncertain: Value = serde_json::from_slice(&uncertain_output.stdout).unwrap();
+    assert_eq!(uncertain["status"], "recovery_required");
+    assert_eq!(fixture.remote_effects(), 1);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    fixture.remote_flag("drop-publication-readback", false);
+    fixture.remote_flag("drop-readback", false);
+    let exhausted = success(fixture.run(&primary, &["recover", "505"]));
+    let settled = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            exhausted["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!settled.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "ambiguous dispatch reused recovery"
+    );
+
+    let (mut wrong, wrong_linked) = reviewed_fixture("pr-create-recovery-wrong-head");
+    wrong.remote_flag("remote-head-wrong", true);
+    let before = publication_reservation_inventory(&wrong.root);
+    let rejected = wrong.run(&wrong_linked, &["publish", "505"]);
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("github_pr_head_branch_mismatch"));
+    assert_eq!(wrong.remote_effects(), 0);
+    assert_eq!(before, publication_reservation_inventory(&wrong.root));
+}
+
+#[test]
+fn installed_remote_recover_uses_retained_origin_after_bound_head_advances() {
+    let (mut fixture, linked) = reviewed_fixture("remote-recover-advanced-bound-head");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[("CSDLC_V3_TEST_CRASH_POINT", "semantic_remote_after_native")],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+
+    fs::write(
+        linked.join("advanced-head.txt"),
+        "unrelated later revision\n",
+    )
+    .unwrap();
+    git(&linked, &["add", "advanced-head.txt"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "advance bound head after publication",
+        ],
+    );
+
+    let before = intent_fixture::inventory(&primary);
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["status"], "recovery_required");
+    assert_eq!(preview["action"], "reconcile_retained_remote_effect");
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
 }
 
 #[test]

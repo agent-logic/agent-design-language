@@ -22,6 +22,8 @@ pub use merge_linkage::{merge_linkage_query, merge_state_query};
 pub use model::*;
 pub use mutation::{
     execute_github_mutation, execute_staged_github_mutation, stage_github_mutation,
+    stage_retained_github_mutation_recovery,
+    stage_retained_github_mutation_recovery_after_rejection,
 };
 pub use publication::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
@@ -30,7 +32,9 @@ pub use publication::{
     typed_review_receipt_payload_digest,
 };
 pub use routing::dispatch_operational_remote;
-pub(crate) use storage::repository_scoped_issue_creation_receipt;
+pub(crate) use storage::{
+    repository_scoped_issue_creation_receipt, settled_issue_mutation_receipt,
+};
 pub use support::{github_mutation_operation_digest, github_mutation_operation_marker};
 
 // Existing white-box tests exercise private failure-path helpers through the
