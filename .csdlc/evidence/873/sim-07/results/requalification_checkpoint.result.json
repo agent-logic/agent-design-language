@@ -1,19 +1,18 @@
 {
   "schema": "adl.csdlc.issue873.requalification_checkpoint.v1",
   "issue": 873,
-  "source_head": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+  "source_head": "8b482221e6a6c0eccab1175c2320aa1f7d441ce1",
   "frozen_candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
   "focused_corpus": {
     "records_attempted": 37,
-    "records_passed": 36,
-    "records_failed": 1,
+    "records_passed": 37,
+    "records_failed": 0,
     "records_omitted": 0,
-    "tests_passed": 255,
-    "tests_failed": 1,
+    "tests_passed": 256,
+    "tests_failed": 0,
     "tests_ignored": 1,
     "exact_head_aggregate_claim": false,
-    "classification": "not_proven",
-    "failure": "retained exact old-owner conversion release gate",
+    "classification": "pass",
     "evidence": "focused-corpus-summary.json"
   },
   "retry_contract_tests": {

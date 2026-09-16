@@ -71,7 +71,7 @@
   },
   "unique_passing_test_total": 253,
   "unexpected_test_failures": 0,
-  "qualification_gates_not_proven": 4,
+  "qualification_gates_not_proven": 3,
   "prepared_start_requalification": {
     "source_head": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
     "candidate_binary_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",

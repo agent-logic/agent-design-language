@@ -855,15 +855,14 @@
   ],
   "summary": {
     "records_attempted": 37,
-    "records_passed": 36,
-    "records_failed": 1,
+    "records_passed": 37,
+    "records_failed": 0,
     "records_omitted": 0,
-    "tests_passed": 255,
-    "tests_failed": 1,
+    "tests_passed": 256,
+    "tests_failed": 0,
     "tests_ignored": 1,
     "record_classifications": {
-      "passed_counted_test_command": 32,
-      "failed_release_gate": 1,
+      "passed_counted_test_command": 33,
       "passed_exact_installed_journey": 2,
       "passed_non_test_probe": 1,
       "passed_validator_without_test_summary": 1

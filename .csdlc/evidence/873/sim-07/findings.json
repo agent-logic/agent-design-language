@@ -103,7 +103,7 @@
       "evidence": [
         "scorecard.json"
       ],
-      "resolution": "All scorecard gates now use only pass, fail, or not_proven; finite recovery, evidence PR CI, and exact-head review are not_proven."
+      "resolution": "All scorecard gates now use only pass, fail, or not_proven; conversion recovery passes, while evidence PR CI and exact-head review remain not_proven."
     },
     {
       "id": "REVIEW-873-004",
