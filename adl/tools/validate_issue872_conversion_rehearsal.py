@@ -501,6 +501,20 @@ def validate_roles(root: Path, summary: dict[str, Any], request: dict[str, Any],
                 f"{name}: silent omission")
         require(role.get("semantic_equivalent") is True,
                 f"{name}: semantic mismatch")
+        receipt_ref = role.get("equivalence_receipt_ref")
+        require(isinstance(receipt_ref, str),
+                f"{name}: production equivalence receipt missing")
+        receipt_path = as_relative(root, receipt_ref,
+                                   f"{name}.equivalence_receipt_ref")
+        receipt = load_json(receipt_path)
+        require(role.get("equivalence_receipt_sha256") == sha256(receipt_path),
+                f"{name}: production equivalence receipt digest mismatch")
+        mapping = receipt.get("detail", {}).get("semantic_equivalence", {})
+        require(mapping.get("schema") ==
+                "csdlc.v3.copied_record_semantic_equivalence.v1" and
+                mapping.get("issue") == role["issue"] and
+                mapping.get("role") == name,
+                f"{name}: unsupported production semantic mapping")
         require(role.get("evidence_identity_preserved") is True,
                 f"{name}: evidence identity mismatch")
         digest = require_sha(role.get("source_digest"),
@@ -511,6 +525,15 @@ def validate_roles(root: Path, summary: dict[str, Any], request: dict[str, Any],
                 f"{name}: role source is not distinct")
         source_digests.add(digest)
         inventory = inventories[role["issue"]]
+        source_extensions = sorted(
+            path for path in inventory
+            if not path.startswith("cards/") and
+            path not in {"index.json", "binding.json"}
+        )
+        require(role.get("source_extensions") == source_extensions and
+                role.get("source_extensions_digest") ==
+                canonical_digest(source_extensions),
+                f"{name}: source extension comparison mismatch")
         require(digest == canonical_digest(inventory),
                 f"{name}: source digest is not derived from retained source bytes")
         index = load_json(root / "snapshots/source" / str(role["issue"]) / "index.json")
@@ -736,7 +759,10 @@ def validate_scenarios(root: Path, summary: dict[str, Any]) -> None:
                     all(item.get("disposition") == "converted" for item in records),
                     "clean_control: raw converted role census mismatch")
         elif name == "old_writer_fence":
-            require([command.get("process_status") for command in commands] == [0, 124, 124],
+            statuses = [command.get("process_status") for command in commands]
+            require(len(statuses) == 3 and statuses[0] == 0 and
+                    isinstance(statuses[1], int) and statuses[1] < 0 and
+                    isinstance(statuses[2], int) and statuses[2] != 0,
                     "old_writer_fence: raw process statuses do not prove fencing")
         elif name in {"unsupported_ambiguous_record", "old_schema_diagnostic"}:
             require(len(parsed) == 1 and any(
@@ -947,6 +973,10 @@ def validate_old_schema_records(root: Path) -> None:
 
 def validate_safety(root: Path, summary: dict[str, Any]) -> None:
     fence = summary.get("old_writer_fence", {})
+    require(fence.get("native_writer_fence_handshake") is True and
+            fence.get("probe_acknowledgement_written") is True and
+            fence.get("blocked_writer_terminated") is True,
+            "old-writer proof did not use the native held/acknowledged handshake")
     require(fence.get("command_identity_equal") is True,
             "old-writer control/fenced command differs")
     require(fence.get("pre_fence_effect") == "applied",

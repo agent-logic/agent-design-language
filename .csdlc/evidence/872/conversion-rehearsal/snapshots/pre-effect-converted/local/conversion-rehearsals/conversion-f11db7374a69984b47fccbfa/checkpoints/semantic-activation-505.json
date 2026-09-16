@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "semantic_state_activated",
+  "detail": {
+    "issue": 505,
+    "generation": 1,
+    "digest": "semantic-state-v1:2bb6612bdec21b48276ba519fce022219c2e180f7ab4368c27d105a40d538c23"
+  }
+}

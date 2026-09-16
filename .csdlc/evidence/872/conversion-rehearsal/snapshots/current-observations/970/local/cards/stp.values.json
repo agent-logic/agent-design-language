@@ -4,10 +4,11 @@
   "issue_padded": "0970",
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/970",
   "title": "[provider redesign] Make declared inference profiles executable and observable",
-  "branch": "codex/970-provider-architecture-effective-configuration",
+  "branch": "main",
   "version": "1.0.5",
   "card": "stp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-970-provider-architecture-effective-configuration"
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary",
+  "task_summary": "Define one normalized provider configuration contract, reject executable provider definitions, and prove supported controls reach built-in provider requests."
 }

@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 981,
   "phase": "bound",
-  "generation": 12,
+  "generation": 2,
   "repository": "agent-logic/agent-design-language",
-  "branch": "codex/981-repository-scoped-issue-creation-receipt",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-981-repository-scoped-issue-creation-receipt",
+  "branch": "codex/981-issue872-generated-linked-observation-981",
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/adl-issue-981-issue872-generated-linked-observation-981",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "4ecbcaff7192451ef6a180948c55a63c7ab04426b8ef1dd63959e4e58962e453"
+  "digest": "13ccf974e1c3f3fc8f8c2d3510a2a2ee76a594e71724fd263698058c43c2bf03"
 }

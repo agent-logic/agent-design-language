@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "per_issue_staging_write_completed",
+  "detail": {
+    "issue": 511,
+    "source_digest": "semantic-projection-v1:4d421e01a10cd060b46eb275823038dc36fd5b68c27911e402dd48579bf2d8d4"
+  }
+}

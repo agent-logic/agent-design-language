@@ -1,0 +1,85 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "per_issue_conversion_receipt_persisted",
+  "detail": {
+    "issue": 497,
+    "source_digest": "semantic-projection-v1:70d2fd9bff4782b2ead6d950c75291cba1c2d33c51339f46e19489de1574662d",
+    "semantic_digest": "semantic-state-v1:f61b5df819038ba26f51ab92d39cd3f85f1f75612932a39ae9349465f62fa1a4",
+    "semantic_equivalence": {
+      "schema": "csdlc.v3.copied_record_semantic_equivalence.v1",
+      "issue": 497,
+      "role": "implemented",
+      "source": {
+        "index_generation": 21,
+        "card_generation": 21,
+        "phase": "implemented",
+        "branch": "codex/497-corp-c-sprint4-execution",
+        "worktree": "<fast-work>/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
+        "publication": null,
+        "review": null,
+        "terminal": null,
+        "migration": null,
+        "cards_digest": "semantic-projection-v1:82dd72a57a047c1f9eff4d62de248b30e994d9a6375637d36f4db9aefb2fa697",
+        "source_digest": "semantic-projection-v1:70d2fd9bff4782b2ead6d950c75291cba1c2d33c51339f46e19489de1574662d"
+      },
+      "destination": {
+        "intent": "[v0.92.1][CORP-C] Corporate operational-control transfer",
+        "slug": "v0-92-1-corp-c-corporate-operational-control-transfer",
+        "plan": [
+          {
+            "id": "STEP-497-001",
+            "acceptance": "Verify the four prerequisite lanes are closed, merged, and ancestral to origin/main."
+          },
+          {
+            "id": "STEP-497-002",
+            "acceptance": "Inventory issue-owned corporate operational-control surfaces and map each acceptance claim to evidence."
+          },
+          {
+            "id": "STEP-497-003",
+            "acceptance": "Classify external-provider, billing, credential, and workflow actions as completed evidence, authorized action, deferred action, or blocker."
+          },
+          {
+            "id": "STEP-497-004",
+            "acceptance": "Write and validate the corporate operational-control transfer acceptance packet and truthful output/review records."
+          }
+        ],
+        "validators": [
+          {
+            "id": "corp-c-denominator-truth-validator",
+            "program": "ruby",
+            "args": [
+              ".csdlc/evidence/497/validate-readiness.rb"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 180
+          },
+          {
+            "id": "corp-c-diff-hygiene",
+            "program": "git",
+            "args": [
+              "diff",
+              "--check",
+              "origin/main...HEAD"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 60
+          }
+        ],
+        "publication": {
+          "base": "",
+          "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
+          "body": "",
+          "draft": true
+        },
+        "binding": {
+          "branch": "codex/fixture-linked",
+          "head": "7d373f9596bfeca89e9c155cc3b31053eae258f4",
+          "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/linked",
+          "registration": "git-worktree-list"
+        },
+        "inputs_digest": "semantic-projection-v1:61c12b968a8fcacca605892048917b1d7664b0cddc2ece83219078fcf468a381"
+      }
+    }
+  }
+}

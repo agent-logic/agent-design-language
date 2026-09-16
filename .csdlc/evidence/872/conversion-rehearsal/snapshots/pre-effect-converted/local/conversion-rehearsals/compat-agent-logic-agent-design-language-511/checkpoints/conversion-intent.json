@@ -1,9 +1,0 @@
-{
-  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
-  "operation_id": "compat-agent-logic-agent-design-language-511",
-  "event": "conversion_intent_durable",
-  "detail": {
-    "repository": "agent-logic/agent-design-language",
-    "record_count": 7
-  }
-}

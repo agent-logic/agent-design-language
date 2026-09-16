@@ -1,9 +1,0 @@
-{
-  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
-  "operation_id": "compat-agent-logic-agent-design-language-511",
-  "event": "projection_data_completed",
-  "detail": {
-    "issue": 517,
-    "projection_digest": "card-projection-v1:0b4aa7b8773d3f7c7dfd75211498d559f49ad2dde504a3ad25a779f07b67b935"
-  }
-}

@@ -1,12 +1,12 @@
 ---
 issue_card_schema: adl.issue.v1
-wp: "981"
-slug: "repository-scoped-issue-creation-receipt"
-title: "[v0.92.2][C-SDLC v3][defect] Do not misclassify repository-scoped issue creation receipts"
+wp: "<wp>"
+slug: "<slug>"
+title: "Generated linked observation 981"
 labels:
   - "track:roadmap"
 issue_number: 981
-generated_at: "2026-09-15"
+generated_at: "<timestamp>"
 card_status: "ready"
 status: "draft"
 action: "edit"
@@ -15,76 +15,76 @@ duplicates: []
 depends_on: []
 milestone_sprint: "1.0.5"
 required_outcome_type:
-  - "csdlc_defect_repair"
+  - "<required_outcome_type>"
 repo_inputs:
-  - "https://github.com/agent-logic/agent-design-language/issues/981"
+  - "<source_issue_prompt>"
 canonical_files: []
-demo_required: false
+demo_required: <demo_required>
 demo_names: []
 issue_graph_notes:
-  - "#981 repairs the native blocker discovered while rewriting and preparing #970."
+  - "<issue_graph_note>"
 pr_start:
   enabled: true
-  slug: "repository-scoped-issue-creation-receipt"
+  slug: "<slug>"
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/stp.md`
-Generated: 2026-09-15
+Generated: <timestamp>
 
 # Structured Task Prompt
 
 ## Summary
 
-Repair the semantic residue classifier so fully authenticated repository-scoped issue creation does not block the assigned issue while all identity mismatches still require recovery.
+<summary>
 
 ## Goal
 
-Restore native prepare and edit for newly created issues without weakening semantic recovery guards.
+<goal>
 
 ## Required Outcome
 
-Classify the assigned-number mutation receipt through its canonical issue-zero intent and exempt it only when the filename, operation, intent, receipt, repository, assigned issue, head, adapter, and authenticated linkage agree.
+<required_outcome>
 
 ## Deliverables
 
-Narrow canonical repository-scoped receipt classifier, positive regression, six negative identity-link regressions, consistent safe Cargo test-filter admission from prepare through proof, and truthful lifecycle evidence.
+<deliverables>
 
 ## Acceptance Criteria
 
-Positive mutation-receipt preparation succeeds; altered intent operation digest, marker, request, receipt operation digest, or receipt intent digest returns RecoveryRequired; existing semantic residue tests and the full component suite pass.
+<acceptance_criteria>
 
 ## Repo Inputs
 
-Issue #981, retained native issue-create transaction for #970, canonical native remote intent/receipt validators, and transaction fixtures.
+<repo_inputs>
 
 ## Dependencies
 
-No product dependency. The defect blocks ordinary native preparation of #970 and therefore bootstraps through the isolated #981 candidate only.
+<dependencies>
 
 ## Target Files / Surfaces
 
-csdlc-v3/src/storage/semantic.rs; csdlc-v3/src/commands/remote/mod.rs; csdlc-v3/src/commands/proof/intent.rs; csdlc-v3/tests/transactions.rs.
+<target_files_surfaces>
 
 ## Validation Plan
 
-Focused repository-scoped receipt tests; semantic_gate_a; full csdlc-v3 test suite; fmt; strict clippy; diff check; independent exact-head review.
+<validation_plan>
 
 ## Demo Expectations
 
-Real native preparation of #981 and deterministic transaction regressions; no external service demo.
+<demo_proof_requirements>
 
 ## Non-goals
 
-No automatic legacy migration, no changes to GitHub mutation effects, no provider implementation, and no unrelated cleanup.
+<non_goals>
 
 ## Issue-Graph Notes
 
-After #981 integrates, reconcile the authorized #970 body edit and update its title through native v3.
+<issue_graph_notes>
 
 ## Notes
 
-A permissive cross-link would hide damaged lifecycle evidence; every candidate exemption must use canonical native validation.
+<notes_risks>
 
 ## Tooling Notes
 
-Use the current native v3 man-page workflow and the isolated candidate only until this repair is integrated.
+<tooling_notes>

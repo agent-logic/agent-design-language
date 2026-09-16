@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "repository-scoped-issue-creation-receipt-review-prompt"
+name: "<slug>-review-prompt"
 issue: 981
 task_id: "issue-0981"
 version: "1.0.5"
-title: "[v0.92.2][C-SDLC v3][defect] Do not misclassify repository-scoped issue creation receipts"
-branch: "codex/981-repository-scoped-issue-creation-receipt"
-generated_at: "2026-09-15"
+title: "Generated linked observation 981"
+branch: "codex/981-issue872-generated-linked-observation-981"
+generated_at: "<timestamp>"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/981"
   - kind: "stp"
-    ref: ".csdlc/issues/981/cards/stp.md"
+    ref: "<stp_card>"
   - kind: "sip"
-    ref: ".csdlc/issues/981/cards/sip.md"
+    ref: "<sip_card>"
   - kind: "spp"
-    ref: ".csdlc/issues/981/cards/spp.md"
+    ref: "<spp_card>"
   - kind: "vpp"
-    ref: ".csdlc/issues/981/cards/vpp.md"
+    ref: "<vpp_card>"
   - kind: "sor"
-    ref: ".csdlc/issues/981/cards/sor.md"
+    ref: "<sor_card>"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - ".csdlc/issues/981/cards/stp.md"
-  - ".csdlc/issues/981/cards/sip.md"
-  - ".csdlc/issues/981/cards/vpp.md"
+  - "<stp_card>"
+  - "<sip_card>"
+  - "<vpp_card>"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - ".csdlc/issues/981/cards/stp.md"
-  - ".csdlc/issues/981/cards/sip.md"
-  - ".csdlc/issues/981/cards/vpp.md"
+  - "<stp_card>"
+  - "<sip_card>"
+  - "<vpp_card>"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "block"
-notes: "Fresh review required because the proof-admission repair changes implementation bytes after the previous exact-head pass."
+  findings_status: "<findings_status>"
+  recommended_outcome: "<recommended_outcome>"
+notes: "<review_notes>"
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- .csdlc/issues/981/cards/stp.md
-- .csdlc/issues/981/cards/sip.md
-- .csdlc/issues/981/cards/vpp.md
+- <stp_card>
+- <sip_card>
+- <vpp_card>
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Prior receipt-classification and lifecycle findings were repaired. Native proof then exposed a separate prepare/proof validator-admission mismatch; that repair requires fresh exact-head review.
+- <review_findings>
 
 ### Dispositions
 
-- Receipt-classification findings are resolved. Safe Cargo test-filter admission repair is implemented and awaits proof and exact-head review.
+- <review_dispositions>
 
 ### Recommended Outcome
 
-- block
+- <recommended_outcome>
 
 ## Notes
 
-Fresh review required because the proof-admission repair changes implementation bytes after the previous exact-head pass.
+<review_notes>

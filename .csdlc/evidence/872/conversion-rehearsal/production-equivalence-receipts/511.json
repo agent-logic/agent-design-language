@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "per_issue_conversion_receipt_persisted",
+  "detail": {
+    "issue": 511,
+    "source_digest": "semantic-projection-v1:4d421e01a10cd060b46eb275823038dc36fd5b68c27911e402dd48579bf2d8d4",
+    "semantic_digest": "semantic-state-v1:574c8c77982b5af60556deef2faf27203f8689abc2f9095eeb3024e4ba23bd52",
+    "semantic_equivalence": {
+      "schema": "csdlc.v3.copied_record_semantic_equivalence.v1",
+      "issue": 511,
+      "role": "prepared",
+      "source": {
+        "index_generation": 1,
+        "card_generation": 1,
+        "phase": "ready",
+        "branch": "main",
+        "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary",
+        "publication": null,
+        "review": null,
+        "terminal": null,
+        "migration": null,
+        "cards_digest": "semantic-projection-v1:f980b834a0dd1a522f3ca6b53e7098e8cf407701b631700fd8acb3de3cc004ca",
+        "source_digest": "semantic-projection-v1:4d421e01a10cd060b46eb275823038dc36fd5b68c27911e402dd48579bf2d8d4"
+      },
+      "destination": {
+        "intent": "[v0.92.1][OBS-A] Observatory experience design",
+        "slug": "obs-a-observatory-experience-design",
+        "plan": [
+          {
+            "id": "S1",
+            "acceptance": "Inventory the existing Observatory UI and Runtime projection fields that may be consumed."
+          },
+          {
+            "id": "S2",
+            "acceptance": "Write the per-view information contract and state matrix."
+          },
+          {
+            "id": "S3",
+            "acceptance": "Write keyboard and screen-reader flows for every designed state."
+          },
+          {
+            "id": "S4",
+            "acceptance": "Run the focused contract, accessibility-plan, Runtime-field-census, v3 local canary, and review proof."
+          }
+        ],
+        "validators": [
+          {
+            "id": "information-contract",
+            "program": "bash",
+            "args": [
+              ".csdlc/prepared/issues/511/validate-obs-a-contract.sh"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "state-matrix",
+            "program": "bash",
+            "args": [
+              ".csdlc/prepared/issues/511/validate-obs-a-states.sh"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "accessibility-plan",
+            "program": "bash",
+            "args": [
+              ".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "runtime-field-census",
+            "program": "bash",
+            "args": [
+              ".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 180
+          },
+          {
+            "id": "v3-local-canary",
+            "program": "cargo",
+            "args": [
+              "run",
+              "--locked",
+              "--manifest-path",
+              "csdlc-v3/Cargo.toml",
+              "--bin",
+              "csdlc",
+              "--",
+              "local",
+              "--request",
+              ".csdlc/prepared/issues/511/v3-local-request.json",
+              "--registry",
+              "docs/templates/prompts/current.json",
+              "--registrations",
+              ".csdlc/prepared/issues/511/v3-local-registrations.json"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          }
+        ],
+        "publication": {
+          "base": "",
+          "title": "[v0.92.1][OBS-A] Observatory experience design",
+          "body": "",
+          "draft": true
+        },
+        "binding": null,
+        "inputs_digest": "semantic-projection-v1:fd8e39f5200ccdafa18da4ec4b071b77f7336038274da3a8a69860abfce886aa"
+      }
+    }
+  }
+}

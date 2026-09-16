@@ -44,7 +44,7 @@
   "issue": 511,
   "repository": "agent-logic/agent-design-language",
   "branch": "main",
-  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789513292284734000/primary",
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary",
   "registry_version": "1.0.3",
   "commands": [
     "prepare_issue",

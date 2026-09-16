@@ -6,16 +6,16 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/sip.md`
 Task ID: issue-0981
 Run ID: issue-0981
 Version: 1.0.5
-Title: [v0.92.2][C-SDLC v3][defect] Do not misclassify repository-scoped issue creation receipts
-Branch: codex/981-repository-scoped-issue-creation-receipt
+Title: Generated linked observation 981
+Branch: codex/981-issue872-generated-linked-observation-981
 Card Status: ready
-Generated: 2026-09-15
+Generated: <timestamp>
 
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/981
 - PR:
-- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/981
-- Docs: Installed native v3 operator man pages: csdlc-workflow, csdlc-edit, csdlc-review, and csdlc-publish.
+- Source Issue Prompt: <source_issue_prompt>
+- Docs: <docs_context>
 - Other: none
 
 ## Agent Execution Rules
@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: .csdlc/issues/981/cards/sor.md
+  output_card: <output_card>
   summary_style: concise_structured
 constraints:
   include_system_invariants: true
@@ -84,37 +84,37 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: repository-scoped-issue-creation-receipt
-- Required outcome type: csdlc_defect_repair
-- Demo required: false
+- Source issue-prompt slug: <slug>
+- Required outcome type: <required_outcome_type>
+- Demo required: <demo_required>
 
 ## Goal
 
-Allow a newly assigned GitHub issue to enter native semantic preparation after its repository-scoped issue-create transaction has been fully reconciled.
+<goal>
 
 ## Required Outcome
 
-Native semantic observation recognizes only an authentic, exactly linked issue-create intent and receipt as repository-scoped; malformed or cross-linked evidence remains fail-closed.
+<required_outcome>
 
 ## Acceptance Criteria
 
-A valid repository-scoped issue-create receipt does not make the assigned issue appear legacy; receipt, intent, filename, marker, adapter, request digest, and intent digest mismatches fail closed; a safe retained Cargo test filter accepted by preparation is also admitted by proof and still requires nonzero executed tests; focused and full validation pass.
+<acceptance_criteria>
 
 ## Inputs
 
-Issue #981; the reconciled native issue-create intent and receipt for #970; semantic remote-residue classification; independent review findings at 8faaf291a.
+<inputs>
 
 ## Target Files / Surfaces
 
-csdlc-v3/src/storage/semantic.rs; csdlc-v3/src/commands/remote/mod.rs; csdlc-v3/src/commands/proof/intent.rs; csdlc-v3/tests/transactions.rs; issue-local lifecycle and evidence records.
+<target_files_surfaces>
 
 ## Validation Plan
 
-Run the positive creation-receipt regression, negative mismatch matrix, semantic transaction lane, full csdlc-v3 suite, formatting, strict clippy, diff hygiene, and independent exact-head review.
+<validation_plan>
 
 ## Demo / Proof Requirements
 
-The real #981 native prepare/edit/validate sequence plus deterministic local regression tests is the proof; no product demo is required.
+<demo_proof_requirements>
 
 ## Constraints / Policies
 
@@ -162,11 +162,11 @@ ci_validation_required: true
 
 ## Non-goals / Out of scope
 
-No legacy migration bypass, no broad remote-owner redesign, no Runtime/provider implementation, no v2 lifecycle use, and no merge without separate authorization.
+<non_goals>
 
 ## Notes / Risks
 
-The exemption must be narrower than ordinary legacy-residue detection and must never trust a receipt-supplied cross-link by itself.
+<notes_risks>
 
 ## Instructions to the Agent
 - Read this file.

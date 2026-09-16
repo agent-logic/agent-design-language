@@ -18,10 +18,10 @@ Execution Record Requirements:
 Task ID: issue-0981
 Run ID: issue-0981
 Version: 1.0.5
-Title: [v0.92.2][C-SDLC v3][defect] Do not misclassify repository-scoped issue creation receipts
-Branch: codex/981-repository-scoped-issue-creation-receipt
+Title: Generated linked observation 981
+Branch: codex/981-issue872-generated-linked-observation-981
 Card Status: ready
-Status: in_progress
+Status: <status>
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented exact repository-scoped issue-creation receipt classification and repaired the prepare/proof validator-admission mismatch exposed by the real #981 proof; independent review, publication, CI, merge, and terminal closeout remain pending.
+<summary>
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -75,8 +75,8 @@ Implemented exact repository-scoped issue-creation receipt classification and re
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `csdlc-v3/src/commands/remote/mod.rs; csdlc-v3/src/storage/semantic.rs; csdlc-v3/src/commands/proof/intent.rs; csdlc-v3/tests/transactions.rs`
-- Additional proof artifacts: `.csdlc/evidence/981/validation.md`
+- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
+- Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
 - `<actions_taken_line_1>`
@@ -86,8 +86,8 @@ Implemented exact repository-scoped issue-creation receipt classification and re
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `worktree_only`
-- Verification scope: `bound issue worktree`
+- Integration state: `<integration_state>`
+- Verification scope: `<verification_scope>`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path csdlc-v3/Cargo.toml semantic_gate_a; native csdlc proof 981; cargo test --manifest-path csdlc-v3/Cargo.toml; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Proves repository-scoped receipt classification, safe single-filter admission, final-binary dependency-record discovery, full C-SDLC v3 behavior, formatting, strict lint, and patch hygiene.`
+  - `<validation_command>`
+    `<validation_effect>`
 - Results:
-  - `The full component suite passed; native proof executed 21 semantic_gate_a tests with zero failures and unchanged inputs; one manual-only prepared-measurement test remained intentionally ignored.`
+  - `<validation_result>`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,24 +123,24 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: passed
+    status: <verification_validation_status>
     checks_run:
-      - "Native 21-test proof, focused receipt and proof regressions, full csdlc-v3 suite, fmt, strict clippy, and diff hygiene"
+      - "<verification_check_1>"
   determinism:
-    status: passed
-    replay_verified: true
-    ordering_guarantees_verified: not_applicable
+    status: <verification_determinism_status>
+    replay_verified: <verification_replay_verified>
+    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
   security_privacy:
-    status: passed
-    secrets_leakage_detected: false
-    prompt_or_tool_arg_leakage_detected: false
-    absolute_path_leakage_detected: false
+    status: <verification_security_privacy_status>
+    secrets_leakage_detected: <verification_secrets_leakage_detected>
+    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
+    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
   artifacts:
-    status: passed
-    required_artifacts_present: true
+    status: <verification_artifacts_status>
+    required_artifacts_present: <verification_required_artifacts_present>
     schema_changes:
-      present: false
-      approved: not_applicable
+      present: <verification_schema_changes_present>
+      approved: <verification_schema_changes_approved>
 ```
 
 ## Determinism Evidence

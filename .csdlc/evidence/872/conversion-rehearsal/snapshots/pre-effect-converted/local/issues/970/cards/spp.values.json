@@ -9,7 +9,7 @@
   "card": "spp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789513292284734000/primary",
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary",
   "acceptance_criteria_inline": "Every declared supported inference control reaches the selected built-in request with auditable effective values, while unsupported or executable configuration fails before dispatch.",
   "deliverables_inline": "Canonical AProvider text schema and normalized representation; effective control propagation; unsupported-control rejection; redacted effective configuration and request fingerprint; focused wire-capture tests and documentation.",
   "dependencies_inline": "Builds on #514, #876, and #855; coordinates with #901 without absorbing its provider failure and recovery qualification scope.",

@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.current_observation_relocation_provenance.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa-relocate-primary",
+  "request_digest": "semantic-projection-v1:08a6315680abbcdf5823ffac2053e5be9cf12f24c39a538078972e4ea982ac01",
+  "issue": 970,
+  "source_hashes": {
+    "local_lifecycle": "semantic-projection-v1:9e81009978f8b4061d657922afce7d4b2f9488b108f46b2f9b6ddab85e529b66",
+    "projection_state": "semantic-projection-v1:e6f302b7f6704727cbbe7c4aa7269c771777a7bf18ebf170caca76ebd2e7daca",
+    "semantic_current": "semantic-projection-v1:3daf76b87a106f54a981b454ad1e88a852f727e986d07ebeb995d1aa21499509"
+  },
+  "relocated_hashes": {
+    "local_lifecycle": "semantic-projection-v1:0311d37693686cc0b6e07792f288b1eedfd127e243b9f3733fa2b9cac154d665",
+    "projection_state": "semantic-projection-v1:48da1ea8496dd1987006b7cd2f2a59cabde534b6d876475ce2dc7d87b1559990",
+    "semantic_current": "semantic-projection-v1:79510b550197d3f6f9224c01a7454161af47030138396fc542e6d762a325c706"
+  },
+  "generation": 2,
+  "digest": "semantic-state-v1:7d1507677eb51aebf6c7a8c9faab8dee07e4cdeff689f426f0f5323f51abd475"
+}

@@ -96,6 +96,54 @@ fn copy_tree(source: &Path, destination: &Path) {
     }
 }
 
+fn normalize_observation_seed(root: &Path, issue: u64) {
+    let local = root.join("local");
+    let projection: Value =
+        serde_json::from_slice(&fs::read(root.join("projection/state.json")).unwrap()).unwrap();
+    for (kind, card) in projection["inputs"]["intent_plan"]["cards"]
+        .as_object()
+        .unwrap()
+    {
+        write_json(
+            &local.join("cards").join(format!("{kind}.values.json")),
+            card,
+        );
+    }
+    let index_path = local.join("index.json");
+    let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index["phase"] = projection["phase"].clone();
+    index.as_object_mut().unwrap().remove("digest");
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&serde_json::to_vec(&index).unwrap());
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            hasher.update(&fs::read(local.join(format!("cards/{kind}.{suffix}"))).unwrap());
+        }
+    }
+    let binding = local.join("binding.json");
+    if binding.is_file() {
+        hasher.update(&fs::read(binding).unwrap());
+    }
+    let intent_plan = local.join("intent-plan.json");
+    if intent_plan.is_file() {
+        hasher.update(b"csdlc.v3.intent_plan.v1\0");
+        hasher.update(&fs::read(intent_plan).unwrap());
+    }
+    index["digest"] = json!(hasher.finalize().to_hex().to_string());
+    write_json(&index_path, &index);
+    write_json(
+        &root.join("generation-seed.json"),
+        &json!({
+            "schema":"csdlc.v3.current_observation_generation_seed.v1",
+            "issue":issue,
+            "purpose":"input only for native local and semantic relocation owners",
+            "positive_observation":false,
+            "normalized_phase":projection["phase"],
+            "normalized_cards_from":"projection/state.json#inputs.intent_plan.cards"
+        }),
+    );
+}
+
 #[test]
 fn copied_record_conversion_rehearsal_cli_compatibility_smoke_is_non_proving() {
     let smoke = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
@@ -225,6 +273,10 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
     )
     .unwrap();
     write_json(
+        &primary.join(".adl/worktree-policy.json"),
+        &json!({"schema":"adl.worktree_policy.v1","required_parent":fixture.0}),
+    );
+    write_json(
         &fixture.0.join(".csdlc-conversion-rehearsal.json"),
         &json!({"isolated": true}),
     );
@@ -291,12 +343,19 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         }),
     );
     let bound_index_path = source.join("517/index.json");
+    let bound_binding_path = source.join("517/binding.json");
     let original_bound_index_sha256 = sha256(&bound_index_path);
+    let original_bound_binding_sha256 = sha256(&bound_binding_path);
     let mut bound_index: Value =
         serde_json::from_slice(&fs::read(&bound_index_path).unwrap()).unwrap();
     bound_index["branch"] = json!("codex/fixture-linked");
     bound_index["worktree"] = json!(linked);
     write_json(&bound_index_path, &bound_index);
+    let mut bound_binding: Value =
+        serde_json::from_slice(&fs::read(&bound_binding_path).unwrap()).unwrap();
+    bound_binding["branch"] = json!("codex/fixture-linked");
+    bound_binding["worktree"] = json!(linked);
+    write_json(&bound_binding_path, &bound_binding);
     write_json(
         &source.join("517/source-enrichment.json"),
         &json!({
@@ -307,20 +366,13 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
             "title":"[v0.92.1][TAIL-01] Quality gate",
             "original_index_sha256":original_bound_index_sha256,
             "enriched_index_sha256":sha256(&bound_index_path),
+            "original_binding_sha256":original_bound_binding_sha256,
+            "enriched_binding_sha256":sha256(&bound_binding_path),
             "branch":"codex/fixture-linked",
             "worktree":linked,
             "applied_before_source_census":true
         }),
     );
-    let observation_source = primary.join("current-observations");
-    copy_tree(
-        &repository_root().join("csdlc-v3/tests/fixtures/issue872-current-observations"),
-        &observation_source,
-    );
-    let observation_values = vec![
-        json!({"issue":970,"source":observation_source.join("970"),"checkout":"primary","expected_registry_version":"1.0.5"}),
-        json!({"issue":981,"source":observation_source.join("981"),"checkout":"linked","target_worktree":observation_linked,"expected_registry_version":"1.0.5"}),
-    ];
     let dirty_tracked = source.join("517/dirty-tracked.txt");
     let dirty_untracked = source.join("517/untracked.txt");
     let linked_tracked = linked.join("issue872-dirty-tracked.txt");
@@ -378,10 +430,6 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         &repository_root().join("docs/templates/prompts"),
         &primary.join("docs/templates/prompts"),
     );
-    copy_tree(
-        &repository_root().join("docs/templates/prompts"),
-        &linked.join("docs/templates/prompts"),
-    );
     command(
         &primary,
         "git",
@@ -398,13 +446,137 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
         "git",
         &["commit", "-qm", "fixture observation registry"],
     );
+    command(&linked, "git", &["merge", "--ff-only", "main"]);
     command(&observation_linked, "git", &["merge", "--ff-only", "main"]);
     assert_eq!(
         command_output(&observation_linked, "git", &["status", "--porcelain=v1"]),
         ""
     );
-    let registry = primary.join("docs/templates/prompts/current.json");
-    let authority = primary.join("csdlc-v3/operator/authority-selector.json");
+    let registry = linked.join("docs/templates/prompts/current.json");
+    let authority = linked.join("csdlc-v3/operator/authority-selector.json");
+    let historical_observation_source = primary.join("historical-current-observations");
+    copy_tree(
+        &repository_root().join("csdlc-v3/tests/fixtures/issue872-current-observations"),
+        &historical_observation_source,
+    );
+    let observation_source = primary.join("current-observations");
+    let primary_observation_issue = 970_u64;
+    let primary_observation_seed = observation_source.join(primary_observation_issue.to_string());
+    copy_tree(
+        &historical_observation_source.join(primary_observation_issue.to_string()),
+        &primary_observation_seed,
+    );
+    normalize_observation_seed(&primary_observation_seed, primary_observation_issue);
+    let installed_candidate = primary.join(".adl/bin/native-v3/csdlc");
+    fs::create_dir_all(installed_candidate.parent().unwrap()).unwrap();
+    fs::copy(&candidate, &installed_candidate).unwrap();
+    let fake_bin = fixture.0.join("synthetic-readback-bin");
+    fs::create_dir_all(&fake_bin).unwrap();
+    let fake_curl = fake_bin.join("curl");
+    fs::write(
+        &fake_curl,
+        "#!/bin/sh\ncase \"$*\" in *'--config -'*) cat >/dev/null;; esac\ncase \"$*\" in *issues/981*) printf '%s' '{\"number\":981,\"title\":\"Generated linked observation 981\",\"body\":\"Isolated fixture issue\",\"state\":\"open\",\"labels\":[],\"assignees\":[],\"milestone\":null}' ;; *) exit 9 ;; esac\n",
+    )
+    .unwrap();
+    let token = fixture.0.join("synthetic-readback-token");
+    fs::write(&token, "ISSUE872_SYNTHETIC_READBACK_TOKEN").unwrap();
+    command(
+        &fixture.0,
+        "chmod",
+        &[
+            "+x",
+            installed_candidate.to_str().unwrap(),
+            fake_curl.to_str().unwrap(),
+        ],
+    );
+    let generation = observation_source.join("981/generation");
+    fs::create_dir_all(&generation).unwrap();
+    let plan_path = generation.join("prepare-plan.json");
+    write_json(
+        &plan_path,
+        &json!({
+            "schema":"csdlc.v3.intent_plan.v1",
+            "slug":"issue872-generated-linked-observation-981",
+            "cards":{
+                "sip":{},"stp":{},
+                "spp":{
+                    "dependencies_inline":"Isolated dependencies ready",
+                    "repo_inputs_inline":"Authenticated isolated fixture",
+                    "target_files_surfaces_inline":"Auxiliary current observation",
+                    "deliverables_inline":"Native local and semantic observation",
+                    "validation_plan_inline":"Installed status and validate",
+                    "acceptance_criteria_inline":"Linked readbacks succeed",
+                    "notes_risks_inline":"Synthetic read-only issue input; no live mutation"
+                },
+                "vpp":{},"srp":{},"sor":{}
+            },
+            "validators":[{"id":"issue872-observation","program":"cargo","args":["test","--manifest-path","csdlc-v3/Cargo.toml","--test","copied_current_observation_relocation"],"success_marker":"test result: ok.","timeout_seconds":60}],
+            "publication":{"base":"main","title":"Generated linked observation 981","body":"Closes #981","draft":true}
+        }),
+    );
+    let run_installed = |args: &[&str]| {
+        Command::new(&installed_candidate)
+            .args(args)
+            .current_dir(&primary)
+            .env(
+                "PATH",
+                format!("{}:{}", fake_bin.display(), std::env::var("PATH").unwrap()),
+            )
+            .env("ADL_GITHUB_TOKEN_FILE", &token)
+            .env_remove("GH_TOKEN")
+            .output()
+            .unwrap()
+    };
+    let prepared = run_installed(&["prepare", "981", "--plan", plan_path.to_str().unwrap()]);
+    assert!(
+        prepared.status.success(),
+        "generated prepare failed: {} {}",
+        String::from_utf8_lossy(&prepared.stdout),
+        String::from_utf8_lossy(&prepared.stderr)
+    );
+    write_json(
+        &generation.join("prepare-receipt.json"),
+        &serde_json::from_slice::<Value>(&prepared.stdout).unwrap(),
+    );
+    let bound = run_installed(&["bind", "981"]);
+    assert!(
+        bound.status.success(),
+        "generated bind failed: {} {}",
+        String::from_utf8_lossy(&bound.stdout),
+        String::from_utf8_lossy(&bound.stderr)
+    );
+    write_json(
+        &generation.join("bind-receipt.json"),
+        &serde_json::from_slice::<Value>(&bound.stdout).unwrap(),
+    );
+    let generated_binding: Value = serde_json::from_slice(
+        &fs::read(fixture_common.join("csdlc-v3/local/bindings/981.json")).unwrap(),
+    )
+    .unwrap();
+    let generated_linked = PathBuf::from(generated_binding["worktree"].as_str().unwrap());
+    copy_tree(
+        &generated_linked.join(".csdlc/issues/981"),
+        &observation_source.join("981/local"),
+    );
+    copy_tree(
+        &fixture_common.join("csdlc-v3/semantic/issues/981"),
+        &observation_source.join("981/git-common/csdlc-v3/semantic/issues/981"),
+    );
+    copy_tree(
+        &fixture_common.join("csdlc-v3/local/projections/981"),
+        &observation_source.join("981/projection"),
+    );
+    write_json(
+        &generation.join("generated-observation.json"),
+        &json!({"schema":"csdlc.v3.generated_current_observation_fixture.v1","issue":981,
+            "generator":"installed prepare plus native bind","fixture_class":"generated_current_observation",
+            "historical_or_converted_role":false,"request_ref":"generation/prepare-plan.json",
+            "prepare_receipt_ref":"generation/prepare-receipt.json","bind_receipt_ref":"generation/bind-receipt.json"}),
+    );
+    let observation_values = vec![
+        json!({"issue":970,"source":observation_source.join("970"),"historical_source":historical_observation_source.join("970"),"checkout":"primary","expected_registry_version":"1.0.5","fixture_class":"native_generation_seed"}),
+        json!({"issue":981,"source":observation_source.join("981"),"historical_source":historical_observation_source.join("981"),"checkout":"linked","target_worktree":generated_linked,"expected_registry_version":"1.0.5","fixture_class":"generated_current_observation"}),
+    ];
     let old_request = fixture.0.join("old-writer-request.json");
     let fixture_git_common = command_output(
         &primary,
@@ -447,6 +619,7 @@ fn copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_de
             "fixture_root": fixture.0, "primary": primary, "linked_worktree": linked,
             "source_root": source, "output_root": output,
             "old_executable": old, "candidate_executable": candidate,
+            "old_executable_blake3":blake3::hash(&fs::read(&old).unwrap()).to_hex().to_string(),
             "old_source_revision":"6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
             "old_owner_proving":true,
             "candidate_source_revision":command_output(&repository_root(), "git", &["rev-parse", "HEAD"]),

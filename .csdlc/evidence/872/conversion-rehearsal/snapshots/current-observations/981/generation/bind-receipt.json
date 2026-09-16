@@ -1,0 +1,75 @@
+{
+  "schema": "csdlc.v3.intent_local.v1",
+  "status": "completed",
+  "read_only": false,
+  "writes_v3_state": true,
+  "operational_authority": true,
+  "semantic_version": {
+    "generation": 5,
+    "digest": "semantic-state-v1:ac7ce3010860ce75a6ddc0d284cfb3d827c3b66a51f3203d12de9d361020349d"
+  },
+  "operation_id": "semantic-operation-v1:1e61943892924f6f5e01c05c8df4d7437b21a7d93c33482b5c26ab64e52c034e",
+  "native_effect_truth": "performed",
+  "request_issue": 981,
+  "request_expected_lifecycle_digest": "1303af968c86234bbf6c9e25fef25ca9e31aaa7a2dbba37e20bf6b2c27975235",
+  "intent_snapshot": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 981,
+    "platform": "macos",
+    "authority": {
+      "selector_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8"
+    },
+    "version": {
+      "generation": 1,
+      "digest": "1303af968c86234bbf6c9e25fef25ca9e31aaa7a2dbba37e20bf6b2c27975235"
+    },
+    "checkout": {
+      "branch": "main",
+      "head": "7d373f9596bfeca89e9c155cc3b31053eae258f4",
+      "root": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary"
+    }
+  },
+  "resolution_metrics": {
+    "application_git_reads": 42,
+    "canonical_authority_file_reads": 40,
+    "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+  },
+  "envelope": {
+    "schema": "csdlc.v3.command_result.v1",
+    "command": "bind",
+    "issue": {
+      "status": "identified",
+      "number": 981
+    },
+    "status": "completed",
+    "process_status": "succeeded",
+    "authority_status": "verified",
+    "issue_version": {
+      "before": {
+        "basis": "observed_intent_snapshot",
+        "digest": "1303af968c86234bbf6c9e25fef25ca9e31aaa7a2dbba37e20bf6b2c27975235"
+      },
+      "after": {
+        "basis": "owner_result",
+        "digest": null
+      }
+    },
+    "effects": {
+      "class": "guarded_local",
+      "outcome": "performed"
+    },
+    "findings": [],
+    "reason_code": "command_completed",
+    "allowed_next_operations": [],
+    "correlation_id": "97237-1789517947948",
+    "intent_identity": null,
+    "evidence_invalidation": {
+      "status": "not_reported"
+    },
+    "timing": {
+      "started_unix_ms": 1789517947948,
+      "monotonic_duration_ms": 1500
+    },
+    "wait_owner": "none"
+  }
+}

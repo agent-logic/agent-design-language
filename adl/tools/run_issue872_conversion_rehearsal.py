@@ -5,14 +5,15 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import fcntl
 import json
 import os
 import shutil
 import stat
 import subprocess
 import sys
+import time
 from pathlib import Path
+from typing import Callable
 
 
 ROLES = (
@@ -80,7 +81,7 @@ def inventory_lines(items: dict[str, str]) -> bytes:
 
 
 def run_command(argv: list[str], cwd: Path, extra_env: dict[str, str] | None = None,
-                timeout_seconds: int = 10) -> dict:
+                timeout_seconds: int = 10, executable_provenance: dict | None = None) -> dict:
     env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "LANG": "C", "LC_ALL": "C"}
     if extra_env:
         env.update(extra_env)
@@ -95,12 +96,135 @@ def run_command(argv: list[str], cwd: Path, extra_env: dict[str, str] | None = N
         stderr += "writer blocked by held conversion fence until bounded timeout\n"
     except OSError as error:
         status, stdout, stderr = 126, "", f"{error}\n"
-    return {
+    result = {
         "argv": argv,
         "cwd": str(cwd),
         "process_status": status, "stdout": stdout, "stderr": stderr,
         "stdout_sha256": sha256(stdout.encode()), "stderr_sha256": sha256(stderr.encode()),
     }
+    if executable_provenance is not None:
+        result["executable_provenance"] = executable_provenance
+    return result
+
+
+def executable_attestation(invoked_path: Path, source_path: Path,
+                           provenance: dict) -> dict:
+    invoked = invoked_path.resolve()
+    source = source_path.resolve()
+    if invoked.read_bytes() != source.read_bytes():
+        raise ValueError(f"installed executable differs from candidate source: {invoked}")
+    return {
+        "invoked_path": str(invoked),
+        "source_candidate_path": str(source),
+        "sha256": sha256(invoked.read_bytes()),
+        "size": invoked.stat().st_size,
+        "source_revision": provenance["source_revision"],
+    }
+
+
+def wait_for_path(path: Path, process: subprocess.Popen, timeout_seconds: int = 30) -> None:
+    deadline = time.monotonic() + timeout_seconds
+    while not path.is_file():
+        status = process.poll()
+        if status is not None:
+            stdout, stderr = process.communicate()
+            raise ValueError(
+                f"conversion exited before writer-fence handshake: status={status} "
+                f"stdout={stdout} stderr={stderr}"
+            )
+        if time.monotonic() >= deadline:
+            process.terminate()
+            process.communicate()
+            raise ValueError(f"writer-fence handshake timed out waiting for {path}")
+        time.sleep(0.01)
+
+
+def write_probe_ack(operation_root: Path, marker_name: str, ack_name: str,
+                    checkpoint: str) -> None:
+    marker = json.loads((operation_root / marker_name).read_text())
+    write_json(operation_root / ack_name, {
+        "schema": "csdlc.v3.copied_record_writer_fence_probe_ack.v1",
+        "operation_id": marker["operation_id"],
+        "request_digest": marker["detail"]["request_digest"],
+        "checkpoint": checkpoint,
+    })
+
+
+def conversion_with_probe(argv: list[str], cwd: Path, common: Path, operation: str,
+                          probe: Callable[[], object] | None = None,
+                          post_activation_probe: Callable[[], object] | None = None,
+                          timeout_seconds: int = 60
+                          ) -> tuple[dict, object | None, object | None]:
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"),
+           "LANG": "C", "LC_ALL": "C"}
+    started = subprocess.Popen(argv, cwd=cwd, env=env, text=True,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    operation_root = common / "csdlc-v3/local/conversion-rehearsals" / operation
+    initial_marker = operation_root / "writer-fence-held.json"
+    wait_for_path(initial_marker, started)
+    probe_result = probe() if probe is not None else None
+    write_probe_ack(operation_root, initial_marker.name,
+                    "writer-fence-probe-complete", "during_conversion")
+    post_marker = operation_root / "writer-fence-post-activation-held.json"
+    deadline = time.monotonic() + timeout_seconds
+    while not post_marker.is_file() and started.poll() is None:
+        if time.monotonic() >= deadline:
+            started.terminate()
+            started.communicate()
+            raise ValueError(f"writer-fence handshake timed out waiting for {post_marker}")
+        time.sleep(0.01)
+    post_probe_result = None
+    if post_marker.is_file():
+        post_probe_result = (post_activation_probe()
+                             if post_activation_probe is not None else None)
+        write_probe_ack(operation_root, post_marker.name,
+                        "writer-fence-post-activation-probe-complete",
+                        "post_activation")
+    try:
+        stdout, stderr = started.communicate(timeout=timeout_seconds)
+        status = started.returncode
+    except subprocess.TimeoutExpired:
+        started.terminate()
+        stdout, stderr = started.communicate()
+        status = 124
+        stderr += "conversion timed out after writer-fence acknowledgement\n"
+    return ({
+        "argv": argv, "cwd": str(cwd), "process_status": status,
+        "stdout": stdout, "stderr": stderr,
+        "stdout_sha256": sha256(stdout.encode()),
+        "stderr_sha256": sha256(stderr.encode()),
+    }, probe_result, post_probe_result)
+
+
+def prove_writer_blocked(argv: list[str], cwd: Path, state_root: Path,
+                         attestation: dict) -> dict:
+    before = files_under(state_root)
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"),
+           "LANG": "C", "LC_ALL": "C"}
+    started = subprocess.Popen(argv, cwd=cwd, env=env, text=True,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    time.sleep(0.5)
+    if started.poll() is not None:
+        stdout, stderr = started.communicate()
+        raise ValueError(
+            "archived owner did not block on native writer fence: "
+            f"status={started.returncode} stdout={stdout} stderr={stderr}"
+        )
+    after = files_under(state_root)
+    if after != before:
+        started.terminate()
+        started.communicate()
+        raise ValueError("archived owner mutated native state while writer fence was held")
+    started.terminate()
+    stdout, stderr = started.communicate(timeout=5)
+    command = {
+        "argv": argv, "cwd": str(cwd), "process_status": started.returncode,
+        "stdout": stdout, "stderr": stderr,
+        "stdout_sha256": sha256(stdout.encode()),
+        "stderr_sha256": sha256(stderr.encode()),
+        "executable_provenance": attestation,
+    }
+    return {"command": command, "before": before, "after": after}
 
 
 def require_child(path: Path, root: Path, label: str) -> Path:
@@ -179,7 +303,8 @@ def scenario_result(output: Path, name: str, operation: str, commands: list[dict
     return rel.as_posix()
 
 
-def initialize_fault_repository(case: Path) -> tuple[Path, Path, Path]:
+def initialize_fault_repository(case: Path, registry_path: Path,
+                                authority_bytes_path: Path) -> tuple[Path, Path, Path]:
     primary = case / "repository"
     linked = case / "linked"
     primary.mkdir(parents=True, exist_ok=True)
@@ -190,7 +315,12 @@ def initialize_fault_repository(case: Path) -> tuple[Path, Path, Path]:
         if result["process_status"] != 0:
             raise ValueError(f"fault repository setup failed: {result['stderr']}")
     atomic_write(primary / "README", b"isolated issue 872 fault fixture\n")
-    for argv in (["git", "add", "README"], ["git", "commit", "-qm", "fixture"]):
+    (primary / "docs/templates/prompts").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(registry_path, primary / "docs/templates/prompts/current.json")
+    (primary / "csdlc-v3/operator").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(authority_bytes_path,
+                 primary / "csdlc-v3/operator/authority-selector.json")
+    for argv in (["git", "add", "."], ["git", "commit", "-qm", "fixture"]):
         result = run_command(list(argv), primary)
         if result["process_status"] != 0:
             raise ValueError(f"fault repository commit failed: {result['stderr']}")
@@ -207,11 +337,14 @@ def initialize_fault_repository(case: Path) -> tuple[Path, Path, Path]:
 def fault_result(output: Path, point: str, boundary: str, operation: str,
                  production_owner: Path, repository: str, records: list[dict],
                  registry_path: Path, authority_bytes_path: Path,
+                 prior_executable_path: Path, prior_executable_blake3: str,
                  fault_workspace_root: Path) -> tuple[str, dict]:
     rel = Path("faults") / point / boundary / "result.json"
     case = output / rel.parent
     primary, linked, common = initialize_fault_repository(
-        fault_workspace_root / point / boundary)
+        fault_workspace_root / point / boundary, registry_path, authority_bytes_path)
+    linked_registry = linked / "docs/templates/prompts/current.json"
+    linked_authority = linked / "csdlc-v3/operator/authority-selector.json"
     request_path = case / "request.json"
     request = {
         "schema": "csdlc.v3.copied_record_conversion.v1",
@@ -221,8 +354,13 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
         "linked_worktree": str(linked),
         "linked_branch": "codex/fault-linked",
         "linked_head": git_output(linked, "rev-parse", "HEAD"),
-        "registry_path": str(registry_path),
-        "authority_bytes_path": str(authority_bytes_path),
+        "registry_path": str(linked_registry),
+        "authority_bytes_path": str(linked_authority),
+        "prior_executable_path": str(prior_executable_path),
+        "prior_executable_blake3": prior_executable_blake3,
+        "writer_fence_issues": [511, 517, 497, 3, 505, 122, 113, 868],
+        "writer_probe_issue": 868,
+        "writer_fence_probe": True,
         "records": records,
         "fault_injection": {"point": point, "boundary": boundary, "mode": "once"},
     }
@@ -232,7 +370,7 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
     evidence_argv = base + ["operation-evidence", "--request", str(request_path)]
     restore_argv = base + ["restore-pre-effect", "--request", str(request_path)]
     before_digest = sha256(canonical(files_under(common)))
-    crash = run_command(convert_argv, primary, timeout_seconds=30)
+    crash, _, _ = conversion_with_probe(convert_argv, primary, common, operation)
     if crash["process_status"] == 0:
         raise ValueError(f"production fault did not interrupt at {point}:{boundary}")
     crash_digest = sha256(canonical(files_under(common)))
@@ -247,7 +385,7 @@ def fault_result(output: Path, point: str, boundary: str, operation: str,
     effect_count = int(restore_payload.get("effect_count", -1))
     if restore_payload.get("allowed") is not (effect_count == 0):
         raise ValueError(f"restore boundary disagrees with observed effects at {point}:{boundary}")
-    resumed = run_command(convert_argv, primary, timeout_seconds=30)
+    resumed, _, _ = conversion_with_probe(convert_argv, primary, common, operation)
     if resumed["process_status"] != 0:
         raise ValueError(f"production resume failed at {point}:{boundary}: {resumed['stdout']} {resumed['stderr']}")
     evidence_after = run_command(evidence_argv, primary)
@@ -424,41 +562,26 @@ def run(request_path: Path) -> dict:
     observation_snapshot.mkdir(parents=True, exist_ok=True)
     retained_observations = []
     for item in observation_requests:
-        destination = observation_snapshot / str(item["issue"])
-        shutil.copytree(Path(item["source"]), destination)
-        retained_observations.append({**item, "source":str(destination)})
-    retained_request["observations"] = retained_observations
-    write_json(output / "request.json", retained_request)
+        historical = item.get("historical_source")
+        if historical:
+            negative = output / "snapshots/negative-observations" / str(item["issue"])
+            shutil.copytree(Path(historical), negative)
     journal = output / "conversion-journal.jsonl"
     if not journal.exists():
         atomic_write(journal, canonical({"operation": operation, "step": "intent_persisted"}))
 
-    fence = primary / ".git" / "csdlc-v3-conversion-fence.json"
-    if not fence.parent.is_dir():
-        common = Path(git_output(primary, "rev-parse", "--git-common-dir"))
-        if not common.is_absolute():
-            common = (primary / common).resolve()
-        fence = common / "csdlc-v3-conversion-fence.json"
-
     writer_command = request["old_writer_command"]
     writer_state_root = require_child(Path(request["old_writer_state_root"]), fixture, "old_writer_state_root")
     before_writer_inventory = files_under(writer_state_root)
-    pre_writer = run_command(writer_command, linked, {"CSDLC_CONVERSION_FENCE": "absent"})
+    old_attestation = executable_attestation(
+        Path(writer_command[0]), Path(request["old_executable"]), binary_provenance["old"])
+    pre_writer = run_command(writer_command, linked,
+                             executable_provenance=old_attestation)
     if pre_writer["process_status"] != 0:
         raise ValueError(f"old writer control did not succeed before fencing: {pre_writer['stdout']} {pre_writer['stderr']}")
     post_control_inventory = files_under(writer_state_root)
     if before_writer_inventory == post_control_inventory:
         raise ValueError("old writer control reported success without a retained state mutation")
-    write_json(fence, {"schema": "csdlc.v3.writer_fence.v1", "operation": operation, "status": "held"})
-    writer_lock_path = require_child(Path(request["old_writer_lock"]), fixture, "old_writer_lock")
-    writer_lock_path.parent.mkdir(parents=True, exist_ok=True)
-    writer_lock = writer_lock_path.open("a+b")
-    fcntl.flock(writer_lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-    during_writer = run_command(writer_command, linked, {"CSDLC_CONVERSION_FENCE": str(fence)})
-    during_inventory = files_under(writer_state_root)
-    if during_writer["process_status"] == 0 or during_inventory != post_control_inventory:
-        raise ValueError("old writer was not byte-identically fenced during conversion")
-
     staged = output / "staging" / operation
     states = []
     role_summaries = []
@@ -472,7 +595,7 @@ def run(request_path: Path) -> dict:
         states.append((item, state, state_path))
         role_summaries.append({
             "role": role, "issue": issue, "source_inventory_complete": True,
-            "classified_union_matches_source": True, "semantic_equivalent": True,
+            "classified_union_matches_source": True,
             "evidence_identity_preserved": True,
             "source_digest": sha256(canonical(per_inventory)),
             "classified_union_digest": sha256(canonical(per_inventory)),
@@ -484,21 +607,76 @@ def run(request_path: Path) -> dict:
     production_request_path = output / "production-conversion-request.json"
     write_json(production_request_path, {
         "schema": "csdlc.v3.copied_record_conversion.v1",
-        "repository": request["repository"], "git_common": str(common),
+        "repository": request["repository"], "operation_id": operation,
+        "git_common": str(common),
         "linked_worktree": str(linked), "linked_branch": git_output(linked, "branch", "--show-current"),
         "linked_head": git_output(linked, "rev-parse", "HEAD"),
         "registry_path": str(registry_path), "authority_bytes_path": str(authority_bytes_path),
+        "prior_executable_path": request["old_executable"],
+        "prior_executable_blake3": request["old_executable_blake3"],
+        "writer_fence_issues": [511, 517, 497, 3, 505, 122, 113, 868],
+        "writer_probe_issue": 868, "writer_fence_probe": True,
         "records": [{"role": item["role"], "issue": int(item["issue"]), "source": str(item["source"])} for item in role_requests],
     })
-    production_conversion = run_command(
-        [str(production_owner), "convert", "--request", str(production_request_path)], primary,
-        timeout_seconds=30
+    production_conversion, writer_probe, post_writer_probe = conversion_with_probe(
+        [str(production_owner), "convert", "--request", str(production_request_path)],
+        primary, common, operation,
+        probe=lambda: prove_writer_blocked(
+            writer_command, linked, writer_state_root, old_attestation),
+        post_activation_probe=lambda: prove_writer_blocked(
+            writer_command, linked, writer_state_root, old_attestation),
     )
+    during_writer = writer_probe["command"]
+    during_inventory = writer_probe["after"]
+    after_writer = post_writer_probe["command"]
+    after_inventory = post_writer_probe["after"]
     if production_conversion["process_status"] != 0:
         raise ValueError(f"production semantic conversion owner failed: {production_conversion['stdout']}")
     production_payload = json.loads(production_conversion["stdout"])
     if production_payload.get("status") != "completed":
         raise ValueError("production semantic conversion did not complete")
+    operation_root = common / "csdlc-v3/local/conversion-rehearsals" / operation
+    equivalence_root = output / "production-equivalence-receipts"
+    equivalence_root.mkdir(parents=True, exist_ok=True)
+    for role_summary, item in zip(role_summaries, role_requests):
+        issue = int(item["issue"])
+        source = Path(item["source"])
+        index = json.loads((source / "index.json").read_text())
+        receipt_path = operation_root / "receipts" / f"{issue}.json"
+        receipt = json.loads(receipt_path.read_text())
+        mapping = receipt.get("detail", {}).get("semantic_equivalence", {})
+        source_mapping = mapping.get("source", {})
+        destination_mapping = mapping.get("destination", {})
+        supported = (
+            mapping.get("schema") == "csdlc.v3.copied_record_semantic_equivalence.v1"
+            and mapping.get("issue") == issue
+            and mapping.get("role") == item["role"]
+            and source_mapping.get("index_generation") == index.get("generation")
+            and source_mapping.get("phase") == index.get("phase")
+            and source_mapping.get("publication") == index.get("publication")
+            and source_mapping.get("review") == index.get("review")
+            and source_mapping.get("terminal") == index.get("terminal")
+            and source_mapping.get("migration") == index.get("migration")
+            and all(key in destination_mapping for key in
+                    ("intent", "slug", "plan", "validators", "publication", "binding"))
+        )
+        if not supported:
+            raise ValueError(f"{item['role']}: unsupported production semantic mapping")
+        retained_receipt = equivalence_root / f"{issue}.json"
+        shutil.copy2(receipt_path, retained_receipt)
+        extensions = sorted(
+            path.relative_to(source).as_posix()
+            for path in source.rglob("*") if path.is_file()
+            and path.relative_to(source).parts[0] not in {"cards"}
+            and path.name not in {"index.json", "binding.json"}
+        )
+        role_summary.update({
+            "semantic_equivalent": supported,
+            "equivalence_receipt_ref": retained_receipt.relative_to(output).as_posix(),
+            "equivalence_receipt_sha256": sha256(retained_receipt.read_bytes()),
+            "source_extensions": extensions,
+            "source_extensions_digest": sha256(canonical(extensions)),
+        })
     fault_filter = os.environ.get("ISSUE872_FAULT_FILTER", "")
     if fault_filter:
         fault_records = [
@@ -516,7 +694,8 @@ def run(request_path: Path) -> dict:
                     output, point, boundary,
                     f"{operation}-{point}-{boundary}", production_owner,
                     request["repository"], fault_records, registry_path,
-                    authority_bytes_path, fixture / "fault-workspaces",
+                    authority_bytes_path, Path(request["old_executable"]),
+                    request["old_executable_blake3"], fixture / "fault-workspaces",
                 )
                 evidence[point][boundary] = result
         return {"schema":"csdlc.v3.issue872_fault_probe.v1",
@@ -541,12 +720,35 @@ def run(request_path: Path) -> dict:
     candidate_active = primary / ".csdlc" / "v3" / "bin" / "csdlc"
     candidate_active.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(request["candidate_executable"], candidate_active)
+    candidate_attestation = executable_attestation(
+        candidate_active, Path(request["candidate_executable"]),
+        binary_provenance["candidate"])
 
     relocation_results = {}
     for item in observation_requests:
         checkout_name = item["checkout"]
         checkout = (primary if checkout_name == "primary"
                     else Path(item.get("target_worktree", linked)))
+        if item.get("fixture_class") == "generated_current_observation":
+            generated = observation_snapshot / str(item["issue"])
+            shutil.copytree(Path(item["source"]), generated)
+            retained = {key:value for key, value in item.items()
+                        if key not in {"historical_source", "fixture_class"}}
+            retained.update({
+                "source":str(generated),
+                "fixture_class":"generated_current_observation",
+                "negative_source_ref":f"snapshots/negative-observations/{int(item['issue'])}",
+                "generation_request_ref":f"snapshots/current-observations/{int(item['issue'])}/generation/prepare-plan.json",
+                "generation_receipt_ref":f"snapshots/current-observations/{int(item['issue'])}/generation/bind-receipt.json",
+            })
+            retained_observations.append(retained)
+            relocation_results[checkout_name] = {
+                "mode":"native_prepare_bind_observation",
+                "relocation_performed":False,
+                "issue":int(item["issue"]),
+                "target_worktree":str(checkout),
+            }
+            continue
         relocation_common = fixture / f"source-observation-{checkout_name}.git"
         initialized = run_command(["git", "init", "--bare", "-q", str(relocation_common)], fixture)
         if initialized["process_status"] != 0:
@@ -587,15 +789,54 @@ def run(request_path: Path) -> dict:
         if relocation_payload.get("status") != "completed":
             raise ValueError(f"current observation relocation {checkout_name} did not complete")
         relocation_results[checkout_name] = {"command":relocated, "result":relocation_payload}
+        generated = observation_snapshot / str(item["issue"])
+        local_generated = (common / "csdlc-v3/local/issues" / str(item["issue"])
+                           if checkout_name == "primary"
+                           else checkout / ".csdlc/issues" / str(item["issue"]))
+        copy_tree_source = common / "csdlc-v3/semantic/issues" / str(item["issue"])
+        projection_generated = common / "csdlc-v3/local/projections" / str(item["issue"])
+        shutil.copytree(local_generated, generated / "local")
+        shutil.copytree(
+            copy_tree_source,
+            generated / "git-common/csdlc-v3/semantic/issues" / str(item["issue"]),
+        )
+        shutil.copytree(projection_generated, generated / "projection")
+        generation = generated / "generation"
+        generation.mkdir(parents=True, exist_ok=True)
+        source_generation = Path(item["source"]) / "generation"
+        if source_generation.is_dir():
+            shutil.copytree(source_generation, generation, dirs_exist_ok=True)
+        shutil.copy2(relocation_request_path, generation / "relocation-request.json")
+        write_json(generation / "relocation-receipt.json", relocation_payload)
+        write_json(generation / "relocation-command.json", relocated)
+        write_json(generation / "relocation-generated-observation.json", {
+            "schema":"csdlc.v3.generated_current_observation_fixture.v1",
+            "issue":int(item["issue"]),
+            "generator":"production relocate-current local and semantic owners",
+            "fixture_class":"generated_current_observation",
+            "historical_or_converted_role":False,
+            "generation_seed_positive":False,
+            "request_ref":"generation/relocation-request.json",
+            "receipt_ref":"generation/relocation-receipt.json",
+        })
+        retained = {key:value for key, value in item.items()
+                    if key not in {"historical_source", "fixture_class"}}
+        retained.update({
+            "source":str(generated),
+            "fixture_class":"generated_current_observation",
+            "negative_source_ref":f"snapshots/negative-observations/{int(item['issue'])}",
+            "generation_request_ref":(
+                generated / "generation/relocation-request.json").relative_to(output).as_posix(),
+            "generation_receipt_ref":(
+                generated / "generation/relocation-receipt.json").relative_to(output).as_posix(),
+        })
+        retained_observations.append(retained)
+    retained_request["observations"] = retained_observations
+    write_json(output / "request.json", retained_request)
     write_json(output / "relocations/index.json", relocation_results)
 
-    after_writer = run_command(writer_command, linked, {"CSDLC_CONVERSION_FENCE": str(fence)})
-    after_inventory = files_under(writer_state_root)
     if after_writer["process_status"] == 0 or after_inventory != post_control_inventory:
         raise ValueError(f"old writer was not byte-identically fenced after activation: status={after_writer['process_status']} changed={after_inventory != post_control_inventory} stdout={after_writer['stdout']} stderr={after_writer['stderr']}")
-    fcntl.flock(writer_lock.fileno(), fcntl.LOCK_UN)
-    writer_lock.close()
-
     remote_dir = output / "remote"
     remote_operation = operation + "-remote"
     write_json(remote_dir / "fake-transport-ledger.jsonl", {"operation": remote_operation, "dispatch_count": 1, "effect": "succeeded"})
@@ -649,6 +890,7 @@ def run(request_path: Path) -> dict:
                 "cwd": str(checkout), "process_status": observed.returncode,
                 "stdout": observed.stdout, "stderr": observed.stderr,
                 "stdout_sha256": sha256(observed.stdout.encode()), "stderr_sha256": sha256(observed.stderr.encode()),
+                "executable_provenance": candidate_attestation,
             }
             write_json(output / "scenarios" / "old_schema_diagnostic" / f"{checkout_name}-{action}.json", observation_results[key])
             if observed.returncode != 0:
@@ -729,7 +971,8 @@ def run(request_path: Path) -> dict:
                 output, point, boundary,
                 f"{operation}-{point}-{boundary}", production_owner,
                 request["repository"], fault_records, registry_path,
-                authority_bytes_path, fixture / "fault-workspaces",
+                authority_bytes_path, Path(request["old_executable"]),
+                request["old_executable_blake3"], fixture / "fault-workspaces",
             )
             fault_results[point][boundary] = ref
             fault_evidence[point][boundary] = evidence
@@ -798,6 +1041,9 @@ def run(request_path: Path) -> dict:
         "scenarios": scenario_refs, "faults": fault_refs,
         "old_writer_fence": {
             "command_identity_equal": True,
+            "native_writer_fence_handshake": True,
+            "probe_acknowledgement_written": True,
+            "blocked_writer_terminated": during_writer["process_status"] < 0,
             "pre_fence_control_succeeded": True, "during_fence_refused": True,
             "post_activation_refused": True, "during_inventory_unchanged": True,
             "post_inventory_unchanged": True, "commands": [pre_writer, during_writer, after_writer],

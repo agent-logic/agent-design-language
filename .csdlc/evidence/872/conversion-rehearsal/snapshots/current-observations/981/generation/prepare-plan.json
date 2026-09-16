@@ -1,0 +1,41 @@
+{
+  "schema": "csdlc.v3.intent_plan.v1",
+  "slug": "issue872-generated-linked-observation-981",
+  "cards": {
+    "sip": {},
+    "stp": {},
+    "spp": {
+      "dependencies_inline": "Isolated dependencies ready",
+      "repo_inputs_inline": "Authenticated isolated fixture",
+      "target_files_surfaces_inline": "Auxiliary current observation",
+      "deliverables_inline": "Native local and semantic observation",
+      "validation_plan_inline": "Installed status and validate",
+      "acceptance_criteria_inline": "Linked readbacks succeed",
+      "notes_risks_inline": "Synthetic read-only issue input; no live mutation"
+    },
+    "vpp": {},
+    "srp": {},
+    "sor": {}
+  },
+  "validators": [
+    {
+      "id": "issue872-observation",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "copied_current_observation_relocation"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 60
+    }
+  ],
+  "publication": {
+    "base": "main",
+    "title": "Generated linked observation 981",
+    "body": "Closes #981",
+    "draft": true
+  }
+}
