@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 894,
+  "phase": "bound",
+  "generation": 5,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/894-v0922-test-planner",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-894-v0922-test-planner",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "7c6e7c5bc6ff095abe4c7813488fc3ced295884ad1a24cc6026c59ec88cf575c"
+}

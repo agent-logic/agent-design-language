@@ -3,7 +3,7 @@ mod github_command;
 use adl::codefriend::ingestion::{local, AdmissionInput, Scope};
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
-const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
+const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend plan tests --input <synthesis.json> --out <new-dir>\n       adl codefriend plan tests read --input <test-plan.json>\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     if args.first().is_some_and(|arg| arg == "memory") {
         return super::codefriend_memory_cmd::run(&args[1..]);
@@ -41,6 +41,9 @@ pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
     }
     if args.len() >= 2 && args[0] == "plan" && args[1] == "remediation" {
         return plan_remediation(&args[2..]);
+    }
+    if args.len() >= 2 && args[0] == "plan" && args[1] == "tests" {
+        return plan_tests(&args[2..]);
     }
     ensure!(args.len() >= 2, "{USAGE}");
     if args[0] == "ingest" && args[1] == "ci" {
@@ -131,6 +134,36 @@ fn plan_remediation(args: &[String]) -> Result<()> {
             "action_count": plan.actions.len(),
             "omitted_finding_count": plan.omitted_findings.len(),
             "remediation_plan": "remediation-plan.json",
+            "manifest": "manifest.json"
+        }))?
+    );
+    Ok(())
+}
+
+fn plan_tests(args: &[String]) -> Result<()> {
+    if args.first().is_some_and(|arg| arg == "read") {
+        let flags = exact_flags(&args[1..], &["--input"], "test_plan_read")?;
+        let plan =
+            adl::codefriend::actions::test_plan::read_plan_from_file(Path::new(flags["--input"]))?;
+        println!("{}", serde_json::to_string(&plan)?);
+        return Ok(());
+    }
+    let flags = exact_flags(args, &["--input", "--out"], "test_plan")?;
+    let plan = adl::codefriend::actions::test_plan::plan_from_file(
+        adl::codefriend::actions::test_plan::TestPlanOptions {
+            input: Path::new(flags["--input"]).to_path_buf(),
+            out: Path::new(flags["--out"]).to_path_buf(),
+        },
+    )?;
+    println!(
+        "{}",
+        serde_json::to_string(&serde_json::json!({
+            "schema": adl::codefriend::actions::test_plan::TEST_PLAN_SCHEMA,
+            "synthesis_digest": plan.synthesis_digest,
+            "run_id": plan.run_id,
+            "test_case_count": plan.test_cases.len(),
+            "omitted_finding_count": plan.omitted_findings.len(),
+            "test_plan": "test-plan.json",
             "manifest": "manifest.json"
         }))?
     );
