@@ -25,7 +25,7 @@
   "initial_pvf_lane": "runtime",
   "validation_resource_profile": "Isolated local CPU/Rust/filesystem, controlled observation time, bounded admitted fixtures; no network/provider/cloud execution",
   "sip_card": ".csdlc/issues/893/cards/sip.md",
-  "validation_commands_inline": "`cargo fmt --manifest-path adl/Cargo.toml --check` passed. `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate` passed 4/4. `cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis` passed 5/5. `git diff --check` passed. These focused local checks prove deterministic remediation-plan generation/reading and synthesis regression scope; CI and independent exact-head review remain pending.",
+  "validation_commands_inline": "`cargo fmt --manifest-path adl/Cargo.toml --check` passed. `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate` passed 5/5 after adding the path-extraction regression. `cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis` previously passed 5/5 and was not rerun for the path-only remediation. `git diff --check` passed. These focused local checks prove deterministic remediation-plan generation/reading, dot-directory path preservation, root-file path inclusion and synthesis regression scope; CI and independent exact-head review remain pending.",
   "issue_goal_ref": "Sprint 4 #930 active goal covers #893 execution in this session; single goal slot prevented replacing it with a separate child goal.",
   "planned_validation_seconds": "1200",
   "lane_registry_template_set": "1.0.5",

@@ -91,7 +91,7 @@ Implemented and remediated the CodeFriend remediation planner for #893. The late
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
   - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check`
-    `Proves the reviewed path extraction defect is fixed for dot-directory paths and root files without widening product scope.`
+    `Proves the reviewed path extraction defect is fixed for dot-directory paths and root files after merging current origin/main, without widening product scope.`
 - Result: `not_integrated`
 
 Rules:
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo fmt --manifest-path adl/Cargo.toml --check`; `git diff --check``
-    `Focused #893 regression proof passed 5/5, including `.github/workflows/ci.yml` preservation and root `Cargo.toml` inclusion. Rust formatting and diff hygiene passed.`
+    `Focused #893 regression proof passed 5/5, including `.github/workflows/ci.yml` preservation and root `Cargo.toml` inclusion. Rust formatting and diff hygiene passed after merging current origin/main.`
 - Results:
   - `passed`
 
@@ -134,7 +134,7 @@ verification_summary:
     status: passed_for_local_fixture_scope
     secrets_leakage_detected: not_run
     prompt_or_tool_arg_leakage_detected: false
-    absolute_path_leakage_detected: false
+    absolute_path_leakage_detected: true_bounded_validation_cache_path_only
   artifacts:
     status: passed_for_local_fixture_scope
     required_artifacts_present: passed_for_local_fixture_scope
@@ -153,7 +153,7 @@ verification_summary:
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable; no provider credentials or secret-bearing inputs used`
 - Prompt / tool argument redaction verified: `not_applicable; no provider prompts or secret tool arguments used`
-- Absolute path leakage check: `passed_for_recorded_candidate; SOR records repo-relative commands/paths except declared FastWork worktree identity in lifecycle metadata.`
+- Absolute path leakage check: `SOR command fields intentionally record the host-local Git-common `CARGO_TARGET_DIR` used to avoid FastWork disk exhaustion during validation. Generated product artifacts and CodeFriend planner output remain repository-relative and no provider/secret path is emitted.`
 - Sandbox / policy invariants preserved: `passed; implementation reads local synthesis JSON and writes only caller-selected fresh output directory artifacts.`
 
 ## Replay Artifacts
@@ -166,7 +166,7 @@ verification_summary:
 - Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
 - Required artifacts present: `passed_for_local_fixture_scope`
 - Artifact schema/version checks: `Focused tests parse generated remediation-plan JSON and manifest output, validate schema tags, and reject tampered invalid plan shapes including non-topological action_order.`
-- Hash/byte-stability checks: `cargo fmt --check and git diff --check passed after the path-extraction review fix.`
+- Hash/byte-stability checks: `cargo fmt --check and git diff --check passed after the path-extraction review fix and after the merge from current origin/main.`
 - Missing/optional artifacts and rationale: `CI, independent exact-head review and publication proof are pending. Provider-generated reviews and GitHub issue creation are sibling/follow-on concerns and not required for this local remediation-plan generator.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `The proof uses synthesis-shaped local fixtures plus the existing synthesis regression suite. It does not claim a live external-provider review run or issue-creation authority.`
 
 ## Follow-ups / Deferred work
-- `Commit immutable remediated candidate and obtain fresh independent exact-head review.`
+- `Obtain fresh independent exact-head review against the card-truth repair commit.`
 - `Republish/update PR #1012 only after fresh review passes and native publication guard accepts current truth.`
