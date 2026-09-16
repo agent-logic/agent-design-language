@@ -1,0 +1,10 @@
+
+running 6 tests
+test command_and_parser_option_inventory_is_complete ... ok
+test examples_parse_current_native_requests_and_preserve_guard_truth ... ok
+test generated_pages_match_reviewed_manual_source ... ok
+test parity_rejects_new_command_or_option_without_manual_coverage ... ok
+test primary_cleanup_requires_primary_durable_receipt_location ... ok
+test request_field_inventory_matches_current_source_and_operator_reference ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s

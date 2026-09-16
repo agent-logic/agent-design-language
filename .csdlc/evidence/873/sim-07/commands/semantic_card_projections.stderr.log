@@ -1,0 +1,3 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.11s
+     Running tests/semantic_card_projections.rs (csdlc-v3/target/debug/deps/semantic_card_projections-038b906d44b726c9)

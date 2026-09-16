@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "semantic_card_projections",
+  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_card_projections -- --test-threads=1",
+  "started_at": "2026-09-16T18:02:50Z",
+  "ended_at": "2026-09-16T18:02:56Z",
+  "elapsed_seconds": 6,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 6,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "8d52606ffd785d31573c788c06ec8756f26265a0e82d1825d165cc55b5ea4fff",
+  "stderr_sha256": "146e6efe6c03e78b82a08fc4de9f7b37b55d2f97a1beafc93c493dc6ad4202af"
+}

@@ -1,0 +1,3782 @@
+{
+  "schema": "csdlc.v3.prepared_start_measurement.v1",
+  "issue": 869,
+  "source_head": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+  "source_has_uncommitted_changes": true,
+  "baseline_revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+  "baseline_blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
+  "conditions": {
+    "os_cold_cache_measured": false,
+    "cache_reset_performed": false,
+    "host": "same warm host; first and later repetitions separately labeled",
+    "selection": "candidate",
+    "requested_repetitions": 1,
+    "excluded": "fixture Git/template/authority bootstrap, binary installation and plan authoring; preparation is outside prepared-start interval and retained separately",
+    "remote": "synthetic local transport; no live network timing",
+    "scope": "small isolated fixture, not a live repository or human workflow benchmark"
+  },
+  "samples": [
+    {
+      "variant": "candidate",
+      "repetition": 0,
+      "host_condition": "first measured fixture/process on already warm host",
+      "binary_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+      "preparation_outside_interval": {
+        "argv": [
+          "prepare",
+          "505",
+          "--plan",
+          "$FIXTURE_ROOT/.git/installed-candidate/measurement-plan.json"
+        ],
+        "process_elapsed_ms": 2883,
+        "git_events": [
+          {
+            "verb": "rev-parse",
+            "subcommand": "--show-toplevel"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "remote",
+            "subcommand": "get-url"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "symbolic-ref",
+            "subcommand": "--short"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--show-toplevel"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "remote",
+            "subcommand": "get-url"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "symbolic-ref",
+            "subcommand": "--short"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--show-toplevel"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "remote",
+            "subcommand": "get-url"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "symbolic-ref",
+            "subcommand": "--short"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "ls-files",
+            "subcommand": "-z"
+          },
+          {
+            "verb": "diff",
+            "subcommand": "--name-only"
+          },
+          {
+            "verb": "ls-files",
+            "subcommand": "--others"
+          },
+          {
+            "verb": "ls-files",
+            "subcommand": "--others"
+          },
+          {
+            "verb": "ls-files",
+            "subcommand": "-z"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--show-toplevel"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "remote",
+            "subcommand": "get-url"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "symbolic-ref",
+            "subcommand": "--short"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "--path-format=absolute"
+          },
+          {
+            "verb": "worktree",
+            "subcommand": "list"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+          },
+          {
+            "verb": "show",
+            "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+          },
+          {
+            "verb": "cat-file",
+            "subcommand": "-e"
+          },
+          {
+            "verb": "merge-base",
+            "subcommand": "--is-ancestor"
+          },
+          {
+            "verb": "show",
+            "subcommand": "-s"
+          },
+          {
+            "verb": "rev-parse",
+            "subcommand": "HEAD"
+          }
+        ],
+        "result": {
+          "schema": "csdlc.v3.intent_local.v1",
+          "read_only": false,
+          "operational_authority": true,
+          "writes_v3_state": true,
+          "status": "completed",
+          "issue": 505,
+          "semantic_version": {
+            "generation": 2,
+            "digest": "semantic-state-v1:d84434e24dd533106fcc46a75d724430f7e696ed086fe070edeac918ea3ff421"
+          },
+          "inputs": {
+            "revision": 1,
+            "digest": "semantic-input-v1:0fac7b881bf27d809a394a41bb5b7768efd438cd93082bc31557caa671650d32"
+          },
+          "phase": "ready",
+          "request_issue": 505,
+          "request_expected_lifecycle_digest": null,
+          "intent_snapshot": {
+            "repository": "agent-logic/agent-design-language",
+            "issue": 505,
+            "platform": "macos",
+            "authority": {
+              "selector_digest": "569bd77e0001775070d0bc3f30ab58ed4dce13bf8884571b42ca7f9294e83171"
+            },
+            "version": {
+              "generation": null,
+              "digest": null
+            },
+            "checkout": {
+              "branch": "main",
+              "head": "45d9673df2ff451972db25b214117b450cc5bd45",
+              "root": "$FIXTURE_ROOT"
+            }
+          },
+          "resolution_metrics": {
+            "application_git_reads": 24,
+            "canonical_authority_file_reads": 36,
+            "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+          },
+          "envelope": {
+            "schema": "csdlc.v3.command_result.v1",
+            "command": "prepare",
+            "issue": {
+              "status": "identified",
+              "number": 505
+            },
+            "status": "completed",
+            "process_status": "succeeded",
+            "authority_status": "verified",
+            "issue_version": {
+              "before": {
+                "basis": "observed_intent_snapshot",
+                "digest": null
+              },
+              "after": {
+                "basis": "owner_result",
+                "digest": null
+              }
+            },
+            "effects": {
+              "class": "guarded_local",
+              "outcome": "performed"
+            },
+            "findings": [],
+            "reason_code": "command_completed",
+            "allowed_next_operations": [],
+            "correlation_id": "73306-1789580454158",
+            "intent_identity": null,
+            "evidence_invalidation": {
+              "status": "not_reported"
+            },
+            "timing": {
+              "started_unix_ms": 1789580454158,
+              "monotonic_duration_ms": 2878
+            },
+            "wait_owner": "none"
+          }
+        }
+      },
+      "total_prepared_start_elapsed_ms": 6588,
+      "three_minute_fixture_target_met": true,
+      "interval": "Canonical prepared-index input refresh through successful final native validate; includes orchestration, JSON materialization and instrumentation",
+      "invocations": [
+        {
+          "argv": [
+            "status",
+            "505"
+          ],
+          "process_elapsed_ms": 1756,
+          "git_events": [
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            }
+          ],
+          "result": {
+            "schema": "csdlc.v3.intent_local.v1",
+            "read_only": true,
+            "operational_authority": true,
+            "writes_v3_state": false,
+            "status": "blocked",
+            "result": {
+              "route": "doctor",
+              "issue": 505,
+              "mutated": false,
+              "phase": "ready",
+              "generation": 1,
+              "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67",
+              "next_route": "bind",
+              "findings": [
+                {
+                  "status": "passed",
+                  "code": "lifecycle_digest_valid",
+                  "message": "lifecycle digest matches canonical state"
+                },
+                {
+                  "status": "passed",
+                  "code": "six_card_validation_passed",
+                  "message": "issue #505 has valid values, renders, structures, and digest"
+                }
+              ]
+            },
+            "evidence": {
+              "proof_current": false,
+              "validators_run": false
+            },
+            "projection": {
+              "observation": {
+                "status": "missing",
+                "paths": [
+                  "manifest.json",
+                  "sip.md",
+                  "sip.values.json",
+                  "sor.md",
+                  "sor.values.json",
+                  "spp.md",
+                  "spp.values.json",
+                  "srp.md",
+                  "srp.values.json",
+                  "stp.md",
+                  "stp.values.json",
+                  "vpp.md",
+                  "vpp.values.json"
+                ]
+              },
+              "semantic_digest": "semantic-projection-v1:822c055dd1b8d48d9b9320340132582702e694112640d84cb5303d7b784b1b43",
+              "projection_digest": "card-projection-v1:2076bcff0c055fa6bbc732b42806967ab9802b39cb3ca2d48d07690ed169bf1b",
+              "registry_version": "1.0.5"
+            },
+            "eligibility": {
+              "route": "eligibility",
+              "issue": 505,
+              "mutated": false,
+              "phase": "ready",
+              "generation": 1,
+              "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67",
+              "next_route": "bind",
+              "findings": [
+                {
+                  "status": "passed",
+                  "code": "lifecycle_digest_valid",
+                  "message": "lifecycle digest matches canonical state"
+                },
+                {
+                  "status": "passed",
+                  "code": "six_card_validation_passed",
+                  "message": "issue #505 has valid values, renders, structures, and digest"
+                }
+              ]
+            },
+            "scheduling": {
+              "route": "schedule",
+              "issue": 505,
+              "mutated": false,
+              "phase": "ready",
+              "generation": 1,
+              "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67",
+              "next_route": "doctor",
+              "routing": {
+                "schema": "csdlc.scheduler.report.v1",
+                "state": "blocked",
+                "blockers": [
+                  "design_ready",
+                  "dependencies_ready",
+                  "budget_available"
+                ],
+                "eligible_operations": []
+              },
+              "findings": [
+                {
+                  "status": "passed",
+                  "code": "lifecycle_digest_valid",
+                  "message": "lifecycle digest matches canonical state"
+                },
+                {
+                  "status": "passed",
+                  "code": "six_card_validation_passed",
+                  "message": "issue #505 has valid values, renders, structures, and digest"
+                }
+              ]
+            },
+            "shepherd": {
+              "route": "shepherd",
+              "issue": 505,
+              "mutated": false,
+              "phase": "ready",
+              "generation": 1,
+              "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67",
+              "next_route": "operator",
+              "routing": {
+                "schema": "csdlc.shepherd.report.v1",
+                "state": "operator_required",
+                "blockers": [],
+                "eligible_operations": [
+                  "operator_decision"
+                ]
+              },
+              "findings": [
+                {
+                  "status": "passed",
+                  "code": "lifecycle_digest_valid",
+                  "message": "lifecycle digest matches canonical state"
+                },
+                {
+                  "status": "passed",
+                  "code": "six_card_validation_passed",
+                  "message": "issue #505 has valid values, renders, structures, and digest"
+                }
+              ]
+            },
+            "operator_decisions": {
+              "required": true,
+              "design_ready": null,
+              "dependencies_ready": null,
+              "budget_available": null
+            },
+            "allowed_next": [
+              "rebuild"
+            ],
+            "pending_remote": [],
+            "request_issue": 505,
+            "request_expected_lifecycle_digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67",
+            "intent_snapshot": {
+              "repository": "agent-logic/agent-design-language",
+              "issue": 505,
+              "platform": "macos",
+              "authority": {
+                "selector_digest": "569bd77e0001775070d0bc3f30ab58ed4dce13bf8884571b42ca7f9294e83171"
+              },
+              "version": {
+                "generation": 1,
+                "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67"
+              },
+              "checkout": {
+                "branch": "main",
+                "head": "45d9673df2ff451972db25b214117b450cc5bd45",
+                "root": "$FIXTURE_ROOT"
+              }
+            },
+            "resolution_metrics": {
+              "application_git_reads": 30,
+              "canonical_authority_file_reads": 40,
+              "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+            },
+            "envelope": {
+              "schema": "csdlc.v3.command_result.v1",
+              "command": "status",
+              "issue": {
+                "status": "identified",
+                "number": 505
+              },
+              "status": "blocked",
+              "process_status": "succeeded",
+              "authority_status": "verified",
+              "issue_version": {
+                "before": {
+                  "basis": "observed_intent_snapshot",
+                  "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67"
+                },
+                "after": {
+                  "basis": "owner_result",
+                  "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67"
+                }
+              },
+              "effects": {
+                "class": "observation",
+                "outcome": "none"
+              },
+              "findings": [
+                {
+                  "status": "passed",
+                  "code": "lifecycle_digest_valid",
+                  "message": "lifecycle digest matches canonical state"
+                },
+                {
+                  "status": "passed",
+                  "code": "six_card_validation_passed",
+                  "message": "issue #505 has valid values, renders, structures, and digest"
+                }
+              ],
+              "reason_code": "lifecycle_digest_valid",
+              "allowed_next_operations": [
+                "rebuild"
+              ],
+              "correlation_id": "74095-1789580457042",
+              "intent_identity": null,
+              "evidence_invalidation": {
+                "status": "not_reported"
+              },
+              "timing": {
+                "started_unix_ms": 1789580457042,
+                "monotonic_duration_ms": 1752
+              },
+              "wait_owner": "operator"
+            }
+          }
+        },
+        {
+          "argv": [
+            "bind",
+            "505"
+          ],
+          "process_elapsed_ms": 3675,
+          "git_events": [
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show-ref",
+              "subcommand": "--verify"
+            },
+            {
+              "verb": "branch",
+              "subcommand": "--"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "add"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--is-inside-work-tree"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--quiet"
+            },
+            {
+              "verb": "status",
+              "subcommand": "--porcelain"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--is-inside-work-tree"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--quiet"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            }
+          ],
+          "result": {
+            "schema": "csdlc.v3.intent_local.v1",
+            "status": "completed",
+            "read_only": false,
+            "writes_v3_state": true,
+            "operational_authority": true,
+            "semantic_version": {
+              "generation": 5,
+              "digest": "semantic-state-v1:e72211928a3ebadee6c4c2f20ee45faafcecf1c77048b1e17df1ade6808d9609"
+            },
+            "operation_id": "semantic-operation-v1:2b48c5b3247a357f3dff65bfb965428c68e22a865f55a0504e3343fb20305cde",
+            "native_effect_truth": "performed",
+            "request_issue": 505,
+            "request_expected_lifecycle_digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67",
+            "intent_snapshot": {
+              "repository": "agent-logic/agent-design-language",
+              "issue": 505,
+              "platform": "macos",
+              "authority": {
+                "selector_digest": "569bd77e0001775070d0bc3f30ab58ed4dce13bf8884571b42ca7f9294e83171"
+              },
+              "version": {
+                "generation": 1,
+                "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67"
+              },
+              "checkout": {
+                "branch": "main",
+                "head": "45d9673df2ff451972db25b214117b450cc5bd45",
+                "root": "$FIXTURE_ROOT"
+              }
+            },
+            "resolution_metrics": {
+              "application_git_reads": 48,
+              "canonical_authority_file_reads": 48,
+              "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+            },
+            "envelope": {
+              "schema": "csdlc.v3.command_result.v1",
+              "command": "bind",
+              "issue": {
+                "status": "identified",
+                "number": 505
+              },
+              "status": "completed",
+              "process_status": "succeeded",
+              "authority_status": "verified",
+              "issue_version": {
+                "before": {
+                  "basis": "observed_intent_snapshot",
+                  "digest": "f3e5b8ec4ac25caec817a5a28cd92557ca1883cd9d5e86091213563e41963b67"
+                },
+                "after": {
+                  "basis": "owner_result",
+                  "digest": null
+                }
+              },
+              "effects": {
+                "class": "guarded_local",
+                "outcome": "performed"
+              },
+              "findings": [],
+              "reason_code": "command_completed",
+              "allowed_next_operations": [],
+              "correlation_id": "74456-1789580458800",
+              "intent_identity": null,
+              "evidence_invalidation": {
+                "status": "not_reported"
+              },
+              "timing": {
+                "started_unix_ms": 1789580458800,
+                "monotonic_duration_ms": 3671
+              },
+              "wait_owner": "none"
+            }
+          }
+        },
+        {
+          "argv": [
+            "validate",
+            "505"
+          ],
+          "process_elapsed_ms": 1151,
+          "git_events": [
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--show-toplevel"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "remote",
+              "subcommand": "get-url"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "symbolic-ref",
+              "subcommand": "--short"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "--path-format=absolute"
+            },
+            {
+              "verb": "worktree",
+              "subcommand": "list"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+            },
+            {
+              "verb": "show",
+              "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+            },
+            {
+              "verb": "cat-file",
+              "subcommand": "-e"
+            },
+            {
+              "verb": "merge-base",
+              "subcommand": "--is-ancestor"
+            },
+            {
+              "verb": "show",
+              "subcommand": "-s"
+            },
+            {
+              "verb": "rev-parse",
+              "subcommand": "HEAD"
+            }
+          ],
+          "result": {
+            "schema": "csdlc.v3.intent_local.v1",
+            "read_only": true,
+            "operational_authority": true,
+            "writes_v3_state": false,
+            "status": "completed",
+            "result": {
+              "route": "validate",
+              "issue": 505,
+              "mutated": false,
+              "phase": "bound",
+              "generation": 2,
+              "digest": "f3bdf0bd6879d67e245b5312c88424ddcdf4c1bf6a8f9c3564ba11d675859b04",
+              "next_route": "shepherd",
+              "findings": [
+                {
+                  "status": "passed",
+                  "code": "lifecycle_digest_valid",
+                  "message": "lifecycle digest matches canonical state"
+                },
+                {
+                  "status": "passed",
+                  "code": "six_card_validation_passed",
+                  "message": "issue #505 has valid values, renders, structures, and digest"
+                }
+              ]
+            },
+            "projection": {
+              "observation": {
+                "status": "missing",
+                "paths": [
+                  "manifest.json",
+                  "sip.md",
+                  "sip.values.json",
+                  "sor.md",
+                  "sor.values.json",
+                  "spp.md",
+                  "spp.values.json",
+                  "srp.md",
+                  "srp.values.json",
+                  "stp.md",
+                  "stp.values.json",
+                  "vpp.md",
+                  "vpp.values.json"
+                ]
+              },
+              "semantic_digest": "semantic-projection-v1:c8a884d8db37d9800df49886e9b0da85dc5dc9424b044330fffd3acc97ce411e",
+              "projection_digest": "card-projection-v1:bf4d838d01d2f2db3eeee072054ba415dd79b9f01bed1426b6fff1f68f7b4d99",
+              "registry_version": "1.0.5"
+            },
+            "allowed_next": [
+              "rebuild"
+            ],
+            "request_issue": 505,
+            "request_expected_lifecycle_digest": "f3bdf0bd6879d67e245b5312c88424ddcdf4c1bf6a8f9c3564ba11d675859b04",
+            "intent_snapshot": {
+              "repository": "agent-logic/agent-design-language",
+              "issue": 505,
+              "platform": "macos",
+              "authority": {
+                "selector_digest": "569bd77e0001775070d0bc3f30ab58ed4dce13bf8884571b42ca7f9294e83171"
+              },
+              "version": {
+                "generation": 2,
+                "digest": "f3bdf0bd6879d67e245b5312c88424ddcdf4c1bf6a8f9c3564ba11d675859b04"
+              },
+              "checkout": {
+                "branch": "codex/505-prepared-start-measurement",
+                "head": "45d9673df2ff451972db25b214117b450cc5bd45",
+                "root": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement"
+              }
+            },
+            "resolution_metrics": {
+              "application_git_reads": 24,
+              "canonical_authority_file_reads": 24,
+              "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+            },
+            "envelope": {
+              "schema": "csdlc.v3.command_result.v1",
+              "command": "validate",
+              "issue": {
+                "status": "identified",
+                "number": 505
+              },
+              "status": "completed",
+              "process_status": "succeeded",
+              "authority_status": "verified",
+              "issue_version": {
+                "before": {
+                  "basis": "observed_intent_snapshot",
+                  "digest": "f3bdf0bd6879d67e245b5312c88424ddcdf4c1bf6a8f9c3564ba11d675859b04"
+                },
+                "after": {
+                  "basis": "owner_result",
+                  "digest": "f3bdf0bd6879d67e245b5312c88424ddcdf4c1bf6a8f9c3564ba11d675859b04"
+                }
+              },
+              "effects": {
+                "class": "observation",
+                "outcome": "none"
+              },
+              "findings": [
+                {
+                  "status": "passed",
+                  "code": "lifecycle_digest_valid",
+                  "message": "lifecycle digest matches canonical state"
+                },
+                {
+                  "status": "passed",
+                  "code": "six_card_validation_passed",
+                  "message": "issue #505 has valid values, renders, structures, and digest"
+                }
+              ],
+              "reason_code": "lifecycle_digest_valid",
+              "allowed_next_operations": [
+                "rebuild"
+              ],
+              "correlation_id": "75443-1789580462477",
+              "intent_identity": null,
+              "evidence_invalidation": {
+                "status": "not_reported"
+              },
+              "timing": {
+                "started_unix_ms": 1789580462477,
+                "monotonic_duration_ms": 1148
+              },
+              "wait_owner": "none"
+            }
+          }
+        }
+      ],
+      "caller_materializations": [],
+      "supplied_unique_files_in_interval": [],
+      "argv_tokens_in_interval": 6,
+      "semantic_plan_scalar_leaves": 20,
+      "semantic_plan_blake3": "da13abda07851b8c280c506f5e6970695f7e526d98440e3ed8a24caa523ec8f3",
+      "actual_git_events_in_interval": [
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show-ref",
+          "subcommand": "--verify"
+        },
+        {
+          "verb": "branch",
+          "subcommand": "--"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "add"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--is-inside-work-tree"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--quiet"
+        },
+        {
+          "verb": "status",
+          "subcommand": "--porcelain"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--is-inside-work-tree"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--quiet"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--show-toplevel"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "remote",
+          "subcommand": "get-url"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "symbolic-ref",
+          "subcommand": "--short"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "--path-format=absolute"
+        },
+        {
+          "verb": "worktree",
+          "subcommand": "list"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/authority-selector.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:.csdlc/evidence/505/terminal-receipt.json"
+        },
+        {
+          "verb": "show",
+          "subcommand": "refs/remotes/origin/main:csdlc-v3/operator/native-authority-pr-observation.json"
+        },
+        {
+          "verb": "cat-file",
+          "subcommand": "-e"
+        },
+        {
+          "verb": "merge-base",
+          "subcommand": "--is-ancestor"
+        },
+        {
+          "verb": "show",
+          "subcommand": "-s"
+        },
+        {
+          "verb": "rev-parse",
+          "subcommand": "HEAD"
+        }
+      ],
+      "git_invocations_in_interval": 344,
+      "authority_git_blob_reads": 84,
+      "baseline_in_process_authority_reads": "not instrumented in accepted predecessor binary; unavailable, not zero",
+      "bound_cards_present": 6,
+      "final_native_phase": "bound",
+      "human_authoring_effort_measured": false
+    }
+  ]
+}

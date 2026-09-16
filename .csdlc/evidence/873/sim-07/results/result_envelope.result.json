@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "result_envelope",
+  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test result_envelope -- --test-threads=1",
+  "started_at": "2026-09-16T18:01:36Z",
+  "ended_at": "2026-09-16T18:01:37Z",
+  "elapsed_seconds": 1,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 9,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "b4846145c3e4881df37e70d40f4dcae8c8baa379487872bdad394f0d19a3976a",
+  "stderr_sha256": "1a7307bd8fa8573d976cf5240a97bbc4d1f1f07269ab574744ea57b4beac5f56"
+}

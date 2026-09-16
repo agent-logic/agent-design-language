@@ -1,0 +1,38 @@
+{
+  "schema": "adl.csdlc.issue873.requalification_checkpoint.v1",
+  "issue": 873,
+  "source_head": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+  "frozen_candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+  "focused_corpus": {
+    "records_attempted": 37,
+    "records_passed": 36,
+    "records_failed": 1,
+    "records_omitted": 0,
+    "tests_passed": 255,
+    "tests_failed": 1,
+    "tests_ignored": 1,
+    "exact_head_aggregate_claim": false,
+    "classification": "not_proven",
+    "failure": "retained exact old-owner conversion release gate",
+    "evidence": "focused-corpus-summary.json"
+  },
+  "retry_contract_tests": {
+    "passed": 55,
+    "failed": 0
+  },
+  "retry_operational": {
+    "predecessor_attempts": 34,
+    "candidate_ledger": null,
+    "comparison": null,
+    "classification": "not_proven",
+    "reason": "semantic_prepare_refused / LegacyMigrationRequired on authority-valid unconverted fixture"
+  },
+  "prepared_start": {
+    "sample_ms": 6588,
+    "target_ms": 180000,
+    "condition": "warm host, candidate-first",
+    "result": "pass",
+    "os_cold_claim": false
+  },
+  "overall_decision": "not_proven"
+}

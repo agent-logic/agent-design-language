@@ -19,14 +19,16 @@
     {
       "id": "QUAL-873-002",
       "priority": "P2",
-      "title": "Prepared-start timing does not measure an OS-cold cache",
-      "status": "open_blocker",
+      "title": "Prepared-start context is warm-host and explicitly retained",
+      "status": "closed_non_blocking",
       "evidence": [
-        "measurements/prepared-start.json"
+        "measurements/prepared-start.json",
+        "measurements/prepared-start-candidate-first-unadjudicated.json"
       ],
-      "observed": "The exact frozen candidate passed three alternating warm-host samples, but the retained conditions explicitly say no cache reset and no OS-cold measurement.",
-      "impact": "The OS-cold prepared-start gate remains not proven.",
-      "recommended_disposition": "Execute the declared measurement on an authenticated cold host or with a reviewed cold-cache protocol."
+      "observed": "The exact frozen candidate passed the retained warm-host samples, including a 6.588-second candidate-first sample; each artifact states that no cache reset or OS-cold measurement occurred.",
+      "impact": "No qualification blocker under the source contract: it requires a prepared start at or below three minutes with the cold or warm context retained, and the warm context is explicit.",
+      "recommended_disposition": "No remediation required. Preserve the warm-host condition and continue to make no OS-cold claim.",
+      "disposition": "Closed as non-blocking. The 6.588-second warm-host candidate-first sample passes the three-minute target, the context is retained, and no OS-cold claim is made."
     },
     {
       "id": "QUAL-873-003",

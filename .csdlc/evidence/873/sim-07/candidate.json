@@ -15,5 +15,10 @@
   "baseline_blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
   "qualifier": "/root/qualify_873",
   "vpp_generation": 11,
-  "vpp_digest": "7a6945ec18e17bb24108fdacea20fed7ebc93425f0f945c3e033007e7ee8d68c"
+  "vpp_digest": "7a6945ec18e17bb24108fdacea20fed7ebc93425f0f945c3e033007e7ee8d68c",
+  "requalification_source_head": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+  "requalification_date": "2026-09-16",
+  "requalification_scope": "bounded retained and refreshed focused corpus plus exact frozen installed-candidate journeys and timing",
+  "current_source_is_frozen_candidate": false,
+  "focused_corpus_exact_head_aggregate_claim": false
 }

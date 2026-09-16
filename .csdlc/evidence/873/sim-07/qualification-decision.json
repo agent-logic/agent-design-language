@@ -6,7 +6,6 @@
   "pass_available": false,
   "blocking_findings": [
     "QUAL-873-001",
-    "QUAL-873-002",
     "QUAL-873-003",
     "QUAL-873-004",
     "QUAL-873-005"
@@ -14,21 +13,28 @@
   "not_proven_gates": [
     "old-owner conversion release gate",
     "finite recovery including conversion",
-    "OS-cold prepared-start",
     "comparable retry reduction",
     "independent exact-head remediation review",
     "issue #873 evidence PR CI"
   ],
-  "adjudication": "The frozen installed binary passed both exact public-command journeys, 252 unique focused tests, retained conversion validation, and three exact-binary warm prepared-start samples. The retry qualification now retains a 34-attempt predecessor ledger with three avoidable retries, but the candidate refused the only authority-valid source baseline with LegacyMigrationRequired; the 89-fixture audit found no authority-valid clean alternative, so no candidate ledger, comparison payload, retry percentage, or 50 percent claim exists. Finite recovery including conversion, true OS-cold timing, comparable retry reduction, remediation review, and evidence-PR CI remain not proven and prevent a passing decision.",
+  "adjudication": "The bounded focused packet contains 37 exact result records and test summaries totaling 255 passed, one failed, and one ignored. It combines retained frozen-candidate records with refreshed records and therefore makes no single exact-head aggregate claim. The exact frozen installed candidate passed its public-command journeys and a candidate-first prepared-start sample of 6.588 seconds, below the three-minute contract; the host was warm and no OS-cold claim is made. Retry contract validation passed 55 tests and the predecessor completed 34 attempts, but the candidate refused the authority-valid unconverted fixture with semantic_prepare_refused / LegacyMigrationRequired, so no comparable candidate ledger or 50 percent claim exists. The immutable old-owner conversion release gate remains not proven. Independent exact-head review and evidence-PR CI remain outstanding, so a passing decision is unavailable.",
   "main_advancement": {
-    "observed_main": "553232dbe6244c204f040fdd6e50c47a4161623b",
-    "classification": "unaffected_record_only_advancement",
-    "reason": "The advancement from the frozen candidate contains #932 lifecycle, evidence, and transaction records only; no csdlc-v3 source, manuals, templates, or #873 surfaces changed."
+    "observed_main": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+    "classification": "current_head_observed_frozen_candidate_unchanged",
+    "reason": "The worktree was advanced to this head before the bounded requalification. The aggregate combines retained frozen-candidate and refreshed records, so it is not classified as a current-head 255-test run. Installed journeys and timing remain cryptographically bound to frozen candidate f31b1b710074fdb51f41400b32b79c633bc3336e."
   },
   "retry_reduction_boundary": {
     "status": "not_proven",
     "evidence": "measurements/retry-reduction/run-status.json",
     "comparison_payload": null,
     "fifty_percent_claim": false
+  },
+  "prepared_start_boundary": {
+    "status": "pass",
+    "sample_ms": 6588,
+    "target_ms": 180000,
+    "condition": "first measured fixture/process on already warm host",
+    "os_cold_claim": false,
+    "evidence": "measurements/prepared-start-candidate-first-unadjudicated.json"
   }
 }
