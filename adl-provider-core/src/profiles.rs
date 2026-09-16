@@ -602,7 +602,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("phi4-mini"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     m.insert(
@@ -611,7 +611,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("qwen2.5:7b"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     m.insert(
@@ -620,7 +620,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("llama3.1:8b"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     m.insert(
@@ -629,7 +629,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "ollama",
             default_model: Some("mistral:7b"),
             provider_model_id: None,
-            endpoint: None,
+            endpoint: Some("http://127.0.0.1:11434"),
         },
     );
     // Mock/testing preset

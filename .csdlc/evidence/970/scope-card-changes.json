@@ -1,0 +1,52 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "scope_acceptance",
+    "transition_approved": true
+  },
+  "cards": {
+    "sip": {
+      "title": "[provider architecture] Make declared AProvider inference configuration effective and observable",
+      "slug": "aprovider-effective-inference-configuration",
+      "timestamp": "2026-09-15",
+      "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/970",
+      "goal": "Make every declared bounded AProvider inference control either reach the selected built-in codec request through one canonical effective configuration or fail before dispatch.",
+      "required_outcome": "Provider profiles and explicit definitions normalize through one typed effective configuration; GeneralProvider binds and fingerprints the consumed values; unsupported or executable configuration fails closed; Ollama HTTP wire capture proves all supported controls.",
+      "required_outcome_type": "provider_runtime_contract",
+      "inputs": "Issue #970; completed dependencies #514, #876, and #855; provider recovery boundary #901; the #900 Ollama context-window gap; current adl-provider-core profile, candidate, substrate, and codec implementation.",
+      "target_files_surfaces": "adl-provider-core/src/provider_substrate.rs; adl-provider-core/src/candidate.rs; adl-provider-core/src/http_family.rs; adl-provider-core/src/http_family/tests.rs; adl-provider-core/src/profiles.rs; docs/provider/inference-profiles.md; issue-local lifecycle and proof records.",
+      "acceptance_criteria": "Canonical typed effective controls cover context window, output limit, temperature, top-p, seed, timeout, reasoning/think, and keep-alive; profiles and explicit definitions share normalization; codecs declare consumed controls and reject supplied unsupported controls before execution; executable authority fields are rejected; Ollama HTTP forwards every supported field; a redacted projection and stable fingerprint bind effective values; focused positive and negative local tests pass.",
+      "validation_plan": "Run focused provider-substrate normalization tests, candidate rejection tests, Ollama HTTP wire-capture tests, profile parity tests, component formatting and diff hygiene, native proof, and one independent exact-head pre-PR review. No live provider or paid call is required.",
+      "non_goals": "No executable provider definitions, provider-specific binaries or plugins, lifecycle redesign, failure/recovery qualification, model downloads, paid provider calls, benchmark claims, hardware provisioning, or changes to #900 evidence.",
+      "demo_required": "false",
+      "demo_proof_requirements": "Deterministic local wire capture is the execution proof; no external provider demo is required.",
+      "docs_context": "docs/provider/inference-profiles.md and docs/providers/provider-profile-hot-loading.md",
+      "notes_risks": "Existing codecs consume different subsets of loose config keys. Normalization must preserve existing supported defaults while rejecting only explicitly supplied controls a selected codec cannot honor.",
+      "output_card": ".csdlc/issues/970/cards/sor.md"
+    },
+    "stp": {
+      "title": "[provider architecture] Make declared AProvider inference configuration effective and observable",
+      "slug": "aprovider-effective-inference-configuration",
+      "timestamp": "2026-09-15",
+      "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/970",
+      "wp": "970",
+      "summary": "Add one validated effective inference configuration to the normalized GeneralProvider dispatch target, enforce built-in codec support before execution, and prove Ollama HTTP serialization locally.",
+      "goal": "Eliminate silent configuration loss between AProvider declarations and provider wire requests.",
+      "required_outcome": "The normalized dispatch target carries canonical effective controls and their redacted fingerprint; selected codecs explicitly consume or reject supplied controls; Ollama HTTP sends its supported values.",
+      "required_outcome_type": "provider_runtime_contract",
+      "deliverables": "Typed effective inference configuration and support declarations; pre-dispatch executable and unsupported-control rejection; Ollama HTTP codec forwarding; redacted projection and fingerprint; profile/direct/reload parity proof; focused tests; operator documentation; native lifecycle evidence.",
+      "acceptance_criteria": "AC-1 canonical normalization and schema; AC-2 profile, reload, Runtime, and direct dispatch parity; AC-3 trusted built-in codec boundary and executable-field rejection; AC-4 codec support declarations and unsupported-control rejection; AC-5 Ollama HTTP full supported-control forwarding; AC-6 redacted projection and stable fingerprint; AC-7 focused positive and negative proof; AC-8 compatibility and operator documentation.",
+      "repo_inputs": "Issue #970; adl-provider-core ProviderSpec, profile expansion, candidate admission, ProviderInvocationTargetV1, GeneralProvider factory, Ollama HTTP codec, and local provider tests; current provider documentation.",
+      "dependencies": "#514, #876, and #855 are closed; #901 remains a separate failure/recovery qualification boundary and is not absorbed.",
+      "target_files_surfaces": "adl-provider-core/src/provider_substrate.rs; adl-provider-core/src/candidate.rs; adl-provider-core/src/http_family.rs; adl-provider-core/src/http_family/tests.rs; adl-provider-core/src/profiles.rs; docs/provider/inference-profiles.md.",
+      "validation_plan": "Focused Rust tests for normalization, candidate rejection, profiles, and Ollama wire capture; cargo fmt check for adl-provider-core; git diff --check; native proof; independent exact-head review; required CI after publication.",
+      "demo_required": "false",
+      "demo_proof_requirements": "Local deterministic wire-capture server only; no live provider, credentials, download, or paid execution.",
+      "non_goals": "No lifecycle redesign, provider recovery qualification, arbitrary provider plugin system, hosted-provider live qualification, model download, or hardware work.",
+      "issue_graph_note": "Follow-up to #514, #876, and #855; discovered during #900; must preserve #901 as the recovery owner.",
+      "issue_graph_notes": "This issue owns only configuration normalization, codec consumption, observability, and the Ollama proving path.",
+      "tooling_notes": "Use native C-SDLC v3 for lifecycle writes and the bound FastWork worktree for all tracked work.",
+      "notes_risks": "A broad rejection rule could break valid transport/auth settings; executable-field and inference-control classification must be explicit and bounded."
+    }
+  }
+}

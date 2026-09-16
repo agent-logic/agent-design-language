@@ -34,9 +34,7 @@ mod mlx;
 use crate::profiles;
 #[path = "runtime_limits.rs"]
 pub(crate) mod runtime_limits;
-use runtime_limits::{
-    bound_output_tokens, bounded_auth_output, runtime_bounded_calls, runtime_output_cap,
-};
+use runtime_limits::{bounded_auth_output, runtime_bounded_calls, runtime_output_cap};
 
 pub use deepgram::{
     build_speech_provider, AudioContainer, AudioEncoding, DeepgramSpeechProvider, SpeechErrorKind,
@@ -629,7 +627,10 @@ fn runtime_error_non_retryable(provider: &str, message: impl Into<String>) -> an
     ProviderError::runtime_non_retryable(provider, message).into()
 }
 
-fn unsupported_capability_error(provider: &str, message: impl Into<String>) -> anyhow::Error {
+pub(crate) fn unsupported_capability_error(
+    provider: &str,
+    message: impl Into<String>,
+) -> anyhow::Error {
     let mut error = ProviderError::runtime_non_retryable(provider, message);
     error.category = "unsupported_capability";
     error.into()

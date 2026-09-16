@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "validators": [
+    {
+      "id": "provider-core-issue-970",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "adl-provider-core/Cargo.toml"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    }
+  ]
+}

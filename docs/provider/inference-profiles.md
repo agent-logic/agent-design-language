@@ -3,6 +3,61 @@
 ADL provider profiles materialize into explicit provider identity and bounded
 inference parameters before runtime activation.
 
+## AProvider and GeneralProvider boundary
+
+An AProvider document is declarative data. It can select a provider identity,
+model, endpoint or credential reference, capabilities, a built-in transport and
+codec, and bounded inference controls. It cannot declare an executable,
+command, script, dynamic library, plugin, embedded code, workflow, or lifecycle
+authority. Those fields are rejected before adapter construction.
+
+Profile expansion and explicit provider definitions both produce
+`EffectiveInferenceConfigV1` on the normalized
+`ProviderInvocationTargetV1`. GeneralProvider is the trusted execution
+boundary: it chooses a compiled-in codec, verifies that the codec consumes every
+supplied normalized control, and rejects unsupported controls before network or
+process I/O. The endpoint-free
+`adl.aprovider_effective_inference.v1` projection and its SHA-256 fingerprint
+bind the effective controls and codec without retaining prompts, credentials,
+endpoint values, or responses.
+
+The canonical controls are:
+
+- `context_window_tokens`
+- `max_output_tokens` (with `max_tokens` accepted as a compatible alias only
+  when the two values agree)
+- `temperature` and `top_p`
+- `deterministic_seed`
+- `timeout_secs`
+- `reasoning_effort`, `clear_thinking`, and Ollama `think`
+- `local_keep_alive`
+
+`runtime_max_output_tokens` remains a Runtime safety cap. When both it and a
+declared output limit exist, the normalized effective output limit is their
+minimum, and that effective value enters the request fingerprint.
+
+Inference numbers and booleans use their YAML/JSON scalar types. Quoted numeric
+compatibility values are no longer accepted at the canonical boundary because
+they made adapter-specific coercion part of execution behavior. Supplying both
+`max_tokens` and `max_output_tokens` is accepted only when their numeric
+values agree; new configuration should use `max_output_tokens`.
+
+Built-in codecs declare these consumption sets:
+
+| Built-in codec | Consumed normalized controls |
+| --- | --- |
+| Ollama HTTP generate | context, output, temperature, top-p, seed, timeout, think, keep-alive |
+| Ollama local CLI | timeout only |
+| MLX OpenAI-compatible chat | output, temperature, top-p, seed, timeout |
+| OpenAI, Anthropic, DeepSeek, OpenRouter, Bedrock Nova, Vertex Gemini, generic chat HTTP | output, temperature, top-p, timeout |
+| Kimi chat | common chat controls plus reasoning effort |
+| Z.ai chat | common chat controls plus reasoning effort and clear-thinking |
+| Mock | no inference controls |
+
+Timeout controls govern the trusted client or local supervisor and are not
+serialized into provider request bodies. All other declared controls in a
+codec's set are serialized into that codec's provider request.
+
 The shared profile contract is:
 
 - `provider_model_id` binds the provider-native model selected by the profile.
@@ -13,7 +68,12 @@ The shared profile contract is:
   than `600`.
 - Ollama profiles use `materialization_policy: deterministic_ollama_v1`,
   `temperature: 0.0`, `top_p: 1.0`, `max_output_tokens: 512`,
-  `timeout_secs: 120`, and `deterministic_seed: 0`.
+  `timeout_secs: 120`, and `deterministic_seed: 0`. They now materialize
+  the loopback Ollama HTTP endpoint `http://127.0.0.1:11434` so those controls
+  are executable through the pinned `/api/generate` codec. Select
+  `type: local_ollama` explicitly for the separate CLI transport; it consumes
+  only `timeout_secs` and rejects profile sampling, context, output-token,
+  seed, think, and keep-alive controls rather than silently ignoring them.
 - `profile_state.schema: adl.provider_profile_state.v1` retains the
   `last_known_good_profile` plus a redacted
   `last_known_good_materialization` from the previous valid state when one is
@@ -75,3 +135,9 @@ The direct Z.ai profile is separate from provider variants:
 Provider profiles are configuration contracts only. They do not authorize a
 paid provider call, cloud mutation, credential disclosure, or provider-specific
 acceptance claim.
+
+Server-owned settings remain outside this contract. For example, an Ollama
+server may enforce a lower model or resource ceiling than
+`context_window_tokens`; ADL proves that the bounded value reached the wire,
+not that a remote or separately managed server accepted more capacity than it
+supports.

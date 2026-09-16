@@ -2,6 +2,7 @@ use anyhow::{anyhow, Result};
 use schemars::{schema_for, JsonSchema};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use sha2::{Digest, Sha256};
 use std::collections::HashMap;
 
 use crate as adl;
@@ -50,7 +51,128 @@ pub enum ProviderTransportV1 {
     InProcess,
 }
 
+#[derive(
+    Debug, Clone, Copy, Serialize, Deserialize, JsonSchema, PartialEq, Eq, PartialOrd, Ord,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum InferenceControlV1 {
+    ContextWindowTokens,
+    MaxOutputTokens,
+    Temperature,
+    TopP,
+    DeterministicSeed,
+    TimeoutSecs,
+    ReasoningEffort,
+    ClearThinking,
+    Think,
+    LocalKeepAlive,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(untagged)]
+pub enum OllamaThinkV1 {
+    Enabled(bool),
+    Level(String),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(untagged)]
+pub enum LocalKeepAliveV1 {
+    Seconds(i64),
+    Duration(String),
+}
+
+/// Canonical, validated inference controls carried from AProvider data to a
+/// trusted built-in codec. None means the operator did not declare a value.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, JsonSchema, PartialEq)]
+pub struct EffectiveInferenceConfigV1 {
+    #[serde(default)]
+    pub context_window_tokens: Option<u64>,
+    #[serde(default)]
+    pub max_output_tokens: Option<u64>,
+    #[serde(default)]
+    pub temperature: Option<f64>,
+    #[serde(default)]
+    pub top_p: Option<f64>,
+    #[serde(default)]
+    pub deterministic_seed: Option<u64>,
+    #[serde(default)]
+    pub timeout_secs: Option<u64>,
+    #[serde(default)]
+    pub reasoning_effort: Option<String>,
+    #[serde(default)]
+    pub clear_thinking: Option<bool>,
+    #[serde(default)]
+    pub think: Option<OllamaThinkV1>,
+    #[serde(default)]
+    pub local_keep_alive: Option<LocalKeepAliveV1>,
+}
+
+impl EffectiveInferenceConfigV1 {
+    fn supplied_controls(&self) -> Vec<InferenceControlV1> {
+        let entries = [
+            (
+                self.context_window_tokens.is_some(),
+                InferenceControlV1::ContextWindowTokens,
+            ),
+            (
+                self.max_output_tokens.is_some(),
+                InferenceControlV1::MaxOutputTokens,
+            ),
+            (self.temperature.is_some(), InferenceControlV1::Temperature),
+            (self.top_p.is_some(), InferenceControlV1::TopP),
+            (
+                self.deterministic_seed.is_some(),
+                InferenceControlV1::DeterministicSeed,
+            ),
+            (self.timeout_secs.is_some(), InferenceControlV1::TimeoutSecs),
+            (
+                self.reasoning_effort.is_some(),
+                InferenceControlV1::ReasoningEffort,
+            ),
+            (
+                self.clear_thinking.is_some(),
+                InferenceControlV1::ClearThinking,
+            ),
+            (self.think.is_some(), InferenceControlV1::Think),
+            (
+                self.local_keep_alive.is_some(),
+                InferenceControlV1::LocalKeepAlive,
+            ),
+        ];
+        entries
+            .into_iter()
+            .filter_map(|(present, control)| present.then_some(control))
+            .collect()
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct ProviderCodecControlsV1 {
+    pub codec: String,
+    pub consumes: Vec<InferenceControlV1>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+pub struct ProviderCredentialReferenceV1 {
+    pub strategy: String,
+    pub environment: String,
+    #[serde(default)]
+    pub file_environment: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
+pub struct RedactedEffectiveInferenceProjectionV1 {
+    pub schema: String,
+    pub provider_id: String,
+    pub provider_kind: String,
+    pub transport: ProviderTransportV1,
+    pub codec: String,
+    pub consumes: Vec<InferenceControlV1>,
+    pub effective: EffectiveInferenceConfigV1,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
 pub struct ProviderSubstrateV1 {
     pub provider_id: String,
     pub provider_kind: String,
@@ -67,9 +189,14 @@ pub struct ProviderSubstrateV1 {
     #[serde(default)]
     pub provider_default_model_id: Option<String>,
     pub capabilities: ProviderCapabilitiesV1,
+    #[serde(default)]
+    pub credential_reference: Option<ProviderCredentialReferenceV1>,
+    pub codec_controls: ProviderCodecControlsV1,
+    pub effective_inference: EffectiveInferenceConfigV1,
+    pub inference_parameter_fingerprint: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
 pub struct ProviderInvocationTargetV1 {
     pub provider_id: String,
     pub provider_kind: String,
@@ -85,10 +212,257 @@ pub struct ProviderInvocationTargetV1 {
     pub provider_model_id: String,
     pub model_identity: ModelIdentityV1,
     pub capabilities: ProviderCapabilitiesV1,
+    #[serde(default)]
+    pub credential_reference: Option<ProviderCredentialReferenceV1>,
+    pub codec_controls: ProviderCodecControlsV1,
+    pub effective_inference: EffectiveInferenceConfigV1,
 }
 
 fn cfg_str<'a>(cfg: &'a HashMap<String, Value>, key: &str) -> Option<&'a str> {
     cfg.get(key).and_then(|v| v.as_str()).map(str::trim)
+}
+
+fn invalid_control(key: &str, detail: &str) -> anyhow::Error {
+    anyhow!("invalid_aprovider_inference_control: config.{key} {detail}")
+}
+
+fn optional_u64(
+    cfg: &HashMap<String, Value>,
+    key: &str,
+    minimum: u64,
+    maximum: u64,
+) -> Result<Option<u64>> {
+    let Some(value) = cfg.get(key) else {
+        return Ok(None);
+    };
+    let value = value
+        .as_u64()
+        .filter(|value| *value >= minimum && *value <= maximum)
+        .ok_or_else(|| {
+            invalid_control(key, &format!("must be an integer in {minimum}..={maximum}"))
+        })?;
+    Ok(Some(value))
+}
+
+fn optional_f64(
+    cfg: &HashMap<String, Value>,
+    key: &str,
+    minimum: f64,
+    maximum: f64,
+) -> Result<Option<f64>> {
+    let Some(value) = cfg.get(key) else {
+        return Ok(None);
+    };
+    let value = value
+        .as_f64()
+        .filter(|value| value.is_finite() && *value >= minimum && *value <= maximum)
+        .ok_or_else(|| {
+            invalid_control(
+                key,
+                &format!("must be a finite number in {minimum}..={maximum}"),
+            )
+        })?;
+    Ok(Some(value))
+}
+
+fn reject_executable_aprovider_fields(value: &Value) -> Result<()> {
+    const FORBIDDEN: &[&str] = &[
+        "executable",
+        "executable_path",
+        "command",
+        "commands",
+        "script",
+        "script_path",
+        "dynamic_library",
+        "dynamic_library_path",
+        "plugin",
+        "plugin_path",
+        "embedded_code",
+        "code",
+        "workflow",
+        "workflow_authority",
+        "lifecycle",
+        "lifecycle_authority",
+    ];
+    match value {
+        Value::Object(map) => {
+            for (key, value) in map {
+                let normalized = key.trim().to_ascii_lowercase().replace('-', "_");
+                if FORBIDDEN.contains(&normalized.as_str()) {
+                    return Err(anyhow!(
+                        "aprovider_executable_authority_forbidden: config.{normalized}"
+                    ));
+                }
+                reject_executable_aprovider_fields(value)?;
+            }
+        }
+        Value::Array(values) => {
+            for value in values {
+                reject_executable_aprovider_fields(value)?;
+            }
+        }
+        _ => {}
+    }
+    Ok(())
+}
+
+fn effective_inference_config_v1(spec: &adl::ProviderSpec) -> Result<EffectiveInferenceConfigV1> {
+    reject_executable_aprovider_fields(&serde_json::to_value(&spec.config)?)?;
+    let max_output_tokens = optional_u64(&spec.config, "max_output_tokens", 1, 131_072)?;
+    let max_tokens = optional_u64(&spec.config, "max_tokens", 1, 131_072)?;
+    if max_output_tokens.is_some() && max_tokens.is_some() && max_output_tokens != max_tokens {
+        return Err(anyhow!(
+            "conflicting_aprovider_inference_controls: config.max_output_tokens and config.max_tokens differ"
+        ));
+    }
+    let runtime_cap = optional_u64(&spec.config, "runtime_max_output_tokens", 1, 32_768)?;
+    let declared_output = max_output_tokens.or(max_tokens);
+    let max_output_tokens = match (declared_output, runtime_cap) {
+        (Some(declared), Some(cap)) => Some(declared.min(cap)),
+        (declared, cap) => declared.or(cap),
+    };
+    let reasoning_effort = match spec.config.get("reasoning_effort") {
+        None => None,
+        Some(Value::String(value)) => {
+            let value = value.trim().to_ascii_lowercase();
+            if !matches!(value.as_str(), "low" | "medium" | "high" | "max") {
+                return Err(invalid_control(
+                    "reasoning_effort",
+                    "must be one of low, medium, high, max",
+                ));
+            }
+            Some(value)
+        }
+        Some(_) => return Err(invalid_control("reasoning_effort", "must be a string")),
+    };
+    let clear_thinking = match spec.config.get("clear_thinking") {
+        None => None,
+        Some(Value::Bool(value)) => Some(*value),
+        Some(_) => return Err(invalid_control("clear_thinking", "must be a boolean")),
+    };
+    let think = match spec.config.get("think") {
+        None => None,
+        Some(Value::Bool(value)) => Some(OllamaThinkV1::Enabled(*value)),
+        Some(Value::String(value)) => {
+            let level = value.trim().to_ascii_lowercase();
+            if !matches!(level.as_str(), "low" | "medium" | "high") {
+                return Err(invalid_control(
+                    "think",
+                    "must be a boolean or low, medium, high",
+                ));
+            }
+            Some(OllamaThinkV1::Level(level))
+        }
+        Some(_) => return Err(invalid_control("think", "must be a boolean or string")),
+    };
+    let local_keep_alive = match spec.config.get("local_keep_alive") {
+        None => None,
+        Some(Value::Number(value)) => value
+            .as_i64()
+            .map(LocalKeepAliveV1::Seconds)
+            .ok_or_else(|| {
+                invalid_control("local_keep_alive", "must be an integer or duration string")
+            })
+            .map(Some)?,
+        Some(Value::String(value)) => {
+            let value = value.trim();
+            if value.is_empty() || value.len() > 64 || value.chars().any(char::is_control) {
+                return Err(invalid_control(
+                    "local_keep_alive",
+                    "must be a non-empty bounded duration string",
+                ));
+            }
+            Some(match value.parse::<i64>() {
+                Ok(seconds) => LocalKeepAliveV1::Seconds(seconds),
+                Err(_) => LocalKeepAliveV1::Duration(value.to_string()),
+            })
+        }
+        Some(_) => {
+            return Err(invalid_control(
+                "local_keep_alive",
+                "must be an integer or string",
+            ))
+        }
+    };
+    Ok(EffectiveInferenceConfigV1 {
+        context_window_tokens: optional_u64(&spec.config, "context_window_tokens", 1, 1_048_576)?,
+        max_output_tokens,
+        temperature: optional_f64(&spec.config, "temperature", 0.0, 2.0)?,
+        top_p: optional_f64(&spec.config, "top_p", 0.0, 1.0)?,
+        deterministic_seed: optional_u64(&spec.config, "deterministic_seed", 0, u32::MAX as u64)?,
+        timeout_secs: optional_u64(&spec.config, "timeout_secs", 1, 86_400)?,
+        reasoning_effort,
+        clear_thinking,
+        think,
+        local_keep_alive,
+    })
+}
+
+fn credential_reference_v1(
+    spec: &adl::ProviderSpec,
+) -> Result<Option<ProviderCredentialReferenceV1>> {
+    let nested = match spec.config.get("auth") {
+        None => None,
+        Some(Value::Object(auth)) => Some(auth),
+        Some(_) => {
+            return Err(anyhow!(
+                "invalid_aprovider_credential_reference: auth must be an object"
+            ))
+        }
+    };
+    if nested.is_some_and(|auth| {
+        ["type", "env", "file_env"]
+            .into_iter()
+            .any(|key| auth.get(key).is_some_and(|value| !value.is_string()))
+    }) || ["api_key_env", "auth_env", "token_env"]
+        .into_iter()
+        .any(|key| spec.config.get(key).is_some_and(|value| !value.is_string()))
+    {
+        return Err(anyhow!(
+            "invalid_aprovider_credential_reference: references must be strings"
+        ));
+    }
+    let strategy = nested
+        .and_then(|auth| auth.get("type"))
+        .and_then(Value::as_str)
+        .unwrap_or("bearer")
+        .trim();
+    let environment = nested
+        .and_then(|auth| auth.get("env"))
+        .and_then(Value::as_str)
+        .or_else(|| cfg_str(&spec.config, "api_key_env"))
+        .or_else(|| cfg_str(&spec.config, "auth_env"))
+        .or_else(|| cfg_str(&spec.config, "token_env"));
+    let file_environment = nested
+        .and_then(|auth| auth.get("file_env"))
+        .and_then(Value::as_str);
+    let Some(environment) = environment else {
+        if file_environment.is_some() {
+            return Err(anyhow!(
+                "invalid_aprovider_credential_reference: file_env requires env"
+            ));
+        }
+        return Ok(None);
+    };
+    let valid_env = |value: &str| {
+        !value.is_empty()
+            && value.bytes().enumerate().all(|(index, byte)| {
+                byte == b'_' || byte.is_ascii_alphabetic() || (index > 0 && byte.is_ascii_digit())
+            })
+    };
+    if strategy != "bearer"
+        || !valid_env(environment)
+        || file_environment.is_some_and(|value| !valid_env(value))
+    {
+        return Err(anyhow!(
+            "invalid_aprovider_credential_reference: expected bearer environment references"
+        ));
+    }
+    Ok(Some(ProviderCredentialReferenceV1 {
+        strategy: strategy.to_string(),
+        environment: environment.to_string(),
+        file_environment: file_environment.map(ToString::to_string),
+    }))
 }
 
 fn normalize_vendor_token(raw: &str) -> Option<String> {
@@ -240,6 +614,168 @@ fn normalized_provider_kind(kind: &str) -> String {
         "moonshot" => "kimi".to_string(),
         other => other.to_string(),
     }
+}
+
+fn codec_controls(provider_kind: &str, transport: &ProviderTransportV1) -> ProviderCodecControlsV1 {
+    use InferenceControlV1::*;
+    let common = vec![MaxOutputTokens, Temperature, TopP, TimeoutSecs];
+    let (codec, consumes) = match (provider_kind, transport) {
+        ("ollama", ProviderTransportV1::Http) => (
+            "ollama_generate_v1",
+            vec![
+                ContextWindowTokens,
+                MaxOutputTokens,
+                Temperature,
+                TopP,
+                DeterministicSeed,
+                TimeoutSecs,
+                Think,
+                LocalKeepAlive,
+            ],
+        ),
+        ("mlx", ProviderTransportV1::Http) => (
+            "mlx_openai_chat_v1",
+            vec![
+                MaxOutputTokens,
+                Temperature,
+                TopP,
+                DeterministicSeed,
+                TimeoutSecs,
+            ],
+        ),
+        ("kimi", ProviderTransportV1::Http) => (
+            "kimi_chat_v1",
+            vec![
+                MaxOutputTokens,
+                Temperature,
+                TopP,
+                TimeoutSecs,
+                ReasoningEffort,
+            ],
+        ),
+        ("z_ai", ProviderTransportV1::Http)
+        | ("zai", ProviderTransportV1::Http)
+        | ("zhipu", ProviderTransportV1::Http) => (
+            "z_ai_chat_v1",
+            vec![
+                MaxOutputTokens,
+                Temperature,
+                TopP,
+                TimeoutSecs,
+                ReasoningEffort,
+                ClearThinking,
+            ],
+        ),
+        ("ollama", ProviderTransportV1::LocalCli)
+        | ("local_ollama", ProviderTransportV1::LocalCli) => ("ollama_cli_v1", vec![TimeoutSecs]),
+        ("mock", ProviderTransportV1::InProcess) => ("mock_v1", vec![]),
+        ("openai", ProviderTransportV1::Http) => ("openai_responses_v1", common.clone()),
+        ("anthropic", ProviderTransportV1::Http) => ("anthropic_messages_v1", common.clone()),
+        ("deepseek", ProviderTransportV1::Http) => ("deepseek_chat_v1", common.clone()),
+        ("openrouter", ProviderTransportV1::Http) => ("openrouter_chat_v1", common.clone()),
+        ("bedrock", ProviderTransportV1::Http) | ("aws_bedrock", ProviderTransportV1::Http) => {
+            ("aws_bedrock_invoke_v1", common.clone())
+        }
+        ("vertex_ai_gemini", ProviderTransportV1::Http)
+        | ("vertex_ai", ProviderTransportV1::Http)
+        | ("vertex", ProviderTransportV1::Http) => ("vertex_gemini_v1", common.clone()),
+        ("http", ProviderTransportV1::Http) | ("http_remote", ProviderTransportV1::Http) => {
+            ("generic_http_v1", common)
+        }
+        _ => ("unsupported_builtin_codec", vec![]),
+    };
+    ProviderCodecControlsV1 {
+        codec: codec.to_string(),
+        consumes,
+    }
+}
+
+fn validate_codec_controls(
+    effective: &EffectiveInferenceConfigV1,
+    codec: &ProviderCodecControlsV1,
+) -> Result<()> {
+    let unsupported = effective
+        .supplied_controls()
+        .into_iter()
+        .filter(|control| !codec.consumes.contains(control))
+        .collect::<Vec<_>>();
+    if !unsupported.is_empty() {
+        let names = unsupported
+            .iter()
+            .filter_map(|control| serde_json::to_value(control).ok())
+            .filter_map(|value| value.as_str().map(ToString::to_string))
+            .collect::<Vec<_>>()
+            .join(",");
+        return Err(crate::provider::unsupported_capability_error(
+            &codec.codec,
+            format!("unsupported_aprovider_inference_control: does not consume {names}"),
+        ));
+    }
+    if codec.codec == "mlx_openai_chat_v1" {
+        if effective.max_output_tokens.is_some_and(|value| value > 512) {
+            return Err(invalid_control(
+                "max_output_tokens",
+                "must be no greater than 512 for mlx_openai_chat_v1",
+            ));
+        }
+        if effective.timeout_secs.is_some_and(|value| value > 120) {
+            return Err(invalid_control(
+                "timeout_secs",
+                "must be no greater than 120 for mlx_openai_chat_v1",
+            ));
+        }
+    }
+    if matches!(
+        codec.codec.as_str(),
+        "anthropic_messages_v1" | "aws_bedrock_invoke_v1"
+    ) && effective.temperature.is_some_and(|value| value > 1.0)
+    {
+        return Err(invalid_control(
+            "temperature",
+            "must be no greater than 1 for the selected codec",
+        ));
+    }
+    Ok(())
+}
+
+fn apply_codec_defaults(
+    effective: &mut EffectiveInferenceConfigV1,
+    codec: &ProviderCodecControlsV1,
+) {
+    effective.max_output_tokens = effective.max_output_tokens.or(match codec.codec.as_str() {
+        "openai_responses_v1"
+        | "anthropic_messages_v1"
+        | "deepseek_chat_v1"
+        | "kimi_chat_v1"
+        | "openrouter_chat_v1"
+        | "aws_bedrock_invoke_v1"
+        | "z_ai_chat_v1" => Some(220),
+        "vertex_gemini_v1" => Some(1024),
+        _ => None,
+    });
+}
+
+fn redacted_effective_projection(
+    provider_id: &str,
+    provider_kind: &str,
+    transport: &ProviderTransportV1,
+    codec_controls: &ProviderCodecControlsV1,
+    effective: &EffectiveInferenceConfigV1,
+) -> RedactedEffectiveInferenceProjectionV1 {
+    RedactedEffectiveInferenceProjectionV1 {
+        schema: "adl.aprovider_effective_inference.v1".to_string(),
+        provider_id: provider_id.to_string(),
+        provider_kind: provider_kind.to_string(),
+        transport: transport.clone(),
+        codec: codec_controls.codec.clone(),
+        consumes: codec_controls.consumes.clone(),
+        effective: effective.clone(),
+    }
+}
+
+fn inference_fingerprint(projection: &RedactedEffectiveInferenceProjectionV1) -> Result<String> {
+    let bytes = serde_json::to_vec(projection)?;
+    Ok(format!("{:x}", Sha256::digest(bytes)))
 }
 
 fn transport_surface_label(vendor: &str, transport: &ProviderTransportV1) -> &'static str {
@@ -474,10 +1010,24 @@ pub fn provider_substrate_v1(
 ) -> Result<ProviderSubstrateV1> {
     let transport = infer_transport(spec)?;
     let vendor = infer_vendor(spec);
+    let provider_kind = normalized_provider_kind(&spec.kind);
+    let mut effective_inference = effective_inference_config_v1(spec)?;
+    let credential_reference = credential_reference_v1(spec)?;
+    let codec_controls = codec_controls(&provider_kind, &transport);
+    validate_codec_controls(&effective_inference, &codec_controls)?;
+    apply_codec_defaults(&mut effective_inference, &codec_controls);
+    let projection = redacted_effective_projection(
+        provider_id,
+        &provider_kind,
+        &transport,
+        &codec_controls,
+        &effective_inference,
+    );
+    let inference_parameter_fingerprint = inference_fingerprint(&projection)?;
     let default_model_ref = default_model_ref(spec);
     Ok(ProviderSubstrateV1 {
         provider_id: provider_id.to_string(),
-        provider_kind: normalized_provider_kind(&spec.kind),
+        provider_kind,
         vendor: vendor.clone(),
         transport: transport.clone(),
         profile: spec.profile.clone(),
@@ -491,6 +1041,10 @@ pub fn provider_substrate_v1(
             &vendor,
             default_model_ref.as_deref(),
         ),
+        credential_reference,
+        codec_controls,
+        effective_inference,
+        inference_parameter_fingerprint,
     })
 }
 
@@ -528,6 +1082,27 @@ pub fn provider_invocation_target_v1(
         .map(ToString::to_string)
         .or_else(|| cfg_str(&spec.config, "model").map(ToString::to_string))
         .unwrap_or_else(|| model_ref.clone());
+    let mut effective_inference = substrate.effective_inference.clone();
+    if substrate.codec_controls.codec == "kimi_chat_v1" && provider_model_id == "kimi-k3" {
+        match effective_inference.reasoning_effort.as_deref() {
+            None => effective_inference.reasoning_effort = Some("max".to_string()),
+            Some("low" | "high" | "max") => {}
+            Some(_) => {
+                return Err(invalid_control(
+                    "reasoning_effort",
+                    "must be one of low, high, max for kimi-k3",
+                ))
+            }
+        }
+    }
+    let target_projection = redacted_effective_projection(
+        &substrate.provider_id,
+        &substrate.provider_kind,
+        &substrate.transport,
+        &substrate.codec_controls,
+        &effective_inference,
+    );
+    let target_inference_fingerprint = inference_fingerprint(&target_projection)?;
     let capabilities = provider_capabilities_v1(spec, &transport, &vendor, Some(&model_ref));
     let provider_id = substrate.provider_id.clone();
     let provider_kind = substrate.provider_kind.clone();
@@ -546,7 +1121,7 @@ pub fn provider_invocation_target_v1(
             .or_else(|| substrate.base_url.clone())
             .or_else(|| substrate.profile.clone()),
         runtime_fingerprint: None,
-        inference_parameter_fingerprint: None,
+        inference_parameter_fingerprint: Some(target_inference_fingerprint),
         tool_surface: None,
         governance_surface: None,
         evaluator_ref: None,
@@ -566,7 +1141,26 @@ pub fn provider_invocation_target_v1(
         provider_model_id,
         model_identity,
         capabilities,
+        credential_reference: substrate.credential_reference,
+        codec_controls: substrate.codec_controls,
+        effective_inference,
     })
+}
+
+/// Return the endpoint-free effective inference projection used for audit
+/// output and request fingerprinting.
+pub fn redacted_effective_inference_projection_v1(
+    provider_id: &str,
+    spec: &adl::ProviderSpec,
+) -> Result<RedactedEffectiveInferenceProjectionV1> {
+    let substrate = provider_substrate_v1(provider_id, spec)?;
+    Ok(redacted_effective_projection(
+        provider_id,
+        &substrate.provider_kind,
+        &substrate.transport,
+        &substrate.codec_controls,
+        &substrate.effective_inference,
+    ))
 }
 
 pub fn provider_substrate_schema_v1_json() -> Result<String> {
@@ -1012,5 +1606,175 @@ mod tests {
             substrate.capabilities.structured_json.mode,
             CapabilityModeV1::PromptBased
         );
+    }
+
+    #[test]
+    fn canonical_effective_configuration_is_redacted_stable_and_runtime_capped() {
+        let mut spec = provider_spec("ollama");
+        spec.base_url = Some("http://127.0.0.1:11434".to_string());
+        spec.default_model = Some("qwen3:8b".to_string());
+        for (key, value) in [
+            ("context_window_tokens", json!(32_768)),
+            ("max_output_tokens", json!(1024)),
+            ("runtime_max_output_tokens", json!(256)),
+            ("temperature", json!(0.2)),
+            ("top_p", json!(0.95)),
+            ("deterministic_seed", json!(7)),
+            ("timeout_secs", json!(30)),
+            ("think", json!(true)),
+            ("local_keep_alive", json!("-1")),
+        ] {
+            spec.config.insert(key.to_string(), value);
+        }
+        let first = provider_invocation_target_v1("resident", &spec, None).unwrap();
+        let second = provider_invocation_target_v1("resident", &spec, None).unwrap();
+        assert_eq!(first.effective_inference.max_output_tokens, Some(256));
+        assert_eq!(
+            first.effective_inference.context_window_tokens,
+            Some(32_768)
+        );
+        assert_eq!(
+            first.model_identity.inference_parameter_fingerprint,
+            second.model_identity.inference_parameter_fingerprint
+        );
+        let projection = redacted_effective_inference_projection_v1("resident", &spec).unwrap();
+        let projection = serde_json::to_value(projection).unwrap();
+        assert!(projection.get("endpoint").is_none());
+        assert!(projection.get("base_url").is_none());
+        assert_eq!(projection["effective"]["local_keep_alive"], json!(-1));
+    }
+
+    #[test]
+    fn unsupported_invalid_conflicting_and_executable_controls_fail_before_dispatch() {
+        let mut local = provider_spec("local_ollama");
+        local.default_model = Some("fixture".to_string());
+        local.config.insert("temperature".to_string(), json!(0.2));
+        let error = provider_invocation_target_v1("local", &local, None).unwrap_err();
+        assert!(error
+            .to_string()
+            .contains("unsupported_aprovider_inference_control"));
+
+        let mut invalid = provider_spec("ollama");
+        invalid.base_url = Some("http://127.0.0.1:11434".to_string());
+        invalid
+            .config
+            .insert("context_window_tokens".to_string(), json!(0));
+        assert!(provider_invocation_target_v1("invalid", &invalid, None)
+            .unwrap_err()
+            .to_string()
+            .contains("invalid_aprovider_inference_control"));
+
+        let mut conflicting = provider_spec("ollama");
+        conflicting.base_url = Some("http://127.0.0.1:11434".to_string());
+        conflicting
+            .config
+            .insert("max_output_tokens".to_string(), json!(100));
+        conflicting
+            .config
+            .insert("max_tokens".to_string(), json!(101));
+        assert!(
+            provider_invocation_target_v1("conflicting", &conflicting, None)
+                .unwrap_err()
+                .to_string()
+                .contains("conflicting_aprovider_inference_controls")
+        );
+
+        for key in [
+            "command",
+            "script_path",
+            "dynamic_library",
+            "plugin",
+            "embedded_code",
+            "workflow_authority",
+            "lifecycle_authority",
+        ] {
+            let mut executable = provider_spec("mock");
+            executable
+                .config
+                .insert(key.to_string(), json!("forbidden"));
+            assert!(
+                provider_invocation_target_v1("executable", &executable, None)
+                    .unwrap_err()
+                    .to_string()
+                    .contains("aprovider_executable_authority_forbidden"),
+                "{key}"
+            );
+        }
+    }
+
+    #[test]
+    fn ollama_profile_and_explicit_definition_share_effective_configuration() {
+        let profile = adl::ProviderSpec {
+            id: Some("resident".to_string()),
+            profile: Some("ollama:phi4-mini".to_string()),
+            kind: String::new(),
+            base_url: None,
+            default_model: None,
+            config: HashMap::new(),
+        };
+        let expanded = crate::candidate::validate_provider_candidate(&HashMap::from([(
+            "resident".to_string(),
+            profile,
+        )]))
+        .unwrap();
+        let profile_spec = &expanded["resident"];
+        assert_eq!(
+            profile_spec.config["endpoint"],
+            json!("http://127.0.0.1:11434")
+        );
+        let profile_target = provider_invocation_target_v1("resident", profile_spec, None).unwrap();
+
+        let mut explicit = provider_spec("ollama");
+        explicit.default_model = Some("phi4-mini".to_string());
+        for (key, value) in [
+            ("endpoint", json!("http://127.0.0.1:11434")),
+            ("temperature", json!(0.0)),
+            ("top_p", json!(1.0)),
+            ("max_output_tokens", json!(512)),
+            ("timeout_secs", json!(120)),
+            ("deterministic_seed", json!(0)),
+        ] {
+            explicit.config.insert(key.to_string(), value);
+        }
+        let explicit_target = provider_invocation_target_v1("resident", &explicit, None).unwrap();
+        assert_eq!(
+            profile_target.effective_inference,
+            explicit_target.effective_inference
+        );
+        assert_eq!(
+            profile_target
+                .model_identity
+                .inference_parameter_fingerprint,
+            explicit_target
+                .model_identity
+                .inference_parameter_fingerprint
+        );
+    }
+
+    #[test]
+    fn credential_references_are_typed_without_entering_inference_projection() {
+        let mut spec = provider_spec("openai");
+        spec.default_model = Some("gpt-test".to_string());
+        spec.config.insert(
+            "auth".to_string(),
+            json!({
+                "type": "bearer",
+                "env": "OPENAI_API_KEY",
+                "file_env": "OPENAI_API_KEY_FILE"
+            }),
+        );
+        let target = provider_invocation_target_v1("hosted", &spec, None).unwrap();
+        let credential = target.credential_reference.unwrap();
+        assert_eq!(credential.strategy, "bearer");
+        assert_eq!(credential.environment, "OPENAI_API_KEY");
+        assert_eq!(
+            credential.file_environment.as_deref(),
+            Some("OPENAI_API_KEY_FILE")
+        );
+        let projection = serde_json::to_string(
+            &redacted_effective_inference_projection_v1("hosted", &spec).unwrap(),
+        )
+        .unwrap();
+        assert!(!projection.contains("OPENAI_API_KEY"));
     }
 }

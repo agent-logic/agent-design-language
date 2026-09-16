@@ -1,0 +1,7 @@
+{
+  "design_ready": true,
+  "dependencies_ready": true,
+  "budget_available": true,
+  "retryable_failure": false,
+  "operator_decision_needed": false
+}
