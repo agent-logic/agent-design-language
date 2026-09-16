@@ -261,7 +261,7 @@ pub fn stage_github_mutation(
         intent_digest = github_mutation_intent_digest(&intent);
         preflight_github_credential(&credential_name, process)?;
         let receipt_path = github_mutation_receipt_path(repo_root, &operation_digest)?;
-        if !receipt_path.exists() {
+        if !preexisting && !receipt_path.exists() {
             verify_pr_create_head_branch(&effective_request, process)?;
         }
         if !preexisting {
@@ -354,7 +354,6 @@ pub fn stage_retained_github_mutation_recovery(
     let resolved_ready_target = retained.resolved_ready_target.clone();
     let intent_digest = github_mutation_intent_digest(&retained);
     preflight_github_credential(&credential_name, process)?;
-    verify_pr_create_head_branch(&effective_request, process)?;
     let request_bytes = serde_json::to_vec(&serde_json::json!({
         "schema":"csdlc.v3.staged_github_mutation.v1",
         "operation_digest":operation_digest,

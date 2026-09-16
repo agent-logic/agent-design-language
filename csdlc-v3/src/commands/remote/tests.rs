@@ -1984,10 +1984,20 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
     let marker = super::github_mutation_operation_marker(&operation_digest);
     let intent_path =
         super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
-    let mut first = SequencedProcessAdapter::new(vec![
+    let branch = || {
         process_output(
-            crate::adapters::ProcessStatus::TimedOut,
-            serde_json::json!({}),
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!([{
+                "ref": "refs/heads/codex/fix+retry",
+                "object": {"sha": head}
+            }]),
+        )
+    };
+    let mut first = SequencedProcessAdapter::new(vec![
+        branch(),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({"number": 591}),
         ),
         process_output(
             crate::adapters::ProcessStatus::TimedOut,
@@ -2005,6 +2015,8 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
             .exists()
     );
 
+    // Reconciliation must not depend on the source branch remaining available:
+    // the PR itself is the authenticated exact-effect readback.
     let mut restart = SequencedProcessAdapter::new(vec![process_output(
         crate::adapters::ProcessStatus::Exit(0),
         serde_json::json!([{

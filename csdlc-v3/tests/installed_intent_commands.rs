@@ -2434,7 +2434,6 @@ fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejec
         ],
     );
     assert!(!missing.status.success());
-    assert!(String::from_utf8_lossy(&missing.stdout).contains("github_pr_head_branch_missing"));
     assert_eq!(fixture.remote_effects(), 0);
     let recoveries = primary.join(".git/csdlc-v3/remote/recoveries");
     assert!(
