@@ -230,6 +230,7 @@ fn active_attempt_settled(out: &Path, state: &OperatorReviewState) -> bool {
     match active.status {
         OperatorReviewStatus::Cancelled | OperatorReviewStatus::Failed => {
             out.join(&active.review_out).join("run.json").exists()
+                || out.join(attempt_settlement_ref(active.attempt)).exists()
         }
         _ => true,
     }
@@ -279,7 +280,7 @@ fn run_attempt(
         packet_id: state.packet_id.clone(),
         provider_request,
         out: review_out.clone(),
-        run_id,
+        run_id: run_id.clone(),
         cancel_file: Some(out.join(attempt_cancel_ref(attempt))),
     });
     let summary_ref = if review_out.join("run.json").exists() {
@@ -313,13 +314,20 @@ fn run_attempt(
                 } else {
                     "review failed; retry preserves prior attempt evidence".to_string()
                 };
-                (
-                    status.clone(),
-                    summary_ref,
-                    Some(sanitize_failure(&error.to_string())),
-                    status,
-                    message,
-                )
+                let failure = sanitize_failure(&error.to_string());
+                write_json(
+                    &out.join(attempt_settlement_ref(attempt)),
+                    &AttemptSettlement {
+                        schema: "codefriend.operator_attempt_settlement.v1".to_string(),
+                        attempt,
+                        run_id: run_id.clone(),
+                        status: status.clone(),
+                        review_out: attempt_review_ref(attempt),
+                        summary_ref: summary_ref.clone(),
+                        failure: Some(failure.clone()),
+                    },
+                )?;
+                (status.clone(), summary_ref, Some(failure), status, message)
             }
         };
     let mut persisted = read_state(out).unwrap_or_else(|_| state.clone());
@@ -364,6 +372,10 @@ fn attempt_review_ref(attempt: u64) -> String {
 
 fn attempt_cancel_ref(attempt: u64) -> String {
     format!("attempts/{attempt}/cancel-request.json")
+}
+
+fn attempt_settlement_ref(attempt: u64) -> String {
+    format!("attempts/{attempt}/settlement.json")
 }
 
 fn provider_route_identity(request: &ProviderInvocationRequestV1) -> String {
@@ -424,6 +436,10 @@ fn artifact_navigation(out: &Path) -> Result<Vec<String>> {
             if out.join(&record).exists() {
                 artifacts.push(record);
             }
+            let settlement = format!("attempts/{name}/settlement.json");
+            if out.join(&settlement).exists() {
+                artifacts.push(settlement);
+            }
         }
     }
     artifacts.sort();
@@ -447,4 +463,16 @@ fn sanitize_failure(message: &str) -> String {
 struct CancelRequest {
     schema: String,
     reason: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AttemptSettlement {
+    schema: String,
+    attempt: u64,
+    run_id: String,
+    status: OperatorReviewStatus,
+    review_out: String,
+    summary_ref: Option<String>,
+    failure: Option<String>,
 }

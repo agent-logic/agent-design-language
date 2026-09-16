@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and remediated the installed CodeFriend operator review shell for #891. The product exposes `adl codefriend review shell start|inspect|cancel|retry|withhold-publication` around the existing isolated four-lane review runner. After exact-head review found cancellation/retry truth gaps, the implementation now archives stale cancel requests before retry and prevents final-lane cancellation from fabricating completion.
+Implemented and remediated the installed CodeFriend operator review shell for #891. The product exposes `adl codefriend review shell start|inspect|cancel|retry|withhold-publication` around the existing isolated four-lane review runner. After exact-head review found cancellation/retry truth gaps, the implementation archives stale cancel requests before retry, prevents final-lane cancellation from fabricating completion, and records a runner-owned settlement marker so retry after pre-run failure is not permanently blocked when `run.json` was never produced. The retained real-provider artifact is a bounded two-file small-fixture smoke proof only; it is not the required pinned Vector ten-file qualification, and Linux qualification remains deferred.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented and remediated the installed CodeFriend operator review shell for #8
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
+- Completion state: `implemented_remediated_pending_fresh_review_publication_ci_with_required_vector_and_linux_qualification_not_claimed`
 - Issue goal ref: `Sprint 4 #930 active goal covers #891 execution in this session; single goal slot prevented replacing it with a separate child goal`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/891/goal-metrics.json (planned; absent until execution)`
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --lib codefriend::review::runner::tests; cargo test --manifest-path adl/Cargo.toml --test codefriend_review review_shell; git diff --check; OPENAI_API_KEY=<approved env reference> ./adl/target/debug/adl codefriend review shell start --store .csdlc/evidence/891/real-provider-shell-proof/store --packet-id 64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515 --provider-request .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json --out .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture --run-id issue-891-real-provider-shell-openai-small-fixture`
-    `Focused deterministic tests, diff hygiene, and one real OpenAI-backed installed shell run passed for the #891 operator shell scope`
+  - `cargo fmt --all -- --check (from adl/); cargo test --manifest-path Cargo.toml --lib codefriend::review::runner::tests (from adl/); cargo test --manifest-path Cargo.toml --test codefriend_review review_shell (from adl/); python3 -m json.tool ../.csdlc/issues/891/cards/sor.values.json; git -C .. diff --check; cargo clippy --all-targets -- -D warnings (from adl/)`
+    `Focused deterministic tests, runner parser tests, broad Rust fmt/clippy, SOR values JSON parsing and diff hygiene passed for the #891 operator shell remediation. The retained OpenAI-backed two-file small-fixture smoke proof remains recorded, but required pinned Vector ten-file and Linux qualification are not claimed.`
 - Results:
   - `passed`
 
@@ -136,8 +136,8 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: passed
-    required_artifacts_present: passed_for_local_fixture_scope
+    status: passed_for_two_file_small_fixture_only_required_vector_and_linux_qualification_not_claimed
+    required_artifacts_present: passed_for_local_fixture_scope_only
     schema_changes:
       present: not_run
       approved: not_run
@@ -164,14 +164,17 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture`
-- Required artifacts present: `passed; operator-state.json, run.json, review-record.json and four lane artifact bundles are present under .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture`
-- Artifact schema/version checks: `operator-state JSON, review run JSON, lane result JSON and review-record JSON are present in the committed proof packet; focused tests parse the operator/review artifacts and native C-SDLC validate is rerun after this truth edit`
-- Hash/byte-stability checks: `cargo fmt, focused tests, real-provider proof, and git diff --check passed before this SOR-only truth repair; git diff --check and native validate are rerun after this edit`
-- Missing/optional artifacts and rationale: `Real external provider proof was executed on the macOS operator host with the installed shell against OpenAI gpt-4.1-mini and completed with lane artifacts. Linux installed qualification and repository CI remain publication gates; no additional cloud, synthesis, renderer or publication proof is claimed here.`
+- Required artifacts present: `passed for bounded two-file small-fixture smoke proof only; operator-state.json, run.json, review-record.json and four lane artifact bundles are present under .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture. This does not satisfy the required pinned Vector ten-file scope or Linux installed qualification.`
+- Artifact schema/version checks: `operator-state JSON, review run JSON, lane result JSON and review-record JSON are present in the committed small-fixture proof packet; focused tests parse the operator/review artifacts; SOR values JSON parses with python3 -m json.tool. Native card validation was not rerun because the generated native v3 csdlc binary was unavailable at the expected worktree path.`
+- Hash/byte-stability checks: `cargo fmt --all -- --check, focused runner parser tests, focused shell integration tests, SOR values JSON parsing, git diff --check and cargo clippy --all-targets -- -D warnings passed after this remediation. Native card validation was not rerun because the generated native v3 csdlc binary was unavailable at the expected worktree path.`
+- Missing/optional artifacts and rationale: `Real external provider proof was executed on the macOS operator host with the installed shell against OpenAI gpt-4.1-mini and completed with lane artifacts for a bounded two-file small-fixture repository. The required pinned Vector ten-file proof and Linux installed qualification were not executed in this SOR state and are not claimed. Repository CI remains a publication gate; no additional cloud, synthesis, renderer, full Vector, Linux or publication proof is claimed here.`
 
 ## Decisions / Deviations
 - `The issue contract proposed `adl/tests/codefriend_shell.rs`; the implementation extended the existing `adl/tests/codefriend_review.rs` integration target because it already owns the installed review runner fixture and avoids duplicating fixture infrastructure.`
 - `No synthesis, remediation, UX, rendering or report publication behavior was implemented; those remain owned by sibling Sprint 4 issues.`
+- `First exact-head review at d78c5ba0b9 found two P2 cancellation truth defects: retry after cancel was blocked by stale cancel-request.json, and final-lane cancellation could still settle as complete. Both were remediated in source and covered by focused regressions.`
+- `Second exact-head review at 926d66dff109 found that failed pre-run attempts could block retry when no run.json existed; remediation records attempts/<n>/settlement.json on runner errors and adds a focused retry-after-pre-run-failure regression.`
+- `Second exact-head review also found a proof truth gap: the retained real-provider shell proof used a two-file fixture while #891 requires the pinned Vector ten-file scope and macOS/Linux qualification. This SOR correction preserves the small-fixture smoke proof but no longer claims full required qualification from it.`
 
 ## Follow-ups / Deferred work
 - `Refresh dependency and owner evidence, bind natively, and create issue goal before implementation`

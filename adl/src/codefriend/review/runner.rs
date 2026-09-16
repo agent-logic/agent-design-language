@@ -474,7 +474,7 @@ fn lane_output_json_text(text: &str) -> &str {
     let after_optional_language = after_opening_fence
         .strip_prefix("json")
         .unwrap_or(after_opening_fence)
-        .trim_start_matches(|c| c == '\r' || c == '\n' || c == ' ' || c == '\t');
+        .trim_start_matches(['\r', '\n', ' ', '\t']);
     after_optional_language
         .strip_suffix("```")
         .map(str::trim)

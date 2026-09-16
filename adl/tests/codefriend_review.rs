@@ -954,6 +954,90 @@ fn review_shell_immediate_retry_after_cancel_preserves_active_attempt_settlement
 }
 
 #[test]
+fn review_shell_retry_after_pre_run_failure_uses_settlement_marker() {
+    let fixture = Fixture::new();
+    let admission = fixture.admit();
+    let packet_id = admission["packet_id"].as_str().unwrap().to_string();
+    let evidence_id = admission["evidence"][0]["id"].as_str().unwrap();
+    let responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (endpoint, _requests) = provider_server(responses);
+    let provider_request = fixture.provider_request(&endpoint);
+    let out_dir = fixture.temp.join("review-shell-pre-run-failure-retry");
+    let packet_path = fixture.store.join(format!("{packet_id}.json"));
+    let anchor_path = fixture.store.join(format!("{packet_id}.anchor"));
+    let saved_packet_path = fixture.temp.join(format!("{packet_id}.json.saved"));
+    let saved_anchor_path = fixture.temp.join(format!("{packet_id}.anchor.saved"));
+    fs::rename(&packet_path, &saved_packet_path).unwrap();
+    fs::rename(&anchor_path, &saved_anchor_path).unwrap();
+
+    let failed = shell_state(&codefriend_review_shell(&[
+        "start",
+        "--store",
+        fixture.store.to_str().unwrap(),
+        "--packet-id",
+        &packet_id,
+        "--provider-request",
+        provider_request.to_str().unwrap(),
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--run-id",
+        "shell-pre-run-failure",
+    ]));
+    assert_eq!(failed["status"], "failed");
+    assert_eq!(failed["active_attempt"], 1);
+    assert_eq!(failed["attempts"][0]["status"], "failed");
+    assert!(!out_dir.join("attempts/1/review/run.json").exists());
+    assert!(out_dir.join("attempts/1/settlement.json").exists());
+    assert!(failed["artifact_navigation"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|artifact| artifact == "attempts/1/settlement.json"));
+    fs::rename(&saved_packet_path, &packet_path).unwrap();
+    fs::rename(&saved_anchor_path, &anchor_path).unwrap();
+
+    let retry_responses = ["correctness", "security", "adversarial", "constitutional"]
+        .iter()
+        .map(|lane| lane_response(lane, evidence_id))
+        .collect();
+    let (retry_endpoint, _retry_requests) = provider_server(retry_responses);
+    let retry_provider_request = fixture.provider_request(&retry_endpoint);
+    let retried = shell_state(&codefriend_review_shell(&[
+        "retry",
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--provider-request",
+        retry_provider_request.to_str().unwrap(),
+        "--run-id",
+        "shell-retry-after-pre-run-failure",
+    ]));
+    assert_eq!(retried["status"], "complete");
+    assert_eq!(retried["active_attempt"], 2);
+    assert_eq!(retried["attempts"].as_array().unwrap().len(), 2);
+    assert_eq!(retried["attempts"][0]["status"], "failed");
+    assert_eq!(retried["attempts"][1]["status"], "complete");
+    assert!(out_dir.join("attempts/2/review/run.json").exists());
+    assert!(out_dir.join("attempts/1/settlement.json").exists());
+
+    let settlement: serde_json::Value =
+        serde_json::from_slice(&fs::read(out_dir.join("attempts/1/settlement.json")).unwrap())
+            .unwrap();
+    assert_eq!(
+        settlement["schema"],
+        "codefriend.operator_attempt_settlement.v1"
+    );
+    assert_eq!(settlement["attempt"], 1);
+    assert_eq!(settlement["run_id"], "shell-pre-run-failure");
+    assert_eq!(settlement["status"], "failed");
+    assert_eq!(settlement["review_out"], "attempts/1/review");
+    assert!(settlement["summary_ref"].is_null());
+    assert!(!settlement["failure"].as_str().unwrap().is_empty());
+}
+
+#[test]
 fn review_shell_cancel_during_final_lane_does_not_fabricate_completion() {
     let fixture = Fixture::new();
     let admission = fixture.admit();
