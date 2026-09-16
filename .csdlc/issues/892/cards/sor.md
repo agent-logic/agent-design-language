@@ -25,11 +25,11 @@ Status: implemented_pending_review
 Generated: 2026-09-12T00:09:56.378553+00:00
 
 Execution:
-- Actor: `unassigned implementation owner`
-- Model: `unknown`
-- Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Actor: `Codex implementation session under active Sprint 4 #930 goal`
+- Model: `codex session model not separately recorded in lifecycle card`
+- Provider: `local Codex session and local Rust toolchain; no external provider call for #892 implementation proof`
+- Start Time: `not_collected; implementation occurred under active Sprint 4 #930 goal after native bind`
+- End Time: `not_collected; local implementation/proof complete before fresh exact-head review`
 
 ## Summary
 
