@@ -1,20 +1,7 @@
 name: codefriend-fitness
 on:
-  pull_request:
-    paths:
-      - 'adl/**'
-      - 'adl-runtime/**'
-      - 'adl-runtime-kernel/**'
-      - '.github/codefriend-fitness-policy.json'
-      - '.github/workflows/codefriend-fitness.yml'
-  push:
-    branches: [main]
-    paths:
-      - 'adl/**'
-      - 'adl-runtime/**'
-      - 'adl-runtime-kernel/**'
-      - '.github/codefriend-fitness-policy.json'
-      - '.github/workflows/codefriend-fitness.yml'
+  workflow_call:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:

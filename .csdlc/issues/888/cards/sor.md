@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Local implementation and proof complete:15focused and15instrumentedtests, strictClippy,4installedgroups at integrated source revision, exact local parity and original0/0/1/2 exits. Independent final source/local proof review PASS with no openfindings. Hosted CI is pending normal publication; integration remains worktree only.
+PR1000 first hostedrun failed dispatchpolicy. Reusableworkflow now invoked bycentralci, with requiredaggregate and selectorcoverage. Independent boundedrepair reviewPASS andbothRubycontracts pass; noRustchange.15normal/15instrumentedtests and4installedgroups remain proven; revisedhostedCIpending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -86,13 +86,13 @@ Local implementation and proof complete:15focused and15instrumentedtests, strict
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; root main remains inspection-only. Changes are in the bound #888 worktree.`
 - Worktree-only paths remaining: `All #888 implementation, tests, workflow, documentation, proof and native card changes remain unpublished in its bound worktree.`
-- Integration state: `bound_unpublished`
+- Integration state: `pr_open`
 - Verification scope: `Independently reviewed source and installed local proof; actual hosted workflow proof pending`
 - Integration method used: `Native bind and local source integration only; no PR published.`
 - Verification performed:
   - `Not applicable until PR publication; then authenticated native observation and exact-head hosted CI readback.`
     `No remote integration or closeout claimed.`
-- Result: `Implementation remains in the bound #888 worktree; no PR, hosted CI, merge or terminal reconciliation yet.`
+- Result: `pr_open_revised_hosted_ci_pending`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test and cargo llvm-cov --test codefriend_cf_gov_ci --test codefriend_cf_gov; strict cargo clippy; installed candidate/pass/fail/error proof`
-    `15normal and15instrumented tests pass; four installed scenario groups pass with original exit preservation and local parity.`
+    `15normal/15instrumented Rust tests and4installed groups pass; additional24aggregate outcomes and12path selections pass. First hostedrun failed dispatchpolicy beforeexecution; revisedworkflowawaitsCI.`
 - Results:
-  - `local_pass_hosted_pending`
+  - `local_pass_revised_hosted_pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -171,8 +171,8 @@ verification_summary:
 
 ## Decisions / Deviations
 - `Execution prerequisite #887 is satisfied by accepted PR #989 merge 49ca9f2fcf785a2f8e6b75676279db4f0936f925 and passing hosted CI. #888 is bound in its registered FastWork worktree and integrates all seven merged Sprint #929 siblings. Preserve the existing dependency graph and serialize shared CLI edits under Worker #10.`
-- `R1/R2 source corrections preserve the local runner limits and optimization-independent fail-closed checks. No paid/live dispatch or shared installed binary replacement is implied.`
+- `Repository requires one automatic PR entrypoint. Dedicated workflow remains reusable and explicitly dispatchable but automatic selection is owned by centralci. No manual dispatch or paid infrastructure invoked.`
 
 ## Follow-ups / Deferred work
-- `Complete final exact-head proof review and native publication, then inspect actual hosted candidate/negative fixture jobs and retained artifacts.`
+- `Complete review of centralworkflowrouting repair, publish revisedhead, inspect actual hostedjobs/artifacts and originalexitparity.`
 - `Retain actual automatic hosted passing and violating job/artifact proof, then obtain authorized integration and native terminal finish/clean.`

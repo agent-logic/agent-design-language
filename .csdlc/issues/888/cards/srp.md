@@ -56,7 +56,7 @@ policy_refs:
   - ".csdlc/issues/888/cards/vpp.md"
 review_results:
   findings_status: "resolved_no_open_findings"
-  recommended_outcome: "approve_local_publication_hosted_ci_pending"
+  recommended_outcome: "approve_revised_publication_hosted_ci_pending"
 notes: "Evidence: .csdlc/evidence/888/review/final-source-review.json. Scope is final source plus local proof; publication enables the required actual hosted CI, which is not yet claimed."
 ---
 
@@ -123,15 +123,15 @@ review_results:
 
 ### Findings
 
-- Independent final source/local proof review PASS at b6ba3f77f9dab09aa95e840f731176efc0451cc0. R1 and R2 resolved; no open findings. All16sourcehashes and installedbinary hash verified, raw candidate/pass/fail/error reports checked for exact parity and0/0/1/2exits; optimized qualification independently rerun on allfour. Final record-only SHA attestation required before native publication. Hosted CI remains required before completion.
+- Independent centralCI repair review PASS: workflowpolicy and24aggregateoutcomes/12pathselections rerun; sole automaticentrypoint retained, requiredaggregatefailclosed, candidatefailureunsuppressed, minimalpermissions. NoRustchange; prior15tests/4installedproofremainapplicable. Freshhostedexecutionpending.
 
 ### Dispositions
 
-- R1 resolved by bounded public governance facade policy with broader local.rs explicitly unassessed. R2 resolved by explicit Python checks, regression for optimization0/1/2, and independent optimized proof checks. No waiver.
+- R1/R2 resolved and independentlyverified. Hostedworkflowpolicy defect resolved by centralci caller and fail-closed aggregate, without changingvalidator. No openfindings or waivers.
 
 ### Recommended Outcome
 
-- approve_local_publication_hosted_ci_pending
+- approve_revised_publication_hosted_ci_pending
 
 ## Notes
 

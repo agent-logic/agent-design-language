@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Integrate all seven merged Sprint929 siblings. Preserve existing local runner limits. The real candidate gate declares the public governance facade no-direct-reqwest-import boundary; broader local.rs is explicitly unassessed. Use explicit fail-closed Python checks that remain active under optimization. Retain independently pinned candidate/packet/policy identities, original0/1/2 exits, and local/hosted parity. Negative fixture qualification remains separate from production candidate success. Run installed candidate plus pass/fail/error proof, independent exact-head review, native publication, then inspect actual hosted artifacts before completion."
+plan_summary: "Preserve existing local runner limits and independently pinned installed CI verification. Dedicated workflow uses workflow_call and policy-required workflow_dispatch, invoked automatically only by central ci.yaml through the shared CodeFriend selector. Required aggregate fails closed on fitness failure/cancellation/unexpected skip. Candidate policy checks public governance facade only; broader local.rs unassessed. Execute normal automatic PR jobs, retain fourgroup artifacts, prove local/hosted parity before completion."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-GOV-CI] Execute architecture fitness functions as a CI gate`.
 
-Integrate all seven merged Sprint929 siblings. Preserve existing local runner limits. The real candidate gate declares the public governance facade no-direct-reqwest-import boundary; broader local.rs is explicitly unassessed. Use explicit fail-closed Python checks that remain active under optimization. Retain independently pinned candidate/packet/policy identities, original0/1/2 exits, and local/hosted parity. Negative fixture qualification remains separate from production candidate success. Run installed candidate plus pass/fail/error proof, independent exact-head review, native publication, then inspect actual hosted artifacts before completion.
+Preserve existing local runner limits and independently pinned installed CI verification. Dedicated workflow uses workflow_call and policy-required workflow_dispatch, invoked automatically only by central ci.yaml through the shared CodeFriend selector. Required aggregate fails closed on fitness failure/cancellation/unexpected skip. Candidate policy checks public governance facade only; broader local.rs unassessed. Execute normal automatic PR jobs, retain fourgroup artifacts, prove local/hosted parity before completion.
 
 ## PVF Lane Plan
 

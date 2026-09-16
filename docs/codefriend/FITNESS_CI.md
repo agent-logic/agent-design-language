@@ -55,8 +55,12 @@ independent CI authority. `fitness ci-run` creates and invokes this contract;
 
 ## Automatic CI and evidence
 
-`.github/workflows/codefriend-fitness.yml` runs automatically for relevant PRs and
-main pushes. It uses read-only repository permissions, no secrets, no provider
+The central `.github/workflows/ci.yaml` entrypoint calls
+`.github/workflows/codefriend-fitness.yml` for relevant PRs through the shared
+CodeFriend selector. The required aggregate rejects selected fitness failures
+or unexpected skips. The dedicated workflow is also explicitly dispatchable,
+as repository policy requires; no manual dispatch is used for this proof.
+It uses read-only repository permissions, no secrets, no provider
 calls, and no analyzed-source scripts. One job builds and installs the product;
 consumer jobs reuse that installed binary with its installer provenance.
 
