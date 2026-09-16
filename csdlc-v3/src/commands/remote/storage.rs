@@ -10,8 +10,8 @@ use serde::Serialize;
 use super::model::*;
 use super::support::{
     git_control_dir, github_mutation_intent_digest, github_mutation_operation_digest,
-    github_mutation_operation_marker, github_mutation_reconciliation_digest, remote_finding,
-    GITHUB_OPERATIONAL_ADAPTER,
+    github_mutation_operation_marker, github_mutation_reconciliation_digest,
+    github_mutation_request_digest, remote_finding, GITHUB_OPERATIONAL_ADAPTER,
 };
 
 pub(super) fn github_mutation_receipt_path(
@@ -72,6 +72,84 @@ pub(super) fn github_mutation_head_available_recovery_path(
     Ok(git_dir
         .join("csdlc-v3/remote/head-available-recoveries")
         .join(format!("{digest}.json")))
+}
+
+pub(super) fn github_mutation_legacy_non_effect_disposition_path(
+    repo_root: &Path,
+    digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let git_dir = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git control directory is required for mutation recovery dispositions",
+        )
+    })?;
+    Ok(git_dir
+        .join("csdlc-v3/remote/legacy-non-effect-dispositions")
+        .join(format!("{digest}.json")))
+}
+
+pub(super) fn admit_legacy_non_effect_disposition(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+    disposition: Option<&GithubMutationLegacyNonEffectDisposition>,
+) -> Result<(), RemoteRouteFinding> {
+    let disposition = disposition.ok_or_else(|| {
+        remote_finding(
+            "github_mutation_recovery_disposition_missing",
+            "the consumed recovery requires a typed definitive non-effect disposition",
+        )
+    })?;
+    let retained = load_mutation_intent(
+        &github_mutation_intent_path(repo_root, operation_digest)?,
+        operation_digest,
+    )?;
+    let digest =
+        |value: &str| value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit());
+    if disposition.schema != "csdlc.v3.github_mutation_legacy_non_effect_disposition.v1"
+        || disposition.repository != request.repository
+        || disposition.issue != request.issue
+        || disposition.operation_digest != operation_digest
+        || disposition.intent_digest != intent_digest
+        || disposition.request_digest != github_mutation_request_digest(request)
+        || disposition.authority_selector_digest != retained.authority_selector_digest
+        || disposition.expected_head_sha != request.expected_head_sha
+        || !digest(&disposition.evidence_digest)
+        || disposition.operator.trim().is_empty()
+        || disposition.authorization_ref.trim().is_empty()
+    {
+        return Err(remote_finding(
+            "github_mutation_recovery_disposition_mismatch",
+            "the typed definitive non-effect disposition does not bind the retained operation",
+        ));
+    }
+    let path = github_mutation_legacy_non_effect_disposition_path(repo_root, operation_digest)?;
+    if path.exists() {
+        let bytes = fs::read(&path).map_err(|_| {
+            remote_finding(
+                "github_mutation_recovery_disposition_unreadable",
+                "the retained definitive non-effect disposition is unreadable",
+            )
+        })?;
+        let retained: GithubMutationLegacyNonEffectDisposition = serde_json::from_slice(&bytes)
+            .map_err(|_| {
+                remote_finding(
+                    "github_mutation_recovery_disposition_invalid",
+                    "the retained definitive non-effect disposition is invalid",
+                )
+            })?;
+        if &retained != disposition {
+            return Err(remote_finding(
+                "github_mutation_recovery_disposition_mismatch",
+                "the retained definitive non-effect disposition differs from this recovery",
+            ));
+        }
+        Ok(())
+    } else {
+        persist_json_create_new(&path, disposition)
+    }
 }
 
 pub(super) fn load_mutation_recovery_receipt(

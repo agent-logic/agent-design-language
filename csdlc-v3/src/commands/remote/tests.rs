@@ -1527,6 +1527,7 @@ fn mutation_request(
         expected_head_sha: exact_head_sha.into(),
         credential_names: vec!["GITHUB_TOKEN".into()],
         recovery: None,
+        legacy_non_effect_disposition: None,
         mutation,
     }
 }
@@ -2063,19 +2064,43 @@ fn consumed_pr_create_fixture(
     String,
     String,
 ) {
+    consumed_pr_create_fixture_for_issue(name, 1013)
+}
+
+fn consumed_pr_create_fixture_for_issue(
+    name: &str,
+    issue: u64,
+) -> (
+    PathBuf,
+    super::GithubMutationRequest,
+    String,
+    String,
+    String,
+) {
     let root = mutation_repo(name, true);
     let head_sha = mutation_head(&root);
+    let (branch, title) = if issue == 1013 {
+        (
+            "codex/1013-tracked-projection-rebind-proof-convergence".into(),
+            "Make tracked projection rebind converge before proof".into(),
+        )
+    } else {
+        (
+            format!("codex/{issue}-recovered-pr-create"),
+            format!("Recover PR creation for issue {issue}"),
+        )
+    };
     let mut request = mutation_request(
         &head_sha,
         super::GithubMutation::PullRequestCreate {
             base: "main".into(),
-            head: "codex/1013-tracked-projection-rebind-proof-convergence".into(),
-            title: "Make tracked projection rebind converge before proof".into(),
-            body: "Closes #1013".into(),
+            head: branch,
+            title,
+            body: format!("Closes #{issue}"),
             draft: true,
         },
     );
-    request.issue = 1013;
+    request.issue = issue;
     let operation_digest = super::github_mutation_operation_digest(&request);
     let operation_marker = super::github_mutation_operation_marker(&operation_digest);
     let intent_path = persist_mutation_intent(&root, &request);
@@ -2083,6 +2108,21 @@ fn consumed_pr_create_fixture(
     let intent_digest = super::github_mutation_intent_digest(&intent);
     super::persist_recovery_receipt(&root, &request, &operation_digest, &intent_digest, None)
         .unwrap();
+    request.legacy_non_effect_disposition = Some(super::GithubMutationLegacyNonEffectDisposition {
+        schema: "csdlc.v3.github_mutation_legacy_non_effect_disposition.v1".into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        operation_digest: operation_digest.clone(),
+        intent_digest: intent_digest.clone(),
+        request_digest: super::github_mutation_request_digest(&request),
+        authority_selector_digest: intent.authority_selector_digest,
+        expected_head_sha: request.expected_head_sha.clone(),
+        definitive_non_effect_reason:
+            super::GithubMutationDefinitiveNonEffectReason::TransportFailedBeforeDispatch,
+        evidence_digest: "a".repeat(64),
+        operator: "test-operator".into(),
+        authorization_ref: "test-authorization".into(),
+    });
     request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
     (
         root,
@@ -2117,32 +2157,8 @@ fn pr_create_readback(request: &super::GithubMutationRequest, marker: &str) -> s
 fn audited_consumed_pr_create_fixture(
     name: &str,
 ) -> (PathBuf, super::GithubMutationRequest, String, String) {
-    let root = mutation_repo(name, true);
-    let request = super::GithubMutationRequest {
-        repository: "agent-logic/agent-design-language".into(),
-        issue: 1013,
-        pull_request: None,
-        cutover_issue: None,
-        operator_approval: None,
-        expected_head_sha: "476528f696a11b995411ea62598ac97295e17817".into(),
-        credential_names: vec!["GITHUB_TOKEN".into()],
-        recovery: None,
-        mutation: super::GithubMutation::PullRequestCreate {
-            base: "main".into(),
-            head: "codex/1013-tracked-projection-rebind-proof-convergence".into(),
-            title: "Make tracked projection rebind converge before proof".into(),
-            body: "Closes #1013".into(),
-            draft: true,
-        },
-    };
-    let digest = super::github_mutation_operation_digest(&request);
-    let intent_digest = "c8aabcac4e7c614b7050d76e19958353980fe32332b10f05ea25f91cd5b86144";
-    assert_eq!(
-        digest,
-        "684e3f5a051e4117ee30afb2dd2c31101580960ab9fd4404c577ed65b731c85a"
-    );
-    super::persist_recovery_receipt(&root, &request, &digest, intent_digest, None).unwrap();
-    (root, request, digest, intent_digest.into())
+    let (root, request, digest, _, intent_digest) = consumed_pr_create_fixture(name);
+    (root, request, digest, intent_digest)
 }
 
 // PVF: required deterministic local recovery contract; fake authenticated transport.
@@ -2165,6 +2181,7 @@ fn consumed_pr_create_recovery_requires_exact_absence_and_head_and_is_one_shot()
         &request,
         &digest,
         &intent_digest,
+        request.legacy_non_effect_disposition.as_ref(),
         &mut process,
     )
     .expect("the audited legacy operation admits exact head availability");
@@ -2183,6 +2200,7 @@ fn consumed_pr_create_recovery_requires_exact_absence_and_head_and_is_one_shot()
             &request,
             &digest,
             &intent_digest,
+            request.legacy_non_effect_disposition.as_ref(),
             &mut repeated,
         )
         .unwrap_err()
@@ -2190,6 +2208,63 @@ fn consumed_pr_create_recovery_requires_exact_absence_and_head_and_is_one_shot()
         "github_mutation_head_available_recovery_already_consumed"
     );
     assert!(repeated.invocations.is_empty());
+}
+
+// PVF: required deterministic class-level migration contract; fake authenticated transport.
+#[test]
+fn consumed_pr_create_recovery_uses_typed_disposition_without_issue_allowlist() {
+    let (root, request, digest, _, intent_digest) =
+        consumed_pr_create_fixture_for_issue("pr-create-generic-disposition", 4242);
+    let super::GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        unreachable!()
+    };
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(
+            ProcessStatus::Exit(0),
+            serde_json::json!({
+                "ref": format!("refs/heads/{head}"),
+                "object": {"type": "commit", "sha": request.expected_head_sha}
+            }),
+        ),
+    ]);
+    super::verify_consumed_pr_create_recovery(
+        &root,
+        &request,
+        &digest,
+        &intent_digest,
+        request.legacy_non_effect_disposition.as_ref(),
+        &mut process,
+    )
+    .expect("a fully bound typed disposition admits an arbitrary issue operation");
+    assert!(
+        super::github_mutation_legacy_non_effect_disposition_path(&root, &digest)
+            .unwrap()
+            .exists()
+    );
+}
+
+#[test]
+fn consumed_pr_create_recovery_rejects_disposition_identity_drift_before_readback() {
+    let (root, request, digest, _, intent_digest) =
+        consumed_pr_create_fixture_for_issue("pr-create-disposition-drift", 4243);
+    let mut disposition = request.legacy_non_effect_disposition.clone().unwrap();
+    disposition.authorization_ref = String::new();
+    let mut process = SequencedProcessAdapter::new(vec![]);
+    assert_eq!(
+        super::verify_consumed_pr_create_recovery(
+            &root,
+            &request,
+            &digest,
+            &intent_digest,
+            Some(&disposition),
+            &mut process,
+        )
+        .unwrap_err()
+        .code,
+        "github_mutation_recovery_disposition_mismatch"
+    );
+    assert!(process.invocations.is_empty());
 }
 
 // PVF: required deterministic local future recovery contract; fake authenticated transport.
@@ -2244,6 +2319,7 @@ fn consumed_pr_create_recovery_rejects_wrong_head_and_existing_pr_before_dispatc
             &request,
             &digest,
             &intent_digest,
+            request.legacy_non_effect_disposition.as_ref(),
             &mut wrong_head,
         )
         .unwrap_err()
@@ -2268,6 +2344,7 @@ fn consumed_pr_create_recovery_rejects_wrong_head_and_existing_pr_before_dispatc
             &request,
             &digest,
             &intent_digest,
+            request.legacy_non_effect_disposition.as_ref(),
             &mut existing,
         )
         .unwrap_err()
@@ -2282,7 +2359,8 @@ fn consumed_pr_create_recovery_rejects_wrong_head_and_existing_pr_before_dispatc
 
 #[test]
 fn consumed_pr_create_recovery_rejects_unclassified_legacy_receipt() {
-    let (root, request, _, _, _) = consumed_pr_create_fixture("pr-create-unclassified");
+    let (root, mut request, _, _, _) = consumed_pr_create_fixture("pr-create-unclassified");
+    request.legacy_non_effect_disposition = None;
     let mut process = SequencedProcessAdapter::new(vec![process_output(
         ProcessStatus::Exit(0),
         serde_json::json!([]),
@@ -2291,7 +2369,7 @@ fn consumed_pr_create_recovery_rejects_unclassified_legacy_receipt() {
         super::execute_github_mutation(&root, &request, &mut process)
             .unwrap_err()
             .code,
-        "github_mutation_recovery_already_consumed"
+        "github_mutation_recovery_disposition_missing"
     );
     assert_eq!(process.invocations.len(), 1);
     assert!(process

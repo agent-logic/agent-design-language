@@ -549,6 +549,7 @@ pub(super) fn verify_consumed_pr_create_recovery(
     request: &GithubMutationRequest,
     operation_digest: &str,
     intent_digest: &str,
+    disposition: Option<&GithubMutationLegacyNonEffectDisposition>,
     process: &mut impl ProcessAdapter,
 ) -> Result<(), RemoteRouteFinding> {
     let GithubMutation::PullRequestCreate { .. } = &request.mutation else {
@@ -559,12 +560,13 @@ pub(super) fn verify_consumed_pr_create_recovery(
     };
     let recovery_path = github_mutation_recovery_path(repo_root, operation_digest)?;
     load_mutation_recovery_receipt(&recovery_path, request, operation_digest, intent_digest)?;
-    if !audited_legacy_pr_create_recovery(request, operation_digest, intent_digest) {
-        return Err(remote_finding(
-            "github_mutation_recovery_already_consumed",
-            "the consumed recovery has no audited definitive non-effect migration",
-        ));
-    }
+    admit_legacy_non_effect_disposition(
+        repo_root,
+        request,
+        operation_digest,
+        intent_digest,
+        disposition,
+    )?;
     if github_mutation_head_available_recovery_path(repo_root, operation_digest)?.exists() {
         return Err(remote_finding(
             "github_mutation_head_available_recovery_already_consumed",

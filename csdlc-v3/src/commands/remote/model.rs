@@ -331,6 +331,8 @@ pub struct GithubMutationRequest {
     pub credential_names: Vec<String>,
     #[serde(default)]
     pub recovery: Option<GithubMutationRecovery>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
     pub mutation: GithubMutation,
 }
 
@@ -338,6 +340,30 @@ pub struct GithubMutationRequest {
 #[serde(rename_all = "snake_case")]
 pub enum GithubMutationRecovery {
     RetryAfterAuthenticatedAbsence,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GithubMutationLegacyNonEffectDisposition {
+    pub schema: String,
+    pub repository: String,
+    pub issue: u64,
+    pub operation_digest: String,
+    pub intent_digest: String,
+    pub request_digest: String,
+    pub authority_selector_digest: String,
+    pub expected_head_sha: String,
+    pub definitive_non_effect_reason: GithubMutationDefinitiveNonEffectReason,
+    pub evidence_digest: String,
+    pub operator: String,
+    pub authorization_ref: String,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum GithubMutationDefinitiveNonEffectReason {
+    TransportFailedBeforeDispatch,
+    ProviderRejectedBeforeAcceptance,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -458,6 +484,7 @@ pub struct StagedGithubMutation {
     pub(super) merge: Option<StagedMerge>,
     pub(super) preexisting: bool,
     pub(super) recovery: Option<GithubMutationRecovery>,
+    pub(super) legacy_non_effect_disposition: Option<GithubMutationLegacyNonEffectDisposition>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -577,29 +604,4 @@ pub enum RemoteRouteStatus {
 pub struct RemoteRouteFinding {
     pub code: String,
     pub message: String,
-}
-
-pub(super) fn audited_legacy_pr_create_recovery(
-    request: &GithubMutationRequest,
-    operation_digest: &str,
-    intent_digest: &str,
-) -> bool {
-    const OPERATION: &str = "684e3f5a051e4117ee30afb2dd2c31101580960ab9fd4404c577ed65b731c85a";
-    const INTENT: &str = "c8aabcac4e7c614b7050d76e19958353980fe32332b10f05ea25f91cd5b86144";
-    const HEAD_SHA: &str = "476528f696a11b995411ea62598ac97295e17817";
-    operation_digest == OPERATION
-        && intent_digest == INTENT
-        && request.repository == "agent-logic/agent-design-language"
-        && request.issue == 1013
-        && request.pull_request.is_none()
-        && request.expected_head_sha == HEAD_SHA
-        && matches!(
-            &request.mutation,
-            GithubMutation::PullRequestCreate { base, head, title, body, draft }
-                if base == "main"
-                    && head == "codex/1013-tracked-projection-rebind-proof-convergence"
-                    && title == "Make tracked projection rebind converge before proof"
-                    && body == "Closes #1013"
-                    && *draft
-        )
 }

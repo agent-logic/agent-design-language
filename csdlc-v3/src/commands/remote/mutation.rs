@@ -210,8 +210,10 @@ pub fn stage_github_mutation(
         ));
     }
     let recovery = request.recovery.clone();
+    let legacy_non_effect_disposition = request.legacy_non_effect_disposition.clone();
     let mut effective_request = request.clone();
     effective_request.recovery = None;
+    effective_request.legacy_non_effect_disposition = None;
     let mut resolved_ready_target = None;
     let intent_digest;
     let mut preexisting = false;
@@ -300,6 +302,7 @@ pub fn stage_github_mutation(
         merge: staged_merge,
         preexisting,
         recovery,
+        legacy_non_effect_disposition,
     })
 }
 
@@ -355,6 +358,7 @@ pub fn execute_staged_github_mutation(
                             request,
                             &staged.operation_digest,
                             &staged.intent_digest,
+                            staged.legacy_non_effect_disposition.as_ref(),
                             process,
                         )?;
                         true
@@ -525,6 +529,8 @@ pub fn execute_github_mutation(
     let operation_marker = github_mutation_operation_marker(&operation_digest);
     let mut intent_request = request.clone();
     intent_request.recovery = None;
+    let legacy_non_effect_disposition = request.legacy_non_effect_disposition.as_ref();
+    intent_request.legacy_non_effect_disposition = None;
     let mut intent = GithubMutationIntent {
         schema: "csdlc.v3.github_mutation_intent.v1".into(),
         operation_digest: operation_digest.clone(),
@@ -613,6 +619,7 @@ pub fn execute_github_mutation(
                             request,
                             &operation_digest,
                             &intent_digest,
+                            legacy_non_effect_disposition,
                             process,
                         )?;
                         true

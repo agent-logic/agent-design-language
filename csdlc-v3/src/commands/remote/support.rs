@@ -39,6 +39,17 @@ pub fn github_mutation_operation_digest(request: &GithubMutationRequest) -> Stri
     ])
 }
 
+pub(super) fn github_mutation_request_digest(request: &GithubMutationRequest) -> String {
+    let mut immutable = request.clone();
+    immutable.recovery = None;
+    immutable.legacy_non_effect_disposition = None;
+    let bytes = serde_json::to_vec(&immutable).unwrap_or_default();
+    stable_digest(&[
+        "csdlc.v3.github_mutation_immutable_request.v1",
+        std::str::from_utf8(&bytes).unwrap_or_default(),
+    ])
+}
+
 pub fn github_mutation_operation_marker(operation_digest: &str) -> String {
     format!("<!-- {GITHUB_OPERATION_MARKER_PREFIX}:{operation_digest} -->")
 }

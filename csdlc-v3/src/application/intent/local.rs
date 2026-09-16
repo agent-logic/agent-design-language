@@ -322,10 +322,27 @@ fn semantic_rebuild(context: &Context, registry: &local::PromptRegistry) -> Resu
         DurableTransactionStore,
     };
     let Some((snapshot, bundle, before)) =
-        semantic_card_projection_observation(context, registry, true)?
+        semantic_card_projection_observation(context, registry, false)?
     else {
         return Err("intent_semantic_state_missing".into());
     };
+    if let Some(binding) = snapshot.inputs().binding() {
+        let registration = blake3::hash(
+            serde_json::to_string(&json!({"branch":context.branch,"worktree":context.root}))
+                .map_err(|_| "intent_bind_identity_invalid")?
+                .as_bytes(),
+        )
+        .to_hex()
+        .to_string();
+        if binding.branch != context.branch
+            || binding.worktree != context.root
+            || binding.registration != registration
+        {
+            return Err("intent_semantic_binding_stale".into());
+        }
+    } else if context.root != context.primary {
+        return Err("intent_semantic_binding_stale".into());
+    }
     if snapshot.pending().is_some() {
         return Err("intent_semantic_recovery_required".into());
     }
