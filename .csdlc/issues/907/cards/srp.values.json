@@ -17,7 +17,7 @@
   "review_findings": "Initial exact-head review found two P2s: alternate import spellings could bypass the dependency guard, and the SOR retained contradictory preparation fields. Both were fixed. Final independent review at e05b516d32596cfb250e00bbf4984ea129c9289f found no actionable findings.",
   "spp_card": ".csdlc/issues/907/cards/spp.md",
   "stp_card": ".csdlc/issues/907/cards/stp.md",
-  "findings_status": "resolved_no_open_findings",
+  "findings_status": "no_findings",
   "timestamp": "2026-09-16T00:27:06.103043+00:00",
   "sor_card": ".csdlc/issues/907/cards/sor.md",
   "review_dispositions": "No findings waived. The dependency guard now rejects grouped, absolute, root-alias, ancestor-alias, and direct sibling-alias spellings with negative fixtures. The SOR was normalized through native typed edits. Structural 3/3, remote 65/65, strict Clippy, formatting, and diff checks passed.",
