@@ -27,8 +27,8 @@ import issue855_provider_lifecycle as lifecycle
 
 
 PROMPTS = (
-    "Explain in two sentences why tokenizer compatibility matters for speculative decoding.",
-    "List three checks to perform after a provider benchmark fails.",
+    ("Reply with exactly TOKENIZER-COMPATIBLE and nothing else.", "TOKENIZER-COMPATIBLE"),
+    ("Reply with exactly FALLBACK-HEALTHY and nothing else.", "FALLBACK-HEALTHY"),
 )
 
 
@@ -212,9 +212,9 @@ def main() -> int:
                 "config": {
                     "endpoint": proxy.url,
                     "runtime_max_attempts": 1,
-                    "runtime_max_output_tokens": 512,
-                    "max_tokens": 512,
-                    "max_output_tokens": 512,
+                    "runtime_max_output_tokens": 64,
+                    "max_tokens": 64,
+                    "max_output_tokens": 64,
                 },
             }
         },
@@ -235,7 +235,7 @@ def main() -> int:
         "ollama_version": subprocess.run(["ollama", "--version"], capture_output=True, text=True).stdout.strip(),
         "hardware": {"system": os.uname().sysname, "machine": os.uname().machine},
         "models": {"baseline": baseline_identity, "speculative": speculative_identity},
-        "sampling": {"temperature": 0, "seed": 905, "num_predict": 512},
+        "sampling": {"temperature": 0, "seed": 905, "num_predict": 64},
         "provider_boundary": {"force_generate_fallback": True, "think": False},
         "prompts": len(PROMPTS),
         "repeats": args.repeats,
@@ -285,11 +285,12 @@ def main() -> int:
             require(code == 0 and payload and payload.get("status") == "admitted", f"{mode} admission failed")
             await_agent(agent_id)
             for repeat in range(args.repeats):
-                for prompt_index, prompt in enumerate(PROMPTS):
+                for prompt_index, (prompt, expected) in enumerate(PROMPTS):
                     started = time.perf_counter()
                     result = lifecycle.conversation(api_port, ctx, tokens["observatory"], agent_id, prompt)
                     elapsed = time.perf_counter() - started
                     reply = result["reply"]
+                    require(reply.strip() == expected, f"{mode} correctness marker mismatch")
                     report["runs"].append({
                         "mode": mode,
                         "repeat": repeat,
@@ -311,7 +312,8 @@ def main() -> int:
         code, payload, _ = admit("issue905-fallback", args.baseline_model)
         require(code == 0 and payload and payload.get("status") == "admitted", "baseline fallback admission failed")
         await_agent("issue905-fallback")
-        fallback = lifecycle.conversation(api_port, ctx, tokens["observatory"], "issue905-fallback", PROMPTS[0])
+        fallback = lifecycle.conversation(api_port, ctx, tokens["observatory"], "issue905-fallback", PROMPTS[0][0])
+        require(fallback["reply"].strip() == PROMPTS[0][1], "fallback correctness marker mismatch")
         report["fallback"] = {"status": fallback["status"], "reply_sha256": hashlib.sha256(fallback["reply"].encode()).hexdigest()}
 
         baseline = {(r["repeat"], r["prompt_index"]): r for r in report["runs"] if r["mode"] == "baseline"}
