@@ -1149,6 +1149,59 @@ fn repository_scoped_issue_creation_result(
     .map_err(|_| Error::RecoveryRequired)
 }
 
+fn remote_file_identity(
+    namespace: &str,
+    directory: &Path,
+    path: &Path,
+    value: &serde_json::Value,
+) -> Result<(String, u64), Error> {
+    let name = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or(Error::RecoveryRequired)?;
+    Ok(
+        if namespace == "merges"
+            && [
+                ".target.json",
+                ".input.json",
+                ".response.json",
+                ".dispatch-prestate.json",
+            ]
+            .iter()
+            .any(|suffix| name.ends_with(suffix))
+        {
+            let digest = if name.ends_with(".target.json") {
+                if value["schema"] != "csdlc.v3.merge_target.v1" {
+                    return Err(Error::RecoveryRequired);
+                }
+                value["operation_digest"]
+                    .as_str()
+                    .ok_or(Error::RecoveryRequired)?
+            } else {
+                name.split('.').next().ok_or(Error::RecoveryRequired)?
+            };
+            if digest.is_empty()
+                || !digest
+                    .bytes()
+                    .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
+            {
+                return Err(Error::RecoveryRequired);
+            }
+            let identity = remote_identity(&read_remote_json(
+                &directory.join(format!("{digest}.intent.json")),
+            )?)?;
+            if name.ends_with(".target.json")
+                && value["repository"].as_str() != Some(identity.0.as_str())
+            {
+                return Err(Error::RecoveryRequired);
+            }
+            identity
+        } else {
+            remote_identity(value)?
+        },
+    )
+}
+
 fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
     for namespace in ["intents", "mutations", "recoveries", "merges"] {
         let directory = remote.join(namespace);
@@ -1170,45 +1223,7 @@ fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
                 continue;
             }
             let value = read_remote_json(&path)?;
-            let identity = if namespace == "merges"
-                && [
-                    ".target.json",
-                    ".input.json",
-                    ".response.json",
-                    ".dispatch-prestate.json",
-                ]
-                .iter()
-                .any(|suffix| name.ends_with(suffix))
-            {
-                let digest = if name.ends_with(".target.json") {
-                    if value["schema"] != "csdlc.v3.merge_target.v1" {
-                        return Err(Error::RecoveryRequired);
-                    }
-                    value["operation_digest"]
-                        .as_str()
-                        .ok_or(Error::RecoveryRequired)?
-                } else {
-                    name.split('.').next().ok_or(Error::RecoveryRequired)?
-                };
-                if digest.is_empty()
-                    || !digest
-                        .bytes()
-                        .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_')
-                {
-                    return Err(Error::RecoveryRequired);
-                }
-                let identity = remote_identity(&read_remote_json(
-                    &directory.join(format!("{digest}.intent.json")),
-                )?)?;
-                if name.ends_with(".target.json")
-                    && value["repository"].as_str() != Some(identity.0.as_str())
-                {
-                    return Err(Error::RecoveryRequired);
-                }
-                identity
-            } else {
-                remote_identity(&value)?
-            };
+            let identity = remote_file_identity(namespace, &directory, &path, &value)?;
             // Creation before a positive issue exists is repository-scoped. Never
             // assign that effect to whichever issue happens to be prepared next.
             // Its reconciled receipt names the GitHub-assigned issue, but remains
@@ -1225,6 +1240,168 @@ fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
         }
     }
     Ok(false)
+}
+
+fn legacy_compatibility_census(root: &SemanticRoot, key: &IssueKey) -> Result<(), Error> {
+    let state = root.common.join("csdlc-v3/local");
+    for forbidden in [
+        state.join("bindings").join(format!("{}.json", key.issue)),
+        state
+            .join("transactions")
+            .join(format!("{}.json", key.issue)),
+        state
+            .join("transactions/pending")
+            .join(format!("{}.json", key.issue)),
+        state.join("prepared/issues").join(key.issue.to_string()),
+        state.join("v3/issues").join(key.issue.to_string()),
+        state.join("evidence").join(key.issue.to_string()),
+    ] {
+        reject_symlinks(&forbidden)?;
+        if forbidden.try_exists().map_err(io)? {
+            return Err(Error::LegacyMigrationRequired);
+        }
+    }
+    for (parent, prefixes) in [
+        (
+            "issues",
+            vec![
+                format!(".issue-{}-", key.issue),
+                format!(".issue-{}.", key.issue),
+            ],
+        ),
+        (
+            "archives",
+            vec![format!("{}-", key.issue), format!("{}.", key.issue)],
+        ),
+    ] {
+        let directory = state.join(parent);
+        reject_symlinks(&directory)?;
+        if directory.try_exists().map_err(io)? {
+            for entry in fs::read_dir(directory).map_err(io)? {
+                let entry = entry.map_err(io)?;
+                let name = entry
+                    .file_name()
+                    .into_string()
+                    .map_err(|_| Error::UnsafePath)?;
+                if prefixes.iter().any(|prefix| name.starts_with(prefix)) {
+                    return Err(Error::LegacyMigrationRequired);
+                }
+            }
+        }
+    }
+
+    let completed = state
+        .join("transactions/completed")
+        .join(key.issue.to_string());
+    reject_symlinks(&completed)?;
+    if completed.try_exists().map_err(io)? {
+        if !completed.is_dir() {
+            return Err(Error::RecoveryRequired);
+        }
+        for entry in fs::read_dir(&completed).map_err(io)? {
+            let path = entry.map_err(io)?.path();
+            let name = path
+                .file_name()
+                .and_then(|value| value.to_str())
+                .ok_or(Error::RecoveryRequired)?;
+            let digest = name
+                .strip_prefix("edit-")
+                .and_then(|value| value.strip_suffix(".json"))
+                .filter(|value| {
+                    value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+                })
+                .ok_or(Error::RecoveryRequired)?;
+            let value = read_remote_json(&path)?;
+            if value["schema"] != "csdlc.v3.local_mutation_completion.v1"
+                || value["issue"].as_u64() != Some(key.issue)
+                || value["route"] != "edit"
+                || value["request_digest"].as_str() != Some(digest)
+                || value["result"]["issue"].as_u64() != Some(key.issue)
+                || value["result"]["route"] != "edit"
+                || value["result"]["phase"] != "ready"
+                || value["result"]["generation"]
+                    .as_u64()
+                    .is_none_or(|generation| generation == 0)
+                || value["result"]["digest"].as_str().is_none_or(|digest| {
+                    digest.len() != 64 || !digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+                })
+            {
+                return Err(Error::RecoveryRequired);
+            }
+        }
+    }
+
+    if let Some(primary) = root.common.parent() {
+        if legacy_residue(&primary.join(".csdlc"), key.issue, None)? {
+            return Err(Error::LegacyMigrationRequired);
+        }
+    }
+    let registrations = root.common.join("worktrees");
+    if registrations.try_exists().map_err(io)? {
+        reject_symlinks(&registrations)?;
+        for entry in fs::read_dir(registrations).map_err(io)? {
+            let gitdir = entry.map_err(io)?.path().join("gitdir");
+            reject_symlinks(&gitdir)?;
+            let target = fs::read_to_string(gitdir).map_err(io)?;
+            if let Some(checkout) = Path::new(target.trim()).parent() {
+                if legacy_residue(&checkout.join(".csdlc"), key.issue, None)? {
+                    return Err(Error::LegacyMigrationRequired);
+                }
+            }
+        }
+    }
+
+    let remote = root.common.join("csdlc-v3/remote");
+    for namespace in ["intents", "mutations", "recoveries", "merges"] {
+        let directory = remote.join(namespace);
+        reject_symlinks(&directory)?;
+        if !directory.try_exists().map_err(io)? {
+            continue;
+        }
+        for entry in fs::read_dir(&directory).map_err(io)? {
+            let path = entry.map_err(io)?.path();
+            if path.extension().and_then(|value| value.to_str()) != Some("json") {
+                continue;
+            }
+            let value = read_remote_json(&path)?;
+            let identity = remote_file_identity(namespace, &directory, &path, &value)?;
+            if identity != (key.repository.clone(), key.issue) {
+                continue;
+            }
+            if namespace == "intents" {
+                let operation = path
+                    .file_stem()
+                    .and_then(|value| value.to_str())
+                    .ok_or(Error::RecoveryRequired)?;
+                let receipt = remote.join("mutations").join(format!("{operation}.json"));
+                if crate::commands::remote::settled_issue_mutation_receipt(
+                    &remote,
+                    &receipt,
+                    &key.repository,
+                    key.issue,
+                )
+                .map_err(|_| Error::RecoveryRequired)?
+                {
+                    continue;
+                }
+                return Err(Error::LegacyMigrationRequired);
+            }
+            if namespace != "mutations" {
+                return Err(Error::LegacyMigrationRequired);
+            }
+            if !crate::commands::remote::settled_issue_mutation_receipt(
+                &remote,
+                &path,
+                &key.repository,
+                key.issue,
+            )
+            .map_err(|_| Error::RecoveryRequired)?
+            {
+                return Err(Error::RecoveryRequired);
+            }
+        }
+    }
+    Ok(())
 }
 
 // These associated methods deliberately do not construct the historical session,
@@ -1421,6 +1598,109 @@ impl DurableTransactionStore {
         key: IssueKey,
         inputs: IssueInputs,
     ) -> Result<CommitOutcome, Error> {
+        Self::prepare_issue_inner(root, key, inputs, None)
+    }
+
+    /// Explicitly activate semantic state for one retained native-v3 prepared
+    /// record. The caller must hold the issue's native writer fence. This path
+    /// accepts only an unbound, non-pending, structurally complete `ready`
+    /// record whose derived branch/worktree identity agrees with the new plan;
+    /// all retained native bytes remain in place.
+    pub fn prepare_legacy_native_issue_under_writer_fence(
+        root: &SemanticRoot,
+        key: IssueKey,
+        inputs: IssueInputs,
+        fence: &NativeWriterFenceGuard,
+    ) -> Result<CommitOutcome, Error> {
+        if !fence.authenticates(root, key.issue) {
+            return Err(Error::InvalidInput(
+                "native writer fence does not authenticate prepared issue".into(),
+            ));
+        }
+        let state = root.common.join("csdlc-v3/local");
+        let issue_root = state.join("issues").join(key.issue.to_string());
+        let index_path = issue_root.join("index.json");
+        reject_symlinks(&index_path)?;
+        let index: serde_json::Value = serde_json::from_slice(&fs::read(&index_path).map_err(io)?)
+            .map_err(|_| Error::RecoveryRequired)?;
+        let expected_branch = inputs.cards()["sip"]["branch"]
+            .as_str()
+            .ok_or(Error::RecoveryRequired)?;
+        let expected_worktree = inputs.cards()["sip"]["worktree"]
+            .as_str()
+            .ok_or(Error::RecoveryRequired)?;
+        let digest = index["digest"].as_str().ok_or(Error::RecoveryRequired)?;
+        if index["schema"] != "csdlc.v3.local_state.v1"
+            || index["issue"].as_u64() != Some(key.issue)
+            || index["repository"].as_str() != Some(key.repository.as_str())
+            || index["phase"] != "ready"
+            || index["generation"].as_u64().is_none_or(|value| value == 0)
+            || digest.len() != 64
+            || !digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+            || index["branch"].as_str() != Some(expected_branch)
+            || index["worktree"].as_str() != Some(expected_worktree)
+        {
+            return Err(Error::LegacyMigrationRequired);
+        }
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["md", "values.json"] {
+                let path = issue_root.join("cards").join(format!("{kind}.{suffix}"));
+                reject_symlinks(&path)?;
+                if !path.is_file() {
+                    return Err(Error::RecoveryRequired);
+                }
+            }
+        }
+        let mut canonical_index = index.clone();
+        canonical_index
+            .as_object_mut()
+            .ok_or(Error::RecoveryRequired)?
+            .remove("digest");
+        let mut hasher = blake3::Hasher::new();
+        hasher.update(&serde_json::to_vec(&canonical_index).map_err(|_| Error::RecoveryRequired)?);
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["values.json", "md"] {
+                hasher.update(
+                    &fs::read(issue_root.join("cards").join(format!("{kind}.{suffix}")))
+                        .map_err(io)?,
+                );
+            }
+        }
+        let intent_plan = issue_root.join("intent-plan.json");
+        if intent_plan.is_file() {
+            hasher.update(b"csdlc.v3.intent_plan.v1\0");
+            hasher.update(&fs::read(intent_plan).map_err(io)?);
+        }
+        if hasher.finalize().to_hex().as_str() != digest {
+            return Err(Error::RecoveryRequired);
+        }
+        for forbidden in [
+            state.join("bindings").join(format!("{}.json", key.issue)),
+            state
+                .join("transactions")
+                .join(format!("{}.json", key.issue)),
+            state
+                .join("transactions/pending")
+                .join(format!("{}.json", key.issue)),
+        ] {
+            reject_symlinks(&forbidden)?;
+            if forbidden.try_exists().map_err(io)? {
+                return Err(Error::PendingOperation);
+            }
+        }
+        if Path::new(expected_worktree).try_exists().map_err(io)? {
+            return Err(Error::LegacyMigrationRequired);
+        }
+        legacy_compatibility_census(root, &key)?;
+        Self::prepare_issue_inner(root, key, inputs, Some(fence))
+    }
+
+    fn prepare_issue_inner(
+        root: &SemanticRoot,
+        key: IssueKey,
+        inputs: IssueInputs,
+        legacy_fence: Option<&NativeWriterFenceGuard>,
+    ) -> Result<CommitOutcome, Error> {
         inputs.validate()?;
         if inputs.binding.is_some() {
             return Err(Error::InvalidInput(
@@ -1428,7 +1708,7 @@ impl DurableTransactionStore {
             ));
         }
         let directory = root.directory(&key)?;
-        if root.legacy(&key)? {
+        if legacy_fence.is_none() && root.legacy(&key)? {
             return Err(Error::LegacyMigrationRequired);
         }
         // Parent creation is serialized through stable advisory locking before the
