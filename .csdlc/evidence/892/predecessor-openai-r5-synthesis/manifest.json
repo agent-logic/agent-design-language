@@ -1,0 +1,9 @@
+{
+  "schema": "codefriend.review_synthesis_manifest.v1",
+  "synthesis_ref": "synthesis.json",
+  "synthesis_digest": "3d3946dce7eba779558a8ed4fe56872507c0ef1e2864d9d15a590c4c029cd3ec",
+  "review_record_ref": "review-record.json",
+  "review_record_digest": "d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8",
+  "synthesized_finding_count": 1,
+  "input_finding_count": 1
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 892,
+  "phase": "bound",
+  "generation": 9,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/892-v0922-review-synthesis",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-892-v0922-review-synthesis",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "e35f4fa776ce060cc2d873aa829cd14678dac031e9763f13795669f42504bfd9"
+}

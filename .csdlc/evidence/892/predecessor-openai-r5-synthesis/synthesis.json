@@ -1,0 +1,46 @@
+{
+  "schema": "codefriend.review_synthesis.v1",
+  "review_record_digest": "d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8",
+  "run_id": "469c73b02b07ba956be4e7221246a545bcdad20a4ea5fa010816cde3c4f9626b",
+  "repository": "https://github.com/vectordotdev/vector",
+  "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+  "scope_digest": "9ab817de155ee4d1a207d0d61adeb3d02c7fc3317c99c9be1f56e56482fac421",
+  "lane_count": 4,
+  "input_finding_count": 1,
+  "synthesized_findings": [
+    {
+      "id": "444d15b0eae2ba3720852d84136753351fb94e180d7313056d0ef9aff96d88c2",
+      "semantic_anchor": "DnsMessageParser struct and get_rdata_decoder_with_raw_message method",
+      "title": "Possible mutation of raw message buffer in DNS message parser to evade detection or cause inconsistent parsing",
+      "severity": "high",
+      "severity_rationale": "adversarial: The DnsMessageParser struct stores an internal buffer raw_message_for_rdata_parsing that is mutated and extended with raw rdata bytes in get_rdata_decoder_with_raw_message. This means the buffer grows cumulatively on each call, potentially expanding data used for decoding domain names by concatenating unrelated raw data. This behavior can be exploited to smuggle unexpected data or mutate parsed content by controlling order and content of raw_message and subsequent raw_rdata slices.",
+      "evidence": [
+        "a993dc62a8392670ae6667bb1a4bf994b0a57343f958a3d9bd36f16a78b10573"
+      ],
+      "sources": [
+        {
+          "finding_id": "65417167b20837b21e97cec196683f68b6ae88a7b8d7067f1306ef7c153933d2",
+          "perspective": "adversarial",
+          "rule": "adversarial.raw_message_for_rdata_parsing_reuse_mutation",
+          "severity": "high",
+          "evidence": [
+            "a993dc62a8392670ae6667bb1a4bf994b0a57343f958a3d9bd36f16a78b10573"
+          ],
+          "rationale": "The DnsMessageParser struct stores an internal buffer raw_message_for_rdata_parsing that is mutated and extended with raw rdata bytes in get_rdata_decoder_with_raw_message. This means the buffer grows cumulatively on each call, potentially expanding data used for decoding domain names by concatenating unrelated raw data. This behavior can be exploited to smuggle unexpected data or mutate parsed content by controlling order and content of raw_message and subsequent raw_rdata slices.",
+          "confidence": {
+            "state": "known",
+            "percent": 80
+          },
+          "inference": "Since the buffer concatenates new raw_rdata to the existing buffer and reuses it for domain name decoding, attacker-controlled inputs could craft payloads that exploit buffer reuse to parse malicious or malformed compressed domain names or inject unexpected data in parsing logic.",
+          "limitations": [
+            "Analysis is limited to the provided code and does not include all call sites of the DNS parser which may influence exploitability."
+          ]
+        }
+      ],
+      "disagreement": null,
+      "scope_limits": [
+        "adversarial: Analysis is limited to the provided code and does not include all call sites of the DNS parser which may influence exploitability."
+      ]
+    }
+  ]
+}
