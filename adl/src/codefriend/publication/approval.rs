@@ -7,6 +7,7 @@ use crate::codefriend::{
     ingestion::unsafe_content,
 };
 use anyhow::{ensure, Result};
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use std::{
     collections::{BTreeMap, BTreeSet},
@@ -18,6 +19,257 @@ use std::{
 
 pub const DECISION_SCHEMA: &str = "codefriend.publication_decision.v1";
 pub const ADMISSION_SCHEMA: &str = "codefriend.publication_admission.v1";
+const STORE_SCHEMA: &str = "codefriend.publication_store.v1";
+const HEAD_SCHEMA: &str = "codefriend.publication_head.v1";
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct StoreMarker {
+    schema: String,
+    canonical_root: String,
+    digest: String,
+}
+
+impl StoreMarker {
+    fn new(root: &Path) -> Result<Self> {
+        let canonical_root = root
+            .canonicalize()?
+            .to_str()
+            .ok_or_else(|| anyhow::anyhow!("publication_store_path_not_utf8"))?
+            .to_string();
+        let mut marker = Self {
+            schema: STORE_SCHEMA.into(),
+            canonical_root,
+            digest: String::new(),
+        };
+        marker.digest = marker.expected_digest()?;
+        Ok(marker)
+    }
+
+    fn expected_digest(&self) -> Result<String> {
+        hash(&(STORE_SCHEMA, &self.canonical_root))
+    }
+
+    fn validate(&self, root: &Path) -> Result<()> {
+        ensure!(self.schema == STORE_SCHEMA, "unsupported_publication_store");
+        ensure!(
+            self == &Self::new(root)?,
+            "publication_store_identity_mismatch"
+        );
+        ensure!(
+            self.digest == self.expected_digest()?,
+            "publication_store_digest_mismatch"
+        );
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct HeadCommitment {
+    schema: String,
+    store_digest: String,
+    binding_digest: String,
+    decision_digest: String,
+    generation: u64,
+    digest: String,
+}
+
+impl HeadCommitment {
+    fn new(
+        marker: &StoreMarker,
+        binding_digest: String,
+        decision_digest: String,
+        generation: u64,
+    ) -> Result<Self> {
+        let mut head = Self {
+            schema: HEAD_SCHEMA.into(),
+            store_digest: marker.digest.clone(),
+            binding_digest,
+            decision_digest,
+            generation,
+            digest: String::new(),
+        };
+        head.digest = head.expected_digest()?;
+        Ok(head)
+    }
+
+    fn expected_digest(&self) -> Result<String> {
+        hash(&(
+            HEAD_SCHEMA,
+            &self.store_digest,
+            &self.binding_digest,
+            &self.decision_digest,
+            self.generation,
+        ))
+    }
+
+    fn validate(&self, marker: &StoreMarker, binding: &str) -> Result<()> {
+        ensure!(self.schema == HEAD_SCHEMA, "unsupported_publication_head");
+        ensure!(
+            self.store_digest == marker.digest,
+            "publication_head_store_mismatch"
+        );
+        ensure!(
+            self.binding_digest == binding,
+            "publication_head_binding_mismatch"
+        );
+        ensure!(self.generation > 0, "invalid_publication_head_generation");
+        ensure!(
+            valid_digest(&self.decision_digest),
+            "invalid_publication_head_decision"
+        );
+        ensure!(
+            self.digest == self.expected_digest()?,
+            "publication_head_digest_mismatch"
+        );
+        Ok(())
+    }
+}
+
+struct DecisionStore {
+    root: PathBuf,
+    marker: StoreMarker,
+    _lock: File,
+}
+
+impl DecisionStore {
+    fn open(root: &Path) -> Result<Self> {
+        reject_symlink_components(root)?;
+        if !root.exists() {
+            fs::create_dir_all(root)?;
+        }
+        ensure!(
+            fs::symlink_metadata(root)?.is_dir(),
+            "invalid_publication_store_root"
+        );
+        let marker_path = root.join(".codefriend-publication-store-v1.json");
+        if !marker_path.exists() {
+            ensure!(
+                fs::read_dir(root)?.next().is_none(),
+                "unowned_publication_store"
+            );
+            let marker = StoreMarker::new(root)?;
+            write_json_create_only(&marker_path, &marker)?;
+            File::open(root)?.sync_all()?;
+        }
+        let root = root.canonicalize()?;
+        let marker: StoreMarker = read_json(&marker_path, "publication_store")?;
+        marker.validate(&root)?;
+        for directory in ["decisions", "heads"] {
+            let path = root.join(directory);
+            if !path.exists() {
+                fs::create_dir(&path)?;
+                File::open(&root)?.sync_all()?;
+            }
+            ensure!(
+                fs::symlink_metadata(&path)?.is_dir(),
+                "invalid_publication_store_layout"
+            );
+            reject_symlink_components(&path)?;
+        }
+        let lock_path = root.join(".lock");
+        let mut options = OpenOptions::new();
+        options.read(true).write(true).create(true).truncate(false);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o600);
+        }
+        let lock = options.open(lock_path)?;
+        lock.try_lock_exclusive()
+            .map_err(|_| anyhow::anyhow!("publication_store_busy"))?;
+        Ok(Self {
+            root,
+            marker,
+            _lock: lock,
+        })
+    }
+
+    fn decision_directory(&self, binding: &str) -> Result<PathBuf> {
+        ensure!(valid_digest(binding), "invalid_publication_binding");
+        Ok(self.root.join("decisions").join(binding))
+    }
+
+    fn head_path(&self, binding: &str) -> Result<PathBuf> {
+        ensure!(valid_digest(binding), "invalid_publication_binding");
+        Ok(self.root.join("heads").join(format!("{binding}.json")))
+    }
+
+    fn head(
+        &self,
+        review: &ReviewRecord,
+        publication: &Publication,
+    ) -> Result<Option<DecisionRecord>> {
+        publication.validate(review)?;
+        let binding = publication.binding_digest()?;
+        let directory = self.decision_directory(&binding)?;
+        let head_path = self.head_path(&binding)?;
+        if !directory.exists() && !head_path.exists() {
+            return Ok(None);
+        }
+        ensure!(
+            directory.exists() && head_path.exists(),
+            "publication_store_incomplete"
+        );
+        let head: HeadCommitment = read_json(&head_path, "publication_head")?;
+        head.validate(&self.marker, &binding)?;
+        let record = read_chain_head(&directory, review)?
+            .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
+        ensure!(
+            record.digest == head.decision_digest,
+            "publication_head_replayed"
+        );
+        ensure!(
+            record.publication.binding_digest()? == binding,
+            "decision_binding_changed"
+        );
+        let count = fs::read_dir(&directory)?.count() as u64;
+        ensure!(
+            count == head.generation,
+            "publication_head_generation_mismatch"
+        );
+        Ok(Some(record))
+    }
+
+    fn append(
+        &self,
+        review: &ReviewRecord,
+        publication: &Publication,
+        decision: DecisionKind,
+        actor: &str,
+        reason: &str,
+        decided_at: u64,
+    ) -> Result<DecisionRecord> {
+        publication.validate(review)?;
+        let binding = publication.binding_digest()?;
+        let directory = self.decision_directory(&binding)?;
+        let previous = self.head(review, publication)?;
+        if !directory.exists() {
+            fs::create_dir(&directory)?;
+            File::open(self.root.join("decisions"))?.sync_all()?;
+        }
+        let record = DecisionRecord::new(
+            review,
+            publication,
+            decision,
+            actor,
+            reason,
+            decided_at,
+            previous.as_ref(),
+        )?;
+        write_json_create_only(&directory.join(format!("{}.json", record.digest)), &record)?;
+        File::open(&directory)?.sync_all()?;
+        let generation = fs::read_dir(&directory)?.count() as u64;
+        let head = HeadCommitment::new(&self.marker, binding, record.digest.clone(), generation)?;
+        replace_json_atomically(&self.head_path(&head.binding_digest)?, &head)?;
+        ensure!(
+            self.head(review, publication)?.as_ref() == Some(&record),
+            "decision_head_readback_failed"
+        );
+        Ok(record)
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -148,9 +400,14 @@ impl DecisionRecord {
 }
 
 pub fn read_decision_head(
-    directory: &Path,
+    store_root: &Path,
     review: &ReviewRecord,
+    publication: &Publication,
 ) -> Result<Option<DecisionRecord>> {
+    DecisionStore::open(store_root)?.head(review, publication)
+}
+
+fn read_chain_head(directory: &Path, review: &ReviewRecord) -> Result<Option<DecisionRecord>> {
     reject_symlink_components(directory)?;
     ensure!(
         fs::symlink_metadata(directory)?.file_type().is_dir(),
@@ -234,7 +491,7 @@ pub fn read_decision_head(
 }
 
 pub fn append_decision(
-    directory: &Path,
+    store_root: &Path,
     review: &ReviewRecord,
     publication: &Publication,
     decision: DecisionKind,
@@ -242,30 +499,14 @@ pub fn append_decision(
     reason: &str,
     decided_at: u64,
 ) -> Result<DecisionRecord> {
-    publication.validate(review)?;
-    let previous = read_decision_head(directory, review)?;
-    if let Some(previous) = &previous {
-        ensure!(
-            previous.publication.binding_digest()? == publication.binding_digest()?,
-            "decision_binding_changed"
-        );
-    }
-    let record = DecisionRecord::new(
+    DecisionStore::open(store_root)?.append(
         review,
         publication,
         decision,
         actor,
         reason,
         decided_at,
-        previous.as_ref(),
-    )?;
-    write_json_create_only(&directory.join(format!("{}.json", record.digest)), &record)?;
-    File::open(directory)?.sync_all()?;
-    ensure!(
-        read_decision_head(directory, review)?.as_ref() == Some(&record),
-        "decision_head_readback_failed"
-    );
-    Ok(record)
+    )
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -290,12 +531,13 @@ impl AdmissionReceipt {
 
 pub fn admit_local(
     review: &ReviewRecord,
-    decision_directory: &Path,
+    publication: &Publication,
+    store_root: &Path,
     artifact_root: &Path,
     destination_root: &Path,
     admitted_at: u64,
 ) -> Result<AdmissionReceipt> {
-    let decision = read_decision_head(decision_directory, review)?
+    let decision = read_decision_head(store_root, review, publication)?
         .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
     ensure!(
         decision.decision == DecisionKind::Approved,
@@ -430,6 +672,36 @@ pub fn write_json_create_only<T: Serialize>(path: &Path, value: &T) -> Result<()
     let mut file = options.open(path)?;
     file.write_all(&bytes)?;
     file.sync_all()?;
+    Ok(())
+}
+
+fn replace_json_atomically<T: Serialize>(path: &Path, value: &T) -> Result<()> {
+    let parent = path
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("output_parent_missing"))?;
+    ensure!(
+        fs::symlink_metadata(parent)?.is_dir(),
+        "output_parent_missing"
+    );
+    static NEXT_HEAD: AtomicU64 = AtomicU64::new(0);
+    let pending = parent.join(format!(
+        ".codefriend-head-{}-{}",
+        std::process::id(),
+        NEXT_HEAD.fetch_add(1, Ordering::Relaxed)
+    ));
+    let bytes = serde_json::to_vec_pretty(value)?;
+    let mut options = OpenOptions::new();
+    options.write(true).create_new(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600);
+    }
+    let mut file = options.open(&pending)?;
+    file.write_all(&bytes)?;
+    file.sync_all()?;
+    fs::rename(&pending, path)?;
+    File::open(parent)?.sync_all()?;
     Ok(())
 }
 

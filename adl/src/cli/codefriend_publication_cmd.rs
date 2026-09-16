@@ -52,13 +52,13 @@ fn decide(args: &[String], kind: DecisionKind) -> Result<()> {
             "--publication",
             "--actor",
             "--reason",
-            "--decision-dir",
+            "--approval-store",
         ],
     )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
     let publication = read_publication(Path::new(flags["--publication"]))?;
     let decision = append_decision(
-        Path::new(flags["--decision-dir"]),
+        Path::new(flags["--approval-store"]),
         &review,
         &publication,
         kind,
@@ -73,13 +73,20 @@ fn decide(args: &[String], kind: DecisionKind) -> Result<()> {
 fn invalidate(args: &[String]) -> Result<()> {
     let flags = exact_flags(
         args,
-        &["--review-record", "--decision-dir", "--actor", "--reason"],
+        &[
+            "--review-record",
+            "--publication",
+            "--approval-store",
+            "--actor",
+            "--reason",
+        ],
     )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
-    let previous = read_decision_head(Path::new(flags["--decision-dir"]), &review)?
+    let publication = read_publication(Path::new(flags["--publication"]))?;
+    let previous = read_decision_head(Path::new(flags["--approval-store"]), &review, &publication)?
         .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
     let decision = append_decision(
-        Path::new(flags["--decision-dir"]),
+        Path::new(flags["--approval-store"]),
         &review,
         &previous.publication,
         DecisionKind::Invalidated,
@@ -92,9 +99,13 @@ fn invalidate(args: &[String]) -> Result<()> {
 }
 
 fn inspect(args: &[String]) -> Result<()> {
-    let flags = exact_flags(args, &["--review-record", "--decision-dir"])?;
+    let flags = exact_flags(
+        args,
+        &["--review-record", "--publication", "--approval-store"],
+    )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
-    let decision = read_decision_head(Path::new(flags["--decision-dir"]), &review)?
+    let publication = read_publication(Path::new(flags["--publication"]))?;
+    let decision = read_decision_head(Path::new(flags["--approval-store"]), &review, &publication)?
         .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
     println!("{}", serde_json::to_string(&decision)?);
     Ok(())
@@ -105,15 +116,18 @@ fn admit(args: &[String]) -> Result<()> {
         args,
         &[
             "--review-record",
-            "--decision-dir",
+            "--publication",
+            "--approval-store",
             "--artifact-root",
             "--destination-root",
         ],
     )?;
     let review = read_review(Path::new(flags["--review-record"]))?;
+    let publication = read_publication(Path::new(flags["--publication"]))?;
     let receipt = admit_local(
         &review,
-        Path::new(flags["--decision-dir"]),
+        &publication,
+        Path::new(flags["--approval-store"]),
         Path::new(flags["--artifact-root"]),
         Path::new(flags["--destination-root"]),
         unix_time(),

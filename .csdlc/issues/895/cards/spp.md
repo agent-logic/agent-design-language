@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implementation and local proof are complete after resolving the first exact-head review's two P1 findings. The publication boundary now resolves one append-only authoritative decision chain/head so later withholding or invalidation revokes the earlier approval, and admission copies the exact verified byte snapshot rather than reopening mutable source paths. Local proof passes; a new immutable remediation commit and distinct fresh exact-head review remain pending."
+plan_summary: "Implementation and focused local proof are complete after two exact-head review rounds. The second review found that a caller-selected decision directory could replay an older approval. The remediation replaces that directory scan with a locked, canonically identified publication-control store, one deterministic chain per publication binding, and a durable head commitment that detects alternate-store replay and deleted revocation tails. Exact lifecycle truth and a distinct fresh exact-head review remain before publication."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-UX] Enforce exact-artifact publication approval`.
 
-Implementation and local proof are complete after resolving the first exact-head review's two P1 findings. The publication boundary now resolves one append-only authoritative decision chain/head so later withholding or invalidation revokes the earlier approval, and admission copies the exact verified byte snapshot rather than reopening mutable source paths. Local proof passes; a new immutable remediation commit and distinct fresh exact-head review remain pending.
+Implementation and focused local proof are complete after two exact-head review rounds. The second review found that a caller-selected decision directory could replay an older approval. The remediation replaces that directory scan with a locked, canonically identified publication-control store, one deterministic chain per publication binding, and a durable head commitment that detects alternate-store replay and deleted revocation tails. Exact lifecycle truth and a distinct fresh exact-head review remain before publication.
 
 ## PVF Lane Plan
 

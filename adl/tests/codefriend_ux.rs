@@ -6,7 +6,8 @@ use adl::codefriend::{
     },
     ingestion::digest,
     publication::{
-        admit_local, append_decision, verify_artifacts, DecisionKind, DecisionRecord, ManifestInput,
+        admit_local, append_decision, read_decision_head, verify_artifacts, DecisionKind,
+        DecisionRecord, ManifestInput,
     },
 };
 use serde_json::json;
@@ -158,7 +159,7 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         "operator-fixture",
         "--reason",
         "Exact local artifacts approved",
-        "--decision-dir",
+        "--approval-store",
         decisions.to_str().unwrap(),
     ]);
     assert_success(&output);
@@ -166,7 +167,9 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         "inspect",
         "--review-record",
         fixture.review_path.to_str().unwrap(),
-        "--decision-dir",
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
         decisions.to_str().unwrap(),
     ]);
     assert_success(&output);
@@ -178,7 +181,9 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         "admit-local",
         "--review-record",
         fixture.review_path.to_str().unwrap(),
-        "--decision-dir",
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
         decisions.to_str().unwrap(),
         "--artifact-root",
         fixture.artifact_root.to_str().unwrap(),
@@ -197,7 +202,9 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
         "admit-local",
         "--review-record",
         fixture.review_path.to_str().unwrap(),
-        "--decision-dir",
+        "--publication",
+        publication.to_str().unwrap(),
+        "--approval-store",
         decisions.to_str().unwrap(),
         "--artifact-root",
         fixture.artifact_root.to_str().unwrap(),
@@ -229,6 +236,7 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     fs::create_dir(&destination).unwrap();
     assert!(admit_local(
         &review,
+        &publication,
         &decisions,
         &fixture.artifact_root,
         &destination,
@@ -258,6 +266,7 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     .unwrap();
     assert!(admit_local(
         &review,
+        &publication,
         &decisions,
         &fixture.artifact_root,
         &destination,
@@ -289,6 +298,7 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     .unwrap();
     assert!(admit_local(
         &review,
+        &publication,
         &withheld_after_approval,
         &fixture.artifact_root,
         &destination,
@@ -335,6 +345,7 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     .unwrap();
     assert!(admit_local(
         &review,
+        &publication,
         &stale_approval,
         &fixture.artifact_root,
         &destination,
@@ -363,12 +374,96 @@ fn withheld_invalidated_and_changed_identity_are_denied_until_new_approval() {
     .unwrap();
     admit_local(
         &review,
+        &new_publication,
         &renewed_decisions,
         &fixture.artifact_root,
         &destination,
         17,
     )
     .unwrap();
+}
+
+#[test]
+fn revoked_approval_cannot_be_replayed_from_an_alternate_or_truncated_store() {
+    let fixture = Fixture::new();
+    let review = fixture.review();
+    let publication = fixture.publication();
+    let binding = publication.binding_digest().unwrap();
+    let destination = fixture.root.join("destination");
+    fs::create_dir(&destination).unwrap();
+
+    for revocation in [DecisionKind::Invalidated, DecisionKind::Withheld] {
+        let name = match revocation {
+            DecisionKind::Invalidated => "invalidated",
+            DecisionKind::Withheld => "withheld",
+            DecisionKind::Approved => unreachable!(),
+        };
+        let store = fixture.root.join(format!("{name}-store"));
+        fs::create_dir(&store).unwrap();
+        let approved = append_decision(
+            &store,
+            &review,
+            &publication,
+            DecisionKind::Approved,
+            "operator-fixture",
+            "Exact artifacts accepted",
+            10,
+        )
+        .unwrap();
+        let revoked = append_decision(
+            &store,
+            &review,
+            &publication,
+            revocation,
+            "operator-fixture",
+            "Approval revoked",
+            11,
+        )
+        .unwrap();
+        assert!(admit_local(
+            &review,
+            &publication,
+            &store,
+            &fixture.artifact_root,
+            &destination,
+            12,
+        )
+        .is_err());
+
+        let replay = fixture.root.join(format!("{name}-replay"));
+        fs::create_dir(&replay).unwrap();
+        fs::copy(
+            store
+                .join("decisions")
+                .join(&binding)
+                .join(format!("{}.json", approved.digest)),
+            replay.join(format!("{}.json", approved.digest)),
+        )
+        .unwrap();
+        let error = read_decision_head(&replay, &review, &publication)
+            .unwrap_err()
+            .to_string();
+        assert_eq!(error, "unowned_publication_store");
+
+        fs::remove_file(
+            store
+                .join("decisions")
+                .join(&binding)
+                .join(format!("{}.json", revoked.digest)),
+        )
+        .unwrap();
+        let error = admit_local(
+            &review,
+            &publication,
+            &store,
+            &fixture.artifact_root,
+            &destination,
+            12,
+        )
+        .unwrap_err()
+        .to_string();
+        assert_eq!(error, "publication_head_replayed");
+    }
 }
 
 #[test]
@@ -473,6 +568,7 @@ fn symlink_artifacts_and_destination_collision_leave_no_partial_target() {
     .unwrap();
     assert!(admit_local(
         &review,
+        &publication,
         &decisions,
         &fixture.artifact_root,
         &destination,

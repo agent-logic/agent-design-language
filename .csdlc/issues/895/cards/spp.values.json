@@ -45,5 +45,5 @@
   "step_2_status": "completed",
   "stp_card": ".csdlc/issues/895/cards/stp.md",
   "initial_pvf_lane": "runtime",
-  "plan_summary": "Implementation and local proof are complete after resolving the first exact-head review's two P1 findings. The publication boundary now resolves one append-only authoritative decision chain/head so later withholding or invalidation revokes the earlier approval, and admission copies the exact verified byte snapshot rather than reopening mutable source paths. Local proof passes; a new immutable remediation commit and distinct fresh exact-head review remain pending."
+  "plan_summary": "Implementation and focused local proof are complete after two exact-head review rounds. The second review found that a caller-selected decision directory could replay an older approval. The remediation replaces that directory scan with a locked, canonically identified publication-control store, one deterministic chain per publication binding, and a durable head commitment that detects alternate-store replay and deleted revocation tails. Exact lifecycle truth and a distinct fresh exact-head review remain before publication."
 }
