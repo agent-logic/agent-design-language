@@ -388,10 +388,8 @@ fn validate_synthesis(synthesis: &ReviewSynthesis) -> Result<()> {
         synthesis.schema == SYNTHESIS_SCHEMA,
         "invalid_synthesis_schema"
     );
-    ensure!(
-        !synthesis.synthesized_findings.is_empty(),
-        "test_plan_requires_synthesized_findings"
-    );
+    // A complete review may truthfully contain no findings. Preserve that
+    // result as an empty, provenance-bound plan instead of inventing tests.
     ensure!(
         !synthesis.repository.trim().is_empty()
             && !synthesis.revision.trim().is_empty()

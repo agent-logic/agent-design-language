@@ -1,0 +1,29 @@
+{
+  "issue": 896,
+  "lane": "runtime",
+  "proof_role": "installed approved-review Markdown rendering, exact manifest binding, claim and finding parity, and fail-closed export",
+  "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, no provider or network",
+  "resource_profile": "bounded CPU and issue-owned filesystem only",
+  "release_gate": true,
+  "test_target": "codefriend_render_md",
+  "success_cases": [
+    "installed complete report and bound manifest",
+    "empty finding set",
+    "long partial and not-comparable evidence",
+    "escaped non-active links"
+  ],
+  "negative_cases": [
+    "missing withheld or stale approval",
+    "renderer and target identity drift",
+    "approved artifact mutation",
+    "missing approved provenance",
+    "existing output target",
+    "secret-like publication claim"
+  ],
+  "nonclaims": [
+    "provider execution",
+    "network or browser proof",
+    "HTML or PDF rendering",
+    "remote or customer publication"
+  ]
+}
