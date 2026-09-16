@@ -269,6 +269,53 @@ impl DecisionStore {
         );
         Ok(record)
     }
+
+    fn admit_local<F>(
+        &self,
+        review: &ReviewRecord,
+        publication: &Publication,
+        artifact_root: &Path,
+        destination_root: &Path,
+        admitted_at: u64,
+        before_publish: F,
+    ) -> Result<AdmissionReceipt>
+    where
+        F: FnOnce() -> Result<()>,
+    {
+        let decision = self
+            .head(review, publication)?
+            .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
+        ensure!(
+            decision.decision == DecisionKind::Approved,
+            "publication_not_approved"
+        );
+        ensure!(
+            admitted_at >= decision.decided_at,
+            "admission_precedes_approval"
+        );
+        let artifacts = snapshot_artifacts(artifact_root, &decision.publication.artifact_manifest)?;
+        reject_symlink_components(destination_root)?;
+        ensure!(
+            fs::symlink_metadata(destination_root)?.file_type().is_dir(),
+            "invalid_destination_root"
+        );
+        let target = destination_root.join(&decision.publication.target);
+        reject_symlink_components(&target)?;
+        ensure!(!target.exists(), "publication_target_exists");
+        let mut receipt = AdmissionReceipt {
+            schema: ADMISSION_SCHEMA.to_string(),
+            decision_digest: decision.digest.clone(),
+            binding_digest: decision.publication.binding_digest()?,
+            target: decision.publication.target.clone(),
+            admitted_at,
+            artifact_manifest_digest: decision.publication.manifest_digest.clone(),
+            digest: String::new(),
+        };
+        receipt.digest = receipt.expected_digest()?;
+        before_publish()?;
+        publish_atomically(&artifacts, &target, &decision, &receipt)?;
+        Ok(receipt)
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -537,37 +584,14 @@ pub fn admit_local(
     destination_root: &Path,
     admitted_at: u64,
 ) -> Result<AdmissionReceipt> {
-    let decision = read_decision_head(store_root, review, publication)?
-        .ok_or_else(|| anyhow::anyhow!("publication_decision_missing"))?;
-    ensure!(
-        decision.decision == DecisionKind::Approved,
-        "publication_not_approved"
-    );
-    ensure!(
-        admitted_at >= decision.decided_at,
-        "admission_precedes_approval"
-    );
-    let artifacts = snapshot_artifacts(artifact_root, &decision.publication.artifact_manifest)?;
-    reject_symlink_components(destination_root)?;
-    ensure!(
-        fs::symlink_metadata(destination_root)?.file_type().is_dir(),
-        "invalid_destination_root"
-    );
-    let target = destination_root.join(&decision.publication.target);
-    reject_symlink_components(&target)?;
-    ensure!(!target.exists(), "publication_target_exists");
-    let mut receipt = AdmissionReceipt {
-        schema: ADMISSION_SCHEMA.to_string(),
-        decision_digest: decision.digest.clone(),
-        binding_digest: decision.publication.binding_digest()?,
-        target: decision.publication.target.clone(),
+    DecisionStore::open(store_root)?.admit_local(
+        review,
+        publication,
+        artifact_root,
+        destination_root,
         admitted_at,
-        artifact_manifest_digest: decision.publication.manifest_digest.clone(),
-        digest: String::new(),
-    };
-    receipt.digest = receipt.expected_digest()?;
-    publish_atomically(&artifacts, &target, &decision, &receipt)?;
-    Ok(receipt)
+        || Ok(()),
+    )
 }
 
 fn publish_atomically(
@@ -783,5 +807,109 @@ mod tests {
             fs::read(destination.join("published/report.md")).unwrap(),
             approved_bytes
         );
+    }
+
+    #[test]
+    fn admission_holds_the_store_lock_until_publication_is_visible() {
+        let target_tmp = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/test-tmp");
+        fs::create_dir_all(&target_tmp).unwrap();
+        let directory = tempfile::tempdir_in(target_tmp).unwrap();
+        let artifact_root = directory.path().join("artifacts");
+        fs::create_dir(&artifact_root).unwrap();
+        let bytes = b"approved bytes\n";
+        fs::write(artifact_root.join("report.md"), bytes).unwrap();
+        let review: ReviewRecord = serde_json::from_slice(include_bytes!(
+            "../../../tests/fixtures/codefriend/evidence/review-v1.json"
+        ))
+        .unwrap();
+        let input = ManifestInput {
+            schema: MANIFEST_INPUT_SCHEMA.into(),
+            artifact_manifest: vec![Artifact {
+                path: "report.md".into(),
+                digest: digest(bytes),
+            }],
+            renderer_versions: BTreeMap::from([("markdown".into(), "v1".into())]),
+            target: "published".into(),
+            claims: vec!["Serialized admission".into()],
+            nonclaims: vec!["No remote publication".into()],
+        };
+        let publication = input.publication(&review).unwrap();
+
+        for (index, revocation) in [DecisionKind::Invalidated, DecisionKind::Withheld]
+            .into_iter()
+            .enumerate()
+        {
+            let store_root = directory.path().join(format!("store-{index}"));
+            fs::create_dir(&store_root).unwrap();
+            append_decision(
+                &store_root,
+                &review,
+                &publication,
+                DecisionKind::Approved,
+                "operator-fixture",
+                "Exact artifacts accepted",
+                10,
+            )
+            .unwrap();
+            let destination = directory.path().join(format!("destination-{index}"));
+            fs::create_dir(&destination).unwrap();
+            let store = DecisionStore::open(&store_root).unwrap();
+            store
+                .admit_local(
+                    &review,
+                    &publication,
+                    &artifact_root,
+                    &destination,
+                    11,
+                    || {
+                        let error = append_decision(
+                            &store_root,
+                            &review,
+                            &publication,
+                            revocation.clone(),
+                            "operator-fixture",
+                            "Revoke during admission",
+                            11,
+                        )
+                        .unwrap_err()
+                        .to_string();
+                        ensure!(error == "publication_store_busy", "unexpected_lock_result");
+                        ensure!(
+                            !destination.join("published").exists(),
+                            "publication_visible_before_commit"
+                        );
+                        Ok(())
+                    },
+                )
+                .unwrap();
+            assert!(
+                destination.join("published").is_dir(),
+                "publication_not_visible_after_commit"
+            );
+            drop(store);
+
+            append_decision(
+                &store_root,
+                &review,
+                &publication,
+                revocation,
+                "operator-fixture",
+                "Revoke after completed admission",
+                12,
+            )
+            .unwrap();
+            let denied_destination = directory.path().join(format!("denied-{index}"));
+            fs::create_dir(&denied_destination).unwrap();
+            assert!(admit_local(
+                &review,
+                &publication,
+                &store_root,
+                &artifact_root,
+                &denied_destination,
+                13,
+            )
+            .is_err());
+            assert!(!denied_destination.join("published").exists());
+        }
     }
 }

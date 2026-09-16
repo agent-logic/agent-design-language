@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- First exact-head review at b1d8dbc835823f7151c5987dfb5c34e278876340 found two P1 defects: later invalidation or withholding did not revoke an earlier caller-selected approval file, and admission verified a file before reopening the mutable path for publication; it also found stale lifecycle truth. Second exact-head review at 1e1cd45c208232844530971ef8ff84b707123bfe found one P1: the caller-selected decision directory still allowed old-approval replay through an alternate or truncated chain. It also found stale SRP/SOR state and VPP/SOR claims for regressions not actually present.
+- First review at b1d8dbc835823f7151c5987dfb5c34e278876340 found stale approval and verified-byte check/use defects. Second review at 1e1cd45c208232844530971ef8ff84b707123bfe found alternate/truncated-directory replay and stale/overclaimed lifecycle truth. Third review at 3d61abcab14a5b26756b8996453f28376dfd6b31 found one P1 race: admission released the store lock after reading approval, allowing invalidate or withhold to commit before the destination became visible while the stale approved admission still completed.
 
 ### Dispositions
 
-- All findings accepted and remediated. Decisions now live in a locked, canonically identified publication-control store with one binding-derived chain and a durable head commitment; alternate unowned stores and deleted revocation tails fail closed. Admission publishes the already verified byte snapshot. VPP and SOR list only proof that actually ran, and SRP records both failed reviews. Publication remains held for a different fresh exact-head reviewer.
+- All findings accepted and remediated. Canonical store/head binding and deleted-tail detection prevent replay; admission publishes the already verified byte snapshot; and the DecisionStore lock now remains owned across authoritative head resolution, snapshotting, staging, and atomic visibility. A deterministic hook proves both invalidate and withhold attempts fail with publication_store_busy during that interval, then succeed only after publication is visible and deny later admission. Publication remains held for a different fresh exact-head reviewer.
 
 ### Recommended Outcome
 

@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/895/cards/spp.md"
 selected_lanes:
-  - "runtime; deterministic installed CLI, canonical approval-store revocation, alternate-store and deleted-tail replay denial, exact verified-byte snapshot admission, and retained evidence/review compatibility; local runs passed and distinct remediation review pending"
+  - "runtime; deterministic installed CLI, canonical approval-store revocation, alternate-store and deleted-tail replay denial, lock-held admit-versus-revoke serialization, exact verified-byte snapshot admission, and retained evidence/review compatibility; local runs passed and distinct remediation review pending"
 parallel_groups:
   - "Focused local proof ran serially around the shared Cargo target; a distinct exact-head review follows the immutable remediation commit."
 validation_commands:
-  - "cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check"
+  - "cargo test --manifest-path adl/Cargo.toml admission_holds_the_store_lock_until_publication_is_visible --lib; cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check"
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No canned plan, fixture-only admission, helper-only success, unexecuted platform claim or provider permission inference. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
-notes: "Executed local proof covers installed prepare/approve/inspect/admit behavior; approve-to-invalidate and approve-to-withhold denial; copied-old-approval alternate-store replay denial; deleted revocation-tail detection through the committed authoritative head; exact verified-byte snapshot publication without a second source read; binding mutations; incomplete runs; missing provenance; manifest/redaction/symlink/collision failures; evidence compatibility; review compatibility; formatting; strict warnings; and diff hygiene. No executed claim is made for chain fork, disconnected-gap, mixed-binding, non-JSON-entry, remote publication, provider, cloud, hosting, or Linux proof. Two independent reviews failed and their actionable findings are remediated locally; a distinct fresh review is required."
+notes: "Executed local proof covers installed prepare/approve/inspect/admit behavior; approve-to-invalidate and approve-to-withhold denial; copied-old-approval alternate-store replay denial; deleted revocation-tail detection; deterministic proof that invalidate and withhold cannot acquire the approval-store lock between head read and destination visibility; exact verified-byte snapshot publication without a second source read; binding mutations; incomplete runs; missing provenance; manifest/redaction/symlink/collision failures; evidence compatibility; review compatibility; formatting; strict warnings; and diff hygiene. No executed claim is made for remote publication, provider, cloud, hosting, or Linux proof. Three independent reviews failed and their actionable findings are remediated locally; a distinct fresh review is required."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -61,7 +61,7 @@ With #891 and #881 accepted, recheck shared-owner paths and then adopt exact evi
 
 ## Selected Validation Lanes
 
-- runtime; deterministic installed CLI, canonical approval-store revocation, alternate-store and deleted-tail replay denial, exact verified-byte snapshot admission, and retained evidence/review compatibility; local runs passed and distinct remediation review pending
+- runtime; deterministic installed CLI, canonical approval-store revocation, alternate-store and deleted-tail replay denial, lock-held admit-versus-revoke serialization, exact verified-byte snapshot admission, and retained evidence/review compatibility; local runs passed and distinct remediation review pending
 
 ## Parallelization Plan
 
@@ -86,7 +86,7 @@ With #891 and #881 accepted, recheck shared-owner paths and then adopt exact evi
 
 ## Validation Commands
 
-- cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check
+- cargo test --manifest-path adl/Cargo.toml admission_holds_the_store_lock_until_publication_is_visible --lib; cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Executed local proof covers installed prepare/approve/inspect/admit behavior; approve-to-invalidate and approve-to-withhold denial; copied-old-approval alternate-store replay denial; deleted revocation-tail detection through the committed authoritative head; exact verified-byte snapshot publication without a second source read; binding mutations; incomplete runs; missing provenance; manifest/redaction/symlink/collision failures; evidence compatibility; review compatibility; formatting; strict warnings; and diff hygiene. No executed claim is made for chain fork, disconnected-gap, mixed-binding, non-JSON-entry, remote publication, provider, cloud, hosting, or Linux proof. Two independent reviews failed and their actionable findings are remediated locally; a distinct fresh review is required.
+Executed local proof covers installed prepare/approve/inspect/admit behavior; approve-to-invalidate and approve-to-withhold denial; copied-old-approval alternate-store replay denial; deleted revocation-tail detection; deterministic proof that invalidate and withhold cannot acquire the approval-store lock between head read and destination visibility; exact verified-byte snapshot publication without a second source read; binding mutations; incomplete runs; missing provenance; manifest/redaction/symlink/collision failures; evidence compatibility; review compatibility; formatting; strict warnings; and diff hygiene. No executed claim is made for remote publication, provider, cloud, hosting, or Linux proof. Three independent reviews failed and their actionable findings are remediated locally; a distinct fresh review is required.
