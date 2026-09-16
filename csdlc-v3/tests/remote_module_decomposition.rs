@@ -33,6 +33,49 @@ const MODULES: [(&str, &str); 12] = [
     ),
 ];
 
+fn dependency_style_error(source: &str, modules: &[&str]) -> Option<String> {
+    let compact_source = source.split_whitespace().collect::<String>();
+    let normalized_absolute_paths = compact_source.replace(['{', '}'], "");
+    if normalized_absolute_paths.contains("crate::commands::remote") {
+        return Some("absolute remote-module paths are forbidden".into());
+    }
+    for statement in source.split(';') {
+        let Some((_, import)) = statement.rsplit_once("use ") else {
+            continue;
+        };
+        let compact_import = import.split_whitespace().collect::<String>();
+        let normalized_import = compact_import.replace(['{', '}'], "");
+        if normalized_import.starts_with("crateas")
+            || normalized_import.starts_with("crate::selfas")
+            || normalized_import.starts_with("superas")
+            || normalized_import.starts_with("super::selfas")
+        {
+            return Some("aliases of crate and super roots are forbidden".into());
+        }
+        let imported_identifiers = import
+            .split(|character: char| !character.is_ascii_alphanumeric() && character != '_')
+            .filter(|identifier| !identifier.is_empty())
+            .collect::<Vec<_>>();
+        for dependency in modules {
+            let references_sibling = imported_identifiers.contains(dependency);
+            if references_sibling && compact_import.starts_with("super::{") {
+                return Some(format!(
+                    "sibling {dependency} must not use a braced super import"
+                ));
+            }
+            if references_sibling
+                && normalized_import.starts_with("super")
+                && !compact_import.starts_with(&format!("super::{dependency}::"))
+            {
+                return Some(format!(
+                    "sibling {dependency} must use its canonical super path"
+                ));
+            }
+        }
+    }
+    None
+}
+
 fn direct_sibling_dependencies<'a>(source: &str, modules: &'a [&str]) -> Vec<&'a str> {
     let compact_source = source.split_whitespace().collect::<String>();
     modules
@@ -75,6 +118,11 @@ fn remote_owner_remains_a_thin_acyclic_module_graph() {
             !source.contains("use super::*;"),
             "{module}.rs must declare its module dependencies explicitly"
         );
+        assert_eq!(
+            dependency_style_error(source, &module_names),
+            None,
+            "{module}.rs must use canonical super::<module> sibling imports"
+        );
         assert!(
             source.lines().count() <= 1_000,
             "{module}.rs must not become a replacement remote god module"
@@ -92,6 +140,35 @@ fn remote_owner_remains_a_thin_acyclic_module_graph() {
             );
         }
     }
+}
+
+#[test]
+fn alternate_sibling_import_forms_fail_closed() {
+    let modules = ["routing", "storage"];
+    for rejected in [
+        "use super::{routing::dispatch_operational_remote};",
+        "use crate::commands::remote::routing::dispatch_operational_remote;",
+        "use crate::{commands::remote::routing::dispatch_operational_remote};",
+        "use crate::commands::{remote::routing::dispatch_operational_remote};",
+        "use crate::{commands::{remote::routing::dispatch_operational_remote}};",
+        "use crate as root; use root::commands::remote::routing::dispatch_operational_remote;",
+        "use crate::{self as root}; use root::commands::remote::routing::dispatch_operational_remote;",
+        "use super as parent; use parent::routing::dispatch_operational_remote;",
+        "use super::{self as parent}; use parent::routing::dispatch_operational_remote;",
+        "use super::routing as routed;",
+    ] {
+        assert!(
+            dependency_style_error(rejected, &modules).is_some(),
+            "alternate sibling import unexpectedly accepted: {rejected}"
+        );
+    }
+    assert_eq!(
+        direct_sibling_dependencies(
+            "use super::routing::dispatch_operational_remote as routed;",
+            &modules,
+        ),
+        vec!["routing"]
+    );
 }
 
 #[test]

@@ -35,7 +35,7 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/907/cards/spp.md"
 selected_lanes:
-  - "tooling; 134 deterministic local cases passed across structural contract, internal fake-transport mutation/merge/recovery, publication CLI, operational CLI, and terminal/cutover support proof"
+  - "tooling; 135 deterministic local cases passed across structural contract, internal fake-transport mutation/merge/recovery, publication CLI, operational CLI, and terminal/cutover support proof"
 parallel_groups:
   - "Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review"
 validation_commands:
@@ -61,7 +61,7 @@ Wait for accepted #862 and #849 and reconcile SIM/remote-owner coordination; cap
 
 ## Selected Validation Lanes
 
-- tooling; 134 deterministic local cases passed across structural contract, internal fake-transport mutation/merge/recovery, publication CLI, operational CLI, and terminal/cutover support proof
+- tooling; 135 deterministic local cases passed across structural contract, internal fake-transport mutation/merge/recovery, publication CLI, operational CLI, and terminal/cutover support proof
 
 ## Parallelization Plan
 

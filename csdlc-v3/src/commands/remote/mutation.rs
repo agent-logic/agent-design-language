@@ -5,7 +5,6 @@ use std::{fs, path::Path};
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 
 use super::authority::verify_canonical_v3_authority;
-use super::merge;
 use super::model::*;
 use super::storage::*;
 use super::support::{
@@ -216,7 +215,7 @@ pub fn stage_github_mutation(
     let mut preexisting = false;
 
     let staged_merge = if is_merge {
-        let staged = merge::stage(
+        let staged = super::merge::stage(
             repo_root,
             &effective_request,
             process,
@@ -318,7 +317,7 @@ pub fn execute_staged_github_mutation(
                 "staged merge identity changed before execution",
             ));
         }
-        return merge::execute_staged(repo_root, merge, reconciliation_only, process);
+        return super::merge::execute_staged(repo_root, merge, reconciliation_only, process);
     }
     let intent_path = github_mutation_intent_path(repo_root, &staged.operation_digest)?;
     let retained = load_mutation_intent(&intent_path, &staged.operation_digest)?;
@@ -498,7 +497,7 @@ pub fn execute_github_mutation(
     let authority = verify_canonical_v3_authority(repo_root, None, &request.expected_head_sha)?;
 
     if matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
-        return merge::execute(repo_root, request, process, &authority.selector_digest);
+        return super::merge::execute(repo_root, request, process, &authority.selector_digest);
     }
 
     let operation_digest = github_mutation_operation_digest(request);

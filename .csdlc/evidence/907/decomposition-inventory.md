@@ -65,7 +65,7 @@ The guard also requires module documentation, rejects implicit `use super::*` pr
 
 | Proof | Result | PVF classification |
 | --- | --- | --- |
-| `cargo test --manifest-path csdlc-v3/Cargo.toml --test remote_module_decomposition` | 2 passed | contract/architecture guard; deterministic; bounded CPU/disk; required gate |
+| `cargo test --manifest-path csdlc-v3/Cargo.toml --test remote_module_decomposition` | 3 passed | contract/architecture guard with alternate-import negative fixtures; deterministic; bounded CPU/disk; required gate |
 | `cargo test --manifest-path csdlc-v3/Cargo.toml --lib commands::remote` | 65 passed | unit and controlled fake remote transport; deterministic; bounded CPU/disk; required gate |
 | `cargo test --manifest-path csdlc-v3/Cargo.toml --test remote_publication_commands` | 13 passed | CLI/contract integration; deterministic; bounded CPU/disk; required gate |
 | `cargo test --manifest-path csdlc-v3/Cargo.toml --test operational_cli_commands` | 19 passed | operational CLI integration; deterministic; bounded CPU/disk; required gate |

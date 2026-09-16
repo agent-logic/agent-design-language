@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 907,
   "phase": "bound",
-  "generation": 6,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/907-v0922-remote-command-decomposition",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-907-v0922-remote-command-decomposition",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "abeecfadfec980e705d68d3bbe1b7d828aeefe8796662725c1188eda7970aa26"
+  "digest": "4932131ee9e0eefbd33925371c7fbd405943b7416e8d6335bc1af59018efbe44"
 }

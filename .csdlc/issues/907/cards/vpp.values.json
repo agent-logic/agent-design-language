@@ -26,7 +26,7 @@
   "sprint_goal_ref": "v0.92.2 Sprint 7 coordination issue #933; descriptive only",
   "notes_risks_inline": "Local proof is complete and green. Required CI and independent exact-head review remain separate acceptance gates; no live remote mutation or stable binary replacement occurred.",
   "validation_size_split": "Focused named route/transaction and golden-contract tests; required CI separately observed",
-  "selected_lanes_inline": "tooling; 134 deterministic local cases passed across structural contract, internal fake-transport mutation/merge/recovery, publication CLI, operational CLI, and terminal/cutover support proof",
+  "selected_lanes_inline": "tooling; 135 deterministic local cases passed across structural contract, internal fake-transport mutation/merge/recovery, publication CLI, operational CLI, and terminal/cutover support proof",
   "validation_runtime_class": "bounded_local",
   "lane_registry_path": "docs/validation/pvf_lanes.json",
   "lane_registry_template_set": "1.0.5",
