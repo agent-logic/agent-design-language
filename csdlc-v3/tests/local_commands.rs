@@ -1550,12 +1550,14 @@ fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
         .iter()
         .any(|finding| finding.code == "six_card_validation_passed"));
 
-    for route in ["issue", "bind"] {
-        assert_eq!(
-            execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
-            "invalid_operational_roots"
-        );
-    }
+    assert_eq!(
+        execute_operational_local_route("issue", &req, &registry, &context).unwrap_err()[0].code,
+        "invalid_operational_roots"
+    );
+    assert_eq!(
+        execute_operational_local_route("bind", &req, &registry, &context).unwrap_err()[0].code,
+        "bind_phase_invalid"
+    );
     let mut wrong = req.clone();
     wrong.branch = "codex/unrelated".into();
     assert_eq!(
