@@ -1,6 +1,12 @@
 use crate::codefriend::{
-    evidence::{contracts::Severity, hash},
-    review::synthesis::{ReviewSynthesis, SynthesizedFinding, SYNTHESIS_SCHEMA},
+    evidence::{
+        contracts::{ReviewRecord, Severity},
+        hash,
+    },
+    review::synthesis::{
+        synthesize, ReviewSynthesis, SynthesisManifest, SynthesizedFinding,
+        SYNTHESIS_MANIFEST_SCHEMA, SYNTHESIS_SCHEMA,
+    },
 };
 use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
@@ -69,6 +75,10 @@ pub struct RemediationManifest {
     pub schema: String,
     pub synthesis_ref: String,
     pub synthesis_digest: String,
+    pub synthesis_manifest_ref: String,
+    pub synthesis_manifest_digest: String,
+    pub review_record_ref: String,
+    pub review_record_digest: String,
     pub remediation_plan_ref: String,
     pub remediation_plan_digest: String,
     pub action_count: usize,
@@ -80,15 +90,25 @@ pub fn plan_from_file(options: RemediationOptions) -> Result<RemediationPlan> {
         !options.out.exists(),
         "remediation_output_directory_already_exists"
     );
-    let synthesis: ReviewSynthesis = read_json(&options.input, 8 * 1024 * 1024)?;
-    let plan = plan(&synthesis)?;
+    let (synthesis, synthesis_manifest, review_record) =
+        read_completed_synthesis_bundle(&options.input)?;
+    let plan = plan_with_review_record(&synthesis, &review_record)?;
     fs::create_dir(&options.out).with_context(|| format!("create {}", options.out.display()))?;
     copy_json_snapshot(&options.input, &options.out.join("synthesis.json"))?;
+    write_json(
+        &options.out.join("synthesis-manifest.json"),
+        &synthesis_manifest,
+    )?;
+    write_json(&options.out.join("review-record.json"), &review_record)?;
     write_json(&options.out.join("remediation-plan.json"), &plan)?;
     let manifest = RemediationManifest {
         schema: REMEDIATION_MANIFEST_SCHEMA.to_string(),
         synthesis_ref: "synthesis.json".to_string(),
         synthesis_digest: plan.synthesis_digest.clone(),
+        synthesis_manifest_ref: "synthesis-manifest.json".to_string(),
+        synthesis_manifest_digest: hash(&synthesis_manifest)?,
+        review_record_ref: "review-record.json".to_string(),
+        review_record_digest: hash(&review_record)?,
         remediation_plan_ref: "remediation-plan.json".to_string(),
         remediation_plan_digest: hash(&plan)?,
         action_count: plan.actions.len(),
@@ -99,19 +119,146 @@ pub fn plan_from_file(options: RemediationOptions) -> Result<RemediationPlan> {
 }
 
 pub fn read_plan_from_file(input: &Path) -> Result<RemediationPlan> {
-    let plan: RemediationPlan = read_json(input, 8 * 1024 * 1024)?;
-    validate_plan(&plan)?;
-    Ok(plan)
+    let remediation_plan: RemediationPlan = read_json(input, 8 * 1024 * 1024)?;
+    let directory = input
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("remediation_plan_parent_missing"))?;
+    let manifest: RemediationManifest = read_json(&directory.join("manifest.json"), 1024 * 1024)
+        .context("remediation_manifest_missing_or_invalid")?;
+    validate_remediation_manifest(&manifest, &remediation_plan)?;
+    let synthesis_path = resolve_bundle_ref(directory, &manifest.synthesis_ref)?;
+    let synthesis_manifest_path = resolve_bundle_ref(directory, &manifest.synthesis_manifest_ref)?;
+    let review_record_path = resolve_bundle_ref(directory, &manifest.review_record_ref)?;
+    let (synthesis, synthesis_manifest, review_record) = read_completed_synthesis_bundle_paths(
+        &synthesis_path,
+        &synthesis_manifest_path,
+        &review_record_path,
+    )?;
+    ensure!(
+        hash(&synthesis_manifest)? == manifest.synthesis_manifest_digest
+            && hash(&review_record)? == manifest.review_record_digest,
+        "remediation_source_bundle_digest_mismatch"
+    );
+    validate_plan_against_synthesis(&remediation_plan, &synthesis)?;
+    ensure!(
+        plan_with_review_record(&synthesis, &review_record)? == remediation_plan,
+        "remediation_plan_not_canonical_for_synthesis"
+    );
+    Ok(remediation_plan)
+}
+
+fn validate_remediation_manifest(
+    manifest: &RemediationManifest,
+    plan: &RemediationPlan,
+) -> Result<()> {
+    ensure!(
+        manifest.schema == REMEDIATION_MANIFEST_SCHEMA
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.synthesis_manifest_ref == "synthesis-manifest.json"
+            && manifest.review_record_ref == "review-record.json"
+            && manifest.remediation_plan_ref == "remediation-plan.json",
+        "invalid_remediation_manifest"
+    );
+    ensure!(
+        manifest.synthesis_digest == plan.synthesis_digest
+            && manifest.remediation_plan_digest == hash(plan)?
+            && manifest.action_count == plan.actions.len()
+            && manifest.omitted_finding_count == plan.omitted_findings.len(),
+        "remediation_manifest_digest_or_count_mismatch"
+    );
+    Ok(())
+}
+
+fn read_completed_synthesis_bundle(
+    synthesis_path: &Path,
+) -> Result<(ReviewSynthesis, SynthesisManifest, ReviewRecord)> {
+    let directory = synthesis_path
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("synthesis_parent_missing"))?;
+    read_completed_synthesis_bundle_paths(
+        synthesis_path,
+        &directory.join("manifest.json"),
+        &directory.join("review-record.json"),
+    )
+}
+
+fn read_completed_synthesis_bundle_paths(
+    synthesis_path: &Path,
+    manifest_path: &Path,
+    review_record_path: &Path,
+) -> Result<(ReviewSynthesis, SynthesisManifest, ReviewRecord)> {
+    let synthesis: ReviewSynthesis = read_json(synthesis_path, 8 * 1024 * 1024)?;
+    let manifest: SynthesisManifest =
+        read_json(manifest_path, 1024 * 1024).context("synthesis_manifest_missing_or_invalid")?;
+    let review_record: ReviewRecord = read_json(review_record_path, 8 * 1024 * 1024)
+        .context("synthesis_review_record_missing_or_invalid")?;
+    ensure!(
+        manifest.schema == SYNTHESIS_MANIFEST_SCHEMA
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.review_record_ref == "review-record.json",
+        "invalid_synthesis_manifest"
+    );
+    ensure!(
+        synthesis_path.file_name().and_then(|name| name.to_str())
+            == Some(manifest.synthesis_ref.as_str())
+            && review_record_path
+                .file_name()
+                .and_then(|name| name.to_str())
+                == Some(manifest.review_record_ref.as_str()),
+        "synthesis_manifest_reference_mismatch"
+    );
+    ensure!(
+        hash(&synthesis)? == manifest.synthesis_digest
+            && hash(&review_record)? == manifest.review_record_digest
+            && synthesis.review_record_digest == manifest.review_record_digest
+            && synthesis.synthesized_findings.len() == manifest.synthesized_finding_count
+            && synthesis.input_finding_count == manifest.input_finding_count,
+        "synthesis_bundle_digest_or_count_mismatch"
+    );
+    ensure!(
+        synthesize(&review_record)? == synthesis,
+        "synthesis_not_canonical_for_completed_review"
+    );
+    Ok((synthesis, manifest, review_record))
+}
+
+fn resolve_bundle_ref(directory: &Path, reference: &str) -> Result<PathBuf> {
+    validate_relative_path(reference)?;
+    ensure!(
+        Path::new(reference).components().count() == 1,
+        "nested_remediation_bundle_ref_denied"
+    );
+    Ok(directory.join(reference))
 }
 
 pub fn plan(synthesis: &ReviewSynthesis) -> Result<RemediationPlan> {
+    plan_with_evidence_paths(synthesis, &BTreeMap::new())
+}
+
+fn plan_with_review_record(
+    synthesis: &ReviewSynthesis,
+    review_record: &ReviewRecord,
+) -> Result<RemediationPlan> {
+    let evidence_paths = review_record
+        .admission
+        .evidence
+        .iter()
+        .map(|evidence| (evidence.id.as_str(), evidence.path.as_str()))
+        .collect::<BTreeMap<_, _>>();
+    plan_with_evidence_paths(synthesis, &evidence_paths)
+}
+
+fn plan_with_evidence_paths(
+    synthesis: &ReviewSynthesis,
+    evidence_paths: &BTreeMap<&str, &str>,
+) -> Result<RemediationPlan> {
     validate_synthesis(synthesis)?;
     let synthesis_digest = hash(synthesis)?;
     let mut actions = Vec::new();
     let mut omitted_findings = Vec::new();
     let mut prior_for_path: BTreeMap<String, String> = BTreeMap::new();
     for finding in &synthesis.synthesized_findings {
-        let relevant_paths = relevant_paths(finding);
+        let relevant_paths = relevant_paths(finding, evidence_paths);
         if relevant_paths.is_empty() {
             omitted_findings.push(OmittedFinding {
                 finding_id: finding.id.clone(),
@@ -393,7 +540,10 @@ fn visit<'a>(
     Ok(())
 }
 
-fn relevant_paths(finding: &SynthesizedFinding) -> Vec<String> {
+fn relevant_paths(
+    finding: &SynthesizedFinding,
+    evidence_paths: &BTreeMap<&str, &str>,
+) -> Vec<String> {
     let mut paths = BTreeSet::new();
     for token in finding
         .semantic_anchor
@@ -403,6 +553,13 @@ fn relevant_paths(finding: &SynthesizedFinding) -> Vec<String> {
         let trimmed = normalize_path_token(token);
         if looks_like_path(trimmed) && validate_relative_path(trimmed).is_ok() {
             paths.insert(trimmed.to_string());
+        }
+    }
+    for evidence_id in &finding.evidence {
+        if let Some(path) = evidence_paths.get(evidence_id.as_str()) {
+            if validate_relative_path(path).is_ok() {
+                paths.insert((*path).to_string());
+            }
         }
     }
     paths.into_iter().collect()

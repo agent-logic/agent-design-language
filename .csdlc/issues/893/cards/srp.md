@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish."
+notes: "The remediation changed production code and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit before publication or merge. No #894/#895 scope is absorbed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Fresh exact-head review of ed970b2443aadd818f02bf482cb29a5aecbaa966 by fresh-session:/root/review_893_clippy_final returned one P2 lifecycle truth finding: `.csdlc/issues/893/cards/sor.values.json` field `validation_commands_inline` still omitted clippy and described the repair as path-extraction-only.
+- Canonical exact-head review of 3d2dc0e008535107841cc299ce153f7fdcf92d84 by fresh-session:c00e1373-7c54-4690-b635-bbc64252e726 returned FAIL: P1 production planning accepted a bare or synthetic ReviewSynthesis without proving a completed four-lane CF-SYNTHESIS bundle; P1 the installed reader validated only plan structure and could accept unrelated action, evidence, or path substitution; P2 VPP/SOR proof truth did not execute or accurately record the planned real-synthesis, unrelated-action, missing-evidence, invalid-input, and source-immutability checks.
 
 ### Dispositions
 
-- Finding accepted and remediated through native SOR value update. `validation_commands_inline` now includes focused tests, fmt, full clippy with denied warnings, and diff hygiene, and names the clippy-only repair after the path-extraction fix.
+- All findings accepted and remediated. Production planning now requires synthesis.json plus its manifest.json and review-record.json, verifies schemas, digests, counts, completion, exact supported four-lane set, and canonical synthesis identity, and resolves finding evidence IDs through retained review-record paths. Generated bundles retain source manifest and review record. The installed reader verifies the retained bundle and requires byte-equivalent canonical replanning, rejecting unrelated action/evidence/path substitution. Focused proof now executes the real retained Vector synthesis bundle, source immutability, bare synthesis rejection, missing evidence, unrelated path substitution, tampered bundle, output freshness, and structural failures.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish.
+The remediation changed production code and tests after the failed review. A different canonical fresh-session reviewer must inspect the new immutable commit before publication or merge. No #894/#895 scope is absorbed.

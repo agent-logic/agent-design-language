@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and remediated the CodeFriend remediation planner for #893. After the path-extraction review fix, PR #1012 CI exposed one clippy-only style defect in the new punctuation trimming code; it is repaired without behavior changes.
+Implemented and remediated the CodeFriend remediation planner for #893. Production generation and reading are now bound to a retained, completed, canonical CF-SYNTHESIS bundle rather than accepting bare synthesis-shaped JSON, and evidence IDs resolve to repository paths through the retained review record.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -79,19 +79,19 @@ Implemented and remediated the CodeFriend remediation planner for #893. After th
 - Additional proof artifacts: `Focused local proof output retained in terminal history; no external provider or GitHub mutation proof claimed.`
 
 ## Actions taken
-- `Repaired remediation-plan path token normalization so leading `.` is preserved for repository paths.`
-- `Allowed validated root file paths containing `.` to be considered relevant repository paths.`
-- `Replaced manual punctuation char-comparison closure with an array pattern accepted by clippy.`
+- `Required and verified synthesis.json, synthesis manifest, and completed review record as one canonical input bundle before production planning.`
+- `Retained source bundle provenance in remediation output and required the reader to reproduce the canonical plan from that retained bundle, rejecting action, path, evidence, digest, and count substitution.`
+- `Resolved synthesized evidence IDs through the validated review record so the real pinned Vector review produces an actionable repository-path repair instead of an empty omission.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs`
 - Worktree-only paths remaining: `.csdlc/issues/893/ and .csdlc/transactions/completed/893/ are generated lifecycle material in the bound worktree until publication/finish; implementation source changes are tracked candidate paths.`
-- Integration state: `worktree_candidate_ready_for_fresh_review_after_clippy_repair`
+- Integration state: `worktree_candidate_ready_for_fresh_review_after_completed_synthesis_binding_repair`
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Confirms the remediated planner remains behaviorally covered and passes the PR failing lint lane before a new exact-head review.`
+    `Confirms the production CLI accepts only a canonical completed synthesis bundle, resolves retained evidence to repository paths, rejects plan substitution and bundle tampering, preserves source bytes, and passes the PR lint surface.`
 - Result: `not_integrated`
 
 Rules:
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo fmt --manifest-path adl/Cargo.toml --check`; `cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings`; `git diff --check``
-    `Focused #893 regression proof passed 5/5, Rust formatting passed, full clippy with denied warnings passed, and diff hygiene passed after the clippy-only repair.`
+    `Proves the production CLI rejects unverified synthesis and tampered remediation plans, consumes the pinned completed Vector synthesis bundle, maps retained evidence IDs to repository paths, preserves source bytes, and remains lint-clean.`
 - Results:
   - `passed`
 
@@ -127,26 +127,26 @@ verification_summary:
     checks_run:
       - "`cargo fmt --manifest-path adl/Cargo.toml --check` verifies Rust formatting for the candidate."
   determinism:
-    status: passed_for_deterministic_local_fixtures
-    replay_verified: focused tests create isolated local synthesis input and output directories under adl/target/codefriend-remediate-tests; installed CLI generation and reader paths are executed.
+    status: passed_for_completed_synthesis_bundle_and_negative_fixtures
+    replay_verified: The installed CLI generated one remediation action from the retained completed Vector bundle, resolved evidence to lib/dnsmsg-parser/src/dns_message.rs, parsed and asserted its manifest, reread the exact plan, preserved all three source bundle files byte-for-byte, and rejected a duplicate output directory.
     ordering_guarantees_verified: passed; validator recomputes topological order and rejects tampered non-topological action_order.
   security_privacy:
-    status: passed_for_local_fixture_scope
+    status: passed_for_completed_synthesis_bundle_and_local_negative_fixture_scope
     secrets_leakage_detected: not_run
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: true_bounded_validation_cache_path_only
   artifacts:
-    status: passed_for_local_fixture_scope
-    required_artifacts_present: passed_for_local_fixture_scope
+    status: passed_for_completed_synthesis_bundle_scope
+    required_artifacts_present: passed_for_completed_synthesis_bundle_scope
     schema_changes:
       present: true; new remediation plan and manifest schema tags are introduced inside CodeFriend action planning output.
       approved: issue-local implementation pending fresh review; not merged or published yet
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `remediation_plan_preserves_dot_directories_and_root_files plus existing remediation planner focused tests`
-- Fixtures or scripts used: `Synthetic CodeFriend synthesis JSON created by the focused Rust tests; no network/provider credentials used.`
-- Replay verification (same inputs -> same artifacts/order): `passed_for_focused_local_tests`
+- Determinism tests executed: `Eight focused tests cover deterministic ordering, omitted-path handling, dot-directory/root-file preservation, structural tamper rejection, real completed synthesis generation/readback, bare synthesis rejection, unrelated action/path rejection, missing evidence, bundle tamper rejection, source-byte immutability, and fresh-output enforcement.`
+- Fixtures or scripts used: `Retained completed Vector CF-SYNTHESIS bundle at .csdlc/evidence/892/predecessor-openai-r5-synthesis plus focused local negative fixtures generated under the Cargo target directory; no network or provider credentials used.`
+- Replay verification (same inputs -> same artifacts/order): `passed_for_real_completed_synthesis_bundle_and_negative_fixtures`
 - Ordering guarantees (sorting / tie-break rules used): `Generated remediation actions are dependency-ordered with deterministic severity/id tie-breaks; reader validation rejects action_order values that differ from recomputed topological order.`
 - Artifact stability notes: `Planner refuses an existing output directory and writes output artifacts with create-new semantics before returning success.`
 
@@ -160,19 +160,19 @@ verification_summary:
 - Trace bundle path(s): `Generated local test artifacts under adl/target/codefriend-remediate-tests; no durable release bundle created before review/publication.`
 - Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-remediate-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture.`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-- Replay result: `codefriend_remediate 5 passed; cargo fmt passed; cargo clippy passed; git diff --check passed`
+- Replay result: `codefriend_remediate 8 passed; cargo fmt passed; full all-target/all-feature clippy with denied warnings passed; git diff --check passed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
-- Required artifacts present: `passed_for_local_fixture_scope`
-- Artifact schema/version checks: `Focused tests parse generated remediation-plan JSON and manifest output, validate schema tags, and reject tampered invalid plan shapes including non-topological action_order.`
+- Required artifacts present: `passed_for_completed_synthesis_bundle_scope`
+- Artifact schema/version checks: `Focused tests parse the remediation manifest, assert retained synthesis-manifest and review-record references and action counts, read the generated plan through the installed CLI, and reject bare synthesis, missing evidence, unrelated path substitution, tampered source bundle, invalid plan shapes, and non-topological order.`
 - Hash/byte-stability checks: ``cargo fmt --manifest-path adl/Cargo.toml --check` passed; `git diff --check` passed.`
 - Missing/optional artifacts and rationale: `CI, independent exact-head review and publication proof are pending. Provider-generated reviews and GitHub issue creation are sibling/follow-on concerns and not required for this local remediation-plan generator.`
 
 ## Decisions / Deviations
 - `The CLI surface is `adl codefriend plan remediation` with a `read` subcommand so planning and complete-plan inspection remain distinct and source-mutating repair execution is not implied.`
-- `The proof uses synthesis-shaped local fixtures plus the existing synthesis regression suite. It does not claim a live external-provider review run or issue-creation authority.`
+- `The production proof consumes the retained completed Vector CF-SYNTHESIS bundle and exercises local negative fixtures. It does not rerun external providers, create GitHub issues, or claim publication authority.`
 
 ## Follow-ups / Deferred work
-- `Commit immutable lifecycle-truth repair and obtain fresh independent exact-head review.`
-- `If review passes, republish/update PR #1012 through native C-SDLC, observe CI, and finish only at green/terminal authority.`
+- `Commit the immutable completed-synthesis binding remediation and obtain a different canonical fresh-session exact-head review.`
+- `If review passes, update PR #1012 through native C-SDLC, observe renewed CI, and finish only at green terminal authority.`
