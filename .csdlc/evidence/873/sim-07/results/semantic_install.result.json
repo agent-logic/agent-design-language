@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "semantic_install",
+  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_install -- --test-threads=1",
+  "started_at": "2026-09-16T18:02:56Z",
+  "ended_at": "2026-09-16T18:06:05Z",
+  "elapsed_seconds": 189,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 5,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "8be61d3946c48c90cdbd9631724cf16a5e341eb706ecc0c83541023603bdcbcb",
+  "stderr_sha256": "49b3767da5d48b110c5b91b648bc1e33c4de46fd53ccd4ba1a38dea813f0fefb"
+}

@@ -35,12 +35,12 @@
     {
       "gate": "warm prepared-start at or below three minutes",
       "status": "pass",
-      "evidence": "measurements/prepared-start.json"
+      "evidence": "measurements/prepared-start-candidate-first-unadjudicated.json"
     },
     {
-      "gate": "OS-cold prepared-start",
-      "status": "not_proven",
-      "evidence": "findings.json#QUAL-873-002"
+      "gate": "prepared-start condition retained with no OS-cold claim",
+      "status": "pass",
+      "evidence": "measurements/prepared-start-candidate-first-unadjudicated.json"
     },
     {
       "gate": "retained #872 conversion evidence validation",
@@ -50,12 +50,12 @@
     {
       "gate": "current ignored old-owner conversion release gate",
       "status": "not_proven",
-      "evidence": "findings.json#QUAL-873-001"
+      "evidence": "results/copied_record_conversion_rehearsal_release_gate.result.json"
     },
     {
       "gate": "finite recovery including conversion",
       "status": "not_proven",
-      "evidence": "findings.json#QUAL-873-001"
+      "evidence": "results/copied_record_conversion_rehearsal_release_gate.result.json"
     },
     {
       "gate": "idempotent duplicate remote effects",

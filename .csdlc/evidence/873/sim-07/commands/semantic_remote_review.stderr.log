@@ -1,0 +1,3 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.39s
+     Running tests/semantic_remote_review.rs (csdlc-v3/target/debug/deps/semantic_remote_review-b9a07d5ca12c924c)
