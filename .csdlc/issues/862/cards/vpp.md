@@ -41,7 +41,7 @@ parallel_groups:
 validation_commands:
   - "cargo test --manifest-path csdlc-v3/Cargo.toml --test local_module_decomposition --test local_commands --test operational_cli_commands --test transactions --test foundation --test proof_worktree_binding --test terminal_cleanup_cutover_commands; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml --check; git diff --check"
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No incomplete route migration, replacement god module, facade-only size claim, serialized/public drift or weakened guard. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
-notes: "Implementation and focused validation are complete in the bound #862 worktree. The exact-head pre-PR review at 02fe25eca4 returned three P2 findings; all are accepted and being resolved before re-review. The broader owner lane stopped on the unchanged test_card_prompt.sh 1.0.3 versus active registry 1.0.5 mismatch, so no full owner-lane pass is claimed. Publication, CI, merge and terminal closeout remain pending."
+notes: "Implementation and focused validation are complete in the bound #862 worktree: 152 focused tests and strict checks passed. Three P2 findings from the initial review were resolved, and independent exact-head re-review found no remaining actionable findings. The broader owner lane stopped on the unchanged test_card_prompt.sh 1.0.3 versus active registry 1.0.5 mismatch, so no full owner-lane pass is claimed. Publication, CI, merge and terminal closeout remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Implementation and focused validation are complete in the bound #862 worktree. The exact-head pre-PR review at 02fe25eca4 returned three P2 findings; all are accepted and being resolved before re-review. The broader owner lane stopped on the unchanged test_card_prompt.sh 1.0.3 versus active registry 1.0.5 mismatch, so no full owner-lane pass is claimed. Publication, CI, merge and terminal closeout remain pending.
+Implementation and focused validation are complete in the bound #862 worktree: 152 focused tests and strict checks passed. Three P2 findings from the initial review were resolved, and independent exact-head re-review found no remaining actionable findings. The broader owner lane stopped on the unchanged test_card_prompt.sh 1.0.3 versus active registry 1.0.5 mismatch, so no full owner-lane pass is claimed. Publication, CI, merge and terminal closeout remain pending.

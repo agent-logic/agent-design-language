@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Implementation is complete in the bound issue worktree. The focused candidate proof is green: 151 tests plus strict clippy, formatting and diff checks. The broader owner lane stopped on an unchanged baseline mismatch: test_card_prompt.sh expects template set 1.0.3 while the selected registry is 1.0.5; this issue does not change either surface. Independent review, CI and publication remain separate gates."
+notes: "Implementation is complete in the bound issue worktree. The focused candidate proof is green: 152 tests plus strict clippy, formatting and diff checks. Independent exact-head review completed with no remaining actionable findings after three accepted P2 findings were resolved. The broader owner lane stopped on an unchanged baseline mismatch: test_card_prompt.sh expects template set 1.0.3 while the selected registry is 1.0.5; this issue does not change either surface. Native publication and hosted CI remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Implementation is complete in the bound issue worktree. The focused candidate proof is green: 151 tests plus strict clippy, formatting and diff checks. The broader owner lane stopped on an unchanged baseline mismatch: test_card_prompt.sh expects template set 1.0.3 while the selected registry is 1.0.5; this issue does not change either surface. Independent review, CI and publication remain separate gates.
+Implementation is complete in the bound issue worktree. The focused candidate proof is green: 152 tests plus strict clippy, formatting and diff checks. Independent exact-head review completed with no remaining actionable findings after three accepted P2 findings were resolved. The broader owner lane stopped on an unchanged baseline mismatch: test_card_prompt.sh expects template set 1.0.3 while the selected registry is 1.0.5; this issue does not change either surface. Native publication and hosted CI remain pending.
