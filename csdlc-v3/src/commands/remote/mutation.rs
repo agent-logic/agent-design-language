@@ -707,9 +707,8 @@ pub fn execute_github_mutation(
             Err(finding)
                 if finding.code == "github_mutation_not_reconciled"
                     && !matches!(request.mutation, GithubMutation::IssueEdit { .. })
-                    && (request.recovery
-                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
-                        || matches!(request.mutation, GithubMutation::PullRequestReady)) =>
+                    && request.recovery
+                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
                 // Legacy intents are immutable. Resolve their missing target only
                 // for an explicitly authorized retry after authenticated absence.
