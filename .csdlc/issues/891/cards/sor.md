@@ -28,8 +28,8 @@ Execution:
 - Actor: `unassigned implementation owner`
 - Model: `unknown`
 - Provider: `openai:gpt-4.1-mini via credential_ref env:OPENAI_API_KEY; key value was not stored in repo artifacts`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Start Time: `unknown`
+- End Time: `unknown`
 
 ## Summary
 
@@ -39,10 +39,10 @@ Implemented and remediated the installed CodeFriend operator review shell for #8
 - Initial PVF lane: `runtime`
 - Planned PVF lane: `runtime`
 - Final PVF lane: `runtime`
-- Lane change reason: `not_run; implementation has not started`
+- Lane change reason: `no lane change; runtime lane remained correct for an installed operator shell`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `local_candidate_build_and_real_provider_shell_proof`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -53,9 +53,9 @@ Implemented and remediated the installed CodeFriend operator review shell for #8
 - Actual PR wait seconds: `not_started`
 - Actual CI wait seconds: `not_started`
 - Budget source: `no operator token budget assigned`
-- Goal metrics data source: `unknown`
-- Goal metrics source ref: `unknown`
-- Data-source confidence: `unknown`
+- Goal metrics data source: `active goal read from Codex goal API; detailed per-issue token split unknown`
+- Goal metrics source ref: `Codex active goal for Sprint 4 #930`
+- Data-source confidence: `medium_for_goal_identity_low_for_per_issue_metrics`
 - Estimate error percent: `unknown`
 - Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
 - Issue goal ref: `Sprint 4 #930 active goal covers #891 execution in this session; single goal slot prevented replacing it with a separate child goal`
@@ -154,7 +154,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: not_run
+    status: passed
     required_artifacts_present: passed_for_local_fixture_scope
     schema_changes:
       present: not_run
@@ -162,30 +162,30 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
+- Determinism tests executed: `cargo test --manifest-path adl/Cargo.toml --test codefriend_review review_shell`
+- Fixtures or scripts used: `adl/tests/codefriend_review.rs fixture servers plus .csdlc/evidence/891/real-provider-shell-proof bounded two-file fixture repository`
+- Replay verification (same inputs -> same artifacts/order): `passed for focused deterministic shell tests`
+- Ordering guarantees (sorting / tie-break rules used): `attempt settlement reloads latest persisted operator-state before writing, so older cancelled attempts cannot overwrite newer retry completion`
 - Artifact stability notes: `Retries now archive attempt-local cancel-request.json before a new attempt; cancellation after the last provider request now records failed/cancelled run truth instead of complete.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `real-provider proof used credential_ref env:OPENAI_API_KEY; no key value was copied into repository artifacts`
 - Prompt / tool argument redaction verified: `provider result artifacts retain credential_ref only and redacted provider text excerpts`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Absolute path leakage check: `proof command records the external FastWork store path because `admit-local` rejects stores inside the source checkout; repository artifacts keep request/output paths relative`
+- Sandbox / policy invariants preserved: `real-provider proof used bounded repository fixture, no source mutation, and no secret value persistence`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture/operator-state.json; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture/attempts/1/review/run.json; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture/attempts/1/review/review-record.json`
 - Run artifact root: `.csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture records the successful installed shell real-provider run; local deterministic test artifacts remain under adl/target/codefriend-review-tests`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_review`
 - Replay result: `not_run; implementation has not started`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/891 (planned)`
+- Primary proof surface: `.csdlc/evidence/891/real-provider-shell-proof`
 - Required artifacts present: `operator-state.json, attempts/1/review/run.json and attempts/1/review/review-record.json are present for the successful real-provider shell proof`
 - Artifact schema/version checks: `operator-state JSON, review run JSON, lane result JSON and review-record JSON are parsed by focused tests; native C-SDLC validate passed at gen4 before remediation and will be rerun after this truth edit.`
 - Hash/byte-stability checks: `cargo fmt completed after remediation; git diff --check will be rerun before fresh exact-head review.`
-- Missing/optional artifacts and rationale: `Real external provider proof was executed on the macOS operator host with the installed shell against OpenAI gpt-4.1-mini and completed with lane artifacts. Linux installed qualification and repository CI remain publication gates; no additional cloud, synthesis, renderer or publication proof is claimed here.`
+- Missing/optional artifacts and rationale: `Real external provider proof was executed on the macOS operator host with the installed shell against OpenAI gpt-4.1-mini and completed with lane artifacts. Linux installed qualification is left to repository CI after publication; no additional cloud, synthesis, renderer or publication proof is claimed here.`
 
 ## Decisions / Deviations
 - `The issue contract proposed `adl/tests/codefriend_shell.rs`; the implementation extended the existing `adl/tests/codefriend_review.rs` integration target because it already owns the installed review runner fixture and avoids duplicating fixture infrastructure.`
