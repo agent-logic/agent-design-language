@@ -3,8 +3,14 @@
 
 use adl::codefriend::{
     actions::{
-        remediation::{plan_from_file as remediation_from_file, RemediationOptions},
-        test_plan::{plan_from_file as test_plan_from_file, TestPlanOptions},
+        remediation::{
+            plan_from_file as remediation_from_file, read_plan_from_file as read_remediation,
+            RemediationOptions,
+        },
+        test_plan::{
+            plan_from_file as test_plan_from_file, read_plan_from_file as read_test_plan,
+            TestPlanOptions,
+        },
     },
     evidence::{contracts::ReviewRecord, hash},
     ingestion::digest,
@@ -12,7 +18,7 @@ use adl::codefriend::{
         append_decision, render_markdown, DecisionKind, ManifestInput, MarkdownManifest,
         MarkdownRenderOptions, MARKDOWN_RENDERER_VERSION,
     },
-    review::synthesis::{synthesize_from_file, SynthesisOptions},
+    review::synthesis::{read_synthesis_from_file, synthesize_from_file, SynthesisOptions},
 };
 use serde_json::json;
 use std::{
@@ -210,6 +216,52 @@ fn installed_renderer_emits_complete_bound_report_and_manifest() {
     assert!(report.contains("lib/dnsmsg-parser/src/dns_message.rs"));
     assert!(report.contains("**Remediation plan**"));
     assert!(report.contains("**Test plan**"));
+    let synthesis =
+        read_synthesis_from_file(&fixture.artifact_root.join(&fixture.synthesis_rel)).unwrap();
+    let remediation =
+        read_remediation(&fixture.artifact_root.join(&fixture.remediation_rel)).unwrap();
+    let test_plan = read_test_plan(&fixture.artifact_root.join(&fixture.test_plan_rel)).unwrap();
+    for finding in &synthesis.synthesized_findings {
+        assert!(report.contains(&finding.id));
+        for source in &finding.sources {
+            assert!(report.contains(&source.finding_id));
+            for evidence_id in &source.evidence {
+                assert!(report.contains(evidence_id));
+            }
+        }
+    }
+    for action in &remediation.actions {
+        assert!(report.contains(&action.id));
+        assert!(report.contains(&action.finding_id));
+        for id in action
+            .source_finding_ids
+            .iter()
+            .chain(action.evidence_ids.iter())
+            .chain(action.dependencies.iter())
+        {
+            assert!(report.contains(id));
+        }
+    }
+    for case in &test_plan.test_cases {
+        assert!(report.contains(&case.id));
+        assert!(report.contains(&case.finding_id));
+        for id in case
+            .source_finding_ids
+            .iter()
+            .chain(case.source_evidence.iter())
+        {
+            assert!(report.contains(id));
+        }
+    }
+    for label in [
+        "Source finding IDs",
+        "Evidence IDs",
+        "Dependencies",
+        "Source evidence",
+        "Detection rationale",
+    ] {
+        assert!(report.contains(label), "missing semantic field {label}");
+    }
     assert_eq!(manifest.finding_ids.len(), 1);
     assert_eq!(manifest.claims, ["Approved exact review semantics"]);
     assert_eq!(

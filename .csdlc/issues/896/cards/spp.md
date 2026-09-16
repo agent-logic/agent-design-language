@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implemented the approved-review Markdown renderer and installed CLI route, exact source/approval/renderer/destination bindings, atomic create-only output, complete finding/claim/plan rendering, redaction and Markdown sanitation, empty-result interoperability, retained output proof, operator documentation, and coupled PVF inventory. Focused local proof passes; fresh exact-head review and publication remain pending."
+plan_summary: "Implementation and focused local proof are complete after one exact-head review round. The review found unsafe single-backtick citation delimiters, incomplete governed synthesis/remediation/test semantics, path-based create-only and confinement races, and contradictory SOR truth. Citations now use variable-length code spans; every governed source/action/test field is rendered and asserted; output creation is anchored to opened no-follow directory handles and committed by a platform no-replace rename; competing-target and parent-swap regressions pass; current installed output is retained at the remediation proof path. A distinct fresh exact-head review remains required before publication."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -80,7 +80,7 @@ codex_plan:
   - step: "Implement the bounded deliverables only."
     status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending_fresh_exact_head_review"
+    status: "review_findings_remediated_pending_distinct_fresh_review"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "pending_publication_ci_merge"
 affected_areas:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-RENDER-MD] Render an approved review as Markdown`.
 
-Implemented the approved-review Markdown renderer and installed CLI route, exact source/approval/renderer/destination bindings, atomic create-only output, complete finding/claim/plan rendering, redaction and Markdown sanitation, empty-result interoperability, retained output proof, operator documentation, and coupled PVF inventory. Focused local proof passes; fresh exact-head review and publication remain pending.
+Implementation and focused local proof are complete after one exact-head review round. The review found unsafe single-backtick citation delimiters, incomplete governed synthesis/remediation/test semantics, path-based create-only and confinement races, and contradictory SOR truth. Citations now use variable-length code spans; every governed source/action/test field is rendered and asserted; output creation is anchored to opened no-follow directory handles and committed by a platform no-replace rename; competing-target and parent-swap regressions pass; current installed output is retained at the remediation proof path. A distinct fresh exact-head review remains required before publication.
 
 ## PVF Lane Plan
 
@@ -145,7 +145,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
-4. [pending_fresh_exact_head_review] Run focused validation and proof gates.
+4. [review_findings_remediated_pending_distinct_fresh_review] Run focused validation and proof gates.
 5. [pending_publication_ci_merge] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions

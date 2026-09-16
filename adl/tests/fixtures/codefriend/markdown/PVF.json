@@ -1,8 +1,8 @@
 {
   "issue": 896,
   "lane": "runtime",
-  "proof_role": "installed approved-review Markdown rendering, exact manifest binding, claim and finding parity, and fail-closed export",
-  "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, no provider or network",
+  "proof_role": "installed approved-review Markdown rendering, complete governed semantic parity, exact manifest binding, non-clickable citations, and anchored create-only export",
+  "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, isolated filesystem races, no provider or network",
   "resource_profile": "bounded CPU and issue-owned filesystem only",
   "release_gate": true,
   "test_target": "codefriend_render_md",
@@ -10,7 +10,8 @@
     "installed complete report and bound manifest",
     "empty finding set",
     "long partial and not-comparable evidence",
-    "escaped non-active links"
+    "escaped non-active links",
+    "complete synthesis-source remediation-action and test-case semantics"
   ],
   "negative_cases": [
     "missing withheld or stale approval",
@@ -18,6 +19,9 @@
     "approved artifact mutation",
     "missing approved provenance",
     "existing output target",
+    "competing target at commit time",
+    "parent path swap during commit",
+    "backtick-bearing citation with link and HTML syntax",
     "secret-like publication claim"
   ],
   "nonclaims": [

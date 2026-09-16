@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/896/cards/spp.md"
 selected_lanes:
-  - "runtime: cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md (5 passed); adjacent compatibility: codefriend_synthesis (5), codefriend_remediate (9), codefriend_testplan (8), codefriend_ux (7); strict Clippy for codefriend_render_md; cargo fmt; git diff --check; installed retained output inspection. Required PR CI and independent exact-head review remain pending."
+  - "runtime: cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md (5 passed); anchored security/concurrency units: cargo test --manifest-path adl/Cargo.toml --lib codefriend::publication::markdown::tests (3 passed); strict Clippy for codefriend_render_md; cargo fmt; git diff --check; current installed retained output inspection. Required PR CI and distinct fresh exact-head review remain pending."
 parallel_groups:
   - "serial within this issue; independent fixtures may parallelize only with isolated state"
 validation_commands:
-  - "cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis --test codefriend_remediate --test codefriend_testplan --test codefriend_ux; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_render_md -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check"
+  - "cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo test --manifest-path adl/Cargo.toml --lib codefriend::publication::markdown::tests; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_render_md -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check"
 failure_policy: "Required failures, skipped or zero-test proof block acceptance. Preserve guards; record durable anomalies; repair and rerun affected proof and independent exact-head review. CI evidence is separate from local proof."
-notes: "Local proof is complete and retained. Required independent exact-head review and normal PR CI remain open; no HTML/PDF parity, provider execution, browser observation, remote publication, or customer-scale claim is made."
+notes: "Local remediation proof is complete and current. Platform no-replace commit is implemented for Linux and macOS, the selected qualification hosts. Required independent exact-head review and normal PR CI remain open; no HTML/PDF parity, provider execution, browser observation, remote publication, or customer-scale claim is made."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -61,7 +61,7 @@ Run focused deterministic Markdown renderer and installed CLI proof for actual a
 
 ## Selected Validation Lanes
 
-- runtime: cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md (5 passed); adjacent compatibility: codefriend_synthesis (5), codefriend_remediate (9), codefriend_testplan (8), codefriend_ux (7); strict Clippy for codefriend_render_md; cargo fmt; git diff --check; installed retained output inspection. Required PR CI and independent exact-head review remain pending.
+- runtime: cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md (5 passed); anchored security/concurrency units: cargo test --manifest-path adl/Cargo.toml --lib codefriend::publication::markdown::tests (3 passed); strict Clippy for codefriend_render_md; cargo fmt; git diff --check; current installed retained output inspection. Required PR CI and distinct fresh exact-head review remain pending.
 
 ## Parallelization Plan
 
@@ -86,7 +86,7 @@ Run focused deterministic Markdown renderer and installed CLI proof for actual a
 
 ## Validation Commands
 
-- cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis --test codefriend_remediate --test codefriend_testplan --test codefriend_ux; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_render_md -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check
+- cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo test --manifest-path adl/Cargo.toml --lib codefriend::publication::markdown::tests; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_render_md -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Local proof is complete and retained. Required independent exact-head review and normal PR CI remain open; no HTML/PDF parity, provider execution, browser observation, remote publication, or customer-scale claim is made.
+Local remediation proof is complete and current. Platform no-replace commit is implemented for Linux and macOS, the selected qualification hosts. Required independent exact-head review and normal PR CI remain open; no HTML/PDF parity, provider execution, browser observation, remote publication, or customer-scale claim is made.

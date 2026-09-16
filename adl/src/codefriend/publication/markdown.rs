@@ -20,8 +20,14 @@ use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::{BTreeMap, BTreeSet},
-    fs::{self, File, OpenOptions},
+    ffi::CString,
+    fs::{self, File},
     io::{Read, Write},
+    os::unix::{
+        ffi::OsStrExt,
+        fs::MetadataExt,
+        io::{AsRawFd, FromRawFd},
+    },
     path::{Path, PathBuf},
     sync::atomic::{AtomicU64, Ordering},
 };
@@ -226,32 +232,12 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         "markdown_manifest_redaction_recheck_failed"
     );
 
-    let target_parent = options
-        .out
-        .parent()
-        .ok_or_else(|| anyhow::anyhow!("markdown_target_parent_missing"))?;
-    fs::create_dir_all(target_parent)?;
-    reject_symlink_components(target_parent)?;
-    ensure!(
-        normalized_path(target_parent)?.starts_with(&normalized_path(&options.destination_root)?),
-        "markdown_target_outside_destination"
-    );
-    let stage = create_stage(target_parent)?;
-    let write_result = (|| -> Result<()> {
-        write_create_only(&stage.join("report.md"), report.as_bytes())?;
-        write_create_only(&stage.join("manifest.json"), &manifest_bytes)?;
-        File::open(&stage)?.sync_all()?;
-        fs::rename(&stage, &options.out)?;
-        File::open(target_parent)?.sync_all()?;
-        Ok(())
-    })();
-    if let Err(error) = write_result {
-        let _ = fs::remove_dir_all(&stage);
-        return Err(error);
-    }
-
-    let actual_report = read_limited(&options.out.join("report.md"), MAX_RENDERED_BYTES as u64)?;
-    let actual_manifest = read_limited(&options.out.join("manifest.json"), 2 * 1024 * 1024)?;
+    let (actual_report, actual_manifest) = publish_create_only_anchored(
+        &options.destination_root,
+        Path::new(&publication.target),
+        report.as_bytes(),
+        &manifest_bytes,
+    )?;
     ensure!(
         actual_report == report.as_bytes(),
         "markdown_report_readback_mismatch"
@@ -526,15 +512,15 @@ fn render_finding(
         let item = evidence
             .get(id.as_str())
             .ok_or_else(|| anyhow::anyhow!("markdown_missing_evidence_provenance"))?;
-        out.push_str("- `");
-        out.push_str(&markdown_code(&item.path));
-        out.push_str("` at source object `");
-        out.push_str(&markdown_code(&item.source_object));
-        out.push_str("`; evidence `");
-        out.push_str(&markdown_code(&item.id));
-        out.push_str("`; content `");
-        out.push_str(&markdown_code(&item.content_digest));
-        out.push_str("`\n");
+        out.push_str("- ");
+        out.push_str(&markdown_code_span(&item.path)?);
+        out.push_str(" at source object ");
+        out.push_str(&markdown_code_span(&item.source_object)?);
+        out.push_str("; evidence ");
+        out.push_str(&markdown_code_span(&item.id)?);
+        out.push_str("; content ");
+        out.push_str(&markdown_code_span(&item.content_digest)?);
+        out.push('\n');
     }
     out.push_str("\n**Attributed source assessments**\n\n");
     for source in &finding.sources {
@@ -544,10 +530,20 @@ fn render_finding(
         out.push_str(&markdown_text(&source.rule)?);
         out.push_str("** — ");
         out.push_str(&markdown_text(&source.rationale)?);
+        out.push_str(" Finding: ");
+        out.push_str(&markdown_text(&source.finding_id)?);
+        out.push_str(". Severity: ");
+        out.push_str(&markdown_text(
+            &format!("{:?}", source.severity).to_ascii_lowercase(),
+        )?);
         out.push_str(" Confidence: ");
         out.push_str(&markdown_text(&format!("{:?}", source.confidence))?);
         out.push_str(". Inference: ");
         out.push_str(&markdown_text(&source.inference)?);
+        if !source.evidence.is_empty() {
+            out.push_str(". Evidence: ");
+            out.push_str(&markdown_text(&source.evidence.join("; "))?);
+        }
         if !source.limitations.is_empty() {
             out.push_str(". Limitations: ");
             out.push_str(&markdown_text(&source.limitations.join("; "))?);
@@ -557,6 +553,16 @@ fn render_finding(
     out.push_str("\n**Remediation plan**\n\n");
     if let Some(action) = remediation {
         field(out, "Action", &action.title)?;
+        field(out, "Action ID", &action.id)?;
+        field(out, "Finding ID", &action.finding_id)?;
+        field(
+            out,
+            "Severity",
+            &format!("{:?}", action.severity).to_ascii_lowercase(),
+        )?;
+        list(out, "Source finding IDs", &action.source_finding_ids)?;
+        list(out, "Evidence IDs", &action.evidence_ids)?;
+        list(out, "Dependencies", &action.dependencies)?;
         field(out, "Owner role", &action.owner_role)?;
         field(out, "Assignment", &action.assignment_status)?;
         list(out, "Relevant paths", &action.relevant_paths)?;
@@ -569,11 +575,22 @@ fn render_finding(
         )?;
         list(out, "Additional uncertainty", &action.uncertainty)?;
     } else if let Some(omission) = remediation_omission {
+        field(out, "Omitted finding ID", &omission.finding_id)?;
+        field(out, "Omitted finding", &omission.title)?;
         field(out, "Remediation omitted", &omission.reason)?;
     }
     out.push_str("\n**Test plan**\n\n");
     if let Some(case) = test {
         field(out, "Test", &case.title)?;
+        field(out, "Test ID", &case.id)?;
+        field(out, "Finding ID", &case.finding_id)?;
+        field(
+            out,
+            "Severity",
+            &format!("{:?}", case.severity).to_ascii_lowercase(),
+        )?;
+        list(out, "Source finding IDs", &case.source_finding_ids)?;
+        list(out, "Source evidence", &case.source_evidence)?;
         field(out, "Behavior under test", &case.behavior_under_test)?;
         field(out, "Proposed location", &case.proposed_test_location)?;
         field(out, "Fixture", &case.proposed_fixture)?;
@@ -589,9 +606,12 @@ fn render_finding(
         )?;
         field(out, "Validation lane", &case.validation_lane)?;
         field(out, "Resource profile", &case.resource_profile)?;
+        field(out, "Detection rationale", &case.detection_rationale)?;
         list(out, "Test non-goals", &case.non_goals)?;
         list(out, "Test scope limits", &case.scope_limits)?;
     } else if let Some(omission) = test_omission {
+        field(out, "Omitted finding ID", &omission.finding_id)?;
+        field(out, "Omitted finding", &omission.title)?;
         field(out, "Test omitted", &omission.reason)?;
     }
     Ok(())
@@ -651,8 +671,27 @@ fn markdown_text(value: &str) -> Result<String> {
     Ok(output)
 }
 
-fn markdown_code(value: &str) -> String {
-    value.replace('`', "\\`").replace(['\n', '\r'], " ")
+fn markdown_code_span(value: &str) -> Result<String> {
+    ensure!(
+        !value.is_empty() && value.len() <= 64 * 1024,
+        "markdown_code_empty_or_too_large"
+    );
+    ensure!(
+        !unsafe_content("", value),
+        "markdown_code_failed_redaction_recheck"
+    );
+    let value = value.replace(['\n', '\r', '\t'], " ");
+    ensure!(
+        value.chars().all(|character| !character.is_control()),
+        "markdown_code_contains_control_character"
+    );
+    let longest_run = value
+        .split(|character| character != '`')
+        .map(str::len)
+        .max()
+        .unwrap_or(0);
+    let fence = "`".repeat(longest_run + 1);
+    Ok(format!("{fence} {value} {fence}"))
 }
 
 fn validate_manifest(
@@ -707,38 +746,342 @@ fn normalized_path(path: &Path) -> Result<PathBuf> {
     Ok(normalized)
 }
 
-fn create_stage(parent: &Path) -> Result<PathBuf> {
+fn publish_create_only_anchored(
+    destination_root: &Path,
+    target: &Path,
+    report: &[u8],
+    manifest: &[u8],
+) -> Result<(Vec<u8>, Vec<u8>)> {
+    let target_name = target
+        .file_name()
+        .ok_or_else(|| anyhow::anyhow!("markdown_target_name_missing"))?;
+    let relative_parent = target.parent().unwrap_or_else(|| Path::new(""));
+    let parent = open_anchored_parent(destination_root, relative_parent)?;
+    ensure!(
+        same_open_directory(&parent, &destination_root.join(relative_parent))?,
+        "markdown_target_parent_identity_changed"
+    );
+
+    let stage_name = create_stage_at(&parent)?;
+    let stage = open_directory_at(&parent, &stage_name)?;
+    let result = (|| -> Result<(Vec<u8>, Vec<u8>)> {
+        write_create_only_at(&stage, "report.md", report)?;
+        write_create_only_at(&stage, "manifest.json", manifest)?;
+        stage.sync_all()?;
+        rename_create_only_at(&parent, &stage_name, target_name)?;
+        parent.sync_all()?;
+        ensure!(
+            same_open_directory(&parent, &destination_root.join(relative_parent))?,
+            "markdown_target_parent_identity_changed"
+        );
+        let committed = open_directory_at(&parent, target_name)?;
+        let actual_report = read_limited_at(&committed, "report.md", MAX_RENDERED_BYTES as u64)?;
+        let actual_manifest = read_limited_at(&committed, "manifest.json", 2 * 1024 * 1024)?;
+        Ok((actual_report, actual_manifest))
+    })();
+    if result.is_err() {
+        cleanup_stage_at(&parent, &stage_name, &stage);
+    }
+    result
+}
+
+fn open_anchored_parent(destination_root: &Path, relative_parent: &Path) -> Result<File> {
+    let mut current = open_directory_path(destination_root)?;
+    for component in relative_parent.components() {
+        let std::path::Component::Normal(name) = component else {
+            anyhow::bail!("markdown_target_parent_invalid");
+        };
+        match open_directory_at(&current, name) {
+            Ok(next) => current = next,
+            Err(error) if io_not_found(&error) => {
+                mkdir_at(&current, name)?;
+                current = open_directory_at(&current, name)?;
+            }
+            Err(error) => return Err(error),
+        }
+    }
+    Ok(current)
+}
+
+fn open_directory_path(path: &Path) -> Result<File> {
+    let path = c_path(path)?;
+    // SAFETY: `path` is a live NUL-terminated CString and the returned fd is
+    // immediately owned by `File` on success.
+    let fd = unsafe {
+        libc::open(
+            path.as_ptr(),
+            libc::O_RDONLY | libc::O_CLOEXEC | libc::O_DIRECTORY | libc::O_NOFOLLOW,
+        )
+    };
+    ensure!(fd >= 0, "markdown_secure_directory_open_failed");
+    // SAFETY: `fd` was just returned by `open` and has a single owner.
+    Ok(unsafe { File::from_raw_fd(fd) })
+}
+
+fn open_directory_at(parent: &File, name: impl AsRef<std::ffi::OsStr>) -> Result<File> {
+    let name = c_name(name.as_ref())?;
+    // SAFETY: `name` is NUL terminated and `parent` remains open for the call.
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            libc::O_RDONLY | libc::O_CLOEXEC | libc::O_DIRECTORY | libc::O_NOFOLLOW,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    // SAFETY: `fd` was just returned by `openat` and has a single owner.
+    Ok(unsafe { File::from_raw_fd(fd) })
+}
+
+fn mkdir_at(parent: &File, name: &std::ffi::OsStr) -> Result<()> {
+    let name = c_name(name)?;
+    // SAFETY: `name` is NUL terminated and `parent` remains open for the call.
+    let status = unsafe { libc::mkdirat(parent.as_raw_fd(), name.as_ptr(), 0o700) };
+    if status == 0 {
+        return Ok(());
+    }
+    let error = std::io::Error::last_os_error();
+    if error.kind() == std::io::ErrorKind::AlreadyExists {
+        return Ok(());
+    }
+    Err(error.into())
+}
+
+fn create_stage_at(parent: &File) -> Result<std::ffi::OsString> {
     loop {
         let serial = NEXT_STAGE.fetch_add(1, Ordering::Relaxed);
-        let path = parent.join(format!(
+        let name = std::ffi::OsString::from(format!(
             ".codefriend-markdown-stage-{}-{serial}",
             std::process::id()
         ));
-        match fs::create_dir(&path) {
-            Ok(()) => return Ok(path),
-            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
-            Err(error) => return Err(error.into()),
+        let c_name = c_name(&name)?;
+        // SAFETY: `c_name` is NUL terminated and `parent` remains open.
+        let status = unsafe { libc::mkdirat(parent.as_raw_fd(), c_name.as_ptr(), 0o700) };
+        if status == 0 {
+            return Ok(name);
+        }
+        let error = std::io::Error::last_os_error();
+        if error.kind() != std::io::ErrorKind::AlreadyExists {
+            return Err(error.into());
         }
     }
 }
 
-fn write_create_only(path: &Path, bytes: &[u8]) -> Result<()> {
-    let mut options = OpenOptions::new();
-    options.write(true).create_new(true);
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::OpenOptionsExt;
-        options.mode(0o600);
+fn write_create_only_at(parent: &File, name: &str, bytes: &[u8]) -> Result<()> {
+    let name = c_name(std::ffi::OsStr::new(name))?;
+    // SAFETY: `name` is NUL terminated and `parent` remains open for the call.
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            libc::O_WRONLY | libc::O_CLOEXEC | libc::O_CREAT | libc::O_EXCL | libc::O_NOFOLLOW,
+            0o600,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
     }
-    let mut file = options.open(path)?;
+    // SAFETY: `fd` was just returned by `openat` and has a single owner.
+    let mut file = unsafe { File::from_raw_fd(fd) };
     file.write_all(bytes)?;
     file.sync_all()?;
     Ok(())
 }
 
-fn read_limited(path: &Path, limit: u64) -> Result<Vec<u8>> {
+fn read_limited_at(parent: &File, name: &str, limit: u64) -> Result<Vec<u8>> {
+    let name = c_name(std::ffi::OsStr::new(name))?;
+    // SAFETY: `name` is NUL terminated and `parent` remains open for the call.
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            libc::O_RDONLY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    // SAFETY: `fd` was just returned by `openat` and has a single owner.
+    let file = unsafe { File::from_raw_fd(fd) };
     let mut bytes = Vec::new();
-    File::open(path)?.take(limit + 1).read_to_end(&mut bytes)?;
+    file.take(limit + 1).read_to_end(&mut bytes)?;
     ensure!(bytes.len() as u64 <= limit, "markdown_readback_too_large");
     Ok(bytes)
+}
+
+fn same_open_directory(open: &File, path: &Path) -> Result<bool> {
+    let current = match open_directory_path(path) {
+        Ok(file) => file,
+        Err(_) => return Ok(false),
+    };
+    let left = open.metadata()?;
+    let right = current.metadata()?;
+    Ok(left.dev() == right.dev() && left.ino() == right.ino())
+}
+
+#[cfg(target_os = "linux")]
+fn rename_create_only_at(
+    parent: &File,
+    from: &std::ffi::OsStr,
+    to: &std::ffi::OsStr,
+) -> Result<()> {
+    let from = c_name(from)?;
+    let to = c_name(to)?;
+    // SAFETY: both names are NUL terminated and `parent` remains open.
+    let status = unsafe {
+        libc::renameat2(
+            parent.as_raw_fd(),
+            from.as_ptr(),
+            parent.as_raw_fd(),
+            to.as_ptr(),
+            libc::RENAME_NOREPLACE,
+        )
+    };
+    rename_status(status)
+}
+
+#[cfg(target_os = "macos")]
+fn rename_create_only_at(
+    parent: &File,
+    from: &std::ffi::OsStr,
+    to: &std::ffi::OsStr,
+) -> Result<()> {
+    let from = c_name(from)?;
+    let to = c_name(to)?;
+    // SAFETY: both names are NUL terminated and `parent` remains open.
+    let status = unsafe {
+        libc::renameatx_np(
+            parent.as_raw_fd(),
+            from.as_ptr(),
+            parent.as_raw_fd(),
+            to.as_ptr(),
+            libc::RENAME_EXCL,
+        )
+    };
+    rename_status(status)
+}
+
+#[cfg(not(any(target_os = "linux", target_os = "macos")))]
+fn rename_create_only_at(
+    _parent: &File,
+    _from: &std::ffi::OsStr,
+    _to: &std::ffi::OsStr,
+) -> Result<()> {
+    anyhow::bail!("markdown_secure_create_only_unsupported_platform")
+}
+
+fn rename_status(status: libc::c_int) -> Result<()> {
+    if status == 0 {
+        return Ok(());
+    }
+    let error = std::io::Error::last_os_error();
+    if error.kind() == std::io::ErrorKind::AlreadyExists {
+        anyhow::bail!("markdown_output_target_already_exists");
+    }
+    Err(error.into())
+}
+
+fn cleanup_stage_at(parent: &File, stage_name: &std::ffi::OsStr, stage: &File) {
+    for name in ["report.md", "manifest.json"] {
+        if let Ok(name) = c_name(std::ffi::OsStr::new(name)) {
+            // SAFETY: `name` is NUL terminated and `stage` remains open.
+            unsafe {
+                libc::unlinkat(stage.as_raw_fd(), name.as_ptr(), 0);
+            }
+        }
+    }
+    if let Ok(stage_name) = c_name(stage_name) {
+        // SAFETY: `stage_name` is NUL terminated and `parent` remains open.
+        unsafe {
+            libc::unlinkat(parent.as_raw_fd(), stage_name.as_ptr(), libc::AT_REMOVEDIR);
+        }
+    }
+}
+
+fn c_path(path: &Path) -> Result<CString> {
+    CString::new(path.as_os_str().as_bytes())
+        .map_err(|_| anyhow::anyhow!("markdown_path_contains_nul"))
+}
+
+fn c_name(name: &std::ffi::OsStr) -> Result<CString> {
+    ensure!(
+        !name.as_bytes().contains(&b'/'),
+        "markdown_component_contains_separator"
+    );
+    CString::new(name.as_bytes()).map_err(|_| anyhow::anyhow!("markdown_path_contains_nul"))
+}
+
+fn io_not_found(error: &anyhow::Error) -> bool {
+    error
+        .downcast_ref::<std::io::Error>()
+        .is_some_and(|error| error.kind() == std::io::ErrorKind::NotFound)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn code_spans_keep_backtick_paths_non_clickable() {
+        let value = "src/odd` [click](https://example.invalid) <em>name</em>.rs";
+        let span = markdown_code_span(value).unwrap();
+        let html = markdown::to_html(&format!("- {span}\n"));
+        assert!(html.contains("<code>"), "{html}");
+        assert!(!html.contains("<a "), "{html}");
+        assert!(!html.contains("<em>"), "{html}");
+        assert!(html.contains("[click](https://example.invalid)"), "{html}");
+    }
+
+    #[test]
+    fn anchored_commit_refuses_a_competing_target_without_replacement() {
+        let root = tempfile::tempdir().unwrap();
+        let target = root.path().join("report");
+        fs::create_dir(&target).unwrap();
+        fs::write(target.join("owner"), b"competitor").unwrap();
+
+        let error = publish_create_only_anchored(
+            root.path(),
+            Path::new("report"),
+            b"review",
+            br#"{"manifest":true}"#,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(
+            error.contains("markdown_output_target_already_exists"),
+            "{error}"
+        );
+        assert_eq!(fs::read(target.join("owner")).unwrap(), b"competitor");
+        assert!(!target.join("report.md").exists());
+        assert!(fs::read_dir(root.path()).unwrap().all(|entry| !entry
+            .unwrap()
+            .file_name()
+            .to_string_lossy()
+            .starts_with(".codefriend-markdown-stage-")));
+    }
+
+    #[test]
+    fn anchored_parent_handle_cannot_be_redirected_by_path_swap() {
+        let root = tempfile::tempdir().unwrap();
+        let visible = root.path().join("visible");
+        fs::create_dir(&visible).unwrap();
+        let anchored = open_anchored_parent(root.path(), Path::new("visible")).unwrap();
+        let stage_name = create_stage_at(&anchored).unwrap();
+        let stage = open_directory_at(&anchored, &stage_name).unwrap();
+        write_create_only_at(&stage, "report.md", b"anchored").unwrap();
+
+        let original = root.path().join("original");
+        fs::rename(&visible, &original).unwrap();
+        fs::create_dir(&visible).unwrap();
+        assert!(!same_open_directory(&anchored, &visible).unwrap());
+
+        rename_create_only_at(&anchored, &stage_name, std::ffi::OsStr::new("report")).unwrap();
+        assert_eq!(
+            fs::read(original.join("report/report.md")).unwrap(),
+            b"anchored"
+        );
+        assert!(!visible.join("report").exists());
+    }
 }
