@@ -323,7 +323,7 @@ exec @GIT@ "$@"
         self.record_output(cwd, args, &out, start.elapsed().as_millis(), git_before);
         out
     }
-    fn command(&self, cwd: &Path, args: &[&str]) -> Command {
+    pub fn command(&self, cwd: &Path, args: &[&str]) -> Command {
         let mut command = Command::new(&self.binary);
         command
             .current_dir(cwd)

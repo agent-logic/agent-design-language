@@ -114,6 +114,18 @@ fn run(args: Vec<String>) -> Result<String, String> {
     let Some((command, rest)) = args.split_first() else {
         return Err(contract::root_help());
     };
+    if command == "__bound-legacy-adoption-guardian" {
+        let [flag, request] = rest else {
+            return Err("internal adoption guardian requires --request FILE".into());
+        };
+        if flag != "--request" {
+            return Err("internal adoption guardian requires --request FILE".into());
+        }
+        csdlc_v3::commands::local::intent::run_bound_legacy_adoption_guardian(&PathBuf::from(
+            request,
+        ))?;
+        return Ok("{\"status\":\"released\"}".into());
+    }
     if command == "--contract" && rest.is_empty() {
         return Ok(contract::manifest().to_string());
     }

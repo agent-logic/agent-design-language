@@ -1574,6 +1574,170 @@ mod semantic_gate_a {
         }
     }
 
+    fn write_retained_ready_edit_completion(
+        fixture: &Fixture,
+        generation: u64,
+        request_byte: char,
+        result_digest: &str,
+    ) -> PathBuf {
+        let request_digest = request_byte.to_string().repeat(64);
+        let path = fixture.directory.join(format!(
+            "repo/.git/csdlc-v3/local/transactions/completed/870/edit-{request_digest}.json"
+        ));
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(
+            &path,
+            serde_json::to_vec(&serde_json::json!({
+                "schema":"csdlc.v3.local_mutation_completion.v1",
+                "issue":870,"route":"edit","request_digest":request_digest,
+                "result":{"route":"edit","issue":870,"mutated":true,"phase":"ready",
+                    "generation":generation,"digest":result_digest,
+                    "next_route":"validate","findings":[]}
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        path
+    }
+
+    #[test]
+    fn issue_1036_fenced_prepare_accepts_authentic_creation_receipt_census() {
+        let fixture = Fixture::new();
+        let worktree = fixture.directory.join("missing-bound-worktree");
+        write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+        let issue_root = fixture
+            .directory
+            .join("repo/.git/csdlc-v3/local/issues/870");
+        let index: serde_json::Value =
+            serde_json::from_slice(&fs::read(issue_root.join("index.json")).unwrap()).unwrap();
+        write_retained_ready_edit_completion(&fixture, 2, 'b', &"d".repeat(64));
+        write_retained_ready_edit_completion(
+            &fixture,
+            index["generation"].as_u64().unwrap(),
+            'c',
+            index["digest"].as_str().unwrap(),
+        );
+
+        let (creation_intent, creation_receipt) =
+            write_repository_scoped_creation_receipt(&fixture, 870);
+        let (unrelated_intent, unrelated_receipt) =
+            write_repository_scoped_creation_receipt(&fixture, 871);
+        let merges = fixture.directory.join("repo/.git/csdlc-v3/remote/merges");
+        fs::create_dir_all(&merges).unwrap();
+        fs::write(
+            merges.join("unrelated.intent.json"),
+            serde_json::to_vec(&serde_json::json!({
+                "schema":"csdlc.v3.merge_intent.v1",
+                "request":{"repository":"example/repo","issue":999}
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            merges.join("unrelated.response.json"),
+            serde_json::to_vec(&serde_json::json!({"retained":"sidecar"})).unwrap(),
+        )
+        .unwrap();
+
+        let completed = fixture
+            .directory
+            .join("repo/.git/csdlc-v3/local/transactions/completed/870");
+        let issue_before = inventory(&issue_root);
+        let completed_before = inventory(&completed);
+        let remote = fixture.directory.join("repo/.git/csdlc-v3/remote");
+        let remote_before = inventory(&remote);
+        let exact_creation_bytes = [
+            fs::read(&creation_intent).unwrap(),
+            fs::read(&creation_receipt).unwrap(),
+            fs::read(&unrelated_intent).unwrap(),
+            fs::read(&unrelated_receipt).unwrap(),
+        ];
+        let fence =
+            NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870]).unwrap();
+        assert!(matches!(
+            DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                &fixture.root,
+                fixture.key.clone(),
+                legacy_inputs(&worktree),
+                &fence,
+            )
+            .unwrap(),
+            CommitOutcome::Committed(_)
+        ));
+        assert_eq!(issue_before, inventory(&issue_root));
+        assert_eq!(completed_before, inventory(&completed));
+        assert_eq!(remote_before, inventory(&remote));
+        assert_eq!(exact_creation_bytes[0], fs::read(creation_intent).unwrap());
+        assert_eq!(exact_creation_bytes[1], fs::read(creation_receipt).unwrap());
+        assert_eq!(exact_creation_bytes[2], fs::read(unrelated_intent).unwrap());
+        assert_eq!(
+            exact_creation_bytes[3],
+            fs::read(unrelated_receipt).unwrap()
+        );
+    }
+
+    #[test]
+    fn issue_1036_fenced_prepare_rejects_damaged_creation_receipt_census() {
+        for tamper in [
+            "intent_operation_digest",
+            "intent_operation_marker",
+            "intent_request",
+            "receipt_operation_digest",
+            "receipt_intent_digest",
+            "receipt_filename",
+        ] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            let (intent_path, receipt_path) =
+                write_repository_scoped_creation_receipt(&fixture, 870);
+            let path = if tamper.starts_with("intent_") {
+                &intent_path
+            } else {
+                &receipt_path
+            };
+            if tamper == "receipt_filename" {
+                fs::rename(
+                    &receipt_path,
+                    receipt_path.parent().unwrap().join("wrong.json"),
+                )
+                .unwrap();
+            } else {
+                let mut value: serde_json::Value =
+                    serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+                match tamper {
+                    "intent_operation_digest" | "receipt_operation_digest" => {
+                        value["operation_digest"] = serde_json::json!("cross-linked")
+                    }
+                    "intent_operation_marker" => {
+                        value["operation_marker"] = serde_json::json!("<!-- wrong -->")
+                    }
+                    "intent_request" => {
+                        value["request"]["expected_head_sha"] = serde_json::json!("other")
+                    }
+                    "receipt_intent_digest" => value["intent_digest"] = serde_json::json!("wrong"),
+                    _ => unreachable!(),
+                }
+                fs::write(path, serde_json::to_vec(&value).unwrap()).unwrap();
+            }
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            let before = inventory(&fixture.directory);
+            assert_eq!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                ),
+                Err(Error::RecoveryRequired),
+                "{tamper}"
+            );
+            assert_eq!(before, inventory(&fixture.directory), "{tamper}");
+        }
+    }
+
     #[test]
     fn issue_1029_merge_sidecars_are_scoped_through_their_retained_intent() {
         for suffix in ["target", "input", "response", "dispatch-prestate"] {

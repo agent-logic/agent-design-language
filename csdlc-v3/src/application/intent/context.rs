@@ -660,6 +660,18 @@ impl Context {
             return Err("intent_semantic_binding_stale".into());
         }
         if binding.head != self.head {
+            let ancestry = Command::new("git")
+                .env("GIT_OPTIONAL_LOCKS", "0")
+                .arg("-C")
+                .arg(&self.root)
+                .args(["merge-base", "--is-ancestor", &binding.head, &self.head])
+                .status()
+                .map_err(|_| "intent_git_observation_failed")?;
+            match ancestry.code() {
+                Some(0) => {}
+                Some(1) => return Err("intent_semantic_binding_stale".into()),
+                _ => return Err("intent_git_observation_failed".into()),
+            }
             let mut refreshed = binding.clone();
             refreshed.head = self.head.clone();
             let admission = SemanticAdmission::new(
