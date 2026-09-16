@@ -400,7 +400,7 @@ fn relevant_paths(finding: &SynthesizedFinding) -> Vec<String> {
         .split(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | ':' | '(' | ')' | '[' | ']'))
         .chain(finding.evidence.iter().map(String::as_str))
     {
-        let trimmed = token.trim_matches(|c: char| matches!(c, '"' | '\'' | '`' | '.' | ','));
+        let trimmed = normalize_path_token(token);
         if looks_like_path(trimmed) && validate_relative_path(trimmed).is_ok() {
             paths.insert(trimmed.to_string());
         }
@@ -408,8 +408,14 @@ fn relevant_paths(finding: &SynthesizedFinding) -> Vec<String> {
     paths.into_iter().collect()
 }
 
+fn normalize_path_token(value: &str) -> &str {
+    value
+        .trim_matches(|c: char| matches!(c, '"' | '\'' | '`' | ',' | ';'))
+        .trim_end_matches(|c: char| matches!(c, '.' | ',' | ';'))
+}
+
 fn looks_like_path(value: &str) -> bool {
-    value.contains('/')
+    (value.contains('/') || value.contains('.'))
         && value.len() <= 240
         && !value.starts_with('/')
         && !value.starts_with("http://")

@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "Fresh independent exact-head review is required against the remediated commit before publication. Prior review is not a PASS."
+notes: "Prior review PASS/review truth is superseded by this remediation. Fresh independent exact-head review is required against the new immutable commit before publication or merge."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- First independent exact-head review of daa3cb59083b63c99c393f63807d5790530bd22b by fresh-session:3645C5B0-8201-4525-B765-A1D5E98EAB00 returned BLOCK with two findings: High action_order tampering accepted by reader validation, and Medium stale SOR truth mixing implemented claims with not_started/not_run fields.
+- Latest exact review of PR #1012 at ac0f8651d2e6 found one P2: planner path extraction corrupted dot-directory repository paths and omitted root files. Evidence: `.github/workflows/ci.yml` became `github/workflows/ci.yml`, and `Cargo.toml` was omitted because the path detector required `/`.
 
 ### Dispositions
 
-- Both findings accepted for remediation. Source validation now compares the recorded action_order to the recomputed topological order and rejects mismatches; focused regression covers reversed action_order. SOR fields are updated through native edit to remove stale not_started/not_run implementation-proof claims and record implemented-remediated-pending-fresh-review truth.
+- Finding accepted and remediated. `relevant_paths` now normalizes only quotes/commas/semicolons and trims trailing sentence punctuation without stripping a leading dot. Path detection now accepts validated root files containing a dot as well as slash-containing paths. Added regression coverage for `.github/workflows/ci.yml:42` and `Cargo.toml`, including an assertion that `github/workflows/ci.yml` is not emitted.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Fresh independent exact-head review is required against the remediated commit before publication. Prior review is not a PASS.
+Prior review PASS/review truth is superseded by this remediation. Fresh independent exact-head review is required against the new immutable commit before publication or merge.

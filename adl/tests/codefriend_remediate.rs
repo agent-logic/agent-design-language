@@ -120,6 +120,32 @@ fn remediation_plan_omits_untraceable_repository_paths() {
 }
 
 #[test]
+fn remediation_plan_preserves_dot_directories_and_root_files() {
+    let synthesis = ReviewSynthesis {
+        synthesized_findings: vec![
+            finding(
+                "finding-ci",
+                ".github/workflows/ci.yml:42",
+                &[".github/workflows/ci.yml:42"],
+            ),
+            finding("finding-root", "Cargo.toml", &["Cargo.toml"]),
+        ],
+        ..synthesis()
+    };
+
+    let plan = plan(&synthesis).unwrap();
+    let paths = plan
+        .actions
+        .iter()
+        .flat_map(|action| action.relevant_paths.iter().map(String::as_str))
+        .collect::<Vec<_>>();
+    assert!(paths.contains(&".github/workflows/ci.yml"));
+    assert!(paths.contains(&"Cargo.toml"));
+    assert!(!paths.contains(&"github/workflows/ci.yml"));
+    assert!(plan.omitted_findings.is_empty());
+}
+
+#[test]
 fn remediation_reader_rejects_tampered_paths_acceptance_and_cycles() {
     let plan = plan(&synthesis()).unwrap();
 

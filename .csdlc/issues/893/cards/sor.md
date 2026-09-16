@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and remediated the CodeFriend remediation planner for #893. The installed CLI exposes `adl codefriend plan remediation --input <synthesis.json> --out <new-dir>` and `adl codefriend plan remediation read --input <remediation-plan.json>`. The planner consumes synthesized review findings, derives bounded evidence-linked actions with owner-role/unassigned status, relevant paths, dependencies, acceptance criteria, validation and risk/non-goals, records omitted untraceable findings, writes create-only plan/manifest/synthesis-snapshot artifacts, and now rejects tampered non-topological action_order values.
+Implemented and remediated the CodeFriend remediation planner for #893. The latest repair fixes repository path extraction so leading-dot paths such as `.github/workflows/ci.yml` are preserved and root files such as `Cargo.toml` are included when validated as repository-relative paths.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented and remediated the CodeFriend remediation planner for #893. The inst
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
+- Completion state: `implemented_remediated_pending_fresh_review`
 - Issue goal ref: `Sprint 4 #930 active goal covers #893 execution in this session; single goal slot prevented replacing it with a separate child goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/893/goal-metrics.json (planned, absent until execution)`
@@ -79,19 +79,19 @@ Implemented and remediated the CodeFriend remediation planner for #893. The inst
 - Additional proof artifacts: `Focused local proof output retained in terminal history; no external provider or GitHub mutation proof claimed.`
 
 ## Actions taken
-- `Added `adl/src/codefriend/actions/remediation.rs` and module registration for deterministic remediation-plan generation, validation and artifact writing.`
-- `Wired installed CLI commands in `adl/src/cli/codefriend_cmd.rs` for remediation-plan generation and complete JSON plan reading.`
-- `Added `adl/tests/codefriend_remediate.rs` covering bounded action ordering, omitted findings, tampered path/acceptance/cycle/order rejection, create-only output behavior and installed CLI readback.`
+- `Repaired remediation-plan path token normalization so leading `.` is preserved for repository paths.`
+- `Allowed validated root file paths containing `.` to be considered relevant repository paths.`
+- `Added focused regression coverage for `.github/workflows/ci.yml` and `Cargo.toml` extraction.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs`
 - Worktree-only paths remaining: `.csdlc/issues/893/ and .csdlc/transactions/completed/893/ are generated lifecycle material in the bound worktree until publication/finish; implementation source changes are tracked candidate paths.`
-- Integration state: `worktree_candidate_ready_for_review`
+- Integration state: `worktree_candidate_ready_for_fresh_review`
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
-  - `native C-SDLC validate passed at generation 4 before review-fix source edit; focused tests and diff hygiene rerun after source fix`
-    `Candidate remains worktree-local and implemented pending fresh review/publication; no main integration claimed.`
+  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check`
+    `Proves the reviewed path extraction defect is fixed for dot-directory paths and root files without widening product scope.`
 - Result: `not_integrated`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - ``cargo fmt --manifest-path adl/Cargo.toml --check`; `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis`; `git diff --check``
-    `Focused proof verifies installed planner/reader behavior, unsafe/untraceable/cyclic/order rejection, synthesis regression compatibility and diff hygiene.`
+  - ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo fmt --manifest-path adl/Cargo.toml --check`; `git diff --check``
+    `Focused #893 regression proof passed 5/5, including `.github/workflows/ci.yml` preservation and root `Cargo.toml` inclusion. Rust formatting and diff hygiene passed.`
 - Results:
   - `passed`
 
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate``
+- Determinism tests executed: `remediation_plan_preserves_dot_directories_and_root_files plus existing remediation planner focused tests`
 - Fixtures or scripts used: `Synthetic CodeFriend synthesis JSON created by the focused Rust tests; no network/provider credentials used.`
 - Replay verification (same inputs -> same artifacts/order): `passed_for_focused_local_tests`
 - Ordering guarantees (sorting / tie-break rules used): `Generated remediation actions are dependency-ordered with deterministic severity/id tie-breaks; reader validation rejects action_order values that differ from recomputed topological order.`
@@ -159,14 +159,14 @@ verification_summary:
 ## Replay Artifacts
 - Trace bundle path(s): `Generated local test artifacts under adl/target/codefriend-remediate-tests; no durable release bundle created before review/publication.`
 - Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-remediate-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture.`
-- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`
-- Replay result: `passed`
+- Replay command used for verification: `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-893-target cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`
+- Replay result: `5 passed; 0 failed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
 - Required artifacts present: `passed_for_local_fixture_scope`
 - Artifact schema/version checks: `Focused tests parse generated remediation-plan JSON and manifest output, validate schema tags, and reject tampered invalid plan shapes including non-topological action_order.`
-- Hash/byte-stability checks: `cargo fmt --check and git diff --check passed after implementation and after review-fix source edit.`
+- Hash/byte-stability checks: `cargo fmt --check and git diff --check passed after the path-extraction review fix.`
 - Missing/optional artifacts and rationale: `CI, independent exact-head review and publication proof are pending. Provider-generated reviews and GitHub issue creation are sibling/follow-on concerns and not required for this local remediation-plan generator.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `The proof uses synthesis-shaped local fixtures plus the existing synthesis regression suite. It does not claim a live external-provider review run or issue-creation authority.`
 
 ## Follow-ups / Deferred work
-- `Obtain fresh independent exact-head review against the remediated immutable commit.`
-- `If review passes, publish through native C-SDLC with Closes #893, observe CI, and finish only at green/terminal authority.`
+- `Commit immutable remediated candidate and obtain fresh independent exact-head review.`
+- `Republish/update PR #1012 only after fresh review passes and native publication guard accepts current truth.`
