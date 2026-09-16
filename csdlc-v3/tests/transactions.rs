@@ -1022,8 +1022,8 @@ mod semantic_gate_a {
     use csdlc_v3::lifecycle::semantic::{self, Facts, Outcome, SemanticCommand};
     use csdlc_v3::storage::semantic::{
         AcceptedIntentPlan, Admission, CommitOutcome, Digest, Error, IssueInputs, IssueKey,
-        LocalChange, Observation, PlanStep, ProjectionWriteProof, Publication, SemanticRoot,
-        Snapshot, Validator,
+        LocalChange, NativeWriterFenceGuard, Observation, PlanStep, ProjectionWriteProof,
+        Publication, SemanticRoot, Snapshot, Validator,
     };
     use std::collections::BTreeMap;
     use std::path::{Path, PathBuf};
@@ -1122,6 +1122,24 @@ mod semantic_gate_a {
         IssueInputs::new(
             "bounded semantic work".into(),
             accepted_plan(),
+            vec![PlanStep {
+                id: "implement".into(),
+                acceptance: "semantic owner".into(),
+            }],
+            None,
+            Digest::authority(b"authority fixture"),
+        )
+        .unwrap()
+    }
+    fn legacy_inputs(worktree: &Path) -> IssueInputs {
+        let mut plan = accepted_plan();
+        for card in plan.cards.values_mut() {
+            card["branch"] = "codex/870-semantic-owner".into();
+            card["worktree"] = worktree.to_string_lossy().into_owned().into();
+        }
+        IssueInputs::new(
+            "bounded semantic work".into(),
+            plan,
             vec![PlanStep {
                 id: "implement".into(),
                 acceptance: "semantic owner".into(),
@@ -1371,6 +1389,144 @@ mod semantic_gate_a {
             ),
             Err(Error::WrongRepository)
         );
+    }
+
+    fn write_issue_1029_legacy_ready_fixture(fixture: &Fixture, worktree: &Path) {
+        let issue_root = fixture
+            .directory
+            .join("repo/.git/csdlc-v3/local/issues/870");
+        fs::create_dir_all(issue_root.join("cards")).unwrap();
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            fs::write(
+                issue_root.join("cards").join(format!("{kind}.md")),
+                "card\n",
+            )
+            .unwrap();
+            fs::write(
+                issue_root.join("cards").join(format!("{kind}.values.json")),
+                "{}\n",
+            )
+            .unwrap();
+        }
+        let mut index = serde_json::json!({
+            "schema":"csdlc.v3.local_state.v1","issue":870,
+            "repository":"example/repo","phase":"ready","generation":4,
+            "branch":"codex/870-semantic-owner","worktree":worktree,
+        });
+        let mut hasher = blake3::Hasher::new();
+        hasher.update(&serde_json::to_vec(&index).unwrap());
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["values.json", "md"] {
+                hasher.update(
+                    &fs::read(issue_root.join("cards").join(format!("{kind}.{suffix}"))).unwrap(),
+                );
+            }
+        }
+        index["digest"] = hasher.finalize().to_hex().to_string().into();
+        fs::write(
+            issue_root.join("index.json"),
+            serde_json::to_vec(&index).unwrap(),
+        )
+        .unwrap();
+    }
+
+    #[test]
+    fn issue_1029_explicit_fenced_prepare_preserves_valid_unbound_legacy_record() {
+        let fixture = Fixture::new();
+        let worktree = fixture.directory.join("missing-bound-worktree");
+        write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+        let issue_root = fixture
+            .directory
+            .join("repo/.git/csdlc-v3/local/issues/870");
+        let before = inventory(&issue_root);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::LegacyMigrationRequired
+        );
+        let fence =
+            NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870]).unwrap();
+        let committed = DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+            &fixture.root,
+            fixture.key.clone(),
+            legacy_inputs(&worktree),
+            &fence,
+        )
+        .unwrap();
+        assert!(matches!(committed, CommitOutcome::Committed(_)));
+        assert_eq!(before, inventory(&issue_root));
+        match DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap() {
+            Observation::Current(snapshot) => assert!(snapshot.projection_required()),
+            other => panic!("unexpected post-prepare observation: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn issue_1029_fenced_prepare_rejects_pending_or_bound_legacy_record() {
+        for forbidden in ["transactions/870.json", "bindings/870.json"] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            let path = fixture
+                .directory
+                .join("repo/.git/csdlc-v3/local")
+                .join(forbidden);
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, "pending\n").unwrap();
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            let before = inventory(&fixture.directory);
+            assert_eq!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                ),
+                Err(Error::PendingOperation),
+                "{forbidden}"
+            );
+            assert_eq!(before, inventory(&fixture.directory));
+        }
+    }
+
+    #[test]
+    fn issue_1029_fenced_prepare_rejects_stale_digest_and_wrong_identity() {
+        for case in ["stale_digest", "wrong_repository", "existing_worktree"] {
+            let fixture = Fixture::new();
+            let worktree = fixture.directory.join("missing-bound-worktree");
+            write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
+            let issue_root = fixture
+                .directory
+                .join("repo/.git/csdlc-v3/local/issues/870");
+            match case {
+                "stale_digest" => fs::write(issue_root.join("cards/sip.md"), "changed\n").unwrap(),
+                "wrong_repository" => {
+                    let path = issue_root.join("index.json");
+                    let mut index: serde_json::Value =
+                        serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                    index["repository"] = "foreign/repo".into();
+                    fs::write(path, serde_json::to_vec(&index).unwrap()).unwrap();
+                }
+                "existing_worktree" => fs::create_dir_all(&worktree).unwrap(),
+                _ => unreachable!(),
+            }
+            let fence =
+                NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870])
+                    .unwrap();
+            let before = inventory(&fixture.directory);
+            assert!(
+                DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    legacy_inputs(&worktree),
+                    &fence,
+                )
+                .is_err(),
+                "{case}"
+            );
+            assert_eq!(before, inventory(&fixture.directory), "{case}");
+        }
     }
 
     #[test]

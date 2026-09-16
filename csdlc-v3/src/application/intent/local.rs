@@ -166,21 +166,35 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
                 .map_err(|_| "intent_status_decisions_invalid")?
         };
         let projection = semantic_card_projection_observation(context, &registry, false)?;
-        let proof_current = match semantic_proof_current(context) {
-            Ok(current) => current,
-            // Status is an observation route. A commit after binding makes proof
-            // stale, but must not turn that read-only observation into a failure.
-            Err(error)
-                if matches!(
-                    error.as_str(),
-                    "intent_semantic_binding_stale" | "intent_semantic_projection_repair_required"
-                ) =>
-            {
-                false
+        let semantic_preparation_required = projection.is_none();
+        let proof_current = if semantic_preparation_required {
+            false
+        } else {
+            match semantic_proof_current(context) {
+                Ok(current) => current,
+                // Status is an observation route. A commit after binding makes proof
+                // stale, but must not turn that read-only observation into a failure.
+                Err(error)
+                    if matches!(
+                        error.as_str(),
+                        "intent_semantic_binding_stale"
+                            | "intent_semantic_projection_repair_required"
+                    ) =>
+                {
+                    false
+                }
+                Err(error) => return Err(error),
             }
-            Err(error) => return Err(error),
         };
         output["evidence"] = json!({"proof_current":proof_current,"validators_run":false});
+        if semantic_preparation_required {
+            output["preparation"] = json!({
+                "structural_state":"native_record_present_semantic_preparation_required",
+                "dependencies_ready":decisions.dependencies_ready,
+                "execution_ready":false,
+                "allowed_next":["prepare"]
+            });
+        }
         if let Some((_, bundle, observation)) = &projection {
             output["projection"] = json!({
                 "observation": observation,
@@ -226,7 +240,9 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         )
         .map_err(errors)?);
         output["operator_decisions"] = json!({"required":unknown||decisions.operator_decision_needed,"design_ready":decisions.design_ready,"dependencies_ready":decisions.dependencies_ready,"budget_available":decisions.budget_available});
-        output["allowed_next"] = json!(if blocked {
+        output["allowed_next"] = json!(if semantic_preparation_required {
+            vec!["prepare"]
+        } else if blocked {
             vec!["status", "recover"]
         } else if context.index["phase"] == "ready" {
             vec!["bind"]

@@ -1421,6 +1421,108 @@ impl DurableTransactionStore {
         key: IssueKey,
         inputs: IssueInputs,
     ) -> Result<CommitOutcome, Error> {
+        Self::prepare_issue_inner(root, key, inputs, None)
+    }
+
+    /// Explicitly activate semantic state for one retained native-v3 prepared
+    /// record. The caller must hold the issue's native writer fence. This path
+    /// accepts only an unbound, non-pending, structurally complete `ready`
+    /// record whose derived branch/worktree identity agrees with the new plan;
+    /// all retained native bytes remain in place.
+    pub fn prepare_legacy_native_issue_under_writer_fence(
+        root: &SemanticRoot,
+        key: IssueKey,
+        inputs: IssueInputs,
+        fence: &NativeWriterFenceGuard,
+    ) -> Result<CommitOutcome, Error> {
+        if !fence.authenticates(root, key.issue) {
+            return Err(Error::InvalidInput(
+                "native writer fence does not authenticate prepared issue".into(),
+            ));
+        }
+        let state = root.common.join("csdlc-v3/local");
+        let issue_root = state.join("issues").join(key.issue.to_string());
+        let index_path = issue_root.join("index.json");
+        reject_symlinks(&index_path)?;
+        let index: serde_json::Value = serde_json::from_slice(&fs::read(&index_path).map_err(io)?)
+            .map_err(|_| Error::RecoveryRequired)?;
+        let expected_branch = inputs.cards()["sip"]["branch"]
+            .as_str()
+            .ok_or(Error::RecoveryRequired)?;
+        let expected_worktree = inputs.cards()["sip"]["worktree"]
+            .as_str()
+            .ok_or(Error::RecoveryRequired)?;
+        let digest = index["digest"].as_str().ok_or(Error::RecoveryRequired)?;
+        if index["schema"] != "csdlc.v3.local_state.v1"
+            || index["issue"].as_u64() != Some(key.issue)
+            || index["repository"].as_str() != Some(key.repository.as_str())
+            || index["phase"] != "ready"
+            || index["generation"].as_u64().is_none_or(|value| value == 0)
+            || digest.len() != 64
+            || !digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+            || index["branch"].as_str() != Some(expected_branch)
+            || index["worktree"].as_str() != Some(expected_worktree)
+        {
+            return Err(Error::LegacyMigrationRequired);
+        }
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["md", "values.json"] {
+                let path = issue_root.join("cards").join(format!("{kind}.{suffix}"));
+                reject_symlinks(&path)?;
+                if !path.is_file() {
+                    return Err(Error::RecoveryRequired);
+                }
+            }
+        }
+        let mut canonical_index = index.clone();
+        canonical_index
+            .as_object_mut()
+            .ok_or(Error::RecoveryRequired)?
+            .remove("digest");
+        let mut hasher = blake3::Hasher::new();
+        hasher.update(&serde_json::to_vec(&canonical_index).map_err(|_| Error::RecoveryRequired)?);
+        for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["values.json", "md"] {
+                hasher.update(
+                    &fs::read(issue_root.join("cards").join(format!("{kind}.{suffix}")))
+                        .map_err(io)?,
+                );
+            }
+        }
+        let intent_plan = issue_root.join("intent-plan.json");
+        if intent_plan.is_file() {
+            hasher.update(b"csdlc.v3.intent_plan.v1\0");
+            hasher.update(&fs::read(intent_plan).map_err(io)?);
+        }
+        if hasher.finalize().to_hex().as_str() != digest {
+            return Err(Error::RecoveryRequired);
+        }
+        for forbidden in [
+            state.join("bindings").join(format!("{}.json", key.issue)),
+            state
+                .join("transactions")
+                .join(format!("{}.json", key.issue)),
+            state
+                .join("transactions/pending")
+                .join(format!("{}.json", key.issue)),
+        ] {
+            reject_symlinks(&forbidden)?;
+            if forbidden.try_exists().map_err(io)? {
+                return Err(Error::PendingOperation);
+            }
+        }
+        if Path::new(expected_worktree).try_exists().map_err(io)? {
+            return Err(Error::LegacyMigrationRequired);
+        }
+        Self::prepare_issue_inner(root, key, inputs, Some(fence))
+    }
+
+    fn prepare_issue_inner(
+        root: &SemanticRoot,
+        key: IssueKey,
+        inputs: IssueInputs,
+        legacy_fence: Option<&NativeWriterFenceGuard>,
+    ) -> Result<CommitOutcome, Error> {
         inputs.validate()?;
         if inputs.binding.is_some() {
             return Err(Error::InvalidInput(
@@ -1428,7 +1530,7 @@ impl DurableTransactionStore {
             ));
         }
         let directory = root.directory(&key)?;
-        if root.legacy(&key)? {
+        if legacy_fence.is_none() && root.legacy(&key)? {
             return Err(Error::LegacyMigrationRequired);
         }
         // Parent creation is serialized through stable advisory locking before the
