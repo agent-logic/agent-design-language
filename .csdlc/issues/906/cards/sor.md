@@ -25,11 +25,11 @@ Status: IN_PROGRESS
 Generated: 2026-09-12T00:22:05.416044+00:00
 
 Execution:
-- Actor: `unassigned implementation owner`
+- Actor: `/root`
 - Model: `unknown`
 - Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Start Time: `2026-09-16; exact session start timestamp not recorded`
+- End Time: `in_progress pending publication and hosted CI`
 
 ## Summary
 
@@ -39,10 +39,10 @@ Implemented the bounded process-status parser extraction and measurable target-s
 - Initial PVF lane: `tooling`
 - Planned PVF lane: `tooling`
 - Final PVF lane: `tooling`
-- Lane change reason: `not_run; implementation has not started`
+- Lane change reason: `not_applicable; tooling lane remained unchanged`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `deterministic local tooling with controlled loopback and owned-process fixtures`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -91,7 +91,7 @@ Implemented the bounded process-status parser extraction and measurable target-s
 - Integration method used: `worktree-only implementation pending PR`
 - Verification performed:
   - `cargo test --manifest-path adl/Cargo.toml --bin adl-process; cargo test --manifest-path adl/Cargo.toml --test cli_smoke process_status; cargo clippy --manifest-path adl/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
-    `not_run; implementation has not started`
+    `Focused local parser and installed CLI proof passed; hosted integration remains pending`
 - Result: `not_integrated`
 
 Rules:
@@ -139,35 +139,35 @@ verification_summary:
     status: passed_local
     required_artifacts_present: true
     schema_changes:
-      present: not_run
+      present: false
       approved: not_applicable
 ```
 
 ## Determinism Evidence
 - Determinism tests executed: `true`
 - Fixtures or scripts used: `Existing process_cmd unit surface, standalone adl-process binary unit surface, and cli_smoke process_status integration surface; no new fixture family`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
+- Replay verification (same inputs -> same artifacts/order): `passed; focused deterministic proof was repeated with locked dependencies`
 - Ordering guarantees (sorting / tie-break rules used): `Repeated same-target last-value behavior and delayed conflict/error precedence covered in unit and installed CLI tests`
 - Artifact stability notes: `Historical dirty process-status-fanout worktree preserved byte-for-byte; implementation isolated in the bound #906 FastWork worktree`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
+- Secret leakage scan performed: `not_applicable; no secret-bearing input or credential-handling surface changed`
+- Prompt / tool argument redaction verified: `not_applicable; no provider credentials or sensitive tool arguments are used by this local parser proof`
+- Absolute path leakage check: `reviewed; the evidence intentionally records the operator-local historical worktree path required for ownership preservation`
 - Sandbox / policy invariants preserved: `true`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
-- Run artifact root: `.csdlc/evidence/906 (planned)`
-- Replay command used for verification: `not_run; implementation has not started`
-- Replay result: `not_run; implementation has not started`
+- Trace bundle path(s): `not_applicable; this deterministic local parser refactor produces no runtime trace bundle`
+- Run artifact root: `.csdlc/evidence/906`
+- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --bins process_cmd::args::tests; cargo test --manifest-path adl/Cargo.toml --bin adl-process; cargo test --manifest-path adl/Cargo.toml --test cli_smoke process_status`
+- Replay result: `passed: 12 parser binary-path executions, 11 standalone adl-process tests, and 16 installed CLI tests`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/906/process-parser-inventory.md and focused Rust test output`
-- Required artifacts present: `not_run; implementation has not started`
-- Artifact schema/version checks: `not_run; implementation has not started`
+- Required artifacts present: `true`
+- Artifact schema/version checks: `not_applicable; no schema-bearing artifact changed`
 - Hash/byte-stability checks: `Baseline and current source SHA-256 plus recursive line inventory recorded in .csdlc/evidence/906/process-parser-inventory.md`
-- Missing/optional artifacts and rationale: `Independent review, PR, and hosted CI do not exist yet and remain pending`
+- Missing/optional artifacts and rationale: `Independent review ran and requested this SOR truth repair; final exact-head verdict, PR, and hosted CI remain pending`
 
 ## Decisions / Deviations
 - `#864 WP-01 prerequisite delivered by merged PR #865; all69 identity/creation reviews completed. Recheck accepted evidence and current path ownership before bind; no dependency on entire earlier sprints is added.`

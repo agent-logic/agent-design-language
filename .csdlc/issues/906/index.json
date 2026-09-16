@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 906,
   "phase": "bound",
-  "generation": 5,
+  "generation": 7,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/906-v0922-process-parser-simplification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-906-v0922-process-parser-simplification",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "97db6562632111fe980696321c719f760558ffb0e03f516f93627fcef0ca2c3b"
+  "digest": "c514624a4aec8fa49aa3f10f1042a01e5e82734aba0fb2263ef5f37f2f90fc94"
 }
