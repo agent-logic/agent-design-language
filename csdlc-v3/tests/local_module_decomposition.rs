@@ -46,15 +46,33 @@ fn dependency_style_error(source: &str, modules: &[&str]) -> Option<String> {
             continue;
         };
         let compact_import = import.split_whitespace().collect::<String>();
-        if compact_import.starts_with("crateas") {
-            return Some("aliases of the crate root are forbidden in local modules".into());
-        }
-        if compact_import.starts_with("super::{")
-            && modules
-                .iter()
-                .any(|dependency| compact_import.contains(dependency))
+        let normalized_import = compact_import.replace(['{', '}'], "");
+        if normalized_import.starts_with("crateas")
+            || normalized_import.starts_with("crate::selfas")
+            || normalized_import.starts_with("superas")
+            || normalized_import.starts_with("super::selfas")
         {
-            return Some("braced sibling imports are forbidden".into());
+            return Some("aliases of crate and super roots are forbidden".into());
+        }
+        let imported_identifiers = import
+            .split(|character: char| !character.is_ascii_alphanumeric() && character != '_')
+            .filter(|identifier| !identifier.is_empty())
+            .collect::<Vec<_>>();
+        for dependency in modules {
+            let references_sibling = imported_identifiers.contains(dependency);
+            if references_sibling && compact_import.starts_with("super::{") {
+                return Some(format!(
+                    "sibling {dependency} must not use a braced super import"
+                ));
+            }
+            if references_sibling
+                && normalized_import.starts_with("super")
+                && !compact_import.starts_with(&format!("super::{dependency}::"))
+            {
+                return Some(format!(
+                    "sibling {dependency} must use its canonical super path"
+                ));
+            }
         }
     }
     None
@@ -134,8 +152,15 @@ fn alternate_sibling_import_forms_fail_closed() {
         "use crate::commands::{local::routing::execute};",
         "use crate::{commands::{local::routing::execute}};",
         "use crate as root; use root::commands::local::routing::execute;",
+        "use crate::{self as root}; use root::commands::local::routing::execute;",
+        "use super as parent; use parent::routing::execute;",
+        "use super::{self as parent}; use parent::routing::execute;",
+        "use super::routing as routed;",
     ] {
-        assert!(dependency_style_error(rejected, &modules).is_some());
+        assert!(
+            dependency_style_error(rejected, &modules).is_some(),
+            "alternate import unexpectedly accepted: {rejected}"
+        );
     }
     assert_eq!(
         direct_sibling_dependencies("use super::routing::execute as routed;", &modules),
