@@ -14,7 +14,7 @@
   "planned_validation_tokens": "7000",
   "validation_runtime_class": "bounded_local",
   "stp_card": ".csdlc/issues/893/cards/stp.md",
-  "selected_lanes_inline": "runtime; deterministic semantic correctness plus actual installed consumer integration; issue acceptance and later release input; all runs pending",
+  "selected_lanes_inline": "runtime; deterministic semantic correctness plus installed consumer integration; focused local proof passed for `codefriend_remediate` 5/5, `cargo fmt --check`, and `git diff --check`; CI observation, publication checks, and fresh exact-head review remain pending",
   "plan_summary": "After accepted #892 and shared-owner recheck, freeze completed-synthesis input and traceability contracts; implement bounded evidence-linked remediation generation with one repair per action and acyclic ordering; wire the installed generator and complete plan reader; execute real synthesis fixtures and unrelated-action, unsupported-path, missing-evidence, cycle, invalid-input and source-mutation negatives; document limitations and obtain independent exact-head review.",
   "planned_pvf_lane": "runtime",
   "slug": "v0922-remediation-planner",

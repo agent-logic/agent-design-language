@@ -35,7 +35,7 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/893/cards/spp.md"
 selected_lanes:
-  - "runtime; deterministic semantic correctness plus actual installed consumer integration; issue acceptance and later release input; all runs pending"
+  - "runtime; deterministic semantic correctness plus installed consumer integration; focused local proof passed for `codefriend_remediate` 5/5, `cargo fmt --check`, and `git diff --check`; CI observation, publication checks, and fresh exact-head review remain pending"
 parallel_groups:
   - "Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review"
 validation_commands:
@@ -61,7 +61,7 @@ After accepted #892 and shared-owner recheck, freeze completed-synthesis input a
 
 ## Selected Validation Lanes
 
-- runtime; deterministic semantic correctness plus actual installed consumer integration; issue acceptance and later release input; all runs pending
+- runtime; deterministic semantic correctness plus installed consumer integration; focused local proof passed for `codefriend_remediate` 5/5, `cargo fmt --check`, and `git diff --check`; CI observation, publication checks, and fresh exact-head review remain pending
 
 ## Parallelization Plan
 
