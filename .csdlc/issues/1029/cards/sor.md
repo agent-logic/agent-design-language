@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][C-SDLC v3][defect] Restore preparation and issue edits for legacy native records
 Branch: codex/1029-legacy-native-record-preparation-and-edits
 Card Status: ready
-Status: <status>
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-<summary>
+Implemented explicit writer-fenced semantic preparation for structurally complete unbound legacy native-v3 ready records, shared semantic admission for existing-issue mutation preview and execution, structured pre-preparation status, and operator documentation. Independent review, publication, CI, merge and terminal closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -75,8 +75,8 @@ Execution:
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Tracked implementation artifacts: `csdlc-v3/src/storage/semantic.rs; csdlc-v3/src/commands/local/intent.rs; csdlc-v3/src/application/intent/local.rs; csdlc-v3/src/application/intent/remote.rs; csdlc-v3/tests/transactions.rs; docs/csdlc-v3/man/man1/csdlc-workflow.1`
+- Additional proof artifacts: `.csdlc/v3/issues/1029/proof.json`
 
 ## Actions taken
 - `<actions_taken_line_1>`
@@ -86,8 +86,8 @@ Execution:
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `bound issue worktree`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml --test transactions issue_1029; cargo test --manifest-path csdlc-v3/Cargo.toml --test transactions semantic_native_residue_collision_matrix_is_read_only; cargo check --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; native csdlc proof 1029; git diff --check`
+    `Proves positive preserved-source activation plus pending, bound, stale-digest, wrong-repository, active-worktree and legacy-collision rejection, and records a nonzero native proof at the implementation head.`
 - Results:
-  - `<validation_result>`
+  - `Focused #1029 tests passed 3/3; adjacent legacy collision test passed 1/1; all-target check and strict clippy passed; native proof passed 3 tests with unchanged inputs at b5ffacea3e58ffc0288cbd7e7bc3765f4c500630; diff hygiene passed. The long full component run remains in progress and CI is deferred to the PR.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,24 +123,24 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - "Native 3-test proof plus focused negative guards, adjacent collision test, check, fmt, strict clippy and diff hygiene"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: writer fence precedes semantic activation
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
