@@ -1,0 +1,1005 @@
+{
+  "schema": "adl.csdlc.issue873.retry_scenario_map.v1",
+  "corpus_id": "sim07-pre-resume-installed-journeys-v1",
+  "binaries": {
+    "predecessor": {
+      "revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+      "sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+      "blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64"
+    },
+    "candidate": {
+      "revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+      "sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
+      "blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "primary-linked-edit",
+      "relevant_facts": {
+        "fixture_family": "installed_intent_commands",
+        "remote_transport": "synthetic",
+        "semantic_scope": "prepare-bind-edit-observe",
+        "topologies": [
+          "primary",
+          "linked"
+        ],
+        "initial_fixture_facts": {
+          "issue_number": 505,
+          "lifecycle_phase": "unprepared",
+          "authority": "native-v3",
+          "remote_state": "synthetic"
+        },
+        "fake_remote_schedule": [
+          "observe-initial",
+          "apply-scripted-result",
+          "observe-final"
+        ],
+        "operand_binding": "argv paths are variant-specific retained fixture paths; cleanup preview operands are retained SHA-256 digests"
+      },
+      "relevant_facts_sha256": "9ed27fe912be99f4e683ee6aec0528f6b074e14195262fe49db6a347b14b2dd5",
+      "semantic_steps": [
+        {
+          "id": "prepare-preview-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_unsupported_prepare_preview",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "prepare",
+              "505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-predecessor/plan.json",
+              "--preview",
+              "plan"
+            ],
+            "candidate": [
+              "prepare",
+              "505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-candidate/plan.json",
+              "--preview",
+              "plan"
+            ]
+          }
+        },
+        {
+          "id": "prepare",
+          "retry_policy": "eligible",
+          "intended_operation": "prepare_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "prepare",
+              "505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-predecessor/plan.json"
+            ],
+            "candidate": [
+              "prepare",
+              "505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+            ]
+          }
+        },
+        {
+          "id": "status-ready-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_ready_status_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "status",
+              "505"
+            ],
+            "candidate": [
+              "status",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "validate-ready-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "validate_ready_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "505"
+            ],
+            "candidate": [
+              "validate",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "bind",
+          "retry_policy": "eligible",
+          "intended_operation": "bind_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "bind",
+              "505"
+            ],
+            "candidate": [
+              "bind",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "status-bound-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_bound_status_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "status",
+              "505"
+            ],
+            "candidate": [
+              "status",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "validate-bound-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "validate_bound_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "505"
+            ],
+            "candidate": [
+              "validate",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "status-bound-linked",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_bound_status_linked",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "status",
+              "505"
+            ],
+            "candidate": [
+              "status",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "validate-bound-linked",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "validate_bound_linked",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "505"
+            ],
+            "candidate": [
+              "validate",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "linked-edit-preview-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_unsupported_edit_preview",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "edit",
+              "505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-predecessor/changes.json",
+              "--preview",
+              "plan"
+            ],
+            "candidate": [
+              "edit",
+              "505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json",
+              "--preview",
+              "plan"
+            ]
+          }
+        },
+        {
+          "id": "linked-edit",
+          "retry_policy": "eligible",
+          "intended_operation": "edit_linked_worktree",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "edit",
+              "505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-predecessor/changes.json"
+            ],
+            "candidate": [
+              "edit",
+              "505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+            ]
+          }
+        },
+        {
+          "id": "primary-edit",
+          "retry_policy": "eligible",
+          "intended_operation": "edit_primary_worktree",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "edit",
+              "505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-predecessor/changes.json"
+            ],
+            "candidate": [
+              "edit",
+              "505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+            ]
+          }
+        },
+        {
+          "id": "validate-projection",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "validate_projected_cards",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "505"
+            ],
+            "candidate": [
+              "validate",
+              "505"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "terminal-journey",
+      "relevant_facts": {
+        "fixture_family": "installed_intent_commands",
+        "remote_transport": "synthetic",
+        "semantic_scope": "proof-review-publish-finish-clean",
+        "topologies": [
+          "primary",
+          "linked"
+        ],
+        "initial_fixture_facts": {
+          "issue_number": 505,
+          "lifecycle_phase": "unprepared",
+          "authority": "native-v3",
+          "remote_state": "synthetic"
+        },
+        "fake_remote_schedule": [
+          "observe-initial",
+          "apply-scripted-result",
+          "observe-final"
+        ],
+        "operand_binding": "argv paths are variant-specific retained fixture paths; cleanup preview operands are retained SHA-256 digests"
+      },
+      "relevant_facts_sha256": "577e41f40ab8baaa561e82ae1c1eea04f15a6ca1ee0f52e18173d89c91b36aca",
+      "semantic_steps": [
+        {
+          "id": "prepare",
+          "retry_policy": "eligible",
+          "intended_operation": "prepare_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "prepare",
+              "505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-predecessor/plan.json"
+            ],
+            "candidate": [
+              "prepare",
+              "505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+            ]
+          }
+        },
+        {
+          "id": "bind",
+          "retry_policy": "eligible",
+          "intended_operation": "bind_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "bind",
+              "505"
+            ],
+            "candidate": [
+              "bind",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "proof",
+          "retry_policy": "eligible",
+          "intended_operation": "retain_proof",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "proof",
+              "505"
+            ],
+            "candidate": [
+              "proof",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "review",
+          "retry_policy": "eligible",
+          "intended_operation": "retain_review",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "review",
+              "505",
+              "--evidence",
+              "$FIXTURE_ROOT/.git/installed-predecessor/review.json"
+            ],
+            "candidate": [
+              "review",
+              "505",
+              "--evidence",
+              "$FIXTURE_ROOT/.git/installed-candidate/review.json"
+            ]
+          }
+        },
+        {
+          "id": "publish",
+          "retry_policy": "eligible",
+          "intended_operation": "publish_draft",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "publish",
+              "505"
+            ],
+            "candidate": [
+              "publish",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "github-pr-create",
+          "retry_policy": "eligible",
+          "intended_operation": "create_remote_pull_request",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-predecessor/operation.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/operation.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "merge-internal-input-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_internal_merge_inputs",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "merge-remote-apply",
+          "retry_policy": "eligible",
+          "intended_operation": "observe_remote_merge",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "merge-idempotent-observation",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_merged_pull_request",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "finish-preview",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "preview_finish",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "finish",
+              "505",
+              "--preview",
+              "plan"
+            ],
+            "candidate": [
+              "finish",
+              "505",
+              "--preview",
+              "plan"
+            ]
+          }
+        },
+        {
+          "id": "finish-linked",
+          "retry_policy": "eligible",
+          "intended_operation": "finish_linked_worktree",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "finish",
+              "505"
+            ],
+            "candidate": [
+              "finish",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-foreign-dirty-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_foreign_dirty_cleanup",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505"
+            ],
+            "candidate": [
+              "clean",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-tracked-dirty-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_tracked_dirty_cleanup",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505"
+            ],
+            "candidate": [
+              "clean",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-preview",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "preview_cleanup",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505"
+            ],
+            "candidate": [
+              "clean",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-stale-preview-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_stale_cleanup_preview",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ],
+            "candidate": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-injected-failure",
+          "retry_policy": "excluded_injected_interruption",
+          "intended_operation": "inject_cleanup_failure",
+          "expected_outcomes": [
+            "interrupted"
+          ],
+          "completion_outcomes": [
+            "interrupted"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ],
+            "candidate": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-interruption-one",
+          "retry_policy": "excluded_injected_interruption",
+          "intended_operation": "interrupt_cleanup_after_archive",
+          "expected_outcomes": [
+            "interrupted"
+          ],
+          "completion_outcomes": [
+            "interrupted"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ],
+            "candidate": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-interruption-two",
+          "retry_policy": "excluded_injected_interruption",
+          "intended_operation": "interrupt_cleanup_after_registration",
+          "expected_outcomes": [
+            "interrupted"
+          ],
+          "completion_outcomes": [
+            "interrupted"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ],
+            "candidate": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-recovery-status",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_cleanup_recovery_required",
+          "expected_outcomes": [
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "recovery_required"
+          ],
+          "argv": {
+            "predecessor": [
+              "status",
+              "505"
+            ],
+            "candidate": [
+              "status",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-recovery-preview",
+          "retry_policy": "useful_only",
+          "intended_operation": "recover_cleanup_preview",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "recovery_required",
+            "interrupted"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505"
+            ],
+            "candidate": [
+              "clean",
+              "505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-linked-execute",
+          "retry_policy": "eligible",
+          "intended_operation": "execute_linked_cleanup",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5d179ce8af4a64a1ecafc156e2853f922a080446d1571075b4a1401d85544896"
+            ],
+            "candidate": [
+              "clean",
+              "505",
+              "--execute",
+              "--preview",
+              "5d179ce8af4a64a1ecafc156e2853f922a080446d1571075b4a1401d85544896"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-primary-complete",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_cleanup_complete",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "505"
+            ],
+            "candidate": [
+              "clean",
+              "505"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -u
+
+ROOT="${ADL_ISSUE873_REPO_ROOT:-$(git rev-parse --show-toplevel)}"
+EVIDENCE="${ADL_ISSUE873_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/873/sim-07}"
+SCENARIO_MAP="${ADL_ISSUE873_RETRY_SCENARIO_MAP:-$EVIDENCE/retry-scenario-map.json}"
+PREDECESSOR_LEDGER="${ADL_ISSUE873_PREDECESSOR_RETRY_LEDGER:?set ADL_ISSUE873_PREDECESSOR_RETRY_LEDGER}"
+CANDIDATE_LEDGER="${ADL_ISSUE873_CANDIDATE_RETRY_LEDGER:?set ADL_ISSUE873_CANDIDATE_RETRY_LEDGER}"
+OUTPUT="${ADL_ISSUE873_RETRY_COMPARISON_OUTPUT:-$EVIDENCE/retry-comparison.json}"
+
+python3 "$EVIDENCE/validate_retry_comparison.py" \
+  --scenario-map "$SCENARIO_MAP" \
+  --predecessor-ledger "$PREDECESSOR_LEDGER" \
+  --candidate-ledger "$CANDIDATE_LEDGER" \
+  --output "$OUTPUT"

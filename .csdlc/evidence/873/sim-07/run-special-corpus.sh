@@ -8,8 +8,13 @@ COMMANDS="$EVIDENCE/commands"
 RESULTS="$EVIDENCE/results"
 BASELINE="${ADL_SIM03_BASELINE_BINARY:?set ADL_SIM03_BASELINE_BINARY to the accepted #868 binary}"
 CANDIDATE="${ADL_ISSUE873_CANDIDATE_BINARY:?set ADL_ISSUE873_CANDIDATE_BINARY to the frozen #873 binary}"
-CONVERSION_ROOT="${ADL_ISSUE872_WORKTREE:?set ADL_ISSUE872_WORKTREE to the retained #872 worktree}"
+CONVERSION_ROOT="${ADL_ISSUE872_WORKTREE:-}"
 TARGET_DIR="${ADL_ISSUE873_TIMING_TARGET_DIR:-$ROOT/csdlc-v3/target}"
+BUILD_ONLY="${ADL_ISSUE873_TIMING_BUILD_ONLY:-0}"
+EXECUTE_ONLY="${ADL_ISSUE873_TIMING_EXECUTE_ONLY:-0}"
+TIMING_VARIANT="${ADL_ISSUE873_TIMING_VARIANT:-matched}"
+TIMING_REPETITIONS="${ADL_ISSUE873_TIMING_REPETITIONS:-3}"
+TIMING_OUTPUT_DIR="$TARGET_DIR/sim03-prepared-start-measurement"
 EXPECTED_CANDIDATE_SHA256="7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e"
 EXPECTED_CANDIDATE_BLAKE3="c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d"
 mkdir -p "$COMMANDS" "$RESULTS"
@@ -52,6 +57,7 @@ run_one() {
     --argjson passed "$passed" --argjson failed "$failed" --argjson ignored "$ignored" \
     '{schema:$schema,scenario_id:$scenario_id,command:$command,started_at:$started_at,ended_at:$ended_at,elapsed_seconds:$elapsed_seconds,exit_status:$exit_status,test_counts:{passed:$passed,failed:$failed,ignored:$ignored},stdout_sha256:$stdout_sha256,stderr_sha256:$stderr_sha256}' > "$result"
   printf '%s exit=%s passed=%s failed=%s ignored=%s elapsed=%ss\n' "$id" "$exit_status" "$passed" "$failed" "$ignored" "$elapsed"
+  return "$exit_status"
 }
 
 actual_baseline_sha="$(shasum -a 256 "$BASELINE" | awk '{print $1}')"
@@ -66,7 +72,26 @@ if [[ "$actual_candidate_sha" != "$EXPECTED_CANDIDATE_SHA256" ]]; then
   exit 2
 fi
 
-CARGO_TARGET_DIR="$TARGET_DIR" cargo test --locked --manifest-path "$MANIFEST" --test installed_prepared_start_measurement --no-run
+if [[ "$BUILD_ONLY" != "0" && "$BUILD_ONLY" != "1" ]]; then
+  printf 'ADL_ISSUE873_TIMING_BUILD_ONLY must be 0 or 1\n' >&2
+  exit 2
+fi
+if [[ "$EXECUTE_ONLY" != "0" && "$EXECUTE_ONLY" != "1" ]]; then
+  printf 'ADL_ISSUE873_TIMING_EXECUTE_ONLY must be 0 or 1\n' >&2
+  exit 2
+fi
+if [[ "$BUILD_ONLY" == "1" && "$EXECUTE_ONLY" == "1" ]]; then
+  printf 'timing build-only and execute-only modes are mutually exclusive\n' >&2
+  exit 2
+fi
+if [[ "$EXECUTE_ONLY" == "1" && ( "$TIMING_VARIANT" != "candidate" || "$TIMING_REPETITIONS" != "1" ) ]]; then
+  printf 'execute-only timing requires candidate variant and exactly one repetition\n' >&2
+  exit 2
+fi
+
+if [[ "$EXECUTE_ONLY" != "1" ]]; then
+  CARGO_TARGET_DIR="$TARGET_DIR" cargo test --locked --manifest-path "$MANIFEST" --test installed_prepared_start_measurement --no-run
+fi
 TIMING_TEST_BIN="${ADL_ISSUE873_TIMING_HARNESS:-$(find "$TARGET_DIR/debug/deps" -maxdepth 1 -type f -perm -111 -name 'installed_prepared_start_measurement-*' -print | sort | tail -1)}"
 HARNESS_CANDIDATE="$TARGET_DIR/debug/csdlc"
 HARNESS_BACKUP="$TARGET_DIR/debug/csdlc.sim07-timing-backup"
@@ -74,7 +99,7 @@ if [[ ! -x "$TIMING_TEST_BIN" || ! -x "$HARNESS_CANDIDATE" ]]; then
   printf 'prepared-start harness or candidate slot missing\n' >&2
   exit 2
 fi
-if [[ "${ADL_ISSUE873_TIMING_BUILD_ONLY:-0}" == "1" ]]; then
+if [[ "$BUILD_ONLY" == "1" ]]; then
   jq -n \
     --arg schema "adl.csdlc.issue873.non_default_timing_target_probe.v1" \
     --arg target_ref "ADL_ISSUE873_TIMING_TARGET_DIR" \
@@ -91,9 +116,16 @@ restore_timing_candidate() {
 }
 trap restore_timing_candidate EXIT INT TERM
 cp "$CANDIDATE" "$HARNESS_CANDIDATE"
-run_one installed_prepared_start_measurement \
-  env ADL_SIM03_BASELINE_BINARY="$BASELINE" "$TIMING_TEST_BIN" --ignored --test-threads=1 --nocapture
-latest_measurement="$(find "$TARGET_DIR/sim03-prepared-start-measurement" -maxdepth 1 -type f -name '*.json' -newer "$COMMANDS/installed_prepared_start_measurement.command.txt" -print | sort | tail -1)"
+if ! run_one installed_prepared_start_measurement \
+  env ADL_SIM03_BASELINE_BINARY="$BASELINE" \
+    ADL_ISSUE873_TIMING_VARIANT="$TIMING_VARIANT" \
+    ADL_ISSUE873_TIMING_REPETITIONS="$TIMING_REPETITIONS" \
+    ADL_ISSUE873_TIMING_OUTPUT_DIR="$TIMING_OUTPUT_DIR" \
+    "$TIMING_TEST_BIN" --ignored --test-threads=1 --nocapture; then
+  printf 'prepared-start measurement command failed\n' >&2
+  exit 2
+fi
+latest_measurement="$(find "$TIMING_OUTPUT_DIR" -maxdepth 1 -type f -name '*.json' -newer "$COMMANDS/installed_prepared_start_measurement.command.txt" -print | sort | tail -1)"
 if [[ -z "$latest_measurement" ]]; then
   printf 'prepared-start measurement artifact missing\n' >&2
   exit 2
@@ -102,9 +134,31 @@ if ! jq -e --arg digest "$EXPECTED_CANDIDATE_BLAKE3" 'all(.samples[] | select(.v
   printf 'prepared-start measurement did not use the frozen candidate\n' >&2
   exit 2
 fi
-cp "$latest_measurement" "$EVIDENCE/measurements/prepared-start.json"
+if ! jq -e '(.samples | length) > 0 and all(.samples[]; .three_minute_fixture_target_met == true)' "$latest_measurement" >/dev/null; then
+  printf 'prepared-start measurement contains a sample that failed the timing target\n' >&2
+  exit 2
+fi
+if [[ "$EXECUTE_ONLY" == "1" ]]; then
+  if ! jq -e '.conditions.selection == "candidate" and .conditions.requested_repetitions == 1 and (.samples | length) == 1 and .samples[0].variant == "candidate"' "$latest_measurement" >/dev/null; then
+    printf 'execute-only timing did not retain exactly one candidate-first sample\n' >&2
+    exit 2
+  fi
+  cp "$latest_measurement" "$EVIDENCE/measurements/prepared-start-candidate-first-unadjudicated.json"
+else
+  cp "$latest_measurement" "$EVIDENCE/measurements/prepared-start.json"
+fi
 restore_timing_candidate
 trap - EXIT INT TERM
+
+if [[ "$EXECUTE_ONLY" == "1" ]]; then
+  printf 'candidate-first execute-only timing retained; OS-cold status remains unadjudicated\n'
+  exit 0
+fi
+
+if [[ -z "$CONVERSION_ROOT" ]]; then
+  printf 'set ADL_ISSUE872_WORKTREE to the retained #872 worktree\n' >&2
+  exit 2
+fi
 
 run_one copied_record_conversion_rehearsal_release_gate \
   env ISSUE872_OLD_CSDLC="$BASELINE" cargo test --locked --manifest-path "$MANIFEST" --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture

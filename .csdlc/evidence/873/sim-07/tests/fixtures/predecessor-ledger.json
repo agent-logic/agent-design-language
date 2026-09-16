@@ -1,0 +1,91 @@
+{
+  "schema": "adl.csdlc.issue873.retry_ledger.v1",
+  "corpus_id": "retry-comparator-fixture-v1",
+  "scenario_map_sha256": "REPLACED_BY_TEST",
+  "variant": "predecessor",
+  "binary": {
+    "revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+    "sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+    "blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64"
+  },
+  "journeys": [
+    {
+      "scenario_id": "fixture-journey",
+      "status": "completed"
+    }
+  ],
+  "attempts": [
+    {
+      "attempt_id": "p-1",
+      "scenario_id": "fixture-journey",
+      "step_id": "transition",
+      "relevant_facts_sha256": "f656f498c2ea9bba636e3d8ce5ec6d13d4cfa2dafc6adb888343b6ef06d94691",
+      "outcome_class": "unexpected_fault",
+      "reason_code": "fixture_fault",
+      "result_envelope_present": true,
+      "correlation_id": "p-correlation-1",
+      "retry_of": null,
+      "retry_class": "not_retry",
+      "intended_operation": "transition",
+      "argv": [
+        "csdlc-predecessor",
+        "transition",
+        "--synthetic-remote-schedule"
+      ]
+    },
+    {
+      "attempt_id": "p-2",
+      "scenario_id": "fixture-journey",
+      "step_id": "transition",
+      "relevant_facts_sha256": "f656f498c2ea9bba636e3d8ce5ec6d13d4cfa2dafc6adb888343b6ef06d94691",
+      "outcome_class": "unexpected_fault",
+      "reason_code": "fixture_fault_repeated",
+      "result_envelope_present": true,
+      "correlation_id": "p-correlation-2",
+      "retry_of": "p-1",
+      "retry_class": "avoidable",
+      "intended_operation": "transition",
+      "argv": [
+        "csdlc-predecessor",
+        "transition",
+        "--synthetic-remote-schedule"
+      ]
+    },
+    {
+      "attempt_id": "p-3",
+      "scenario_id": "fixture-journey",
+      "step_id": "transition",
+      "relevant_facts_sha256": "f656f498c2ea9bba636e3d8ce5ec6d13d4cfa2dafc6adb888343b6ef06d94691",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "result_envelope_present": true,
+      "correlation_id": "p-correlation-3",
+      "retry_of": "p-2",
+      "retry_class": "avoidable",
+      "intended_operation": "transition",
+      "argv": [
+        "csdlc-predecessor",
+        "transition",
+        "--synthetic-remote-schedule"
+      ]
+    },
+    {
+      "attempt_id": "p-4",
+      "scenario_id": "fixture-journey",
+      "step_id": "guard",
+      "relevant_facts_sha256": "f656f498c2ea9bba636e3d8ce5ec6d13d4cfa2dafc6adb888343b6ef06d94691",
+      "outcome_class": "expected_guard_denial",
+      "reason_code": "fixture_guard",
+      "result_envelope_present": true,
+      "correlation_id": "p-correlation-4",
+      "retry_of": null,
+      "retry_class": "not_retry",
+      "intended_operation": "guard",
+      "argv": [
+        "csdlc-predecessor",
+        "guard",
+        "--synthetic-remote-schedule"
+      ]
+    }
+  ]
+}

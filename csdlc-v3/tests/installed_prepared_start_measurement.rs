@@ -15,6 +15,60 @@ use std::{
 };
 
 const BASELINE_DIGEST: &str = "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64";
+
+#[derive(Debug, PartialEq, Eq)]
+enum MeasurementSelection {
+    Matched,
+    CandidateOnly,
+    PredecessorOnly,
+}
+
+#[derive(Debug, PartialEq, Eq)]
+struct MeasurementPlan {
+    selection: MeasurementSelection,
+    repetitions: usize,
+}
+
+fn measurement_plan(
+    selection: Option<&str>,
+    repetitions: Option<&str>,
+) -> Result<MeasurementPlan, String> {
+    let selection = match selection.unwrap_or("matched") {
+        "matched" => MeasurementSelection::Matched,
+        "candidate" => MeasurementSelection::CandidateOnly,
+        "predecessor" => MeasurementSelection::PredecessorOnly,
+        other => return Err(format!("unsupported timing variant: {other}")),
+    };
+    let repetitions = repetitions
+        .unwrap_or("3")
+        .parse::<usize>()
+        .map_err(|_| "timing repetitions must be an integer".to_owned())?;
+    if !(1..=3).contains(&repetitions) {
+        return Err("timing repetitions must be between 1 and 3".to_owned());
+    }
+    Ok(MeasurementPlan {
+        selection,
+        repetitions,
+    })
+}
+
+fn scheduled_variants(plan: &MeasurementPlan) -> Vec<bool> {
+    let mut variants = Vec::new();
+    for repetition in 0..plan.repetitions {
+        match plan.selection {
+            MeasurementSelection::Matched => {
+                if repetition % 2 == 0 {
+                    variants.extend([true, false]);
+                } else {
+                    variants.extend([false, true]);
+                }
+            }
+            MeasurementSelection::CandidateOnly => variants.push(false),
+            MeasurementSelection::PredecessorOnly => variants.push(true),
+        }
+    }
+    variants
+}
 fn read(path: &Path) -> Value {
     serde_json::from_slice(&fs::read(path).unwrap()).unwrap()
 }
@@ -255,34 +309,49 @@ fn accepted_predecessor_and_candidate_prepared_start_measurements() {
         BASELINE_DIGEST,
         "unverified predecessor binary"
     );
+    let plan = measurement_plan(
+        std::env::var("ADL_ISSUE873_TIMING_VARIANT").ok().as_deref(),
+        std::env::var("ADL_ISSUE873_TIMING_REPETITIONS")
+            .ok()
+            .as_deref(),
+    )
+    .expect("valid issue #873 timing selection");
+    let variants = scheduled_variants(&plan);
     let mut samples = Vec::new();
-    let destination = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("target/sim03-prepared-start-measurement")
-        .join(format!("{}.json", std::process::id()));
+    let output_root = std::env::var_os("ADL_ISSUE873_TIMING_OUTPUT_DIR")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| {
+            PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("target/sim03-prepared-start-measurement")
+        });
+    let destination = output_root.join(format!("{}.json", std::process::id()));
     fs::create_dir_all(destination.parent().unwrap()).unwrap();
-    for repetition in 0..3 {
-        for predecessor_first in [true, false] {
-            let predecessor = if repetition % 2 == 0 {
-                predecessor_first
-            } else {
-                !predecessor_first
-            };
-            samples.push(measure(
-                predecessor.then_some(baseline.as_path()),
-                repetition,
-            ));
-            let report = json!({"schema":"csdlc.v3.prepared_start_measurement.v1","issue":869,
+    for (sample_index, predecessor) in variants.into_iter().enumerate() {
+        let repetition = match plan.selection {
+            MeasurementSelection::Matched => sample_index / 2,
+            _ => sample_index,
+        };
+        samples.push(measure(
+            predecessor.then_some(baseline.as_path()),
+            repetition,
+        ));
+        let report = json!({"schema":"csdlc.v3.prepared_start_measurement.v1","issue":869,
             "source_head":intent_fixture::git(&intent_fixture::source_root(),&["rev-parse","HEAD"]),
             "source_has_uncommitted_changes":!intent_fixture::git(&intent_fixture::source_root(),&["status","--porcelain"]).is_empty(),
             "baseline_revision":"6425ba9bbce4cc1f46789c2e3ac019adf86238b8","baseline_blake3":BASELINE_DIGEST,
             "conditions":{"os_cold_cache_measured":false,"cache_reset_performed":false,"host":"same warm host; first and later repetitions separately labeled",
+            "selection":match plan.selection { MeasurementSelection::Matched => "matched", MeasurementSelection::CandidateOnly => "candidate", MeasurementSelection::PredecessorOnly => "predecessor" },
+            "requested_repetitions":plan.repetitions,
             "excluded":"fixture Git/template/authority bootstrap, binary installation and plan authoring; preparation is outside prepared-start interval and retained separately",
             "remote":"synthetic local transport; no live network timing","scope":"small isolated fixture, not a live repository or human workflow benchmark"},
             "samples":samples});
-            write(&destination, &report);
-        }
+        write(&destination, &report);
     }
-    assert_eq!(samples.len(), 6);
+    let expected_samples = match plan.selection {
+        MeasurementSelection::Matched => plan.repetitions * 2,
+        _ => plan.repetitions,
+    };
+    assert_eq!(samples.len(), expected_samples);
     assert!(samples
         .iter()
         .all(|s| s["three_minute_fixture_target_met"] == true));
@@ -290,4 +359,33 @@ fn accepted_predecessor_and_candidate_prepared_start_measurements() {
         "prepared-start measurement retained at {}",
         destination.display()
     );
+}
+
+#[test]
+fn timing_selection_defaults_to_three_alternating_matched_pairs() {
+    let plan = measurement_plan(None, None).unwrap();
+    assert_eq!(
+        plan,
+        MeasurementPlan {
+            selection: MeasurementSelection::Matched,
+            repetitions: 3,
+        }
+    );
+    assert_eq!(
+        scheduled_variants(&plan),
+        vec![true, false, false, true, true, false]
+    );
+}
+
+#[test]
+fn timing_selection_supports_one_candidate_first_sample() {
+    let plan = measurement_plan(Some("candidate"), Some("1")).unwrap();
+    assert_eq!(scheduled_variants(&plan), vec![false]);
+}
+
+#[test]
+fn timing_selection_rejects_unknown_variants_and_unbounded_repetitions() {
+    assert!(measurement_plan(Some("both"), Some("1")).is_err());
+    assert!(measurement_plan(Some("candidate"), Some("0")).is_err());
+    assert!(measurement_plan(Some("candidate"), Some("4")).is_err());
 }
