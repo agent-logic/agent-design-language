@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "review_r1_failed_findings_remediated_pending_fresh_review"
   recommended_outcome: "block_until_fresh_exact_head_review_passes"
-notes: "Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the four focused synthesis tests, the actual predecessor-output artifacts, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority."
+notes: "Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the four focused synthesis tests, the actual predecessor-output artifacts including review-record.json, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- All r1 findings remediated in the implementation session without product scope widening. Distinct claim variants are now part of grouping disagreement detection and are covered by `synthesis_flags_same_severity_distinct_claim_variants`; stale SOR truth is replaced by implemented/proof truth through this native edit; accepted #890 OpenAI r5 predecessor output was consumed through the installed CLI and durable manifest/synthesis artifacts were recorded under `.csdlc/evidence/892/predecessor-openai-r5-synthesis`. No findings waived.
+- All r1 findings remediated in the implementation session without product scope widening. Distinct claim variants are now part of grouping disagreement detection and are covered by `synthesis_flags_same_severity_distinct_claim_variants`; stale SOR truth is replaced by implemented/proof truth through native edits; accepted #890 OpenAI r5 predecessor output was consumed through the installed CLI and durable self-contained artifacts, including the copied review-record.json input snapshot, were recorded under `.csdlc/evidence/892/predecessor-openai-r5-synthesis`. No findings waived.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the four focused synthesis tests, the actual predecessor-output artifacts, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority.
+Fresh independent exact-head review is required on the new immutable remediation commit before native publication. Reviewer must verify the r1 finding dispositions, the four focused synthesis tests, the actual predecessor-output artifacts including review-record.json, create-only artifact behavior, and that #892 does not absorb publication/remediation/rendering authority.

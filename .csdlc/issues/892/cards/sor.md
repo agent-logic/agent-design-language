@@ -76,7 +76,7 @@ Implemented #892 CodeFriend review synthesis and remediated the first exact-head
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/892/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/review/synthesis.rs; adl/src/codefriend/review/mod.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_synthesis.rs`
-- Additional proof artifacts: `.csdlc/evidence/892/predecessor-openai-r5-synthesis/manifest.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json`
+- Additional proof artifacts: `.csdlc/evidence/892/predecessor-openai-r5-synthesis/review-record.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/manifest.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json`
 
 ## Actions taken
 - `Added production CodeFriend review synthesis types, validation, deduplication and create-only artifact writer.`
@@ -136,8 +136,8 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: no_provider_prompt_or_secret_args_used
     absolute_path_leakage_detected: false
   artifacts:
-    status: local_artifacts_present_review_pending
-    required_artifacts_present: yes_for_local_execution;ci_pending
+    status: self_contained_local_artifacts_present_review_pending
+    required_artifacts_present: yes_for_local_execution_snapshot;ci_pending
     schema_changes:
       present: new codefriend.review_synthesis.v1 and codefriend.review_synthesis_manifest.v1 product artifacts
       approved: pending_fresh_exact_head_review
@@ -146,9 +146,9 @@ verification_summary:
 ## Determinism Evidence
 - Determinism tests executed: `Focused synthesis tests include deterministic artifact writes and false-merge/disagreement cases; actual predecessor command produced stable manifest digest 3d3946dce7eba779558a8ed4fe56872507c0ef1e2864d9d15a590c4c029cd3ec for synthesis.json.`
 - Fixtures or scripts used: `adl/tests/codefriend_synthesis.rs fixtures; accepted #890 OpenAI r5 review-record.json predecessor artifact.`
-- Replay verification (same inputs -> same artifacts/order): `Same exact predecessor input was consumed through installed CLI once into a fresh create-only output directory; repeated replay would require a fresh output path because create-only writes intentionally refuse overwrites.`
+- Replay verification (same inputs -> same artifacts/order): `Same exact predecessor input was consumed through installed CLI once into a fresh create-only output directory; the output bundle now includes the copied review-record.json input snapshot, manifest.json and synthesis.json so the predecessor proof is independently readable without consulting the #890 worktree.`
 - Ordering guarantees (sorting / tie-break rules used): `Synthesized findings preserve deterministic grouping by semantic anchor/title, deterministic digest-derived finding ids, sorted sources/evidence/scope limits, and explicit disagreement when severity, perspective or claim variants diverge.`
-- Artifact stability notes: `Create-only output prevents rerun overwrite; manifest records review_record_digest d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8 and synthesis_digest 3d3946dce7eba779558a8ed4fe56872507c0ef1e2864d9d15a590c4c029cd3ec.`
+- Artifact stability notes: `Create-only output prevents rerun overwrite; manifest records review_record_ref review-record.json, review_record_digest d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8 and synthesis_digest 3d3946dce7eba779558a8ed4fe56872507c0ef1e2864d9d15a590c4c029cd3ec.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `No provider credentials used; bounded source/output review and no credential-bearing command arguments in local proof.`
@@ -157,15 +157,15 @@ verification_summary:
 - Sandbox / policy invariants preserved: `No source mutation or issue/publication side effects from synthesis command; artifact writer is create-only and issue-local.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/892/predecessor-openai-r5-synthesis/manifest.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json`
+- Trace bundle path(s): `.csdlc/evidence/892/predecessor-openai-r5-synthesis/review-record.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/manifest.json; .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json`
 - Run artifact root: `.csdlc/evidence/892/predecessor-openai-r5-synthesis`
 - Replay command used for verification: `cargo run --manifest-path adl/Cargo.toml -- codefriend review synthesize --input /Volumes/FastWork/adl-worktrees/adl-issue-890-v0922-four-perspective-review/adl/target/codefriend-890-openai-proof/run-openai-gpt41mini-r5/review-record.json --out .csdlc/evidence/892/predecessor-openai-r5-synthesis`
 - Replay result: `Passed: synthesized accepted #890 OpenAI r5 retained review record run 469c73b02b07ba956be4e7221246a545bcdad20a4ea5fa010816cde3c4f9626b into one synthesized finding from one input finding over four lanes.`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/892 (planned)`
-- Required artifacts present: `yes_for_local_execution_and_predecessor_output; hosted CI, publication and terminal reconciliation pending`
-- Artifact schema/version checks: `ReviewRecord input, synthesis.json and manifest.json are parsed by focused tests; native C-SDLC validate pending after this edit`
+- Primary proof surface: `.csdlc/evidence/892/predecessor-openai-r5-synthesis`
+- Required artifacts present: `yes_for_local_execution_and_predecessor_output_snapshot; hosted CI, publication and terminal reconciliation pending`
+- Artifact schema/version checks: `ReviewRecord input snapshot, synthesis.json and manifest.json are parsed by focused tests; manifest now points to the committed local review-record.json snapshot and records review_record_digest d706f6f5986570fc4bab34856dd947a41e5f0d07cc3c54e55ff04810f45844f8.`
 - Hash/byte-stability checks: `cargo fmt check and git diff --check passed`
 - Missing/optional artifacts and rationale: `Actual external provider execution and CI are deferred to required publication/CI gates; #892 consumes ReviewRecord output and does not require a new live provider call.`
 
