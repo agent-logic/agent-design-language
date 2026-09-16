@@ -2407,7 +2407,7 @@ fn installed_remote_recover_attaches_retained_receipt_after_native_dispatch_cras
 }
 
 #[test]
-fn installed_pr_create_recovery_waits_for_branch_and_reuses_definite_rejection_once() {
+fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejection_once() {
     let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-branch-later");
     let primary = fixture.root.clone();
     let crash = fixture.run_with_env(
@@ -2485,7 +2485,7 @@ fn installed_pr_create_recovery_waits_for_branch_and_reuses_definite_rejection_o
 }
 
 #[test]
-fn installed_pr_create_recovery_never_reuses_ambiguous_dispatch_or_wrong_branch() {
+fn installed_remote_recover_pr_create_never_reuses_ambiguous_dispatch_or_wrong_branch() {
     let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-ambiguous");
     let primary = fixture.root.clone();
     let crash = fixture.run_with_env(
