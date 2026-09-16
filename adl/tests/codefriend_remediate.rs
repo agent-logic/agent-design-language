@@ -7,10 +7,10 @@ use adl::codefriend::{
         plan, read_plan_from_file, validate_plan, RemediationManifest, RemediationPlan,
     },
     evidence::{
-        contracts::{Confidence, Severity},
+        contracts::{ReviewRecord, Severity},
         hash,
     },
-    review::synthesis::{ReviewSynthesis, SynthesisSource, SynthesizedFinding, SYNTHESIS_SCHEMA},
+    review::synthesis::{synthesize, ReviewSynthesis},
 };
 use std::{
     fs,
@@ -50,62 +50,50 @@ fn run_remediation(input: &Path, out_dir: &Path) -> std::process::Output {
         .unwrap()
 }
 
-fn source(id: &str, evidence: &[&str]) -> SynthesisSource {
-    SynthesisSource {
-        finding_id: id.to_string(),
-        perspective: "correctness".to_string(),
-        rule: "bounded-rule".to_string(),
-        severity: Severity::High,
-        evidence: evidence.iter().map(|value| value.to_string()).collect(),
-        rationale: "rationale retained from lane".to_string(),
-        confidence: Confidence::Known(90),
-        inference: "observed from admitted evidence".to_string(),
-        limitations: vec![],
-    }
+fn completed_review_record() -> ReviewRecord {
+    serde_json::from_slice(
+        &fs::read(completed_synthesis_bundle().join("review-record.json")).unwrap(),
+    )
+    .unwrap()
 }
 
-fn finding(id: &str, anchor: &str, evidence: &[&str]) -> SynthesizedFinding {
-    SynthesizedFinding {
-        id: id.to_string(),
-        semantic_anchor: anchor.to_string(),
-        title: format!("finding {id}"),
-        severity: Severity::High,
-        severity_rationale: "correctness: rationale retained".to_string(),
-        evidence: evidence.iter().map(|value| value.to_string()).collect(),
-        sources: vec![source(&format!("source-{id}"), evidence)],
-        disagreement: None,
-        scope_limits: vec![],
-    }
+fn synthesis_case(anchors: &[&str]) -> (ReviewSynthesis, ReviewRecord) {
+    let mut record = completed_review_record();
+    let base = record.findings[0].clone();
+    record.findings = anchors
+        .iter()
+        .enumerate()
+        .map(|(index, anchor)| {
+            let mut finding = base.clone();
+            finding.perspective = if index % 2 == 0 {
+                "correctness".to_string()
+            } else {
+                "security".to_string()
+            };
+            finding.rule = format!("bounded-remediation-test-{index}");
+            finding.semantic_anchor = (*anchor).to_string();
+            finding.title = format!("bounded remediation finding {index}");
+            finding.severity = Severity::High;
+            finding.id = finding.identity().unwrap();
+            finding
+        })
+        .collect();
+    record.validate().unwrap();
+    let synthesis = synthesize(&record).unwrap();
+    (synthesis, record)
 }
 
-fn synthesis() -> ReviewSynthesis {
-    ReviewSynthesis {
-        schema: SYNTHESIS_SCHEMA.to_string(),
-        review_record_digest: "review-digest".to_string(),
-        run_id: "remediation-test-run".to_string(),
-        repository: "https://example.com/team/remediation-target".to_string(),
-        revision: "0123456789abcdef0123456789abcdef01234567".to_string(),
-        scope_digest: "scope-digest".to_string(),
-        lane_count: 4,
-        input_finding_count: 2,
-        synthesized_findings: vec![
-            finding(
-                "finding-a",
-                "adl/src/codefriend/review/runner.rs:85",
-                &["evidence-a"],
-            ),
-            finding(
-                "finding-b",
-                "adl/src/codefriend/review/runner.rs:501",
-                &["evidence-b"],
-            ),
-        ],
-    }
+fn synthesis() -> (ReviewSynthesis, ReviewRecord) {
+    synthesis_case(&[
+        "adl/src/codefriend/review/runner.rs:85",
+        "adl/src/codefriend/review/runner.rs:501",
+    ])
 }
 
 #[test]
 fn remediation_plan_orders_traceable_bounded_actions() {
-    let plan = plan(&synthesis()).unwrap();
+    let (synthesis, record) = synthesis();
+    let plan = plan(&synthesis, &record).unwrap();
     assert_eq!(plan.schema, "codefriend.remediation_plan.v1");
     assert_eq!(plan.actions.len(), 2);
     assert!(plan.omitted_findings.is_empty());
@@ -126,37 +114,23 @@ fn remediation_plan_orders_traceable_bounded_actions() {
 }
 
 #[test]
-fn remediation_plan_omits_untraceable_repository_paths() {
-    let mut synthesis = synthesis();
-    synthesis.synthesized_findings.push(finding(
-        "finding-c",
-        "repository-wide concern without path",
-        &["evidence-c"],
-    ));
-    let plan = plan(&synthesis).unwrap();
-    assert_eq!(plan.actions.len(), 2);
-    assert_eq!(plan.omitted_findings.len(), 1);
+fn remediation_plan_resolves_evidence_ids_to_review_record_paths() {
+    let record = completed_review_record();
+    let synthesis = synthesize(&record).unwrap();
+    let plan = plan(&synthesis, &record).unwrap();
+    assert_eq!(plan.actions.len(), 1);
+    assert!(plan.omitted_findings.is_empty());
     assert_eq!(
-        plan.omitted_findings[0].reason,
-        "no_supported_repository_path_in_synthesized_finding"
+        plan.actions[0].relevant_paths,
+        ["lib/dnsmsg-parser/src/dns_message.rs"]
     );
 }
 
 #[test]
 fn remediation_plan_preserves_dot_directories_and_root_files() {
-    let synthesis = ReviewSynthesis {
-        synthesized_findings: vec![
-            finding(
-                "finding-ci",
-                ".github/workflows/ci.yml:42",
-                &[".github/workflows/ci.yml:42"],
-            ),
-            finding("finding-root", "Cargo.toml", &["Cargo.toml"]),
-        ],
-        ..synthesis()
-    };
+    let (synthesis, record) = synthesis_case(&[".github/workflows/ci.yml:42", "Cargo.toml"]);
 
-    let plan = plan(&synthesis).unwrap();
+    let plan = plan(&synthesis, &record).unwrap();
     let paths = plan
         .actions
         .iter()
@@ -170,7 +144,8 @@ fn remediation_plan_preserves_dot_directories_and_root_files() {
 
 #[test]
 fn remediation_reader_rejects_tampered_paths_acceptance_and_cycles() {
-    let plan = plan(&synthesis()).unwrap();
+    let (synthesis, record) = synthesis();
+    let plan = plan(&synthesis, &record).unwrap();
 
     let mut bad_path = plan.clone();
     bad_path.actions[0].relevant_paths = vec!["../secret".to_string()];
@@ -241,6 +216,12 @@ fn installed_cli_generates_and_reads_remediation_plan() {
         ["lib/dnsmsg-parser/src/dns_message.rs"]
     );
     assert_eq!(read_plan_from_file(&plan_path).unwrap(), read_plan);
+    let aliased_plan_path = out_dir.join("aliased-plan.json");
+    fs::copy(&plan_path, &aliased_plan_path).unwrap();
+    let alias_error = read_plan_from_file(&aliased_plan_path)
+        .unwrap_err()
+        .to_string();
+    assert!(alias_error.contains("remediation_plan_reference_mismatch"));
     let source_after = ["synthesis.json", "manifest.json", "review-record.json"]
         .map(|name| fs::read(bundle.join(name)).unwrap());
     assert_eq!(source_before, source_after);
@@ -255,7 +236,8 @@ fn installed_cli_generates_and_reads_remediation_plan() {
 fn installed_cli_rejects_bare_synthetic_synthesis() {
     let root = temp_dir("bare-synthesis");
     let input = root.join("synthesis.json");
-    fs::write(&input, serde_json::to_vec_pretty(&synthesis()).unwrap()).unwrap();
+    let (synthesis, _) = synthesis();
+    fs::write(&input, serde_json::to_vec_pretty(&synthesis).unwrap()).unwrap();
 
     let output = run_remediation(&input, &root.join("out"));
     assert!(!output.status.success());

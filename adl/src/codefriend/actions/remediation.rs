@@ -92,7 +92,7 @@ pub fn plan_from_file(options: RemediationOptions) -> Result<RemediationPlan> {
     );
     let (synthesis, synthesis_manifest, review_record) =
         read_completed_synthesis_bundle(&options.input)?;
-    let plan = plan_with_review_record(&synthesis, &review_record)?;
+    let plan = plan(&synthesis, &review_record)?;
     fs::create_dir(&options.out).with_context(|| format!("create {}", options.out.display()))?;
     copy_json_snapshot(&options.input, &options.out.join("synthesis.json"))?;
     write_json(
@@ -126,6 +126,11 @@ pub fn read_plan_from_file(input: &Path) -> Result<RemediationPlan> {
     let manifest: RemediationManifest = read_json(&directory.join("manifest.json"), 1024 * 1024)
         .context("remediation_manifest_missing_or_invalid")?;
     validate_remediation_manifest(&manifest, &remediation_plan)?;
+    ensure!(
+        input.file_name().and_then(|name| name.to_str())
+            == Some(manifest.remediation_plan_ref.as_str()),
+        "remediation_plan_reference_mismatch"
+    );
     let synthesis_path = resolve_bundle_ref(directory, &manifest.synthesis_ref)?;
     let synthesis_manifest_path = resolve_bundle_ref(directory, &manifest.synthesis_manifest_ref)?;
     let review_record_path = resolve_bundle_ref(directory, &manifest.review_record_ref)?;
@@ -141,7 +146,7 @@ pub fn read_plan_from_file(input: &Path) -> Result<RemediationPlan> {
     );
     validate_plan_against_synthesis(&remediation_plan, &synthesis)?;
     ensure!(
-        plan_with_review_record(&synthesis, &review_record)? == remediation_plan,
+        plan(&synthesis, &review_record)? == remediation_plan,
         "remediation_plan_not_canonical_for_synthesis"
     );
     Ok(remediation_plan)
@@ -231,14 +236,11 @@ fn resolve_bundle_ref(directory: &Path, reference: &str) -> Result<PathBuf> {
     Ok(directory.join(reference))
 }
 
-pub fn plan(synthesis: &ReviewSynthesis) -> Result<RemediationPlan> {
-    plan_with_evidence_paths(synthesis, &BTreeMap::new())
-}
-
-fn plan_with_review_record(
-    synthesis: &ReviewSynthesis,
-    review_record: &ReviewRecord,
-) -> Result<RemediationPlan> {
+pub fn plan(synthesis: &ReviewSynthesis, review_record: &ReviewRecord) -> Result<RemediationPlan> {
+    ensure!(
+        synthesize(review_record)? == *synthesis,
+        "remediation_requires_canonical_completed_synthesis"
+    );
     let evidence_paths = review_record
         .admission
         .evidence
