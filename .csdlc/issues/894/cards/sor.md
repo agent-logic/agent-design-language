@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][CF-TESTPLAN] Generate a bounded test plan from review findings
 Branch: codex/894-v0922-test-planner
 Card Status: ready
-Status: implemented_review_findings_remediated_proof_passed_pending_fresh_review
+Status: implemented_review_passed_pr_open_ci_refresh_pending
 Generated: 2026-09-12T00:10:09.925246+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the bounded test-plan generator and remediated all current exact-head findings. The product now consumes and validates a complete accepted synthesis bundle, emits and reads an integrity-bound generated bundle, enforces canonical one-to-one selected-finding mapping, produces a runnable repository-grounded DNS unit-test plan, and proves installed CLI source immutability with a complete controlled inspected-tree byte inventory. Current origin/main remains ancestral; publication and standard CI remain pending a distinct fresh exact-head PASS.
+Implemented the bounded test-plan generator, resolved all product findings, reconciled current origin/main, preserved both #894 test-plan and #895 publication CLI routing, and obtained a distinct fresh exact-head PASS. The open PR requires this truthful metadata commit, final exact-head metadata review, push, and renewed standard CI before merge.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented the bounded test-plan generator and remediated all current exact-hea
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_review_findings_remediated_proof_passed_pending_fresh_review`
+- Completion state: `implemented_review_passed_pr_open_ci_refresh_pending`
 - Issue goal ref: `Sprint 4 #930 active goal covers #894 execution; this delegated lane advances #894 without replacing the root sprint goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/894/goal-metrics.json (planned, absent until execution)`
@@ -86,12 +86,12 @@ Implemented the bounded test-plan generator and remediated all current exact-hea
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; implementation is in bound FastWork worktree only`
 - Worktree-only paths remaining: `#894 lifecycle records plus adl/src/codefriend/actions/test_plan.rs, action/CLI registration changes, and adl/tests/codefriend_testplan.rs remain on the bound branch pending review/publication.`
-- Integration state: `current_main_ancestral_exact_894_diff_review_findings_remediated_proof_passed`
+- Integration state: `pr_open_post_main_merge_review_passed_ci_refresh_pending`
 - Verification scope: `bound issue worktree`
 - Integration method used: `Current origin/main e24e0438e40d1f716bd0653ea369d06450827230 is ancestral. After #893 merged, four unmerged #893 corrective commits and lifecycle residue formerly present through the development stack were removed by forward scope-cleanup commit 4e3ff76d5086c7133f442f060f30253712134c63.`
 - Verification performed:
-  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD; git diff --check`
-    `Proves complete predecessor and generated-bundle authority/integrity, canonical selected-finding partitioning, concrete runnable DNS mapping, installed CLI behavior, controlled inspected-tree immutability, strict warnings, formatting, and diff hygiene without provider, network, paid, cloud, or source-mutation activity.`
+  - `Review exact revision 45f25ee536a227550ecff9c4909d739123888879 against origin/main after focused codefriend_testplan and codefriend_ux proof.`
+    `Fresh reviewer verified the test-plan generator, path preservation, complete bundle admission, create-only and tamper defenses, and simultaneous #895 publication CLI routing with no actionable findings.`
 - Result: `Exact diff against current origin/main contains only #894 lifecycle, test-plan generator, CLI registration, and focused test paths; local proof passed and review/publication remain pending.`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD; git diff --check`
-    `Eight nonzero focused tests passed, including accepted predecessor bundle validation, standalone/tampered synthesis rejection, generated plan/manifest/synthesis tamper rejection, exact DNS unit-test/vector mapping, and measured source-tree immutability. Focused Clippy with denied warnings, formatting, and both committed/worktree diff hygiene passed.`
+  - `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-postmerge cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-postmerge cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check origin/main...HEAD`
+    `Eight nonzero #894 test-plan tests and seven merged #895 publication integration tests passed after resolving the current-main CLI conflict. Formatting and diff hygiene passed. No optional, paid, provider, cloud, or broad coverage lane was run locally.`
 - Results:
   - `passed`
 
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Focused installed CodeFriend test-plan generator proof: 8 tests passed"
+      - "Post-current-main focused product and adjacent CLI integration proof: 15 tests passed"
   determinism:
     status: passed
     replay_verified: true
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `No separate trace bundle is required for this deterministic local consumer; retained predecessor input is .csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json and focused generated artifacts remain test-local.`
 - Run artifact root: `.csdlc/evidence/894 (planned; focused proof output retained in session transcript)`
 - Replay command used for verification: `CARGO_TARGET_DIR=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/build-cache/issue-894-target cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan`
-- Replay result: `codefriend_testplan 8 passed; focused clippy passed; cargo fmt passed; committed and worktree git diff --check passed`
+- Replay result: `codefriend_testplan 8 passed; codefriend_ux 7 passed; fresh exact-head review PASS`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_testplan.rs plus installed CLI invocation under Cargo test and tracked #892 predecessor synthesis fixture`
@@ -174,5 +174,5 @@ verification_summary:
 - `The proof uses the retained accepted #892 synthesis plus deterministic local fixtures. It does not claim a new external-provider run, autonomous test implementation, source mutation, issue creation, publication, or merge.`
 
 ## Follow-ups / Deferred work
-- `Commit the remediated product, proof, and lifecycle truth as a new immutable #894 candidate and obtain a different fresh no-context exact-head review.`
-- `On PASS, publish through native C-SDLC with Closes #894 and observe required standard CI; do not run optional, paid, provider, or cloud jobs.`
+- `Commit the truthful SRP/SOR metadata, obtain a final fresh exact-head metadata review, and push the current reviewed product lineage.`
+- `Update PR #1026 through native C-SDLC with Closes #894, observe renewed required standard CI, and merge only when exact green and clean.`

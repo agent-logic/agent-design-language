@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/894/cards/sip.md"
   - ".csdlc/issues/894/cards/vpp.md"
 review_results:
-  findings_status: "fresh_review_findings_remediated_pending_distinct_fresh_review"
-  recommended_outcome: "review_required"
-notes: "The prior FAIL remains retained and authoritative for 7b6245f9. Remediation is local and publication remains held until a different fresh reviewer returns PASS on the new exact head."
+  findings_status: "fresh_exact_head_pass_no_actionable_findings"
+  recommended_outcome: "pass"
+notes: "Fresh exact-head PASS at 45f25ee536a227550ecff9c4909d739123888879. Focused post-merge proof passed: codefriend_testplan 8/8 and codefriend_ux 7/7. Publication remains pending metadata commit, one final exact-head metadata review, push, and renewed standard CI."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,12 +127,12 @@ review_results:
 
 ### Dispositions
 
-- All four findings from fresh-session:04af6f7c-8784-4703-b326-921b1a5b2c24 are accepted and remediated. Generation now requires the canonical synthesis.json plus sibling synthesis manifest and complete review record, validates the record, recomputes synthesis, and verifies all identities, digests and counts. Generated bundles retain the source manifest and review record; the reader verifies every artifact and recomputes the canonical plan, rejecting plan, manifest, synthesis, provenance, count, and finding-partition tampering. The DNS result now targets the existing dnsmsg-parser inline test module with the exact existing MINFO message/RDATA vector, a distinct explicit second RDATA byte string, exact first/second outputs, and exact buffer-length assertion. Installed CLI proof materializes the admitted inspected repository and compares its complete before/after file-byte inventory, including a dot-directory marker. Eight focused tests, strict Clippy, formatting, and diff hygiene pass. A different fresh no-context reviewer is required on the new immutable commit.
+- The earlier four findings remain accepted and remediated. Replacement no-context reviewer fresh-session:d2802ed4-e88c-48f5-9b10-9af6c64012e9 reviewed exact revision 45f25ee536a227550ecff9c4909d739123888879 after the current-main merge and returned PASS with no findings. The review verified #894 test-plan routing, #895 publication routing preservation, root and dot-prefixed repository paths, complete accepted synthesis-bundle admission, create-only output, and tamper rejection.
 
 ### Recommended Outcome
 
-- review_required
+- pass
 
 ## Notes
 
-The prior FAIL remains retained and authoritative for 7b6245f9. Remediation is local and publication remains held until a different fresh reviewer returns PASS on the new exact head.
+Fresh exact-head PASS at 45f25ee536a227550ecff9c4909d739123888879. Focused post-merge proof passed: codefriend_testplan 8/8 and codefriend_ux 7/7. Publication remains pending metadata commit, one final exact-head metadata review, push, and renewed standard CI.
