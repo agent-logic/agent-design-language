@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.server
 import json
 import os
 from pathlib import Path
@@ -30,6 +31,67 @@ PROMPTS = (
     "List three checks to perform after a provider benchmark fails.",
     "Write a one-sentence definition of deterministic fallback.",
 )
+
+
+class OllamaProxy:
+    """Force Runtime's supported chat-to-generate compatibility fallback."""
+
+    def __init__(self) -> None:
+        self.calls: list[dict] = []
+        owner = self
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def log_message(self, *_args: object) -> None:
+                pass
+
+            def send_json(self, status: int, body: dict) -> None:
+                data = json.dumps(body).encode()
+                self.send_response(status)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+
+            def do_GET(self) -> None:
+                with urllib.request.urlopen("http://127.0.0.1:11434" + self.path, timeout=60) as response:
+                    self.send_json(response.status, json.load(response))
+
+            def do_POST(self) -> None:
+                size = int(self.headers.get("Content-Length", "0"))
+                require(0 < size <= 4_194_304, "invalid proxied request size")
+                body = json.loads(self.rfile.read(size))
+                if self.path == "/api/chat":
+                    owner.calls.append({"path": self.path, "model": body.get("model"), "status": 400})
+                    self.send_json(400, {"error": "issue905_force_generate_compatibility_path"})
+                    return
+                request = urllib.request.Request(
+                    "http://127.0.0.1:11434" + self.path,
+                    data=json.dumps(body).encode(),
+                    headers={"Content-Type": "application/json"},
+                )
+                started = time.perf_counter()
+                with urllib.request.urlopen(request, timeout=900) as response:
+                    result = json.load(response)
+                elapsed = time.perf_counter() - started
+                owner.calls.append({
+                    "path": self.path,
+                    "model": body.get("model"),
+                    "status": 200,
+                    "elapsed_seconds": elapsed,
+                    "total_duration_ns": result.get("total_duration"),
+                    "load_duration_ns": result.get("load_duration"),
+                    "prompt_eval_count": result.get("prompt_eval_count"),
+                    "prompt_eval_duration_ns": result.get("prompt_eval_duration"),
+                    "eval_count": result.get("eval_count"),
+                    "eval_duration_ns": result.get("eval_duration"),
+                    "response_sha256": hashlib.sha256(result.get("response", "").encode()).hexdigest(),
+                })
+                self.send_json(response.status, result)
+
+        self.server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        import threading
+        threading.Thread(target=self.server.serve_forever, daemon=True).start()
+        self.url = f"http://127.0.0.1:{self.server.server_port}"
 
 
 def require(condition: bool, message: str) -> None:
@@ -115,6 +177,7 @@ def main() -> int:
 
     tls = lifecycle.certificates(root / "state/tls")
     fixture = lifecycle.Fixture(tls)
+    proxy = OllamaProxy()
     clock = lifecycle.LocalTime()
     env = dict(os.environ)
     for key in list(env):
@@ -144,7 +207,7 @@ def main() -> int:
                 "type": "ollama",
                 "default_model": args.baseline_model,
                 "config": {
-                    "endpoint": "http://127.0.0.1:11434",
+                    "endpoint": proxy.url,
                     "runtime_max_attempts": 1,
                     "runtime_max_output_tokens": 256,
                     "max_tokens": 256,
@@ -263,6 +326,7 @@ def main() -> int:
             "benefit_percent": (baseline_seconds / speculative_seconds - 1.0) * 100.0,
         }
         require(report["comparison"]["output_equivalence"], "speculative output differs from baseline")
+        report["runtime_provider_calls"] = proxy.calls
         report["result"] = "pass"
     except Exception as error:
         report["result"] = "failed"
@@ -281,6 +345,7 @@ def main() -> int:
         guardian_log.close()
         fixture.server.shutdown()
         fixture.resident_server.shutdown()
+        proxy.server.shutdown()
         clock.sock.close()
     print(json.dumps({"result": report["result"], "report": str(root / "report.json"), "comparison": report.get("comparison")}))
     return 0
