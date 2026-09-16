@@ -161,10 +161,13 @@ fn perform(
         }),
     )
     .map_err(error)?;
-    let _ = context;
     match attached {
         Attachment::Completed(done) | Attachment::AlreadyCompleted(done) => {
-            complete(session, &done, result, false)
+            let completed = complete(session, &done, result, false)?;
+            // Administrative invalidation changes the card evidence surface even
+            // when the issue inputs and bound HEAD are unchanged.
+            super::rebuild_semantic_card_projection(context)?;
+            Ok(completed)
         }
         Attachment::RecoveryRequired(_) => Ok(pending(
             ticket.id(),
