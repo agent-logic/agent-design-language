@@ -1,0 +1,39 @@
+{
+  "schema": "adl.sprint_review_acceptance.v1",
+  "issue": 932,
+  "status": "pass_with_retained_limits",
+  "children": [
+    {
+      "issue": 903,
+      "pull_request": 965,
+      "reviewed_head": "dd5040549b960c83921d96713223af15b62c333a",
+      "merge_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+      "terminal_state_digest": "e4592cd1306fee7d8eeec3ecac426e7ea291ade1b8998d3d6bf1878ac9989c70",
+      "acceptance": ["pass", "pass", "pass", "pass"],
+      "retained_limit": "Bounded MLX adapter and tested Metal route only; no review-acceleration or general performance claim."
+    },
+    {
+      "issue": 904,
+      "pull_request": 972,
+      "reviewed_head": "85b6d24eb14129451851c12df53b5a679a12a34c",
+      "merge_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+      "terminal_state_digest": "9245f71230bcc51a20a767c16b10d2f1c105976eec6601e5b181001abb91db10",
+      "acceptance": ["pass", "pass", "pass", "pass"],
+      "retained_limit": "PAIR routes requests and does not pool VRAM; hardware confounds the measured gain; disposition remains REPAIR."
+    },
+    {
+      "issue": 905,
+      "pull_request": 1004,
+      "reviewed_head": "0906d81d3c848bd69d89a32ba011ca27ba6cd036",
+      "merge_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+      "terminal_state_digest": "0890d676b9077eb7929320ce236d3f3ccc8bdd3efb8f0bce5b0b488bd7f974db",
+      "review_evidence": ".csdlc/evidence/932/child-905-exact-head-review-0906d81d.md",
+      "review_receipt": ".csdlc/evidence/932/child-905-typed-review-receipt-0906d81d.json",
+      "acceptance": ["pass", "pass", "pass", "pass"],
+      "retained_limit": "Speculative decoding performance remains repair_inconclusive and is not qualified as faster."
+    }
+  ],
+  "acceptance_total": 12,
+  "acceptance_passed": 12,
+  "release_blocking_findings": 0
+}

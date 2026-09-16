@@ -1,0 +1,23 @@
+    Checking hashbrown v0.17.1
+    Checking toml_write v0.1.2
+    Checking winnow v0.7.15
+    Checking unicode-id v0.3.6
+    Checking arrayvec v0.7.8
+    Checking cfg-if v1.0.4
+    Checking serde_core v1.0.229
+    Checking zmij v1.0.23
+    Checking libc v0.2.189
+    Checking memchr v2.8.3
+    Checking itoa v1.0.18
+    Checking markdown v1.0.0
+    Checking blake3 v1.8.7
+    Checking indexmap v2.14.0
+    Checking fs2 v0.4.3
+    Checking serde v1.0.229
+    Checking serde_json v1.0.151
+    Checking serde_spanned v0.6.9
+    Checking toml_datetime v0.6.11
+    Checking toml_edit v0.22.27
+    Checking toml v0.8.23
+    Checking csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1006-v0922-native-coordination-completion/csdlc-v3)
+    Finished `dev` profile [unoptimized] target(s) in 6.36s

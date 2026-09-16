@@ -1,14 +1,24 @@
 //! #849: exact-review linkage and authenticated qualified issue observations.
-use super::*;
 use serde_json::Value;
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct PublicationLinkage {
-    /// Issue repository; it may differ from the code/PR repository.
-    pub repository: String,
-    pub issue: u64,
-    pub mode: RemotePublicationMode,
+use super::model::{
+    GithubMutationRequest, PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
+};
+use super::support::remote_finding;
+
+pub fn merge_state_query(owner: &str, name: &str, number: &str) -> String {
+    // Parameters are admitted by the narrow read-only adapter, never caller query text.
+    format!(
+        r#"query {{ repository(owner:"{owner}", name:"{name}") {{ nameWithOwner mergeCommitAllowed
+      pullRequest(number:{number}) {{ number url headRefOid baseRefName baseRefOid state merged isDraft mergeable mergeStateStatus reviewDecision body
+        closingIssuesReferences(first:100) {{ nodes {{ number url repository {{ nameWithOwner }} }} pageInfo {{ hasNextPage }} }}
+        baseRef {{ branchProtectionRule {{ requiresStatusChecks requiresApprovingReviews requiresLinearHistory requiredStatusChecks {{ context app {{ databaseId }} }} }} }}
+        mergeCommit {{ oid parents(first:3) {{ nodes {{ oid }} pageInfo {{ hasNextPage }} }} }}
+        reviewThreads(first:100) {{ nodes {{ isResolved }} pageInfo {{ hasNextPage }} }}
+        latestReviews(first:100) {{ nodes {{ state }} pageInfo {{ hasNextPage }} }}
+        commits(last:1) {{ nodes {{ commit {{ oid statusCheckRollup {{ state contexts(first:100) {{ nodes {{ __typename ... on CheckRun {{ name status conclusion isRequired(pullRequestNumber:{number}) checkSuite {{ app {{ databaseId }} }} }} ... on StatusContext {{ context state isRequired(pullRequestNumber:{number}) }} }} pageInfo {{ hasNextPage }} }} }} }} }} }}
+      }} }} }}"#
+    )
 }
 
 fn repository_parts(repository: &str) -> Option<(&str, &str)> {
@@ -60,6 +70,33 @@ impl PublicationLinkage {
         value: &Value,
         request: &GithubMutationRequest,
         merged: bool,
+    ) -> Result<String, RemoteRouteFinding> {
+        self.validate_relations(value, request, merged, false)
+    }
+
+    /// A completed child may also describe its parent. Those non-closing
+    /// references are context, not an alternative delivery mode for the child.
+    /// Keep the pre-merge reviewed-publication validator above strict.
+    pub(super) fn validate_completed_child(
+        &self,
+        value: &Value,
+        request: &GithubMutationRequest,
+    ) -> Result<String, RemoteRouteFinding> {
+        if self.mode != RemotePublicationMode::Closing {
+            return Err(remote_finding(
+                "github_merge_linkage_ineligible",
+                "completed child requires closing publication linkage",
+            ));
+        }
+        self.validate_relations(value, request, true, true)
+    }
+
+    fn validate_relations(
+        &self,
+        value: &Value,
+        request: &GithubMutationRequest,
+        merged: bool,
+        allow_parent_references: bool,
     ) -> Result<String, RemoteRouteFinding> {
         let reject = || {
             remote_finding(
@@ -154,11 +191,13 @@ impl PublicationLinkage {
             };
             matched |= relation.is_some_and(reference_matches);
         }
-        let expected_counts = match self.mode {
-            RemotePublicationMode::Closing => (1, 0),
-            RemotePublicationMode::PartOf => (0, 1),
+        let counts_match = match self.mode {
+            RemotePublicationMode::Closing => {
+                closing == 1 && (allow_parent_references || part_of == 0)
+            }
+            RemotePublicationMode::PartOf => closing == 0 && part_of == 1,
         };
-        if !matched || (closing, part_of) != expected_counts {
+        if !matched || !counts_match {
             return Err(reject());
         }
         let links = &pr["closingIssuesReferences"];

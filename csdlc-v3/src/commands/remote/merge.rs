@@ -1,76 +1,17 @@
 //! Issue844: single-PR merge, exact review and authenticated fail-closed policy.
-use super::*;
+use std::{fs, path::Path};
+
+use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use fs2::FileExt;
 use serde_json::{json, Value};
 
-/// Only two-parent merge commits are supported: replay can prove their identity.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum MergeMethod {
-    Merge,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct MergedIdentity {
-    pub repository: String,
-    pub pull_request: u64,
-    pub head_sha: String,
-    pub base: String,
-    pub base_sha: String,
-    pub method: MergeMethod,
-    pub merge_commit: String,
-    pub publication_linkage: PublicationLinkage,
-    pub issue_state: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-struct MergeIntent {
-    schema: String,
-    request: GithubMutationRequest,
-    selector_digest: String,
-    publication_linkage: PublicationLinkage,
-    pre_state: Value,
-    rules: Value,
-    base_sha: String,
-}
-
-#[derive(Debug, Clone)]
-pub(super) struct StagedMerge {
-    request: GithubMutationRequest,
-    intent: MergeIntent,
-    intent_digest: String,
-    operation_digest: String,
-    preexisting: bool,
-}
-
-impl StagedMerge {
-    pub(super) fn request(&self) -> &GithubMutationRequest {
-        &self.request
-    }
-
-    pub(super) fn intent_digest(&self) -> &str {
-        &self.intent_digest
-    }
-
-    pub(super) fn operation_digest(&self) -> &str {
-        &self.operation_digest
-    }
-}
-
-pub fn merge_state_query(owner: &str, name: &str, number: &str) -> String {
-    // Parameters are admitted by the narrow read-only adapter, never caller query text.
-    format!(
-        r#"query {{ repository(owner:"{owner}", name:"{name}") {{ nameWithOwner mergeCommitAllowed
-      pullRequest(number:{number}) {{ number url headRefOid baseRefName baseRefOid state merged isDraft mergeable mergeStateStatus reviewDecision body
-        closingIssuesReferences(first:100) {{ nodes {{ number url repository {{ nameWithOwner }} }} pageInfo {{ hasNextPage }} }}
-        baseRef {{ branchProtectionRule {{ requiresStatusChecks requiresApprovingReviews requiresLinearHistory requiredStatusChecks {{ context app {{ databaseId }} }} }} }}
-        mergeCommit {{ oid parents(first:3) {{ nodes {{ oid }} pageInfo {{ hasNextPage }} }} }}
-        reviewThreads(first:100) {{ nodes {{ isResolved }} pageInfo {{ hasNextPage }} }}
-        latestReviews(first:100) {{ nodes {{ state }} pageInfo {{ hasNextPage }} }}
-        commits(last:1) {{ nodes {{ commit {{ oid statusCheckRollup {{ state contexts(first:100) {{ nodes {{ __typename ... on CheckRun {{ name status conclusion isRequired(pullRequestNumber:{number}) checkSuite {{ app {{ databaseId }} }} }} ... on StatusContext {{ context state isRequired(pullRequestNumber:{number}) }} }} pageInfo {{ hasNextPage }} }} }} }} }} }}
-      }} }} }}"#
-    )
-}
+use super::model::*;
+use super::publication::{
+    load_optional_receipt, same_principal, typed_review_receipt_payload_digest,
+};
+use super::storage::*;
+use super::support::*;
+use super::transport::*;
 
 fn reject(message: &str) -> RemoteRouteFinding {
     remote_finding("github_merge_ineligible", message)
@@ -847,7 +788,9 @@ fn sync_directory_ancestry(
 
 #[cfg(test)]
 mod directory_tests {
-    use super::*;
+    use std::path::Path;
+
+    use super::sync_directory_ancestry;
     #[test]
     fn directory_sync_orders_every_link_and_propagates_faults() {
         let boundary = Path::new("control");

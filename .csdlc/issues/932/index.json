@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 932,
+  "phase": "bound",
+  "generation": 7,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/932-sprint6-coordination",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-932-sprint6-coordination",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "36e6e216a5c532d9b730511c172b482d1097f0f5e0d3ba9ede8992db5badc13c"
+}

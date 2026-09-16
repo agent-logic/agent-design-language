@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.typed_review_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 905,
+  "implementer": "Planning-7",
+  "reviewer": "subagent:review_905_followup",
+  "reviewed_revision": "0906d81d3c848bd69d89a32ba011ca27ba6cd036",
+  "expected_head_sha": "0906d81d3c848bd69d89a32ba011ca27ba6cd036",
+  "evidence_digest": "5619dab4c94ec2fb7b77225c6d5a3a8a0b4746ec063ce215014fff10d077ca4d",
+  "publication_linkage": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 905,
+    "mode": "closing"
+  }
+}

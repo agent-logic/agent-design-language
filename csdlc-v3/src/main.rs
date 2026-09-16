@@ -667,6 +667,7 @@ fn github_mutation_route_matches(command: &str, mutation: &GithubMutation) -> bo
             GithubMutation::IssueCreate { .. }
                 | GithubMutation::IssueComment { .. }
                 | GithubMutation::IssueEdit { .. }
+                | GithubMutation::IssueCompleteCoordination { .. }
                 | GithubMutation::IssueClose { .. }
         ),
         "github-pr" => matches!(
