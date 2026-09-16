@@ -2,9 +2,9 @@
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "retained_issue872_conversion_validator",
   "command": "python3 /Volumes/FastWork/adl-worktrees/adl-issue-872-v0922-copied-record-conversion/adl/tools/validate_issue872_conversion_rehearsal.py --evidence-root /Volumes/FastWork/adl-worktrees/adl-issue-872-v0922-copied-record-conversion/.csdlc/evidence/872/conversion-rehearsal",
-  "started_at": "2026-09-16T06:56:14Z",
-  "ended_at": "2026-09-16T06:56:14Z",
-  "elapsed_seconds": 0,
+  "started_at": "2026-09-16T07:14:02Z",
+  "ended_at": "2026-09-16T07:14:03Z",
+  "elapsed_seconds": 1,
   "exit_status": 0,
   "test_counts": {
     "passed": 0,

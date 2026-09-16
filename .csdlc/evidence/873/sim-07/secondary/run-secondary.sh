@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 set -u
 
-evidence_dir=".csdlc/evidence/873/sim-07/secondary"
-target_dir="/Volumes/FastWork/adl-targets/873-secondary"
-manifest="csdlc-v3/Cargo.toml"
+repo_root="${ADL_ISSUE873_REPO_ROOT:-$(git rev-parse --show-toplevel)}"
+evidence_dir="${ADL_ISSUE873_SECONDARY_EVIDENCE_ROOT:-$repo_root/.csdlc/evidence/873/sim-07/secondary}"
+target_dir="${ADL_ISSUE873_SECONDARY_TARGET_DIR:-$repo_root/.adl/target/issue-873-secondary}"
+manifest="${ADL_ISSUE873_MANIFEST:-csdlc-v3/Cargo.toml}"
 failures=0
+cd "$repo_root"
 
 run_case() {
   local name="$1"
@@ -13,8 +15,8 @@ run_case() {
   local output_file="${evidence_dir}/${name}.output.log"
   local status_file="${evidence_dir}/${name}.status.txt"
 
-  printf 'CARGO_TARGET_DIR=%q ' "$target_dir" >"$command_file"
-  printf '%q ' "$@" >>"$command_file"
+  printf 'CARGO_TARGET_DIR=%q' "$target_dir" >"$command_file"
+  printf ' %q' "$@" >>"$command_file"
   printf '\n' >>"$command_file"
 
   CARGO_TARGET_DIR="$target_dir" "$@" 2>&1 | tee "$output_file"

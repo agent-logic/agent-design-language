@@ -6,14 +6,14 @@
     "passed_tests": 247,
     "failed_tests": 0,
     "regular_ignored_tests": 1,
-    "result": "passed",
+    "result": "pass",
     "evidence": ["results/", "secondary/"]
   },
   "exact_lib_regressions": {
     "declared": 5,
     "passed_tests": 5,
     "failed_tests": 0,
-    "result": "passed",
+    "result": "pass",
     "evidence": "secondary/"
   },
   "exact_installed_journey": {
@@ -27,20 +27,23 @@
     "result_envelopes": 33,
     "correlation_ids_on_result_envelopes": 33,
     "injected_interruption_attempts_without_result": 2,
-    "result": "passed",
+    "result": "pass",
     "evidence": "installed-journey-summary.json"
   },
   "prepared_start": {
     "passed_tests": 1,
-    "candidate_samples_ms": [3808, 3746, 3698],
-    "predecessor_samples_ms": [916, 912, 923],
+    "candidate_binary_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+    "exact_frozen_candidate": true,
+    "artifact_sha256": "2000041028295f86ae469f831afd919e14c3a701cccbc98332cffd83ef3b3701",
+    "candidate_samples_ms": [3865, 3778, 3954],
+    "predecessor_samples_ms": [956, 922, 976],
     "warm_fixture_target_ms": 180000,
-    "warm_fixture_result": "passed",
+    "warm_fixture_result": "pass",
     "os_cold_result": "not_proven",
     "evidence": "measurements/prepared-start.json"
   },
   "retained_issue872_validator": {
-    "result": "passed",
+    "result": "pass",
     "evidence": "results/retained_issue872_conversion_validator.result.json"
   },
   "issue872_ignored_release_gate": {
@@ -51,5 +54,5 @@
   },
   "unique_passing_test_total": 252,
   "unexpected_test_failures": 0,
-  "qualification_gate_failures": 1
+  "qualification_gates_not_proven": 6
 }

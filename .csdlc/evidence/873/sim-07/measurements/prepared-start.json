@@ -1,7 +1,7 @@
 {
   "schema": "csdlc.v3.prepared_start_measurement.v1",
   "issue": 869,
-  "source_head": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+  "source_head": "5f0966832818f07912958128ff992076c14891c4",
   "source_has_uncommitted_changes": true,
   "baseline_revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
   "baseline_blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
@@ -31,7 +31,7 @@
           "--repo-root",
           "$FIXTURE_ROOT"
         ],
-        "process_elapsed_ms": 376,
+        "process_elapsed_ms": 389,
         "git_events": [
           {
             "verb": "show",
@@ -177,7 +177,7 @@
             "mutated": true,
             "phase": "ready",
             "generation": 1,
-            "digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac",
+            "digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75",
             "next_route": "bind",
             "findings": []
           },
@@ -198,7 +198,7 @@
               },
               "after": {
                 "basis": "owner_result",
-                "digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac"
+                "digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75"
               }
             },
             "effects": {
@@ -210,20 +210,20 @@
             "allowed_next_operations": [
               "bind"
             ],
-            "correlation_id": "46257-1789541750325",
+            "correlation_id": "70928-1789542818171",
             "intent_identity": null,
             "evidence_invalidation": {
               "status": "not_reported"
             },
             "timing": {
-              "started_unix_ms": 1789541750325,
-              "monotonic_duration_ms": 373
+              "started_unix_ms": 1789542818171,
+              "monotonic_duration_ms": 387
             },
             "wait_owner": "none"
           }
         }
       },
-      "total_prepared_start_elapsed_ms": 916,
+      "total_prepared_start_elapsed_ms": 956,
       "three_minute_fixture_target_met": true,
       "interval": "Canonical prepared-index input refresh through successful final native validate; includes orchestration, JSON materialization and instrumentation",
       "invocations": [
@@ -239,7 +239,7 @@
             "--repo-root",
             "$FIXTURE_ROOT"
           ],
-          "process_elapsed_ms": 214,
+          "process_elapsed_ms": 227,
           "git_events": [
             {
               "verb": "show",
@@ -326,7 +326,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "doctor",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac",
+            "request_expected_lifecycle_digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75",
             "read_only": true,
             "operational_read_only": true,
             "operational_authority": true,
@@ -337,7 +337,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac",
+              "digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75",
               "next_route": "bind",
               "findings": [
                 {
@@ -365,11 +365,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac"
+                  "digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac"
+                  "digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75"
                 }
               },
               "effects": {
@@ -392,14 +392,14 @@
               "allowed_next_operations": [
                 "bind"
               ],
-              "correlation_id": "46293-1789541750712",
+              "correlation_id": "70996-1789542818572",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541750712,
-                "monotonic_duration_ms": 212
+                "started_unix_ms": 1789542818572,
+                "monotonic_duration_ms": 224
               },
               "wait_owner": "none"
             }
@@ -417,7 +417,7 @@
             "--repo-root",
             "$FIXTURE_ROOT"
           ],
-          "process_elapsed_ms": 460,
+          "process_elapsed_ms": 480,
           "git_events": [
             {
               "verb": "show",
@@ -592,7 +592,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "bind",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac",
+            "request_expected_lifecycle_digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75",
             "read_only": false,
             "operational_read_only": false,
             "operational_authority": true,
@@ -603,7 +603,7 @@
               "mutated": true,
               "phase": "bound",
               "generation": 2,
-              "digest": "5f1b4060f59e466ee273e8c787092eb2e61e1a0a00b1b0fc0c0c0136509414b2",
+              "digest": "e287682e74439c5827b75c2476b2f09886f1e6e9f12da7f178a8224ceed079b3",
               "next_route": "edit",
               "findings": []
             },
@@ -620,11 +620,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac"
+                  "digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "5f1b4060f59e466ee273e8c787092eb2e61e1a0a00b1b0fc0c0c0136509414b2"
+                  "digest": "e287682e74439c5827b75c2476b2f09886f1e6e9f12da7f178a8224ceed079b3"
                 }
               },
               "effects": {
@@ -636,14 +636,14 @@
               "allowed_next_operations": [
                 "edit"
               ],
-              "correlation_id": "46314-1789541750927",
+              "correlation_id": "71044-1789542818800",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541750927,
-                "monotonic_duration_ms": 458
+                "started_unix_ms": 1789542818800,
+                "monotonic_duration_ms": 478
               },
               "wait_owner": "none"
             }
@@ -661,7 +661,7 @@
             "--repo-root",
             "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement"
           ],
-          "process_elapsed_ms": 217,
+          "process_elapsed_ms": 225,
           "git_events": [
             {
               "verb": "show",
@@ -752,7 +752,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "validate",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "5f1b4060f59e466ee273e8c787092eb2e61e1a0a00b1b0fc0c0c0136509414b2",
+            "request_expected_lifecycle_digest": "e287682e74439c5827b75c2476b2f09886f1e6e9f12da7f178a8224ceed079b3",
             "read_only": true,
             "operational_read_only": true,
             "operational_authority": true,
@@ -763,7 +763,7 @@
               "mutated": false,
               "phase": "bound",
               "generation": 2,
-              "digest": "5f1b4060f59e466ee273e8c787092eb2e61e1a0a00b1b0fc0c0c0136509414b2",
+              "digest": "e287682e74439c5827b75c2476b2f09886f1e6e9f12da7f178a8224ceed079b3",
               "next_route": "shepherd",
               "findings": [
                 {
@@ -791,11 +791,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "5f1b4060f59e466ee273e8c787092eb2e61e1a0a00b1b0fc0c0c0136509414b2"
+                  "digest": "e287682e74439c5827b75c2476b2f09886f1e6e9f12da7f178a8224ceed079b3"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "5f1b4060f59e466ee273e8c787092eb2e61e1a0a00b1b0fc0c0c0136509414b2"
+                  "digest": "e287682e74439c5827b75c2476b2f09886f1e6e9f12da7f178a8224ceed079b3"
                 }
               },
               "effects": {
@@ -818,14 +818,14 @@
               "allowed_next_operations": [
                 "shepherd"
               ],
-              "correlation_id": "46365-1789541751399",
+              "correlation_id": "71120-1789542819292",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541751399,
-                "monotonic_duration_ms": 215
+                "started_unix_ms": 1789542819292,
+                "monotonic_duration_ms": 223
               },
               "wait_owner": "none"
             }
@@ -842,7 +842,7 @@
             "branch": "codex/505-prepared-start-measurement",
             "worktree": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement",
             "registry_version": "1.0.5",
-            "expected_lifecycle_digest": "29c3c2316872f28981896b3c829eeff189aeebd0401f679d53c2187ffeb5c9ac",
+            "expected_lifecycle_digest": "f2e6f0fde2aefb6d2adfe8faaaf1f274e88bd2b50474a12a1c3cb1f6339b0d75",
             "commands": [
               "prepare_issue",
               "bind_worktree",
@@ -890,7 +890,7 @@
             "branch": "codex/505-prepared-start-measurement",
             "worktree": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement",
             "registry_version": "1.0.5",
-            "expected_lifecycle_digest": "5f1b4060f59e466ee273e8c787092eb2e61e1a0a00b1b0fc0c0c0136509414b2",
+            "expected_lifecycle_digest": "e287682e74439c5827b75c2476b2f09886f1e6e9f12da7f178a8224ceed079b3",
             "commands": [
               "prepare_issue",
               "bind_worktree",
@@ -1296,7 +1296,7 @@
       "variant": "candidate",
       "repetition": 0,
       "host_condition": "first measured fixture/process on already warm host",
-      "binary_blake3": "7bf9bd5770dbeb2d90e58db4049f7e1d48949c2247be66989ac47ab51325ac14",
+      "binary_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
       "preparation_outside_interval": {
         "argv": [
           "prepare",
@@ -1304,7 +1304,7 @@
           "--plan",
           "$FIXTURE_ROOT/.git/installed-candidate/measurement-plan.json"
         ],
-        "process_elapsed_ms": 1268,
+        "process_elapsed_ms": 1307,
         "git_events": [
           {
             "verb": "rev-parse",
@@ -1760,11 +1760,11 @@
           "issue": 505,
           "semantic_version": {
             "generation": 2,
-            "digest": "semantic-state-v1:feaeaa9780eb9d7acd1e058802109b12fe5285e381d567b21ef768c86a35a3fa"
+            "digest": "semantic-state-v1:f81e1d385679696151af4fac43245aaf0fb2103bee044e5c40e8914fbef4c0f3"
           },
           "inputs": {
             "revision": 1,
-            "digest": "semantic-input-v1:5478b0466ee9c2323d02b309bb406cb11bbcab27247014d1ebc0a65c399f2901"
+            "digest": "semantic-input-v1:7902ca10ff9521fc99d0339c6486a6c1950cb3d721835f9f5971cbd833c23b45"
           },
           "phase": "ready",
           "request_issue": 505,
@@ -1774,7 +1774,7 @@
             "issue": 505,
             "platform": "macos",
             "authority": {
-              "selector_digest": "8e7f8f3e54b95f320cb1010daf5a2e783fe9c8418208f96755fc6ef18d3b335a"
+              "selector_digest": "0e36e4e127697013cb309e13f8b1d2243b9b10d0eb512ce837c64a584f16d7bc"
             },
             "version": {
               "generation": null,
@@ -1782,7 +1782,7 @@
             },
             "checkout": {
               "branch": "main",
-              "head": "d5b7f9696f3d8b51b52fd7ae20c8badb39c345ac",
+              "head": "f2480303ff84b2850c1f1d1dca3ff2072ccf8987",
               "root": "$FIXTURE_ROOT"
             }
           },
@@ -1818,20 +1818,20 @@
             "findings": [],
             "reason_code": "command_completed",
             "allowed_next_operations": [],
-            "correlation_id": "46436-1789541752574",
+            "correlation_id": "71317-1789542820551",
             "intent_identity": null,
             "evidence_invalidation": {
               "status": "not_reported"
             },
             "timing": {
-              "started_unix_ms": 1789541752574,
-              "monotonic_duration_ms": 1264
+              "started_unix_ms": 1789542820551,
+              "monotonic_duration_ms": 1303
             },
             "wait_owner": "none"
           }
         }
       },
-      "total_prepared_start_elapsed_ms": 3808,
+      "total_prepared_start_elapsed_ms": 3865,
       "three_minute_fixture_target_met": true,
       "interval": "Canonical prepared-index input refresh through successful final native validate; includes orchestration, JSON materialization and instrumentation",
       "invocations": [
@@ -1840,7 +1840,7 @@
             "status",
             "505"
           ],
-          "process_elapsed_ms": 1176,
+          "process_elapsed_ms": 1198,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -2315,7 +2315,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473",
+              "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b",
               "next_route": "bind",
               "findings": [
                 {
@@ -2353,8 +2353,8 @@
                   "vpp.values.json"
                 ]
               },
-              "semantic_digest": "semantic-projection-v1:8caa4670a3a2e5ca3c5d9ad8ded06eb27de2184d0d129377c4d8ea62f3962b3b",
-              "projection_digest": "card-projection-v1:22bd27b97314cd29f6a1a0fb2a5c8bf707e17a06be23ede291bbe17cb6cf803f",
+              "semantic_digest": "semantic-projection-v1:1df2fb1e1318c61af49ebde52c851612d7f3240cc46398182bcf434b8503640f",
+              "projection_digest": "card-projection-v1:90188a2d66f3fff2265f46b741f81b426e90849e1470394d597f0d51cd0c3565",
               "registry_version": "1.0.5"
             },
             "eligibility": {
@@ -2363,7 +2363,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473",
+              "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b",
               "next_route": "bind",
               "findings": [
                 {
@@ -2384,7 +2384,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473",
+              "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b",
               "next_route": "doctor",
               "routing": {
                 "schema": "csdlc.scheduler.report.v1",
@@ -2415,7 +2415,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473",
+              "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b",
               "next_route": "operator",
               "routing": {
                 "schema": "csdlc.shepherd.report.v1",
@@ -2449,21 +2449,21 @@
             ],
             "pending_remote": [],
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473",
+            "request_expected_lifecycle_digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "8e7f8f3e54b95f320cb1010daf5a2e783fe9c8418208f96755fc6ef18d3b335a"
+                "selector_digest": "0e36e4e127697013cb309e13f8b1d2243b9b10d0eb512ce837c64a584f16d7bc"
               },
               "version": {
                 "generation": 1,
-                "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473"
+                "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b"
               },
               "checkout": {
                 "branch": "main",
-                "head": "d5b7f9696f3d8b51b52fd7ae20c8badb39c345ac",
+                "head": "f2480303ff84b2850c1f1d1dca3ff2072ccf8987",
                 "root": "$FIXTURE_ROOT"
               }
             },
@@ -2485,11 +2485,11 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473"
+                  "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473"
+                  "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b"
                 }
               },
               "effects": {
@@ -2512,14 +2512,14 @@
               "allowed_next_operations": [
                 "rebuild"
               ],
-              "correlation_id": "46558-1789541753842",
+              "correlation_id": "71559-1789542821859",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541753842,
-                "monotonic_duration_ms": 1172
+                "started_unix_ms": 1789542821859,
+                "monotonic_duration_ms": 1194
               },
               "wait_owner": "operator"
             }
@@ -2530,7 +2530,7 @@
             "bind",
             "505"
           ],
-          "process_elapsed_ms": 1832,
+          "process_elapsed_ms": 1807,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -3165,26 +3165,26 @@
             "operational_authority": true,
             "semantic_version": {
               "generation": 5,
-              "digest": "semantic-state-v1:adeeea144bda18f2026a6f95408172e6c2fd98488696f49258f7bb201d5a94b5"
+              "digest": "semantic-state-v1:fd04d29df52ede0669632846a146cd2b9fb5c7d77f1564a6a370770e6105a745"
             },
-            "operation_id": "semantic-operation-v1:3d5d5f5d750b1dd22866e30160c619ca2410e2bf4ffaaa1594219ccc6d297ba2",
+            "operation_id": "semantic-operation-v1:6e86b81dfe170811ca298d560ac6296aa2a5f381bbab4958884702ed11ea8135",
             "native_effect_truth": "performed",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473",
+            "request_expected_lifecycle_digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "8e7f8f3e54b95f320cb1010daf5a2e783fe9c8418208f96755fc6ef18d3b335a"
+                "selector_digest": "0e36e4e127697013cb309e13f8b1d2243b9b10d0eb512ce837c64a584f16d7bc"
               },
               "version": {
                 "generation": 1,
-                "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473"
+                "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b"
               },
               "checkout": {
                 "branch": "main",
-                "head": "d5b7f9696f3d8b51b52fd7ae20c8badb39c345ac",
+                "head": "f2480303ff84b2850c1f1d1dca3ff2072ccf8987",
                 "root": "$FIXTURE_ROOT"
               }
             },
@@ -3206,7 +3206,7 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "a477ba8430c023b8fee4365f12e5ab7b05b4c56795a6995682b53b90d9633473"
+                  "digest": "e77d33ce03af1130cff364baf09efd76bcfc91285db34281bf7c6578a500ff6b"
                 },
                 "after": {
                   "basis": "owner_result",
@@ -3220,14 +3220,14 @@
               "findings": [],
               "reason_code": "command_completed",
               "allowed_next_operations": [],
-              "correlation_id": "46713-1789541755020",
+              "correlation_id": "71746-1789542823058",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541755020,
-                "monotonic_duration_ms": 1828
+                "started_unix_ms": 1789542823058,
+                "monotonic_duration_ms": 1803
               },
               "wait_owner": "none"
             }
@@ -3238,7 +3238,7 @@
             "validate",
             "505"
           ],
-          "process_elapsed_ms": 795,
+          "process_elapsed_ms": 855,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -3545,7 +3545,7 @@
               "mutated": false,
               "phase": "bound",
               "generation": 2,
-              "digest": "9085403c20dc68454efea5aaf642c45dd108cf33517efff24299bd7b882cdcfd",
+              "digest": "98883244aaac9e3720e70a98da1ca6a0f3825f9cd23ab074fc96e5e8d4d16026",
               "next_route": "shepherd",
               "findings": [
                 {
@@ -3579,29 +3579,29 @@
                   "vpp.values.json"
                 ]
               },
-              "semantic_digest": "semantic-projection-v1:9f8a9f98e943ee5d87561b2a206088c7e24bce3e02ccb4d7c5707562ad3de202",
-              "projection_digest": "card-projection-v1:7126ffe3a5671aa79eb819a1feaaaa828fab0a41586747dd181866fddf9dd78f",
+              "semantic_digest": "semantic-projection-v1:237f095a24bedf28c20ca3786a17ca3fadcf424978db035d47c873ea3c2a9163",
+              "projection_digest": "card-projection-v1:1f64ff66582961a92b947e38a9acf1d2585ec4ad87c0386965359f08c6cba44a",
               "registry_version": "1.0.5"
             },
             "allowed_next": [
               "rebuild"
             ],
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "9085403c20dc68454efea5aaf642c45dd108cf33517efff24299bd7b882cdcfd",
+            "request_expected_lifecycle_digest": "98883244aaac9e3720e70a98da1ca6a0f3825f9cd23ab074fc96e5e8d4d16026",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "8e7f8f3e54b95f320cb1010daf5a2e783fe9c8418208f96755fc6ef18d3b335a"
+                "selector_digest": "0e36e4e127697013cb309e13f8b1d2243b9b10d0eb512ce837c64a584f16d7bc"
               },
               "version": {
                 "generation": 2,
-                "digest": "9085403c20dc68454efea5aaf642c45dd108cf33517efff24299bd7b882cdcfd"
+                "digest": "98883244aaac9e3720e70a98da1ca6a0f3825f9cd23ab074fc96e5e8d4d16026"
               },
               "checkout": {
                 "branch": "codex/505-prepared-start-measurement",
-                "head": "d5b7f9696f3d8b51b52fd7ae20c8badb39c345ac",
+                "head": "f2480303ff84b2850c1f1d1dca3ff2072ccf8987",
                 "root": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement"
               }
             },
@@ -3623,11 +3623,11 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "9085403c20dc68454efea5aaf642c45dd108cf33517efff24299bd7b882cdcfd"
+                  "digest": "98883244aaac9e3720e70a98da1ca6a0f3825f9cd23ab074fc96e5e8d4d16026"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "9085403c20dc68454efea5aaf642c45dd108cf33517efff24299bd7b882cdcfd"
+                  "digest": "98883244aaac9e3720e70a98da1ca6a0f3825f9cd23ab074fc96e5e8d4d16026"
                 }
               },
               "effects": {
@@ -3650,14 +3650,14 @@
               "allowed_next_operations": [
                 "rebuild"
               ],
-              "correlation_id": "46904-1789541756854",
+              "correlation_id": "71967-1789542824868",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541756854,
-                "monotonic_duration_ms": 792
+                "started_unix_ms": 1789542824868,
+                "monotonic_duration_ms": 851
               },
               "wait_owner": "none"
             }
@@ -5058,7 +5058,7 @@
       "variant": "candidate",
       "repetition": 1,
       "host_condition": "later fresh fixture/process on warmed host",
-      "binary_blake3": "7bf9bd5770dbeb2d90e58db4049f7e1d48949c2247be66989ac47ab51325ac14",
+      "binary_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
       "preparation_outside_interval": {
         "argv": [
           "prepare",
@@ -5066,7 +5066,7 @@
           "--plan",
           "$FIXTURE_ROOT/.git/installed-candidate/measurement-plan.json"
         ],
-        "process_elapsed_ms": 1224,
+        "process_elapsed_ms": 1328,
         "git_events": [
           {
             "verb": "rev-parse",
@@ -5522,11 +5522,11 @@
           "issue": 505,
           "semantic_version": {
             "generation": 2,
-            "digest": "semantic-state-v1:1b3cb685f078eee6f8c5b1c53982859f9ba6e14e2119386f584e07b80f4cd2b4"
+            "digest": "semantic-state-v1:92f5baf906a26270894eba21e572a8e09c9668cbab05ac0cceb01a499de9c376"
           },
           "inputs": {
             "revision": 1,
-            "digest": "semantic-input-v1:91025cd8c0a10a5a7c90c8ded0c7816291fa47e52f0008852293e5ec2fcbf55a"
+            "digest": "semantic-input-v1:8b125cae30c56edef5ac792ed774a40735da9c2fba4c0e3a5ea19ff617cec6c4"
           },
           "phase": "ready",
           "request_issue": 505,
@@ -5536,7 +5536,7 @@
             "issue": 505,
             "platform": "macos",
             "authority": {
-              "selector_digest": "eeb13a6f9991007045c463624c5e7142db6274b7bc26a653e625a5543e283dca"
+              "selector_digest": "b889f623feb3c5dfb98494ee284c91cb115e284115fe6b779f8be13d77337010"
             },
             "version": {
               "generation": null,
@@ -5544,7 +5544,7 @@
             },
             "checkout": {
               "branch": "main",
-              "head": "da2e91926f4b39d0fc058900cb7afa31def782c8",
+              "head": "aa14faa9515139e33b5b87117ffb0226e6cdae90",
               "root": "$FIXTURE_ROOT"
             }
           },
@@ -5580,20 +5580,20 @@
             "findings": [],
             "reason_code": "command_completed",
             "allowed_next_operations": [],
-            "correlation_id": "47030-1789541758607",
+            "correlation_id": "72093-1789542826686",
             "intent_identity": null,
             "evidence_invalidation": {
               "status": "not_reported"
             },
             "timing": {
-              "started_unix_ms": 1789541758607,
-              "monotonic_duration_ms": 1220
+              "started_unix_ms": 1789542826686,
+              "monotonic_duration_ms": 1324
             },
             "wait_owner": "none"
           }
         }
       },
-      "total_prepared_start_elapsed_ms": 3746,
+      "total_prepared_start_elapsed_ms": 3778,
       "three_minute_fixture_target_met": true,
       "interval": "Canonical prepared-index input refresh through successful final native validate; includes orchestration, JSON materialization and instrumentation",
       "invocations": [
@@ -5602,7 +5602,7 @@
             "status",
             "505"
           ],
-          "process_elapsed_ms": 1231,
+          "process_elapsed_ms": 1249,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -6077,7 +6077,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621",
+              "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b",
               "next_route": "bind",
               "findings": [
                 {
@@ -6115,8 +6115,8 @@
                   "vpp.values.json"
                 ]
               },
-              "semantic_digest": "semantic-projection-v1:aad71f33d27b6d77b24089c53318be347de9176a4c9c0a1c36cc46db70a4200f",
-              "projection_digest": "card-projection-v1:787268471d51ed1d3bee072c25b21b3f3aeb168e74b1796c95c932a958158195",
+              "semantic_digest": "semantic-projection-v1:3a5d94069caf034c432fbb818ce17d5d2300a8b242cec064d28a1d5836b02591",
+              "projection_digest": "card-projection-v1:36b84f87f7de3803ba00610ce64338430cbbd51046a3133a6b0c78e3042bf2cf",
               "registry_version": "1.0.5"
             },
             "eligibility": {
@@ -6125,7 +6125,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621",
+              "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b",
               "next_route": "bind",
               "findings": [
                 {
@@ -6146,7 +6146,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621",
+              "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b",
               "next_route": "doctor",
               "routing": {
                 "schema": "csdlc.scheduler.report.v1",
@@ -6177,7 +6177,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621",
+              "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b",
               "next_route": "operator",
               "routing": {
                 "schema": "csdlc.shepherd.report.v1",
@@ -6211,21 +6211,21 @@
             ],
             "pending_remote": [],
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621",
+            "request_expected_lifecycle_digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "eeb13a6f9991007045c463624c5e7142db6274b7bc26a653e625a5543e283dca"
+                "selector_digest": "b889f623feb3c5dfb98494ee284c91cb115e284115fe6b779f8be13d77337010"
               },
               "version": {
                 "generation": 1,
-                "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621"
+                "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b"
               },
               "checkout": {
                 "branch": "main",
-                "head": "da2e91926f4b39d0fc058900cb7afa31def782c8",
+                "head": "aa14faa9515139e33b5b87117ffb0226e6cdae90",
                 "root": "$FIXTURE_ROOT"
               }
             },
@@ -6247,11 +6247,11 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621"
+                  "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621"
+                  "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b"
                 }
               },
               "effects": {
@@ -6274,14 +6274,14 @@
               "allowed_next_operations": [
                 "rebuild"
               ],
-              "correlation_id": "47150-1789541759832",
+              "correlation_id": "72242-1789542828015",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541759832,
-                "monotonic_duration_ms": 1228
+                "started_unix_ms": 1789542828015,
+                "monotonic_duration_ms": 1245
               },
               "wait_owner": "operator"
             }
@@ -6292,7 +6292,7 @@
             "bind",
             "505"
           ],
-          "process_elapsed_ms": 1719,
+          "process_elapsed_ms": 1732,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -6927,26 +6927,26 @@
             "operational_authority": true,
             "semantic_version": {
               "generation": 5,
-              "digest": "semantic-state-v1:f1eeb6b22a14f203c8d5a8099d578cb7dc4056b9033fc55179239e1ab43924b4"
+              "digest": "semantic-state-v1:2bdd8599261372e1e668f0ae532568521e720d34461fd20b2b0b9522c7e8115d"
             },
-            "operation_id": "semantic-operation-v1:f34423b935b5ccb20b66260789125236ed7b1d81dee79ff3516bbeefc54580bf",
+            "operation_id": "semantic-operation-v1:177f4f99a15cfd8114ab1618e755575ed6be3b7164d411ea798a54ecdada1e04",
             "native_effect_truth": "performed",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621",
+            "request_expected_lifecycle_digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "eeb13a6f9991007045c463624c5e7142db6274b7bc26a653e625a5543e283dca"
+                "selector_digest": "b889f623feb3c5dfb98494ee284c91cb115e284115fe6b779f8be13d77337010"
               },
               "version": {
                 "generation": 1,
-                "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621"
+                "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b"
               },
               "checkout": {
                 "branch": "main",
-                "head": "da2e91926f4b39d0fc058900cb7afa31def782c8",
+                "head": "aa14faa9515139e33b5b87117ffb0226e6cdae90",
                 "root": "$FIXTURE_ROOT"
               }
             },
@@ -6968,7 +6968,7 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "49d723cc3874bfc22f51e861e848662ccbef7bb7a31c330dbc1ffa358fe5e621"
+                  "digest": "fd1dc89368011928f8dada3998ffcedb2e0a9a084d61a329e302cf811dc29b1b"
                 },
                 "after": {
                   "basis": "owner_result",
@@ -6982,14 +6982,14 @@
               "findings": [],
               "reason_code": "command_completed",
               "allowed_next_operations": [],
-              "correlation_id": "47272-1789541761065",
+              "correlation_id": "72441-1789542829265",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541761065,
-                "monotonic_duration_ms": 1715
+                "started_unix_ms": 1789542829265,
+                "monotonic_duration_ms": 1728
               },
               "wait_owner": "none"
             }
@@ -7000,7 +7000,7 @@
             "validate",
             "505"
           ],
-          "process_elapsed_ms": 790,
+          "process_elapsed_ms": 792,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -7307,7 +7307,7 @@
               "mutated": false,
               "phase": "bound",
               "generation": 2,
-              "digest": "a6daf2ac8c18abc2fab59faa22729b9e1ada22afc577e6a75e2e94362740b334",
+              "digest": "757bd46e62cdf6359fca722d29806d14abb520f3680331d60d7cc35439da61f6",
               "next_route": "shepherd",
               "findings": [
                 {
@@ -7341,29 +7341,29 @@
                   "vpp.values.json"
                 ]
               },
-              "semantic_digest": "semantic-projection-v1:26784f513263600820dcc2000721e78c501c091308157690a25c500222562f8e",
-              "projection_digest": "card-projection-v1:8155c25e9b60ab952f3aa0e27856ed2efe7603d087d30af85d36c740ac4a29a5",
+              "semantic_digest": "semantic-projection-v1:67e8d5eda2f4e633f4997c7b0de00add30c69e380e7d3b5cce9f261c3e774040",
+              "projection_digest": "card-projection-v1:b0d028053d87f8c2f32dd1a4b87a3d8b020424945a5f2bb33c8fb96267084a3a",
               "registry_version": "1.0.5"
             },
             "allowed_next": [
               "rebuild"
             ],
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "a6daf2ac8c18abc2fab59faa22729b9e1ada22afc577e6a75e2e94362740b334",
+            "request_expected_lifecycle_digest": "757bd46e62cdf6359fca722d29806d14abb520f3680331d60d7cc35439da61f6",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "eeb13a6f9991007045c463624c5e7142db6274b7bc26a653e625a5543e283dca"
+                "selector_digest": "b889f623feb3c5dfb98494ee284c91cb115e284115fe6b779f8be13d77337010"
               },
               "version": {
                 "generation": 2,
-                "digest": "a6daf2ac8c18abc2fab59faa22729b9e1ada22afc577e6a75e2e94362740b334"
+                "digest": "757bd46e62cdf6359fca722d29806d14abb520f3680331d60d7cc35439da61f6"
               },
               "checkout": {
                 "branch": "codex/505-prepared-start-measurement",
-                "head": "da2e91926f4b39d0fc058900cb7afa31def782c8",
+                "head": "aa14faa9515139e33b5b87117ffb0226e6cdae90",
                 "root": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement"
               }
             },
@@ -7385,11 +7385,11 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "a6daf2ac8c18abc2fab59faa22729b9e1ada22afc577e6a75e2e94362740b334"
+                  "digest": "757bd46e62cdf6359fca722d29806d14abb520f3680331d60d7cc35439da61f6"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "a6daf2ac8c18abc2fab59faa22729b9e1ada22afc577e6a75e2e94362740b334"
+                  "digest": "757bd46e62cdf6359fca722d29806d14abb520f3680331d60d7cc35439da61f6"
                 }
               },
               "effects": {
@@ -7412,14 +7412,14 @@
               "allowed_next_operations": [
                 "rebuild"
               ],
-              "correlation_id": "47439-1789541762786",
+              "correlation_id": "72646-1789542831000",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541762786,
-                "monotonic_duration_ms": 787
+                "started_unix_ms": 1789542831000,
+                "monotonic_duration_ms": 788
               },
               "wait_owner": "none"
             }
@@ -8833,7 +8833,7 @@
           "--repo-root",
           "$FIXTURE_ROOT"
         ],
-        "process_elapsed_ms": 397,
+        "process_elapsed_ms": 373,
         "git_events": [
           {
             "verb": "show",
@@ -8979,7 +8979,7 @@
             "mutated": true,
             "phase": "ready",
             "generation": 1,
-            "digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a",
+            "digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b",
             "next_route": "bind",
             "findings": []
           },
@@ -9000,7 +9000,7 @@
               },
               "after": {
                 "basis": "owner_result",
-                "digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a"
+                "digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b"
               }
             },
             "effects": {
@@ -9012,20 +9012,20 @@
             "allowed_next_operations": [
               "bind"
             ],
-            "correlation_id": "47579-1789541764465",
+            "correlation_id": "72863-1789542832692",
             "intent_identity": null,
             "evidence_invalidation": {
               "status": "not_reported"
             },
             "timing": {
-              "started_unix_ms": 1789541764465,
-              "monotonic_duration_ms": 394
+              "started_unix_ms": 1789542832692,
+              "monotonic_duration_ms": 371
             },
             "wait_owner": "none"
           }
         }
       },
-      "total_prepared_start_elapsed_ms": 912,
+      "total_prepared_start_elapsed_ms": 922,
       "three_minute_fixture_target_met": true,
       "interval": "Canonical prepared-index input refresh through successful final native validate; includes orchestration, JSON materialization and instrumentation",
       "invocations": [
@@ -9041,7 +9041,7 @@
             "--repo-root",
             "$FIXTURE_ROOT"
           ],
-          "process_elapsed_ms": 207,
+          "process_elapsed_ms": 205,
           "git_events": [
             {
               "verb": "show",
@@ -9128,7 +9128,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "doctor",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a",
+            "request_expected_lifecycle_digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b",
             "read_only": true,
             "operational_read_only": true,
             "operational_authority": true,
@@ -9139,7 +9139,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a",
+              "digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b",
               "next_route": "bind",
               "findings": [
                 {
@@ -9167,11 +9167,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a"
+                  "digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a"
+                  "digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b"
                 }
               },
               "effects": {
@@ -9194,14 +9194,14 @@
               "allowed_next_operations": [
                 "bind"
               ],
-              "correlation_id": "47651-1789541764874",
+              "correlation_id": "72915-1789542833076",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541764874,
-                "monotonic_duration_ms": 205
+                "started_unix_ms": 1789542833076,
+                "monotonic_duration_ms": 203
               },
               "wait_owner": "none"
             }
@@ -9394,7 +9394,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "bind",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a",
+            "request_expected_lifecycle_digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b",
             "read_only": false,
             "operational_read_only": false,
             "operational_authority": true,
@@ -9405,7 +9405,7 @@
               "mutated": true,
               "phase": "bound",
               "generation": 2,
-              "digest": "9b1cb4bc3ed6e76e62d16cc4e3ef17dedd38bf25f3ea2acacddd4c30a880c731",
+              "digest": "692c74325d42abd1ec63d85d4ed68db370462552d1b0b7667ee56ba5b97b464e",
               "next_route": "edit",
               "findings": []
             },
@@ -9422,11 +9422,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a"
+                  "digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "9b1cb4bc3ed6e76e62d16cc4e3ef17dedd38bf25f3ea2acacddd4c30a880c731"
+                  "digest": "692c74325d42abd1ec63d85d4ed68db370462552d1b0b7667ee56ba5b97b464e"
                 }
               },
               "effects": {
@@ -9438,13 +9438,13 @@
               "allowed_next_operations": [
                 "edit"
               ],
-              "correlation_id": "47673-1789541765082",
+              "correlation_id": "72945-1789542833282",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541765082,
+                "started_unix_ms": 1789542833282,
                 "monotonic_duration_ms": 461
               },
               "wait_owner": "none"
@@ -9463,7 +9463,7 @@
             "--repo-root",
             "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement"
           ],
-          "process_elapsed_ms": 217,
+          "process_elapsed_ms": 229,
           "git_events": [
             {
               "verb": "show",
@@ -9554,7 +9554,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "validate",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "9b1cb4bc3ed6e76e62d16cc4e3ef17dedd38bf25f3ea2acacddd4c30a880c731",
+            "request_expected_lifecycle_digest": "692c74325d42abd1ec63d85d4ed68db370462552d1b0b7667ee56ba5b97b464e",
             "read_only": true,
             "operational_read_only": true,
             "operational_authority": true,
@@ -9565,7 +9565,7 @@
               "mutated": false,
               "phase": "bound",
               "generation": 2,
-              "digest": "9b1cb4bc3ed6e76e62d16cc4e3ef17dedd38bf25f3ea2acacddd4c30a880c731",
+              "digest": "692c74325d42abd1ec63d85d4ed68db370462552d1b0b7667ee56ba5b97b464e",
               "next_route": "shepherd",
               "findings": [
                 {
@@ -9593,11 +9593,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "9b1cb4bc3ed6e76e62d16cc4e3ef17dedd38bf25f3ea2acacddd4c30a880c731"
+                  "digest": "692c74325d42abd1ec63d85d4ed68db370462552d1b0b7667ee56ba5b97b464e"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "9b1cb4bc3ed6e76e62d16cc4e3ef17dedd38bf25f3ea2acacddd4c30a880c731"
+                  "digest": "692c74325d42abd1ec63d85d4ed68db370462552d1b0b7667ee56ba5b97b464e"
                 }
               },
               "effects": {
@@ -9620,14 +9620,14 @@
               "allowed_next_operations": [
                 "shepherd"
               ],
-              "correlation_id": "47722-1789541765558",
+              "correlation_id": "72992-1789542833757",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541765558,
-                "monotonic_duration_ms": 215
+                "started_unix_ms": 1789542833757,
+                "monotonic_duration_ms": 227
               },
               "wait_owner": "none"
             }
@@ -9644,7 +9644,7 @@
             "branch": "codex/505-prepared-start-measurement",
             "worktree": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement",
             "registry_version": "1.0.5",
-            "expected_lifecycle_digest": "61f01f60d96f6c84c7fb6a2625145e5bff52a29b0962059d26b7cd3f9accde9a",
+            "expected_lifecycle_digest": "996b53e0ab4b251f82e729074f6e88da4c0e167922c415cd4b9228e7a2b66e6b",
             "commands": [
               "prepare_issue",
               "bind_worktree",
@@ -9692,7 +9692,7 @@
             "branch": "codex/505-prepared-start-measurement",
             "worktree": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement",
             "registry_version": "1.0.5",
-            "expected_lifecycle_digest": "9b1cb4bc3ed6e76e62d16cc4e3ef17dedd38bf25f3ea2acacddd4c30a880c731",
+            "expected_lifecycle_digest": "692c74325d42abd1ec63d85d4ed68db370462552d1b0b7667ee56ba5b97b464e",
             "commands": [
               "prepare_issue",
               "bind_worktree",
@@ -10111,7 +10111,7 @@
           "--repo-root",
           "$FIXTURE_ROOT"
         ],
-        "process_elapsed_ms": 369,
+        "process_elapsed_ms": 391,
         "git_events": [
           {
             "verb": "show",
@@ -10257,7 +10257,7 @@
             "mutated": true,
             "phase": "ready",
             "generation": 1,
-            "digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc",
+            "digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234",
             "next_route": "bind",
             "findings": []
           },
@@ -10278,7 +10278,7 @@
               },
               "after": {
                 "basis": "owner_result",
-                "digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc"
+                "digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234"
               }
             },
             "effects": {
@@ -10290,20 +10290,20 @@
             "allowed_next_operations": [
               "bind"
             ],
-            "correlation_id": "47799-1789541766654",
+            "correlation_id": "73105-1789542834886",
             "intent_identity": null,
             "evidence_invalidation": {
               "status": "not_reported"
             },
             "timing": {
-              "started_unix_ms": 1789541766654,
-              "monotonic_duration_ms": 366
+              "started_unix_ms": 1789542834886,
+              "monotonic_duration_ms": 388
             },
             "wait_owner": "none"
           }
         }
       },
-      "total_prepared_start_elapsed_ms": 923,
+      "total_prepared_start_elapsed_ms": 976,
       "three_minute_fixture_target_met": true,
       "interval": "Canonical prepared-index input refresh through successful final native validate; includes orchestration, JSON materialization and instrumentation",
       "invocations": [
@@ -10319,7 +10319,7 @@
             "--repo-root",
             "$FIXTURE_ROOT"
           ],
-          "process_elapsed_ms": 208,
+          "process_elapsed_ms": 270,
           "git_events": [
             {
               "verb": "show",
@@ -10406,7 +10406,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "doctor",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc",
+            "request_expected_lifecycle_digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234",
             "read_only": true,
             "operational_read_only": true,
             "operational_authority": true,
@@ -10417,7 +10417,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc",
+              "digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234",
               "next_route": "bind",
               "findings": [
                 {
@@ -10445,11 +10445,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc"
+                  "digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc"
+                  "digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234"
                 }
               },
               "effects": {
@@ -10472,14 +10472,14 @@
               "allowed_next_operations": [
                 "bind"
               ],
-              "correlation_id": "47833-1789541767034",
+              "correlation_id": "73157-1789542835288",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541767034,
-                "monotonic_duration_ms": 206
+                "started_unix_ms": 1789542835288,
+                "monotonic_duration_ms": 268
               },
               "wait_owner": "none"
             }
@@ -10497,7 +10497,7 @@
             "--repo-root",
             "$FIXTURE_ROOT"
           ],
-          "process_elapsed_ms": 464,
+          "process_elapsed_ms": 466,
           "git_events": [
             {
               "verb": "show",
@@ -10672,7 +10672,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "bind",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc",
+            "request_expected_lifecycle_digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234",
             "read_only": false,
             "operational_read_only": false,
             "operational_authority": true,
@@ -10683,7 +10683,7 @@
               "mutated": true,
               "phase": "bound",
               "generation": 2,
-              "digest": "4619038ace06d157672fac38106a43aa930230285962759698fd57dc1e6d76f7",
+              "digest": "09fe152cf0fb03d3678bb8ddf2228bf292b03037134eca1a2a5dbe24040ff9b4",
               "next_route": "edit",
               "findings": []
             },
@@ -10700,11 +10700,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc"
+                  "digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "4619038ace06d157672fac38106a43aa930230285962759698fd57dc1e6d76f7"
+                  "digest": "09fe152cf0fb03d3678bb8ddf2228bf292b03037134eca1a2a5dbe24040ff9b4"
                 }
               },
               "effects": {
@@ -10716,14 +10716,14 @@
               "allowed_next_operations": [
                 "edit"
               ],
-              "correlation_id": "47859-1789541767243",
+              "correlation_id": "73205-1789542835559",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541767243,
-                "monotonic_duration_ms": 462
+                "started_unix_ms": 1789542835559,
+                "monotonic_duration_ms": 464
               },
               "wait_owner": "none"
             }
@@ -10741,7 +10741,7 @@
             "--repo-root",
             "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement"
           ],
-          "process_elapsed_ms": 227,
+          "process_elapsed_ms": 215,
           "git_events": [
             {
               "verb": "show",
@@ -10832,7 +10832,7 @@
             "schema": "csdlc.v3.operational_local.v1",
             "command": "validate",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "4619038ace06d157672fac38106a43aa930230285962759698fd57dc1e6d76f7",
+            "request_expected_lifecycle_digest": "09fe152cf0fb03d3678bb8ddf2228bf292b03037134eca1a2a5dbe24040ff9b4",
             "read_only": true,
             "operational_read_only": true,
             "operational_authority": true,
@@ -10843,7 +10843,7 @@
               "mutated": false,
               "phase": "bound",
               "generation": 2,
-              "digest": "4619038ace06d157672fac38106a43aa930230285962759698fd57dc1e6d76f7",
+              "digest": "09fe152cf0fb03d3678bb8ddf2228bf292b03037134eca1a2a5dbe24040ff9b4",
               "next_route": "shepherd",
               "findings": [
                 {
@@ -10871,11 +10871,11 @@
               "issue_version": {
                 "before": {
                   "basis": "request_expectation",
-                  "digest": "4619038ace06d157672fac38106a43aa930230285962759698fd57dc1e6d76f7"
+                  "digest": "09fe152cf0fb03d3678bb8ddf2228bf292b03037134eca1a2a5dbe24040ff9b4"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "4619038ace06d157672fac38106a43aa930230285962759698fd57dc1e6d76f7"
+                  "digest": "09fe152cf0fb03d3678bb8ddf2228bf292b03037134eca1a2a5dbe24040ff9b4"
                 }
               },
               "effects": {
@@ -10898,14 +10898,14 @@
               "allowed_next_operations": [
                 "shepherd"
               ],
-              "correlation_id": "47906-1789541767720",
+              "correlation_id": "73258-1789542836037",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541767720,
-                "monotonic_duration_ms": 225
+                "started_unix_ms": 1789542836037,
+                "monotonic_duration_ms": 213
               },
               "wait_owner": "none"
             }
@@ -10922,7 +10922,7 @@
             "branch": "codex/505-prepared-start-measurement",
             "worktree": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement",
             "registry_version": "1.0.5",
-            "expected_lifecycle_digest": "c31de1143aa70a736cecc9944ac58eb9ca1f0ee046105caf376c7c9b1c19f4fc",
+            "expected_lifecycle_digest": "4449a808de116d26ee9017262fee7b10994f6fa143d8f10ce2d539d804c84234",
             "commands": [
               "prepare_issue",
               "bind_worktree",
@@ -10970,7 +10970,7 @@
             "branch": "codex/505-prepared-start-measurement",
             "worktree": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement",
             "registry_version": "1.0.5",
-            "expected_lifecycle_digest": "4619038ace06d157672fac38106a43aa930230285962759698fd57dc1e6d76f7",
+            "expected_lifecycle_digest": "09fe152cf0fb03d3678bb8ddf2228bf292b03037134eca1a2a5dbe24040ff9b4",
             "commands": [
               "prepare_issue",
               "bind_worktree",
@@ -11376,7 +11376,7 @@
       "variant": "candidate",
       "repetition": 2,
       "host_condition": "later fresh fixture/process on warmed host",
-      "binary_blake3": "7bf9bd5770dbeb2d90e58db4049f7e1d48949c2247be66989ac47ab51325ac14",
+      "binary_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
       "preparation_outside_interval": {
         "argv": [
           "prepare",
@@ -11384,7 +11384,7 @@
           "--plan",
           "$FIXTURE_ROOT/.git/installed-candidate/measurement-plan.json"
         ],
-        "process_elapsed_ms": 1226,
+        "process_elapsed_ms": 1285,
         "git_events": [
           {
             "verb": "rev-parse",
@@ -11840,11 +11840,11 @@
           "issue": 505,
           "semantic_version": {
             "generation": 2,
-            "digest": "semantic-state-v1:9b9dfe3ce76ebe25751ee58580e9823cfac623edd6f7f1aa6cefea706997d936"
+            "digest": "semantic-state-v1:526f8ebfdbd9a6b7c9b2552291c74e1f0f04bd6aca509b0790cd74494bf8e64f"
           },
           "inputs": {
             "revision": 1,
-            "digest": "semantic-input-v1:86ab4d6e671d2be9bc45198f4b371996b05fa6302592a8acddc6f17ffdc1b7a2"
+            "digest": "semantic-input-v1:e3e39af848fbaa54e95b0edc6751ebe93ea8e39c90bc9cf490c776dac33db4b9"
           },
           "phase": "ready",
           "request_issue": 505,
@@ -11854,7 +11854,7 @@
             "issue": 505,
             "platform": "macos",
             "authority": {
-              "selector_digest": "e13522b79d51234be053488beebdc1ec5885878947a7e7f4c7d47ac09f72bab9"
+              "selector_digest": "ae3fd08f896b05a47db6e26be631dd73a4d1ba08613a9fd6f362f25ddf8943b7"
             },
             "version": {
               "generation": null,
@@ -11862,7 +11862,7 @@
             },
             "checkout": {
               "branch": "main",
-              "head": "c60d47db30d181e65edde5d6e2098d9f79e3c06f",
+              "head": "4f4a462f92f4b0b54d3026d993a2766a4fe4cebb",
               "root": "$FIXTURE_ROOT"
             }
           },
@@ -11898,20 +11898,20 @@
             "findings": [],
             "reason_code": "command_completed",
             "allowed_next_operations": [],
-            "correlation_id": "47985-1789541768905",
+            "correlation_id": "73444-1789542837268",
             "intent_identity": null,
             "evidence_invalidation": {
               "status": "not_reported"
             },
             "timing": {
-              "started_unix_ms": 1789541768905,
-              "monotonic_duration_ms": 1221
+              "started_unix_ms": 1789542837268,
+              "monotonic_duration_ms": 1280
             },
             "wait_owner": "none"
           }
         }
       },
-      "total_prepared_start_elapsed_ms": 3698,
+      "total_prepared_start_elapsed_ms": 3954,
       "three_minute_fixture_target_met": true,
       "interval": "Canonical prepared-index input refresh through successful final native validate; includes orchestration, JSON materialization and instrumentation",
       "invocations": [
@@ -11920,7 +11920,7 @@
             "status",
             "505"
           ],
-          "process_elapsed_ms": 1177,
+          "process_elapsed_ms": 1259,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -12395,7 +12395,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250",
+              "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79",
               "next_route": "bind",
               "findings": [
                 {
@@ -12433,8 +12433,8 @@
                   "vpp.values.json"
                 ]
               },
-              "semantic_digest": "semantic-projection-v1:e253eb5ed9c13c99228ab852d71ee4290ff0bfc6add072625414b3da962ecc87",
-              "projection_digest": "card-projection-v1:c31f560adaf1a0d53ee799b4b1c4de564dc12247adf1e23f46ed9d8239aceb01",
+              "semantic_digest": "semantic-projection-v1:1edf67c47a6bc614f04c5a116e4318993419ad6aa78529af4789fca2247edf83",
+              "projection_digest": "card-projection-v1:b8b2c5bf2bf93add5d6c86cbbd61ec266b95d1bf3706c9cf6d7dd817a7a5e00e",
               "registry_version": "1.0.5"
             },
             "eligibility": {
@@ -12443,7 +12443,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250",
+              "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79",
               "next_route": "bind",
               "findings": [
                 {
@@ -12464,7 +12464,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250",
+              "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79",
               "next_route": "doctor",
               "routing": {
                 "schema": "csdlc.scheduler.report.v1",
@@ -12495,7 +12495,7 @@
               "mutated": false,
               "phase": "ready",
               "generation": 1,
-              "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250",
+              "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79",
               "next_route": "operator",
               "routing": {
                 "schema": "csdlc.shepherd.report.v1",
@@ -12529,21 +12529,21 @@
             ],
             "pending_remote": [],
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250",
+            "request_expected_lifecycle_digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "e13522b79d51234be053488beebdc1ec5885878947a7e7f4c7d47ac09f72bab9"
+                "selector_digest": "ae3fd08f896b05a47db6e26be631dd73a4d1ba08613a9fd6f362f25ddf8943b7"
               },
               "version": {
                 "generation": 1,
-                "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250"
+                "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79"
               },
               "checkout": {
                 "branch": "main",
-                "head": "c60d47db30d181e65edde5d6e2098d9f79e3c06f",
+                "head": "4f4a462f92f4b0b54d3026d993a2766a4fe4cebb",
                 "root": "$FIXTURE_ROOT"
               }
             },
@@ -12565,11 +12565,11 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250"
+                  "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250"
+                  "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79"
                 }
               },
               "effects": {
@@ -12592,14 +12592,14 @@
               "allowed_next_operations": [
                 "rebuild"
               ],
-              "correlation_id": "48109-1789541770131",
+              "correlation_id": "73760-1789542838556",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541770131,
-                "monotonic_duration_ms": 1174
+                "started_unix_ms": 1789542838556,
+                "monotonic_duration_ms": 1255
               },
               "wait_owner": "operator"
             }
@@ -12610,7 +12610,7 @@
             "bind",
             "505"
           ],
-          "process_elapsed_ms": 1708,
+          "process_elapsed_ms": 1873,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -13245,26 +13245,26 @@
             "operational_authority": true,
             "semantic_version": {
               "generation": 5,
-              "digest": "semantic-state-v1:d782875f3af9da4c3b9363cb369f96b90b6e54adf677e59005fb6c2658be67c7"
+              "digest": "semantic-state-v1:3f377a9631d54b838d64e64d8af0ebf15bd51a160d530fd299da09dd79b235f6"
             },
-            "operation_id": "semantic-operation-v1:72baed32b9d87f52fe932c0f87c8f211ba9506b744ca96ead939fd30ec7f0aa2",
+            "operation_id": "semantic-operation-v1:f637b31278f391aad3560ed63876dd1b2486287d30d9c6096630bd6249cfcf16",
             "native_effect_truth": "performed",
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250",
+            "request_expected_lifecycle_digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "e13522b79d51234be053488beebdc1ec5885878947a7e7f4c7d47ac09f72bab9"
+                "selector_digest": "ae3fd08f896b05a47db6e26be631dd73a4d1ba08613a9fd6f362f25ddf8943b7"
               },
               "version": {
                 "generation": 1,
-                "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250"
+                "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79"
               },
               "checkout": {
                 "branch": "main",
-                "head": "c60d47db30d181e65edde5d6e2098d9f79e3c06f",
+                "head": "4f4a462f92f4b0b54d3026d993a2766a4fe4cebb",
                 "root": "$FIXTURE_ROOT"
               }
             },
@@ -13286,7 +13286,7 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "387c0530a122844f681cf269aa6bdbbddbb630a9d5917f02fbe8bef2d8945250"
+                  "digest": "de16ef7ae731daf9390481d405bf0f319a1722c72ac1aeb22d00227c777c0c79"
                 },
                 "after": {
                   "basis": "owner_result",
@@ -13300,14 +13300,14 @@
               "findings": [],
               "reason_code": "command_completed",
               "allowed_next_operations": [],
-              "correlation_id": "48239-1789541771310",
+              "correlation_id": "73968-1789542839816",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541771310,
-                "monotonic_duration_ms": 1704
+                "started_unix_ms": 1789542839816,
+                "monotonic_duration_ms": 1869
               },
               "wait_owner": "none"
             }
@@ -13318,7 +13318,7 @@
             "validate",
             "505"
           ],
-          "process_elapsed_ms": 807,
+          "process_elapsed_ms": 816,
           "git_events": [
             {
               "verb": "rev-parse",
@@ -13625,7 +13625,7 @@
               "mutated": false,
               "phase": "bound",
               "generation": 2,
-              "digest": "bb944f17dc278a6fbe5637d67ad4e0769df703d2f64c92148f15cf5cf7e7d32d",
+              "digest": "7f941181dbea5538f69711265a4ee319683dd1de0ab53d55c83de4d091973b98",
               "next_route": "shepherd",
               "findings": [
                 {
@@ -13659,29 +13659,29 @@
                   "vpp.values.json"
                 ]
               },
-              "semantic_digest": "semantic-projection-v1:1ae5eba75519bdc8194248f1be7568bfb9fbb4280b1f6df76994a8d6d3540ad7",
-              "projection_digest": "card-projection-v1:0836e39c99d2ee910d2d3df450182c989666fb80a284830b8fbb75ae33ced470",
+              "semantic_digest": "semantic-projection-v1:b62b47454d1669967cbf164f3556aa74bee0ef971e2bdbed9396ac1d6052f264",
+              "projection_digest": "card-projection-v1:2f3bcfa349ce478b7018ebf116375cb88ce43b41bfa5baf5cccdfcaa7d7ca91d",
               "registry_version": "1.0.5"
             },
             "allowed_next": [
               "rebuild"
             ],
             "request_issue": 505,
-            "request_expected_lifecycle_digest": "bb944f17dc278a6fbe5637d67ad4e0769df703d2f64c92148f15cf5cf7e7d32d",
+            "request_expected_lifecycle_digest": "7f941181dbea5538f69711265a4ee319683dd1de0ab53d55c83de4d091973b98",
             "intent_snapshot": {
               "repository": "agent-logic/agent-design-language",
               "issue": 505,
               "platform": "macos",
               "authority": {
-                "selector_digest": "e13522b79d51234be053488beebdc1ec5885878947a7e7f4c7d47ac09f72bab9"
+                "selector_digest": "ae3fd08f896b05a47db6e26be631dd73a4d1ba08613a9fd6f362f25ddf8943b7"
               },
               "version": {
                 "generation": 2,
-                "digest": "bb944f17dc278a6fbe5637d67ad4e0769df703d2f64c92148f15cf5cf7e7d32d"
+                "digest": "7f941181dbea5538f69711265a4ee319683dd1de0ab53d55c83de4d091973b98"
               },
               "checkout": {
                 "branch": "codex/505-prepared-start-measurement",
-                "head": "c60d47db30d181e65edde5d6e2098d9f79e3c06f",
+                "head": "4f4a462f92f4b0b54d3026d993a2766a4fe4cebb",
                 "root": "$FIXTURE_ROOT/worktrees/adl-issue-505-prepared-start-measurement"
               }
             },
@@ -13703,11 +13703,11 @@
               "issue_version": {
                 "before": {
                   "basis": "observed_intent_snapshot",
-                  "digest": "bb944f17dc278a6fbe5637d67ad4e0769df703d2f64c92148f15cf5cf7e7d32d"
+                  "digest": "7f941181dbea5538f69711265a4ee319683dd1de0ab53d55c83de4d091973b98"
                 },
                 "after": {
                   "basis": "owner_result",
-                  "digest": "bb944f17dc278a6fbe5637d67ad4e0769df703d2f64c92148f15cf5cf7e7d32d"
+                  "digest": "7f941181dbea5538f69711265a4ee319683dd1de0ab53d55c83de4d091973b98"
                 }
               },
               "effects": {
@@ -13730,14 +13730,14 @@
               "allowed_next_operations": [
                 "rebuild"
               ],
-              "correlation_id": "48404-1789541773021",
+              "correlation_id": "74261-1789542841692",
               "intent_identity": null,
               "evidence_invalidation": {
                 "status": "not_reported"
               },
               "timing": {
-                "started_unix_ms": 1789541773021,
-                "monotonic_duration_ms": 804
+                "started_unix_ms": 1789542841692,
+                "monotonic_duration_ms": 812
               },
               "wait_owner": "none"
             }

@@ -6,15 +6,76 @@
       "priority": "P1",
       "title": "Required old-owner conversion release gate cannot execute without retained old state",
       "status": "open_blocker",
-      "evidence": [
-        "commands/copied_record_conversion_rehearsal_release_gate.command.txt",
-        "commands/copied_record_conversion_rehearsal_release_gate.stderr.log",
-        "results/copied_record_conversion_rehearsal_release_gate.result.json"
-      ],
+      "evidence": ["commands/copied_record_conversion_rehearsal_release_gate.command.txt", "commands/copied_record_conversion_rehearsal_release_gate.stderr.log", "results/copied_record_conversion_rehearsal_release_gate.result.json"],
       "observed": "With the exact accepted #868 old binary supplied, the ignored release-gate test exits 101 before exercising candidate behavior because ISSUE872_OLD_STATE is required.",
-      "impact": "Issue #873 cannot claim the complete conversion/recovery denominator or an overall passing qualification.",
-      "scope_boundary": "The passing retained #872 validator and the passing current-candidate conversion suites remain valid corroboration, but neither substitutes for this required gate.",
-      "recommended_disposition": "Restore an authenticated, portable old-state fixture or repair the release-gate harness in the owning issue, then rerun this exact gate."
+      "impact": "The complete conversion/recovery denominator and finite recovery gate remain not proven.",
+      "scope_boundary": "The passing retained #872 validator and current-candidate conversion suites remain valid corroboration, but neither substitutes for this gate.",
+      "recommended_disposition": "Restore an authenticated portable old-state fixture or repair the owning harness, then rerun this exact gate."
+    },
+    {
+      "id": "QUAL-873-002",
+      "priority": "P2",
+      "title": "Prepared-start timing does not measure an OS-cold cache",
+      "status": "open_blocker",
+      "evidence": ["measurements/prepared-start.json"],
+      "observed": "The exact frozen candidate passed three alternating warm-host samples, but the retained conditions explicitly say no cache reset and no OS-cold measurement.",
+      "impact": "The OS-cold prepared-start gate remains not proven.",
+      "recommended_disposition": "Execute the declared measurement on an authenticated cold host or with a reviewed cold-cache protocol."
+    },
+    {
+      "id": "QUAL-873-003",
+      "priority": "P2",
+      "title": "Avoidable retry reduction lacks a comparable baseline denominator",
+      "status": "open_blocker",
+      "evidence": ["corpus-manifest.json", "installed-journey-summary.json"],
+      "observed": "The candidate journey retains 35 attempts, but no same-corpus predecessor retry denominator was executed.",
+      "impact": "The claimed 50 percent retry reduction cannot be calculated.",
+      "recommended_disposition": "Run the same journey against the accepted predecessor and classify equivalent expected denials before comparing avoidable retries."
+    },
+    {
+      "id": "QUAL-873-004",
+      "priority": "P2",
+      "title": "Issue #873 evidence PR CI is not observed",
+      "status": "open_blocker",
+      "evidence": ["aggregate-ci.json"],
+      "observed": "The frozen source candidate CI is green, but this evidence-only branch has not been published and therefore has no PR CI result.",
+      "impact": "The issue-specific aggregate CI gate remains not proven.",
+      "recommended_disposition": "Observe required checks after authorized publication."
+    },
+    {
+      "id": "QUAL-873-005",
+      "priority": "P2",
+      "title": "Independent exact-head review of the remediated evidence is not observed",
+      "status": "open_blocker",
+      "evidence": ["qualification-decision.json"],
+      "observed": "The prior review produced remediation findings; no independent review result exists for the remediation commit yet.",
+      "impact": "The exact-head review gate remains not proven.",
+      "recommended_disposition": "Run an independent evidence review at the remediation commit and retain its disposition."
+    },
+    {
+      "id": "REVIEW-873-001",
+      "priority": "P1",
+      "title": "Prepared-start artifact originally measured non-frozen candidate bytes",
+      "status": "resolved",
+      "evidence": ["measurements/prepared-start.json", "results/installed_prepared_start_measurement.result.json"],
+      "observed": "The replaced artifact used candidate BLAKE3 7bf9bd57 instead of frozen installed BLAKE3 c6d7c79a.",
+      "resolution": "The harness now verifies SHA-256, places the exact frozen binary in the isolated candidate slot, rejects mismatched sample digests, and retained three candidate samples with BLAKE3 c6d7c79a."
+    },
+    {
+      "id": "REVIEW-873-002",
+      "priority": "P2",
+      "title": "Replay scripts embedded machine and operator paths",
+      "status": "resolved",
+      "evidence": ["run-focused-corpus.sh", "run-special-corpus.sh", "run-installed-qualification.sh", "secondary/run-secondary.sh"],
+      "resolution": "Replay paths are derived from the repository or supplied through named environment inputs; authored summaries use logical references."
+    },
+    {
+      "id": "REVIEW-873-003",
+      "priority": "P2",
+      "title": "Scorecard used statuses outside pass, fail, and not_proven",
+      "status": "resolved",
+      "evidence": ["scorecard.json"],
+      "resolution": "All scorecard gates now use only pass, fail, or not_proven; finite recovery, evidence PR CI, and exact-head review are not_proven."
     }
   ]
 }

@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 set -u
 
-ROOT="$(git rev-parse --show-toplevel)"
-EVIDENCE="$ROOT/.csdlc/evidence/873/sim-07"
+ROOT="${ADL_ISSUE873_REPO_ROOT:-$(git rev-parse --show-toplevel)}"
+EVIDENCE="${ADL_ISSUE873_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/873/sim-07}"
 COMMANDS="$EVIDENCE/commands"
 RESULTS="$EVIDENCE/results"
 OBSERVATIONS="$EVIDENCE/observations"
-BIN="/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/bin/issue-873/csdlc"
+BIN="${ADL_ISSUE873_CANDIDATE_BINARY:?set ADL_ISSUE873_CANDIDATE_BINARY to the frozen #873 binary}"
 EXPECTED_SHA256="7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e"
 EXPECTED_BLAKE3="c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d"
-TEST_BIN="$ROOT/csdlc-v3/target/debug/deps/installed_intent_commands-8040852d50831805"
-HARNESS_BIN="$ROOT/csdlc-v3/target/debug/csdlc"
-HARNESS_BACKUP="$ROOT/csdlc-v3/target/debug/csdlc.sim07-backup"
-CORPUS="$ROOT/csdlc-v3/target/sim03-intent-corpus"
+TARGET_DIR="${ADL_ISSUE873_TARGET_DIR:-$ROOT/csdlc-v3/target}"
+TEST_BIN="${ADL_ISSUE873_INTENT_HARNESS:-$(find "$TARGET_DIR/debug/deps" -maxdepth 1 -type f -perm -111 -name 'installed_intent_commands-*' -print | sort | tail -1)}"
+HARNESS_BIN="$TARGET_DIR/debug/csdlc"
+HARNESS_BACKUP="$TARGET_DIR/debug/csdlc.sim07-backup"
+CORPUS="$TARGET_DIR/sim03-intent-corpus"
 mkdir -p "$COMMANDS" "$RESULTS" "$OBSERVATIONS"
 
 actual_sha256="$(shasum -a 256 "$BIN" | awk '{print $1}')"
@@ -46,7 +47,7 @@ run_case() {
   local command_file="$COMMANDS/$id.command.txt"
   local result="$RESULTS/$id.result.json"
   local started ended start_epoch elapsed status latest retained_blake3 attempts
-  printf 'exact installed binary copied into isolated compiled-harness candidate slot; %q %q --exact --nocapture\n' "$TEST_BIN" "$filter" > "$command_file"
+  printf 'exact installed binary copied into isolated compiled-harness candidate slot; [compiled installed_intent_commands harness] %q --exact --nocapture\n' "$filter" > "$command_file"
   started="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   start_epoch="$(date +%s)"
   "$TEST_BIN" "$filter" --exact --nocapture >"$stdout" 2>"$stderr"

@@ -11,6 +11,6 @@
     "coverage": "passed"
   },
   "unrelated_lanes": "policy-skipped",
-  "issue873_evidence_pr_ci": "pending",
+  "issue873_evidence_pr_ci": "not_proven",
   "qualification_effect": "Source-candidate CI corroborates the frozen implementation. It does not substitute for CI on the issue #873 evidence PR."
 }

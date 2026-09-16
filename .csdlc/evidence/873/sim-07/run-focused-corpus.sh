@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -u
 
-ROOT="$(git rev-parse --show-toplevel)"
-EVIDENCE="$ROOT/.csdlc/evidence/873/sim-07"
+ROOT="${ADL_ISSUE873_REPO_ROOT:-$(git rev-parse --show-toplevel)}"
+EVIDENCE="${ADL_ISSUE873_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/873/sim-07}"
+MANIFEST="${ADL_ISSUE873_MANIFEST:-csdlc-v3/Cargo.toml}"
 COMMANDS="$EVIDENCE/commands"
 RESULTS="$EVIDENCE/results"
 mkdir -p "$COMMANDS" "$RESULTS"
+cd "$ROOT"
 
 targets=(
   installed_intent_commands
@@ -44,7 +46,11 @@ run_one() {
   local command_file="$COMMANDS/$id.command.txt"
   local result="$RESULTS/$id.result.json"
   local started ended elapsed exit_status passed failed ignored stdout_digest stderr_digest
-  printf '%q ' "$@" > "$command_file"
+  printf '%q' "$1" > "$command_file"
+  local arg
+  for arg in "${@:2}"; do
+    printf ' %q' "$arg" >> "$command_file"
+  done
   printf '\n' >> "$command_file"
   started="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   local start_epoch
@@ -80,26 +86,21 @@ run_one() {
 }
 
 for target in "${targets[@]}"; do
-  run_one "$target" cargo test --locked --manifest-path "$ROOT/csdlc-v3/Cargo.toml" --test "$target" -- --test-threads=1
+  run_one "$target" cargo test --locked --manifest-path "$MANIFEST" --test "$target" -- --test-threads=1
 done
 
-if [[ -n "${ADL_SIM03_BASELINE_BINARY:-}" ]]; then
-  run_one installed_prepared_start_measurement \
-    cargo test --locked --manifest-path "$ROOT/csdlc-v3/Cargo.toml" --test installed_prepared_start_measurement -- --ignored --test-threads=1 --nocapture
-else
-  jq -n '{schema:"adl.csdlc.sim07.command_result.v1",scenario_id:"installed_prepared_start_measurement",exit_status:2,test_counts:{passed:0,failed:0,ignored:1},finding:"accepted_sim02_baseline_binary_unavailable"}' > "$RESULTS/installed_prepared_start_measurement.result.json"
-fi
+printf '%s\n' 'prepared-start timing is intentionally delegated to run-special-corpus.sh, which verifies and installs the frozen candidate bytes in the isolated harness slot' >&2
 
 run_one lib_merge_positive \
-  cargo test --locked --manifest-path "$ROOT/csdlc-v3/Cargo.toml" --lib commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation -- --exact --test-threads=1
+  cargo test --locked --manifest-path "$MANIFEST" --lib commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation -- --exact --test-threads=1
 run_one lib_restart_reconcile \
-  cargo test --locked --manifest-path "$ROOT/csdlc-v3/Cargo.toml" --lib commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation -- --exact --test-threads=1
+  cargo test --locked --manifest-path "$MANIFEST" --lib commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation -- --exact --test-threads=1
 run_one lib_observational_curl_stdin \
-  cargo test --locked --manifest-path "$ROOT/csdlc-v3/Cargo.toml" --lib adapters::tests::observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments -- --exact --test-threads=1
+  cargo test --locked --manifest-path "$MANIFEST" --lib adapters::tests::observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments -- --exact --test-threads=1
 run_one lib_observational_missing_executable \
-  cargo test --locked --manifest-path "$ROOT/csdlc-v3/Cargo.toml" --lib adapters::tests::observational_transport_preserves_missing_executable_classification -- --exact --test-threads=1
+  cargo test --locked --manifest-path "$MANIFEST" --lib adapters::tests::observational_transport_preserves_missing_executable_classification -- --exact --test-threads=1
 run_one lib_observational_curl_q \
-  cargo test --locked --manifest-path "$ROOT/csdlc-v3/Cargo.toml" --lib adapters::tests::observational_curl_disables_default_config_before_other_arguments -- --exact --test-threads=1
+  cargo test --locked --manifest-path "$MANIFEST" --lib adapters::tests::observational_curl_disables_default_config_before_other_arguments -- --exact --test-threads=1
 
 jq -s '{schema:"adl.csdlc.sim07.focused_corpus.v1",results:.,summary:{attempted:length,passed:([.[]|select(.exit_status==0 and .test_counts.passed>0)]|length),failed:([.[]|select(.exit_status!=0 or .test_counts.passed==0)]|length),tests_passed:([.[].test_counts.passed]|add),tests_failed:([.[].test_counts.failed]|add),tests_ignored:([.[].test_counts.ignored]|add)}}' "$RESULTS"/*.result.json > "$EVIDENCE/focused-corpus-summary.json"
 

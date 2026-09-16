@@ -9,7 +9,7 @@
   "shared_owner_replaced": false,
   "writer_activation": false,
   "cargo_target_isolation": [
-    "csdlc-v3/target",
-    "/Volumes/FastWork/adl-targets/873-secondary"
+    "repo:csdlc-v3/target",
+    "env:ADL_ISSUE873_SECONDARY_TARGET_DIR"
   ]
 }

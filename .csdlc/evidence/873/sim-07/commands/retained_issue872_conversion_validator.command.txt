@@ -1,1 +1,1 @@
-python3 /Volumes/FastWork/adl-worktrees/adl-issue-872-v0922-copied-record-conversion/adl/tools/validate_issue872_conversion_rehearsal.py --evidence-root /Volumes/FastWork/adl-worktrees/adl-issue-872-v0922-copied-record-conversion/.csdlc/evidence/872/conversion-rehearsal 
+python3 /Volumes/FastWork/adl-worktrees/adl-issue-872-v0922-copied-record-conversion/adl/tools/validate_issue872_conversion_rehearsal.py --evidence-root /Volumes/FastWork/adl-worktrees/adl-issue-872-v0922-copied-record-conversion/.csdlc/evidence/872/conversion-rehearsal

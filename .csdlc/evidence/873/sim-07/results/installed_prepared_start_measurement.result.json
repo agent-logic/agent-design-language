@@ -1,9 +1,9 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "installed_prepared_start_measurement",
-  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test installed_prepared_start_measurement -- --ignored --test-threads=1 --nocapture",
-  "started_at": "2026-09-16T06:55:49Z",
-  "ended_at": "2026-09-16T06:56:14Z",
+  "command": "env ADL_SIM03_BASELINE_BINARY=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/archives/868-20260912-closeout/relocated-original-.csdlc/evidence/868/execution/candidate-6425ba9bb/bin/csdlc /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/debug/deps/installed_prepared_start_measurement-416bd90fffbebee4 --ignored --test-threads=1 --nocapture",
+  "started_at": "2026-09-16T07:13:37Z",
+  "ended_at": "2026-09-16T07:14:02Z",
   "elapsed_seconds": 25,
   "exit_status": 0,
   "test_counts": {
@@ -11,6 +11,6 @@
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "f5ba7bca091cd76877d6fd4669a95a7b9e52f4bec7a629813673ae195b09a3e7",
-  "stderr_sha256": "80102da6ee7d0d4efeb8cbe5e6c320d4af01b90f7c277c2703ef5facdbb5e367"
+  "stdout_sha256": "2c07d5067d7f23c28cca7c19e00831c83ae6be40c88709d9ec9516f068b1b4b7",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 }
