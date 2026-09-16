@@ -102,6 +102,43 @@ pub fn synthesize_from_file(options: SynthesisOptions) -> Result<ReviewSynthesis
     Ok(synthesis)
 }
 
+/// Read and verify a completed synthesis bundle for downstream consumers.
+///
+/// The synthesis document is not accepted in isolation: its canonical
+/// manifest and retained review record must be present beside it and must
+/// reproduce the exact synthesis bytes semantically.
+pub fn read_synthesis_from_file(input: &Path) -> Result<ReviewSynthesis> {
+    ensure!(
+        input.file_name().and_then(|name| name.to_str()) == Some("synthesis.json"),
+        "synthesis_bundle_requires_canonical_synthesis_ref"
+    );
+    let directory = input
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("synthesis_bundle_requires_parent_directory"))?;
+    let synthesis: ReviewSynthesis = read_json(input, 8 * 1024 * 1024)?;
+    let manifest: SynthesisManifest = read_json(&directory.join("manifest.json"), 1024 * 1024)?;
+    let review: ReviewRecord = read_json(&directory.join("review-record.json"), 8 * 1024 * 1024)?;
+    review.validate()?;
+    ensure!(
+        manifest.schema == SYNTHESIS_MANIFEST_SCHEMA
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.review_record_ref == "review-record.json",
+        "invalid_synthesis_manifest"
+    );
+    ensure!(
+        manifest.synthesis_digest == hash(&synthesis)?
+            && manifest.review_record_digest == hash(&review)?
+            && manifest.synthesized_finding_count == synthesis.synthesized_findings.len()
+            && manifest.input_finding_count == synthesis.input_finding_count,
+        "synthesis_manifest_digest_or_count_mismatch"
+    );
+    ensure!(
+        synthesis.review_record_digest == hash(&review)? && synthesize(&review)? == synthesis,
+        "synthesis_not_canonical_for_review"
+    );
+    Ok(synthesis)
+}
+
 pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
     record.validate()?;
     ensure!(
