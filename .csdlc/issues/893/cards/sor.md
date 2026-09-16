@@ -21,7 +21,7 @@ Version: 0.92.2
 Title: [v0.92.2][CF-REMEDIATE] Generate a bounded remediation plan from review findings
 Branch: codex/893-v0922-remediation-planner
 Card Status: ready
-Status: implemented_remediated_pending_fresh_review_publication_ci
+Status: implemented_review_passed_pr_open_ci_refresh_pending
 Generated: 2026-09-12T00:10:02.687479+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented and remediated the CodeFriend remediation planner for #893. Every public planning route requires canonical completed synthesis, every relevant path is resolved exactly from admitted evidence under the shared ingestion path contract, and installed reading is bound to the manifest-declared remediation-plan artifact and canonical replanning.
+Implemented and remediated the CodeFriend remediation planner, merged terminal #894, forward-reapplied the three reviewed #893 corrective commits, proved the combined remediation/test-plan/publication lineage, and obtained a fresh exact-head PASS. Corrective PR #1024 remains open pending metadata review, push, renewed CI, and merge.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -57,7 +57,7 @@ Implemented and remediated the CodeFriend remediation planner for #893. Every pu
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
+- Completion state: `implemented_review_passed_pr_open_ci_refresh_pending`
 - Issue goal ref: `Sprint 4 #930 active goal covers #893 execution in this session; single goal slot prevented replacing it with a separate child goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/893/goal-metrics.json (planned, absent until execution)`
@@ -86,13 +86,13 @@ Implemented and remediated the CodeFriend remediation planner for #893. Every pu
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `adl/src/cli/codefriend_cmd.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/actions/mod.rs; adl/src/codefriend/actions/remediation.rs; adl/tests/codefriend_remediate.rs`
 - Worktree-only paths remaining: `.csdlc/issues/893/ and .csdlc/transactions/completed/893/ are generated lifecycle material in the bound worktree until publication/finish; implementation source changes are tracked candidate paths.`
-- Integration state: `worktree_candidate_ready_for_current_base_reconciliation_and_fresh_review`
+- Integration state: `current_main_through_894_reconciled_review_passed_ci_refresh_pending`
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
-  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Confirms every production planner verifies canonical completed synthesis, uses exact admitted evidence paths without semantic-anchor inference, reads only the declared plan artifact, preserves source bytes, and passes the PR lint surface.`
-- Result: `not_integrated`
+  - `Review exact revision a7cddf07dea4f557ed089e0be02adffbe3985717 against origin/main 75f6d600f3c474d2135f7928951a7ff79220187e after focused 24-test proof.`
+    `Fresh reviewer verified completed-synthesis admission, exact evidence paths, canonical replanning, create-only output, intact #894/#895 routes, and no #896 absorption with no actionable findings.`
+- Result: `Merged current origin/main at 75f6d600f3c474d2135f7928951a7ff79220187e (#894) into the issue branch, detected and repaired the resulting stale #893 source/test regression by forward-reapplying the three reviewed corrective commits, and validated exact combined behavior.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - ``cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate`; `cargo fmt --manifest-path adl/Cargo.toml --check`; `cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings`; `git diff --check``
-    `Proves canonical completed-synthesis enforcement, exact evidence-path authority across the full ingestion-valid path contract, alias/substitution/tamper rejection, source immutability, and strict lint cleanliness.`
+  - `CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/issue-893 cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/issue-893 cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/issue-893 cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD`
+    `Nine remediation tests, eight test-plan tests, and seven publication UX tests passed after final current-main reconciliation and forward repair. Formatting and exact-range diff hygiene passed. No optional, provider, paid, cloud, or broad workspace lane was run locally.`
 - Results:
   - `passed`
 
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "`cargo fmt --manifest-path adl/Cargo.toml --check` verifies Rust formatting for the candidate."
+      - "Final current-main focused product and adjacent integration proof: 24 tests passed"
   determinism:
     status: passed_for_completed_synthesis_bundle_and_negative_fixtures
     replay_verified: The planner preserves exact paths from completed admitted evidence, including docs/My File.md, and the installed CLI generates and rereads the retained Vector action only from the manifest-declared artifact while preserving source bundle bytes.
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `Generated local test artifacts under adl/target/codefriend-remediate-tests; no durable release bundle created before review/publication.`
 - Run artifact root: `test-generated per-run artifacts under adl/target/codefriend-remediate-tests during focused tests; durable SOR proof is this card plus command output retained in terminal history until formal evidence capture.`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_remediate; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-- Replay result: `codefriend_remediate 9 passed; cargo fmt passed; full all-target/all-feature clippy with denied warnings passed; git diff --check passed`
+- Replay result: `codefriend_remediate 9 passed; codefriend_testplan 8 passed; codefriend_ux 7 passed; fresh exact-head review PASS`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_remediate.rs and generated per-test artifacts under adl/target/codefriend-remediate-tests`
@@ -174,5 +174,5 @@ verification_summary:
 - `The production proof consumes the retained completed Vector CF-SYNTHESIS bundle and exercises local negative fixtures. It does not rerun external providers, create GitHub issues, or claim publication authority.`
 
 ## Follow-ups / Deferred work
-- `Commit the evidence-path contract remediation, reconcile current origin/main without widening scope, rerun proof, and obtain a different canonical fresh-session exact-head review.`
-- `On PASS, publish the corrective PR through native C-SDLC and observe renewed CI before terminal reconciliation.`
+- `Commit this truthful SRP/SOR metadata and obtain a final fresh exact-head metadata review.`
+- `Push and update PR #1024 through native C-SDLC, observe renewed required standard CI, and merge only when exact green and clean.`

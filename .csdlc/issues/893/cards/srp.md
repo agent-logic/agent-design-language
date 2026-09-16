@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/893/cards/sip.md"
   - ".csdlc/issues/893/cards/vpp.md"
 review_results:
-  findings_status: "findings_remediated_pending_fresh_review"
-  recommended_outcome: "review_required"
-notes: "The remediation changed production path authority and tests after the failed review. A different canonical fresh-session reviewer must inspect the final current-base immutable commit. No #894/#895 implementation scope is included."
+  findings_status: "fresh_exact_head_pass_no_actionable_findings"
+  recommended_outcome: "pass"
+notes: "Fresh exact-head PASS at a7cddf07dea4f557ed089e0be02adffbe3985717. Final combined focused proof passed: codefriend_remediate 9/9, codefriend_testplan 8/8, and codefriend_ux 7/7, plus rustfmt and diff hygiene. Corrective PR #1024 still requires this metadata commit, final metadata-only exact-head review, push, renewed CI, and merge."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Canonical exact-head review of e090b75bf3922c642e09e749136e5e62b06f766f by fresh-session:1f19bfd4-51a6-4860-bbdf-a9da737c302d returned FAIL with one P1: ingestion admits valid repository paths containing spaces and other ASCII graphic characters, while remediation used a narrower grammar, silently discarded exact evidence paths, and could infer truncated semantic-anchor fragments such as docs/My and File.md instead of docs/My File.md. The generation-13 SOR therefore overstated complete evidence-path binding.
+- Fresh no-context exact-head review of a7cddf07dea4f557ed089e0be02adffbe3985717 by fresh-session:dbc5ab4c-d227-4810-a553-41b35d812e26 returned PASS with no actionable findings after terminal #894 was merged and the three reviewed #893 corrective commits were forward-reapplied.
 
 ### Dispositions
 
-- Finding accepted and remediated. Remediation now uses the shared ingestion validate_path contract, requires every synthesized evidence ID to resolve to an exact admitted evidence path, propagates any missing or invalid binding as an error, and no longer infers repository paths from semantic-anchor text. A completed canonical ReviewRecord fixture with docs/My File.md proves exact preservation and documentation ownership; the focused suite now passes 9/9.
+- All prior corrective findings remain remediated. The reviewer verified canonical completed-synthesis admission, exact admitted evidence paths including spaces and root dotfiles, manifest-bound readback, canonical replanning equality, create-only output behavior, intact #894 test-plan and #895 publication routes, and no #896 absorption.
 
 ### Recommended Outcome
 
-- review_required
+- pass
 
 ## Notes
 
-The remediation changed production path authority and tests after the failed review. A different canonical fresh-session reviewer must inspect the final current-base immutable commit. No #894/#895 implementation scope is included.
+Fresh exact-head PASS at a7cddf07dea4f557ed089e0be02adffbe3985717. Final combined focused proof passed: codefriend_remediate 9/9, codefriend_testplan 8/8, and codefriend_ux 7/7, plus rustfmt and diff hygiene. Corrective PR #1024 still requires this metadata commit, final metadata-only exact-head review, push, renewed CI, and merge.
