@@ -138,7 +138,7 @@ Reviewed creation source: `54e5d8e100f39c644ca0aa03e3985ce66beb529e`. This issue
 
 ## Dependencies
 
-#892 (CF-SYNTHESIS) is closed/accepted as of live read on 2026-09-16; remaining pre-bind gate is active path ownership/collision recheck.
+#892 (CF-SYNTHESIS) is closed/accepted and its retained predecessor synthesis is consumed by focused proof. Current origin/main e24e0438e40d1f716bd0653ea369d06450827230 is ancestral. No unsatisfied implementation dependency remains; publication still requires fresh exact-head review and standard CI.
 
 ## Target Files / Surfaces
 
@@ -184,15 +184,7 @@ Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal an
 
 ## Notes
 
-Use `docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md` and the adopted design contract: local `adl codefriend` in this repository, selected macOS/Linux qualification, shared registered OpenAI route with operator-supplied credential reference, and pinned Vector `410da89a0ed42c523143da89fffeb7f6402833e0` scope (seven dnsmsg-parser files plus three root manifest/license files; ten files/600 KiB total/400 KiB per file). Preserve both license notices and read-only source. Existing `adl/src/cli/mod.rs`, `cli/usage.rs` and `lib.rs` are registration owners. New paths are planned implementation, not a claim of existing product behavior. Preserve CF-EVIDENCE's versioned run/evidence/finding/publication semantics and immutable evidence; reuse its canonical test vectors and predecessor artifacts.
-
-Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal and current path ownership precede implementation. Supporting tests, error handling and user documentation are part of this task. Record exact candidate/input/output identity and local versus required CI results. No schema/scaffold/unused helper/test-only caller/zero-execution result can close it. No autonomous source changes, paid calls, external publication or cloud resources are authorized merely by creation. Required real provider proof needs scoped execution authority and cannot be replaced by synthetic success.
-
-Live dependency read on 2026-09-16 confirms #892 (CF-SYNTHESIS) is closed/accepted. Before bind, recheck path ownership against active CodeFriend PRs/worktrees and preserve #893/#895 sibling boundaries.
-
-Prepared, not bound. Execution Sprint 4 is a scheduling assignment, not dependency satisfaction. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Shared CLI dispatch/library, fixture directories and evidence/publication admission surfaces require current owner coordination after predecessors land.
-
-Branch codex/894-v0922-test-planner and its proposed FastWork path are unbound planning values only. Issue #926 owns umbrella management for all eleven sprints; it is not the Sprint 4 umbrella or a child execution prerequisite.
+Execution is bound and implemented only in the registered #894 FastWork worktree. The exact candidate preserves #893/#895 boundaries: former unmerged #893 corrective commits were removed forward-only after #893 merged, leaving only #894-owned lifecycle, generator, CLI registration, and focused tests relative to current origin/main. The product generates a bounded plan and does not implement fixes, mutate the reviewed source, create tracker issues, or create test files. Provider calls, paid jobs, cloud work, publication, and merge are outside this local proof.
 
 ## Tooling Notes
 

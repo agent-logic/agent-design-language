@@ -261,15 +261,7 @@ Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal an
 
 ## Notes / Risks
 
-Use `docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md` and the adopted design contract: local `adl codefriend` in this repository, selected macOS/Linux qualification, shared registered OpenAI route with operator-supplied credential reference, and pinned Vector `410da89a0ed42c523143da89fffeb7f6402833e0` scope (seven dnsmsg-parser files plus three root manifest/license files; ten files/600 KiB total/400 KiB per file). Preserve both license notices and read-only source. Existing `adl/src/cli/mod.rs`, `cli/usage.rs` and `lib.rs` are registration owners. New paths are planned implementation, not a claim of existing product behavior. Preserve CF-EVIDENCE's versioned run/evidence/finding/publication semantics and immutable evidence; reuse its canonical test vectors and predecessor artifacts.
-
-Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal and current path ownership precede implementation. Supporting tests, error handling and user documentation are part of this task. Record exact candidate/input/output identity and local versus required CI results. No schema/scaffold/unused helper/test-only caller/zero-execution result can close it. No autonomous source changes, paid calls, external publication or cloud resources are authorized merely by creation. Required real provider proof needs scoped execution authority and cannot be replaced by synthetic success.
-
-Live dependency read on 2026-09-16 confirms #892 (CF-SYNTHESIS) is closed/accepted. Before bind, recheck path ownership against active CodeFriend PRs/worktrees and preserve #893/#895 sibling boundaries.
-
-Prepared, not bound. Execution Sprint 4 is a scheduling assignment, not dependency satisfaction. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Shared CLI dispatch/library, fixture directories and evidence/publication admission surfaces require current owner coordination after predecessors land.
-
-Branch codex/894-v0922-test-planner and its proposed FastWork path are unbound planning values only. Issue #926 owns umbrella management for all eleven sprints; it is not the Sprint 4 umbrella or a child execution prerequisite.
+The issue is bound to codex/894-v0922-test-planner in /Volumes/FastWork/adl-worktrees/adl-issue-894-v0922-test-planner. #892 accepted synthesis is the required input and is consumed through the retained predecessor fixture. Current origin/main e24e0438e40d1f716bd0653ea369d06450827230 is ancestral. Unmerged #893 corrective commits that entered during the former stacked-development phase were removed by a forward scope-cleanup commit; the exact diff now contains only #894 lifecycle, generator, CLI registration, and focused test-plan proof paths. Preserve #893/#895 sibling ownership. No provider calls, source mutation, issue/test-file creation in the reviewed repository, paid jobs, cloud resources, or publication are part of generation. Fresh exact-head review and required standard CI remain pending.
 
 ## Instructions to the Agent
 - Read this file.

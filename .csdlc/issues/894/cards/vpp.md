@@ -22,7 +22,7 @@ validation_size_split: "Focused named tests and touched-owner regressions; macOS
 expected_proof_cost: "Low-confidence estimate 1200 local validation seconds; excludes cold build, CI queue and independent review"
 planned_validation_seconds: "1200"
 planned_validation_tokens: "7000"
-issue_goal_ref: "not_created; required before implementation"
+issue_goal_ref: "Sprint 4 #930 active goal covers #894 execution; this delegated lane advances #894 without replacing the root sprint goal."
 sprint_goal_ref: "v0.92.2 execution Sprint 4; umbrella management owned by #926"
 goal_metrics_rollup_ref: ".csdlc/evidence/894/goal-metrics.json (planned, absent until execution)"
 source_refs:
@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/894/cards/spp.md"
 selected_lanes:
-  - "runtime; deterministic semantic correctness plus actual installed consumer integration; issue acceptance and later release input; all runs pending"
+  - "Runtime-focused deterministic local contract/integration lane: six named codefriend_testplan scenarios including installed CLI generation/readback, retained #892 predecessor consumption, concrete behavior/fixture/assertion mapping, path preservation, omission handling, invalid-plan rejection, and source immutability. Rust formatting, focused Clippy with denied warnings, and exact diff hygiene accompany the lane. Standard CI remains required after publication; no optional, paid, provider, or cloud lane is selected."
 parallel_groups:
-  - "Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review"
+  - "Serialize the Rust test and Clippy commands against the same issue-local target cache; formatting and diff hygiene are independent lightweight checks. Fresh exact-head review follows an immutable clean commit. Standard CI follows native publication."
 validation_commands:
-  - "Declare each new test in a coupled proof inventory: deterministic local CPU contract/integration lane, isolated source/store and controlled clocks/transport, nonzero success and negative proof, bounded disk/process resources, required Beta feature and CF-INTEGRATE input gate. Provider-generated runs and browser/PDF visual review are separately identified execution/observation evidence, not deterministic guarantees. Run focused installed CLI and consumer tests plus required CI, then independent exact-head review. Redacted human diagnostics stay on stderr and machine output on stdout; test compatibility logging when exposed. Stop on unresolved owner/authority, inconsistent scope/provenance, failed or missing proof, source/credential exposure, stale approval or partial completion claimed as success. No unrelated feature work or customer-scale hosting. Planned focused commands after the selected new suite is implemented: `cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan`; `cargo fmt --manifest-path adl/Cargo.toml --check`; focused touched CLI/admission-owner regressions selected after merged prerequisites. These do not replace actual installed generator/reader or publication admission execution. Re-resolve suite names after prerequisites land and update VPP for changes; never treat a zero-test filter as proof. `git diff --check` accompanies focused proof. Selected new test files do not exist yet; their commands are future proving work, not tests run during preparation. Install the issue candidate through the approved installer only at execution with current provenance; do not replace a shared binary during preparation."
+  - "Declared focused commands: CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD. Missing, skipped, zero-scenario, or failed proof blocks acceptance. Standard CI is observed after native publication."
 failure_policy: "Missing, skipped, zero-scenario or failed required proof blocks acceptance. Replan absent/renamed tests explicitly. No canned plan, fixture-only admission, helper-only success, unexecuted platform claim or provider permission inference. Keep machine-readable stdout and redacted stderr; preserve failed evidence and refresh affected exact-head review."
-notes: "Use `docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md` and the adopted design contract: local `adl codefriend` in this repository, selected macOS/Linux qualification, shared registered OpenAI route with operator-supplied credential reference, and pinned Vector `410da89a0ed42c523143da89fffeb7f6402833e0` scope (seven dnsmsg-parser files plus three root manifest/license files; ten files/600 KiB total/400 KiB per file). Preserve both license notices and read-only source. Existing `adl/src/cli/mod.rs`, `cli/usage.rs` and `lib.rs` are registration owners. New paths are planned implementation, not a claim of existing product behavior. Preserve CF-EVIDENCE's versioned run/evidence/finding/publication semantics and immutable evidence; reuse its canonical test vectors and predecessor artifacts. Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal and current path ownership precede implementation. Supporting tests, error handling and user documentation are part of this task. Record exact candidate/input/output identity and local versus required CI results. Required real provider proof needs scoped execution authority and cannot be replaced by synthetic success. Live dependency read on 2026-09-16 confirms #892 (CF-SYNTHESIS) is closed/accepted. Prepared, not bound. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Shared CLI dispatch/library, fixture directories and evidence/publication admission surfaces require current owner coordination before bind. Branch codex/894-v0922-test-planner and its proposed FastWork path are unbound planning values only."
+notes: "The selected proof is bounded local CPU/Rust/filesystem with no network, provider credential, paid job, or cloud execution. VPP declares the lane but does not claim its result; actual results are recorded in SOR. Any substantive change refreshes proof and exact-head review."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -61,11 +61,11 @@ With #892 accepted, consume the merged synthesis artifact contract and implement
 
 ## Selected Validation Lanes
 
-- runtime; deterministic semantic correctness plus actual installed consumer integration; issue acceptance and later release input; all runs pending
+- Runtime-focused deterministic local contract/integration lane: six named codefriend_testplan scenarios including installed CLI generation/readback, retained #892 predecessor consumption, concrete behavior/fixture/assertion mapping, path preservation, omission handling, invalid-plan rejection, and source immutability. Rust formatting, focused Clippy with denied warnings, and exact diff hygiene accompany the lane. Standard CI remains required after publication; no optional, paid, provider, or cloud lane is selected.
 
 ## Parallelization Plan
 
-- Parallel groups: Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review
+- Parallel groups: Serialize the Rust test and Clippy commands against the same issue-local target cache; formatting and diff hygiene are independent lightweight checks. Fresh exact-head review follows an immutable clean commit. Standard CI follows native publication.
 - Validation runtime class: `bounded_local`
 - Validation resource profile: `Isolated local CPU/Rust/filesystem, controlled observation time, bounded admitted fixtures; no network/provider/cloud execution`
 - Validation family: `codefriend_action_plans`
@@ -73,7 +73,7 @@ With #892 accepted, consume the merged synthesis artifact contract and implement
 
 ## Goal Accounting Hooks
 
-- Issue goal ref: `not_created; required before implementation`
+- Issue goal ref: `Sprint 4 #930 active goal covers #894 execution; this delegated lane advances #894 without replacing the root sprint goal.`
 - Sprint goal ref: `v0.92.2 execution Sprint 4; umbrella management owned by #926`
 - Goal metrics rollup ref: `.csdlc/evidence/894/goal-metrics.json (planned, absent until execution)`
 
@@ -86,7 +86,7 @@ With #892 accepted, consume the merged synthesis artifact contract and implement
 
 ## Validation Commands
 
-- Declare each new test in a coupled proof inventory: deterministic local CPU contract/integration lane, isolated source/store and controlled clocks/transport, nonzero success and negative proof, bounded disk/process resources, required Beta feature and CF-INTEGRATE input gate. Provider-generated runs and browser/PDF visual review are separately identified execution/observation evidence, not deterministic guarantees. Run focused installed CLI and consumer tests plus required CI, then independent exact-head review. Redacted human diagnostics stay on stderr and machine output on stdout; test compatibility logging when exposed. Stop on unresolved owner/authority, inconsistent scope/provenance, failed or missing proof, source/credential exposure, stale approval or partial completion claimed as success. No unrelated feature work or customer-scale hosting. Planned focused commands after the selected new suite is implemented: `cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan`; `cargo fmt --manifest-path adl/Cargo.toml --check`; focused touched CLI/admission-owner regressions selected after merged prerequisites. These do not replace actual installed generator/reader or publication admission execution. Re-resolve suite names after prerequisites land and update VPP for changes; never treat a zero-test filter as proof. `git diff --check` accompanies focused proof. Selected new test files do not exist yet; their commands are future proving work, not tests run during preparation. Install the issue candidate through the approved installer only at execution with current provenance; do not replace a shared binary during preparation.
+- Declared focused commands: CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo test --manifest-path adl/Cargo.toml --test codefriend_testplan; CARGO_TARGET_DIR=<Git-common issue-894 cache> cargo clippy --manifest-path adl/Cargo.toml --test codefriend_testplan -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check origin/main...HEAD. Missing, skipped, zero-scenario, or failed proof blocks acceptance. Standard CI is observed after native publication.
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Use `docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md` and the adopted design contract: local `adl codefriend` in this repository, selected macOS/Linux qualification, shared registered OpenAI route with operator-supplied credential reference, and pinned Vector `410da89a0ed42c523143da89fffeb7f6402833e0` scope (seven dnsmsg-parser files plus three root manifest/license files; ten files/600 KiB total/400 KiB per file). Preserve both license notices and read-only source. Existing `adl/src/cli/mod.rs`, `cli/usage.rs` and `lib.rs` are registration owners. New paths are planned implementation, not a claim of existing product behavior. Preserve CF-EVIDENCE's versioned run/evidence/finding/publication semantics and immutable evidence; reuse its canonical test vectors and predecessor artifacts. Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal and current path ownership precede implementation. Supporting tests, error handling and user documentation are part of this task. Record exact candidate/input/output identity and local versus required CI results. Required real provider proof needs scoped execution authority and cannot be replaced by synthetic success. Live dependency read on 2026-09-16 confirms #892 (CF-SYNTHESIS) is closed/accepted. Prepared, not bound. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Shared CLI dispatch/library, fixture directories and evidence/publication admission surfaces require current owner coordination before bind. Branch codex/894-v0922-test-planner and its proposed FastWork path are unbound planning values only.
+The selected proof is bounded local CPU/Rust/filesystem with no network, provider credential, paid job, or cloud execution. VPP declares the lane but does not claim its result; actual results are recorded in SOR. Any substantive change refreshes proof and exact-head review.

@@ -11,7 +11,7 @@ branch: "codex/894-v0922-test-planner"
 generated_at: "2026-09-12T00:10:09.925246+00:00"
 card_status: "ready"
 status: "planned"
-activation_state: "prepared_not_bound"
+activation_state: "bound_implemented_pending_fresh_review"
 plan_revision: 1
 initial_pvf_lane: "runtime"
 planned_pvf_lane: "runtime"
@@ -24,7 +24,7 @@ variance_threshold_percent: "10"
 estimate_confidence: "low"
 estimate_data_source: "bounded focused validation estimate; implementation owner recalibrates after prerequisite source is available"
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/894"
-issue_goal_ref: "not_created; required before implementation"
+issue_goal_ref: "Sprint 4 #930 active goal covers #894 execution; this delegated lane advances #894 without replacing the root sprint goal."
 sprint_goal_ref: "v0.92.2 execution Sprint 4; umbrella management owned by #926"
 goal_metrics_rollup_ref: ".csdlc/evidence/894/goal-metrics.json (planned, absent until execution)"
 source_refs:
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "completed"
 affected_areas:
   - "v0922-test-planner"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Use `docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md` and the adopted design contract: local `adl codefriend` in this repository, selected macOS/Linux qualification, shared registered OpenAI route with operator-supplied credential reference, and pinned Vector `410da89a0ed42c523143da89fffeb7f6402833e0` scope (seven dnsmsg-parser files plus three root manifest/license files; ten files/600 KiB total/400 KiB per file). Preserve both license notices and read-only source. Existing `adl/src/cli/mod.rs`, `cli/usage.rs` and `lib.rs` are registration owners. New paths are planned implementation, not a claim of existing product behavior. Preserve CF-EVIDENCE's versioned run/evidence/finding/publication semantics and immutable evidence; reuse its canonical test vectors and predecessor artifacts. Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal and current path ownership precede implementation. Supporting tests, error handling and user documentation are part of this task. Record exact candidate/input/output identity and local versus required CI results. Required real provider proof needs scoped execution authority and cannot be replaced by synthetic success. Live dependency read on 2026-09-16 confirms #892 (CF-SYNTHESIS) is closed/accepted. Prepared, not bound. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Shared CLI dispatch/library, fixture directories and evidence/publication admission surfaces require current owner coordination before bind. Branch codex/894-v0922-test-planner and its proposed FastWork path are unbound planning values only."
+notes: "The planned generator, installed CLI wiring, retained predecessor synthesis proof, negative validation, source-immutability proof, current-main reconciliation, and #893 sibling-scope cleanup are implemented. The plan remains a planning artifact; execution results are recorded in SOR. Fresh exact-head review, native publication, and required standard CI remain separate gates."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Use `docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md` and the adopted design contract: local `adl codefriend` in this repository, selected macOS/Linux qualification, shared registered OpenAI route with operator-supplied credential reference, and pinned Vector `410da89a0ed42c523143da89fffeb7f6402833e0` scope (seven dnsmsg-parser files plus three root manifest/license files; ten files/600 KiB total/400 KiB per file). Preserve both license notices and read-only source. Existing `adl/src/cli/mod.rs`, `cli/usage.rs` and `lib.rs` are registration owners. New paths are planned implementation, not a claim of existing product behavior. Preserve CF-EVIDENCE's versioned run/evidence/finding/publication semantics and immutable evidence; reuse its canonical test vectors and predecessor artifacts. Native v3 readiness, a dedicated bound FastWork worktree, an issue-bound goal and current path ownership precede implementation. Supporting tests, error handling and user documentation are part of this task. Record exact candidate/input/output identity and local versus required CI results. Required real provider proof needs scoped execution authority and cannot be replaced by synthetic success. Live dependency read on 2026-09-16 confirms #892 (CF-SYNTHESIS) is closed/accepted. Prepared, not bound. All implementation steps, proving runs, implementation review, PR and terminal state remain unstarted. Shared CLI dispatch/library, fixture directories and evidence/publication admission surfaces require current owner coordination before bind. Branch codex/894-v0922-test-planner and its proposed FastWork path are unbound planning values only.
+The planned generator, installed CLI wiring, retained predecessor synthesis proof, negative validation, source-immutability proof, current-main reconciliation, and #893 sibling-scope cleanup are implemented. The plan remains a planning artifact; execution results are recorded in SOR. Fresh exact-head review, native publication, and required standard CI remain separate gates.
