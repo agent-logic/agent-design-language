@@ -1,5 +1,28 @@
 //! Narrow intent bridges into the existing local owner and transaction journal.
-use super::*;
+
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
+
+use serde_json::Value;
+
+use super::cards::{initial_card_values, merge_json_object, render_template, structure_valid};
+use super::context::{require_operational_cas, validate_context};
+use super::filesystem::io_finding;
+use super::issue::initialize_operational_issue_with_plan;
+use super::lifecycle::inspect_lifecycle_issue_root;
+use super::planning::{plan_cards, validate_contract};
+use super::storage::{lifecycle_digest, read_index_value};
+use super::transactions::{
+    acquire_issue_mutation_lock, local_transaction_journal_path, read_pending_local_transaction,
+    recover_pending_local_transaction,
+};
+use super::worktree::has_canonical_existing_ancestor;
+use super::{
+    finding, DoctorFinding, LocalMutationJournal, LocalPreparationRequest, OperationalLocalContext,
+    OperationalLocalResult, PlanStatus, PromptRegistry, REQUIRED_CARD_KINDS,
+};
 
 /// Recompute native card/plan integrity; an index's claimed digest is not proof
 /// that its inputs stayed unchanged between observation and remote dispatch.
