@@ -81,7 +81,7 @@ Decomposed the C-SDLC v3 local owner into explicit acyclic responsibility module
 ## Actions taken
 - `Extracted planning, lifecycle, storage, worktree, transaction, context, card, issue, binding and routing owners from local/mod.rs`
 - `Added a deterministic structural contract for the thin facade, explicit dependencies and one owner per responsibility`
-- `Ran 151 focused tests and strict checks, accepted three P2 review findings, and amended the candidate for re-review`
+- `Ran 152 focused tests and strict checks, accepted three P2 review findings, and amended the candidate for re-review`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
@@ -110,7 +110,7 @@ Rules:
   - `Focused seven-suite cargo test invocation; strict all-target clippy; cargo fmt --check; git diff --check`
     `Proves local route, authority, CAS, digest, transaction, binding and terminal compatibility at the pre-review candidate`
 - Results:
-  - `151 passed, 0 failed; strict clippy, formatting and diff checks passed`
+  - `152 passed, 0 failed; strict clippy, formatting and diff checks passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed_local
     checks_run:
-      - "151 focused tests passed before review; full focused rerun pending after fixes"
+      - "152 focused tests passed after all review fixes"
   determinism:
     status: passed
     replay_verified: structural rerun passed
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `151 focused deterministic tests`
+- Determinism tests executed: `152 focused deterministic tests`
 - Fixtures or scripts used: `Existing deterministic local command, CLI, transaction, foundation, binding and terminal fixtures; no extraction helper is retained`
 - Replay verification (same inputs -> same artifacts/order): `Deterministic structural rerun passed with 2 tests`
 - Ordering guarantees (sorting / tie-break rules used): `Explicit ranked module graph with canonical sibling-import enforcement; transaction ordering behavior remains covered by focused suites`
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `.csdlc/evidence/862/decomposition-inventory.md and typed lifecycle records`
 - Run artifact root: `.csdlc/evidence/862`
 - Replay command used for verification: `cargo test --manifest-path csdlc-v3/Cargo.toml --test local_module_decomposition`
-- Replay result: `Structural contract rerun passed after review fixes; the full focused suite is rerun before re-review`
+- Replay result: `Structural contract rerun passed with alternate-import negatives; the full 152-test focused suite passed after fixes`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/862/decomposition-inventory.md`

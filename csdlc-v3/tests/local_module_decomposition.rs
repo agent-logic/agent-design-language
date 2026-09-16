@@ -35,6 +35,36 @@ const MODULES: [(&str, &str); 14] = [
     ),
 ];
 
+fn dependency_style_error(source: &str, modules: &[&str]) -> Option<String> {
+    let compact_source = source.split_whitespace().collect::<String>();
+    if compact_source.contains("commands::local") {
+        return Some("absolute local-module paths are forbidden".into());
+    }
+    for statement in source.split(';') {
+        let Some((_, import)) = statement.rsplit_once("use ") else {
+            continue;
+        };
+        let compact_import = import.split_whitespace().collect::<String>();
+        if compact_import.starts_with("super::{")
+            && modules
+                .iter()
+                .any(|dependency| compact_import.contains(dependency))
+        {
+            return Some("braced sibling imports are forbidden".into());
+        }
+    }
+    None
+}
+
+fn direct_sibling_dependencies<'a>(source: &str, modules: &'a [&str]) -> Vec<&'a str> {
+    let compact_source = source.split_whitespace().collect::<String>();
+    modules
+        .iter()
+        .copied()
+        .filter(|dependency| compact_source.contains(&format!("super::{dependency}")))
+        .collect()
+}
+
 #[test]
 fn local_owner_remains_a_thin_acyclic_module_graph() {
     let facade = include_str!("../src/commands/local/mod.rs");
@@ -59,6 +89,7 @@ fn local_owner_remains_a_thin_acyclic_module_graph() {
         ("intent", 6),
         ("routing", 7),
     ]);
+    let module_names = ranks.keys().copied().collect::<Vec<_>>();
 
     for (module, source) in MODULES {
         assert!(
@@ -69,8 +100,9 @@ fn local_owner_remains_a_thin_acyclic_module_graph() {
             !source.contains("use super::*;"),
             "{module}.rs must declare its dependencies explicitly"
         );
-        assert!(
-            !source.contains("crate::commands::"),
+        assert_eq!(
+            dependency_style_error(source, &module_names),
+            None,
             "{module}.rs must use the canonical super::<module> sibling path"
         );
         assert!(
@@ -79,30 +111,29 @@ fn local_owner_remains_a_thin_acyclic_module_graph() {
             "local/mod.rs must wire {module}.rs into the production owner"
         );
 
-        let compact_source = source.split_whitespace().collect::<String>();
-        for statement in source.split(';') {
-            let Some((_, import)) = statement.rsplit_once("use ") else {
-                continue;
-            };
-            let compact_import = import.split_whitespace().collect::<String>();
-            if compact_import.starts_with("super::{") {
-                for dependency in ranks.keys() {
-                    assert!(
-                        !compact_import.contains(dependency),
-                        "{module}.rs must spell sibling imports as use super::<module>::..."
-                    );
-                }
-            }
-        }
-        for dependency in ranks.keys() {
-            if compact_source.contains(&format!("super::{dependency}")) {
-                assert!(
-                    ranks[dependency] < ranks[module],
-                    "{module}.rs must not depend laterally or upward on {dependency}.rs"
-                );
-            }
+        for dependency in direct_sibling_dependencies(source, &module_names) {
+            assert!(
+                ranks[dependency] < ranks[module],
+                "{module}.rs must not depend laterally or upward on {dependency}.rs"
+            );
         }
     }
+}
+
+#[test]
+fn alternate_sibling_import_forms_fail_closed() {
+    let modules = ["routing", "storage"];
+    for rejected in [
+        "use super::{routing::execute};",
+        "use crate::commands::local::routing::execute;",
+        "use crate::{commands::local::routing::execute};",
+    ] {
+        assert!(dependency_style_error(rejected, &modules).is_some());
+    }
+    assert_eq!(
+        direct_sibling_dependencies("use super::routing::execute as routed;", &modules),
+        vec!["routing"]
+    );
 }
 
 #[test]

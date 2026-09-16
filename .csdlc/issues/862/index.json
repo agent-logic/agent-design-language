@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 862,
   "phase": "bound",
-  "generation": 7,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/862-v0922-local-command-decomposition",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-862-v0922-local-command-decomposition",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "8de553d126804f6445e60221607833277361101137b2dd92e422af25a34ef2a6"
+  "digest": "0fa401900dfcbd3827501d5c241bd9b1e7433c4a74da6cacc862c2d3e7a787db"
 }

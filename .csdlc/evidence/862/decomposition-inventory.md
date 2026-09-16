@@ -87,7 +87,7 @@ The exact candidate passed the following nonzero deterministic suites:
 
 | Suite | Passed | Principal contract |
 | --- | ---: | --- |
-| `local_module_decomposition` | 2 | Thin facade, explicit acyclic dependency graph, one responsibility owner |
+| `local_module_decomposition` | 3 | Thin facade, explicit acyclic dependency graph, alternate-import negatives, one responsibility owner |
 | `local_commands` | 36 | Issue/bind/edit/validate/doctor/schedule/shepherd/eligibility, cards, authority, CAS, digests, topology and negatives |
 | `operational_cli_commands` | 19 | Installed command and retired-writer boundaries |
 | `transactions` | 45 | Journals, recovery, CAS, idempotency, semantic-store boundaries |
@@ -95,7 +95,7 @@ The exact candidate passed the following nonzero deterministic suites:
 | `proof_worktree_binding` | 1 | Installed legacy binding-writer retirement |
 | `terminal_cleanup_cutover_commands` | 35 | Terminal, cleanup, cutover and worktree boundary compatibility |
 
-Total: `151` passed, `0` failed, `0` ignored, `0` filtered out. Strict
+Total: `152` passed, `0` failed, `0` ignored, `0` filtered out. Strict
 all-target clippy and formatting also pass. This table records local proof only;
 CI and independent review remain separate gates.
 

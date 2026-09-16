@@ -25,7 +25,7 @@
   "sip_card": ".csdlc/issues/862/cards/sip.md",
   "expected_proof_cost": "Low-confidence estimate 1800 local validation seconds; excludes cold build, CI queue and independent review",
   "validation_family": "csdlc_local_decomposition",
-  "selected_lanes_inline": "tooling: 151 focused tests passed across decomposition, local routes, operational CLI, transactions, foundation, binding and terminal boundaries; strict all-target clippy and formatting passed",
+  "selected_lanes_inline": "tooling: 152 focused tests passed across decomposition, alternate-import negatives, local routes, operational CLI, transactions, foundation, binding and terminal boundaries; strict all-target clippy and formatting passed",
   "timestamp": "2026-09-16T00:27:06.103043+00:00",
   "validation_runtime_class": "bounded_local",
   "validation_resource_profile": "Isolated local CPU/Rust/Git/filesystem, controlled clocks and fake authenticated remote transport; no live GitHub mutation/provider/cloud execution",

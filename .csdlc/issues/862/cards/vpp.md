@@ -35,7 +35,7 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/862/cards/spp.md"
 selected_lanes:
-  - "tooling: 151 focused tests passed across decomposition, local routes, operational CLI, transactions, foundation, binding and terminal boundaries; strict all-target clippy and formatting passed"
+  - "tooling: 152 focused tests passed across decomposition, alternate-import negatives, local routes, operational CLI, transactions, foundation, binding and terminal boundaries; strict all-target clippy and formatting passed"
 parallel_groups:
   - "Serialize native issue preparation; future isolated deterministic fixtures may parallelize only after ownership/resource review"
 validation_commands:
@@ -61,7 +61,7 @@ Verify accepted #864 baseline and reconcile SIM/local-owner and installed-writer
 
 ## Selected Validation Lanes
 
-- tooling: 151 focused tests passed across decomposition, local routes, operational CLI, transactions, foundation, binding and terminal boundaries; strict all-target clippy and formatting passed
+- tooling: 152 focused tests passed across decomposition, alternate-import negatives, local routes, operational CLI, transactions, foundation, binding and terminal boundaries; strict all-target clippy and formatting passed
 
 ## Parallelization Plan
 
