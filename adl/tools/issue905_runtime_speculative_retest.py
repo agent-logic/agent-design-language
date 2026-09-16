@@ -63,6 +63,10 @@ class OllamaProxy:
                     owner.calls.append({"path": self.path, "model": body.get("model"), "status": 400})
                     self.send_json(400, {"error": "issue905_force_generate_compatibility_path"})
                     return
+                # Runtime's generic Ollama request predates the explicit thinking
+                # switch.  Pin it at the bounded provider boundary so reasoning
+                # tokens cannot consume the whole measured output allowance.
+                body["think"] = False
                 request = urllib.request.Request(
                     "http://127.0.0.1:11434" + self.path,
                     data=json.dumps(body).encode(),
@@ -232,6 +236,7 @@ def main() -> int:
         "hardware": {"system": os.uname().sysname, "machine": os.uname().machine},
         "models": {"baseline": baseline_identity, "speculative": speculative_identity},
         "sampling": {"temperature": 0, "seed": 905, "num_predict": 512},
+        "provider_boundary": {"force_generate_fallback": True, "think": False},
         "prompts": len(PROMPTS),
         "repeats": args.repeats,
         "runs": [],
