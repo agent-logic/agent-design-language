@@ -822,6 +822,13 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
             crate::storage::semantic::Observation::Absent => {
                 return Err("intent_native_state_without_semantic_classification".into())
             }
+            crate::storage::semantic::Observation::Current(snapshot)
+            | crate::storage::semantic::Observation::ProjectionRepairRequired(snapshot)
+                if snapshot.phase() == crate::lifecycle::LifecycleState::Bound
+                    && snapshot.inputs().binding().is_some() =>
+            {
+                true
+            }
             crate::storage::semantic::Observation::Current(_)
             | crate::storage::semantic::Observation::ProjectionRepairRequired(_) => {
                 return Err("issue_already_initialized".into())
@@ -925,14 +932,49 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     let native = owner(context, &request)?;
     context.fresh()?;
     let (root, key) = context.semantic_root_key()?;
+    let legacy_binding = if legacy_native && context.index["phase"] == "bound" {
+        let primary_binding = read_json(
+            &context
+                .git_common
+                .join(format!("csdlc-v3/local/bindings/{}.json", context.issue)),
+        )?;
+        let linked_binding = read_json(&context.issue_root.join("binding.json"))?;
+        let exact = |binding: &Value| {
+            binding["schema"] == "csdlc.v3.binding.v1"
+                && binding["issue"] == context.issue
+                && binding["branch"] == context.branch
+                && binding["worktree"].as_str() == context.root.to_str()
+        };
+        if !exact(&primary_binding) || !exact(&linked_binding) || primary_binding != linked_binding
+        {
+            return Err("intent_bound_legacy_binding_mismatch".into());
+        }
+        Some(crate::storage::semantic::Binding {
+            branch: context.branch.clone(),
+            head: context.head.clone(),
+            worktree: context.root.clone(),
+            registration: blake3::hash(
+                serde_json::to_string(&json!({"branch":context.branch,"worktree":context.root}))
+                    .map_err(|_| "intent_bind_identity_invalid")?
+                    .as_bytes(),
+            )
+            .to_hex()
+            .to_string(),
+        })
+    } else {
+        None
+    };
     let snapshot = local::intent::prepare_semantic(
         &request,
         &registry,
         &native,
         value,
-        &root,
-        key,
-        context.semantic_authority()?,
+        local::intent::SemanticPrepareTarget {
+            root: &root,
+            key,
+            authority: context.semantic_authority()?,
+            legacy_binding,
+        },
     )
     .map_err(errors)?;
     let native_result = (!legacy_native)
@@ -943,6 +985,12 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",
             "issue":context.issue,"semantic_version":snapshot.version(),"native_prepare_findings":findings}),
         );
+    }
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_prepare_after_activation")
+    {
+        std::process::exit(91);
     }
     match context.complete_semantic_projection(&snapshot) {
         Ok(current) => Ok(

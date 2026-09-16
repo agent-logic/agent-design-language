@@ -3,6 +3,7 @@
 use std::{
     fs,
     path::{Path, PathBuf},
+    process::Command,
 };
 
 use serde_json::Value;
@@ -343,16 +344,35 @@ pub(crate) fn prepared_inputs(
     })
 }
 
+pub(crate) struct SemanticPrepareTarget<'a> {
+    pub(crate) root: &'a crate::storage::semantic::SemanticRoot,
+    pub(crate) key: crate::storage::semantic::IssueKey,
+    pub(crate) authority: crate::storage::semantic::Digest,
+    pub(crate) legacy_binding: Option<crate::storage::semantic::Binding>,
+}
+
 pub(crate) fn prepare_semantic(
     request: &LocalPreparationRequest,
     registry: &PromptRegistry,
     context: &OperationalLocalContext,
     plan: &Value,
-    root: &crate::storage::semantic::SemanticRoot,
-    key: crate::storage::semantic::IssueKey,
-    authority: crate::storage::semantic::Digest,
+    target: SemanticPrepareTarget<'_>,
 ) -> Result<crate::storage::semantic::Snapshot, Vec<DoctorFinding>> {
-    validate_context("issue", request, context)?;
+    let SemanticPrepareTarget {
+        root,
+        key,
+        authority,
+        legacy_binding,
+    } = target;
+    validate_context(
+        if legacy_binding.is_some() {
+            "prepare"
+        } else {
+            "issue"
+        },
+        request,
+        context,
+    )?;
     if key.issue() != request.issue || key.repository() != request.repository {
         return Err(vec![finding(
             PlanStatus::Blocked,
@@ -361,7 +381,26 @@ pub(crate) fn prepare_semantic(
         )]);
     }
     let inputs = prepared_inputs(request, registry, plan, authority)?;
-    validate_context("issue", request, context)?;
+    let inputs = if let Some(binding) = legacy_binding {
+        inputs.with_binding(binding).map_err(|error| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "semantic_bound_legacy_inputs_invalid",
+                &format!("{error:?}"),
+            )]
+        })?
+    } else {
+        inputs
+    };
+    validate_context(
+        if inputs.binding().is_some() {
+            "prepare"
+        } else {
+            "issue"
+        },
+        request,
+        context,
+    )?;
     let observed =
         crate::storage::DurableTransactionStore::observe_issue(root, &key).map_err(|error| {
             vec![finding(
@@ -370,26 +409,50 @@ pub(crate) fn prepare_semantic(
                 &format!("{error:?}"),
             )]
         })?;
-    let prepared = if observed == crate::storage::semantic::Observation::LegacyMigrationRequired {
+    let prepared = if let crate::storage::semantic::Observation::Current(current)
+    | crate::storage::semantic::Observation::ProjectionRepairRequired(current) =
+        &observed
+    {
+        if current.phase() != crate::lifecycle::LifecycleState::Bound
+            || current.inputs() != &inputs
+            || current.pending().is_some()
+            || !current.completed().is_empty()
+        {
+            Err(crate::storage::semantic::Error::AlreadyExists)
+        } else {
+            Ok(crate::storage::semantic::CommitOutcome::Unchanged(
+                current.clone(),
+            ))
+        }
+    } else if observed == crate::storage::semantic::Observation::LegacyMigrationRequired {
         let legacy_issue_root = context
             .state_root
             .join("issues")
             .join(request.issue.to_string());
         let legacy_index = read_index_value(&legacy_issue_root)?;
         verify_integrity(&legacy_issue_root, &legacy_index)?;
-        let common = context
-            .state_root
-            .parent()
-            .and_then(Path::parent)
-            .ok_or_else(|| {
+        let common_output = Command::new("git")
+            .arg("-C")
+            .arg(&context.repository_root)
+            .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])
+            .output()
+            .map_err(|_| {
                 vec![finding(
                     PlanStatus::Blocked,
                     "semantic_prepare_git_common_missing",
                     "native state root has no Git common parent",
                 )]
             })?;
+        if !common_output.status.success() {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "semantic_prepare_git_common_missing",
+                "native state root has no Git common parent",
+            )]);
+        }
+        let common = PathBuf::from(String::from_utf8_lossy(&common_output.stdout).trim());
         let fence =
-            crate::storage::semantic::NativeWriterFenceGuard::acquire(common, [request.issue])
+            crate::storage::semantic::NativeWriterFenceGuard::acquire(&common, [request.issue])
                 .map_err(|error| {
                     vec![finding(
                         PlanStatus::Blocked,
@@ -397,7 +460,30 @@ pub(crate) fn prepare_semantic(
                         &format!("{error:?}"),
                     )]
                 })?;
-        validate_context("issue", request, context)?;
+        if legacy_index["digest"].as_str() != request.expected_lifecycle_digest.as_deref() {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "semantic_prepare_lifecycle_changed",
+                "retained lifecycle digest changed before writer-fenced adoption",
+            )]);
+        }
+        if inputs.binding().is_some() {
+            super::worktree::verify_bound_worktree(
+                &request.branch,
+                Path::new(&request.worktree),
+                &context.expected_head_sha,
+                false,
+            )?;
+        }
+        validate_context(
+            if inputs.binding().is_some() {
+                "prepare"
+            } else {
+                "issue"
+            },
+            request,
+            context,
+        )?;
         let diagnosis =
             super::execute_operational_local_route("doctor", request, registry, context)?;
         if diagnosis

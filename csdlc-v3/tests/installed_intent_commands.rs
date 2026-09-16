@@ -69,6 +69,28 @@ fn rehash_native_issue(issue_root: &Path) {
     fs::write(index_path, serde_json::to_vec(&index).unwrap()).unwrap();
 }
 
+fn add_retained_bound_edit_completion(bound: &Path) {
+    let issue_root = bound.join(".csdlc/issues/505");
+    let index: Value =
+        serde_json::from_slice(&fs::read(issue_root.join("index.json")).unwrap()).unwrap();
+    let digest = "a".repeat(64);
+    let path = bound
+        .join(".csdlc/transactions/completed/505")
+        .join(format!("edit-{digest}.json"));
+    fs::write(
+        path,
+        serde_json::to_vec(&json!({
+            "schema":"csdlc.v3.local_mutation_completion.v1",
+            "issue":505,"route":"edit","request_digest":digest,
+            "result":{"route":"edit","issue":505,"mutated":true,"phase":"bound",
+                "generation":index["generation"],"digest":index["digest"],
+                "next_route":"validate","findings":[]}
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+}
+
 fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
     let before = intent_fixture::inventory(&fixture.root);
     let result = success(fixture.run(cwd, &[route, "505"]));
@@ -115,6 +137,152 @@ fn issue_1029_installed_prepare_reactivates_retained_unbound_native_record() {
     );
     observation(&mut fixture, &primary, "status");
     observation(&mut fixture, &primary, "validate");
+}
+
+#[test]
+fn issue_1036_installed_prepare_adopts_exact_registered_bound_legacy_record() {
+    let mut fixture = Fixture::new("bound-legacy-semantic-adoption");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    let native_issue = bound.join(".csdlc/issues/505");
+    assert!(bound.is_dir(), "bound target missing: {}", bound.display());
+    assert!(native_issue.join("index.json").is_file());
+    assert!(!primary
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .exists());
+    assert!(!bound.join(".csdlc/transactions/505.json").exists());
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+
+    let input = fixture.write_json("bound-legacy-plan.json", &plan());
+    let prepared = success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(prepared["status"], "completed");
+    assert_eq!(prepared["phase"], "bound");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "bound compatibility preparation changed retained source"
+    );
+    let replayed = success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(replayed["status"], "completed");
+    assert_same_inventory!(native_before, intent_fixture::inventory(&native_issue));
+    observation(&mut fixture, &bound, "status");
+    observation(&mut fixture, &bound, "validate");
+}
+
+#[test]
+fn issue_1036_bound_legacy_adoption_rejects_mismatched_primary_binding() {
+    let mut fixture = Fixture::new("bound-legacy-wrong-owner");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let primary_binding = primary.join(".git/csdlc-v3/local/bindings/505.json");
+    let mut binding: Value = serde_json::from_slice(&fs::read(&primary_binding).unwrap()).unwrap();
+    binding["branch"] = "codex/505-foreign-owner".into();
+    fs::write(&primary_binding, serde_json::to_vec(&binding).unwrap()).unwrap();
+    let input = fixture.write_json("wrong-owner-plan.json", &plan());
+    let before = intent_fixture::inventory(&fixture.root);
+    let rejected = fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    );
+    assert!(!rejected.status.success());
+    assert!(
+        String::from_utf8_lossy(&rejected.stdout).contains("intent_bound_legacy_binding_mismatch")
+    );
+    assert!(!primary.join(".git/csdlc-v3/semantic/issues/505").exists());
+    assert_same_inventory!(before, intent_fixture::inventory(&fixture.root));
+}
+
+#[test]
+fn issue_1036_interrupted_bound_legacy_adoption_replays_to_completion() {
+    let mut fixture = Fixture::new("bound-legacy-interrupted-adoption");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    let native_issue = bound.join(".csdlc/issues/505");
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let input = fixture.write_json("interrupted-bound-plan.json", &plan());
+    let interrupted = fixture.run_with_env(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_prepare_after_activation",
+        )],
+    );
+    assert_eq!(interrupted.status.code(), Some(91));
+    assert!(primary.join(".git/csdlc-v3/semantic/issues/505").is_dir());
+    let recovered = success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(recovered["status"], "completed");
+    assert_same_inventory!(native_before, intent_fixture::inventory(&native_issue));
+    observation(&mut fixture, &bound, "status");
+}
+
+#[test]
+fn issue_1036_bound_legacy_adoption_rejects_changed_plan_and_damaged_completion() {
+    for case in ["changed_plan", "damaged_completion"] {
+        let mut fixture = Fixture::new(case);
+        let primary = fixture.root.clone();
+        prepare(&mut fixture);
+        success(fixture.run(&primary, &["bind", "505"]));
+        let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+        add_retained_bound_edit_completion(&bound);
+        fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+        fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+        let mut candidate = plan();
+        if case == "changed_plan" {
+            candidate["cards"]["sip"] = json!({"goal":"different retained truth"});
+        } else {
+            let completed = bound.join(".csdlc/transactions/completed/505");
+            let receipt = fs::read_dir(&completed)
+                .unwrap()
+                .map(Result::unwrap)
+                .map(|entry| entry.path())
+                .max()
+                .expect("bound completion receipt");
+            fs::write(receipt, b"{}\n").unwrap();
+        }
+        let input = fixture.write_json(&format!("{case}-plan.json"), &candidate);
+        let before = intent_fixture::inventory(&fixture.root);
+        let rejected = fixture.run(
+            &bound,
+            &["prepare", "505", "--plan", input.to_str().unwrap()],
+        );
+        assert!(!rejected.status.success(), "{case} unexpectedly adopted");
+        let output = String::from_utf8_lossy(&rejected.stdout);
+        assert!(
+            output.contains(if case == "changed_plan" {
+                "bound legacy plan differs from retained sip card truth"
+            } else {
+                "semantic_prepare_refused"
+            }),
+            "unexpected {case} rejection: {output}"
+        );
+        assert!(!primary.join(".git/csdlc-v3/semantic/issues/505").exists());
+        assert_same_inventory!(before, intent_fixture::inventory(&fixture.root), case);
+    }
 }
 
 #[test]
