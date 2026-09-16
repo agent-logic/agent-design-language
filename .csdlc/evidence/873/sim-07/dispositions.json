@@ -1,0 +1,11 @@
+{
+  "schema": "adl.csdlc.issue873.dispositions.v1",
+  "dispositions": [
+    {
+      "finding_id": "QUAL-873-001",
+      "disposition": "unresolved_blocker",
+      "owner": "conversion qualification harness owner",
+      "reason": "Issue #873 is evidence-only qualification and may not invent or normalize missing generation-9 state."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+
+running 43 tests
+test installed_advanced_request_uses_same_writer_and_rejects_stale_snapshot ... ok
+test installed_bind_and_validate_refuse_malformed_bound_state_without_repair ... ok
+test installed_edit_can_correct_validators_with_a_single_cargo_filter ... ok
+test installed_generated_request_roundtrips_exact_stdout_without_manual_extraction ... ok
+test installed_intent_rejects_foreign_repository_and_altered_authority_without_fallback ... ok
+test installed_intent_rejects_old_and_unsupported_content_without_preparation_effects ... ok
+test installed_issue_creation_recovers_by_exact_one_shot_request_replay ... ok
+test installed_issue_edit_metadata_operations_are_complete_and_explicit ... ok
+test installed_issue_mutations_execute_exact_targets_and_preserve_omitted_metadata ... ok
+test installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue ... ok
+test installed_no_pr_finish_requires_closed_authenticated_issue_and_retains_disposition ... ok
+test installed_prepare_and_bind_from_unrelated_linked_checkout_resolve_primary_state ... ok
+test installed_prepare_bind_edit_and_observations_use_canonical_context ... ok
+test installed_prepare_rejects_validators_that_proof_would_not_admit ... ok
+test installed_proof_accounts_for_build_scripts_and_nested_automatic_targets ... ok
+test installed_proof_allows_lib_when_unselected_test_uses_custom_harness ... ok
+test installed_proof_default_selection_ignores_member_and_bench_custom_harnesses ... ok
+test installed_proof_refuses_external_workspace_inheritance_and_patch_inputs ... ok
+test installed_proof_refuses_ignored_configuration_outside_declared_caches ... ok
+test installed_proof_refuses_manifest_and_source_hidden_inside_excluded_evidence ... ok
+test installed_proof_rejects_custom_harness_selected_after_standard_test ... ok
+test installed_proof_rejects_marker_only_custom_test_harness ... ok
+test installed_proof_rejects_marker_only_example_opted_into_default_tests ... ok
+test installed_proof_rejects_marker_only_harness_in_nonvirtual_workspace_member ... ok
+test installed_proof_rejects_marker_only_harness_in_selected_sibling_member ... ok
+test installed_proof_retains_actual_validator_outcome_when_source_changes_during_execution ... ok
+test installed_proof_retains_failure_for_compiler_discovered_excluded_input ... ok
+test installed_proof_retains_useful_bounded_failure_diagnostics_without_sensitive_lines ... ok
+test installed_proof_runs_real_validator_and_rejects_zero_test_success ... ok
+test installed_publication_plan_tampering_invalidates_ordinary_and_emitted_requests ... ok
+test installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_receipts ... ok
+test installed_rebuild_diagnoses_and_repairs_six_active_registry_projections ... ok
+test installed_recover_reconciles_interrupted_validator_edit ... ok
+test installed_recovery_requires_fresh_preview_of_actual_interrupted_transaction ... ok
+test installed_remote_recover_attaches_retained_receipt_after_native_dispatch_crash ... ok
+test installed_remote_recover_never_retries_when_native_receipt_is_already_durable ... ok
+test installed_remote_recover_reconciles_pending_merge_without_retry_flag ... ok
+test installed_remote_recover_rejects_tampered_native_receipt_target_identity ... ok
+test installed_remote_recover_retries_once_after_crash_before_dispatch ... ok
+test installed_remote_recover_retries_once_only_after_authenticated_absence ... ok
+test installed_review_consumes_external_exact_head_evidence_and_rejects_wrong_identity ... ok
+test installed_status_preserves_native_recommendations_and_explicit_human_decisions ... ok
+test installed_unknown_intent_never_reports_success_or_creates_state ... ok
+
+test result: ok. 43 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 600.10s
+

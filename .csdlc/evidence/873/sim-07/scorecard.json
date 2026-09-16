@@ -1,0 +1,24 @@
+{
+  "schema": "adl.csdlc.issue873.scorecard.v1",
+  "candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+  "gates": [
+    {"gate":"exact candidate and installed provenance","status":"passed","evidence":"candidate.json"},
+    {"gate":"primary and genuine linked public-command entrypoints","status":"passed","evidence":"installed-journey-summary.json"},
+    {"gate":"healthy intent and terminal journey","status":"passed","evidence":"observations/"},
+    {"gate":"27 integration targets","status":"passed","evidence":"corpus-manifest.json"},
+    {"gate":"five diagnostic and remote lib regressions","status":"passed","evidence":"secondary/"},
+    {"gate":"warm prepared-start at or below three minutes","status":"passed","evidence":"measurements/prepared-start.json"},
+    {"gate":"OS-cold prepared-start","status":"not_proven","evidence":"measurements/prepared-start.json"},
+    {"gate":"retained #872 conversion evidence validation","status":"passed","evidence":"results/retained_issue872_conversion_validator.result.json"},
+    {"gate":"current ignored old-owner conversion release gate","status":"not_proven","evidence":"findings.json#QUAL-873-001"},
+    {"gate":"finite recovery and idempotent duplicate effects","status":"passed_with_conversion_exception","evidence":"observations/installed_exact_terminal_journey.attempts.json"},
+    {"gate":"diagnostic observation and curl safeguards","status":"passed","evidence":"secondary/"},
+    {"gate":"100 percent correlation on emitted result envelopes","status":"passed","evidence":"corpus-manifest.json"},
+    {"gate":"50 percent avoidable retry reduction on a comparable corpus","status":"not_proven","evidence":"No comparable retained baseline retry denominator was executed."},
+    {"gate":"candidate source CI","status":"passed","evidence":"aggregate-ci.json"},
+    {"gate":"issue #873 evidence PR CI","status":"pending","evidence":"aggregate-ci.json"},
+    {"gate":"independent exact-head review of the evidence commit","status":"pending","evidence":"No review result existed when this scorecard was produced."}
+  ],
+  "result": "not_proven",
+  "passing_decision_available": false
+}

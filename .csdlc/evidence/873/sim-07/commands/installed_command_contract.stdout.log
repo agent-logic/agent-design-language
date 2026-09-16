@@ -1,0 +1,8 @@
+
+running 6 tests
+test every_frozen_installed_route_dispatches_and_required_flags_are_enforced ... ok
+test installed_bad_requests_in_primary_and_real_linked_checkout_never_fall_back ... ok
+test installed_discovery_preserves_all_frozen_dispositions_and_rejects_drift ... ok
+test installed_legacy_writers_are_retired_before_request_or_transport_effects ... ok
+test installed_provenance_rejects_stale_bytes_metadata_and_source ... ok
+test installed_valid_local_input_rejects_stale_authority_but_explicit_inspection_is_non_operational ... 

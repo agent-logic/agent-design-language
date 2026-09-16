@@ -1,0 +1,15 @@
+{
+  "schema": "adl.csdlc.issue873.qualification_decision.v1",
+  "issue": 873,
+  "candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+  "decision": "not_proven",
+  "pass_available": false,
+  "blocking_findings": ["QUAL-873-001"],
+  "pending_external_gates": ["independent exact-head evidence review", "issue #873 evidence PR CI"],
+  "adjudication": "The frozen installed binary passed both exact public-command journeys, 252 unique focused tests, retained conversion validation, and the warm prepared-start target. The required ignored old-owner release gate did not reach candidate behavior because its retained old-state input is unavailable. The missing gate, true OS-cold timing, comparable retry-reduction evidence, evidence review, and evidence-PR CI prevent a passing decision.",
+  "main_advancement": {
+    "observed_main": "553232dbe6244c204f040fdd6e50c47a4161623b",
+    "classification": "unaffected_record_only_advancement",
+    "reason": "The advancement from the frozen candidate contains #932 lifecycle, evidence, and transaction records only; no csdlc-v3 source, manuals, templates, or #873 surfaces changed."
+  }
+}

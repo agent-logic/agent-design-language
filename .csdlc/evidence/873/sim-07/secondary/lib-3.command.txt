@@ -1,0 +1,1 @@
+CARGO_TARGET_DIR=/Volumes/FastWork/adl-targets/873-secondary cargo test --manifest-path csdlc-v3/Cargo.toml --locked --lib adapters::tests::observational_curl_uses_stdin_and_minimal_environment_without_secret_arguments -- --exact --test-threads=1 

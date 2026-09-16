@@ -1,0 +1,20 @@
+{
+  "schema": "adl.csdlc.issue873.findings.v1",
+  "findings": [
+    {
+      "id": "QUAL-873-001",
+      "priority": "P1",
+      "title": "Required old-owner conversion release gate cannot execute without retained old state",
+      "status": "open_blocker",
+      "evidence": [
+        "commands/copied_record_conversion_rehearsal_release_gate.command.txt",
+        "commands/copied_record_conversion_rehearsal_release_gate.stderr.log",
+        "results/copied_record_conversion_rehearsal_release_gate.result.json"
+      ],
+      "observed": "With the exact accepted #868 old binary supplied, the ignored release-gate test exits 101 before exercising candidate behavior because ISSUE872_OLD_STATE is required.",
+      "impact": "Issue #873 cannot claim the complete conversion/recovery denominator or an overall passing qualification.",
+      "scope_boundary": "The passing retained #872 validator and the passing current-candidate conversion suites remain valid corroboration, but neither substitutes for this required gate.",
+      "recommended_disposition": "Restore an authenticated, portable old-state fixture or repair the release-gate harness in the owning issue, then rerun this exact gate."
+    }
+  ]
+}

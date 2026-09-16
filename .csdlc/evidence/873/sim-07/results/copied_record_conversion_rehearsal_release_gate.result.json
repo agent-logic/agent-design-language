@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "copied_record_conversion_rehearsal_release_gate",
+  "command": "env ISSUE872_OLD_CSDLC=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/archives/868-20260912-closeout/relocated-original-.csdlc/evidence/868/execution/candidate-6425ba9bb/bin/csdlc cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture",
+  "started_at": "2026-09-16T06:56:14Z",
+  "ended_at": "2026-09-16T06:56:14Z",
+  "elapsed_seconds": 0,
+  "exit_status": 101,
+  "test_counts": {
+    "passed": 0,
+    "failed": 1,
+    "ignored": 0
+  },
+  "stdout_sha256": "c7b45bede1b4c1e26c49e18f7513e140acefb25e477d23becd3bb4078f89ea1d",
+  "stderr_sha256": "53f3fbb1c2f6fe6991d620bcf5d9e65cf44e9908d7d3583eb8079e0cfb4165bb"
+}

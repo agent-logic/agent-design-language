@@ -1,0 +1,15 @@
+{
+  "schema": "adl.csdlc.issue873.environment.v1",
+  "platform": "Darwin 25.5.0 arm64",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+  "network": "synthetic fixture transports only",
+  "providers": "no live or paid providers",
+  "github_mutation": false,
+  "shared_owner_replaced": false,
+  "writer_activation": false,
+  "cargo_target_isolation": [
+    "csdlc-v3/target",
+    "/Volumes/FastWork/adl-targets/873-secondary"
+  ]
+}
