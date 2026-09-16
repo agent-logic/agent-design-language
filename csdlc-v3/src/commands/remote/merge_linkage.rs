@@ -1,14 +1,24 @@
 //! #849: exact-review linkage and authenticated qualified issue observations.
-use super::*;
 use serde_json::Value;
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct PublicationLinkage {
-    /// Issue repository; it may differ from the code/PR repository.
-    pub repository: String,
-    pub issue: u64,
-    pub mode: RemotePublicationMode,
+use super::model::{
+    GithubMutationRequest, PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
+};
+use super::support::remote_finding;
+
+pub fn merge_state_query(owner: &str, name: &str, number: &str) -> String {
+    // Parameters are admitted by the narrow read-only adapter, never caller query text.
+    format!(
+        r#"query {{ repository(owner:"{owner}", name:"{name}") {{ nameWithOwner mergeCommitAllowed
+      pullRequest(number:{number}) {{ number url headRefOid baseRefName baseRefOid state merged isDraft mergeable mergeStateStatus reviewDecision body
+        closingIssuesReferences(first:100) {{ nodes {{ number url repository {{ nameWithOwner }} }} pageInfo {{ hasNextPage }} }}
+        baseRef {{ branchProtectionRule {{ requiresStatusChecks requiresApprovingReviews requiresLinearHistory requiredStatusChecks {{ context app {{ databaseId }} }} }} }}
+        mergeCommit {{ oid parents(first:3) {{ nodes {{ oid }} pageInfo {{ hasNextPage }} }} }}
+        reviewThreads(first:100) {{ nodes {{ isResolved }} pageInfo {{ hasNextPage }} }}
+        latestReviews(first:100) {{ nodes {{ state }} pageInfo {{ hasNextPage }} }}
+        commits(last:1) {{ nodes {{ commit {{ oid statusCheckRollup {{ state contexts(first:100) {{ nodes {{ __typename ... on CheckRun {{ name status conclusion isRequired(pullRequestNumber:{number}) checkSuite {{ app {{ databaseId }} }} }} ... on StatusContext {{ context state isRequired(pullRequestNumber:{number}) }} }} pageInfo {{ hasNextPage }} }} }} }} }} }}
+      }} }} }}"#
+    )
 }
 
 fn repository_parts(repository: &str) -> Option<(&str, &str)> {

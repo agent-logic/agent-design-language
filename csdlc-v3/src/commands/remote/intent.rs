@@ -1,7 +1,22 @@
 //! Intent orchestration inside the native remote owner. Durable remote receipts
 //! remain the source of publication identity and replay authority.
-use super::*;
+use std::{fs, path::Path};
+
+use crate::adapters::{CommandInvocation, ProcessAdapter};
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
+
+use super::authority::{read_canonical_authority_selector, verify_canonical_v3_authority};
+use super::coordination::validate as validate_coordination;
+use super::model::*;
+use super::publication::{
+    body_closing_issue_references, body_has_relation, review_findings, same_principal,
+    typed_review_receipt_matches, typed_review_receipt_payload_digest,
+};
+use super::routing::dispatch_operational_remote;
+use super::storage::*;
+use super::support::*;
+use super::transport::*;
 
 /// Observe only retained native operations. No effect or reconciliation is
 /// attempted while describing recovery, and settled operations are excluded.
@@ -703,6 +718,7 @@ pub fn validate_intent_mutation(
     validate_repository_name(&request.repository)?;
     mutation_credential_name(request)?;
     validate_mutation(request)?;
+    validate_coordination(request)?;
     verify_canonical_v3_authority(root, None, &request.expected_head_sha)?;
     admit_publication_attempt(root, request)
 }
@@ -792,6 +808,7 @@ pub fn semantic_mutation_target(
     use crate::lifecycle::semantic::SemanticCommand;
     validate_repository_name(&request.repository)?;
     validate_mutation(request)?;
+    validate_coordination(request)?;
     Ok(match &request.mutation {
         GithubMutation::IssueCreate { .. } => SemanticMutationTarget::RepositoryCreation,
         GithubMutation::IssueComment { .. }
