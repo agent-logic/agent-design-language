@@ -398,6 +398,15 @@ pub(crate) fn prepare_semantic(
                     )]
                 })?;
         validate_context("issue", request, context)?;
+        let diagnosis =
+            super::execute_operational_local_route("doctor", request, registry, context)?;
+        if diagnosis
+            .findings
+            .iter()
+            .any(|finding| matches!(finding.status, PlanStatus::Blocked | PlanStatus::Failed))
+        {
+            return Err(diagnosis.findings);
+        }
         crate::storage::DurableTransactionStore::prepare_legacy_native_issue_under_writer_fence(
             root, key, inputs, &fence,
         )

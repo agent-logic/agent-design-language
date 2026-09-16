@@ -935,13 +935,9 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
         context.semantic_authority()?,
     )
     .map_err(errors)?;
-    let native_result = local::execute_operational_local_route(
-        if legacy_native { "doctor" } else { "issue" },
-        &request,
-        &registry,
-        &native,
-    );
-    if let Err(findings) = native_result {
+    let native_result = (!legacy_native)
+        .then(|| local::execute_operational_local_route("issue", &request, &registry, &native));
+    if let Some(Err(findings)) = native_result {
         return Ok(
             json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",

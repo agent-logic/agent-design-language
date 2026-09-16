@@ -1353,26 +1353,34 @@ fn legacy_compatibility_census(root: &SemanticRoot, key: &IssueKey) -> Result<()
             if identity != (key.repository.clone(), key.issue) {
                 continue;
             }
+            if namespace == "intents" {
+                let operation = path
+                    .file_stem()
+                    .and_then(|value| value.to_str())
+                    .ok_or(Error::RecoveryRequired)?;
+                let receipt = remote.join("mutations").join(format!("{operation}.json"));
+                if crate::commands::remote::settled_issue_mutation_receipt(
+                    &remote,
+                    &receipt,
+                    &key.repository,
+                    key.issue,
+                )
+                .map_err(|_| Error::RecoveryRequired)?
+                {
+                    continue;
+                }
+                return Err(Error::LegacyMigrationRequired);
+            }
             if namespace != "mutations" {
                 return Err(Error::LegacyMigrationRequired);
             }
-            let filename_digest = path
-                .file_stem()
-                .and_then(|value| value.to_str())
-                .ok_or(Error::RecoveryRequired)?;
-            let valid_digest = |field: &str| {
-                value[field].as_str().is_some_and(|digest| {
-                    digest.len() == 64 && digest.bytes().all(|byte| byte.is_ascii_hexdigit())
-                })
-            };
-            if value["schema"] != "csdlc.v3.github_mutation_receipt.v2"
-                || value["operation_digest"].as_str() != Some(filename_digest)
-                || !valid_digest("operation_digest")
-                || !valid_digest("intent_digest")
-                || !valid_digest("readback_digest")
-                || !valid_digest("reconciliation_digest")
-                || value["authenticated"] != true
-                || value["idempotent_replay"] != true
+            if !crate::commands::remote::settled_issue_mutation_receipt(
+                &remote,
+                &path,
+                &key.repository,
+                key.issue,
+            )
+            .map_err(|_| Error::RecoveryRequired)?
             {
                 return Err(Error::RecoveryRequired);
             }

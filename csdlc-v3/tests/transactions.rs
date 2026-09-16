@@ -1019,6 +1019,10 @@ fn adapter_branch_observation_never_authorizes_lifecycle_work() {
 // proof, no network/credentials. Process death proves lock release, not power-loss durability.
 mod semantic_gate_a {
     use super::*;
+    use csdlc_v3::commands::remote::{
+        github_mutation_operation_digest, github_mutation_operation_marker, GithubMutation,
+        GithubMutationIntent, GithubMutationRequest,
+    };
     use csdlc_v3::lifecycle::semantic::{self, Facts, Outcome, SemanticCommand};
     use csdlc_v3::storage::semantic::{
         AcceptedIntentPlan, Admission, CommitOutcome, Digest, Error, IssueInputs, IssueKey,
@@ -1465,7 +1469,50 @@ mod semantic_gate_a {
         let fixture = Fixture::new();
         let worktree = fixture.directory.join("missing-bound-worktree");
         write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
-        let operation = "d".repeat(64);
+        let request = GithubMutationRequest {
+            repository: "example/repo".into(),
+            issue: 870,
+            pull_request: None,
+            cutover_issue: None,
+            operator_approval: None,
+            expected_head_sha: "f".repeat(40),
+            credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
+            mutation: GithubMutation::IssueEdit {
+                title: None,
+                body: Some("updated body".into()),
+                labels: None,
+                assignees: None,
+                milestone: None,
+            },
+        };
+        let operation = github_mutation_operation_digest(&request);
+        let marker = github_mutation_operation_marker(&operation);
+        let intent = GithubMutationIntent {
+            schema: "csdlc.v3.github_mutation_intent.v1".into(),
+            operation_digest: operation.clone(),
+            operation_marker: marker.clone(),
+            authority_selector_digest: "a".repeat(64),
+            request,
+            adapter: "github-api-operational".into(),
+            resolved_edit: None,
+            resolved_ready_target: None,
+        };
+        let stable_digest = |values: &[&str]| {
+            let mut hasher = blake3::Hasher::new();
+            for value in values {
+                hasher.update(value.as_bytes());
+                hasher.update(b"\0");
+            }
+            hasher.finalize().to_hex().to_string()
+        };
+        let intent_digest = stable_digest(&[
+            &intent.schema,
+            &operation,
+            &marker,
+            &intent.authority_selector_digest,
+            &intent.adapter,
+        ]);
         let completed = fixture.directory.join(format!(
             "repo/.git/csdlc-v3/local/transactions/completed/870/edit-{operation}.json"
         ));
@@ -1485,6 +1532,11 @@ mod semantic_gate_a {
             "repo/.git/csdlc-v3/remote/mutations/{operation}.json"
         ));
         fs::create_dir_all(receipt.parent().unwrap()).unwrap();
+        let intent_path = fixture.directory.join(format!(
+            "repo/.git/csdlc-v3/remote/intents/{operation}.json"
+        ));
+        fs::create_dir_all(intent_path.parent().unwrap()).unwrap();
+        fs::write(&intent_path, serde_json::to_vec(&intent).unwrap()).unwrap();
         fs::write(
             &receipt,
             serde_json::to_vec(&serde_json::json!({
@@ -1492,7 +1544,7 @@ mod semantic_gate_a {
                 "repository":"example/repo","issue":870,"pull_request":null,
                 "expected_head_sha":"f".repeat(40),"operation_digest":operation,
                 "response_digest":null,"readback_digest":"1".repeat(64),
-                "intent_digest":"2".repeat(64),"reconciliation_digest":"3".repeat(64),
+                "intent_digest":intent_digest,"reconciliation_digest":"3".repeat(64),
                 "adapter":"github-api-operational","authenticated":true,
                 "idempotent_replay":true
             }))
@@ -1501,6 +1553,7 @@ mod semantic_gate_a {
         .unwrap();
         let completed_before = fs::read(&completed).unwrap();
         let receipt_before = fs::read(&receipt).unwrap();
+        let intent_before = fs::read(&intent_path).unwrap();
         let fence =
             NativeWriterFenceGuard::acquire(&fixture.directory.join("repo/.git"), [870]).unwrap();
         assert!(matches!(
@@ -1515,6 +1568,7 @@ mod semantic_gate_a {
         ));
         assert_eq!(completed_before, fs::read(completed).unwrap());
         assert_eq!(receipt_before, fs::read(receipt).unwrap());
+        assert_eq!(intent_before, fs::read(intent_path).unwrap());
     }
 
     #[test]
@@ -1588,7 +1642,13 @@ mod semantic_gate_a {
 
     #[test]
     fn issue_1029_fenced_prepare_rejects_remote_linked_and_damaged_completion_residue() {
-        for case in ["remote_pending", "linked_residue", "damaged_completion"] {
+        for case in [
+            "remote_pending",
+            "orphan_remote_receipt",
+            "tampered_remote_intent",
+            "linked_residue",
+            "damaged_completion",
+        ] {
             let fixture = Fixture::new();
             let worktree = fixture.directory.join("missing-bound-worktree");
             write_issue_1029_legacy_ready_fixture(&fixture, &worktree);
@@ -1607,6 +1667,34 @@ mod semantic_gate_a {
                         .unwrap(),
                     )
                     .unwrap();
+                }
+                "orphan_remote_receipt" | "tampered_remote_intent" => {
+                    let operation = "d".repeat(64);
+                    let mutation = fixture.directory.join(format!(
+                        "repo/.git/csdlc-v3/remote/mutations/{operation}.json"
+                    ));
+                    fs::create_dir_all(mutation.parent().unwrap()).unwrap();
+                    fs::write(
+                        mutation,
+                        serde_json::to_vec(&serde_json::json!({
+                            "schema":"csdlc.v3.github_mutation_receipt.v2",
+                            "repository":"example/repo","issue":870,"pull_request":null,
+                            "expected_head_sha":"f".repeat(40),"operation_digest":operation,
+                            "response_digest":null,"readback_digest":"1".repeat(64),
+                            "intent_digest":"2".repeat(64),"reconciliation_digest":"3".repeat(64),
+                            "adapter":"github-api-operational","authenticated":true,
+                            "idempotent_replay":true
+                        }))
+                        .unwrap(),
+                    )
+                    .unwrap();
+                    if case == "tampered_remote_intent" {
+                        let intent = fixture.directory.join(format!(
+                            "repo/.git/csdlc-v3/remote/intents/{operation}.json"
+                        ));
+                        fs::create_dir_all(intent.parent().unwrap()).unwrap();
+                        fs::write(intent, b"{}\n").unwrap();
+                    }
                 }
                 "linked_residue" => {
                     let registration = fixture.directory.join("repo/.git/worktrees/linked");
