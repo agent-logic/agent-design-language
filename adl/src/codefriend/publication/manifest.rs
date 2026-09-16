@@ -105,6 +105,25 @@ pub(crate) fn snapshot_artifacts(
     root: &Path,
     artifacts: &[Artifact],
 ) -> Result<Vec<VerifiedArtifact>> {
+    snapshot_artifacts_with_limits(
+        root,
+        artifacts,
+        MAX_ARTIFACT_BYTES,
+        MAX_TOTAL_ARTIFACT_BYTES,
+        |_| Ok(()),
+    )
+}
+
+fn snapshot_artifacts_with_limits<F>(
+    root: &Path,
+    artifacts: &[Artifact],
+    max_artifact_bytes: u64,
+    max_total_artifact_bytes: u64,
+    mut before_read: F,
+) -> Result<Vec<VerifiedArtifact>>
+where
+    F: FnMut(&Path) -> Result<()>,
+{
     ensure!(!artifacts.is_empty(), "empty_artifact_manifest");
     ensure!(root.exists(), "artifact_root_missing");
     ensure!(
@@ -134,17 +153,25 @@ pub(crate) fn snapshot_artifacts(
         let file = File::open(&path)?;
         let metadata = file.metadata()?;
         ensure!(metadata.file_type().is_file(), "invalid_artifact_file");
-        ensure!(metadata.len() <= MAX_ARTIFACT_BYTES, "artifact_too_large");
-        total = total
-            .checked_add(metadata.len())
-            .ok_or_else(|| anyhow::anyhow!("artifact_size_overflow"))?;
-        ensure!(total <= MAX_TOTAL_ARTIFACT_BYTES, "artifact_set_too_large");
+        ensure!(metadata.len() <= max_artifact_bytes, "artifact_too_large");
+        before_read(&path)?;
         let mut bytes = Vec::new();
-        file.take(MAX_ARTIFACT_BYTES + 1).read_to_end(&mut bytes)?;
+        (&file)
+            .take(max_artifact_bytes + 1)
+            .read_to_end(&mut bytes)?;
         ensure!(
-            bytes.len() as u64 <= MAX_ARTIFACT_BYTES,
+            bytes.len() as u64 <= max_artifact_bytes,
             "artifact_too_large"
         );
+        let final_metadata = file.metadata()?;
+        ensure!(
+            metadata.len() == final_metadata.len() && final_metadata.len() == bytes.len() as u64,
+            "artifact_changed_during_snapshot"
+        );
+        total = total
+            .checked_add(bytes.len() as u64)
+            .ok_or_else(|| anyhow::anyhow!("artifact_size_overflow"))?;
+        ensure!(total <= max_total_artifact_bytes, "artifact_set_too_large");
         ensure!(
             crate::codefriend::ingestion::digest(&bytes) == artifact.digest,
             "artifact_digest_mismatch"
@@ -225,4 +252,39 @@ pub(crate) fn read_json<T: serde::de::DeserializeOwned>(path: &Path, label: &str
         .read_to_end(&mut bytes)?;
     ensure!(bytes.len() as u64 <= MAX_INPUT_BYTES, "{label}_too_large");
     serde_json::from_slice(&bytes).map_err(|_| anyhow::anyhow!("invalid_{label}_json"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::codefriend::ingestion::digest;
+    use std::io::Write;
+
+    #[test]
+    fn snapshot_rejects_growth_after_the_initial_metadata_check() {
+        let target_tmp = std::env::var_os("CARGO_TARGET_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| PathBuf::from("target"))
+            .join("codefriend-publication-tests");
+        fs::create_dir_all(&target_tmp).unwrap();
+        let directory = tempfile::tempdir_in(target_tmp).unwrap();
+        let path = directory.path().join("artifact.txt");
+        fs::write(&path, b"approved").unwrap();
+        let artifacts = vec![Artifact {
+            path: "artifact.txt".into(),
+            digest: digest(b"approved-expanded"),
+        }];
+
+        let error = snapshot_artifacts_with_limits(directory.path(), &artifacts, 32, 32, |path| {
+            File::options()
+                .append(true)
+                .open(path)?
+                .write_all(b"-expanded")?;
+            Ok(())
+        })
+        .unwrap_err()
+        .to_string();
+
+        assert_eq!(error, "artifact_changed_during_snapshot");
+    }
 }

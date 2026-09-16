@@ -158,6 +158,47 @@ fn installed_prepare_approve_inspect_and_atomic_local_admission() {
     .status
     .success());
 
+    let absolute_publication = fixture.root.join("absolute-publication.json");
+    let mut absolute: serde_json::Value =
+        serde_json::from_slice(&fs::read(&publication).unwrap()).unwrap();
+    absolute["target"] = json!(fixture.root.join("escaped-output").to_str().unwrap());
+    fs::write(
+        &absolute_publication,
+        serde_json::to_vec_pretty(&absolute).unwrap(),
+    )
+    .unwrap();
+    assert!(!cli(&[
+        "approve",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        absolute_publication.to_str().unwrap(),
+        "--actor",
+        "operator-fixture",
+        "--reason",
+        "Absolute targets must be rejected",
+        "--approval-store",
+        decisions.to_str().unwrap(),
+    ])
+    .status
+    .success());
+    assert!(!cli(&[
+        "admit-local",
+        "--review-record",
+        fixture.review_path.to_str().unwrap(),
+        "--publication",
+        absolute_publication.to_str().unwrap(),
+        "--approval-store",
+        decisions.to_str().unwrap(),
+        "--artifact-root",
+        fixture.artifact_root.to_str().unwrap(),
+        "--destination-root",
+        destination.to_str().unwrap(),
+    ])
+    .status
+    .success());
+    assert!(!fixture.root.join("escaped-output").exists());
+
     let output = cli(&[
         "approve",
         "--review-record",
@@ -514,6 +555,38 @@ fn revoked_approval_cannot_be_replayed_from_an_alternate_or_truncated_store() {
         .to_string();
         assert_eq!(error, "publication_external_head_mismatch");
     }
+}
+
+#[test]
+fn rollback_anchor_must_be_external_to_the_decision_store() {
+    let fixture = Fixture::new();
+    let review = fixture.review();
+    let publication = fixture.publication();
+    let reserved_store = fixture.root.join(".codefriend-publication-anchors");
+    fs::create_dir(&reserved_store).unwrap();
+
+    let error = append_decision(
+        &reserved_store,
+        &review,
+        &publication,
+        DecisionKind::Approved,
+        "operator-fixture",
+        "Reserved anchor root cannot own the decision store",
+        10,
+    )
+    .unwrap_err()
+    .to_string();
+    assert_eq!(error, "publication_anchor_not_external");
+    assert!(admit_local(
+        &review,
+        &publication,
+        &reserved_store,
+        &fixture.artifact_root,
+        &fixture.destination_root,
+        11,
+    )
+    .is_err());
+    assert!(!fixture.destination_root.join("review-output").exists());
 }
 
 #[test]

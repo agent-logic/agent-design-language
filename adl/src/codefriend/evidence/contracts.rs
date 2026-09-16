@@ -410,7 +410,7 @@ impl Publication {
             version(k)?;
             version(v)?;
         }
-        text(&self.target)?;
+        crate::codefriend::ingestion::validate_path(&self.target)?;
         ensure!(
             valid_digest(&self.destination_digest),
             "invalid_publication_destination"

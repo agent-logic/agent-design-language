@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented #895 exact-artifact publication approval in the bound issue worktree. The installed `adl codefriend publication` CLI supports prepare, approve, withhold, invalidate, inspect, and atomic local admission. Approval is bound to the complete review, finding set, artifact manifest, renderer versions, claims/nonclaims, canonical destination identity, actor, reason, time, and decision chain. Admission requires agreement between the canonical store head and an external rollback anchor, then revalidates current bytes and redaction before any target becomes visible. Local proof passes; independent exact-head review and integration remain pending.
+Implemented #895 exact-artifact publication approval in the bound issue worktree. The installed CLI supports prepare, approve, withhold, invalidate, inspect, and atomic local admission. Approval binds the complete review, finding set, artifact manifest, renderer versions, claims/nonclaims, validated relative target, canonical destination identity, actor, reason, time, and decision chain. Admission requires a canonically separate rollback anchor and publishes only stable, size-bounded verified snapshots. Local proof passes; independent exact-head review and integration remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -76,18 +76,18 @@ Implemented #895 exact-artifact publication approval in the bound issue worktree
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/895/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/publication/{mod.rs,manifest.rs,approval.rs}; adl/src/codefriend/evidence/contracts.rs; adl/src/codefriend/mod.rs; adl/src/cli/codefriend_publication_cmd.rs; adl/src/cli/codefriend_cmd.rs; adl/src/cli/mod.rs; adl/tests/codefriend_ux.rs; adl/tests/codefriend_evidence.rs; adl/tests/fixtures/codefriend/evidence/{publication-v1.json,publication-schema-v1.json}; adl/tests/fixtures/codefriend/publication/PVF.json; native issue cards and transaction receipt`
-- Additional proof artifacts: `Lock-held admit-versus-revoke unit 1/1; verified-snapshot unit 1/1; installed publication-control scenarios 5/5; evidence regressions 11/11; review regressions 14/14; rustfmt, strict all-target/all-feature Clippy, and diff hygiene passed.`
+- Additional proof artifacts: `Concurrent-growth snapshot unit 1/1; lock-held admit-versus-revoke unit 1/1; verified-snapshot unit 1/1; installed publication-control scenarios 6/6; evidence regressions 11/11; review regressions 14/14; rustfmt, strict all-target/all-feature Clippy, and diff hygiene passed.`
 
 ## Actions taken
-- `Added exact publication identity including a digest of the canonical symlink-free destination root; prepare binds it and admission recomputes it before any destination write.`
-- `Replaced caller-selected decision directories with a locked canonical publication-control store, one binding-derived chain, a durable local head, and a deterministic external head anchor outside that store; admission retains the lock through authoritative head resolution and atomic destination visibility.`
-- `Admission stages exact bytes retained from verified open files. Deterministic regressions deny alternate-store replay, deleted revocation tails, wrong destination roots, and coherent rollback of the decision plus local head after both invalidation and withholding.`
+- `Bound approval to the canonical destination and a validated relative target. Persisted publication validation and final admission both reject absolute/traversing targets, and admission enforces target containment.`
+- `The locked canonical publication-control store uses a durable local head and a deterministic external head anchor whose canonical topology must not be within or contain the decision store.`
+- `Admission stages exact verified bytes and charges their actual retained lengths against per-file and aggregate caps. Deterministic regressions cover concurrent file growth, reserved anchor-store topology, absolute targets, wrong destination roots, rollback, revocation, and snapshot integrity.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch implementation is not merged`
 - Worktree-only paths remaining: `all #895 implementation and lifecycle paths pending exact review and PR merge`
 - Integration state: `worktree_only`
-- Verification scope: `bound #895 worktree; final candidate includes exact-artifact approval, canonical approval store, destination-root binding, external rollback anchor, replay defenses, lock-held publication serialization, verified-byte snapshot admission, and corrected lifecycle truth`
+- Verification scope: `bound #895 worktree; candidate includes exact-artifact approval, validated relative target and canonical destination binding, canonical approval store, external-anchor non-ancestry, rollback defenses, lock-held publication serialization, stable size-bounded verified snapshots, and corrected lifecycle truth`
 - Integration method used: `bound issue worktree; commit and PR pending`
 - Verification performed:
   - `git status --short --branch; git diff --check`
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml admission_holds_the_store_lock_until_publication_is_visible --lib; cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux; cargo test --manifest-path adl/Cargo.toml --test codefriend_evidence; cargo test --manifest-path adl/Cargo.toml --test codefriend_review; cargo fmt --manifest-path adl/Cargo.toml --check; cargo clippy --manifest-path adl/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Proves canonical destination-root binding and wrong-root denial; coherent rollback denial after invalidation and withholding; invalidate and withhold cannot commit in the approval-read-to-visibility interval; plus the installed local publication journey, stale/deleted-tail replay denial, verified-byte snapshot use, shared evidence/review compatibility, formatting, warnings, and patch hygiene.`
+    `Proves absolute targets and wrong destination roots are denied; anchor/store non-ancestry; concurrent-growth rejection and actual retained-byte limits; coherent rollback denial after invalidation and withholding; revocation cannot commit in the approval-read-to-visibility interval; installed local publication, stale/deleted-tail replay denial, verified-byte snapshot use, evidence/review compatibility, formatting, warnings, and patch hygiene.`
 - Results:
-  - `passed: lock-held serialization unit 1/1; verified-snapshot unit 1/1; codefriend_ux 5/5; codefriend_evidence 11/11; codefriend_review 14/14; rustfmt passed; strict Clippy passed; diff check passed`
+  - `passed: concurrent-growth snapshot unit 1/1; lock-held serialization unit 1/1; verified-snapshot unit 1/1; codefriend_ux 6/6; codefriend_evidence 11/11; codefriend_review 14/14; rustfmt passed; strict Clippy passed; diff check passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -146,9 +146,9 @@ verification_summary:
 ## Determinism Evidence
 - Determinism tests executed: `yes; isolated canonical approval stores, controlled timestamps, lock-held invalidate and withhold attempts before atomic visibility, alternate-store replay attempts, deleted revocation tails, verified byte snapshots, create-only decision records, and local atomic admission`
 - Fixtures or scripts used: `adl/tests/codefriend_ux.rs; adl/tests/fixtures/codefriend/evidence/review-v1.json; adl/tests/fixtures/codefriend/publication/PVF.json`
-- Replay verification (same inputs -> same artifacts/order): `The suite proves wrong-root admission is denied; restoring an old decision and matching local store head after invalidation or withholding is rejected by the external anchor; invalidate and withhold receive publication_store_busy while admission holds the store lock and the target is not yet visible, then commit after visibility and deny later admission; alternate-store and deleted-tail replay are denied; verified snapshot bytes are published.`
+- Replay verification (same inputs -> same artifacts/order): `The suite rejects absolute target approval/admission, wrong-root admission, reserved anchor-store topology, concurrent file growth, coherent decision-store rollback, alternate-store replay, deleted revocation tails, and revocation interleaving; exact verified bytes are published only to the bound contained destination.`
 - Ordering guarantees (sorting / tie-break rules used): `one DecisionStore lock remains owned from authoritative head resolution through byte snapshot, staging, and atomic destination rename; revocation can linearize only before admission reads the head or after publication is visible`
-- Artifact stability notes: `Decision records are digest-named and create-only. Publication identity binds the canonical destination root. A binding-derived chain is anchored by both the canonical store identity and an external head outside that store; copied records, deleted current-tail records, wrong destination roots, and coherent rollback of the store alone fail closed. Full-machine rollback that also restores the external anchor is outside the proven local-only threat boundary. A crash between local and external head updates fails closed; automatic recovery is not claimed.`
+- Artifact stability notes: `Decision records are digest-named and create-only. Publication identity binds the canonical destination root and a validated relative target. A binding-derived chain is anchored by both the canonical store identity and a canonically separate external head. Exact snapshot bytes are size-stable and charged against actual aggregate limits. Path-based symlink checks do not claim directory-handle/no-follow semantics. Full-machine rollback that also restores the external anchor remains outside the local-only threat boundary; local/external head update interruption fails closed without automatic recovery.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `credential/path scanner exercised with negative fixtures before any publication write`
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `adl/tests/fixtures/codefriend/publication/PVF.json and installed CLI test output`
 - Run artifact root: `.csdlc/evidence/895 (native review and publication evidence pending)`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml atomic_publication_uses_the_verified_snapshot_not_a_second_source_read --lib; cargo test --manifest-path adl/Cargo.toml --test codefriend_ux`
-- Replay result: `passed 1/1 serialization unit, 1/1 snapshot unit, and 5/5 installed integration scenarios`
+- Replay result: `passed concurrent-growth snapshot unit 1/1, serialization unit 1/1, snapshot-integrity unit 1/1, and installed integration scenarios 6/6`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_ux.rs and codefriend::publication::approval::tests::atomic_publication_uses_the_verified_snapshot_not_a_second_source_read`
@@ -171,8 +171,8 @@ verification_summary:
 
 ## Decisions / Deviations
 - `#891 and #881 are closed/accepted; #895 is bound and implementation is complete within its publication-control scope without #894 renderer ownership.`
-- `Four exact-head reviews failed. The first found revocation and verified-byte check/use defects; the second found alternate/truncated-directory replay and overstated lifecycle proof; the third found a head-read-to-publication revocation race; the fourth found missing actual-destination binding and coherent same-store rollback replay. All actionable findings are repaired locally without provider, network, cloud, renderer, or remote-publication scope.`
+- `Five exact-head reviews failed. The fifth found absolute-target escape, a reserved-name topology that nested the external anchor inside the store, and concurrent-growth aggregate-limit bypass. All actionable findings from every round are repaired locally without provider, network, cloud, renderer, or remote-publication scope.`
 
 ## Follow-ups / Deferred work
-- `Obtain a distinct fresh exact-head review of the immutable destination-binding and rollback-anchor remediation candidate.`
+- `Obtain a distinct fresh exact-head review of the immutable target-containment, anchor-separation, and snapshot-limit remediation candidate.`
 - `After PASS and current-base reconciliation, publish with Closes #895, shepherd CI, merge, finish, and clean through native authority.`

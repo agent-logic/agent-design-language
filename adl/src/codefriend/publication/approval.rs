@@ -207,12 +207,21 @@ impl DecisionStore {
         let anchors = parent
             .join(".codefriend-publication-anchors")
             .join(&self.marker.digest);
+        ensure!(
+            !anchors.starts_with(&self.root) && !self.root.starts_with(&anchors),
+            "publication_anchor_not_external"
+        );
         reject_symlink_components(&anchors)?;
         if !anchors.exists() {
             fs::create_dir_all(&anchors)?;
             File::open(parent)?.sync_all()?;
         }
         reject_symlink_components(&anchors)?;
+        let anchors = anchors.canonicalize()?;
+        ensure!(
+            !anchors.starts_with(&self.root) && !self.root.starts_with(&anchors),
+            "publication_anchor_not_external"
+        );
         ensure!(
             fs::symlink_metadata(&anchors)?.is_dir(),
             "invalid_publication_anchor_root"
@@ -333,7 +342,13 @@ impl DecisionStore {
             destination_digest(destination_root)? == decision.publication.destination_digest,
             "publication_destination_mismatch"
         );
+        let destination_root = destination_root.canonicalize()?;
+        crate::codefriend::ingestion::validate_path(&decision.publication.target)?;
         let target = destination_root.join(&decision.publication.target);
+        ensure!(
+            target.starts_with(&destination_root),
+            "publication_target_outside_destination"
+        );
         reject_symlink_components(&target)?;
         ensure!(!target.exists(), "publication_target_exists");
         let mut receipt = AdmissionReceipt {
