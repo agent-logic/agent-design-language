@@ -10,7 +10,7 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
-pub(super) const USAGE: &str = "adl codefriend fitness run --store <dir> --packet-id <id> --policy <policy.json> --out <new-report.json>\n       adl codefriend fitness read --store <dir> --input <report.json>";
+pub(super) const USAGE: &str = "adl codefriend fitness run --store <dir> --packet-id <id> --policy <policy.json> --out <new-report.json>\n       adl codefriend fitness read --store <dir> --input <report.json>\n       adl codefriend fitness ci-run --store <dir> --packet-id <id> --policy <policy.json> --candidate <sha> --policy-digest <digest> --out <new-directory>\n       adl codefriend fitness ci-verify --store <dir> --input <report.json> --candidate <sha> --packet-id <id> --policy-digest <digest> --runner-exit <0|1|2> --out <new-receipt.json>";
 #[derive(Debug)]
 pub(super) struct FitnessExit(pub i32);
 impl std::fmt::Display for FitnessExit {
@@ -19,7 +19,7 @@ impl std::fmt::Display for FitnessExit {
     }
 }
 impl std::error::Error for FitnessExit {}
-fn safe_path(path: &Path) -> Result<PathBuf> {
+pub(super) fn safe_path(path: &Path) -> Result<PathBuf> {
     let absolute = std::path::absolute(path)?;
     let mut current = PathBuf::new();
     for component in absolute.components() {
@@ -36,7 +36,7 @@ fn safe_path(path: &Path) -> Result<PathBuf> {
     }
     Ok(absolute)
 }
-fn read<T: serde::de::DeserializeOwned>(path: &Path, limit: u64) -> Result<T> {
+pub(super) fn read<T: serde::de::DeserializeOwned>(path: &Path, limit: u64) -> Result<T> {
     let path = safe_path(path)?;
     ensure!(
         fs::metadata(&path)?.is_file(),
@@ -107,6 +107,12 @@ fn inner(args: &[String]) -> Result<Report> {
     Ok(saved)
 }
 pub(super) fn run(args: &[String]) -> Result<()> {
+    if args.first().is_some_and(|arg| arg == "ci-verify") {
+        return super::codefriend_fitness_ci_cmd::run(&args[1..], false);
+    }
+    if args.first().is_some_and(|arg| arg == "ci-run") {
+        return super::codefriend_fitness_ci_cmd::run(&args[1..], true);
+    }
     let code = match inner(args) {
         Ok(report) => {
             println!("{}", serde_json::to_string(&report)?);

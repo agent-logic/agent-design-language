@@ -1,0 +1,11 @@
+{
+  "issue": 888,
+  "lane": "runtime",
+  "proof_role": "production CI exit/artifact contract and actual installed process integration",
+  "determinism": "Fixed local fixture commits and declared policy; within-admission parity; no provider/network/source scripts",
+  "resource_profile": "CPU/filesystem/Git and installed product processes",
+  "release_gate": true,
+  "test_target": "codefriend_cf_gov_ci",
+  "hosted_proof_required": "Automatic codefriend-fitness candidate gate and explicitly classified expected-negative qualification jobs",
+  "workflow_contract_proof": "ruby adl/tools/codefriend/test_ci_contract.rb exercises selected/unselected failure, skip and cancellation outcomes and policy/helper/runtime dependency selection; ruby adl/tools/validate_ci_workflow_policy.rb proves central automatic entrypoint preserved"
+}
