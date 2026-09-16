@@ -78,7 +78,10 @@ def run_json(argv: list[object], env: dict[str, str], allow_failure: bool = Fals
         except json.JSONDecodeError:
             pass
     if completed.returncode and not allow_failure:
-        raise RuntimeError(f"{Path(str(argv[0])).name} failed ({completed.returncode})")
+        raise RuntimeError(
+            f"{Path(str(argv[0])).name} failed ({completed.returncode}): "
+            + completed.stderr[-500:].replace("\n", " ")
+        )
     return completed.returncode, payload, completed.stderr[-1000:]
 
 
@@ -130,6 +133,9 @@ def main() -> int:
     ctl = root / "csmctl"
     shutil.copy2(args.csmctl, ctl)
     init, api_port, tokens = lifecycle.prepare_init(root, tls, args, clock, fixture)
+    init.write_text(
+        init.read_text().replace('model = "fixture-model"', f'model = {json.dumps(args.baseline_model)}', 1)
+    )
     lifecycle.write(root / "providers.yaml", {
         "schema": "adl.provider_reload_sidecar.v1",
         "version": "0.5",
@@ -185,10 +191,11 @@ def main() -> int:
         report["runtime_identity"] = lifecycle.identity(snapshot)
 
         def admit(agent_id: str, model: str, allow_failure: bool = False) -> tuple[int, dict | None, str]:
+            agent_name = "ember." + agent_id.replace("-", "")
             config = {
                 "schema": "adl.csm.agent_config.v1",
                 "runtime": {"init": str(init)},
-                "identity": {"id": agent_id, "name": agent_id, "display_name": agent_id},
+                "identity": {"id": agent_id, "name": agent_name, "display_name": agent_name},
                 "office": "benchmark",
                 "provider": {"kind": "ollama", "model": model, "required_capabilities": ["conversation"]},
             }
