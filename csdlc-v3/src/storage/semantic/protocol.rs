@@ -73,6 +73,8 @@ pub struct CleanupIdentity {
     terminal_receipt: Vec<u8>,
     preview: Vec<u8>,
     archive: Vec<u8>,
+    #[serde(default)]
+    absence_disposition: Vec<u8>,
 }
 impl CleanupIdentity {
     pub(crate) fn from_native_owner(
@@ -87,6 +89,23 @@ impl CleanupIdentity {
             terminal_receipt,
             preview,
             archive,
+            absence_disposition: Vec::new(),
+        })
+    }
+
+    pub(crate) fn from_absence_reconciliation(
+        terminal_receipt: Vec<u8>,
+        preview: Vec<u8>,
+        absence_disposition: Vec<u8>,
+    ) -> Result<Self, Error> {
+        if terminal_receipt.is_empty() || preview.is_empty() || absence_disposition.is_empty() {
+            return Err(Error::EvidenceMismatch);
+        }
+        Ok(Self {
+            terminal_receipt,
+            preview,
+            archive: Vec::new(),
+            absence_disposition,
         })
     }
 }
@@ -180,7 +199,9 @@ impl EffectOrigin {
                     && snapshot.inputs().binding() == Some(binding)
                     && !identity.terminal_receipt.is_empty()
                     && !identity.preview.is_empty()
-                    && !identity.archive.is_empty()
+                    && ((!identity.archive.is_empty() && identity.absence_disposition.is_empty())
+                        || (identity.archive.is_empty()
+                            && !identity.absence_disposition.is_empty()))
             }
         }
     }

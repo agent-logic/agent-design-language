@@ -15,6 +15,9 @@ use crate::{
 use serde_json::{json, Value};
 use std::{fs, path::PathBuf};
 
+const ABSENT_CLEANUP_DISPOSITION_SCHEMA: &str =
+    "csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1";
+
 fn semantic_error(error: semantic::Error) -> String {
     format!("intent_terminal_semantic_{error:?}")
 }
@@ -286,6 +289,214 @@ fn file_digest(path: &std::path::Path) -> Result<Option<String>, String> {
     }
 }
 
+pub fn recover_absent_cleanup(
+    context: &Context,
+    request: &IntentRequest,
+) -> Result<Option<Value>, String> {
+    if request.content.get("schema").and_then(Value::as_str)
+        != Some(ABSENT_CLEANUP_DISPOSITION_SCHEMA)
+    {
+        return Ok(None);
+    }
+    #[derive(serde::Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct Disposition {
+        schema: String,
+        disposition: String,
+        repository: String,
+        issue: u64,
+        worktree: PathBuf,
+        branch: String,
+        head: String,
+        terminal_receipt_digest: String,
+        operator: String,
+        rationale: String,
+        evidence_refs: Vec<String>,
+    }
+    let approved: Disposition = serde_json::from_value(request.content.clone())
+        .map_err(|_| "intent_cleanup_absence_disposition_invalid")?;
+    if approved.schema != ABSENT_CLEANUP_DISPOSITION_SCHEMA
+        || approved.disposition != "reconcile_already_absent_cleanup"
+        || approved.repository != context.repository
+        || approved.issue != context.issue
+        || approved.operator.trim().is_empty()
+        || approved.rationale.trim().is_empty()
+        || approved.evidence_refs.is_empty()
+        || approved
+            .evidence_refs
+            .iter()
+            .any(|reference| reference.trim().is_empty())
+    {
+        return Err("intent_cleanup_absence_disposition_invalid".into());
+    }
+    let output_root = state_root(context)?;
+    let receipt_path =
+        output_root.join(format!("evidence/{}/terminal-receipt.json", context.issue));
+    let receipt_bytes = fs::read(&receipt_path).map_err(|_| "intent_terminal_receipt_required")?;
+    let receipt: DurableTerminalReceipt =
+        serde_json::from_slice(&receipt_bytes).map_err(|_| "intent_terminal_receipt_invalid")?;
+    let receipt_digest = blake3::hash(&receipt_bytes).to_hex().to_string();
+    let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
+    if receipt.schema != "csdlc.v3.terminal_receipt.v1"
+        || receipt.repository != context.repository
+        || receipt.issue != context.issue
+        || receipt.disposition != "closed_out"
+        || receipt.pull_request.is_none()
+        || receipt.head_sha != approved.head
+        || approved.terminal_receipt_digest != receipt_digest
+        || receipt.state_digest.is_none()
+        || receipt.state_digest != file_digest(&state_path)?
+    {
+        return Err("intent_terminal_receipt_mismatch".into());
+    }
+    let binding_path = output_root.join(format!("bindings/{}.json", context.issue));
+    let binding = super::read_json(&binding_path).map_err(|_| "intent_cleanup_binding_required")?;
+    if binding["schema"] != "csdlc.v3.binding.v1"
+        || binding["issue"] != context.issue
+        || binding["worktree"].as_str() != approved.worktree.to_str()
+        || binding["branch"] != approved.branch
+    {
+        return Err("intent_cleanup_binding_invalid".into());
+    }
+    let topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
+    if approved.worktree.exists()
+        || topology
+            .lines()
+            .filter_map(|line| line.strip_prefix("worktree "))
+            .any(|path| path == approved.worktree.to_str().unwrap_or_default())
+    {
+        return Err("intent_cleanup_absence_target_present".into());
+    }
+    let semantic = context.semantic_cleanup_absence_context()?;
+    let semantic_binding = semantic
+        .snapshot
+        .inputs()
+        .binding()
+        .ok_or("intent_cleanup_semantic_binding_required")?;
+    if semantic_binding.worktree != approved.worktree
+        || semantic_binding.branch != approved.branch
+        || semantic_binding.head != approved.head
+    {
+        return Err("intent_cleanup_semantic_binding_mismatch".into());
+    }
+    if semantic.snapshot.pending().is_some()
+        || semantic.snapshot.completed().iter().any(|done| {
+            DurableTransactionStore::inspect_effect(&semantic.root, &semantic.key, done.id())
+                .is_ok_and(|inspection| {
+                    inspection.request().command() == SemanticCommand::RecordCleanup
+                })
+        })
+    {
+        return Err("intent_cleanup_absence_operation_already_exists".into());
+    }
+
+    let native: TerminalRouteRequest = serde_json::from_value(json!({
+        "repository":context.repository,
+        "issue":context.issue,
+        "expected_head_sha":receipt.head_sha,
+        "pull_request":receipt.pull_request,
+        "mode":"closing",
+        "credential_names":["GITHUB_TOKEN"]
+    }))
+    .map_err(|_| "intent_terminal_request_invalid")?;
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let staged = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|finding| finding.code)?;
+    if staged.status != TerminalRouteStatus::Ready {
+        return Err("intent_cleanup_absence_remote_terminal_required".into());
+    }
+
+    let packet = json!({
+        "schema":"csdlc.v3.semantic_cleanup_absence_reconciliation.v1",
+        "repository":context.repository,
+        "issue":context.issue,
+        "binding":binding,
+        "terminal_receipt_digest":receipt_digest,
+        "topology":topology,
+        "disposition":request.content,
+        "remote_terminal":staged
+    });
+    let token = blake3::hash(&encode(&packet)?).to_hex().to_string();
+    if !request.execute {
+        return Ok(Some(json!({
+            "status":"ready",
+            "read_only":true,
+            "operational_authority":false,
+            "performed_mutation":false,
+            "preview_token":token,
+            "reconciliation":packet
+        })));
+    }
+    if request.preview.as_deref() != Some(token.as_str()) {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    context.fresh()?;
+    if approved.worktree.exists()
+        || git(&context.primary, &["worktree", "list", "--porcelain"])? != packet["topology"]
+    {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    let disposition_bytes = encode(&request.content)?;
+    let origin = EffectOrigin::cleanup(
+        semantic_binding.clone(),
+        CleanupIdentity::from_absence_reconciliation(
+            receipt_bytes,
+            encode(&packet)?,
+            disposition_bytes.clone(),
+        )
+        .map_err(semantic_error)?,
+    );
+    let operation = EffectRequest::new(
+        SemanticCommand::RecordCleanup,
+        NativeIdentity::new("terminal-cleanup-absence-reconciliation".into(), token)
+            .map_err(semantic_error)?,
+        origin,
+        &encode(&json!({
+            "schema":ABSENT_CLEANUP_DISPOSITION_SCHEMA,
+            "disposition":request.content,
+            "reconciliation":packet
+        }))?,
+    )
+    .map_err(semantic_error)?;
+    let facts = Facts {
+        terminal_receipt: true,
+        cleanup: true,
+        ..Default::default()
+    };
+    let ticket = match DurableTransactionStore::reserve_effect(
+        &semantic.root,
+        EffectAdmission::from_native_owner(
+            semantic.admission.clone(),
+            operation.origin().clone(),
+            facts.clone(),
+        ),
+        operation.clone(),
+    )
+    .map_err(semantic_error)?
+    {
+        Reservation::Reserved(ticket) => ticket,
+        Reservation::AlreadyPending(_) | Reservation::AlreadyCompleted(_) => {
+            return Err("intent_cleanup_absence_operation_already_exists".into())
+        }
+    };
+    semantic.fresh_for_recovery_effect(ticket.id())?;
+    Ok(Some(effect_result(
+        context,
+        &semantic,
+        ticket,
+        &operation,
+        Ok(json!({
+            "status":"expected_noop",
+            "read_only":false,
+            "operational_authority":false,
+            "performed_mutation":false,
+            "historical_effect_truth":EffectTruth::NotPerformed,
+            "reconciled_absence":packet
+        })),
+        facts,
+    )?))
+}
+
 pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> {
     if request.command != "finish" && !request.content.is_null() {
         return Err("intent_terminal_unexpected_content".into());
@@ -420,6 +631,34 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 .map_err(semantic_error)?,
         )
         .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+        if retained["schema"] == ABSENT_CLEANUP_DISPOSITION_SCHEMA {
+            let completed = semantic
+                .snapshot
+                .completed()
+                .iter()
+                .find(|done| done.id() == &selected)
+                .ok_or("intent_cleanup_semantic_completion_required")?;
+            if completed.outcome() != OutcomeKind::Success
+                || completed.truth() != EffectTruth::NotPerformed
+            {
+                return Err("intent_cleanup_semantic_success_required".into());
+            }
+            return Ok(json!({
+                "status":"expected_noop",
+                "read_only":true,
+                "operational_authority":false,
+                "performed_mutation":false,
+                "historical_effect_truth":"not_performed",
+                "issue":context.issue,
+                "terminal_head":receipt.head_sha,
+                "semantic":{
+                    "operation_id":completed.id().as_str(),
+                    "outcome":completed.outcome(),
+                    "effect_truth":completed.truth(),
+                    "version":semantic.snapshot.version()
+                }
+            }));
+        }
         let expected = encode(&retained["archive_identity"])?;
         let archive = semantic_matching_retained_cleanup_archive_identity(
             &context.primary,
