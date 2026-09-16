@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1036,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1036-adopt-bound-legacy-semantic-state",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "d381ce0082a27202e1819076122101e7c6a600da33a8dec27dabc72779ad6d8d"
+}
