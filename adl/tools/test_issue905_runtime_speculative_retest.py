@@ -92,13 +92,16 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
 
             create.assert_called_once()
             self.assertEqual(create.call_args.args[0], "occupied-run123:latest")
-            self.assertEqual(cleanup_calls, [])
+            self.assertEqual(cleanup_calls, [["ollama", "rm", "occupied-run123:latest"]])
             report = json.loads((root / "run/report.json").read_text())
             self.assertEqual(report["result"], "failed")
             self.assertEqual(report["error_class"], "RuntimeError")
-            self.assertEqual(report["cleanup"]["models"], [])
+            self.assertEqual(
+                report["cleanup"]["models"],
+                [{"name": "occupied-run123:latest", "removed": True}],
+            )
 
-    def test_identity_setup_failure_records_report_and_removes_only_created_aliases(self):
+    def test_identity_setup_failure_records_report_and_removes_run_owned_aliases(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             argv = self.argv(root)
@@ -123,7 +126,11 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
 
             self.assertEqual(
                 removed,
-                ["adl-905-arm-b-run123:latest", "adl-905-arm-a-run123:latest"],
+                [
+                    "adl-905-invalid-draft-run123:latest",
+                    "adl-905-arm-b-run123:latest",
+                    "adl-905-arm-a-run123:latest",
+                ],
             )
             report = json.loads((root / "run/report.json").read_text())
             self.assertEqual(report["result"], "failed")
@@ -161,6 +168,53 @@ class RuntimeRetestSafetyTests(unittest.TestCase):
                 report["cleanup"]["errors"],
                 [{"resource": "cleanup", "error_class": "PermissionError"}],
             )
+
+    def test_ambiguous_create_timeout_removes_run_owned_alias(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            argv = self.argv(root)
+            removed = []
+
+            def subprocess_run(args, **_kwargs):
+                if args[:2] == ["ollama", "rm"]:
+                    removed.append(args[2])
+                return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+            with patch("sys.argv", argv), \
+                    patch.object(retest.secrets, "token_hex", return_value="run123"), \
+                    patch.object(retest, "installed_model_names", return_value={"qwen3.5:9b"}), \
+                    patch.object(retest, "create_model", side_effect=retest.subprocess.TimeoutExpired("ollama create", 120)), \
+                    patch.object(retest.subprocess, "run", side_effect=subprocess_run):
+                with self.assertRaises(retest.subprocess.TimeoutExpired):
+                    retest.main()
+
+            self.assertEqual(removed, ["adl-905-arm-a-run123:latest"])
+            report = json.loads((root / "run/report.json").read_text())
+            self.assertEqual(report["result"], "failed")
+            self.assertEqual(report["error_class"], "TimeoutExpired")
+            self.assertEqual(report["cleanup"]["models"][0]["name"], removed[0])
+
+    def test_resource_accessor_error_cannot_skip_owned_model_cleanup(self):
+        class BrokenResource:
+            @property
+            def server(self):
+                raise RuntimeError("broken resource")
+
+        removed = []
+
+        def subprocess_run(args, **_kwargs):
+            removed.append(args[2])
+            return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+        with patch.object(retest.subprocess, "run", side_effect=subprocess_run):
+            result = retest.cleanup({"fixture": BrokenResource()}, ["owned-run123:latest"])
+
+        self.assertEqual(removed, ["owned-run123:latest"])
+        self.assertEqual(
+            result["errors"],
+            [{"resource": "resource_cleanup", "error_class": "RuntimeError"}],
+        )
+        self.assertTrue(result["models"][0]["removed"])
 
 
 if __name__ == "__main__":

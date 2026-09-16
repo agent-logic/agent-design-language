@@ -207,60 +207,68 @@ def validate_model_aliases(source_model: str, aliases: tuple[str, ...], existing
     require(not collisions, "model aliases must be fresh; existing aliases: " + ", ".join(collisions))
 
 
-def cleanup(resources: dict[str, object], created_models: list[str]) -> dict:
-    """Best-effort cleanup limited to resources and aliases owned by this run."""
+def cleanup(resources: dict[str, object], owned_models: list[str]) -> dict:
+    """Best-effort cleanup limited to resources and alias namespaces owned by this run."""
     results: dict[str, object] = {"models": [], "errors": []}
-    guardian = resources.get("guardian")
-    if guardian is not None:
-        try:
-            os.killpg(guardian.pid, signal.SIGTERM)
-            guardian.wait(timeout=20)
-        except (ProcessLookupError, subprocess.TimeoutExpired):
+    try:
+        guardian = resources.get("guardian")
+        if guardian is not None:
             try:
-                os.killpg(guardian.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
+                os.killpg(guardian.pid, signal.SIGTERM)
+                guardian.wait(timeout=20)
+            except (ProcessLookupError, subprocess.TimeoutExpired):
+                try:
+                    os.killpg(guardian.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                except Exception as error:
+                    results["errors"].append(
+                        {"resource": "guardian", "error_class": type(error).__name__}
+                    )
             except Exception as error:
                 results["errors"].append(
                     {"resource": "guardian", "error_class": type(error).__name__}
                 )
-        except Exception as error:
-            results["errors"].append({"resource": "guardian", "error_class": type(error).__name__})
-    guardian_log = resources.get("guardian_log")
-    if guardian_log is not None:
-        try:
-            guardian_log.close()
-        except Exception as error:
-            results["errors"].append({"resource": "guardian_log", "error_class": type(error).__name__})
-    for key, attributes in (
-        ("fixture", ("server", "resident_server")),
-        ("proxy", ("server",)),
-    ):
-        resource = resources.get(key)
-        if resource is None:
-            continue
-        for attribute in attributes:
-            server = getattr(resource, attribute, None)
-            if server is not None:
-                try:
-                    server.shutdown()
-                except Exception as error:
-                    results["errors"].append({"resource": f"{key}.{attribute}", "error_class": type(error).__name__})
-    clock = resources.get("clock")
-    sock = getattr(clock, "sock", None) if clock is not None else None
-    if sock is not None:
-        try:
-            sock.close()
-        except Exception as error:
-            results["errors"].append({"resource": "clock.sock", "error_class": type(error).__name__})
-    for model in reversed(created_models):
-        try:
-            completed = subprocess.run(
-                ["ollama", "rm", model], capture_output=True, text=True, timeout=60
-            )
-            results["models"].append({"name": model, "removed": completed.returncode == 0})
-        except Exception as error:
-            results["models"].append({"name": model, "removed": False, "error_class": type(error).__name__})
+        guardian_log = resources.get("guardian_log")
+        if guardian_log is not None:
+            try:
+                guardian_log.close()
+            except Exception as error:
+                results["errors"].append({"resource": "guardian_log", "error_class": type(error).__name__})
+        for key, attributes in (
+            ("fixture", ("server", "resident_server")),
+            ("proxy", ("server",)),
+        ):
+            resource = resources.get(key)
+            if resource is None:
+                continue
+            for attribute in attributes:
+                server = getattr(resource, attribute, None)
+                if server is not None:
+                    try:
+                        server.shutdown()
+                    except Exception as error:
+                        results["errors"].append({"resource": f"{key}.{attribute}", "error_class": type(error).__name__})
+        clock = resources.get("clock")
+        sock = getattr(clock, "sock", None) if clock is not None else None
+        if sock is not None:
+            try:
+                sock.close()
+            except Exception as error:
+                results["errors"].append({"resource": "clock.sock", "error_class": type(error).__name__})
+    except Exception as error:
+        results["errors"].append(
+            {"resource": "resource_cleanup", "error_class": type(error).__name__}
+        )
+    finally:
+        for model in reversed(owned_models):
+            try:
+                completed = subprocess.run(
+                    ["ollama", "rm", model], capture_output=True, text=True, timeout=60
+                )
+                results["models"].append({"name": model, "removed": completed.returncode == 0})
+            except Exception as error:
+                results["models"].append({"name": model, "removed": False, "error_class": type(error).__name__})
     return results
 
 
@@ -282,7 +290,7 @@ def run_json(argv: list[object], env: dict[str, str], allow_failure: bool = Fals
     return completed.returncode, payload, completed.stderr[-1000:]
 
 
-def execute(args: argparse.Namespace, root: Path, report: dict, created_models: list[str], resources: dict[str, object]) -> None:
+def execute(args: argparse.Namespace, root: Path, report: dict, owned_models: list[str], resources: dict[str, object]) -> None:
     require(args.repeats > 0, "repeats must be positive")
     for name in ("csm", "csmctl", "guardian", "kernel", "vector"):
         path = getattr(args, name).resolve()
@@ -322,13 +330,12 @@ def execute(args: argparse.Namespace, root: Path, report: dict, created_models: 
     baseline_modelfile.write_text(common + "PARAMETER draft_num_predict 0\n")
     speculative_modelfile.write_text(common + "PARAMETER draft_num_predict 4\n")
     invalid_modelfile.write_text(common + "PARAMETER draft_num_predict invalid\n")
+    owned_models.append(args.baseline_model)
     create_model(args.baseline_model, baseline_modelfile)
-    created_models.append(args.baseline_model)
+    owned_models.append(args.speculative_model)
     create_model(args.speculative_model, speculative_modelfile)
-    created_models.append(args.speculative_model)
+    owned_models.append(invalid_model)
     invalid_code, invalid_stderr = create_model(invalid_model, invalid_modelfile, True)
-    if invalid_code == 0:
-        created_models.append(invalid_model)
     require(invalid_code != 0, "invalid speculative draft configuration was accepted")
 
     baseline_identity = model_identity(args.baseline_model)
@@ -639,17 +646,17 @@ def main() -> int:
         "source_revision": args.source_revision,
         "result": "setup",
     }
-    created_models: list[str] = []
+    owned_models: list[str] = []
     resources: dict[str, object] = {}
     try:
-        execute(args, root, report, created_models, resources)
+        execute(args, root, report, owned_models, resources)
     except Exception as error:
         report["result"] = "failed"
         report["error_class"] = type(error).__name__
         raise
     finally:
         try:
-            report["cleanup"] = cleanup(resources, created_models)
+            report["cleanup"] = cleanup(resources, owned_models)
         except Exception as cleanup_error:
             report["cleanup"] = {
                 "models": [],

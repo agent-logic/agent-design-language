@@ -11,8 +11,9 @@
       "proof": [
         "Every requested alias is materialized with a cryptographically random 128-bit run suffix before collision validation or creation.",
         "Materialized aliases must remain canonical-distinct, different from the source model, and absent from the pre-run Ollama inventory.",
-        "Cleanup removes only materialized aliases recorded after a successful create call.",
-        "Focused regressions prove tag-preserving run scoping and that a requested source-model name cannot be created or removed under its existing name."
+        "Each materialized alias namespace is claimed before create so ambiguous daemon completion is followed by a removal attempt.",
+        "Model removal runs in a cleanup finally even if another resource accessor fails.",
+        "Focused regressions prove tag-preserving run scoping, requested-name isolation, ambiguous-create cleanup, and resource-error cleanup continuation."
       ]
     },
     {
@@ -23,13 +24,13 @@
         "All argument validation, setup, execution, and cleanup stages run inside the failure-recording scope after the output root and report are initialized.",
         "Cleanup captures guardian termination errors instead of masking the primary failure.",
         "The outer reporting scope converts an unexpected cleanup exception to structured cleanup evidence before writing report.json.",
-        "Focused regressions cover identity failure, guardian kill failure, cleanup failure, and nonpositive repeats."
+        "Focused regressions cover identity failure, ambiguous create completion, resource accessor failure, guardian kill failure, outer cleanup failure, and nonpositive repeats."
       ]
     }
   ],
   "validation": {
-    "deterministic_tests": 19,
-    "new_safety_regressions": 6,
+    "deterministic_tests": 21,
+    "new_safety_regressions": 8,
     "python_compile": "passed",
     "diff_check": "passed"
   },

@@ -1,0 +1,31 @@
+{
+  "issue": 905,
+  "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/905-v0922-speculative-decoding-retest",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-905-v0922-speculative-decoding-retest",
+  "registry_version": "1.0.5",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "expected_lifecycle_digest": "56b2ed15bced5b2bbdc9279c461cab57aa6ebc6fdf0a0dee8fa194ca1113ae7d",
+  "card_updates": {
+    "spp": {
+      "notes_risks_inline": "Implementation and current Runtime proof remain complete with conservative repair_inconclusive disposition. Independent follow-up at 1a6ebbfb found ambiguous create completion and unexpected resource access could still leave a run-owned alias. Each random run-scoped namespace is now claimed before create and model removal executes in a cleanup finally. Twenty-one focused tests pass. Exact-head re-review, push and renewed CI remain pending; merge is explicitly withheld by the operator."
+    },
+    "vpp": {
+      "notes_risks_inline": "Correctness and bounded recovery passed; performance remains repair_inconclusive. Eight deterministic safety regressions cover run-scoped alias derivation, requested-name isolation, owned cleanup, identity failure, ambiguous create completion, resource accessor failure, guardian kill failure, outer cleanup failure and nonpositive repeats. Hardware measurements were not rerun because setup ownership and cleanup changed without altering measured execution. Accepted/proposed counters remain unavailable."
+    },
+    "srp": {
+      "review_findings": "Initial review of PR #1004 at e3159b6e5ba225e07d9bc8110ed655939ffe0a04 found two P2s. Follow-up at b7b73d8a6855abfee47ba0c89f33d1add782e1e6 found an alias check/use race and missing report paths. Review at 1a6ebbfb686b02c42e76c3b62b964e211440f3a0 found ambiguous create completion and unexpected resource access could still skip run-owned alias cleanup.",
+      "review_dispositions": "All reported paths are repaired. Requested aliases become cryptographically random 128-bit run-scoped names. Each namespace is claimed before create, so timeout after daemon acceptance still triggers removal, and model removal runs in a cleanup finally even if other resource cleanup fails. Validation occurs inside the reporting scope and cleanup errors are serialized. Twenty-one focused tests pass; exact-head re-review is pending.",
+      "review_notes": "All reviews accepted the retained eight exact pairs and repair_inconclusive disposition without a hardware rerun. Remediation affects harness ownership and failure safety only; measured evidence is unchanged. Publication remains blocked until renewed exact-head review passes."
+    },
+    "sor": {
+      "summary": "Current Runtime correctness and recovery remain proved; performance remains repair_inconclusive. PR #1004 alias ownership and failure-evidence defects now include pre-create namespace ownership and finally-guaranteed model cleanup; exact-head re-review is pending.",
+      "validation_result": "PASS: 13 deterministic benchmark/accounting tests plus 8 deterministic alias-ownership/failure-reporting regressions, Python compilation, immutable model/tokenizer identity checks, eight-pair current Runtime proof, counterbalanced symmetric warm procedure, controlled invalid-draft rejection, healthy operator-selected ordinary recovery and diff hygiene. Exact-head re-review and renewed CI pending.",
+      "actions_taken_line_3": "Rejected invalid draft configuration, verified healthy operator-selected ordinary generation, claimed cryptographically run-scoped alias namespaces before create, and guaranteed model cleanup despite ambiguous create or unrelated resource cleanup failures.",
+      "determinism_tests_executed": "21 deterministic tests: 13 benchmark/accounting cases and 8 alias-ownership/failure-reporting regressions; plus eight exact expected-marker paired Runtime comparisons",
+      "integration_result": "PR #1004 is open; third-round review changes are local pending commit/push, renewed review and CI. No merge authorized.",
+      "end_time": "Third-round review remediation implemented and locally validated; exact-head re-review pending"
+    }
+  }
+}

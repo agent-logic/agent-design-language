@@ -29,11 +29,11 @@ Execution:
 - Model: `Qwen3.5:9b resident immutable GGUF target; equal-length temporary arm aliases differ only by draft_num_predict`
 - Provider: `Ollama 0.32.14 through current Runtime provider registry and compatibility fallback`
 - Start Time: `2026-09-15 bounded execution session`
-- End Time: `Second-round review remediation implemented and locally validated; exact-head re-review pending`
+- End Time: `Third-round review remediation implemented and locally validated; exact-head re-review pending`
 
 ## Summary
 
-Current Runtime correctness and recovery remain proved; performance remains repair_inconclusive. PR #1004 alias ownership and failure-evidence defects, including the follow-up race and cleanup exception paths, are repaired with run-scoped names and failure-safe reporting; exact-head re-review is pending.
+Current Runtime correctness and recovery remain proved; performance remains repair_inconclusive. PR #1004 alias ownership and failure-evidence defects now include pre-create namespace ownership and finally-guaranteed model cleanup; exact-head re-review is pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -81,7 +81,7 @@ Current Runtime correctness and recovery remain proved; performance remains repa
 ## Actions taken
 - `Added a bounded current Runtime harness that creates and verifies same-blob baseline/speculative aliases and reuses the exact Runtime identity for both arms.`
 - `Executed four counterbalanced blocks with symmetric direct preload and excluded Runtime prewarm; all eight measured output pairs matched exactly.`
-- `Rejected invalid draft configuration, verified healthy operator-selected ordinary generation, assigned cryptographically run-scoped temporary aliases, and made setup and cleanup failure reporting fail-safe.`
+- `Rejected invalid draft configuration, verified healthy operator-selected ordinary generation, claimed cryptographically run-scoped alias namespaces before create, and guaranteed model cleanup despite ambiguous create or unrelated resource cleanup failures.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
@@ -92,7 +92,7 @@ Current Runtime correctness and recovery remain proved; performance remains repa
 - Verification performed:
   - `Pending renewed hosted CI; merge explicitly withheld by operator`
     `No merge or terminal integration claim; conservative repair_inconclusive disposition unchanged.`
-- Result: `PR #1004 is open; second-round review changes are local pending commit/push, renewed review and CI. No merge authorized.`
+- Result: `PR #1004 is open; third-round review changes are local pending commit/push, renewed review and CI. No merge authorized.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cd adl/tools && python3 -m unittest -v test_issue905_runtime_speculative_retest.py test_vllm_qwen_speculative_decoding_benchmark.py; python3 -m py_compile issue905_runtime_speculative_retest.py test_issue905_runtime_speculative_retest.py; git diff --check; native validate`
     `Establishes same-model/tokenizer correctness and bounded invalid-draft recovery, and prevents aggregate-only speed claims by recording per-block distributions and a robustness gate.`
 - Results:
-  - `PASS: 13 deterministic benchmark/accounting tests plus 6 deterministic alias-ownership/failure-reporting regressions, Python compilation, immutable model/tokenizer identity checks, eight-pair current Runtime proof, counterbalanced symmetric warm procedure, controlled invalid-draft rejection, healthy operator-selected ordinary recovery and diff hygiene. Exact-head re-review and renewed CI pending.`
+  - `PASS: 13 deterministic benchmark/accounting tests plus 8 deterministic alias-ownership/failure-reporting regressions, Python compilation, immutable model/tokenizer identity checks, eight-pair current Runtime proof, counterbalanced symmetric warm procedure, controlled invalid-draft rejection, healthy operator-selected ordinary recovery and diff hygiene. Exact-head re-review and renewed CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `19 deterministic tests: 13 benchmark/accounting cases and 6 alias-ownership/failure-reporting regressions; plus eight exact expected-marker paired Runtime comparisons`
+- Determinism tests executed: `21 deterministic tests: 13 benchmark/accounting cases and 8 alias-ownership/failure-reporting regressions; plus eight exact expected-marker paired Runtime comparisons`
 - Fixtures or scripts used: `adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py; adl/tools/issue905_runtime_speculative_retest.py`
 - Replay verification (same inputs -> same artifacts/order): `runtime-run-14 completed with eight exact output pairs, counterbalanced symmetric prewarm and same Runtime identity`
 - Ordering guarantees (sorting / tie-break rules used): `Four blocks alternate A/B then B/A; each arm switch receives a symmetric direct preload and excluded Runtime prewarm before measurement.`
