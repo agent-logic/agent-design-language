@@ -316,7 +316,10 @@ pub(super) fn semantic_card_projection_observation(
     Ok(Some((snapshot, bundle, observation)))
 }
 
-fn semantic_rebuild(context: &Context, registry: &local::PromptRegistry) -> Result<Value, String> {
+pub(super) fn semantic_rebuild(
+    context: &Context,
+    registry: &local::PromptRegistry,
+) -> Result<Value, String> {
     use crate::storage::{
         semantic::{Admission, CardProjectionObservation, CommitOutcome, LocalChange},
         DurableTransactionStore,

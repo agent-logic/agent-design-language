@@ -21,6 +21,11 @@ pub(crate) fn semantic_card_projection_healthy(context: &Context) -> Result<bool
     )
 }
 
+pub(crate) fn rebuild_semantic_card_projection(context: &Context) -> Result<(), String> {
+    let registry = context.registry()?;
+    local::semantic_rebuild(context, &registry).map(|_| ())
+}
+
 pub const INTENTS: [&str; 15] = [
     "status", "prepare", "bind", "edit", "rebuild", "validate", "proof", "review", "publish",
     "finish", "clean", "recover", "install", "cutover", "rollback",
