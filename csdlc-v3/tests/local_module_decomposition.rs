@@ -37,7 +37,8 @@ const MODULES: [(&str, &str); 14] = [
 
 fn dependency_style_error(source: &str, modules: &[&str]) -> Option<String> {
     let compact_source = source.split_whitespace().collect::<String>();
-    if compact_source.contains("commands::local") {
+    let normalized_absolute_paths = compact_source.replace(['{', '}'], "");
+    if normalized_absolute_paths.contains("crate::commands") {
         return Some("absolute local-module paths are forbidden".into());
     }
     for statement in source.split(';') {
@@ -45,6 +46,9 @@ fn dependency_style_error(source: &str, modules: &[&str]) -> Option<String> {
             continue;
         };
         let compact_import = import.split_whitespace().collect::<String>();
+        if compact_import.starts_with("crateas") {
+            return Some("aliases of the crate root are forbidden in local modules".into());
+        }
         if compact_import.starts_with("super::{")
             && modules
                 .iter()
@@ -127,6 +131,9 @@ fn alternate_sibling_import_forms_fail_closed() {
         "use super::{routing::execute};",
         "use crate::commands::local::routing::execute;",
         "use crate::{commands::local::routing::execute};",
+        "use crate::commands::{local::routing::execute};",
+        "use crate::{commands::{local::routing::execute}};",
+        "use crate as root; use root::commands::local::routing::execute;",
     ] {
         assert!(dependency_style_error(rejected, &modules).is_some());
     }
