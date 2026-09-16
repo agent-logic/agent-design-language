@@ -47,6 +47,8 @@ fn dependency_style_error(source: &str, modules: &[&str]) -> Option<String> {
         let normalized_import = compact_import.replace(['{', '}'], "");
         if normalized_import.starts_with("crateas")
             || normalized_import.starts_with("crate::selfas")
+            || normalized_import.starts_with("crate::commandsas")
+            || normalized_import.starts_with("crate::commands::selfas")
             || normalized_import.starts_with("superas")
             || normalized_import.starts_with("super::selfas")
         {
@@ -153,6 +155,9 @@ fn alternate_sibling_import_forms_fail_closed() {
         "use crate::{commands::{remote::routing::dispatch_operational_remote}};",
         "use crate as root; use root::commands::remote::routing::dispatch_operational_remote;",
         "use crate::{self as root}; use root::commands::remote::routing::dispatch_operational_remote;",
+        "use crate::commands as cmd; use cmd::remote::routing::dispatch_operational_remote;",
+        "use crate::commands::{self as cmd}; use cmd::remote::routing::dispatch_operational_remote;",
+        "use crate::{commands::{self as cmd}}; use cmd::remote::routing::dispatch_operational_remote;",
         "use super as parent; use parent::routing::dispatch_operational_remote;",
         "use super::{self as parent}; use parent::routing::dispatch_operational_remote;",
         "use super::routing as routed;",
