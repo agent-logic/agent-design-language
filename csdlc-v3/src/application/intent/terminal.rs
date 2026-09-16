@@ -504,6 +504,25 @@ pub fn recover_absent_cleanup(
             return Err("intent_cleanup_absence_operation_already_exists".into())
         }
     };
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("cleanup_absence_after_reservation")
+    {
+        std::process::exit(91);
+    }
+    let reserved_topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let reserved_terminal = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|finding| finding.code)?;
+    if approved.worktree.exists()
+        || reserved_topology != packet["topology"]
+        || file_digest(&receipt_path)?.as_deref() != Some(approved.terminal_receipt_digest.as_str())
+        || reserved_terminal.status != TerminalRouteStatus::Ready
+        || serde_json::to_value(&reserved_terminal)
+            .map_err(|_| "intent_terminal_observation_invalid")?
+            != packet["remote_terminal"]
+    {
+        return Err("intent_cleanup_absence_changed_after_reservation".into());
+    }
     semantic.fresh_for_recovery_effect(ticket.id())?;
     Ok(Some(effect_result(
         context,

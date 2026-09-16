@@ -2324,7 +2324,7 @@ fn cleanup_recover_reconciles_explicit_already_absent_without_prior_operation() 
     assert_eq!(preview["status"], "ready");
     assert_eq!(preview["performed_mutation"], false);
     let token = preview["preview_token"].as_str().expect("preview token");
-    let reconciled = success(fixture.run(
+    let interrupted = fixture.run_with_env(
         &primary,
         &[
             "recover",
@@ -2334,6 +2334,50 @@ fn cleanup_recover_reconciles_explicit_already_absent_without_prior_operation() 
             "--execute",
             "--preview",
             token,
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "cleanup_absence_after_reservation",
+        )],
+    );
+    assert_eq!(interrupted.status.code(), Some(91));
+    fs::create_dir_all(&linked).unwrap();
+    let overlapped = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !overlapped.status.success()
+            && String::from_utf8_lossy(&overlapped.stdout)
+                .contains("intent_cleanup_absence_target_present"),
+        "restored checkout was reconciled as absent: {overlapped:?}"
+    );
+    fs::remove_dir(&linked).unwrap();
+    let resumed = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    let resumed_token = resumed["preview_token"].as_str().expect("resumed token");
+    let reconciled = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            resumed_token,
         ],
     ));
     assert_eq!(reconciled["status"], "expected_noop");
