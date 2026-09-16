@@ -57,7 +57,7 @@ Local implementation and proof complete:15focused and15instrumentedtests, strict
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_authored_local_proof_in_progress`
+- Completion state: `local_proof_complete_hosted_ci_pending`
 - Issue goal ref: `Active whole Sprint 3 #929 goal includes #888 and all eight children; no replacement goal and no operator time or token cutoff.`
 - Sprint goal ref: `Active whole Sprint 3 #929 goal includes #888 and all eight children; no replacement goal and no operator time or token cutoff.`
 - Goal metrics rollup ref: `.csdlc/evidence/888/goal-metrics.json (planned; absent until execution)`
@@ -81,7 +81,7 @@ Local implementation and proof complete:15focused and15instrumentedtests, strict
 ## Actions taken
 - `Implemented candidate/packet/policy-bound CI adapter, original exit propagation and dedicated workflow.`
 - `Integrated accepted sibling changes and ran fifteen focused tests successfully.`
-- `Resolved independent source findings R1/R2; refreshed coverage and installed proof plus final exact-head review remain pending.`
+- `Completed integrated15normal and15instrumentedtests,strictClippy,4installedscenario groups and independent source/localproof review. HostedCIpending.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; root main remains inspection-only. Changes are in the bound #888 worktree.`
@@ -157,17 +157,17 @@ verification_summary:
 - Sandbox / policy invariants preserved: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/888/: focused test logs and independent review evidence; final proof inventory and installed outputs in progress.`
+- Trace bundle path(s): `.csdlc/evidence/888/LOCAL_PROOF.json; integrated-installed-proof.json; integrated-coverage.json; review/final-source-review.json`
 - Run artifact root: `.csdlc/evidence/888/`
 - Replay command used for verification: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
 - Replay result: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/888/`
-- Required artifacts present: `Source, tests and review evidence exist; final inventory and required hosted evidence remain incomplete.`
+- Required artifacts present: `Local sourcehashinventory,coverage,installedproof,and independentreview present; hostedjob/artifactproof pending`
 - Artifact schema/version checks: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
 - Hash/byte-stability checks: `Not yet established by the current proof snapshot; implementation exists and final relevant verification remains pending.`
-- Missing/optional artifacts and rationale: `Hosted artifacts are not optional: no PR exists yet. Final local installed/coverage proof is in progress; no provider evidence applies.`
+- Missing/optional artifacts and rationale: `No optional local proof missing. Required hosted CI proof awaits publication.`
 
 ## Decisions / Deviations
 - `Execution prerequisite #887 is satisfied by accepted PR #989 merge 49ca9f2fcf785a2f8e6b75676279db4f0936f925 and passing hosted CI. #888 is bound in its registered FastWork worktree and integrates all seven merged Sprint #929 siblings. Preserve the existing dependency graph and serialize shared CLI edits under Worker #10.`
