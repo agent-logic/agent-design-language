@@ -21,6 +21,12 @@ process I/O. The endpoint-free
 bind the effective controls and codec without retaining prompts, credentials,
 endpoint values, or responses.
 
+Credential references are also codec-checked. Bearer environment references
+remain the common form. Vertex Gemini additionally accepts `adc` and
+`workload_identity` strategies with an optional access-token environment
+override; the reference is observable in typed target metadata but excluded
+from the inference projection and fingerprint.
+
 The canonical controls are:
 
 - `context_window_tokens`
@@ -30,6 +36,7 @@ The canonical controls are:
 - `deterministic_seed`
 - `timeout_secs`
 - `reasoning_effort`, `clear_thinking`, and Ollama `think`
+- Vertex `thinking_budget`, `thinking_level`, and `include_thoughts`
 - `local_keep_alive`
 
 `runtime_max_output_tokens` remains a Runtime safety cap. When both it and a
@@ -49,7 +56,8 @@ Built-in codecs declare these consumption sets:
 | Ollama HTTP generate | context, output, temperature, top-p, seed, timeout, think, keep-alive |
 | Ollama local CLI | timeout only |
 | MLX OpenAI-compatible chat | output, temperature, top-p, seed, timeout |
-| OpenAI, Anthropic, DeepSeek, OpenRouter, Bedrock Nova, Vertex Gemini, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
+| OpenAI, Anthropic, DeepSeek, OpenRouter, Bedrock Nova, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
+| Vertex Gemini | output, temperature, top-p, timeout, thinking budget or level, include-thoughts |
 | Legacy generic HTTP `{prompt}` payload | timeout only; supplied sampling or output controls reject before adapter construction |
 | Kimi chat | common chat controls plus reasoning effort |
 | Z.ai chat | common chat controls plus reasoning effort and clear-thinking |
@@ -62,11 +70,14 @@ codec's set are serialized into that codec's provider request.
 The shared profile contract is:
 
 - `provider_model_id` binds the provider-native model selected by the profile.
-- `temperature`, `top_p`, `max_output_tokens`, and `timeout_secs` are present
+- Except for `mock:echo-v1`, `temperature`, `top_p`, `max_output_tokens`, and `timeout_secs` are present
   after expansion and validated before activation. Compatibility overrides are
   bounded to `temperature` in `[0.0, 2.0]`, `top_p` in `[0.0, 1.0]`,
   `max_output_tokens` no greater than `32768`, and `timeout_secs` no greater
   than `600`.
+- `mock:echo-v1` materializes no inference controls because its in-process
+  echo codec consumes none. Explicit inference controls on that profile reject
+  before adapter construction.
 - Ollama profiles use `materialization_policy: deterministic_ollama_v1`,
   `temperature: 0.0`, `top_p: 1.0`, `max_output_tokens: 512`,
   `timeout_secs: 120`, and `deterministic_seed: 0`. They now materialize

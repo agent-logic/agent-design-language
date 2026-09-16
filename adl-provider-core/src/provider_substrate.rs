@@ -63,6 +63,9 @@ pub enum InferenceControlV1 {
     DeterministicSeed,
     TimeoutSecs,
     ReasoningEffort,
+    ThinkingBudget,
+    ThinkingLevel,
+    IncludeThoughts,
     ClearThinking,
     Think,
     LocalKeepAlive,
@@ -101,6 +104,12 @@ pub struct EffectiveInferenceConfigV1 {
     #[serde(default)]
     pub reasoning_effort: Option<String>,
     #[serde(default)]
+    pub thinking_budget: Option<u64>,
+    #[serde(default)]
+    pub thinking_level: Option<String>,
+    #[serde(default)]
+    pub include_thoughts: Option<bool>,
+    #[serde(default)]
     pub clear_thinking: Option<bool>,
     #[serde(default)]
     pub think: Option<OllamaThinkV1>,
@@ -129,6 +138,18 @@ impl EffectiveInferenceConfigV1 {
             (
                 self.reasoning_effort.is_some(),
                 InferenceControlV1::ReasoningEffort,
+            ),
+            (
+                self.thinking_budget.is_some(),
+                InferenceControlV1::ThinkingBudget,
+            ),
+            (
+                self.thinking_level.is_some(),
+                InferenceControlV1::ThinkingLevel,
+            ),
+            (
+                self.include_thoughts.is_some(),
+                InferenceControlV1::IncludeThoughts,
             ),
             (
                 self.clear_thinking.is_some(),
@@ -355,6 +376,37 @@ fn effective_inference_config_v1(spec: &adl::ProviderSpec) -> Result<EffectiveIn
         Some(Value::Bool(value)) => Some(*value),
         Some(_) => return Err(invalid_control("clear_thinking", "must be a boolean")),
     };
+    let thinking_budget =
+        match spec.config.get("thinking_budget") {
+            None => None,
+            Some(value) => Some(value.as_u64().ok_or_else(|| {
+                invalid_control("thinking_budget", "must be a non-negative integer")
+            })?),
+        };
+    let thinking_level = match spec.config.get("thinking_level") {
+        None => None,
+        Some(Value::String(value)) => {
+            let value = value.trim().to_ascii_lowercase();
+            if !matches!(value.as_str(), "minimal" | "low" | "medium" | "high") {
+                return Err(invalid_control(
+                    "thinking_level",
+                    "must be one of minimal, low, medium, high",
+                ));
+            }
+            Some(value)
+        }
+        Some(_) => return Err(invalid_control("thinking_level", "must be a string")),
+    };
+    if thinking_budget.is_some() && thinking_level.is_some() {
+        return Err(anyhow!(
+            "conflicting_aprovider_inference_controls: config.thinking_budget and config.thinking_level are mutually exclusive"
+        ));
+    }
+    let include_thoughts = match spec.config.get("include_thoughts") {
+        None => None,
+        Some(Value::Bool(value)) => Some(*value),
+        Some(_) => return Err(invalid_control("include_thoughts", "must be a boolean")),
+    };
     let think = match spec.config.get("think") {
         None => None,
         Some(Value::Bool(value)) => Some(OllamaThinkV1::Enabled(*value)),
@@ -407,6 +459,9 @@ fn effective_inference_config_v1(spec: &adl::ProviderSpec) -> Result<EffectiveIn
         deterministic_seed: optional_u64(&spec.config, "deterministic_seed", 0, u32::MAX as u64)?,
         timeout_secs: optional_u64(&spec.config, "timeout_secs", 1, 86_400)?,
         reasoning_effort,
+        thinking_budget,
+        thinking_level,
+        include_thoughts,
         clear_thinking,
         think,
         local_keep_alive,
@@ -415,6 +470,7 @@ fn effective_inference_config_v1(spec: &adl::ProviderSpec) -> Result<EffectiveIn
 
 fn credential_reference_v1(
     spec: &adl::ProviderSpec,
+    codec: &ProviderCodecControlsV1,
 ) -> Result<Option<ProviderCredentialReferenceV1>> {
     let nested = match spec.config.get("auth") {
         None => None,
@@ -447,7 +503,11 @@ fn credential_reference_v1(
         .and_then(Value::as_str)
         .or_else(|| cfg_str(&spec.config, "api_key_env"))
         .or_else(|| cfg_str(&spec.config, "auth_env"))
-        .or_else(|| cfg_str(&spec.config, "token_env"));
+        .or_else(|| cfg_str(&spec.config, "token_env"))
+        .or_else(|| {
+            (codec.codec == "vertex_gemini_v1" && matches!(strategy, "adc" | "workload_identity"))
+                .then_some("ADL_VERTEX_AI_ACCESS_TOKEN")
+        });
     let file_environment = nested
         .and_then(|auth| auth.get("file_env"))
         .and_then(Value::as_str);
@@ -465,12 +525,15 @@ fn credential_reference_v1(
                 byte == b'_' || byte.is_ascii_alphabetic() || (index > 0 && byte.is_ascii_digit())
             })
     };
-    if strategy != "bearer"
+    let strategy_supported = strategy == "bearer"
+        || (codec.codec == "vertex_gemini_v1" && matches!(strategy, "adc" | "workload_identity"));
+    if !strategy_supported
         || !valid_env(environment)
         || file_environment.is_some_and(|value| !valid_env(value))
+        || (strategy != "bearer" && file_environment.is_some())
     {
         return Err(anyhow!(
-            "invalid_aprovider_credential_reference: expected bearer environment references"
+            "invalid_aprovider_credential_reference: strategy is not supported by the selected codec"
         ));
     }
     Ok(Some(ProviderCredentialReferenceV1 {
@@ -718,7 +781,18 @@ fn codec_controls(
         }
         ("vertex_ai_gemini", ProviderTransportV1::Http)
         | ("vertex_ai", ProviderTransportV1::Http)
-        | ("vertex", ProviderTransportV1::Http) => ("vertex_gemini_v1", common.clone()),
+        | ("vertex", ProviderTransportV1::Http) => (
+            "vertex_gemini_v1",
+            vec![
+                MaxOutputTokens,
+                Temperature,
+                TopP,
+                TimeoutSecs,
+                ThinkingBudget,
+                ThinkingLevel,
+                IncludeThoughts,
+            ],
+        ),
         ("http", ProviderTransportV1::Http) | ("http_remote", ProviderTransportV1::Http) => {
             if generic_http_chat_mode(spec) {
                 ("generic_http_chat_v1", common)
@@ -1087,8 +1161,8 @@ pub fn provider_substrate_v1(
     let transport = infer_transport(spec)?;
     let vendor = infer_vendor(spec);
     let provider_kind = normalized_provider_kind(&spec.kind);
-    let credential_reference = credential_reference_v1(spec)?;
     let codec_controls = codec_controls(&provider_kind, &transport, spec);
+    let credential_reference = credential_reference_v1(spec, &codec_controls)?;
     let provider_default_model_id = default_provider_model_id(spec);
     let effective_inference = normalized_effective_inference(
         spec,
@@ -1878,6 +1952,85 @@ mod tests {
         )
         .unwrap();
         assert!(!projection.contains("OPENAI_API_KEY"));
+    }
+
+    #[test]
+    fn vertex_adc_and_workload_identity_environment_overrides_are_supported() {
+        for strategy in ["adc", "workload_identity"] {
+            let mut spec = provider_spec("vertex_ai_gemini");
+            spec.default_model = Some("gemini-2.5-flash".to_string());
+            spec.config.insert(
+                "auth".to_string(),
+                json!({"type": strategy, "env": "FIXTURE_ACCESS_TOKEN"}),
+            );
+
+            let target = provider_invocation_target_v1("vertex", &spec, None).unwrap();
+            let credential = target.credential_reference.unwrap();
+            assert_eq!(credential.strategy, strategy);
+            assert_eq!(credential.environment, "FIXTURE_ACCESS_TOKEN");
+            assert_eq!(credential.file_environment, None);
+        }
+    }
+
+    #[test]
+    fn vertex_thinking_controls_are_bound_into_inference_identity() {
+        let mut disabled = provider_spec("vertex_ai_gemini");
+        disabled.default_model = Some("gemini-2.5-flash".to_string());
+        disabled
+            .config
+            .insert("thinking_budget".to_string(), json!(0));
+        disabled
+            .config
+            .insert("include_thoughts".to_string(), json!(false));
+        let mut enabled = disabled.clone();
+        enabled
+            .config
+            .insert("thinking_budget".to_string(), json!(4096));
+
+        let disabled_target = provider_invocation_target_v1("vertex", &disabled, None).unwrap();
+        let enabled_target = provider_invocation_target_v1("vertex", &enabled, None).unwrap();
+        assert_eq!(disabled_target.effective_inference.thinking_budget, Some(0));
+        assert_eq!(
+            enabled_target.effective_inference.thinking_budget,
+            Some(4096)
+        );
+        assert_eq!(
+            disabled_target.effective_inference.include_thoughts,
+            Some(false)
+        );
+        assert_ne!(
+            disabled_target
+                .model_identity
+                .inference_parameter_fingerprint,
+            enabled_target
+                .model_identity
+                .inference_parameter_fingerprint
+        );
+    }
+
+    #[test]
+    fn built_in_mock_profile_validates_without_phantom_inference_controls() {
+        let profile = adl::ProviderSpec {
+            id: Some("echo".to_string()),
+            profile: Some("mock:echo-v1".to_string()),
+            kind: String::new(),
+            base_url: None,
+            default_model: None,
+            config: HashMap::new(),
+        };
+        let expanded = crate::candidate::validate_provider_candidate(&HashMap::from([(
+            "echo".to_string(),
+            profile,
+        )]))
+        .unwrap();
+        let target = provider_invocation_target_v1("echo", &expanded["echo"], None).unwrap();
+
+        assert_eq!(target.codec_controls.codec, "mock_v1");
+        assert!(target.codec_controls.consumes.is_empty());
+        assert_eq!(
+            target.effective_inference,
+            EffectiveInferenceConfigV1::default()
+        );
     }
 
     #[test]

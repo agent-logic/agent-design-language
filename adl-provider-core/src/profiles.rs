@@ -245,6 +245,12 @@ fn ensure_inference_profile_config(
     preset: ProviderProfilePreset,
     config: &mut BTreeMap<String, Value>,
 ) -> Result<()> {
+    // The in-process echo provider has no inference codec controls. Keep the
+    // profile useful for tests without materializing defaults that it cannot
+    // consume; explicit controls remain present and fail closed downstream.
+    if preset.kind == "mock" {
+        return Ok(());
+    }
     let inference = inference_profile_for(preset);
     let max_profile_output_tokens = if is_reasoning_effort_profile(preset) {
         131_072
