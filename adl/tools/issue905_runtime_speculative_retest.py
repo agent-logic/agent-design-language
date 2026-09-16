@@ -29,7 +29,6 @@ import issue855_provider_lifecycle as lifecycle
 PROMPTS = (
     "Explain in two sentences why tokenizer compatibility matters for speculative decoding.",
     "List three checks to perform after a provider benchmark fails.",
-    "Write a one-sentence definition of deterministic fallback.",
 )
 
 
@@ -209,9 +208,9 @@ def main() -> int:
                 "config": {
                     "endpoint": proxy.url,
                     "runtime_max_attempts": 1,
-                    "runtime_max_output_tokens": 256,
-                    "max_tokens": 256,
-                    "max_output_tokens": 256,
+                    "runtime_max_output_tokens": 512,
+                    "max_tokens": 512,
+                    "max_output_tokens": 512,
                 },
             }
         },
@@ -232,7 +231,7 @@ def main() -> int:
         "ollama_version": subprocess.run(["ollama", "--version"], capture_output=True, text=True).stdout.strip(),
         "hardware": {"system": os.uname().sysname, "machine": os.uname().machine},
         "models": {"baseline": baseline_identity, "speculative": speculative_identity},
-        "sampling": {"temperature": 0, "seed": 905, "num_predict": 256},
+        "sampling": {"temperature": 0, "seed": 905, "num_predict": 512},
         "prompts": len(PROMPTS),
         "repeats": args.repeats,
         "runs": [],
@@ -333,6 +332,7 @@ def main() -> int:
         report["error_class"] = type(error).__name__
         raise
     finally:
+        report["runtime_provider_calls"] = proxy.calls
         lifecycle.write(root / "report.json", report)
         try:
             os.killpg(guardian.pid, signal.SIGTERM)
