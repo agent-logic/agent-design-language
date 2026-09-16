@@ -1,0 +1,1098 @@
+{
+  "schema": "adl.csdlc.issue873.retry_scenario_map.v1",
+  "corpus_id": "sim07-pre-resume-installed-journeys-v1",
+  "binaries": {
+    "predecessor": {
+      "revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8",
+      "sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+      "blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64"
+    },
+    "candidate": {
+      "revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+      "sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
+      "blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "primary-linked-edit",
+      "relevant_facts": {
+        "fixture_family": "installed_intent_commands",
+        "remote_transport": "synthetic",
+        "semantic_scope": "prepare-bind-edit-observe",
+        "topologies": [
+          "primary",
+          "linked"
+        ],
+        "initial_fixture_facts": {
+          "issue_number": 1505,
+          "lifecycle_phase": "unprepared",
+          "authority": "native-v3",
+          "remote_state": "synthetic"
+        },
+        "fake_remote_schedule": [
+          "observe-initial",
+          "apply-scripted-result",
+          "observe-final"
+        ],
+        "operand_binding": "argv paths are variant-specific retained fixture paths; cleanup preview operands are retained SHA-256 digests"
+      },
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "semantic_steps": [
+        {
+          "id": "prepare-preview-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_unsupported_prepare_preview",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "issue",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local",
+              "--preview",
+              "plan"
+            ],
+            "candidate": [
+              "prepare",
+              "1505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-candidate/plan.json",
+              "--preview",
+              "plan"
+            ]
+          }
+        },
+        {
+          "id": "prepare",
+          "retry_policy": "eligible",
+          "intended_operation": "prepare_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "issue",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "prepare",
+              "1505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+            ]
+          }
+        },
+        {
+          "id": "status-ready-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_ready_status_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-ready-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "status",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "validate-ready-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "validate_ready_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-ready-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "validate",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "bind",
+          "retry_policy": "eligible",
+          "intended_operation": "bind_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "bind",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/bind-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "bind",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "status-bound-primary",
+          "retry_policy": "eligible",
+          "intended_operation": "observe_bound_status_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait",
+            "invalid_intent"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "status",
+              "1505"
+            ]
+          },
+          "retry_argv": {
+            "predecessor": [
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "status",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "validate-bound-primary",
+          "retry_policy": "eligible",
+          "intended_operation": "validate_bound_primary",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait",
+            "invalid_intent"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "validate",
+              "1505"
+            ]
+          },
+          "retry_argv": {
+            "predecessor": [
+              "validate",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "validate",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "status-bound-linked",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_bound_status_linked",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-linked-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "status",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "validate-bound-linked",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "validate_bound_linked",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-linked-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "validate",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "linked-edit-preview-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_unsupported_edit_preview",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "edit",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/linked-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local",
+              "--preview",
+              "plan"
+            ],
+            "candidate": [
+              "edit",
+              "1505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json",
+              "--preview",
+              "plan"
+            ]
+          }
+        },
+        {
+          "id": "linked-edit",
+          "retry_policy": "eligible",
+          "intended_operation": "edit_linked_worktree",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "edit",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/linked-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "edit",
+              "1505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+            ]
+          }
+        },
+        {
+          "id": "primary-edit",
+          "retry_policy": "eligible",
+          "intended_operation": "edit_primary_worktree",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "edit",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/primary-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "edit",
+              "1505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+            ]
+          },
+          "retry_argv": {
+            "predecessor": [
+              "edit",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/primary-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "edit",
+              "1505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+            ]
+          }
+        },
+        {
+          "id": "validate-projection",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "validate_projected_cards",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "validate",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-projection-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "validate",
+              "1505"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "terminal-journey",
+      "relevant_facts": {
+        "fixture_family": "installed_intent_commands",
+        "remote_transport": "synthetic",
+        "semantic_scope": "proof-review-publish-finish-primary-clean-common-surface",
+        "topologies": [
+          "primary",
+          "linked"
+        ],
+        "initial_fixture_facts": {
+          "issue_number": 1505,
+          "lifecycle_phase": "unprepared",
+          "authority": "native-v3",
+          "remote_state": "synthetic"
+        },
+        "fake_remote_schedule": [
+          "observe-initial",
+          "apply-scripted-result",
+          "observe-final"
+        ],
+        "operand_binding": "argv paths are variant-specific retained fixture paths; cleanup preview operands are retained SHA-256 digests",
+        "cleanup_topology": {
+          "active_issue_worktree": "retained_dirty",
+          "cleanup_candidate": "separately_registered_untouched_control",
+          "control_baseline": "identical_normalized_head_and_tracked_inventory",
+          "terminal_state_root": "primary_git_common_dir"
+        },
+        "excluded_from_retry_comparison": {
+          "surface": "candidate_cleanup_archive_interruption_and_recovery",
+          "reason": "frozen predecessor has direct Git worktree removal and no archive crash or recovery contract",
+          "qualification": "retained separately under issue 873"
+        }
+      },
+      "relevant_facts_sha256": "fd368ccb53ca18abbd8c4b53c11cfa5fc1d83024dd722cb80661bb00e9ce6830",
+      "semantic_steps": [
+        {
+          "id": "prepare",
+          "retry_policy": "eligible",
+          "intended_operation": "prepare_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "issue",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "prepare",
+              "1505",
+              "--plan",
+              "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+            ]
+          }
+        },
+        {
+          "id": "bind",
+          "retry_policy": "eligible",
+          "intended_operation": "bind_issue",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "bind",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/bind-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "bind",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "proof",
+          "retry_policy": "eligible",
+          "intended_operation": "retain_proof",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "proof",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/proof-request.json"
+            ],
+            "candidate": [
+              "proof",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "review",
+          "retry_policy": "eligible",
+          "intended_operation": "retain_review",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "review",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/review-request.json"
+            ],
+            "candidate": [
+              "review",
+              "1505",
+              "--evidence",
+              "$FIXTURE_ROOT/.git/installed-candidate/review.json"
+            ]
+          }
+        },
+        {
+          "id": "publish",
+          "retry_policy": "eligible",
+          "intended_operation": "publish_draft",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/publish-request.json",
+              "--execute"
+            ],
+            "candidate": [
+              "publish",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "github-pr-create",
+          "retry_policy": "eligible",
+          "intended_operation": "create_remote_pull_request",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/github-pr-create-request.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "1505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/operation.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "merge-internal-input-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_internal_merge_inputs",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge-internal-input-guard-request.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "1505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "merge-remote-apply",
+          "retry_policy": "eligible",
+          "intended_operation": "observe_remote_merge",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge-remote-apply-request.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "1505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "merge-idempotent-observation",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "observe_merged_pull_request",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "github-pr",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge-idempotent-observation-request.json",
+              "--execute"
+            ],
+            "candidate": [
+              "github-pr",
+              "1505",
+              "--operation",
+              "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+              "--execute"
+            ]
+          }
+        },
+        {
+          "id": "finish-preview",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "preview_finish",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "finish",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/finish-preview-request.json",
+              "--observe-github"
+            ],
+            "candidate": [
+              "finish",
+              "1505",
+              "--preview",
+              "plan"
+            ]
+          }
+        },
+        {
+          "id": "finish-linked",
+          "retry_policy": "eligible",
+          "intended_operation": "finish_linked_worktree",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "finish",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/finish-linked-request.json",
+              "--observe-github"
+            ],
+            "candidate": [
+              "finish",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "finish-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "persist_primary_finish_for_cleanup",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "finish",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/finish-primary-request.json",
+              "--observe-github"
+            ],
+            "candidate": [
+              "finish",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-foreign-dirty-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_foreign_dirty_cleanup",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-foreign-dirty-guard-request.json"
+            ],
+            "candidate": [
+              "clean",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-tracked-dirty-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_tracked_dirty_cleanup",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-tracked-dirty-guard-request.json"
+            ],
+            "candidate": [
+              "clean",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-preview",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "preview_cleanup",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-preview-request.json"
+            ],
+            "candidate": [
+              "clean",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-stale-preview-guard",
+          "retry_policy": "excluded_expected_guard",
+          "intended_operation": "reject_stale_cleanup_preview",
+          "expected_outcomes": [
+            "expected_guard_denial"
+          ],
+          "completion_outcomes": [
+            "expected_guard_denial"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-stale-preview-guard-request.json"
+            ],
+            "candidate": [
+              "clean",
+              "1505",
+              "--execute",
+              "--preview",
+              "$STALE_PREVIEW_DIGEST"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-refresh-preview",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "refresh_cleanup_preview_after_stale_guard",
+          "expected_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "completion_outcomes": [
+            "successful_no_op",
+            "expected_wait"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-refresh-preview-request.json"
+            ],
+            "candidate": [
+              "clean",
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "cleanup-execute",
+          "retry_policy": "eligible",
+          "intended_operation": "execute_cleanup_control",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op",
+            "invalid_intent",
+            "unexpected_fault",
+            "interrupted",
+            "recovery_required"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "clean",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-execute-request.json"
+            ],
+            "candidate": [
+              "clean",
+              "1505",
+              "--execute",
+              "--preview",
+              "$PREVIEW_DIGEST"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

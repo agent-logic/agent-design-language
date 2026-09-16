@@ -1,0 +1,14 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.38s
+     Running tests/operator_man_pages.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/operator_man_pages-c1c4bff89df5df08)
+
+running 6 tests
+test command_and_parser_option_inventory_is_complete ... ok
+test examples_parse_current_native_requests_and_preserve_guard_truth ... ok
+test generated_pages_match_reviewed_manual_source ... ok
+test parity_rejects_new_command_or_option_without_manual_coverage ... ok
+test primary_cleanup_requires_primary_durable_receipt_location ... ok
+test request_field_inventory_matches_current_source_and_operator_reference ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.30s
+

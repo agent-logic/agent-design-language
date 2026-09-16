@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "proof_parity_install_commands",
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test proof_parity_install_commands -- --test-threads=1",
+  "started_at": "2026-09-16T06:50:05Z",
+  "ended_at": "2026-09-16T06:50:06Z",
+  "elapsed_seconds": 1,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "394b3186f86cc9f7d9d10ae688be4eda55799393ef5c23dd64b23a561c8cbc82",
+  "stderr_sha256": "5157560f192ae09c82b2bba592d22c77a0493f0a9d1d0f2e0ea4c7d7e9f3ef99"
+}

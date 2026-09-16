@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "installed_recovery_scope",
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test installed_recovery_scope -- --test-threads=1",
+  "started_at": "2026-09-16T06:43:46Z",
+  "ended_at": "2026-09-16T06:44:11Z",
+  "elapsed_seconds": 25,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "d2daf5a7b8e52a5e09b8c63d82c808c67abfe144e5f72c6835a1deab3cd30863",
+  "stderr_sha256": "3184f2865df2b324847a738616fda0a75a44e6082cd27d23f125b99382b17e03"
+}

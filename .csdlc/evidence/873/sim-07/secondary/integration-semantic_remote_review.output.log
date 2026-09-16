@@ -1,0 +1,10 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running tests/semantic_remote_review.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/semantic_remote_review-b9a07d5ca12c924c)
+
+running 2 tests
+test all_native_variants_have_exact_semantic_scope_without_terminal_inference ... ok
+test creation_cannot_borrow_calling_issue_and_existing_mutations_cannot_use_zero ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

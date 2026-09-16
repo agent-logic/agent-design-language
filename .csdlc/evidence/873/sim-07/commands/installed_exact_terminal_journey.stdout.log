@@ -1,0 +1,6 @@
+
+running 1 test
+test installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 43.33s
+

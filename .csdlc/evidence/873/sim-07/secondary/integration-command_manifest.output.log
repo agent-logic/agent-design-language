@@ -1,0 +1,50 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling serde_core v1.0.229
+   Compiling serde v1.0.229
+   Compiling equivalent v1.0.2
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.11
+   Compiling hashbrown v0.17.1
+   Compiling zmij v1.0.23
+   Compiling libc v0.2.189
+   Compiling toml_write v0.1.2
+   Compiling serde_json v1.0.151
+   Compiling winnow v0.7.15
+   Compiling cfg-if v1.0.4
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.3
+   Compiling cc v1.4.4
+   Compiling unicode-id v0.3.6
+   Compiling constant_time_eq v0.4.2
+   Compiling arrayvec v0.7.8
+   Compiling markdown v1.0.0
+   Compiling indexmap v2.14.0
+   Compiling fs2 v0.4.3
+   Compiling syn v3.0.4
+   Compiling blake3 v1.8.7
+   Compiling serde_derive v1.0.229
+   Compiling toml_datetime v0.6.11
+   Compiling serde_spanned v0.6.9
+   Compiling toml_edit v0.22.27
+   Compiling toml v0.8.23
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 10.46s
+     Running tests/command_manifest.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/command_manifest-dc4b858e16c1eeac)
+
+running 11 tests
+test active_boot_path_guard_rejects_stale_v2_current_guidance_but_allows_history ... ok
+test active_boot_path_inventory_is_complete_source_backed_and_unambiguous ... ok
+test authority_fitness_rejects_obsolete_policy_help_and_automatic_v2_fallback ... ok
+test current_surfaces_agree_with_authenticated_post_cutover_authority ... ok
+test help_exposes_one_binary_command_surface ... ok
+test implemented_local_routes_expose_guarded_operational_help ... ok
+test implemented_remote_publication_routes_expose_guarded_operational_help ... ok
+test implemented_terminal_routes_expose_guarded_operational_help ... ok
+test proof_routes_distinguish_operational_and_historical_execution ... ok
+test semantic_descriptor_schema_parity_includes_emitted_administrative_requests ... ok
+test tracked_command_denominators_match_cli_surface_and_cutover_boundary ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.79s
+

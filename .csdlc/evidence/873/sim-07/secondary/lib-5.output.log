@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running unittests src/lib.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/csdlc_v3-2c655f17dfb3bda1)
+
+running 1 test
+test adapters::tests::observational_curl_disables_default_config_before_other_arguments ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 152 filtered out; finished in 0.02s
+

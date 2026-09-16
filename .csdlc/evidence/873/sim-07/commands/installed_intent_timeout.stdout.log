@@ -1,0 +1,7 @@
+
+running 2 tests
+test installed_sigterm_cancels_owned_group_and_records_distinct_failed_proof ... ok
+test installed_timeout_terminates_descendant_retaining_output_after_cargo_exits ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.48s
+

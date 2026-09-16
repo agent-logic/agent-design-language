@@ -1,0 +1,74 @@
+{
+  "argv": [
+    "prepare",
+    "1505",
+    "--plan",
+    "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+  ],
+  "attempt_ordinal": 2,
+  "binary": {
+    "blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
+    "revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
+    "sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e"
+  },
+  "classification": "candidate_refused_authority_valid_source_baseline",
+  "exit_code": 2,
+  "proving_comparison": false,
+  "result": {
+    "envelope": {
+      "allowed_next_operations": [],
+      "authority_status": "not_established",
+      "command": "prepare",
+      "correlation_id": "39122-1789557336302",
+      "effects": {
+        "class": "guarded_local",
+        "outcome": "unknown"
+      },
+      "evidence_invalidation": {
+        "status": "not_reported"
+      },
+      "findings": [
+        {
+          "code": "semantic_prepare_refused",
+          "message": "LegacyMigrationRequired",
+          "status": "blocked"
+        }
+      ],
+      "intent_identity": null,
+      "issue": {
+        "status": "unavailable"
+      },
+      "issue_version": {
+        "after": {
+          "basis": "owner_result",
+          "digest": null
+        },
+        "before": {
+          "basis": "request_expectation",
+          "digest": null
+        }
+      },
+      "process_status": "failed",
+      "reason_code": "semantic_prepare_refused",
+      "schema": "csdlc.v3.command_result.v1",
+      "status": "blocked",
+      "timing": {
+        "monotonic_duration_ms": 629,
+        "started_unix_ms": 1789557336302
+      },
+      "wait_owner": "operator"
+    },
+    "findings": [
+      {
+        "code": "semantic_prepare_refused",
+        "message": "LegacyMigrationRequired",
+        "status": "blocked"
+      }
+    ]
+  },
+  "scenario": "primary-linked-edit",
+  "schema": "adl.csdlc.issue873.candidate_refusal.v1",
+  "stderr_sha256": "61ff6efc2cce32a1ff9da965a2183031404bdb90c068c631a9c2e83afad115f0",
+  "stdout_sha256": "7cb7c425b4c946feaf0a7e3dc2c8e63b155f925ecb21475b094c303f8f64c482",
+  "variant": "candidate"
+}

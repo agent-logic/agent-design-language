@@ -1,0 +1,14 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.70s
+     Running tests/semantic_card_projections.rs (/Volumes/FastWork/adl-targets/873-secondary/debug/deps/semantic_card_projections-038b906d44b726c9)
+
+running 6 tests
+test corrupt_prior_projection_residue_fails_closed_without_mutation ... ok
+test derives_six_deterministic_cards_without_inventing_semantic_facts ... ok
+test newer_projection_recovers_strict_staging_residue_from_prior_version ... ok
+test observation_is_read_only_and_classifies_missing_altered_and_interrupted ... ok
+test recovery_resumes_when_stale_data_removal_was_synced_before_marker_removal ... ok
+test stale_semantic_snapshot_cannot_rebuild_or_acknowledge ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.31s
+

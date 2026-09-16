@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "installed_predecessor_dispositions",
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test installed_predecessor_dispositions -- --test-threads=1",
+  "started_at": "2026-09-16T06:44:11Z",
+  "ended_at": "2026-09-16T06:44:51Z",
+  "elapsed_seconds": 40,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 3,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "5fa3b3152981429fa4cb680df536ddcead31dca6a3c72ca4c4030becdf1ff4cc",
+  "stderr_sha256": "0e39796b7e0503d9317cabf42cf1a9d05e7d62ae3115ef51cdc8c980752fd336"
+}

@@ -1,0 +1,15 @@
+{
+  "fixture_identity": ".adl/worktree-policy.json exists beneath a Git worktree root",
+  "mutation": "none",
+  "purpose": "Find an authority-valid clean captured fixture with no tracked issue-505 terminal receipt without modifying any fixture.",
+  "schema": "adl.csdlc.issue873.retry_baseline_audit_manifest.v1",
+  "search_roots": [
+    "csdlc-v3/target/sim03-installed-intent",
+    ".csdlc/evidence/873/sim-07/retry-operational"
+  ],
+  "tests": [
+    "working-tree .csdlc/evidence/505/terminal-receipt.json absent",
+    "git status porcelain including untracked files empty",
+    "retained execution did not report operational_context_required"
+  ]
+}

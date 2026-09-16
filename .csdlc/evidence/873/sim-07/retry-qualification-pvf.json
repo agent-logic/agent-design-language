@@ -1,0 +1,14 @@
+{
+  "schema": "adl.csdlc.issue873.retry_qualification_pvf.v1",
+  "issue": 873,
+  "lane": "isolated_installed_binary_qualification",
+  "proof_role": "Run the same retained installed-command journeys with the exact predecessor and candidate binaries, normalize raw attempts against the frozen semantic map, and invoke the strict retry comparator.",
+  "determinism": "Each binary runs through the same compiled harness, fresh internal fixture repositories, scripted fake remote, semantic step map, and normalization rules.",
+  "resources": "Issue-worktree local CPU and filesystem only; no live GitHub, provider, shared owner binary, or lifecycle state.",
+  "release_gate": "Operational SIM-07 retry-reduction evidence input; the final result remains pass, fail, or not_proven according to retained ledgers.",
+  "non_claims": [
+    "Does not rebuild either frozen binary",
+    "Does not use synthetic comparator fixtures as operational proof",
+    "Does not activate writers, publish, merge, update cards, or decide the overall milestone"
+  ]
+}

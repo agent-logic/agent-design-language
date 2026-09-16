@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "installed_intent_timeout",
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test installed_intent_timeout -- --test-threads=1",
+  "started_at": "2026-09-16T06:42:39Z",
+  "ended_at": "2026-09-16T06:42:52Z",
+  "elapsed_seconds": 13,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 2,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "0396b2010e7f64eaa051164e805f7f414ec2eb8e7e02daca1383f50b1b3937b6",
+  "stderr_sha256": "fc5828ae057ef801eeb0542dae7c7a06d6c4dd1d51f7ce90a97e5c43ac2d26c8"
+}
