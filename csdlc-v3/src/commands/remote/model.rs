@@ -384,6 +384,7 @@ pub(super) struct GithubMutationDispatchContext<'a> {
     pub(super) credential_name: &'a str,
     pub(super) ready_target: Option<&'a GithubReadyTarget>,
     pub(super) recovery_intent_digest: Option<&'a str>,
+    pub(super) reuse_rejected_recovery: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -445,6 +446,7 @@ pub struct StagedGithubMutation {
     pub(super) merge: Option<StagedMerge>,
     pub(super) preexisting: bool,
     pub(super) recovery: Option<GithubMutationRecovery>,
+    pub(super) reuse_rejected_recovery: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

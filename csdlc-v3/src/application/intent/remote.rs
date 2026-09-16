@@ -989,6 +989,12 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
             let retained =
                 DurableTransactionStore::inspect_effect(&session.root, &session.key, pending.id())
                     .map_err(semantic_error)?;
+            let definitely_rejected = retained.evidence().is_some_and(|bytes| {
+                serde_json::from_slice::<Value>(bytes).is_ok_and(|evidence| {
+                    evidence["schema"] == "csdlc.v3.semantic_remote_uncertainty.v1"
+                        && evidence["code"] == "github_mutation_rejected"
+                })
+            });
             let staged: Value = serde_json::from_slice(
                 &retained
                     .request()
@@ -1008,6 +1014,13 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
             let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
             let staged = if matches!(native.mutation, GithubMutation::PullRequestMerge { .. }) {
                 stage_github_mutation(&context.root, &native, &mut process).map_err(failure)?
+            } else if definitely_rejected {
+                stage_retained_github_mutation_recovery_after_rejection(
+                    &context.root,
+                    &native,
+                    &mut process,
+                )
+                .map_err(failure)?
             } else {
                 stage_retained_github_mutation_recovery(&context.root, &native, &mut process)
                     .map_err(failure)?
@@ -1024,8 +1037,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence)
                         && matches!(
                             finding.code.as_str(),
-                            "github_mutation_rejected"
-                                | "github_mutation_recovery_already_consumed"
+                            "github_mutation_recovery_already_consumed"
                         ) =>
                 {
                     transaction::VerifiedOutcome::from_native_owner(

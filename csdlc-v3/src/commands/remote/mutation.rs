@@ -260,6 +260,10 @@ pub fn stage_github_mutation(
         resolved_ready_target = intent.resolved_ready_target.clone();
         intent_digest = github_mutation_intent_digest(&intent);
         preflight_github_credential(&credential_name, process)?;
+        let receipt_path = github_mutation_receipt_path(repo_root, &operation_digest)?;
+        if !receipt_path.exists() {
+            verify_pr_create_head_branch(&effective_request, process)?;
+        }
         if !preexisting {
             verify_coordination(repo_root, request, process)?;
             persist_json_create_new(&intent_path, &intent)?;
@@ -300,6 +304,7 @@ pub fn stage_github_mutation(
         merge: staged_merge,
         preexisting,
         recovery,
+        reuse_rejected_recovery: false,
     })
 }
 
@@ -349,6 +354,7 @@ pub fn stage_retained_github_mutation_recovery(
     let resolved_ready_target = retained.resolved_ready_target.clone();
     let intent_digest = github_mutation_intent_digest(&retained);
     preflight_github_credential(&credential_name, process)?;
+    verify_pr_create_head_branch(&effective_request, process)?;
     let request_bytes = serde_json::to_vec(&serde_json::json!({
         "schema":"csdlc.v3.staged_github_mutation.v1",
         "operation_digest":operation_digest,
@@ -383,7 +389,27 @@ pub fn stage_retained_github_mutation_recovery(
         merge: None,
         preexisting: true,
         recovery: request.recovery.clone(),
+        reuse_rejected_recovery: false,
     })
+}
+
+/// Reconstruct a retained operation whose authenticated recovery dispatch was
+/// definitively rejected. The semantic owner selects this path only from the
+/// exact retained rejection evidence; ambiguous outcomes remain ineligible.
+pub fn stage_retained_github_mutation_recovery_after_rejection(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<StagedGithubMutation, RemoteRouteFinding> {
+    let mut staged = stage_retained_github_mutation_recovery(repo_root, request, process)?;
+    verify_rejected_recovery_receipt(
+        repo_root,
+        &staged.request,
+        &staged.operation_digest,
+        &staged.intent_digest,
+    )?;
+    staged.reuse_rejected_recovery = true;
+    Ok(staged)
 }
 
 pub fn execute_staged_github_mutation(
@@ -430,7 +456,16 @@ pub fn execute_staged_github_mutation(
                     && staged.recovery
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
-                ensure_recovery_available(repo_root, &staged.operation_digest)?;
+                if staged.reuse_rejected_recovery {
+                    verify_rejected_recovery_receipt(
+                        repo_root,
+                        request,
+                        &staged.operation_digest,
+                        &staged.intent_digest,
+                    )?;
+                } else {
+                    ensure_recovery_available(repo_root, &staged.operation_digest)?;
+                }
                 if staged
                     .resolved_ready_target
                     .as_ref()
@@ -453,6 +488,7 @@ pub fn execute_staged_github_mutation(
                             credential_name: &staged.credential_name,
                             ready_target: staged.resolved_ready_target.as_ref(),
                             recovery_intent_digest: Some(&staged.intent_digest),
+                            reuse_rejected_recovery: staged.reuse_rejected_recovery,
                         },
                         process,
                     )?;
@@ -540,6 +576,7 @@ pub fn execute_staged_github_mutation(
             credential_name: &staged.credential_name,
             ready_target: staged.resolved_ready_target.as_ref(),
             recovery_intent_digest: None,
+            reuse_rejected_recovery: false,
         },
         process,
     )?;
@@ -697,6 +734,7 @@ pub fn execute_github_mutation(
                             credential_name: &credential_name,
                             ready_target: ready_target.as_ref(),
                             recovery_intent_digest: Some(&intent_digest),
+                            reuse_rejected_recovery: false,
                         },
                         process,
                     )?;
@@ -767,6 +805,7 @@ pub fn execute_github_mutation(
             credential_name: &credential_name,
             ready_target: intent.resolved_ready_target.as_ref(),
             recovery_intent_digest: None,
+            reuse_rejected_recovery: false,
         },
         process,
     )?;
@@ -920,7 +959,10 @@ pub(super) fn dispatch_github_mutation_after_intent(
     process: &mut impl ProcessAdapter,
 ) -> Result<(Option<String>, CommandInvocation), RemoteRouteFinding> {
     preflight_github_credential(context.credential_name, process)?;
-    if context.recovery_intent_digest.is_some() {
+    // A missing PR head is a local publication prerequisite, not a remote
+    // mutation attempt. Observe it before consuming the single recovery token.
+    verify_pr_create_head_branch(request, process)?;
+    if context.recovery_intent_digest.is_some() && !context.reuse_rejected_recovery {
         ensure_recovery_available(repo_root, context.operation_digest)?;
     }
     verify_coordination(repo_root, request, process)?;
@@ -940,7 +982,10 @@ pub(super) fn dispatch_github_mutation_after_intent(
                     "GitHub credential name is not safe for child-process injection",
                 )
             })?;
-        if let Some(intent_digest) = context.recovery_intent_digest {
+        if let Some(intent_digest) = context
+            .recovery_intent_digest
+            .filter(|_| !context.reuse_rejected_recovery)
+        {
             persist_recovery_receipt(
                 repo_root,
                 request,

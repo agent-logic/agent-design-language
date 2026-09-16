@@ -543,6 +543,43 @@ pub(super) fn ensure_recovery_available(
     Ok(path)
 }
 
+pub(super) fn verify_rejected_recovery_receipt(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<(), RemoteRouteFinding> {
+    let path = github_mutation_recovery_path(repo_root, operation_digest)?;
+    let receipt: GithubMutationRecoveryReceipt =
+        serde_json::from_slice(&fs::read(&path).map_err(|_| {
+            remote_finding(
+                "github_mutation_rejected_recovery_missing",
+                "definitely rejected recovery requires its retained recovery receipt",
+            )
+        })?)
+        .map_err(|_| {
+            remote_finding(
+                "github_mutation_rejected_recovery_invalid",
+                "definitely rejected recovery receipt is invalid",
+            )
+        })?;
+    if receipt.schema != "csdlc.v3.github_mutation_recovery.v1"
+        || receipt.operation_digest != operation_digest
+        || receipt.intent_digest != intent_digest
+        || receipt.recovery != GithubMutationRecovery::RetryAfterAuthenticatedAbsence
+        || receipt.repository != request.repository
+        || receipt.issue != request.issue
+        || receipt.pull_request != request.pull_request
+        || receipt.expected_head_sha != request.expected_head_sha
+    {
+        return Err(remote_finding(
+            "github_mutation_rejected_recovery_mismatch",
+            "definitely rejected recovery receipt does not match the retained operation",
+        ));
+    }
+    Ok(())
+}
+
 pub(super) fn reconcile_github_mutation(
     request: &GithubMutationRequest,
     operation_digest: &str,
@@ -644,6 +681,60 @@ pub(super) fn read_mutation_reconciliation_page(
             "authenticated GitHub reconciliation returned non-JSON output",
         )
     })
+}
+
+pub(super) fn verify_pr_create_head_branch(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), RemoteRouteFinding> {
+    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        return Ok(());
+    };
+    let credential_name = mutation_credential_name(request)?;
+    let invocation = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        ["branch-ref", request.repository.as_str(), head.as_str()],
+    )
+    .map_err(|_| {
+        remote_finding(
+            "github_pr_head_branch_observation_invalid",
+            "PR head branch observation must use structured argv",
+        )
+    })?
+    .with_child_credential(credential_name)
+    .map_err(|_| {
+        remote_finding(
+            "github_credential_scope_invalid",
+            "GitHub credential name is not safe for child-process injection",
+        )
+    })?;
+    let value = read_mutation_reconciliation_page(invocation, process).map_err(|finding| {
+        remote_finding(
+            "github_pr_head_branch_observation_unavailable",
+            &format!(
+                "authenticated PR head branch observation failed: {}",
+                finding.code
+            ),
+        )
+    })?;
+    let expected_ref = format!("refs/heads/{head}");
+    let exact = value.as_array().and_then(|refs| {
+        refs.iter()
+            .find(|candidate| candidate["ref"].as_str() == Some(expected_ref.as_str()))
+    });
+    let Some(exact) = exact else {
+        return Err(remote_finding(
+            "github_pr_head_branch_missing",
+            "the exact PR head branch must exist before publication or recovery can reserve a remote effect",
+        ));
+    };
+    if exact["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str()) {
+        return Err(remote_finding(
+            "github_pr_head_branch_mismatch",
+            "the exact PR head branch must resolve to the expected candidate head",
+        ));
+    }
+    Ok(())
 }
 
 pub(super) fn github_mutation_reconciliation_invocation(

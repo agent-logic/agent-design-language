@@ -441,6 +441,7 @@ fn github_read_only_curl_invocation(
             | "pull-request-merge-state"
             | "pull-request-merge-linkage"
             | "branch-merge-rules"
+            | "branch-ref"
             | "pull-requests-by-head"
             | "issue"
             | "issue-comments"
@@ -450,6 +451,7 @@ fn github_read_only_curl_invocation(
         "issues-by-marker"
             | "pull-requests-by-head"
             | "branch-merge-rules"
+            | "branch-ref"
             | "pull-request-merge-linkage"
     ) && number.parse::<u64>().is_err())
         || (operation == "issues-by-marker"
@@ -459,7 +461,7 @@ fn github_read_only_curl_invocation(
                     .any(|ch| !(ch.is_ascii_alphanumeric() || ch == '-'))))
         || (matches!(
             operation.as_str(),
-            "pull-requests-by-head" | "branch-merge-rules"
+            "pull-requests-by-head" | "branch-merge-rules" | "branch-ref"
         ) && !supported_pr_branch(number))
     {
         return Err(ProcessOutput {
@@ -491,6 +493,31 @@ fn github_read_only_curl_invocation(
             "--header".to_owned(), "X-GitHub-Api-Version: 2022-11-28".to_owned(),
             format!("https://api.github.com/repos/{repository}/rules/branches/{}?per_page=100&page=1", encode_query_value(number)),
         ]).map_err(|_| ProcessOutput { status: ProcessStatus::Exit(2), stdout: String::new(), stderr: "invalid rule observation".into(), truncated: false });
+    }
+    if operation == "branch-ref" {
+        return CommandInvocation::new(
+            "curl",
+            [
+                "--fail-with-body".to_owned(),
+                "--silent".to_owned(),
+                "--show-error".to_owned(),
+                "--location".to_owned(),
+                "--header".to_owned(),
+                "Accept: application/vnd.github+json".to_owned(),
+                "--header".to_owned(),
+                "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+                format!(
+                    "https://api.github.com/repos/{repository}/git/matching-refs/heads/{}",
+                    encode_query_value(number)
+                ),
+            ],
+        )
+        .map_err(|_| ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter rejected unsafe branch request".into(),
+            truncated: false,
+        });
     }
     if matches!(
         operation.as_str(),
