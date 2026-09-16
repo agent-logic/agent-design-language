@@ -379,6 +379,26 @@ pub fn recover_absent_cleanup(
     {
         return Err("intent_cleanup_semantic_binding_mismatch".into());
     }
+    let expected_registration = blake3::hash(
+        serde_json::to_string(&json!({
+            "branch":semantic_binding.branch,
+            "worktree":semantic_binding.worktree
+        }))
+        .map_err(|_| "intent_cleanup_binding_invalid")?
+        .as_bytes(),
+    )
+    .to_hex()
+    .to_string();
+    if semantic_binding.registration != expected_registration
+        || binding
+            .get("head")
+            .is_some_and(|head| head != &json!(semantic_binding.head))
+        || binding
+            .get("registration")
+            .is_some_and(|registration| registration != &json!(semantic_binding.registration))
+    {
+        return Err("intent_cleanup_binding_invalid".into());
+    }
     if semantic
         .snapshot
         .pending()
@@ -413,7 +433,7 @@ pub fn recover_absent_cleanup(
         "schema":"csdlc.v3.semantic_cleanup_absence_reconciliation.v1",
         "repository":context.repository,
         "issue":context.issue,
-        "binding":binding,
+        "binding":semantic_binding,
         "terminal_receipt_digest":receipt_digest,
         "topology":topology,
         "disposition":request.content,

@@ -2312,6 +2312,26 @@ fn cleanup_recover_reconciles_explicit_already_absent_without_prior_operation() 
         &["worktree", "remove", "--force", linked.to_str().unwrap()],
     );
     assert!(!linked.exists());
+    let binding_bytes = fs::read(&binding_path).unwrap();
+    let mut stale_binding = binding.clone();
+    stale_binding["head"] = json!("0".repeat(40));
+    stale_binding["registration"] = json!("0".repeat(64));
+    fs::write(&binding_path, serde_json::to_vec(&stale_binding).unwrap()).unwrap();
+    let stale = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !stale.status.success()
+            && String::from_utf8_lossy(&stale.stdout).contains("intent_cleanup_binding_invalid"),
+        "stale local binding was accepted: {stale:?}"
+    );
+    fs::write(&binding_path, binding_bytes).unwrap();
     let preview = success(fixture.run(
         &primary,
         &[
