@@ -259,6 +259,33 @@ fn process_status_rejects_invalid_values_before_probing() {
 }
 
 #[test]
+fn process_status_preserves_repetition_order_and_error_precedence() {
+    let repeated = run_status_json(&["--pid", "7", "--pid", "9", "--host", "localhost"]);
+    assert_eq!(repeated["check"], "pid");
+    assert_eq!(repeated["pid"], 9);
+
+    let invalid_after_conflict = run_status_failure(&["--pid", "7", "--port", "0"]);
+    assert!(!invalid_after_conflict.status.success());
+    let stderr = String::from_utf8_lossy(&invalid_after_conflict.stderr);
+    assert!(
+        stderr.contains("--port must be greater than zero"),
+        "{stderr}"
+    );
+    assert!(
+        !stderr.contains("requires exactly one of --pid"),
+        "{stderr}"
+    );
+
+    let conflicting = run_status_failure(&["--port", "8787", "--pid", "7", "--pid", "9"]);
+    assert!(!conflicting.status.success());
+    assert!(
+        String::from_utf8_lossy(&conflicting.stderr).contains("requires exactly one of --pid"),
+        "stderr:\n{}",
+        String::from_utf8_lossy(&conflicting.stderr)
+    );
+}
+
+#[test]
 fn process_status_help_documents_safe_surface() {
     let out = run_adl(&["process", "status", "--help"]);
     assert!(out.status.success());
