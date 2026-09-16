@@ -194,10 +194,12 @@ impl Target {
             .unwrap()
             .as_nanos();
         let sequence = SEQUENCE.fetch_add(1, Ordering::Relaxed);
-        let root = PathBuf::from("/Volumes/FastWork/adl-worktrees").join(format!(
-            ".issue872-relocation-test-{}-{nonce}-{sequence}",
-            std::process::id()
-        ));
+        let root = fs::canonicalize(std::env::temp_dir())
+            .unwrap()
+            .join(format!(
+                ".issue872-relocation-test-{}-{nonce}-{sequence}",
+                std::process::id()
+            ));
         let primary = root.join("primary");
         let linked = root.join("linked");
         fs::create_dir_all(&primary).unwrap();
@@ -249,6 +251,15 @@ impl Target {
             &repository_root().join(".adl/worktree-policy.json"),
             &primary.join(".adl/worktree-policy.json"),
         );
+        fs::write(
+            primary.join(".adl/worktree-policy.json"),
+            serde_json::to_vec_pretty(&json!({
+                "schema":"adl.worktree_policy.v1",
+                "required_parent":root,
+            }))
+            .unwrap(),
+        )
+        .unwrap();
         copy_tree(
             &repository_root().join("docs/templates/prompts"),
             &primary.join("docs/templates/prompts"),
