@@ -38,8 +38,8 @@ Implemented installed `adl codefriend export markdown` with complete governed se
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
 - Planned PVF lane: `owner_binary`
-- Final PVF lane: `runtime`
-- Lane change reason: `No lane change; the declared focused runtime renderer lane and bounded security/concurrency units executed.`
+- Final PVF lane: `owner_binary`
+- Lane change reason: `No lane change; the planned owner_binary lane executed through focused installed CLI, renderer contract, security, and concurrency proof.`
 
 ## Issue Metrics Truth
 - Expected runtime class: `bounded local CPU/filesystem and installed adl process`
