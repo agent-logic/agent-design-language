@@ -1454,6 +1454,15 @@ fn legacy_compatibility_census(
             }
             let value = read_remote_json(&path)?;
             let identity = remote_file_identity(namespace, &directory, &path, &value)?;
+            // Issue creation starts as repository-scoped issue zero, while its
+            // authenticated receipt records the assigned positive issue. That
+            // receipt is not an issue-local lifecycle mutation and must not
+            // block adoption of the created issue's retained native record.
+            if namespace != "intents"
+                && repository_scoped_issue_creation_result(&remote, namespace, &path, key)?
+            {
+                continue;
+            }
             if identity != (key.repository.clone(), key.issue) {
                 continue;
             }
