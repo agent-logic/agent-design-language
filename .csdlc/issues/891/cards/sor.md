@@ -28,8 +28,8 @@ Execution:
 - Actor: `unassigned implementation owner`
 - Model: `unknown`
 - Provider: `openai:gpt-4.1-mini via credential_ref env:OPENAI_API_KEY; key value was not stored in repo artifacts`
-- Start Time: `unknown`
-- End Time: `unknown`
+- Start Time: `not_started`
+- End Time: `not_started`
 
 ## Summary
 
@@ -53,9 +53,9 @@ Implemented and remediated the installed CodeFriend operator review shell for #8
 - Actual PR wait seconds: `not_started`
 - Actual CI wait seconds: `not_started`
 - Budget source: `no operator token budget assigned`
-- Goal metrics data source: `active goal read from Codex goal API; detailed per-issue token split unknown`
-- Goal metrics source ref: `Codex active goal for Sprint 4 #930`
-- Data-source confidence: `medium_for_goal_identity_low_for_per_issue_metrics`
+- Goal metrics data source: `unknown`
+- Goal metrics source ref: `unknown`
+- Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
 - Completion state: `implemented_remediated_pending_fresh_review_publication_ci`
 - Issue goal ref: `Sprint 4 #930 active goal covers #891 execution in this session; single goal slot prevented replacing it with a separate child goal`
@@ -76,7 +76,7 @@ Implemented and remediated the installed CodeFriend operator review shell for #8
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/891/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/operator/mod.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/review/runner.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_review.rs`
-- Additional proof artifacts: `.csdlc/evidence/891/real-provider-shell-proof/store; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture; .csdlc/evidence/891/real-provider-shell-proof/admission-small-fixture.json; .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json`
+- Additional proof artifacts: `.csdlc/evidence/891/real-provider-shell-proof/store; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture.stdout.json; .csdlc/evidence/891/real-provider-shell-proof/admission-small-fixture.json; .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json`
 
 ## Actions taken
 - `Added `adl/src/codefriend/operator/mod.rs` as a thin operator-control state layer over the existing CodeFriend review runner.`
@@ -90,14 +90,8 @@ Implemented and remediated the installed CodeFriend operator review shell for #8
 - Verification scope: `bound_issue_worktree`
 - Integration method used: `bounded implementation in registered FastWork issue worktree; not published or merged`
 - Verification performed:
-  - `cargo fmt --manifest-path adl/Cargo.toml --check`
-    `verified formatting for touched Rust files`
-  - `cargo test --manifest-path adl/Cargo.toml --lib codefriend::review::runner::tests`
-    `verified provider fenced-JSON normalization with 3/3 unit tests`
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_review review_shell`
-    `verified installed shell control behavior with 6/6 focused tests, including cancel/retry race coverage`
-  - `OPENAI_API_KEY=<approved env reference> ./adl/target/debug/adl codefriend review shell start ...`
-    `verified the installed shell can operate a real OpenAI-backed bounded review and produce operator-state/run/review-record artifacts without storing secret values`
+    `verified in bound issue worktree; not yet published or merged`
 - Result: `not_integrated`
 
 Rules:
@@ -113,16 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo fmt --manifest-path adl/Cargo.toml --check`
-    `verified formatting for touched Rust files`
-  - `cargo test --manifest-path adl/Cargo.toml --lib codefriend::review::runner::tests`
-    `verified provider fenced-JSON normalization with 3/3 unit tests`
-  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_review review_shell`
-    `verified installed shell start/inspect/cancel/retry/withhold behavior and cancel/retry race handling with 6/6 focused tests`
-  - `git diff --check`
-    `verified diff hygiene`
-  - `OPENAI_API_KEY=<approved env reference> ./adl/target/debug/adl codefriend review shell start --store .csdlc/evidence/891/real-provider-shell-proof/store --packet-id 64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515 --provider-request .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json --out .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture --run-id issue-891-real-provider-shell-openai-small-fixture`
-    `verified real provider execution through the installed operator shell on macOS; completed with four lane artifacts and review-record/run JSON`
+  - `cargo fmt --manifest-path adl/Cargo.toml --check; cargo test --manifest-path adl/Cargo.toml --lib codefriend::review::runner::tests; cargo test --manifest-path adl/Cargo.toml --test codefriend_review review_shell; git diff --check; OPENAI_API_KEY=<approved env reference> ./adl/target/debug/adl codefriend review shell start --store .csdlc/evidence/891/real-provider-shell-proof/store --packet-id 64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515 --provider-request .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json --out .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture --run-id issue-891-real-provider-shell-openai-small-fixture`
+    `Focused deterministic tests, diff hygiene, and one real OpenAI-backed installed shell run passed for the #891 operator shell scope`
 - Results:
   - `passed`
 
@@ -139,15 +125,11 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "cargo fmt --manifest-path adl/Cargo.toml --check"
-      - "cargo test --manifest-path adl/Cargo.toml --lib codefriend::review::runner::tests"
-      - "cargo test --manifest-path adl/Cargo.toml --test codefriend_review review_shell"
-      - "git diff --check"
-      - "installed shell real-provider OpenAI proof"
+      - "installed shell real-provider proof completed"
   determinism:
     status: passed_for_deterministic_control_fixtures
     replay_verified: focused integration tests create isolated local fixture repositories, stores, controlled provider transport and output directories per run
-    ordering_guarantees_verified: not_run
+    ordering_guarantees_verified: passed
   security_privacy:
     status: passed_for_local_fixture_scope
     secrets_leakage_detected: false
@@ -164,28 +146,28 @@ verification_summary:
 ## Determinism Evidence
 - Determinism tests executed: `cargo test --manifest-path adl/Cargo.toml --test codefriend_review review_shell`
 - Fixtures or scripts used: `adl/tests/codefriend_review.rs fixture servers plus .csdlc/evidence/891/real-provider-shell-proof bounded two-file fixture repository`
-- Replay verification (same inputs -> same artifacts/order): `passed for focused deterministic shell tests`
+- Replay verification (same inputs -> same artifacts/order): `focused integration tests create isolated local fixture repositories, stores, controlled provider transport and output directories per run`
 - Ordering guarantees (sorting / tie-break rules used): `attempt settlement reloads latest persisted operator-state before writing, so older cancelled attempts cannot overwrite newer retry completion`
 - Artifact stability notes: `Retries now archive attempt-local cancel-request.json before a new attempt; cancellation after the last provider request now records failed/cancelled run truth instead of complete.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `real-provider proof used credential_ref env:OPENAI_API_KEY; no key value was copied into repository artifacts`
-- Prompt / tool argument redaction verified: `provider result artifacts retain credential_ref only and redacted provider text excerpts`
-- Absolute path leakage check: `proof command records the external FastWork store path because `admit-local` rejects stores inside the source checkout; repository artifacts keep request/output paths relative`
+- Secret leakage scan performed: `reviewed recorded provider request/result artifacts for credential references; key value was supplied only through env:OPENAI_API_KEY and was not stored`
+- Prompt / tool argument redaction verified: `provider request records credential_ref env:OPENAI_API_KEY only; command record uses <approved env reference> placeholder and the external store path is non-secret`
+- Absolute path leakage check: `passed; final SOR references repo-relative proof artifacts and records provider credentials only as env:OPENAI_API_KEY`
 - Sandbox / policy invariants preserved: `real-provider proof used bounded repository fixture, no source mutation, and no secret value persistence`
 
 ## Replay Artifacts
 - Trace bundle path(s): `.csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture/operator-state.json; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture/attempts/1/review/run.json; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture/attempts/1/review/review-record.json`
 - Run artifact root: `.csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture records the successful installed shell real-provider run; local deterministic test artifacts remain under adl/target/codefriend-review-tests`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_review`
-- Replay result: `not_run; implementation has not started`
+- Replay result: `passed for focused deterministic shell tests`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/891/real-provider-shell-proof`
-- Required artifacts present: `operator-state.json, attempts/1/review/run.json and attempts/1/review/review-record.json are present for the successful real-provider shell proof`
-- Artifact schema/version checks: `operator-state JSON, review run JSON, lane result JSON and review-record JSON are parsed by focused tests; native C-SDLC validate passed at gen4 before remediation and will be rerun after this truth edit.`
-- Hash/byte-stability checks: `cargo fmt completed after remediation; git diff --check will be rerun before fresh exact-head review.`
-- Missing/optional artifacts and rationale: `Real external provider proof was executed on the macOS operator host with the installed shell against OpenAI gpt-4.1-mini and completed with lane artifacts. Linux installed qualification is left to repository CI after publication; no additional cloud, synthesis, renderer or publication proof is claimed here.`
+- Primary proof surface: `.csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture`
+- Required artifacts present: `passed; operator-state.json, run.json, review-record.json and four lane artifact bundles are present under .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture`
+- Artifact schema/version checks: `operator-state JSON, review run JSON, lane result JSON and review-record JSON are present in the committed proof packet; focused tests parse the operator/review artifacts and native C-SDLC validate is rerun after this truth edit`
+- Hash/byte-stability checks: `cargo fmt, focused tests, real-provider proof, and git diff --check passed before this SOR-only truth repair; git diff --check and native validate are rerun after this edit`
+- Missing/optional artifacts and rationale: `Real external provider proof was executed on the macOS operator host with the installed shell against OpenAI gpt-4.1-mini and completed with lane artifacts. Linux installed qualification and repository CI remain publication gates; no additional cloud, synthesis, renderer or publication proof is claimed here.`
 
 ## Decisions / Deviations
 - `The issue contract proposed `adl/tests/codefriend_shell.rs`; the implementation extended the existing `adl/tests/codefriend_review.rs` integration target because it already owns the installed review runner fixture and avoids duplicating fixture infrastructure.`
