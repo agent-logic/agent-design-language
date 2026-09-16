@@ -104,7 +104,7 @@ impl PrivateStateAuthority {
     }
 }
 
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct PrivateStateLineage {
     heads: BTreeMap<String, String>,
     positions: BTreeMap<(String, u64), String>,

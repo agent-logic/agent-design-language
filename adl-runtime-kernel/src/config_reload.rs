@@ -18,6 +18,14 @@ pub type ConfigParser<T> =
     Arc<dyn Fn(&str) -> Result<T, ConfigReloadError> + Send + Sync + 'static>;
 pub type ConfigApplier<T> =
     Arc<dyn Fn(&T) -> Result<(), ConfigReloadError> + Send + Sync + 'static>;
+pub type ConfigRejectionReporter = Arc<dyn Fn(ConfigReloadRejection) + Send + Sync + 'static>;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ConfigReloadRejection {
+    SourceUnavailable,
+    ParseInvalid,
+    ValidationInvalid,
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct ConfigReloadOptions {
@@ -270,6 +278,8 @@ where
         Some(signature),
         initial,
         0,
+        None,
+        false,
     )
 }
 
@@ -284,10 +294,29 @@ pub async fn start_config_reload_with_fallback_and_applier_and_shutdown<T>(
 where
     T: Send + Sync + 'static,
 {
+    start_config_reload_with_fallback_applier_reporter_and_shutdown(
+        path, fallback, parser, applier, None, options, shutdown,
+    )
+    .await
+}
+
+pub async fn start_config_reload_with_fallback_applier_reporter_and_shutdown<T>(
+    path: impl Into<PathBuf>,
+    fallback: T,
+    parser: ConfigParser<T>,
+    applier: Option<ConfigApplier<T>>,
+    rejection_reporter: Option<ConfigRejectionReporter>,
+    options: ConfigReloadOptions,
+    shutdown: CancellationToken,
+) -> Result<ConfigReloadController<T>, ConfigReloadError>
+where
+    T: Send + Sync + 'static,
+{
     let path = path.into();
     let options = options.validate()?;
     let initial_read = read_config(&path).await;
-    let (last_evaluated, initial, invalid_updates_rejected) = match initial_read {
+    let (last_evaluated, initial, invalid_updates_rejected, source_unavailable) = match initial_read
+    {
         Ok(raw) => {
             let signature = FileSignature::from_bytes(&raw);
             match parse_snapshot(&path, &parser, &raw, 0).and_then(|snapshot| {
@@ -296,29 +325,37 @@ where
                 }
                 Ok(snapshot)
             }) {
-                Ok(snapshot) => (Some(signature), snapshot, 0),
-                Err(_) => (
-                    Some(signature),
-                    ConfigSnapshot {
-                        generation: 0,
-                        value: fallback,
-                        source: path.clone(),
-                        loaded_at: SystemTime::now(),
-                    },
-                    1,
-                ),
+                Ok(snapshot) => (Some(signature), snapshot, 0, false),
+                Err(error) => {
+                    report_rejection(rejection_reporter.as_ref(), &error);
+                    (
+                        Some(signature),
+                        ConfigSnapshot {
+                            generation: 0,
+                            value: fallback,
+                            source: path.clone(),
+                            loaded_at: SystemTime::now(),
+                        },
+                        1,
+                        false,
+                    )
+                }
             }
         }
-        Err(_) => (
-            None,
-            ConfigSnapshot {
-                generation: 0,
-                value: fallback,
-                source: path.clone(),
-                loaded_at: SystemTime::now(),
-            },
-            1,
-        ),
+        Err(error) => {
+            report_rejection(rejection_reporter.as_ref(), &error);
+            (
+                None,
+                ConfigSnapshot {
+                    generation: 0,
+                    value: fallback,
+                    source: path.clone(),
+                    loaded_at: SystemTime::now(),
+                },
+                1,
+                true,
+            )
+        }
     };
     start_config_reload_from_snapshot(
         path,
@@ -329,6 +366,8 @@ where
         last_evaluated,
         initial,
         invalid_updates_rejected,
+        rejection_reporter,
+        source_unavailable,
     )
 }
 
@@ -341,6 +380,8 @@ fn start_config_reload_from_snapshot<T>(
     last_evaluated: Option<FileSignature>,
     initial: ConfigSnapshot<T>,
     invalid_updates_rejected: u64,
+    rejection_reporter: Option<ConfigRejectionReporter>,
+    source_unavailable: bool,
 ) -> Result<ConfigReloadController<T>, ConfigReloadError>
 where
     T: Send + Sync + 'static,
@@ -362,6 +403,8 @@ where
                 status: status_sender,
             },
             invalid_updates_rejected,
+            rejection_reporter,
+            source_unavailable,
         )
         .await
     });
@@ -385,6 +428,8 @@ async fn watch_config<T>(
     mut last_evaluated: Option<FileSignature>,
     watchers: ConfigReloadWatchers<T>,
     mut invalid_updates_rejected: u64,
+    rejection_reporter: Option<ConfigRejectionReporter>,
+    mut source_unavailable: bool,
 ) -> ConfigReloadOutcome
 where
     T: Send + Sync + 'static,
@@ -409,6 +454,7 @@ where
             _ = interval.tick() => {
                 match read_config(&path).await {
                     Ok(raw) => {
+                        source_unavailable = false;
                         let signature = FileSignature::from_bytes(&raw);
                         if Some(signature) == last_evaluated {
                             if pending.take().is_some() {
@@ -423,7 +469,12 @@ where
                             watchers.status.send_replace(status);
                         }
                     }
-                    Err(_) => {
+                    Err(error) => {
+                        if !source_unavailable {
+                            report_rejection(rejection_reporter.as_ref(), &error);
+                            invalid_updates_rejected += 1;
+                            source_unavailable = true;
+                        }
                         if pending.take().is_some() {
                             status.pending_candidate = false;
                             status.pending_cancellations += 1;
@@ -456,7 +507,8 @@ where
                         last_evaluated = Some(signature);
                         reloads_applied += 1;
                     }
-                    Err(_) => {
+                    Err(error) => {
+                        report_rejection(rejection_reporter.as_ref(), &error);
                         last_evaluated = Some(signature);
                         invalid_updates_rejected += 1;
                     }
@@ -464,6 +516,21 @@ where
             }
         }
     }
+}
+
+fn report_rejection(reporter: Option<&ConfigRejectionReporter>, error: &ConfigReloadError) {
+    let Some(reporter) = reporter else {
+        return;
+    };
+    let reason = match error {
+        ConfigReloadError::Io { .. } => ConfigReloadRejection::SourceUnavailable,
+        ConfigReloadError::Parse(_) => ConfigReloadRejection::ParseInvalid,
+        ConfigReloadError::Validation(_) => ConfigReloadRejection::ValidationInvalid,
+        ConfigReloadError::InvalidOptions(_)
+        | ConfigReloadError::WatcherClosed
+        | ConfigReloadError::WatcherJoin(_) => return,
+    };
+    reporter(reason);
 }
 
 fn parse_snapshot<T>(
@@ -697,6 +764,72 @@ mod tests {
         let outcome = controller.shutdown().await.expect("shutdown");
         assert_eq!(outcome.reloads_applied, 1);
         assert_eq!(outcome.invalid_updates_rejected, 1);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[tokio::test]
+    async fn fallback_reload_reports_redacted_rejection_classes_without_poll_spam() {
+        let path = test_path("config-reload-rejection-reporter");
+        let _ = std::fs::remove_file(&path);
+        let parser: ConfigParser<String> = Arc::new(|raw| match raw {
+            "parse" => Err(ConfigReloadError::parse(
+                "candidate included operator-secret",
+            )),
+            "invalid" => Err(ConfigReloadError::validation(
+                "candidate included private_key",
+            )),
+            _ => Ok(raw.to_owned()),
+        });
+        let rejections = Arc::new(std::sync::Mutex::new(Vec::new()));
+        let reported = Arc::clone(&rejections);
+        let reporter: ConfigRejectionReporter = Arc::new(move |reason| {
+            reported.lock().expect("rejection lock").push(reason);
+        });
+        let controller = start_config_reload_with_fallback_applier_reporter_and_shutdown(
+            path.clone(),
+            "fallback".to_owned(),
+            parser,
+            None,
+            Some(reporter),
+            ConfigReloadOptions {
+                poll_interval: Duration::from_millis(10),
+                debounce: Duration::from_millis(30),
+            },
+            CancellationToken::new(),
+        )
+        .await
+        .expect("start reload with rejection reporter");
+        let mut handle = controller.handle();
+
+        time::sleep(Duration::from_millis(50)).await;
+        assert_eq!(
+            *rejections.lock().expect("rejection lock"),
+            vec![ConfigReloadRejection::SourceUnavailable],
+            "repeated missing-file polls must emit one transition diagnostic"
+        );
+
+        write_config_atomically(&path, "parse").await;
+        time::sleep(Duration::from_millis(90)).await;
+        write_config_atomically(&path, "invalid").await;
+        time::sleep(Duration::from_millis(90)).await;
+        write_config_atomically(&path, "good").await;
+        let changed = time::timeout(Duration::from_secs(1), handle.changed())
+            .await
+            .expect("changed")
+            .expect("snapshot");
+        assert_eq!(changed.value(), "good");
+        assert_eq!(
+            *rejections.lock().expect("rejection lock"),
+            vec![
+                ConfigReloadRejection::SourceUnavailable,
+                ConfigReloadRejection::ParseInvalid,
+                ConfigReloadRejection::ValidationInvalid,
+            ]
+        );
+
+        let outcome = controller.shutdown().await.expect("shutdown");
+        assert_eq!(outcome.reloads_applied, 1);
+        assert_eq!(outcome.invalid_updates_rejected, 3);
         let _ = std::fs::remove_file(path);
     }
 }

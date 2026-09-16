@@ -3,14 +3,25 @@ use adl::codefriend::{
     memory::{
         baseline::{self, AdmittedBaselines, BaselineAccess, BaselineRef},
         comparison::{self, DeltaReport},
+        palace::{self, IndexRequest, RetrieveRequest},
+        palace_authority,
     },
 };
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
-pub(super) const USAGE:&str="adl codefriend memory retain|read|delete|compare|delta-read --store <admission-store> --baselines <baseline-directory> ...";
+pub(super) const USAGE:&str="adl codefriend memory retain|read|delete|compare|delta-read|palace-index|palace-compare --store <admission-store> --baselines <baseline-directory> ...";
 pub(super) fn run(args: &[String]) -> Result<()> {
     ensure!(!args.is_empty(), "missing_memory_command");
     let expected: &[&str] = match args[0].as_str() {
+        "palace-index" => &[
+            "--store",
+            "--baselines",
+            "--palace",
+            "--trust",
+            "--authority",
+            "--input",
+        ],
+        "palace-compare" => &["--store", "--baselines", "--palace", "--input", "--out"],
         "retain" => &["--store", "--baselines", "--input"],
         "read" | "delete" => &["--store", "--baselines", "--reference"],
         "compare" => &["--store", "--baselines", "--baseline", "--current", "--out"],
@@ -36,6 +47,23 @@ pub(super) fn run(args: &[String]) -> Result<()> {
         !baseline_path.starts_with(&absolute_store) && !absolute_store.starts_with(&baseline_path),
         "baseline_and_admission_roots_must_be_separate"
     );
+    if let Some(palace) = flags.get("--palace") {
+        let palace = std::path::absolute(Path::new(palace))?;
+        baseline::safe_path(&palace)?;
+        ensure!(
+            !palace.starts_with(&baseline_path)
+                && !baseline_path.starts_with(&palace)
+                && !palace.starts_with(&absolute_store)
+                && !absolute_store.starts_with(&palace),
+            "palace_managed_roots_overlap"
+        );
+        if let Some(out) = flags.get("--out") {
+            ensure!(
+                !std::path::absolute(Path::new(out))?.starts_with(&palace),
+                "output_inside_palace_rejected"
+            );
+        }
+    }
     if let Some(out) = flags.get("--out") {
         let out = std::path::absolute(Path::new(out))?;
         ensure!(
@@ -72,6 +100,26 @@ pub(super) fn run(args: &[String]) -> Result<()> {
     let backend =
         AdmittedBaselines::open(&store, Path::new(flags["--baselines"]), retained.is_some())?;
     let result = match args[0].as_str() {
+        "palace-index" => {
+            let request: IndexRequest = baseline::read_json(Path::new(flags["--input"]))?;
+            let authority = palace_authority::provision(
+                Path::new(flags["--trust"]),
+                Path::new(flags["--authority"]),
+            )?;
+            serde_json::to_value(palace::index(
+                &backend,
+                Path::new(flags["--palace"]),
+                &authority,
+                &request,
+            )?)?
+        }
+        "palace-compare" => {
+            let request: RetrieveRequest = baseline::read_json(Path::new(flags["--input"]))?;
+            let report = palace::retrieve(&backend, Path::new(flags["--palace"]), &request)?;
+            baseline::write_json(Path::new(flags["--out"]), &report)?;
+            serde_json::to_value(report)?
+        }
+
         "retain" => serde_json::to_value(backend.retain(retained.as_ref().unwrap())?)?,
         "read" | "delete" => {
             let reference: BaselineRef = baseline::read_json(Path::new(flags["--reference"]))?;

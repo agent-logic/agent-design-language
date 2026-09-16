@@ -125,6 +125,14 @@ pub enum MemoryPalaceAuthorityError {
     IdentityLineageMismatch,
 }
 
+pub struct MemoryPalaceIdentityEvidence<'a> {
+    pub identity_binding: &'a IdentityBinding,
+    pub identity_checkpoint: &'a MemoryCheckpoint,
+    pub private_record: &'a PrivateStateRecord,
+    pub private_lineage: &'a mut PrivateStateLineage,
+    pub available_projection: &'a BTreeMap<String, String>,
+}
+
 pub struct MemoryPalaceAuthorityEvidence<'a> {
     pub identity_record: &'a BirthdayIdentityRecord,
     pub identity_binding: &'a IdentityBinding,
@@ -137,6 +145,81 @@ pub struct MemoryPalaceAuthorityEvidence<'a> {
 }
 
 impl RuntimeMemoryPalaceProvisioner {
+    /// Verify signed identity inputs under this Runtime's already-pinned policy.
+    /// This enables record authors to derive references without exporting trust
+    /// policy constructors or accepting a caller-selected verifier.
+    pub fn verify_identity_evidence(
+        &self,
+        binding: &IdentityBinding,
+        checkpoint: &MemoryCheckpoint,
+        private_record: &PrivateStateRecord,
+        private_lineage: &mut PrivateStateLineage,
+        available_projection: &BTreeMap<String, String>,
+    ) -> Result<VerifiedBirthdayEvidence, MemoryPalaceAuthorityError> {
+        verify_birthday_evidence(
+            &self.identity_policy,
+            binding,
+            checkpoint,
+            private_record,
+            private_lineage,
+            available_projection,
+        )
+        .map_err(MemoryPalaceAuthorityError::IdentityEvidence)
+    }
+
+    /// Build durable identity and continuity records from signed evidence, then
+    /// admit those exact records through the ordinary production verifier.
+    pub fn prepare(
+        &self,
+        candidate: &crate::BirthdayIdentityCandidate,
+        input: MemoryPalaceIdentityEvidence<'_>,
+        manifests: &[CheckpointManifest],
+    ) -> Result<VerifiedMemoryPalaceAuthority, MemoryPalaceAuthorityError> {
+        // Preserve accepted history and commit lineage advancement only after
+        // all identity and continuity checks succeed.
+        let mut lineage = input.private_lineage.clone();
+        let evidence = self.verify_identity_evidence(
+            input.identity_binding,
+            input.identity_checkpoint,
+            input.private_record,
+            &mut lineage,
+            input.available_projection,
+        )?;
+        let identity = crate::build_birthday_identity(candidate, &evidence)
+            .map_err(MemoryPalaceAuthorityError::IdentityRecord)?;
+        let policy = BirthdayContinuityAuthorityPolicy::establish(
+            self.continuity_keys.clone(),
+            self.continuity_signing_key_id.clone(),
+            &identity,
+            &evidence,
+            self.topology_hash.clone(),
+            self.config_hash.clone(),
+            self.service_schema.clone(),
+            self.first_generation,
+            self.first_previous_integrity.clone(),
+        )
+        .map_err(MemoryPalaceAuthorityError::ContinuityPolicy)?;
+        let cycles = manifests
+            .iter()
+            .map(|manifest| BirthdayCycleEvidence { manifest })
+            .collect::<Vec<_>>();
+        let verified = verify_birthday_cycles(&policy, &identity, &cycles)
+            .map_err(MemoryPalaceAuthorityError::ContinuityCycles)?;
+        let continuity = crate::build_birthday_continuity(&identity, &verified)
+            .map_err(MemoryPalaceAuthorityError::ContinuityRecord)?;
+        let authority = self.provision(MemoryPalaceAuthorityEvidence {
+            identity_record: &identity,
+            identity_binding: input.identity_binding,
+            identity_checkpoint: input.identity_checkpoint,
+            private_record: input.private_record,
+            private_lineage: &mut lineage,
+            available_projection: input.available_projection,
+            continuity_record: &continuity,
+            continuity_manifests: manifests,
+        })?;
+        *input.private_lineage = lineage;
+        Ok(authority)
+    }
     pub(crate) fn from_bootstrap(
         bootstrap: BirthdayAuthorityBootstrap,
         topology_hash: impl Into<String>,
