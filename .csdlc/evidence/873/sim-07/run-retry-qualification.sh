@@ -23,7 +23,7 @@ if run.exists():
     resolved = run.resolve()
     if run.is_symlink() or resolved.parent != root:
         raise SystemExit(2)
-    for name in ("raw", "logs"):
+    for name in ("raw", "logs", "fixtures"):
         child = run / name
         if child.exists() and (child.is_symlink() or child.resolve().parent != resolved):
             raise SystemExit(2)
@@ -78,11 +78,30 @@ run_variant() {
   local variant="$1"
   local binary="$2"
   local binary_sha="$3"
-  cp "$binary" "$HARNESS_BIN"
-  run_scenario "$variant" primary-linked-edit \
-    installed_prepare_bind_edit_and_observations_use_canonical_context ordinary-local || return 2
-  run_scenario "$variant" terminal-journey \
-    installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue merge-finish-clean || return 2
+  local driver="$EVIDENCE/run_${variant}_retry_journeys.py"
+  local source_revision binary_blake3 scenario
+  source_revision="$(jq -r ".binaries.$variant.revision" "$MAP")"
+  binary_blake3="$(jq -r ".binaries.$variant.blake3" "$MAP")"
+  if [[ ! -x "$TEST_BIN" || ! -x "$HARNESS_BIN" || ! -f "$driver" ]]; then
+    printf '%s common-scenario driver or capture harness is missing\n' "$variant" >&2
+    return 2
+  fi
+  mkdir -p "$RUN_DIR/fixtures"
+  for scenario in primary-linked-edit terminal-journey; do
+    PYTHONDONTWRITEBYTECODE=1 python3 "$driver" \
+      --binary "$binary" \
+      --binary-blake3 "$binary_blake3" \
+      --source-revision "$source_revision" \
+      --scenario-map "$MAP" \
+      --harness "$TEST_BIN" \
+      --slot "$HARNESS_BIN" \
+      --fixture "$RUN_DIR/fixtures/$variant-$scenario" \
+      --logs "$RUN_DIR/logs/$variant-$scenario" \
+      --output "$RUN_DIR/raw/$variant-$scenario.attempts.json" \
+      --target-dir "$TARGET_DIR" \
+      --blake3-source "$EVIDENCE/blake3_digest.rs" \
+      --scenario "$scenario" || return 2
+  done
   PYTHONDONTWRITEBYTECODE=1 python3 "$EVIDENCE/normalize_retry_ledger.py" \
     --scenario-map "$MAP" \
     --variant "$variant" \

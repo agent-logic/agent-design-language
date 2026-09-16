@@ -129,18 +129,18 @@ def validate_map(value: Any) -> dict[str, Any]:
             step_where = f"{where}.semantic_steps[{step_index}]"
             if not isinstance(step, dict):
                 raise ValidationError(f"{step_where} must be an object")
-            require_exact_keys(
-                step,
-                {
-                    "id",
-                    "retry_policy",
-                    "intended_operation",
-                    "expected_outcomes",
-                    "completion_outcomes",
-                    "argv",
-                },
-                step_where,
-            )
+            required_step_keys = {
+                "id",
+                "retry_policy",
+                "intended_operation",
+                "expected_outcomes",
+                "completion_outcomes",
+                "argv",
+            }
+            if set(step) not in {frozenset(required_step_keys), frozenset(required_step_keys | {"retry_argv"})}:
+                raise ValidationError(
+                    f"{step_where} keys differ: expected strict base keys with optional retry_argv"
+                )
             step_id = step["id"]
             if not isinstance(step_id, str) or not step_id:
                 raise ValidationError(f"{step_where}.id must be nonempty")
@@ -179,6 +179,25 @@ def validate_map(value: Any) -> dict[str, Any]:
                     or any(not isinstance(token, str) or not token for token in tokens)
                 ):
                     raise ValidationError(f"{step_where}.argv.{variant} must be nonempty tokens")
+            retry_argv = step.get("retry_argv")
+            if retry_argv is not None:
+                if step["retry_policy"] != "eligible":
+                    raise ValidationError(f"{step_where}.retry_argv requires eligible retry policy")
+                if not isinstance(retry_argv, dict):
+                    raise ValidationError(f"{step_where}.retry_argv must be an object")
+                require_exact_keys(
+                    retry_argv, {"predecessor", "candidate"}, f"{step_where}.retry_argv"
+                )
+                for variant in ("predecessor", "candidate"):
+                    tokens = retry_argv[variant]
+                    if (
+                        not isinstance(tokens, list)
+                        or not tokens
+                        or any(not isinstance(token, str) or not token for token in tokens)
+                    ):
+                        raise ValidationError(
+                            f"{step_where}.retry_argv.{variant} must be nonempty tokens"
+                        )
     return value
 
 
@@ -342,7 +361,12 @@ def validate_ledger(
             raise ValidationError(f"{where} outcome differs from the scenario map")
         if attempt["intended_operation"] != step["intended_operation"]:
             raise ValidationError(f"{where} intended operation differs from the scenario map")
-        if attempt["argv"] != step["argv"][variant]:
+        expected_argv = step["argv"][variant]
+        if attempt["retry_of"] is not None:
+            retry_argv = step.get("retry_argv")
+            if retry_argv is not None:
+                expected_argv = retry_argv[variant]
+        if attempt["argv"] != expected_argv:
             raise ValidationError(f"{where} argv differs from the scenario map")
         if not isinstance(attempt["reason_code"], str) or not attempt["reason_code"]:
             raise ValidationError(f"{where}.reason_code must be nonempty")

@@ -99,6 +99,32 @@ class RetryComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ValidationError, "without retry_of"):
             self.validate()
 
+    def test_retry_attempt_uses_declared_variant_specific_argv(self):
+        transition = self.scenario_map["scenarios"][0]["semantic_steps"][0]
+        retry_argv = ["csdlc-predecessor", "transition", "--retry-fixture"]
+        transition["retry_argv"] = {
+            "predecessor": retry_argv,
+            "candidate": ["csdlc-candidate", "transition", "--retry-fixture"],
+        }
+        self.predecessor["attempts"][1]["argv"] = retry_argv
+        self.predecessor["attempts"][2]["argv"] = retry_argv
+        MODULE.validate_ledger(
+            self.predecessor,
+            "predecessor",
+            self.scenario_map,
+            self.map_sha256,
+            FIXTURES,
+        )
+        self.predecessor["attempts"][1]["argv"] = transition["argv"]["predecessor"]
+        with self.assertRaisesRegex(MODULE.ValidationError, "argv differs"):
+            MODULE.validate_ledger(
+                self.predecessor,
+                "predecessor",
+                self.scenario_map,
+                self.map_sha256,
+                FIXTURES,
+            )
+
     def test_completed_journey_cannot_end_in_fault(self):
         self.candidate["attempts"] = [
             attempt

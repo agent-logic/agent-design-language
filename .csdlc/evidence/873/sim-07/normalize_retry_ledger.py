@@ -59,7 +59,47 @@ def result_field(attempt: dict[str, Any], key: str) -> Any:
     return result.get(key)
 
 
-def classify_outcome(attempt: dict[str, Any]) -> tuple[str, str, bool, str | None]:
+def finding_messages(attempt: dict[str, Any]) -> list[str]:
+    result = attempt.get("result")
+    if not isinstance(result, dict):
+        return []
+    findings = result.get("findings")
+    if not isinstance(findings, list):
+        envelope = result.get("envelope")
+        findings = envelope.get("findings") if isinstance(envelope, dict) else None
+    if not isinstance(findings, list):
+        return []
+    return [
+        finding.get("message")
+        for finding in findings
+        if isinstance(finding, dict) and isinstance(finding.get("message"), str)
+    ]
+
+
+def candidate_guard_is_exact(attempt: dict[str, Any]) -> bool:
+    result = attempt.get("result")
+    envelope = result.get("envelope") if isinstance(result, dict) else None
+    effects = envelope.get("effects") if isinstance(envelope, dict) else None
+    guard = attempt.get("guard_invariants")
+    return (
+        attempt.get("exit_code") == 2
+        and isinstance(result, dict)
+        and result.get("performed_mutation") in {None, False}
+        and result.get("native_effect_truth") not in {"performed", "created", "updated"}
+        and isinstance(effects, dict)
+        and effects.get("outcome") == "unknown"
+        and isinstance(guard, dict)
+        and guard.get("equal") is True
+        and guard.get("before_sha256") == guard.get("after_sha256")
+        and guard.get("exit_code") == 2
+        and guard.get("effects_outcome") == "unknown"
+        and guard.get("performed_mutation") in {None, False}
+    )
+
+
+def classify_outcome(
+    attempt: dict[str, Any], variant: str, step_id: str
+) -> tuple[str, str, bool, str | None]:
     result = attempt.get("result")
     if result is None:
         return "interrupted", "process_interrupted_without_result", False, None
@@ -77,8 +117,74 @@ def classify_outcome(attempt: dict[str, Any]) -> tuple[str, str, bool, str | Non
         raise NormalizationError("retained result is missing reason_code")
     if not isinstance(correlation_id, str) or not correlation_id:
         raise NormalizationError("retained result is missing correlation_id")
-    if reason in EXPECTED_GUARD_REASONS:
+    if (
+        variant == "predecessor"
+        and step_id == "merge-internal-input-guard"
+        and reason == "github_merge_ineligible"
+        and finding_messages(attempt)
+        == ["explicit operator merge authorization reference required"]
+    ):
         outcome = "expected_guard_denial"
+    elif (
+        variant == "predecessor"
+        and step_id in {"cleanup-foreign-dirty-guard", "cleanup-tracked-dirty-guard"}
+        and reason == "command_completed"
+        and result.get("performed_mutation") is False
+        and isinstance(result.get("result"), dict)
+        and isinstance(result["result"].get("cleanup"), dict)
+        and result["result"]["cleanup"].get("decision") == "dirty"
+        and isinstance(envelope, dict)
+        and isinstance(envelope.get("effects"), dict)
+        and envelope["effects"].get("outcome") == "none"
+        and finding_messages(attempt) == []
+    ):
+        outcome = "expected_guard_denial"
+    elif (
+        variant == "predecessor"
+        and step_id == "cleanup-stale-preview-guard"
+        and reason == "preview_receipt_mismatch"
+        and result.get("performed_mutation") is False
+        and isinstance(envelope, dict)
+        and isinstance(envelope.get("effects"), dict)
+        and envelope["effects"].get("outcome") == "none"
+        and finding_messages(attempt)
+        == ["cleanup removal requires a preview receipt for the same Git registration"]
+    ):
+        outcome = "expected_guard_denial"
+    elif reason in EXPECTED_GUARD_REASONS and (
+        variant != "candidate" or candidate_guard_is_exact(attempt)
+    ):
+        outcome = "expected_guard_denial"
+    elif (
+        variant == "predecessor"
+        and step_id in {"prepare-preview-guard", "linked-edit-preview-guard"}
+        and reason == "usage"
+        and any(
+            message.endswith("; unexpected argument --preview")
+            for message in finding_messages(attempt)
+        )
+    ):
+        outcome = "expected_guard_denial"
+    elif (
+        variant == "predecessor"
+        and step_id in {"status-bound-primary", "validate-bound-primary", "primary-edit"}
+        and reason == "issue_already_bound"
+        and finding_messages(attempt)
+        == ["the bound checkout owns this issue; primary preparation and edits are denied"]
+    ):
+        outcome = "invalid_intent"
+    elif (
+        variant == "predecessor"
+        and step_id == "review"
+        and reason == "command_completed"
+        and status == "ready"
+        and result.get("read_only") is True
+        and isinstance(envelope, dict)
+        and isinstance(envelope.get("effects"), dict)
+        and envelope["effects"].get("outcome") == "none"
+        and finding_messages(attempt) == []
+    ):
+        outcome = "successful_no_op"
     elif reason == "lifecycle_digest_valid":
         outcome = "successful_no_op"
     elif reason == "cleanup_archive_recovery_required":
@@ -150,6 +256,104 @@ def validate_raw(
     return attempts
 
 
+def validate_raw_issue_identity(
+    attempts: list[dict[str, Any]], variant: str, scenario_id: str, expected_issue: int
+) -> None:
+    def input_issue(value: Any) -> Any | None:
+        if not isinstance(value, dict):
+            return None
+        if isinstance(value.get("issue"), int):
+            return value["issue"]
+        operation = value.get("operation")
+        if not isinstance(operation, dict):
+            return None
+        request = operation.get("request")
+        if isinstance(request, dict) and isinstance(request.get("issue"), int):
+            return request["issue"]
+        return None
+
+    for index, attempt in enumerate(attempts):
+        where = f"{scenario_id} raw attempt[{index}]"
+        input_value = attempt.get("input")
+        declared_input_issue = input_issue(input_value)
+        if variant == "predecessor":
+            if declared_input_issue != expected_issue:
+                raise NormalizationError(f"{where} input issue differs from relevant facts")
+        elif declared_input_issue is not None and declared_input_issue != expected_issue:
+            raise NormalizationError(f"{where} input issue differs from relevant facts")
+        result = attempt.get("result")
+        if not isinstance(result, dict):
+            continue
+        identities: list[Any] = []
+        if "request_issue" in result:
+            identities.append(result["request_issue"])
+        owner_result = result.get("result")
+        if isinstance(owner_result, dict) and "issue" in owner_result:
+            identities.append(owner_result["issue"])
+        envelope = result.get("envelope")
+        if isinstance(envelope, dict):
+            envelope_issue = envelope.get("issue")
+            if isinstance(envelope_issue, dict) and "number" in envelope_issue:
+                identities.append(envelope_issue["number"])
+        if any(identity != expected_issue for identity in identities):
+            raise NormalizationError(f"{where} result issue differs from relevant facts")
+
+
+def validate_raw_cleanup_topology(
+    raw: dict[str, Any], attempts: list[dict[str, Any]], variant: str, scenario_id: str
+) -> None:
+    if scenario_id != "terminal-journey":
+        return
+    topology = raw.get("cleanup_topology")
+    if not isinstance(topology, dict) or topology.get("schema") != "csdlc.v3.issue873.cleanup_control_topology.v1":
+        raise NormalizationError("terminal-journey cleanup topology is missing")
+    try:
+        primary = Path(topology["primary_root"])
+        active = Path(topology["active_issue_worktree"])
+        control = Path(topology["cleanup_control_worktree"])
+    except (KeyError, TypeError) as error:
+        raise NormalizationError("terminal-journey cleanup topology paths are invalid") from error
+    if (
+        not all(path.is_absolute() for path in (primary, active, control))
+        or len({primary, active, control}) != 3
+        or active.parent != control.parent
+        or control.name != "cleanup-control"
+        or topology.get("active_issue_retained") is not True
+        or topology.get("control_status_porcelain") != ""
+        or topology.get("baseline_head") != topology.get("control_head")
+        or not isinstance(topology.get("tracked_inventory_sha256"), str)
+    ):
+        raise NormalizationError("terminal-journey cleanup topology differs from the common facts")
+    registered = topology.get("registered_paths")
+    if not isinstance(registered, list) or not {str(primary), str(active), str(control)}.issubset(set(registered)):
+        raise NormalizationError("terminal-journey cleanup topology registration is incomplete")
+    cleanup_attempts = attempts[-6:]
+    if len(cleanup_attempts) != 6:
+        raise NormalizationError("terminal-journey cleanup attempt denominator differs")
+    for offset, attempt in enumerate(cleanup_attempts):
+        value = attempt.get("input")
+        if not isinstance(value, dict):
+            raise NormalizationError("terminal-journey cleanup input is missing")
+        if variant == "predecessor":
+            cleanup = value.get("cleanup")
+            candidate = cleanup.get("candidate_path") if isinstance(cleanup, dict) else None
+        else:
+            candidate = value.get("cleanup_candidate")
+            if value.get("active_issue_worktree") != str(active):
+                raise NormalizationError("candidate cleanup active worktree identity differs")
+        if candidate != str(control):
+            raise NormalizationError("terminal-journey cleanup target differs from control topology")
+        result = attempt.get("result")
+        owner = result.get("result") if isinstance(result, dict) else None
+        cleanup_result = owner.get("cleanup") if isinstance(owner, dict) else None
+        if isinstance(cleanup_result, dict) and cleanup_result.get("path") not in {None, str(control)}:
+            raise NormalizationError("terminal-journey cleanup result path differs from control topology")
+        if variant == "candidate" and offset in {3, 5}:
+            executed = attempt.get("executed_argv")
+            if not isinstance(executed, list) or executed[-1:] != [value.get("preview_receipt_digest")]:
+                raise NormalizationError("candidate cleanup preview operand was not executed exactly")
+
+
 def normalize(
     scenario_map: dict[str, Any],
     variant: str,
@@ -172,6 +376,8 @@ def normalize(
         scenario_id = scenario["id"]
         path, raw = observations[scenario_id]
         raw_attempts = validate_raw(raw, scenario_id, binary["blake3"])
+        expected_issue = scenario["relevant_facts"]["initial_fixture_facts"]["issue_number"]
+        validate_raw_issue_identity(raw_attempts, variant, scenario_id, expected_issue)
         steps = scenario["semantic_steps"]
         step_index = 0
         active_attempt_id: str | None = None
@@ -183,11 +389,16 @@ def normalize(
                 raise NormalizationError(f"{scenario_id} raw attempt[{raw_index}] must be an object")
             step = steps[step_index]
             argv = canonicalize_argv(raw_attempt.get("argv"), variant)
-            if argv != step["argv"][variant]:
+            expected_argv = step["argv"][variant]
+            if active_attempt_id is not None and step.get("retry_argv") is not None:
+                expected_argv = step["retry_argv"][variant]
+            if argv != expected_argv:
                 raise NormalizationError(
                     f"{scenario_id} step {step['id']} argv mapping drift"
                 )
-            outcome, reason, envelope_present, correlation_id = classify_outcome(raw_attempt)
+            outcome, reason, envelope_present, correlation_id = classify_outcome(
+                raw_attempt, variant, step["id"]
+            )
             if outcome not in step["expected_outcomes"]:
                 raise NormalizationError(
                     f"{scenario_id} step {step['id']} outcome {outcome} is not declared"
@@ -229,6 +440,7 @@ def normalize(
         if step_index != len(steps):
             missing = [step["id"] for step in steps[step_index:]]
             raise NormalizationError(f"{scenario_id} missing mapped steps: {missing}")
+        validate_raw_cleanup_topology(raw, raw_attempts, variant, scenario_id)
         journeys.append({"scenario_id": scenario_id, "status": "completed"})
         if observation_base is None:
             retained_path = path.as_posix()

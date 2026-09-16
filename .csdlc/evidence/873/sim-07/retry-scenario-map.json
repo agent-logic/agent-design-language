@@ -25,7 +25,7 @@
           "linked"
         ],
         "initial_fixture_facts": {
-          "issue_number": 505,
+          "issue_number": 1505,
           "lifecycle_phase": "unprepared",
           "authority": "native-v3",
           "remote_state": "synthetic"
@@ -37,7 +37,7 @@
         ],
         "operand_binding": "argv paths are variant-specific retained fixture paths; cleanup preview operands are retained SHA-256 digests"
       },
-      "relevant_facts_sha256": "9ed27fe912be99f4e683ee6aec0528f6b074e14195262fe49db6a347b14b2dd5",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
       "semantic_steps": [
         {
           "id": "prepare-preview-guard",
@@ -51,16 +51,23 @@
           ],
           "argv": {
             "predecessor": [
-              "prepare",
-              "505",
-              "--plan",
-              "$FIXTURE_ROOT/.git/installed-predecessor/plan.json",
+              "issue",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local",
               "--preview",
               "plan"
             ],
             "candidate": [
               "prepare",
-              "505",
+              "1505",
               "--plan",
               "$FIXTURE_ROOT/.git/installed-candidate/plan.json",
               "--preview",
@@ -86,14 +93,21 @@
           ],
           "argv": {
             "predecessor": [
-              "prepare",
-              "505",
-              "--plan",
-              "$FIXTURE_ROOT/.git/installed-predecessor/plan.json"
+              "issue",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "prepare",
-              "505",
+              "1505",
               "--plan",
               "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
             ]
@@ -113,12 +127,21 @@
           ],
           "argv": {
             "predecessor": [
-              "status",
-              "505"
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-ready-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "status",
-              "505"
+              "1505"
             ]
           }
         },
@@ -137,11 +160,20 @@
           "argv": {
             "predecessor": [
               "validate",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-ready-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "validate",
-              "505"
+              "1505"
             ]
           }
         },
@@ -164,21 +196,31 @@
           "argv": {
             "predecessor": [
               "bind",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/bind-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "bind",
-              "505"
+              "1505"
             ]
           }
         },
         {
           "id": "status-bound-primary",
-          "retry_policy": "excluded_required_observation",
+          "retry_policy": "eligible",
           "intended_operation": "observe_bound_status_primary",
           "expected_outcomes": [
             "successful_no_op",
-            "expected_wait"
+            "expected_wait",
+            "invalid_intent"
           ],
           "completion_outcomes": [
             "successful_no_op",
@@ -186,22 +228,51 @@
           ],
           "argv": {
             "predecessor": [
-              "status",
-              "505"
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "status",
-              "505"
+              "1505"
+            ]
+          },
+          "retry_argv": {
+            "predecessor": [
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "status",
+              "1505"
             ]
           }
         },
         {
           "id": "validate-bound-primary",
-          "retry_policy": "excluded_required_observation",
+          "retry_policy": "eligible",
           "intended_operation": "validate_bound_primary",
           "expected_outcomes": [
             "successful_no_op",
-            "expected_wait"
+            "expected_wait",
+            "invalid_intent"
           ],
           "completion_outcomes": [
             "successful_no_op",
@@ -210,11 +281,39 @@
           "argv": {
             "predecessor": [
               "validate",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "validate",
-              "505"
+              "1505"
+            ]
+          },
+          "retry_argv": {
+            "predecessor": [
+              "validate",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-primary-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "validate",
+              "1505"
             ]
           }
         },
@@ -232,12 +331,21 @@
           ],
           "argv": {
             "predecessor": [
-              "status",
-              "505"
+              "doctor",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/status-bound-linked-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "status",
-              "505"
+              "1505"
             ]
           }
         },
@@ -256,11 +364,20 @@
           "argv": {
             "predecessor": [
               "validate",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-bound-linked-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "validate",
-              "505"
+              "1505"
             ]
           }
         },
@@ -277,15 +394,22 @@
           "argv": {
             "predecessor": [
               "edit",
-              "505",
-              "--changes",
-              "$FIXTURE_ROOT/.git/installed-predecessor/changes.json",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/linked-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local",
               "--preview",
               "plan"
             ],
             "candidate": [
               "edit",
-              "505",
+              "1505",
               "--changes",
               "$FIXTURE_ROOT/.git/installed-candidate/changes.json",
               "--preview",
@@ -312,13 +436,20 @@
           "argv": {
             "predecessor": [
               "edit",
-              "505",
-              "--changes",
-              "$FIXTURE_ROOT/.git/installed-predecessor/changes.json"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/linked-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "edit",
-              "505",
+              "1505",
               "--changes",
               "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
             ]
@@ -343,13 +474,41 @@
           "argv": {
             "predecessor": [
               "edit",
-              "505",
-              "--changes",
-              "$FIXTURE_ROOT/.git/installed-predecessor/changes.json"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/primary-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "edit",
-              "505",
+              "1505",
+              "--changes",
+              "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+            ]
+          },
+          "retry_argv": {
+            "predecessor": [
+              "edit",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/primary-edit-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
+            ],
+            "candidate": [
+              "edit",
+              "1505",
               "--changes",
               "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
             ]
@@ -370,11 +529,20 @@
           "argv": {
             "predecessor": [
               "validate",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/validate-projection-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$BOUND_WORKTREE",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "validate",
-              "505"
+              "1505"
             ]
           }
         }
@@ -385,13 +553,13 @@
       "relevant_facts": {
         "fixture_family": "installed_intent_commands",
         "remote_transport": "synthetic",
-        "semantic_scope": "proof-review-publish-finish-clean",
+        "semantic_scope": "proof-review-publish-finish-primary-clean-common-surface",
         "topologies": [
           "primary",
           "linked"
         ],
         "initial_fixture_facts": {
-          "issue_number": 505,
+          "issue_number": 1505,
           "lifecycle_phase": "unprepared",
           "authority": "native-v3",
           "remote_state": "synthetic"
@@ -401,9 +569,20 @@
           "apply-scripted-result",
           "observe-final"
         ],
-        "operand_binding": "argv paths are variant-specific retained fixture paths; cleanup preview operands are retained SHA-256 digests"
+        "operand_binding": "argv paths are variant-specific retained fixture paths; cleanup preview operands are retained SHA-256 digests",
+        "cleanup_topology": {
+          "active_issue_worktree": "retained_dirty",
+          "cleanup_candidate": "separately_registered_untouched_control",
+          "control_baseline": "identical_normalized_head_and_tracked_inventory",
+          "terminal_state_root": "primary_git_common_dir"
+        },
+        "excluded_from_retry_comparison": {
+          "surface": "candidate_cleanup_archive_interruption_and_recovery",
+          "reason": "frozen predecessor has direct Git worktree removal and no archive crash or recovery contract",
+          "qualification": "retained separately under issue 873"
+        }
       },
-      "relevant_facts_sha256": "577e41f40ab8baaa561e82ae1c1eea04f15a6ca1ee0f52e18173d89c91b36aca",
+      "relevant_facts_sha256": "fd368ccb53ca18abbd8c4b53c11cfa5fc1d83024dd722cb80661bb00e9ce6830",
       "semantic_steps": [
         {
           "id": "prepare",
@@ -423,14 +602,21 @@
           ],
           "argv": {
             "predecessor": [
-              "prepare",
-              "505",
-              "--plan",
-              "$FIXTURE_ROOT/.git/installed-predecessor/plan.json"
+              "issue",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "prepare",
-              "505",
+              "1505",
               "--plan",
               "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
             ]
@@ -455,11 +641,20 @@
           "argv": {
             "predecessor": [
               "bind",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/bind-request.json",
+              "--registry",
+              "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+              "--registrations",
+              "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+              "--repo-root",
+              "$FIXTURE_ROOT",
+              "--v3-state-root",
+              "$FIXTURE_ROOT/.git/csdlc-v3/local"
             ],
             "candidate": [
               "bind",
-              "505"
+              "1505"
             ]
           }
         },
@@ -482,11 +677,12 @@
           "argv": {
             "predecessor": [
               "proof",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/proof-request.json"
             ],
             "candidate": [
               "proof",
-              "505"
+              "1505"
             ]
           }
         },
@@ -509,13 +705,12 @@
           "argv": {
             "predecessor": [
               "review",
-              "505",
-              "--evidence",
-              "$FIXTURE_ROOT/.git/installed-predecessor/review.json"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/review-request.json"
             ],
             "candidate": [
               "review",
-              "505",
+              "1505",
               "--evidence",
               "$FIXTURE_ROOT/.git/installed-candidate/review.json"
             ]
@@ -539,12 +734,14 @@
           ],
           "argv": {
             "predecessor": [
-              "publish",
-              "505"
+              "github-pr",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/publish-request.json",
+              "--execute"
             ],
             "candidate": [
               "publish",
-              "505"
+              "1505"
             ]
           }
         },
@@ -567,14 +764,13 @@
           "argv": {
             "predecessor": [
               "github-pr",
-              "505",
-              "--operation",
-              "$FIXTURE_ROOT/.git/installed-predecessor/operation.json",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/github-pr-create-request.json",
               "--execute"
             ],
             "candidate": [
               "github-pr",
-              "505",
+              "1505",
               "--operation",
               "$FIXTURE_ROOT/.git/installed-candidate/operation.json",
               "--execute"
@@ -594,14 +790,13 @@
           "argv": {
             "predecessor": [
               "github-pr",
-              "505",
-              "--operation",
-              "$FIXTURE_ROOT/.git/installed-predecessor/merge.json",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge-internal-input-guard-request.json",
               "--execute"
             ],
             "candidate": [
               "github-pr",
-              "505",
+              "1505",
               "--operation",
               "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
               "--execute"
@@ -627,14 +822,13 @@
           "argv": {
             "predecessor": [
               "github-pr",
-              "505",
-              "--operation",
-              "$FIXTURE_ROOT/.git/installed-predecessor/merge.json",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge-remote-apply-request.json",
               "--execute"
             ],
             "candidate": [
               "github-pr",
-              "505",
+              "1505",
               "--operation",
               "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
               "--execute"
@@ -656,14 +850,13 @@
           "argv": {
             "predecessor": [
               "github-pr",
-              "505",
-              "--operation",
-              "$FIXTURE_ROOT/.git/installed-predecessor/merge.json",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/merge-idempotent-observation-request.json",
               "--execute"
             ],
             "candidate": [
               "github-pr",
-              "505",
+              "1505",
               "--operation",
               "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
               "--execute"
@@ -685,13 +878,13 @@
           "argv": {
             "predecessor": [
               "finish",
-              "505",
-              "--preview",
-              "plan"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/finish-preview-request.json",
+              "--observe-github"
             ],
             "candidate": [
               "finish",
-              "505",
+              "1505",
               "--preview",
               "plan"
             ]
@@ -716,11 +909,38 @@
           "argv": {
             "predecessor": [
               "finish",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/finish-linked-request.json",
+              "--observe-github"
             ],
             "candidate": [
               "finish",
-              "505"
+              "1505"
+            ]
+          }
+        },
+        {
+          "id": "finish-primary",
+          "retry_policy": "excluded_required_observation",
+          "intended_operation": "persist_primary_finish_for_cleanup",
+          "expected_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "completion_outcomes": [
+            "transition_applied",
+            "successful_no_op"
+          ],
+          "argv": {
+            "predecessor": [
+              "finish",
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/finish-primary-request.json",
+              "--observe-github"
+            ],
+            "candidate": [
+              "finish",
+              "1505"
             ]
           }
         },
@@ -737,11 +957,12 @@
           "argv": {
             "predecessor": [
               "clean",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-foreign-dirty-guard-request.json"
             ],
             "candidate": [
               "clean",
-              "505"
+              "1505"
             ]
           }
         },
@@ -758,11 +979,12 @@
           "argv": {
             "predecessor": [
               "clean",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-tracked-dirty-guard-request.json"
             ],
             "candidate": [
               "clean",
-              "505"
+              "1505"
             ]
           }
         },
@@ -781,11 +1003,12 @@
           "argv": {
             "predecessor": [
               "clean",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-preview-request.json"
             ],
             "candidate": [
               "clean",
-              "505"
+              "1505"
             ]
           }
         },
@@ -802,126 +1025,22 @@
           "argv": {
             "predecessor": [
               "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-stale-preview-guard-request.json"
             ],
             "candidate": [
               "clean",
-              "505",
+              "1505",
               "--execute",
               "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
+              "$STALE_PREVIEW_DIGEST"
             ]
           }
         },
         {
-          "id": "cleanup-injected-failure",
-          "retry_policy": "excluded_injected_interruption",
-          "intended_operation": "inject_cleanup_failure",
-          "expected_outcomes": [
-            "interrupted"
-          ],
-          "completion_outcomes": [
-            "interrupted"
-          ],
-          "argv": {
-            "predecessor": [
-              "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
-            ],
-            "candidate": [
-              "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
-            ]
-          }
-        },
-        {
-          "id": "cleanup-interruption-one",
-          "retry_policy": "excluded_injected_interruption",
-          "intended_operation": "interrupt_cleanup_after_archive",
-          "expected_outcomes": [
-            "interrupted"
-          ],
-          "completion_outcomes": [
-            "interrupted"
-          ],
-          "argv": {
-            "predecessor": [
-              "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
-            ],
-            "candidate": [
-              "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
-            ]
-          }
-        },
-        {
-          "id": "cleanup-interruption-two",
-          "retry_policy": "excluded_injected_interruption",
-          "intended_operation": "interrupt_cleanup_after_registration",
-          "expected_outcomes": [
-            "interrupted"
-          ],
-          "completion_outcomes": [
-            "interrupted"
-          ],
-          "argv": {
-            "predecessor": [
-              "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
-            ],
-            "candidate": [
-              "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5b5cb42b758fa706d06d3590b54c6cc4415c4de189884a95bea83379ac041763"
-            ]
-          }
-        },
-        {
-          "id": "cleanup-recovery-status",
+          "id": "cleanup-refresh-preview",
           "retry_policy": "excluded_required_observation",
-          "intended_operation": "observe_cleanup_recovery_required",
-          "expected_outcomes": [
-            "recovery_required"
-          ],
-          "completion_outcomes": [
-            "recovery_required"
-          ],
-          "argv": {
-            "predecessor": [
-              "status",
-              "505"
-            ],
-            "candidate": [
-              "status",
-              "505"
-            ]
-          }
-        },
-        {
-          "id": "cleanup-recovery-preview",
-          "retry_policy": "excluded_required_observation",
-          "intended_operation": "recover_cleanup_preview",
+          "intended_operation": "refresh_cleanup_preview_after_stale_guard",
           "expected_outcomes": [
             "successful_no_op",
             "expected_wait"
@@ -933,18 +1052,19 @@
           "argv": {
             "predecessor": [
               "clean",
-              "505"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-refresh-preview-request.json"
             ],
             "candidate": [
               "clean",
-              "505"
+              "1505"
             ]
           }
         },
         {
-          "id": "cleanup-linked-execute",
+          "id": "cleanup-execute",
           "retry_policy": "eligible",
-          "intended_operation": "execute_linked_cleanup",
+          "intended_operation": "execute_cleanup_control",
           "expected_outcomes": [
             "transition_applied",
             "successful_no_op",
@@ -960,40 +1080,15 @@
           "argv": {
             "predecessor": [
               "clean",
-              "505",
-              "--execute",
-              "--preview",
-              "5d179ce8af4a64a1ecafc156e2853f922a080446d1571075b4a1401d85544896"
+              "--request",
+              "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-execute-request.json"
             ],
             "candidate": [
               "clean",
-              "505",
+              "1505",
               "--execute",
               "--preview",
-              "5d179ce8af4a64a1ecafc156e2853f922a080446d1571075b4a1401d85544896"
-            ]
-          }
-        },
-        {
-          "id": "cleanup-primary-complete",
-          "retry_policy": "excluded_required_observation",
-          "intended_operation": "observe_cleanup_complete",
-          "expected_outcomes": [
-            "successful_no_op",
-            "expected_wait"
-          ],
-          "completion_outcomes": [
-            "successful_no_op",
-            "expected_wait"
-          ],
-          "argv": {
-            "predecessor": [
-              "clean",
-              "505"
-            ],
-            "candidate": [
-              "clean",
-              "505"
+              "$PREVIEW_DIGEST"
             ]
           }
         }
