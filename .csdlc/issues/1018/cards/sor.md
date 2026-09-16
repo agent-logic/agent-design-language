@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented a guarded second-stage PR-create recovery that preserves the retained intent and original recovery receipt, requires authenticated exact PR absence and exact remote branch SHA, and writes a separate create-only one-shot receipt before dispatch. Local validation is green; independent exact-head review and publication remain pending.
+Implemented guarded PR-create recovery. First retries prove authenticated exact PR absence and the exact remote branch SHA before consuming their retry. Consumed legacy receipts require a generic typed, create-only definitive non-effect disposition bound to the repository, issue, immutable request, operation and intent digests, authority, expected SHA, evidence, and operator authorization before the separate one-shot dispatch stage. Rebuild can repair altered projections before refreshing an otherwise exact binding head. Local validation is green; corrected independent-review findings await exact-head re-review.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -75,7 +75,7 @@ Implemented a guarded second-stage PR-create recovery that preserves the retaine
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `csdlc-v3/src/adapters/mod.rs; csdlc-v3/src/commands/remote/{model,mutation,storage,tests,transport}.rs; docs/csdlc-v3/CONTRACT.md`
+- Tracked implementation artifacts: `csdlc-v3/src/application/intent/{local,remote}.rs; csdlc-v3/src/commands/remote/{model,mutation,storage,support,tests,transport}.rs; csdlc-v3/src/main.rs; csdlc-v3/tests/{installed_intent_commands,operational_cli_commands,transactions}.rs`
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml remote --no-fail-fast; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; git diff --check`
-    `Proves the semantic staged recovery path, authenticated absence and exact-head gates, stale-authority and conflicting-PR rejection, durable one-shot replay protection, remote regression compatibility, formatting, lint, and patch hygiene.`
+    `Proves the semantic staged recovery path, generic typed disposition admission without issue allowlists, immutable identity and authority binding, authenticated absence and exact-head gates, stale-authority and conflicting-PR rejection, durable one-shot replay protection, projection repair before binding-head refresh, remote regression compatibility, formatting, lint, and patch hygiene.`
 - Results:
-  - `passed locally: 76 remote unit tests plus filtered integration coverage completed with zero failures; strict Clippy, formatting, focused recovery tests, adapter URL proof, and diff hygiene passed`
+  - `passed locally: 80 remote unit tests, 6 focused consumed-recovery tests, installed projection-rebuild regression, installed recovery coverage, module decomposition, strict Clippy, formatting, and diff hygiene passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,11 +125,11 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Focused consumed PR-create recovery tests, full remote lane, exact branch-head adapter test, strict Clippy, rustfmt and diff hygiene"
+      - "Generic consumed PR-create disposition and recovery tests, projection-rebuild regression, full remote lane, module decomposition, strict Clippy, rustfmt and diff hygiene"
   determinism:
     status: passed
     replay_verified: true
-    ordering_guarantees_verified: not_applicable
+    ordering_guarantees_verified: true
   security_privacy:
     status: passed
     secrets_leakage_detected: false
@@ -139,8 +139,8 @@ verification_summary:
     status: implementation_and_local_proof_complete_review_pending
     required_artifacts_present: true
     schema_changes:
-      present: false
-      approved: not_applicable
+      present: true
+      approved: approved_by_issue_1018
 ```
 
 ## Determinism Evidence
