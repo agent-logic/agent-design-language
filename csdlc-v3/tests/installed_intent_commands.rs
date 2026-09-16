@@ -1757,6 +1757,13 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
         ],
     ));
     fixture.enable_merge_transport(&linked);
+    let stale_primary_issue = primary.join(".csdlc/issues/505");
+    fs::create_dir_all(&stale_primary_issue).unwrap();
+    fs::copy(
+        linked.join(".csdlc/issues/505/index.json"),
+        stale_primary_issue.join("index.json"),
+    )
+    .unwrap();
     let missing_approval = fixture.write_json(
         "merge.json",
         &json!({"action":"pull_request_merge","base":"main","method":"merge"}),
@@ -1790,6 +1797,7 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
     assert_eq!(fixture.remote_effects(), 3);
     assert_eq!(fixture.remote_pr()["merged"], true);
     assert_eq!(fixture.remote_issue()["state"], "closed");
+    fs::remove_dir_all(primary.join(".csdlc/issues")).unwrap();
     let before = intent_fixture::inventory(&primary);
     let replay = success(fixture.run(
         &primary,

@@ -164,7 +164,9 @@ impl Context {
         let prepared_recovery =
             crate::commands::local::intent::recovery_source(&common.join("csdlc-v3/local"), issue)
                 .map_err(|_| "intent_recovery_journal_invalid")?;
-        if prepared.join("index.json").exists() || prepared_recovery.is_some() {
+        if canonical_bound_worktree.is_none()
+            && (prepared.join("index.json").exists() || prepared_recovery.is_some())
+        {
             candidates.push((primary.clone(), prepared.clone()));
         }
         for line in registrations
@@ -233,65 +235,54 @@ impl Context {
             return Err("intent_issue_topology_ambiguous".into());
         }
         let mut archived_index = None;
-        if candidates.is_empty() {
-            if binding_path.exists() {
-                let binding = read_json(&binding_path)?;
-                if binding["schema"] != "csdlc.v3.binding.v1" || binding["issue"] != issue {
-                    return Err("intent_native_binding_invalid".into());
-                }
-                let target = PathBuf::from(
-                    binding["worktree"]
-                        .as_str()
-                        .ok_or("intent_native_binding_invalid")?,
-                );
-                if registrations
-                    .lines()
-                    .any(|line| line.strip_prefix("worktree ") == target.to_str())
-                    && target.exists()
-                {
-                    let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
-                        .map_err(semantic_error)?;
-                    let semantic_key =
-                        IssueKey::new(repository.clone(), issue).map_err(semantic_error)?;
-                    let exact_digest =
-                        match DurableTransactionStore::observe_issue(&semantic_root, &semantic_key)
-                            .map_err(semantic_error)?
-                        {
-                            Observation::Current(snapshot)
-                            | Observation::ProjectionRepairRequired(snapshot) => {
-                                cleanup_archive_digest(&semantic_root, &semantic_key, &snapshot)?
-                            }
-                            _ => None,
-                        };
-                    let retained = if let Some(digest) = exact_digest {
-                        crate::commands::terminal::matching_retained_cleanup_index(
-                            &primary, &target, issue, &digest,
-                        )
-                        .map_err(|finding| finding.code)?
-                    } else {
-                        crate::commands::terminal::retained_cleanup_index(&primary, &target, issue)
-                            .map_err(|finding| finding.code)?
+        if candidates.is_empty() && binding_path.exists() {
+            let binding = read_json(&binding_path)?;
+            if binding["schema"] != "csdlc.v3.binding.v1" || binding["issue"] != issue {
+                return Err("intent_native_binding_invalid".into());
+            }
+            let target = PathBuf::from(
+                binding["worktree"]
+                    .as_str()
+                    .ok_or("intent_native_binding_invalid")?,
+            );
+            if registrations
+                .lines()
+                .any(|line| line.strip_prefix("worktree ") == target.to_str())
+                && target.exists()
+            {
+                let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
+                    .map_err(semantic_error)?;
+                let semantic_key =
+                    IssueKey::new(repository.clone(), issue).map_err(semantic_error)?;
+                let exact_digest =
+                    match DurableTransactionStore::observe_issue(&semantic_root, &semantic_key)
+                        .map_err(semantic_error)?
+                    {
+                        Observation::Current(snapshot)
+                        | Observation::ProjectionRepairRequired(snapshot) => {
+                            cleanup_archive_digest(&semantic_root, &semantic_key, &snapshot)?
+                        }
+                        _ => None,
                     };
-                    if let Some(index) = retained {
-                        candidates.push((
-                            target.clone(),
-                            target.join(format!(".csdlc/issues/{issue}")),
-                        ));
-                        archived_index = Some(index);
-                    }
+                let retained = if let Some(digest) = exact_digest {
+                    crate::commands::terminal::matching_retained_cleanup_index(
+                        &primary, &target, issue, &digest,
+                    )
+                    .map_err(|finding| finding.code)?
+                } else {
+                    crate::commands::terminal::retained_cleanup_index(&primary, &target, issue)
+                        .map_err(|finding| finding.code)?
+                };
+                if let Some(index) = retained {
+                    candidates.push((
+                        target.clone(),
+                        target.join(format!(".csdlc/issues/{issue}")),
+                    ));
+                    archived_index = Some(index);
                 }
             }
         }
-        let (root, issue_root) = candidates.pop().unwrap_or_else(|| {
-            if invoking != primary {
-                (
-                    invoking.clone(),
-                    invoking.join(format!(".csdlc/issues/{issue}")),
-                )
-            } else {
-                (primary.clone(), prepared)
-            }
-        });
+        let (root, issue_root) = candidates.pop().unwrap_or((primary.clone(), prepared));
         let mut partial_cleanup_pending = false;
         if archived_index.is_none() && root != primary {
             let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
