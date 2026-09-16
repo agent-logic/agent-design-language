@@ -3,6 +3,7 @@ use super::{
     AcceptedReviewEvidence, AuthoritySource, RemoteDeliveryInput, RemoteDeliveryRejectReason,
     VerifiableSubject, VerificationRejectReason, Verified,
 };
+use crate::adapters::ProcessStatus;
 use crate::publication::{
     classify_cleanup, cleanup_candidate_from_git_registration, derive_finish,
     execute_cleanup_removal, publish, CleanupCandidate, CleanupClassification, CleanupRejectReason,
@@ -2051,6 +2052,186 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
     }
     fs::write(&receipt_path, bytes).unwrap();
     super::pending_mutation_finding(&root, &observation).unwrap();
+}
+
+fn consumed_pr_create_fixture(
+    name: &str,
+) -> (
+    PathBuf,
+    super::GithubMutationRequest,
+    String,
+    String,
+    String,
+) {
+    let root = mutation_repo(name, true);
+    let head_sha = mutation_head(&root);
+    let mut request = mutation_request(
+        &head_sha,
+        super::GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: "codex/1013-tracked-projection-rebind-proof-convergence".into(),
+            title: "Make tracked projection rebind converge before proof".into(),
+            body: "Closes #1013".into(),
+            draft: true,
+        },
+    );
+    request.issue = 1013;
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let operation_marker = super::github_mutation_operation_marker(&operation_digest);
+    let intent_path = persist_mutation_intent(&root, &request);
+    let intent = super::load_mutation_intent(&intent_path, &operation_digest).unwrap();
+    let intent_digest = super::github_mutation_intent_digest(&intent);
+    super::persist_recovery_receipt(&root, &request, &operation_digest, &intent_digest, None)
+        .unwrap();
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    (
+        root,
+        request,
+        operation_digest,
+        operation_marker,
+        intent_digest,
+    )
+}
+
+fn pr_create_readback(request: &super::GithubMutationRequest, marker: &str) -> serde_json::Value {
+    let super::GithubMutation::PullRequestCreate {
+        base,
+        head,
+        title,
+        body,
+        draft,
+    } = &request.mutation
+    else {
+        unreachable!()
+    };
+    serde_json::json!([{
+        "number": 1019,
+        "head": {"sha": request.expected_head_sha, "ref": head},
+        "base": {"ref": base},
+        "title": title,
+        "body": format!("{body}\n\n{marker}"),
+        "draft": draft
+    }])
+}
+
+// PVF: required deterministic local recovery contract; fake authenticated transport.
+#[test]
+fn consumed_pr_create_recovery_requires_exact_absence_and_head_and_is_one_shot() {
+    let (root, request, digest, marker, _) = consumed_pr_create_fixture("pr-create-consumed");
+    let head = request.expected_head_sha.clone();
+    let mut stage_process = SequencedProcessAdapter::new(vec![]);
+    let staged = super::stage_github_mutation(&root, &request, &mut stage_process).unwrap();
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(
+            ProcessStatus::Exit(0),
+            serde_json::json!({
+                "ref": "refs/heads/codex/1013-tracked-projection-rebind-proof-convergence",
+                "object": {"type": "commit", "sha": head}
+            }),
+        ),
+        process_output(ProcessStatus::Exit(0), serde_json::json!({"number": 1019})),
+        process_output(
+            ProcessStatus::Exit(0),
+            pr_create_readback(&request, &marker),
+        ),
+    ])
+    .requiring_intent(super::github_mutation_intent_path(&root, &digest).unwrap());
+    let result = super::execute_staged_github_mutation(&root, &staged, false, &mut process)
+        .expect("exact branch availability admits one guarded recovery");
+    assert_eq!(result.receipt.pull_request, Some(1019));
+    assert!(!result.receipt.idempotent_replay);
+    assert_eq!(
+        process
+            .invocations
+            .iter()
+            .filter(|invocation| invocation.program == super::GITHUB_OPERATIONAL_ADAPTER)
+            .count(),
+        1
+    );
+    assert!(
+        super::github_mutation_head_available_recovery_path(&root, &digest)
+            .unwrap()
+            .exists()
+    );
+
+    fs::remove_file(super::github_mutation_receipt_path(&root, &digest).unwrap()).unwrap();
+    let mut repeated = SequencedProcessAdapter::new(vec![process_output(
+        ProcessStatus::Exit(0),
+        serde_json::json!([]),
+    )]);
+    assert_eq!(
+        super::execute_staged_github_mutation(&root, &staged, false, &mut repeated)
+            .unwrap_err()
+            .code,
+        "github_mutation_head_available_recovery_already_consumed"
+    );
+    assert_eq!(repeated.invocations.len(), 1);
+}
+
+// PVF: required deterministic local recovery negatives; fake authenticated transport.
+#[test]
+fn consumed_pr_create_recovery_rejects_wrong_head_and_existing_pr_before_dispatch() {
+    let (root, request, _, _, _) = consumed_pr_create_fixture("pr-create-wrong-head");
+    let mut wrong_head = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(
+            ProcessStatus::Exit(0),
+            serde_json::json!({
+                "ref": "refs/heads/codex/1013-tracked-projection-rebind-proof-convergence",
+                "object": {"type": "commit", "sha": "wrong-head"}
+            }),
+        ),
+    ]);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut wrong_head)
+            .unwrap_err()
+            .code,
+        "github_pr_create_recovery_head_mismatch"
+    );
+    assert!(wrong_head
+        .invocations
+        .iter()
+        .all(|invocation| invocation.program == super::GITHUB_READ_ONLY_ADAPTER));
+
+    let (root, request, _, marker, _) = consumed_pr_create_fixture("pr-create-existing");
+    let mut mismatched = pr_create_readback(&request, &marker);
+    mismatched[0]["title"] = serde_json::json!("different PR");
+    let mut existing = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), mismatched.clone()),
+        process_output(ProcessStatus::Exit(0), mismatched),
+    ]);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut existing)
+            .unwrap_err()
+            .code,
+        "github_pr_create_recovery_target_not_absent"
+    );
+    assert!(existing
+        .invocations
+        .iter()
+        .all(|invocation| invocation.program == super::GITHUB_READ_ONLY_ADAPTER));
+}
+
+// PVF: required deterministic local authority negative; no transport.
+#[test]
+fn consumed_pr_create_recovery_rejects_stale_retained_authority() {
+    let (root, request, digest, _, _) = consumed_pr_create_fixture("pr-create-stale-authority");
+    let intent_path = super::github_mutation_intent_path(&root, &digest).unwrap();
+    let mut intent: serde_json::Value =
+        serde_json::from_slice(&fs::read(&intent_path).unwrap()).unwrap();
+    intent["authority_selector_digest"] = serde_json::json!("stale-selector");
+    fs::write(&intent_path, serde_json::to_vec(&intent).unwrap()).unwrap();
+    let mut process = SequencedProcessAdapter::new(vec![]);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut process)
+            .unwrap_err()
+            .code,
+        "github_mutation_intent_mismatch"
+    );
+    assert!(process.invocations.is_empty());
 }
 
 #[test]

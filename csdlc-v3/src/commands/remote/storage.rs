@@ -59,6 +59,57 @@ pub(super) fn github_mutation_recovery_path(
         .join(format!("{digest}.json")))
 }
 
+pub(super) fn github_mutation_head_available_recovery_path(
+    repo_root: &Path,
+    digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let git_dir = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git control directory is required for mutation recovery receipts",
+        )
+    })?;
+    Ok(git_dir
+        .join("csdlc-v3/remote/head-available-recoveries")
+        .join(format!("{digest}.json")))
+}
+
+pub(super) fn load_mutation_recovery_receipt(
+    path: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<GithubMutationRecoveryReceipt, RemoteRouteFinding> {
+    let bytes = fs::read(path).map_err(|_| {
+        remote_finding(
+            "github_mutation_recovery_unreadable",
+            "existing recovery receipt cannot be read",
+        )
+    })?;
+    let receipt: GithubMutationRecoveryReceipt = serde_json::from_slice(&bytes).map_err(|_| {
+        remote_finding(
+            "github_mutation_recovery_invalid",
+            "existing recovery receipt is not valid typed JSON",
+        )
+    })?;
+    if receipt.schema != "csdlc.v3.github_mutation_recovery.v1"
+        || receipt.operation_digest != operation_digest
+        || receipt.intent_digest != intent_digest
+        || receipt.recovery != GithubMutationRecovery::RetryAfterAuthenticatedAbsence
+        || receipt.repository != request.repository
+        || receipt.issue != request.issue
+        || receipt.pull_request != request.pull_request
+        || receipt.expected_head_sha != request.expected_head_sha
+        || receipt.resolved_ready_target.is_some()
+    {
+        return Err(remote_finding(
+            "github_mutation_recovery_mismatch",
+            "existing recovery receipt does not bind this exact PR-create operation",
+        ));
+    }
+    Ok(receipt)
+}
+
 pub(super) fn load_mutation_intent(
     path: &Path,
     operation_digest: &str,

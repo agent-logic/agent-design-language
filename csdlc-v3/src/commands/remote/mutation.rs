@@ -347,7 +347,21 @@ pub fn execute_staged_github_mutation(
                     && staged.recovery
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
-                ensure_recovery_available(repo_root, &staged.operation_digest)?;
+                let head_available_recovery =
+                    if github_mutation_recovery_path(repo_root, &staged.operation_digest)?.exists()
+                    {
+                        verify_consumed_pr_create_recovery(
+                            repo_root,
+                            request,
+                            &staged.operation_digest,
+                            &staged.intent_digest,
+                            process,
+                        )?;
+                        true
+                    } else {
+                        ensure_recovery_available(repo_root, &staged.operation_digest)?;
+                        false
+                    };
                 if staged
                     .resolved_ready_target
                     .as_ref()
@@ -370,6 +384,7 @@ pub fn execute_staged_github_mutation(
                             credential_name: &staged.credential_name,
                             ready_target: staged.resolved_ready_target.as_ref(),
                             recovery_intent_digest: Some(&staged.intent_digest),
+                            head_available_recovery,
                         },
                         process,
                     )?;
@@ -457,6 +472,7 @@ pub fn execute_staged_github_mutation(
             credential_name: &staged.credential_name,
             ready_target: staged.resolved_ready_target.as_ref(),
             recovery_intent_digest: None,
+            head_available_recovery: false,
         },
         process,
     )?;
@@ -589,7 +605,20 @@ pub fn execute_github_mutation(
             {
                 // Legacy intents are immutable. Resolve their missing target only
                 // for an explicitly authorized retry after authenticated absence.
-                ensure_recovery_available(repo_root, &operation_digest)?;
+                let head_available_recovery =
+                    if github_mutation_recovery_path(repo_root, &operation_digest)?.exists() {
+                        verify_consumed_pr_create_recovery(
+                            repo_root,
+                            request,
+                            &operation_digest,
+                            &intent_digest,
+                            process,
+                        )?;
+                        true
+                    } else {
+                        ensure_recovery_available(repo_root, &operation_digest)?;
+                        false
+                    };
                 let ready_target = match &intent.resolved_ready_target {
                     None if matches!(request.mutation, GithubMutation::PullRequestReady) => {
                         Some(resolve_ready_target(request, process)?)
@@ -614,6 +643,7 @@ pub fn execute_github_mutation(
                             credential_name: &credential_name,
                             ready_target: ready_target.as_ref(),
                             recovery_intent_digest: Some(&intent_digest),
+                            head_available_recovery,
                         },
                         process,
                     )?;
@@ -684,6 +714,7 @@ pub fn execute_github_mutation(
             credential_name: &credential_name,
             ready_target: intent.resolved_ready_target.as_ref(),
             recovery_intent_digest: None,
+            head_available_recovery: false,
         },
         process,
     )?;
@@ -838,7 +869,18 @@ pub(super) fn dispatch_github_mutation_after_intent(
 ) -> Result<(Option<String>, CommandInvocation), RemoteRouteFinding> {
     preflight_github_credential(context.credential_name, process)?;
     if context.recovery_intent_digest.is_some() {
-        ensure_recovery_available(repo_root, context.operation_digest)?;
+        if context.head_available_recovery {
+            if github_mutation_head_available_recovery_path(repo_root, context.operation_digest)?
+                .exists()
+            {
+                return Err(remote_finding(
+                    "github_mutation_head_available_recovery_already_consumed",
+                    "the guarded head-available PR-create recovery was already consumed",
+                ));
+            }
+        } else {
+            ensure_recovery_available(repo_root, context.operation_digest)?;
+        }
     }
     verify_coordination(repo_root, request, process)?;
     let input_path = write_mutation_input(
@@ -858,13 +900,22 @@ pub(super) fn dispatch_github_mutation_after_intent(
                 )
             })?;
         if let Some(intent_digest) = context.recovery_intent_digest {
-            persist_recovery_receipt(
-                repo_root,
-                request,
-                context.operation_digest,
-                intent_digest,
-                context.ready_target,
-            )?;
+            if context.head_available_recovery {
+                persist_head_available_recovery_receipt(
+                    repo_root,
+                    request,
+                    context.operation_digest,
+                    intent_digest,
+                )?;
+            } else {
+                persist_recovery_receipt(
+                    repo_root,
+                    request,
+                    context.operation_digest,
+                    intent_digest,
+                    context.ready_target,
+                )?;
+            }
         }
         Ok(invocation)
     })();

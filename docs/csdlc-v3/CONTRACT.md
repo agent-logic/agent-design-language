@@ -255,3 +255,26 @@ They prove preservation of the original intent, target-bearing receipt before
 dispatch, no-authorization and identity/lookup failures, already-ready races,
 one-shot uncertain recovery, reconciliation replay and private input cleanup.
 No live GitHub mutation or logging-channel change is involved.
+
+### Retained pull-request-create recovery after branch publication
+
+A retained PR-create intent whose authenticated-absence retry was consumed
+before its remote head existed has one narrower recovery stage. The operator
+must request `retry_after_authenticated_absence` again. Native recovery accepts
+that request only when the original recovery receipt exactly binds the retained
+operation and intent, authenticated PR-by-head readback returns an empty array,
+and authenticated Git-ref readback resolves the retained branch to the retained
+expected SHA. Any PR for that head, a different or malformed branch result,
+stale authority, changed intent, or unavailable readback fails before mutation.
+
+Before dispatch, the route writes a separate create-only
+`github_mutation_head_available_recovery.v1` receipt. Its existence permanently
+prevents another dispatch through this stage; later invocations can only
+reconcile the exact PR. The original intent and recovery receipt remain
+immutable.
+
+PVF: `consumed_pr_create_recovery_*` and
+`github_read_only_adapter_supports_exact_branch_head_readback` are required
+deterministic local tests with fake authenticated transport. They cover the
+semantic staged route, exact head and absence gates, stale authority, conflicting
+PR state and one-shot replay protection without live GitHub writes.

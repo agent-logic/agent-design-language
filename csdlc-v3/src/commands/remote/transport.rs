@@ -543,6 +543,104 @@ pub(super) fn ensure_recovery_available(
     Ok(path)
 }
 
+pub(super) fn verify_consumed_pr_create_recovery(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), RemoteRouteFinding> {
+    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        return Err(remote_finding(
+            "github_mutation_recovery_already_consumed",
+            "the single authenticated-absence recovery was already consumed",
+        ));
+    };
+    let recovery_path = github_mutation_recovery_path(repo_root, operation_digest)?;
+    load_mutation_recovery_receipt(&recovery_path, request, operation_digest, intent_digest)?;
+    if github_mutation_head_available_recovery_path(repo_root, operation_digest)?.exists() {
+        return Err(remote_finding(
+            "github_mutation_head_available_recovery_already_consumed",
+            "the guarded head-available PR-create recovery was already consumed",
+        ));
+    }
+
+    let credential_name = mutation_credential_name(request)?;
+    let absence = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        ["pull-requests-by-head", &request.repository, head],
+    )
+    .and_then(|invocation| invocation.with_child_credential(credential_name.clone()))
+    .map_err(|_| {
+        remote_finding(
+            "github_reconciliation_invocation_rejected",
+            "invalid PR absence readback invocation",
+        )
+    })?;
+    let value = read_mutation_reconciliation_page(absence, process)?;
+    if value.as_array().is_none_or(|items| !items.is_empty()) {
+        return Err(remote_finding(
+            "github_pr_create_recovery_target_not_absent",
+            "guarded PR-create recovery requires authenticated absence for the exact head",
+        ));
+    }
+
+    let branch = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        ["branch-head", &request.repository, head],
+    )
+    .and_then(|invocation| invocation.with_child_credential(credential_name))
+    .map_err(|_| {
+        remote_finding(
+            "github_reconciliation_invocation_rejected",
+            "invalid remote branch-head readback invocation",
+        )
+    })?;
+    let value = read_mutation_reconciliation_page(branch, process)?;
+    let expected_ref = format!("refs/heads/{head}");
+    if value["ref"].as_str() != Some(expected_ref.as_str())
+        || value["object"]["type"].as_str() != Some("commit")
+        || value["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str())
+    {
+        return Err(remote_finding(
+            "github_pr_create_recovery_head_mismatch",
+            "guarded PR-create recovery requires the exact remote branch head",
+        ));
+    }
+    Ok(())
+}
+
+pub(super) fn persist_head_available_recovery_receipt(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<(), RemoteRouteFinding> {
+    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        return Err(remote_finding(
+            "github_pr_create_recovery_invalid",
+            "head-available recovery is limited to PR creation",
+        ));
+    };
+    let path = github_mutation_head_available_recovery_path(repo_root, operation_digest)?;
+    if path.exists() {
+        return Err(remote_finding(
+            "github_mutation_head_available_recovery_already_consumed",
+            "the guarded head-available PR-create recovery was already consumed",
+        ));
+    }
+    let receipt = GithubMutationHeadAvailableRecoveryReceipt {
+        schema: "csdlc.v3.github_mutation_head_available_recovery.v1".into(),
+        operation_digest: operation_digest.into(),
+        intent_digest: intent_digest.into(),
+        repository: request.repository.clone(),
+        issue: request.issue,
+        head: head.clone(),
+        expected_head_sha: request.expected_head_sha.clone(),
+    };
+    persist_json_create_new(&path, &receipt)
+}
+
 pub(super) fn reconcile_github_mutation(
     request: &GithubMutationRequest,
     operation_digest: &str,
