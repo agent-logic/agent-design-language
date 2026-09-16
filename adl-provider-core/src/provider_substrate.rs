@@ -288,17 +288,22 @@ fn reject_executable_aprovider_fields(value: &Value) -> Result<()> {
         Value::Object(map) => {
             for (key, value) in map {
                 let normalized = key.trim().to_ascii_lowercase().replace('-', "_");
-                let forbidden_reference = ["plugin", "executable", "binary", "library"]
-                    .into_iter()
-                    .any(|authority| {
-                        normalized == authority
-                            || normalized.starts_with(&format!("{authority}_"))
-                                && matches!(
-                                    normalized.strip_prefix(&format!("{authority}_")),
-                                    Some("path" | "file" | "ref" | "reference")
-                                )
-                    });
-                if FORBIDDEN.contains(&normalized.as_str()) || forbidden_reference {
+                let forbidden_authority_token = normalized.split('_').any(|token| {
+                    matches!(
+                        token,
+                        "command"
+                            | "commands"
+                            | "script"
+                            | "scripts"
+                            | "executable"
+                            | "binary"
+                            | "plugin"
+                            | "library"
+                            | "workflow"
+                            | "lifecycle"
+                    )
+                });
+                if FORBIDDEN.contains(&normalized.as_str()) || forbidden_authority_token {
                     return Err(anyhow!(
                         "aprovider_executable_authority_forbidden: config.{normalized}"
                     ));
@@ -1748,9 +1753,16 @@ mod tests {
             "dynamic_library",
             "plugin",
             "plugin_ref",
+            "plugin_uri",
             "binary_path",
             "executable_file",
             "library_path",
+            "command_path",
+            "command_ref",
+            "script_ref",
+            "dynamic_library_ref",
+            "workflow_ref",
+            "lifecycle_ref",
             "embedded_code",
             "workflow_authority",
             "lifecycle_authority",
