@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1044,
+  "issue_padded": "1044",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1044",
+  "title": "[C-SDLC v3][defect] Prepare never-bound issues with settled issue-edit history",
+  "branch": "codex/1044-prepare-settled-issue-edits",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1044-prepare-settled-issue-edits",
+  "status": "in_progress",
+  "completion_state": "setup_repair_validated_handoff_pending",
+  "summary": "Bounded bootstrap repair implemented; 27 focused semantic transaction tests passed and independent changed-diff review found no actionable correctness defect. #1017 setup readback pending; no PR or merge.",
+  "validation_result": "27 focused transaction tests passed; diff hygiene passed. Synthetic local owner-contract proof only.",
+  "integration_state": "not_published",
+  "integration_result": "not_integrated"
+}

@@ -2051,33 +2051,143 @@ mod semantic_gate_a {
         }
     }
 
+    // PVF: deterministic local owner-contract regression, tiny filesystem fixtures,
+    // required #1044 preparation gate; synthetic receipts, no remote service proof.
+    #[test]
+    fn issue_1044_settled_edit_history_allows_first_prepare_without_rewriting_history() {
+        let fixture = Fixture::new();
+        write_repository_scoped_creation_receipt(&fixture, 870);
+        write_remote_history(
+            &fixture,
+            870,
+            870,
+            serde_json::from_value(
+                serde_json::json!({"action":"issue_edit","title":"Updated title","body":null}),
+            )
+            .unwrap(),
+        );
+        let remote = fixture.directory.join("repo/.git/csdlc-v3/remote");
+        let before = inventory(&remote);
+        assert_eq!(
+            DurableTransactionStore::observe_issue(&fixture.root, &fixture.key).unwrap(),
+            Observation::Absent
+        );
+        assert!(matches!(
+            DurableTransactionStore::prepare_issue(&fixture.root, fixture.key.clone(), inputs()),
+            Ok(CommitOutcome::Committed(_))
+        ));
+        assert_eq!(before, inventory(&remote));
+    }
+
+    #[test]
+    fn issue_1044_unsettled_or_damaged_history_cannot_authorize_first_prepare() {
+        for case in [
+            "missing_receipt",
+            "missing_intent",
+            "unauthenticated",
+            "intent_digest",
+            "head",
+            "issue",
+            "readback",
+            "comment",
+            "recovery",
+            "local_residue",
+        ] {
+            let fixture = Fixture::new();
+            let mutation = if case == "comment" {
+                serde_json::json!({"action":"issue_comment","body":"comment"})
+            } else {
+                serde_json::json!({"action":"issue_edit","title":"Updated title","body":null})
+            };
+            let (intent, receipt) = write_remote_history(
+                &fixture,
+                870,
+                870,
+                serde_json::from_value(mutation).unwrap(),
+            );
+            match case {
+                "missing_receipt" => fs::remove_file(&receipt).unwrap(),
+                "missing_intent" => fs::remove_file(&intent).unwrap(),
+                "comment" => {}
+                "recovery" => {
+                    let path = fixture
+                        .directory
+                        .join("repo/.git/csdlc-v3/remote/recoveries/retained.json");
+                    fs::create_dir_all(path.parent().unwrap()).unwrap();
+                    fs::write(path, br#"{"schema":"csdlc.v3.github_mutation_recovery.v1","repository":"example/repo","issue":870}"#).unwrap();
+                }
+                "local_residue" => fs::create_dir_all(
+                    fixture
+                        .directory
+                        .join("repo/.git/csdlc-v3/local/issues/870"),
+                )
+                .unwrap(),
+                _ => {
+                    let mut value: serde_json::Value =
+                        serde_json::from_slice(&fs::read(&receipt).unwrap()).unwrap();
+                    match case {
+                        "unauthenticated" => value["authenticated"] = false.into(),
+                        "intent_digest" => value["intent_digest"] = "wrong".into(),
+                        "head" => value["expected_head_sha"] = "wrong".into(),
+                        "issue" => value["issue"] = 871.into(),
+                        "readback" => value["readback_digest"] = serde_json::Value::Null,
+                        _ => unreachable!(),
+                    }
+                    fs::write(&receipt, serde_json::to_vec(&value).unwrap()).unwrap();
+                }
+            }
+            let before = inventory(&fixture.directory);
+            assert!(
+                DurableTransactionStore::prepare_issue(
+                    &fixture.root,
+                    fixture.key.clone(),
+                    inputs()
+                )
+                .is_err(),
+                "{case}"
+            );
+            assert_eq!(before, inventory(&fixture.directory), "{case}");
+            assert!(!fixture.issue_dir().exists(), "{case}");
+        }
+    }
+
     fn write_repository_scoped_creation_receipt(
         fixture: &Fixture,
         assigned_issue: u64,
     ) -> (PathBuf, PathBuf) {
-        use csdlc_v3::commands::remote::{
-            github_mutation_operation_digest, GithubMutation, GithubMutationRequest,
-        };
-
-        let remote = fixture.directory.join("repo/.git/csdlc-v3/remote");
-        fs::create_dir_all(remote.join("intents")).unwrap();
-        fs::create_dir_all(remote.join("mutations")).unwrap();
-        let request = GithubMutationRequest {
-            repository: "example/repo".into(),
-            issue: 0,
-            pull_request: None,
-            cutover_issue: None,
-            operator_approval: None,
-            expected_head_sha: "head".into(),
-            credential_names: vec!["GITHUB_TOKEN".into()],
-            recovery: None,
-            mutation: GithubMutation::IssueCreate {
+        write_remote_history(
+            fixture,
+            0,
+            assigned_issue,
+            GithubMutation::IssueCreate {
                 title: format!("created {assigned_issue}"),
                 body: "body".into(),
                 labels: Vec::new(),
                 assignees: Vec::new(),
                 milestone: None,
             },
+        )
+    }
+
+    fn write_remote_history(
+        fixture: &Fixture,
+        request_issue: u64,
+        assigned_issue: u64,
+        mutation: GithubMutation,
+    ) -> (PathBuf, PathBuf) {
+        let remote = fixture.directory.join("repo/.git/csdlc-v3/remote");
+        fs::create_dir_all(remote.join("intents")).unwrap();
+        fs::create_dir_all(remote.join("mutations")).unwrap();
+        let request = GithubMutationRequest {
+            repository: "example/repo".into(),
+            issue: request_issue,
+            pull_request: None,
+            cutover_issue: None,
+            operator_approval: None,
+            expected_head_sha: "head".into(),
+            credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
+            mutation,
         };
         let operation_digest = github_mutation_operation_digest(&request);
         let operation_marker = format!("<!-- csdlc-v3-operation:{operation_digest} -->");
