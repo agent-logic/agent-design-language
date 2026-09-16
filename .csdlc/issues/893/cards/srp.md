@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_remediated_pending_fresh_review"
   recommended_outcome: "review_required"
-notes: "The reviewer found no product-code defect and confirmed completed four-lane synthesis authority, exact evidence-path mapping including spaces and root dotfiles, removal of semantic-anchor inference, manifest-bound readback, canonical replanning, create-only output behavior, and no #894/#895 scope. A different canonical fresh-session reviewer must review the metadata-only lifecycle repair at the new immutable head."
+notes: "No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Canonical exact-head review of 2cf04aec0163c28ca92b98c8b1dc98da13b48ebb by fresh-session:f6894528-9800-450d-99a4-409d3f715bc2 returned FAIL with one P2 lifecycle-truth finding and no product-code findings: the SOR still described current-main reconciliation and proof replay as pending even though the reviewed revision already merged current origin/main e24e0438e40d1f716bd0653ea369d06450827230 and passed the complete focused proof.
+- Fresh exact-head review of ed970b2443aadd818f02bf482cb29a5aecbaa966 by fresh-session:/root/review_893_clippy_final returned one P2 lifecycle truth finding: `.csdlc/issues/893/cards/sor.values.json` field `validation_commands_inline` still omitted clippy and described the repair as path-extraction-only.
 
 ### Dispositions
 
-- Finding accepted and remediated through the typed SOR editor. The SOR now records current-main reconciliation as complete at merge head 2cf04aec0163c28ca92b98c8b1dc98da13b48ebb, records the post-merge 9/9 focused proof plus formatting, strict Clippy, and diff hygiene as complete, and leaves only a different fresh exact-head review and corrective native publication/CI pending.
+- Finding accepted and remediated through native SOR value update. `validation_commands_inline` now includes focused tests, fmt, full clippy with denied warnings, and diff hygiene, and names the clippy-only repair after the path-extraction fix.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-The reviewer found no product-code defect and confirmed completed four-lane synthesis authority, exact evidence-path mapping including spaces and root dotfiles, removal of semantic-anchor inference, manifest-bound readback, canonical replanning, create-only output behavior, and no #894/#895 scope. A different canonical fresh-session reviewer must review the metadata-only lifecycle repair at the new immutable head.
+No product-code finding was reported. Because lifecycle truth changed after the review, a fresh exact-head review is required against the new immutable commit before publication/finish.
