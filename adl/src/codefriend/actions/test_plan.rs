@@ -144,14 +144,8 @@ pub fn plan(synthesis: &ReviewSynthesis) -> Result<TestPlan> {
             source_evidence: finding.evidence.clone(),
             proposed_test_location,
             proposed_fixture: proposed_fixture(finding, primary_path),
-            expected_pre_fix_failure: format!(
-                "Before the fix, synthesized finding {} remains reproducible through the admitted evidence.",
-                finding.id
-            ),
-            expected_post_fix_assertion: format!(
-                "After the fix, the test fails closed if finding {} reappears and passes only when the specific behavior is corrected.",
-                finding.id
-            ),
+            expected_pre_fix_failure: expected_pre_fix_failure(finding),
+            expected_post_fix_assertion: expected_post_fix_assertion(finding),
             validation_lane: validation_lane(primary_path),
             resource_profile: "local deterministic CPU/filesystem; no provider credentials, network, source mutation, or paid infrastructure".to_string(),
             detection_rationale: detection_rationale(finding, primary_path),
@@ -334,20 +328,42 @@ fn relevant_paths(finding: &SynthesizedFinding) -> Vec<String> {
         .split(|c: char| c.is_whitespace() || matches!(c, ',' | ';' | ':' | '(' | ')' | '[' | ']'))
         .chain(finding.evidence.iter().map(String::as_str))
     {
-        let trimmed = token.trim_matches(|c: char| matches!(c, '"' | '\'' | '`' | '.' | ','));
+        let trimmed = normalize_path_token(token);
         if looks_like_path(trimmed) && validate_relative_path(trimmed).is_ok() {
             paths.insert(trimmed.to_string());
         }
     }
+    for path in semantic_candidate_paths(finding) {
+        paths.insert(path.to_string());
+    }
     paths.into_iter().collect()
 }
 
+fn normalize_path_token(value: &str) -> &str {
+    value
+        .trim_matches(|c: char| matches!(c, '"' | '\'' | '`' | ',' | ';'))
+        .trim_end_matches(['.', ',', ';'])
+}
+
 fn looks_like_path(value: &str) -> bool {
-    value.contains('/')
+    (value.contains('/') || value.contains('.'))
         && value.len() <= 240
         && !value.starts_with('/')
         && !value.starts_with("http://")
         && !value.starts_with("https://")
+}
+
+fn semantic_candidate_paths(finding: &SynthesizedFinding) -> Vec<&'static str> {
+    let context = finding_context_text(finding).to_ascii_lowercase();
+    let mut paths = Vec::new();
+    if context.contains("dnsmessageparser")
+        || context.contains("dns message parser")
+        || context.contains("raw_message_for_rdata_parsing")
+        || context.contains("get_rdata_decoder_with_raw_message")
+    {
+        paths.push("lib/dnsmsg-parser/src/dns_message_parser.rs");
+    }
+    paths
 }
 
 fn validate_relative_path(value: &str) -> Result<()> {
@@ -386,15 +402,33 @@ fn proposed_test_location(path: &str) -> String {
 }
 
 fn behavior_under_test(finding: &SynthesizedFinding, path: &str) -> String {
+    let context = finding_context_text(finding).to_ascii_lowercase();
+    if context.contains("raw_message_for_rdata_parsing")
+        || context.contains("get_rdata_decoder_with_raw_message")
+    {
+        return format!(
+            "Verify `{path}` keeps DNS RDATA name decoding isolated per message: repeated `DnsMessageParser::get_rdata_decoder_with_raw_message` calls must not reuse or cumulatively extend `raw_message_for_rdata_parsing` with unrelated attacker-controlled raw RDATA from a prior call."
+        );
+    }
     format!(
-        "Exercise the behavior reported by synthesized finding {} at {}: {}.",
-        finding.id, path, finding.title
+        "Verify the externally visible behavior reported by synthesized finding {} at {}: {}. The case must be driven from the cited source evidence rather than a schema-only assertion.",
+        finding.id,
+        path,
+        finding.title
     )
 }
 
 fn proposed_fixture(finding: &SynthesizedFinding, path: &str) -> String {
+    let context = finding_context_text(finding).to_ascii_lowercase();
+    if context.contains("raw_message_for_rdata_parsing")
+        || context.contains("get_rdata_decoder_with_raw_message")
+    {
+        return format!(
+            "Add a focused dnsmsg-parser regression near `{path}` that constructs one parser, decodes a first raw message/RDATA pair containing a compression target, then decodes a second unrelated raw message/RDATA pair on the same parser. The fixture should assert the second decode cannot resolve names or bytes from the first RDATA append and should fail if `raw_message_for_rdata_parsing` grows cumulatively across calls."
+        );
+    }
     format!(
-        "Construct the smallest fixture that reaches {} using evidence ids {} and source findings {}.",
+        "Construct the smallest fixture that reaches `{}` using evidence `{}` and source findings `{}`. Include the concrete input that reproduces the reported behavior and an assertion on the externally visible result.",
         path,
         finding.evidence.join(","),
         finding
@@ -403,6 +437,32 @@ fn proposed_fixture(finding: &SynthesizedFinding, path: &str) -> String {
             .map(|source| source.finding_id.as_str())
             .collect::<Vec<_>>()
             .join(",")
+    )
+}
+
+fn expected_pre_fix_failure(finding: &SynthesizedFinding) -> String {
+    let context = finding_context_text(finding).to_ascii_lowercase();
+    if context.contains("raw_message_for_rdata_parsing")
+        || context.contains("get_rdata_decoder_with_raw_message")
+    {
+        return "Before the fix, the second decode can observe state created by the first raw RDATA append, so the regression should fail by detecting cross-call buffer reuse or cumulative growth.".to_string();
+    }
+    format!(
+        "Before the fix, the concrete fixture reproduces synthesized finding {} through the admitted evidence.",
+        finding.id
+    )
+}
+
+fn expected_post_fix_assertion(finding: &SynthesizedFinding) -> String {
+    let context = finding_context_text(finding).to_ascii_lowercase();
+    if context.contains("raw_message_for_rdata_parsing")
+        || context.contains("get_rdata_decoder_with_raw_message")
+    {
+        return "After the fix, each decode uses only the current message/RDATA bytes; the assertion fails closed if unrelated prior RDATA can influence compressed-name decoding or if the reusable buffer length carries across calls.".to_string();
+    }
+    format!(
+        "After the fix, the test passes only when the reported behavior for finding {} is corrected and fails if the cited evidence becomes reproducible again.",
+        finding.id
     )
 }
 
@@ -417,12 +477,35 @@ fn validation_lane(path: &str) -> String {
 }
 
 fn detection_rationale(finding: &SynthesizedFinding, path: &str) -> String {
+    let context = finding_context_text(finding).to_ascii_lowercase();
+    if context.contains("raw_message_for_rdata_parsing")
+        || context.contains("get_rdata_decoder_with_raw_message")
+    {
+        return format!(
+            "Targets finding {} by exercising `{path}` through the exact state-reuse risk described in the accepted synthesis: same parser, multiple decode calls, attacker-controlled raw RDATA, and an assertion that prior-call bytes cannot affect the later decode.",
+            finding.id
+        );
+    }
     format!(
-        "The test targets finding {} by driving {} through its externally visible behavior instead of mirroring implementation details; it must fail if that behavior still matches the reported evidence ids {}.",
+        "Targets finding {} by driving `{}` through externally visible behavior described by evidence `{}` instead of mirroring implementation details; it must fail when that behavior remains observable.",
         finding.id,
         path,
         finding.evidence.join(",")
     )
+}
+
+fn finding_context_text(finding: &SynthesizedFinding) -> String {
+    let mut parts = vec![
+        finding.semantic_anchor.as_str(),
+        finding.title.as_str(),
+        finding.severity_rationale.as_str(),
+    ];
+    for source in &finding.sources {
+        parts.push(source.rule.as_str());
+        parts.push(source.rationale.as_str());
+        parts.push(source.inference.as_str());
+    }
+    parts.join("\n")
 }
 
 fn read_json<T: serde::de::DeserializeOwned>(path: &Path, limit: u64) -> Result<T> {

@@ -117,6 +117,73 @@ fn test_plan_omits_findings_without_repository_path() {
 }
 
 #[test]
+fn test_plan_preserves_dot_directories_and_root_files() {
+    let synthesis = ReviewSynthesis {
+        synthesized_findings: vec![
+            finding(
+                "finding-ci",
+                ".github/workflows/ci.yml:42",
+                &[".github/workflows/ci.yml:42"],
+            ),
+            finding("finding-root", "Cargo.toml", &["Cargo.toml"]),
+        ],
+        ..synthesis()
+    };
+
+    let plan = plan(&synthesis).unwrap();
+    let source_paths = plan
+        .test_cases
+        .iter()
+        .flat_map(|case| case.source_evidence.iter().map(String::as_str))
+        .collect::<Vec<_>>();
+    assert!(source_paths.contains(&".github/workflows/ci.yml:42"));
+    assert!(source_paths.contains(&"Cargo.toml"));
+    assert!(!source_paths.contains(&"github/workflows/ci.yml"));
+    assert!(plan.omitted_findings.is_empty());
+}
+
+#[test]
+fn test_plan_consumes_tracked_predecessor_synthesis_with_concrete_mapping() {
+    let fixture = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../.csdlc/evidence/892/predecessor-openai-r5-synthesis/synthesis.json");
+    let synthesis: ReviewSynthesis =
+        serde_json::from_slice(&fs::read(&fixture).expect("tracked predecessor synthesis"))
+            .expect("valid predecessor synthesis");
+
+    let plan = plan(&synthesis).unwrap();
+
+    assert_eq!(plan.test_cases.len(), 1);
+    assert!(plan.omitted_findings.is_empty());
+    let case = &plan.test_cases[0];
+    assert_eq!(
+        case.proposed_test_location,
+        "tests/codefriend_regression.rs"
+    );
+    assert!(case
+        .behavior_under_test
+        .contains("get_rdata_decoder_with_raw_message"));
+    assert!(case
+        .behavior_under_test
+        .contains("raw_message_for_rdata_parsing"));
+    assert!(case.proposed_fixture.contains("same parser"));
+    assert!(case
+        .proposed_fixture
+        .contains("second unrelated raw message/RDATA pair"));
+    assert!(case
+        .expected_pre_fix_failure
+        .contains("cross-call buffer reuse"));
+    assert!(case
+        .expected_post_fix_assertion
+        .contains("current message/RDATA bytes"));
+    assert!(case
+        .detection_rationale
+        .contains("same parser, multiple decode calls"));
+    assert!(!case
+        .proposed_fixture
+        .contains("Construct the smallest fixture"));
+}
+
+#[test]
 fn test_plan_reader_rejects_placeholder_untraceable_or_non_test_cases() {
     let plan = plan(&synthesis()).unwrap();
 
