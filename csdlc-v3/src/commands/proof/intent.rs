@@ -1096,7 +1096,7 @@ fn compiler_inputs_tracked(
             // admit every matching record so input validation remains
             // conservative when more than one build profile artifact exists.
             if records.is_empty()
-                && file.file_name().and_then(|v| v.to_str()) == Some(target.as_str())
+                && final_binary_matches_target(&file, &target)
                 && parent == root.join("target/intent-validation/debug")
             {
                 let deps = parent.join("deps");
@@ -1190,6 +1190,12 @@ fn hashed_dep_info_matches_target(path: &Path, target: &str) -> bool {
         return false;
     };
     !hash.is_empty() && hash.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
+
+fn final_binary_matches_target(path: &Path, target: &str) -> bool {
+    path.file_name()
+        .and_then(|value| value.to_str())
+        .is_some_and(|value| value.replace('-', "_") == target)
 }
 
 fn tracked_input_digest(
@@ -1350,7 +1356,9 @@ fn verify_execution_inputs_with_projection_inputs(
 
 #[cfg(test)]
 mod dependency_record_tests {
-    use super::{hashed_dep_info_matches_target, positional_filter_admitted};
+    use super::{
+        final_binary_matches_target, hashed_dep_info_matches_target, positional_filter_admitted,
+    };
     use std::path::Path;
 
     #[test]
@@ -1366,6 +1374,18 @@ mod dependency_record_tests {
         assert!(!hashed_dep_info_matches_target(
             Path::new("foo-release.d"),
             "foo"
+        ));
+    }
+
+    #[test]
+    fn final_binary_matches_cargo_hyphenated_target_name() {
+        assert!(final_binary_matches_target(
+            Path::new("target/debug/csdlc-conversion-rehearsal"),
+            "csdlc_conversion_rehearsal"
+        ));
+        assert!(!final_binary_matches_target(
+            Path::new("target/debug/other"),
+            "csdlc_conversion_rehearsal"
         ));
     }
 
