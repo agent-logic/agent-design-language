@@ -76,7 +76,7 @@ Implemented and remediated the installed CodeFriend operator review shell for #8
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/891/cards/sor.md`
 - Tracked implementation artifacts: `adl/src/codefriend/operator/mod.rs; adl/src/codefriend/mod.rs; adl/src/codefriend/review/runner.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_review.rs`
-- Additional proof artifacts: `.csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture; .csdlc/evidence/891/real-provider-shell-proof/admission-small-fixture.json; .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json`
+- Additional proof artifacts: `.csdlc/evidence/891/real-provider-shell-proof/store; .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture; .csdlc/evidence/891/real-provider-shell-proof/admission-small-fixture.json; .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json`
 
 ## Actions taken
 - `Added `adl/src/codefriend/operator/mod.rs` as a thin operator-control state layer over the existing CodeFriend review runner.`
@@ -121,7 +121,7 @@ Rules:
     `verified installed shell start/inspect/cancel/retry/withhold behavior and cancel/retry race handling with 6/6 focused tests`
   - `git diff --check`
     `verified diff hygiene`
-  - `OPENAI_API_KEY=<approved env reference> ./adl/target/debug/adl codefriend review shell start --store /Volumes/FastWork/adl-worktrees/.codefriend-stores/891-real-provider-shell-small-fixture/store --packet-id 64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515 --provider-request .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json --out .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture --run-id issue-891-real-provider-shell-openai-small-fixture`
+  - `OPENAI_API_KEY=<approved env reference> ./adl/target/debug/adl codefriend review shell start --store .csdlc/evidence/891/real-provider-shell-proof/store --packet-id 64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515 --provider-request .csdlc/evidence/891/real-provider-shell-proof/openai-provider-request.json --out .csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture --run-id issue-891-real-provider-shell-openai-small-fixture`
     `verified real provider execution through the installed operator shell on macOS; completed with four lane artifacts and review-record/run JSON`
 - Results:
   - `passed`

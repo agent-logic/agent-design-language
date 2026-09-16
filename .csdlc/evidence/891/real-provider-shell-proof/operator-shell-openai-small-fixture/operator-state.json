@@ -2,7 +2,7 @@
   "schema": "codefriend.operator_review_shell.v1",
   "review_schema": "codefriend.four_perspective_review_run.v1",
   "packet_id": "64e257e4bab57e73af85b059288d342f52ef323d1956a946a1dcc74a60985515",
-  "store_ref": "/Volumes/FastWork/adl-worktrees/.codefriend-stores/891-real-provider-shell-small-fixture/store",
+  "store_ref": ".csdlc/evidence/891/real-provider-shell-proof/store",
   "provider_route": "openai:HostedApi:gpt-4.1-mini",
   "status": "complete",
   "active_attempt": 1,
