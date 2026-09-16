@@ -1153,13 +1153,13 @@ pub fn redacted_effective_inference_projection_v1(
     provider_id: &str,
     spec: &adl::ProviderSpec,
 ) -> Result<RedactedEffectiveInferenceProjectionV1> {
-    let substrate = provider_substrate_v1(provider_id, spec)?;
+    let target = provider_invocation_target_v1(provider_id, spec, None)?;
     Ok(redacted_effective_projection(
         provider_id,
-        &substrate.provider_kind,
-        &substrate.transport,
-        &substrate.codec_controls,
-        &substrate.effective_inference,
+        &target.provider_kind,
+        &target.transport,
+        &target.codec_controls,
+        &target.effective_inference,
     ))
 }
 
@@ -1776,5 +1776,29 @@ mod tests {
         )
         .unwrap();
         assert!(!projection.contains("OPENAI_API_KEY"));
+    }
+
+    #[test]
+    fn redacted_projection_includes_model_specific_effective_defaults() {
+        let mut spec = provider_spec("kimi");
+        spec.default_model = Some("kimi-k3".to_string());
+        spec.config
+            .insert("provider_model_id".to_string(), json!("kimi-k3"));
+
+        let target = provider_invocation_target_v1("reasoner", &spec, None).unwrap();
+        let projection = redacted_effective_inference_projection_v1("reasoner", &spec).unwrap();
+        let projection_fingerprint = inference_fingerprint(&projection).unwrap();
+
+        assert_eq!(
+            projection.effective.reasoning_effort.as_deref(),
+            Some("max")
+        );
+        assert_eq!(
+            target
+                .model_identity
+                .inference_parameter_fingerprint
+                .as_deref(),
+            Some(projection_fingerprint.as_str())
+        );
     }
 }
