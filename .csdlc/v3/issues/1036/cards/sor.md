@@ -1,4 +1,4 @@
-# <slug>
+# adopt-bound-legacy-semantic-state
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -22,77 +22,77 @@ Title: [C-SDLC v3][defect] Adopt bound legacy records into semantic lifecycle st
 Branch: codex/1036-adopt-bound-legacy-semantic-state
 Card Status: ready
 Status: in_progress
-Generated: <timestamp>
+Generated: 2026-09-16
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `Codex issue #1036 implementation sessions`
+- Model: `not_collected`
+- Provider: `not_collected`
+- Start Time: `not_collected`
+- End Time: `not_applicable; execution remains in progress`
 
 ## Summary
 
-Implemented guarded adoption of an exact registered bound pre-semantic native-v3 record, including interruption recovery and negative identity, ownership, changed-plan, and damaged-completion coverage. The initial review required changes at 740977763b; remediation was cleanly reviewed at 5a3d37d2b5. After merging current origin/main and applying the reviewed head-refresh and P2 safeguards, the PR is open, draft, unmerged, and awaiting final exact-head review at 493d4b051335e43106c111d9535d22424df8aceb.
+Implemented guarded adoption of an exact registered bound pre-semantic native-v3 record. Historical reviews required changes at 740977763b and found no actionable issues at 5a3d37d2b5. No pull request exists. The branch is unmerged and awaits a final independent review at the eventual publication head.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `csdlc`
+- Planned PVF lane: `csdlc`
+- Final PVF lane: `csdlc`
+- Lane change reason: `not_applicable; lane unchanged`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `implementation_validated_final_exact_head_review_pending`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `local CPU and filesystem`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `not_collected`
+- Actual active work seconds: `not_collected`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `not_collected`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `not_collected`
+- Actual PR wait seconds: `not_applicable; no PR exists`
+- Actual CI wait seconds: `not_applicable; no PR or CI run exists`
+- Budget source: `not_collected`
+- Goal metrics data source: `not_collected`
+- Goal metrics source ref: `not_applicable`
+- Data-source confidence: `unknown`
+- Estimate error percent: `unknown`
+- Completion state: `implementation_recorded_pre_publication_final_review_and_current_proof_pending`
+- Issue goal ref: `issue #1036 session goal; metrics not collected`
+- Sprint goal ref: `Sprint 1 umbrella goal; metrics not collected`
+- Goal metrics rollup ref: `not_applicable; no rollup artifact supplied`
+- Validation planning prompt: `.csdlc/issues/1036/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `false; comparable metrics are unknown`
+- Variance analysis completed: `not_applicable`
+- Variance category: `not_applicable`
+- Variance note: `No known estimated/actual metric pair supports a variance calculation.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
+- Local ignored output-card scaffold at `.csdlc/issues/1036/cards/sor.md`
 - Tracked implementation artifacts: `csdlc-v3/src/application/intent/local.rs; csdlc-v3/src/commands/local/intent.rs; csdlc-v3/src/main.rs; csdlc-v3/src/storage/semantic.rs; csdlc-v3/tests/installed_intent_commands.rs; docs/csdlc-v3/man/man1/csdlc-workflow.1; docs/csdlc-v3/man/manual.json`
-- Additional proof artifacts: `.csdlc/evidence/1036/validation.md`
+- Additional proof artifacts: `.csdlc/evidence/1036/validation.md; .csdlc/v3/issues/1036/proof.json (historical proof at 493d4b051335e43106c111d9535d22424df8aceb; stale for current head)`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Implemented writer-fenced bound-legacy semantic adoption and interruption recovery.`
+- `Added focused positive and negative installed-command coverage, including the #986 refused-amendment safeguard.`
+- `Recorded lifecycle truth through native edits and retained historical review and proof boundaries without claiming publication.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `.csdlc/issues/1036, .csdlc/transactions/completed/1036, .csdlc/v3/issues/1036, and .csdlc/evidence/1036 remain on the issue branch pending publication and merge.`
-- Integration state: `pr_open`
-- Verification scope: `bound issue worktree at 493d4b051335e43106c111d9535d22424df8aceb`
-- Integration method used: `<integration_method_used>`
+- Main-repo paths updated: `none; issue branch is not merged`
+- Worktree-only paths remaining: `All #1036 implementation and lifecycle changes remain on codex/1036-adopt-bound-legacy-semantic-state.`
+- Integration state: `worktree_only`
+- Verification scope: `bound issue worktree`
+- Integration method used: `not_applicable; no PR exists and no merge occurred`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `open_draft_unmerged_final_exact_head_review_pending`
+  - `git status --short --branch`
+    `Confirms the issue branch and lifecycle-only correction state; it does not prove remote PR state.`
+- Result: `not_integrated_no_pr_unmerged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_intent_commands issue_1036 -- --nocapture; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
-    `Exercises successful bound-legacy adoption, mismatched primary binding refusal, interrupted adoption convergence, changed-plan refusal, and damaged-completion refusal; also checks formatting, warnings, and diff hygiene.`
+  - `Historical at 493d4b051335e43106c111d9535d22424df8aceb: native csdlc proof 1036; current lifecycle correction: native csdlc validate 1036; git diff --check; placeholder scan.`
+    `Historical proof exercised six focused #1036 and #986 safeguard tests. Current validation checks lifecycle digest, six-card structure, rendered projections, diff hygiene, and removal of required placeholders.`
 - Results:
-  - `At current head, 6 focused #1036 and #986 safeguard tests passed with 0 failures; formatting and strict clippy passed. Diff hygiene is rechecked after native lifecycle rendering.`
+  - `Historical native proof passed 6 tests at 493d4b051335e43106c111d9535d22424df8aceb but is stale after later record commits. Current-head proof is pending and is intentionally not run or committed in this correction.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: passed
+    status: current_proof_pending
     checks_run:
-      - "6 focused #1036 and #986 safeguard tests, formatting, strict clippy, and post-render diff hygiene"
+      - "Historical 6-test native proof at 493d4b051335e43106c111d9535d22424df8aceb; current native card validation and placeholder scan only"
   determinism:
-    status: passed
-    replay_verified: true
-    ordering_guarantees_verified: writer-fenced adoption and interrupted replay converge through the retained native operation
+    status: historical_proof_only
+    replay_verified: historical at 493d4b051335e43106c111d9535d22424df8aceb; not current
+    ordering_guarantees_verified: historical adoption replay coverage exists; current proof pending
   security_privacy:
-    status: passed
-    secrets_leakage_detected: false
-    prompt_or_tool_arg_leakage_detected: false
-    absolute_path_leakage_detected: false
+    status: historical_checks_only
+    secrets_leakage_detected: false in historical validation; current proof pending
+    prompt_or_tool_arg_leakage_detected: false in historical validation; current proof pending
+    absolute_path_leakage_detected: false for authored evidence; canonical worktree identity remains required lifecycle data
   artifacts:
-    status: passed
-    required_artifacts_present: true
+    status: present_with_stale_proof
+    required_artifacts_present: lifecycle and validation records present; current-head proof and final review absent
     schema_changes:
       present: false
       approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Historical native proof at 493d4b051335e43106c111d9535d22424df8aceb ran six focused tests; current proof pending.`
+- Fixtures or scripts used: `Installed-command isolated fixtures in csdlc-v3/tests/installed_intent_commands.rs`
+- Replay verification (same inputs -> same artifacts/order): `Historical interrupted-adoption replay passed; current proof pending.`
+- Ordering guarantees (sorting / tie-break rules used): `Writer fence precedes adoption; retained operation replay converges once, established historically.`
+- Artifact stability notes: `Lifecycle render and digest are validated; proof remains explicitly stale until rerun after the final record commit.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Historical validation found no secret leakage; current proof pending.`
+- Prompt / tool argument redaction verified: `Historical native proof retained bounded redacted diagnostics; current proof pending.`
+- Absolute path leakage check: `Authored evidence uses repository-relative paths; canonical lifecycle identity contains the required registered worktree path.`
+- Sandbox / policy invariants preserved: `No GitHub mutation, push, publication, merge, or source edit occurs in this record correction.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `not_applicable; no separate trace bundle produced`
+- Run artifact root: `.csdlc/evidence/1036`
+- Replay command used for verification: `Historical native csdlc proof 1036 at 493d4b051335e43106c111d9535d22424df8aceb; current rerun deferred until after final record commit.`
+- Replay result: `historical pass; current pending`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `.csdlc/v3/issues/1036/proof.json (stale historical proof)`
+- Required artifacts present: `Lifecycle cards, semantic state, completed transaction records, and validation evidence are present; current proof and final review are pending.`
+- Artifact schema/version checks: `Native validate checks active template structure and semantic projection.`
+- Hash/byte-stability checks: `Native lifecycle digest and projection digest validate current card bytes.`
+- Missing/optional artifacts and rationale: `No PR, CI receipt, current proof, independent current-head review, merge receipt, or terminal receipt exists because publication has not begun.`
 
 ## Decisions / Deviations
-- `The clean review at 5a3d37d2b5 is retained as historical evidence and is not treated as review of the later merge head.`
-- `The open draft PR is not merged or terminal; no main-repository integration or closeout is claimed.`
+- `The clean review at 5a3d37d2b5 is historical and does not approve the current head.`
+- `No PR exists; the branch is unmerged and no integration or terminal claim is made.`
 
 ## Follow-ups / Deferred work
-- `Run independent exact-head review at 493d4b051335e43106c111d9535d22424df8aceb and record its actual disposition.`
-- `Only after a clean current-head review, proceed through native review and publication readiness without merging.`
+- `Obtain independent exact-head review after this lifecycle correction commit.`
+- `After review-driven record updates settle, rerun native proof at the final commit before publication.`
