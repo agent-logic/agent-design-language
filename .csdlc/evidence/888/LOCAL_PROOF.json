@@ -1,0 +1,189 @@
+{
+  "schema": "codefriend.fitness.ci.local-proof.v1",
+  "issue": 888,
+  "base_sha": "b0311902d77668d6f126d501fffe4c752232af87",
+  "tests": {
+    "ci_adapter": 7,
+    "local_fitness": 8
+  },
+  "instrumented_tests": 15,
+  "coverage": {
+    "adl/src/cli/codefriend_fitness_ci_cmd.rs": {
+      "count": 150,
+      "covered": 145,
+      "percent": 96.66666666666667
+    },
+    "adl/src/cli/codefriend_fitness_cmd.rs": {
+      "count": 100,
+      "covered": 92,
+      "percent": 92.0
+    },
+    "adl/src/codefriend/governance/ci.rs": {
+      "count": 59,
+      "covered": 59,
+      "percent": 100.0
+    }
+  },
+  "installed": {
+    "issue": 888,
+    "source_revision": "b6ba3f77f9dab09aa95e840f731176efc0451cc0",
+    "scenario_groups": 4,
+    "python_optimization": 1,
+    "results": [
+      {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "candidate",
+        "candidate": "b6ba3f77f9dab09aa95e840f731176efc0451cc0",
+        "packet_id": "d4bc50cf31028ff53cb19519b4889be661eda8a04aeab80c6b30544a50155602",
+        "policy_digest": "8cd24439ec645e44c8b49a073948d5d1bfe16dff3f7b75d19778588c16b5bfc9",
+        "local_exit": 0,
+        "binary_sha256": "8fc8d4e5d71f048a19f16b08eae0e11030eb5fe8246e16bbfcd5be42fbf9d48e",
+        "source_unchanged": true,
+        "workflow_revision": null,
+        "workflow_run_id": null,
+        "original_exit": 0,
+        "observed_gate_outcome": "success",
+        "classification": "production_policy_pass",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "b6ba3f77f9dab09aa95e840f731176efc0451cc0",
+          "policy_digest": "8cd24439ec645e44c8b49a073948d5d1bfe16dff3f7b75d19778588c16b5bfc9",
+          "status": "pass",
+          "violations": [],
+          "errors": [],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      },
+      {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "pass",
+        "candidate": "4a82734feb53ecae287ed68ade667ef168a83b05",
+        "packet_id": "eebceafb90eb0dc612ce8ce97593ce4bbaabb96a3259ae244772355710908f2e",
+        "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+        "local_exit": 0,
+        "binary_sha256": "8fc8d4e5d71f048a19f16b08eae0e11030eb5fe8246e16bbfcd5be42fbf9d48e",
+        "source_unchanged": true,
+        "workflow_revision": null,
+        "workflow_run_id": null,
+        "original_exit": 0,
+        "observed_gate_outcome": "success",
+        "classification": "fixture_contract_assertion",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "4a82734feb53ecae287ed68ade667ef168a83b05",
+          "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+          "status": "pass",
+          "violations": [],
+          "errors": [],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      },
+      {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "fail",
+        "candidate": "38d47e03126b5a28b586302d1f407768a54f711c",
+        "packet_id": "12caf7eb50f65b098b94f2105d836264b5d13a3c6bb06a4f81834ae0b4171bfe",
+        "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+        "local_exit": 1,
+        "binary_sha256": "8fc8d4e5d71f048a19f16b08eae0e11030eb5fe8246e16bbfcd5be42fbf9d48e",
+        "source_unchanged": true,
+        "workflow_revision": null,
+        "workflow_run_id": null,
+        "original_exit": 1,
+        "observed_gate_outcome": "failure",
+        "classification": "fixture_contract_assertion",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "38d47e03126b5a28b586302d1f407768a54f711c",
+          "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+          "status": "fail",
+          "violations": [
+            {
+              "rule_id": "no-forbidden-import",
+              "path": "lib.rs",
+              "line": 1
+            }
+          ],
+          "errors": [],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      },
+      {
+        "schema": "codefriend.fitness.ci.proof.v1",
+        "case": "error",
+        "candidate": "708698fd0c77cb6c8379a19425be1ae738c863fa",
+        "packet_id": "24ff7ec157d86187ae143f551b80cf914b3afa12877f7b4c4ee49f6426a658b0",
+        "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+        "local_exit": 2,
+        "binary_sha256": "8fc8d4e5d71f048a19f16b08eae0e11030eb5fe8246e16bbfcd5be42fbf9d48e",
+        "source_unchanged": true,
+        "workflow_revision": null,
+        "workflow_run_id": null,
+        "original_exit": 2,
+        "observed_gate_outcome": "failure",
+        "classification": "fixture_contract_assertion",
+        "local_result_parity": true,
+        "semantic_result": {
+          "candidate": "708698fd0c77cb6c8379a19425be1ae738c863fa",
+          "policy_digest": "464e99343cd7070e53009e088081bef64a4fb4aa2730b018461cd1658d1e3fb8",
+          "status": "error",
+          "violations": [],
+          "errors": [
+            "macro_expansion_unassessed:no-forbidden-import"
+          ],
+          "unassessed": [
+            "architecture_quality",
+            "runtime_effects",
+            "macro_expansion"
+          ]
+        }
+      }
+    ],
+    "actual_hosted_ci": "not_yet_executed"
+  },
+  "source_sha256": {
+    "adl/src/codefriend/governance/ci.rs": "3f11a9b83309a93321efd2de11a2d38033ecd907d0ce8a9369ab806c2eab09a0",
+    "adl/src/codefriend/governance/mod.rs": "6bfd1d1e76fb25e576e358873345f3ccdcd68ef2712441f83bce3586bbbd35b3",
+    "adl/src/cli/codefriend_fitness_ci_cmd.rs": "8d5e5e036a2a3e43f5cdebd5c9d465682d8779884ad20974c9a1545dba617dd9",
+    "adl/src/cli/codefriend_fitness_cmd.rs": "e8f4c3d4bd2ca46dca2a4a337555c88d8e29f1a5812aeb2cf842020159694da7",
+    "adl/src/cli/mod.rs": "074b436761e36a8b3d95ccce1cb5048d914737db5103b32d1bec278ddff08e26",
+    "adl/src/cli/usage.rs": "73dbbc071dd675667364eff564dcab4fc53708ca5ca22a5c4cf36181e78d9847",
+    "adl/tools/codefriend_fitness_ci.sh": "eb3717b68e047c66f0f8e8e8cddb5cf540910622a5095105e4810ba601ccf4ea",
+    "adl/tools/codefriend_fitness_ci_fixture.py": "350577c153d78c6246b400f102e7a3c5a9869902e3836d524ddedfe305141fed",
+    "adl/tools/codefriend_fitness_ci_proof.py": "75a93cc75682f3b0197e644d3fdec4a454d593d3886fa08e43ae3821d27d5876",
+    "adl/tests/codefriend_cf_gov_ci.rs": "af05057718c0ad61c80d2203c732c9c011987e4a6609289191e7e2389d2fd7bc",
+    "adl/tests/fixtures/codefriend/fitness-ci/manifest.json": "3f0978ad57cbc712e6002a24d6858b27084e2894ed4b68647cfd70ed9f51fb96",
+    "adl/tests/fixtures/codefriend/fitness-ci/PVF.json": "cd4b78bf0ec8c0e352b31fce716197899db458ee98f89b3f624713f07271869b",
+    ".github/codefriend-fitness-policy.json": "808f39bd0cc58e2140722dbd8b593afbe225e5a08a8ea8ff20e59403c61422d6",
+    ".github/workflows/codefriend-fitness.yml": "2d1a8b3c9f4a904a54abcd45b84b4efc7f54d6a20ab61fee34b9e92fc8d87459",
+    "adl/tools/codefriend_fitness_ci_artifacts.py": "240046e1829b1b609cfc193afcfd2e8ea86fa829e9c7457adbbd3eeab2f128c3",
+    "docs/codefriend/FITNESS_CI.md": "f511e34513b21d812fc76599b8e3062173f7d9941f675e66f7b1f3f990c3725b",
+    ".github/workflows/ci.yaml": "7c1e6268fdea4e7d78af9059e76c7543fd86235a5efaffe89e1cf0221da27cfa",
+    "adl/tools/codefriend/ci_select.py": "2e0c40a0bd22bdb68a1caa1b3ccc492f3c5974a1af2dfe5b4c051104a8bf8bd9",
+    "adl/tools/codefriend/test_ci_contract.rb": "76ac62263c732e1d01f29fd0baeb378097effd92341880bc729bf2675b62c516"
+  },
+  "binary_sha256": "8fc8d4e5d71f048a19f16b08eae0e11030eb5fe8246e16bbfcd5be42fbf9d48e",
+  "strict_clippy": "passed",
+  "workflow_syntax": "actionlint1.7.7 validates bothworkflowfiles with shellcheck/pyflakes disabled; workflowpolicy and24aggregateoutcomes/12pathselectioncontracts pass",
+  "review": "PASS: Rust/localproof and bounded centralworkflowrepair independentlyreviewed. FreshhostedCIpending",
+  "hosted_ci": "Firsthosted run35040094807 failed workflowdispatchpolicy; second35040528812 failed runnercontext jobenv expression. Both sourceissues fixed; actualjobexecution stillpending.",
+  "limitations": [
+    "The candidate policy checks one declared literal-import boundary, not complete architecture quality.",
+    "Expected-negative qualification success is not a passing policy assessment.",
+    "Local macOS process proof is distinct from hosted Linux jobs and artifacts."
+  ],
+  "source_revision": "b6ba3f77f9dab09aa95e840f731176efc0451cc0",
+  "local_harness_note": "Initial candidate output beneath analyzed checkout rejected store_inside_source_rejected as designed; successful proof uses separate external output root."
+}

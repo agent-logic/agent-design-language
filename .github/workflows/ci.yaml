@@ -453,6 +453,13 @@ jobs:
       - name: Provider core clippy
         run: cargo clippy --locked --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings
 
+  codefriend_fitness_ci:
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.codefriend_ci_required == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/codefriend-fitness.yml
+
   codefriend_ci_acquisition:
     name: codefriend-ci-acquisition
     needs: adl_path_policy
@@ -788,6 +795,7 @@ jobs:
       - adl_runtime_v3_fast
       - adl_uts_package
       - codefriend_ci_acquisition
+      - codefriend_fitness_ci
       - adl_rust_fmt_clippy
       - adl_rust_tests
       - adl_provider_core
@@ -819,6 +827,7 @@ jobs:
           PROVIDER_CORE_RESULT: ${{ needs.adl_provider_core.result }}
           CODEFRIEND_CI_REQUIRED: ${{ needs.adl_path_policy.outputs.codefriend_ci_required }}
           CODEFRIEND_CI_RESULT: ${{ needs.codefriend_ci_acquisition.result }}
+          CODEFRIEND_FITNESS_RESULT: ${{ needs.codefriend_fitness_ci.result }}
           UTS_PACKAGE_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' }}
           UTS_PACKAGE_RESULT: ${{ needs.adl_uts_package.result }}
           DEMO_REQUIRED: ${{ needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' }}
@@ -835,6 +844,12 @@ jobs:
             *) echo "::error::CI acquisition selection/result mismatch"; exit 1 ;;
           esac
           # END CI acquisition aggregate contract
+          # BEGIN CI fitness aggregate contract
+          case "$CODEFRIEND_CI_REQUIRED:$CODEFRIEND_FITNESS_RESULT" in
+            true:success|false:skipped) ;;
+            *) echo "::error::CI fitness selection/result mismatch"; exit 1 ;;
+          esac
+          # END CI fitness aggregate contract
           if [ "$UTS_PACKAGE_REQUIRED" = true ]; then
             [ "$UTS_PACKAGE_RESULT" = success ] || { echo "::error::UTS package proof did not pass"; exit 1; }
           else
