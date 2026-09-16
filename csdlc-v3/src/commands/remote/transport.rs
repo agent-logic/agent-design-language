@@ -52,6 +52,57 @@ pub(super) fn preflight_github_credential(
         })
 }
 
+pub(super) fn prepare_github_mutation_dispatch(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    context: &GithubMutationDispatchContext<'_>,
+) -> Result<(PathBuf, CommandInvocation), RemoteRouteFinding> {
+    let input_path = write_mutation_input(
+        repo_root,
+        context.operation_digest,
+        context.operation_marker,
+        request,
+        context.ready_target,
+    )?;
+    let prepared = (|| {
+        let invocation = github_mutation_invocation(request, &input_path)?
+            .with_child_credential(context.credential_name.to_owned())
+            .map_err(|_| {
+                remote_finding(
+                    "github_credential_scope_invalid",
+                    "GitHub credential name is not safe for child-process injection",
+                )
+            })?;
+        if let Some(intent_digest) = context
+            .recovery_intent_digest
+            .filter(|_| !context.reuse_rejected_recovery)
+        {
+            persist_recovery_receipt(
+                repo_root,
+                request,
+                context.operation_digest,
+                intent_digest,
+                context.ready_target,
+            )?;
+        } else if let Some(intent_digest) = context.recovery_intent_digest {
+            persist_rejected_recovery_attempt(
+                repo_root,
+                request,
+                context.operation_digest,
+                intent_digest,
+            )?;
+        }
+        Ok(invocation)
+    })();
+    match prepared {
+        Ok(invocation) => Ok((input_path, invocation)),
+        Err(finding) => {
+            let _ = fs::remove_file(&input_path);
+            Err(finding)
+        }
+    }
+}
+
 pub(super) fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteFinding> {
     if request.issue == 0 && !matches!(request.mutation, GithubMutation::IssueCreate { .. }) {
         return Err(remote_finding(
@@ -507,43 +558,7 @@ pub(super) fn validate_mutation_response(
     }
 }
 
-pub(super) fn persist_recovery_receipt(
-    repo_root: &Path,
-    request: &GithubMutationRequest,
-    operation_digest: &str,
-    intent_digest: &str,
-    ready_target: Option<&GithubReadyTarget>,
-) -> Result<(), RemoteRouteFinding> {
-    let path = ensure_recovery_available(repo_root, operation_digest)?;
-    let receipt = GithubMutationRecoveryReceipt {
-        schema: "csdlc.v3.github_mutation_recovery.v1".into(),
-        operation_digest: operation_digest.into(),
-        intent_digest: intent_digest.into(),
-        recovery: GithubMutationRecovery::RetryAfterAuthenticatedAbsence,
-        repository: request.repository.clone(),
-        issue: request.issue,
-        pull_request: request.pull_request,
-        expected_head_sha: request.expected_head_sha.clone(),
-        resolved_ready_target: ready_target.cloned(),
-    };
-    persist_json_create_new(&path, &receipt)
-}
-
-pub(super) fn ensure_recovery_available(
-    repo_root: &Path,
-    operation_digest: &str,
-) -> Result<PathBuf, RemoteRouteFinding> {
-    let path = github_mutation_recovery_path(repo_root, operation_digest)?;
-    if path.exists() {
-        return Err(remote_finding(
-            "github_mutation_recovery_already_consumed",
-            "the single authenticated-absence recovery was already consumed",
-        ));
-    }
-    Ok(path)
-}
-
-pub(super) fn verify_pr_create_head_available(
+pub(super) fn verify_pr_create_head_branch(
     request: &GithubMutationRequest,
     process: &mut impl ProcessAdapter,
 ) -> Result<(), RemoteRouteFinding> {
@@ -551,26 +566,47 @@ pub(super) fn verify_pr_create_head_available(
         return Ok(());
     };
     let credential_name = mutation_credential_name(request)?;
-    let branch = CommandInvocation::new(
+    let invocation = CommandInvocation::new(
         GITHUB_READ_ONLY_ADAPTER,
-        ["branch-head", &request.repository, head],
+        ["branch-ref", request.repository.as_str(), head.as_str()],
     )
-    .and_then(|invocation| invocation.with_child_credential(credential_name))
     .map_err(|_| {
         remote_finding(
-            "github_reconciliation_invocation_rejected",
-            "invalid remote branch-head readback invocation",
+            "github_pr_head_branch_observation_invalid",
+            "PR head branch observation must use structured argv",
+        )
+    })?
+    .with_child_credential(credential_name)
+    .map_err(|_| {
+        remote_finding(
+            "github_credential_scope_invalid",
+            "GitHub credential name is not safe for child-process injection",
         )
     })?;
-    let value = read_mutation_reconciliation_page(branch, process)?;
+    let value = read_mutation_reconciliation_page(invocation, process).map_err(|finding| {
+        remote_finding(
+            "github_pr_head_branch_observation_unavailable",
+            &format!(
+                "authenticated PR head branch observation failed: {}",
+                finding.code
+            ),
+        )
+    })?;
     let expected_ref = format!("refs/heads/{head}");
-    if value["ref"].as_str() != Some(expected_ref.as_str())
-        || value["object"]["type"].as_str() != Some("commit")
-        || value["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str())
-    {
+    let exact = value.as_array().and_then(|refs| {
+        refs.iter()
+            .find(|candidate| candidate["ref"].as_str() == Some(expected_ref.as_str()))
+    });
+    let Some(exact) = exact else {
         return Err(remote_finding(
-            "github_pr_create_recovery_head_mismatch",
-            "guarded PR-create recovery requires the exact remote branch head",
+            "github_pr_head_branch_missing",
+            "the exact PR head branch must exist before publication or recovery can reserve a remote effect",
+        ));
+    };
+    if exact["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str()) {
+        return Err(remote_finding(
+            "github_pr_head_branch_mismatch",
+            "the exact PR head branch must resolve to the expected candidate head",
         ));
     }
     Ok(())

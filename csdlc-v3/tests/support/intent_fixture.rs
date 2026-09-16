@@ -503,6 +503,7 @@ impl Fixture {
    printf '%s' '{"ref":"refs/heads/@BRANCH@","object":{"type":"commit","sha":"@HEAD@"}}'
   fi ;;
  POST:https://api.github.com/repos/agent-logic/agent-design-language/pulls)
+  if test -f "$base/reject-pr-create"; then exit 22; fi
   data=$(cat "$payload")
   data=$(printf '%s' "$data" | sed 's#"head":"[^"]*"#"head":{"sha":"@HEAD@","ref":"@BRANCH@"}#;s#"base":"main"#"base":{"ref":"main"}#')
   printf '{"number":639,"id":639,"node_id":"PR_ready639","state":"open","merged":false,%s' "${data#\{}" > "$base/remote-pr.json"
@@ -514,7 +515,13 @@ impl Fixture {
   printf '%s,%s' "${previous%\}}" "${data#\{}" > "$base/remote-pr.json"
   printf 'pr-update\n' >> "$base/remote-effects"; cat "$base/remote-pr.json" ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls\?*)
+  if test -f "$base/drop-readback"; then exit 9; fi
   printf '['; if test -f "$base/remote-pr.json"; then cat "$base/remote-pr.json"; fi; printf ']' ;;
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/git/matching-refs/heads/*)
+  if test -f "$base/remote-head-present"; then
+   if test -f "$base/remote-head-wrong" || test -f "$base/wrong-branch-head"; then sha=0000000000000000000000000000000000000000; else sha=@HEAD@; fi
+   printf '[{"ref":"refs/heads/@BRANCH@","object":{"sha":"%s"}}]' "$sha"
+  else printf '[]'; fi ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639)
   if test -f "$base/drop-readback"; then exit 9; fi
   cat "$base/remote-pr.json" ;;
@@ -533,6 +540,12 @@ impl Fixture {
             1,
         );
         fs::write(script, replaced).unwrap();
+        fs::write(
+            self.root
+                .join(".git/installed-candidate/remote-head-present"),
+            b"synthetic exact remote branch",
+        )
+        .unwrap();
     }
     pub fn remote_pr(&self) -> Value {
         serde_json::from_slice(

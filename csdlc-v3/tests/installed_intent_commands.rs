@@ -32,6 +32,19 @@ fn success(output: Output) -> Value {
     result
 }
 
+fn publication_reservation_inventory(
+    root: &Path,
+) -> std::collections::BTreeMap<std::path::PathBuf, String> {
+    intent_fixture::inventory(root)
+        .into_iter()
+        .filter(|(path, _)| {
+            let path = path.to_string_lossy();
+            path.starts_with(".git/csdlc-v3/remote/intents")
+                || path.starts_with(".git/csdlc-v3/semantic")
+        })
+        .collect()
+}
+
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1", "slug":"installed-intent-fixture",
       "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"installed intent commands","deliverables_inline":"Run installed lifecycle commands","validation_plan_inline":"Declared Cargo validator","acceptance_criteria_inline":"Installed command behavior is proven","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
@@ -1737,9 +1750,9 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             let payload: Value = serde_json::from_slice(&failed_readback.stdout).unwrap();
             assert_eq!(payload["status"], "recovery_required");
             assert!(
-                payload["findings"]
+                payload["envelope"]["findings"]
                     .as_array()
-                    .unwrap()
+                    .expect("common result envelope must expose structured findings")
                     .iter()
                     .all(|finding| {
                         let code = finding["code"].as_str().unwrap();
@@ -1751,10 +1764,24 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             );
             assert_eq!(payload["envelope"]["status"], "recovery_required");
             assert_eq!(payload["envelope"]["process_status"], "failed");
-            assert_eq!(payload["envelope"]["effects"]["outcome"], "performed");
+            assert_eq!(
+                payload["envelope"]["effects"]["outcome"], "unknown",
+                "a dropped authenticated readback must preserve unknown-effect truth"
+            );
             assert_eq!(fixture.remote_effects(), 1);
             fixture.remote_flag("drop-publication-readback", false);
             fixture.remote_flag("drop-readback", false);
+            let recovery = success(fixture.run(&primary, &["recover", "505"]));
+            success(fixture.run(
+                &primary,
+                &[
+                    "recover",
+                    "505",
+                    "--execute",
+                    "--preview",
+                    recovery["preview_digest"].as_str().unwrap(),
+                ],
+            ));
             observation(&mut fixture, cwd, "pr-state");
             assert_eq!(
                 fixture.remote_effects(),
@@ -2467,6 +2494,51 @@ fn installed_remote_recover_retries_once_only_after_authenticated_absence() {
 }
 
 #[test]
+fn installed_remote_recover_retries_ready_once_after_crash_before_dispatch() {
+    let (mut fixture, linked) = reviewed_fixture("remote-ready-reserved-crash");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(fixture.remote_pr()["draft"], true);
+
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 2);
+    assert_eq!(fixture.remote_pr()["draft"], false);
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(
+        fixture.remote_effects(),
+        2,
+        "ready recovery replayed dispatch"
+    );
+}
+
+#[test]
 fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let (mut fixture, linked) = reviewed_fixture("remote-recover-reserved-crash");
     let primary = fixture.root.clone();
@@ -2549,6 +2621,244 @@ fn installed_remote_recover_attaches_retained_receipt_after_native_dispatch_cras
     assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
     let settled = success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(settled["envelope"]["effects"]["outcome"], "none");
+}
+
+#[test]
+fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejection_once() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-branch-later");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fixture.remote_flag("remote-head-present", false);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let missing = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!missing.status.success());
+    assert!(String::from_utf8_lossy(&missing.stdout).contains("github_pr_head_branch_missing"));
+    assert_eq!(fixture.remote_effects(), 0);
+    let recoveries = primary.join(".git/csdlc-v3/remote/recoveries");
+    assert!(
+        !recoveries.exists() || fs::read_dir(&recoveries).unwrap().next().is_none(),
+        "missing branch consumed recovery"
+    );
+
+    // Model the #1028 compatibility shape: branch observation races with an
+    // authenticated create rejection, so the recovery receipt is durable but
+    // the semantic operation retains the definite rejection.
+    fixture.remote_flag("remote-head-present", true);
+    fixture.remote_flag("reject-pr-create", true);
+    let rejected_preview = success(fixture.run(&primary, &["recover", "505"]));
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            rejected_preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+    assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+
+    fixture.remote_flag("reject-pr-create", false);
+    let converging = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            converging["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(
+        fixture.remote_pr()["head"]["sha"],
+        git(&linked, &["rev-parse", "HEAD"])
+    );
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(fixture.remote_effects(), 1, "replay duplicated PR creation");
+    assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+}
+
+#[test]
+fn installed_remote_recover_rejected_reuse_crash_never_dispatches_twice() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-rejected-reuse-crash");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+
+    fixture.remote_flag("reject-pr-create", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fixture.remote_flag("reject-pr-create", false);
+    fixture.remote_flag("drop-publication-readback", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let crashed = fixture.run_with_env(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_recovery_after_native",
+        )],
+    );
+    assert_eq!(crashed.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+
+    fixture.remote_flag("drop-publication-readback", false);
+    fixture.remote_flag("drop-readback", false);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let restart = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!restart.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "old definite rejection authorized a second PR create after ambiguous dispatch"
+    );
+}
+
+#[test]
+fn installed_remote_recover_pr_create_rejects_missing_or_wrong_head_before_reservation() {
+    for (name, flag, code) in [
+        (
+            "pr-create-initial-missing-head",
+            "remote-head-present",
+            "github_pr_head_branch_missing",
+        ),
+        (
+            "pr-create-initial-wrong-head",
+            "remote-head-wrong",
+            "github_pr_head_branch_mismatch",
+        ),
+    ] {
+        let (mut fixture, linked) = reviewed_fixture(name);
+        fixture.remote_flag(flag, flag == "remote-head-wrong");
+        let before = publication_reservation_inventory(&fixture.root);
+        let rejected = fixture.run(&linked, &["publish", "505"]);
+        assert!(!rejected.status.success());
+        assert!(String::from_utf8_lossy(&rejected.stdout).contains(code));
+        assert_eq!(fixture.remote_effects(), 0);
+        assert_eq!(
+            before,
+            publication_reservation_inventory(&fixture.root),
+            "{name} changed native intent or semantic reservation state"
+        );
+    }
+}
+
+#[test]
+fn installed_remote_recover_pr_create_never_reuses_ambiguous_dispatch_or_wrong_branch() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-ambiguous");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    fixture.remote_flag("drop-publication-readback", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let uncertain_output = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!uncertain_output.status.success());
+    let uncertain: Value = serde_json::from_slice(&uncertain_output.stdout).unwrap();
+    assert_eq!(uncertain["status"], "recovery_required");
+    assert_eq!(fixture.remote_effects(), 1);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    fixture.remote_flag("drop-publication-readback", false);
+    fixture.remote_flag("drop-readback", false);
+    let exhausted = success(fixture.run(&primary, &["recover", "505"]));
+    let settled = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            exhausted["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!settled.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "ambiguous dispatch reused recovery"
+    );
+
+    let (mut wrong, wrong_linked) = reviewed_fixture("pr-create-recovery-wrong-head");
+    wrong.remote_flag("remote-head-wrong", true);
+    let before = publication_reservation_inventory(&wrong.root);
+    let rejected = wrong.run(&wrong_linked, &["publish", "505"]);
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("github_pr_head_branch_mismatch"));
+    assert_eq!(wrong.remote_effects(), 0);
+    assert_eq!(before, publication_reservation_inventory(&wrong.root));
 }
 
 #[test]
