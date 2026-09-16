@@ -20,7 +20,10 @@ use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Duration, Instant};
+
+static CREATE_ONCE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -353,27 +356,62 @@ fn create_durable_child(parent: &Path, name: &str) -> Result<PathBuf, String> {
 }
 
 fn write_create_once(path: &Path, bytes: &[u8]) -> Result<(), String> {
-    match OpenOptions::new().write(true).create_new(true).open(path) {
-        Ok(mut file) => {
-            file.write_all(bytes)
-                .map_err(|error| format!("{}: {error}", path.display()))?;
-            file.sync_all()
-                .map_err(|error| format!("{}: {error}", path.display()))?;
-            sync_dir(path.parent().expect("created file has parent"))
-        }
-        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
-            let existing =
-                fs::read(path).map_err(|read_error| format!("{}: {read_error}", path.display()))?;
-            if existing == bytes {
-                Ok(())
-            } else {
-                Err(format!(
-                    "{} already exists with different bytes",
-                    path.display()
-                ))
+    if path.is_file() {
+        return compare_create_once_bytes(path, bytes);
+    }
+
+    let parent = path.parent().expect("created file has parent");
+    let file_name = path
+        .file_name()
+        .expect("created file has file name")
+        .to_string_lossy();
+    let sequence = CREATE_ONCE_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    let temporary = parent.join(format!(
+        ".{file_name}.{}.{}.create-once",
+        std::process::id(),
+        sequence
+    ));
+    let publish = (|| {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&temporary)
+            .map_err(|error| format!("{}: {error}", temporary.display()))?;
+        file.write_all(bytes)
+            .map_err(|error| format!("{}: {error}", temporary.display()))?;
+        file.sync_all()
+            .map_err(|error| format!("{}: {error}", temporary.display()))?;
+        drop(file);
+
+        match fs::hard_link(&temporary, path) {
+            Ok(()) => sync_dir(parent),
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+                compare_create_once_bytes(path, bytes)
             }
+            Err(error) => Err(format!(
+                "publish {} as {}: {error}",
+                temporary.display(),
+                path.display()
+            )),
         }
-        Err(error) => Err(format!("{}: {error}", path.display())),
+    })();
+    let cleanup = match fs::remove_file(&temporary) {
+        Ok(()) => sync_dir(parent),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(format!("{}: {error}", temporary.display())),
+    };
+    publish.and(cleanup)
+}
+
+fn compare_create_once_bytes(path: &Path, bytes: &[u8]) -> Result<(), String> {
+    let existing = fs::read(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    if existing == bytes {
+        Ok(())
+    } else {
+        Err(format!(
+            "{} already exists with different bytes",
+            path.display()
+        ))
     }
 }
 
@@ -2604,4 +2642,63 @@ pub fn restore_conversion_pre_effect(
         effect_count,
         receipt_path: Some(receipt_path),
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::write_create_once;
+    use std::fs;
+    use std::sync::{Arc, Barrier};
+    use std::thread;
+
+    fn scratch(name: &str) -> std::path::PathBuf {
+        let root = std::env::temp_dir().join(format!(
+            "csdlc-conversion-{name}-{}-{}",
+            std::process::id(),
+            super::CREATE_ONCE_SEQUENCE.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+        ));
+        fs::create_dir(&root).unwrap();
+        root
+    }
+
+    #[test]
+    fn interrupted_create_once_staging_never_publishes_partial_final_bytes() {
+        let root = scratch("interrupted-checkpoint");
+        let final_path = root.join("checkpoint.json");
+        let orphan = root.join(".checkpoint.json.interrupted.create-once");
+        fs::write(&orphan, br#"{"schema":"partial"#).unwrap();
+
+        assert!(!final_path.exists());
+        let complete = br#"{"schema":"complete","status":"ready"}"#;
+        write_create_once(&final_path, complete).unwrap();
+
+        assert_eq!(fs::read(&final_path).unwrap(), complete);
+        assert_eq!(fs::read(&orphan).unwrap(), br#"{"schema":"partial"#);
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn concurrent_create_once_publishes_one_complete_candidate() {
+        let root = scratch("concurrent-checkpoint");
+        let final_path = root.join("checkpoint.json");
+        let first = br#"{"writer":"first","padding":"aaaaaaaaaaaaaaaa"}"#.to_vec();
+        let second = br#"{"writer":"second","padding":"bbbbbbbbbbbbbbbb"}"#.to_vec();
+        let barrier = Arc::new(Barrier::new(3));
+
+        let handles = [first.clone(), second.clone()].map(|candidate| {
+            let path = final_path.clone();
+            let barrier = Arc::clone(&barrier);
+            thread::spawn(move || {
+                barrier.wait();
+                write_create_once(&path, &candidate)
+            })
+        });
+        barrier.wait();
+        let results = handles.map(|handle| handle.join().unwrap());
+
+        assert_eq!(results.iter().filter(|result| result.is_ok()).count(), 1);
+        let retained = fs::read(&final_path).unwrap();
+        assert!(retained == first || retained == second);
+        fs::remove_dir_all(root).unwrap();
+    }
 }
