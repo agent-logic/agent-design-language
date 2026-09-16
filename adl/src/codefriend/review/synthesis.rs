@@ -2,6 +2,7 @@ use crate::codefriend::evidence::{
     contracts::{Completion, Finding, ReviewRecord, Severity},
     hash,
 };
+use crate::codefriend::review::lanes::LANE_CONTRACT_VERSION;
 use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
 use std::{
@@ -117,6 +118,16 @@ pub fn synthesize(record: &ReviewRecord) -> Result<ReviewSynthesis> {
     ensure!(
         required.iter().all(|lane| lanes.contains(lane)) && lanes.len() == required.len(),
         "synthesis_requires_complete_lane_set"
+    );
+    ensure!(
+        required.iter().all(|lane| {
+            record
+                .run
+                .lane_versions
+                .get(*lane)
+                .is_some_and(|version| version == LANE_CONTRACT_VERSION)
+        }),
+        "synthesis_requires_supported_lane_contract_version"
     );
     ensure!(
         record.findings.iter().all(|finding| {

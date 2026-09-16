@@ -7,7 +7,10 @@ use adl::codefriend::{
         Admission, Retention,
     },
     ingestion::{local, Scope},
-    review::synthesis::{synthesize, ReviewSynthesis, SYNTHESIS_SCHEMA},
+    review::{
+        lanes::LANE_CONTRACT_VERSION,
+        synthesis::{synthesize, ReviewSynthesis, SYNTHESIS_SCHEMA},
+    },
 };
 use std::{
     collections::BTreeMap,
@@ -117,22 +120,13 @@ impl Fixture {
 
     fn review_record(&self) -> ReviewRecord {
         let lane_versions = [
-            (
-                "adversarial".to_string(),
-                "codefriend.review_lane.v1".to_string(),
-            ),
+            ("adversarial".to_string(), LANE_CONTRACT_VERSION.to_string()),
             (
                 "constitutional".to_string(),
-                "codefriend.review_lane.v1".to_string(),
+                LANE_CONTRACT_VERSION.to_string(),
             ),
-            (
-                "correctness".to_string(),
-                "codefriend.review_lane.v1".to_string(),
-            ),
-            (
-                "security".to_string(),
-                "codefriend.review_lane.v1".to_string(),
-            ),
+            ("correctness".to_string(), LANE_CONTRACT_VERSION.to_string()),
+            ("security".to_string(), LANE_CONTRACT_VERSION.to_string()),
         ]
         .into_iter()
         .collect::<BTreeMap<_, _>>();
@@ -254,18 +248,9 @@ fn synthesis_rejects_incomplete_lane_sets() {
     let fixture = Fixture::new();
     let mut record = fixture.review_record();
     let lane_versions = [
-        (
-            "adversarial".to_string(),
-            "codefriend.review_lane.v1".to_string(),
-        ),
-        (
-            "correctness".to_string(),
-            "codefriend.review_lane.v1".to_string(),
-        ),
-        (
-            "security".to_string(),
-            "codefriend.review_lane.v1".to_string(),
-        ),
+        ("adversarial".to_string(), LANE_CONTRACT_VERSION.to_string()),
+        ("correctness".to_string(), LANE_CONTRACT_VERSION.to_string()),
+        ("security".to_string(), LANE_CONTRACT_VERSION.to_string()),
     ]
     .into_iter()
     .collect::<BTreeMap<_, _>>();
@@ -279,6 +264,29 @@ fn synthesis_rejects_incomplete_lane_sets() {
     .unwrap();
     let err = synthesize(&record).unwrap_err().to_string();
     assert!(err.contains("synthesis_requires_complete_lane_set"));
+}
+
+#[test]
+fn synthesis_rejects_unsupported_lane_contract_versions() {
+    let fixture = Fixture::new();
+    let mut record = fixture.review_record();
+    let lane_versions = record
+        .run
+        .lane_versions
+        .keys()
+        .map(|lane| (lane.clone(), "codefriend.review_lane.v999".to_string()))
+        .collect::<BTreeMap<_, _>>();
+    record.run = Run::new(
+        &record.admission,
+        lane_versions,
+        "fixture:mock:reviewer".to_string(),
+        Completion::Complete,
+        vec![],
+    )
+    .unwrap();
+    record.validate().unwrap();
+    let err = synthesize(&record).unwrap_err().to_string();
+    assert!(err.contains("synthesis_requires_supported_lane_contract_version"));
 }
 
 #[test]
