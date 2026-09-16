@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 888,
+  "phase": "bound",
+  "generation": 11,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/888-v0922-codefriend-fitness-ci",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-888-v0922-codefriend-fitness-ci",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "2fbd98526cff0e0784c269549f57252da09d648f255f874272cd8559d15783ba"
+}
