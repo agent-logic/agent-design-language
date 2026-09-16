@@ -488,6 +488,45 @@ impl Context {
         })
     }
 
+    /// Load canonical terminal state for the cleanup command without requiring
+    /// generated tracked projections to be rewritten in the checkout that is
+    /// about to be removed. All other semantic commands retain the strict
+    /// projection-coherence requirement in `semantic_context`.
+    pub(crate) fn semantic_cleanup_context(&self) -> Result<SemanticContext, String> {
+        self.fresh_integrity()?;
+        let (root, key) = self.semantic_root_key()?;
+        let snapshot = match DurableTransactionStore::observe_issue(&root, &key)
+            .map_err(semantic_error)?
+        {
+            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+                *snapshot
+            }
+            Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
+            Observation::LegacyMigrationRequired => {
+                return Err("intent_semantic_migration_required".into())
+            }
+            Observation::Absent => return Err("intent_semantic_state_missing".into()),
+        };
+        if snapshot.phase() != crate::lifecycle::LifecycleState::ClosedOut {
+            return Err("intent_cleanup_semantic_terminal_required".into());
+        }
+        let authority = self.semantic_authority()?;
+        if snapshot.inputs().authority() != &authority {
+            return Err("intent_semantic_authority_changed".into());
+        }
+        let origin = self.semantic_origin(&snapshot)?;
+        let admission = SemanticAdmission::new(key.clone(), snapshot.version().clone(), authority);
+        Ok(SemanticContext {
+            root,
+            key,
+            snapshot,
+            admission,
+            origin,
+            primary: self.primary.clone(),
+            issue: self.issue,
+        })
+    }
+
     /// Load the exact retained origin for an explicit pending/completed operation.
     /// This is the only context constructor valid after cleanup removed the bound
     /// checkout. It does not reconstruct that origin from the primary checkout.
