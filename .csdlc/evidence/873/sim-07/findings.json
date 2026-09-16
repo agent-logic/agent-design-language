@@ -4,17 +4,17 @@
     {
       "id": "QUAL-873-001",
       "priority": "P1",
-      "title": "Old-owner conversion release gate passes with portable generation-9 fixture",
-      "status": "resolved",
+      "title": "Old-owner conversion release gate was not run with the frozen qualification candidate",
+      "status": "open_blocker",
       "evidence": [
         "results/copied_record_conversion_rehearsal_release_gate.result.json",
         ".csdlc/evidence/1021/LOCAL_PROOF_RESULT.json"
       ],
       "observed": "The merged #1021 portable fixture enabled an isolated exact rerun. The ignored gate passed in 636 seconds with one Cargo test covering seven roles, 12 scenarios, and 30 fault cases.",
-      "impact": "The complete conversion and finite recovery denominator is proven for the corrected harness and portable fixture.",
-      "scope_boundary": "The passing retained #872 validator and current-candidate conversion suites remain valid corroboration, but neither substitutes for this gate.",
-      "recommended_disposition": "Resolved by merged #1021 and independently rerun for #873.",
-      "resolution": "Passed against source commit 717056d405dc01d75402d33b2bf0d0e7ec3e4768; no live conversion, shared installation, or writer activation occurred."
+      "impact": "The complete conversion and finite recovery denominator is proven only for the corrected #1021 binary and harness, not for frozen candidate f31b1b710074fdb51f41400b32b79c633bc3336e selected by this qualification.",
+      "scope_boundary": "Preserve the passing #1021 result as separately bound evidence. The retained #872 validator and other conversion suites remain corroboration but do not establish candidate-specific gate passage.",
+      "recommended_disposition": "Keep both frozen-candidate conversion and finite-recovery gates not_proven, or select the corrected candidate and rerun the affected qualification corpus for its exact executable.",
+      "resolution": "Unresolved for the frozen candidate. The separate run passed against source commit 717056d405dc01d75402d33b2bf0d0e7ec3e4768 and candidate SHA-256 f52c2915fbd708b6c78a7ce20262a3bde276caf188c35336f2c4b422ca867e8e; no live conversion, shared installation, or writer activation occurred."
     },
     {
       "id": "QUAL-873-002",
@@ -103,7 +103,7 @@
       "evidence": [
         "scorecard.json"
       ],
-      "resolution": "All scorecard gates now use only pass, fail, or not_proven; conversion recovery passes, while evidence PR CI and exact-head review remain not_proven."
+      "resolution": "All scorecard gates use only pass, fail, or not_proven. Frozen-candidate conversion recovery, retry comparison, evidence PR CI, and exact-head review remain not_proven."
     },
     {
       "id": "REVIEW-873-004",

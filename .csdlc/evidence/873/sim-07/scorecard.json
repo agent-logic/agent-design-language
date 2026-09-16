@@ -49,12 +49,12 @@
     },
     {
       "gate": "current ignored old-owner conversion release gate",
-      "status": "pass",
+      "status": "not_proven",
       "evidence": "results/copied_record_conversion_rehearsal_release_gate.result.json"
     },
     {
       "gate": "finite recovery including conversion",
-      "status": "pass",
+      "status": "not_proven",
       "evidence": "results/copied_record_conversion_rehearsal_release_gate.result.json"
     },
     {

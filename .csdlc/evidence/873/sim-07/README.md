@@ -4,7 +4,7 @@ This packet evaluates candidate `f31b1b710074fdb51f41400b32b79c633bc3336e` with 
 
 The two exact installed-binary journeys passed with 35 retained attempts. The 27 declared integration targets and five exact library regressions contributed 252 unique passing tests, with no unexpected test failure. All 33 emitted result envelopes have correlation IDs; two deliberately interrupted attempts have attempt IDs and no result envelope. The corrected warm-host prepared-start samples were 3.865 s, 3.778 s, and 3.954 s, all below the three-minute fixture target. Every candidate timing sample records the frozen installed binary BLAKE3 `c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d`. The measurement does not establish OS-cold performance or human authoring time.
 
-The retained #872 conversion evidence validator passed. After #1021 merged the portable generation-9 fixture and corrected harness, the separately required ignored old-owner release gate also passed in an isolated rerun: one Cargo test covered seven roles, 12 scenarios, and 30 fault cases in 636 seconds. No live conversion, shared installation, or writer activation occurred.
+The retained #872 conversion evidence validator passed. After #1021 merged the portable generation-9 fixture and corrected harness, the separately required ignored old-owner release gate passed in an isolated rerun: one Cargo test covered seven roles, 12 scenarios, and 30 fault cases in 636 seconds. That run used the corrected #1021 binary (SHA-256 `f52c2915fbd708b6c78a7ce20262a3bde276caf188c35336f2c4b422ca867e8e`), not frozen qualification candidate `f31b1b710074fdb51f41400b32b79c633bc3336e`; it is preserved as separately bound evidence and does not satisfy the frozen-candidate conversion or finite-recovery gates. No live conversion, shared installation, or writer activation occurred.
 
 ## 2026-09-16 requalification checkpoint
 
@@ -14,7 +14,7 @@ The retry comparison remains `not_proven`. Fifty-five retry-contract tests passe
 
 The candidate-first prepared-start replay completed in 6.588 seconds, below the source contract's three-minute target. The artifact identifies the condition as the first measured fixture and process on an already warm host. It makes no OS-cold claim; OS-cold evidence is not a prerequisite in the canonical issue contract.
 
-The overall decision remains `not_proven` because comparable retry reduction, independent exact-head review, and evidence-PR CI are not yet proven.
+The overall decision remains `not_proven` because frozen-candidate conversion and finite recovery, comparable retry reduction, independent exact-head review, and evidence-PR CI are not yet proven.
 
 `scorecard.json` and `qualification-decision.json` contain the adjudication. Raw commands, stdout, stderr, result records, exact installed attempt ledgers, and timing evidence are retained alongside them.
 
