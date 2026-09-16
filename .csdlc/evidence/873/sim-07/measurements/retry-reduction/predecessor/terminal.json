@@ -1,0 +1,1836 @@
+{
+  "attempted": 18,
+  "attempts": [
+    {
+      "argv": [
+        "issue",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/issue-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-terminal-1",
+      "elapsed_millis": 197,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "issue",
+        "envelope": {
+          "allowed_next_operations": [
+            "bind"
+          ],
+          "authority_status": "verified",
+          "command": "issue",
+          "correlation_id": "25627-1789556410125",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "9bad17219a29dc8c5f8dba62347c13dd3377b95c652cf46939a4ee24df0f52f3"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 193,
+            "started_unix_ms": 1789556410125
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": false,
+        "read_only": false,
+        "request_expected_lifecycle_digest": null,
+        "request_issue": 1505,
+        "result": {
+          "digest": "9bad17219a29dc8c5f8dba62347c13dd3377b95c652cf46939a4ee24df0f52f3",
+          "findings": [],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "bind",
+          "phase": "ready",
+          "route": "issue"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": true
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "bind",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/bind-request.json",
+        "--registry",
+        "$FIXTURE_ROOT/docs/templates/prompts/current.json",
+        "--registrations",
+        "$FIXTURE_ROOT/.git/installed-predecessor/registrations.json",
+        "--repo-root",
+        "$FIXTURE_ROOT",
+        "--v3-state-root",
+        "$FIXTURE_ROOT/.git/csdlc-v3/local"
+      ],
+      "attempt_id": "predecessor-terminal-2",
+      "elapsed_millis": 209,
+      "exit_code": 0,
+      "input": {
+        "branch": "codex/1505-installed-intent-fixture",
+        "card_values": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "commands": [
+          "prepare_issue",
+          "bind_worktree",
+          "edit_cards",
+          "plan_pvf",
+          "doctor",
+          "schedule",
+          "shepherd",
+          "eligibility"
+        ],
+        "expected_lifecycle_digest": "9bad17219a29dc8c5f8dba62347c13dd3377b95c652cf46939a4ee24df0f52f3",
+        "issue": 1505,
+        "registry_version": "1.0.5",
+        "repository": "agent-logic/agent-design-language",
+        "title": "Installed intent fixture",
+        "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture"
+      },
+      "result": {
+        "command": "bind",
+        "envelope": {
+          "allowed_next_operations": [
+            "edit"
+          ],
+          "authority_status": "verified",
+          "command": "bind",
+          "correlation_id": "25662-1789556410323",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "befe5c7a87e437549237bcfa40412e318565b28f791ff662b33b95f6743401f9"
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": "9bad17219a29dc8c5f8dba62347c13dd3377b95c652cf46939a4ee24df0f52f3"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 205,
+            "started_unix_ms": 1789556410323
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "operational_read_only": false,
+        "read_only": false,
+        "request_expected_lifecycle_digest": "9bad17219a29dc8c5f8dba62347c13dd3377b95c652cf46939a4ee24df0f52f3",
+        "request_issue": 1505,
+        "result": {
+          "digest": "befe5c7a87e437549237bcfa40412e318565b28f791ff662b33b95f6743401f9",
+          "findings": [],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "edit",
+          "phase": "bound",
+          "route": "bind"
+        },
+        "schema": "csdlc.v3.operational_local.v1",
+        "writes_v3_state": true
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "proof",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/proof-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-3",
+      "elapsed_millis": 575,
+      "exit_code": 0,
+      "input": {
+        "binding": {
+          "branch": "codex/1505-installed-intent-fixture",
+          "exact_head": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+          "generation": 2,
+          "git_common_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git",
+          "lifecycle_digest": "befe5c7a87e437549237bcfa40412e318565b28f791ff662b33b95f6743401f9",
+          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture"
+        },
+        "evidence_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture",
+        "issue": 1505,
+        "proof": {
+          "command": {
+            "argv": [
+              "doctor",
+              "--request",
+              ".csdlc/evidence/1505/doctor-request.json",
+              "--registry",
+              "docs/templates/prompts/current.json",
+              "--registrations",
+              ".csdlc/evidence/1505/registrations.json",
+              "--repo-root",
+              "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture",
+              "--v3-state-root",
+              "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local"
+            ],
+            "binary_ref": ".csdlc/evidence/1505/csdlc-predecessor",
+            "generation": "v3",
+            "provider_side_effects": false,
+            "request_ref": ".csdlc/evidence/1505/doctor-request.json",
+            "side_effect_boundary_refs": [
+              "tracked"
+            ],
+            "timeout_millis": 10000
+          },
+          "deterministic": true,
+          "evidence_digest": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
+          "evidence_ref": ".csdlc/evidence/1505/csdlc-predecessor",
+          "lane": "tooling",
+          "manifest_id": "issue873-retry-qualification",
+          "normalization": "doctor_issue_phase_v1",
+          "observed_digest": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
+          "stale": false
+        },
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "classification": "operational",
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "proof",
+          "correlation_id": "25727-1789556410711",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 572,
+            "started_unix_ms": 1789556410711
+          },
+          "wait_owner": "none"
+        },
+        "evidence_refs": [
+          ".csdlc/evidence/1505/v3-proof/issue873-retry-qualification.json"
+        ],
+        "findings": [],
+        "issue": 1505,
+        "operational_authority": true,
+        "performed_mutation": true,
+        "read_only": false,
+        "repository": "agent-logic/agent-design-language",
+        "route": "proof",
+        "schema": "csdlc.v3.proof_route.v1",
+        "status": "ready"
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "review",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/review-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-4",
+      "elapsed_millis": 3,
+      "exit_code": 0,
+      "input": {
+        "body": "Closes #1505",
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "implementer": "synthetic-fixture-author",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language",
+        "review_present": true,
+        "review_revision": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "reviewer": "synthetic-independent-fixture-reviewer",
+        "title": "Installed intent fixture",
+        "typed_review_receipt_digest": "e335f3428b1892e2bda893a96361ee6b89b63d296ba8a59f707f5dba4436844e",
+        "typed_review_receipt_path": ".csdlc/evidence/1505/review.json"
+      },
+      "result": {
+        "command": "review",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "non_operational",
+          "command": "review",
+          "correlation_id": "25790-1789556411293",
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 1,
+            "started_unix_ms": 1789556411293
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": false,
+        "read_only": true,
+        "result": {
+          "findings": [],
+          "issue": 1505,
+          "redacted_credentials": [],
+          "repository": "agent-logic/agent-design-language",
+          "route": "review",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.remote_publication.v1"
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/publish-request.json",
+        "--execute"
+      ],
+      "attempt_id": "predecessor-terminal-5",
+      "elapsed_millis": 167,
+      "exit_code": 0,
+      "input": {
+        "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "expected_lifecycle_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+        "operation": {
+          "kind": "github_mutation",
+          "request": {
+            "credential_names": [
+              "GITHUB_TOKEN"
+            ],
+            "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "mutation": {
+              "action": "pull_request_create",
+              "base": "main",
+              "body": "Closes #1505",
+              "draft": true,
+              "head": "codex/1505-installed-intent-fixture",
+              "title": "Installed intent fixture"
+            },
+            "repository": "agent-logic/agent-design-language"
+          }
+        }
+      },
+      "result": {
+        "command": "github-pr",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "github-pr",
+          "correlation_id": "25792-1789556411300",
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": "6b6ddd202e1a2746257a6c9c076327dcc31d5547301a03ffd77ba0f7f8e312f8",
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 164,
+            "started_unix_ms": 1789556411300
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "read_only": false,
+        "result": {
+          "authority": {
+            "approval_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "authority_issue": 505,
+            "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "readiness_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "schema": "csdlc.v3.canonical_authority_evidence.v1",
+            "selector_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "selector_path": "csdlc-v3/operator/authority-selector.json"
+          },
+          "outcome": {
+            "kind": "github_mutation",
+            "result": {
+              "performed_mutation": true,
+              "receipt": {
+                "adapter": "github-api-operational",
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "idempotent_replay": false,
+                "intent_digest": "95dc7d7add786a4d0a5ff37ace48848a6894cb35c03fa67fe0e2d92911a9a635",
+                "issue": 1505,
+                "operation_digest": "6b6ddd202e1a2746257a6c9c076327dcc31d5547301a03ffd77ba0f7f8e312f8",
+                "pull_request": 639,
+                "readback_digest": "185d72f8fc38e91492e2b019ae5621fdc78a7bf425a4c7f2a39e2942bcacb188",
+                "reconciliation_digest": "f70aad515edc291d050e60d40ddd7d7942ca420874a36421d3b9e634a6578ccf",
+                "repository": "agent-logic/agent-design-language",
+                "response_digest": "c7f3260b65413fde67bc89fcff9ce490e1272e9c00c688d410fb3c74b6e04880",
+                "schema": "csdlc.v3.github_mutation_receipt.v2"
+              },
+              "reconciliation": {
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "issue": 1505,
+                "observed_by": "github-api-read-only",
+                "operation_digest": "6b6ddd202e1a2746257a6c9c076327dcc31d5547301a03ffd77ba0f7f8e312f8",
+                "operation_marker": "<!-- csdlc-v3-operation:6b6ddd202e1a2746257a6c9c076327dcc31d5547301a03ffd77ba0f7f8e312f8 -->",
+                "pull_request": 639,
+                "readback_digest": "185d72f8fc38e91492e2b019ae5621fdc78a7bf425a4c7f2a39e2942bcacb188",
+                "remote_object_id": 639,
+                "repository": "agent-logic/agent-design-language",
+                "schema": "csdlc.v3.github_mutation_reconciliation.v1"
+              }
+            }
+          },
+          "schema": "csdlc.v3.operational_remote_dispatch.v1"
+        },
+        "schema": "csdlc.v3.operational_remote.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/github-pr-create-request.json",
+        "--execute"
+      ],
+      "attempt_id": "predecessor-terminal-6",
+      "elapsed_millis": 156,
+      "exit_code": 0,
+      "input": {
+        "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "expected_lifecycle_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+        "operation": {
+          "kind": "github_mutation",
+          "request": {
+            "credential_names": [
+              "GITHUB_TOKEN"
+            ],
+            "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "mutation": {
+              "action": "pull_request_ready"
+            },
+            "pull_request": 639,
+            "repository": "agent-logic/agent-design-language"
+          }
+        }
+      },
+      "result": {
+        "command": "github-pr",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "github-pr",
+          "correlation_id": "25839-1789556411469",
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": "07af57818b4f944d0a65da1545671f86ca16e89022b3d4d38b35448df921228e",
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 152,
+            "started_unix_ms": 1789556411469
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "read_only": false,
+        "result": {
+          "authority": {
+            "approval_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "authority_issue": 505,
+            "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "readiness_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "schema": "csdlc.v3.canonical_authority_evidence.v1",
+            "selector_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "selector_path": "csdlc-v3/operator/authority-selector.json"
+          },
+          "outcome": {
+            "kind": "github_mutation",
+            "result": {
+              "performed_mutation": true,
+              "receipt": {
+                "adapter": "github-api-operational",
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "idempotent_replay": false,
+                "intent_digest": "d7a76b224c5902fbf9615c8aa22b6a9520251705e5340edb0aea1a0fc3f1c71d",
+                "issue": 1505,
+                "operation_digest": "07af57818b4f944d0a65da1545671f86ca16e89022b3d4d38b35448df921228e",
+                "pull_request": 639,
+                "readback_digest": "87c131a7a8e8fb73c6f01f43cdfd0fdd186ecd9826164f6c7752edf68ac22d32",
+                "reconciliation_digest": "0aa58e5426c0e6f823c7fbd5bf1a50eb85288e290b139bed0198cd41da5e92d9",
+                "repository": "agent-logic/agent-design-language",
+                "response_digest": "11ca2db0cf415562601b6ddce7e73ec85d2c64f6b6503f2dedde29dff6f3f768",
+                "schema": "csdlc.v3.github_mutation_receipt.v2"
+              },
+              "reconciliation": {
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "issue": 1505,
+                "observed_by": "github-api-read-only",
+                "operation_digest": "07af57818b4f944d0a65da1545671f86ca16e89022b3d4d38b35448df921228e",
+                "operation_marker": "<!-- csdlc-v3-operation:07af57818b4f944d0a65da1545671f86ca16e89022b3d4d38b35448df921228e -->",
+                "pull_request": 639,
+                "readback_digest": "87c131a7a8e8fb73c6f01f43cdfd0fdd186ecd9826164f6c7752edf68ac22d32",
+                "remote_object_id": 639,
+                "repository": "agent-logic/agent-design-language",
+                "schema": "csdlc.v3.github_mutation_reconciliation.v1"
+              }
+            }
+          },
+          "schema": "csdlc.v3.operational_remote_dispatch.v1"
+        },
+        "schema": "csdlc.v3.operational_remote.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/merge-internal-input-guard-request.json",
+        "--execute"
+      ],
+      "attempt_id": "predecessor-terminal-7",
+      "elapsed_millis": 117,
+      "exit_code": 2,
+      "input": {
+        "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "expected_lifecycle_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+        "operation": {
+          "kind": "github_mutation",
+          "request": {
+            "credential_names": [
+              "GITHUB_TOKEN"
+            ],
+            "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "mutation": {
+              "action": "pull_request_merge",
+              "base": "main",
+              "method": "merge",
+              "review_receipt_digest": "e335f3428b1892e2bda893a96361ee6b89b63d296ba8a59f707f5dba4436844e",
+              "review_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.csdlc/evidence/1505/review.json"
+            },
+            "pull_request": 639,
+            "repository": "agent-logic/agent-design-language"
+          }
+        }
+      },
+      "result": {
+        "code": "github_merge_ineligible",
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "github-pr",
+          "correlation_id": "25885-1789556411629",
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "github_merge_ineligible",
+              "message": "explicit operator merge authorization reference required"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "github_merge_ineligible",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "blocked",
+          "timing": {
+            "monotonic_duration_ms": 114,
+            "started_unix_ms": 1789556411629
+          },
+          "wait_owner": "operator"
+        },
+        "message": "explicit operator merge authorization reference required"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/merge-remote-apply-request.json",
+        "--execute"
+      ],
+      "attempt_id": "predecessor-terminal-8",
+      "elapsed_millis": 200,
+      "exit_code": 0,
+      "input": {
+        "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "expected_lifecycle_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+        "operation": {
+          "kind": "github_mutation",
+          "request": {
+            "credential_names": [
+              "GITHUB_TOKEN"
+            ],
+            "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "mutation": {
+              "action": "pull_request_merge",
+              "base": "main",
+              "method": "merge",
+              "review_receipt_digest": "e335f3428b1892e2bda893a96361ee6b89b63d296ba8a59f707f5dba4436844e",
+              "review_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.csdlc/evidence/1505/review.json"
+            },
+            "operator_approval": "synthetic operator authorizes fixture PR639 exact merge",
+            "pull_request": 639,
+            "repository": "agent-logic/agent-design-language"
+          }
+        }
+      },
+      "result": {
+        "command": "github-pr",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "github-pr",
+          "correlation_id": "25919-1789556411751",
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": "ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4",
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 197,
+            "started_unix_ms": 1789556411751
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "read_only": false,
+        "result": {
+          "authority": {
+            "approval_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "authority_issue": 505,
+            "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "readiness_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "schema": "csdlc.v3.canonical_authority_evidence.v1",
+            "selector_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "selector_path": "csdlc-v3/operator/authority-selector.json"
+          },
+          "outcome": {
+            "kind": "github_mutation",
+            "result": {
+              "performed_mutation": null,
+              "receipt": {
+                "adapter": "github-api-operational",
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "idempotent_replay": false,
+                "intent_digest": "3d9ef5110c2024f1a2ad0c7bc984a2b07f61a728f45c1fdbc348f399bea2a64e",
+                "issue": 1505,
+                "operation_digest": "ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4",
+                "pull_request": 639,
+                "readback_digest": "998c876b7dab5691a2f343d778ff5591e5d329bed024eab1d0d3b95f57ea9b8b",
+                "reconciliation_digest": "d6a86d7db72f88731e5d0f46b8d6c8d551fcf349dc1d61dd91c3ab14000ef9c5",
+                "repository": "agent-logic/agent-design-language",
+                "response_digest": "436d35fbbd78f2a4881d031f9ede026a3d3033b5238520002eb57fdd1512097d",
+                "schema": "csdlc.v3.github_mutation_receipt.v2"
+              },
+              "reconciliation": {
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "issue": 1505,
+                "merge": {
+                  "base": "main",
+                  "base_sha": "1111111111111111111111111111111111111111",
+                  "head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                  "merge_commit": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                  "method": "merge",
+                  "pull_request": 639,
+                  "repository": "agent-logic/agent-design-language"
+                },
+                "observed_by": "github-api-read-only",
+                "operation_digest": "ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4",
+                "operation_marker": "<!-- csdlc-v3-operation:ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4 -->",
+                "pull_request": 639,
+                "readback_digest": "998c876b7dab5691a2f343d778ff5591e5d329bed024eab1d0d3b95f57ea9b8b",
+                "remote_object_id": 639,
+                "repository": "agent-logic/agent-design-language",
+                "schema": "csdlc.v3.github_mutation_reconciliation.v1"
+              }
+            }
+          },
+          "schema": "csdlc.v3.operational_remote_dispatch.v1"
+        },
+        "schema": "csdlc.v3.operational_remote.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/merge-idempotent-observation-request.json",
+        "--execute"
+      ],
+      "attempt_id": "predecessor-terminal-9",
+      "elapsed_millis": 133,
+      "exit_code": 0,
+      "input": {
+        "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "expected_lifecycle_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+        "operation": {
+          "kind": "github_mutation",
+          "request": {
+            "credential_names": [
+              "GITHUB_TOKEN"
+            ],
+            "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "mutation": {
+              "action": "pull_request_merge",
+              "base": "main",
+              "method": "merge",
+              "review_receipt_digest": "e335f3428b1892e2bda893a96361ee6b89b63d296ba8a59f707f5dba4436844e",
+              "review_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.csdlc/evidence/1505/review.json"
+            },
+            "operator_approval": "synthetic operator authorizes fixture PR639 exact merge",
+            "pull_request": 639,
+            "repository": "agent-logic/agent-design-language"
+          }
+        }
+      },
+      "result": {
+        "command": "github-pr",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "github-pr",
+          "correlation_id": "25975-1789556411967",
+          "effects": {
+            "class": "guarded_local_and_remote",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": "ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4",
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 131,
+            "started_unix_ms": 1789556411967
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "read_only": false,
+        "result": {
+          "authority": {
+            "approval_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "authority_issue": 505,
+            "exact_review_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "readiness_evidence_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "schema": "csdlc.v3.canonical_authority_evidence.v1",
+            "selector_digest": "eca5b4e1f2e2daa20856de4fb4a33103a753f56c202fdc53900b4d2371131512",
+            "selector_path": "csdlc-v3/operator/authority-selector.json"
+          },
+          "outcome": {
+            "kind": "github_mutation",
+            "result": {
+              "performed_mutation": null,
+              "receipt": {
+                "adapter": "github-api-operational",
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "idempotent_replay": true,
+                "intent_digest": "3d9ef5110c2024f1a2ad0c7bc984a2b07f61a728f45c1fdbc348f399bea2a64e",
+                "issue": 1505,
+                "operation_digest": "ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4",
+                "pull_request": 639,
+                "readback_digest": "998c876b7dab5691a2f343d778ff5591e5d329bed024eab1d0d3b95f57ea9b8b",
+                "reconciliation_digest": "d6a86d7db72f88731e5d0f46b8d6c8d551fcf349dc1d61dd91c3ab14000ef9c5",
+                "repository": "agent-logic/agent-design-language",
+                "response_digest": "436d35fbbd78f2a4881d031f9ede026a3d3033b5238520002eb57fdd1512097d",
+                "schema": "csdlc.v3.github_mutation_receipt.v2"
+              },
+              "reconciliation": {
+                "authenticated": true,
+                "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                "issue": 1505,
+                "merge": {
+                  "base": "main",
+                  "base_sha": "1111111111111111111111111111111111111111",
+                  "head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+                  "merge_commit": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                  "method": "merge",
+                  "pull_request": 639,
+                  "repository": "agent-logic/agent-design-language"
+                },
+                "observed_by": "github-api-read-only",
+                "operation_digest": "ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4",
+                "operation_marker": "<!-- csdlc-v3-operation:ea7643f15360e3ba05f8346097c327291c13c500547c82dece9a1c354b472cd4 -->",
+                "pull_request": 639,
+                "readback_digest": "998c876b7dab5691a2f343d778ff5591e5d329bed024eab1d0d3b95f57ea9b8b",
+                "remote_object_id": 639,
+                "repository": "agent-logic/agent-design-language",
+                "schema": "csdlc.v3.github_mutation_reconciliation.v1"
+              }
+            }
+          },
+          "schema": "csdlc.v3.operational_remote_dispatch.v1"
+        },
+        "schema": "csdlc.v3.operational_remote.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "finish",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/finish-preview-request.json",
+        "--observe-github"
+      ],
+      "attempt_id": "predecessor-terminal-10",
+      "elapsed_millis": 19,
+      "exit_code": 0,
+      "input": {
+        "credential_names": [
+          "GITHUB_TOKEN"
+        ],
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "command": "finish",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "non_operational",
+          "command": "finish",
+          "correlation_id": "26015-1789556412102",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 16,
+            "started_unix_ms": 1789556412102
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": false,
+        "performed_mutation": false,
+        "read_only": true,
+        "requested_mutation": false,
+        "result": {
+          "findings": [],
+          "finish": {
+            "decision": "terminal_closed_out",
+            "head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "pull_request": 639
+          },
+          "issue": 1505,
+          "operational_authority": false,
+          "repository": "agent-logic/agent-design-language",
+          "route": "finish",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "finish",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/finish-linked-request.json",
+        "--observe-github"
+      ],
+      "attempt_id": "predecessor-terminal-11",
+      "elapsed_millis": 92,
+      "exit_code": 0,
+      "input": {
+        "credential_names": [
+          "GITHUB_TOKEN"
+        ],
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language",
+        "terminal_state": {
+          "receipt_path": ".csdlc/evidence/1505/terminal-receipt.json",
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture",
+          "state_path": ".csdlc/v3/issues/1505/terminal.json"
+        }
+      },
+      "result": {
+        "command": "finish",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "finish",
+          "correlation_id": "26023-1789556412123",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 89,
+            "started_unix_ms": 1789556412123
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "performed_mutation": true,
+        "read_only": false,
+        "requested_mutation": false,
+        "result": {
+          "findings": [],
+          "finish": {
+            "decision": "terminal_closed_out",
+            "head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "pull_request": 639
+          },
+          "issue": 1505,
+          "operational_authority": true,
+          "repository": "agent-logic/agent-design-language",
+          "route": "finish",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "finish",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/finish-primary-request.json",
+        "--observe-github"
+      ],
+      "attempt_id": "predecessor-terminal-12",
+      "elapsed_millis": 92,
+      "exit_code": 0,
+      "input": {
+        "credential_names": [
+          "GITHUB_TOKEN"
+        ],
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language",
+        "terminal_state": {
+          "receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/evidence/1505/terminal-receipt.json",
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+          "state_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/v3/issues/1505/terminal.json"
+        }
+      },
+      "result": {
+        "command": "finish",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "finish",
+          "correlation_id": "26051-1789556412220",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 89,
+            "started_unix_ms": 1789556412220
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": true,
+        "performed_mutation": true,
+        "read_only": false,
+        "requested_mutation": false,
+        "result": {
+          "findings": [],
+          "finish": {
+            "decision": "terminal_closed_out",
+            "head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+            "issue": 1505,
+            "pull_request": 639
+          },
+          "issue": 1505,
+          "operational_authority": true,
+          "repository": "agent-logic/agent-design-language",
+          "route": "finish",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "clean",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-foreign-dirty-guard-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-13",
+      "elapsed_millis": 22,
+      "exit_code": 0,
+      "input": {
+        "cleanup": {
+          "approved_parent": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees",
+          "candidate_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+          "remove": false,
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+          "terminal_receipt": true,
+          "terminal_receipt_digest": "1e284874a448da5ee4180c0d8567ec2e0226411f61d54e015b78bda0ada6ab8d",
+          "terminal_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/evidence/1505/terminal-receipt.json"
+        },
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "command": "clean",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "non_operational",
+          "command": "clean",
+          "correlation_id": "26080-1789556412320",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 20,
+            "started_unix_ms": 1789556412320
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": false,
+        "performed_mutation": false,
+        "read_only": true,
+        "requested_mutation": false,
+        "result": {
+          "cleanup": {
+            "decision": "dirty",
+            "path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control"
+          },
+          "findings": [],
+          "issue": 1505,
+          "operational_authority": false,
+          "repository": "agent-logic/agent-design-language",
+          "route": "clean",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "clean",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-tracked-dirty-guard-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-14",
+      "elapsed_millis": 19,
+      "exit_code": 0,
+      "input": {
+        "cleanup": {
+          "approved_parent": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees",
+          "candidate_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+          "remove": false,
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+          "terminal_receipt": true,
+          "terminal_receipt_digest": "1e284874a448da5ee4180c0d8567ec2e0226411f61d54e015b78bda0ada6ab8d",
+          "terminal_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/evidence/1505/terminal-receipt.json"
+        },
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "command": "clean",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "non_operational",
+          "command": "clean",
+          "correlation_id": "26087-1789556412351",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 16,
+            "started_unix_ms": 1789556412351
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": false,
+        "performed_mutation": false,
+        "read_only": true,
+        "requested_mutation": false,
+        "result": {
+          "cleanup": {
+            "decision": "dirty",
+            "path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control"
+          },
+          "findings": [],
+          "issue": 1505,
+          "operational_authority": false,
+          "repository": "agent-logic/agent-design-language",
+          "route": "clean",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "clean",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-preview-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-15",
+      "elapsed_millis": 26,
+      "exit_code": 0,
+      "input": {
+        "cleanup": {
+          "approved_parent": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees",
+          "candidate_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+          "remove": false,
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+          "terminal_receipt": true,
+          "terminal_receipt_digest": "1e284874a448da5ee4180c0d8567ec2e0226411f61d54e015b78bda0ada6ab8d",
+          "terminal_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/evidence/1505/terminal-receipt.json"
+        },
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "command": "clean",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "non_operational",
+          "command": "clean",
+          "correlation_id": "26094-1789556412379",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 24,
+            "started_unix_ms": 1789556412379
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": false,
+        "performed_mutation": false,
+        "read_only": true,
+        "requested_mutation": false,
+        "result": {
+          "cleanup": {
+            "decision": "removable",
+            "path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+            "receipt_digest": "26abff696008e00f0ce0d89736023560241ce225f12b5fc8fc758dda65b1614f"
+          },
+          "findings": [],
+          "issue": 1505,
+          "operational_authority": false,
+          "repository": "agent-logic/agent-design-language",
+          "route": "clean",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "clean",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-stale-preview-guard-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-16",
+      "elapsed_millis": 26,
+      "exit_code": 2,
+      "input": {
+        "cleanup": {
+          "approved_parent": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees",
+          "candidate_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+          "preview_receipt_digest": "06abff696008e00f0ce0d89736023560241ce225f12b5fc8fc758dda65b1614f",
+          "remove": true,
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+          "terminal_receipt": true,
+          "terminal_receipt_digest": "1e284874a448da5ee4180c0d8567ec2e0226411f61d54e015b78bda0ada6ab8d",
+          "terminal_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/evidence/1505/terminal-receipt.json"
+        },
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "command": "clean",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "clean",
+          "correlation_id": "26103-1789556412414",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "preview_receipt_mismatch",
+              "message": "cleanup removal requires a preview receipt for the same Git registration"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "preview_receipt_mismatch",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "blocked",
+          "timing": {
+            "monotonic_duration_ms": 24,
+            "started_unix_ms": 1789556412414
+          },
+          "wait_owner": "operator"
+        },
+        "operational_authority": false,
+        "performed_mutation": false,
+        "read_only": true,
+        "requested_mutation": true,
+        "result": {
+          "findings": [
+            {
+              "code": "preview_receipt_mismatch",
+              "message": "cleanup removal requires a preview receipt for the same Git registration"
+            }
+          ],
+          "issue": 1505,
+          "operational_authority": false,
+          "repository": "agent-logic/agent-design-language",
+          "route": "clean",
+          "status": "blocked"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "clean",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-refresh-preview-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-17",
+      "elapsed_millis": 26,
+      "exit_code": 0,
+      "input": {
+        "cleanup": {
+          "approved_parent": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees",
+          "candidate_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+          "remove": false,
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+          "terminal_receipt": true,
+          "terminal_receipt_digest": "1e284874a448da5ee4180c0d8567ec2e0226411f61d54e015b78bda0ada6ab8d",
+          "terminal_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/evidence/1505/terminal-receipt.json"
+        },
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "command": "clean",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "non_operational",
+          "command": "clean",
+          "correlation_id": "26112-1789556412448",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 24,
+            "started_unix_ms": 1789556412448
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": false,
+        "performed_mutation": false,
+        "read_only": true,
+        "requested_mutation": false,
+        "result": {
+          "cleanup": {
+            "decision": "removable",
+            "path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+            "receipt_digest": "26abff696008e00f0ce0d89736023560241ce225f12b5fc8fc758dda65b1614f"
+          },
+          "findings": [],
+          "issue": 1505,
+          "operational_authority": false,
+          "repository": "agent-logic/agent-design-language",
+          "route": "clean",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "clean",
+        "--request",
+        "$FIXTURE_ROOT/.git/installed-predecessor/cleanup-execute-request.json"
+      ],
+      "attempt_id": "predecessor-terminal-18",
+      "elapsed_millis": 100,
+      "exit_code": 0,
+      "input": {
+        "cleanup": {
+          "approved_parent": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees",
+          "candidate_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+          "preview_receipt_digest": "26abff696008e00f0ce0d89736023560241ce225f12b5fc8fc758dda65b1614f",
+          "remove": true,
+          "repository_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+          "terminal_receipt": true,
+          "terminal_receipt_digest": "1e284874a448da5ee4180c0d8567ec2e0226411f61d54e015b78bda0ada6ab8d",
+          "terminal_receipt_path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git/csdlc-v3/local/evidence/1505/terminal-receipt.json"
+        },
+        "expected_head_sha": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+        "issue": 1505,
+        "mode": "closing",
+        "pull_request": 639,
+        "repository": "agent-logic/agent-design-language"
+      },
+      "result": {
+        "command": "clean",
+        "cutover_issue": 505,
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "non_operational",
+          "command": "clean",
+          "correlation_id": "26121-1789556412483",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "ready",
+          "timing": {
+            "monotonic_duration_ms": 98,
+            "started_unix_ms": 1789556412483
+          },
+          "wait_owner": "none"
+        },
+        "operational_authority": false,
+        "performed_mutation": true,
+        "read_only": false,
+        "requested_mutation": true,
+        "result": {
+          "cleanup": {
+            "decision": "removed",
+            "path": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+            "receipt_digest": "26abff696008e00f0ce0d89736023560241ce225f12b5fc8fc758dda65b1614f"
+          },
+          "findings": [],
+          "issue": 1505,
+          "operational_authority": false,
+          "repository": "agent-logic/agent-design-language",
+          "route": "clean",
+          "status": "ready"
+        },
+        "schema": "csdlc.v3.terminal_cleanup_cutover.v1"
+      },
+      "topology": "primary"
+    }
+  ],
+  "cleanup_topology": {
+    "active_issue_retained": true,
+    "active_issue_worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture",
+    "approved_parent": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees",
+    "baseline_head": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+    "cleanup_control_worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control",
+    "control_git_common_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git",
+    "control_head": "1da5d3430acbd4daeb3bf7aa338c692f556c77e7",
+    "control_status_porcelain": "",
+    "primary_git_common_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture/.git",
+    "primary_root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+    "registered_paths": [
+      "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/.csdlc/evidence/873/sim-07/retry-operational/terminal-e2e-33/fixture",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/adl-issue-1505-installed-intent-fixture",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/25581-0-merge-finish-clean/worktrees/cleanup-control"
+    ],
+    "schema": "csdlc.v3.issue873.cleanup_control_topology.v1",
+    "tracked_inventory_sha256": "266aa02bbbdd7604b9da66f879f5fc71c68681b3ceeb8dcc6b48103d8cca2be3"
+  },
+  "issue": 873,
+  "provenance": {
+    "installed_binary_blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
+    "source_binding": "Exact retained predecessor bytes; isolated fixture generated by the installed candidate harness",
+    "source_has_uncommitted_changes": false,
+    "source_head": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8"
+  },
+  "schema": "csdlc.v3.installed_intent_attempts.v1"
+}

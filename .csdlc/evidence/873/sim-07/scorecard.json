@@ -1,25 +1,97 @@
 {
   "schema": "adl.csdlc.issue873.scorecard.v1",
   "candidate_revision": "f31b1b710074fdb51f41400b32b79c633bc3336e",
-  "status_vocabulary": ["pass", "fail", "not_proven"],
+  "status_vocabulary": [
+    "pass",
+    "fail",
+    "not_proven"
+  ],
   "gates": [
-    {"gate":"exact candidate and installed provenance","status":"pass","evidence":"candidate.json"},
-    {"gate":"primary and genuine linked public-command entrypoints","status":"pass","evidence":"installed-journey-summary.json"},
-    {"gate":"healthy intent and terminal journey","status":"pass","evidence":"observations/"},
-    {"gate":"27 integration targets","status":"pass","evidence":"corpus-manifest.json"},
-    {"gate":"five diagnostic and remote lib regressions","status":"pass","evidence":"secondary/"},
-    {"gate":"warm prepared-start at or below three minutes","status":"pass","evidence":"measurements/prepared-start.json"},
-    {"gate":"OS-cold prepared-start","status":"not_proven","evidence":"findings.json#QUAL-873-002"},
-    {"gate":"retained #872 conversion evidence validation","status":"pass","evidence":"results/retained_issue872_conversion_validator.result.json"},
-    {"gate":"current ignored old-owner conversion release gate","status":"not_proven","evidence":"findings.json#QUAL-873-001"},
-    {"gate":"finite recovery including conversion","status":"not_proven","evidence":"findings.json#QUAL-873-001"},
-    {"gate":"idempotent duplicate remote effects","status":"pass","evidence":"observations/installed_exact_terminal_journey.attempts.json"},
-    {"gate":"diagnostic observation and curl safeguards","status":"pass","evidence":"secondary/"},
-    {"gate":"100 percent correlation on emitted result envelopes","status":"pass","evidence":"corpus-manifest.json"},
-    {"gate":"50 percent avoidable retry reduction on a comparable corpus","status":"not_proven","evidence":"findings.json#QUAL-873-003"},
-    {"gate":"candidate source CI","status":"pass","evidence":"aggregate-ci.json"},
-    {"gate":"issue #873 evidence PR CI","status":"not_proven","evidence":"findings.json#QUAL-873-004"},
-    {"gate":"independent exact-head review of the remediated evidence commit","status":"not_proven","evidence":"findings.json#QUAL-873-005"}
+    {
+      "gate": "exact candidate and installed provenance",
+      "status": "pass",
+      "evidence": "candidate.json"
+    },
+    {
+      "gate": "primary and genuine linked public-command entrypoints",
+      "status": "pass",
+      "evidence": "installed-journey-summary.json"
+    },
+    {
+      "gate": "healthy intent and terminal journey",
+      "status": "pass",
+      "evidence": "observations/"
+    },
+    {
+      "gate": "27 integration targets",
+      "status": "pass",
+      "evidence": "corpus-manifest.json"
+    },
+    {
+      "gate": "five diagnostic and remote lib regressions",
+      "status": "pass",
+      "evidence": "secondary/"
+    },
+    {
+      "gate": "warm prepared-start at or below three minutes",
+      "status": "pass",
+      "evidence": "measurements/prepared-start.json"
+    },
+    {
+      "gate": "OS-cold prepared-start",
+      "status": "not_proven",
+      "evidence": "findings.json#QUAL-873-002"
+    },
+    {
+      "gate": "retained #872 conversion evidence validation",
+      "status": "pass",
+      "evidence": "results/retained_issue872_conversion_validator.result.json"
+    },
+    {
+      "gate": "current ignored old-owner conversion release gate",
+      "status": "not_proven",
+      "evidence": "findings.json#QUAL-873-001"
+    },
+    {
+      "gate": "finite recovery including conversion",
+      "status": "not_proven",
+      "evidence": "findings.json#QUAL-873-001"
+    },
+    {
+      "gate": "idempotent duplicate remote effects",
+      "status": "pass",
+      "evidence": "observations/installed_exact_terminal_journey.attempts.json"
+    },
+    {
+      "gate": "diagnostic observation and curl safeguards",
+      "status": "pass",
+      "evidence": "secondary/"
+    },
+    {
+      "gate": "100 percent correlation on emitted result envelopes",
+      "status": "pass",
+      "evidence": "corpus-manifest.json"
+    },
+    {
+      "gate": "50 percent avoidable retry reduction on a comparable corpus",
+      "status": "not_proven",
+      "evidence": "measurements/retry-reduction/run-status.json"
+    },
+    {
+      "gate": "candidate source CI",
+      "status": "pass",
+      "evidence": "aggregate-ci.json"
+    },
+    {
+      "gate": "issue #873 evidence PR CI",
+      "status": "not_proven",
+      "evidence": "findings.json#QUAL-873-004"
+    },
+    {
+      "gate": "independent exact-head review of the remediated evidence commit",
+      "status": "not_proven",
+      "evidence": "findings.json#QUAL-873-005"
+    }
   ],
   "result": "not_proven",
   "passing_decision_available": false
