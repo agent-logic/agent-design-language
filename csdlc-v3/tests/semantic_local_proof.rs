@@ -839,6 +839,11 @@ fn tracked_projection_rebind_converges_before_proof() {
             .unwrap();
     csdlc_v3::commands::proof::intent::verify_current_inputs(&linked, &retained).unwrap();
 
+    let state = linked.join(".csdlc/v3/issues/870/state.json");
+    fs::write(&state, "{}\n").unwrap();
+    assert!(csdlc_v3::commands::proof::intent::verify_current_inputs(&linked, &retained).is_err());
+    success(fixture.run(&linked, &["rebuild", "870"]));
+
     let spp = linked.join(".csdlc/v3/issues/870/cards/spp.md");
     fs::write(&spp, "tampered projection\n").unwrap();
     let rejected = fixture.run(&linked, &["proof", "870"]);

@@ -1295,10 +1295,22 @@ pub fn verify_current_inputs(root: &Path, proof: &Value) -> Result<(), String> {
         return Err("intent_proof_identity_or_digest_mismatch".into());
     }
     let plan = context.plan()?;
-    if context.semantic_context().is_ok() {
-        verify_semantic_execution_inputs(&context, &plan.validators, proof)
-    } else {
-        verify_execution_inputs(root, &plan.validators, proof)
+    let (semantic_root, key) = context.semantic_root_key()?;
+    match crate::storage::DurableTransactionStore::observe_issue(&semantic_root, &key)
+        .map_err(|_| "intent_semantic_state_observation_failed")?
+    {
+        crate::storage::semantic::Observation::Absent
+        | crate::storage::semantic::Observation::LegacyMigrationRequired => {
+            verify_execution_inputs(root, &plan.validators, proof)
+        }
+        crate::storage::semantic::Observation::Current(_)
+        | crate::storage::semantic::Observation::ProjectionRepairRequired(_) => {
+            context.semantic_context()?;
+            verify_semantic_execution_inputs(&context, &plan.validators, proof)
+        }
+        crate::storage::semantic::Observation::RecoveryRequired => {
+            Err("intent_semantic_recovery_required".into())
+        }
     }
 }
 
