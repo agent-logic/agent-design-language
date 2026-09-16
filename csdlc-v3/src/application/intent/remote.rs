@@ -175,6 +175,7 @@ fn mutation(
     recovery: Option<GithubMutationRecovery>,
     pull_request: Option<u64>,
     operator_approval: Option<String>,
+    legacy_coordination_compatibility: bool,
 ) -> Result<Value, String> {
     context.fresh_integrity()?;
     let native = mutation_request(
@@ -222,10 +223,11 @@ fn mutation(
     // and makes exact replay idempotent. Admit only that one operation through
     // the retained native owner; every other legacy mutation continues through
     // semantic_mutation and is denied by semantic_context.
-    if matches!(
-        native.mutation,
-        GithubMutation::IssueCompleteCoordination { .. }
-    ) && context.semantic_migration_required()?
+    if legacy_coordination_compatibility
+        && matches!(
+            native.mutation,
+            GithubMutation::IssueCompleteCoordination { .. }
+        )
     {
         let result = match execute_github_mutation(&context.root, native, &mut process) {
             Ok(result) => result,
@@ -595,7 +597,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     body: Some(plan.publication.body),
                 },
             };
-            let mut outcome = mutation(context, operation, None, pull_request, None)?;
+            let mut outcome = mutation(context, operation, None, pull_request, None, false)?;
             if outcome["status"] == "recovery_required" {
                 return Ok(outcome);
             }
@@ -639,6 +641,12 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             );
             if (request.command == "github-issue") != issue_operation {
                 return Err("intent_remote_operation_family_mismatch".into());
+            }
+            let legacy_migration_required = context.semantic_migration_required()?;
+            if legacy_migration_required
+                && !matches!(operation, GithubMutation::IssueCompleteCoordination { .. })
+            {
+                return Err("intent_semantic_migration_required".into());
             }
             let mut pull_request = None;
             if !issue_operation {
@@ -729,6 +737,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 recovery,
                 pull_request,
                 operator_approval,
+                legacy_migration_required,
             )
         }
         _ => Err("intent_remote_command_unknown".into()),

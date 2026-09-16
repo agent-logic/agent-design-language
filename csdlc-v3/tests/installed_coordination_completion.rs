@@ -86,10 +86,13 @@ fn operation(body: &str) -> Value {
     json!({"action":"issue_complete_coordination","operator_approval":"Synthetic operator approves this exact completion","completion":{"current_body":body,"expected_updated_at":"2026-09-16T00:00:00Z","rationale":"All declared children have authenticated delivery evidence","evidence":[{"path":".csdlc/evidence/505/coordination.json","digest":blake3::hash(b"synthetic child delivery proof\n").to_hex().to_string()}]}})
 }
 fn execute(fixture: &mut Fixture, linked: &Path, path: &Path) -> Output {
+    execute_family(fixture, linked, "github-issue", path)
+}
+fn execute_family(fixture: &mut Fixture, linked: &Path, family: &str, path: &Path) -> Output {
     fixture.run(
         linked,
         &[
-            "github-issue",
+            family,
             "505",
             "--operation",
             path.to_str().unwrap(),
@@ -402,19 +405,67 @@ fn installed_legacy_coordination_completion_preserves_all_denials() {
 
 #[test]
 fn installed_legacy_non_coordination_mutations_remain_denied() {
-    let (mut fixture, linked, _) = setup("legacy-non-coordination-denied");
-    retain_legacy_only(&fixture);
-    let comment = fixture.write_json(
-        "legacy-comment.json",
-        &json!({"action":"issue_comment","body":"must remain denied"}),
-    );
-    let denied = execute(&mut fixture, &linked, &comment);
-    assert!(!denied.status.success());
-    assert!(
-        String::from_utf8_lossy(&denied.stdout).contains("intent_semantic_migration_required"),
-        "wrong non-coordination denial: {denied:?}"
-    );
-    assert_eq!(fixture.remote_effects(), 0);
+    let cases = [
+        (
+            "issue-create",
+            "github-issue",
+            json!({"action":"issue_create","title":"denied","body":"denied"}),
+        ),
+        (
+            "issue-comment",
+            "github-issue",
+            json!({"action":"issue_comment","body":"denied"}),
+        ),
+        (
+            "issue-edit",
+            "github-issue",
+            json!({"action":"issue_edit","title":"denied","body":null}),
+        ),
+        (
+            "issue-close",
+            "github-issue",
+            json!({"action":"issue_close","rationale":"denied","current_body":"denied","disposition":"no_op","github_state_reason":"not_planned"}),
+        ),
+        (
+            "pr-create",
+            "github-pr",
+            json!({"action":"pull_request_create","base":"main","head":"codex/denied","title":"denied","body":"Closes #505","draft":true}),
+        ),
+        (
+            "pr-update",
+            "github-pr",
+            json!({"action":"pull_request_update","title":"denied","body":null}),
+        ),
+        (
+            "pr-ready",
+            "github-pr",
+            json!({"action":"pull_request_ready"}),
+        ),
+        (
+            "pr-merge",
+            "github-pr",
+            json!({"action":"pull_request_merge","base":"main","method":"merge","operator_approval":"denied on legacy state"}),
+        ),
+    ];
+    for (label, family, operation) in cases {
+        let (mut fixture, linked, _) = setup(&format!("legacy-{label}-denied"));
+        retain_legacy_only(&fixture);
+        let path = fixture.write_json(&format!("legacy-{label}.json"), &operation);
+        let denied = execute_family(&mut fixture, &linked, family, &path);
+        assert!(
+            !denied.status.success(),
+            "legacy mutation accepted: {label}"
+        );
+        assert!(
+            String::from_utf8_lossy(&denied.stdout).contains("intent_semantic_migration_required"),
+            "wrong non-coordination denial for {label}: {denied:?}"
+        );
+        assert_eq!(
+            fixture.remote_effects(),
+            0,
+            "legacy mutation escaped: {label}"
+        );
+    }
 }
 
 #[test]
