@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implementation and focused local proof are complete after one exact-head review round. The review found unsafe single-backtick citation delimiters, incomplete governed synthesis/remediation/test semantics, path-based create-only and confinement races, and contradictory SOR truth. Citations now use variable-length code spans; every governed source/action/test field is rendered and asserted; output creation is anchored to opened no-follow directory handles and committed by a platform no-replace rename; competing-target and parent-swap regressions pass; current installed output is retained at the remediation proof path. A distinct fresh exact-head review remains required before publication."
+plan_summary: "Implementation and focused proof are complete after three findings-first review rounds. Earlier citation, semantic-completeness, create-only confinement, and SOR-truth findings are remediated. The current-base review additionally found that verified artifact bytes were discarded before governed bundle parsing. Rendering now parses and canonically validates synthesis, remediation, and test-plan bundles only from the retained verified snapshot; a deterministic post-snapshot path-swap regression proves later filesystem replacement cannot alter parsed inputs. A different fresh exact-head review remains required before publication."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-RENDER-MD] Render an approved review as Markdown`.
 
-Implementation and focused local proof are complete after one exact-head review round. The review found unsafe single-backtick citation delimiters, incomplete governed synthesis/remediation/test semantics, path-based create-only and confinement races, and contradictory SOR truth. Citations now use variable-length code spans; every governed source/action/test field is rendered and asserted; output creation is anchored to opened no-follow directory handles and committed by a platform no-replace rename; competing-target and parent-swap regressions pass; current installed output is retained at the remediation proof path. A distinct fresh exact-head review remains required before publication.
+Implementation and focused proof are complete after three findings-first review rounds. Earlier citation, semantic-completeness, create-only confinement, and SOR-truth findings are remediated. The current-base review additionally found that verified artifact bytes were discarded before governed bundle parsing. Rendering now parses and canonically validates synthesis, remediation, and test-plan bundles only from the retained verified snapshot; a deterministic post-snapshot path-swap regression proves later filesystem replacement cannot alter parsed inputs. A different fresh exact-head review remains required before publication.
 
 ## PVF Lane Plan
 

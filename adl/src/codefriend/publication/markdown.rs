@@ -4,17 +4,19 @@ use super::{
     approval::{read_decision_head, DecisionKind},
     manifest::{
         destination_digest, read_publication, read_review, reject_symlink_components,
-        verify_artifacts,
+        snapshot_artifacts, VerifiedArtifact,
     },
 };
 use crate::codefriend::{
     actions::{
-        remediation::{self, RemediationPlan},
-        test_plan::{self, TestPlan},
+        remediation::{self, RemediationManifest, RemediationPlan, REMEDIATION_MANIFEST_SCHEMA},
+        test_plan::{self, TestPlan, TestPlanManifest, TEST_PLAN_MANIFEST_SCHEMA},
     },
-    evidence::{hash, valid_digest},
+    evidence::{contracts::ReviewRecord, hash, valid_digest},
     ingestion::{digest, unsafe_content, validate_path},
-    review::synthesis::{read_synthesis_from_file, ReviewSynthesis, SynthesizedFinding},
+    review::synthesis::{
+        self, ReviewSynthesis, SynthesisManifest, SynthesizedFinding, SYNTHESIS_MANIFEST_SCHEMA,
+    },
 };
 use anyhow::{ensure, Context, Result};
 use serde::{Deserialize, Serialize};
@@ -103,7 +105,7 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
     let review = read_review(&options.review_record)?;
     let publication = read_publication(&options.publication)?;
     publication.validate(&review)?;
-    verify_artifacts(&options.artifact_root, &publication.artifact_manifest)?;
+    let artifacts = snapshot_artifacts(&options.artifact_root, &publication.artifact_manifest)?;
     let decision = read_decision_head(&options.approval_store, &review, &publication)?
         .ok_or_else(|| anyhow::anyhow!("markdown_requires_publication_decision"))?;
     ensure!(
@@ -131,29 +133,16 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         "markdown_target_identity_mismatch"
     );
 
-    let synthesis_path = approved_input_path(
-        &options.artifact_root,
-        &options.synthesis,
-        &publication.artifact_manifest,
-    )?;
-    let remediation_path = approved_input_path(
-        &options.artifact_root,
-        &options.remediation_plan,
-        &publication.artifact_manifest,
-    )?;
-    let test_path = approved_input_path(
-        &options.artifact_root,
-        &options.test_plan,
-        &publication.artifact_manifest,
-    )?;
+    let synthesis_path = approved_input_path(&options.synthesis, &publication.artifact_manifest)?;
+    let remediation_path =
+        approved_input_path(&options.remediation_plan, &publication.artifact_manifest)?;
+    let test_path = approved_input_path(&options.test_plan, &publication.artifact_manifest)?;
     require_bundle_files(
-        &options.artifact_root,
         &options.synthesis,
         &["synthesis.json", "manifest.json", "review-record.json"],
-        &publication.artifact_manifest,
+        &artifacts,
     )?;
     require_bundle_files(
-        &options.artifact_root,
         &options.remediation_plan,
         &[
             "remediation-plan.json",
@@ -162,10 +151,9 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
             "synthesis-manifest.json",
             "review-record.json",
         ],
-        &publication.artifact_manifest,
+        &artifacts,
     )?;
     require_bundle_files(
-        &options.artifact_root,
         &options.test_plan,
         &[
             "test-plan.json",
@@ -174,12 +162,12 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
             "synthesis-manifest.json",
             "review-record.json",
         ],
-        &publication.artifact_manifest,
+        &artifacts,
     )?;
 
-    let synthesis = read_synthesis_from_file(&synthesis_path)?;
-    let remediation = remediation::read_plan_from_file(&remediation_path)?;
-    let tests = test_plan::read_plan_from_file(&test_path)?;
+    let synthesis = read_synthesis_from_snapshot(&artifacts, &synthesis_path)?;
+    let remediation = read_remediation_from_snapshot(&artifacts, &remediation_path)?;
+    let tests = read_test_plan_from_snapshot(&artifacts, &test_path)?;
     validate_source_identity(&review, &synthesis, &remediation, &tests)?;
     validate_plan_parity(&synthesis, &remediation, &tests)?;
 
@@ -265,7 +253,6 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
 }
 
 fn approved_input_path(
-    artifact_root: &Path,
     relative: &Path,
     artifacts: &[crate::codefriend::evidence::contracts::Artifact],
 ) -> Result<PathBuf> {
@@ -281,27 +268,193 @@ fn approved_input_path(
         valid_digest(&artifact.digest),
         "invalid_markdown_input_digest"
     );
-    let path = artifact_root.join(relative);
-    ensure!(
-        path.starts_with(artifact_root),
-        "markdown_input_outside_artifact_root"
-    );
-    Ok(path)
+    Ok(PathBuf::from(relative))
 }
 
 fn require_bundle_files(
-    artifact_root: &Path,
     selected: &Path,
     required_names: &[&str],
-    artifacts: &[crate::codefriend::evidence::contracts::Artifact],
+    artifacts: &[VerifiedArtifact],
 ) -> Result<()> {
     let parent = selected
         .parent()
         .ok_or_else(|| anyhow::anyhow!("markdown_bundle_parent_missing"))?;
     for name in required_names {
-        approved_input_path(artifact_root, &parent.join(name), artifacts)?;
+        snapshot_bytes(artifacts, &parent.join(name))?;
     }
     Ok(())
+}
+
+fn snapshot_bytes<'a>(artifacts: &'a [VerifiedArtifact], relative: &Path) -> Result<&'a [u8]> {
+    let relative = relative
+        .to_str()
+        .ok_or_else(|| anyhow::anyhow!("markdown_input_path_not_utf8"))?;
+    validate_path(relative)?;
+    artifacts
+        .iter()
+        .find(|artifact| artifact.path == relative)
+        .map(|artifact| artifact.bytes.as_slice())
+        .ok_or_else(|| anyhow::anyhow!("markdown_input_not_in_verified_snapshot"))
+}
+
+fn snapshot_json<T: serde::de::DeserializeOwned>(
+    artifacts: &[VerifiedArtifact],
+    relative: &Path,
+    context: &'static str,
+) -> Result<T> {
+    serde_json::from_slice(snapshot_bytes(artifacts, relative)?).context(context)
+}
+
+fn bundle_path(selected: &Path, name: &str) -> Result<PathBuf> {
+    Ok(selected
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("markdown_bundle_parent_missing"))?
+        .join(name))
+}
+
+fn read_synthesis_from_snapshot(
+    artifacts: &[VerifiedArtifact],
+    selected: &Path,
+) -> Result<ReviewSynthesis> {
+    ensure!(
+        selected.file_name().and_then(|name| name.to_str()) == Some("synthesis.json"),
+        "synthesis_bundle_requires_canonical_synthesis_ref"
+    );
+    let synthesis: ReviewSynthesis =
+        snapshot_json(artifacts, selected, "synthesis_snapshot_invalid")?;
+    let manifest: SynthesisManifest = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "manifest.json")?,
+        "synthesis_manifest_snapshot_invalid",
+    )?;
+    let review: ReviewRecord = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "review-record.json")?,
+        "synthesis_review_snapshot_invalid",
+    )?;
+    validate_synthesis_snapshot(&manifest, &synthesis, &review)?;
+    Ok(synthesis)
+}
+
+fn validate_synthesis_snapshot(
+    manifest: &SynthesisManifest,
+    synthesis: &ReviewSynthesis,
+    review: &ReviewRecord,
+) -> Result<()> {
+    review.validate()?;
+    ensure!(
+        manifest.schema == SYNTHESIS_MANIFEST_SCHEMA
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.review_record_ref == "review-record.json",
+        "invalid_synthesis_manifest"
+    );
+    ensure!(
+        manifest.synthesis_digest == hash(synthesis)?
+            && manifest.review_record_digest == hash(review)?
+            && manifest.synthesized_finding_count == synthesis.synthesized_findings.len()
+            && manifest.input_finding_count == synthesis.input_finding_count
+            && synthesis.review_record_digest == hash(review)?
+            && synthesis::synthesize(review)? == *synthesis,
+        "synthesis_snapshot_digest_or_canonicality_mismatch"
+    );
+    Ok(())
+}
+
+fn read_remediation_from_snapshot(
+    artifacts: &[VerifiedArtifact],
+    selected: &Path,
+) -> Result<RemediationPlan> {
+    ensure!(
+        selected.file_name().and_then(|name| name.to_str()) == Some("remediation-plan.json"),
+        "remediation_plan_reference_mismatch"
+    );
+    let plan: RemediationPlan =
+        snapshot_json(artifacts, selected, "remediation_plan_snapshot_invalid")?;
+    let manifest: RemediationManifest = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "manifest.json")?,
+        "remediation_manifest_snapshot_invalid",
+    )?;
+    let synthesis: ReviewSynthesis = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "synthesis.json")?,
+        "remediation_synthesis_snapshot_invalid",
+    )?;
+    let synthesis_manifest: SynthesisManifest = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "synthesis-manifest.json")?,
+        "remediation_synthesis_manifest_snapshot_invalid",
+    )?;
+    let review: ReviewRecord = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "review-record.json")?,
+        "remediation_review_snapshot_invalid",
+    )?;
+    validate_synthesis_snapshot(&synthesis_manifest, &synthesis, &review)?;
+    ensure!(
+        manifest.schema == REMEDIATION_MANIFEST_SCHEMA
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.synthesis_manifest_ref == "synthesis-manifest.json"
+            && manifest.review_record_ref == "review-record.json"
+            && manifest.remediation_plan_ref == "remediation-plan.json"
+            && manifest.synthesis_digest == plan.synthesis_digest
+            && manifest.synthesis_manifest_digest == hash(&synthesis_manifest)?
+            && manifest.review_record_digest == hash(&review)?
+            && manifest.remediation_plan_digest == hash(&plan)?
+            && manifest.action_count == plan.actions.len()
+            && manifest.omitted_finding_count == plan.omitted_findings.len()
+            && remediation::plan(&synthesis, &review)? == plan,
+        "remediation_snapshot_digest_or_canonicality_mismatch"
+    );
+    Ok(plan)
+}
+
+fn read_test_plan_from_snapshot(
+    artifacts: &[VerifiedArtifact],
+    selected: &Path,
+) -> Result<TestPlan> {
+    ensure!(
+        selected.file_name().and_then(|name| name.to_str()) == Some("test-plan.json"),
+        "test_plan_bundle_requires_canonical_plan_ref"
+    );
+    let plan: TestPlan = snapshot_json(artifacts, selected, "test_plan_snapshot_invalid")?;
+    let manifest: TestPlanManifest = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "manifest.json")?,
+        "test_plan_manifest_snapshot_invalid",
+    )?;
+    let synthesis: ReviewSynthesis = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "synthesis.json")?,
+        "test_plan_synthesis_snapshot_invalid",
+    )?;
+    let synthesis_manifest: SynthesisManifest = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "synthesis-manifest.json")?,
+        "test_plan_synthesis_manifest_snapshot_invalid",
+    )?;
+    let review: ReviewRecord = snapshot_json(
+        artifacts,
+        &bundle_path(selected, "review-record.json")?,
+        "test_plan_review_snapshot_invalid",
+    )?;
+    validate_synthesis_snapshot(&synthesis_manifest, &synthesis, &review)?;
+    ensure!(
+        manifest.schema == TEST_PLAN_MANIFEST_SCHEMA
+            && manifest.synthesis_manifest_ref == "synthesis-manifest.json"
+            && manifest.synthesis_ref == "synthesis.json"
+            && manifest.review_record_ref == "review-record.json"
+            && manifest.test_plan_ref == "test-plan.json"
+            && manifest.synthesis_manifest_digest == hash(&synthesis_manifest)?
+            && manifest.synthesis_digest == hash(&synthesis)?
+            && manifest.review_record_digest == hash(&review)?
+            && manifest.test_plan_digest == hash(&plan)?
+            && manifest.test_case_count == plan.test_cases.len()
+            && manifest.omitted_finding_count == plan.omitted_findings.len()
+            && test_plan::plan(&synthesis)? == plan,
+        "test_plan_snapshot_digest_or_canonicality_mismatch"
+    );
+    Ok(plan)
 }
 
 fn validate_source_identity(
@@ -1032,6 +1185,28 @@ mod tests {
         assert!(!html.contains("<a "), "{html}");
         assert!(!html.contains("<em>"), "{html}");
         assert!(html.contains("[click](https://example.invalid)"), "{html}");
+    }
+
+    #[test]
+    fn verified_snapshot_parse_ignores_post_snapshot_path_swap() {
+        let target_tmp = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/tmp");
+        fs::create_dir_all(&target_tmp).unwrap();
+        let root = tempfile::tempdir_in(target_tmp).unwrap();
+        let path = root.path().join("bundle.json");
+        let approved = br#"{"value":"approved"}"#;
+        fs::write(&path, approved).unwrap();
+        let manifest = vec![crate::codefriend::evidence::contracts::Artifact {
+            path: "bundle.json".to_string(),
+            digest: digest(approved),
+        }];
+
+        let snapshot = snapshot_artifacts(root.path(), &manifest).unwrap();
+        fs::write(&path, br#"{"value":"swapped"}"#).unwrap();
+
+        let parsed: serde_json::Value =
+            snapshot_json(&snapshot, Path::new("bundle.json"), "snapshot_json_invalid").unwrap();
+        assert_eq!(parsed["value"], "approved");
+        assert_eq!(fs::read_to_string(path).unwrap(), r#"{"value":"swapped"}"#);
     }
 
     #[test]

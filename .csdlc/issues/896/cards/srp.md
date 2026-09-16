@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Fresh reviewer fresh-session:9be80876-3232-4611-ad11-bf4027cd70f6 reviewed exact clean head bc01a144796ecfe948ca1db217de8eef4911412b and returned FAIL: P1 unsafe single-backtick citation escaping; P1 non-atomic replace-capable rename and parent-confinement TOCTOU; P1 omitted governed synthesis-source, remediation-action and test-case semantics; P2 contradictory and overstated SOR lifecycle truth.
+- Fresh reviewer fresh-session:3a3a416c-6f94-4d9c-8752-469600b83293 reviewed exact clean current-base head 5fc335b19ea47d3d42b324a9297b7dcc1a32fded and returned FAIL with one P1: artifact admission retained verified bytes but Markdown rendering discarded them and reopened synthesis, remediation, and test-plan bundles through mutable filesystem paths, permitting a post-verification swap under an old approval binding.
 
 ### Dispositions
 
-- All findings accepted and remediated. Citations use variable-length code spans proven non-clickable with adversarial backtick/link/HTML text. Publication traverses and writes through O_NOFOLLOW directory handles, commits with Linux RENAME_NOREPLACE or macOS RENAME_EXCL, verifies parent identity, and has competing-target and parent-swap regressions. All governed semantic fields are rendered and asserted. SOR truth and current retained proof are normalized. Publication remains held for a different fresh exact-head reviewer.
+- Finding accepted and remediated. The renderer now consumes snapshot_artifacts directly, selects every required bundle member from that retained snapshot, parses all governed JSON from retained bytes, and repeats canonical manifest/source/plan validation without reopening source paths. verified_snapshot_parse_ignores_post_snapshot_path_swap deterministically replaces the source path after snapshot and proves parsing still returns the approved bytes. Prior citation, no-replace/confinement, semantic-completeness, and SOR-truth remediations remain intact. Publication remains held for a different fresh exact-head reviewer.
 
 ### Recommended Outcome
 

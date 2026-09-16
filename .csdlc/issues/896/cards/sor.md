@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented installed `adl codefriend export markdown` with complete governed semantic rendering, variable-length safe code-span citations, exact approved-input identity binding, directory-handle-anchored create-only publication, bound manifest, deterministic race regressions, and retained installed output. One fresh review failed and all actionable findings are remediated; distinct fresh review and publication remain pending.
+Implemented installed `adl codefriend export markdown` with complete governed semantic rendering, variable-length safe code-span citations, exact approved-input identity binding, retained verified-byte parsing, directory-handle-anchored create-only publication, bound manifest, deterministic race regressions, and retained installed output. All actionable review findings are remediated; distinct fresh review and publication remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -75,13 +75,13 @@ Implemented installed `adl codefriend export markdown` with complete governed se
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/896/cards/sor.md`
-- Tracked implementation artifacts: `adl/src/codefriend/publication/markdown.rs; adl/src/codefriend/publication/mod.rs; adl/src/codefriend/review/synthesis.rs; adl/src/codefriend/actions/remediation.rs; adl/src/codefriend/actions/test_plan.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_render_md.rs; adl/tests/fixtures/codefriend/markdown/PVF.json; docs/codefriend/MARKDOWN_EXPORT.md; .csdlc/evidence/896/installed-markdown-render; .csdlc/evidence/896/installed-markdown-render-r2`
-- Additional proof artifacts: `.csdlc/evidence/896/installed-markdown-render-r2/PROOF.md; report.md; manifest.json; render-result.json; prior bc01a144 proof retained under installed-markdown-render`
+- Tracked implementation artifacts: `adl/src/codefriend/publication/markdown.rs; adl/src/codefriend/publication/mod.rs; adl/src/codefriend/review/synthesis.rs; adl/src/codefriend/actions/remediation.rs; adl/src/codefriend/actions/test_plan.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_render_md.rs; adl/tests/fixtures/codefriend/markdown/PVF.json; docs/codefriend/MARKDOWN_EXPORT.md; .csdlc/evidence/896/installed-markdown-render; .csdlc/evidence/896/installed-markdown-render-r2; .csdlc/evidence/896/installed-markdown-render-r3`
+- Additional proof artifacts: `.csdlc/evidence/896/installed-markdown-render-r3/PROOF.md; report.md; manifest.json; render-result.json; prior failed-candidate and pre-snapshot proofs retained under installed-markdown-render and installed-markdown-render-r2`
 
 ## Actions taken
-- `Replaced path-based staging and replace-capable rename with no-follow directory-handle traversal, create-only file writes, and platform no-replace commit.`
-- `Rendered every governed synthesis-source, remediation-action, and test-case field and added semantic parity assertions.`
-- `Added adversarial backtick, competing-target, and parent-swap regressions and retained new installed output with verified hashes.`
+- `Retained verified artifact bytes through bundle selection, parsing, canonical validation, rendering, and manifest construction; no governed input is reopened by mutable path after verification.`
+- `Preserved variable-length safe citations, complete governed semantic rendering, no-follow directory handles, create-only writes, and platform no-replace commit.`
+- `Added deterministic post-snapshot path-swap, adversarial backtick, competing-target, and parent-swap regressions and retained installed output with verified hashes.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; all implementation and proof changes are in the bound FastWork worktree`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo test --manifest-path adl/Cargo.toml --test codefriend_synthesis --test codefriend_remediate --test codefriend_testplan --test codefriend_ux; cargo clippy --manifest-path adl/Cargo.toml --test codefriend_render_md -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff --check`
-    `Focused renderer proof passed 5/5; citation/create-only/confinement units passed 3/3; current installed output hashes matched; strict focused Clippy, formatting, and diff hygiene passed before immutable commit f9ec5ee00a7fd4bb0841d83293eb7108a6893816.`
+    `Latest executed proof passed: focused renderer 5/5; citation/create-only/confinement/snapshot units 4/4; strict focused Clippy; formatting; diff hygiene; retained output hash readback.`
 - Results:
   - `passed`
 
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `installed_renderer_emits_complete_bound_report_and_manifest; renderer_refuses_missing_or_withheld_approval_and_identity_drift; renderer_refuses_changed_approved_artifacts_and_missing_provenance; renderer_handles_empty_and_long_partial_evidence_without_claim_drift; renderer_escapes_links_and_rechecks_secret_like_claims; code_spans_keep_backtick_paths_non_clickable; anchored_commit_refuses_a_competing_target_without_replacement; anchored_parent_handle_cannot_be_redirected_by_path_swap`
+- Determinism tests executed: `installed_renderer_emits_complete_bound_report_and_manifest; renderer_refuses_missing_or_withheld_approval_and_identity_drift; renderer_refuses_changed_approved_artifacts_and_missing_provenance; renderer_handles_empty_and_long_partial_evidence_without_claim_drift; renderer_escapes_links_and_rechecks_secret_like_claims; code_spans_keep_backtick_paths_non_clickable; verified_snapshot_parse_ignores_post_snapshot_path_swap; anchored_commit_refuses_a_competing_target_without_replacement; anchored_parent_handle_cannot_be_redirected_by_path_swap`
 - Fixtures or scripts used: `Pinned Vector review/synthesis at 410da89a0ed42c523143da89fffeb7f6402833e0; generated canonical remediation and test-plan bundles; installed adl binary; isolated local approval store and destination; no provider or network`
 - Replay verification (same inputs -> same artifacts/order): `Executed focused installed-renderer tests plus deterministic competing-target, parent-swap, and adversarial-backtick regressions; all eight passed.`
-- Ordering guarantees (sorting / tie-break rules used): `All source bundles, plan partitions, approval identity, renderer identity, destination identity, and report bytes are validated before output creation. Files are created through no-follow directory handles in a private stage, fsynced, and committed by a no-replace rename; parent identity and committed bytes are rechecked through anchored handles.`
-- Artifact stability notes: `The failed-review proof at installed-markdown-render is retained as immutable historical evidence. installed-markdown-render-r2 is the current remediation proof with exact result-bound hashes and create-only output.`
+- Ordering guarantees (sorting / tie-break rules used): `All source bundle bytes are opened, validated, retained, parsed, and canonically revalidated from one verified snapshot before rendering. Approval identity, renderer identity, destination identity, and report bytes are validated before output creation. Files are created through no-follow directory handles in a private stage, fsynced, and committed by a no-replace rename; parent identity and committed bytes are rechecked through anchored handles.`
+- Artifact stability notes: `The failed-review and pre-snapshot proof directories are retained as immutable historical evidence. installed-markdown-render-r3 is the current snapshot-remediation proof with exact result-bound hashes and create-only output.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `Renderer rechecks unsafe content for every field, final report and manifest; secret-like publication claim is rejected by focused proof.`
@@ -157,16 +157,16 @@ verification_summary:
 - Sandbox / policy invariants preserved: `true`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/896/installed-markdown-render-r2/{PROOF.md,report.md,manifest.json,render-result.json}`
-- Run artifact root: `.csdlc/evidence/896/installed-markdown-render-r2`
+- Trace bundle path(s): `.csdlc/evidence/896/installed-markdown-render-r3/{PROOF.md,report.md,manifest.json,render-result.json}`
+- Run artifact root: `.csdlc/evidence/896/installed-markdown-render-r3`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo test --manifest-path adl/Cargo.toml --lib codefriend::publication::markdown::tests`
-- Replay result: `Focused renderer 5/5 passed; anchored citation/create-only/confinement units 3/3 passed`
+- Replay result: `Focused renderer 5/5 passed; anchored citation/create-only/confinement/snapshot units 4/4 passed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_render_md.rs plus retained installed-render output`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `Passed canonical synthesis, remediation, test-plan, publication, Markdown manifest, render-result, and JSON readback checks.`
-- Hash/byte-stability checks: `Current report digest b9af969342e2108d3d827e69c68e73a5b3f07d6fca9d8c862c3efc3b5541da88; current manifest digest 13c3ab6a7c2aa7dafa66698d0089eb4a74ad2bad9ca0038da56ed60a6e2cbc02; renderer reopened committed files through the anchored directory and verified exact bytes before success.`
+- Hash/byte-stability checks: `Current report digest 800ef2bba83879093386f2727a1d23aa5c5ea05c55ccc4c3aa594da322c9cf11; current manifest digest cfc4d4c6e77840e407035ae9003c8b19ae5e6c4e83ffef63f04c644db30804bb; renderer parsed approved inputs from retained verified bytes, then reopened committed outputs through the anchored directory and verified exact bytes before success.`
 - Missing/optional artifacts and rationale: `HTML, PDF, browser, provider, remote-publication, and customer-hosting artifacts are explicit non-goals for #896.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `Evidence citations use variable-length CommonMark code spans; complete source/action/test semantics are rendered; output publication uses opened directory handles and platform no-replace rename. HTML/PDF and external publication remain non-goals.`
 
 ## Follow-ups / Deferred work
-- `Obtain a distinct fresh independent exact-head review of committed remediation candidate f9ec5ee00a7fd4bb0841d83293eb7108a6893816.`
+- `Require a distinct fresh independent exact-head review before publication.`
 - `Publish only after review PASS; then shepherd required CI and merge under current native authority.`
