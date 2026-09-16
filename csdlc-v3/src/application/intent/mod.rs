@@ -12,18 +12,16 @@ use std::{collections::BTreeMap, fs, path::PathBuf};
 
 pub(crate) fn semantic_card_projection_healthy(context: &Context) -> Result<bool, String> {
     let registry = context.registry()?;
-    Ok(
-        local::semantic_card_projection_observation(context, &registry, false)?.is_some_and(
-            |(_, _, observation)| {
-                observation == crate::storage::semantic::CardProjectionObservation::Healthy
-            },
-        ),
-    )
+    let observation = local::semantic_card_projection_observation(context, &registry, false)?;
+    Ok(observation.is_some_and(|(_, _, observation)| {
+        observation == crate::storage::semantic::CardProjectionObservation::Healthy
+    }))
 }
 
 pub(crate) fn rebuild_semantic_card_projection(context: &Context) -> Result<(), String> {
-    let registry = context.registry()?;
-    local::semantic_rebuild(context, &registry).map(|_| ())
+    let current = Context::load(&context.root, context.issue)?;
+    let registry = current.registry()?;
+    local::semantic_rebuild(&current, &registry).map(|_| ())
 }
 
 pub const INTENTS: [&str; 15] = [

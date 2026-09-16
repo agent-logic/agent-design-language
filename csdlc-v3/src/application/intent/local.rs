@@ -386,6 +386,14 @@ pub(super) fn semantic_rebuild(
     }))
 }
 
+fn semantic_rebuild_current(
+    context: &Context,
+    registry: &local::PromptRegistry,
+) -> Result<Value, String> {
+    let current = Context::load(&context.root, context.issue)?;
+    semantic_rebuild(&current, registry)
+}
+
 fn semantic_edit(
     context: &Context,
     request: &LocalPreparationRequest,
@@ -570,7 +578,7 @@ fn semantic_edit(
             {
                 std::process::exit(91);
             }
-            semantic_rebuild(context, &context.registry()?)?;
+            semantic_rebuild_current(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
@@ -1023,7 +1031,7 @@ fn semantic_validation_edit(
                     _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
-            semantic_rebuild(context, &context.registry()?)?;
+            semantic_rebuild_current(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
@@ -1538,7 +1546,7 @@ pub(crate) fn recover_semantic_edit(
                     _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
                 };
                 let projected = semantic.complete_projection(&snapshot)?;
-                semantic_rebuild(context, &context.registry()?)?;
+                semantic_rebuild_current(context, &context.registry()?)?;
                 json!({"status":"completed","read_only":false,"performed_mutation":true,
                     "operation_id":done.operation_id().as_str(),
                     "native_effect_truth":done.truth(),
@@ -1620,7 +1628,7 @@ pub(crate) fn recover_semantic_edit(
                     _ => return Err("intent_edit_semantic_state_unavailable".into()),
                 };
             let projected = semantic.complete_projection(&snapshot)?;
-            semantic_rebuild(context, &context.registry()?)?;
+            semantic_rebuild_current(context, &context.registry()?)?;
             json!({"status":"completed","read_only":false,"performed_mutation":true,
                 "action":"reconciled_native_edit","operation_id":done.operation_id().as_str(),
                 "native_effect_truth":truth,"semantic_version":projected.version(),
@@ -1888,14 +1896,13 @@ pub(crate) fn semantic_proof_current(context: &Context) -> Result<bool, String> 
         };
         let evidence: Value =
             serde_json::from_slice(bytes).map_err(|_| "intent_retained_proof_invalid")?;
+        let expected_inputs = serde_json::to_value(admitted.snapshot.inputs_version())
+            .map_err(|_| "intent_input_version_invalid")?;
         if evidence["schema"] != "csdlc.v3.semantic_proof_evidence.v1"
             || evidence["repository"] != context.repository
             || evidence["issue"] != context.issue
             || evidence["head"] != context.head
-            || evidence["issue_digest"] != context.index["digest"]
-            || evidence["inputs"]
-                != serde_json::to_value(admitted.snapshot.inputs_version())
-                    .map_err(|_| "intent_input_version_invalid")?
+            || evidence["inputs"] != expected_inputs
             || evidence["administrative_epoch"] != administrative_epoch
         {
             return Ok(false);
@@ -1913,14 +1920,13 @@ pub(crate) fn semantic_proof_current(context: &Context) -> Result<bool, String> 
                 timeout_seconds: v.timeout_seconds,
             })
             .collect::<Vec<_>>();
-        return Ok(
-            crate::commands::proof::intent::verify_semantic_execution_inputs(
-                context,
-                &validators,
-                &evidence["execution"],
-            )
-            .is_ok(),
+        let current = Context::load(&context.root, context.issue)?;
+        let proof_current = crate::commands::proof::intent::verify_semantic_execution_inputs(
+            &current,
+            &validators,
+            &evidence["execution"],
         );
+        return Ok(proof_current.is_ok());
     }
     Ok(false)
 }
@@ -2079,7 +2085,7 @@ pub(crate) fn recover_semantic_proof(
                     _ => return Err("intent_proof_semantic_state_unavailable".into()),
                 };
                 let projected = admitted.complete_projection(&snapshot)?;
-                semantic_rebuild(context, &context.registry()?)?;
+                semantic_rebuild_current(context, &context.registry()?)?;
                 json!({"status":"completed","read_only":false,"performed_mutation":true,
                     "action":"abandoned_indeterminate_proof","operation_id":done.operation_id().as_str(),
                     "native_effect_truth":done.truth(),"semantic_outcome":done.outcome_kind(),

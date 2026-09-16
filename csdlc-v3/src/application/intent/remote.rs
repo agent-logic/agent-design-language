@@ -872,6 +872,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                             _ => return Err("semantic_review_projection_state_unavailable".into()),
                         };
                         let projected = session.complete_projection(&snapshot)?;
+                        super::rebuild_semantic_card_projection(context)?;
                         json!({"status":"completed","read_only":false,
                             "performed_mutation":true,"action":"abandoned_stale_review",
                             "operation_id":done.operation_id().as_str(),
@@ -947,6 +948,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                             _ => return Err("semantic_review_projection_state_unavailable".into()),
                         };
                     let projected = semantic.complete_projection(&snapshot)?;
+                    super::rebuild_semantic_card_projection(context)?;
                     Ok(Some(json!({"status":"completed",
                         "read_only":false,"operational_authority":true,
                         "performed_mutation":recorded.map_err(failure)?,
@@ -1073,6 +1075,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                             _ => return Err("semantic_remote_projection_state_unavailable".into()),
                         };
                     let projected = semantic.complete_projection(&snapshot)?;
+                    super::rebuild_semantic_card_projection(context)?;
                     json!({"status":"completed","read_only":false,
                         "operational_authority":true,
                         "performed_mutation":executed.as_ref().ok().and_then(|result| result.performed_mutation).unwrap_or(false),
