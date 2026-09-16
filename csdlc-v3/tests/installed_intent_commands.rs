@@ -441,6 +441,51 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
 }
 
 #[test]
+fn installed_rebuild_repairs_projection_before_exact_binding_head_refresh() {
+    let mut fixture = Fixture::new("projection-rebuild-before-rebind");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    success(fixture.run(&linked, &["rebuild", "505"]));
+
+    let manifest = linked.join(".csdlc/v3/issues/505/cards/manifest.json");
+    fs::write(&manifest, b"{}\n").unwrap();
+    git(&linked, &["add", ".csdlc/v3/issues/505"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Retain interrupted projection bytes",
+        ],
+    );
+
+    let blocked = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(blocked["projection"]["observation"]["status"], "altered");
+    assert_eq!(blocked["allowed_next"], json!(["rebuild"]));
+
+    let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(rebuilt["status"], "completed");
+    assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
+    git(&linked, &["add", ".csdlc/v3/issues/505"]);
+    git(
+        &linked,
+        &["commit", "--quiet", "-m", "Repair retained projection"],
+    );
+
+    let rebound = success(fixture.run(&linked, &["bind", "505"]));
+    assert_eq!(rebound["status"], "completed");
+    assert_eq!(rebound["binding_refreshed"], true);
+    let rebuilt_after_bind = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(
+        rebuilt_after_bind["projection"]["after"]["status"],
+        "healthy"
+    );
+}
+
+#[test]
 fn installed_intent_rejects_old_and_unsupported_content_without_preparation_effects() {
     for (label, input) in [
         ("old-schema", json!({"schema":"csdlc.v3.intent_plan.v0"})),
@@ -2357,6 +2402,21 @@ fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let preview = success(fixture.run(&primary, &["recover", "505"]));
     assert_eq!(preview["status"], "recovery_required");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    fixture.remote_flag("wrong-branch-head", true);
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+    fixture.remote_flag("wrong-branch-head", false);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
     success(fixture.run(
         &primary,
         &[

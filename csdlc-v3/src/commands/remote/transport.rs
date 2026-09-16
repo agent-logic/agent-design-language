@@ -543,6 +543,39 @@ pub(super) fn ensure_recovery_available(
     Ok(path)
 }
 
+pub(super) fn verify_pr_create_head_available(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), RemoteRouteFinding> {
+    let GithubMutation::PullRequestCreate { head, .. } = &request.mutation else {
+        return Ok(());
+    };
+    let credential_name = mutation_credential_name(request)?;
+    let branch = CommandInvocation::new(
+        GITHUB_READ_ONLY_ADAPTER,
+        ["branch-head", &request.repository, head],
+    )
+    .and_then(|invocation| invocation.with_child_credential(credential_name))
+    .map_err(|_| {
+        remote_finding(
+            "github_reconciliation_invocation_rejected",
+            "invalid remote branch-head readback invocation",
+        )
+    })?;
+    let value = read_mutation_reconciliation_page(branch, process)?;
+    let expected_ref = format!("refs/heads/{head}");
+    if value["ref"].as_str() != Some(expected_ref.as_str())
+        || value["object"]["type"].as_str() != Some("commit")
+        || value["object"]["sha"].as_str() != Some(request.expected_head_sha.as_str())
+    {
+        return Err(remote_finding(
+            "github_pr_create_recovery_head_mismatch",
+            "guarded PR-create recovery requires the exact remote branch head",
+        ));
+    }
+    Ok(())
+}
+
 pub(super) fn reconcile_github_mutation(
     request: &GithubMutationRequest,
     operation_digest: &str,

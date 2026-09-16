@@ -496,6 +496,12 @@ impl Fixture {
         let head = git(linked, &["rev-parse", "HEAD"]);
         let branch = git(linked, &["symbolic-ref", "--short", "HEAD"]);
         let cases=r##"
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/git/ref/heads/*)
+  if test -f "$base/wrong-branch-head"; then
+   printf '%s' '{"ref":"refs/heads/@BRANCH@","object":{"type":"commit","sha":"0000000000000000000000000000000000000000"}}'
+  else
+   printf '%s' '{"ref":"refs/heads/@BRANCH@","object":{"type":"commit","sha":"@HEAD@"}}'
+  fi ;;
  POST:https://api.github.com/repos/agent-logic/agent-design-language/pulls)
   data=$(cat "$payload")
   data=$(printf '%s' "$data" | sed 's#"head":"[^"]*"#"head":{"sha":"@HEAD@","ref":"@BRANCH@"}#;s#"base":"main"#"base":{"ref":"main"}#')

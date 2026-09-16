@@ -3,6 +3,7 @@ use super::{
     AcceptedReviewEvidence, AuthoritySource, RemoteDeliveryInput, RemoteDeliveryRejectReason,
     VerifiableSubject, VerificationRejectReason, Verified,
 };
+use crate::adapters::ProcessStatus;
 use crate::publication::{
     classify_cleanup, cleanup_candidate_from_git_registration, derive_finish,
     execute_cleanup_removal, publish, CleanupCandidate, CleanupClassification, CleanupRejectReason,
@@ -861,6 +862,80 @@ fn persist_mutation_intent(root: &Path, request: &super::GithubMutationRequest) 
     path
 }
 
+#[test]
+fn publication_target_ignores_stale_unresolved_create_after_current_receipt() {
+    let root = mutation_repo("publication-target-stale-create", true);
+    let branch = "codex/505-fixture-publication";
+    mutation_git(&root, &["checkout", "-q", "-b", branch]);
+    let stale_head = mutation_head(&root);
+    let stale = mutation_request(
+        &stale_head,
+        super::GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: branch.into(),
+            title: "Stale fixture publication".into(),
+            body: "Closes #505".into(),
+            draft: true,
+        },
+    );
+    persist_mutation_intent(&root, &stale);
+    assert_eq!(
+        super::intent::publication_target(
+            &root,
+            "agent-logic/agent-design-language",
+            505,
+            branch,
+            "1111111111111111111111111111111111111111",
+        )
+        .unwrap_err()
+        .code,
+        "intent_publication_uncertain_head"
+    );
+
+    fs::write(root.join("tracked"), b"advanced publication candidate\n").unwrap();
+    mutation_git(&root, &["add", "tracked"]);
+    mutation_git(&root, &["commit", "-q", "-m", "advance candidate"]);
+    let current_head = mutation_head(&root);
+    let mut current = mutation_request(&current_head, super::GithubMutation::PullRequestReady);
+    current.pull_request = Some(639);
+    let current_intent_path = persist_mutation_intent(&root, &current);
+    let current_operation = super::github_mutation_operation_digest(&current);
+    let current_intent =
+        super::load_mutation_intent(&current_intent_path, &current_operation).unwrap();
+    let receipt = super::GithubMutationReceipt {
+        schema: "csdlc.v3.github_mutation_receipt.v2".into(),
+        repository: current.repository.clone(),
+        issue: current.issue,
+        pull_request: Some(639),
+        expected_head_sha: current.expected_head_sha.clone(),
+        operation_digest: current_operation.clone(),
+        response_digest: Some("fixture-response".into()),
+        readback_digest: Some("fixture-readback".into()),
+        intent_digest: super::github_mutation_intent_digest(&current_intent),
+        reconciliation_digest: "fixture-reconciliation".into(),
+        adapter: super::GITHUB_OPERATIONAL_ADAPTER.into(),
+        authenticated: true,
+        idempotent_replay: false,
+    };
+    super::persist_json_create_new(
+        &super::github_mutation_receipt_path(&root, &current_operation).unwrap(),
+        &receipt,
+    )
+    .unwrap();
+
+    assert_eq!(
+        super::intent::publication_target(
+            &root,
+            "agent-logic/agent-design-language",
+            505,
+            branch,
+            &current_head,
+        )
+        .unwrap(),
+        Some(639)
+    );
+}
+
 fn process_output(
     status: crate::adapters::ProcessStatus,
     value: serde_json::Value,
@@ -871,6 +946,17 @@ fn process_output(
         stderr: String::new(),
         truncated: false,
     }
+}
+
+fn mutation_git(root: &Path, args: &[&str]) -> String {
+    let output = std::process::Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .expect("run fixture git");
+    assert!(output.status.success(), "git {args:?}: {output:?}");
+    String::from_utf8(output.stdout).unwrap().trim().to_owned()
 }
 
 fn ready_request(head: &str) -> super::GithubMutationRequest {
@@ -2051,6 +2137,172 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
     }
     fs::write(&receipt_path, bytes).unwrap();
     super::pending_mutation_finding(&root, &observation).unwrap();
+}
+
+fn pr_create_recovery_fixture(
+    name: &str,
+    consume_recovery: bool,
+) -> (PathBuf, super::GithubMutationRequest, String, String) {
+    let root = mutation_repo(name, true);
+    let head_sha = mutation_head(&root);
+    let mut request = mutation_request(
+        &head_sha,
+        super::GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: "codex/recovery-head".into(),
+            title: "Recover PR creation".into(),
+            body: "Closes #1013".into(),
+            draft: true,
+        },
+    );
+    request.issue = 1013;
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let operation_marker = super::github_mutation_operation_marker(&operation_digest);
+    let intent_path = persist_mutation_intent(&root, &request);
+    let intent = super::load_mutation_intent(&intent_path, &operation_digest).unwrap();
+    let intent_digest = super::github_mutation_intent_digest(&intent);
+    if consume_recovery {
+        super::persist_recovery_receipt(&root, &request, &operation_digest, &intent_digest, None)
+            .unwrap();
+    }
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    (root, request, operation_digest, operation_marker)
+}
+
+fn pr_create_recovery_readback(
+    request: &super::GithubMutationRequest,
+    marker: &str,
+) -> serde_json::Value {
+    let super::GithubMutation::PullRequestCreate {
+        base,
+        head,
+        title,
+        body,
+        draft,
+    } = &request.mutation
+    else {
+        unreachable!()
+    };
+    serde_json::json!([{
+        "number": 1019,
+        "head": {"sha": request.expected_head_sha, "ref": head},
+        "base": {"ref": base},
+        "title": title,
+        "body": format!("{body}\n\n{marker}"),
+        "draft": draft
+    }])
+}
+
+// PVF: required deterministic local recovery contract; fake authenticated transport.
+#[test]
+fn pr_create_recovery_checks_exact_remote_head_before_consuming_first_retry() {
+    let (root, request, digest, marker) = pr_create_recovery_fixture("pr-create-first", false);
+    let head = request.expected_head_sha.clone();
+    let mut stage_process = SequencedProcessAdapter::new(vec![]);
+    let staged = super::stage_github_mutation(&root, &request, &mut stage_process).unwrap();
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(
+            ProcessStatus::Exit(0),
+            serde_json::json!({
+                "ref": "refs/heads/codex/recovery-head",
+                "object": {"type": "commit", "sha": head}
+            }),
+        ),
+        process_output(ProcessStatus::Exit(0), serde_json::json!({"number": 1019})),
+        process_output(
+            ProcessStatus::Exit(0),
+            pr_create_recovery_readback(&request, &marker),
+        ),
+    ])
+    .requiring_intent(super::github_mutation_intent_path(&root, &digest).unwrap());
+    let result = super::execute_staged_github_mutation(&root, &staged, false, &mut process)
+        .expect("the first retry dispatches only after exact remote-head readback");
+    assert_eq!(result.receipt.pull_request, Some(1019));
+    assert!(super::github_mutation_recovery_path(&root, &digest)
+        .unwrap()
+        .exists());
+    assert_eq!(
+        process
+            .invocations
+            .iter()
+            .filter(|invocation| invocation.program == super::GITHUB_OPERATIONAL_ADAPTER)
+            .count(),
+        1
+    );
+}
+
+#[test]
+fn pr_create_recovery_wrong_head_does_not_consume_allowance_or_dispatch() {
+    let (root, request, digest, _) = pr_create_recovery_fixture("pr-create-wrong-head", false);
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(
+            ProcessStatus::Exit(0),
+            serde_json::json!({
+                "ref": "refs/heads/codex/recovery-head",
+                "object": {"type": "commit", "sha": "wrong-head"}
+            }),
+        ),
+    ]);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut process)
+            .unwrap_err()
+            .code,
+        "github_pr_create_recovery_head_mismatch"
+    );
+    assert!(!super::github_mutation_recovery_path(&root, &digest)
+        .unwrap()
+        .exists());
+    assert!(process
+        .invocations
+        .iter()
+        .all(|invocation| invocation.program == super::GITHUB_READ_ONLY_ADAPTER));
+}
+
+#[test]
+fn pr_create_recovery_missing_head_does_not_consume_allowance_or_dispatch() {
+    let (root, request, digest, _) = pr_create_recovery_fixture("pr-create-missing-head", false);
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+    ]);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut process)
+            .unwrap_err()
+            .code,
+        "github_pr_create_recovery_head_mismatch"
+    );
+    assert!(!super::github_mutation_recovery_path(&root, &digest)
+        .unwrap()
+        .exists());
+    assert!(process
+        .invocations
+        .iter()
+        .all(|invocation| invocation.program == super::GITHUB_READ_ONLY_ADAPTER));
+}
+
+#[test]
+fn pr_create_recovery_consumed_uncertain_operation_remains_ineligible() {
+    let (root, request, digest, _) = pr_create_recovery_fixture("pr-create-consumed", true);
+    let mut process = SequencedProcessAdapter::new(vec![process_output(
+        ProcessStatus::Exit(0),
+        serde_json::json!([]),
+    )]);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut process)
+            .unwrap_err()
+            .code,
+        "github_mutation_recovery_already_consumed"
+    );
+    assert!(super::github_mutation_recovery_path(&root, &digest)
+        .unwrap()
+        .exists());
+    assert_eq!(process.invocations.len(), 1);
+    assert!(process
+        .invocations
+        .iter()
+        .all(|invocation| invocation.program == super::GITHUB_READ_ONLY_ADAPTER));
 }
 
 #[test]

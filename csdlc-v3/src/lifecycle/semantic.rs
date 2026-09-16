@@ -453,7 +453,7 @@ pub fn decide(
             }
             MarkMergeReady => from == Published && facts.merge_ready,
             RecordMerge => from == MergeReady && facts.merge_ready,
-            Finish => from == Merged,
+            Finish => from == Merged || (active && facts.merged && facts.terminal),
             FinishWithoutPr => active && facts.no_pr_disposition,
             RecordCleanup => from == ClosedOut && facts.terminal_receipt,
             RecordInstall | RecordCutover | RecordRollback => active && facts.administrative,
@@ -552,7 +552,7 @@ pub fn decide(
         ),
         Finish => (
             ClosedOut,
-            from == Merged && facts.terminal,
+            (from == Merged || (active && facts.merged)) && facts.terminal,
             vec![Invalidation::Terminal, Invalidation::Cleanup],
         ),
         FinishWithoutPr => (
@@ -590,6 +590,68 @@ pub fn decide(
             invalidations
         },
     })
+}
+
+#[cfg(test)]
+mod phase_policy_tests {
+    use super::*;
+
+    fn terminal_merge_facts() -> Facts {
+        Facts {
+            merged: true,
+            terminal: true,
+            ..Facts::default()
+        }
+    }
+
+    #[test]
+    fn finish_closes_when_terminal_observation_catches_up_from_active_phase() {
+        let decision = decide(
+            Some(LifecycleState::Bound),
+            SemanticCommand::Finish,
+            Outcome::Success,
+            &terminal_merge_facts(),
+        )
+        .expect("finish should admit an authenticated already-merged terminal closeout");
+
+        assert_eq!(decision.phase, LifecycleState::ClosedOut);
+        assert_eq!(
+            decision.invalidations,
+            vec![Invalidation::Terminal, Invalidation::Cleanup]
+        );
+    }
+
+    #[test]
+    fn finish_reservation_allows_already_merged_terminal_catch_up() {
+        let mut facts = terminal_merge_facts();
+        facts.original_command = Some(SemanticCommand::Finish);
+
+        let decision = decide(
+            Some(LifecycleState::Bound),
+            SemanticCommand::Reserve,
+            Outcome::Success,
+            &facts,
+        )
+        .expect("reservation should admit an authenticated already-merged terminal closeout");
+
+        assert_eq!(decision.phase, LifecycleState::Bound);
+        assert!(decision.invalidations.is_empty());
+    }
+
+    #[test]
+    fn finish_refuses_active_phase_without_authenticated_merge_observation() {
+        let decision = decide(
+            Some(LifecycleState::Bound),
+            SemanticCommand::Finish,
+            Outcome::Success,
+            &Facts {
+                terminal: true,
+                ..Facts::default()
+            },
+        );
+
+        assert_eq!(decision, Err(Rejection::MissingEvidence));
+    }
 }
 
 #[cfg(test)]
