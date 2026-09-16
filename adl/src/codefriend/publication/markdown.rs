@@ -937,7 +937,7 @@ pub(super) fn publish_create_only_anchored(
         Ok((actual_report, actual_manifest))
     })();
     if result.is_err() {
-        cleanup_stage_at(&parent, &stage_name, &stage);
+        cleanup_stage_at(&parent, &stage_name, &stage, report_name);
     }
     result
 }
@@ -1147,8 +1147,8 @@ fn rename_status(status: libc::c_int) -> Result<()> {
     Err(error.into())
 }
 
-fn cleanup_stage_at(parent: &File, stage_name: &std::ffi::OsStr, stage: &File) {
-    for name in ["report.md", "manifest.json"] {
+fn cleanup_stage_at(parent: &File, stage_name: &std::ffi::OsStr, stage: &File, report_name: &str) {
+    for name in [report_name, "manifest.json"] {
         if let Ok(name) = c_name(std::ffi::OsStr::new(name)) {
             // SAFETY: `name` is NUL terminated and `stage` remains open.
             unsafe {
@@ -1251,12 +1251,41 @@ mod tests {
     }
 
     #[test]
+    fn anchored_html_commit_removes_stage_after_competing_target() {
+        let root = tempfile::tempdir().unwrap();
+        let target = root.path().join("report");
+        fs::create_dir(&target).unwrap();
+        fs::write(target.join("owner"), b"competitor").unwrap();
+
+        let error = publish_create_only_anchored(
+            root.path(),
+            Path::new("report"),
+            "report.html",
+            "html",
+            b"<html>review</html>",
+            br#"{"manifest":true}"#,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(
+            error.contains("markdown_output_target_already_exists"),
+            "{error}"
+        );
+        assert_eq!(fs::read(target.join("owner")).unwrap(), b"competitor");
+        assert!(fs::read_dir(root.path()).unwrap().all(|entry| !entry
+            .unwrap()
+            .file_name()
+            .to_string_lossy()
+            .starts_with(".codefriend-html-stage-")));
+    }
+
+    #[test]
     fn anchored_parent_handle_cannot_be_redirected_by_path_swap() {
         let root = tempfile::tempdir().unwrap();
         let visible = root.path().join("visible");
         fs::create_dir(&visible).unwrap();
         let anchored = open_anchored_parent(root.path(), Path::new("visible")).unwrap();
-        let stage_name = create_stage_at(&anchored).unwrap();
+        let stage_name = create_stage_at(&anchored, "markdown").unwrap();
         let stage = open_directory_at(&anchored, &stage_name).unwrap();
         write_create_only_at(&stage, "report.md", b"anchored").unwrap();
 
