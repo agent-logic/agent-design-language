@@ -1,0 +1,30 @@
+{
+  "issue": 897,
+  "lane": "owner_binary",
+  "proof_role": "installed approved-review HTML rendering, complete governed semantic parity, same-document navigation, exact manifest binding, hostile-markup escaping, and anchored create-only export",
+  "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, isolated filesystem output, no provider or network",
+  "resource_profile": "bounded CPU and issue-owned filesystem only",
+  "release_gate": true,
+  "test_target": "codefriend_render_html",
+  "success_cases": [
+    "installed complete navigable report and bound manifest",
+    "empty finding set",
+    "long content",
+    "complete synthesis-source remediation-action and test-case semantics",
+    "keyboard-visible same-document contents and evidence links"
+  ],
+  "negative_cases": [
+    "withheld approval",
+    "renderer identity drift",
+    "approved artifact mutation",
+    "existing output target",
+    "hostile HTML and script-like repository text",
+    "remote-link activation"
+  ],
+  "nonclaims": [
+    "provider execution",
+    "network publication",
+    "PDF rendering",
+    "remote or customer publication"
+  ]
+}

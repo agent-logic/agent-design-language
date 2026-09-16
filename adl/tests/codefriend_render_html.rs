@@ -1,0 +1,296 @@
+//! PVF lane: deterministic local contract and installed-CLI proof for the
+//! approved HTML renderer. Browser behavior is restricted to script-free,
+//! same-document navigation and is separately observed in retained evidence.
+
+use adl::codefriend::{
+    actions::{
+        remediation::{plan_from_file as remediation_from_file, RemediationOptions},
+        test_plan::{plan_from_file as test_plan_from_file, TestPlanOptions},
+    },
+    evidence::contracts::ReviewRecord,
+    ingestion::digest,
+    publication::{
+        append_decision, render_html, DecisionKind, HtmlManifest, HtmlRenderOptions, ManifestInput,
+        HTML_RENDERER_VERSION,
+    },
+    review::synthesis::{synthesize_from_file, SynthesisOptions},
+};
+use serde_json::json;
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::{Command, Output},
+};
+
+struct Fixture {
+    _temp: tempfile::TempDir,
+    review_path: PathBuf,
+    artifact_root: PathBuf,
+    publication_path: PathBuf,
+    approval_store: PathBuf,
+    destination_root: PathBuf,
+    synthesis_rel: PathBuf,
+    remediation_rel: PathBuf,
+    test_plan_rel: PathBuf,
+    out: PathBuf,
+}
+
+impl Fixture {
+    fn new(review: ReviewRecord, renderer: &str) -> Self {
+        review.validate().unwrap();
+        let target_tmp = Path::new(env!("CARGO_TARGET_TMPDIR"));
+        fs::create_dir_all(target_tmp).unwrap();
+        let temp = tempfile::tempdir_in(target_tmp).unwrap();
+        let root = temp.path().to_path_buf();
+        let review_path = root.join("review-record.json");
+        write_json(&review_path, &review);
+        let artifact_root = root.join("artifacts");
+        fs::create_dir(&artifact_root).unwrap();
+        let synthesis = artifact_root.join("synthesis");
+        synthesize_from_file(SynthesisOptions {
+            input: review_path.clone(),
+            out: synthesis.clone(),
+        })
+        .unwrap();
+        let remediation = artifact_root.join("remediation");
+        remediation_from_file(RemediationOptions {
+            input: synthesis.join("synthesis.json"),
+            out: remediation.clone(),
+        })
+        .unwrap();
+        let tests = artifact_root.join("tests");
+        test_plan_from_file(TestPlanOptions {
+            input: synthesis.join("synthesis.json"),
+            out: tests,
+        })
+        .unwrap();
+        let destination_root = root.join("destination");
+        fs::create_dir(&destination_root).unwrap();
+        let input: ManifestInput = serde_json::from_value(json!({
+            "schema":"codefriend.publication_manifest_input.v1",
+            "artifact_manifest":artifact_inventory(&artifact_root),
+            "renderer_versions":{"html":renderer},
+            "target":"approved-report",
+            "claims":["Approved exact review semantics"],
+            "nonclaims":["No PDF, remote, or customer publication"]
+        }))
+        .unwrap();
+        let publication = input.publication(&review, &destination_root).unwrap();
+        let publication_path = root.join("publication.json");
+        write_json(&publication_path, &publication);
+        let approval_store = root.join("approval-store");
+        append_decision(
+            &approval_store,
+            &review,
+            &publication,
+            DecisionKind::Approved,
+            "operator-fixture",
+            "Exact semantic inputs approved for deterministic HTML rendering",
+            1_700_000_000,
+        )
+        .unwrap();
+        let out = destination_root.join("approved-report");
+        Self {
+            _temp: temp,
+            review_path,
+            artifact_root,
+            publication_path,
+            approval_store,
+            destination_root,
+            synthesis_rel: "synthesis/synthesis.json".into(),
+            remediation_rel: "remediation/remediation-plan.json".into(),
+            test_plan_rel: "tests/test-plan.json".into(),
+            out,
+        }
+    }
+
+    fn options(&self) -> HtmlRenderOptions {
+        HtmlRenderOptions {
+            review_record: self.review_path.clone(),
+            publication: self.publication_path.clone(),
+            approval_store: self.approval_store.clone(),
+            artifact_root: self.artifact_root.clone(),
+            synthesis: self.synthesis_rel.clone(),
+            remediation_plan: self.remediation_rel.clone(),
+            test_plan: self.test_plan_rel.clone(),
+            destination_root: self.destination_root.clone(),
+            out: self.out.clone(),
+        }
+    }
+
+    fn cli(&self) -> Output {
+        Command::new(env!("CARGO_BIN_EXE_adl"))
+            .args(["codefriend", "export", "html", "--review-record"])
+            .arg(&self.review_path)
+            .arg("--publication")
+            .arg(&self.publication_path)
+            .arg("--approval-store")
+            .arg(&self.approval_store)
+            .arg("--artifact-root")
+            .arg(&self.artifact_root)
+            .arg("--synthesis")
+            .arg(&self.synthesis_rel)
+            .arg("--remediation-plan")
+            .arg(&self.remediation_rel)
+            .arg("--test-plan")
+            .arg(&self.test_plan_rel)
+            .arg("--destination-root")
+            .arg(&self.destination_root)
+            .arg("--out")
+            .arg(&self.out)
+            .env("ADL_OBSERVABILITY_OTEL", "0")
+            .output()
+            .unwrap()
+    }
+}
+
+fn predecessor_review() -> ReviewRecord {
+    let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../.csdlc/evidence/892/predecessor-openai-r5-synthesis/review-record.json");
+    serde_json::from_slice(&fs::read(path).unwrap()).unwrap()
+}
+
+fn write_json(path: &Path, value: &impl serde::Serialize) {
+    fs::write(path, serde_json::to_vec_pretty(value).unwrap()).unwrap();
+}
+
+fn artifact_inventory(root: &Path) -> Vec<serde_json::Value> {
+    fn visit(current: &Path, files: &mut Vec<PathBuf>) {
+        let mut entries = fs::read_dir(current)
+            .unwrap()
+            .map(|entry| entry.unwrap())
+            .collect::<Vec<_>>();
+        entries.sort_by_key(|entry| entry.file_name());
+        for entry in entries {
+            if entry.path().is_dir() {
+                visit(&entry.path(), files);
+            } else {
+                files.push(entry.path());
+            }
+        }
+    }
+    let mut files = Vec::new();
+    visit(root, &mut files);
+    let mut artifacts = files
+        .into_iter()
+        .map(|path| {
+            json!({
+                "path":path.strip_prefix(root).unwrap().to_string_lossy(),
+                "digest":digest(&fs::read(path).unwrap())
+            })
+        })
+        .collect::<Vec<_>>();
+    artifacts.sort_by(|left, right| left["path"].as_str().cmp(&right["path"].as_str()));
+    artifacts
+}
+
+#[test]
+fn installed_renderer_emits_navigable_bound_report_and_manifest() {
+    let fixture = Fixture::new(predecessor_review(), HTML_RENDERER_VERSION);
+    let output = fixture.cli();
+    assert!(
+        output.status.success(),
+        "stdout={}\nstderr={}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let result: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(result["schema"], "codefriend.html_render_result.v1");
+    assert_eq!(result["finding_count"], 1);
+    let report = fs::read_to_string(fixture.out.join("report.html")).unwrap();
+    let manifest: HtmlManifest =
+        serde_json::from_slice(&fs::read(fixture.out.join("manifest.json")).unwrap()).unwrap();
+    for required in [
+        "<!doctype html>",
+        "aria-label=\"Report contents\"",
+        "href=\"#source\"",
+        "href=\"#findings\"",
+        "href=\"#evidence\"",
+        "Remediation plan",
+        "Test plan",
+        "Scope limits and uncertainty",
+        "Attributed source assessments",
+        "410da89a0ed42c523143da89fffeb7f6402833e0",
+        "lib/dnsmsg-parser/src/dns_message.rs",
+    ] {
+        assert!(report.contains(required), "missing {required}");
+    }
+    assert!(!report.contains("<script"));
+    assert!(!report.contains("href=\"http://"));
+    assert!(!report.contains("href=\"https://"));
+    assert_eq!(manifest.finding_ids.len(), 1);
+    assert_eq!(manifest.claims, ["Approved exact review semantics"]);
+    assert_eq!(manifest.report_digest, digest(report.as_bytes()));
+    assert!(!fixture.cli().status.success(), "fresh target is mandatory");
+}
+
+#[test]
+fn renderer_escapes_hostile_markup_and_preserves_long_content() {
+    let mut review = predecessor_review();
+    review.findings[0].title = "<img src=x onerror=alert(1)> & \"quoted\"".to_string();
+    review.findings[0].rationale = format!(
+        "{}<script>alert(1)</script>",
+        "bounded evidence ".repeat(300)
+    );
+    review.validate().unwrap();
+    let fixture = Fixture::new(review, HTML_RENDERER_VERSION);
+    render_html(fixture.options()).unwrap();
+    let report = fs::read_to_string(fixture.out.join("report.html")).unwrap();
+    assert!(report.contains("&lt;img src=x onerror=alert(1)&gt;"));
+    assert!(report.contains("&lt;script&gt;alert(1)&lt;/script&gt;"));
+    assert!(!report.contains("<img"));
+    assert!(!report.contains("<script"));
+    assert!(report.len() > 5_000);
+}
+
+#[test]
+fn renderer_refuses_withheld_approval_wrong_identity_and_tampering() {
+    let fixture = Fixture::new(predecessor_review(), HTML_RENDERER_VERSION);
+    let publication: adl::codefriend::evidence::contracts::Publication =
+        serde_json::from_slice(&fs::read(&fixture.publication_path).unwrap()).unwrap();
+    append_decision(
+        &fixture.approval_store,
+        &predecessor_review(),
+        &publication,
+        DecisionKind::Withheld,
+        "operator-fixture",
+        "Current decision withholds rendering",
+        1_700_000_001,
+    )
+    .unwrap();
+    assert!(render_html(fixture.options())
+        .unwrap_err()
+        .to_string()
+        .contains("html_requires_current_approval"));
+
+    let wrong = Fixture::new(predecessor_review(), "v2");
+    assert!(render_html(wrong.options())
+        .unwrap_err()
+        .to_string()
+        .contains("html_renderer_identity_mismatch"));
+
+    let tampered = Fixture::new(predecessor_review(), HTML_RENDERER_VERSION);
+    fs::write(
+        tampered.artifact_root.join(&tampered.synthesis_rel),
+        b"{}\n",
+    )
+    .unwrap();
+    assert!(render_html(tampered.options())
+        .unwrap_err()
+        .to_string()
+        .contains("artifact_digest_mismatch"));
+}
+
+#[test]
+fn empty_findings_have_explicit_complete_output() {
+    let mut review = predecessor_review();
+    review.findings.clear();
+    review.validate().unwrap();
+    let fixture = Fixture::new(review, HTML_RENDERER_VERSION);
+    render_html(fixture.options()).unwrap();
+    let report = fs::read_to_string(fixture.out.join("report.html")).unwrap();
+    assert!(report.contains("No findings were reported"));
+    let manifest: HtmlManifest =
+        serde_json::from_slice(&fs::read(fixture.out.join("manifest.json")).unwrap()).unwrap();
+    assert!(manifest.finding_ids.is_empty());
+}

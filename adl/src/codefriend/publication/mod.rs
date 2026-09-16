@@ -1,11 +1,16 @@
 //! Exact-artifact publication approval and fail-closed local admission.
 pub mod approval;
+pub mod html;
 pub mod manifest;
 pub mod markdown;
 
 pub use approval::{
     admit_local, append_decision, read_decision_head, write_json_create_only, AdmissionReceipt,
     DecisionKind, DecisionRecord,
+};
+pub use html::{
+    render_html, HtmlManifest, HtmlRenderOptions, HtmlRenderResult, HTML_MANIFEST_SCHEMA,
+    HTML_RENDERER_VERSION, HTML_RESULT_SCHEMA,
 };
 pub use manifest::{read_publication, read_review, verify_artifacts, ManifestInput};
 pub use markdown::{
