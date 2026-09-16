@@ -1,0 +1,10 @@
+{
+  "schema": "adl.csdlc.evidence_manifest.v1",
+  "issue": 113,
+  "source_revision": "2118c05b3fe503a0f7c902dcc766a90b9cd9c246",
+  "artifacts": {
+    "roster-desktop.png": "sha256:fd350157df3c11c7a7ef49d6724f4f3b878ae634db33533d5c664b5c5a7b4660",
+    "roster-live-proof.json": "sha256:abf1975d7a7ab94880b7ca7b14dcc3cd5ccb6a6e201a35a1fc62daee9910b86b",
+    "roster-mobile.png": "sha256:bdc656cb9527c95a2df23a4e1cdf33718e18cf84cf708eac483138401bb00adb"
+  }
+}

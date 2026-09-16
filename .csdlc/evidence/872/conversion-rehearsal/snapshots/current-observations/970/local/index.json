@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 970,
+  "phase": "ready",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "main",
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "6356239d51e06e30029571773b11f8c0ff160b4b43e893ac981c2131527f8b14"
+}

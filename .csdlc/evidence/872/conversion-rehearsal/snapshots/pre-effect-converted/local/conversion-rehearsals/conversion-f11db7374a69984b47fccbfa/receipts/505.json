@@ -1,0 +1,108 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "per_issue_conversion_receipt_persisted",
+  "detail": {
+    "issue": 505,
+    "source_digest": "semantic-projection-v1:9edecad2c8fecafc3892660e930999e2d0dc52bca0693191e7506c6200229772",
+    "semantic_digest": "semantic-state-v1:2bb6612bdec21b48276ba519fce022219c2e180f7ab4368c27d105a40d538c23",
+    "semantic_equivalence": {
+      "schema": "csdlc.v3.copied_record_semantic_equivalence.v1",
+      "issue": 505,
+      "role": "published",
+      "source": {
+        "index_generation": 88,
+        "card_generation": 88,
+        "phase": "published",
+        "branch": "codex/505-v3-f-authority-transition-decision-exec",
+        "worktree": "<fast-work>/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
+        "publication": {
+          "repository": "agent-logic/agent-design-language",
+          "issue": 505,
+          "pull_request": 591,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/591",
+          "base": "main",
+          "head": "codex/505-v3-f-authority-transition-decision-exec",
+          "revision": "git-blake3:641b575cb5bbbbc423c964764c5f800dc90eba32:959770258e9ef610b0442dd7f9496bad5c14c1ba1ac142462d33c3a44e14d325",
+          "linkage_mode": "closing",
+          "draft": false,
+          "observed_state": "open"
+        },
+        "review": {
+          "reviewer": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
+          "scope": [
+            "exact PR #591 head 9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+            "csdlc-v3/src/commands/proof.rs sanitized child PATH preservation",
+            "csdlc-v3/tests/proof_parity_install_commands.rs stable #631 parity denominator and dynamic boundary",
+            "120-second bounded cold-build timeout",
+            "format-only delta from semantic parent aeb7cbb27260b422ada11743e18e88f40b5eb437"
+          ],
+          "reviewed_revision": "git-blake3:9d0918ea6ba4a90ec674d29bc030878c0b22527f:767767068873bafe43204700c18380282bc196b41e8a96cf288ddd7b3a9c3850",
+          "findings": [],
+          "residual_risks": [
+            "Inherited PATH is operator-controlled and is not recorded in the receipt.",
+            "The declared side-effect boundary observes the issue index rather than every repository path.",
+            "No dedicated test seeds provider credentials and inspects the child environment.",
+            "No dedicated test exercises timeout expiry, descendant process-tree termination, or rejection above the 300-second ceiling."
+          ],
+          "completed": true,
+          "non_substantive_proof": null
+        },
+        "terminal": null,
+        "migration": null,
+        "cards_digest": "semantic-projection-v1:9164a1ba74a7d742a7544f0826056c3e3c99c24142f84582a44000f0bb6045be",
+        "source_digest": "semantic-projection-v1:9edecad2c8fecafc3892660e930999e2d0dc52bca0693191e7506c6200229772"
+      },
+      "destination": {
+        "intent": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+        "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
+        "plan": [
+          {
+            "id": "S1",
+            "acceptance": "Bootstrap #505 and prepare the V3-F design, diagram, and dependency gate."
+          },
+          {
+            "id": "S2",
+            "acceptance": "After #504 is terminal and ancestral, bind the #505 execution worktree."
+          },
+          {
+            "id": "S3",
+            "acceptance": "Map requirements #179 and #180 to explicit proof lanes and parity evidence."
+          },
+          {
+            "id": "S4",
+            "acceptance": "Implement and prove migration canary, rollback, and observation-window evidence."
+          },
+          {
+            "id": "S5",
+            "acceptance": "Record explicit operator disposition and publish with visible `Closes #505` linkage only after approval."
+          }
+        ],
+        "validators": [
+          {
+            "id": "prebind-v3-f-preparation",
+            "program": "ruby",
+            "args": [
+              ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          }
+        ],
+        "publication": {
+          "base": "main",
+          "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+          "body": "{\"base\":\"main\",\"draft\":false,\"head\":\"codex/505-v3-f-authority-transition-decision-exec\",\"issue\":505,\"linkage_mode\":\"closing\",\"observed_state\":\"open\",\"pull_request\":591,\"repository\":\"agent-logic/agent-design-language\",\"revision\":\"git-blake3:641b575cb5bbbbc423c964764c5f800dc90eba32:959770258e9ef610b0442dd7f9496bad5c14c1ba1ac142462d33c3a44e14d325\",\"url\":\"https://github.com/agent-logic/agent-design-language/pull/591\"}",
+          "draft": false
+        },
+        "binding": {
+          "branch": "codex/fixture-linked",
+          "head": "7d373f9596bfeca89e9c155cc3b31053eae258f4",
+          "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/linked",
+          "registration": "git-worktree-list"
+        },
+        "inputs_digest": "semantic-projection-v1:5a4ca5115b428098a987777a914a1fe7d586de86d3f4494102dbdd7b89ce2a24"
+      }
+    }
+  }
+}

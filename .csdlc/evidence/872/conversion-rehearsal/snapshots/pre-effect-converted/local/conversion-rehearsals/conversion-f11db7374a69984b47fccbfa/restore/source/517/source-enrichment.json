@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.v3.copied_record_source_enrichment.v1",
+  "issue": 517,
+  "purpose": "bind copied historical record to authenticated isolated linked worktree before census",
+  "title_source": "cards/sip.values.json#title",
+  "title": "[v0.92.1][TAIL-01] Quality gate",
+  "original_index_sha256": "97279f6fb9a151a53e409d64da6aa45054518afa0ff6e44e76138882cc3778dc",
+  "enriched_index_sha256": "f40878bf9f77969ed3d11e775472dd9d2c97721b94bfa97b8908e179e5d0b782",
+  "original_binding_sha256": "97e72dc5b78dd021c55b7f547cf6415e20426f942639f758db14e0770402197f",
+  "enriched_binding_sha256": "7e9ed36f5ba6005f4767fea17684172c90e1732425faf3e67982c9cea07b2074",
+  "branch": "codex/fixture-linked",
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/linked",
+  "applied_before_source_census": true
+}

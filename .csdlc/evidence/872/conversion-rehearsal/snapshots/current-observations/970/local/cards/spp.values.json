@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 970,
+  "issue_padded": "0970",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/970",
+  "title": "[provider redesign] Make declared inference profiles executable and observable",
+  "branch": "main",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary",
+  "acceptance_criteria_inline": "Every declared supported inference control reaches the selected built-in request with auditable effective values, while unsupported or executable configuration fails before dispatch.",
+  "deliverables_inline": "Canonical AProvider text schema and normalized representation; effective control propagation; unsupported-control rejection; redacted effective configuration and request fingerprint; focused wire-capture tests and documentation.",
+  "dependencies_inline": "Builds on #514, #876, and #855; coordinates with #901 without absorbing its provider failure and recovery qualification scope.",
+  "notes_risks_inline": "AProvider remains declarative data. GeneralProvider remains the single trusted execution boundary. This preparation records the corrected issue architecture and does not begin implementation.",
+  "repo_inputs_inline": "Issue #970, existing provider profiles and definitions, GeneralProvider dispatch, built-in provider codecs, and Ollama HTTP qualification evidence from #900.",
+  "target_files_surfaces_inline": "Provider configuration schemas, profile expansion, GeneralProvider validation and dispatch, built-in codec request construction, focused provider tests, and operator documentation.",
+  "validation_plan_inline": "Focused schema and normalization tests, provider codec wire-capture tests, negative pre-dispatch rejection tests, applicable runtime validation lane, diff hygiene, independent exact-head review, and required CI."
+}

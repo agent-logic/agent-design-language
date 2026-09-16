@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 981,
+  "issue_padded": "0981",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/981",
+  "title": "[v0.92.2][C-SDLC v3][defect] Do not misclassify repository-scoped issue creation receipts",
+  "branch": "codex/981-repository-scoped-issue-creation-receipt",
+  "version": "1.0.5",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-981-repository-scoped-issue-creation-receipt"
+}

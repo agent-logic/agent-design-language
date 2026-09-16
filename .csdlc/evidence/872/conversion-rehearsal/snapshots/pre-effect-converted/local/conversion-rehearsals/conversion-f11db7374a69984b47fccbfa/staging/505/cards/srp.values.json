@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 505,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+    "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
+    "version": "v0.92.1",
+    "generation": 88
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "exact PR #591 head 9d0918ea6ba4a90ec674d29bc030878c0b22527f\ncsdlc-v3/src/commands/proof.rs sanitized child PATH preservation\ncsdlc-v3/tests/proof_parity_install_commands.rs stable #631 parity denominator and dynamic boundary\n120-second bounded cold-build timeout\nformat-only delta from semantic parent aeb7cbb27260b422ada11743e18e88f40b5eb437",
+      "review_revision": "git-blake3:9d0918ea6ba4a90ec674d29bc030878c0b22527f:767767068873bafe43204700c18380282bc196b41e8a96cf288ddd7b3a9c3850",
+      "reviewer": "collab-agent:01a075d1-e325-7fa3-8bb7-f37cef2489e7",
+      "review_prompts": [
+        "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
+        "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
+        "Verify requirements #179 and #180 are named in the acceptance denominator and future proof plan.",
+        "Verify the future PR body requirement visibly uses `Closes #505`."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Inherited PATH is operator-controlled and is not recorded in the receipt.",
+        "The declared side-effect boundary observes the issue index rather than every repository path.",
+        "No dedicated test seeds provider credentials and inspects the child environment.",
+        "No dedicated test exercises timeout expiry, descendant process-tree termination, or rejection above the 300-second ceiling."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

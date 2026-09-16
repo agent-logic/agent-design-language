@@ -1,0 +1,195 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "per_issue_conversion_receipt_persisted",
+  "detail": {
+    "issue": 122,
+    "source_digest": "semantic-projection-v1:7e17c190b5b19c0522f464903603ca53f2a2f86890283d13b9626d732a25bcf6",
+    "semantic_digest": "semantic-state-v1:730b3480b70a20830797808df9eed6e5253afb75c2f6afdd516465935ef33774",
+    "semantic_equivalence": {
+      "schema": "csdlc.v3.copied_record_semantic_equivalence.v1",
+      "issue": 122,
+      "role": "terminal",
+      "source": {
+        "index_generation": 73,
+        "card_generation": 73,
+        "phase": "closed_out",
+        "branch": "codex/122-csm-public-edge-terraform",
+        "worktree": "<fast-work>/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
+        "publication": {
+          "repository": "agent-logic/agent-design-language",
+          "issue": 122,
+          "pull_request": 553,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/553",
+          "base": "main",
+          "head": "codex/122-csm-public-edge-terraform",
+          "revision": "git-blake3:d59c3cabfa3c22ba882e6e6f9c26e34fa2817698:57a1f610b2998ca5819a6d9fa3dd527b78759ae9aa59167f0bff65351a6cbd2c",
+          "linkage_mode": "closing",
+          "draft": false,
+          "observed_state": "merged"
+        },
+        "review": {
+          "reviewer": "fresh-session:issue122-pr553-d59c-existing-pass",
+          "scope": [
+            "."
+          ],
+          "reviewed_revision": "git-blake3:d59c3cabfa3c22ba882e6e6f9c26e34fa2817698:57a1f610b2998ca5819a6d9fa3dd527b78759ae9aa59167f0bff65351a6cbd2c",
+          "findings": [],
+          "residual_risks": [
+            "Reviewer did not wait for CI, publish, merge, mutate lifecycle state, or perform live AWS actions.",
+            "Review accepted API Gateway raw execute-api reachability as an explicitly documented residual nonclaim rather than a CloudFront/WAF-enforced invariant.",
+            "No fresh live AWS paid proof was run for the d59 remediation; local Terraform/static proof and hosted CI provide publication evidence."
+          ],
+          "completed": true,
+          "non_substantive_proof": null
+        },
+        "terminal": {
+          "pull_request": 553,
+          "disposition": "merged",
+          "observed_sha": "c6189b927198726787683a0fa8b45a644d1e01ff",
+          "observed_state": "merged",
+          "receipt_path": "csdlc-v2/closeout/122.json",
+          "branch": "codex/122-csm-public-edge-terraform",
+          "worktree": "<fast-work>/adl-worktrees/adl-issue-122-csm-public-edge-terraform"
+        },
+        "migration": null,
+        "cards_digest": "semantic-projection-v1:cb1f15ead02e567036993d4b593742e177e0a8c262b137b1003002b047fe8a50",
+        "source_digest": "semantic-projection-v1:7e17c190b5b19c0522f464903603ca53f2a2f86890283d13b9626d732a25bcf6"
+      },
+      "destination": {
+        "intent": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
+        "slug": "deferred-public-observatory-exposure",
+        "plan": [
+          {
+            "id": "S1",
+            "acceptance": "Confirm terminal prerequisite truth, separate operator AWS authorization, and #122 non-gating posture for #83 and #111-#117."
+          },
+          {
+            "id": "S2",
+            "acceptance": "Verify the approved business profile and freeze exact hostnames, resource ownership, budget, ingress, security, rollback, and cleanup contracts: permanent edge stays non-compute; disposable Spot/ALB origin smoke is allowed only as bounded proof."
+          },
+          {
+            "id": "S3",
+            "acceptance": "Implement issue-owned Route53, ACM, S3, CloudFront, API Gateway/WSS edge, plus disposable runtime-origin Spot EC2 and ALB Terraform roots/modules for quick create/destroy smoke proof."
+          },
+          {
+            "id": "S4",
+            "acceptance": "Run exact local policy proof, Terraform validation, authorized live edge apply, external ALB-to-EC2 receipt proof, teardown proof, ACM/Route53 cleanup proof, and diff hygiene."
+          },
+          {
+            "id": "S5",
+            "acceptance": "Resolve exact-head security and operations review, publish only after PASS, and avoid production marketing launch unless separately authorized."
+          }
+        ],
+        "validators": [
+          {
+            "id": "csm-public-edge-static",
+            "program": "bash",
+            "args": [
+              "adl/tools/validate_csm_public_edge_static.sh"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 180
+          },
+          {
+            "id": "terraform-public-edge-validate",
+            "program": "terraform",
+            "args": [
+              "-chdir=infra/aws/csm-public-edge",
+              "validate"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "terraform-runtime-spot-validate",
+            "program": "terraform",
+            "args": [
+              "-chdir=infra/aws/csm-runtime-spot",
+              "validate"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "terraform-runtime-alb-validate",
+            "program": "terraform",
+            "args": [
+              "-chdir=infra/aws/csm-runtime-alb",
+              "validate"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "csm-public-edge-additional-origins-smoke",
+            "program": "terraform",
+            "args": [
+              "-chdir=infra/aws/csm-public-edge",
+              "console"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "csm-public-edge-live-apply-gated",
+            "program": "bash",
+            "args": [
+              "adl/tools/validate_csm_public_edge_live.sh"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 1800
+          },
+          {
+            "id": "csm-runtime-origin-smoke-live",
+            "program": "curl",
+            "args": [
+              "-sS",
+              "--max-time",
+              "20",
+              "-D",
+              "-",
+              "https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 1800
+          },
+          {
+            "id": "csm-runtime-origin-teardown-empty-state",
+            "program": "terraform",
+            "args": [
+              "-chdir=infra/aws/csm-runtime-alb",
+              "show",
+              "-json"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          },
+          {
+            "id": "issue-diff-hygiene",
+            "program": "git",
+            "args": [
+              "diff",
+              "--check"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 60
+          }
+        ],
+        "publication": {
+          "base": "main",
+          "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
+          "body": "{\"base\":\"main\",\"draft\":false,\"head\":\"codex/122-csm-public-edge-terraform\",\"issue\":122,\"linkage_mode\":\"closing\",\"observed_state\":\"merged\",\"pull_request\":553,\"repository\":\"agent-logic/agent-design-language\",\"revision\":\"git-blake3:d59c3cabfa3c22ba882e6e6f9c26e34fa2817698:57a1f610b2998ca5819a6d9fa3dd527b78759ae9aa59167f0bff65351a6cbd2c\",\"url\":\"https://github.com/agent-logic/agent-design-language/pull/553\"}",
+          "draft": false
+        },
+        "binding": {
+          "branch": "codex/fixture-linked",
+          "head": "7d373f9596bfeca89e9c155cc3b31053eae258f4",
+          "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/linked",
+          "registration": "git-worktree-list"
+        },
+        "inputs_digest": "semantic-projection-v1:112df411b9615e41be93062c1733a89ea81d19507cef4081a999be7010209b3b"
+      }
+    }
+  }
+}

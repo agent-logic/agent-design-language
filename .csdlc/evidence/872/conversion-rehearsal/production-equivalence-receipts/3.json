@@ -1,0 +1,146 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "per_issue_conversion_receipt_persisted",
+  "detail": {
+    "issue": 3,
+    "source_digest": "semantic-projection-v1:cfc8a9cef1336bee83e920fd74db8223b1f65a2781e608db6b9e67f3e9d17540",
+    "semantic_digest": "semantic-state-v1:3f5fd5e9af18106b0f9127709695e08a336164888fd7e7568f207028dc94711c",
+    "semantic_equivalence": {
+      "schema": "csdlc.v3.copied_record_semantic_equivalence.v1",
+      "issue": 3,
+      "role": "reviewed",
+      "source": {
+        "index_generation": 12,
+        "card_generation": 12,
+        "phase": "reviewed",
+        "branch": "codex/3-cross-repository-publication-identity",
+        "worktree": "<fast-work>/adl-csdlc-cross-repo-3",
+        "publication": null,
+        "review": {
+          "reviewer": "subagent:review_issue_3",
+          "scope": [
+            "."
+          ],
+          "reviewed_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+          "findings": [
+            {
+              "id": "P1-canary-closure-causality",
+              "severity": "p1",
+              "summary": "Fixed: the canary now identifies canonical PR #4 as the causal closer and explicitly classifies later PR #5 as non-causal reconciliation evidence.",
+              "actionable": true,
+              "in_scope": true,
+              "disposition": "fixed",
+              "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+              "route": null
+            },
+            {
+              "id": "P2-spp-step-truth-drift",
+              "severity": "p2",
+              "summary": "Fixed: all four implemented SPP steps are recorded completed through typed plan-step edits.",
+              "actionable": true,
+              "in_scope": true,
+              "disposition": "fixed",
+              "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+              "route": null
+            },
+            {
+              "id": "P3-clippy-evidence-self-reference",
+              "severity": "p3",
+              "summary": "Fixed: warning-denied Clippy output is retained in an independent PVF-generated evidence log referenced by the SOR.",
+              "actionable": true,
+              "in_scope": true,
+              "disposition": "fixed",
+              "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+              "route": null
+            },
+            {
+              "id": "P2-canary-closer-identity",
+              "severity": "p2",
+              "summary": "Fixed: retained GitHub ClosedEvent evidence names PullRequest, canonical repository, and PR #4, and the validator asserts each identity exactly.",
+              "actionable": true,
+              "in_scope": true,
+              "disposition": "fixed",
+              "fix_revision": "git-blake3:60cef45d9576fcb38bfc9ce3041835e59d87d783:987b1cf0b10d55241a2d49887b65b6a4b6182ed61ac4072d56a7af4d4424345b",
+              "route": null
+            }
+          ],
+          "residual_risks": [
+            "Matching-PR pagination ambiguity is helper-tested rather than exercised through a live multi-page GitHub fixture.",
+            "The retained GitHub canary is a committed snapshot rather than a live re-query on every validation run."
+          ],
+          "completed": true,
+          "non_substantive_proof": null
+        },
+        "terminal": null,
+        "migration": null,
+        "cards_digest": "semantic-projection-v1:a6b7a77b55278cfd213c368562dfdd3946222bc99e0380c292a8af7a71583664",
+        "source_digest": "semantic-projection-v1:cfc8a9cef1336bee83e920fd74db8223b1f65a2781e608db6b9e67f3e9d17540"
+      },
+      "destination": {
+        "intent": "[v0.92][C-SDLC v2] Support canonical PRs closing preserved legacy issues",
+        "slug": "v0-92-csdlc-v2-cross-repository-publication",
+        "plan": [
+          {
+            "id": "S1",
+            "acceptance": "Audit the landed split-authority baseline and implement exact fetch/push remote plus exhaustive unambiguous PR reconciliation."
+          },
+          {
+            "id": "S2",
+            "acceptance": "Add focused regression tests and public-schema coverage for same-repository and split-authority paths."
+          },
+          {
+            "id": "S3",
+            "acceptance": "Update typed operator and GitHub-client contract documentation for separate code and issue identities."
+          },
+          {
+            "id": "S4",
+            "acceptance": "Retain and validate live PR #5 to legacy issue #5901 canary evidence, then complete exact-head independent review."
+          }
+        ],
+        "validators": [
+          {
+            "id": "csdlc-publication-focused",
+            "program": "cargo",
+            "args": [
+              "test",
+              "--locked",
+              "--manifest-path",
+              "csdlc-v2/Cargo.toml",
+              "--test",
+              "gate6",
+              "--test",
+              "gate_finish",
+              "--bin",
+              "csdlc-publish"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 600
+          },
+          {
+            "id": "split-authority-canary",
+            "program": "ruby",
+            "args": [
+              ".csdlc/prepared/issues/3/validate-split-authority-canary.rb"
+            ],
+            "success_marker": "",
+            "timeout_seconds": 120
+          }
+        ],
+        "publication": {
+          "base": "",
+          "title": "[v0.92][C-SDLC v2] Support canonical PRs closing preserved legacy issues",
+          "body": "",
+          "draft": true
+        },
+        "binding": {
+          "branch": "codex/fixture-linked",
+          "head": "7d373f9596bfeca89e9c155cc3b31053eae258f4",
+          "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/linked",
+          "registration": "git-worktree-list"
+        },
+        "inputs_digest": "semantic-projection-v1:8a89df5e997390b942c501939562950a9b56ea0cb46595b5e73c84adb214462c"
+      }
+    }
+  }
+}

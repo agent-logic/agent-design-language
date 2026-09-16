@@ -10,6 +10,7 @@ pub mod adapters;
 pub mod application;
 pub mod authority;
 pub mod commands;
+pub mod conversion;
 pub mod lifecycle;
 pub mod publication;
 pub mod repository;

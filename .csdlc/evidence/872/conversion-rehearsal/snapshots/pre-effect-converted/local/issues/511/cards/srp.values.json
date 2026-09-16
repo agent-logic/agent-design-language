@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 511,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][OBS-A] Observatory experience design",
+    "slug": "obs-a-observatory-experience-design",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "OBS-A design contract, accessibility/state coverage, Runtime-field provenance, and pre-cutover canary evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every designed field cite real Runtime authority?",
+        "Are degraded and revoked states user-visible and testable?",
+        "Can #512 implement this without design invention?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

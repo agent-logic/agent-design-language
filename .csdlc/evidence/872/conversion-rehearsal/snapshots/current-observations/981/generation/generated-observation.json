@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.v3.generated_current_observation_fixture.v1",
+  "issue": 981,
+  "generator": "installed prepare plus native bind",
+  "fixture_class": "generated_current_observation",
+  "historical_or_converted_role": false,
+  "request_ref": "generation/prepare-plan.json",
+  "prepare_receipt_ref": "generation/prepare-receipt.json",
+  "bind_receipt_ref": "generation/bind-receipt.json"
+}

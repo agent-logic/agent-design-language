@@ -1,0 +1,68 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "per_issue_conversion_receipt_persisted",
+  "detail": {
+    "issue": 517,
+    "source_digest": "semantic-projection-v1:8dc33fbf4dbda7ab67aac499c3cc25fb8ff59e96cdbda49af8cbc28e56ee9168",
+    "semantic_digest": "semantic-state-v1:7446e38ac490b04130c0872568ba57fdbdc95cd452d265a162cfd7b5905998dc",
+    "semantic_equivalence": {
+      "schema": "csdlc.v3.copied_record_semantic_equivalence.v1",
+      "issue": 517,
+      "role": "bound_dirty",
+      "source": {
+        "index_generation": 14,
+        "card_generation": 14,
+        "phase": "bound",
+        "branch": "codex/fixture-linked",
+        "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/linked",
+        "publication": null,
+        "review": null,
+        "terminal": null,
+        "migration": null,
+        "cards_digest": "semantic-projection-v1:d74b5d6f8f7b1ca509f937c59050de9b5ee63a46280d53da3e7a9eba5271b9f1",
+        "source_digest": "semantic-projection-v1:8dc33fbf4dbda7ab67aac499c3cc25fb8ff59e96cdbda49af8cbc28e56ee9168"
+      },
+      "destination": {
+        "intent": "[v0.92.1][TAIL-01] Quality gate",
+        "slug": "tail-01-quality-gate",
+        "plan": [
+          {
+            "id": "dependencies",
+            "acceptance": "INT-01/#516 reviewed merge before execution"
+          },
+          {
+            "id": "inspect",
+            "acceptance": "agent-logic/agent-design-language#517; agent-logic/agent-design-language#516; docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-01; docs/milestones/v0.92.1/SPRINT_v0.92.1.md\nQuality-gate documentation, reconciliation evidence and validators, canonical milestone specifications, and issue517 typed cards. Native implementation belongs to separate issues."
+          },
+          {
+            "id": "implement",
+            "acceptance": "Exact required-lane denominator; Machine-readable lane results; QUALITY_GATE_v0.92.1.md decision record; Issue-owned retained evidence"
+          },
+          {
+            "id": "validate",
+            "acceptance": "Exact row, digest and evidence reconciliation; complete exception ownership; focused canonical YAML parity; independent docs review and required CI.\nAC-1: Every required proving lane passes; AC-2: Skipped, absent, zero-test, stale, and non-proving results fail closed; AC-3: The exact candidate revision and complete denominator are recorded; AC-4: Every exception has an explicit owner and no unresolved exception remains; AC-1 and no-unresolved-exception release conditions remain unmet; the decision records this truth."
+          },
+          {
+            "id": "record",
+            "acceptance": "Accounting completeness does not assert missing runtime or operational proof. Preserve explicit gap ownership and historical release requirements; do not implement code here."
+          }
+        ],
+        "validators": [],
+        "publication": {
+          "base": "",
+          "title": "[v0.92.1][TAIL-01] Quality gate",
+          "body": "",
+          "draft": true
+        },
+        "binding": {
+          "branch": "codex/fixture-linked",
+          "head": "7d373f9596bfeca89e9c155cc3b31053eae258f4",
+          "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/linked",
+          "registration": "git-worktree-list"
+        },
+        "inputs_digest": "semantic-projection-v1:2bf9efcdd122d0b7abf465ef997433378da6b590c9d00d4d74a86be3ee2e36bb"
+      }
+    }
+  }
+}

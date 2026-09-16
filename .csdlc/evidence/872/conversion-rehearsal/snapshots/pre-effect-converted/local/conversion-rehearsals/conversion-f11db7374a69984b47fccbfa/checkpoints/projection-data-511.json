@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "projection_data_completed",
+  "detail": {
+    "issue": 511,
+    "projection_digest": "card-projection-v1:e9776294c6058ce33ee1e872fe02e1f88de52e0237e84c0c792d5d54f98764ff"
+  }
+}

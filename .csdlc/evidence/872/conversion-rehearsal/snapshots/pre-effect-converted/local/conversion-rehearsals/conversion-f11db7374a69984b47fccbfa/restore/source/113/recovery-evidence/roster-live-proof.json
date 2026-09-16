@@ -1,0 +1,26 @@
+{
+  "schema": "adl.runtime_v3.roster_live_proof.v1",
+  "source_revision": "2118c05b3fe503a0f7c902dcc766a90b9cd9c246",
+  "observatory_url": "https://wuji.agent-logic.ai:33783/demos/html-observatory/",
+  "runtime_api_base": "https://wuji.agent-logic.ai:33983/",
+  "tls": "public_platform_trust",
+  "initial_runtime_instance_id": "aeb2dc1ab55b44049b6dd4c84e32e9e4",
+  "initial_runtime_incarnation_id": "91942885-452a-47e2-a25e-11186cf6dead",
+  "restarted_runtime_instance_id": "aeb2dc1ab55b44049b6dd4c84e32e9e4",
+  "restarted_runtime_incarnation_id": "80f20702-794b-43a5-8d81-92b79f80167d",
+  "roster_revision_gap": {
+    "from": 23,
+    "to": 25,
+    "disposition": "full_snapshot_resync"
+  },
+  "public_agents": [
+    "shepherd"
+  ],
+  "checks_passed": 22,
+  "checks_failed": 0,
+  "artifacts": [
+    "roster-desktop.png",
+    "roster-mobile.png"
+  ],
+  "completed_at": "2026-08-11T07:20:10.134Z"
+}

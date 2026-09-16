@@ -1,0 +1,30 @@
+{
+  "schema": "csdlc.v3.copied_record_conversion_checkpoint.v1",
+  "operation_id": "conversion-f11db7374a69984b47fccbfa",
+  "event": "native_issue_writer_fence_post_activation_held",
+  "detail": {
+    "lock_contract": "native-local-state-root/locks/<issue>.lock",
+    "issues": [
+      511,
+      517,
+      497,
+      3,
+      505,
+      122,
+      113,
+      868
+    ],
+    "paths": [
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/3.lock",
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/113.lock",
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/122.lock",
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/497.lock",
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/505.lock",
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/511.lock",
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/517.lock",
+      "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/primary/.git/csdlc-v3/local/locks/868.lock"
+    ],
+    "checkpoint": "post_activation",
+    "request_digest": "semantic-projection-v1:c108ff1ea97db7ffc8f7dfe64c5c167b1051481d03f06323c807b5b99df3e215"
+  }
+}

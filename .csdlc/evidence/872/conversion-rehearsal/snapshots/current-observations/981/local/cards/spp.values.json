@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 981,
+  "issue_padded": "0981",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/981",
+  "title": "Generated linked observation 981",
+  "branch": "codex/981-issue872-generated-linked-observation-981",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/.csdlc-872-fixture-1789517946343699000/adl-issue-981-issue872-generated-linked-observation-981"
+}
