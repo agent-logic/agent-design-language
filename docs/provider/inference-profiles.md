@@ -70,14 +70,15 @@ codec's set are serialized into that codec's provider request.
 The shared profile contract is:
 
 - `provider_model_id` binds the provider-native model selected by the profile.
-- Except for `mock:echo-v1`, `temperature`, `top_p`, `max_output_tokens`, and `timeout_secs` are present
+- Except for mock and Deepgram speech profiles, `temperature`, `top_p`,
+  `max_output_tokens`, and `timeout_secs` are present
   after expansion and validated before activation. Compatibility overrides are
   bounded to `temperature` in `[0.0, 2.0]`, `top_p` in `[0.0, 1.0]`,
   `max_output_tokens` no greater than `32768`, and `timeout_secs` no greater
   than `600`.
-- `mock:echo-v1` materializes no inference controls because its in-process
-  echo codec consumes none. Explicit inference controls on that profile reject
-  before adapter construction.
+- Mock and Deepgram speech profiles materialize no text-inference controls
+  because their codecs consume none. Explicit text-inference controls on those
+  profiles reject before adapter construction.
 - Ollama profiles use `materialization_policy: deterministic_ollama_v1`,
   `temperature: 0.0`, `top_p: 1.0`, `max_output_tokens: 512`,
   `timeout_secs: 120`, and `deterministic_seed: 0`. They now materialize

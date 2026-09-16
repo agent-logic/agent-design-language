@@ -245,10 +245,10 @@ fn ensure_inference_profile_config(
     preset: ProviderProfilePreset,
     config: &mut BTreeMap<String, Value>,
 ) -> Result<()> {
-    // The in-process echo provider has no inference codec controls. Keep the
-    // profile useful for tests without materializing defaults that it cannot
-    // consume; explicit controls remain present and fail closed downstream.
-    if preset.kind == "mock" {
+    // These codecs do not perform text inference. Keep their profiles useful
+    // without materializing defaults that they cannot consume; explicit
+    // controls remain present and fail closed downstream.
+    if matches!(preset.kind, "mock" | "deepgram") {
         return Ok(());
     }
     let inference = inference_profile_for(preset);

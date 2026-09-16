@@ -97,6 +97,13 @@ The local CLI constructor test now also treats an invalid declared timeout as an
 error after Runtime mode is removed; it no longer preserves silently ignored
 invalid AProvider data.
 
+The ADL provider integration suite also runs against this boundary: 72 tests
+passed and the credentialed Deepgram live round trip remained explicitly
+ignored. Its compatibility assertions now require typed timeout scalars,
+fail-closed local Ollama controls, canonical credential-strategy errors, and
+profile expansion without phantom text-inference defaults for mock or Deepgram
+speech codecs.
+
 `ADL_PROVIDER_CA_FILE` is an optional process-owner PEM trust bundle, limited to
 64 KiB. It appends trusted roots to all HTTP-family reqwest clients and never disables
 certificate verification or redirects. Provider/agent configuration cannot set
