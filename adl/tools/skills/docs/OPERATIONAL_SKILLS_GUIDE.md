@@ -181,7 +181,7 @@ For new or fully re-rendered prompt cards, use typed semantic requests rather
 than editing rendered Markdown directly:
 
 ```bash
-.adl/bin/native-v3/csdlc edit --request <edit-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+.adl/bin/native-v3/csdlc edit <issue> --changes <changes.json>
 .adl/bin/native-v3/csdlc validate --request <validate-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 ```
 
@@ -308,7 +308,7 @@ fallback.
 Preferred commands:
 
 ```bash
-csdlc github-issue --request <issue-read-or-mutation-request.json> --execute
+csdlc github-issue <issue> --operation <issue-operation.json> --execute
 ```
 
 Use typed issue mutation commands for covered issue setup and repair paths.
@@ -889,8 +889,8 @@ Structured schema:
 
 ### Preferred Commands
 
-- `csdlc github-issue --request <issue-create-request.json> --execute`
-- `csdlc issue --request <bootstrap-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
+- `csdlc github-issue <coordination-issue> --operation <issue-create-operation.json> --execute`
+- `csdlc prepare <issue> --plan <plan.json>`
 
 For `create_and_bootstrap`, the expected machine-safe path is:
 
@@ -1129,7 +1129,7 @@ Structured schema:
 Preferred execution order:
 
 - `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
-- `csdlc bind --request <bind-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
+- `csdlc bind <issue>`
 
 ### Output And Stop Boundary
 

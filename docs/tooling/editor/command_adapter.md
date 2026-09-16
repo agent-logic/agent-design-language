@@ -26,14 +26,14 @@ The supported adapter surface is intentionally copy-only:
 - supported adapter action:
   - `adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]`
 - canonical native C-SDLC v3 control-plane mapping:
-  - `csdlc issue --request <request.json> --registry <registry.json> --registrations <registrations.json>`
+  - `csdlc prepare <issue> --plan <plan.json>`
   - `csdlc doctor --request <request.json> --registry <registry.json> --registrations <registrations.json>`
-  - `csdlc bind --request <request.json> --registry <registry.json> --registrations <registrations.json>`
-  - `csdlc validate --request <request.json> --registry <registry.json> --registrations <registrations.json>`
-  - `csdlc review --request <review-request.json>`
-  - `csdlc publish --request <publication-request.json>`
-  - `csdlc finish --request <finish-request.json>`
-  - `csdlc clean --request <cleanup-request.json>`
+  - `csdlc bind <issue>`
+  - `csdlc validate <issue>`
+  - `csdlc review <issue> --evidence <review-evidence.json>`
+  - `csdlc publish <issue>`
+  - `csdlc finish <issue>`
+  - `csdlc clean <issue>`
 - adapter mode:
   - browser-prepared, human-run command handoff
 
@@ -46,7 +46,7 @@ The browser/editor may:
 
 The browser/editor may not claim direct browser invocation of:
 
-- `csdlc issue`
+- `csdlc prepare`
 - `csdlc doctor`
 - `csdlc bind`
 - `csdlc validate`

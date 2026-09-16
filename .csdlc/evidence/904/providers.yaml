@@ -1,0 +1,12 @@
+schema: adl.provider_reload_sidecar.v1
+version: "0.3"
+providers:
+  pair_smoke:
+    type: ollama
+    base_url: http://127.0.0.1:11435
+    default_model: phi4-mini:latest
+    config:
+      temperature: 0
+      timeout_secs: 120
+      runtime_max_attempts: 1
+      runtime_max_output_tokens: 64

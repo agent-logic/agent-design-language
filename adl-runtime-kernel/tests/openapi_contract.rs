@@ -7,6 +7,33 @@ const OBSERVATORY_OPENAPI: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
 const CONTROL_RS: &str = include_str!("../src/control.rs");
 
+// PVF: deterministic API contract, CPU only, release-required for issue #855.
+#[test]
+fn registered_provider_contract_has_no_vendor_admission_allowlist() {
+    let api = parse_openapi(OBSERVATORY_OPENAPI);
+    let schemas = &api["components"]["schemas"];
+    let admission = &schemas["AgentAdmissionRequest"]["properties"];
+    assert!(admission["provider"].get("const").is_none());
+    assert!(admission["provider"].get("enum").is_none());
+    assert_eq!(
+        admission["credential_ref"]["pattern"],
+        "^env:[A-Z_][A-Z0-9_]*$"
+    );
+    assert!(admission.get("required_capabilities").is_some());
+    assert!(api["paths"].get("/v1/providers").is_some());
+    for name in ["AgentSample", "AgentRosterEntry"] {
+        assert!(schemas[name]["properties"]
+            .get("provider_binding")
+            .is_some());
+    }
+    let projection = &schemas["ProviderProjection"]["properties"];
+    assert!(projection.get("capabilities").is_some());
+    assert!(projection.get("health").is_some());
+    for secret in ["endpoint", "credential_ref", "auth", "token"] {
+        assert!(projection.get(secret).is_none());
+    }
+}
+
 #[test]
 fn canonical_name_is_required_by_agent_roster_openapi_contract() {
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
@@ -54,6 +81,26 @@ fn canonical_name_is_the_public_a2a_address_and_history_preserves_names() {
         .iter()
         .any(|field| field == "recipient_name"));
     assert!(initiation["properties"].get("recipient_id").is_none());
+
+    let conversation = &observatory["components"]["schemas"]["ObservatoryConversationIntent"];
+    assert_eq!(
+        conversation["properties"]["requested_agent_action"]["$ref"],
+        "#/components/schemas/RequestedAgentAction"
+    );
+    let requested = &observatory["components"]["schemas"]["RequestedAgentAction"];
+    assert_eq!(requested["additionalProperties"], false);
+    assert!(requested["required"]
+        .as_array()
+        .expect("requested action required array")
+        .iter()
+        .any(|field| field == "recipient_name"));
+    assert!(requested["properties"].get("recipient_id").is_none());
+    assert_eq!(
+        requested["properties"]["recipient_name"]["pattern"],
+        "^[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?\\.[a-z](?:[a-z0-9-]{0,30}[a-z0-9])?$"
+    );
+    assert_eq!(requested["properties"]["message"]["minLength"], 1);
+    assert_eq!(requested["properties"]["message_parts"]["maxItems"], 63);
 
     let history = &observatory["components"]["schemas"]["ObservatoryConversationHistoryRecord"];
     assert!(history["properties"].get("sender_name").is_some());
@@ -404,6 +451,7 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
                 routes.insert(("post".to_owned(), route));
             }
             "/v1/health"
+            | "/v1/providers"
             | "/v1/metrics"
             | "/v1/acip/ws"
             | "/v1/openapi.json"
@@ -426,6 +474,7 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
 fn literal_routes_from_control_rs() -> BTreeSet<String> {
     let mut routes = BTreeSet::new();
     for expected in [
+        "/v1/providers",
         "/v1/health",
         "/v1/ready",
         "/v1/metrics",

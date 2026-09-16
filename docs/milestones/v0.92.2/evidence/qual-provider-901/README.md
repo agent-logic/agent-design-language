@@ -1,0 +1,11 @@
+# QUAL-PROVIDER #901 evidence
+
+This packet contains two complementary production proofs using the same task-owned, CPU-only `llama-server` and existing local `gemma:2b` artifact. No paid or cloud calls were made.
+
+`qualification-report.json` qualifies provider loss, timeout, adapter-process interruption, and recovery through the production `adl-provider-adapter` command. Its transparent loopback proxy observes forwarding but does not generate responses. Loss kills the owned provider after forwarding, timeout uses the adapter's real 150 ms deadline, interruption terminates the owned adapter after forwarding, and recovery starts a fresh provider incarnation and completes distinct work.
+
+`runtime-qualification-report.json` adds the registered Runtime proof requested during PR review. It installs the exact #855 Runtime owners, passes the CSM configuration preflight, dynamically admits two `openai-compatible` agents, and retains one unchanged Runtime incarnation across provider loss, a successful response from a fresh provider PID, and a client WebSocket interruption. The run checkpoints the primary agent and removes both agents. The Runtime report deliberately retains the standalone adapter packet as the timeout authority because the registered Runtime path has a fixed 15-minute execution timeout; it does not reinterpret the sidecar's two-second field as Runtime timeout proof.
+
+Both JSON files are portable receipts. They retain source, model, request, process, scenario, and correlation identity without prompts or generated text. Runtime validation reopens the private install receipt, CSM status, raw Runtime observations, checkpoint, proxy records, and Guardian log; their exact hashes are bound into the portable receipt. A coherent portable report without those retained artifacts is rejected. Earlier unsuccessful attempts remain private and do not support acceptance.
+
+PVF classification: required provider integration qualification; bounded local CPU, loopback, process, and disk resources; live timing and PIDs vary across runs. Deterministic validators reject supplied failure claims, static reference traces, missing execution evidence, wrong request or process identity, duplicate work, changed Runtime identity, missing registration, and stale provider identity.

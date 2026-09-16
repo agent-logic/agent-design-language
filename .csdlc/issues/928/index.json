@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 928,
+  "phase": "bound",
+  "generation": 8,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/928-combined-sprint-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-928-combined-sprint-review",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "ac13b91ada0410d9c5113bf1feac6af705cd00a401881be0e841f83fcd668ae8"
+}

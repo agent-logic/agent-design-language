@@ -1,0 +1,53 @@
+{
+  "issue": 880,
+  "title": "[v0.92.2][CF-ADAPTER-CI] Ingest CI repository inputs into a repository packet",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/880-ci-ingestion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-880-ci-ingestion",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "72c729fd62dc47879b6b69272f76d5ddf8b76ef2360c84402542d98246c3f5f5",
+  "card_updates": {
+    "srp": {
+      "findings_status": "no_findings",
+      "findings_status_inline": "no_findings",
+      "recommended_outcome": "pass",
+      "recommended_outcome_inline": "pass",
+      "review_findings": "No actionable findings at independently reviewed source dbc66f20d8d6ec06cbdc64e5e99f3830db907908.",
+      "review_findings_inline": "No actionable findings at independently reviewed source dbc66f20d8d6ec06cbdc64e5e99f3830db907908.",
+      "review_dispositions": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.",
+      "review_dispositions_inline": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.",
+      "review_notes": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.",
+      "review_notes_inline": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.",
+      "review_summary": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.",
+      "review_summary_inline": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending."
+    },
+    "sor": {
+      "summary": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.",
+      "summary_inline": "Independent reviewer review_836 approved exact dbc66f20d8d6ec06cbdc64e5e99f3830db907908 with no actionable findings. Ten-case actual installed proof, receipt/CLI validation, required upload and aggregate/selector contracts inspected. Local focused test, strict clippy, formatting and path/workflow contracts pass. Required hosted smoke, current-head CI and merge remain pending.",
+      "completion_state": "publication_pending",
+      "completion_state_inline": "publication_pending",
+      "follow_up_1": "Native publication and required installed hosted acquisition/upload smoke plus current-head CI. Merge remains separate.",
+      "follow_up_1_inline": "Native publication and required installed hosted acquisition/upload smoke plus current-head CI. Merge remains separate.",
+      "integration_result": "Implementation independently approved; PR publication and hosted CI pending.",
+      "integration_result_inline": "Implementation independently approved; PR publication and hosted CI pending.",
+      "verification_schema_changes_approved": "true",
+      "verification_schema_changes_approved_inline": "true"
+    },
+    "spp": {
+      "status": "in_progress",
+      "status_inline": "in_progress",
+      "notes_risks": "Implementation and local proof complete; independent source review passed. Required hosted proof and publication remain pending.",
+      "notes_risks_inline": "Implementation and local proof complete; independent source review passed. Required hosted proof and publication remain pending."
+    }
+  }
+}

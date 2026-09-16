@@ -15,6 +15,8 @@ const GITHUB_OPERATIONAL_ADAPTER: &str = "github-api-operational";
 pub struct CommandInvocation {
     pub program: String,
     argv: Vec<String>,
+    // Generated observation body, transported only through curl configuration stdin.
+    observation_body: Option<String>,
     pub credential_scope: CredentialScope,
 }
 
@@ -43,6 +45,7 @@ impl CommandInvocation {
         Ok(Self {
             program,
             argv,
+            observation_body: None,
             credential_scope: CredentialScope::None,
         })
     }
@@ -525,20 +528,34 @@ fn github_read_only_curl_invocation(
         } else {
             crate::commands::remote::merge_state_query(owner, name, number)
         };
+        let body = serde_json::json!({"query": query}).to_string();
+        if body.len() > 64 * 1024 {
+            return Err(ProcessOutput {
+                status: ProcessStatus::Exit(2),
+                stdout: String::new(),
+                stderr: "merge observation request exceeds bound".into(),
+                truncated: false,
+            });
+        }
         return CommandInvocation::new(
             "curl",
             [
                 "--fail-with-body".to_owned(),
                 "--silent".to_owned(),
                 "--show-error".to_owned(),
-                "--get".to_owned(),
-                "--data-urlencode".to_owned(),
-                format!("query={query}"),
+                "--request".to_owned(),
+                "POST".to_owned(),
+                "--header".to_owned(),
+                "Content-Type: application/json".to_owned(),
                 "--header".to_owned(),
                 "Accept: application/vnd.github+json".to_owned(),
                 "https://api.github.com/graphql".to_owned(),
             ],
         )
+        .map(|mut invocation| {
+            invocation.observation_body = Some(body);
+            invocation
+        })
         .map_err(|_| ProcessOutput {
             status: ProcessStatus::Exit(2),
             stdout: String::new(),
@@ -820,7 +837,15 @@ fn run_observational_curl(
         }
     };
     let result = (|| -> std::io::Result<std::process::Output> {
-        let config = format!("header = \"Authorization: Bearer {}\"\n", credential.1);
+        let mut config = format!("header = \"Authorization: Bearer {}\"\n", credential.1);
+        if let Some(body) = &invocation.observation_body {
+            // JSON quoting is compatible with curl config quoting; the body is
+            // generated locally and never enters argv or a temporary file.
+            config.push_str(&format!(
+                "data-binary = {}\n",
+                serde_json::to_string(body).expect("string JSON")
+            ));
+        }
         let written = child
             .stdin
             .take()
@@ -1438,17 +1463,116 @@ mod merge_adapter_tests {
             let result = github_read_only_curl_invocation(&request);
             assert_eq!(result.is_ok(), allowed, "{target}");
             if let Ok(curl) = result {
-                let query = curl
-                    .argv
-                    .iter()
-                    .find(|arg| arg.starts_with("query="))
-                    .unwrap();
+                let body: serde_json::Value =
+                    serde_json::from_str(curl.observation_body.as_ref().unwrap()).unwrap();
+                let query = body["query"].as_str().unwrap();
                 assert!(query.contains("closingIssuesReferences(first:100)"));
                 assert!(query.contains("linkedRepository: repository"));
                 assert!(query.contains("issue(number:505) { number url state }"));
             }
         }
     }
+    #[test]
+    fn merge_observation_body_is_bounded_before_transport() {
+        let repository = format!("owner/{}", "r".repeat(65_536));
+        let request = CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            ["pull-request-merge-state", repository.as_str(), "971"],
+        )
+        .unwrap();
+        let error = github_read_only_curl_invocation(&request).unwrap_err();
+        assert_eq!(error.status, ProcessStatus::Exit(2));
+        assert_eq!(error.stderr, "merge observation request exceeds bound");
+        assert!(error.stdout.is_empty());
+    }
+
+    // PVF: deterministic production-adapter contract; local subprocess/filesystem,
+    // synthetic credentials, no network; required for #975.
+    #[cfg(unix)]
+    #[test]
+    fn production_merge_observation_posts_query_through_private_stdin() {
+        const CHILD: &str = "CSDLC_975_ADAPTER_CHILD";
+        if let Ok(mode) = std::env::var(CHILD) {
+            let invocation = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [mode.as_str(), "agent-logic/agent-design-language", "971"],
+            )
+            .unwrap()
+            .with_child_credential("GITHUB_TOKEN")
+            .unwrap();
+            let invocation = if mode == "pull-request-merge-linkage" {
+                CommandInvocation::new(
+                    GITHUB_READ_ONLY_ADAPTER,
+                    [
+                        mode.as_str(),
+                        "agent-logic/agent-design-language",
+                        "971:agent-logic/agent-design-language#928",
+                    ],
+                )
+                .unwrap()
+                .with_child_credential("GITHUB_TOKEN")
+                .unwrap()
+            } else {
+                invocation
+            };
+            let mut adapter = RealProcessAdapter::new(StaticCredentialResolver::new(
+                "GITHUB_TOKEN",
+                "synthetic-975-token",
+            ));
+            let result = adapter.run(invocation.clone());
+            assert_eq!(result.status, ProcessStatus::Exit(0), "{result:?}");
+            assert!(!result.truncated);
+            let body: serde_json::Value = serde_json::from_str(&result.stdout).unwrap();
+            assert_eq!(body["data"]["repository"]["pullRequest"]["number"], 971);
+            assert_eq!(body["redacted"], "[REDACTED]");
+            let mut bounded = RealProcessAdapter::new(StaticCredentialResolver::new(
+                "GITHUB_TOKEN",
+                "synthetic-975-token",
+            ))
+            .with_max_output_bytes(16);
+            let result = bounded.run(invocation);
+            assert!(result.truncated);
+            assert!(result.stdout.len() <= 16);
+            assert!(!result.stdout.contains("synthetic-975"));
+            return;
+        }
+        use std::os::unix::fs::PermissionsExt;
+        let root = std::env::temp_dir().join(format!("csdlc-975-{}", std::process::id()));
+        fs::create_dir_all(&root).unwrap();
+        let fixture = root.join("curl");
+        fs::write(&fixture, r#"#!/usr/bin/python3
+import json, sys
+args = sys.argv[1:]
+assert args[0] == '-q'
+assert '--get' not in args and '--data-urlencode' not in args
+assert args[args.index('--request') + 1] == 'POST'
+assert 'Content-Type: application/json' in args
+assert args[-2:] == ['--config', '-']
+assert not any('query=' in a or 'synthetic-975' in a for a in args)
+lines = sys.stdin.read().splitlines()
+assert len(lines) == 2
+assert lines[0] == 'header = "Authorization: Bearer synthetic-975-token"'
+body = json.loads(json.loads(lines[1].removeprefix('data-binary = ')))
+assert 'pullRequest(number:971)' in body['query']
+if 'linkedRepository:' in body['query']:
+    assert 'issue(number:928)' in body['query']
+print(json.dumps({'data': {'repository': {'pullRequest': {'number':971}}}, 'redacted':'synthetic-975-token'}))
+"#).unwrap();
+        fs::set_permissions(&fixture, fs::Permissions::from_mode(0o700)).unwrap();
+        for mode in ["pull-request-merge-state", "pull-request-merge-linkage"] {
+            let output = Command::new(std::env::current_exe().unwrap())
+                .args(["--exact", "adapters::merge_adapter_tests::production_merge_observation_posts_query_through_private_stdin", "--nocapture"])
+                .env(CHILD, mode).env("PATH", &root).output().unwrap();
+            assert!(
+                output.status.success(),
+                "{} {}",
+                String::from_utf8_lossy(&output.stdout),
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+        fs::remove_dir_all(root).unwrap();
+    }
+
     // PVF: required deterministic owner adapter contract, small local CPU/filesystem.
     #[test]
     fn merge_put_is_narrow_and_readback_cannot_supply_arbitrary_query() {
@@ -1492,10 +1616,9 @@ mod merge_adapter_tests {
             let result = github_read_only_curl_invocation(&invocation);
             assert_eq!(result.is_ok(), allowed);
             if let Ok(invocation) = result {
-                assert!(invocation
-                    .argv()
-                    .iter()
-                    .any(|v| v.starts_with("query=query")));
+                let body: serde_json::Value =
+                    serde_json::from_str(invocation.observation_body.as_ref().unwrap()).unwrap();
+                assert!(body["query"].as_str().unwrap().starts_with("query"));
                 assert!(!invocation.argv().iter().any(|v| v.contains("mutation ")));
             }
         }

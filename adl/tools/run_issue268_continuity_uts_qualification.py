@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import pathlib
 import subprocess
 import sys
@@ -70,6 +71,7 @@ def binding_for(resident: dict[str, Any], retained: dict[str, Any]) -> dict[str,
     model = resident["model"]
     return {
         "agent_id": resident["agent_id"],
+        "provider_id": "local_ollama",
         "model": model,
         # The immutable model artifact and execution configuration are bound
         # separately. The qualification bootstrap must replace model_ref_sha256
@@ -120,6 +122,18 @@ def main() -> int:
     parser.add_argument("--continuity-bin", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-bin", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-root", required=True, type=pathlib.Path)
+    parser.add_argument(
+        "--ollama-url",
+        default=os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"),
+    )
+    parser.add_argument("--context-tokens", type=int, default=32768)
+    parser.add_argument("--num-predict", type=int, default=128)
+    parser.add_argument("--temperature", type=float, default=0)
+    parser.add_argument("--max-loaded-models", type=int, default=3)
+    parser.add_argument("--gpu-placement", default="ollama_server_default")
+    parser.add_argument("--source-host", default="issue268-r7i-qualification")
+    parser.add_argument("--target-host", default="ec2")
+    parser.add_argument("--producer-source-revision")
     parser.add_argument("--build-cache-root", required=True, type=pathlib.Path)
     parser.add_argument("--agent-spec-dir", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-volume-identity-sha256", required=True)
@@ -127,6 +141,7 @@ def main() -> int:
     parser.add_argument("--evidence-dir", required=True, type=pathlib.Path)
     parser.add_argument("--plan", type=pathlib.Path, default=DEFAULT_PLAN)
     parser.add_argument("--uts-runner", type=pathlib.Path, default=DEFAULT_UTS_RUNNER)
+    parser.add_argument("--resume-after-pre", action="store_true")
     args = parser.parse_args()
 
     if not args.continuity_bin.is_file():
@@ -135,6 +150,14 @@ def main() -> int:
         raise SystemExit("Runtime agent binary is absent")
     if len(args.runtime_volume_identity_sha256) != 64:
         raise SystemExit("retained Runtime volume identity must be an exact SHA-256")
+    required_signing_environment = (
+        "ADL_ISSUE414_SIGNING_KEY_HEX",
+        "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64",
+        "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+    )
+    missing_signing_environment = [name for name in required_signing_environment if not os.environ.get(name)]
+    if missing_signing_environment:
+        raise SystemExit(f"required continuity signing environment is absent: {missing_signing_environment}")
 
     plan = read_json(args.plan)
     materialization = plan.get("materialization") or {}
@@ -171,6 +194,7 @@ def main() -> int:
             "role_digest": canonical_digest({"agent_id": resident["agent_id"], "role": resident["role"]}),
             "tool_authority": resident["tool_authority"],
             "tool_authority_digest": canonical_digest({"agent_id": resident["agent_id"], "tool_authority": resident["tool_authority"]}),
+            "provider_id": "local_ollama",
             "model": resident["model"],
             "model_ref_sha256": resident["model_ref_sha256"],
             "configuration_sha256": resident["configuration_sha256"],
@@ -193,10 +217,27 @@ def main() -> int:
         str(args.runtime_bin),
         "--runtime-root",
         str(args.runtime_root),
+        "--ollama-url",
+        args.ollama_url,
+        "--context-tokens",
+        str(args.context_tokens),
+        "--num-predict",
+        str(args.num_predict),
+        "--temperature",
+        str(args.temperature),
+        "--max-loaded-models",
+        str(args.max_loaded_models),
+        "--gpu-placement",
+        args.gpu_placement,
     ]
-    run(uts_command + ["--phase", "pre"])
+    if args.producer_source_revision:
+        uts_command.extend(["--producer-source-revision", args.producer_source_revision])
+    if not args.resume_after_pre:
+        run(uts_command + ["--phase", "pre"])
 
     state = read_json(args.state)
+    if state.get("phase") != "pre_complete":
+        raise SystemExit("continuity qualification requires exact completed pre state")
     runtime_specs = [pathlib.Path(state["residents"][resident["agent_id"]]["runtime_agent_spec"]) for resident in residents]
     if any(not path.is_file() for path in runtime_specs):
         raise SystemExit("six retained Runtime agent specs are required after pre-cycle execution")
@@ -217,8 +258,8 @@ def main() -> int:
         "retained_runtime_root": str(args.runtime_root),
         "build_cache_root": str(args.build_cache_root),
         "runtime_volume_identity_sha256": args.runtime_volume_identity_sha256,
-        "source_host": "issue268-r7i-qualification",
-        "target_host": "ec2",
+        "source_host": args.source_host,
+        "target_host": args.target_host,
         "spot_notice": None,
     }
     dehydration_input_path = args.evidence_dir / "dehydration-input.json"
@@ -289,12 +330,31 @@ def main() -> int:
                 "post_uts_report_sha256": retained["post_restore_uts_report_sha256"],
                 "pre_agent_test_outcome": retained["pre_agent_test_outcome"],
                 "post_agent_test_outcome": retained["post_agent_test_outcome"],
+                "pre_workload_view": retained["pre_workload_view"],
+                "post_workload_view": retained["post_workload_view"],
+                "pre_workload_effect_sha256": retained["pre_workload_effect_sha256"],
+                "post_workload_effect_sha256": retained["post_workload_effect_sha256"],
+                "producer": retained["producer"],
+                "pre_provider_execution": retained["provider_execution"],
+                "post_provider_execution": retained["post_provider_execution"],
                 "restored_runtime_agent_spec_sha256": retained["restored_runtime_agent_spec_sha256"],
                 "checkpoint_lineage": retained["checkpoint_lineage"],
                 "replay_denial_receipt_sha256": retained["replay_denial_receipt_sha256"],
                 "replay_denied": True,
             }
         )
+    if {row["pre_agent_test_outcome"] for row in resident_receipts} != {"executed"} or {
+        row["post_agent_test_outcome"] for row in resident_receipts
+    } != {"executed"}:
+        raise SystemExit("all twelve assigned resident workloads must execute")
+    if len({row["pre_workload_view"] for row in resident_receipts}) != 6 or len({
+        row["post_workload_view"] for row in resident_receipts
+    }) != 6:
+        raise SystemExit("six distinct role-specific Runtime workload views are required")
+    if len({row["pre_workload_effect_sha256"] for row in resident_receipts}) != 6 or len({
+        row["post_workload_effect_sha256"] for row in resident_receipts
+    }) != 6:
+        raise SystemExit("six distinct role-specific Runtime workload effects are required")
     continuation_path = args.evidence_dir / "continuation-input.json"
     write_json(continuation_path, {"residents": continuations})
     completed = continuity(args.continuity_bin, "complete", continuation_path, args.runtime_root, args.evidence_dir / "continuation.json")

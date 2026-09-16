@@ -1,0 +1,74 @@
+{
+  "schema": "codefriend.local_fitness_local_proof.v1",
+  "issue": 887,
+  "base": "9f15e6c47dc990e8feee4e606c882c577571752c",
+  "platform": "Darwin-arm64",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "tests": {
+    "codefriend_cf_gov": 8,
+    "codefriend_evidence": 11,
+    "codefriend_cf_cog": 17
+  },
+  "all_tests_passed": true,
+  "clippy": "passed with -D warnings for lib, adl binary and codefriend_cf_gov",
+  "installed_proof": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+  "installed_scenarios_passed": 3,
+  "coverage": {
+    "adl/src/cli/codefriend_fitness_cmd.rs": {
+      "count": 92,
+      "covered": 84,
+      "percent": 91.30434782608695
+    },
+    "adl/src/codefriend/governance/local.rs": {
+      "count": 222,
+      "covered": 216,
+      "percent": 97.2972972972973
+    }
+  },
+  "source_sha256": {
+    "adl/Cargo.lock": "381ad649d950d94950beda42a6f004a4a45339a469bd6c4a840d344ccbf81113",
+    "adl/Cargo.toml": "2ff2040558f68ca06b2bdaecfe6401c8687e2d99d9ee0883ff9384f01737bfa5",
+    "adl/src/cli/codefriend_cmd.rs": "08eb35591dd541e0e49a9361d72defd125fdee766dcfdee9fb21ba1af44aae15",
+    "adl/src/cli/codefriend_fitness_cmd.rs": "4d6dafac10714418cb861e67e664e5e13fcf975c522fd4657a859a3a9a9ba0b9",
+    "adl/src/cli/mod.rs": "73a5b4084f51c73e0bf7d44c06420fa6d2874a458ccec2e14bf987ce64578486",
+    "adl/src/cli/usage.rs": "0bb5b3e04aeccdeb09f5c319864d6486d324bbaa7a0271a897bd5dbccdd7d650",
+    "adl/src/codefriend/governance/local.rs": "f3f9ec25d9d8a94609aba4d2b28f6b8cd67ae5bcbb920728458374b332b0635b",
+    "adl/src/codefriend/governance/mod.rs": "eabbe6746069220b55600d96a46f116411bd9b502b47df05835cee02ade53615",
+    "adl/src/codefriend/mod.rs": "39c07d466b7126ae504cee41066ae8c67f14b48ce2b5f9d261e6645b339fee8c",
+    "adl/tests/codefriend_cf_gov.rs": "609a7013c6ad252391c5bf7e4799ce3d5b8d7ee68f927cfb798868358f96bea1",
+    "adl/tests/fixtures/codefriend/fitness/error.rs": "69633490bf59d909b1b015ebfe2809e13b13c7b34460cc8840f04177958d63c1",
+    "adl/tests/fixtures/codefriend/fitness/fail.rs": "a0b0a33fe50cb04489ce4438a2629678ec0a6571677c72416eae42186c4808c7",
+    "adl/tests/fixtures/codefriend/fitness/pass.rs": "715106d53551a50211c5b121aa28193d03fb78676cb5c58172bee76d6dd251d1",
+    "adl/tests/fixtures/codefriend/fitness/policy.json": "54e151c064772a5d2fbdbc7f6f32c1499fd1f8b0352a5304074ae107c807352a",
+    "adl/tools/codefriend_fitness_installed_proof.py": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d"
+  },
+  "review": "Independent PASS at 6e14e86bfb4df7d37d14227dff3f0c0bea4e921b; source/proof verified. Final records and consumer policy-pinning clarification require record-only re-review.",
+  "hosted_ci": "pending publication",
+  "nonclaims": [
+    "No actual CI integration",
+    "No external source qualification",
+    "No provider execution",
+    "No merge or sprint completion"
+  ],
+  "integration": {
+    "prior_head": "bdde0da4e06e8a087b977c70acd43b2263ea7613",
+    "main": "9f15e6c47dc990e8feee4e606c882c577571752c",
+    "resolutions": [
+      "Preserve structure and fitness help",
+      "Deduplicate identical syn/proc-macro2 while retaining upstream placement"
+    ],
+    "installed_structure_scenarios": 9,
+    "installed_fitness_scenarios": 3,
+    "combined_help_passed": true,
+    "coverage_note": "Existing fitness per-file percentages are unchanged-source historical proof; this integration reran36 tests, strict Clippy and fresh installed proofs. Full hosted current-head coverage remains required."
+  },
+  "integration_logs": {
+    "integration-tests.log": "0140be26efc4c60066342232ed8873570363a06953cba622c4d20e43d16ecde7",
+    "integration-clippy.log": "4496470979610c35fbc756debe87b2bbf4afbb82054aaae6ac7498218c8ecead",
+    "integration-build.log": "957c0bfe80163f04004a5781404e7529530618b7871debddf17b3f042e0a3838",
+    "integration-install.log": "2195b0c8a4865d0b5e47d2f523775247fb479c36ff04171a1836d632980c2da6",
+    "integration-fitness-installed.log": "e8624c5a924b88bce99fdd2738f8c391085aa3c4f16ca761d1b7b044e345407c",
+    "integration-structure-installed.log": "886c6c019cb5e167425f1c91e1386f1ee4f2e81235ad2d2bb2b14a5a2dd0876c",
+    "integration-help-proof.json": "4e3e31ab5e5592777efb8403ee2a3f977dbea62d43490653bdb92bf61694b552"
+  }
+}

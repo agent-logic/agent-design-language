@@ -4,7 +4,9 @@ use std::process::Command;
 
 mod agent_cmd;
 mod artifact_cmd;
+mod codefriend_ci_cmd;
 mod codefriend_cmd;
+mod codefriend_structure_cmd;
 mod commands;
 mod csm_cmd;
 mod csm_runtime_v3_cmd;
@@ -73,6 +75,9 @@ fn print_error_chain(err: &anyhow::Error) {
 
 pub fn run_main() {
     if let Err(err) = real_main() {
+        if let Some(exit) = err.downcast_ref::<codefriend_fitness_cmd::FitnessExit>() {
+            std::process::exit(exit.0);
+        }
         print_error_chain(&err);
         std::process::exit(1);
     }
@@ -732,3 +737,5 @@ mod tests {
 }
 
 mod codefriend_evidence_cmd;
+mod codefriend_fitness_cmd;
+mod codefriend_memory_cmd;

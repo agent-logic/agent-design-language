@@ -1,0 +1,33 @@
+{
+  "issue": 880,
+  "title": "[v0.92.2][CF-ADAPTER-CI] Ingest CI repository inputs into a repository packet",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/880-ci-ingestion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-880-ci-ingestion",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "55aaac9c87c07ffc1344eed75fb8af9c48440c43dd11dd601e976f23d36e8602",
+  "card_updates": {
+    "sor": {
+      "summary": "Production CI acquisition, separate bounded receipt, independent CLI dispatch and required installed hosted smoke are implemented. Local ten-case CLI/installed smoke, receipt tamper/false-delivery guards, strict clippy and CI contract checks pass. Independent exact-head review and required hosted proof remain pending.",
+      "summary_inline": "Production CI acquisition, separate bounded receipt, independent CLI dispatch and required installed hosted smoke are implemented. Local ten-case CLI/installed smoke, receipt tamper/false-delivery guards, strict clippy and CI contract checks pass. Independent exact-head review and required hosted proof remain pending.",
+      "completion_state": "review_pending",
+      "completion_state_inline": "review_pending",
+      "validation_result": "Final integration test passes: ten production CLI cases plus receipt tampering and false delivery rejection. Strict clippy passes. 12 aggregate outcomes, five path selections, six UTS outcomes and workflow policy pass. Local installed smoke passes; hosted proof remains pending.",
+      "validation_result_inline": "Final integration test passes: ten production CLI cases plus receipt tampering and false delivery rejection. Strict clippy passes. 12 aggregate outcomes, five path selections, six UTS outcomes and workflow policy pass. Local installed smoke passes; hosted proof remains pending.",
+      "verification_validation_status": "passed",
+      "verification_validation_status_inline": "passed",
+      "follow_up_1": "Independent exact-head review, native publication and required current-head hosted smoke/CI.",
+      "follow_up_1_inline": "Independent exact-head review, native publication and required current-head hosted smoke/CI."
+    }
+  }
+}

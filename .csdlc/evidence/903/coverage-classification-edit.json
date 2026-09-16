@@ -1,0 +1,25 @@
+{
+  "issue": 903,
+  "title": "[v0.92.2][PLAT-MLX] Bounded MLX and Apple Metal provider adapter",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/903-v0922-mlx-metal-provider",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-903-v0922-mlx-metal-provider",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "64164039906372b2cd098faeacd009207e5dc428c8bfae39a80adec78fa59301",
+  "card_updates": {
+    "sor": {
+      "fixtures_or_scripts_used": "adl/src/provider/mlx/tests.rs; adl/tests/mlx_provider.rs; .csdlc/evidence/903/start_mlx_smoke_server.py",
+      "tracked_implementation_artifacts": "adl/src/provider/mlx.rs; adl/src/provider/mlx/tests.rs; provider/substrate/profile/dispatch registration; adl/tests/mlx_provider.rs; .csdlc/evidence/903"
+    }
+  }
+}

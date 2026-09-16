@@ -1008,7 +1008,7 @@ fn verify_shutdown_observability_barrier(
     restart_count: u64,
     shutdown_id: &str,
 ) -> Result<Value> {
-    emit_daemon_event(
+    let receipt = emit_daemon_event_with_receipt(
         runtime_context,
         loaded,
         event,
@@ -1031,6 +1031,16 @@ fn verify_shutdown_observability_barrier(
         ("ADL_OTEL_LOG", format!("\"name\":\"csm.{event}\"")),
     ] {
         if let Some(path) = std::env::var_os(env_name).map(PathBuf::from) {
+            let acknowledged = match env_name {
+                "ADL_OBSERVABILITY_LOG" => receipt.compatibility_log,
+                "ADL_OTEL_LOG" => receipt.otel_log,
+                _ => unreachable!(),
+            };
+            if !acknowledged {
+                return Err(anyhow!(
+                    "configured {env_name} sink did not acknowledge {event}"
+                ));
+            }
             let retained = fs::read_to_string(&path)
                 .with_context(|| format!("failed reading configured {env_name} sink"))?;
             if !retained.contains(&marker) {
@@ -1039,12 +1049,11 @@ fn verify_shutdown_observability_barrier(
             sinks.push(json!({"sink": env_name, "status": "retained"}));
         }
     }
-    if let Some(path) = std::env::var_os("ADL_OTEL_STATUS").map(PathBuf::from) {
-        let status: Value = serde_json::from_slice(
-            &fs::read(&path).context("failed reading configured ADL_OTEL_STATUS sink")?,
-        )
-        .context("configured ADL_OTEL_STATUS sink was not valid JSON")?;
-        if status.get("last_event").and_then(Value::as_str) != Some(&format!("csm.{event}")) {
+    if std::env::var_os("ADL_OTEL_STATUS").is_some() {
+        // A heartbeat may already have replaced the monitor snapshot. Its
+        // latest-event field is not an acknowledgment of this barrier. The
+        // receipt records this emission's write under the status writer lock.
+        if !receipt.otel_status {
             return Err(anyhow!(
                 "configured ADL_OTEL_STATUS sink did not acknowledge {event}"
             ));
@@ -5161,6 +5170,25 @@ fn emit_daemon_event(
     restart_count: u64,
     details: Value,
 ) -> Result<()> {
+    emit_daemon_event_with_receipt(
+        runtime_context,
+        loaded,
+        event,
+        result,
+        restart_count,
+        details,
+    )
+    .map(|_| ())
+}
+
+fn emit_daemon_event_with_receipt(
+    runtime_context: &CsmRuntimeContext,
+    loaded: &LoadedAgentSpec,
+    event: &str,
+    result: &str,
+    restart_count: u64,
+    details: Value,
+) -> Result<crate::observability::EventSinkReceipt> {
     let trace_id = daemon_trace_id(loaded);
     let span_id = daemon_span_id(event, restart_count);
     let parent_span_id = daemon_parent_span_id(loaded);
@@ -5184,7 +5212,7 @@ fn emit_daemon_event(
     append_operator_event(loaded, event, event_details)?;
     let restart_count_s = restart_count.to_string();
     let time_sync_status = runtime_context.time_sync_status();
-    crate::observability::emit_event(
+    let receipt = crate::observability::emit_event_with_receipt(
         "csm",
         event,
         result,
@@ -5210,7 +5238,7 @@ fn emit_daemon_event(
             ("restart_count", restart_count_s.as_str()),
         ],
     );
-    Ok(())
+    Ok(receipt)
 }
 
 fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext, agent_instance_id: &str) -> Value {

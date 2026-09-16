@@ -33,6 +33,9 @@ fn governed_receipt(candidate: &BirthdayCandidate) -> ResidentToolReceiptV1 {
         acc_contract_id: Some("acc-one".into()),
         gate_reason_code: Some("allowed".into()),
         adapter_id: Some("adapter.runtime.observe.dry_run".into()),
+        tool_name: Some("runtime.observe".into()),
+        arguments_sha256: Some(format!("sha256:{}", hash('6'))),
+        effect_sha256: Some(format!("sha256:{}", hash('7'))),
         decision: ResidentToolReceiptDecisionV1::Executed,
         reason_code: "governed_execution_completed".into(),
     }

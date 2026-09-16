@@ -1,0 +1,107 @@
+{
+  "source_review_revision": "91cf2c85e3c85051b4ebcdca2eed9d6c8cdf7909",
+  "post_review_change": "explicit unit-test import only",
+  "local_proof": [
+    {
+      "path": ".adl/960-receipt-tests.log",
+      "sha256": "c5bbf7501aa8a1f32a8e8d98ca42be1d34062e1367dbe86ac82debe9c77ff94e",
+      "result_lines": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 28s",
+        "test observability::tests::event_receipt_survives_a_concurrent_status_replacement ... ok",
+        "test observability::tests::event_receipt_rejects_failed_required_sink_writes ... ok",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1873 filtered out; finished in 0.01s"
+      ],
+      "retained_log": ".csdlc/evidence/960/logs/960-receipt-tests.log",
+      "retained_log_sha256": "51342798da87bff683f4d3341470eac0b71caf779aa6f0af0cc6f89fe8c4acc2"
+    },
+    {
+      "path": ".adl/960-consumer-test.log",
+      "sha256": "b840402629cfca3975068e64fc862e7c42e74b49d09e6bb2f7ba68c11163f4b5",
+      "result_lines": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.53s",
+        "test long_lived_agent::tests::shutdown_barrier_requires_its_own_status_write_acknowledgment ... ok",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1874 filtered out; finished in 2.33s"
+      ],
+      "retained_log": ".csdlc/evidence/960/logs/960-consumer-test.log",
+      "retained_log_sha256": "b840402629cfca3975068e64fc862e7c42e74b49d09e6bb2f7ba68c11163f4b5"
+    },
+    {
+      "path": ".adl/960-observability-tests.log",
+      "sha256": "99d8afa3cd9fdca6994ec08054b3fb6452d077fccf4d7fbcd5b6272fec508d4c",
+      "result_lines": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s",
+        "test observability::tests::heartbeat_interval_defaults_and_overrides ... ok",
+        "test observability::tests::format_event_line_preserves_expected_schema_shape ... ok",
+        "test observability::tests::event_receipt_rejects_failed_required_sink_writes ... ok",
+        "test observability::tests::sanitize_value_redacts_secret_markers ... ok",
+        "test observability::tests::sanitize_value_normalizes_repo_home_and_absolute_paths ... ok",
+        "test observability::tests::event_receipt_survives_a_concurrent_status_replacement ... ok",
+        "test observability::tests::append_to_compatibility_log_reports_open_failures ... ok",
+        "test observability::tests::compatibility_log_sink_failure_stays_quiet_when_stderr_is_suppressed ... ok",
+        "test observability::tests::otel_monitor_status_serializes_concurrent_process_style_updates ... ok",
+        "test observability::tests::progress_heartbeat_emits_heartbeat_for_slow_operations ... ok",
+        "test observability::tests::emit_event_exports_otel_jsonl_and_monitor_status_when_configured ... ok",
+        "test observability::tests::emit_event_appends_to_durable_log_when_configured ... ok",
+        "test observability::tests::progress_heartbeat_stays_quiet_for_fast_operations ... ok",
+        "test observability::tests::otel_sink_failure_is_durable_when_stderr_is_suppressed ... ok",
+        "test observability::tests::otlp_exporter_malformed_endpoint_fails_closed_with_durable_status ... ok",
+        "test observability::tests::emit_event_exports_otlp_http_json_to_configured_collector ... ok",
+        "test observability::tests::emit_event_routes_sanitized_compatibility_event_through_tracing ... ok",
+        "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 1858 filtered out; finished in 0.33s"
+      ],
+      "retained_log": ".csdlc/evidence/960/logs/960-observability-tests.log",
+      "retained_log_sha256": "99d8afa3cd9fdca6994ec08054b3fb6452d077fccf4d7fbcd5b6272fec508d4c"
+    },
+    {
+      "path": ".adl/960-cli-normal.log",
+      "sha256": "0d2bc645ffb7d9f2d11e919e6277e37cdbe88064ba4614088fe5c65d850299d5",
+      "result_lines": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 05s",
+        "test agent::csm_runtime_api_serves_status_health_ready_metrics_and_events ... ok",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 107 filtered out; finished in 21.64s"
+      ],
+      "retained_log": ".csdlc/evidence/960/logs/960-cli-normal.log",
+      "retained_log_sha256": "1735e14f4d360ce08ce87cd35369f9733f55770b953cd1d1c916dd01fe30c168"
+    },
+    {
+      "path": ".adl/960-cli-heartbeat.log",
+      "sha256": "5542ca8a80628d7abc83a5606ff77fe0adde33aedc2e6ddbba4daf0b94ed9609",
+      "result_lines": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.53s",
+        "test agent::csm_runtime_api_serves_status_health_ready_metrics_and_events ... ok",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 107 filtered out; finished in 15.89s"
+      ],
+      "retained_log": ".csdlc/evidence/960/logs/960-cli-heartbeat.log",
+      "retained_log_sha256": "5542ca8a80628d7abc83a5606ff77fe0adde33aedc2e6ddbba4daf0b94ed9609"
+    },
+    {
+      "path": ".adl/960-cli-failures.log",
+      "sha256": "011b03dbcc383bca402a8f9558fc1625d36ca01b51f91bc8374daec3b5dc433e",
+      "result_lines": [
+        "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s",
+        "test agent::csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_success ... ok",
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 107 filtered out; finished in 21.88s"
+      ],
+      "retained_log": ".csdlc/evidence/960/logs/960-cli-failures.log",
+      "retained_log_sha256": "011b03dbcc383bca402a8f9558fc1625d36ca01b51f91bc8374daec3b5dc433e"
+    },
+    {
+      "path": ".adl/960-clippy.log",
+      "sha256": "31a5414cab108539c2fd4d1d82e73c791bf4fd7edc9ccda24f92e7189349efe8",
+      "result_lines": [
+        "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 53s"
+      ],
+      "retained_log": ".csdlc/evidence/960/logs/960-clippy.log",
+      "retained_log_sha256": "2193217cc0e3c7bba139a6addfc157ddd4bb8e5196ec61b904f1f578a6e08c99"
+    }
+  ],
+  "github_ci": "pending publication",
+  "original_ci_cause": "unknown",
+  "handoff_verification": "Worker #10 verified all seven original log digests and excerpts; did not rerun unchanged tests.",
+  "source_sha256": {
+    "adl/src/cli/observability.rs": "0512ca05cfb664dc1a572f66ab93c5f736ad8467589484beedb4846ef6d9132d",
+    "adl/src/long_lived_agent.rs": "bbc969ced836fb50ed30933d518c8b1fd9faef2b2346f0bbc9c1caf1b0bc0cc8",
+    "adl/src/long_lived_agent/tests.rs": "e7627ed4f9692c856dfadbd242b7463041fef5cfbf5f8b9356c522cc5aafe94d",
+    "adl/tests/cli_smoke/agent.rs": "3ea3bd80276c261a03c3d695d3b12ab74a578c5c750acd6cb487a5aa2c3aef39"
+  }
+}

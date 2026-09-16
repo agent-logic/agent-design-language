@@ -4,8 +4,8 @@ An issue closed as retired, duplicate, superseded, absorbed, completed coordinat
 or historical disposition still requires durable closeout. These outcomes are not
 merged implementation proof and must not be represented by a fabricated PR.
 
-Use native `csdlc finish --request <request.json> --observe-github`. The request
-sets `pull_request` and `mode` to null and includes `no_pr_closeout`:
+Use native `csdlc finish ISSUE --disposition <disposition.json>`. The disposition
+file contains:
 
 ```json
 {
@@ -25,13 +25,15 @@ GitHub closure and exact timestamps; it does not independently evaluate whether
 all implementation or coordination acceptance criteria were fulfilled. A closed
 issue alone is insufficient to author the rationale.
 
-The enclosing request retains repository, issue, exact `expected_head_sha`,
-credential name, and canonical `terminal_state` output paths. The head identifies
-the local reconciliation context, not a merged implementation. Fresh authenticated
-GitHub observation must match the approved timestamps. Open issues, PR objects,
-missing rationale/evidence/operator, mixed PR/no-PR requests, and stale snapshots
-fail closed. Repeated identical reconciliation is idempotent; conflicting receipts
-preserve existing state and require explicit investigation.
+The semantic intent derives the repository, issue, exact checkout identity,
+credential selection, and canonical terminal paths from current native state.
+Fresh authenticated GitHub observation must match the approved timestamps. Open
+issues, PR objects, missing rationale/evidence/operator, mixed PR/no-PR state,
+and stale snapshots fail closed. Repeated identical reconciliation is
+idempotent; conflicting receipts preserve existing state and require explicit
+investigation. For reviewed automation, generate an exact request with
+`--emit-request` and replay it through `finish --intent-request`; direct
+`finish --request` writer syntax is retired.
 
 Receipts retain `pull_request: null` and the complete `no_pr_closeout` disposition.
 Existing merged-PR receipt serialization is unchanged. Cleanup requires the same

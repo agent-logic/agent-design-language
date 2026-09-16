@@ -182,14 +182,6 @@ impl<C: Clock> Corpus<C> {
         self.write(&self.output_path);
     }
 
-    pub fn record_nested_cli(&mut self, count: usize) {
-        let record = self.attempts.last_mut().unwrap();
-        record["nested_cli_count"] = json!(count);
-        record["nested_invocation_count"] =
-            json!(count + record["nested_transport_count"].as_u64().unwrap() as usize);
-        self.write(&self.output_path);
-    }
-
     pub fn write(&self, output: &Path) {
         assert!(
             !output.starts_with(&self.root),

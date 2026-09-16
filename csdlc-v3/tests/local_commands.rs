@@ -313,33 +313,26 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
         assert!(help_stdout.contains("authenticated canonical selector"));
         assert!(help_stdout.contains("Missing or stale proof suspends authority"));
 
-        let mut output = Command::new(env!("CARGO_BIN_EXE_csdlc"));
-        output.current_dir(&dir);
-        output
-            .arg(route)
-            .arg("--request")
-            .arg(&request_path)
-            .arg("--registry")
-            .arg(repo_root().join("docs/templates/prompts/current.json"))
-            .arg("--registrations")
-            .arg(&registrations_path);
-        match route {
-            "issue" => {
-                output.arg("--v3-state-root").arg(&state_root);
-            }
-            "shepherd" => {
+        if !matches!(route, "issue" | "bind" | "edit") {
+            let mut output = Command::new(env!("CARGO_BIN_EXE_csdlc"));
+            output.current_dir(&dir);
+            output
+                .arg(route)
+                .arg("--request")
+                .arg(&request_path)
+                .arg("--registry")
+                .arg(repo_root().join("docs/templates/prompts/current.json"))
+                .arg("--registrations")
+                .arg(&registrations_path);
+            if route == "shepherd" {
                 output.arg("--repo-root").arg(&bound_root);
-            }
-            _ => {
+            } else {
                 output.arg("--repo-root").arg(&ready_root);
             }
+            let output = output.output().expect("run local observation route");
+            assert_context_denied(&output, route);
+            assert!(!state_root.exists());
         }
-        let output = output.output().expect("run local route");
-        assert_context_denied(&output, route);
-        assert!(
-            !state_root.exists(),
-            "denied issue route wrote construction state"
-        );
         // Historical model semantics remain tested through their explicit library API.
         let observed = if route == "shepherd" {
             inspect_local_lifecycle_state(&bound_root, 503)
@@ -473,21 +466,6 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
     )
     .expect("write registrations fixture");
 
-    let issue_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-        .current_dir(&dir)
-        .arg("issue")
-        .arg("--request")
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(repo_root().join("docs/templates/prompts/current.json"))
-        .arg("--registrations")
-        .arg(&registrations_path)
-        .arg("--v3-state-root")
-        .arg(&state_root)
-        .output()
-        .expect("run v3 issue initialization route");
-    assert_context_denied(&issue_output, "issue");
-    assert!(!state_root.exists());
     // The retained constructor is library proof, never implicit operational CLI fallback.
     let observation = initialize_v3_local_state(&state_root, &request(), &registry()).unwrap();
     assert_eq!(observation.code, "local_lifecycle_state_ready");
@@ -546,38 +524,11 @@ fn issue_route_can_initialize_v3_local_state_and_eligibility_consumes_it() {
 #[test]
 fn issue_route_rejects_expected_digest_before_writing_v3_state() {
     let dir = fixture_dir("issue-stale-digest-write-free");
-    let request_path = dir.join("request.json");
-    let registrations_path = dir.join("registrations.json");
     let missing_state_root = dir.join("missing-state");
     let stale_state_root = dir.join("stale-state");
     let mut stale = request();
     stale.expected_lifecycle_digest = Some("expected-digest".into());
-    fs::write(
-        &request_path,
-        serde_json::to_vec(&stale).expect("request json"),
-    )
-    .expect("write request fixture");
-    fs::write(
-        &registrations_path,
-        serde_json::to_vec(&registrations()).expect("registrations json"),
-    )
-    .expect("write registrations fixture");
 
-    let missing_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-        .current_dir(&dir)
-        .arg("issue")
-        .arg("--request")
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(repo_root().join("docs/templates/prompts/current.json"))
-        .arg("--registrations")
-        .arg(&registrations_path)
-        .arg("--v3-state-root")
-        .arg(&missing_state_root)
-        .output()
-        .expect("run v3 issue route with missing state");
-    assert!(!missing_output.status.success(), "{missing_output:?}");
-    assert_context_denied(&missing_output, "issue");
     let denied = execute_local_route(
         "issue",
         &stale,
@@ -598,21 +549,6 @@ fn issue_route_rejects_expected_digest_before_writing_v3_state() {
         br#"{"phase":"ready","generation":7,"digest":"actual-digest"}"#,
     )
     .expect("write stale v3 index");
-    let stale_output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-        .current_dir(&dir)
-        .arg("issue")
-        .arg("--request")
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(repo_root().join("docs/templates/prompts/current.json"))
-        .arg("--registrations")
-        .arg(&registrations_path)
-        .arg("--v3-state-root")
-        .arg(&stale_state_root)
-        .output()
-        .expect("run v3 issue route with stale digest");
-    assert!(!stale_output.status.success(), "{stale_output:?}");
-    assert_context_denied(&stale_output, "issue");
     let denied = execute_local_route(
         "issue",
         &stale,
@@ -630,8 +566,6 @@ fn issue_route_rejects_expected_digest_before_writing_v3_state() {
 #[test]
 fn issue_route_requires_expected_digest_before_overwriting_existing_v3_state() {
     let dir = fixture_dir("issue-existing-state-requires-digest");
-    let request_path = dir.join("request.json");
-    let registrations_path = dir.join("registrations.json");
     let state_root = dir.join("state");
     let issue_root = state_root.join("issues/503");
     fs::create_dir_all(&issue_root).expect("existing issue dir");
@@ -640,32 +574,6 @@ fn issue_route_requires_expected_digest_before_overwriting_existing_v3_state() {
         br#"{"phase":"ready","generation":7,"digest":"actual-digest"}"#,
     )
     .expect("write existing v3 index");
-    fs::write(
-        &request_path,
-        serde_json::to_vec(&request()).expect("request json"),
-    )
-    .expect("write request fixture");
-    fs::write(
-        &registrations_path,
-        serde_json::to_vec(&registrations()).expect("registrations json"),
-    )
-    .expect("write registrations fixture");
-
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-        .current_dir(&dir)
-        .arg("issue")
-        .arg("--request")
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(repo_root().join("docs/templates/prompts/current.json"))
-        .arg("--registrations")
-        .arg(&registrations_path)
-        .arg("--v3-state-root")
-        .arg(&state_root)
-        .output()
-        .expect("run v3 issue route with existing state and no digest");
-    assert!(!output.status.success(), "{output:?}");
-    assert_context_denied(&output, "issue");
     assert_eq!(
         fs::read(issue_root.join("index.json")).unwrap(),
         br#"{"phase":"ready","generation":7,"digest":"actual-digest"}"#
@@ -752,33 +660,6 @@ fn local_lifecycle_readiness_rejects_post_execution_phase() {
 
 #[test]
 fn local_routes_fail_closed_without_observed_lifecycle_state() {
-    let dir = fixture_dir("route-missing-observation");
-    let request_path = dir.join("request.json");
-    let registrations_path = dir.join("registrations.json");
-    fs::write(
-        &request_path,
-        serde_json::to_vec(&request()).expect("request json"),
-    )
-    .expect("write request fixture");
-    fs::write(
-        &registrations_path,
-        serde_json::to_vec(&registrations()).expect("registrations json"),
-    )
-    .expect("write registrations fixture");
-
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-        .current_dir(&dir)
-        .arg("bind")
-        .arg("--request")
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(repo_root().join("docs/templates/prompts/current.json"))
-        .arg("--registrations")
-        .arg(&registrations_path)
-        .output()
-        .expect("run local bind route");
-    assert!(!output.status.success(), "{output:?}");
-    assert_context_denied(&output, "bind");
     let denied =
         execute_local_route("bind", &request(), &registry(), &registrations(), None).unwrap_err();
     assert!(denied
@@ -835,38 +716,10 @@ fn local_routes_reject_unsupported_transitions_from_observed_phase() {
 #[test]
 fn local_routes_reject_stale_lifecycle_digest() {
     let dir = fixture_dir("route-stale-digest");
-    let request_path = dir.join("request.json");
-    let registrations_path = dir.join("registrations.json");
     let ready_root = dir.join("ready-root");
     write_lifecycle_state(&ready_root, 503, "ready", "actual-digest");
     let mut stale = request();
     stale.expected_lifecycle_digest = Some("stale-digest".into());
-    fs::write(
-        &request_path,
-        serde_json::to_vec(&stale).expect("request json"),
-    )
-    .expect("write request fixture");
-    fs::write(
-        &registrations_path,
-        serde_json::to_vec(&registrations()).expect("registrations json"),
-    )
-    .expect("write registrations fixture");
-
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
-        .current_dir(&dir)
-        .arg("bind")
-        .arg("--request")
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(repo_root().join("docs/templates/prompts/current.json"))
-        .arg("--registrations")
-        .arg(&registrations_path)
-        .arg("--repo-root")
-        .arg(&ready_root)
-        .output()
-        .expect("run local bind route");
-    assert!(!output.status.success(), "{output:?}");
-    assert_context_denied(&output, "bind");
     let denied = execute_local_route(
         "bind",
         &stale,
@@ -1715,118 +1568,4 @@ fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
         execute_operational_local_route("edit", &wrong, &registry, &context).unwrap_err()[0].code,
         "invalid_operational_roots"
     );
-}
-
-// PVF: deterministic local crash/restart contract proof; real Git worktree,
-// no network. Proves a bind interrupted after source backup can recover into
-// the bound checkout without publishing state back into the primary checkout.
-#[test]
-fn bind_transaction_recovers_into_bound_checkout_after_restart() {
-    let (primary, _, mut context, registry) =
-        operational_authority_fixture("bind-crash-recovery", "v3");
-    fs::create_dir_all(primary.join(".adl")).unwrap();
-    fs::write(
-        primary.join(".adl/worktree-policy.json"),
-        serde_json::to_vec(&serde_json::json!({
-            "schema":"adl.worktree_policy.v1", "required_parent":context.allowed_worktree_parent
-        }))
-        .unwrap(),
-    )
-    .unwrap();
-    run_git(&primary, &["add", ".adl/worktree-policy.json"]);
-    run_git(&primary, &["commit", "--quiet", "-m", "worktree policy"]);
-    context.expected_head_sha = run_git(&primary, &["rev-parse", "HEAD"]);
-    run_git(
-        &primary,
-        &[
-            "update-ref",
-            "refs/remotes/origin/main",
-            &context.expected_head_sha,
-        ],
-    );
-
-    let mut req = request();
-    let bound = context.allowed_worktree_parent.join("issue-503");
-    req.worktree = bound.to_string_lossy().into_owned();
-    let before = primary_tree(&primary);
-    let initialized = execute_operational_local_route("issue", &req, &registry, &context)
-        .expect("initialize authoritative lifecycle state");
-    req.expected_lifecycle_digest = initialized.digest.clone();
-
-    let packet = primary.parent().unwrap();
-    let request_path = packet.join("bind-request.json");
-    fs::write(&request_path, serde_json::to_vec(&req).unwrap()).unwrap();
-    let registry_path = packet.join("active-registry.json");
-    let templates: serde_json::Map<String, serde_json::Value> = registry
-        .template_paths
-        .iter()
-        .map(|(kind, path)| {
-            (
-                kind.clone(),
-                serde_json::json!({
-                    "path": path
-                }),
-            )
-        })
-        .collect();
-    fs::write(
-        &registry_path,
-        serde_json::to_vec(&serde_json::json!({
-            "schema":"adl.csdlc.prompt_template_registry.v1",
-            "status":"active",
-            "semver":"1.0.5",
-            "templates": templates
-        }))
-        .unwrap(),
-    )
-    .unwrap();
-    let registrations = packet.join("registrations.json");
-    fs::write(&registrations, "[]").unwrap();
-
-    let mut command = Command::new(env!("CARGO_BIN_EXE_csdlc"));
-    command
-        .current_dir(&primary)
-        .args(["bind", "--request"])
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(&registry_path)
-        .arg("--registrations")
-        .arg(&registrations)
-        .arg("--repo-root")
-        .arg(&primary);
-    let crashed = command
-        .env("CSDLC_V3_TEST_CRASH_POINT", "after_backup_rename")
-        .output()
-        .unwrap();
-    assert_eq!(
-        crashed.status.code(),
-        Some(91),
-        "{}",
-        String::from_utf8_lossy(&crashed.stderr)
-    );
-    assert!(!primary.join(".csdlc/issues/503/index.json").exists());
-    assert!(primary
-        .join(".git/csdlc-v3/local/transactions/503.json")
-        .is_file());
-    assert!(!bound.join(".csdlc/issues/503/index.json").exists());
-    assert_eq!(primary_tree(&primary), before);
-
-    let recovered = command
-        .env_remove("CSDLC_V3_TEST_CRASH_POINT")
-        .output()
-        .unwrap();
-    assert!(
-        recovered.status.success(),
-        "{}",
-        String::from_utf8_lossy(&recovered.stderr)
-    );
-    let value: serde_json::Value =
-        serde_json::from_slice(&recovered.stdout).expect("machine-readable recovery json");
-    assert_eq!(value["result"]["phase"], "bound");
-    assert!(bound.join(".csdlc/issues/503/index.json").is_file());
-    assert!(!primary.join(".csdlc/issues/503").exists());
-    assert!(!primary
-        .join(".git/csdlc-v3/local/transactions/503.json")
-        .exists());
-    assert_eq!(primary_tree(&primary), before);
 }

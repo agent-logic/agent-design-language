@@ -1,0 +1,37 @@
+{
+  "expected_lifecycle_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "exact_review_sha": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+  "operation": {
+    "kind": "publish",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 855,
+      "pull_request": 964,
+      "actor": null,
+      "implementer": "execute_855",
+      "reviewer": "root",
+      "review_revision": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+      "expected_head_sha": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+      "head_sha": "189aff00ff58bb0bfd78e2603b7da794fcfcae4b",
+      "mode": "closing",
+      "title": "Runtime: support provider-neutral dynamic agent lifecycle",
+      "body": "Route dynamic agent admission, replacement and conversation execution through the process-owned canonical provider registry. The new provider core preserves existing ADL adapters and validated profile reloads while exposing safe model, capability and health projections. Operator and signed A2A execution, checkpoint/migration/rehydration and removal work without Runtime restart.\n\nLocal validation: 94 provider-core tests plus the focused Runtime mock-bound test; 85 kernel control tests; 18 ADL compatibility tests; seven CLI lifecycle tests; eleven API contracts; affected Clippy and CI routing checks. The installed five-provider fixture matrix and three-provider hosted-topology fixture pass. Independent review findings on cancellation/deadlines, health publication and action accounting are resolved. Proof records distinguish source and installed-binary revisions.\n\nThis is a draft: actual hosted qualification is authorized but pending Google authentication setup, and required CI has not yet run. The failed hosted preflight dispatched no model requests. Fixtures are not claimed as live vendor proof; no merge readiness or issue completion is claimed.\n\nCloses #855\nPart of #928.\n",
+      "review_present": true,
+      "typed_review_receipt_path": ".csdlc/evidence/855/publication-draft/typed-review-receipt.json",
+      "typed_review_receipt_digest": "a4cf521fa3f83e30eb031a0d43f77c830d020bb4446a1d8185343d8c9d8ae73f",
+      "readback_source": "github",
+      "readback_receipt_path": ".csdlc/evidence/855/publication-draft/observed/github-readback.json",
+      "readback_receipt_digest": "30862eec3cab6b0da7bdca8a5dba624441cc71ded89f37864e4a89aaec22bcd0",
+      "adapter_receipt_path": ".csdlc/evidence/855/publication-draft/observed/github-adapter.json",
+      "adapter_receipt_digest": "d253333eddbf38bf95a450cfceaa770702c714e4dc3e004c5730b70fffba989b",
+      "closes_issue": 855,
+      "closing_issues": [
+        855
+      ],
+      "part_of_issue": null,
+      "credential_names": [
+        "GITHUB_TOKEN"
+      ]
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "adl.pair.runtime-batch.v1",
+  "result": "pass",
+  "candidate_sha": "29d71a537a0bbc4f08c329bf2e5b2f97d0d0ea48",
+  "dispatch": "execute_sequential_with_provider_reload_handle",
+  "provider_kind": "ollama",
+  "model": "llama3.2:3b",
+  "sidecar_sha256": "9ba117373d58dfe6d035a5afcf42a79761f27a9268c6d6aa3834a62bfa2da988",
+  "corpus_sha256": "f3b1578797ff8f0367cb3bf2810700af0b67bb4f46ddfaf5fdfa11fa34427a03",
+  "snapshot_digest": "325eb952abb61384077802ed2d45ab768befe5bc091fcbc0bc59c2f31d74b187",
+  "concurrency": 2,
+  "repetitions": 3,
+  "attempts": 6,
+  "batches": [
+    {
+      "repetition": 0,
+      "elapsed_ms": 1829
+    },
+    {
+      "repetition": 1,
+      "elapsed_ms": 427
+    },
+    {
+      "repetition": 2,
+      "elapsed_ms": 481
+    }
+  ],
+  "outputs": [
+    {
+      "repetition": 0,
+      "id": "alpha",
+      "output_bytes": 5,
+      "output_sha256": "73ab66a033c267e00b7429bb256f6deb2734ebc4cd4ff5b564a8c9f9b2c8a719"
+    },
+    {
+      "repetition": 0,
+      "id": "beta",
+      "output_bytes": 4,
+      "output_sha256": "639181fd63cbad6e274ecd205b79f5c3e7c11971cac617ee8bddcac6e79b20e7"
+    },
+    {
+      "repetition": 1,
+      "id": "alpha",
+      "output_bytes": 5,
+      "output_sha256": "73ab66a033c267e00b7429bb256f6deb2734ebc4cd4ff5b564a8c9f9b2c8a719"
+    },
+    {
+      "repetition": 1,
+      "id": "beta",
+      "output_bytes": 4,
+      "output_sha256": "639181fd63cbad6e274ecd205b79f5c3e7c11971cac617ee8bddcac6e79b20e7"
+    },
+    {
+      "repetition": 2,
+      "id": "alpha",
+      "output_bytes": 5,
+      "output_sha256": "73ab66a033c267e00b7429bb256f6deb2734ebc4cd4ff5b564a8c9f9b2c8a719"
+    },
+    {
+      "repetition": 2,
+      "id": "beta",
+      "output_bytes": 4,
+      "output_sha256": "639181fd63cbad6e274ecd205b79f5c3e7c11971cac617ee8bddcac6e79b20e7"
+    }
+  ],
+  "pair_service_started_by_probe": false,
+  "serving_node_proven_by_probe": false
+}

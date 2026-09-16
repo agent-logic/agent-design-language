@@ -590,9 +590,13 @@ impl ProductionFixture {
             )?))
             .map_err(|error| error.to_string())?;
         let client_config = Arc::new(
-            ClientConfig::builder()
-                .with_root_certificates(roots)
-                .with_no_client_auth(),
+            ClientConfig::builder_with_provider(Arc::new(
+                rustls::crypto::aws_lc_rs::default_provider(),
+            ))
+            .with_safe_default_protocol_versions()
+            .map_err(|error| error.to_string())?
+            .with_root_certificates(roots)
+            .with_no_client_auth(),
         );
         Ok(Self {
             address,

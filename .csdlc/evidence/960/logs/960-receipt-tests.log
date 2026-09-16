@@ -1,0 +1,12 @@
+   Compiling adl-runtime-kernel v0.92.1 (<issue-worktree>/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.1 (<issue-worktree>/adl-runtime)
+   Compiling adl v0.92.1 (<issue-worktree>/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 28s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-ccd7db6b0055bffe)
+
+running 2 tests
+test observability::tests::event_receipt_survives_a_concurrent_status_replacement ... ok
+test observability::tests::event_receipt_rejects_failed_required_sink_writes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1873 filtered out; finished in 0.01s
+

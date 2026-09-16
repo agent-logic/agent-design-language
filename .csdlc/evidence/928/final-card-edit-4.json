@@ -1,0 +1,15 @@
+{
+  "issue": 928,
+  "title": "[v0.92.2][Sprint 2] Runtime/provider foundations and ingestion",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/928-combined-sprint-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-928-combined-sprint-review",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "c6c5c0e973573db0a8d6b6b7214d478f0c8cd21bf9ef5fc25b793833c4a585b4",
+  "commands": ["prepare_issue","bind_worktree","edit_cards","plan_pvf","doctor","schedule","shepherd","eligibility"],
+  "card_updates": {
+    "spp": {
+      "target_files_surfaces_inline": ".csdlc/evidence/928; .csdlc/issues/928; .csdlc/transactions/completed/928; docs/milestones/v0.92.2/SPRINT_v0.92.2.md"
+    }
+  }
+}

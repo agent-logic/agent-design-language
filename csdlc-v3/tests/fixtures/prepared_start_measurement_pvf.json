@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.v3.prepared_start_measurement_pvf.v1",
+  "issue": 869,
+  "target": "installed_prepared_start_measurement",
+  "lane": "Explicit manual artifact-input measurement",
+  "proof_role": "Matched accepted-predecessor and candidate prepared-start timing and operator-input inventory",
+  "determinism": "Semantic inputs and assertions fixed; physical durations observational and host-dependent",
+  "resources": "Local CPU, Git, candidate binaries and fixture disk; no live remote or paid resources",
+  "release_gate": "Required local SIM-03 evidence; an ignored CI test is not a passing measurement",
+  "required_environment": "ADL_SIM03_BASELINE_BINARY points to accepted #868 candidate, checked against fixed BLAKE3 identity",
+  "explicit_invocation": "cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_prepared_start_measurement -- --ignored --test-threads=1 --nocapture",
+  "sample_plan": "Three matched pairs with alternating predecessor/candidate order; same semantic plan and isolated fixture family",
+  "interval": "Prepared state through inspect, bind and successful native validation, including required caller request/registration materialization",
+  "non_claims": [
+    "No OS-cold cache measurement or shared-host cache reset",
+    "No measured human plan-authoring effort",
+    "Fixture timings do not prove live network or full repository workflow latency",
+    "Accepted predecessor in-process authority-read counts are unavailable rather than zero"
+  ]
+}

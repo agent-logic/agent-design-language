@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 978,
+  "issue_padded": "0978",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/978",
+  "title": "[v0.92.2][RT-PROVIDER][corrective] Make managed Runtime startup and provider admission resilient",
+  "branch": "codex/978-runtime-startup-provider-resilience",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-978-runtime-startup-provider-resilience"
+}

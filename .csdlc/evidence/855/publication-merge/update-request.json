@@ -1,0 +1,21 @@
+{
+  "expected_lifecycle_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "exact_review_sha": "114d143fdfc7668848e5e45065fb7c9fdb7a558b",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 855,
+      "pull_request": 964,
+      "expected_head_sha": "114d143fdfc7668848e5e45065fb7c9fdb7a558b",
+      "credential_names": [
+        "GITHUB_TOKEN"
+      ],
+      "mutation": {
+        "action": "pull_request_update",
+        "title": null,
+        "body": "Route dynamic agent admission, replacement and conversation execution through the canonical process-owned provider registry. Preserve existing ADL adapters and validated profile reloads while exposing safe model, capability and health projections. Operator and signed A2A execution, checkpoint/migration/rehydration and removal work without Runtime restart.\n\nLocal proof includes the installed five-provider fixture matrix and three-provider hosted-topology fixture. Independent review resolved deadline/cancellation, health publication, action accounting and bounded adapter findings. Follow-up remediation preserves safe continuation failure categories and selects an explicit Rustls provider under unified dependency features. Shared strict limit validation rejects invalid definitions before promotion; the actual reload regression preserves last-known-good generation/digest across eight invalid replacements. Focused continuation, TLS and reload regressions pass; the refreshed installed matrix and new-head CI remain pending.\n\nActual hosted live02 stopped after three OpenAI requests: two succeeded and the continuation failed. No Anthropic or Vertex requests were made, and no complete hosted row passed. The underlying continuation cause is unknown because the prior result discarded its category. The failed report is retained; no hosted recovery or full acceptance is claimed. The prior CI failed runtime coverage; current CI must validate the repair. This PR remains draft.\n\nCloses #855\nPart of #928.\n\nMerge resolution preserves both provider-core and CI acquisition jobs with their fail-closed aggregate checks. Focused CI contracts pass; fresh CI pending.\n"
+      }
+    }
+  }
+}

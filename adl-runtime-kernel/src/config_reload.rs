@@ -261,6 +261,90 @@ where
     if let Some(applier) = applier.as_ref() {
         applier(initial.value())?;
     }
+    start_config_reload_from_snapshot(
+        path,
+        parser,
+        applier,
+        options,
+        shutdown,
+        Some(signature),
+        initial,
+        0,
+    )
+}
+
+pub async fn start_config_reload_with_fallback_and_applier_and_shutdown<T>(
+    path: impl Into<PathBuf>,
+    fallback: T,
+    parser: ConfigParser<T>,
+    applier: Option<ConfigApplier<T>>,
+    options: ConfigReloadOptions,
+    shutdown: CancellationToken,
+) -> Result<ConfigReloadController<T>, ConfigReloadError>
+where
+    T: Send + Sync + 'static,
+{
+    let path = path.into();
+    let options = options.validate()?;
+    let initial_read = read_config(&path).await;
+    let (last_evaluated, initial, invalid_updates_rejected) = match initial_read {
+        Ok(raw) => {
+            let signature = FileSignature::from_bytes(&raw);
+            match parse_snapshot(&path, &parser, &raw, 0).and_then(|snapshot| {
+                if let Some(applier) = applier.as_ref() {
+                    applier(snapshot.value())?;
+                }
+                Ok(snapshot)
+            }) {
+                Ok(snapshot) => (Some(signature), snapshot, 0),
+                Err(_) => (
+                    Some(signature),
+                    ConfigSnapshot {
+                        generation: 0,
+                        value: fallback,
+                        source: path.clone(),
+                        loaded_at: SystemTime::now(),
+                    },
+                    1,
+                ),
+            }
+        }
+        Err(_) => (
+            None,
+            ConfigSnapshot {
+                generation: 0,
+                value: fallback,
+                source: path.clone(),
+                loaded_at: SystemTime::now(),
+            },
+            1,
+        ),
+    };
+    start_config_reload_from_snapshot(
+        path,
+        parser,
+        applier,
+        options,
+        shutdown,
+        last_evaluated,
+        initial,
+        invalid_updates_rejected,
+    )
+}
+
+fn start_config_reload_from_snapshot<T>(
+    path: PathBuf,
+    parser: ConfigParser<T>,
+    applier: Option<ConfigApplier<T>>,
+    options: ConfigReloadOptions,
+    shutdown: CancellationToken,
+    last_evaluated: Option<FileSignature>,
+    initial: ConfigSnapshot<T>,
+    invalid_updates_rejected: u64,
+) -> Result<ConfigReloadController<T>, ConfigReloadError>
+where
+    T: Send + Sync + 'static,
+{
     let (sender, receiver) = watch::channel(Arc::new(initial));
     let (status_sender, status_receiver) = watch::channel(ConfigReloadStatus::default());
     let task_shutdown = shutdown.clone();
@@ -272,11 +356,12 @@ where
             applier,
             options,
             task_shutdown,
-            signature,
+            last_evaluated,
             ConfigReloadWatchers {
                 snapshot: sender,
                 status: status_sender,
             },
+            invalid_updates_rejected,
         )
         .await
     });
@@ -297,8 +382,9 @@ async fn watch_config<T>(
     applier: Option<ConfigApplier<T>>,
     options: ConfigReloadOptions,
     shutdown: CancellationToken,
-    mut last_evaluated: FileSignature,
+    mut last_evaluated: Option<FileSignature>,
     watchers: ConfigReloadWatchers<T>,
+    mut invalid_updates_rejected: u64,
 ) -> ConfigReloadOutcome
 where
     T: Send + Sync + 'static,
@@ -309,7 +395,6 @@ where
     let mut pending: Option<(FileSignature, Vec<u8>, Instant)> = None;
     let mut generation = 0;
     let mut reloads_applied = 0;
-    let mut invalid_updates_rejected = 0;
     let mut status = ConfigReloadStatus::default();
 
     loop {
@@ -325,7 +410,7 @@ where
                 match read_config(&path).await {
                     Ok(raw) => {
                         let signature = FileSignature::from_bytes(&raw);
-                        if signature == last_evaluated {
+                        if Some(signature) == last_evaluated {
                             if pending.take().is_some() {
                                 status.pending_candidate = false;
                                 status.pending_cancellations += 1;
@@ -368,11 +453,11 @@ where
                 }) {
                     Ok(snapshot) => {
                         watchers.snapshot.send_replace(Arc::new(snapshot));
-                        last_evaluated = signature;
+                        last_evaluated = Some(signature);
                         reloads_applied += 1;
                     }
                     Err(_) => {
-                        last_evaluated = signature;
+                        last_evaluated = Some(signature);
                         invalid_updates_rejected += 1;
                     }
                 }
@@ -539,5 +624,79 @@ mod tests {
         assert_eq!(outcome.reloads_applied, 0);
         assert_eq!(outcome.invalid_updates_rejected, 1);
         assert!(outcome.shutdown_requested);
+    }
+
+    #[tokio::test]
+    async fn invalid_initial_config_keeps_watcher_alive_until_a_valid_replacement() {
+        let path = test_path("config-reload-invalid-initial");
+        fs::write(&path, "bad").await.expect("write initial");
+        let parser: ConfigParser<String> = Arc::new(move |raw| {
+            if raw == "good" {
+                Ok(raw.to_owned())
+            } else {
+                Err(ConfigReloadError::validation("redacted invalid candidate"))
+            }
+        });
+        let controller = start_config_reload_with_fallback_and_applier_and_shutdown(
+            path.clone(),
+            "fallback".to_owned(),
+            parser,
+            None,
+            ConfigReloadOptions {
+                poll_interval: Duration::from_millis(10),
+                debounce: Duration::from_millis(30),
+            },
+            CancellationToken::new(),
+        )
+        .await
+        .expect("start reload with fallback");
+        let mut handle = controller.handle();
+        assert_eq!(handle.current().value(), "fallback");
+
+        write_config_atomically(&path, "good").await;
+        let changed = time::timeout(Duration::from_secs(1), handle.changed())
+            .await
+            .expect("changed")
+            .expect("snapshot");
+        assert_eq!(changed.value(), "good");
+
+        let outcome = controller.shutdown().await.expect("shutdown");
+        assert_eq!(outcome.reloads_applied, 1);
+        assert_eq!(outcome.invalid_updates_rejected, 1);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[tokio::test]
+    async fn missing_initial_config_keeps_watcher_alive_until_created() {
+        let path = test_path("config-reload-missing-initial");
+        let _ = std::fs::remove_file(&path);
+        let parser: ConfigParser<String> = Arc::new(|raw| Ok(raw.to_owned()));
+        let controller = start_config_reload_with_fallback_and_applier_and_shutdown(
+            path.clone(),
+            "fallback".to_owned(),
+            parser,
+            None,
+            ConfigReloadOptions {
+                poll_interval: Duration::from_millis(10),
+                debounce: Duration::from_millis(30),
+            },
+            CancellationToken::new(),
+        )
+        .await
+        .expect("start reload with missing source");
+        let mut handle = controller.handle();
+        assert_eq!(handle.current().value(), "fallback");
+
+        write_config_atomically(&path, "created").await;
+        let changed = time::timeout(Duration::from_secs(1), handle.changed())
+            .await
+            .expect("changed")
+            .expect("snapshot");
+        assert_eq!(changed.value(), "created");
+
+        let outcome = controller.shutdown().await.expect("shutdown");
+        assert_eq!(outcome.reloads_applied, 1);
+        assert_eq!(outcome.invalid_updates_rejected, 1);
+        let _ = std::fs::remove_file(path);
     }
 }

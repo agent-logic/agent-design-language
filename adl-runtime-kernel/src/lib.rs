@@ -122,3 +122,5 @@ pub use topology::{
     ValidatedPortRoute, ValidatedTopology,
 };
 pub use weather::*;
+
+pub mod provider_registry;

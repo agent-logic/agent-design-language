@@ -1,0 +1,25 @@
+{
+  "schema": "csdlc.v3.predecessor_dispositions_pvf.v1",
+  "issue": 869,
+  "target": "installed_predecessor_dispositions",
+  "lane": "deterministic local CPU contract and installed integration",
+  "proof_role": "Complete installed coverage for the generic GitHub route and guarded administrative cutover and rollback dispositions",
+  "determinism": "Isolated local repositories, synthetic immutable authority prerequisites and authenticated fake transport; physical elapsed time is observational",
+  "resources": "Local Git, candidate binary and disk; no paid provider, cloud or live GitHub effects",
+  "release_gate": "Required SIM-03 acceptance and SIM-07 qualification input",
+  "case_ids": [
+    "generic-github-stale-selector",
+    "generic-github-exact-mutation",
+    "generic-github-settled-replay",
+    "cutover-missing-approval",
+    "cutover-authenticated-apply",
+    "rollback-wrong-operation",
+    "rollback-tracked-suspension",
+    "rollback-settled-replay"
+  ],
+  "non_claims": [
+    "Fixture prerequisite receipts do not prove new review or proof-generation execution",
+    "Fixture cutover and rollback do not authorize installation or activation against live operator state",
+    "Source test coverage is not execution proof until this target passes at the final accepted candidate"
+  ]
+}

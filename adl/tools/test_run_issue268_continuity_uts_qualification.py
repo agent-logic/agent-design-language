@@ -23,21 +23,24 @@ def main() -> None:
         fake_uts = root / "fake_uts.py"
         fake_uts.write_text(
             """#!/usr/bin/env python3
-import json,pathlib,sys
+import hashlib,json,pathlib,sys
+digest=lambda x:hashlib.sha256(json.dumps(x,separators=(',',':'),sort_keys=True).encode()).hexdigest()
 a=sys.argv
 if a[1:3]==['agent','status']:
  spec=pathlib.Path(a[a.index('--spec')+1]); locked=spec.parent/'state'/'agent_spec.locked.json'
  assert json.load(open(spec))==json.load(open(locked)); print(json.dumps({'state':'idle'})); raise SystemExit(0)
 state=pathlib.Path(a[a.index('--state')+1]); evidence=pathlib.Path(a[a.index('--evidence-dir')+1]); plan=json.load(open(a[a.index('--plan')+1])); phase=a[a.index('--phase')+1]; evidence.mkdir(parents=True,exist_ok=True)
+assert a[a.index('--max-loaded-models')+1]=='3'
 if phase=='pre':
- import hashlib
- digest=lambda x:hashlib.sha256(json.dumps(x,separators=(',',':'),sort_keys=True).encode()).hexdigest()
  runtime=pathlib.Path(a[a.index('--runtime-root')+1]); r={}
  for x in plan['residents']:
   spec=runtime/'agent-specs'/x['agent_id']/'agent.json'; spec.parent.mkdir(parents=True,exist_ok=True)
   body={'schema':'adl.long_lived_agent_spec.v1','agent_instance_id':x['agent_id'],'state_root':'state'}; spec.write_text(json.dumps(body)+'\\n')
   (spec.parent/'state').mkdir(); (spec.parent/'state'/'agent_spec.locked.json').write_text(json.dumps(body)+'\\n')
-  r[x['agent_id']]={'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'runtime_agent_spec':str(spec),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64],'pre_agent_test_outcome':'denied' if x['agent_id'].endswith('executor') else 'executed'}
+  provider={'provider_id':'local_ollama','provider_kind':'ollama','model':x['model'],'configuration_sha256':x['configuration_sha256'],'status_record_sha256':'3'*64,'result_sha256':'4'*64,'effect_receipt_sha256':'5'*64,'effect_decision':'executed','effect_reason_code':'governed_execution_completed'}
+  views={'shepherd_controller':'resident_population','planner':'checkpoint_readiness','tool_executor':'tool_capability','runtime_observer':'runtime_redaction','recovery_custodian':'continuity_lineage','reviewer_escalation':'review_audit'}
+  view=views[x['role']]
+  r[x['agent_id']]={'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'runtime_agent_spec':str(spec),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64],'pre_agent_test_outcome':'executed','pre_workload_view':view,'pre_workload_effect_sha256':digest({'agent_id':x['agent_id'],'view':view,'phase':'pre'}),'producer':{'source_revision':'6'*40,'runtime_binary_sha256':'7'*64,'csm_binary_sha256':'8'*64},'provider_execution':provider}
  value={'schema':'adl.issue268.six_resident_uts_state.v2','phase':'pre_complete','residents':r}
 elif phase=='replay':
  value=json.load(open(state))
@@ -46,7 +49,7 @@ elif phase=='replay':
   p=evidence/f'replay-{agent_id}.json'; p.write_text(json.dumps({'decision':'denied','reason_code':'completed_case_replay_denied'})+'\\n'); x['replay_denial_receipt_sha256']=hashlib.sha256(p.read_bytes()).hexdigest()
 else:
  value=json.load(open(state)); value['phase']='post_complete'; value['all_pending_empty']=True
- for x in value['residents'].values(): x['sequence']=2; x['completed_case_ids']+=x['pending_case_ids']; x['pending_case_ids']=[]; x['post_restore_uts_report_sha256']='c'*64; x['post_agent_test_outcome']='executed'; x['restored_runtime_agent_spec_sha256']='2'*64; x['checkpoint_lineage'].append('1'*64)
+ for agent_id,x in value['residents'].items(): x['sequence']=2; x['completed_case_ids']+=x['pending_case_ids']; x['pending_case_ids']=[]; x['post_restore_uts_report_sha256']='c'*64; x['post_agent_test_outcome']='executed'; x['post_workload_view']=x['pre_workload_view']; x['post_workload_effect_sha256']=digest({'agent_id':agent_id,'view':x['pre_workload_view'],'phase':'post'}); x['post_provider_execution']=x['provider_execution']; x['restored_runtime_agent_spec_sha256']='2'*64; x['checkpoint_lineage'].append('1'*64)
 state.write_text(json.dumps(value)+'\\n')
 """,
             encoding="utf-8",
@@ -88,6 +91,7 @@ out.write_text(json.dumps(value)+'\\n')
                 "role_digest": canonical({"agent_id": resident["agent_id"], "role": resident["role"]}),
                 "tool_authority": resident["tool_authority"],
                 "tool_authority_digest": canonical({"agent_id": resident["agent_id"], "tool_authority": resident["tool_authority"]}),
+                "provider_id": "local_ollama",
                 "model": resident["model"],
                 "model_ref_sha256": resident["model_ref_sha256"],
                 "configuration_sha256": resident["configuration_sha256"],
@@ -107,6 +111,7 @@ out.write_text(json.dumps(value)+'\\n')
             "--continuity-bin", str(fake_continuity),
             "--runtime-bin", str(fake_uts),
             "--runtime-root", str(root / "runtime"),
+            "--ollama-url", "http://127.0.0.1:11435",
             "--build-cache-root", str(root / "build-cache"),
             "--agent-spec-dir", str(root / "agents"),
             "--runtime-volume-identity-sha256", "f" * 64,
@@ -115,7 +120,22 @@ out.write_text(json.dumps(value)+'\\n')
             "--plan", str(plan_path),
             "--uts-runner", str(fake_uts),
         ]
-        subprocess.run(command, cwd=ROOT, check=True)
+        qualification_env = {
+            **os.environ,
+            "ADL_ISSUE414_SIGNING_KEY_HEX": "9" * 64,
+            "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64": "test-private",
+            "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64": "test-public",
+        }
+        missing_env = subprocess.run(
+            command,
+            cwd=ROOT,
+            env={key: value for key, value in os.environ.items() if not key.startswith("ADL_CSM_CUSTODY_") and key != "ADL_ISSUE414_SIGNING_KEY_HEX"},
+            capture_output=True,
+            text=True,
+        )
+        assert missing_env.returncode != 0 and "required continuity signing environment is absent" in missing_env.stderr
+        assert not (root / "state.json").exists()
+        subprocess.run(command, cwd=ROOT, env=qualification_env, check=True)
         receipt = json.loads((evidence / "qualification-receipt.json").read_text())
         assert receipt["status"] == "passed" and receipt["resident_count"] == 6
         assert json.loads((root / "state.json").read_text())["phase"] == "post_complete"
@@ -128,7 +148,7 @@ out.write_text(json.dumps(value)+'\\n')
 
         missing = root / "agents" / plan[0]["agent_id"] if False else root / "agents" / plan["residents"][0]["agent_id"] / "agent.yaml"
         missing.unlink()
-        failed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        failed = subprocess.run(command, cwd=ROOT, env=qualification_env, capture_output=True, text=True)
         assert failed.returncode != 0 and "six existing-agent specs are required" in failed.stderr
     print("PASS: issue268 continuity-coupled six-resident UTS qualification")
 

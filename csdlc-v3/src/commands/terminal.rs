@@ -9,6 +9,7 @@ use std::{
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
+mod intent_archive;
 
 pub const TERMINAL_ROUTE_NAMES: [&str; 3] = ["finish", "clean", "cutover"];
 
@@ -174,6 +175,23 @@ pub enum TerminalRouteStatus {
 pub struct TerminalFinding {
     pub code: String,
     pub message: String,
+}
+
+pub(crate) fn semantic_cleanup_archive_identity(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+) -> Result<Vec<u8>, TerminalFinding> {
+    intent_archive::semantic_identity(primary, candidate, issue)
+}
+
+pub(crate) fn semantic_matching_retained_cleanup_archive_identity(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+    expected: &[u8],
+) -> Result<Option<Vec<u8>>, TerminalFinding> {
+    intent_archive::matching_retained_semantic_identity(primary, candidate, issue, expected)
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -814,6 +832,14 @@ fn classify_cleanup_from_git(
     terminal_request: &TerminalRouteRequest,
     request: &CleanupRouteRequest,
 ) -> Result<CleanupDecision, TerminalFinding> {
+    classify_cleanup_with_archive(terminal_request, request, false)
+}
+
+fn classify_cleanup_with_archive(
+    terminal_request: &TerminalRouteRequest,
+    request: &CleanupRouteRequest,
+    archive_generated: bool,
+) -> Result<CleanupDecision, TerminalFinding> {
     let approved_parent = canonical_dir(&request.approved_parent, "approved_parent")?;
     let repository_root = canonical_dir(&request.repository_root, "repository_root")?;
     if request.candidate_path.is_relative() || contains_parent_component(&request.candidate_path) {
@@ -868,7 +894,7 @@ fn classify_cleanup_from_git(
     if worktree_live(&candidate) {
         return Ok(CleanupDecision::Live { path: candidate });
     }
-    if worktree_dirty(&candidate)? {
+    if worktree_dirty(&candidate)? && !archive_generated {
         return Ok(CleanupDecision::Dirty { path: candidate });
     }
     let candidate_head = worktree_head(&candidate)?;
@@ -887,7 +913,19 @@ fn classify_cleanup_from_git(
             "cleanup target worktree HEAD must match the terminal closeout head",
         ));
     }
-    let receipt_digest = cleanup_receipt_digest(&repository_root, &candidate, &candidate_head);
+    let archive = if archive_generated {
+        Some(intent_archive::preview(&candidate, terminal_request.issue)?)
+    } else {
+        None
+    };
+    let base_digest = cleanup_receipt_digest(&repository_root, &candidate, &candidate_head);
+    let receipt_digest = if let Some(archive) = &archive {
+        blake3::hash(format!("{base_digest}:{}", archive.digest).as_bytes())
+            .to_hex()
+            .to_string()
+    } else {
+        base_digest
+    };
     if request.remove {
         if request.preview_receipt_digest.as_deref() != Some(receipt_digest.as_str()) {
             return Err(finding(
@@ -904,6 +942,17 @@ fn classify_cleanup_from_git(
                         .into(),
             });
         }
+        if let Some(archive) = &archive {
+            intent_archive::execute(
+                &repository_root,
+                &candidate,
+                terminal_request.issue,
+                archive,
+            )?;
+        }
+        if worktree_dirty(&candidate)? {
+            return Err(finding("cleanup_changed_after_archive","worktree changed after verified archival; preserved archive requires explicit reconciliation"));
+        }
         remove_registered_worktree(&repository_root, &candidate)?;
         Ok(CleanupDecision::Removed {
             path: candidate,
@@ -915,6 +964,48 @@ fn classify_cleanup_from_git(
             receipt_digest,
         })
     }
+}
+
+/// Ordinary intent cleanup may archive only exact generated issue residue after
+/// terminal, registration, head, parent and liveness admission. Legacy cleanup
+/// retains its original strict clean-worktree contract.
+pub fn prepare_intent_cleanup(
+    request: &TerminalRouteRequest,
+) -> Result<TerminalRoutePlan, TerminalFinding> {
+    let cleanup = request.cleanup.as_ref().ok_or_else(|| {
+        finding(
+            "missing_cleanup_request",
+            "clean requires native cleanup input",
+        )
+    })?;
+    let decision = classify_cleanup_with_archive(request, cleanup, true)?;
+    Ok(TerminalRoutePlan {
+        route: "clean".into(),
+        issue: request.issue,
+        repository: request.repository.clone(),
+        status: TerminalRouteStatus::Ready,
+        operational_authority: matches!(decision, CleanupDecision::Removed { .. }),
+        findings: vec![],
+        finish: None,
+        cleanup: Some(decision),
+        cutover: None,
+    })
+}
+pub fn retained_cleanup_index(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+) -> Result<Option<serde_json::Value>, TerminalFinding> {
+    intent_archive::retained_index(primary, candidate, issue)
+}
+
+pub(crate) fn matching_retained_cleanup_index(
+    primary: &Path,
+    candidate: &Path,
+    issue: u64,
+    digest: &str,
+) -> Result<Option<serde_json::Value>, TerminalFinding> {
+    intent_archive::matching_retained_index(primary, candidate, issue, digest)
 }
 
 fn persist_terminal_finish(
@@ -1337,6 +1428,172 @@ struct CutoverReceipt {
     prior_selector_digest: String,
     cutover_selector_digest: String,
     approved_by: String,
+}
+
+/// Authenticated, read-only evidence that the exact administrative effect
+/// retained by a cutover or rollback request has reached its terminal state.
+/// The semantic transaction owner uses these bytes to reconcile an interrupted
+/// attachment without dispatching the filesystem mutation again.
+pub fn observe_cutover_effect(
+    request: &TerminalRouteRequest,
+) -> Result<serde_json::Value, TerminalFinding> {
+    let cutover = request.cutover.as_ref().ok_or_else(|| {
+        finding(
+            "missing_cutover_request",
+            "administrative reconciliation requires a cutover request",
+        )
+    })?;
+    if request.issue != 505 {
+        return Err(finding(
+            "cutover_issue_mismatch",
+            "administrative reconciliation is restricted to authority issue #505",
+        ));
+    }
+    let repository_root = cutover
+        .repository_root
+        .as_ref()
+        .ok_or_else(|| finding("missing_repository_root", "repository root is required"))?
+        .canonicalize()
+        .map_err(|error| finding("repository_root_unavailable", &error.to_string()))?;
+    let selector = repo_output_path(
+        &repository_root,
+        cutover.authority_selector_path.as_ref(),
+        "missing_authority_selector_path",
+        "authority selector path is required",
+        "authority_selector",
+    )?;
+    let destination = repo_output_path(
+        &repository_root,
+        cutover.install_destination_path.as_ref(),
+        "missing_install_destination_path",
+        "stable install destination is required",
+        "install_destination",
+    )?;
+    let requested_receipt = repo_output_path(
+        &repository_root,
+        cutover.rollback_receipt_path.as_ref(),
+        "missing_rollback_receipt_path",
+        "rollback receipt path is required",
+        "rollback_receipt",
+    )?;
+    if selector != repository_root.join(crate::authority::SELECTOR_PATH)
+        || destination
+            != repository_root.join(crate::commands::proof::CANONICAL_INSTALL_DESTINATION)
+        || requested_receipt != repository_root.join(".csdlc/evidence/505/cutover-receipt.json")
+    {
+        return Err(finding(
+            "cutover_reconciliation_path_mismatch",
+            "administrative reconciliation paths do not match the canonical authority paths",
+        ));
+    }
+    let receipt_path = git_control_dir(&repository_root)
+        .ok_or_else(|| {
+            finding(
+                "cutover_git_common_dir_missing",
+                "Git common dir is required",
+            )
+        })?
+        .join("csdlc-v3/cutover-receipt.json");
+    let journal = read_cutover_receipt(&receipt_path)?;
+    let selected_binary = repo_existing_file(
+        &repository_root,
+        cutover.selected_binary_path.as_ref(),
+        "missing_selected_binary_path",
+        "selected binary path is required",
+        "selected_binary",
+    )?;
+    let readiness_evidence = repo_existing_file(
+        &repository_root,
+        Some(&journal.readiness_evidence_path),
+        "missing_readiness_evidence_path",
+        "readiness evidence path is required",
+        "readiness_evidence",
+    )?;
+    let approval_evidence = repo_existing_file(
+        &repository_root,
+        Some(&journal.approval_evidence_path),
+        "missing_cutover_approval",
+        "cutover approval path is required",
+        "cutover_approval",
+    )?;
+    if journal.schema != "csdlc.v3.cutover_receipt.v2"
+        || journal.authority_issue != 505
+        || journal.canonical_selector != Path::new(crate::authority::SELECTOR_PATH)
+        || (!cutover.selected_binary_provenance.is_empty()
+            && cutover.selected_binary_provenance != format!("git:{}", journal.selected_revision))
+        || cutover.readiness_evidence_path.as_ref() != Some(&journal.readiness_evidence_path)
+        || cutover.readiness_evidence_digest.as_deref()
+            != Some(journal.readiness_evidence_digest.as_str())
+        || blake3::hash(&journal.prior_selector).to_hex().to_string()
+            != journal.prior_selector_digest
+    {
+        return Err(finding(
+            "cutover_receipt_mismatch",
+            "retained cutover receipt does not match its exact request and evidence",
+        ));
+    }
+    if digest_file(&selected_binary)? != journal.selected_binary_digest {
+        return Err(finding(
+            "cutover_selected_binary_mismatch",
+            "selected binary bytes do not match the retained cutover receipt",
+        ));
+    }
+    if digest_file(&readiness_evidence)? != journal.readiness_evidence_digest {
+        return Err(finding(
+            "cutover_readiness_evidence_mismatch",
+            "readiness evidence bytes do not match the retained cutover receipt",
+        ));
+    }
+    let _ = approval_evidence;
+    if stable_digest(&[
+        "github",
+        "pr-591",
+        &journal.selected_revision,
+        "merged",
+        "issue-505-closed",
+    ]) != journal.approval_evidence_digest
+    {
+        return Err(finding(
+            "cutover_approval_evidence_mismatch",
+            "authenticated approval identity does not match the retained cutover receipt",
+        ));
+    }
+    let selector_digest = digest_file(&selector)?;
+    let binary_digest = optional_regular_file_digest(&destination)?;
+    match cutover.operation {
+        CutoverOperation::Apply
+            if journal.phase == CutoverPhase::Committed
+                && selector_digest == journal.cutover_selector_digest
+                && binary_digest.as_deref() == Some(journal.selected_binary_digest.as_str()) => {}
+        CutoverOperation::Rollback
+            if journal.phase == CutoverPhase::RolledBack
+                && binary_digest.is_none()
+                && crate::authority::canonical_v2_rollback(&repository_root)
+                    .map_err(|error| finding("rollback_selector_invalid", &error))? => {}
+        _ => {
+            return Err(finding(
+                "administrative_effect_not_settled",
+                "the exact cutover or rollback effect has not reached its retained terminal state",
+            ))
+        }
+    }
+    Ok(serde_json::json!({
+        "schema":"csdlc.v3.administrative_effect_observation.v1",
+        "repository":request.repository,
+        "issue":request.issue,
+        "operation":cutover.operation,
+        "selected_revision":journal.selected_revision,
+        "selected_binary_digest":journal.selected_binary_digest,
+        "selector_digest":selector_digest,
+        "binary_digest":binary_digest,
+        "receipt_path":receipt_path,
+        "receipt_digest":digest_file(&receipt_path)?,
+        "readiness_evidence_path":journal.readiness_evidence_path,
+        "readiness_evidence_digest":journal.readiness_evidence_digest,
+        "approval_evidence_path":journal.approval_evidence_path,
+        "approval_evidence_digest":journal.approval_evidence_digest,
+        "effect_truth":"performed"
+    }))
 }
 
 #[derive(Debug, Deserialize)]
@@ -2565,6 +2822,7 @@ fn git_worktree_paths(repository_root: &Path) -> Result<Vec<PathBuf>, TerminalFi
 
 fn worktree_dirty(path: &Path) -> Result<bool, TerminalFinding> {
     let output = std::process::Command::new("git")
+        .env("GIT_OPTIONAL_LOCKS", "0")
         .arg("-C")
         .arg(path)
         .arg("status")

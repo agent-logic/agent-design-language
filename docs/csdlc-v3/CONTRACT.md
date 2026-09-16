@@ -111,50 +111,48 @@ digest choreography are not acceptable as the default operator experience.
 
 ## Simple issue operations
 
-For ordinary issue creation, use the GitHub-like form:
+For ordinary issue creation, place the reviewed operation in
+`issue-create.json`:
 
-```sh
-csdlc github-issue create \
-  --repo agent-logic/agent-design-language \
-  --title "One bounded outcome" \
-  --body-file issue.md \
-  --label type:task \
-  --milestone 1 \
-  --expected-head <exact-reviewed-40-hex-sha> \
-  --execute
+```json
+{
+  "action": "issue_create",
+  "title": "One bounded outcome",
+  "body": "Reviewed issue body",
+  "labels": ["type:task"],
+  "assignees": [],
+  "milestone": 1
+}
 ```
 
-`--body` may replace `--body-file`; using both or neither fails before any
-remote action. `--label` and `--assignee` are repeatable. The credential name
-defaults to `GITHUB_TOKEN` and may be selected with `--credential-name`; a
-credential value is never accepted as an argument.
-
-The simple form builds the same typed operational dispatch used by the
-request-file interface. It therefore retains the canonical v3 authority gate,
-durable intent and operation marker, authenticated readback, assigned issue
-number, mutation receipt, and idempotent reconciliation. Omitting `--execute`
-prints the typed request without mutation. Execution fails closed unless the
-repository's canonical selector grants v3 operational authority at the exact
-reviewed head.
-
-The request-file form remains the advanced and audit-oriented interface:
+Then invoke the issue-scoped semantic owner:
 
 ```sh
-csdlc github-issue --request issue-create-dispatch.json --execute
+csdlc github-issue <coordination-issue> --operation issue-create.json --execute
 ```
 
-For explicit duplicate, superseded, or no-op issue closure, use:
+Omitting `--execute` previews the semantic operation. The route derives the
+repository, checkout, lifecycle generation, digest, and exact head from the
+coordinating issue. It retains the canonical v3 authority gate, durable intent
+and operation marker, authenticated readback, assigned issue number, mutation
+receipt, and idempotent reconciliation. For reviewed automation, generate an
+exact snapshot with `--emit-request` and replay it through `--intent-request`.
+Direct `github-issue --request`, `github-issue create`, and
+`github-issue close` writer forms are retired; their help remains available for
+migration discovery.
 
-```sh
-csdlc github-issue close \
-  --repo agent-logic/agent-design-language \
-  --issue 792 \
-  --disposition duplicate \
-  --duplicate-of 791 \
-  --rationale "accidental retry duplicate of #791" \
-  --body-file issue-792-current-body.md \
-  --expected-head <exact-reviewed-40-hex-sha> \
-  --execute
+For explicit duplicate, superseded, or no-op issue closure, use an
+`issue_close` operation:
+
+```json
+{
+  "action": "issue_close",
+  "disposition": "duplicate",
+  "duplicate_of": 791,
+  "rationale": "accidental retry duplicate of #791",
+  "current_body": "Authenticated current issue body",
+  "github_state_reason": "not_planned"
+}
 ```
 
 `--disposition` accepts `duplicate`, `superseded`, or `no-op`. Duplicate
@@ -192,11 +190,10 @@ cutover, V3-B/V3-C implementation, v2 retirement, or broad repository cleanup.
 
 ## Existing-issue metadata updates (#797)
 
-Use `csdlc github-issue --request issue-edit-dispatch.json --execute` with the
-usual canonical selector digest and exact-head operational envelope. Its
-`operation.kind` is `github_mutation`; `operation.request` identifies the exact
-repository, issue, expected head and credential name. The nested `mutation`
-uses [the issue-edit schema](issue-edit.schema.json), for example:
+Use `csdlc github-issue ISSUE --operation issue-edit.json --execute`. The
+semantic owner derives the canonical selector, repository, lifecycle state, and
+exact checkout identity. The operation content uses
+[the issue-edit schema](issue-edit.schema.json), for example:
 
 ```json
 {

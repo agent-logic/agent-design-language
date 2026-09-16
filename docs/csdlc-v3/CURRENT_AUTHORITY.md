@@ -44,6 +44,13 @@ transactions. Recovery-required state must remain visible for an explicit
 mutation/recovery route. This diagnostic guarantee does not extend to every
 command grouped with local preparation, such as `issue`, `edit` or `bind`.
 
+## Candidate issue intent interface
+
+The [#869 issue intent guide](INTENT_COMMANDS.md) documents the candidate
+ordinary commands and shared advanced request contract. Existing native request
+routes remain available. Candidate source and isolated validation do not upgrade
+the active operator binary or authorize sprint activation.
+
 ## Historical evidence
 
 The [original pre-cutover changeover notice](TOOLING_CHANGEOVER_NOTICE.md) is

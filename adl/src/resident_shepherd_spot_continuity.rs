@@ -54,6 +54,7 @@ pub fn preflight(input: &DehydrationInput) -> Result<serde_json::Value> {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ResidentModelBinding {
     pub agent_id: String,
+    pub provider_id: String,
     pub model: String,
     pub artifact_sha256: String,
     pub quantization: String,
@@ -87,6 +88,7 @@ pub struct SpotNoticeBinding {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ContinuationResident {
     pub agent_id: String,
+    pub provider_id: String,
     pub model: String,
     pub artifact_sha256: String,
     pub quantization: String,
@@ -289,6 +291,13 @@ pub async fn restore_and_admit(
         .context("validate signed resident subrecord before restore")?
         .context("signed live-kernel checkpoint is absent")?;
     let integration = validated.context("resident integration validator did not return state")?;
+    if restored.generation != prior.generation {
+        bail!(
+            "signed live-kernel generation {} differs from dehydration receipt generation {}",
+            restored.generation,
+            prior.generation
+        );
+    }
     let bytes = restored
         .resident_population
         .context("signed resident integration subrecord is absent")?;
@@ -575,7 +584,8 @@ pub async fn validate_completed_continuation(
             .iter()
             .find(|item| item.agent_id == expected.agent_id)
             .with_context(|| format!("missing completed continuation for {}", expected.agent_id))?;
-        if actual.model != expected.model
+        if actual.provider_id != expected.provider_id
+            || actual.model != expected.model
             || actual.artifact_sha256 != expected.artifact_sha256
             || actual.quantization != expected.quantization
             || actual.configuration_sha256 != expected.configuration_sha256
@@ -710,6 +720,7 @@ fn validate_models(models: &[ResidentModelBinding]) -> Result<()> {
         }
         has_llama_baseline |= model.model == "llama3.1:8b";
         for (name, value) in [
+            ("provider_id", &model.provider_id),
             ("model", &model.model),
             ("quantization", &model.quantization),
         ] {
@@ -904,6 +915,7 @@ mod tests {
     fn binding(id: &str) -> ResidentModelBinding {
         ResidentModelBinding {
             agent_id: id.to_string(),
+            provider_id: "local_ollama".to_string(),
             model: if id == "a" {
                 "llama3.1:8b".to_string()
             } else {
@@ -1219,6 +1231,7 @@ mod tests {
                 .iter()
                 .map(|resident| ContinuationResident {
                     agent_id: resident.agent_id.clone(),
+                    provider_id: resident.provider_id.clone(),
                     model: resident.model.clone(),
                     artifact_sha256: resident.artifact_sha256.clone(),
                     quantization: resident.quantization.clone(),
@@ -1239,6 +1252,34 @@ mod tests {
         let second_dehydration = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
         assert_eq!(second_dehydration.generation, 2);
         assert!(!second_dehydration.admission_open);
+        let dehydration_receipt_path = runtime_root.join("dehydration-receipt.json");
+        let mut stale_receipt: serde_json::Value = read_json(&dehydration_receipt_path).unwrap();
+        stale_receipt["generation"] = serde_json::json!(1);
+        write_atomic_json(&dehydration_receipt_path, &stale_receipt).unwrap();
+        let stale_error = restore_and_admit(
+            &runtime_root,
+            &RestoreInput {
+                residents: input.residents.clone(),
+                retained_runtime_root: runtime_root.clone(),
+                build_cache_root: build_root.clone(),
+                runtime_volume_identity_sha256: digest("test-volume"),
+            },
+        )
+        .await
+        .unwrap_err();
+        assert!(
+            format!("{stale_error:#}").contains("differs from dehydration receipt generation"),
+            "unexpected stale-generation error: {stale_error:#}"
+        );
+        assert!(!runtime_root
+            .join("restored-populations/generation-2")
+            .exists());
+        assert_eq!(
+            read_json::<serde_json::Value>(&runtime_root.join("active-population.json")).unwrap()
+                ["admission_open"],
+            false
+        );
+        write_atomic_json(&dehydration_receipt_path, &second_dehydration).unwrap();
         assert!(
             validate_completed_continuation(&runtime_root, &continuation)
                 .await

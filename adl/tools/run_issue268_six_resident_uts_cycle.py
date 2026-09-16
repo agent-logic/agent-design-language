@@ -10,6 +10,7 @@ import os
 import pathlib
 import subprocess
 import time
+import urllib.parse
 from typing import Any
 
 
@@ -57,31 +58,68 @@ def authority(resident: dict[str, Any]) -> dict[str, Any]:
     return {**material, "authority_sha256": canonical_digest(material)}
 
 
-def proposal(agent_id: str, phase: str, task_id: str) -> dict[str, Any]:
+WORKLOAD_VIEWS = {
+    "shepherd_controller": "resident_population",
+    "planner": "checkpoint_readiness",
+    "tool_executor": "tool_capability",
+    "runtime_observer": "runtime_redaction",
+    "recovery_custodian": "continuity_lineage",
+    "reviewer_escalation": "review_audit",
+}
+
+
+def proposal(agent_id: str, phase: str, task: dict[str, Any]) -> dict[str, Any]:
+    task_id = task["id"]
     return {
         "tool_proposal": {
             "proposal_id": f"issue268.{agent_id}.{phase}.{task_id}",
             "tool_name": "runtime.observe",
             "tool_version": "1.0.0",
             "adapter_id": "adapter.runtime.observe.dry_run",
-            "arguments": {},
+            "arguments": {"view": task["workload_view"]},
             "dry_run_requested": True,
             "ambiguous": False,
         }
     }
 
 
-def write_workflow(path: pathlib.Path, resident: dict[str, Any], phase: str, task: dict[str, Any]) -> None:
+def loopback_ollama_url(value: str) -> str:
+    parsed = urllib.parse.urlparse(value)
+    if parsed.scheme != "http" or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}:
+        raise SystemExit("issue268: Ollama URL must be an explicit loopback HTTP endpoint")
+    if parsed.path not in {"", "/"} or parsed.params or parsed.query or parsed.fragment:
+        raise SystemExit("issue268: Ollama URL must not contain a path, query, or fragment")
+    try:
+        port = parsed.port
+    except ValueError as error:
+        raise SystemExit(f"issue268: invalid Ollama URL: {error}") from error
+    if port is None:
+        raise SystemExit("issue268: Ollama URL must include an explicit port")
+    return value.rstrip("/")
+
+
+def write_workflow(
+    path: pathlib.Path,
+    resident: dict[str, Any],
+    phase: str,
+    task: dict[str, Any],
+    ollama_url: str,
+    context_tokens: int,
+    num_predict: int,
+    temperature: float,
+) -> None:
     task_id = task["id"]
-    expected = json.dumps(proposal(resident["agent_id"], phase, task_id), separators=(",", ":"))
+    expected = json.dumps(proposal(resident["agent_id"], phase, task), separators=(",", ":"))
     document = f'''version: "0.5"
 providers:
   local_ollama:
     type: "ollama"
-    base_url: "http://127.0.0.1:11434"
+    base_url: "{ollama_url}"
     config:
       model: "{resident["model"]}"
       timeout_secs: 900
+      runtime_max_output_tokens: {num_predict}
+      temperature: {temperature}
 agents:
   resident:
     provider: "local_ollama"
@@ -110,7 +148,10 @@ def runtime_observe_registry() -> dict[str, Any]:
         "name": "runtime.observe", "version": "1.0.0",
         "description": "Return a redacted aggregate observation of the current Runtime.",
         "categories": ["read_only", "observability_sensitive"],
-        "input_schema": empty, "output_schema": empty, "side_effect_class": "read",
+        "input_schema": {"type": "object", "additionalProperties": False,
+            "properties": {"view": {"type": "string", "enum": sorted(WORKLOAD_VIEWS.values())}},
+            "required": ["view"]},
+        "output_schema": empty, "side_effect_class": "read",
         "side_effects": ["none"], "determinism": "bounded_nondeterministic",
         "replay_safety": "replay_safe", "idempotence": "idempotent",
         "resources": [{"resource_type": "runtime", "scope": "aggregate-observation"}],
@@ -212,13 +253,61 @@ def normalize_and_validate_runtime_spec(runtime_bin: pathlib.Path, spec: pathlib
     if locked.get("agent_instance_id") != agent_dir.name:
         raise SystemExit(f"{agent_dir.name}: Runtime locked agent identity mismatch")
     atomic_json(spec, locked)
-    completed = subprocess.run(
-        [str(runtime_bin), "agent", "status", "--spec", str(spec), "--json"],
-        cwd=ROOT,
-        check=False,
-    )
-    if completed.returncode != 0:
-        raise SystemExit(f"{agent_dir.name}: canonical Runtime spec failed locked-spec validation")
+    deadline = time.monotonic() + 30
+    while True:
+        completed = subprocess.run(
+            [str(runtime_bin), "agent", "status", "--spec", str(spec), "--json"],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if completed.returncode == 0:
+            if completed.stdout:
+                print(completed.stdout, end="")
+            return
+        lock_busy = "timed out acquiring Godel snapshot chain lock" in completed.stderr
+        if not lock_busy or time.monotonic() >= deadline:
+            if completed.stderr:
+                print(completed.stderr, end="", file=os.sys.stderr)
+            raise SystemExit(f"{agent_dir.name}: canonical Runtime spec failed locked-spec validation")
+        time.sleep(1)
+
+
+def validate_configuration_contract(
+    plan: dict[str, Any],
+    residents: list[dict[str, Any]],
+    context_tokens: int,
+    num_predict: int,
+    temperature: float,
+    max_loaded_models: int,
+    gpu_placement: str,
+) -> None:
+    expected_contract = {
+        "context_tokens": context_tokens,
+        "num_predict": num_predict,
+        "gpu_placement": gpu_placement,
+        "temperature": temperature,
+        "max_concurrent_inference": 1,
+        "max_loaded_models": max_loaded_models,
+    }
+    if (plan.get("materialization") or {}).get("configuration_contract") != expected_contract:
+        raise SystemExit("materialized plan configuration does not match the requested qualification envelope")
+    if (plan.get("host") or {}).get("max_loaded_models") != max_loaded_models:
+        raise SystemExit("materialized plan loaded-model limit does not match the requested qualification envelope")
+    for resident in residents:
+        model = resident.get("model")
+        configuration = {
+            "provider_id": "local_ollama",
+            "provider_kind": "ollama",
+            "model": model,
+            "artifact_sha256": resident.get("model_ref_sha256"),
+            "quantization": resident.get("quantization"),
+            **expected_contract,
+            "qwen_think": "ollama_server_default" if model == "qwen3:8b" else "unsupported",
+        }
+        if resident.get("configuration_sha256") != canonical_digest(configuration):
+            raise SystemExit(f'{resident.get("agent_id", "resident")}: configuration digest mismatch')
 
 
 def main() -> int:
@@ -229,10 +318,40 @@ def main() -> int:
     parser.add_argument("--plan", type=pathlib.Path, default=DEFAULT_PLAN)
     parser.add_argument("--runtime-bin", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-root", required=True, type=pathlib.Path)
+    parser.add_argument(
+        "--ollama-url",
+        default=os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"),
+    )
+    parser.add_argument("--context-tokens", type=int, default=32768)
+    parser.add_argument("--num-predict", type=int, default=128)
+    parser.add_argument("--temperature", type=float, default=0)
+    parser.add_argument("--max-loaded-models", type=int, default=3)
+    parser.add_argument("--gpu-placement", default="ollama_server_default")
+    parser.add_argument("--producer-source-revision")
     parser.add_argument("--task-panel", type=pathlib.Path, default=DEFAULT_TASK_PANEL)
     parser.add_argument("--restore-receipt", type=pathlib.Path)
     parser.add_argument("--restored-population-root", type=pathlib.Path)
     args = parser.parse_args()
+    if not 1 <= args.context_tokens <= 131072:
+        raise SystemExit("context-tokens must be between 1 and 131072")
+    if not 1 <= args.num_predict <= 32768:
+        raise SystemExit("num-predict must be between 1 and 32768")
+    if not 0 <= args.temperature <= 2:
+        raise SystemExit("temperature must be between 0 and 2")
+    if args.max_loaded_models < 1:
+        raise SystemExit("max-loaded-models must be at least 1")
+    producer_source_revision = args.producer_source_revision or subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    if len(producer_source_revision) != 40 or any(
+        character not in "0123456789abcdef" for character in producer_source_revision
+    ):
+        raise SystemExit("producer-source-revision must be an exact Git SHA")
+    ollama_url = loopback_ollama_url(args.ollama_url)
     if not args.runtime_bin.is_file():
         raise SystemExit("real Runtime binary is required")
     csm_bin = args.runtime_bin.parent / "csm"
@@ -249,6 +368,23 @@ def main() -> int:
     residents = plan.get("residents") or []
     if len(residents) != 6 or len({row["agent_id"] for row in residents}) != 6:
         raise SystemExit("six distinct residents are required")
+    if {resident.get("role") for resident in residents} != set(WORKLOAD_VIEWS):
+        raise SystemExit("exact six-role workload population is required")
+    for task in tasks:
+        resident = next((row for row in residents if row["agent_id"] == task.get("resident")), None)
+        if resident is None or task.get("workload_view") != WORKLOAD_VIEWS[resident["role"]]:
+            raise SystemExit("task workload view does not match its resident role")
+    if len({task["workload_view"] for task in tasks}) != 6:
+        raise SystemExit("six distinct role-specific workload views are required")
+    validate_configuration_contract(
+        plan,
+        residents,
+        args.context_tokens,
+        args.num_predict,
+        args.temperature,
+        args.max_loaded_models,
+        args.gpu_placement,
+    )
     runtime_root = args.runtime_root.resolve()
     if args.phase == "pre":
         if args.state.exists():
@@ -281,7 +417,10 @@ def main() -> int:
                 locked = json.loads((agent_dir / "state" / "agent_spec.locked.json").read_text(encoding="utf-8"))
                 if locked.get("agent_instance_id") != agent_id:
                     raise SystemExit(f"{agent_id}: restored replay identity mismatch")
-                write_workflow(agent_dir / "workflow.adl.yaml", resident, "pre", task)
+                write_workflow(
+                    agent_dir / "workflow.adl.yaml", resident, "pre", task, ollama_url,
+                    args.context_tokens, args.num_predict, args.temperature,
+                )
                 runtime_exit_code = run_agent(args.runtime_bin, spec_path)
                 cycles = sorted((agent_dir / "state" / "cycles").glob("cycle-*"))
                 if not cycles:
@@ -334,7 +473,10 @@ def main() -> int:
             binding = restored_spec.get("tool_authority") or {}
             if binding.get("authority_sha256") != retained.get("runtime_authority_sha256"):
                 raise SystemExit(f"{agent_id}: restored #414 tool authority mismatch")
-        write_workflow(agent_dir / "workflow.adl.yaml", resident, args.phase, task)
+        write_workflow(
+            agent_dir / "workflow.adl.yaml", resident, args.phase, task, ollama_url,
+            args.context_tokens, args.num_predict, args.temperature,
+        )
         runtime_exit_code = run_daemon(csm_bin, spec_path, agent_dir) if args.phase == "pre" else run_agent(args.runtime_bin, spec_path)
         if args.phase == "pre":
             normalize_and_validate_runtime_spec(args.runtime_bin, spec_path, agent_dir)
@@ -347,15 +489,57 @@ def main() -> int:
         if len(receipts) != 1 or receipts[0].get("schema") != RUNTIME_RECEIPT or receipts[0].get("decision") not in {"executed", "denied"}:
             raise SystemExit(f"{agent_id}: Runtime UTS/ACC terminal receipt is absent")
         receipt = receipts[0]
+        if receipt["decision"] != "executed" or runtime_exit_code != 0:
+            raise SystemExit(f"{agent_id}: assigned Runtime workload did not complete")
         if (receipt["decision"] == "executed") != (runtime_exit_code == 0):
             raise SystemExit(f"{agent_id}: Runtime exit status contradicts its ACC receipt")
         if receipt.get("resident_id") != agent_id or receipt.get("authority_sha256") != binding["authority_sha256"]:
             raise SystemExit(f"{agent_id}: Runtime receipt authority mismatch")
+        expected_arguments_sha256 = "sha256:" + hashlib.sha256(canonical_bytes({"view": task["workload_view"]})).hexdigest()
+        if (
+            receipt.get("tool_name") != "runtime.observe"
+            or receipt.get("arguments_sha256") != expected_arguments_sha256
+            or not isinstance(receipt.get("effect_sha256"), str)
+            or not receipt["effect_sha256"].startswith("sha256:")
+        ):
+            raise SystemExit(f"{agent_id}: role-specific Runtime workload effect is not receipt-bound")
+        provider_status_path = cycle_dir / "csm_adl_run_status.json"
+        if not provider_status_path.is_file():
+            raise SystemExit(f"{agent_id}: production provider status record is absent")
+        provider_status = json.loads(provider_status_path.read_text(encoding="utf-8"))
+        provider_records = provider_status.get("records") or []
+        if (
+            provider_status.get("schema") != "adl.csm.adl_workflow_run_status.v1"
+            or provider_status.get("status") != "success"
+            or len(provider_records) != 1
+            or provider_records[0].get("provider_id") != "local_ollama"
+            or provider_records[0].get("status") != "success"
+            or provider_records[0].get("step_id") != "resident-tool-proposal"
+        ):
+            raise SystemExit(f"{agent_id}: production Ollama provider result is not successful and exact")
+        producer = {
+            "source_revision": producer_source_revision,
+            "runtime_binary_sha256": digest_file(args.runtime_bin),
+            "csm_binary_sha256": digest_file(csm_bin),
+        }
+        provider_execution = {
+            "provider_id": "local_ollama",
+            "provider_kind": "ollama",
+            "model": resident["model"],
+            "configuration_sha256": resident["configuration_sha256"],
+            "status_record_sha256": digest_file(provider_status_path),
+            "result_sha256": receipt["proposal_sha256"],
+            "effect_receipt_sha256": digest_file(receipt_path),
+            "effect_decision": receipt["decision"],
+            "effect_reason_code": receipt["reason_code"],
+        }
         report_path = args.evidence_dir / f"{args.phase}-{agent_id}.json"
         report = {"schema": "adl.issue268.runtime_resident_cycle.v1", "agent_id": agent_id,
             "role": resident["role"], "task_id": task_id, "model": resident["model"],
+            "workload_view": task["workload_view"], "workload_effect_sha256": receipt["effect_sha256"],
             "task_definition_sha256": canonical_digest(task),
             "runtime_receipt": receipt, "runtime_receipt_sha256": digest_file(receipt_path),
+            "producer": producer, "provider_execution": provider_execution,
             "agent_test_outcome": receipt["decision"], "runtime_exit_code": runtime_exit_code,
             "cycle_id": receipt["cycle_id"]}
         atomic_json(report_path, report)
@@ -366,8 +550,11 @@ def main() -> int:
                 "tool_authority_digest": canonical_digest({"agent_id": agent_id, "tool_authority": resident["tool_authority"]}),
                 "runtime_authority_sha256": binding["authority_sha256"], "sequence": 1,
                 "runtime_agent_spec": str(spec_path),
+                "producer": producer, "provider_execution": provider_execution,
                 "task_panel_sha256": digest_file(args.task_panel),
                 "pre_task_definition_sha256": canonical_digest(task),
+                "pre_workload_view": task["workload_view"],
+                "pre_workload_effect_sha256": receipt["effect_sha256"],
                 "pre_agent_test_outcome": receipt["decision"],
                 "completed_case_ids": [task_id], "pending_case_ids": [resident["post_recovery_case"]],
                 "uts_report_sha256": report_sha,
@@ -381,7 +568,10 @@ def main() -> int:
             retained["pending_case_ids"] = []
             retained["post_restore_uts_report_sha256"] = report_sha
             retained["post_task_definition_sha256"] = canonical_digest(task)
+            retained["post_workload_view"] = task["workload_view"]
+            retained["post_workload_effect_sha256"] = receipt["effect_sha256"]
             retained["post_agent_test_outcome"] = receipt["decision"]
+            retained["post_provider_execution"] = provider_execution
             retained["checkpoint_lineage"].append(receipt["checkpoint_lineage"])
         atomic_json(args.state, state)
     state["phase"] = "pre_complete" if args.phase == "pre" else "post_complete"

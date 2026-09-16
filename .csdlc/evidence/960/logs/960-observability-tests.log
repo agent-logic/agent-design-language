@@ -1,0 +1,24 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-ccd7db6b0055bffe)
+
+running 17 tests
+test observability::tests::heartbeat_interval_defaults_and_overrides ... ok
+test observability::tests::format_event_line_preserves_expected_schema_shape ... ok
+test observability::tests::event_receipt_rejects_failed_required_sink_writes ... ok
+test observability::tests::sanitize_value_redacts_secret_markers ... ok
+test observability::tests::sanitize_value_normalizes_repo_home_and_absolute_paths ... ok
+test observability::tests::event_receipt_survives_a_concurrent_status_replacement ... ok
+test observability::tests::append_to_compatibility_log_reports_open_failures ... ok
+test observability::tests::compatibility_log_sink_failure_stays_quiet_when_stderr_is_suppressed ... ok
+test observability::tests::otel_monitor_status_serializes_concurrent_process_style_updates ... ok
+test observability::tests::progress_heartbeat_emits_heartbeat_for_slow_operations ... ok
+test observability::tests::emit_event_exports_otel_jsonl_and_monitor_status_when_configured ... ok
+test observability::tests::emit_event_appends_to_durable_log_when_configured ... ok
+test observability::tests::progress_heartbeat_stays_quiet_for_fast_operations ... ok
+test observability::tests::otel_sink_failure_is_durable_when_stderr_is_suppressed ... ok
+test observability::tests::otlp_exporter_malformed_endpoint_fails_closed_with_durable_status ... ok
+test observability::tests::emit_event_exports_otlp_http_json_to_configured_collector ... ok
+test observability::tests::emit_event_routes_sanitized_compatibility_event_through_tracing ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 1858 filtered out; finished in 0.33s
+

@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 977,
+  "issue_padded": "0977",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/977",
+  "title": "[RD-01] Execute repository dependency and ownership audit",
+  "branch": "codex/977-rd01-repository-audit",
+  "version": "v0.92.2",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-977-rd01-repository-audit",
+  "task_summary": "Execute a complete revision-bound RD-01 ownership/dependency inventory and isolated simulations; disclose unresolved product independence and extraction gates.",
+  "acceptance_criteria": "Every tracked baseline path accounted; package/CI/release coupling mapped; real isolated commands retained; H1-H3 explicit; independent review; unknowns remain unknown.",
+  "in_scope": "docs/milestones/v0.92.2/repository-decomposition/; adl/tools/rd01_repository_audit.py; .csdlc/issues/977/ and .csdlc/evidence/977/",
+  "out_of_scope": "Extraction, registry publication, cloud mutation, product refactors."
+}

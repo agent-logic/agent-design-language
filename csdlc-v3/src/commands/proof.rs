@@ -2,6 +2,7 @@
 //!
 //! Operational proof/install writes require authenticated invoking worktree ownership.
 //! Historical shadow/soak routes are callable diagnostics only and fail without mutation.
+pub mod intent;
 
 use std::{
     collections::BTreeMap,
@@ -19,7 +20,7 @@ use serde::{Deserialize, Serialize};
 pub const PROOF_ROUTE_NAMES: [&str; 4] = ["proof", "shadow", "soak", "install"];
 pub const CANONICAL_INSTALL_DESTINATION: &str = ".adl/bin/csdlc";
 
-#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
 pub struct ProofRouteRequest {
     pub issue: u64,
     pub repository: String,
@@ -1722,6 +1723,324 @@ fn digest_path(path: &Path) -> Result<Option<String>, ProofRouteFinding> {
     ))
 }
 
+/// Read-only admission and exact preimage for semantic RecordInstall.
+pub(crate) fn semantic_install_admit(
+    request: &ProofRouteRequest,
+) -> Result<serde_json::Value, ProofRouteFinding> {
+    let root = request_root(request)?;
+    authorize_worktree(request, Some(&root))?;
+    let plan = request
+        .install
+        .as_ref()
+        .ok_or_else(|| finding("install_plan_missing", "install plan required"))?;
+    let mut findings = common_findings(request, Some(&root));
+    validate_install(
+        request.evidence_root.as_deref(),
+        &request.repository,
+        request.cutover_issue,
+        plan,
+        &mut findings,
+    );
+    if let Some(finding) = findings.into_iter().next() {
+        return Err(finding);
+    }
+    authorize_install_execution(request, plan)?;
+    let destination = confined_output_file(&root, &plan.destination)?;
+    let receipt = confined_output_file(
+        &root,
+        &format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue),
+    )?;
+    let mut inputs = BTreeMap::new();
+    for reference in [
+        &plan.artifact_ref,
+        &plan.source_provenance_ref,
+        &plan.selector_metadata_ref,
+    ]
+    .into_iter()
+    .chain(plan.cutover_approval_ref.iter())
+    {
+        let path = resolve_repo_path(&root, reference, true)?;
+        inputs.insert(reference.clone(), digest_path(&path)?);
+    }
+    Ok(
+        serde_json::json!({"inputs":inputs,"destination":digest_path(&destination)?,"receipt":digest_path(&receipt)?}),
+    )
+}
+
+/// Native effect execution remains in the established installer. Caller must hold
+/// semantic reservation and fresh native admission; errors may follow replacement.
+pub(crate) fn semantic_install_execute(
+    request: &ProofRouteRequest,
+) -> Result<(), ProofRouteFinding> {
+    let plan = request
+        .install
+        .as_ref()
+        .ok_or_else(|| finding("install_plan_missing", "install plan required"))?;
+    semantic_install_admit(request)?;
+    execute_install(request, plan)?;
+    Ok(())
+}
+
+fn semantic_install_receipt(
+    request: &ProofRouteRequest,
+    plan: &InstallPlanInput,
+) -> serde_json::Value {
+    serde_json::json!({"schema":"csdlc.v3.install_receipt.v1","issue":request.issue,
+        "artifact_name":plan.artifact_name,"artifact_ref":plan.artifact_ref,"destination":plan.destination,
+        "installed_digest":plan.selected_binary_digest,"source_provenance":plan.source_provenance,
+        "source_provenance_ref":plan.source_provenance_ref,"selector_metadata_ref":plan.selector_metadata_ref,
+        "selector_metadata_digest":plan.selector_metadata_digest,"verified":true})
+}
+
+/// Validate the complete installed witness; no missing or altered receipt is success.
+pub(crate) fn semantic_install_witness(
+    request: &ProofRouteRequest,
+) -> Result<serde_json::Value, ProofRouteFinding> {
+    let root = request_root(request)?;
+    let plan = request
+        .install
+        .as_ref()
+        .ok_or_else(|| finding("install_plan_missing", "install plan required"))?;
+    let destination = confined_output_file(&root, &plan.destination)?;
+    let reference = format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue);
+    let receipt_path = confined_output_file(&root, &reference)?;
+    let bytes = fs::read(&receipt_path).map_err(|_| {
+        finding(
+            "install_receipt_missing",
+            "native install receipt unavailable",
+        )
+    })?;
+    let receipt: serde_json::Value = serde_json::from_slice(&bytes)
+        .map_err(|_| finding("install_receipt_invalid", "native install receipt invalid"))?;
+    let expected = semantic_install_receipt(request, plan);
+    if receipt != expected
+        || digest_path(&destination)?.as_deref() != Some(plan.selected_binary_digest.as_str())
+    {
+        return Err(finding(
+            "install_receipt_mismatch",
+            "installed bytes and receipt must match reserved inputs",
+        ));
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        if fs::metadata(&destination)
+            .map_err(|_| {
+                finding(
+                    "install_verification_failed",
+                    "installed metadata unavailable",
+                )
+            })?
+            .permissions()
+            .mode()
+            & 0o777
+            != 0o755
+        {
+            return Err(finding(
+                "install_permission_failed",
+                "installed mode must be executable 0755",
+            ));
+        }
+    }
+    Ok(
+        serde_json::json!({"receipt":receipt,"receipt_digest":blake3::hash(&bytes).to_hex().to_string(),"destination_digest":plan.selected_binary_digest}),
+    )
+}
+
+/// Resume only the missing receipt after exact installed-byte verification. The
+/// create-only hard-link publication cannot overwrite a concurrently supplied receipt.
+pub(crate) fn semantic_install_resume_receipt(
+    request: &ProofRouteRequest,
+) -> Result<serde_json::Value, ProofRouteFinding> {
+    semantic_install_admit(request)?;
+    let root = request_root(request)?;
+    let plan = request.install.as_ref().expect("admitted plan");
+    let destination = confined_output_file(&root, &plan.destination)?;
+    if digest_path(&destination)?.as_deref() != Some(plan.selected_binary_digest.as_str()) {
+        return Err(finding(
+            "install_partial_destination_mismatch",
+            "cannot resume receipt for different installed bytes",
+        ));
+    }
+    let receipt = confined_output_file(
+        &root,
+        &format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue),
+    )?;
+    if receipt
+        .try_exists()
+        .map_err(|_| finding("install_receipt_invalid", "cannot inspect existing receipt"))?
+    {
+        return Err(finding(
+            "install_receipt_exists",
+            "receipt recovery never overwrites existing evidence",
+        ));
+    }
+    // Exact selected bytes and absent receipt admit finishing the interrupted mode step.
+    set_installed_binary_executable(&destination)?;
+    publish_install_receipt(request, plan, &receipt)?;
+    semantic_install_sync(request)
+}
+
+fn publish_install_receipt(
+    request: &ProofRouteRequest,
+    plan: &InstallPlanInput,
+    receipt: &Path,
+) -> Result<(), ProofRouteFinding> {
+    let mut bytes = canonical_json(&semantic_install_receipt(request, plan));
+    bytes.push(b'\n');
+    publish_install_receipt_bytes(receipt, &bytes)
+}
+
+fn publish_install_receipt_bytes(receipt: &Path, bytes: &[u8]) -> Result<(), ProofRouteFinding> {
+    let parent = receipt.parent().expect("confined receipt parent");
+    fs::create_dir_all(parent).map_err(|_| {
+        finding(
+            "install_receipt_write_failed",
+            "cannot create native receipt directory",
+        )
+    })?;
+    let staged = receipt.with_extension(format!("{}.next", blake3::hash(bytes).to_hex()));
+    match fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&staged)
+    {
+        Ok(mut file) => file
+            .write_all(bytes)
+            .and_then(|()| file.sync_all())
+            .map_err(|_| {
+                finding(
+                    "install_receipt_write_failed",
+                    "native receipt write or sync failed",
+                )
+            })?,
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            if !staged
+                .symlink_metadata()
+                .is_ok_and(|metadata| metadata.is_file() && !metadata.file_type().is_symlink())
+                || fs::read(&staged).ok().as_deref() != Some(bytes)
+            {
+                return Err(finding(
+                    "install_receipt_stage_mismatch",
+                    "existing receipt stage is foreign or incomplete; bytes preserved",
+                ));
+            }
+            fs::File::open(&staged)
+                .and_then(|file| file.sync_all())
+                .map_err(|_| {
+                    finding(
+                        "install_receipt_write_failed",
+                        "retained receipt stage sync failed",
+                    )
+                })?;
+        }
+        Err(_) => {
+            return Err(finding(
+                "install_receipt_write_failed",
+                "cannot stage native receipt",
+            ))
+        }
+    }
+    if fs::hard_link(&staged, receipt).is_err() {
+        let cleaned = fs::remove_file(&staged).is_ok();
+        return Err(finding(
+            "install_receipt_write_failed",
+            if cleaned {
+                "create-only receipt publication failed; existing bytes preserved"
+            } else {
+                "create-only receipt publication failed; existing bytes preserved; staging cleanup failed"
+            },
+        ));
+    }
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_install_after_receipt_link")
+    {
+        std::process::exit(91);
+    }
+    fs::remove_file(&staged).map_err(|_| {
+        finding(
+            "install_receipt_write_failed",
+            "published receipt retained with staging residue",
+        )
+    })?;
+    Ok(())
+}
+
+fn remove_exact_install_receipt_stage(receipt: &Path) -> Result<(), ProofRouteFinding> {
+    let bytes = fs::read(receipt)
+        .map_err(|_| finding("install_receipt_invalid", "cannot read verified receipt"))?;
+    let staged = receipt.with_extension(format!("{}.next", blake3::hash(&bytes).to_hex()));
+    match staged.symlink_metadata() {
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Ok(metadata)
+            if metadata.is_file()
+                && !metadata.file_type().is_symlink()
+                && fs::read(&staged).ok().as_deref() == Some(bytes.as_slice()) => {}
+        _ => {
+            return Err(finding(
+                "install_receipt_stage_mismatch",
+                "receipt stage differs from verified receipt; bytes preserved",
+            ))
+        }
+    }
+    fs::remove_file(&staged).map_err(|_| {
+        finding(
+            "install_receipt_stage_cleanup_failed",
+            "cannot remove exact receipt stage",
+        )
+    })?;
+    fs::File::open(receipt.parent().expect("confined receipt parent"))
+        .and_then(|file| file.sync_all())
+        .map_err(|_| {
+            finding(
+                "install_sync_failed",
+                "receipt stage removal parent sync failed",
+            )
+        })
+}
+
+/// Mutation-side durability admission: verify first, then sync files and each
+/// ancestor entry through the bound repository before semantic success attachment.
+pub(crate) fn semantic_install_sync(
+    request: &ProofRouteRequest,
+) -> Result<serde_json::Value, ProofRouteFinding> {
+    let witness = semantic_install_witness(request)?;
+    let root = request_root(request)?;
+    let plan = request.install.as_ref().expect("witness validated plan");
+    let receipt = confined_output_file(
+        &root,
+        &format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue),
+    )?;
+    remove_exact_install_receipt_stage(&receipt)?;
+    for path in [
+        confined_output_file(&root, &plan.destination)?,
+        confined_output_file(
+            &root,
+            &format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue),
+        )?,
+    ] {
+        let mut current = path.as_path();
+        loop {
+            fs::File::open(current)
+                .and_then(|file| file.sync_all())
+                .map_err(|_| {
+                    finding(
+                        "install_sync_failed",
+                        "installed witness durability could not be established",
+                    )
+                })?;
+            if current == root {
+                break;
+            }
+            current = current
+                .parent()
+                .ok_or_else(|| finding("install_sync_failed", "install sync escaped repository"))?;
+        }
+    }
+    Ok(witness)
+}
+
 fn execute_install(
     request: &ProofRouteRequest,
     install: &InstallPlanInput,
@@ -1753,6 +2072,11 @@ fn execute_install(
         ));
     }
     write_bytes_atomic(&destination, &bytes)?;
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("semantic_install_after_rename")
+    {
+        std::process::exit(91);
+    }
     set_installed_binary_executable(&destination)?;
     let installed = fs::read(&destination).map_err(|_| {
         finding(
@@ -1766,24 +2090,14 @@ fn execute_install(
             "stable installed binary digest must match selected artifact",
         ));
     }
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref() == Ok("semantic_install_after_binary")
+    {
+        std::process::exit(91);
+    }
     let reference = format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue);
-    write_canonical_evidence(
-        request,
-        &reference,
-        &serde_json::json!({
-            "schema": "csdlc.v3.install_receipt.v1",
-            "issue": request.issue,
-            "artifact_name": install.artifact_name,
-            "artifact_ref": install.artifact_ref,
-            "destination": install.destination,
-            "installed_digest": digest,
-            "source_provenance": install.source_provenance,
-            "source_provenance_ref": install.source_provenance_ref,
-            "selector_metadata_ref": install.selector_metadata_ref,
-            "selector_metadata_digest": install.selector_metadata_digest,
-            "verified": true,
-        }),
-    )?;
+    let receipt = confined_output_file(&root, &reference)?;
+    publish_install_receipt(request, install, &receipt)?;
     Ok(reference)
 }
 
@@ -2098,6 +2412,75 @@ fn finding(code: &'static str, message: impl Into<String>) -> ProofRouteFinding 
 #[cfg(test)]
 mod tests {
     use super::*;
+    /// PVF #870: deterministic local filesystem negative proof, required tooling gate.
+    #[test]
+    fn install_receipt_collision_preserves_foreign_bytes_without_staging_residue() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/install-receipt-collision")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let receipt = root.join("receipt.json");
+        fs::write(&receipt, b"foreign receipt").unwrap();
+        let error = publish_install_receipt_bytes(&receipt, b"candidate receipt").unwrap_err();
+        assert_eq!(error.code, "install_receipt_write_failed");
+        assert_eq!(fs::read(&receipt).unwrap(), b"foreign receipt");
+        assert_eq!(fs::read_dir(&root).unwrap().count(), 1);
+    }
+
+    /// PVF #870: deterministic interrupted-stage replay and foreign-stage refusal.
+    #[test]
+    fn install_receipt_stage_restart_reuses_only_exact_bytes() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/install-receipt-stage-restart")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let bytes = b"candidate receipt";
+        let receipt = root.join("receipt.json");
+        let staged = receipt.with_extension(format!("{}.next", blake3::hash(bytes).to_hex()));
+        fs::write(&staged, b"foreign stage").unwrap();
+        assert_eq!(
+            publish_install_receipt_bytes(&receipt, bytes)
+                .unwrap_err()
+                .code,
+            "install_receipt_stage_mismatch"
+        );
+        assert_eq!(fs::read(&staged).unwrap(), b"foreign stage");
+        assert!(!receipt.exists());
+        // Model a process stopped after staging complete bytes, before hard-link publication.
+        fs::write(&staged, bytes).unwrap();
+        publish_install_receipt_bytes(&receipt, bytes).unwrap();
+        assert_eq!(fs::read(&receipt).unwrap(), bytes);
+        assert!(!staged.exists());
+        assert_eq!(fs::read_dir(&root).unwrap().count(), 1);
+    }
+
+    /// PVF #870: deterministic post-link residue recovery, preserving foreign bytes.
+    #[test]
+    fn install_receipt_link_recovery_removes_only_exact_stage() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/install-receipt-link-recovery")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let receipt = root.join("receipt.json");
+        let bytes = b"verified receipt";
+        fs::write(&receipt, bytes).unwrap();
+        let staged = receipt.with_extension(format!("{}.next", blake3::hash(bytes).to_hex()));
+        fs::write(&staged, b"foreign").unwrap();
+        assert_eq!(
+            remove_exact_install_receipt_stage(&receipt)
+                .unwrap_err()
+                .code,
+            "install_receipt_stage_mismatch"
+        );
+        assert_eq!(fs::read(&staged).unwrap(), b"foreign");
+        fs::remove_file(&staged).unwrap();
+        fs::hard_link(&receipt, &staged).unwrap();
+        remove_exact_install_receipt_stage(&receipt).unwrap();
+        assert!(!staged.exists());
+        assert_eq!(fs::read(&receipt).unwrap(), bytes);
+        remove_exact_install_receipt_stage(&receipt).unwrap();
+    }
+
     #[cfg(unix)]
     use std::os::unix::fs::symlink;
 

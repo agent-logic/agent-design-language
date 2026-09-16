@@ -1,9 +1,16 @@
+pub mod intent;
 use crate::repository::RepositoryContext;
 use markdown::{to_mdast, ParseOptions};
 use serde_json::Value;
 use std::collections::BTreeMap;
 use std::fmt;
 use std::fs;
+use std::path::Path;
+
+use crate::commands::local::PromptRegistry;
+use crate::storage::semantic::{
+    CardProjectionArtifact, CardProjectionBundle, Snapshot as SemanticSnapshot, SEMANTIC_CARD_KINDS,
+};
 
 /// Retained predecessor denominator for the V3-B foundation slice.
 pub const FOUNDATION_PREDECESSORS: [u64; 4] = [164, 165, 166, 167];
@@ -252,6 +259,121 @@ impl IssueProjection {
                 .collect(),
         })
     }
+}
+
+/// Derive all six card value/rendered artifacts only from an exact semantic
+/// snapshot and the caller-observed active registry. This function performs no
+/// writes and does not synthesize lifecycle, proof, review, publication or
+/// terminal facts: card values are copied byte-for-byte after canonical JSON
+/// serialization from the accepted semantic input.
+pub fn derive_semantic_card_projection(
+    snapshot: &SemanticSnapshot,
+    registry: &PromptRegistry,
+) -> Result<CardProjectionBundle, SemanticProjectionError> {
+    let mut cards = BTreeMap::new();
+    for kind in SEMANTIC_CARD_KINDS {
+        if !registry.card_kinds.contains(kind) {
+            return Err(SemanticProjectionError::Registry(format!(
+                "active registry is missing {kind}"
+            )));
+        }
+        let template_ref = registry.template_paths.get(kind).ok_or_else(|| {
+            SemanticProjectionError::Registry(format!(
+                "active registry is missing the {kind} template path"
+            ))
+        })?;
+        let template_path = Path::new(template_ref);
+        let values = snapshot.inputs().cards().get(kind).ok_or_else(|| {
+            SemanticProjectionError::SemanticInput(format!(
+                "accepted semantic input is missing {kind} values"
+            ))
+        })?;
+        let values = canonical_json_bytes(values).map_err(|message| {
+            SemanticProjectionError::SemanticInput(format!(
+                "{kind} values are not canonicalizable: {message}"
+            ))
+        })?;
+        let rendered_values: Value = serde_json::from_slice(&values).map_err(|error| {
+            SemanticProjectionError::SemanticInput(format!(
+                "{kind} canonical values are invalid: {error}"
+            ))
+        })?;
+        let rendered = crate::commands::local::render_semantic_card_projection(
+            registry,
+            kind,
+            &rendered_values,
+        )
+        .map_err(SemanticProjectionError::SemanticInput)?;
+        let portable_template_ref = portable_template_ref(template_path).ok_or_else(|| {
+            SemanticProjectionError::Registry(format!(
+                "{kind} template is outside docs/templates/prompts"
+            ))
+        })?;
+        let artifact =
+            CardProjectionArtifact::new(kind, portable_template_ref, values, rendered.into_bytes())
+                .map_err(SemanticProjectionError::Storage)?;
+        cards.insert(kind.into(), artifact);
+    }
+    CardProjectionBundle::new(snapshot, registry.version.clone(), cards)
+        .map_err(SemanticProjectionError::Storage)
+}
+
+#[derive(Debug)]
+pub enum SemanticProjectionError {
+    Registry(String),
+    TemplateRead {
+        kind: String,
+        path: String,
+        source: std::io::Error,
+    },
+    SemanticInput(String),
+    Storage(crate::storage::semantic::Error),
+}
+
+impl fmt::Display for SemanticProjectionError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Registry(message) | Self::SemanticInput(message) => formatter.write_str(message),
+            Self::TemplateRead { kind, path, source } => {
+                write!(formatter, "failed to read {kind} template {path}: {source}")
+            }
+            Self::Storage(source) => {
+                write!(formatter, "projection storage input is invalid: {source:?}")
+            }
+        }
+    }
+}
+
+impl std::error::Error for SemanticProjectionError {}
+
+fn canonical_json_bytes(value: &Value) -> Result<Vec<u8>, String> {
+    fn ordered(value: &Value) -> Value {
+        match value {
+            Value::Object(object) => {
+                let mut keys = object.keys().collect::<Vec<_>>();
+                keys.sort();
+                let mut result = serde_json::Map::new();
+                for key in keys {
+                    result.insert(key.clone(), ordered(&object[key]));
+                }
+                Value::Object(result)
+            }
+            Value::Array(values) => values.iter().map(ordered).collect::<Vec<_>>().into(),
+            value => value.clone(),
+        }
+    }
+    serde_json::to_vec(&ordered(value)).map_err(|error| error.to_string())
+}
+
+fn portable_template_ref(path: &Path) -> Option<String> {
+    let components = path
+        .components()
+        .filter_map(|component| component.as_os_str().to_str())
+        .collect::<Vec<_>>();
+    let start = components
+        .windows(3)
+        .position(|parts| parts == ["docs", "templates", "prompts"])?;
+    Some(components[start..].join("/"))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

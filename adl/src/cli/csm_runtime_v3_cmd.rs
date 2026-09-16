@@ -971,27 +971,43 @@ fn wait_for_service_unloaded(args: &RuntimeV3ServiceArgs, timeout: Duration) -> 
 fn wait_for_convergence(
     stage: &'static str,
     timeout: Duration,
-    mut converged: impl FnMut(Duration) -> Result<bool>,
+    converged: impl FnMut(Duration) -> Result<bool>,
 ) -> Result<()> {
-    let deadline = std::time::Instant::now() + timeout;
+    wait_for_convergence_with_clock(
+        stage,
+        timeout,
+        converged,
+        std::time::Instant::now,
+        std::thread::sleep,
+    )
+}
+
+fn wait_for_convergence_with_clock(
+    stage: &'static str,
+    timeout: Duration,
+    mut converged: impl FnMut(Duration) -> Result<bool>,
+    clock: impl Fn() -> std::time::Instant,
+    pause: impl Fn(Duration),
+) -> Result<()> {
+    let deadline = clock() + timeout;
     loop {
-        let now = std::time::Instant::now();
+        let now = clock();
         let remaining = deadline.saturating_duration_since(now);
         if remaining.is_zero() {
             break;
         }
         let success = converged(remaining)?;
-        if std::time::Instant::now() >= deadline {
+        if clock() >= deadline {
             break;
         }
         if success {
             return Ok(());
         }
-        let now = std::time::Instant::now();
+        let now = clock();
         if now >= deadline {
             break;
         }
-        std::thread::sleep(
+        pause(
             deadline
                 .saturating_duration_since(now)
                 .min(Duration::from_millis(200)),
@@ -1125,7 +1141,38 @@ fn platform_start_with_timeout(args: &RuntimeV3ServiceArgs, timeout: Duration) -
             remaining,
         )?;
     }
-    Ok(())
+    ensure_launchd_process_running(
+        timeout,
+        deadline,
+        |remaining| platform_process_id_with_timeout(args, remaining),
+        |remaining| {
+            run_start_command_with_timeout(
+                Command::new("launchctl").args(["kickstart", &launchd_target(args)]),
+                remaining,
+            )
+        },
+    )
+}
+
+#[cfg(any(target_os = "macos", test))]
+fn ensure_launchd_process_running(
+    timeout: Duration,
+    deadline: std::time::Instant,
+    probe: impl FnOnce(Duration) -> Result<Option<u32>>,
+    kickstart: impl FnOnce(Duration) -> Result<()>,
+) -> Result<()> {
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+    }
+    if probe(remaining)?.is_some() {
+        return Ok(());
+    }
+    let remaining = deadline.saturating_duration_since(std::time::Instant::now());
+    if remaining.is_zero() {
+        return Err(ServiceManagerDeadlineExceeded { timeout }.into());
+    }
+    kickstart(remaining)
 }
 
 #[cfg(target_os = "macos")]
@@ -1369,6 +1416,10 @@ fn platform_process_id_with_timeout(
 }
 
 fn command_output_with_timeout(command: &mut Command, timeout: Duration) -> Result<Output> {
+    #[cfg(test)]
+    if let Some(output) = tests::service_manager_fixture_output(command) {
+        return output;
+    }
     let rendered = format!("{command:?}");
     command.stdout(Stdio::piped()).stderr(Stdio::piped());
     let mut child = command
@@ -1473,8 +1524,71 @@ pub(crate) fn usage() -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use anyhow::{bail, ensure};
 
     static ENV_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+    // Unit tests never depend on the machine's launchd/systemd daemon. Fixtures
+    // are thread-local so parallel tests cannot replace each other's transport.
+    std::thread_local! {
+        static MISSING_SERVICE_FIXTURE: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+    }
+    struct MissingServiceFixture;
+    impl MissingServiceFixture {
+        fn install() -> Self {
+            MISSING_SERVICE_FIXTURE.with(|active| assert!(!active.replace(true)));
+            Self
+        }
+    }
+    impl Drop for MissingServiceFixture {
+        fn drop(&mut self) {
+            MISSING_SERVICE_FIXTURE.with(|active| active.set(false));
+        }
+    }
+    pub(super) fn service_manager_fixture_output(command: &Command) -> Option<Result<Output>> {
+        let program = Path::new(command.get_program()).file_name()?.to_str()?;
+        if !matches!(program, "launchctl" | "systemctl") {
+            return None;
+        }
+        Some((|| {
+            ensure!(
+                MISSING_SERVICE_FIXTURE.with(|active| active.get()),
+                "unit test attempted undeclared host service-manager access"
+            );
+            let args = command
+                .get_args()
+                .map(|arg| arg.to_string_lossy().into_owned())
+                .collect::<Vec<_>>();
+            ensure!(
+                args.last().is_some_and(|arg| arg
+                    .ends_with("com.agentlogic.adl-runtime-v3-test-missing")
+                    || arg == "com.agentlogic.adl-runtime-v3-test-missing.service"),
+                "unexpected service fixture target"
+            );
+            let (code, stdout) = match (program, args.first().map(String::as_str)) {
+                ("launchctl", Some("print")) => (113, ""),
+                ("systemctl", Some("is-active")) => (3, ""),
+                ("systemctl", Some("show")) if args.iter().any(|arg| arg == "MainPID") => {
+                    (0, "0\n")
+                }
+                ("systemctl", Some("show")) => (0, "LoadState=not-found\nActiveState=inactive\n"),
+                _ => bail!("unexpected service fixture operation"),
+            };
+            #[cfg(unix)]
+            {
+                use std::os::unix::process::ExitStatusExt;
+                Ok(Output {
+                    status: std::process::ExitStatus::from_raw(code << 8),
+                    stdout: stdout.as_bytes().to_vec(),
+                    stderr: vec![],
+                })
+            }
+            #[cfg(not(unix))]
+            {
+                let _ = (code, stdout);
+                bail!("service fixture supports Unix service managers")
+            }
+        })())
+    }
 
     struct EnvRestore {
         key: &'static str,
@@ -2032,6 +2146,7 @@ mod tests {
 
     #[test]
     fn valid_init_status_and_readiness_fail_closed_without_a_service() {
+        let _service = MissingServiceFixture::install();
         let root = tempfile::tempdir().unwrap();
         let (path, init) = write_valid_init(root.path());
         let mut args = service_args(path.clone());
@@ -2072,10 +2187,18 @@ mod tests {
     #[test]
     fn convergence_slow_success_completes_within_configured_deadline() {
         let mut probes = 0_u8;
-        wait_for_convergence("readiness", Duration::from_millis(500), |_| {
-            probes += 1;
-            Ok(probes == 3)
-        })
+        let origin = std::time::Instant::now();
+        let elapsed = std::cell::Cell::new(Duration::ZERO);
+        wait_for_convergence_with_clock(
+            "readiness",
+            Duration::from_millis(500),
+            |_| {
+                probes += 1;
+                Ok(probes == 3)
+            },
+            || origin + elapsed.get(),
+            |duration| elapsed.set(elapsed.get() + duration),
+        )
         .unwrap();
         assert_eq!(probes, 3);
     }
@@ -2132,6 +2255,60 @@ mod tests {
         assert!(loaded_error.to_string().contains("stage listener"));
         assert!(loaded_error.to_string().contains("250 milliseconds"));
         assert!(started.elapsed() < Duration::from_millis(1500));
+    }
+
+    #[test]
+    fn launchd_loaded_but_idle_service_is_kicked_without_restarting_running_service() {
+        let timeout = Duration::from_secs(1);
+        let idle_kickstarts = std::cell::Cell::new(0_u8);
+        ensure_launchd_process_running(
+            timeout,
+            std::time::Instant::now() + timeout,
+            |_| Ok(None),
+            |_| {
+                idle_kickstarts.set(idle_kickstarts.get() + 1);
+                Ok(())
+            },
+        )
+        .unwrap();
+        assert_eq!(idle_kickstarts.get(), 1);
+
+        let running_kickstarts = std::cell::Cell::new(0_u8);
+        ensure_launchd_process_running(
+            timeout,
+            std::time::Instant::now() + timeout,
+            |_| Ok(Some(42)),
+            |_| {
+                running_kickstarts.set(running_kickstarts.get() + 1);
+                Ok(())
+            },
+        )
+        .unwrap();
+        assert_eq!(running_kickstarts.get(), 0);
+    }
+
+    #[test]
+    fn launchd_idle_kickstart_preserves_command_failure_and_deadline() {
+        let timeout = Duration::from_secs(1);
+        let failure = ensure_launchd_process_running(
+            timeout,
+            std::time::Instant::now() + timeout,
+            |_| Ok(None),
+            |_| Err(anyhow!("kickstart failed")),
+        )
+        .unwrap_err();
+        assert_eq!(failure.to_string(), "kickstart failed");
+
+        let expired = ensure_launchd_process_running(
+            Duration::ZERO,
+            std::time::Instant::now(),
+            |_| panic!("expired start must not probe"),
+            |_| panic!("expired start must not kickstart"),
+        )
+        .unwrap_err();
+        assert!(expired
+            .downcast_ref::<ServiceManagerDeadlineExceeded>()
+            .is_some());
     }
 
     #[test]
@@ -2377,16 +2554,67 @@ mod tests {
 
     #[test]
     fn missing_service_is_unloaded_and_has_no_owned_process() {
+        let _service = MissingServiceFixture::install();
         let root = tempfile::tempdir().unwrap();
         let args = service_args(root.path().join("runtime-init.toml"));
-
-        assert!(!platform_loaded_with_timeout(&args, Duration::from_millis(750)).unwrap());
+        // No process launch or elapsed-time assertion: exercise the production
+        // command routing and response classification with declared outputs.
+        assert!(!platform_loaded_with_timeout(&args, Duration::ZERO).unwrap());
         assert_eq!(
-            platform_process_id_with_timeout(&args, Duration::from_millis(750)).unwrap(),
+            platform_process_id_with_timeout(&args, Duration::ZERO).unwrap(),
             None
         );
-        assert!(platform_stop_with_timeout(&args, Duration::from_secs(30)).is_ok());
-        assert!(wait_for_service_unloaded(&args, Duration::from_millis(750)).is_ok());
+        assert!(platform_stop_with_timeout(&args, Duration::ZERO).is_ok());
+        assert!(platform_stopped_with_timeout(&args, Duration::ZERO).unwrap());
+    }
+
+    #[test]
+    fn declared_systemd_fixture_preserves_response_contract() {
+        let _service = MissingServiceFixture::install();
+        let unit = "com.agentlogic.adl-runtime-v3-test-missing.service";
+        let inactive = command_output_with_timeout(
+            Command::new("systemctl").args(["is-active", "--quiet", unit]),
+            Duration::ZERO,
+        )
+        .unwrap();
+        assert_eq!(inactive.status.code(), Some(3));
+        let pid = command_output_with_timeout(
+            Command::new("systemctl").args(["show", "--property", "MainPID", "--value", unit]),
+            Duration::ZERO,
+        )
+        .unwrap();
+        assert!(pid.status.success());
+        assert_eq!(pid.stdout, b"0\n");
+        let state = command_output_with_timeout(
+            Command::new("systemctl").args([
+                "show",
+                "--property=LoadState",
+                "--property=ActiveState",
+                unit,
+            ]),
+            Duration::ZERO,
+        )
+        .unwrap();
+        assert!(state.status.success());
+        assert!(
+            parse_systemd_service_state(std::str::from_utf8(&state.stdout).unwrap())
+                .unwrap()
+                .is_stopped()
+        );
+    }
+
+    #[test]
+    fn unit_tests_reject_undeclared_host_service_manager_commands() {
+        for program in ["launchctl", "systemctl", "/bin/systemctl", "/bin/launchctl"] {
+            let error = command_output_with_timeout(
+                Command::new(program).arg("unexpected"),
+                Duration::ZERO,
+            )
+            .unwrap_err();
+            assert!(error
+                .to_string()
+                .contains("undeclared host service-manager access"));
+        }
     }
 
     #[test]

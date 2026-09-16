@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 884,
+  "phase": "bound",
+  "generation": 10,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/884-v0922-architecture-rationale",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-884-v0922-architecture-rationale",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "83b3ae53f9115d05b950ebe92159271a6575d23ddde90183bfb5c30593b9d3d1"
+}

@@ -48,14 +48,12 @@ not claim OpenTelemetry or new compatibility-log behavior.
 
 ## Validation contract
 
-`proof_worktree_binding` is a deterministic, local, medium-resource integration
-lane and required issue proof. It creates an isolated primary repository and
-linked issue worktree, installs one driver binary under the primary's stable
-`.adl/bin/native-v3/` path, then invokes that same binary from primary, worktree
-and nested worktree directories. It checks actual receipt/install bytes and
-snapshots issue mutation surfaces around rejected requests. Native bound
-records are fixture data; this test does not claim to test the separate native
-binder/editor repair. No credentials or network are required.
+`proof_worktree_binding` is now the deterministic installed guard proving that
+the former direct `proof --request` writer is retired before effects. Current
+proof worktree identity and confinement behavior runs through
+`semantic_local_proof`; current installation admission, receipt, crash recovery,
+and replay behavior runs through `semantic_install`. Those suites use isolated
+linked worktrees and synthetic inputs without credentials or network access.
 
 `proof_parity_install_commands` is a small required CLI denial lane for legacy
 requests and historical routes. The prior primary-mutating construction

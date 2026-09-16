@@ -1,0 +1,19 @@
+{
+  "issue": 880,
+  "title": "[v0.92.2][CF-ADAPTER-CI] Ingest CI repository inputs into a repository packet",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/880-ci-ingestion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-880-ci-ingestion",
+  "registry_version": "1.0.5",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "expected_lifecycle_digest": "7b3d11ffbcb98f374c883428a890c682f4ba863bffada7c3a613e3fcfa9c8b51"
+}

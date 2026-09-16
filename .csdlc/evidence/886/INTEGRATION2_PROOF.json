@@ -1,0 +1,272 @@
+{
+  "schema": "codefriend.drift.integration-proof.v2",
+  "issue": 886,
+  "pull_request": 996,
+  "prior_head": "5ab12cd0a5f3339b0bf562b856e07f5d9ca557a8",
+  "integrated_main": "53e2f5524359c1704d508fc22a871625d14b8816",
+  "resolution": "Additive drift and rationale help/argument entries; both upstream rationale and branch drift dispatch bodies preserved byte-for-byte, alongside impact. Outer review runner unchanged from main.",
+  "tests": {
+    "structure": 17,
+    "drift": 9,
+    "rationale": 10,
+    "impact": 10,
+    "memory": 8,
+    "evidence": 11,
+    "review_runner": 7
+  },
+  "total_tests": 72,
+  "strict_clippy": "passed",
+  "fmt": "passed",
+  "installed": {
+    "drift": {
+      "schema": "codefriend.drift_installed_proof.v1",
+      "issue": 886,
+      "platform": "Darwin-arm64",
+      "binary_sha256": "c7c751cc6cbf8506834cbcb764324957a88e0a41a94cacb1834fb91e918ac189",
+      "installation_provenance": "dbd67160ef89133c03df10338cb47a56ffdbb996d7c121d1cab9c117aabf4d07",
+      "scenarios": [
+        "actual-memory-read",
+        "overwrite",
+        "tampered-delta",
+        "deleted-baseline-read",
+        "no-resurrection",
+        "changed-repeat-readback",
+        "unchanged-repeat-readback",
+        "relocated-repeat-readback",
+        "partial-repeat-readback",
+        "narrower-repeat-readback",
+        "policy-repeat-readback"
+      ],
+      "executed_scenarios": 11,
+      "calibration": [
+        {
+          "fixture": "changed",
+          "expected_deltas": [
+            "added",
+            "resolved"
+          ],
+          "observed_deltas": [
+            "added",
+            "resolved"
+          ],
+          "false_positives": 0,
+          "false_negatives": 0
+        },
+        {
+          "fixture": "unchanged",
+          "expected_deltas": [],
+          "observed_deltas": [],
+          "false_positives": 0,
+          "false_negatives": 0
+        },
+        {
+          "fixture": "relocated",
+          "expected_deltas": [],
+          "observed_deltas": [],
+          "false_positives": 0,
+          "false_negatives": 0
+        }
+      ],
+      "source_unchanged": true,
+      "stdout_json_stderr_events": true,
+      "nonclaims": [
+        "Synthetic scoped reference-change accuracy, not runtime architecture drift or semantic rename inference",
+        "No provider or external source execution",
+        "No Linux qualification from macOS proof"
+      ]
+    },
+    "rationale": {
+      "schema": "codefriend.rationale_installed_proof.v1",
+      "issue": 884,
+      "platform": "Darwin-arm64",
+      "binary_sha256": "c7c751cc6cbf8506834cbcb764324957a88e0a41a94cacb1834fb91e918ac189",
+      "installation_provenance": "dbd67160ef89133c03df10338cb47a56ffdbb996d7c121d1cab9c117aabf4d07",
+      "scenarios": [
+        {
+          "fixture": "accepted",
+          "complete": true,
+          "conflicts": [],
+          "unknowns": [],
+          "repeat_readback": true
+        },
+        {
+          "fixture": "candidate",
+          "complete": false,
+          "conflicts": [],
+          "unknowns": [
+            "no_accepted_rationale"
+          ],
+          "repeat_readback": true
+        },
+        {
+          "fixture": "superseded",
+          "complete": false,
+          "conflicts": [],
+          "unknowns": [
+            "no_accepted_rationale"
+          ],
+          "repeat_readback": true
+        },
+        {
+          "fixture": "conflict",
+          "complete": false,
+          "conflicts": [
+            "api-deployment"
+          ],
+          "unknowns": [],
+          "repeat_readback": true
+        },
+        {
+          "fixture": "different-key",
+          "complete": true,
+          "conflicts": [],
+          "unknowns": [],
+          "repeat_readback": true
+        },
+        {
+          "fixture": "empty",
+          "complete": false,
+          "conflicts": [],
+          "unknowns": [
+            "no_accepted_rationale"
+          ],
+          "repeat_readback": true
+        },
+        {
+          "fixture": "unknown-deployment",
+          "complete": false,
+          "conflicts": [],
+          "unknowns": [
+            "unsupported_or_unmatched_deployment_relationship"
+          ],
+          "repeat_readback": true
+        },
+        {
+          "fixture": "outside",
+          "complete": false,
+          "conflicts": [],
+          "unknowns": [
+            "no_accepted_rationale",
+            "rationale_evidence_unavailable:unadmitted.md"
+          ],
+          "repeat_readback": true
+        }
+      ],
+      "executed_scenarios": 11,
+      "negative_guards": [
+        "tamper",
+        "stale-revision",
+        "post-deletion-read"
+      ],
+      "calibration": {
+        "fixed_sample": [
+          "conflict",
+          "different-key",
+          "candidate",
+          "superseded"
+        ],
+        "expected_conflict": [
+          "conflict"
+        ],
+        "observed_conflict": [
+          "conflict"
+        ],
+        "false_positives": 0,
+        "false_negatives": 0
+      },
+      "source_unchanged": true,
+      "stdout_json_stderr_events": true,
+      "nonclaims": [
+        "Synthetic explicit-choice conflict calibration only; no semantic prose contradiction accuracy",
+        "No measured runtime independent deployability",
+        "No provider or external repository execution",
+        "No Linux qualification from a macOS run"
+      ]
+    },
+    "impact": {
+      "schema": "codefriend.impact_installed_proof.v1",
+      "issue": 883,
+      "platform": "Darwin-arm64",
+      "binary_sha256": "c7c751cc6cbf8506834cbcb764324957a88e0a41a94cacb1834fb91e918ac189",
+      "installation_provenance": "dbd67160ef89133c03df10338cb47a56ffdbb996d7c121d1cab9c117aabf4d07",
+      "scenarios": [
+        "chain-reachability-repeat-readback",
+        "multiple-roots",
+        "unsupported-partial",
+        "stale-revision",
+        "stale-graph",
+        "malformed",
+        "target-bound",
+        "tamper",
+        "overwrite",
+        "deletion",
+        "cycle-reachability-repeat-readback",
+        "unknown-reachability-repeat-readback"
+      ],
+      "executed_scenarios": 12,
+      "calibration": [
+        {
+          "fixture": "chain",
+          "expected_potential_modules": [
+            "crate::api",
+            "crate::domain"
+          ],
+          "observed_potential_modules": [
+            "crate::api",
+            "crate::domain"
+          ],
+          "sample_false_positives": 0,
+          "sample_false_negatives": 0
+        },
+        {
+          "fixture": "cycle",
+          "expected_potential_modules": [
+            "crate::api",
+            "crate::domain"
+          ],
+          "observed_potential_modules": [
+            "crate::api",
+            "crate::domain"
+          ],
+          "sample_false_positives": 0,
+          "sample_false_negatives": 0
+        }
+      ],
+      "source_unchanged": true,
+      "stdout_json_stderr_events": true,
+      "nonclaims": [
+        "Synthetic syntactic potential-impact calibration is not measured runtime impact accuracy",
+        "No provider, source build or external repository execution",
+        "No Linux qualification from a macOS run"
+      ]
+    }
+  },
+  "combined_help": "passed",
+  "source_sha256": {
+    "adl/src/cli/codefriend_structure_cmd.rs": "1e26a07506b50142586feafcb0edf9e233302b8cf6d2dafe557e6b41ee629e68",
+    "adl/src/codefriend/architecture/mod.rs": "5b229cfe808e39979ddf98844fc8823c7c6046e40bb320b009a1297a53ad14d4",
+    "adl/src/codefriend/architecture/drift.rs": "4dc0fc93854851ad3285909c2accc074a8f876ece44590edfbb0f109a930f774",
+    "adl/src/codefriend/architecture/rationale.rs": "deecd6ded52cc4df2565218091e90671fcd1d471a4b36c06bb7933d52ebfbfa8",
+    "adl/src/codefriend/architecture/impact.rs": "0ce61b4ca6383f658887b4cd83c309857f0dd06528353aed552dadebad635b69",
+    "adl/src/cli/codefriend_cmd.rs": "4463b155c2d0e242457fe86b0fb5449d729ccd301a1b15e9728ed26fa5aa1f7b",
+    "adl/src/codefriend/review/runner.rs": "b21627152be7d552c02f30a1c682c5881f0e81c572ccb3632fbba2b795d9d2e4"
+  },
+  "log_sha256": {
+    "integration2-rationale.log": "177c95a4b80cfe6ec79dfd1b36fe9bda03f76dd7d1f7764bf8e0105259a64f30",
+    "integration2-install.log": "f08aaea7c1162629f80db51b754a8bdbb23359635a9a6cada95dd178b5951f6c",
+    "integration2-clippy.log": "3ab058d30765275e2d8f19e5546713597ce92e63ef4f793a842d66faaac02874",
+    "integration2-fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "integration2-drift.log": "b41442ea07f844a0c685243d40d335a6456c4e7461c75366019f176a59bb0774",
+    "integration2-build.log": "2a1b54f8e120d2f19b1e9dac1d9f96eac92b05b353fefaf55b12e3456c6da99f",
+    "integration2-review-regression.log": "54030fdf2cc094a1997081453a02f414be8129513624a6761c85201e00f72d66",
+    "integration2-tests.log": "4e8ab98a864c5f0ff78a1d7098ee0d2281d348e5d303070aabb585dfadd435b4",
+    "integration2-impact.log": "3282aa3091dbbf1b3e5f19e8a869593393776cf8da08c7e7868794c7e82fed14"
+  },
+  "review": "Independent parent exact-head review pending",
+  "ci": "Prior head5ab12cd green; current integration requires new hosted CI",
+  "nonclaims": [
+    "No push",
+    "No remote merge",
+    "Original proof packets retained unchanged"
+  ]
+}
