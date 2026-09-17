@@ -216,6 +216,11 @@
       "path": "docs/milestones/v0.92.2/adr/issue-911/relationships.json",
       "sha256": "5f072887470b89b4c3cd147476ccf60c00ff05056e802d196cd7ab2a1ce9a857",
       "bytes": 4150
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/PLAN.md",
+      "sha256": "1b5e65f4bdbd106163a67f15642ec72e3595404cc68ccd0cd97f939e44b6c66c",
+      "bytes": 15244
     }
   ]
 }

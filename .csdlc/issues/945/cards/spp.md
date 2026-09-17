@@ -10,7 +10,7 @@ title: "[v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obta
 branch: "codex/945-adr-decision-reconciliation"
 generated_at: "<timestamp>"
 card_status: "ready"
-status: "<status>"
+status: "in_progress"
 activation_state: "<activation_state>"
 plan_revision: 1
 initial_pvf_lane: "<initial_pvf_lane>"
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "<step_1_status>"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "<step_2_status>"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "<step_3_status>"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "<step_4_status>"
+    status: "in_progress"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "<step_5_status>"
+    status: "pending"
 affected_areas:
   - "<slug>"
 invariants_to_preserve:
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [<step_1_status>] Confirm dependencies and starting state from the source issue prompt.
-2. [<step_2_status>] Inspect repo inputs and target surfaces before editing.
-3. [<step_3_status>] Implement the bounded deliverables only.
-4. [<step_4_status>] Run focused validation and proof gates.
-5. [<step_5_status>] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [in_progress] Run focused validation and proof gates.
+5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 

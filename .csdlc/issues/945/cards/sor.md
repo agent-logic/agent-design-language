@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obtain decision approval
 Branch: codex/945-adr-decision-reconciliation
 Card Status: ready
-Status: <status>
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-<summary>
+Reconciled twelve Proposed ADRs with pinned implementation e76dd7e785d778916b524864118ef079e0a1836f; preserved all69 mappings and historical issue911 evidence. Explicit operator decisions remain pending; draft PR requested.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -79,20 +79,20 @@ Execution:
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Read original twelve candidates and current implementation/planning sources.`
+- `Revised bounded claims and generated current per-candidate decision/source/hash packet.`
+- `Ran focused current and historical documentation validators successfully.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `Documentation/source reconciliation only; no product runtime or provider execution.`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `<integration_result>`
+- Result: `not_merged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `<validation_command>`
     `<validation_effect>`
 - Results:
-  - `<validation_result>`
+  - `Focused document validators passed: issue945 12 candidates,69 mappings,43 sources,12 negative fixtures; historical issue911 12 candidates,69 mappings,21 sources,10 negatives. Native projection proof and independent review pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -163,7 +163,7 @@ verification_summary:
 - Replay result: `<replay_result>`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
+- Primary proof surface: `docs/milestones/v0.92.2/adr/issue-945/`
 - Required artifacts present: `<required_artifacts_present>`
 - Artifact schema/version checks: `<artifact_schema_checks>`
 - Hash/byte-stability checks: `<hash_byte_stability_checks>`
@@ -174,5 +174,5 @@ verification_summary:
 - `<decision_or_deviation_2>`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Obtain independent exact-head review and publish draft PR.`
+- `Obtain explicit operator dispositions for each exact candidate before acceptance, numbering or closure.`

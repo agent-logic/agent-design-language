@@ -156,10 +156,11 @@
       "source_refs": [
         "adl/src/codefriend/operator/mod.rs",
         "adl/src/cli/codefriend_cmd.rs",
-        "adl/src/codefriend/mod.rs"
+        "adl/src/codefriend/mod.rs",
+        "docs/milestones/v0.92.2/repository-decomposition/PLAN.md"
       ],
-      "observation": "The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs.",
-      "correction": "Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement does not settle the separately owned #848 repository decision.",
+      "observation": "The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs. The current repository plan records operator selection of the product split, existing private CodeFriend repository, and only ADL public.",
+      "correction": "Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement is pre-extraction state under the already recorded product split and private CodeFriend allocation; it does not authorize or prove extraction.",
       "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
     },
     {

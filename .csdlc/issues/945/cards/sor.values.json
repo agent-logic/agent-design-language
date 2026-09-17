@@ -9,5 +9,17 @@
   "card": "sor",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-945-adr-decision-reconciliation"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-945-adr-decision-reconciliation",
+  "summary": "Reconciled twelve Proposed ADRs with pinned implementation e76dd7e785d778916b524864118ef079e0a1836f; preserved all69 mappings and historical issue911 evidence. Explicit operator decisions remain pending; draft PR requested.",
+  "status": "in_progress",
+  "integration_state": "worktree_only",
+  "integration_result": "not_merged",
+  "validation_result": "Focused document validators passed: issue945 12 candidates,69 mappings,43 sources,12 negative fixtures; historical issue911 12 candidates,69 mappings,21 sources,10 negatives. Native projection proof and independent review pending.",
+  "actions_taken_line_1": "Read original twelve candidates and current implementation/planning sources.",
+  "actions_taken_line_2": "Revised bounded claims and generated current per-candidate decision/source/hash packet.",
+  "actions_taken_line_3": "Ran focused current and historical documentation validators successfully.",
+  "follow_up_1": "Obtain independent exact-head review and publish draft PR.",
+  "follow_up_2": "Obtain explicit operator dispositions for each exact candidate before acceptance, numbering or closure.",
+  "primary_proof_surface": "docs/milestones/v0.92.2/adr/issue-945/",
+  "verification_scope": "Documentation/source reconciliation only; no product runtime or provider execution."
 }

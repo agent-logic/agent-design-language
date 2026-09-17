@@ -21,7 +21,7 @@ Version: v0.92.2
 Title: [v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obtain decision approval
 Branch: codex/945-adr-decision-reconciliation
 Card Status: draft
-Status: pre_execution
+Status: in_progress
 Generated: 2026-09-17T01:12:51.241690+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Pre-execution preparation; no current source reconciliation or acceptance performed.
+Reconciled twelve Proposed ADRs with pinned implementation e76dd7e785d778916b524864118ef079e0a1836f; preserved all69 mappings and historical issue911 evidence. Explicit operator decisions remain pending; draft PR requested.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs_only`
@@ -79,20 +79,20 @@ Pre-execution preparation; no current source reconciliation or acceptance perfor
 - Additional proof artifacts: `not_run`
 
 ## Actions taken
-- `Live #945 management roster resolved: exactly #914 and #915.`
-- `Issue-specific six-card plan prepared.`
-- `Native preparation and binding pending.`
+- `Read original twelve candidates and current implementation/planning sources.`
+- `Revised bounded claims and generated current per-candidate decision/source/hash packet.`
+- `Ran focused current and historical documentation validators successfully.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `preparation cards only`
-- Integration state: `not_started`
-- Verification scope: `not_run`
+- Integration state: `worktree_only`
+- Verification scope: `Documentation/source reconciliation only; no product runtime or provider execution.`
 - Integration method used: `not_run`
 - Verification performed:
   - `not_run`
     `not_run`
-- Result: `not_started`
+- Result: `not_merged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `not_run`
     `not_run`
 - Results:
-  - `not_run`
+  - `Focused document validators passed: issue945 12 candidates,69 mappings,43 sources,12 negative fixtures; historical issue911 12 candidates,69 mappings,21 sources,10 negatives. Native projection proof and independent review pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -163,7 +163,7 @@ verification_summary:
 - Replay result: `not_run`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/prepared/issues/945/child-evidence.json (planned)`
+- Primary proof surface: `docs/milestones/v0.92.2/adr/issue-945/`
 - Required artifacts present: `false`
 - Artifact schema/version checks: `not_run`
 - Hash/byte-stability checks: `not_run`
@@ -174,5 +174,5 @@ verification_summary:
 - `not_run`
 
 ## Follow-ups / Deferred work
-- `Reconcile all12 candidates and all69 mappings with current sources.`
-- `Obtain operator decisions after validated independent review.`
+- `Obtain independent exact-head review and publish draft PR.`
+- `Obtain explicit operator dispositions for each exact candidate before acceptance, numbering or closure.`

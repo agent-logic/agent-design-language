@@ -14,23 +14,23 @@ What product is Beta 1, and where does it run and integrate?
 
 ## Context
 
-The selected baseline is a local operator-controlled CLI with artifact browsing in the current repository. The historical product ADR defines evidence-bound reports but does not specify this installed product journey. A separate repository split is still a decision owned by #848.
+The selected baseline is a local operator-controlled CLI with artifact browsing in the current repository. The historical product ADR defines evidence-bound reports but does not specify this installed product journey. The current repository decomposition plan records the operator decision to reuse the existing private agent-logic/codefriend.ai repository. This source tree is the pre-extraction implementation; extraction still requires its own reviewed execution authorization.
 
 ## Decision
 
-Deliver CodeFriend through adl codefriend in this repository, following the selected CLI dispatch and cohesive product-module paths in CREATION_SELECTIONS. The shell exposes a real review journey over the completed ingestion/evidence/review consumers and local artifacts. It consumes shared Runtime, provider and Memory Palace contracts rather than embedding parallel service owners.
+Before the authorized extraction, deliver CodeFriend through adl codefriend in this repository, following the selected CLI dispatch and cohesive product-module paths in CREATION_SELECTIONS. The shell exposes a real review journey over the completed ingestion/evidence/review consumers and local artifacts. It consumes shared Runtime, provider and Memory Palace contracts rather than embedding parallel service owners.
 
 CF-INTEGRATE connects the completed consumers into one installed operator journey before CF-PROOF independently qualifies it on ADL and the pinned licensed external Rust scope. Neither integration nor qualification may absorb unfinished features and call them delivered. The selected qualification environments are macOS and Linux; this proposal makes no Windows support claim.
 
-Beta 1 is not a hosted customer service, new authentication platform or multi-tenant deployment. The separately owned static Observatory sidecar does not change that boundary. Autonomous source mutation and broader integrations remain excluded. A later repository decomposition must be an explicit decision, not an incidental bootstrap choice.
+Beta 1 is not a hosted customer service, new authentication platform or multi-tenant deployment. The separately owned static Observatory sidecar does not change that boundary. Autonomous source mutation and broader integrations remain excluded. The selected destination is the existing private CodeFriend repository under the recorded product split. Do not infer extraction execution authority or completed migration from that allocation decision.
 
 ## Alternatives Considered
 
-A hosted service introduces tenant, account and operational responsibilities outside the admitted scope. A standalone repository now would preempt #848. Keeping only disconnected review skills would not deliver the installed product and complete journey required by CF-INTEGRATE. The local product provides a bounded delivery surface while retaining future boundary choices.
+A hosted service introduces tenant, account and operational responsibilities outside the admitted scope. The older standalone-versus-colocated choice has been resolved by the recorded product split; reusing the existing private repository preserves its contents and requires a reviewed integration inventory. Keeping only disconnected review skills would not deliver the installed product and complete journey required by CF-INTEGRATE. The local product provides a bounded delivery surface while retaining future boundary choices.
 
 ## Consequences
 
-The initial product can be qualified on the repository's selected platforms and shared services without a hosted deployment program. Installation and integration become concrete acceptance obligations. Keeping the initial implementation together does not assert permanent functional coupling or settle commercialization boundaries.
+The initial product can be qualified on the repository's selected platforms and shared services without a hosted deployment program. Installation and integration become concrete acceptance obligations. Current colocation is pre-extraction delivery, not a permanent repository allocation. The product split and visibility are decided; migration compatibility, dependencies and execution proof remain separate obligations.
 
 ## Reversibility
 
@@ -42,7 +42,7 @@ Run the installed journey with actual ingestion, review, synthesis, action plans
 
 ## Supersession Relationships
 
-Refines accepted ADR0025. Defers any contrary repository allocation to the actual #848 decision; no permanent monorepo decision or extraction authorization is claimed.
+Refines accepted ADR0025. Reconciles present local delivery with the product split and private CodeFriend destination recorded in the current #848 decomposition plan. No permanent monorepo choice or extraction authorization is claimed.
 
 ## Source Evidence
 
@@ -63,10 +63,12 @@ Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This
 
 The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs.
 
-Proposed clarification: Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement does not settle the separately owned #848 repository decision.
+Proposed clarification: Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement is pre-extraction state under the already recorded product split and private CodeFriend allocation; it does not authorize or prove extraction.
 
 - [adl/src/codefriend/operator/mod.rs](../../../../adl/src/codefriend/operator/mod.rs)
 - [adl/src/cli/codefriend_cmd.rs](../../../../adl/src/cli/codefriend_cmd.rs)
 - [adl/src/codefriend/mod.rs](../../../../adl/src/codefriend/mod.rs)
+
+- [docs/milestones/v0.92.2/repository-decomposition/PLAN.md](../../../milestones/v0.92.2/repository-decomposition/PLAN.md)
 
 Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.
