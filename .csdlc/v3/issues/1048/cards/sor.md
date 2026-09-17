@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Typed publication metadata correction implemented; validation and independent review passed focused gates; publication pending.
+Implementation and local proof complete; reviewed PR publication pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -110,7 +110,7 @@ Rules:
   - `<validation_command>`
     `<validation_effect>`
 - Results:
-  - `Focused regressions and semantic/manual suites passed; full installed suite in progress.`
+  - `149 tests passed: 69 installed intents, 47 semantic unit, 14 semantic local-proof, 2 semantic remote-review, 11 command-manifest, 6 manual. Native proof passed both declared validators; independent review passed exact source/docs head 8a514568145dbe5c5a7ff524e12c9e8d06074c02.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

@@ -16,7 +16,7 @@ planned_pvf_lane: "tooling"
 lane_registry_path: "<lane_registry_path>"
 lane_registry_template_set: "<lane_registry_template_set>"
 validation_runtime_class: "<validation_runtime_class>"
-validation_resource_profile: "small local CPU/Git fixtures"
+validation_resource_profile: "deterministic local tooling fixtures; CPU/Git and synthetic transport; no live cloud changes"
 validation_family: "<validation_family>"
 validation_size_split: "<validation_size_split>"
 expected_proof_cost: "<expected_proof_cost>"
@@ -39,7 +39,7 @@ selected_lanes:
 parallel_groups:
   - "<parallel_groups_inline>"
 validation_commands:
-  - "Focused Rust semantic amendment/storage/intent command tests and cargo fmt; command-manifest/manual contract checks for touched documentation. Fixtures simulate remote effects and assert zero dispatch on rejected admission. PVF deterministic local tooling/contract proof, small CPU/local Git, no live cloud writes. Actual migration evidence is outside this issue."
+  - "149 tests passed: 69 installed intents, 47 semantic unit, 14 semantic local-proof, 2 semantic remote-review, 11 command-manifest, 6 manual. Native proof passed both declared validators; independent review passed exact source/docs head 8a514568145dbe5c5a7ff524e12c9e8d06074c02."
 failure_policy: "Fail closed on invalid metadata, stale evidence, identity mismatch, ambiguous remote effect or duplicate attempt."
 notes: "<notes_risks_inline>"
 ---
@@ -67,7 +67,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 - Parallel groups: <parallel_groups_inline>
 - Validation runtime class: `<validation_runtime_class>`
-- Validation resource profile: `small local CPU/Git fixtures`
+- Validation resource profile: `deterministic local tooling fixtures; CPU/Git and synthetic transport; no live cloud changes`
 - Validation family: `<validation_family>`
 - Validation size split: `<validation_size_split>`
 
@@ -86,7 +86,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Commands
 
-- Focused Rust semantic amendment/storage/intent command tests and cargo fmt; command-manifest/manual contract checks for touched documentation. Fixtures simulate remote effects and assert zero dispatch on rejected admission. PVF deterministic local tooling/contract proof, small CPU/local Git, no live cloud writes. Actual migration evidence is outside this issue.
+- 149 tests passed: 69 installed intents, 47 semantic unit, 14 semantic local-proof, 2 semantic remote-review, 11 command-manifest, 6 manual. Native proof passed both declared validators; independent review passed exact source/docs head 8a514568145dbe5c5a7ff524e12c9e8d06074c02.
 
 ## Failure Semantics
 
