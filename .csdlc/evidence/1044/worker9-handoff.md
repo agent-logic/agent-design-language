@@ -8,4 +8,4 @@ Retained `planning73-1017` invocation results in primary Git metadata report nat
 
 The isolated candidate installation was preserved by moving it from `.adl/bin/native-v3` to `.csdlc/local/1044/native-v3` within this worktree because native proof rejects ignored files outside its declared evidence/build locations. Its retained installer provenance records the original install path. The shared owner binary was not replaced.
 
-Publication metadata currently ends with `Closes #1044`. Native card edit has no publication-metadata amendment field. Operator permission is pending to publish then immediately correct the body through the typed PR update; no raw GitHub mutation is planned.
+The operator authorized separate native tooling repair #1046. Its independently reviewed isolated candidate amended the retained publication plan through native edit; the body now begins `Closes #1044`. Prior proof/review is historical and final-head evidence must be refreshed. No raw GitHub mutation or shared binary replacement was performed.
