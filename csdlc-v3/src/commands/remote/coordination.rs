@@ -96,7 +96,7 @@ pub(super) fn target_body(
     let encoded = serde_json::to_string(contract)
         .map_err(|_| reject("coordination contract encoding failed"))?;
     let marker = format!("{CONTRACT_PREFIX}{encoded} -->");
-    if completion.current_body.trim().is_empty() {
+    if completion.current_body.is_empty() {
         Ok(marker)
     } else {
         Ok(format!("{}\n\n{marker}", completion.current_body))

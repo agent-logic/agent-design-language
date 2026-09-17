@@ -466,6 +466,27 @@ fn installed_legacy_contract_installation_preserves_trailing_bytes() {
 }
 
 #[test]
+fn installed_legacy_contract_installation_preserves_whitespace_only_body() {
+    let (mut fixture, linked, _) = setup("legacy-contract-whitespace-only");
+    retain_legacy_only(&fixture);
+    let exact_body = "  \n\t";
+    let mut remote = fixture.remote_issue();
+    remote["body"] = json!(exact_body);
+    write(&base(&fixture).join("remote-issue.json"), &remote);
+    let operation = fixture.write_json(
+        "legacy-install-whitespace-only.json",
+        &installation_operation(exact_body),
+    );
+    success(execute(&mut fixture, &linked, &operation));
+    let closed = fixture.remote_issue();
+    assert!(closed["body"]
+        .as_str()
+        .unwrap()
+        .starts_with(&format!("{exact_body}\n\n<!-- csdlc-coordination:v1 ")));
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
+#[test]
 fn installed_legacy_contract_installation_rejects_oversize_outbound_body() {
     let (mut fixture, linked, _) = setup("legacy-contract-oversize");
     retain_legacy_only(&fixture);
