@@ -18,7 +18,7 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 \&csdlc clean ISSUE \-\-execute \-\-preview TOKEN
 .fi
 .PP
-\&Supply issue\-specific six\-card values from the active templates, admitted validators and canonical publication content. Independent review is external evidence, never an automatically generated approval. Finish requires already merged/closed remote truth; cleanup is a separate token\-bound operation. The request\-based workflow below remains supported.
+\&Supply issue\-specific six\-card values from the active templates, admitted validators and canonical publication content. Independent review is external evidence, never an automatically generated approval. Finish requires already merged/closed remote truth; cleanup is a separate token\-bound operation. Direct writer request syntax is retired; use positional intents or the declared intent request contract. Read\-only diagnostic requests remain supported.
 .SH PRECONDITIONS
 \&Use an existing tracked issue, accepted prerequisites and a reviewed issue\-specific plan. Check clean primary main and actual registrations; preserve another session's checkout. Commands below are templates using your own reviewed request files, not permission to mutate example IDs. Use the active installed binary by absolute path after changing checkouts.
 .PP
@@ -58,18 +58,20 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 .PP
 \&review\-request.json is RemoteRouteRequest with issue/repository/implementer/reviewer/review_revision/expected_head_sha; review\-dispatch.json wraps it in operation.kind review, canonical selector digest and exact_review_sha. Require ready in the result and valid current authority. Keep the typed receipt and actual evidence under .csdlc/evidence/ISSUE/.
 .SH 4 CREATE AND VERIFY THE PR
-\&Prepare a reviewed closing PR body containing exactly Closes #ISSUE, correct base and branch head. A checkpoint uses Part of #ISSUE and cannot terminally finish. Push the reviewed branch to its intended remote after verifying scope, then execute the native github\-pr pull_request_create dispatch. Ordinary Git push transports the branch; it is not a raw GitHub lifecycle write.
 .nf
+\&csdlc review ISSUE \-\-evidence REVIEW.json
 \&git push \-u origin YOUR_REVIEWED_BRANCH
 \&csdlc publish ISSUE
-\&csdlc pr\-state \-\-request remote\-request.json \-\-observe\-github
+\&csdlc pr\-state ISSUE
 .fi
 .PP
-\&The create dispatch's exact_review_sha and nested expected_head_sha match the reviewed head; mutation has action pull_request_create, base, head, title, body and draft. Retain the returned assigned numeric PR and authenticated mutation receipt. Verify actual base/head and closing linkage immediately.
+\&Push the exact reviewed branch before publication. Native publication verifies the authenticated remote branch head and does not push Git refs; a missing or changed remote head blocks dispatch.
 .PP
-\&Update RemoteRouteRequest with assigned PR/title/body, current head, mode closing, review_present, distinct principals and typed receipt path/digest. \-\-observe\-github obtains authenticated readback. The current publish route requires an existing authenticated PR readback, so its complete ready check occurs after actual PR creation. A pre\-creation publish plan lacking readback must remain blocked; never forge receipts to get a green preflight. Native review and independent exact\-head review precede the creation.
+\&Publication resolves the exact reviewed head and accepted base, title, body and draft metadata. Correct metadata with csdlc edit ISSUE \-\-changes publication.json before renewed proof and independent review. The changes use schema csdlc.v3.intent_changes.v1 and one publication object with base, title, body and draft. Closes #ISSUE must begin a line. Preparation rejects malformed metadata. Do not use retired github\-pr \-\-request writer syntax.
 .PP
-\&To transition from draft after required proof, use github\-pr with pull_request_ready. Updating a PR title/body uses pull_request_update. Recheck publication after any material change. A published PR remains open/unmerged until explicit merge succeeds.
+\&Metadata amendments preserve issue and binding identity and invalidate downstream proof and review. Fresh reviews are retained immutably by HEAD and proof digest; legacy per\-HEAD receipts remain readable. After publication, base and draft cannot change through this editor. Interrupted edits require recover preview and explicit execution. Retain the assigned numeric PR and authenticated mutation receipt; verify actual base/head and closing linkage immediately.
+.PP
+\&To transition from draft after required proof, use csdlc github\-pr ISSUE \-\-operation ready\-operation.json \-\-execute with action pull_request_ready. A published PR remains open/unmerged until explicitly authorized merge.
 .SH 5 MERGE ONLY WITH AUTHORIZATION
 \&Confirm required checks actually pass, unresolved review threads are resolved, current review is exact and the operator authorized this numeric PR merge. Use mutation pull_request_merge only through github\-pr with explicit base, method merge and current review receipt path/digest. Put the actual authorization reference in operator_approval; text alone is not approval.
 .nf

@@ -174,6 +174,7 @@ impl EffectOrigin {
                     && matches!(
                         command,
                         SemanticCommand::FinishWithoutPr
+                            | SemanticCommand::AmendPublication
                             | SemanticCommand::RecordIssueMutation
                             | SemanticCommand::RecordInstall
                             | SemanticCommand::RecordCutover
@@ -285,6 +286,7 @@ fn evidence_kind(command: SemanticCommand) -> EvidenceKind {
         SemanticCommand::AmendCards
         | SemanticCommand::AmendPlan
         | SemanticCommand::AmendValidation
+        | SemanticCommand::AmendPublication
         | SemanticCommand::AmendBinding => EvidenceKind::LocalMutationReceipt,
         SemanticCommand::RecordProof => EvidenceKind::ProofRun,
         SemanticCommand::AssignReview
@@ -1175,6 +1177,18 @@ fn attach_locked(
         }
         payload.inputs.intent_plan.validators =
             serde_json::from_value(content["validators"].clone())
+                .map_err(|error| encoding(error.to_string()))?;
+        payload.inputs.validate()?;
+    }
+    if outcome.kind == OutcomeKind::Success && pending.command == SemanticCommand::AmendPublication
+    {
+        let content: serde_json::Value =
+            codec::decode(&effect_request.canonical_content()?).map_err(encoding)?;
+        if content["schema"] != "csdlc.v3.semantic_publication_edit_request.v1" {
+            return Err(Error::EvidenceMismatch);
+        }
+        payload.inputs.intent_plan.publication =
+            serde_json::from_value(content["publication"].clone())
                 .map_err(|error| encoding(error.to_string()))?;
         payload.inputs.validate()?;
     }

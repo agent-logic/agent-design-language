@@ -305,6 +305,21 @@ pub fn review_path(issue: u64, head: &str) -> String {
     format!(".csdlc/evidence/{issue}/intent-review/{head}.json")
 }
 
+/// Retain each proof-bound review independently, including reviews at the same HEAD.
+pub fn proof_review_path(issue: u64, head: &str, proof_digest: &str) -> String {
+    let key = blake3::hash(proof_digest.as_bytes()).to_hex();
+    format!(".csdlc/evidence/{issue}/intent-review/{head}/{key}.json")
+}
+
+pub fn retained_review_path(root: &Path, issue: u64, head: &str, proof_digest: &str) -> String {
+    let versioned = proof_review_path(issue, head, proof_digest);
+    if root.join(&versioned).exists() {
+        versioned
+    } else {
+        review_path(issue, head)
+    }
+}
+
 pub fn semantic_proof_path(issue: u64) -> String {
     format!(".csdlc/v3/issues/{issue}/proof.json")
 }
@@ -456,7 +471,7 @@ pub fn record_external_review(
 ) -> Result<bool, RemoteRouteFinding> {
     verify_canonical_v3_authority(root, Some(authority_digest), head)?;
     verify_external_review(root, repository, issue, head, issue_digest, evidence)?;
-    let receipt_path = root.join(review_path(issue, head));
+    let receipt_path = root.join(proof_review_path(issue, head, &evidence.proof_digest));
     let evidence_path = receipt_path.with_extension("external.json");
     guard_review_path(root, &receipt_path)?;
     guard_review_path(root, &evidence_path)?;
@@ -505,9 +520,18 @@ pub fn load_external_review(
     issue: u64,
     head: &str,
 ) -> Result<ExternalReview, RemoteRouteFinding> {
-    let path = root
-        .join(review_path(issue, head))
-        .with_extension("external.json");
+    let proof = fs::read(root.join(semantic_proof_path(issue)))
+        .or_else(|_| fs::read(root.join(format!(".csdlc/evidence/{issue}/intent-proof.json"))))
+        .map_err(|_| remote_finding("intent_review_proof_missing", "current proof is required"))?;
+    let digest = blake3::hash(&proof).to_hex().to_string();
+    let versioned = root.join(proof_review_path(issue, head, &digest));
+    // Older installations retained a single immutable review per HEAD.
+    let receipt_path = if versioned.exists() {
+        versioned
+    } else {
+        root.join(review_path(issue, head))
+    };
+    let path = receipt_path.with_extension("external.json");
     guard_review_path(root, &path)?;
     let bytes = fs::read(path).map_err(|_| {
         remote_finding(
@@ -521,7 +545,6 @@ pub fn load_external_review(
             "retained external review is invalid",
         )
     })?;
-    let receipt_path = root.join(review_path(issue, head));
     guard_review_path(root, &receipt_path)?;
     let receipt: TypedReviewReceipt =
         serde_json::from_slice(&fs::read(receipt_path).map_err(|_| {
@@ -653,6 +676,48 @@ pub fn publication_target(
         ));
     }
     Ok(targets.into_iter().next())
+}
+
+/// Shared preparation/edit/publication guard. This validates metadata, not review
+/// authority, and deliberately performs no remote operation.
+pub fn validate_publication_metadata(
+    issue: u64,
+    branch: &str,
+    base: &str,
+    title: &str,
+    body: &str,
+) -> Result<(), RemoteRouteFinding> {
+    if !super::publication_body_is_valid(body, issue) {
+        return Err(remote_finding(
+            "intent_publication_body_invalid",
+            "publication body must preserve the canonical closing issue",
+        ));
+    }
+    let valid_base = !base.is_empty()
+        && !base.starts_with('-')
+        && !base.ends_with('.')
+        && !base.contains("..")
+        && base
+            .split('/')
+            .all(|part| !part.is_empty() && !part.starts_with('.') && !part.ends_with(".lock"))
+        && base
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b"/_-.".contains(&b));
+    if issue == 0
+        || !valid_base
+        || base == branch
+        || title.trim().is_empty()
+        || title.contains(['\n', '\r', '\0'])
+        || body.contains('\0')
+        || !body_has_relation(Some(body), "Closes", issue)
+        || body_closing_issue_references(Some(body))
+            .iter()
+            .any(|other| *other != issue)
+    {
+        return Err(remote_finding("intent_publication_metadata_invalid",
+            "publication requires a safe distinct base, nonempty title and only the canonical closing issue on its own line"));
+    }
+    Ok(())
 }
 
 pub fn publication_create_admission(

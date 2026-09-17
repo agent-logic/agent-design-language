@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1048,
+  "issue_padded": "1048",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1048",
+  "title": "[C-SDLC] Allow typed correction of accepted publication metadata before dispatch",
+  "branch": "codex/1048-publication-metadata-amendment",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1048-publication-metadata-amendment",
+  "step_1_status": "completed",
+  "step_2_status": "completed",
+  "step_3_status": "completed",
+  "step_4_status": "completed",
+  "step_5_status": "completed",
+  "notes_risks_inline": "Implementation adds typed publication amendment, initial metadata admission, pending-amendment proof rejection, and immutable proof-bound reviews so renewed review at the same HEAD does not overwrite prior evidence. Preserve legacy review receipt dispatch paths. Focused regression and independent review in progress; no remote publication yet."
+}
