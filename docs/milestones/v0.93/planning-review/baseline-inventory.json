@@ -1,0 +1,135 @@
+{
+  "baseline": "e162c69942f104a0ccb14bdea46719de3ebd531a",
+  "documents": [
+    {
+      "path": "docs/milestones/v0.93/CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md",
+      "sha256": "6971e0ee988fe74be58bfc93110cc168f8163192759a6f9799be2ce69af3c80e",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/DECISIONS_v0.93.md",
+      "sha256": "595ab2d4428e4f8168fdd4546bd44d21fb49e87555404999286af42bfd748a98",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/DEMO_MATRIX_v0.93.md",
+      "sha256": "07e3add7fc6be80e0d989c972edf07b5ca2d68f8a0fe8556f6d8b9001fb16942",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/DESIGN_v0.93.md",
+      "sha256": "3fc24f21914bd4d471d419fa9034e907e8356eb1639fbfc09c4e1d2d7c42627a",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/MILESTONE_CHECKLIST_v0.93.md",
+      "sha256": "677c4aa1b27f4f9999db3c7e6f5c2d455528dd3b1069ee1f14bf7cc4cb56c48d",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/README.md",
+      "sha256": "1a144fd33dc6a3c9c68971bc702da438a9e43ece8699ce69bb604e23839413cb",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/RED_BLUE_ADVERSARIAL_SECURITY_ISSUE_WAVE_v0.93.md",
+      "sha256": "e25b5af2a6525b0cd5198822e8ac4046b39a0c9a865c7fec706ac6bf89ccd1bc",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/RELEASE_NOTES_v0.93.md",
+      "sha256": "804c4fbde293cf21b7542dd76f81a930fc16fe25b2df21800f17627561747c67",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/RELEASE_PLAN_v0.93.md",
+      "sha256": "76adc8415ca8bb67ac9201cc95fba65f7394fc4b27c28d1e228ab68ac545d978",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/SPRINT_v0.93.md",
+      "sha256": "0fceb944021c2a7923de9ca57b54ea96e260a19307f0f58f1e322faa4b6dd55d",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/VISION_v0.93.md",
+      "sha256": "8a466cf6dad24437a04ced3c392147789eae8b75b6a8572b5ad9d0860c382176",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/WBS_v0.93.md",
+      "sha256": "f0d001c7aeddd5e0a6f83f18cdb828ab8df2cd5950550309ccc15e2749b12cb6",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/WP_ISSUE_WAVE_v0.93.yaml",
+      "sha256": "b0007949ba25288813b943354a1ac53d43dc46137bbf86604483964697bf516d",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "sha256": "d1fd0fd5e684ce946ea63ac97c5228f1a2026832d411ce025248f06383400d68",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "sha256": "be1b39da09af619a6295b75f548d9895752ca398858bb7fa54c960af287df839",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md",
+      "sha256": "2c56ca1a7d5e3f4f3754a2065f6236843d9ddf18e2b9ad51ce8eb7b35de95315",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md",
+      "sha256": "07d94424617b7498337863804264b1002b6e6cfefd4a8e3da808ea4135bc5904",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/README.md",
+      "sha256": "43e98b55af333fcc5535dc535b974929458004a4d9523672389fbb45582ec236",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md",
+      "sha256": "eaab828e65514db9268f87aa7b00440276fa8d33b3d7dfcd38753d33bca9e0fd",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md",
+      "sha256": "052aa3cb86f9d499cbf4a223ec81724029f7bdfeb089c6cdf026cb9f00c297e1",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.md",
+      "sha256": "82f3e4d9577ebb31f74f1ffa216dc3b6ebde1fe9b7dbdfef49d48fd53e2aba93",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.md",
+      "sha256": "f50a1ebf6b7daf11d7b2aec0e579052537d7e4567798438ef9c77e954afaa775",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md",
+      "sha256": "d45dfa5999a42f90693c12dcce76427b4b47051379be2d11e0d2ceba50dd9f4d",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md",
+      "sha256": "6a98f48aaaba1203fa03b9ba8903faae8b49c9d18d9bc85600c27f8bdf3e5a8b",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md",
+      "sha256": "4d2a27c97e6b7690c456ec813af271b8a344877561fb931cb6ac72ee87b6aed0",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md",
+      "sha256": "90b84fd0e94e34fe57ec1196cf28d8c293ad922c1eed60383a607cacab738a31",
+      "review": "read in full; findings and disposition in REVIEW.md"
+    }
+  ]
+}

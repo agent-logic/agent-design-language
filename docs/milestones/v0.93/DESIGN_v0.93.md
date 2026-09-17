@@ -59,7 +59,7 @@ that behavior.
 
 v0.93 should add a governance layer on top of existing and planned substrates.
 
-The layer has three parts:
+The layer has five parts:
 
 - Engineering substrate: signed state, lineage, standing, identity, trace,
   outcome linkage, capability contracts, and redacted projection records.
@@ -219,3 +219,27 @@ Later implementation should validate:
   with proof surfaces.
 - Demo candidates prove bounded behavior, not just policy prose.
 - Non-goals prevent production-law and personhood overclaims.
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+
+## Purpose
+
+Extend governance only after the opening product split and accepted Runtime plugin boundary.
+
+## Scope
+
+The canonical graph owns admitted candidates. Repository migration precedes new feature implementation; Runtime v4 completion is a mandatory release gate.
+
+## Requirements
+
+Preserve Beta 1 and baseline enforcement; public ADL requires no private access. Each extracted product builds/releases independently and consumes versioned contracts.
+
+## Interfaces And Contracts
+
+Runtime owns enforcement, continuity, plugin supervision and Observatory. Enterprise providers can narrow policy through a versioned contract; CodeFriend consumes product interfaces; C-SDLC has no functional Runtime dependency. Names, registry/license policy and supported ranges are accepted at RD-02.
+
+## Exit Criteria
+
+Isolated products and installed governance/security consumers pass declared positive, negative and recovery checks; unresolved contracts block dependent work.

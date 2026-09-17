@@ -128,3 +128,91 @@ The review packet should answer:
 ## Completion Target
 
 `v0.93`
+
+## Metadata
+
+Template: feature_doc 1.1.0. Milestone: v0.93. Authoring issue: #1047. Status: first-pass planning; implementation and release acceptance not claimed.
+
+## Template Rules
+
+This document preserves its source requirements. The canonical execution graph supplies current scheduling and repository placement; generated sections and passing structure checks do not establish design approval or product proof.
+
+## Context
+
+Implementation follows accepted v0.92.2 closure and the opening repository split through RD-11. Existing Beta 1 behavior remains a predecessor obligation. The source inputs above retain design context; newer operator decisions in the milestone decision register govern scheduling.
+
+## Coverage / Ownership
+
+Execution owners: agent-logic-enterprise-security. Candidate results: WP-S1, WP-S2, WP-S3, WP-S4, WP-S5, WP-S6. Named people and exact repository identifiers are settled before execution. Shared contracts have one producer and versioned consumers; source is not duplicated between owners.
+
+## Overview
+
+- **WP-S1:** A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.
+- **WP-S2:** Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.
+- **WP-S3:** Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.
+- **WP-S4:** A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.
+- **WP-S5:** Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.
+- **WP-S6:** One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.
+
+## Design
+
+The source scope and invariants above define the feature contract. Implement them in the owning product with explicit actor identity, authorized inputs, persisted evidence and a consumer-visible outcome. Denials retain reasons without disclosing protected state. The result-specific behavior is enumerated under Overview and Acceptance Criteria; any new design choice is recorded before implementation.
+
+## Execution Flow
+
+- WP-S1 follows GOV-11, RD-09.
+- WP-S2 follows WP-S1, GOV-12.
+- WP-S3 follows WP-S2.
+- WP-S4 follows WP-S3, GOV-05.
+- WP-S5 follows WP-S3, GOV-10.
+- WP-S6 follows WP-S4, WP-S5.
+
+Follow the canonical dependency graph rather than document order. A candidate closes only when its complete consumer result and its negative cases are accepted.
+
+## Determinism and Constraints
+
+Pin source, installed artifacts, policy, configuration and fixtures. Preserve provenance and explicit failure/retry state across runs. Probabilistic model outputs require invariant and quality checks, not invented byte-for-byte determinism. No implicit authority, hidden private-state projection or schema-only completion.
+
+## Integration Points
+
+Consume the qualified product lockset and versioned contracts selected during migration. Runtime retains enforcement and shared Runtime services; enterprise providers may narrow authority; CodeFriend consumes product interfaces; public ADL stays independently usable. This feature adds no sibling-checkout dependency.
+
+## Validation
+
+Run the installed behavior described in Overview/Acceptance Criteria and these required negative cases:
+
+- WP-S1: Implicit internal trust; Connection treated as permission.
+- WP-S2: Stale/revoked grant; Malformed/replayed/out-of-order message.
+- WP-S3: Wrong-scope key; Secret in output; Revocation ignored.
+- WP-S4: Tampered event; Raw private-state dump.
+- WP-S5: Cross-tenant leak; Raw ToM projection; Deletion leaves accessible data.
+- WP-S6: Undeclared target; Non-replayable finding; Unproven mitigation.
+
+Record exact versions, scenario counts, redacted evidence and skipped checks. QUALITY_GATE_v0.93.md defines release evidence; planning validation does not prove these behaviors.
+
+## Acceptance Criteria
+
+- **WP-S1:** A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.
+- **WP-S2:** Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.
+- **WP-S3:** Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.
+- **WP-S4:** A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.
+- **WP-S5:** Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.
+- **WP-S6:** One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.
+
+All declared negative cases must reject or recover as specified, with reviewable evidence and no unsupported completion claim.
+
+## Risks
+
+Primary failure risks are the negative cases under Validation. Cross-repository contract drift and overbroad task execution must be resolved before dependent acceptance. A successful fixture cannot establish an untested deployment class or customer/publication permission.
+
+## Future Work
+
+Only explicitly deferred source requirements belong to later work. Do not silently move a required v0.93 outcome into a successor; record a reviewed operator disposition for scope changes.
+
+## Notes
+
+See [execution specifications](../WP_EXECUTION_SPECIFICATIONS_v0.93.yaml), [decision register](../DECISIONS_v0.93.md) and [quality gate](../QUALITY_GATE_v0.93.md). First-pass implementation candidates are not yet created execution issues.
+
+## Current Candidate Mapping
+
+WP-S1, WP-S2, WP-S3, WP-S4, WP-S5, WP-S6; owner repositories: agent-logic-enterprise-security. The current execution graph supersedes older sequencing or placement in retained source text.

@@ -12,7 +12,7 @@ social cognition, and polis governance are evidence-bearing runtime behavior,
 not rhetoric. It should also prove that enterprise-security controls are
 reviewable behavior rather than perimeter language.
 
-## Candidate Coverage Summary
+## Demo Coverage Summary
 
 | Demo ID | Candidate demo | Milestone claim | Primary proof surface | Status |
 | --- | --- | --- | --- | --- |
@@ -29,7 +29,7 @@ reviewable behavior rather than perimeter language.
 | D11 | Audit and incident evidence packet | Security review can inspect what happened without leaking private state or claiming external certification. | Tamper-evident audit entries, incident record, redaction report, and reviewer packet. | Planned candidate |
 | D12 | Isolation and data-governance leakage prevention | Cross-polis, cross-tenant, or cross-citizen data access is blocked or redacted according to classification and retention policy. | Isolation negative case, data-classification record, retention/projection decision, and denial proof. | Planned candidate |
 
-## Demo Rules
+## Coverage Rules
 
 - Every demo must identify the actor class: citizen, guest, human provider,
   operator, service actor, tool, or external counterparty.
@@ -42,7 +42,7 @@ reviewable behavior rather than perimeter language.
 - Demo outputs should distinguish engineering evidence from policy
   interpretation.
 
-## Candidate Details
+## Demo Details
 
 ### D1) Constitutional Review Of A Challenged Action
 
@@ -207,3 +207,40 @@ Expected proof:
   private ToM without authority and redaction.
 - These demos do not prove external enterprise certification or production
   compliance approval.
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+
+## How To Use
+
+D1-D12 retain the governance/security scenarios above. D13-D16 extend coverage to guilds, migration, mandatory Runtime v4 and CodeFriend launch. Each owning work package supplies executable commands and exact artifacts when implemented; this planning issue does not claim those runs exist.
+
+## Scope
+
+| ID | Additional demonstration | Owner / candidate | Required positive and refusal/recovery evidence |
+|---|---|---|---|
+| D13 | Governed guild action | Runtime / GOV-15, DEMO-GOV | Membership-authorized action succeeds; revoked member and excess authority fail with trace |
+| D14 | Independent products after split | ADL coordination / RD-11 | Public clean checkout without private access; each private product installed independently; authentic C-SDLC recovery and supported rollback |
+| D15 | Runtime v4 complete plugin lifecycle | Runtime / RV-08 | Native/process/WASM parity, successful state/config migration, two-phase reconfiguration, dependency-safe removal, fenced crash recovery and refused transition preserving prior generation |
+| D16 | CodeFriend launch journey | CodeFriend with website / CF-05 through CF-07 | ADL/external-OSS/PR review, source-backed diagram, meaningful test, documentation, report quality and privacy refusals; authorized live onboarding plus rollback |
+
+## Runtime Preconditions
+
+D1-D13 consume the accepted Runtime v4 artifacts after RD-11 and RV-08. D14 qualifies extraction of the accepted predecessor product baseline before feature work. D15 qualifies the completed Runtime v4 candidate. D16 identifies the installed CodeFriend/Runtime/site versions, approved repository classes, audience and resource limits. Real provider/cloud/customer activity requires its declared authorization.
+
+## Cross-Demo Validation
+
+Match every demo to owning candidate acceptance and the release lockset. Run the real consumer, retain actual scenario counts and distinguish synthetic security mechanics from enterprise qualification. Missing negatives, incompatible artifacts, stale evidence or zero executed cases block the owning result.
+
+## Determinism Evidence
+
+Record immutable source refs, fixture hashes, policy/config versions, seeds where used and expected transition order. Provider output may vary; validate evidence/provenance and behavioral invariants rather than asserting identical natural-language output. Record retry, cancellation and recovery dispositions.
+
+## Reviewer Sign-Off Surface
+
+Each reviewer records exact versions, scenarios observed, pass/fail/skipped outcomes, findings, limitations and disposition. TAIL-01 consumes independent QUALIFY evidence. An author demo or generated packet is not independent release acceptance.
+
+## Exit Criteria
+
+All applicable D1-D16 scenarios have current evidence tied to their actual consumer and no unresolved release-blocking finding. Publication/customer admission remains separately authorized; preview proof alone cannot close CF-07.

@@ -1,22 +1,6 @@
-# v0.93 Work Breakdown Structure
+# v0.93 Planned Issue Catalog
 
-## Metadata
-
-Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
-
-## Status
-
-First-pass planning under #1047. v0.93 is not open; no extraction or feature implementation is authorized by this package.
-
-## How To Use
-
-Use logical IDs below for planning; create actual issues only at authorized opening. EXECUTION_PLAN_v0.93.json owns dependency and completion detail.
-
-## WBS Summary
-
-64 candidate results: 1 opening, 11 migration, 8 Runtime v4, 16 governance, 6 security, 7 CodeFriend launch, 1 Python reduction tranche, 4 integration/qualification and 10 release-tail results. Runtime v4 RV-01 through RV-08 are mandatory; capacity planning must preserve their complete release outcome.
-
-## Candidate WP Sequence
+Status: first-pass candidates; no execution issues have been created. IDs are logical identifiers, not GitHub numbers.
 
 | ID | One completed result | Repository | Dependencies |
 |---|---|---|---|
@@ -84,23 +68,3 @@ Use logical IDs below for planning; create actual issues only at authorized open
 | TAIL-08 | Next-milestone closeout planning | agent-design-language | TAIL-07 |
 | TAIL-09 | Next-milestone planning review | agent-design-language | TAIL-08 |
 | TAIL-10 | Release ceremony and milestone close | agent-design-language | TAIL-09 |
-
-## Work Packages
-
-[Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.93.yaml) declare result, consumer proof, negative cases, resources, non-goals and repository for every row. The earlier A–T thematic allocation remains represented by the substantive feature documents; combined security pairs and broad social-cognition rows are replaced by single-result candidates.
-
-## Sequencing
-
-Opening → repository split → accepted Runtime v4 boundary → governance/security → installed integration and independent qualification → TAIL-01 through TAIL-10.
-
-## Sequencing Notes
-
-Only explicit dependency edges block rows; the global RD-11 feature gate also applies. Parallel source edits must have disjoint ownership. No feature starts during extraction. No predecessor milestone number substitutes for evidence of the actual consumed interface.
-
-## Acceptance Mapping
-
-Each feature source maps to executable candidate results and negative cases in the canonical graph. Migration acceptance is independent checkout/product proof; feature acceptance is installed consumer behavior. Decision-only rows explicitly deliver accepted decisions.
-
-## Exit Criteria
-
-Every admitted result has an owner, dependency, completion denominator, proof and non-goal; unresolved scope is decided before issue-wave opening. No implementation closure from docs-only scaffolds.
