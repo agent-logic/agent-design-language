@@ -128,8 +128,9 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         PDF_RENDERER_VERSION,
         "This is the canonical local PDF rendering of the approved review. It does not claim HTML, Markdown, remote, or customer publication.",
     )?;
+    let semantic_text = markdown_semantic_text(&prepared.text)?;
     ensure!(
-        !crate::codefriend::ingestion::unsafe_content("report.pdf", &prepared.text),
+        !crate::codefriend::ingestion::unsafe_content("report.pdf", &semantic_text),
         "pdf_redaction_recheck_failed"
     );
 
@@ -137,7 +138,7 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
     let font = ParsedFont::from_bytes(&font_bytes, 0, &mut parse_warnings)
         .ok_or_else(|| anyhow::anyhow!("pdf_font_parse_failed"))?;
     ensure!(parse_warnings.is_empty(), "pdf_font_parse_warning");
-    for character in prepared.text.chars().filter(|character| {
+    for character in semantic_text.chars().filter(|character| {
         !character.is_whitespace() && !matches!(character, '\u{00ad}' | '\u{feff}')
     }) {
         ensure!(
@@ -147,7 +148,7 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         );
     }
 
-    let lines = wrap_text(&prepared.text, &font, PRINTABLE_WIDTH_MM)?;
+    let lines = wrap_text(&semantic_text, &font, PRINTABLE_WIDTH_MM)?;
     ensure!(!lines.is_empty(), "pdf_empty_semantic_report");
     let maximum_line_width_mm = lines
         .iter()
@@ -198,7 +199,7 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         target: prepared.publication.target.clone(),
         report_path: "report.pdf".to_string(),
         report_digest: report_digest.clone(),
-        semantic_digest: digest(prepared.text.as_bytes()),
+        semantic_digest: digest(semantic_text.as_bytes()),
         page_count,
         line_count: lines.len(),
         printable_width_micrometers: (PRINTABLE_WIDTH_MM * 1_000.0).round() as u32,
@@ -310,6 +311,77 @@ fn wrap_text(text: &str, font: &ParsedFont, max_width_mm: f32) -> Result<Vec<Str
     wrap_text_with_width(text, max_width_mm, |value| text_width_mm(value, font))
 }
 
+fn markdown_semantic_text(source: &str) -> Result<String> {
+    let tree = markdown::to_mdast(source, &markdown::ParseOptions::default())
+        .map_err(|error| anyhow::anyhow!("pdf_markdown_parse_failed: {error}"))?;
+    let mut output = String::with_capacity(source.len());
+    append_semantic_node(&tree, &mut output);
+    let normalized = output
+        .lines()
+        .map(str::trim_end)
+        .collect::<Vec<_>>()
+        .join("\n");
+    ensure!(!normalized.trim().is_empty(), "pdf_empty_semantic_report");
+    Ok(normalized)
+}
+
+fn append_semantic_node(node: &markdown::mdast::Node, output: &mut String) {
+    use markdown::mdast::Node;
+
+    match node {
+        Node::Root(value) => append_semantic_children(&value.children, output, "\n"),
+        Node::Blockquote(value) => append_semantic_children(&value.children, output, "\n"),
+        Node::FootnoteDefinition(value) => append_semantic_children(&value.children, output, "\n"),
+        Node::List(value) => append_semantic_children(&value.children, output, "\n"),
+        Node::Delete(value) => append_semantic_children(&value.children, output, ""),
+        Node::Emphasis(value) => append_semantic_children(&value.children, output, ""),
+        Node::Link(value) => append_semantic_children(&value.children, output, ""),
+        Node::LinkReference(value) => append_semantic_children(&value.children, output, ""),
+        Node::Strong(value) => append_semantic_children(&value.children, output, ""),
+        Node::Heading(value) => append_semantic_children(&value.children, output, ""),
+        Node::Table(value) => append_semantic_children(&value.children, output, "\n"),
+        Node::TableRow(value) => append_semantic_children(&value.children, output, " | "),
+        Node::TableCell(value) => append_semantic_children(&value.children, output, ""),
+        Node::ListItem(value) => {
+            output.push_str("- ");
+            append_semantic_children(&value.children, output, "\n");
+        }
+        Node::Paragraph(value) => append_semantic_children(&value.children, output, ""),
+        Node::Break(_) => output.push('\n'),
+        Node::InlineCode(value) => output.push_str(&value.value),
+        Node::InlineMath(value) => output.push_str(&value.value),
+        Node::Text(value) => output.push_str(&value.value),
+        Node::Code(value) => output.push_str(&value.value),
+        Node::Math(value) => output.push_str(&value.value),
+        Node::Image(value) => output.push_str(&value.alt),
+        Node::ImageReference(value) => output.push_str(&value.alt),
+        Node::FootnoteReference(value) => output.push_str(&value.identifier),
+        Node::ThematicBreak(_) => output.push_str("---"),
+        Node::Definition(_)
+        | Node::Html(_)
+        | Node::MdxjsEsm(_)
+        | Node::MdxFlowExpression(_)
+        | Node::MdxTextExpression(_)
+        | Node::MdxJsxFlowElement(_)
+        | Node::MdxJsxTextElement(_)
+        | Node::Toml(_)
+        | Node::Yaml(_) => {}
+    }
+}
+
+fn append_semantic_children(
+    children: &[markdown::mdast::Node],
+    output: &mut String,
+    separator: &str,
+) {
+    for (index, child) in children.iter().enumerate() {
+        if index > 0 {
+            output.push_str(separator);
+        }
+        append_semantic_node(child, output);
+    }
+}
+
 fn wrap_text_with_width(
     text: &str,
     max_width: f32,
@@ -404,7 +476,19 @@ fn validate_manifest(
 
 #[cfg(test)]
 mod tests {
-    use super::wrap_text_with_width;
+    use super::{markdown_semantic_text, wrap_text_with_width};
+
+    #[test]
+    fn semantic_text_decodes_markdown_escapes_but_preserves_real_backslashes() {
+        let text = markdown_semantic_text(
+            r"Path `lib/dnsmsg-parser/src/dns_message.rs` and escaped lib/dnsmsg\-parser/src/dns\_message\.rs; Windows C:\temp\file.txt.",
+        )
+        .unwrap();
+        assert!(text.contains("lib/dnsmsg-parser/src/dns_message.rs"));
+        assert!(text.contains(r"C:\temp\file.txt"));
+        assert!(!text.contains(r"dnsmsg\-parser"));
+        assert!(!text.contains(r"dns\_message"));
+    }
 
     #[test]
     fn wrapping_preserves_all_unicode_and_splits_long_tokens() {

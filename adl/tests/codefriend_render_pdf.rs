@@ -211,7 +211,7 @@ fn installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest() {
     let mut review = predecessor_review();
     let wide_token = "W".repeat(80);
     review.findings[0].rationale = format!(
-        "Résumé café π with a long URL https://example.invalid/{} and wide token {wide_token} and table row | cell | value. {}",
+        "Résumé café π with a long URL https://example.invalid/{} and wide token {wide_token}, genuine backslashes folder\\nested\\file.txt, and table row | cell | value. {}",
         "abcdefghijklmnopqrstuvwxyz0123456789".repeat(4),
         "bounded evidence ".repeat(180)
     );
@@ -264,6 +264,7 @@ fn installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest() {
         "Approved exact PDF review semantics",
         "410da89a0ed42c523143da89fffeb7f6402833e0",
         "lib/dnsmsg-parser/src/dns_message.rs",
+        r"folder\nested\file.txt",
         "Remediation plan",
         "Test plan",
         "Résumé café π",
@@ -339,7 +340,7 @@ fn installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest() {
 fn normalized_text(value: &str) -> String {
     value
         .chars()
-        .filter(|character| !character.is_whitespace() && *character != '\\')
+        .filter(|character| !character.is_whitespace())
         .collect()
 }
 
