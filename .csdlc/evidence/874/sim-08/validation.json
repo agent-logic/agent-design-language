@@ -17,5 +17,14 @@
     "determinism": "fixed_git_objects_and_sha256",
     "resources": "local_cpu_files_git",
     "release_gate": "not_runtime_or_activation_proof"
+  },
+  "p2_correction": {
+    "source_files_verified": 6,
+    "request_fields_verified": 14,
+    "command_arms_verified": 3,
+    "result": "static_contract_pass",
+    "live_cutover_requirement": "unresolved_missing_product_capability",
+    "rehearsal": "not_run",
+    "review": "not_run"
   }
 }
