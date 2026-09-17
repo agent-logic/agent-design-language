@@ -1,0 +1,10 @@
+{
+  "schema": "codefriend.agent.pvf.v1",
+  "issue": 1058,
+  "lane": "runtime",
+  "proof_role": "component_authorization_and_replay_guards",
+  "determinism": "controlled_clock_and_local_filesystem",
+  "resource_profile": "local CPU and temporary private files; no provider calls",
+  "release_gate": "required component evidence, insufficient for installed/provider/browser acceptance",
+  "command": "cargo test --manifest-path adl/Cargo.toml --test codefriend_agent"
+}

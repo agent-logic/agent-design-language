@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1058,
+  "issue_padded": "1058",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1058",
+  "title": "[v0.92.2][CF-AGENT] Run website-controlled reviews through an installed local agent",
+  "branch": "codex/1058-v0922-installed-local-review-agent",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1058-v0922-installed-local-review-agent"
+}
