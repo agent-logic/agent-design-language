@@ -1,0 +1,21 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1017,
+  "issue_padded": "1017",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1017",
+  "title": "[v0.92.2][corporate][AWS] Migrate v-*.ai domains from personal AWS to the company account",
+  "branch": "codex/1017-v0922-company-domain-migration",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1017-v0922-company-domain-migration",
+  "step_1_status": "completed",
+  "notes_risks_inline": "Independent evidence/privacy review confirmed the migration. Historical handoff marked superseded; company contacts and standard registrar renewal-notification path documented. All registration steps complete; source DNS retained under approved exception pending v0.93 sites. Exact-head review/publication remain pending.",
+  "step_2_status": "completed",
+  "step_3_status": "completed",
+  "step_4_status": "completed",
+  "step_5_status": "completed",
+  "dependencies_inline": "Owner confirmed default source and exact three-domain inventory. Source/destination identities verified distinct. Private backups retained; all transfers succeeded. Operator-approved retained-source-DNS exception allows registration delivery to proceed to PR.",
+  "status": "executed"
+}

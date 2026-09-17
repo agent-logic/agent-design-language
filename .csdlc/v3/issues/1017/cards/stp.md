@@ -1,0 +1,90 @@
+---
+issue_card_schema: adl.issue.v1
+wp: "<wp>"
+slug: "v0922-company-domain-migration"
+title: "[v0.92.2][corporate][AWS] Migrate v-*.ai domains from personal AWS to the company account"
+labels:
+  - "track:roadmap"
+issue_number: 1017
+generated_at: "2026-09-16T23:15:26.654477+00:00"
+card_status: "ready"
+status: "draft"
+action: "edit"
+supersedes: []
+duplicates: []
+depends_on: []
+milestone_sprint: "v0.92.2"
+required_outcome_type:
+  - "<required_outcome_type>"
+repo_inputs:
+  - "https://github.com/agent-logic/agent-design-language/issues/1017"
+canonical_files: []
+demo_required: <demo_required>
+demo_names: []
+issue_graph_notes:
+  - "<issue_graph_note>"
+pr_start:
+  enabled: true
+  slug: "v0922-company-domain-migration"
+---
+
+Canonical Template Source: `docs/templates/prompts/1.0.5/stp.md`
+Generated: 2026-09-16T23:15:26.654477+00:00
+
+# Structured Task Prompt
+
+## Summary
+
+Migrate the owner-confirmed v-*.ai portfolio registration management, renewal responsibility and applicable DNS authority from the personal AWS account to the Agent Logic company account while preserving existing services.
+
+## Goal
+
+<goal>
+
+## Required Outcome
+
+Migrate the owner-confirmed v-*.ai portfolio registration management, renewal responsibility and applicable DNS authority from the personal AWS account to the Agent Logic company account while preserving existing services.
+
+## Deliverables
+
+<deliverables>
+
+## Acceptance Criteria
+
+Every approved domain has a completed or blocked disposition. Verify company registration control and renewals; company DNS authority or approved external exception; full record preservation; baseline and post-change DNS, TLS, redirects and mail checks or explicit not-applicable; TTL-based observation; recoverable backups and separate transfer/DNS recovery plans. Keep issue open for unresolved migrations. Retain sanitized per-domain evidence without private account/contact/billing/transfer data.
+
+## Repo Inputs
+
+Live issue #1017; AGENTS.md; docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md; agent-logic/agent-logic.ai issues #31 and #32 as context only; owner-confirmed inventory and live registrar/account evidence collected during execution; current official AWS/registrar procedures verified before changes.
+
+## Dependencies
+
+<dependencies>
+
+## Target Files / Surfaces
+
+.csdlc/evidence/1017/ sanitized inventory, sequence, verification summary and migration disposition; .csdlc/issues/1017/cards and generated projections; private execution backup/account evidence outside Git with restricted access, referenced only by safe logical identifiers.
+
+## Validation Plan
+
+Preparation: native validate and doctor check all six active-template cards. The declared semantic_card_projections Cargo check proves tooling structure only, not domain migration. Execution: independently verify each registration and renewal owner, authoritative NS/DNSSEC, complete zone records, DNS/TLS/HTTP redirects/mail baseline and post-cutover behavior; observe for relevant TTLs, record N/A with reasons, rollback on defined failures. Required private external observations are nondeterministic and separate from docs_only local evidence hygiene; git diff --check and redaction review for sanitized tracked records. No green card test may substitute for cloud/service proof.
+
+## Demo Expectations
+
+<demo_proof_requirements>
+
+## Non-goals
+
+No unrelated domains, website redesign, unrelated hosting/email changes, automatic transfer rollback, customer publication or early source deletion. No AWS calls or migration during preparation.
+
+## Issue-Graph Notes
+
+No numeric ADL prerequisite declared. First resolve exact portfolio and owner confirmation. Before personal-account access obtain explicit bounded authorization and select the approved source profile. Verify agent-logic-admin resolves to the company destination. Before mutation confirm inventory, access, current per-domain eligibility, contacts, backups, baseline and distinct registration-transfer/DNS recovery plans. Setup does not satisfy these execution gates.
+
+## Notes
+
+Inventory, source profile, account identities, eligibility, DNSSEC, transfer reversibility and dependent services are not yet verified. Never assume registration transfer moves DNS or hosting. Keep source configuration until destination and observation criteria pass; stop on identity ambiguity, record loss or service regression. No credentials/account IDs/private contacts in tracked artifacts.
+
+## Tooling Notes
+
+<tooling_notes>
