@@ -175,6 +175,7 @@ fn mutation(
     recovery: Option<GithubMutationRecovery>,
     pull_request: Option<u64>,
     operator_approval: Option<String>,
+    legacy_coordination_compatibility: bool,
 ) -> Result<Value, String> {
     context.fresh_integrity()?;
     let native = mutation_request(
@@ -216,6 +217,39 @@ fn mutation(
     let OperationalRemoteOperation::GithubMutation(native) = &dispatch.operation else {
         return Err("semantic_remote_mutation_required".into());
     };
+    // Coordination-only umbrellas can predate semantic lifecycle state. Their
+    // native mutation owner already retains the exact intent, rechecks the
+    // parent/child/evidence contract before dispatch, authenticates readback,
+    // and makes exact replay idempotent. Admit only that one operation through
+    // the retained native owner; every other legacy mutation continues through
+    // semantic_mutation and is denied by semantic_context.
+    if legacy_coordination_compatibility
+        && matches!(
+            native.mutation,
+            GithubMutation::IssueCompleteCoordination { .. }
+        )
+    {
+        let result = match execute_github_mutation(&context.root, native, &mut process) {
+            Ok(result) => result,
+            Err(finding) if finding.code == "github_mutation_reconciliation_pending" => {
+                return Ok(json!({
+                    "status":"recovery_required","read_only":false,
+                    "operational_authority":true,"performed_mutation":null,
+                    "effects_unknown":true,"allowed_next":["github-issue"],
+                    "recovery":"retry_after_authenticated_absence",
+                    "finding":{"code":finding.code,"message":finding.message},
+                    "compatibility":"legacy_coordination_only"
+                }));
+            }
+            Err(finding) => return Err(failure(finding)),
+        };
+        return Ok(json!({
+            "status":"completed","read_only":false,"operational_authority":true,
+            "performed_mutation":result.performed_mutation,"effects_unknown":false,
+            "result":{"receipt":result.receipt,"reconciliation":result.reconciliation},
+            "compatibility":"legacy_coordination_only"
+        }));
+    }
     semantic_mutation(context, native, &mut process)
 }
 
@@ -784,7 +818,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     body: Some(plan.publication.body),
                 },
             };
-            let mut outcome = mutation(context, operation, None, pull_request, None)?;
+            let mut outcome = mutation(context, operation, None, pull_request, None, false)?;
             if outcome["status"] == "recovery_required" {
                 return Ok(outcome);
             }
@@ -832,7 +866,16 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             // Preview and execution share semantic admission for every mutation
             // against an existing issue. Repository-scoped issue creation is the
             // only operation that legitimately has no issue semantic state yet.
-            if issue_operation && !matches!(operation, GithubMutation::IssueCreate { .. }) {
+            let legacy_migration_required = context.semantic_migration_required()?;
+            if legacy_migration_required
+                && !matches!(operation, GithubMutation::IssueCompleteCoordination { .. })
+            {
+                return Err("intent_semantic_migration_required".into());
+            }
+            if issue_operation
+                && !matches!(operation, GithubMutation::IssueCreate { .. })
+                && !legacy_migration_required
+            {
                 context.semantic_context()?;
             }
             let mut pull_request = None;
@@ -924,6 +967,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 recovery,
                 pull_request,
                 operator_approval,
+                legacy_migration_required,
             )
         }
         _ => Err("intent_remote_command_unknown".into()),
