@@ -87,9 +87,9 @@ Consume the qualified product lockset and versioned contracts selected during mi
 
 ## Validation
 
-Run the installed behavior described in Overview/Acceptance Criteria and these required negative cases:
+RV-01 uses independent design/contract review over explicit success, refusal and recovery scenarios. Resolve manifest self-grants and undefined crash recovery in that contract before admitting RV-02; installed implementation evidence is not a prerequisite for this design decision.
 
-- RV-01: Manifest self-grants; Undefined crash recovery.
+RV-02 through RV-08 run the installed behavior described in Overview/Acceptance Criteria and these required negative cases:
 - RV-02: Behavior parity regression.
 - RV-03: Stale output/checkpoint writer; Crash at switch; Lost or duplicated accepted work; Migration fails after partial progress; Invalid reconfiguration; Removal while dependents remain.
 - RV-04: Orphan process; Hung handler; Unbounded queue.
