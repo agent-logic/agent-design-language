@@ -56,7 +56,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 Structure uses a syntactic single-crate Rust graph without compilation or macro expansion. Impact consumes operator-declared changes and reports potential dependency paths. Rationale relates declared deployment boundaries to human ADR evidence. Drift uses CF-MEMORY comparison and reports structural declarations.
 

@@ -181,20 +181,8 @@ adapter does not authorize arbitrary handwritten card structure. Unsupported
 preview or execute flags on local preparation, editing, validation and proof
 are rejected before dispatch.
 
-Publication metadata uses a separate single-surface edit:
-
-```json
-{"schema":"csdlc.v3.intent_changes.v1","publication":{"base":"main","title":"Corrected title","body":"Closes #1046\n\nDescription","draft":true}}
-```
-
-The full publication object is required; base must equal the retained base.
-Only ready, bound, implemented or reviewed issues admit this repair. Exact native
-identity/version and pending-effect guards still apply. The native transaction
-retains prior commits, advances semantic inputs, and invalidates downstream
-proof, review and publication evidence. Refresh proof/review before publishing.
-Cards, validators and publication must not be mixed in one edit. Preparation
-and publication amendment require a line beginning `Closes #ISSUE` and reject
-closing references to other issues. After publication, use `github-pr` updates.
+Publication metadata uses a separate single-surface edit; see
+[Correcting publication metadata](#correcting-publication-metadata) below.
 
 ## Amendment and evidence invalidation table
 
@@ -219,6 +207,51 @@ checkout, evidence or class-specific facts is refused. A display request with no
 projection change is inapplicable. Formatting-only projection drift therefore
 does not invalidate semantic evidence. Any new Git commit still requires a
 fresh exact-head review, including a display-only commit.
+
+## Correcting publication metadata
+
+Use the native editor rather than editing stored plans or invoking retired direct writers:
+
+```json
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "publication": {
+    "base": "main",
+    "title": "Corrected issue-specific title",
+    "body": "Describe the delivered change.\n\nCloses #1048",
+    "draft": true
+  }
+}
+```
+
+Run `csdlc edit ISSUE --changes publication.json`. The complete publication object
+is one edit surface; it cannot be mixed with cards or validators. Preparation and
+amendment both require a safe base distinct from the issue branch, a nonempty
+single-line title, and a line beginning with `Closes #ISSUE` without another
+closing issue. The example issue number must match the actual target. Base names
+use ASCII letters, digits, slash, underscore, hyphen and dot with no empty,
+hidden, `.lock`, or traversal components.
+
+Saved publication edit requests retain the exact `snapshot.semantic_version`.
+A stale or missing version is rejected, including requests whose publication
+content happens to equal the current value. Regenerate and review the request
+against the current state; the admitted version remains fixed through reservation.
+
+The local transaction preserves issue, cards, binding, branch and head. It
+invalidates proof, readiness, review, publication and terminal/cleanup evidence;
+a corrected body is never approval. Run fresh `proof`, obtain independent review,
+record it through `review`, then `publish`. Repeating the same metadata is a no-op.
+Once native publication has been recorded, base and draft changes are rejected
+even after proof/review invalidation; use the separately governed remote operations.
+Fresh reviews are retained immutably by exact HEAD and proof digest, so renewed
+review after metadata correction does not overwrite earlier evidence. Existing
+per-HEAD review receipts remain readable.
+
+Pending operations and terminal state remain guarded. Interrupted amendments need
+`recover ISSUE`, then explicit execution with the returned preview digest.
+
+This repairs metadata admission; it does not adopt a PR created through raw
+transport or remove the break-glass reconciliation requirement.
 
 ## Independent review and publication
 

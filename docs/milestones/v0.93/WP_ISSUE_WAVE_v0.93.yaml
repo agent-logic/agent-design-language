@@ -1,112 +1,600 @@
-milestone: v0.93
-version: v0.93
-status: candidate_issue_wave
-tracked_package: docs/milestones/v0.93
-notes:
-  - "Candidate wave only; WP-01 must open concrete GitHub issues and render C-SDLC cards."
-  - "Do not claim runtime governance completion from this seed."
-  - "Keep legal personhood, production constitutional authority, and unbounded social-cognition claims out of this package."
-work_packages:
-  - wp: WP-01
-    title: v0.93 planning promotion and issue-wave readiness
-    outcome: Open the concrete v0.93 issue wave and card bundles from this candidate package.
-    depends_on:
-      - "v0.92 closeout"
-    deliverables:
-      - "Opened GitHub issue wave"
-      - "SIP/STP/SPP/SRP/SOR cards for each opened issue"
-  - wp: WP-02
-    title: Constitutional citizenship and actor-boundary contract
-    outcome: Define constitutional citizenship, guest/operator/citizen boundaries, and non-goals.
-    depends_on:
-      - "WP-01"
-    deliverables:
-      - "Citizenship contract"
-      - "Actor-boundary fixtures"
-  - wp: WP-03
-    title: Rights, duties, standing, review, challenge, and appeal
-    outcome: Make standing and constitutional review evidence-based and challengeable.
-    depends_on:
-      - "WP-02"
-    deliverables:
-      - "Rights and duties contract"
-      - "Standing transition fixtures"
-      - "Challenge and appeal flow"
-  - wp: WP-04
-    title: Theory of Mind, relationship, reputation, and shared social memory
-    outcome: Define private and public social-cognition surfaces without leaking private state.
-    depends_on:
-      - "WP-02"
-      - "WP-03"
-    deliverables:
-      - "ToM contract"
-      - "Relationship and reputation boundary"
-      - "Shared social memory contract"
-  - wp: WP-05
-    title: Delegation, upstream delegation, IAM, and communication boundaries
-    outcome: Make authority chains explicit across citizens, services, tools, and trusted external parties.
-    depends_on:
-      - "WP-02"
-      - "WP-03"
-    deliverables:
-      - "Delegation and IAM contract"
-      - "Communication-without-inspection proof boundary"
-  - wp: WP-06
-    title: Social contract and guild organization
-    outcome: Define bounded collective organization and governance obligations.
-    depends_on:
-      - "WP-04"
-      - "WP-05"
-    deliverables:
-      - "Social contract packet"
-      - "Guild feature contract"
-  - wp: WP-07
-    title: Security WP-S1 and WP-S2 foundations
-    outcome: Establish zero-trust architecture and least-privilege policy enforcement.
-    depends_on:
-      - "WP-05"
-    deliverables:
-      - "Zero-trust architecture contract"
-      - "Policy enforcement and authorization proof surface"
-  - wp: WP-08
-    title: Security WP-S3 and WP-S4 cryptographic trust and audit evidence
-    outcome: Define keys, secrets, signing, audit, compliance, and incident evidence surfaces.
-    depends_on:
-      - "WP-07"
-    deliverables:
-      - "Key and secret lifecycle contract"
-      - "Audit and incident evidence packet"
-  - wp: WP-09
-    title: Security WP-S5 and WP-S6 isolation, privacy, and security operations
-    outcome: Prove isolation, data governance, adversarial regression, and provenance boundaries.
-    depends_on:
-      - "WP-08"
-    deliverables:
-      - "Isolation and privacy contract"
-      - "Security operations and adversarial regression packet"
-  - wp: WP-10
-    title: Demo matrix and governance proof demos
-    outcome: Build constitutional-governance and enterprise-security proof candidates.
-    depends_on:
-      - "WP-06"
-      - "WP-09"
-    deliverables:
-      - "Demo matrix"
-      - "Runnable proof candidates"
-  - wp: WP-11
-    title: Quality gate, review, and remediation
-    outcome: Review and remediate governance, docs, tests, and security-evidence gaps.
-    depends_on:
-      - "WP-10"
-    deliverables:
-      - "Quality gate"
-      - "Internal/external review packets"
-      - "Finding dispositions"
-  - wp: WP-12
-    title: Docs, release tail, and handoff
-    outcome: Align release-facing docs and prepare the next-milestone handoff.
-    depends_on:
-      - "WP-11"
-    deliverables:
-      - "Release-tail packet"
-      - "Next-milestone handoff"
+{
+  "milestone": "v0.93",
+  "version": "v0.93",
+  "status": "candidate_issue_wave",
+  "serialization": "JSON subset of YAML 1.2",
+  "work_packages": [
+    {
+      "wp": "WP-01",
+      "title": "Open the reviewed v0.93 execution wave",
+      "repository": "agent-design-language",
+      "depends_on": [],
+      "outcome": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-02 repository bootstrap."
+    },
+    {
+      "wp": "RD-01",
+      "title": "Refresh final-head ownership audit",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "WP-01"
+      ],
+      "outcome": "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977."
+    },
+    {
+      "wp": "RD-02",
+      "title": "Accept repository boundaries and cutover contracts",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-01"
+      ],
+      "outcome": "Record exact names, owners, licenses, version distribution, history/evidence retention and rollback authorities; settle audit gaps before moves, then create/bootstrap approved destination repositories and materialize their issue identities with immutable cross-repository links before extraction begins."
+    },
+    {
+      "wp": "RD-03",
+      "title": "Distribute portable public ADL contracts",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-02"
+      ],
+      "outcome": "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions."
+    },
+    {
+      "wp": "RD-04",
+      "title": "Extract and qualify C-SDLC",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "RD-02"
+      ],
+      "outcome": "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source."
+    },
+    {
+      "wp": "RD-05",
+      "title": "Extract and qualify Runtime with Observatory",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-03",
+        "RD-04"
+      ],
+      "outcome": "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback."
+    },
+    {
+      "wp": "RD-06",
+      "title": "Extract artifact-consuming infrastructure",
+      "repository": "agent-logic-infrastructure",
+      "depends_on": [
+        "RD-05"
+      ],
+      "outcome": "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized."
+    },
+    {
+      "wp": "RD-09",
+      "title": "Establish enterprise-security producer boundary",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "RD-05"
+      ],
+      "outcome": "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies."
+    },
+    {
+      "wp": "RD-10",
+      "title": "Extract CodeFriend software and preserve its website",
+      "repository": "codefriend",
+      "depends_on": [
+        "RD-05"
+      ],
+      "outcome": "Separate software checkout installs and repeats Beta 1 on ADL and an external repository; existing codefriend.ai site, history and deployment continue independently."
+    },
+    {
+      "wp": "RD-08",
+      "title": "Qualify demo ownership after product moves",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-06",
+        "RD-09",
+        "RD-10"
+      ],
+      "outcome": "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement."
+    },
+    {
+      "wp": "RD-07",
+      "title": "Retire superseded source with verified public ADL",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-08"
+      ],
+      "outcome": "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access."
+    },
+    {
+      "wp": "RD-11",
+      "title": "Accept the complete split and release lockset",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-07"
+      ],
+      "outcome": "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93 feature starts before this gate."
+    },
+    {
+      "wp": "RV-01",
+      "title": "Resolve plugin lifecycle design findings",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-11"
+      ],
+      "outcome": "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes."
+    },
+    {
+      "wp": "RV-02",
+      "title": "Adapt built-in components to the native plugin contract",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-01"
+      ],
+      "outcome": "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler."
+    },
+    {
+      "wp": "RV-03",
+      "title": "Implement recoverable plugin generation transitions",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-02"
+      ],
+      "outcome": "Staging, bounded quiesce, versioned state/config migration, two-phase reconfiguration, dependency-safe removal, activation and rollback recover to one fenced generation after every interruption; prove a successful migrator and preserve the prior generation when migration/reconfiguration/removal is refused."
+    },
+    {
+      "wp": "RV-04",
+      "title": "Run a governed process plugin",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-03"
+      ],
+      "outcome": "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision."
+    },
+    {
+      "wp": "RV-05",
+      "title": "Run a bounded WASM component plugin",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-04"
+      ],
+      "outcome": "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits."
+    },
+    {
+      "wp": "RV-06",
+      "title": "Prove cross-adapter module equivalence",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-05"
+      ],
+      "outcome": "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters."
+    },
+    {
+      "wp": "RV-07",
+      "title": "Move provider instances to plugin configuration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-06"
+      ],
+      "outcome": "Provider instances consume host-owned credentials and versioned configuration through the common inference capability."
+    },
+    {
+      "wp": "RV-08",
+      "title": "Qualify installed plugin recovery and operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-07"
+      ],
+      "outcome": "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback."
+    },
+    {
+      "wp": "CF-01",
+      "title": "Accept the Beta 1 to launch requirements mapping",
+      "repository": "codefriend",
+      "depends_on": [
+        "RD-11"
+      ],
+      "outcome": "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker."
+    },
+    {
+      "wp": "CF-02",
+      "title": "Deliver a deployable CodeFriend product",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-01",
+        "RV-08"
+      ],
+      "outcome": "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits."
+    },
+    {
+      "wp": "CF-03",
+      "title": "Complete external tester onboarding",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-02"
+      ],
+      "outcome": "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state."
+    },
+    {
+      "wp": "CF-04",
+      "title": "Qualify launch operations and recovery",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-03"
+      ],
+      "outcome": "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated."
+    },
+    {
+      "wp": "CF-05",
+      "title": "Qualify the external beta launch candidate",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-04"
+      ],
+      "outcome": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions."
+    },
+    {
+      "wp": "CF-06",
+      "title": "Prepare the website to hand off to the qualified product",
+      "repository": "codefriend.ai",
+      "depends_on": [
+        "CF-05"
+      ],
+      "outcome": "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication."
+    },
+    {
+      "wp": "CF-07",
+      "title": "Launch the qualified CodeFriend service",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-06"
+      ],
+      "outcome": "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93 cannot close."
+    },
+    {
+      "wp": "GOV-01",
+      "title": "Enforce citizen and guest actor boundaries",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-08"
+      ],
+      "outcome": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct."
+    },
+    {
+      "wp": "GOV-02",
+      "title": "Evaluate trace-grounded rights and duties",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-01"
+      ],
+      "outcome": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action."
+    },
+    {
+      "wp": "GOV-03",
+      "title": "Apply evidence-backed standing transitions",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-02"
+      ],
+      "outcome": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context."
+    },
+    {
+      "wp": "GOV-04",
+      "title": "Produce constitutional review from evidence",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-03"
+      ],
+      "outcome": "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access."
+    },
+    {
+      "wp": "GOV-05",
+      "title": "Resolve challenges and appeals",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-04"
+      ],
+      "outcome": "A challenged finding progresses through appeal and recorded disposition without destroying original evidence."
+    },
+    {
+      "wp": "GOV-06",
+      "title": "Persist governed private ToM updates",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-01"
+      ],
+      "outcome": "Signed evidence-backed model updates replay under standing, consent/scope and projection controls."
+    },
+    {
+      "wp": "GOV-07",
+      "title": "Preserve ToM conflict and temporal decay",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-06"
+      ],
+      "outcome": "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events."
+    },
+    {
+      "wp": "GOV-08",
+      "title": "Persist governed relationship context",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-06"
+      ],
+      "outcome": "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts."
+    },
+    {
+      "wp": "GOV-09",
+      "title": "Publish challengeable reputation projections",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-05",
+        "GOV-07",
+        "GOV-08"
+      ],
+      "outcome": "Authorized redacted projections can inform review while retaining challenge and source lineage."
+    },
+    {
+      "wp": "GOV-10",
+      "title": "Consume redacted shared social memory",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-09"
+      ],
+      "outcome": "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness."
+    },
+    {
+      "wp": "GOV-11",
+      "title": "Enforce delegated action authority",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-03"
+      ],
+      "outcome": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant."
+    },
+    {
+      "wp": "GOV-12",
+      "title": "Execute governed upstream cognition",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-11",
+        "GOV-07"
+      ],
+      "outcome": "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority."
+    },
+    {
+      "wp": "GOV-13",
+      "title": "Communicate without private inspection",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-11"
+      ],
+      "outcome": "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied."
+    },
+    {
+      "wp": "GOV-14",
+      "title": "Evaluate bounded social-contract obligations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-05",
+        "GOV-10",
+        "GOV-13"
+      ],
+      "outcome": "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence."
+    },
+    {
+      "wp": "GOV-15",
+      "title": "Operate governed guild membership and action",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-14",
+        "GOV-12"
+      ],
+      "outcome": "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support."
+    },
+    {
+      "wp": "GOV-16",
+      "title": "Produce redacted polis governance health",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-15"
+      ],
+      "outcome": "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking."
+    },
+    {
+      "wp": "WP-S1",
+      "title": "Enforce the enterprise zero-trust boundary",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "GOV-11",
+        "RD-09"
+      ],
+      "outcome": "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries."
+    },
+    {
+      "wp": "WP-S2",
+      "title": "Enforce per-action and per-message authorization",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S1",
+        "GOV-12"
+      ],
+      "outcome": "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages."
+    },
+    {
+      "wp": "WP-S3",
+      "title": "Enforce key and secret lifecycle",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S2"
+      ],
+      "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers."
+    },
+    {
+      "wp": "WP-S4",
+      "title": "Produce tamper-evident incident evidence",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3",
+        "GOV-05"
+      ],
+      "outcome": "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer."
+    },
+    {
+      "wp": "WP-S5",
+      "title": "Enforce protected data lifecycle and isolation",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3",
+        "GOV-10"
+      ],
+      "outcome": "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy."
+    },
+    {
+      "wp": "WP-S6",
+      "title": "Operate a replayable security regression drill",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S4",
+        "WP-S5"
+      ],
+      "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence."
+    },
+    {
+      "wp": "PY-01",
+      "title": "Complete the bounded Python reduction tranche",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-11"
+      ],
+      "outcome": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it."
+    },
+    {
+      "wp": "DEMO-GOV",
+      "title": "Run integrated governance demonstrations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-16"
+      ],
+      "outcome": "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths."
+    },
+    {
+      "wp": "DEMO-SEC",
+      "title": "Run integrated security demonstrations",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S6"
+      ],
+      "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime."
+    },
+    {
+      "wp": "INTEGRATE",
+      "title": "Integrate governance with security and plugin operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "DEMO-GOV",
+        "DEMO-SEC"
+      ],
+      "outcome": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift."
+    },
+    {
+      "wp": "QUALIFY",
+      "title": "Independently qualify the installed milestone",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "INTEGRATE",
+        "CF-07",
+        "PY-01"
+      ],
+      "outcome": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset."
+    },
+    {
+      "wp": "TAIL-01",
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "QUALIFY"
+      ],
+      "outcome": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-02",
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-03",
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-04",
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-05",
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-06",
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-07",
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-08",
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-09",
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "wp": "TAIL-10",
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    }
+  ]
+}

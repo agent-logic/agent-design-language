@@ -57,7 +57,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 Review rejects preloaded input, builds lane manifests with empty peer references and uses execute_provider_invocation. Synthesis requires a complete review and complete lane set; remediation and test-plan consumers bind synthesis, review and manifests.
 

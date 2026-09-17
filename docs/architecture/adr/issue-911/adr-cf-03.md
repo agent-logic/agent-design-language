@@ -57,7 +57,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 The evidence redaction marker is known_unsafe_whole_object_omission_v1 and trust is untrusted_repository_text. Admission has bounded retention and expiry. Review constructs scoped lane inputs from admitted evidence.
 

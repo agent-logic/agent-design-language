@@ -1,4 +1,4 @@
-use super::{read_json, Context, IntentPlan, IntentRequest, Validator};
+use super::{read_json, Context, IntentPlan, IntentRequest, Publication, Validator};
 use crate::{
     adapters::{
         CommandInvocation, EnvironmentCredentialResolver, ProcessAdapter, ProcessStatus,
@@ -71,7 +71,7 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
             #[serde(default)]
             validators: Option<Vec<Validator>>,
             #[serde(default)]
-            publication: Option<super::Publication>,
+            publication: Option<Publication>,
             #[serde(default)]
             amendment: Option<AmendmentDeclaration>,
         }
@@ -80,22 +80,20 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         if changes.schema != "csdlc.v3.intent_changes.v1" {
             return Err("intent_changes_schema_unsupported".into());
         }
-        if changes.cards.is_empty() && changes.validators.is_none() && changes.publication.is_none()
-        {
+        let selected = usize::from(!changes.cards.is_empty())
+            + usize::from(changes.validators.is_some())
+            + usize::from(changes.publication.is_some());
+        if selected == 0 {
             return Err("intent_changes_missing".into());
         }
-        if usize::from(!changes.cards.is_empty())
-            + usize::from(changes.validators.is_some())
-            + usize::from(changes.publication.is_some())
-            > 1
-        {
+        if selected != 1 {
             return Err("intent_changes_single_surface_required".into());
         }
         if let Some(publication) = changes.publication {
             if changes.amendment.is_some() {
                 return Err("intent_publication_amendment_unexpected".into());
             }
-            return semantic_publication_edit(context, publication, &registry, &intent.snapshot);
+            return semantic_publication_edit(context, publication, &intent.snapshot);
         }
         request.card_updates = changes.cards;
         if let Some(validators) = changes.validators {
@@ -944,9 +942,14 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     {
         return Err("intent_plan_six_cards_required".into());
     }
-    if !crate::commands::remote::publication_body_is_valid(&plan.publication.body, context.issue) {
-        return Err("intent_publication_body_invalid".into());
-    }
+    crate::commands::remote::intent::validate_publication_metadata(
+        context.issue,
+        &format!("codex/{}-{}", context.issue, plan.slug),
+        &plan.publication.base,
+        &plan.publication.title,
+        &plan.publication.body,
+    )
+    .map_err(|finding| finding.code)?;
     crate::commands::proof::intent::admit_validator_declarations(&context.root, &plan.validators)?;
     let invocation = CommandInvocation::new(
         "github-api-read-only",
@@ -1124,44 +1127,6 @@ fn storage_validators(
         .collect()
 }
 
-fn semantic_publication_edit(
-    context: &Context,
-    publication: super::Publication,
-    registry: &local::PromptRegistry,
-    expected: &super::Snapshot,
-) -> Result<Value, String> {
-    use crate::storage::{
-        semantic::{CommitOutcome, LocalChange},
-        DurableTransactionStore,
-    };
-    let semantic = context.semantic_context()?;
-    let admitted_version = super::IssueVersion {
-        generation: Some(semantic.snapshot.version().generation()),
-        digest: Some(semantic.snapshot.version().digest().as_str().to_owned()),
-    };
-    if expected.semantic_version.as_ref() != Some(&admitted_version) {
-        return Err("intent_publication_stale_semantic_version".into());
-    }
-
-    let publication = serde_json::from_value(
-        serde_json::to_value(publication).map_err(|_| "intent_publication_invalid")?,
-    )
-    .map_err(|_| "intent_publication_invalid")?;
-    context.fresh_integrity()?;
-    let outcome = DurableTransactionStore::commit_issue_local(
-        &semantic.root,
-        semantic.admission,
-        LocalChange::AmendPublication(publication),
-    )
-    .map_err(semantic_error)?;
-    let changed = matches!(outcome, CommitOutcome::Committed(_));
-    let projection = semantic_rebuild_current(context, registry)?;
-    Ok(json!({"schema":"csdlc.v3.intent_local.v1",
-        "status":if changed {"completed"} else {"expected_noop"},
-        "read_only":!changed,"writes_v3_state":changed,"operational_authority":true,
-        "publication_amended":changed,"projection":projection}))
-}
-
 fn semantic_validation_edit(
     context: &Context,
     validators: Vec<Validator>,
@@ -1267,6 +1232,180 @@ fn semantic_validation_edit(
             semantic_rebuild_current(context, &context.registry()?)?;
             Ok(
                 json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
+                "read_only":false,"writes_v3_state":true,"operational_authority":true,
+                "operation_id":done.operation_id().as_str(),
+                "semantic_version":projected.version(),"inputs":projected.inputs_version()}),
+            )
+        }
+        Attachment::RecoveryRequired(version) => Ok(json!({"schema":"csdlc.v3.intent_local.v1",
+            "status":"recovery_required","read_only":false,"writes_v3_state":true,
+            "operational_authority":true,"operation_id":ticket.id().as_str(),
+            "semantic_version":version,"native_effect_truth":EffectTruth::NotPerformed})),
+    }
+}
+
+fn validate_publication_edit(context: &Context, publication: &Publication) -> Result<(), String> {
+    let semantic = context.semantic_context()?;
+    let inputs = semantic.snapshot.inputs();
+    let branch = inputs
+        .binding()
+        .map(|binding| binding.branch.clone())
+        .unwrap_or_else(|| format!("codex/{}-{}", context.issue, inputs.slug()));
+    crate::commands::remote::intent::validate_publication_metadata(
+        context.issue,
+        &branch,
+        &publication.base,
+        &publication.title,
+        &publication.body,
+    )
+    .map_err(|finding| finding.code)?;
+    let original = inputs.publication();
+    // A prior remote publication still exists after proof/review invalidation.
+    // Derive this boundary from retained completions, not only the current phase.
+    if publication.base != original.base || publication.draft != original.draft {
+        for done in semantic.snapshot.completed() {
+            let inspected = crate::storage::DurableTransactionStore::inspect_effect(
+                &semantic.root,
+                &semantic.key,
+                done.id(),
+            )
+            .map_err(semantic_error)?;
+            if inspected.request().command() == crate::lifecycle::semantic::SemanticCommand::Publish
+                && !(done.outcome() == crate::storage::semantic::protocol::OutcomeKind::Failure
+                    && done.truth()
+                        == crate::storage::semantic::protocol::EffectTruth::NotPerformed)
+            {
+                return Err("intent_publication_topology_change_denied".into());
+            }
+        }
+    }
+    Ok(())
+}
+
+fn semantic_publication_edit(
+    context: &Context,
+    publication: Publication,
+    expected: &super::Snapshot,
+) -> Result<Value, String> {
+    use crate::lifecycle::semantic::{Facts, SemanticCommand};
+    use crate::storage::{semantic::protocol::*, DurableTransactionStore};
+    let semantic = context.semantic_context()?;
+    // Preserve the caller's semantic version, including emitted requests. The
+    // same admitted snapshot is carried into reservation, whose CAS check also
+    // rejects changes racing this preflight.
+    let admitted_version = super::IssueVersion {
+        generation: Some(semantic.snapshot.version().generation()),
+        digest: Some(semantic.snapshot.version().digest().as_str().to_owned()),
+    };
+    if expected.semantic_version.as_ref() != Some(&admitted_version) {
+        return Err("intent_publication_stale_semantic_version".into());
+    }
+    if semantic.snapshot.pending().is_some() {
+        return Err(semantic_error(
+            crate::storage::semantic::Error::PendingOperation,
+        ));
+    }
+    validate_publication_edit(context, &publication)?;
+    let publication: crate::storage::semantic::Publication = serde_json::from_value(
+        serde_json::to_value(publication).map_err(|_| "intent_publication_invalid")?,
+    )
+    .map_err(|_| "intent_publication_invalid")?;
+    if semantic.snapshot.inputs().publication() == &publication {
+        return Ok(
+            json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop","publication_amended":false,
+            "read_only":true,"writes_v3_state":false,"operational_authority":true,
+            "semantic_version":semantic.snapshot.version(),
+            "inputs":semantic.snapshot.inputs_version()}),
+        );
+    }
+    let request_bytes = serde_json::to_vec(&json!({
+        "schema":"csdlc.v3.semantic_publication_edit_request.v1",
+        "repository":context.repository,"issue":context.issue,
+        "semantic_version":semantic.snapshot.version(),"publication":publication
+    }))
+    .map_err(|_| "intent_publication_edit_identity_invalid")?;
+    let identity = NativeIdentity::new(
+        "csdlc-v3-publication-edit".into(),
+        blake3::hash(&request_bytes).to_hex().to_string(),
+    )
+    .map_err(semantic_error)?;
+    let effect = EffectRequest::new(
+        SemanticCommand::AmendPublication,
+        identity.clone(),
+        semantic.origin.clone(),
+        &request_bytes,
+    )
+    .map_err(semantic_error)?;
+    let admission = EffectAdmission::from_native_owner(
+        semantic.admission.clone(),
+        semantic.origin.clone(),
+        Facts::default(),
+    );
+    let ticket = match DurableTransactionStore::reserve_effect(&semantic.root, admission, effect)
+        .map_err(semantic_error)?
+    {
+        Reservation::Reserved(ticket) => ticket,
+        Reservation::AlreadyPending(ticket) => {
+            return Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"recovery_required",
+                "read_only":true,"writes_v3_state":false,"operational_authority":true,
+                "operation_id":ticket.id().as_str()}),
+            )
+        }
+        Reservation::AlreadyCompleted(done) => {
+            return Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop","publication_amended":false,
+                "read_only":true,"writes_v3_state":false,"operational_authority":true,
+                "operation_id":done.operation_id().as_str(),"semantic_version":done.current_version()}),
+            )
+        }
+    };
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_publication_edit_after_reservation")
+    {
+        std::process::exit(91);
+    }
+    semantic.admit_before_effect(ticket.id())?;
+    let evidence = serde_json::to_vec(&json!({
+        "schema":"csdlc.v3.semantic_publication_edit_outcome.v1",
+        "publication_amended":true
+    }))
+    .map_err(|_| "intent_publication_edit_result_invalid")?;
+    let outcome = VerifiedOutcome::from_native_owner(
+        OutcomeKind::Success,
+        EffectTruth::NotPerformed,
+        evidence,
+        Facts::default(),
+        identity,
+    )
+    .map_err(semantic_error)?;
+    let admission = semantic
+        .fresh_for_effect(ticket.id())
+        .map_err(|_| "intent_publication_edit_semantic_state_changed".to_string())?;
+    match DurableTransactionStore::attach_outcome(
+        &semantic.root,
+        ticket.clone(),
+        outcome,
+        admission,
+    )
+    .map_err(semantic_error)?
+    {
+        Attachment::Completed(done) | Attachment::AlreadyCompleted(done) => {
+            let snapshot =
+                match DurableTransactionStore::observe_issue(&semantic.root, &semantic.key)
+                    .map_err(semantic_error)?
+                {
+                    crate::storage::semantic::Observation::Current(value)
+                    | crate::storage::semantic::Observation::ProjectionRepairRequired(value) => {
+                        *value
+                    }
+                    _ => return Err("intent_publication_edit_semantic_state_unavailable".into()),
+                };
+            let projected = semantic.complete_projection(&snapshot)?;
+            semantic_rebuild_current(context, &context.registry()?)?;
+            Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"completed","publication_amended":true,
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
                 "operation_id":done.operation_id().as_str(),
                 "semantic_version":projected.version(),"inputs":projected.inputs_version()}),
@@ -1694,7 +1833,9 @@ pub(crate) fn recover_semantic_edit(
     let command = pending.command();
     if !matches!(
         command,
-        SemanticCommand::AmendCards | SemanticCommand::AmendValidation
+        SemanticCommand::AmendCards
+            | SemanticCommand::AmendValidation
+            | SemanticCommand::AmendPublication
     ) {
         return Ok(None);
     }
@@ -1710,6 +1851,8 @@ pub(crate) fn recover_semantic_edit(
     if !request.execute {
         let action = if command == SemanticCommand::AmendCards {
             "reconcile_native_edit"
+        } else if command == SemanticCommand::AmendPublication {
+            "reconcile_publication_edit"
         } else {
             "reconcile_validation_edit"
         };
@@ -1777,6 +1920,87 @@ pub(crate) fn recover_semantic_edit(
                         *value
                     }
                     _ => return Err("intent_validation_edit_semantic_state_unavailable".into()),
+                };
+                let projected = semantic.complete_projection(&snapshot)?;
+                semantic_rebuild_current(context, &context.registry()?)?;
+                json!({"status":"completed","read_only":false,"performed_mutation":true,
+                    "operation_id":done.operation_id().as_str(),
+                    "native_effect_truth":done.truth(),
+                    "semantic_outcome":done.outcome_kind(),
+                    "semantic_version":projected.version(),"inputs":projected.inputs_version()})
+            }
+            Attachment::RecoveryRequired(version) => {
+                json!({"status":"recovery_required","read_only":false,
+                "performed_mutation":false,"operation_id":pending.id().as_str(),
+                "semantic_version":version})
+            }
+        }));
+    }
+    if command == SemanticCommand::AmendPublication {
+        if retained["schema"] != "csdlc.v3.semantic_publication_edit_request.v1"
+            || retained["repository"] != context.repository
+            || retained["issue"] != context.issue
+        {
+            return Err("intent_publication_edit_retained_identity_mismatch".into());
+        }
+        let publication: Publication = serde_json::from_value(retained["publication"].clone())
+            .map_err(|_| "intent_publication_edit_retained_invalid")?;
+        crate::commands::remote::intent::validate_publication_metadata(
+            context.issue,
+            &semantic
+                .snapshot
+                .inputs()
+                .binding()
+                .map(|binding| binding.branch.clone())
+                .unwrap_or_else(|| {
+                    format!(
+                        "codex/{}-{}",
+                        context.issue,
+                        semantic.snapshot.inputs().slug()
+                    )
+                }),
+            &publication.base,
+            &publication.title,
+            &publication.body,
+        )
+        .map_err(|finding| finding.code)?;
+        semantic.admit_before_effect(pending.id())?;
+        let outcome = VerifiedOutcome::from_native_owner(
+            OutcomeKind::Success,
+            EffectTruth::NotPerformed,
+            serde_json::to_vec(&json!({
+                "schema":"csdlc.v3.semantic_publication_edit_outcome.v1",
+                "publication_amended":true,
+                "recovered":true
+            }))
+            .map_err(|_| "intent_publication_edit_result_invalid")?,
+            Facts::default(),
+            inspection.request().native_identity().clone(),
+        )
+        .map_err(semantic_error)?;
+        let admission = semantic
+            .fresh_for_effect(pending.id())
+            .map_err(|_| "intent_publication_edit_semantic_state_changed".to_string())?;
+        let attached = DurableTransactionStore::execute_effect_recovery(
+            &semantic.root,
+            preview,
+            outcome,
+            admission,
+        )
+        .map_err(semantic_error)?;
+        return Ok(Some(match attached {
+            Attachment::Completed(done) | Attachment::AlreadyCompleted(done) => {
+                let snapshot = match DurableTransactionStore::observe_issue(
+                    &semantic.root,
+                    &semantic.key,
+                )
+                .map_err(semantic_error)?
+                {
+                    crate::storage::semantic::Observation::Current(value)
+                    | crate::storage::semantic::Observation::ProjectionRepairRequired(value) => {
+                        *value
+                    }
+                    _ => return Err("intent_publication_edit_semantic_state_unavailable".into()),
                 };
                 let projected = semantic.complete_projection(&snapshot)?;
                 semantic_rebuild_current(context, &context.registry()?)?;
@@ -2094,6 +2318,7 @@ pub(crate) fn semantic_proof_current(context: &Context) -> Result<bool, String> 
         matches!(
             p.command(),
             SemanticCommand::RecordProof
+                | SemanticCommand::AmendPublication
                 | SemanticCommand::RecordInstall
                 | SemanticCommand::RecordCutover
                 | SemanticCommand::RecordRollback

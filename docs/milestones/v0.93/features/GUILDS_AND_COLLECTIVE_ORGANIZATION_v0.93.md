@@ -185,3 +185,7 @@ proof demos after v0.93 WP-01 finalizes the issue wave.
 ## Notes
 
 Guilds are MVP-scoped as a governance baseline, not as a full product UI.
+
+## Current Candidate Mapping
+
+GOV-15; owner repositories: agent-logic-runtime. The current execution graph supersedes older sequencing or placement in retained source text.

@@ -56,7 +56,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 Comparison loads both records even for identical references and checks repository, schema, scope, lane versions and provider route. AdmittedBaselines stores review references without source copies and requires live admission. Palace indexing consumes VerifiedMemoryPalaceAuthority; authority provisioning uses separately selected operator trust.
 

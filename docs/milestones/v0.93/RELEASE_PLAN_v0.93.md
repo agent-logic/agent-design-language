@@ -46,11 +46,11 @@ v0.93 should not be released until it has evidence for:
 - The final review handoff must identify which v0.90.3, v0.91, and v0.92
   prerequisite surfaces were consumed.
 
-## Closeout Notes For Later WP-20
+## Closeout Notes For TAIL-10
 
 The release ceremony should follow the exact closeout pattern used by recent
 milestones at the time v0.93 closes. If the standard ceremony script or release
-tail changes before then, WP-20 should point to the then-current canonical
+tail changes before then, TAIL-10 should point to the then-current canonical
 pattern rather than inventing a new one.
 
 ## Non-Release Conditions
@@ -72,3 +72,60 @@ Do not ship v0.93 if:
 - adversarial regression, provenance, or runtime-hardening evidence is absent
 - constitutional review duplicates or contradicts moral trace
 - release notes describe planned social or legal authority as landed behavior
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+
+## Mandatory Runtime v4 Release Gate
+
+Operator direction on 2026-09-16 requires Runtime v4 completion in v0.93. TAIL-01 and the release ceremony must reject a candidate without completed RV-01 through RV-08 and independent installed proof for native, process and WASM adapters, provider integration, fenced generation recovery and rollback. Native-only implementation or a deferred adapter does not meet this gate.
+
+## CodeFriend launch readiness
+
+QUALIFY also depends on CF-07. The release packet must contain the accepted Beta 1 evidence mapping, installed Runtime v4 compatibility, deployment/onboarding/recovery results, independent external-tester rehearsal, and website preview/handoff. Record the actual audience and publication state; launch readiness alone is not proof of public availability.
+
+## How To Use
+
+Use the following sequence with the canonical graph. All steps are future work; record actual evidence and authority when executed.
+
+## 0. Release-Tail Convergence
+
+| ID | Required completed result |
+|---|---|
+| TAIL-01 | Quality gate |
+| TAIL-02 | Documentation review and external-review handoff |
+| TAIL-03 | Publication finalization |
+| TAIL-04 | Internal milestone review |
+| TAIL-05 | External or third-party review |
+| TAIL-06 | Accepted-findings remediation or explicit deferral capture |
+| TAIL-07 | Next-milestone planning |
+| TAIL-08 | Next-milestone closeout planning |
+| TAIL-09 | Next-milestone planning review |
+| TAIL-10 | Release ceremony and milestone close |
+
+The canonical dependency sequence is TAIL-01 through TAIL-10. Reviews, remediation and next-milestone planning are separate results; publication finalization prepares approved material and does not silently perform the release ceremony.
+
+## 1. Release Readiness
+
+Require QUALIFY and all mandatory Runtime v4 outcomes, the accepted migration lockset, governance/security consumers, CodeFriend launch qualification, current documentation and resolved review findings. Use QUALITY_GATE_v0.93.md and the actual issue denominator.
+
+## 2. Branch And Tag Preparation
+
+Confirm accepted source heads and product versions in each owning repository, clean build/install evidence and intended tag targets. The milestone coordinates compatible product releases; it does not invent a single shared version scheme. RD-02 settles distribution policy before this step. Tag mutation occurs only under release authorization.
+
+## 3. GitHub Release Steps
+
+Use the then-current native lifecycle route in each owner repository to create the authorized release from the verified artifact set. Record exact tag/source/artifact links, sanitized notes and approval. Verify remote state after writes; unresolved mutation results must reconcile before retry. No release is created by #1047.
+
+## 4. Verification
+
+Recheck remote tags/releases, install the distributed artifact set in a clean consumer and exercise the declared smoke/recovery journeys. Confirm public ADL needs no private credentials and CodeFriend website claims match actual availability. Failed verification preserves rollback and blocks ceremony completion.
+
+## 5. Communication
+
+Prepare a public summary plus private operator handoffs with the appropriate evidence access. Send announcements or publish site changes only with explicit authorization naming audience and qualified release. Do not disclose private repository content or imply compliance certification.
+
+## Exit Criteria
+
+All tail outcomes accepted, releases and install verification match the intended lockset, issue/PR closure reconciled separately, evidence retained, rollback ownership explicit and successor handoff reviewed. Plans, green CI and draft publication alone cannot meet this bar.

@@ -1,0 +1,1747 @@
+{
+  "schema": "adl.v093.first_pass.v1",
+  "milestone": "v0.93",
+  "status": "first_pass_not_open",
+  "planning_issue": 1047,
+  "opening_requires": [
+    "accepted_v0.92.2_close",
+    "15_minute_break",
+    "explicit_operator_opening"
+  ],
+  "feature_gate": "RD-11",
+  "required_release_tracks": [
+    "RV-01",
+    "RV-02",
+    "RV-03",
+    "RV-04",
+    "RV-05",
+    "RV-06",
+    "RV-07",
+    "RV-08",
+    "CF-01",
+    "CF-02",
+    "CF-03",
+    "CF-04",
+    "CF-05",
+    "CF-06",
+    "CF-07"
+  ],
+  "repositories": {
+    "agent-design-language": "public",
+    "cognitive-sdlc": "private",
+    "agent-logic-runtime": "private",
+    "codefriend": "private",
+    "codefriend.ai": "private",
+    "agent-logic-infrastructure": "private",
+    "agent-logic-enterprise-security": "private"
+  },
+  "decisions_pending": [
+    "repository_names_and_named_owners",
+    "registry_license_history_policy",
+    "feature_scope_capacity",
+    "codefriend_launch_audience_environment_and_limits"
+  ],
+  "work_packages": [
+    {
+      "id": "WP-01",
+      "title": "Open the reviewed v0.93 execution wave",
+      "repository": "agent-design-language",
+      "depends_on": [],
+      "result": "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-02 repository bootstrap.",
+      "acceptance": [
+        "After accepted v0.92.2 closure, the inter-milestone break and explicit opening approval, create only ADL coordination, audit and boundary-decision issue identities; destination issue creation waits for RD-02 repository bootstrap.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unaccepted predecessor",
+        "Missing opening approval",
+        "Duplicate issue identities"
+      ],
+      "phase": "opening",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-01",
+      "title": "Refresh final-head ownership audit",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "WP-01"
+      ],
+      "result": "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
+      "acceptance": [
+        "Every tracked source/artifact at the frozen v0.92.2 head has one owner or explicit blocking decision; explain all changes from #977.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Omitted path",
+        "Unresolved owner hidden"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-02",
+      "title": "Accept repository boundaries and cutover contracts",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-01"
+      ],
+      "result": "Record exact names, owners, licenses, version distribution, history/evidence retention and rollback authorities; settle audit gaps before moves, then create/bootstrap approved destination repositories and materialize their issue identities with immutable cross-repository links before extraction begins.",
+      "acceptance": [
+        "Record exact names, owners, licenses, version distribution, history/evidence retention and rollback authorities; settle audit gaps before moves, then create/bootstrap approved destination repositories and materialize their issue identities with immutable cross-repository links before extraction begins.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Public/private dependency inversion",
+        "Unassigned registry or rollback owner"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-03",
+      "title": "Distribute portable public ADL contracts",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-02"
+      ],
+      "result": "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions.",
+      "acceptance": [
+        "Public portable interfaces and conformance fixtures build and package without private source; consumers resolve pinned distributable versions.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Private credentials required",
+        "Sibling checkout required",
+        "Incompatible contract accepted"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-04",
+      "title": "Extract and qualify C-SDLC",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "RD-02"
+      ],
+      "result": "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.",
+      "acceptance": [
+        "An independent install completes a shadow issue through review, publication, merge, finish and cleanup, including authentic copied-record interrupted recovery, without Runtime or ADL source.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale authority",
+        "Uncertain write replay",
+        "Retained-record mismatch",
+        "Interrupted cleanup"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-05",
+      "title": "Extract and qualify Runtime with Observatory",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-03",
+        "RD-04"
+      ],
+      "result": "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.",
+      "acceptance": [
+        "Published Runtime artifacts run a local polis with continuity and Observatory using distributed contracts, with accepted pre-split rollback.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Absent private sibling checkout",
+        "Restart loses continuity",
+        "API/projection mismatch"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-06",
+      "title": "Extract artifact-consuming infrastructure",
+      "repository": "agent-logic-infrastructure",
+      "depends_on": [
+        "RD-05"
+      ],
+      "result": "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.",
+      "acceptance": [
+        "Infrastructure validates against pinned application artifacts without copied application source; state and cloud applies remain separately authorized.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unpinned artifact",
+        "Application source required"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-09",
+      "title": "Establish enterprise-security producer boundary",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "RD-05"
+      ],
+      "result": "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.",
+      "acceptance": [
+        "Private security repository independently validates its versioned Runtime extension boundary; Runtime proves absent, unavailable and verified provider behavior using synthetic policies.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unavailable provider silently falls back",
+        "Provider bypasses Runtime enforcement"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-10",
+      "title": "Extract CodeFriend software and preserve its website",
+      "repository": "codefriend",
+      "depends_on": [
+        "RD-05"
+      ],
+      "result": "Separate software checkout installs and repeats Beta 1 on ADL and an external repository; existing codefriend.ai site, history and deployment continue independently.",
+      "acceptance": [
+        "Separate software checkout installs and repeats Beta 1 on ADL and an external repository; existing codefriend.ai site, history and deployment continue independently.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Website overwritten",
+        "Sibling import",
+        "Unapproved publication",
+        "Report parity drift"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-08",
+      "title": "Qualify demo ownership after product moves",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-06",
+        "RD-09",
+        "RD-10"
+      ],
+      "result": "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.",
+      "acceptance": [
+        "Every retained demo has one owner and runs against supported product artifacts; Runtime owns Observatory and product moves own their source placement.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unowned demo",
+        "Copied production implementation",
+        "Mock presented as live proof"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-07",
+      "title": "Retire superseded source with verified public ADL",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-08"
+      ],
+      "result": "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access.",
+      "acceptance": [
+        "Each approved removal has preserved history/evidence and qualified replacement; a clean public checkout builds/tests/packages without private access.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Required evidence deleted",
+        "Private release dependency",
+        "Rollback absent"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RD-11",
+      "title": "Accept the complete split and release lockset",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-07"
+      ],
+      "result": "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93 feature starts before this gate.",
+      "acceptance": [
+        "Accept a sanitized compatibility lockset of independently qualified products and rollback points; no v0.93 feature starts before this gate.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing product proof",
+        "Mixed active source owners",
+        "Unqualified shared-tool activation"
+      ],
+      "phase": "migration",
+      "source": "REPOSITORY_MIGRATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RV-01",
+      "title": "Resolve plugin lifecycle design findings",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RD-11"
+      ],
+      "result": "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
+      "acceptance": [
+        "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
+        "Independent design review resolves actionable findings against the versioned plugin contract and explicit success, refusal and recovery scenarios. Implementation and installed-consumer proof are delivered by RV-02 through RV-08, not required to admit RV-02."
+      ],
+      "negative_cases": [
+        "Manifest self-grants",
+        "Undefined crash recovery"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No Runtime implementation or installed qualification claimed by design-review acceptance"
+      ]
+    },
+    {
+      "id": "RV-02",
+      "title": "Adapt built-in components to the native plugin contract",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-01"
+      ],
+      "result": "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler.",
+      "acceptance": [
+        "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Behavior parity regression"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RV-03",
+      "title": "Implement recoverable plugin generation transitions",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-02"
+      ],
+      "result": "Staging, bounded quiesce, versioned state/config migration, two-phase reconfiguration, dependency-safe removal, activation and rollback recover to one fenced generation after every interruption; prove a successful migrator and preserve the prior generation when migration/reconfiguration/removal is refused.",
+      "acceptance": [
+        "Staging, bounded quiesce, versioned state/config migration, two-phase reconfiguration, dependency-safe removal, activation and rollback recover to one fenced generation after every interruption; prove a successful migrator and preserve the prior generation when migration/reconfiguration/removal is refused.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale output/checkpoint writer",
+        "Crash at switch",
+        "Lost or duplicated accepted work",
+        "Migration fails after partial progress",
+        "Invalid reconfiguration",
+        "Removal while dependents remain"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RV-04",
+      "title": "Run a governed process plugin",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-03"
+      ],
+      "result": "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision.",
+      "acceptance": [
+        "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Orphan process",
+        "Hung handler",
+        "Unbounded queue"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RV-05",
+      "title": "Run a bounded WASM component plugin",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-04"
+      ],
+      "result": "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits.",
+      "acceptance": [
+        "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unapproved import",
+        "Timeout bypass"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RV-06",
+      "title": "Prove cross-adapter module equivalence",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-05"
+      ],
+      "result": "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters.",
+      "acceptance": [
+        "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Adapter-specific authority",
+        "State identity drift"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RV-07",
+      "title": "Move provider instances to plugin configuration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-06"
+      ],
+      "result": "Provider instances consume host-owned credentials and versioned configuration through the common inference capability.",
+      "acceptance": [
+        "Provider instances consume host-owned credentials and versioned configuration through the common inference capability.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Credential in manifest",
+        "Implicit provider fallback"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "RV-08",
+      "title": "Qualify installed plugin recovery and operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-07"
+      ],
+      "result": "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
+      "acceptance": [
+        "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Bad signature",
+        "Incompatible checkpoint",
+        "Rollback cannot restore"
+      ],
+      "phase": "runtime_v4",
+      "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "CF-01",
+      "title": "Accept the Beta 1 to launch requirements mapping",
+      "repository": "codefriend",
+      "depends_on": [
+        "RD-11"
+      ],
+      "result": "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker.",
+      "acceptance": [
+        "Map every Drive Beta 1 workstream, demo and external-tester criterion to accepted v0.92.2 evidence, then accept the launch audience, deployment mode, limits and remaining operational gaps. Missing Beta 1 behavior remains a predecessor blocker.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unproved Beta behavior deferred",
+        "Website readiness substituted for product readiness"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "CF-02",
+      "title": "Deliver a deployable CodeFriend product",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-01",
+        "RV-08"
+      ],
+      "result": "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits.",
+      "acceptance": [
+        "A clean target environment installs pinned CodeFriend and Runtime artifacts and completes a real repository review without a development checkout; deployment config identifies the approved environment and resource limits.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Private sibling dependency",
+        "Missing configuration silently defaulted",
+        "Incompatible Runtime accepted"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "CF-03",
+      "title": "Complete external tester onboarding",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-02"
+      ],
+      "result": "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state.",
+      "acceptance": [
+        "A non-ADL tester can connect an authorized local or GitHub repository, select scope, run a review and inspect/export its evidence packet with explicit privacy and publication state.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unauthorized repository access",
+        "Unsafe source path",
+        "Unapproved export",
+        "Hidden skipped surface"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "CF-04",
+      "title": "Qualify launch operations and recovery",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-03"
+      ],
+      "result": "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated.",
+      "acceptance": [
+        "The deployed product restores a known-good release and retained project state after interruption, with bounded job cost, cancellation, deletion and operator diagnostics demonstrated.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Cross-project disclosure",
+        "Cancellation leaves billable work running",
+        "Backup cannot restore",
+        "Deletion leaves accessible data"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "CF-05",
+      "title": "Qualify the external beta launch candidate",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-04"
+      ],
+      "result": "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
+      "acceptance": [
+        "An independent external-tester rehearsal repeats ADL, external OSS and PR-review journeys and evaluates evidence, diagrams, meaningful generated tests, documentation, redaction and report quality on exact installed versions.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Weak review passes quality gate",
+        "Unsupported diagram",
+        "Test unrelated to finding",
+        "Private material in report"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "CF-06",
+      "title": "Prepare the website to hand off to the qualified product",
+      "repository": "codefriend.ai",
+      "depends_on": [
+        "CF-05"
+      ],
+      "result": "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication.",
+      "acceptance": [
+        "The existing website launch plan and product entry point agree with qualified capabilities, support/feedback instructions, access limits and rollback; an approved preview is ready for separately authorized publication.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Coming-soon claims presented as live product",
+        "Broken product entry point",
+        "Unsupported availability claim"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "CF-07",
+      "title": "Launch the qualified CodeFriend service",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-06"
+      ],
+      "result": "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93 cannot close.",
+      "acceptance": [
+        "After explicit authorization of the exact candidate, audience, environment and budget, publish the approved product/site entry points, admit the authorized testers, verify the live end-to-end journey and retain a tested rollback. Until launch authorization is granted and live launch is verified, this result remains incomplete and v0.93 cannot close.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing launch authorization",
+        "Live product differs from qualified artifact",
+        "Onboarding fails after publication",
+        "Rollback cannot restore access"
+      ],
+      "phase": "codefriend_launch",
+      "source": "features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-01",
+      "title": "Enforce citizen and guest actor boundaries",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "RV-08"
+      ],
+      "result": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
+      "acceptance": [
+        "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Guest impersonates citizen"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-02",
+      "title": "Evaluate trace-grounded rights and duties",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-01"
+      ],
+      "result": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
+      "acceptance": [
+        "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Evidence-free verdict"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-03",
+      "title": "Apply evidence-backed standing transitions",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-02"
+      ],
+      "result": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
+      "acceptance": [
+        "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unexplained restriction",
+        "Restoration loses history"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-04",
+      "title": "Produce constitutional review from evidence",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-03"
+      ],
+      "result": "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
+      "acceptance": [
+        "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Fabricated evidence",
+        "Raw state disclosure"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-05",
+      "title": "Resolve challenges and appeals",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-04"
+      ],
+      "result": "A challenged finding progresses through appeal and recorded disposition without destroying original evidence.",
+      "acceptance": [
+        "A challenged finding progresses through appeal and recorded disposition without destroying original evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Replay changes verdict",
+        "Evidence lost on appeal"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-06",
+      "title": "Persist governed private ToM updates",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-01"
+      ],
+      "result": "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
+      "acceptance": [
+        "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsigned update",
+        "Guest scope exceeded"
+      ],
+      "phase": "governance",
+      "source": "features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-07",
+      "title": "Preserve ToM conflict and temporal decay",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-06"
+      ],
+      "result": "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.",
+      "acceptance": [
+        "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Conflict overwritten",
+        "Stale confidence unchanged"
+      ],
+      "phase": "governance",
+      "source": "features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-08",
+      "title": "Persist governed relationship context",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-06"
+      ],
+      "result": "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.",
+      "acceptance": [
+        "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Untraceable relationship assertion"
+      ],
+      "phase": "governance",
+      "source": "features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-09",
+      "title": "Publish challengeable reputation projections",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-05",
+        "GOV-07",
+        "GOV-08"
+      ],
+      "result": "Authorized redacted projections can inform review while retaining challenge and source lineage.",
+      "acceptance": [
+        "Authorized redacted projections can inform review while retaining challenge and source lineage.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Raw ToM leak",
+        "Scalar moral verdict"
+      ],
+      "phase": "governance",
+      "source": "features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-10",
+      "title": "Consume redacted shared social memory",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-09"
+      ],
+      "result": "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.",
+      "acceptance": [
+        "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Private model copied",
+        "Stale projection trusted"
+      ],
+      "phase": "governance",
+      "source": "features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-11",
+      "title": "Enforce delegated action authority",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-03"
+      ],
+      "result": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
+      "acceptance": [
+        "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Overbroad delegation",
+        "Revoked grant"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-12",
+      "title": "Execute governed upstream cognition",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-11",
+        "GOV-07"
+      ],
+      "result": "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.",
+      "acceptance": [
+        "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Provider becomes sovereign",
+        "Unverified answer accepted"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-13",
+      "title": "Communicate without private inspection",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-11"
+      ],
+      "result": "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
+      "acceptance": [
+        "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Message receipt grants inspection"
+      ],
+      "phase": "governance",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-14",
+      "title": "Evaluate bounded social-contract obligations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-05",
+        "GOV-10",
+        "GOV-13"
+      ],
+      "result": "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.",
+      "acceptance": [
+        "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Policy text treated as executed behavior"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-15",
+      "title": "Operate governed guild membership and action",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-14",
+        "GOV-12"
+      ],
+      "result": "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.",
+      "acceptance": [
+        "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Revoked membership acts",
+        "Guild exceeds citizen authority"
+      ],
+      "phase": "governance",
+      "source": "features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "GOV-16",
+      "title": "Produce redacted polis governance health",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-15"
+      ],
+      "result": "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.",
+      "acceptance": [
+        "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Hidden uncertainty",
+        "Protected data in report"
+      ],
+      "phase": "governance",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "WP-S1",
+      "title": "Enforce the enterprise zero-trust boundary",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "GOV-11",
+        "RD-09"
+      ],
+      "result": "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.",
+      "acceptance": [
+        "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Implicit internal trust",
+        "Connection treated as permission"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "WP-S2",
+      "title": "Enforce per-action and per-message authorization",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S1",
+        "GOV-12"
+      ],
+      "result": "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.",
+      "acceptance": [
+        "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale/revoked grant",
+        "Malformed/replayed/out-of-order message"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "WP-S3",
+      "title": "Enforce key and secret lifecycle",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S2"
+      ],
+      "result": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+      "acceptance": [
+        "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Wrong-scope key",
+        "Secret in output",
+        "Revocation ignored"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "WP-S4",
+      "title": "Produce tamper-evident incident evidence",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3",
+        "GOV-05"
+      ],
+      "result": "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.",
+      "acceptance": [
+        "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Tampered event",
+        "Raw private-state dump"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "WP-S5",
+      "title": "Enforce protected data lifecycle and isolation",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3",
+        "GOV-10"
+      ],
+      "result": "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.",
+      "acceptance": [
+        "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Cross-tenant leak",
+        "Raw ToM projection",
+        "Deletion leaves accessible data"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "WP-S6",
+      "title": "Operate a replayable security regression drill",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S4",
+        "WP-S5"
+      ],
+      "result": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+      "acceptance": [
+        "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Undeclared target",
+        "Non-replayable finding",
+        "Unproven mitigation"
+      ],
+      "phase": "security",
+      "source": "features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "PY-01",
+      "title": "Complete the bounded Python reduction tranche",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "RD-11"
+      ],
+      "result": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
+      "acceptance": [
+        "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Repository move counted as deletion",
+        "Live behavior removed without parity",
+        "Unexplained unchanged footprint"
+      ],
+      "phase": "maintenance",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "DEMO-GOV",
+      "title": "Run integrated governance demonstrations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-16"
+      ],
+      "result": "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.",
+      "acceptance": [
+        "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Demo replaces production path"
+      ],
+      "phase": "qualification",
+      "source": "DEMO_MATRIX_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "DEMO-SEC",
+      "title": "Run integrated security demonstrations",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S6"
+      ],
+      "result": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+      "acceptance": [
+        "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Synthetic mechanics claimed as enterprise qualification"
+      ],
+      "phase": "qualification",
+      "source": "DEMO_MATRIX_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "INTEGRATE",
+      "title": "Integrate governance with security and plugin operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "DEMO-GOV",
+        "DEMO-SEC"
+      ],
+      "result": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+      "acceptance": [
+        "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Authority lost across product boundary"
+      ],
+      "phase": "qualification",
+      "source": "DESIGN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "QUALIFY",
+      "title": "Independently qualify the installed milestone",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "INTEGRATE",
+        "CF-07",
+        "PY-01"
+      ],
+      "result": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+      "acceptance": [
+        "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Wrong artifact head",
+        "Missing negative scenario"
+      ],
+      "phase": "qualification",
+      "source": "QUALITY_GATE_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-01",
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "QUALIFY"
+      ],
+      "result": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-02",
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "result": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-03",
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "result": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-04",
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "result": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-05",
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "result": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-06",
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "result": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-07",
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "result": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-08",
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "result": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-09",
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "result": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    },
+    {
+      "id": "TAIL-10",
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "result": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ]
+    }
+  ]
+}

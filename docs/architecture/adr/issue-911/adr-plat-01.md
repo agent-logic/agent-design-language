@@ -60,7 +60,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 Provider candidate validation rejects embedded credential values; ProviderRegistry validates adapter kinds before replacing the definition snapshot. Runtime uses that registry through an async boundary. CodeFriend calls the shared invocation facade; source presence is not five-route generated-response qualification.
 

@@ -59,11 +59,11 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs.
 
-Operator clarification (2026-09-16): website and product code use two separate repositories. The pinned decomposition plan conflated them; its current correction preserves agent-logic/codefriend.ai as website-only. The website README at commit 99a3a85944e3095da29862654621a3c6bca80b61 says coming-soon website only and no application runtime.
+Operator clarification (2026-09-16): website and product code use two separate repositories. The earlier decomposition plan conflated them; the current merged plan and this clarification preserve agent-logic/codefriend.ai as website-only. The website README at commit 99a3a85944e3095da29862654621a3c6bca80b61 says coming-soon website only and no application runtime.
 
 Proposed clarification: Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement is pre-extraction state under the operator-confirmed product split with distinct website and private code repositories; it does not authorize or prove extraction.
 

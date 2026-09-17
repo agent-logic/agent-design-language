@@ -1,0 +1,146 @@
+[
+  {
+    "path": "docs/milestones/v0.93/README.md",
+    "template": "readme",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/README.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"readme\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/WBS_v0.93.md",
+    "template": "wbs",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/WBS_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"wbs\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/SPRINT_v0.93.md",
+    "template": "sprint",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/SPRINT_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"sprint\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/VISION_v0.93.md",
+    "template": "vision",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/VISION_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"vision\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/DESIGN_v0.93.md",
+    "template": "design",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/DESIGN_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"design\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/DECISIONS_v0.93.md",
+    "template": "decisions",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/DECISIONS_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"decisions\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/DEMO_MATRIX_v0.93.md",
+    "template": "demo_matrix",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/DEMO_MATRIX_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"demo_matrix\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/MILESTONE_CHECKLIST_v0.93.md",
+    "template": "milestone_checklist",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/MILESTONE_CHECKLIST_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"milestone_checklist\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/RELEASE_PLAN_v0.93.md",
+    "template": "release_plan",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/RELEASE_PLAN_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"release_plan\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/RELEASE_NOTES_v0.93.md",
+    "template": "release_notes",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/RELEASE_NOTES_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"release_notes\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/CODEFRIEND_LAUNCH_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/CODEFRIEND_LAUNCH_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  },
+  {
+    "path": "docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md",
+    "template": "feature_doc",
+    "exit_code": 0,
+    "output": "{\n  \"claim_boundary\": \"structural validation only; not review or approval\",\n  \"input\": \"docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md\",\n  \"registry_template_set\": \"1.1.0\",\n  \"status\": \"PASS\",\n  \"template\": \"feature_doc\"\n}\n"
+  }
+]

@@ -59,7 +59,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 Native v3 is already operational; conversion/recovery source and explicit semantic preparation routes exist. These sources do not establish that every future rollout has a complete census, paused old writers, or an approved restore window.
 

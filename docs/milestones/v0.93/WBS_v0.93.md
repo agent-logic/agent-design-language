@@ -1,84 +1,106 @@
-# v0.93 Candidate Work Breakdown Structure
+# v0.93 Work Breakdown Structure
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
 
 ## Status
 
-Candidate allocation only. v0.93 has no final issue wave yet.
+First-pass planning under #1047. v0.93 is not open; no extraction or feature implementation is authorized by this package.
 
-The exact WP sequence should be produced by the v0.93 WP-01 planning pass after
-v0.90.3, v0.91, and v0.92 have landed enough prerequisite evidence.
+## How To Use
+
+Use logical IDs below for planning; create actual issues only at authorized opening. EXECUTION_PLAN_v0.93.json owns dependency and completion detail.
 
 ## WBS Summary
 
-v0.93 should develop the constitutional citizenship, social-cognition, and
-polis-governance layer without stealing work from the earlier substrate
-milestones.
+64 candidate results: 1 opening, 11 migration, 8 Runtime v4, 16 governance, 6 security, 7 CodeFriend launch, 1 Python reduction tranche, 4 integration/qualification and 10 release-tail results. Runtime v4 RV-01 through RV-08 are mandatory; capacity planning must preserve their complete release outcome.
 
-## Candidate Work Areas
+## Candidate WP Sequence
 
-| Candidate | Work Area | Description | Primary deliverable | Key dependencies |
-| --- | --- | --- | --- | --- |
-| A | Constitutional citizenship contract | Define eligibility, rights, duties, standing, review, and non-goals. | Feature contract and fixtures. | v0.90.3 standing/state, v0.92 identity. |
-| B | Human, guest, operator, and citizen-mode boundary | Make guest-by-default human entry and mediated citizen action explicit. | Boundary doc, policy fixtures, negative cases. | v0.90.3 standing, v0.91 Freedom Gate, v0.92 identity. |
-| C | Rights and duties model | Define what the polis owes citizens and what citizens owe the polis. | Rights/duties schema or contract. | v0.91 moral resources and wellbeing context. |
-| D | Theory of Mind contract | Define private evidence-grounded models of other participants without turning them into public verdicts. | ToM schema, update event contract, evidence/confidence rules, conflict and decay fixtures. | v0.90.3 standing/access, v0.91 moral trace, v0.92 identity. |
-| E | Relationship, reputation, and shared social memory boundary | Define durable relationship context plus public or governance-facing summaries that remain redacted, challengeable, and distinct from private ToM. | Relationship model, reputation projection, and shared social memory contract. | D plus v0.91 review evidence. |
-| F | Standing maintenance and degradation | Define evidence-based transitions among good standing, monitored, restricted, suspended, restored, and revoked. | Standing transition tests and review packet. | v0.90.3 standing and challenge flow. |
-| G | Constitutional review packet | Consume trace, outcome, attribution, policy, ToM projections where allowed, reputation, and standing evidence. | Review packet schema and fixtures. | v0.91 moral trace and trajectory review. |
-| H | Challenge and appeal flow | Preserve evidence, allow challenge, record appeal disposition, and avoid arbitrary punishment. | Challenge/appeal state machine and proof fixture. | v0.90.3 challenge/quarantine, v0.91 review evidence. |
-| I | Delegation, upstream delegation, and IAM | Model delegated authority across citizens, guests, services, operators, tools, polis services, trusted external polis boundaries, and frontier cognition providers. | Authority-chain model, upstream-delegation routing rules, and allow/deny fixtures. | v0.90.5 governed tools if landed. |
-| J | Communication without inspection | Ensure governed communication does not create private-state or private-ToM inspection rights. | Communication/inspection negative proof. | v0.90.3 communication and projection policy. |
-| K | Social contract representation | Represent the bounded obligations of the polis and citizens. | Draft social-contract contract and review notes. | A through J. |
-| L | Polis governance health evidence | Summarize governance state without scalar moral verdicts, leaked private state, or leaked private ToM. | Governance evidence packet and redacted report. | G through K. |
-| L2 | Guilds and collective organization | Define guild identity, membership, authority, shared resources, privacy, trace, and challenge boundaries. | Guild feature contract, membership/authority fixtures, and governance handoff notes. | A, B, E, I, K, and v0.92 identity evidence. |
-| M | Security WP-S1: zero-trust architecture | Define the polis trust model, actor identities, trust boundaries, default-deny zones, and cross-boundary verification rules. | Zero-trust architecture contract, trust-boundary fixtures, and negative cases. | A, B, I, v0.90.3 access/projection, v0.90.5 governed tools, v0.92 identity. |
-| N | Security WP-S2: policy enforcement and authorization | Make IAM, delegation, standing, tool authority, and citizen/action policy enforceable with least privilege and fail-closed behavior. | Policy decision contract, enforcement fixtures, deny-by-default tests, and reviewer report. | I, M, v0.90.5 ACC/UTS, v0.92 capability envelopes. |
-| O | Security WP-S3: secrets, keys, and cryptographic trust | Specify key custody, signing, encryption, rotation, revocation, sealed-state access, and internal ACIP cryptographic requirements. | Key/secrets lifecycle contract, rotation/revocation fixtures, encrypted-message proof surface. | M, N, v0.90.3 signed envelopes/sealing, v0.91 ACIP, v0.92 identity. |
-| P | Security WP-S4: audit, compliance, and incident evidence | Produce tamper-evident audit trails, compliance evidence packets, incident records, and redaction-safe reviewer views without claiming external certification. | Audit schema, compliance-evidence packet, incident fixture, and redacted report. | G, H, L, N, O, moral trace, standing evidence. |
-| Q | Security WP-S5: isolation, data governance, and privacy | Define tenant/polis isolation, data classification, retention, deletion, projection, private-state privacy, and cross-actor data-flow controls. | Isolation/data-governance contract, retention/projection fixtures, leakage negative cases. | B, J, M, O, v0.90.3 private-state/access/projection, v0.92 memory grounding. |
-| R | Security WP-S6: security operations, adversarial regression, and provenance | Bind red/blue adversarial testing, supply-chain/provenance checks, runtime hardening, threat-board hygiene, and incident-response drills into the milestone. | Security-ops runbook, adversarial regression suite, provenance checks, threat-board and incident-response evidence. | M through Q plus v0.89.1 adversarial runtime and current CI/review gates. |
-| S | Demo matrix and proof demos | Build constitutional review, ToM/reputation boundary, standing transition, delegation/upstream-delegation/IAM, enterprise-security, and guest/citizen boundary demos. | Demo matrix rows and runnable proof commands. | A through R. |
-| T | Review, docs, and release tail | Align docs, update feature list, run review, and close the milestone. | Review handoff, release notes, ceremony evidence. | All prior work. |
+| ID | One completed result | Repository | Dependencies |
+|---|---|---|---|
+| WP-01 | Open the reviewed v0.93 execution wave | agent-design-language | Opening authorization |
+| RD-01 | Refresh final-head ownership audit | agent-design-language | WP-01 |
+| RD-02 | Accept repository boundaries and cutover contracts | agent-design-language | RD-01 |
+| RD-03 | Distribute portable public ADL contracts | agent-design-language | RD-02 |
+| RD-04 | Extract and qualify C-SDLC | cognitive-sdlc | RD-02 |
+| RD-05 | Extract and qualify Runtime with Observatory | agent-logic-runtime | RD-03, RD-04 |
+| RD-06 | Extract artifact-consuming infrastructure | agent-logic-infrastructure | RD-05 |
+| RD-09 | Establish enterprise-security producer boundary | agent-logic-enterprise-security | RD-05 |
+| RD-10 | Extract CodeFriend software and preserve its website | codefriend | RD-05 |
+| RD-08 | Qualify demo ownership after product moves | agent-logic-runtime | RD-06, RD-09, RD-10 |
+| RD-07 | Retire superseded source with verified public ADL | agent-design-language | RD-08 |
+| RD-11 | Accept the complete split and release lockset | agent-design-language | RD-07 |
+| RV-01 | Resolve plugin lifecycle design findings | agent-logic-runtime | RD-11 |
+| RV-02 | Adapt built-in components to the native plugin contract | agent-logic-runtime | RV-01 |
+| RV-03 | Implement recoverable plugin generation transitions | agent-logic-runtime | RV-02 |
+| RV-04 | Run a governed process plugin | agent-logic-runtime | RV-03 |
+| RV-05 | Run a bounded WASM component plugin | agent-logic-runtime | RV-04 |
+| RV-06 | Prove cross-adapter module equivalence | agent-logic-runtime | RV-05 |
+| RV-07 | Move provider instances to plugin configuration | agent-logic-runtime | RV-06 |
+| RV-08 | Qualify installed plugin recovery and operations | agent-logic-runtime | RV-07 |
+| CF-01 | Accept the Beta 1 to launch requirements mapping | codefriend | RD-11 |
+| CF-02 | Deliver a deployable CodeFriend product | codefriend | CF-01, RV-08 |
+| CF-03 | Complete external tester onboarding | codefriend | CF-02 |
+| CF-04 | Qualify launch operations and recovery | codefriend | CF-03 |
+| CF-05 | Qualify the external beta launch candidate | codefriend | CF-04 |
+| CF-06 | Prepare the website to hand off to the qualified product | codefriend.ai | CF-05 |
+| CF-07 | Launch the qualified CodeFriend service | codefriend | CF-06 |
+| GOV-01 | Enforce citizen and guest actor boundaries | agent-logic-runtime | RV-08 |
+| GOV-02 | Evaluate trace-grounded rights and duties | agent-logic-runtime | GOV-01 |
+| GOV-03 | Apply evidence-backed standing transitions | agent-logic-runtime | GOV-02 |
+| GOV-04 | Produce constitutional review from evidence | agent-logic-runtime | GOV-03 |
+| GOV-05 | Resolve challenges and appeals | agent-logic-runtime | GOV-04 |
+| GOV-06 | Persist governed private ToM updates | agent-logic-runtime | GOV-01 |
+| GOV-07 | Preserve ToM conflict and temporal decay | agent-logic-runtime | GOV-06 |
+| GOV-08 | Persist governed relationship context | agent-logic-runtime | GOV-06 |
+| GOV-09 | Publish challengeable reputation projections | agent-logic-runtime | GOV-05, GOV-07, GOV-08 |
+| GOV-10 | Consume redacted shared social memory | agent-logic-runtime | GOV-09 |
+| GOV-11 | Enforce delegated action authority | agent-logic-runtime | GOV-03 |
+| GOV-12 | Execute governed upstream cognition | agent-logic-runtime | GOV-11, GOV-07 |
+| GOV-13 | Communicate without private inspection | agent-logic-runtime | GOV-11 |
+| GOV-14 | Evaluate bounded social-contract obligations | agent-logic-runtime | GOV-05, GOV-10, GOV-13 |
+| GOV-15 | Operate governed guild membership and action | agent-logic-runtime | GOV-14, GOV-12 |
+| GOV-16 | Produce redacted polis governance health | agent-logic-runtime | GOV-15 |
+| WP-S1 | Enforce the enterprise zero-trust boundary | agent-logic-enterprise-security | GOV-11, RD-09 |
+| WP-S2 | Enforce per-action and per-message authorization | agent-logic-enterprise-security | WP-S1, GOV-12 |
+| WP-S3 | Enforce key and secret lifecycle | agent-logic-enterprise-security | WP-S2 |
+| WP-S4 | Produce tamper-evident incident evidence | agent-logic-enterprise-security | WP-S3, GOV-05 |
+| WP-S5 | Enforce protected data lifecycle and isolation | agent-logic-enterprise-security | WP-S3, GOV-10 |
+| WP-S6 | Operate a replayable security regression drill | agent-logic-enterprise-security | WP-S4, WP-S5 |
+| PY-01 | Complete the bounded Python reduction tranche | agent-design-language | RD-11 |
+| DEMO-GOV | Run integrated governance demonstrations | agent-logic-runtime | GOV-16 |
+| DEMO-SEC | Run integrated security demonstrations | agent-logic-enterprise-security | WP-S6 |
+| INTEGRATE | Integrate governance with security and plugin operations | agent-logic-runtime | DEMO-GOV, DEMO-SEC |
+| QUALIFY | Independently qualify the installed milestone | agent-logic-runtime | INTEGRATE, CF-07, PY-01 |
+| TAIL-01 | Quality gate | agent-design-language | QUALIFY |
+| TAIL-02 | Documentation review and external-review handoff | agent-design-language | TAIL-01 |
+| TAIL-03 | Publication finalization | agent-design-language | TAIL-02 |
+| TAIL-04 | Internal milestone review | agent-design-language | TAIL-03 |
+| TAIL-05 | External or third-party review | agent-design-language | TAIL-04 |
+| TAIL-06 | Accepted-findings remediation or explicit deferral capture | agent-design-language | TAIL-05 |
+| TAIL-07 | Next-milestone planning | agent-design-language | TAIL-06 |
+| TAIL-08 | Next-milestone closeout planning | agent-design-language | TAIL-07 |
+| TAIL-09 | Next-milestone planning review | agent-design-language | TAIL-08 |
+| TAIL-10 | Release ceremony and milestone close | agent-design-language | TAIL-09 |
 
-## Sequencing Pressure
+## Work Packages
 
-1. Start with the citizenship contract and actor boundary.
-2. Add rights, duties, and the ToM/reputation/shared-social-memory boundary.
-3. Add standing transition semantics.
-4. Add review packet, challenge, and appeal.
-5. Add delegation, upstream delegation, and IAM after authority prerequisites
-   are clear.
-6. Add communication and social-contract surfaces.
-7. Add guilds after citizenship, shared social memory, delegation/IAM, and
-   social-contract boundaries are clear.
-8. Add the six enterprise-security WPs after identity, IAM, and tool authority
-   prerequisites are explicit.
-9. Build proof demos only after the contracts can constrain them.
+[Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.93.yaml) declare result, consumer proof, negative cases, resources, non-goals and repository for every row. The earlier A–T thematic allocation remains represented by the substantive feature documents; combined security pairs and broad social-cognition rows are replaced by single-result candidates.
+
+## Sequencing
+
+Opening → repository split → accepted Runtime v4 boundary → governance/security → installed integration and independent qualification → TAIL-01 through TAIL-10.
+
+## Sequencing Notes
+
+Only explicit dependency edges block rows; the global RD-11 feature gate also applies. Parallel source edits must have disjoint ownership. No feature starts during extraction. No predecessor milestone number substitutes for evidence of the actual consumed interface.
 
 ## Acceptance Mapping
 
-- Constitutional citizenship must be tied to identity, standing, trace, and
-  policy, not merely existence in the runtime.
-- Human provider participation must remain guest or operator activity unless a
-  CSM identity mediates the action as citizen conduct.
-- Constitutional review must cite trace/outcome/standing evidence.
-- Standing changes must be evidence-based, reviewable, and appealable.
-- Private ToM must not become public relationship verdict, reputation,
-  standing, or constitutional judgment without redaction, authority, and
-  evidence.
-- Delegation, upstream delegation, and IAM must fail closed when authority is
-  missing or when the upstream provider cannot preserve identity, policy,
-  provenance, verification, and trace boundaries.
-- Zero-trust policy must default deny at every polis, tool, service, operator,
-  communication, and data boundary.
-- Secrets, keys, signatures, encryption, rotation, and revocation must be
-  represented as lifecycle contracts rather than hidden environment folklore.
-- Audit, compliance, and incident records must be tamper-evident and
-  redaction-safe without claiming external certification.
-- Tenant/polis isolation and data-governance rules must prevent private-state,
-  ToM, reputation, and citizen data leakage across boundaries.
-- Security operations must connect adversarial regression, provenance,
-  runtime-hardening, and threat-board evidence into release review.
-- Public or operator-facing projections must not leak private state.
-- Guild action must be trace-backed, authority-bounded, privacy-preserving, and
-  challengeable when it affects shared reality.
-- Demos must show behavior and evidence, not just policy text.
+Each feature source maps to executable candidate results and negative cases in the canonical graph. Migration acceptance is independent checkout/product proof; feature acceptance is installed consumer behavior. Decision-only rows explicitly deliver accepted decisions.
+
+## Exit Criteria
+
+Every admitted result has an owner, dependency, completion denominator, proof and non-goal; unresolved scope is decided before issue-wave opening. No implementation closure from docs-only scaffolds.

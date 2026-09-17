@@ -59,7 +59,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 The semantic operation protocol models reservation, outcome, attachment and verified recovery. Intent routes use the semantic owner and retain independent projections. Current publication amendment checks an expected semantic version; pending operation identity remains part of recovery.
 

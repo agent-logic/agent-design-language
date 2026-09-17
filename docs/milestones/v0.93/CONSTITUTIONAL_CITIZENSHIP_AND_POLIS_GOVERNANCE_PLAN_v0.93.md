@@ -96,7 +96,7 @@ They are provenance labels, not public links.
 | Governed tools corpus | Prerequisite for tool-mediated governance | v0.93 should consume UTS/ACC authority evidence if v0.90.5 lands first; it should not own the governed-tools substrate. |
 | Secure Agent Comms / ACIP corpus | Prerequisite for security-mediated communication | v0.93 should consume secure local comms and ACIP boundaries when defining internal encryption, key lifecycle, and zero-trust message acceptance. |
 | Adversarial runtime and red/blue corpus | Prerequisite for security operations | v0.93 should consume existing adversarial proof surfaces for regression, threat-board hygiene, and incident-response evidence. |
-| ToM source packet | Primary v0.93 social-cognition source | Supplies initial architecture, integration, and draft schema ideas. The tracked v0.93 feature plan supersedes stale late-roadmap targeting and adds standing, privacy, reputation, signed-trace, conflict, decay, and Runtime v2 boundaries. |
+| ToM source packet | Primary v0.93 social-cognition source | Supplies initial architecture, integration, and draft schema ideas. The tracked v0.93 feature plan supersedes stale late-roadmap targeting and adds standing, privacy, reputation, signed-trace, conflict, decay, and current Runtime boundaries. |
 
 ## Engineering, Policy, And Context Boundaries
 
@@ -184,3 +184,7 @@ Recommended ordering pressure:
    secure-comms prerequisites are explicit.
 7. Produce demo/proof packets that distinguish engineering substrate, policy
    model, and philosophical context.
+
+## Current Execution Placement
+
+This document is the retained thematic allocation. EXECUTION_PLAN_v0.93.json supersedes its older sequencing recommendations: WP-01 → repository split through RD-11 → accepted Runtime v4 boundary → governance/security. The source contracts are preserved; no feature begins during migration.

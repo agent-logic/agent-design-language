@@ -1,5 +1,11 @@
 # v0.93 Milestone README
 
+## Current planning sources
+
+Start with this milestone package and the [candidate catalog](PLANNED_ISSUE_CATALOG_v0.93.md). The current CodeFriend product source is [CodeFriend Beta 1 Plan — Second-pass working draft](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit), last edited August 23 and inspected September 16. Its successor launch work is mapped in [CodeFriend Launch](features/CODEFRIEND_LAUNCH_v0.93.md). The website-only issue is an input, not the product plan.
+
+This first pass contains 64 candidate results. The opening repository split precedes feature development. [Runtime v4](features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md) must be completed in v0.93. This package remains under review and does not open the milestone.
+
 ## Metadata
 
 - Milestone: `v0.93`
@@ -61,15 +67,14 @@ v0.93 depends on:
 
 ## Parallel Python Reduction Tranche
 
-v0.93 should preserve room for the final Python-burn-down tranche if the
-footprint has not already reached zero. The cross-milestone rule is recorded in
+PY-01 owns the bounded tranche from the
 [Python Elimination Staged Plan](../../planning/PYTHON_ELIMINATION_STAGED_PLAN.md).
-
-The likely `v0.93` tranche is:
-
-- remaining low-count helpers and odd one-off scripts
-- CI zero-tracked-Python enforcement if the footprint is already near zero
-- parity audit and final cleanup rather than another large migration wave
+Record start/end tracked file and LOC counts across the split repository set;
+moving a file between repositories is not a reduction. After RD-11, remove or
+replace one coherent remaining public ADL helper family with behavior parity.
+If no suitable family remains, retain an explicit reviewed justification for
+no reduction. Preserve the no-new-Python rule; enable a zero-Python CI gate only
+where the measured footprint supports it. QUALIFY consumes this disposition.
 
 ## Scope Summary
 
@@ -164,7 +169,7 @@ Later WP planning should preserve the standard milestone rhythm:
 - quality/review WPs: validate docs, tests, demo evidence, and review packets
 - release WP: close the milestone under the normal ceremony pattern
 
-The exact WP sequence is intentionally deferred until v0.93 planning is active.
+The first-pass logical sequence is now defined in EXECUTION_PLAN_v0.93.json; issue creation still requires opening authorization.
 
 ## Success Criteria
 
@@ -177,3 +182,11 @@ v0.93 is ready to execute when:
 - delegation, upstream delegation, and IAM decisions are reviewable
 - demo candidates prove behavior rather than merely describing policy
 - philosophical claims remain separated from implemented engineering behavior
+
+## Opening Phase
+
+Repository decomposition opens v0.93 after accepted v0.92.2 closure, before all feature development. See [migration plan](REPOSITORY_MIGRATION_v0.93.md). Public ADL and six private repositories include separate CodeFriend software and website owners. Runtime v4 is retained from the successor handoff with explicit design and breadth gates.
+
+## First-Pass Execution Map
+
+[Canonical graph](EXECUTION_PLAN_v0.93.json), [issue catalog](PLANNED_ISSUE_CATALOG_v0.93.md), [readiness](WP_EXECUTION_READINESS_v0.93.md), [quality gate](QUALITY_GATE_v0.93.md), [source accounting](TBD_SCHEDULING_RECONCILIATION_v0.93.md), [review](planning-review/REVIEW.md), and [successor handoff](NEXT_MILESTONE_HANDOFF_v0.93.md) complete this package. No GitHub milestone or issue wave has opened.

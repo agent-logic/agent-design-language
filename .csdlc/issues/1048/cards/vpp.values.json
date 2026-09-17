@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1048,
+  "issue_padded": "1048",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1048",
+  "title": "[C-SDLC] Allow typed correction of accepted publication metadata before dispatch",
+  "branch": "codex/1048-publication-metadata-amendment",
+  "version": "1.0.5",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1048-publication-metadata-amendment",
+  "validation_commands_inline": "149 tests passed: 69 installed intents, 47 semantic unit, 14 semantic local-proof, 2 semantic remote-review, 11 command-manifest, 6 manual. Native proof passed both declared validators; independent review passed exact source/docs head 8a514568145dbe5c5a7ff524e12c9e8d06074c02.",
+  "validation_resource_profile": "deterministic local tooling fixtures; CPU/Git and synthetic transport; no live cloud changes"
+}

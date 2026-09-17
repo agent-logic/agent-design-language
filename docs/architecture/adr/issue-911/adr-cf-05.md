@@ -56,7 +56,7 @@ Accepting this ADR would record this bounded design decision. It would not prove
 
 ## Implementation Reconciliation — #945
 
-Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
 
 Policy currently admits only forbidden_declared_use. Status maps Pass/Fail/Error to 0/1/2. The CI verifier checks candidate, packet and policy identities and validates the local report instead of defining another predicate.
 
