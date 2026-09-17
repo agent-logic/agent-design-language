@@ -170,7 +170,7 @@ validation:
 }
 ```
 
-The amendment declaration is mandatory and retained with the native effect.
+For card edits, the amendment declaration is mandatory and retained with the native effect.
 `binding` is reserved for the topology-verified bind owner. An implementation
 amendment also supplies the exact 40-character `implementation_revision`; the
 owner requires it to match the bound effect head. `new_commit` records whether
@@ -180,6 +180,21 @@ Use the applicable card-editor skill to choose truthful fields. The command
 adapter does not authorize arbitrary handwritten card structure. Unsupported
 preview or execute flags on local preparation, editing, validation and proof
 are rejected before dispatch.
+
+Publication metadata uses a separate single-surface edit:
+
+```json
+{"schema":"csdlc.v3.intent_changes.v1","publication":{"base":"main","title":"Corrected title","body":"Closes #1046\n\nDescription","draft":true}}
+```
+
+The full publication object is required; base must equal the retained base.
+Only ready, bound, implemented or reviewed issues admit this repair. Exact native
+identity/version and pending-effect guards still apply. The native transaction
+retains prior commits, advances semantic inputs, and invalidates downstream
+proof, review and publication evidence. Refresh proof/review before publishing.
+Cards, validators and publication must not be mixed in one edit. Preparation
+and publication amendment require a line beginning `Closes #ISSUE` and reject
+closing references to other issues. After publication, use `github-pr` updates.
 
 ## Amendment and evidence invalidation table
 

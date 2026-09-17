@@ -732,7 +732,7 @@ impl Context {
     }
     pub fn snapshot_for_intent(&self, command: &str) -> Snapshot {
         let mut snapshot = self.snapshot();
-        if command == "rebuild" {
+        if matches!(command, "rebuild" | "edit") {
             snapshot.semantic_version = self.semantic_root_key().ok().and_then(|(root, key)| {
                 match DurableTransactionStore::observe_issue(&root, &key).ok()? {
                     Observation::Current(value) | Observation::ProjectionRepairRequired(value) => {

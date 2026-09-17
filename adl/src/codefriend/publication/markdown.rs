@@ -304,7 +304,7 @@ pub(crate) fn prepare_report(
     })
 }
 
-fn approved_input_path(
+pub(super) fn approved_input_path(
     relative: &Path,
     artifacts: &[crate::codefriend::evidence::contracts::Artifact],
 ) -> Result<PathBuf> {
@@ -323,7 +323,7 @@ fn approved_input_path(
     Ok(PathBuf::from(relative))
 }
 
-fn require_bundle_files(
+pub(super) fn require_bundle_files(
     selected: &Path,
     required_names: &[&str],
     artifacts: &[VerifiedArtifact],
@@ -364,7 +364,7 @@ fn bundle_path(selected: &Path, name: &str) -> Result<PathBuf> {
         .join(name))
 }
 
-fn read_synthesis_from_snapshot(
+pub(super) fn read_synthesis_from_snapshot(
     artifacts: &[VerifiedArtifact],
     selected: &Path,
 ) -> Result<ReviewSynthesis> {
@@ -412,7 +412,7 @@ fn validate_synthesis_snapshot(
     Ok(())
 }
 
-fn read_remediation_from_snapshot(
+pub(super) fn read_remediation_from_snapshot(
     artifacts: &[VerifiedArtifact],
     selected: &Path,
 ) -> Result<RemediationPlan> {
@@ -461,7 +461,7 @@ fn read_remediation_from_snapshot(
     Ok(plan)
 }
 
-fn read_test_plan_from_snapshot(
+pub(super) fn read_test_plan_from_snapshot(
     artifacts: &[VerifiedArtifact],
     selected: &Path,
 ) -> Result<TestPlan> {
@@ -509,7 +509,7 @@ fn read_test_plan_from_snapshot(
     Ok(plan)
 }
 
-fn validate_source_identity(
+pub(super) fn validate_source_identity(
     review: &crate::codefriend::evidence::contracts::ReviewRecord,
     synthesis: &ReviewSynthesis,
     remediation: &RemediationPlan,
@@ -554,7 +554,7 @@ fn validate_source_identity(
     Ok(())
 }
 
-fn validate_plan_parity(
+pub(super) fn validate_plan_parity(
     synthesis: &ReviewSynthesis,
     remediation: &RemediationPlan,
     tests: &TestPlan,
@@ -940,7 +940,7 @@ fn validate_manifest(
     Ok(())
 }
 
-fn normalized_path(path: &Path) -> Result<PathBuf> {
+pub(super) fn normalized_path(path: &Path) -> Result<PathBuf> {
     let mut normalized = PathBuf::new();
     for component in path.components() {
         match component {
@@ -954,7 +954,7 @@ fn normalized_path(path: &Path) -> Result<PathBuf> {
     Ok(normalized)
 }
 
-pub(crate) fn publish_create_only_anchored(
+pub(super) fn publish_create_only_anchored(
     destination_root: &Path,
     target: &Path,
     artifact_name: &str,
@@ -991,7 +991,7 @@ pub(crate) fn publish_create_only_anchored(
         Ok((actual_report, actual_manifest))
     })();
     if result.is_err() {
-        cleanup_stage_at(&parent, &stage_name, &stage);
+        cleanup_stage_at(&parent, &stage_name, &stage, artifact_name);
     }
     result
 }
@@ -1201,8 +1201,13 @@ fn rename_status(status: libc::c_int) -> Result<()> {
     Err(error.into())
 }
 
-fn cleanup_stage_at(parent: &File, stage_name: &std::ffi::OsStr, stage: &File) {
-    for name in ["report.md", "manifest.json"] {
+fn cleanup_stage_at(
+    parent: &File,
+    stage_name: &std::ffi::OsStr,
+    stage: &File,
+    artifact_name: &str,
+) {
+    for name in [artifact_name, "manifest.json"] {
         if let Ok(name) = c_name(std::ffi::OsStr::new(name)) {
             // SAFETY: `name` is NUL terminated and `stage` remains open.
             unsafe {
