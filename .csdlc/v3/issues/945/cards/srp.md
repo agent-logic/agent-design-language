@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "Independent /root/review_945 confirms no actionable source/document findings at3cc6b7223451e14633f73da634fc87057ab66097. Website/code separation and pending acceptance are accurate. Final lifecycle-only delta receives exact-head review before publication."
+notes: "Independent /root/review_945 found no actionable findings at93f45b1fa3f041893e2afe668a94ee70e144dd49. Verified twelve approvals, preserved proposals, ADR0076-0087 allocation, reciprocal refinements and both-mode Beta1 gates. Current14-negative/44-source and historical10-negative/21-source validators passed. Final lifecycle-record delta requires exact-head review before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- P2: CF09 treated repository allocation as undecided despite recorded private CodeFriend destination.
+- No actionable findings in accepted-decision update. Historical P2 repository-allocation finding was corrected before5507.
 
 ### Dispositions
 
-- Initial P2 corrected; subsequent operator clarification supersedes the website-as-code interpretation. Website remains codefriend.ai; private code repository has no chosen name. Reviewer verified committed correction at3cc6b7223451e14633f73da634fc87057ab66097.
+- All twelve decisions individually accepted by operator. CF09 revised approval replaces unaccepted CLI-only proposal; website/code separation retained. Missing implementation owners, downstream typed-card updates and local-mode funding remain explicit gaps.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent /root/review_945 confirms no actionable source/document findings at3cc6b7223451e14633f73da634fc87057ab66097. Website/code separation and pending acceptance are accurate. Final lifecycle-only delta receives exact-head review before publication.
+Independent /root/review_945 found no actionable findings at93f45b1fa3f041893e2afe668a94ee70e144dd49. Verified twelve approvals, preserved proposals, ADR0076-0087 allocation, reciprocal refinements and both-mode Beta1 gates. Current14-negative/44-source and historical10-negative/21-source validators passed. Final lifecycle-record delta requires exact-head review before publication.
