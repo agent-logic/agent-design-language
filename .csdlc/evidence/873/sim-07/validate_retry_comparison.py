@@ -111,6 +111,20 @@ def validate_map(value: Any) -> dict[str, Any]:
         scenario_ids.add(scenario_id)
         if not isinstance(scenario["relevant_facts"], dict) or not scenario["relevant_facts"]:
             raise ValidationError(f"{where}.relevant_facts must be a nonempty object")
+        fixture_facts = scenario["relevant_facts"].get("initial_fixture_facts")
+        if not isinstance(fixture_facts, dict):
+            raise ValidationError(f"{where}.initial_fixture_facts must be an object")
+        if any(
+            key in fixture_facts
+            for key in ("candidate_issue_number", "predecessor_issue_number")
+        ):
+            raise ValidationError(
+                f"{where}.initial_fixture_facts must use one shared issue_number"
+            )
+        if not isinstance(fixture_facts.get("issue_number"), int):
+            raise ValidationError(
+                f"{where}.initial_fixture_facts.issue_number must be an integer"
+            )
         declared_facts_digest = require_hex(
             scenario["relevant_facts_sha256"], f"{where}.relevant_facts_sha256"
         )

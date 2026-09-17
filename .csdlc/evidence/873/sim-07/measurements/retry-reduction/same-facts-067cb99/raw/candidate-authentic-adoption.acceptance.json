@@ -1,0 +1,87 @@
+{
+  "acceptance": "authentic_already_initialized_adoption_guard",
+  "attempt": {
+    "argv": [
+      "prepare",
+      "874",
+      "--plan",
+      "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+    ],
+    "elapsed_millis": 234,
+    "executed_argv": [
+      "prepare",
+      "874",
+      "--plan",
+      "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-authentic-adoption/.git/installed-candidate/plan.json"
+    ],
+    "exit_code": 2,
+    "result": {
+      "envelope": {
+        "allowed_next_operations": [],
+        "authority_status": "not_established",
+        "command": "prepare",
+        "correlation_id": "20875-1789614495700",
+        "effects": {
+          "class": "guarded_local",
+          "outcome": "unknown"
+        },
+        "evidence_invalidation": {
+          "status": "not_reported"
+        },
+        "findings": [
+          {
+            "code": "issue_already_initialized",
+            "message": "issue_already_initialized"
+          }
+        ],
+        "intent_identity": null,
+        "issue": {
+          "status": "unavailable"
+        },
+        "issue_version": {
+          "after": {
+            "basis": "owner_result",
+            "digest": null
+          },
+          "before": {
+            "basis": "request_expectation",
+            "digest": null
+          }
+        },
+        "process_status": "failed",
+        "reason_code": "issue_already_initialized",
+        "schema": "csdlc.v3.command_result.v1",
+        "status": "failed",
+        "timing": {
+          "monotonic_duration_ms": 229,
+          "started_unix_ms": 1789614495700
+        },
+        "wait_owner": "operator"
+      },
+      "findings": [
+        {
+          "code": "issue_already_initialized",
+          "message": "issue_already_initialized"
+        }
+      ],
+      "resolution_metrics": {
+        "application_git_reads": 18,
+        "canonical_authority_file_reads": 12,
+        "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+      },
+      "schema": "csdlc.v3.command_failure.v1",
+      "status": "failed"
+    }
+  },
+  "included_in_retry_comparison": false,
+  "initial_fixture_facts": {
+    "issue_number": 874,
+    "lifecycle_phase": "already_initialized"
+  },
+  "issue": 874,
+  "provenance": {
+    "installed_binary_blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
+    "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4"
+  },
+  "schema": "csdlc.v3.issue873.non_comparator_acceptance.v1"
+}

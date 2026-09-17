@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "release_preflight",
-  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test release_preflight -- --test-threads=1",
-  "started_at": "2026-09-16T18:01:38Z",
-  "ended_at": "2026-09-16T18:02:50Z",
-  "elapsed_seconds": 72,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test release_preflight -- --test-threads=1",
+  "started_at": "2026-09-17T03:14:52Z",
+  "ended_at": "2026-09-17T03:15:54Z",
+  "elapsed_seconds": 62,
   "exit_status": 0,
   "test_counts": {
     "passed": 1,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "76db1efb3c827f75ab00e24d16057f1395025161e26ffdfe33bd73edfdf22a71",
-  "stderr_sha256": "b2cd0f0447d3745bc3205e8ef61fcc0ce54d6cbfc0d8cb79b251650a44657fc0"
+  "stdout_sha256": "a55f3e053a7e859611ef81d55a24c8bb83cb58a534611a716142e91dc95f832a",
+  "stderr_sha256": "db2a064517e085397978c59d141afd7ccf53cda246cb53da86ea18e33015a3dc",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/release_preflight.result.json",
+    "commands/release_preflight.stdout.log",
+    "commands/release_preflight.stderr.log"
+  ]
 }

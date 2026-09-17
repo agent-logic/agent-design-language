@@ -1,0 +1,1978 @@
+{
+  "attempted": 13,
+  "attempts": [
+    {
+      "argv": [
+        "prepare",
+        "1505",
+        "--plan",
+        "$FIXTURE_ROOT/.git/installed-candidate/plan.json",
+        "--preview",
+        "plan"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-1",
+      "elapsed_millis": 63,
+      "executed_argv": [
+        "prepare",
+        "1505",
+        "--plan",
+        "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit/.git/installed-candidate/plan.json",
+        "--preview",
+        "plan"
+      ],
+      "exit_code": 2,
+      "guard_invariants": {
+        "after_sha256": "5f7a98e849f7009fbe4bfa9971a8c0ec4a3c85ae84988df5fce3281adea26e71",
+        "before_sha256": "5f7a98e849f7009fbe4bfa9971a8c0ec4a3c85ae84988df5fce3281adea26e71",
+        "effects_outcome": "unknown",
+        "equal": true,
+        "exit_code": 2,
+        "performed_mutation": null
+      },
+      "input": {
+        "cards": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "publication": {
+          "base": "main",
+          "body": "Closes #1505",
+          "draft": true,
+          "title": "Installed intent fixture"
+        },
+        "schema": "csdlc.v3.intent_plan.v1",
+        "slug": "installed-intent-fixture",
+        "validators": [
+          {
+            "args": [
+              "test",
+              "--manifest-path",
+              "fixture-proof/Cargo.toml",
+              "--offline"
+            ],
+            "id": "fixture-proof",
+            "program": "cargo",
+            "success_marker": "test result: ok."
+          }
+        ]
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "prepare",
+          "correlation_id": "21118-1789614496529",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "intent_preview_argument_not_supported",
+              "message": "intent_preview_argument_not_supported"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "intent_preview_argument_not_supported",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "failed",
+          "timing": {
+            "monotonic_duration_ms": 58,
+            "started_unix_ms": 1789614496529
+          },
+          "wait_owner": "operator"
+        },
+        "findings": [
+          {
+            "code": "intent_preview_argument_not_supported",
+            "message": "intent_preview_argument_not_supported"
+          }
+        ],
+        "resolution_metrics": {
+          "application_git_reads": 6,
+          "canonical_authority_file_reads": 4,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "schema": "csdlc.v3.command_failure.v1",
+        "status": "failed"
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "prepare",
+        "1505",
+        "--plan",
+        "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-2",
+      "elapsed_millis": 708,
+      "executed_argv": [
+        "prepare",
+        "1505",
+        "--plan",
+        "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit/.git/installed-candidate/plan.json"
+      ],
+      "exit_code": 0,
+      "input": {
+        "cards": {
+          "sip": {},
+          "sor": {},
+          "spp": {
+            "acceptance_criteria_inline": "Installed command behavior is proven",
+            "deliverables_inline": "Run installed lifecycle commands",
+            "dependencies_inline": "Fixture dependencies ready",
+            "notes_risks_inline": "Synthetic transport and isolated repository",
+            "repo_inputs_inline": "Tracked fixture inputs",
+            "target_files_surfaces_inline": "installed intent commands",
+            "validation_plan_inline": "Declared Cargo validator"
+          },
+          "srp": {},
+          "stp": {},
+          "vpp": {}
+        },
+        "publication": {
+          "base": "main",
+          "body": "Closes #1505",
+          "draft": true,
+          "title": "Installed intent fixture"
+        },
+        "schema": "csdlc.v3.intent_plan.v1",
+        "slug": "installed-intent-fixture",
+        "validators": [
+          {
+            "args": [
+              "test",
+              "--manifest-path",
+              "fixture-proof/Cargo.toml",
+              "--offline"
+            ],
+            "id": "fixture-proof",
+            "program": "cargo",
+            "success_marker": "test result: ok."
+          }
+        ]
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "prepare",
+          "correlation_id": "21159-1789614496623",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": null
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 703,
+            "started_unix_ms": 1789614496623
+          },
+          "wait_owner": "none"
+        },
+        "inputs": {
+          "digest": "semantic-input-v1:a9ddfecea1e85eb3d1c208d1faf9dc7d214216f8c919947c2d6e9809a396ae2a",
+          "revision": 1
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "main",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": null,
+            "generation": null
+          }
+        },
+        "issue": 1505,
+        "operational_authority": true,
+        "phase": "ready",
+        "read_only": false,
+        "request_expected_lifecycle_digest": null,
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 24,
+          "canonical_authority_file_reads": 36,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "semantic_version": {
+          "digest": "semantic-state-v1:3df3187c02a37c96f61df8a8f57b42261e95da643e5be968a9cf0e7cf12ca46b",
+          "generation": 2
+        },
+        "status": "completed",
+        "writes_v3_state": true
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "status",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-3",
+      "elapsed_millis": 556,
+      "executed_argv": [
+        "status",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "allowed_next": [
+          "rebuild"
+        ],
+        "eligibility": {
+          "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "bind",
+          "phase": "ready",
+          "route": "eligibility"
+        },
+        "envelope": {
+          "allowed_next_operations": [
+            "rebuild"
+          ],
+          "authority_status": "verified",
+          "command": "status",
+          "correlation_id": "21511-1789614497331",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "blocked",
+          "timing": {
+            "monotonic_duration_ms": 549,
+            "started_unix_ms": 1789614497331
+          },
+          "wait_owner": "operator"
+        },
+        "evidence": {
+          "proof_current": false,
+          "validators_run": false
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "main",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+            "generation": 1
+          }
+        },
+        "operational_authority": true,
+        "operator_decisions": {
+          "budget_available": null,
+          "dependencies_ready": null,
+          "design_ready": null,
+          "required": true
+        },
+        "pending_remote": [],
+        "projection": {
+          "observation": {
+            "paths": [
+              "manifest.json",
+              "sip.md",
+              "sip.values.json",
+              "sor.md",
+              "sor.values.json",
+              "spp.md",
+              "spp.values.json",
+              "srp.md",
+              "srp.values.json",
+              "stp.md",
+              "stp.values.json",
+              "vpp.md",
+              "vpp.values.json"
+            ],
+            "status": "missing"
+          },
+          "projection_digest": "card-projection-v1:6d31c0a12238e7f66d70c2890b0b4ba1b679fe7ede450cb50dbdbb3a5fa357e2",
+          "registry_version": "1.0.5",
+          "semantic_digest": "semantic-projection-v1:e5a7c63035859c45a9617889def6abe99f1eb99e43d35becef691599e3cf366f"
+        },
+        "read_only": true,
+        "request_expected_lifecycle_digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 30,
+          "canonical_authority_file_reads": 40,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "bind",
+          "phase": "ready",
+          "route": "doctor"
+        },
+        "scheduling": {
+          "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "doctor",
+          "phase": "ready",
+          "route": "schedule",
+          "routing": {
+            "blockers": [
+              "design_ready",
+              "dependencies_ready",
+              "budget_available"
+            ],
+            "eligible_operations": [],
+            "schema": "csdlc.scheduler.report.v1",
+            "state": "blocked"
+          }
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "shepherd": {
+          "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "operator",
+          "phase": "ready",
+          "route": "shepherd",
+          "routing": {
+            "blockers": [],
+            "eligible_operations": [
+              "operator_decision"
+            ],
+            "schema": "csdlc.shepherd.report.v1",
+            "state": "operator_required"
+          }
+        },
+        "status": "blocked",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-4",
+      "elapsed_millis": 385,
+      "executed_argv": [
+        "validate",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "allowed_next": [
+          "rebuild"
+        ],
+        "envelope": {
+          "allowed_next_operations": [
+            "rebuild"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "21839-1789614497891",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 378,
+            "started_unix_ms": 1789614497891
+          },
+          "wait_owner": "none"
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "main",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+            "generation": 1
+          }
+        },
+        "operational_authority": true,
+        "projection": {
+          "observation": {
+            "paths": [
+              "manifest.json",
+              "sip.md",
+              "sip.values.json",
+              "sor.md",
+              "sor.values.json",
+              "spp.md",
+              "spp.values.json",
+              "srp.md",
+              "srp.values.json",
+              "stp.md",
+              "stp.values.json",
+              "vpp.md",
+              "vpp.values.json"
+            ],
+            "status": "missing"
+          },
+          "projection_digest": "card-projection-v1:6d31c0a12238e7f66d70c2890b0b4ba1b679fe7ede450cb50dbdbb3a5fa357e2",
+          "registry_version": "1.0.5",
+          "semantic_digest": "semantic-projection-v1:e5a7c63035859c45a9617889def6abe99f1eb99e43d35becef691599e3cf366f"
+        },
+        "read_only": true,
+        "request_expected_lifecycle_digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 24,
+          "canonical_authority_file_reads": 24,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 1,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "bind",
+          "phase": "ready",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "status": "completed",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "bind",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-5",
+      "elapsed_millis": 1401,
+      "executed_argv": [
+        "bind",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "verified",
+          "command": "bind",
+          "correlation_id": "22031-1789614498274",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 1396,
+            "started_unix_ms": 1789614498274
+          },
+          "wait_owner": "none"
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "main",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+            "generation": 1
+          }
+        },
+        "native_effect_truth": "performed",
+        "operation_id": "semantic-operation-v1:8e5f035d8d5e9e38173f7b8bfb0a5c01ffcf03869da393ba9d20d9086cb53e45",
+        "operational_authority": true,
+        "read_only": false,
+        "request_expected_lifecycle_digest": "3a0f08cf54654ef099fa9c101e0322643f1281b290200508dd1b401ce0cb7bc4",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 60,
+          "canonical_authority_file_reads": 56,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "semantic_version": {
+          "digest": "semantic-state-v1:3566a4b132cfcf6195ba64a3424b9f4a8f048fb0883c414203de5eb45584618a",
+          "generation": 5
+        },
+        "status": "completed",
+        "writes_v3_state": true
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "status",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-6",
+      "elapsed_millis": 742,
+      "executed_argv": [
+        "status",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "allowed_next": [
+          "edit",
+          "validate",
+          "proof"
+        ],
+        "eligibility": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "eligibility"
+        },
+        "envelope": {
+          "allowed_next_operations": [
+            "edit",
+            "validate",
+            "proof"
+          ],
+          "authority_status": "verified",
+          "command": "status",
+          "correlation_id": "22552-1789614499676",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 737,
+            "started_unix_ms": 1789614499676
+          },
+          "wait_owner": "none"
+        },
+        "evidence": {
+          "proof_current": false,
+          "validators_run": false
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "codex/1505-installed-intent-fixture",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/20980-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+            "generation": 2
+          }
+        },
+        "operational_authority": true,
+        "operator_decisions": {
+          "budget_available": null,
+          "dependencies_ready": null,
+          "design_ready": null,
+          "required": true
+        },
+        "pending_remote": [],
+        "projection": {
+          "observation": {
+            "status": "healthy"
+          },
+          "projection_digest": "card-projection-v1:cd165055e9767efba688c44ffade22f0f064346a398bb7eceafa83ad2b7cf752",
+          "registry_version": "1.0.5",
+          "semantic_digest": "semantic-projection-v1:c8563e46045cdaad6546aa77da26c58ac8e12979a1bbf83cf256a99ad3330408"
+        },
+        "read_only": true,
+        "request_expected_lifecycle_digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 30,
+          "canonical_authority_file_reads": 40,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "doctor"
+        },
+        "scheduling": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "doctor",
+          "phase": "bound",
+          "route": "schedule",
+          "routing": {
+            "blockers": [
+              "design_ready",
+              "dependencies_ready",
+              "budget_available"
+            ],
+            "eligible_operations": [],
+            "schema": "csdlc.scheduler.report.v1",
+            "state": "blocked"
+          }
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "shepherd": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "operator",
+          "phase": "bound",
+          "route": "shepherd",
+          "routing": {
+            "blockers": [],
+            "eligible_operations": [
+              "operator_decision"
+            ],
+            "schema": "csdlc.shepherd.report.v1",
+            "state": "operator_required"
+          }
+        },
+        "status": "completed",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-7",
+      "elapsed_millis": 368,
+      "executed_argv": [
+        "validate",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "22900-1789614500418",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 364,
+            "started_unix_ms": 1789614500418
+          },
+          "wait_owner": "none"
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "codex/1505-installed-intent-fixture",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/20980-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+            "generation": 2
+          }
+        },
+        "operational_authority": true,
+        "projection": {
+          "observation": {
+            "status": "healthy"
+          },
+          "projection_digest": "card-projection-v1:cd165055e9767efba688c44ffade22f0f064346a398bb7eceafa83ad2b7cf752",
+          "registry_version": "1.0.5",
+          "semantic_digest": "semantic-projection-v1:c8563e46045cdaad6546aa77da26c58ac8e12979a1bbf83cf256a99ad3330408"
+        },
+        "read_only": true,
+        "request_expected_lifecycle_digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 24,
+          "canonical_authority_file_reads": 24,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "status": "completed",
+        "writes_v3_state": false
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "status",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-8",
+      "elapsed_millis": 649,
+      "executed_argv": [
+        "status",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "allowed_next": [
+          "edit",
+          "validate",
+          "proof"
+        ],
+        "eligibility": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "eligibility"
+        },
+        "envelope": {
+          "allowed_next_operations": [
+            "edit",
+            "validate",
+            "proof"
+          ],
+          "authority_status": "verified",
+          "command": "status",
+          "correlation_id": "23139-1789614500788",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 645,
+            "started_unix_ms": 1789614500788
+          },
+          "wait_owner": "none"
+        },
+        "evidence": {
+          "proof_current": false,
+          "validators_run": false
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "codex/1505-installed-intent-fixture",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/20980-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+            "generation": 2
+          }
+        },
+        "operational_authority": true,
+        "operator_decisions": {
+          "budget_available": null,
+          "dependencies_ready": null,
+          "design_ready": null,
+          "required": true
+        },
+        "pending_remote": [],
+        "projection": {
+          "observation": {
+            "status": "healthy"
+          },
+          "projection_digest": "card-projection-v1:cd165055e9767efba688c44ffade22f0f064346a398bb7eceafa83ad2b7cf752",
+          "registry_version": "1.0.5",
+          "semantic_digest": "semantic-projection-v1:c8563e46045cdaad6546aa77da26c58ac8e12979a1bbf83cf256a99ad3330408"
+        },
+        "read_only": true,
+        "request_expected_lifecycle_digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 30,
+          "canonical_authority_file_reads": 40,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "doctor"
+        },
+        "scheduling": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "doctor",
+          "phase": "bound",
+          "route": "schedule",
+          "routing": {
+            "blockers": [
+              "design_ready",
+              "dependencies_ready",
+              "budget_available"
+            ],
+            "eligible_operations": [],
+            "schema": "csdlc.scheduler.report.v1",
+            "state": "blocked"
+          }
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "shepherd": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            },
+            {
+              "code": "binding_live",
+              "message": "exact Git worktree registration is live",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "operator",
+          "phase": "bound",
+          "route": "shepherd",
+          "routing": {
+            "blockers": [],
+            "eligible_operations": [
+              "operator_decision"
+            ],
+            "schema": "csdlc.shepherd.report.v1",
+            "state": "operator_required"
+          }
+        },
+        "status": "completed",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-9",
+      "elapsed_millis": 373,
+      "executed_argv": [
+        "validate",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "23507-1789614501438",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 369,
+            "started_unix_ms": 1789614501438
+          },
+          "wait_owner": "none"
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "codex/1505-installed-intent-fixture",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/20980-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+            "generation": 2
+          }
+        },
+        "operational_authority": true,
+        "projection": {
+          "observation": {
+            "status": "healthy"
+          },
+          "projection_digest": "card-projection-v1:cd165055e9767efba688c44ffade22f0f064346a398bb7eceafa83ad2b7cf752",
+          "registry_version": "1.0.5",
+          "semantic_digest": "semantic-projection-v1:c8563e46045cdaad6546aa77da26c58ac8e12979a1bbf83cf256a99ad3330408"
+        },
+        "read_only": true,
+        "request_expected_lifecycle_digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 24,
+          "canonical_authority_file_reads": 24,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 2,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "status": "completed",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "$FIXTURE_ROOT/.git/installed-candidate/changes.json",
+        "--preview",
+        "plan"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-10",
+      "elapsed_millis": 67,
+      "executed_argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit/.git/installed-candidate/changes.json",
+        "--preview",
+        "plan"
+      ],
+      "exit_code": 2,
+      "guard_invariants": {
+        "after_sha256": "737c80798fa2dc21fe496bfdc1a99f92841f8d94e94393df1f34ca3014e5eb9a",
+        "before_sha256": "737c80798fa2dc21fe496bfdc1a99f92841f8d94e94393df1f34ca3014e5eb9a",
+        "effects_outcome": "unknown",
+        "equal": true,
+        "exit_code": 2,
+        "performed_mutation": null
+      },
+      "input": {
+        "amendment": {
+          "class": "scope_acceptance",
+          "transition_approved": true
+        },
+        "cards": {
+          "sip": {
+            "title": "Edited through ordinary intent"
+          }
+        },
+        "schema": "csdlc.v3.intent_changes.v1"
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [],
+          "authority_status": "not_established",
+          "command": "edit",
+          "correlation_id": "23741-1789614501857",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "unknown"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "intent_preview_argument_not_supported",
+              "message": "intent_preview_argument_not_supported"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "status": "unavailable"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": null
+            },
+            "before": {
+              "basis": "request_expectation",
+              "digest": null
+            }
+          },
+          "process_status": "failed",
+          "reason_code": "intent_preview_argument_not_supported",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "failed",
+          "timing": {
+            "monotonic_duration_ms": 63,
+            "started_unix_ms": 1789614501857
+          },
+          "wait_owner": "operator"
+        },
+        "findings": [
+          {
+            "code": "intent_preview_argument_not_supported",
+            "message": "intent_preview_argument_not_supported"
+          }
+        ],
+        "resolution_metrics": {
+          "application_git_reads": 6,
+          "canonical_authority_file_reads": 4,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "schema": "csdlc.v3.command_failure.v1",
+        "status": "failed"
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-11",
+      "elapsed_millis": 1605,
+      "executed_argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit/.git/installed-candidate/changes.json"
+      ],
+      "exit_code": 0,
+      "input": {
+        "amendment": {
+          "class": "scope_acceptance",
+          "transition_approved": true
+        },
+        "cards": {
+          "sip": {
+            "title": "Edited through ordinary intent"
+          }
+        },
+        "schema": "csdlc.v3.intent_changes.v1"
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [
+            "validate"
+          ],
+          "authority_status": "verified",
+          "command": "edit",
+          "correlation_id": "23794-1789614501968",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "09e0b0f267e71c37da9b9343cb575c75019a86dcdc8eb2be1388a476f78a1e57"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 1600,
+            "started_unix_ms": 1789614501968
+          },
+          "wait_owner": "none"
+        },
+        "inputs": {
+          "digest": "semantic-input-v1:6a8b264deec32b0af5d732000f5bfd8689b84d8649e81da1475b44cc13f20778",
+          "revision": 3
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "codex/1505-installed-intent-fixture",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/20980-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+            "generation": 2
+          }
+        },
+        "operation_id": "semantic-operation-v1:937a8551efbaac327adef95937c8be00a80c1ca4f85fc5fd61086bf5b0925a8f",
+        "operational_authority": true,
+        "read_only": false,
+        "request_expected_lifecycle_digest": "b3e9c2949e283d896c2a58425ef965358470441711d6dafd4db4fe3250eb97ee",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 66,
+          "canonical_authority_file_reads": 56,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "09e0b0f267e71c37da9b9343cb575c75019a86dcdc8eb2be1388a476f78a1e57",
+          "findings": [],
+          "generation": 3,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "validate",
+          "phase": "bound",
+          "route": "edit"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "semantic_version": {
+          "digest": "semantic-state-v1:598956d4a0ab7085bbfb66b223ac0d2f77dfc610ca683fdf02e774c8ff436ec2",
+          "generation": 9
+        },
+        "status": "completed",
+        "writes_v3_state": true
+      },
+      "topology": "linked"
+    },
+    {
+      "argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-12",
+      "elapsed_millis": 1392,
+      "executed_argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "/Volumes/FastWork/adl-worktrees/qualification-873-same-facts-067cb99-04-primary-linked-edit/.git/installed-candidate/changes.json"
+      ],
+      "exit_code": 0,
+      "input": {
+        "amendment": {
+          "class": "scope_acceptance",
+          "transition_approved": true
+        },
+        "cards": {
+          "sip": {
+            "title": "Edited through ordinary intent"
+          }
+        },
+        "schema": "csdlc.v3.intent_changes.v1"
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [
+            "validate"
+          ],
+          "authority_status": "verified",
+          "command": "edit",
+          "correlation_id": "24334-1789614503574",
+          "effects": {
+            "class": "guarded_local",
+            "outcome": "performed"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "9851f2316d59d63999bc73ffec065b3f2e6422f7881d4b7cb20eb99b30f72d66"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "09e0b0f267e71c37da9b9343cb575c75019a86dcdc8eb2be1388a476f78a1e57"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "command_completed",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 1387,
+            "started_unix_ms": 1789614503574
+          },
+          "wait_owner": "none"
+        },
+        "inputs": {
+          "digest": "semantic-input-v1:6a8b264deec32b0af5d732000f5bfd8689b84d8649e81da1475b44cc13f20778",
+          "revision": 3
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "codex/1505-installed-intent-fixture",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/20980-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "09e0b0f267e71c37da9b9343cb575c75019a86dcdc8eb2be1388a476f78a1e57",
+            "generation": 3
+          }
+        },
+        "operation_id": "semantic-operation-v1:6f53cce2616e2d13e0fabc3570bcba51070cfeb5dbb9a32ef5749223123e490d",
+        "operational_authority": true,
+        "read_only": false,
+        "request_expected_lifecycle_digest": "09e0b0f267e71c37da9b9343cb575c75019a86dcdc8eb2be1388a476f78a1e57",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 66,
+          "canonical_authority_file_reads": 56,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "9851f2316d59d63999bc73ffec065b3f2e6422f7881d4b7cb20eb99b30f72d66",
+          "findings": [],
+          "generation": 4,
+          "issue": 1505,
+          "mutated": true,
+          "next_route": "validate",
+          "phase": "bound",
+          "route": "edit"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "semantic_version": {
+          "digest": "semantic-state-v1:3b437c0af64ef02439c35444a75afac929f75ad40bb977698aad351377d24e80",
+          "generation": 13
+        },
+        "status": "completed",
+        "writes_v3_state": true
+      },
+      "topology": "primary"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate-primary-linked-edit-13",
+      "elapsed_millis": 450,
+      "executed_argv": [
+        "validate",
+        "1505"
+      ],
+      "exit_code": 0,
+      "input": {
+        "issue": 1505
+      },
+      "result": {
+        "envelope": {
+          "allowed_next_operations": [
+            "shepherd"
+          ],
+          "authority_status": "verified",
+          "command": "validate",
+          "correlation_id": "24848-1789614504966",
+          "effects": {
+            "class": "observation",
+            "outcome": "none"
+          },
+          "evidence_invalidation": {
+            "status": "not_reported"
+          },
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "intent_identity": null,
+          "issue": {
+            "number": 1505,
+            "status": "identified"
+          },
+          "issue_version": {
+            "after": {
+              "basis": "owner_result",
+              "digest": "9851f2316d59d63999bc73ffec065b3f2e6422f7881d4b7cb20eb99b30f72d66"
+            },
+            "before": {
+              "basis": "observed_intent_snapshot",
+              "digest": "9851f2316d59d63999bc73ffec065b3f2e6422f7881d4b7cb20eb99b30f72d66"
+            }
+          },
+          "process_status": "succeeded",
+          "reason_code": "lifecycle_digest_valid",
+          "schema": "csdlc.v3.command_result.v1",
+          "status": "completed",
+          "timing": {
+            "monotonic_duration_ms": 446,
+            "started_unix_ms": 1789614504966
+          },
+          "wait_owner": "none"
+        },
+        "intent_snapshot": {
+          "authority": {
+            "selector_digest": "76ceb5f0d6fa3fa8f42db1cf661589545f7ef6f021f9c01223634d0495b772ac"
+          },
+          "checkout": {
+            "branch": "codex/1505-installed-intent-fixture",
+            "head": "db3d4d0a0dc30f37f0dd2a948a7da50c49d34975",
+            "root": "/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/target/sim03-installed-intent/20980-0-ordinary-local/worktrees/adl-issue-1505-installed-intent-fixture"
+          },
+          "issue": 1505,
+          "platform": "macos",
+          "repository": "agent-logic/agent-design-language",
+          "version": {
+            "digest": "9851f2316d59d63999bc73ffec065b3f2e6422f7881d4b7cb20eb99b30f72d66",
+            "generation": 4
+          }
+        },
+        "operational_authority": true,
+        "projection": {
+          "observation": {
+            "status": "healthy"
+          },
+          "projection_digest": "card-projection-v1:477cc739b823f834b895b881c35b296b26f7b9154b1141759b3726b2a46b9471",
+          "registry_version": "1.0.5",
+          "semantic_digest": "semantic-projection-v1:19b60bd654ba7d18b59d983731ef0be5f131cddefefdb968200295f9f3fcdc12"
+        },
+        "read_only": true,
+        "request_expected_lifecycle_digest": "9851f2316d59d63999bc73ffec065b3f2e6422f7881d4b7cb20eb99b30f72d66",
+        "request_issue": 1505,
+        "resolution_metrics": {
+          "application_git_reads": 24,
+          "canonical_authority_file_reads": 24,
+          "scope": "actual application Git calls and canonical authority file reads, including repeated freshness checks; complete native Git subprocess counts are measured separately by installed fixture instrumentation"
+        },
+        "result": {
+          "digest": "9851f2316d59d63999bc73ffec065b3f2e6422f7881d4b7cb20eb99b30f72d66",
+          "findings": [
+            {
+              "code": "lifecycle_digest_valid",
+              "message": "lifecycle digest matches canonical state",
+              "status": "passed"
+            },
+            {
+              "code": "six_card_validation_passed",
+              "message": "issue #1505 has valid values, renders, structures, and digest",
+              "status": "passed"
+            }
+          ],
+          "generation": 4,
+          "issue": 1505,
+          "mutated": false,
+          "next_route": "shepherd",
+          "phase": "bound",
+          "route": "validate"
+        },
+        "schema": "csdlc.v3.intent_local.v1",
+        "status": "completed",
+        "writes_v3_state": false
+      },
+      "topology": "linked"
+    }
+  ],
+  "issue": 873,
+  "provenance": {
+    "installed_binary_blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
+    "source_binding": "Exact frozen candidate bytes; fresh isolated common-scenario adapter fixture",
+    "source_has_uncommitted_changes": false,
+    "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4"
+  },
+  "schema": "csdlc.v3.installed_intent_attempts.v1"
+}

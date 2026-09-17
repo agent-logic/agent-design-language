@@ -1,0 +1,26 @@
+{
+  "avoidable_retry_reduction_fraction": 1.0,
+  "comparability": {
+    "all_declared_steps_observed": true,
+    "expected_outcomes_bound": true,
+    "intended_operations_bound": true,
+    "journeys_complete": true,
+    "same_fake_remote_schedule": true,
+    "same_relevant_facts": true,
+    "same_scenario_map": true,
+    "version_specific_argv_bound": true
+  },
+  "corpus_id": "sim07-pre-resume-installed-journeys-v1",
+  "denominators": {
+    "candidate_attempts": 32,
+    "candidate_avoidable_retries": 0,
+    "candidate_useful_retries": 0,
+    "predecessor_attempts": 35,
+    "predecessor_avoidable_retries": 3,
+    "predecessor_useful_retries": 0
+  },
+  "non_claim": "A valid comparator result is evidence input; it does not activate writers or independently qualify SIM-07.",
+  "schema": "adl.csdlc.issue873.retry_comparison.v1",
+  "status": "pass",
+  "target_fraction": 0.5
+}

@@ -1,9 +1,9 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "lib_observational_curl_q",
-  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib adapters::tests::observational_curl_disables_default_config_before_other_arguments -- --exact --test-threads=1",
-  "started_at": "2026-09-16T18:08:35Z",
-  "ended_at": "2026-09-16T18:08:35Z",
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --lib adapters::tests::observational_curl_disables_default_config_before_other_arguments -- --exact --test-threads=1",
+  "started_at": "2026-09-17T03:21:23Z",
+  "ended_at": "2026-09-17T03:21:23Z",
   "elapsed_seconds": 0,
   "exit_status": 0,
   "test_counts": {
@@ -11,6 +11,13 @@
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "c661ba7627d39a83cc959beaf6fdcdb0c906f91a5618ce25e64773ae51c23fab",
-  "stderr_sha256": "239587b4215222d7794c18d7b34388bf6965a570a70de286df8e6d9da26da84e"
+  "stdout_sha256": "99336234a36101c1f099a48e72bbf645092655bdda83939c83711b9ae78eeb44",
+  "stderr_sha256": "239587b4215222d7794c18d7b34388bf6965a570a70de286df8e6d9da26da84e",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/lib_observational_curl_q.result.json",
+    "commands/lib_observational_curl_q.stdout.log",
+    "commands/lib_observational_curl_q.stderr.log"
+  ]
 }

@@ -1,3 +1,3 @@
-   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.86s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.27s
      Running tests/result_envelope.rs (csdlc-v3/target/debug/deps/result_envelope-de340a0db5b9298c)

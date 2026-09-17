@@ -1,45 +1,59 @@
 {
   "schema": "adl.csdlc.sim07.installed_journey_summary.v1",
+  "candidate_revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "installed_sha256": "6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9",
+  "installed_blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
   "results": [
     {
-      "schema": "adl.csdlc.sim07.installed_result.v1",
-      "scenario_id": "installed_exact_primary_linked_edit",
-      "command": "exact installed binary copied into isolated compiled-harness candidate slot; [compiled installed_intent_commands harness] installed_prepare_bind_edit_and_observations_use_canonical_context --exact --nocapture",
-      "started_at": "2026-09-16T06:58:43Z",
-      "ended_at": "2026-09-16T06:58:58Z",
-      "elapsed_seconds": 15,
-      "exit_status": 0,
-      "source_head": "f31b1b710074fdb51f41400b32b79c633bc3336e",
-      "installed_sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
-      "installed_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
-      "expected_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
-      "exact_installed_binary": true,
+      "scenario_id": "primary-linked-edit",
+      "status": "passed",
       "attempts": 13,
-      "ledger": "observations/installed_exact_primary_linked_edit.attempts.json",
-      "status": "passed"
+      "ledger": "measurements/retry-reduction/same-facts-067cb99/candidate-retry-ledger.json",
+      "raw_observation": "measurements/retry-reduction/same-facts-067cb99/raw/candidate-primary-linked-edit.attempts.json",
+      "entrypoints": [
+        "primary",
+        "genuine linked worktree"
+      ]
     },
     {
-      "schema": "adl.csdlc.sim07.installed_result.v1",
-      "scenario_id": "installed_exact_terminal_journey",
-      "command": "exact installed binary copied into isolated compiled-harness candidate slot; [compiled installed_intent_commands harness] installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue --exact --nocapture",
-      "started_at": "2026-09-16T06:58:58Z",
-      "ended_at": "2026-09-16T06:59:41Z",
-      "elapsed_seconds": 43,
-      "exit_status": 0,
-      "source_head": "f31b1b710074fdb51f41400b32b79c633bc3336e",
-      "installed_sha256": "7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e",
-      "installed_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
-      "expected_blake3": "c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d",
-      "exact_installed_binary": true,
-      "attempts": 22,
-      "ledger": "observations/installed_exact_terminal_journey.attempts.json",
-      "status": "passed"
+      "scenario_id": "terminal-journey",
+      "status": "passed",
+      "attempts": 19,
+      "ledger": "measurements/retry-reduction/same-facts-067cb99/candidate-retry-ledger.json",
+      "raw_observation": "measurements/retry-reduction/same-facts-067cb99/raw/candidate-terminal-journey.attempts.json",
+      "entrypoints": [
+        "primary",
+        "genuine linked worktree"
+      ],
+      "coverage": [
+        "prepare",
+        "bind",
+        "proof-input admission",
+        "proof",
+        "review",
+        "publish",
+        "remote ready",
+        "merge guard/apply/idempotence",
+        "finish preview/linked/primary",
+        "cleanup foreign/tracked/stale guards",
+        "cleanup execute"
+      ]
     }
   ],
   "summary": {
     "scenarios": 2,
     "passed": 2,
     "failed": 0,
-    "attempts": 35
+    "attempts": 32,
+    "all_declared_attempts_correlatable": true
+  },
+  "initial_issue_facts": {
+    "issue_number": 1505,
+    "lifecycle_phase": "unprepared",
+    "same_harness_fixture_generator_for_both_variants": true
+  },
+  "authentic_adoption_acceptance": {
+    "included_in_retry_comparison": false,
+    "evidence": "measurements/retry-reduction/same-facts-067cb99/raw/candidate-authentic-adoption.acceptance.json"
   }
 }

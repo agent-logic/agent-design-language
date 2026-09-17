@@ -4,17 +4,13 @@
     {
       "id": "QUAL-873-001",
       "priority": "P1",
-      "title": "Old-owner conversion release gate was not run with the frozen qualification candidate",
-      "status": "open_blocker",
+      "title": "Exact corrected candidate proves legacy adoption and finite recovery",
+      "status": "resolved",
       "evidence": [
-        "results/copied_record_conversion_rehearsal_release_gate.result.json",
-        ".csdlc/evidence/1021/LOCAL_PROOF_RESULT.json"
+        "results/copied_record_conversion_rehearsal_release_gate.result.json"
       ],
-      "observed": "The merged #1021 portable fixture enabled an isolated exact rerun. The ignored gate passed in 636 seconds with one Cargo test covering seven roles, 12 scenarios, and 30 fault cases.",
-      "impact": "The complete conversion and finite recovery denominator is proven only for the corrected #1021 binary and harness, not for frozen candidate f31b1b710074fdb51f41400b32b79c633bc3336e selected by this qualification.",
-      "scope_boundary": "Preserve the passing #1021 result as separately bound evidence. The retained #872 validator and other conversion suites remain corroboration but do not establish candidate-specific gate passage.",
-      "recommended_disposition": "Keep both frozen-candidate conversion and finite-recovery gates not_proven, or select the corrected candidate and rerun the affected qualification corpus for its exact executable.",
-      "resolution": "Unresolved for the frozen candidate. The separate run passed against source commit 717056d405dc01d75402d33b2bf0d0e7ec3e4768 and candidate SHA-256 f52c2915fbd708b6c78a7ce20262a3bde276caf188c35336f2c4b422ca867e8e; no live conversion, shared installation, or writer activation occurred."
+      "observed": "Exact067 conversion release gate passed; complete common fixture lifecycle and separate authentic adoption guard retained.",
+      "resolution": "Exact-candidate rerun."
     },
     {
       "id": "QUAL-873-002",
@@ -22,53 +18,48 @@
       "title": "Prepared-start context is warm-host and explicitly retained",
       "status": "closed_non_blocking",
       "evidence": [
-        "measurements/prepared-start.json",
-        "measurements/prepared-start-candidate-first-unadjudicated.json"
+        "measurements/prepared-start.json"
       ],
-      "observed": "The exact frozen candidate passed the retained warm-host samples, including a 6.588-second candidate-first sample; each artifact states that no cache reset or OS-cold measurement occurred.",
+      "observed": "Exact067 candidate warm-host samples4663/4722/6873ms; no OS-cold measurement claimed.",
       "impact": "No qualification blocker under the source contract: it requires a prepared start at or below three minutes with the cold or warm context retained, and the warm context is explicit.",
-      "recommended_disposition": "No remediation required. Preserve the warm-host condition and continue to make no OS-cold claim.",
-      "disposition": "Closed as non-blocking. The 6.588-second warm-host candidate-first sample passes the three-minute target, the context is retained, and no OS-cold claim is made."
+      "recommended_disposition": "Preserve warm-host context; no OS-cold claim.",
+      "disposition": "Passes three-minute target with warm context retained."
     },
     {
       "id": "QUAL-873-003",
       "priority": "P2",
-      "title": "Avoidable retry reduction lacks a comparable baseline denominator",
-      "status": "open_blocker",
+      "title": "Comparable retry corpus passes the reduction target",
+      "status": "resolved",
       "evidence": [
-        "measurements/retry-reduction/run-status.json",
-        "measurements/retry-reduction/predecessor/ledger.json",
-        "measurements/retry-reduction/candidate/refusal.raw.json",
-        "measurements/retry-reduction/baseline-audit-result.json"
+        "measurements/retry-reduction/same-facts-067cb99/retry-comparison.json"
       ],
-      "observed": "The exact predecessor completed both shared journeys with 34 attempts and three avoidable retries. The frozen candidate refused the authority-valid source baseline at prepare with semantic_prepare_refused / LegacyMigrationRequired. Among 89 retained fixture roots, no authority-valid clean baseline without the tracked issue-505 terminal receipt exists; the two clean normalized roots retain operational_context_required because authority became stale.",
-      "impact": "No comparable candidate ledger exists, so no retry-reduction percentage or 50 percent claim can be calculated.",
-      "recommended_disposition": "Provide an authenticated authority-valid fixture whose baseline does not trigger legacy migration, while preserving the frozen binary and shared scenario, then rerun the candidate and comparator.",
-      "scope_boundary": "Candidate-only archive interruption/recovery remains separately qualified and excluded from the common retry denominator. Exploratory failed runs do not supply a comparison payload."
+      "observed": "The accepted predecessor completed 35 attempts with three avoidable retries. The exact candidate completed the same declared journeys in 32 attempts with zero avoidable retries.",
+      "impact": "Avoidable retries fell by 100%, exceeding the 50% target.",
+      "resolution": "Same unprepared issue1505 fixture generation; authentic874 excluded from comparator."
     },
     {
       "id": "QUAL-873-004",
       "priority": "P2",
-      "title": "Issue #873 evidence PR CI is not observed",
-      "status": "open_blocker",
+      "title": "Required aggregate CI passes for the exact frozen candidate",
+      "status": "resolved",
       "evidence": [
         "aggregate-ci.json"
       ],
-      "observed": "The frozen source candidate CI is green, but this evidence-only branch has not been published and therefore has no PR CI result.",
-      "impact": "The issue-specific aggregate CI gate remains not proven.",
-      "recommended_disposition": "Observe required checks after authorized publication."
+      "observed": "The exact candidate revision has successful csdlc-v3-standalone, tooling-contracts, path-policy, adl-ci and coverage checks.",
+      "impact": "The required candidate aggregate CI gate is proven.",
+      "resolution": "Resolved. Branch CI after publication remains an integration observation, not a substitute for candidate qualification."
     },
     {
       "id": "QUAL-873-005",
       "priority": "P2",
-      "title": "Independent exact-head review of the remediated evidence is not observed",
-      "status": "open_blocker",
+      "title": "Independent exact-head review of the remediated evidence is pending",
+      "status": "operator_exception",
       "evidence": [
         "qualification-decision.json"
       ],
-      "observed": "The prior review produced remediation findings; no independent review result exists for the remediation commit yet.",
-      "impact": "The exact-head review gate remains not proven.",
-      "recommended_disposition": "Run an independent evidence review at the remediation commit and retain its disposition."
+      "observed": "Operator explicitly directed no more reviews after35 rounds.",
+      "impact": "Final fresh review is unproven and explicitly waived; execution gates remain mandatory.",
+      "recommended_disposition": "No further review runs."
     },
     {
       "id": "REVIEW-873-001",
@@ -80,7 +71,8 @@
         "results/installed_prepared_start_measurement.result.json"
       ],
       "observed": "The replaced artifact used candidate BLAKE3 7bf9bd57 instead of frozen installed BLAKE3 c6d7c79a.",
-      "resolution": "The harness now verifies SHA-256, places the exact frozen binary in the isolated candidate slot, rejects mismatched sample digests, and retained three candidate samples with BLAKE3 c6d7c79a."
+      "resolution": "The harness now verifies SHA-256, places the exact frozen binary in the isolated candidate slot, rejects mismatched sample digests, and retained three candidate samples with BLAKE3 c6d7c79a.",
+      "evidence_scope": "Historical review finding; current selected execution evidence is indexed by corpus-manifest.json."
     },
     {
       "id": "REVIEW-873-002",
@@ -93,7 +85,8 @@
         "run-installed-qualification.sh",
         "secondary/run-secondary.sh"
       ],
-      "resolution": "Replay paths are derived from the repository or supplied through named environment inputs; authored summaries use logical references."
+      "resolution": "Replay paths are derived from the repository or supplied through named environment inputs; authored summaries use logical references.",
+      "evidence_scope": "Historical review finding; current selected execution evidence is indexed by corpus-manifest.json."
     },
     {
       "id": "REVIEW-873-003",
@@ -103,7 +96,8 @@
       "evidence": [
         "scorecard.json"
       ],
-      "resolution": "All scorecard gates use only pass, fail, or not_proven. Frozen-candidate conversion recovery, retry comparison, evidence PR CI, and exact-head review remain not_proven."
+      "resolution": "All scorecard gates use only pass, fail, or not_proven. Frozen-candidate conversion recovery, retry comparison, evidence PR CI, and exact-head review remain not_proven.",
+      "evidence_scope": "Historical review finding; current selected execution evidence is indexed by corpus-manifest.json."
     },
     {
       "id": "REVIEW-873-004",
@@ -115,7 +109,19 @@
         "results/non-default-timing-target-probe.result.json"
       ],
       "observed": "The replay script searched ADL_ISSUE873_TIMING_TARGET_DIR but its Cargo no-run build previously used Cargo's default target directory.",
-      "resolution": "The build now receives CARGO_TARGET_DIR equal to the selected target. A build-only probe passed with a non-default target and discovered both required executables beneath it."
+      "resolution": "The build now receives CARGO_TARGET_DIR equal to the selected target. A build-only probe passed with a non-default target and discovered both required executables beneath it.",
+      "evidence_scope": "Historical review finding; current selected execution evidence is indexed by corpus-manifest.json."
+    },
+    {
+      "id": "REVIEW-873-035",
+      "priority": "P1",
+      "title": "Non-comparable fixtures and stale exact-candidate corpus",
+      "status": "resolved",
+      "evidence": [
+        "measurements/retry-reduction/same-facts-067cb99/retry-comparison.json",
+        "focused-corpus-summary.json"
+      ],
+      "resolution": "Both variants start from captured unprepared issue1505; exact067 full corpus and timing rerun. Added missing-fixture and fake-remote namespace regression tests."
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "schema": "adl.csdlc.issue873.operator_disposition.v1",
+  "issue": 873,
+  "instructions": [
+    "no more reviews, we already did 35",
+    "use gh if necessary"
+  ],
+  "effect": "Operator waives further review rounds and authorizes gh publication fallback when native admission remains blocked.",
+  "independent_exact_head_review_of_final_packet": false,
+  "native_lifecycle_blocker": "operational-admission/blocker.json",
+  "merge_authorized": false
+}

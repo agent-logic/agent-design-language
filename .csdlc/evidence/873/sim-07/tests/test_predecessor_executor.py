@@ -142,7 +142,7 @@ class PredecessorExecutorTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "destination already exists"):
                 MODULE.stage_review_receipt_for_primary(linked, primary, logs)
 
-    def test_terminal_topology_matches_all_eighteen_common_semantic_steps(self):
+    def test_terminal_topology_matches_all_nineteen_common_semantic_steps(self):
         scenario_map = json.loads((EVIDENCE / "retry-scenario-map.json").read_text())
         scenario = next(
             value for value in scenario_map["scenarios"]
@@ -153,7 +153,7 @@ class PredecessorExecutorTests(unittest.TestCase):
             for step in scenario["semantic_steps"]
         ]
         expected = [
-            "primary", "primary", "linked", "linked",
+            "primary", "primary", "linked", "linked", "linked",
             "primary", "primary", "primary", "primary", "primary", "primary",
             "linked", "primary",
             "primary", "primary", "primary", "primary", "primary", "primary",

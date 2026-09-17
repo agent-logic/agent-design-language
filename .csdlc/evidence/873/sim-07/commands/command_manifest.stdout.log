@@ -12,5 +12,5 @@ test proof_routes_distinguish_operational_and_historical_execution ... ok
 test semantic_descriptor_schema_parity_includes_emitted_administrative_requests ... ok
 test tracked_command_denominators_match_cli_surface_and_cutover_boundary ... ok
 
-test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.02s
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.77s
 

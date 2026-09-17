@@ -36,5 +36,5 @@ test retained_unit_tests_cover_verified_readback_denials ... ok
 test rollback_fails_closed_on_stale_selector_digest ... ok
 test tracked_selector_revert_rolls_back_from_fresh_worktree ... ok
 
-test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 17.07s
+test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 16.72s
 

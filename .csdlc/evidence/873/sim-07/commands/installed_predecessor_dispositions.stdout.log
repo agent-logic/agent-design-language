@@ -4,5 +4,5 @@ test installed_cutover_after_effect_recovery_reports_semantic_attachment ... ok
 test installed_cutover_and_rollback_preserve_guarded_dispositions ... ok
 test installed_legacy_generic_github_is_retired_before_mutation ... ok
 
-test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 40.45s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 17.49s
 

@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "copied_record_conversion_rehearsal_release_gate",
+  "command": "env ISSUE872_OLD_CSDLC=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/archives/868-20260912-closeout/verified-copy/.csdlc/evidence/868/execution/candidate-6425ba9bb/bin/csdlc ISSUE872_OLD_STATE=/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9 cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture",
+  "started_at": "2026-09-17T03:23:32Z",
+  "ended_at": "2026-09-17T03:23:32Z",
+  "elapsed_seconds": 0,
+  "exit_status": 101,
+  "test_counts": {
+    "passed": 0,
+    "failed": 1,
+    "ignored": 0
+  },
+  "stdout_sha256": "7e409694b050781759b104fa8c2f5030fbc6fb3a5f3a0b14d59534288107fa00",
+  "stderr_sha256": "ba148cd5cc11aa48d43b185142354c13b11ab2aa5f041bc0ba56b04e56f3a1ad"
+}

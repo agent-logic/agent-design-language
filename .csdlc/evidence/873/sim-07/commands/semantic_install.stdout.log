@@ -6,4 +6,5 @@ test installed_semantic_install_is_one_shot_and_replay_is_observational ... ok
 test installed_semantic_install_preserves_preexisting_foreign_receipt ... ok
 test installed_semantic_install_recovers_reservation_and_completed_native_effect ... ok
 
-test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 188.57s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 181.25s
+

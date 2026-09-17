@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "semantic_install",
-  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_install -- --test-threads=1",
-  "started_at": "2026-09-16T18:02:56Z",
-  "ended_at": "2026-09-16T18:06:05Z",
-  "elapsed_seconds": 189,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test semantic_install -- --test-threads=1",
+  "started_at": "2026-09-17T03:15:58Z",
+  "ended_at": "2026-09-17T03:19:00Z",
+  "elapsed_seconds": 182,
   "exit_status": 0,
   "test_counts": {
     "passed": 5,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "8be61d3946c48c90cdbd9631724cf16a5e341eb706ecc0c83541023603bdcbcb",
-  "stderr_sha256": "49b3767da5d48b110c5b91b648bc1e33c4de46fd53ccd4ba1a38dea813f0fefb"
+  "stdout_sha256": "54d08e46acafc8b1f4a7ec936e484c49874faaf9394a23e1815d3124bad8f919",
+  "stderr_sha256": "7ec50be500f986b66deae57eceddae059842cd7dc7176672eb53cda04a01a158",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/semantic_install.result.json",
+    "commands/semantic_install.stdout.log",
+    "commands/semantic_install.stderr.log"
+  ]
 }

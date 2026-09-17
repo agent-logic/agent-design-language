@@ -1,2 +1,3 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.44s
      Running tests/installed_predecessor_dispositions.rs (csdlc-v3/target/debug/deps/installed_predecessor_dispositions-56b205bc4a20c087)

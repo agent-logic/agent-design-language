@@ -317,13 +317,24 @@ def validate_raw_cleanup_topology(
         not all(path.is_absolute() for path in (primary, active, control))
         or len({primary, active, control}) != 3
         or active.parent != control.parent
-        or control.name != "cleanup-control"
         or topology.get("active_issue_retained") is not True
-        or topology.get("control_status_porcelain") != ""
         or topology.get("baseline_head") != topology.get("control_head")
         or not isinstance(topology.get("tracked_inventory_sha256"), str)
     ):
         raise NormalizationError("terminal-journey cleanup topology differs from the common facts")
+    if variant == "predecessor":
+        topology_valid = (
+            control.name == "cleanup-control"
+            and topology.get("control_status_porcelain") == ""
+        )
+    else:
+        topology_valid = (
+            active.name == "cleanup-control"
+            and bool(topology.get("active_status_porcelain"))
+            and bool(topology.get("control_status_porcelain"))
+        )
+    if not topology_valid:
+        raise NormalizationError("terminal-journey cleanup topology differs from the variant contract")
     registered = topology.get("registered_paths")
     if not isinstance(registered, list) or not {str(primary), str(active), str(control)}.issubset(set(registered)):
         raise NormalizationError("terminal-journey cleanup topology registration is incomplete")
@@ -376,7 +387,10 @@ def normalize(
         scenario_id = scenario["id"]
         path, raw = observations[scenario_id]
         raw_attempts = validate_raw(raw, scenario_id, binary["blake3"])
-        expected_issue = scenario["relevant_facts"]["initial_fixture_facts"]["issue_number"]
+        fixture_facts = scenario["relevant_facts"]["initial_fixture_facts"]
+        expected_issue = fixture_facts.get("issue_number")
+        if not isinstance(expected_issue, int):
+            raise ValueError(f"{scenario_id}: shared issue number is missing")
         validate_raw_issue_identity(raw_attempts, variant, scenario_id, expected_issue)
         steps = scenario["semantic_steps"]
         step_index = 0

@@ -1,0 +1,619 @@
+{
+  "attempts": [
+    {
+      "argv": [
+        "prepare",
+        "1505",
+        "--plan",
+        "$FIXTURE_ROOT/.git/installed-candidate/plan.json",
+        "--preview",
+        "plan"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-1",
+      "correlation_id": "21118-1789614496529",
+      "intended_operation": "reject_unsupported_prepare_preview",
+      "outcome_class": "expected_guard_denial",
+      "reason_code": "intent_preview_argument_not_supported",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "prepare-preview-guard"
+    },
+    {
+      "argv": [
+        "prepare",
+        "1505",
+        "--plan",
+        "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-2",
+      "correlation_id": "21159-1789614496623",
+      "intended_operation": "prepare_issue",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "prepare"
+    },
+    {
+      "argv": [
+        "status",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-3",
+      "correlation_id": "21511-1789614497331",
+      "intended_operation": "observe_ready_status_primary",
+      "outcome_class": "successful_no_op",
+      "reason_code": "lifecycle_digest_valid",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "status-ready-primary"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-4",
+      "correlation_id": "21839-1789614497891",
+      "intended_operation": "validate_ready_primary",
+      "outcome_class": "successful_no_op",
+      "reason_code": "lifecycle_digest_valid",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "validate-ready-primary"
+    },
+    {
+      "argv": [
+        "bind",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-5",
+      "correlation_id": "22031-1789614498274",
+      "intended_operation": "bind_issue",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "bind"
+    },
+    {
+      "argv": [
+        "status",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-6",
+      "correlation_id": "22552-1789614499676",
+      "intended_operation": "observe_bound_status_primary",
+      "outcome_class": "successful_no_op",
+      "reason_code": "lifecycle_digest_valid",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "status-bound-primary"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-7",
+      "correlation_id": "22900-1789614500418",
+      "intended_operation": "validate_bound_primary",
+      "outcome_class": "successful_no_op",
+      "reason_code": "lifecycle_digest_valid",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "validate-bound-primary"
+    },
+    {
+      "argv": [
+        "status",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-8",
+      "correlation_id": "23139-1789614500788",
+      "intended_operation": "observe_bound_status_linked",
+      "outcome_class": "successful_no_op",
+      "reason_code": "lifecycle_digest_valid",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "status-bound-linked"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-9",
+      "correlation_id": "23507-1789614501438",
+      "intended_operation": "validate_bound_linked",
+      "outcome_class": "successful_no_op",
+      "reason_code": "lifecycle_digest_valid",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "validate-bound-linked"
+    },
+    {
+      "argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "$FIXTURE_ROOT/.git/installed-candidate/changes.json",
+        "--preview",
+        "plan"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-10",
+      "correlation_id": "23741-1789614501857",
+      "intended_operation": "reject_unsupported_edit_preview",
+      "outcome_class": "expected_guard_denial",
+      "reason_code": "intent_preview_argument_not_supported",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "linked-edit-preview-guard"
+    },
+    {
+      "argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-11",
+      "correlation_id": "23794-1789614501968",
+      "intended_operation": "edit_linked_worktree",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "linked-edit"
+    },
+    {
+      "argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "$FIXTURE_ROOT/.git/installed-candidate/changes.json"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-12",
+      "correlation_id": "24334-1789614503574",
+      "intended_operation": "edit_primary_worktree",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "primary-edit"
+    },
+    {
+      "argv": [
+        "validate",
+        "1505"
+      ],
+      "attempt_id": "candidate:primary-linked-edit:candidate-primary-linked-edit-13",
+      "correlation_id": "24848-1789614504966",
+      "intended_operation": "validate_projected_cards",
+      "outcome_class": "successful_no_op",
+      "reason_code": "lifecycle_digest_valid",
+      "relevant_facts_sha256": "3db7b42f81e0c1e4dc3e05afd1aa169e3c974198d45269c9cefa529f0900edc2",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "primary-linked-edit",
+      "step_id": "validate-projection"
+    },
+    {
+      "argv": [
+        "prepare",
+        "1505",
+        "--plan",
+        "$FIXTURE_ROOT/.git/installed-candidate/plan.json"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-1",
+      "correlation_id": "25265-1789614506606",
+      "intended_operation": "prepare_issue",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "prepare"
+    },
+    {
+      "argv": [
+        "bind",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-2",
+      "correlation_id": "25546-1789614507215",
+      "intended_operation": "bind_issue",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "bind"
+    },
+    {
+      "argv": [
+        "edit",
+        "1505",
+        "--changes",
+        "$FIXTURE_ROOT/.git/installed-candidate/validator-changes.json"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-3",
+      "correlation_id": "26068-1789614508594",
+      "intended_operation": "admit_executable_nonzero_proof_input",
+      "outcome_class": "successful_no_op",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "proof-input-admission"
+    },
+    {
+      "argv": [
+        "proof",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-4",
+      "correlation_id": "26228-1789614508955",
+      "intended_operation": "retain_proof",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "proof"
+    },
+    {
+      "argv": [
+        "review",
+        "1505",
+        "--evidence",
+        "$FIXTURE_ROOT/.git/installed-candidate/review.json"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-5",
+      "correlation_id": "26929-1789614511010",
+      "intended_operation": "retain_review",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "review"
+    },
+    {
+      "argv": [
+        "publish",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-6",
+      "correlation_id": "27962-1789614514018",
+      "intended_operation": "publish_draft",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "publish"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "1505",
+        "--operation",
+        "$FIXTURE_ROOT/.git/installed-candidate/operation.json",
+        "--execute"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-7",
+      "correlation_id": "28871-1789614516730",
+      "intended_operation": "create_remote_pull_request",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "github-pr-create"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "1505",
+        "--operation",
+        "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+        "--execute"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-8",
+      "correlation_id": "29808-1789614520084",
+      "intended_operation": "reject_internal_merge_inputs",
+      "outcome_class": "expected_guard_denial",
+      "reason_code": "intent_merge_internal_inputs_denied",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "merge-internal-input-guard"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "1505",
+        "--operation",
+        "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+        "--execute"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-9",
+      "correlation_id": "29967-1789614520481",
+      "intended_operation": "observe_remote_merge",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "merge-remote-apply"
+    },
+    {
+      "argv": [
+        "github-pr",
+        "1505",
+        "--operation",
+        "$FIXTURE_ROOT/.git/installed-candidate/merge.json",
+        "--execute"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-10",
+      "correlation_id": "30969-1789614524100",
+      "intended_operation": "observe_merged_pull_request",
+      "outcome_class": "successful_no_op",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "merge-idempotent-observation"
+    },
+    {
+      "argv": [
+        "finish",
+        "1505",
+        "--preview",
+        "plan"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-11",
+      "correlation_id": "31636-1789614526435",
+      "intended_operation": "preview_finish",
+      "outcome_class": "expected_wait",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "finish-preview"
+    },
+    {
+      "argv": [
+        "finish",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-12",
+      "correlation_id": "31841-1789614526940",
+      "intended_operation": "finish_linked_worktree",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "finish-linked"
+    },
+    {
+      "argv": [
+        "finish",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-13",
+      "correlation_id": "32241-1789614528656",
+      "intended_operation": "persist_primary_finish_for_cleanup",
+      "outcome_class": "successful_no_op",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "finish-primary"
+    },
+    {
+      "argv": [
+        "clean",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-14",
+      "correlation_id": "32588-1789614529756",
+      "intended_operation": "reject_foreign_dirty_cleanup",
+      "outcome_class": "expected_guard_denial",
+      "reason_code": "cleanup_archive_foreign_or_tracked_dirty",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "cleanup-foreign-dirty-guard"
+    },
+    {
+      "argv": [
+        "clean",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-15",
+      "correlation_id": "32694-1789614530220",
+      "intended_operation": "reject_tracked_dirty_cleanup",
+      "outcome_class": "expected_guard_denial",
+      "reason_code": "cleanup_archive_foreign_or_tracked_dirty",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "cleanup-tracked-dirty-guard"
+    },
+    {
+      "argv": [
+        "clean",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-16",
+      "correlation_id": "32845-1789614530618",
+      "intended_operation": "preview_cleanup",
+      "outcome_class": "expected_wait",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "cleanup-preview"
+    },
+    {
+      "argv": [
+        "clean",
+        "1505",
+        "--execute",
+        "--preview",
+        "$STALE_PREVIEW_DIGEST"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-17",
+      "correlation_id": "32970-1789614531039",
+      "intended_operation": "reject_stale_cleanup_preview",
+      "outcome_class": "expected_guard_denial",
+      "reason_code": "intent_cleanup_preview_stale",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "cleanup-stale-preview-guard"
+    },
+    {
+      "argv": [
+        "clean",
+        "1505"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-18",
+      "correlation_id": "33098-1789614531443",
+      "intended_operation": "refresh_cleanup_preview_after_stale_guard",
+      "outcome_class": "expected_wait",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "cleanup-refresh-preview"
+    },
+    {
+      "argv": [
+        "clean",
+        "1505",
+        "--execute",
+        "--preview",
+        "$PREVIEW_DIGEST"
+      ],
+      "attempt_id": "candidate:terminal-journey:candidate-terminal-journey-19",
+      "correlation_id": "33241-1789614531790",
+      "intended_operation": "execute_cleanup_control",
+      "outcome_class": "transition_applied",
+      "reason_code": "command_completed",
+      "relevant_facts_sha256": "e1fe2ddfd557ef309b0bb22a2baf6bfbdff2eaab6c68dd5d9332375c96bf2cfb",
+      "result_envelope_present": true,
+      "retry_class": "not_retry",
+      "retry_of": null,
+      "scenario_id": "terminal-journey",
+      "step_id": "cleanup-execute"
+    }
+  ],
+  "binary": {
+    "blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
+    "revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+    "sha256": "6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9"
+  },
+  "corpus_id": "sim07-pre-resume-installed-journeys-v1",
+  "journeys": [
+    {
+      "scenario_id": "primary-linked-edit",
+      "status": "completed"
+    },
+    {
+      "scenario_id": "terminal-journey",
+      "status": "completed"
+    }
+  ],
+  "observations": [
+    {
+      "path": "raw/candidate-primary-linked-edit.attempts.json",
+      "scenario_id": "primary-linked-edit",
+      "sha256": "60f20da6759984ae9984c1d26b0edc60e45c8233b8e76ccf364eadb3e6a71ea5"
+    },
+    {
+      "path": "raw/candidate-terminal-journey.attempts.json",
+      "scenario_id": "terminal-journey",
+      "sha256": "ac0b4c153a60721a57437c533025cb8622c203e5b8dd97e18197d8c7b04d6885"
+    }
+  ],
+  "scenario_map_sha256": "2b652d7ec1931d3a6fede09be2f9e1d23f9e4928ca0f0f17a1a27c776c16a445",
+  "schema": "adl.csdlc.issue873.retry_ledger.v1",
+  "variant": "candidate"
+}

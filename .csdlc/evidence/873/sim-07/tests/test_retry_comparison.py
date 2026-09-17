@@ -194,6 +194,15 @@ class RetryComparisonTests(unittest.TestCase):
         self.assertEqual(operational["corpus_id"], "sim07-pre-resume-installed-journeys-v1")
         self.assertEqual(len(operational["scenarios"]), 2)
 
+    def test_variant_specific_issue_identities_are_rejected(self):
+        fixture_facts = self.scenario_map["scenarios"][0]["relevant_facts"][
+            "initial_fixture_facts"
+        ]
+        fixture_facts["candidate_issue_number"] = fixture_facts.pop("issue_number")
+        fixture_facts["predecessor_issue_number"] = 1505
+        with self.assertRaisesRegex(MODULE.ValidationError, "one shared issue_number"):
+            MODULE.validate_map(self.scenario_map)
+
 
 if __name__ == "__main__":
     unittest.main()

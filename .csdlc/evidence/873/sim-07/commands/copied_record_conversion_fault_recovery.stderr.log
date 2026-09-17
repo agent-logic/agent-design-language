@@ -1,2 +1,3 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.46s
      Running tests/copied_record_conversion_fault_recovery.rs (csdlc-v3/target/debug/deps/copied_record_conversion_fault_recovery-7d47c0ec73745830)

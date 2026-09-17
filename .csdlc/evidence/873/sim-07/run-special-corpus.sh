@@ -15,8 +15,8 @@ EXECUTE_ONLY="${ADL_ISSUE873_TIMING_EXECUTE_ONLY:-0}"
 TIMING_VARIANT="${ADL_ISSUE873_TIMING_VARIANT:-matched}"
 TIMING_REPETITIONS="${ADL_ISSUE873_TIMING_REPETITIONS:-3}"
 TIMING_OUTPUT_DIR="$TARGET_DIR/sim03-prepared-start-measurement"
-EXPECTED_CANDIDATE_SHA256="7534beb4b678d4539f44233100c9e4b15092007937973bc921310af4b3186e8e"
-EXPECTED_CANDIDATE_BLAKE3="c6d7c79a7652dfa1d73c3ce8437957b86cc4ea17e2ad5d322f7a452fd052835d"
+EXPECTED_CANDIDATE_SHA256="6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9"
+EXPECTED_CANDIDATE_BLAKE3="764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e"
 mkdir -p "$COMMANDS" "$RESULTS"
 cd "$ROOT"
 
@@ -161,7 +161,7 @@ if [[ -z "$CONVERSION_ROOT" ]]; then
 fi
 
 run_one copied_record_conversion_rehearsal_release_gate \
-  env ISSUE872_OLD_CSDLC="$BASELINE" cargo test --locked --manifest-path "$MANIFEST" --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture
+  env ISSUE872_OLD_CSDLC="$BASELINE" ISSUE872_OLD_STATE="${ISSUE872_OLD_STATE:?set ISSUE872_OLD_STATE to the portable generation-9 old-state fixture}" cargo test --locked --manifest-path "$MANIFEST" --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture
 
 run_one retained_issue872_conversion_validator \
   python3 "$CONVERSION_ROOT/adl/tools/validate_issue872_conversion_rehearsal.py" --evidence-root "$CONVERSION_ROOT/.csdlc/evidence/872/conversion-rehearsal"

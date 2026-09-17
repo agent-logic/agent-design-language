@@ -5,5 +5,5 @@ test refuses_incomplete_linked_source_before_any_target_effect ... ok
 test refuses_inconsistent_local_and_semantic_sources_before_effects ... ok
 test relocates_complete_primary_and_linked_observations_with_provenance ... ok
 
-test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.08s
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.11s
 

@@ -7,7 +7,9 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
+from unittest import mock
 
 
 HERE = Path(__file__).resolve().parent
@@ -22,11 +24,50 @@ SPEC.loader.exec_module(MODULE)
 
 
 class CandidateExecutorTests(unittest.TestCase):
-    def test_declared_candidate_common_corpus_is_exactly_thirteen_and_eighteen(self):
+    def test_common_fixture_is_captured_without_authentic_state_or_source_reset(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "captured"
+            def capture(harness, slot, test_filter, destination):
+                self.assertEqual(test_filter, "installed_prepare_bind_edit_and_observations_use_canonical_context")
+                plan = destination / ".git/installed-candidate/plan.json"
+                plan.parent.mkdir(parents=True)
+                plan.write_text(json.dumps({"publication": {"body": "Closes #505"}}))
+            binary = Path(directory) / "csdlc"
+            binary.write_text("frozen-binary")
+            args = SimpleNamespace(fixture=root, scenario="primary-linked-edit", harness=Path("harness"), slot=Path("slot"), binary=binary)
+            with mock.patch.object(MODULE.common, "capture_fixture", side_effect=capture), mock.patch.object(MODULE.common, "relocate_fixture"), mock.patch.object(MODULE.shutil, "copytree") as copy, mock.patch.object(MODULE.subprocess, "run") as run:
+                self.assertEqual(MODULE.prepare_isolated_fixture(args, authentic_adoption=False), root.resolve())
+                copy.assert_not_called()
+                run.assert_not_called()
+            self.assertEqual(json.loads((root / ".git/installed-candidate/plan.json").read_text())["publication"]["body"], "Closes #1505")
+            self.assertFalse((root / ".csdlc").exists())
+
+    def test_candidate_fake_remote_does_not_initialize_lifecycle_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            transport = root / ".git/installed-candidate/fake-remote"
+            MODULE.common.configure_fake_remote(root, "a" * 40, 1505, transport_root=transport)
+            self.assertFalse((root / ".csdlc").exists())
+            self.assertTrue((transport / "fake-bin/curl").is_file())
+            for name in ("graphql-open.json", "graphql-merged.json"):
+                observed = json.loads((transport / name).read_text())
+                pull = observed["data"]["repository"]["pullRequest"]
+                self.assertEqual(pull["body"], "Closes #1505")
+                self.assertEqual(pull["closingIssuesReferences"]["nodes"][0]["number"], 1505)
+
+    def test_declared_candidate_common_corpus_is_exactly_thirteen_and_nineteen(self):
         scenario_map = json.loads((EVIDENCE / "retry-scenario-map.json").read_text())
         scenarios = {value["id"]: value for value in scenario_map["scenarios"]}
         self.assertEqual(len(scenarios["primary-linked-edit"]["semantic_steps"]), 13)
-        self.assertEqual(len(scenarios["terminal-journey"]["semantic_steps"]), 18)
+        self.assertEqual(len(scenarios["terminal-journey"]["semantic_steps"]), 19)
+        for scenario in scenarios.values():
+            facts = scenario["relevant_facts"]["initial_fixture_facts"]
+            self.assertEqual(facts["issue_number"], 1505)
+            self.assertEqual(facts["lifecycle_phase"], "unprepared")
+            self.assertNotIn("candidate_issue_number", facts)
+            self.assertNotIn("predecessor_issue_number", facts)
+            for step in scenario["semantic_steps"]:
+                self.assertNotIn("874", step["argv"]["candidate"])
         self.assertEqual(
             [value["id"] for value in scenarios["terminal-journey"]["semantic_steps"][-6:]],
             [
@@ -36,7 +77,7 @@ class CandidateExecutorTests(unittest.TestCase):
             ],
         )
 
-    def test_candidate_topology_handoff_retains_dirty_peer_and_clean_control(self):
+    def test_candidate_topology_keeps_bound_cleanup_target_and_dirty_detached_peer(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
             primary = base / "primary"
@@ -55,17 +96,75 @@ class CandidateExecutorTests(unittest.TestCase):
             subprocess.run(["git", "-C", str(primary), "commit", "-qm", "baseline"], check=True)
             worktrees.mkdir()
             subprocess.run(["git", "-C", str(primary), "worktree", "add", "-q", "-b", "codex/1505-fixture", str(linked), "HEAD"], check=True)
+            for relative in (
+                ".csdlc/evidence/1505/proof.json",
+                ".csdlc/issues/1505/sip.md",
+                ".csdlc/transactions/completed/1505/prepare.json",
+                ".csdlc/v3/issues/1505/state.json",
+            ):
+                path = linked / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("{}\n", encoding="utf-8")
 
-            control, topology = MODULE.move_bound_worktree_to_cleanup_control(primary, linked, logs)
+            cleanup_target, topology = MODULE.move_bound_worktree_to_cleanup_control(primary, linked, logs)
+            retained_peer = worktrees / "cleanup-control"
 
-            self.assertEqual(control, worktrees / "cleanup-control")
-            self.assertTrue(control.is_dir())
+            self.assertEqual(cleanup_target, linked)
+            self.assertTrue(retained_peer.is_dir())
             self.assertTrue(linked.is_dir())
             self.assertEqual(topology["baseline_head"], topology["control_head"])
-            self.assertEqual(topology["control_status_porcelain"], "")
+            self.assertTrue(topology["control_status_porcelain"])
             self.assertTrue(topology["active_status_porcelain"])
             self.assertTrue(topology["active_issue_retained"])
-            self.assertEqual(topology["handoff"], "git_worktree_move_then_detached_retained_peer")
+            self.assertEqual(topology["active_issue_worktree"], str(retained_peer.resolve()))
+            self.assertEqual(topology["cleanup_control_worktree"], str(linked.resolve()))
+            self.assertEqual(topology["handoff"], "exact_bound_cleanup_candidate_with_detached_retained_peer")
+
+            subprocess.run(
+                ["git", "-C", str(primary), "worktree", "remove", "--force", str(cleanup_target)],
+                check=True,
+            )
+            self.assertFalse(cleanup_target.exists())
+            self.assertTrue(retained_peer.is_dir())
+            self.assertTrue(
+                subprocess.check_output(
+                    [
+                        "git", "-C", str(retained_peer), "status", "--porcelain",
+                        "--untracked-files=all",
+                    ],
+                    text=True,
+                )
+            )
+
+    def test_authentic_874_adoption_is_retained_outside_comparator(self):
+        result = {
+            "performed_mutation": None,
+            "envelope": {
+                "status": "failed",
+                "reason_code": "issue_already_initialized",
+                "effects": {"outcome": "unknown"},
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory, mock.patch.object(
+            MODULE.common,
+            "run",
+            return_value=(2, json.dumps(result), "", 7),
+        ):
+            root = Path(directory)
+            args = SimpleNamespace(
+                binary=root / "csdlc",
+                binary_blake3="a" * 64,
+                source_revision="b" * 40,
+                logs=root / "logs",
+            )
+            acceptance = MODULE.execute_authentic_adoption_acceptance(args, root)
+        self.assertEqual(acceptance["issue"], 874)
+        self.assertFalse(acceptance["included_in_retry_comparison"])
+        self.assertEqual(
+            acceptance["initial_fixture_facts"]["lifecycle_phase"],
+            "already_initialized",
+        )
+        self.assertEqual(acceptance["attempt"]["exit_code"], 2)
 
     def test_operational_runner_uses_explicit_variant_drivers(self):
         runner = (EVIDENCE / "run-retry-qualification.sh").read_text()

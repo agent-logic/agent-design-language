@@ -1,3 +1,3 @@
-   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.47s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
      Running tests/operator_man_pages.rs (csdlc-v3/target/debug/deps/operator_man_pages-c1c4bff89df5df08)

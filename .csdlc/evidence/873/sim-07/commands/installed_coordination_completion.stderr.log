@@ -1,2 +1,3 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
      Running tests/installed_coordination_completion.rs (csdlc-v3/target/debug/deps/installed_coordination_completion-d7980162bf530043)

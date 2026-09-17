@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "semantic_local_proof",
-  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_local_proof -- --test-threads=1",
-  "started_at": "2026-09-16T18:06:05Z",
-  "ended_at": "2026-09-16T18:08:14Z",
-  "elapsed_seconds": 129,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test semantic_local_proof -- --test-threads=1",
+  "started_at": "2026-09-17T03:19:00Z",
+  "ended_at": "2026-09-17T03:20:56Z",
+  "elapsed_seconds": 116,
   "exit_status": 0,
   "test_counts": {
     "passed": 14,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "7bce5f95e502a7a231903dd85fb9b308504d547364d15c17c3e67a1a6b13a371",
-  "stderr_sha256": "abe907ee2edcb45812b7312923d3acd67268980f12ae317876af0a8e5be9d5d0"
+  "stdout_sha256": "9f6dc79e382fa8d4e8d4d249282bfaf0e6496f2e6aa8565a8722515c7bb6ddcd",
+  "stderr_sha256": "e5e25bd333a1c37b46950a7089491b2c8dc2541456975ef8038c79f5ff5d17be",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/semantic_local_proof.result.json",
+    "commands/semantic_local_proof.stdout.log",
+    "commands/semantic_local_proof.stderr.log"
+  ]
 }
