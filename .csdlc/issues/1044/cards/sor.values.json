@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1044,
+  "issue_padded": "1044",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1044",
+  "title": "[C-SDLC v3][defect] Prepare never-bound issues with settled issue-edit history",
+  "branch": "codex/1044-prepare-settled-issue-edits",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1044-prepare-settled-issue-edits",
+  "status": "in_progress",
+  "completion_state": "implementation_validated_review_handoff",
+  "summary": "Issue-bound Worker #9 goal created. Verified retained native #1017 prepare, bind, validate and doctor results. Repair implemented and 27 semantic transaction tests rerun successfully; formatting and all-target clippy passed. Independent source review of a9f8c7419814519af72501768ba46f58e5cec6fa found no actionable findings. Publication and CI remain pending.",
+  "validation_result": "27 focused transaction tests passed; cargo fmt --check and cargo clippy --all-targets -- -D warnings passed. Retained candidate #1017 prepare/bind validated; no fresh cloud or provider calls.",
+  "integration_state": "worktree_only",
+  "integration_result": "not_integrated"
+}
