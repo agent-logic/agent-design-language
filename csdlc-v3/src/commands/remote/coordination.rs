@@ -2,6 +2,7 @@
 use super::model::{
     CoordinationCompletion, CoordinationContract, CoordinationEvidence, GithubMutation,
     GithubMutationRequest, PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
+    COORDINATION_CONTRACT_PREFIX as CONTRACT_PREFIX,
 };
 use super::publication::{is_durable_receipt_path, is_repo_or_git_receipt_path};
 use super::storage::persist_json_create_new;
@@ -19,7 +20,6 @@ use std::fs;
 use std::io::Read;
 use std::path::Path;
 
-const CONTRACT_PREFIX: &str = "<!-- csdlc-coordination:v1 ";
 const MAX_EVIDENCE_BYTES: u64 = 4 * 1024 * 1024;
 
 fn reject(message: &str) -> RemoteRouteFinding {
@@ -87,22 +87,6 @@ fn contract(
     Ok(contract)
 }
 
-pub(super) fn target_body(
-    completion: &CoordinationCompletion,
-) -> Result<String, RemoteRouteFinding> {
-    let Some(contract) = &completion.install_contract else {
-        return Ok(completion.current_body.clone());
-    };
-    let encoded = serde_json::to_string(contract)
-        .map_err(|_| reject("coordination contract encoding failed"))?;
-    let marker = format!("{CONTRACT_PREFIX}{encoded} -->");
-    if completion.current_body.is_empty() {
-        Ok(marker)
-    } else {
-        Ok(format!("{}\n\n{marker}", completion.current_body))
-    }
-}
-
 pub(super) fn validate(request: &GithubMutationRequest) -> Result<(), RemoteRouteFinding> {
     let GithubMutation::IssueCompleteCoordination { completion } = &request.mutation else {
         return Ok(());
@@ -133,7 +117,7 @@ pub(super) fn validate(request: &GithubMutationRequest) -> Result<(), RemoteRout
         )?;
     }
     contract(request, completion)?;
-    let target = target_body(completion)?;
+    let target = super::transport::coordination_target_body(completion)?;
     let marker = github_mutation_operation_marker(&github_mutation_operation_digest(request));
     ensure(
         body_with_operation_marker(&target, &marker).len() <= 65536,

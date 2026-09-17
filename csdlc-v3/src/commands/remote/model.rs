@@ -39,6 +39,8 @@ pub struct CoordinationContract {
     pub children: Vec<CoordinationChild>,
 }
 
+pub(super) const COORDINATION_CONTRACT_PREFIX: &str = "<!-- csdlc-coordination:v1 ";
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct CoordinationCompletion {

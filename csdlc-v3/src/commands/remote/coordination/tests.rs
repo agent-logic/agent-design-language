@@ -146,7 +146,7 @@ fn coordination_contract_installation_is_canonical_and_preserves_pre_state() {
     fixture.parent["body"] = json!("Preserved coordinator prose.  \n");
 
     validate(&fixture.request).unwrap();
-    let target = target_body(fixture.completion()).unwrap();
+    let target = super::super::transport::coordination_target_body(fixture.completion()).unwrap();
     assert_eq!(
         target,
         format!(
