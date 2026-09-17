@@ -233,6 +233,38 @@ fn assert_json_strings_present(value: &serde_json::Value, html: &str, markdown: 
     }
 }
 
+fn html_finding_section<'a>(report: &'a str, finding_id: &str) -> &'a str {
+    let marker = format!("<dt>Finding ID</dt><dd>{finding_id}</dd>");
+    let marker_start = report.find(&marker).unwrap();
+    let start = report[..marker_start]
+        .rfind("<article class=\"finding\"")
+        .unwrap();
+    let end = marker_start + report[marker_start..].find("</article>").unwrap();
+    &report[start..end]
+}
+
+fn markdown_finding_section<'a>(report: &'a str, finding_id: &str) -> &'a str {
+    let marker = format!("**Finding ID:** {finding_id}");
+    let marker_start = report.find(&marker).unwrap();
+    let start = report[..marker_start].rfind("\n### ").unwrap();
+    let end = marker_start
+        + report[marker_start..]
+            .find("\n### ")
+            .or_else(|| report[marker_start..].find("\n## Output boundary"))
+            .unwrap();
+    &report[start..end]
+}
+
+fn matching_by_finding_id<'a>(
+    values: &'a [serde_json::Value],
+    finding_id: &str,
+) -> Vec<&'a serde_json::Value> {
+    values
+        .iter()
+        .filter(|value| value["finding_id"].as_str() == Some(finding_id))
+        .collect()
+}
+
 fn predecessor_review() -> ReviewRecord {
     let path = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("../.csdlc/evidence/892/predecessor-openai-r5-synthesis/review-record.json");
@@ -429,11 +461,70 @@ fn html_and_markdown_preserve_complete_governed_semantics() {
     )
     .unwrap();
 
-    assert_json_strings_present(&synthesis["synthesized_findings"], &html, &markdown);
-    assert_json_strings_present(&remediation["actions"], &html, &markdown);
-    assert_json_strings_present(&remediation["omitted_findings"], &html, &markdown);
-    assert_json_strings_present(&test_plan["test_cases"], &html, &markdown);
-    assert_json_strings_present(&test_plan["omitted_findings"], &html, &markdown);
+    let findings = synthesis["synthesized_findings"].as_array().unwrap();
+    let actions = remediation["actions"].as_array().unwrap();
+    let remediation_omissions = remediation["omitted_findings"].as_array().unwrap();
+    let tests = test_plan["test_cases"].as_array().unwrap();
+    let test_omissions = test_plan["omitted_findings"].as_array().unwrap();
+    assert_eq!(
+        html.matches("<article class=\"finding\"").count(),
+        findings.len()
+    );
+    let markdown_findings = markdown
+        .split_once("## Findings")
+        .unwrap()
+        .1
+        .split_once("## Output boundary")
+        .unwrap()
+        .0;
+    assert_eq!(markdown_findings.matches("\n### ").count(), findings.len());
+
+    for finding in findings {
+        let finding_id = finding["id"].as_str().unwrap();
+        let html_section = html_finding_section(&html, finding_id);
+        let markdown_section = markdown_finding_section(&markdown, finding_id);
+        assert_json_strings_present(finding, html_section, markdown_section);
+        assert_eq!(
+            html_section.matches(" Finding: ").count(),
+            finding["sources"].as_array().unwrap().len()
+        );
+        assert_eq!(
+            markdown_section.matches(" Finding: ").count(),
+            finding["sources"].as_array().unwrap().len()
+        );
+        for source in finding["sources"].as_array().unwrap() {
+            let confidence = match source["confidence"]["state"].as_str().unwrap() {
+                "known" => format!(
+                    "Known({})",
+                    source["confidence"]["percent"].as_u64().unwrap()
+                ),
+                "unknown" => "Unknown".to_string(),
+                state => panic!("unexpected confidence state {state}"),
+            };
+            let confidence = normalized_semantics(&confidence);
+            assert!(normalized_semantics(html_section).contains(&confidence));
+            assert!(normalized_semantics(markdown_section).contains(&confidence));
+        }
+
+        let finding_actions = matching_by_finding_id(actions, finding_id);
+        let finding_remediation_omissions =
+            matching_by_finding_id(remediation_omissions, finding_id);
+        let finding_tests = matching_by_finding_id(tests, finding_id);
+        let finding_test_omissions = matching_by_finding_id(test_omissions, finding_id);
+        assert_eq!(
+            finding_actions.len() + finding_remediation_omissions.len(),
+            1
+        );
+        assert_eq!(finding_tests.len() + finding_test_omissions.len(), 1);
+        for associated in finding_actions
+            .into_iter()
+            .chain(finding_remediation_omissions)
+            .chain(finding_tests)
+            .chain(finding_test_omissions)
+        {
+            assert_json_strings_present(associated, html_section, markdown_section);
+        }
+    }
     assert_eq!(test_plan["omitted_findings"].as_array().unwrap().len(), 1);
     assert!(html.contains("severity disagreement retained"));
     assert!(markdown.contains("severity disagreement retained"));
