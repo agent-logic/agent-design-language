@@ -1,0 +1,221 @@
+{
+  "schema": "issue945.source_manifest.v1",
+  "revision": "e76dd7e785d778916b524864118ef079e0a1836f",
+  "sources": [
+    {
+      "path": "adl-provider-core/src/candidate.rs",
+      "sha256": "52c2ea650816b2b7d305bdfc93b084050f5c41e693741930779bc8cd25edb2cb",
+      "bytes": 13363
+    },
+    {
+      "path": "adl-provider-core/src/registry.rs",
+      "sha256": "794729f49504bfb5ba525319fae66c1a1f097d5c8ba979c593bc8abf006141cd",
+      "bytes": 28215
+    },
+    {
+      "path": "adl-runtime-kernel/src/provider_registry.rs",
+      "sha256": "38bc631f9f2edc579fa5d064cd94b503cbd098ef0b2e3170e311ca70fde9106a",
+      "bytes": 2993
+    },
+    {
+      "path": "adl/src/cli/codefriend_cmd.rs",
+      "sha256": "4bd69e1eb20ef66cacb7e5d5b015ac97e823d4fe12c2462212cdca4a91849619",
+      "bytes": 18579
+    },
+    {
+      "path": "adl/src/codefriend/actions/remediation.rs",
+      "sha256": "c3980a1231b33bf6342f38dfb06de97c76e06ed3550c394b16b28882607ce7a8",
+      "bytes": 23334
+    },
+    {
+      "path": "adl/src/codefriend/actions/test_plan.rs",
+      "sha256": "135981cb1f3b9d024a4d4bc368aaa776160b47c3bd120daab816e1380cf5d0c7",
+      "bytes": 26407
+    },
+    {
+      "path": "adl/src/codefriend/architecture/drift.rs",
+      "sha256": "4dc0fc93854851ad3285909c2accc074a8f876ece44590edfbb0f109a930f774",
+      "bytes": 8933
+    },
+    {
+      "path": "adl/src/codefriend/architecture/impact.rs",
+      "sha256": "0ce61b4ca6383f658887b4cd83c309857f0dd06528353aed552dadebad635b69",
+      "bytes": 11802
+    },
+    {
+      "path": "adl/src/codefriend/architecture/rationale.rs",
+      "sha256": "deecd6ded52cc4df2565218091e90671fcd1d471a4b36c06bb7933d52ebfbfa8",
+      "bytes": 15146
+    },
+    {
+      "path": "adl/src/codefriend/architecture/structure.rs",
+      "sha256": "bf63e9a162ef8c9315cbbf5311d29d9a43b0ea93f4352856fc230645d9c0aacc",
+      "bytes": 23827
+    },
+    {
+      "path": "adl/src/codefriend/evidence/contracts.rs",
+      "sha256": "e8a6b3ff7935043002142f9cc19baa1a9facda7198cb6aa784473692c6210ef6",
+      "bytes": 15134
+    },
+    {
+      "path": "adl/src/codefriend/evidence/mod.rs",
+      "sha256": "cd68b658cf36a704231abbebd3ab9fd0b2c0e246b260d53c69832152ed6ffc64",
+      "bytes": 4028
+    },
+    {
+      "path": "adl/src/codefriend/evidence/store.rs",
+      "sha256": "3c831c8091ecc0e504619e7f5ddbdccbe7c33adc14ef3d5bf062a932c8bf65a2",
+      "bytes": 11827
+    },
+    {
+      "path": "adl/src/codefriend/governance/ci.rs",
+      "sha256": "3f11a9b83309a93321efd2de11a2d38033ecd907d0ce8a9369ab806c2eab09a0",
+      "bytes": 2926
+    },
+    {
+      "path": "adl/src/codefriend/governance/local.rs",
+      "sha256": "f3f9ec25d9d8a94609aba4d2b28f6b8cd67ae5bcbb920728458374b332b0635b",
+      "bytes": 10674
+    },
+    {
+      "path": "adl/src/codefriend/ingestion/ci.rs",
+      "sha256": "62cad858b539233ff33a63228b51b0ae2d28cc146f30c6a32e9473c24e42daf3",
+      "bytes": 4058
+    },
+    {
+      "path": "adl/src/codefriend/ingestion/github.rs",
+      "sha256": "b07a6d0f58b195b55069cea15559ce433ad974c6b6722fce2533fe74209f3857",
+      "bytes": 20744
+    },
+    {
+      "path": "adl/src/codefriend/ingestion/local.rs",
+      "sha256": "53554ec6dc94670dd2df072920e9a57a2fae8030578b08e356a79bdd588939fe",
+      "bytes": 11262
+    },
+    {
+      "path": "adl/src/codefriend/ingestion/mod.rs",
+      "sha256": "3eb3891c34fef4604a23025c2fb1de898502258075fe9de60c4f4ccdf49fa33e",
+      "bytes": 18521
+    },
+    {
+      "path": "adl/src/codefriend/memory/baseline.rs",
+      "sha256": "afc655afd9f6528574c902e424b81060cfe2a8852e7309f32c17903d6776b670",
+      "bytes": 9176
+    },
+    {
+      "path": "adl/src/codefriend/memory/comparison.rs",
+      "sha256": "42710bfb59629099b6df5a246065916d07f168cc6e5aea33f1612e448b7771f0",
+      "bytes": 5471
+    },
+    {
+      "path": "adl/src/codefriend/memory/palace.rs",
+      "sha256": "ca47ad7eb46a0c02c2b574e6be9cfe0bbe63c66bced99930e30fc8dcce2e8194",
+      "bytes": 11669
+    },
+    {
+      "path": "adl/src/codefriend/memory/palace_authority.rs",
+      "sha256": "68685d46cba6cb942d542d45831fbf9e63a79429ee0fb4a0cbff4166289045b2",
+      "bytes": 7285
+    },
+    {
+      "path": "adl/src/codefriend/mod.rs",
+      "sha256": "d189785a4f3e3e20dff7cf2486c31e413e9996d1db55764bd910d28c277ba4cd",
+      "bytes": 242
+    },
+    {
+      "path": "adl/src/codefriend/operator/mod.rs",
+      "sha256": "0eaafd4459089de0c87c53cdfab75462676d1001fad073b4a8fac5670c8831c7",
+      "bytes": 15271
+    },
+    {
+      "path": "adl/src/codefriend/publication/approval.rs",
+      "sha256": "e5ff1adb319cb9343a6df4a6fe52f3e5fdd42ddc6011fbf9000ae3a5f38cf1a9",
+      "bytes": 35181
+    },
+    {
+      "path": "adl/src/codefriend/publication/html.rs",
+      "sha256": "70be109b000708e8ee06256f4ba45c26b5738d8ad9f8da615a74d2da656f546e",
+      "bytes": 22487
+    },
+    {
+      "path": "adl/src/codefriend/publication/manifest.rs",
+      "sha256": "a80ffe4a3dabb4beec01a6ddd5f3752327097341c77372d3c75eea74628749f3",
+      "bytes": 9532
+    },
+    {
+      "path": "adl/src/codefriend/publication/markdown.rs",
+      "sha256": "087fc799a97f7698ae78c291053a4467adda9b1b725899f87b24df35bab23417",
+      "bytes": 47231
+    },
+    {
+      "path": "adl/src/codefriend/review/lanes.rs",
+      "sha256": "003ab80a7da03a2089ababfc9570c0231ef1d1e4988ecb832048f46f425b5d7e",
+      "bytes": 1552
+    },
+    {
+      "path": "adl/src/codefriend/review/runner.rs",
+      "sha256": "9d6ef9a2062961802b1631a9a32a58415741db6c242fa4f74057c2cda9b57afb",
+      "bytes": 20757
+    },
+    {
+      "path": "adl/src/codefriend/review/synthesis.rs",
+      "sha256": "0c7ad013a1ed53e9b70f6cb60805de243e34483420c67b3e2a32361a86c7f969",
+      "bytes": 12409
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/local.rs",
+      "sha256": "afec1780410995d02d3c969e7a6012b513e75adf6da166b69bf2831c55c5dddb",
+      "bytes": 107923
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/remote.rs",
+      "sha256": "1b6652d75e0ee0e6ac55b200ec09f22105fa07607c8b8ed238cfcd7bcf4c2974",
+      "bytes": 61456
+    },
+    {
+      "path": "csdlc-v3/src/conversion.rs",
+      "sha256": "6a5fec8bc71796b207fc6fe53e218742e68cbc66fbbc4d8f90775db5391e422b",
+      "bytes": 124604
+    },
+    {
+      "path": "csdlc-v3/src/storage/semantic/journal_recovery.rs",
+      "sha256": "625f5933d2e23b86ec87b06b726f642820de0de57cc3fd7057dd625db36b4d75",
+      "bytes": 10954
+    },
+    {
+      "path": "csdlc-v3/src/storage/semantic/protocol.rs",
+      "sha256": "41fd05c7134897192294b0970a9ab941a4dad152bf5bd476e40633612df38243",
+      "bytes": 86578
+    },
+    {
+      "path": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
+      "sha256": "d28f08086f1bd4cd44ed09ae33ffe66ba630bafbcc7ec8bf9f3bba9b1a902af2",
+      "bytes": 4427
+    },
+    {
+      "path": "docs/csdlc-v3/INTENT_COMMANDS.md",
+      "sha256": "7b47d6125d791b48a773480ace35e03e86835b07ef12ed2754965ada1e354574",
+      "bytes": 26234
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+      "sha256": "84f5422d36c15243772ffd53f9b1e7707afb76fd7a8bf5e9bd1e4ec05c784a15",
+      "bytes": 49912
+    },
+    {
+      "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+      "sha256": "b2cf40769f1ae6fdfa9306dce55a0ca293064ca1bbe2d6c5769371eabe6c7768",
+      "bytes": 9334
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.json",
+      "sha256": "33fb393515b73c20c412df493e0c89126573e8ec7d17583290f73390f1018eeb",
+      "bytes": 23737
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/relationships.json",
+      "sha256": "5f072887470b89b4c3cd147476ccf60c00ff05056e802d196cd7ab2a1ce9a857",
+      "bytes": 4150
+    }
+  ]
+}

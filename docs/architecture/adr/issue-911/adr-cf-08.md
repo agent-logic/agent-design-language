@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-UX (#895).
 Participating owners: CF-UX (#895), CF-RENDER-MD (#896), CF-RENDER-HTML (#897), CF-RENDER-PDF (#898).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -20,7 +20,7 @@ The milestone separates approval from Markdown, HTML and PDF rendering. Its adop
 
 CF-UX records approval for the exact selected run/finding set, artifact-manifest digests, rendering versions, claims/non-claims, approval scope and intended target. A change to scope, findings, renderer or target invalidates the applicable approval. Withheld or invalidated publication remains a visible state; a prior approval cannot be applied to a materially different candidate.
 
-CF-RENDER-MD consumes approval, synthesis and both action plans. HTML and PDF follow the Markdown result for semantic parity. Formats may differ in layout, but must preserve finding identity, source evidence, severity rationale, limitations, disagreements and action-plan content. Rendering a file is not an external publish action. This record does not permit Medium upload, manuscript submission or repository mutation.
+CF-RENDER-MD consumes approval, synthesis and both action plans. HTML and PDF must preserve the Markdown semantic claim set using the same approved source snapshots; a rendered Markdown file is not a separate approval authority. Formats may differ in layout, but must preserve finding identity, source evidence, severity rationale, limitations, disagreements and action-plan content. Rendering a file is not an external publish action. This record does not permit Medium upload, manuscript submission or repository mutation.
 
 ## Alternatives Considered
 
@@ -53,3 +53,18 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove implementation, authorize live provider/cloud effects or external publication, or satisfy issue acceptance tests. Required unresolved decisions remain explicit in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+
+Publication binds artifact manifest, run/findings, scope, renderer versions, target and canonical destination digest. HTML reads the approved snapshots and shared Markdown parity helpers, not a rendered Markdown file as its authority. No PDF implementation is present in this pinned publication module.
+
+Proposed clarification: Clarify shared approved-input semantic parity and destination binding. Retain PDF/all-three-format parity as an unmet implementation obligation owned by #898, with integration and independent qualification at #914/#915.
+
+- [adl/src/codefriend/publication/manifest.rs](../../../../adl/src/codefriend/publication/manifest.rs)
+- [adl/src/codefriend/publication/approval.rs](../../../../adl/src/codefriend/publication/approval.rs)
+- [adl/src/codefriend/publication/markdown.rs](../../../../adl/src/codefriend/publication/markdown.rs)
+- [adl/src/codefriend/publication/html.rs](../../../../adl/src/codefriend/publication/html.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

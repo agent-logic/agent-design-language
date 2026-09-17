@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-EVIDENCE (#881).
 Participating owners: CF-EVIDENCE (#881).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -54,3 +54,17 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove the implementation, authorize provider/cloud execution or external publication, or satisfy the associated issue acceptance tests. Conflicts and required unresolved decisions remain visible in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+
+Run, Finding, ReviewRecord, Comparison and Publication are shared contracts. Evidence identity binds repository, revision, path, source object and content digest; the store enforces admission and retention.
+
+Proposed clarification: Keep stable match identity separate from revision-bound evidence identity and report identity; contract validation is not proof of a complete installed consumer journey.
+
+- [adl/src/codefriend/evidence/contracts.rs](../../../../adl/src/codefriend/evidence/contracts.rs)
+- [adl/src/codefriend/evidence/mod.rs](../../../../adl/src/codefriend/evidence/mod.rs)
+- [adl/src/codefriend/evidence/store.rs](../../../../adl/src/codefriend/evidence/store.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

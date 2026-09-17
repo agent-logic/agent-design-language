@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 945,
+  "issue_padded": "0945",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/945",
+  "title": "[v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obtain decision approval",
+  "branch": "codex/945-adr-decision-reconciliation",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-945-adr-decision-reconciliation"
+}

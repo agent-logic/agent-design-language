@@ -1,0 +1,53 @@
+{
+  "schema": "issue945.candidate_content.v1",
+  "files": [
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-01.md",
+      "sha256": "674b10cbd5cf006e9c93a04ba07c5912878e13d5c9c319669c7090d2d35f98f1"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-02.md",
+      "sha256": "d5e9d9228477f7e8e1151f9902bba8c38557ea2a2097be5749b3b17ca04d0fd4"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-03.md",
+      "sha256": "da64afb4ea4d63153f055588c0cc84e7cc11bbb4fcabfc9474560121d6cb14e7"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-04.md",
+      "sha256": "9acd6dd034c86a1f941074fe07536fdab2ff2ee8db40425cc3c0a6474a974143"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-05.md",
+      "sha256": "7f0f8f3d8a151031ecabf84cc2f41c9ee6f579ed53a8c08c03faaa90c6dd90ff"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-06.md",
+      "sha256": "081fcb1ee978b94653874c63f3e31d1fcb7fe4f16f7097757247c224e8256c79"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-07.md",
+      "sha256": "5a57b788a573ca8ab662888c6c5139809c3defb70101d24e35aa310a39889ede"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-08.md",
+      "sha256": "230a26b0421ae2ee0ba39cac66763a5f7b0a272568f871f098ecdbe9e100213e"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-09.md",
+      "sha256": "0322ceeb13f371ce94ad87739b6cfea9ee3de61b901faddde31897d453f84805"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-plat-01.md",
+      "sha256": "857f719ebba6f4dcb7852086d588d5b9d26eb3a94b872e2ee7a361ea911e7de6"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-01.md",
+      "sha256": "73e4a68f0e6129302296c59f697d863059c6554884f3e885c43bf00e3072c827"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-02.md",
+      "sha256": "ef90cd0cc31ab46b261c6f59d01d7b991795f6a725678e01286adfd84db7e367"
+    }
+  ]
+}

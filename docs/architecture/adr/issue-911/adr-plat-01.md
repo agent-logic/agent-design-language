@@ -6,7 +6,7 @@
 
 Accountable scope owner: PLAT-PROVIDER (#876).
 Participating owners: PLAT-PROVIDER (#876), RT-PROVIDER (#855), RT-COST (#854), PLAT-MLX (#903), PLAT-PAIR (#904), SPEC-RETEST (#905).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -57,3 +57,18 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove implementation, authorize live provider/cloud effects or external publication, or satisfy issue acceptance tests. Required unresolved decisions remain explicit in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This is source inspection, not fresh runtime execution or acceptance.
+
+Provider candidate validation rejects embedded credential values; ProviderRegistry validates adapter kinds before replacing the definition snapshot. Runtime uses that registry through an async boundary. CodeFriend calls the shared invocation facade; source presence is not five-route generated-response qualification.
+
+Proposed clarification: Separate configuration candidate validation, immutable registered definition replacement and runtime agent operations. Keep capability lists and five-route execution as required qualification rather than infer them from registry types.
+
+- [adl-provider-core/src/candidate.rs](../../../../adl-provider-core/src/candidate.rs)
+- [adl-provider-core/src/registry.rs](../../../../adl-provider-core/src/registry.rs)
+- [adl-runtime-kernel/src/provider_registry.rs](../../../../adl-runtime-kernel/src/provider_registry.rs)
+- [adl/src/codefriend/review/runner.rs](../../../../adl/src/codefriend/review/runner.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

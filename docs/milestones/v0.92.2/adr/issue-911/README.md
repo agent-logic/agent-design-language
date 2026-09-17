@@ -38,3 +38,7 @@ The packet validator checks record presence/structure, source digests, owners, a
 Run `python3 docs/milestones/v0.92.2/adr/issue-911/validate_packet.py --self-test` from the repository root. PVF: docs_only; deterministic local CPU/file checks; required issue gate; no network, provider, cloud or runtime execution.
 
 The source snapshot is historical to this packet. Before an ADR is accepted or an owner changes a contract, reconcile changed implementation/planning evidence and refresh affected review. ARCH-ADR acceptance remains a TAIL-10 obligation; this packet adds no CF-INTEGRATE or TAIL-01 gate.
+
+## Current reconciliation
+
+The [issue-945 decision packet](../issue-945/README.md) contains current implementation observations and revised candidate hashes. This issue-911 review and source snapshot remain historical; they do not review or approve later changed bytes. Formal acceptance remains pending.
