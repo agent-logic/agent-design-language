@@ -4146,3 +4146,99 @@ fn installed_proof_refuses_external_workspace_inheritance_and_patch_inputs() {
         );
     }
 }
+
+// PVF: #1046 installed owner contract, deterministic Git/filesystem and synthetic
+// transport; small local CPU/disk, required tooling gate, no live service proof.
+#[test]
+fn issue_1046_installed_publication_prepare_and_amendment_guards() {
+    let mut fixture = Fixture::new("publication-plan-amendment");
+    let primary = fixture.root.clone();
+    for body in ["Description. Closes #505", "Closes #505\nFixes #506"] {
+        let mut invalid = plan();
+        invalid["publication"]["body"] = body.into();
+        let input = fixture.write_json("invalid-publication.json", &invalid);
+        let before = intent_fixture::inventory(&primary);
+        let result = fixture.run(
+            &primary,
+            &["prepare", "505", "--plan", input.to_str().unwrap()],
+        );
+        assert!(!result.status.success());
+        assert!(String::from_utf8_lossy(&result.stdout).contains("intent_publication_body_invalid"));
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    }
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let mut publication = plan()["publication"].clone();
+    publication["body"] = "Closes #505\n\nRepaired body".into();
+    let changes = fixture.write_json(
+        "publication-changes.json",
+        &json!({
+            "schema":"csdlc.v3.intent_changes.v1", "publication":publication
+        }),
+    );
+    let emitted = success(fixture.run(
+        &linked,
+        &[
+            "edit",
+            "505",
+            "--changes",
+            changes.to_str().unwrap(),
+            "--emit-request",
+        ],
+    ));
+    let stale = fixture.write_json("stale-publication.json", &emitted["request"]);
+    let edited = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(edited["publication_amended"], true);
+    let root =
+        SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
+            .unwrap();
+    let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+    let Observation::Current(snapshot) =
+        DurableTransactionStore::observe_issue(&root, &key).unwrap()
+    else {
+        panic!("missing semantic state")
+    };
+    assert_eq!(
+        snapshot.inputs().publication().body,
+        "Closes #505\n\nRepaired body"
+    );
+    let before = intent_fixture::inventory(&primary);
+    assert!(!fixture
+        .run(
+            &linked,
+            &["edit", "--intent-request", stale.to_str().unwrap()]
+        )
+        .status
+        .success());
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+
+    let repeated = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(repeated["status"], "expected_noop");
+    for extra in [
+        json!({"validators":[]}),
+        json!({"cards":{"sor":{"summary":"mixed"}}}),
+    ] {
+        let mut mixed = json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication});
+        mixed
+            .as_object_mut()
+            .unwrap()
+            .extend(extra.as_object().unwrap().clone());
+        let input = fixture.write_json("mixed-publication.json", &mixed);
+        let before = intent_fixture::inventory(&primary);
+        let result = fixture.run(
+            &linked,
+            &["edit", "505", "--changes", input.to_str().unwrap()],
+        );
+        assert!(!result.status.success());
+        assert!(String::from_utf8_lossy(&result.stdout)
+            .contains("intent_changes_single_surface_required"));
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    }
+}
