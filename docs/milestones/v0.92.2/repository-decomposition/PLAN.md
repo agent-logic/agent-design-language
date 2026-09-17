@@ -165,3 +165,7 @@ unresolved findings. No extraction has executed. The next decision is to resolve
 the audit's ownership/contract gaps for RD-02 and assign missing administrative
 and independent-release proof. Refresh the audit at the actual migration head.
 The September 15 review above applies to the historical six-owner draft. The current seven-repository revision is reviewed under #1047; migration opens v0.93 and completes before feature work.
+
+## Beta 1 product requirement clarified under #945
+
+The separate website and private code repositories must deliver integrated website access in Beta 1 for both server-hosted reviews and an installed local agent controlled through the website, with CLI also supported. Invitation-only access uses GitHub sign-in. Agent Logic provides server-mode model access. The v0.93 code extraction sequence does not defer these Beta 1 capabilities. See [ADR 0084](../../../adr/0084-cf-09.md) and [delivery gates](../adr/issue-945/BETA1_DELIVERY.md). No code repository name, migration completion or deployment is asserted here.

@@ -76,3 +76,21 @@ and review heuristics demo results.
 - This ADR does not authorize external publication.
 - This ADR does not claim CodeFriend replaces human review.
 - This ADR does not claim every CodeFriend report is automatically correct.
+
+Refinement accepted under #945: [ADR 0076 (ADR-CF-01)](0076-cf-01.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0077 (ADR-CF-02)](0077-cf-02.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0078 (ADR-CF-03)](0078-cf-03.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0079 (ADR-CF-04)](0079-cf-04.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0080 (ADR-CF-05)](0080-cf-05.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0081 (ADR-CF-06)](0081-cf-06.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0082 (ADR-CF-07)](0082-cf-07.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0083 (ADR-CF-08)](0083-cf-08.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0084 (ADR-CF-09)](0084-cf-09.md). This link does not change the status of this source record.

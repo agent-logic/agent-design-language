@@ -127,3 +127,5 @@ head, including five Memory Palace contract tests and two integration tests.
   handoff packet and long-lived-agent consumer path proven by #4760.
 - This ADR does not authorize new runtime code, providers, AWS, databases, or
   broad v0.92 implementation.
+
+Refinement accepted under #945: [ADR 0082 (ADR-CF-07)](0082-cf-07.md). This link does not change the status of this source record.

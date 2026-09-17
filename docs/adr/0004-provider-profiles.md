@@ -108,3 +108,5 @@ v0.6 does not provide:
 - Signed/attested profile bundles.
 - Optional remote profile sources under explicit trust policy.
 - Stronger profile policy controls (for example org allowlists).
+
+Refinement accepted under #945: [ADR 0085 (ADR-PLAT-01)](0085-plat-01.md). This link does not change the status of this source record.

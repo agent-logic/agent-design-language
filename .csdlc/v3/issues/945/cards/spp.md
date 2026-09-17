@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Read all12 candidates and current sources; record divergences and revise supported wording; preserve historical proposal and all69 mapping; generate current source manifest and per-candidate decision recommendations; run focused validation and independent review; present exact-text decisions for operator approval before applying final statuses or numbering."
+plan_summary: "Apply twelve individually approved operator decisions, preserving original proposal bytes and approval history. Promote numbered accepted records with reciprocal refinement links; revise CF09 for both website modes in Beta1 and installed local agent. Reconcile planning gates without claiming product delivery. Validate approval/content/source integrity, independently review and update existing PR1054 without merge."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -61,7 +61,7 @@ proposed_steps:
     expected_output: ".csdlc/issues/945/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: Twelve source-reconciled Proposed ADRs; current source and content manifests; all69 decision coverage; recommendations and independent review in issue-945 packet."
+    description: "Implement only the bounded deliverables: Twelve accepted ADR records; approval history; preserved 69 mappings and historical proposals; explicit Beta1 website integration and qualification gates; validation and independent review."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Source review does not prove runtime behavior. Proposed ADRs remain pending operator decision; preserve historical records and separate #848/#910 obligations."
+notes: "All twelve design decisions accepted; website implementation, hosting/access design and qualification remain separate unfinished work. Code repository name undecided. No runtime, deployment or merge claim."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obtain decision approval`.
 
-Read all12 candidates and current sources; record divergences and revise supported wording; preserve historical proposal and all69 mapping; generate current source manifest and per-candidate decision recommendations; run focused validation and independent review; present exact-text decisions for operator approval before applying final statuses or numbering.
+Apply twelve individually approved operator decisions, preserving original proposal bytes and approval history. Promote numbered accepted records with reciprocal refinement links; revise CF09 for both website modes in Beta1 and installed local agent. Reconcile planning gates without claiming product delivery. Validate approval/content/source integrity, independently review and update existing PR1054 without merge.
 
 ## PVF Lane Plan
 
@@ -156,7 +156,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. Confirm dependency readiness and starting state: Original Proposed packet #911/PR #942 is merged. Reconciliation may start now; #848 and #910 remain separately owned obligations, not blockers to drafting. Operator per-candidate disposition gates final acceptance; #925 consumes that disposition.
 2. Review repo inputs and scoped surfaces before editing: Issue #945; docs/architecture/adr/issue-911/; docs/milestones/v0.92.2/adr/issue-911/; current CodeFriend, provider and C-SDLC implementation; #925 TAIL-10 acceptance contract.
-3. Implement only the bounded deliverables: Twelve source-reconciled Proposed ADRs; current source and content manifests; all69 decision coverage; recommendations and independent review in issue-945 packet.
+3. Implement only the bounded deliverables: Twelve accepted ADR records; approval history; preserved 69 mappings and historical proposals; explicit Beta1 website integration and qualification gates; validation and independent review.
 4. Run focused proof gates for acceptance: All12 candidates have current source evidence and explicit recommended disposition, owner, rationale, consequences and reversibility; all69 mappings retained; hashes and focused validation pass; independent exact-head review complete. Actual accepted/revised/rejected/deferred decisions require explicit operator or designated decision-owner evidence. No acceptance or closure claimed while required decisions remain pending.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Source review does not prove runtime behavior. Proposed ADRs remain pending operator decision; preserve historical records and separate #848/#910 obligations.
+All twelve design decisions accepted; website implementation, hosting/access design and qualification remain separate unfinished work. Code repository name undecided. No runtime, deployment or merge claim.

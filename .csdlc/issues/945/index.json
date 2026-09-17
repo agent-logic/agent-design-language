@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 945,
   "phase": "bound",
-  "generation": 7,
+  "generation": 9,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/945-adr-decision-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-945-adr-decision-reconciliation",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "87bd3453805cf5551b4b006f45d3842afb0a1a5df50bd2796ebf6193ba9a7af9"
+  "digest": "79ad1b8f2425faa4f8cc4b55638541c0ae9083c16e5e47b3c0a377fb8350b859"
 }

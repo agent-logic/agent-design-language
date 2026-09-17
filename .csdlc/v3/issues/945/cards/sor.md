@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Reconciled12 Proposed ADRs and69 mappings. Operator clarified two CodeFriend repositories: existing website and separate private code repo, name not yet chosen. Corrected CF09 and decomposition plan. All candidate acceptance remains pending; draft PR requested.
+Operator individually accepted all twelve decisions; promoted ADR0076-0087, preserving proposal history and69 mappings. Revised CF09 requires both website modes in Beta1 plus CLI, installed local agent, invited GitHub access and Agent Logic server model access. Downstream implementation and qualification remain unproven.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs_only`
@@ -75,19 +75,19 @@ Reconciled12 Proposed ADRs and69 mappings. Operator clarified two CodeFriend rep
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/945/cards/sor.md`
-- Tracked implementation artifacts: `none`
+- Tracked implementation artifacts: `docs/adr/0076-0087; docs/milestones/v0.92.2/adr/issue-945; bounded planning contract corrections`
 - Additional proof artifacts: `not_run`
 
 ## Actions taken
 - `Read original twelve candidates and current implementation/planning sources.`
-- `Revised bounded claims and generated current per-candidate decision/source/hash packet.`
+- `Recorded operator approval history, accepted successors, reciprocal refinements and revised Beta1 planning contracts.`
 - `Ran focused current and historical documentation validators successfully.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `preparation cards only`
 - Integration state: `worktree_only`
-- Verification scope: `Documentation/source reconciliation only; no product runtime or provider execution.`
+- Verification scope: `Approval and document integrity only; no product execution, provider calls or deployment.`
 - Integration method used: `not_run`
 - Verification performed:
   - `not_run`
@@ -110,7 +110,7 @@ Rules:
   - `not_run`
     `not_run`
 - Results:
-  - `Current document validator passes12 candidates,69 mappings,44 sources,14 negatives; historical validator passes10 negatives,21 sources. Native proof and final review remain separate evidence.`
+  - `Current document validator passes12 decisions,69 mappings,44 sources and14 negative fixtures. Historical validator passes21 sources and10 negative fixtures. Native validation and independent review pending refreshed candidate.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `not_run`
 
 ## Follow-ups / Deferred work
-- `Publish reviewed draft after native proof and final records review.`
-- `Obtain explicit operator dispositions for each exact candidate before acceptance, numbering or closure.`
+- `Complete independent review and native proof/review, then update existing draftPR1054. No merge authorized.`
+- `Assign missing website/server/local-agent implementation owners and rebaseline typed #914/#915 dependencies before execution. Resolve local-mode model-access choice.`

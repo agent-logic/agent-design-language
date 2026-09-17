@@ -45,3 +45,7 @@ This draft was compared with current source and contract text. It does not rerun
 ## Approval Boundary
 
 The underlying V3-F approval remains the existing #505/#591 authority. Acceptance of this ADR requires normal documentation review and publication; it cannot supply missing operational proof.
+
+Refinement accepted under #945: [ADR 0086 (ADR-CSDLC-01)](../../adr/0086-csdlc-01.md). This link does not change the status of this source record.
+
+Refinement accepted under #945: [ADR 0087 (ADR-CSDLC-02)](../../adr/0087-csdlc-02.md). This link does not change the status of this source record.

@@ -76,3 +76,22 @@ Palace proof-handoff work.
 
 - `0051-chronosense-and-memory-palace-adr-disposition.md` consumed by ADR 0058
   for the Memory Palace decision; retained as the deferred-disposition record.
+
+## v0.92.2 operator decisions
+
+The operator individually accepted the twelve decisions under #945. Original candidates remain provenance; accepted records are listed below. Design acceptance is separate from implementation and release qualification.
+
+- [0076: ADR-CF-01](0076-cf-01.md)
+- [0077: ADR-CF-02](0077-cf-02.md)
+- [0078: ADR-CF-03](0078-cf-03.md)
+- [0079: ADR-CF-04](0079-cf-04.md)
+- [0080: ADR-CF-05](0080-cf-05.md)
+- [0081: ADR-CF-06](0081-cf-06.md)
+- [0082: ADR-CF-07](0082-cf-07.md)
+- [0083: ADR-CF-08](0083-cf-08.md)
+- [0084: ADR-CF-09](0084-cf-09.md)
+- [0085: ADR-PLAT-01](0085-plat-01.md)
+- [0086: ADR-CSDLC-01](0086-csdlc-01.md)
+- [0087: ADR-CSDLC-02](0087-csdlc-02.md)
+
+[Approval packet and Beta 1 delivery gates](../milestones/v0.92.2/adr/issue-945/README.md).

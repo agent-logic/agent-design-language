@@ -1,0 +1,190 @@
+{
+  "schema": "issue945.operator_decisions.v1",
+  "decisions": [
+    {
+      "candidate": "ADR-CF-01",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CF-01 acceptance question",
+      "candidate_sha256": "2d17c267aefaa5108e389601b0a1aef3027e585f4e71b6a7e4c67e7ed1296a51",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:44:08.434628+00:00",
+      "scope": "Shared immutable repository packet design; no implementation proof, extraction or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-02",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply ok to individual ADR-CF-02 acceptance question",
+      "candidate_sha256": "f406df43149daacc4bb71de0e6a65ca0344af04bd5aa2aff65f642dbba18f035",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:46:57.912879+00:00",
+      "scope": "Shared versioned evidence, finding and run identity design; no implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-03",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CF-03 acceptance question",
+      "candidate_sha256": "cb1e5e78fba434716e1cd0dec1a8fe910b4a0c5f5197f3b4bf2803c6fc745442",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:47:45.791078+00:00",
+      "scope": "Untrusted evidence, bounded privacy filtering and retention/deletion design; no comprehensive detection guarantee, implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-04",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK after ADR-CF-04 acceptance question and explanation of explicit coverage limits",
+      "candidate_sha256": "687af7d8ca2a474c880d7b91265c6fee2aa182985a8bbc4c27ccf98304f76214",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:49:22.684190+00:00",
+      "scope": "Evidence-linked architecture analysis with explicit examined/excluded scope and syntactic inference limits; no runtime safety or whole-repository guarantee, implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-05",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CF-05 acceptance question",
+      "candidate_sha256": "75cd500749dc3a174035f530d969486d13227b4d8dcc43ba1d9e6cdf42154370",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:50:02.620917+00:00",
+      "scope": "Shared local/CI declared architecture checker with distinct pass/fail/error outcomes and explicit supported-rule limits; no implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-06",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CF-06 acceptance question",
+      "candidate_sha256": "4178f60d2d74c130d816d6c720309c8108cce73df70f5295f269cb9dac99d3ed",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:51:26.399933+00:00",
+      "scope": "Four information-isolated review perspectives, attributed synthesis preserving disagreement, advisory remediation/test plans, and explicit incomplete-lane outcomes; no implementation proof, source mutation or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-07",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CF-07 acceptance question",
+      "candidate_sha256": "915303ef0bdf34688a6173783d3c8bb7d411feded5ef30bb1b91e2e9c2bff155",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:52:16.192991+00:00",
+      "scope": "Compatible longitudinal review comparison with explicit outcomes and shared Memory Palace context retrieval respecting evidence ownership, privacy, deletion and expiry; no implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-08",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CF-08 acceptance question",
+      "candidate_sha256": "60d3b6d8d845f73ce7ebcc99d4ff81918e2c15d0ec8ba7f39ab69bbe24c4064d",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:53:08.706283+00:00",
+      "scope": "Exact-artifact human approval and Markdown/HTML/PDF semantic parity with renewal after material changes; no external publication, completed PDF qualification, implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "revision_requested",
+      "actor": "operator",
+      "authority": "Planning #7.3 operator requires code integrated into website, CLI also acceptable, and confirms both server-hosted and local execution",
+      "candidate_sha256": "3031cef4cae59111c82ed736e0205a6015e64b592c46bc1b7e748d2020f7ea42",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:54:41.175418+00:00",
+      "required_revision": "Separate website/code repositories deliver integrated website access to CodeFriend functionality with both server-hosted review execution and local execution controlled through the website; CLI also available. Prior CLI-only product boundary is not accepted.",
+      "unresolved": "Whether both website execution modes are required for Beta 1 or a later milestone; revised exact ADR text still needs approval.",
+      "scope": "Design direction only; no implied hosted deployment, paid execution, milestone expansion or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "revision_requested",
+      "actor": "operator",
+      "authority": "Planning #7.3 operator explicitly states: we need to support both methods in beta 1; preceding answers require website integration, server-hosted and local execution, with CLI also supported",
+      "candidate_sha256": "3031cef4cae59111c82ed736e0205a6015e64b592c46bc1b7e748d2020f7ea42",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:55:36.309026+00:00",
+      "required_revision": "Beta 1 must provide an integrated website supporting both server-hosted reviews and locally executed reviews controlled through the website. CLI also supported. Website and code repositories remain separate. The prior local-CLI-only Beta 1 boundary is superseded by this operator direction.",
+      "delivery_milestone": "Beta 1 / v0.92.2",
+      "required_followthrough": [
+        "Revise ADR-CF-09 and its decision/evidence packet before requesting exact-text acceptance.",
+        "Reconcile Beta 1 planning and #914 integration acceptance to both website execution modes plus CLI.",
+        "Reconcile #915 independent qualification to actual both-mode website journeys; CLI-only proof is insufficient.",
+        "Identify bounded missing implementation owners and dependencies without treating this design direction as completed product proof."
+      ],
+      "unresolved": "Revised exact ADR text and implementation/dependency plan still require source-grounded preparation; server hosting and local connection details are not selected.",
+      "scope": "Explicit Beta 1 scope correction; no implicit paid operation, deployment, credential handling change or merge authorization"
+    },
+    {
+      "candidate": "ADR-PLAT-01",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-PLAT-01 acceptance question",
+      "candidate_sha256": "006afab22024f4983718489bafceef38203d926b7180dead0f4b65fa092aa925",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:56:24.729128+00:00",
+      "scope": "Shared provider configuration and Runtime lifecycle ownership, credential references, invalid replacement rejection and last-known-good configuration with actual provider qualification; no paid execution, deployment, implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CSDLC-01",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CSDLC-01 acceptance question",
+      "candidate_sha256": "07076319ad55c63f05f44cd2b6a1d7dfde84ae3e780fc03040ce5e0a5d17fad6",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:56:55.881991+00:00",
+      "scope": "One authoritative semantic issue record, observational diagnostics, evidence invalidation and exact-operation reconciliation or proven non-effect before redispatch; no implementation proof, writer activation or merge authorization"
+    },
+    {
+      "candidate": "ADR-CSDLC-02",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3 user reply OK to individual ADR-CSDLC-02 acceptance question",
+      "candidate_sha256": "5ee8bd8cc0df21a71883c6d4c404658da771da0dc672be1e402f0b87439c7c41",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T01:57:47.281175+00:00",
+      "scope": "Controlled writer pause, preserved evidence and rehearsed conversion; snapshot restoration only before new operational effects, otherwise reviewed reconciliation or forward repair; no live writer pause, conversion, implementation proof or merge authorization"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "accepted",
+      "actor": "operator",
+      "authority": "Planning #7.3: user OK to final revised CF-09 decision summary after individually approving the other eleven decisions",
+      "approved_statement": "Beta 1 must provide an integrated website supporting both reviews executed on our servers and locally executed reviews controlled through the website. CLI is also supported. Website and private code repositories remain separate; the code repository name remains undecided. Integration and independent qualification must prove both website modes; CLI-only proof is insufficient.",
+      "approved_statement_sha256": "ebcde364d946a9baaec62e8df8903806d6722ba2cb6c7eb3fcdeaec5d5415495",
+      "superseded_proposal_sha256": "3031cef4cae59111c82ed736e0205a6015e64b592c46bc1b7e748d2020f7ea42",
+      "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+      "recorded_at": "2026-09-17T02:02:50.593449+00:00",
+      "scope": "Acceptance of revised design direction, not approval of old CLI-only proposal bytes, product proof, deployment or merge"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "implementation_direction",
+      "actor": "operator",
+      "authority": "Planning #7.3: user answered Yes, use an installed local agent",
+      "decision": "Beta 1 local execution uses an installed CodeFriend agent connected to the website; reviews run on the user computer.",
+      "recorded_at": "2026-09-17T02:02:50.593516+00:00"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "implementation_direction",
+      "actor": "operator",
+      "authority": "Planning #7.3: user answered Invited users only",
+      "decision": "Beta 1 website access is invitation-only for both execution modes.",
+      "recorded_at": "2026-09-17T02:03:18.661593+00:00"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "implementation_direction",
+      "actor": "operator",
+      "authority": "Planning #7.3: user answered GitHub sign-in",
+      "decision": "Invited Beta 1 users sign in with GitHub.",
+      "recorded_at": "2026-09-17T02:05:50.090282+00:00"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "implementation_direction",
+      "actor": "operator",
+      "authority": "Planning #7.3: user answered Agent Logic provides model access",
+      "decision": "Agent Logic provides and pays for model access for server-hosted Beta 1 reviews.",
+      "recorded_at": "2026-09-17T02:06:57.261999+00:00"
+    }
+  ]
+}

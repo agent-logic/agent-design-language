@@ -1,16 +1,25 @@
 {
   "schema": "issue945.decisions.v1",
   "implementation_revision": "cf7b9d7ff8fc30ec605f994ee70aa838257fca51",
-  "acceptance_complete": false,
+  "acceptance_complete": true,
   "candidates": [
     {
       "candidate": "ADR-CF-01",
       "path": "docs/architecture/adr/issue-911/adr-cf-01.md",
       "owner": "CF-ADAPTER",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-01",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CF-01 acceptance question",
+        "candidate_sha256": "2d17c267aefaa5108e389601b0a1aef3027e585f4e71b6a7e4c67e7ed1296a51",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:44:08.434628+00:00",
+        "scope": "Shared immutable repository packet design; no implementation proof, extraction or merge authorization"
+      },
+      "numeric_id": "0076",
       "source_refs": [
         "adl/src/codefriend/ingestion/mod.rs",
         "adl/src/codefriend/ingestion/local.rs",
@@ -19,16 +28,26 @@
       ],
       "observation": "Packet and Scope provide shared acquisition identity; local and GitHub acquisition produce Packet, while CI records a separate acquisition receipt around the packet. Acquisition remains distinct from evidence admission.",
       "correction": "Clarify that route-specific receipts supplement the shared packet rather than requiring byte-identical envelopes. Equivalent source identity does not imply every route has equal coverage.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0076-cf-01.md"
     },
     {
       "candidate": "ADR-CF-02",
       "path": "docs/architecture/adr/issue-911/adr-cf-02.md",
       "owner": "CF-EVIDENCE",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-02",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply ok to individual ADR-CF-02 acceptance question",
+        "candidate_sha256": "f406df43149daacc4bb71de0e6a65ca0344af04bd5aa2aff65f642dbba18f035",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:46:57.912879+00:00",
+        "scope": "Shared versioned evidence, finding and run identity design; no implementation proof or merge authorization"
+      },
+      "numeric_id": "0077",
       "source_refs": [
         "adl/src/codefriend/evidence/contracts.rs",
         "adl/src/codefriend/evidence/mod.rs",
@@ -36,16 +55,26 @@
       ],
       "observation": "Run, Finding, ReviewRecord, Comparison and Publication are shared contracts. Evidence identity binds repository, revision, path, source object and content digest; the store enforces admission and retention.",
       "correction": "Keep stable match identity separate from revision-bound evidence identity and report identity; contract validation is not proof of a complete installed consumer journey.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0077-cf-02.md"
     },
     {
       "candidate": "ADR-CF-03",
       "path": "docs/architecture/adr/issue-911/adr-cf-03.md",
       "owner": "CF-EVIDENCE",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-03",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CF-03 acceptance question",
+        "candidate_sha256": "cb1e5e78fba434716e1cd0dec1a8fe910b4a0c5f5197f3b4bf2803c6fc745442",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:47:45.791078+00:00",
+        "scope": "Untrusted evidence, bounded privacy filtering and retention/deletion design; no comprehensive detection guarantee, implementation proof or merge authorization"
+      },
+      "numeric_id": "0078",
       "source_refs": [
         "adl/src/codefriend/ingestion/mod.rs",
         "adl/src/codefriend/evidence/mod.rs",
@@ -54,16 +83,26 @@
       ],
       "observation": "The evidence redaction marker is known_unsafe_whole_object_omission_v1 and trust is untrusted_repository_text. Admission has bounded retention and expiry. Review constructs scoped lane inputs from admitted evidence.",
       "correction": "Specify bounded known-unsafe whole-object omission rather than imply comprehensive secret discovery, arbitrary text sanitization or retroactive purge of already exported copies.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0078-cf-03.md"
     },
     {
       "candidate": "ADR-CF-04",
       "path": "docs/architecture/adr/issue-911/adr-cf-04.md",
       "owner": "CF-COG",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-04",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK after ADR-CF-04 acceptance question and explanation of explicit coverage limits",
+        "candidate_sha256": "687af7d8ca2a474c880d7b91265c6fee2aa182985a8bbc4c27ccf98304f76214",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:49:22.684190+00:00",
+        "scope": "Evidence-linked architecture analysis with explicit examined/excluded scope and syntactic inference limits; no runtime safety or whole-repository guarantee, implementation proof or merge authorization"
+      },
+      "numeric_id": "0079",
       "source_refs": [
         "adl/src/codefriend/architecture/structure.rs",
         "adl/src/codefriend/architecture/impact.rs",
@@ -72,32 +111,52 @@
       ],
       "observation": "Structure uses a syntactic single-crate Rust graph without compilation or macro expansion. Impact consumes operator-declared changes and reports potential dependency paths. Rationale relates declared deployment boundaries to human ADR evidence. Drift uses CF-MEMORY comparison and reports structural declarations.",
       "correction": "Specify that changes are declared inputs, not an automatically observed diff; structural added/resolved does not prove runtime effects, safety or corrected defects.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0079-cf-04.md"
     },
     {
       "candidate": "ADR-CF-05",
       "path": "docs/architecture/adr/issue-911/adr-cf-05.md",
       "owner": "CF-GOV",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-05",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CF-05 acceptance question",
+        "candidate_sha256": "75cd500749dc3a174035f530d969486d13227b4d8dcc43ba1d9e6cdf42154370",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:50:02.620917+00:00",
+        "scope": "Shared local/CI declared architecture checker with distinct pass/fail/error outcomes and explicit supported-rule limits; no implementation proof or merge authorization"
+      },
+      "numeric_id": "0080",
       "source_refs": [
         "adl/src/codefriend/governance/local.rs",
         "adl/src/codefriend/governance/ci.rs"
       ],
       "observation": "Policy currently admits only forbidden_declared_use. Status maps Pass/Fail/Error to 0/1/2. The CI verifier checks candidate, packet and policy identities and validates the local report instead of defining another predicate.",
       "correction": "Narrow the implemented rule inventory to forbidden_declared_use; broader architecture fitness policies need separate implementations and proof.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0080-cf-05.md"
     },
     {
       "candidate": "ADR-CF-06",
       "path": "docs/architecture/adr/issue-911/adr-cf-06.md",
       "owner": "CF-REVIEW",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-06",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CF-06 acceptance question",
+        "candidate_sha256": "4178f60d2d74c130d816d6c720309c8108cce73df70f5295f269cb9dac99d3ed",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:51:26.399933+00:00",
+        "scope": "Four information-isolated review perspectives, attributed synthesis preserving disagreement, advisory remediation/test plans, and explicit incomplete-lane outcomes; no implementation proof, source mutation or merge authorization"
+      },
+      "numeric_id": "0081",
       "source_refs": [
         "adl/src/codefriend/review/runner.rs",
         "adl/src/codefriend/review/lanes.rs",
@@ -107,16 +166,26 @@
       ],
       "observation": "Review rejects preloaded input, builds lane manifests with empty peer references and uses execute_provider_invocation. Synthesis requires a complete review and complete lane set; remediation and test-plan consumers bind synthesis, review and manifests.",
       "correction": "Retain information isolation as the decision, not vendor diversity or parallel scheduling. Actual provider outputs and four completed lanes still require executed proof; plans remain advisory artifacts.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0081-cf-06.md"
     },
     {
       "candidate": "ADR-CF-07",
       "path": "docs/architecture/adr/issue-911/adr-cf-07.md",
       "owner": "CF-MEMORY",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-07",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CF-07 acceptance question",
+        "candidate_sha256": "915303ef0bdf34688a6173783d3c8bb7d411feded5ef30bb1b91e2e9c2bff155",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:52:16.192991+00:00",
+        "scope": "Compatible longitudinal review comparison with explicit outcomes and shared Memory Palace context retrieval respecting evidence ownership, privacy, deletion and expiry; no implementation proof or merge authorization"
+      },
+      "numeric_id": "0082",
       "source_refs": [
         "adl/src/codefriend/memory/comparison.rs",
         "adl/src/codefriend/memory/baseline.rs",
@@ -125,16 +194,26 @@
       ],
       "observation": "Comparison loads both records even for identical references and checks repository, schema, scope, lane versions and provider route. AdmittedBaselines stores review references without source copies and requires live admission. Palace indexing consumes VerifiedMemoryPalaceAuthority; authority provisioning uses separately selected operator trust.",
       "correction": "Retain evidence storage and Runtime-authorized context handoff as separate owners. A local baseline index is permitted subordinate storage, not a new memory authority. Compatibility includes provider route and current retention; authority assembly construction is not live Runtime qualification.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0082-cf-07.md"
     },
     {
       "candidate": "ADR-CF-08",
       "path": "docs/architecture/adr/issue-911/adr-cf-08.md",
       "owner": "CF-UX",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-08",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CF-08 acceptance question",
+        "candidate_sha256": "60d3b6d8d845f73ce7ebcc99d4ff81918e2c15d0ec8ba7f39ab69bbe24c4064d",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:53:08.706283+00:00",
+        "scope": "Exact-artifact human approval and Markdown/HTML/PDF semantic parity with renewal after material changes; no external publication, completed PDF qualification, implementation proof or merge authorization"
+      },
+      "numeric_id": "0083",
       "source_refs": [
         "adl/src/codefriend/publication/manifest.rs",
         "adl/src/codefriend/publication/approval.rs",
@@ -143,16 +222,28 @@
       ],
       "observation": "Publication binds artifact manifest, run/findings, scope, renderer versions, target and canonical destination digest. HTML reads the approved snapshots and shared Markdown parity helpers, not a rendered Markdown file as its authority. No PDF implementation is present in this pinned publication module.",
       "correction": "Clarify shared approved-input semantic parity and destination binding. Retain PDF/all-three-format parity as an unmet implementation obligation owned by #898, with integration and independent qualification at #914/#915.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0083-cf-08.md"
     },
     {
       "candidate": "ADR-CF-09",
       "path": "docs/architecture/adr/issue-911/adr-cf-09.md",
       "owner": "CF-SHELL",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CF-09",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3: user OK to final revised CF-09 decision summary after individually approving the other eleven decisions",
+        "approved_statement": "Beta 1 must provide an integrated website supporting both reviews executed on our servers and locally executed reviews controlled through the website. CLI is also supported. Website and private code repositories remain separate; the code repository name remains undecided. Integration and independent qualification must prove both website modes; CLI-only proof is insufficient.",
+        "approved_statement_sha256": "ebcde364d946a9baaec62e8df8903806d6722ba2cb6c7eb3fcdeaec5d5415495",
+        "superseded_proposal_sha256": "3031cef4cae59111c82ed736e0205a6015e64b592c46bc1b7e748d2020f7ea42",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T02:02:50.593449+00:00",
+        "scope": "Acceptance of revised design direction, not approval of old CLI-only proposal bytes, product proof, deployment or merge"
+      },
+      "numeric_id": "0084",
       "source_refs": [
         "adl/src/codefriend/operator/mod.rs",
         "adl/src/cli/codefriend_cmd.rs",
@@ -160,17 +251,27 @@
         "docs/milestones/v0.92.2/repository-decomposition/PLAN.md"
       ],
       "observation": "The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs. The current repository plan records the product split, separate website/private-code repositories, and only ADL public. Operator clarification during #945 distinguishes website and code repositories; the earlier decomposition plan had incorrectly conflated the existing website with the code destination.",
-      "correction": "Keep current source placement as pre-extraction state. Preserve agent-logic/codefriend.ai for website assets and use a separate private CodeFriend code repository; identifier allocated during repository setup. This records the operator boundary clarification, not completed extraction or acceptance of all12 ADR texts.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "correction": "The operator rejected the local-CLI-only proposal and accepted both website execution modes in Beta1 plus CLI, using a connected installed local agent, invitation-only access and GitHub sign-in. Separate website/private-code repositories remain; code name undecided.",
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0084-cf-09.md"
     },
     {
       "candidate": "ADR-PLAT-01",
       "path": "docs/architecture/adr/issue-911/adr-plat-01.md",
       "owner": "PLAT-PROVIDER",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-PLAT-01",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-PLAT-01 acceptance question",
+        "candidate_sha256": "006afab22024f4983718489bafceef38203d926b7180dead0f4b65fa092aa925",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:56:24.729128+00:00",
+        "scope": "Shared provider configuration and Runtime lifecycle ownership, credential references, invalid replacement rejection and last-known-good configuration with actual provider qualification; no paid execution, deployment, implementation proof or merge authorization"
+      },
+      "numeric_id": "0085",
       "source_refs": [
         "adl-provider-core/src/candidate.rs",
         "adl-provider-core/src/registry.rs",
@@ -179,16 +280,26 @@
       ],
       "observation": "Provider candidate validation rejects embedded credential values; ProviderRegistry validates adapter kinds before replacing the definition snapshot. Runtime uses that registry through an async boundary. CodeFriend calls the shared invocation facade; source presence is not five-route generated-response qualification.",
       "correction": "Separate configuration candidate validation, immutable registered definition replacement and runtime agent operations. Keep capability lists and five-route execution as required qualification rather than infer them from registry types.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0085-plat-01.md"
     },
     {
       "candidate": "ADR-CSDLC-01",
       "path": "docs/architecture/adr/issue-911/adr-csdlc-01.md",
       "owner": "SIM-04",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CSDLC-01",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CSDLC-01 acceptance question",
+        "candidate_sha256": "07076319ad55c63f05f44cd2b6a1d7dfde84ae3e780fc03040ce5e0a5d17fad6",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:56:55.881991+00:00",
+        "scope": "One authoritative semantic issue record, observational diagnostics, evidence invalidation and exact-operation reconciliation or proven non-effect before redispatch; no implementation proof, writer activation or merge authorization"
+      },
+      "numeric_id": "0086",
       "source_refs": [
         "csdlc-v3/src/storage/semantic/protocol.rs",
         "csdlc-v3/src/application/intent/local.rs",
@@ -197,16 +308,26 @@
       ],
       "observation": "The semantic operation protocol models reservation, outcome, attachment and verified recovery. Intent routes use the semantic owner and retain independent projections. Current publication amendment checks an expected semantic version; pending operation identity remains part of recovery.",
       "correction": "Replace future-only adoption wording with an implemented semantic route at the pinned revision. An uncertain remote effect needs exact-operation reconciliation or proven non-effect before any new dispatch; a historical success receipt cannot prove a later request outcome.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0086-csdlc-01.md"
     },
     {
       "candidate": "ADR-CSDLC-02",
       "path": "docs/architecture/adr/issue-911/adr-csdlc-02.md",
       "owner": "SIM-08",
       "recommendation": "accept_revised",
-      "disposition": "pending_operator_decision",
-      "approval": null,
-      "numeric_id": null,
+      "disposition": "accepted",
+      "approval": {
+        "candidate": "ADR-CSDLC-02",
+        "disposition": "accepted",
+        "actor": "operator",
+        "authority": "Planning #7.3 user reply OK to individual ADR-CSDLC-02 acceptance question",
+        "candidate_sha256": "5ee8bd8cc0df21a71883c6d4c404658da771da0dc672be1e402f0b87439c7c41",
+        "reviewed_head": "5507b83b19e21fb98b68ad082e01f1b91b72b6c4",
+        "recorded_at": "2026-09-17T01:57:47.281175+00:00",
+        "scope": "Controlled writer pause, preserved evidence and rehearsed conversion; snapshot restoration only before new operational effects, otherwise reviewed reconciliation or forward repair; no live writer pause, conversion, implementation proof or merge authorization"
+      },
+      "numeric_id": "0087",
       "source_refs": [
         "csdlc-v3/src/conversion.rs",
         "csdlc-v3/src/storage/semantic/journal_recovery.rs",
@@ -215,7 +336,8 @@
       ],
       "observation": "Native v3 is already operational; conversion/recovery source and explicit semantic preparation routes exist. These sources do not establish that every future rollout has a complete census, paused old writers, or an approved restore window.",
       "correction": "Treat the writer-pause and before/after-effects restore rule as a reusable transition obligation. Do not describe this ADR as authorization to replay V3-F, automatically convert every retained record, or restore a snapshot after new effects.",
-      "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
+      "gate_consequence": "The twelve-decision design acceptance obligation for #925 is satisfied by the recorded operator decisions. #914/#915 product integration and qualification, #848 and #910 obligations, review and merge remain separate gates.",
+      "accepted_path": "docs/adr/0087-csdlc-02.md"
     }
   ],
   "task_mapping": [
@@ -717,5 +839,6 @@
     "authority": "Operator clarification in Planning #7.3 on 2026-09-16: two CodeFriend repos, one for website and one for code",
     "website_readme_revision": "99a3a85944e3095da29862654621a3c6bca80b61",
     "website_readme_url": "https://github.com/agent-logic/codefriend.ai/blob/99a3a85944e3095da29862654621a3c6bca80b61/README.md"
-  }
+  },
+  "approval_history": "docs/milestones/v0.92.2/adr/issue-945/operator-decisions.json"
 }
