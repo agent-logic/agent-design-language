@@ -375,7 +375,7 @@
       "result": "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
       "acceptance": [
         "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        "Independent design review resolves actionable findings against the versioned plugin contract and explicit success, refusal and recovery scenarios. Implementation and installed-consumer proof are delivered by RV-02 through RV-08, not required to admit RV-02."
       ],
       "negative_cases": [
         "Manifest self-grants",
@@ -385,10 +385,10 @@
       "source": "features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
       "status": "candidate",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
-      "pvf": "installed_integration",
+      "pvf": "planning_contract",
       "non_goals": [
         "No unrelated feature expansion",
-        "No completion from scaffolding, schema-only work or zero executed scenarios"
+        "No Runtime implementation or installed qualification claimed by design-review acceptance"
       ]
     },
     {

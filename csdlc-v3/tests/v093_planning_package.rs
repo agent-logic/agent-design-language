@@ -74,6 +74,14 @@ fn check(plan: &Value) -> Result<(), String> {
             return Err(format!("{id}: bypasses split"));
         }
     }
+    if by_id["RV-01"]["pvf"] != "planning_contract" {
+        return Err("RV-01 requires a design-review proof gate".into());
+    }
+    for i in 2..=8 {
+        if by_id[format!("RV-{i:02}").as_str()]["pvf"] != "installed_integration" {
+            return Err(format!("RV-{i:02} requires installed implementation proof"));
+        }
+    }
     let mut release = BTreeSet::new();
     visit("TAIL-10", &by_id, &mut BTreeSet::new(), &mut release)?;
     for prefix_count in [("RV", 8), ("CF", 7)] {
@@ -168,4 +176,21 @@ fn rejects_omitted_launch_and_private_boundary_changes() {
     let mut p = read("EXECUTION_PLAN_v0.93.json");
     p["repositories"]["agent-logic-runtime"] = serde_json::json!("public");
     assert!(check(&p).is_err());
+}
+
+#[test]
+fn rejects_design_and_implementation_proof_lane_inversion() {
+    for (id, lane) in [
+        ("RV-01", "installed_integration"),
+        ("RV-02", "planning_contract"),
+    ] {
+        let mut p = read("EXECUTION_PLAN_v0.93.json");
+        p["work_packages"]
+            .as_array_mut()
+            .unwrap()
+            .iter_mut()
+            .find(|r| r["id"] == id)
+            .unwrap()["pvf"] = serde_json::json!(lane);
+        assert!(check(&p).is_err());
+    }
 }
