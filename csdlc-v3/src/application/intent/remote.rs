@@ -122,7 +122,12 @@ fn reviewed_route(
     route.reviewer = Some(evidence.receipt.reviewer.clone());
     route.review_revision = Some(evidence.receipt.reviewed_revision.clone());
     route.review_present = true;
-    route.typed_review_receipt_path = Some(owner::review_path(context.issue, &context.head));
+    route.typed_review_receipt_path = Some(owner::retained_review_path(
+        &context.root,
+        context.issue,
+        &context.head,
+        &evidence.proof_digest,
+    ));
     route.typed_review_receipt_digest = Some(evidence.receipt_digest.clone());
     Ok(route)
 }
@@ -636,7 +641,7 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
         "external-review".into(),
         format!(
             "{}:{}",
-            owner::review_path(context.issue, &context.head),
+            owner::proof_review_path(context.issue, &context.head, &evidence.proof_digest),
             evidence.receipt_digest
         ),
     )
@@ -712,7 +717,7 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
             super::rebuild_semantic_card_projection(context)?;
             Ok(json!({"status":"completed",
                 "read_only":false,"operational_authority":true,"performed_mutation":recorded.map_err(failure)?,
-                "review_receipt_path":owner::review_path(context.issue,&context.head),
+                "review_receipt_path":owner::proof_review_path(context.issue,&context.head, &evidence.proof_digest),
                 "review_receipt_digest":evidence.receipt_digest,
                 "semantic":{"operation":done.operation_id().as_str(),"original_version":done.original_version(),
                 "current_version":projected.version()}}))
@@ -884,7 +889,12 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                         if base != &plan.publication.base {
                             return Err("intent_publication_plan_mismatch".into());
                         }
-                        let canonical = owner::review_path(context.issue, &context.head);
+                        let canonical = owner::retained_review_path(
+                            &context.root,
+                            context.issue,
+                            &context.head,
+                            &review.proof_digest,
+                        );
                         // Internal identity may be omitted as empty strings in the existing typed enum;
                         // nonempty caller identities must agree, never silently get refreshed.
                         if (!review_receipt_path.is_empty() && review_receipt_path != &canonical)
@@ -1142,7 +1152,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                     Ok(Some(json!({"status":"completed",
                         "read_only":false,"operational_authority":true,
                         "performed_mutation":recorded.map_err(failure)?,
-                        "review_receipt_path":owner::review_path(context.issue,&context.head),
+                        "review_receipt_path":owner::proof_review_path(context.issue,&context.head, &evidence.proof_digest),
                         "review_receipt_digest":evidence.receipt_digest,
                         "semantic":{"operation":done.operation_id().as_str(),"original_version":done.original_version(),
                         "current_version":projected.version()}})))

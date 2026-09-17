@@ -205,6 +205,46 @@ projection change is inapplicable. Formatting-only projection drift therefore
 does not invalidate semantic evidence. Any new Git commit still requires a
 fresh exact-head review, including a display-only commit.
 
+## Correcting publication metadata
+
+Use the native editor rather than editing stored plans or invoking retired direct writers:
+
+```json
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "publication": {
+    "base": "main",
+    "title": "Corrected issue-specific title",
+    "body": "Describe the delivered change.\n\nCloses #1048",
+    "draft": true
+  }
+}
+```
+
+Run `csdlc edit ISSUE --changes publication.json`. The complete publication object
+is one edit surface; it cannot be mixed with cards or validators. Preparation and
+amendment both require a safe base distinct from the issue branch, a nonempty
+single-line title, and a line beginning with `Closes #ISSUE` without another
+closing issue. The example issue number must match the actual target. Base names
+use ASCII letters, digits, slash, underscore, hyphen and dot with no empty,
+hidden, `.lock`, or traversal components.
+
+The local transaction preserves issue, cards, binding, branch and head. It
+invalidates proof, readiness, review, publication and terminal/cleanup evidence;
+a corrected body is never approval. Run fresh `proof`, obtain independent review,
+record it through `review`, then `publish`. Repeating the same metadata is a no-op.
+Once native publication has been recorded, base and draft changes are rejected
+even after proof/review invalidation; use the separately governed remote operations.
+Fresh reviews are retained immutably by exact HEAD and proof digest, so renewed
+review after metadata correction does not overwrite earlier evidence. Existing
+per-HEAD review receipts remain readable.
+
+Pending operations and terminal state remain guarded. Interrupted amendments need
+`recover ISSUE`, then explicit execution with the returned preview digest.
+
+This repairs metadata admission; it does not adopt a PR created through raw
+transport or remove the break-glass reconciliation requirement.
+
 ## Independent review and publication
 
 `REVIEW.json` contains `receipt`, `receipt_digest`, `proof_path` and

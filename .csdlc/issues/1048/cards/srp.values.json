@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1048,
+  "issue_padded": "1048",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1048",
+  "title": "[C-SDLC] Allow typed correction of accepted publication metadata before dispatch",
+  "branch": "codex/1048-publication-metadata-amendment",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1048-publication-metadata-amendment"
+}

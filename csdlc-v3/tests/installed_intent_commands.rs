@@ -4146,3 +4146,327 @@ fn installed_proof_refuses_external_workspace_inheritance_and_patch_inputs() {
         );
     }
 }
+
+// PVF: #1048 deterministic installed tooling regression; synthetic GitHub,
+// local CPU/Git only, required issue proof. No live cloud or GitHub writes.
+#[test]
+fn publication_amendment_rejects_malformed_preparation_before_state_or_dispatch() {
+    for (field, value) in [
+        ("body", "Summary. Closes #505"),
+        ("body", "Closes #506"),
+        ("body", "Closes #505\nCloses #506"),
+        ("base", "--bad"),
+        ("base", "main..bad"),
+        ("title", " "),
+    ] {
+        let mut fixture = Fixture::new("publication-invalid-prepare");
+        let primary = fixture.root.clone();
+        let mut input = plan();
+        input["publication"][field] = json!(value);
+        let input = fixture.write_json("invalid-plan.json", &input);
+        let before = publication_reservation_inventory(&primary);
+        let output = fixture.run(
+            &primary,
+            &["prepare", "505", "--plan", input.to_str().unwrap()],
+        );
+        assert!(!output.status.success());
+        assert!(
+            String::from_utf8_lossy(&output.stdout).contains("intent_publication_metadata_invalid")
+        );
+        assert_same_inventory!(before, publication_reservation_inventory(&primary));
+        assert_eq!(fixture.remote_effects(), 0);
+    }
+}
+
+#[test]
+fn publication_amendment_prepared_and_bound_preserve_identity_and_are_idempotent() {
+    let mut fixture = Fixture::new("publication-ready-bound");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    for bound in [false, true] {
+        if bound {
+            success(fixture.run(&primary, &["bind", "505"]));
+        }
+        let cwd = if bound {
+            linked_worktree(&primary)
+        } else {
+            primary.clone()
+        };
+        let mut publication = plan()["publication"].clone();
+        publication["title"] = json!(if bound {
+            "Corrected bound title"
+        } else {
+            "Corrected prepared title"
+        });
+        let changes = fixture.write_json(
+            "publication-change.json",
+            &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+        );
+        success(fixture.run(
+            &cwd,
+            &["edit", "505", "--changes", changes.to_str().unwrap()],
+        ));
+        let before = publication_reservation_inventory(&primary);
+        let replay = success(fixture.run(
+            &cwd,
+            &["edit", "505", "--changes", changes.to_str().unwrap()],
+        ));
+        assert_eq!(replay["status"], "expected_noop");
+        assert_same_inventory!(before, publication_reservation_inventory(&primary));
+        assert_eq!(fixture.remote_effects(), 0);
+    }
+}
+
+#[test]
+fn publication_amendment_requires_fresh_proof_review_before_single_dispatch() {
+    let (mut fixture, linked) = reviewed_fixture("publication-reviewed-amendment");
+    let primary = fixture.root.clone();
+    let state_path = linked.join(".csdlc/v3/issues/505/state.json");
+    let before: Value = serde_json::from_slice(&fs::read(&state_path).unwrap()).unwrap();
+    let stale_review = fixture.write_json("old-review.json", &external_review(&linked));
+    let mut publication = plan()["publication"].clone();
+    publication["body"] = json!("Corrected metadata.\n\nCloses #505");
+    let changes = fixture.write_json(
+        "publication-change.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+    );
+    success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    let after: Value = serde_json::from_slice(&fs::read(&state_path).unwrap()).unwrap();
+    assert_eq!(before["inputs"]["binding"], after["inputs"]["binding"]);
+    assert_ne!(before["input_version"], after["input_version"]);
+    assert!(!fixture.run(&linked, &["publish", "505"]).status.success());
+    assert!(!fixture
+        .run(
+            &linked,
+            &[
+                "review",
+                "505",
+                "--evidence",
+                stale_review.to_str().unwrap()
+            ]
+        )
+        .status
+        .success());
+    assert_eq!(fixture.remote_effects(), 0);
+    success(fixture.run(&linked, &["proof", "505"]));
+    let review = fixture.write_json("renewed-review.json", &external_review(&linked));
+    success(fixture.run(
+        &linked,
+        &["review", "505", "--evidence", review.to_str().unwrap()],
+    ));
+    let published = success(fixture.run(&linked, &["publish", "505"]));
+    assert_eq!(published["status"], "completed");
+    assert_eq!(fixture.remote_effects(), 1);
+    // Even after another proof downgrades phase, published topology is immutable.
+    success(fixture.run(&linked, &["proof", "505"]));
+    publication["base"] = json!("other-base");
+    let bad = fixture.write_json(
+        "bad-topology.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+    );
+    let before = publication_reservation_inventory(&primary);
+    assert!(!fixture
+        .run(
+            &linked,
+            &["edit", "505", "--changes", bad.to_str().unwrap()]
+        )
+        .status
+        .success());
+    assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
+#[test]
+fn publication_amendment_interrupted_edit_requires_explicit_recovery() {
+    let (mut fixture, linked) = reviewed_fixture("publication-recovery");
+    let mut publication = plan()["publication"].clone();
+    publication["title"] = json!("Recovered metadata");
+    let changes = fixture.write_json(
+        "publication-change.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+    );
+    let crash = fixture.run_with_env(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_publication_edit_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    let pending_inventory = publication_reservation_inventory(&fixture.root);
+    assert!(!fixture.run(&linked, &["publish", "505"]).status.success());
+    assert_same_inventory!(
+        pending_inventory,
+        publication_reservation_inventory(&fixture.root)
+    );
+    assert_eq!(fixture.remote_effects(), 0);
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(preview["action"], "reconcile_publication_edit");
+    let recovered = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(recovered["status"], "completed");
+    assert!(!fixture.run(&linked, &["publish", "505"]).status.success());
+    success(fixture.run(&linked, &["proof", "505"]));
+    let review = fixture.write_json("recovered-review.json", &external_review(&linked));
+    success(fixture.run(
+        &linked,
+        &["review", "505", "--evidence", review.to_str().unwrap()],
+    ));
+    success(fixture.run(&linked, &["publish", "505"]));
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
+// PVF #1048: deterministic installed compatibility and negative-effect regression.
+// Local Git / synthetic transport only; required issue proof, no live writes.
+#[test]
+fn issue_1048_review_legacy_retention_publishes_with_existing_receipt() {
+    let (mut fixture, linked) = reviewed_fixture("1048-legacy-review");
+    let review = external_review(&linked);
+    let head = git(&linked, &["rev-parse", "HEAD"]);
+    let current = linked.join(csdlc_v3::commands::remote::intent::proof_review_path(
+        505,
+        &head,
+        review["proof_digest"].as_str().unwrap(),
+    ));
+    let legacy = linked.join(csdlc_v3::commands::remote::intent::review_path(505, &head));
+    // Model an existing installation's immutable per-HEAD review layout.
+    fs::rename(&current, &legacy).unwrap();
+    fs::rename(
+        current.with_extension("external.json"),
+        legacy.with_extension("external.json"),
+    )
+    .unwrap();
+    assert!(!current.exists());
+    let published = success(fixture.run(&linked, &["publish", "505"]));
+    assert_eq!(published["status"], "completed");
+    assert_eq!(fixture.remote_effects(), 1);
+    assert!(legacy.is_file());
+    assert!(
+        !current.exists(),
+        "publication must not rewrite retained review layout"
+    );
+}
+
+#[test]
+fn issue_1048_review_pending_publication_denies_topology_correction() {
+    let (mut fixture, linked) = reviewed_fixture("1048-pending-publication");
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 0);
+    let mut publication = plan()["publication"].clone();
+    publication["base"] = json!("corrected-base");
+    publication["draft"] = json!(false);
+    let changes = fixture.write_json(
+        "pending-publication-change.json",
+        &json!({
+        "schema":"csdlc.v3.intent_changes.v1", "publication":publication}),
+    );
+    let before = publication_reservation_inventory(&fixture.root);
+    let denied = fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    );
+    assert!(!denied.status.success());
+    assert!(
+        String::from_utf8_lossy(&denied.stdout).contains("PendingOperation"),
+        "{denied:?}"
+    );
+    assert_same_inventory!(before, publication_reservation_inventory(&fixture.root));
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
+fn publication_amendment_rejects_invalid_edits_without_reservation() {
+    let mut fixture = Fixture::new("publication-edit-invalid");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let branch = git(&linked, &["symbolic-ref", "--short", "HEAD"]);
+    let before = publication_reservation_inventory(&primary);
+    for (field, value) in [
+        ("body", "Summary. Closes #505"),
+        ("body", "Closes #506"),
+        ("base", branch.as_str()),
+        ("title", "bad\ntitle"),
+    ] {
+        let mut publication = plan()["publication"].clone();
+        publication[field] = json!(value);
+        let changes = fixture.write_json(
+            "invalid-edit.json",
+            &json!({"schema":"csdlc.v3.intent_changes.v1", "publication":publication}),
+        );
+        let output = fixture.run(
+            &linked,
+            &["edit", "505", "--changes", changes.to_str().unwrap()],
+        );
+        assert!(!output.status.success());
+        assert!(
+            String::from_utf8_lossy(&output.stdout).contains("intent_publication_metadata_invalid")
+        );
+        assert_same_inventory!(before.clone(), publication_reservation_inventory(&primary));
+    }
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
+fn publication_amendment_prepared_recovery_keeps_planned_branch_identity() {
+    let mut fixture = Fixture::new("publication-prepared-recovery");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let mut publication = plan()["publication"].clone();
+    publication["title"] = json!("Prepared recovery");
+    let changes = fixture.write_json(
+        "publication-change.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1", "publication":publication}),
+    );
+    let crash = fixture.run_with_env(
+        &primary,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_publication_edit_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let state: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    assert_eq!(
+        state["inputs"]["intent_plan"]["publication"]["title"],
+        "Prepared recovery"
+    );
+    assert_eq!(fixture.remote_effects(), 0);
+}

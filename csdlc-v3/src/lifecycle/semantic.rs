@@ -10,6 +10,7 @@ pub enum SemanticCommand {
     AmendCards,
     AmendPlan,
     AmendValidation,
+    AmendPublication,
     AmendBinding,
     RecordProof,
     AssignReview,
@@ -435,7 +436,7 @@ pub fn decide(
             command
         };
         let allowed = match original {
-            AmendCards | AmendPlan | AmendValidation => active,
+            AmendCards | AmendPlan | AmendValidation | AmendPublication => active,
             AmendBinding => executable && facts.topology,
             Bind => from == Ready && facts.bind_target,
             RecordProof => executable,
@@ -488,7 +489,7 @@ pub fn decide(
         Invalidation::Cleanup,
     ];
     let (to, admitted, invalidations) = match command {
-        AmendCards | AmendPlan | AmendValidation => (from, active, all),
+        AmendCards | AmendPlan | AmendValidation | AmendPublication => (from, active, all),
         AmendBinding => (from, executable && facts.topology, all),
         Bind => (
             Bound,
