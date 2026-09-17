@@ -170,7 +170,7 @@ validation:
 }
 ```
 
-The amendment declaration is mandatory and retained with the native effect.
+For card edits, the amendment declaration is mandatory and retained with the native effect.
 `binding` is reserved for the topology-verified bind owner. An implementation
 amendment also supplies the exact 40-character `implementation_revision`; the
 owner requires it to match the bound effect head. `new_commit` records whether
@@ -180,6 +180,9 @@ Use the applicable card-editor skill to choose truthful fields. The command
 adapter does not authorize arbitrary handwritten card structure. Unsupported
 preview or execute flags on local preparation, editing, validation and proof
 are rejected before dispatch.
+
+Publication metadata uses a separate single-surface edit; see
+[Correcting publication metadata](#correcting-publication-metadata) below.
 
 ## Amendment and evidence invalidation table
 
@@ -228,6 +231,11 @@ single-line title, and a line beginning with `Closes #ISSUE` without another
 closing issue. The example issue number must match the actual target. Base names
 use ASCII letters, digits, slash, underscore, hyphen and dot with no empty,
 hidden, `.lock`, or traversal components.
+
+Saved publication edit requests retain the exact `snapshot.semantic_version`.
+A stale or missing version is rejected, including requests whose publication
+content happens to equal the current value. Regenerate and review the request
+against the current state; the admitted version remains fixed through reservation.
 
 The local transaction preserves issue, cards, binding, branch and head. It
 invalidates proof, readiness, review, publication and terminal/cleanup evidence;

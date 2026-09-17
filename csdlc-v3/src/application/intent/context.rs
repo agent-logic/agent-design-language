@@ -419,6 +419,18 @@ impl Context {
         Ok((root, key))
     }
 
+    /// Report whether this issue has retained native-v3 records but no semantic
+    /// lifecycle. This is observation only; it neither converts nor repairs the
+    /// retained issue state.
+    pub(crate) fn semantic_migration_required(&self) -> Result<bool, String> {
+        self.fresh_integrity()?;
+        let (root, key) = self.semantic_root_key()?;
+        Ok(matches!(
+            DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)?,
+            Observation::LegacyMigrationRequired
+        ))
+    }
+
     pub(crate) fn semantic_authority(&self) -> Result<SemanticDigest, String> {
         // canonical_v3_authority was established by Context::load. Hash the exact
         // selected bytes into the semantic domain instead of reusing a differently
@@ -720,7 +732,7 @@ impl Context {
     }
     pub fn snapshot_for_intent(&self, command: &str) -> Snapshot {
         let mut snapshot = self.snapshot();
-        if command == "rebuild" {
+        if matches!(command, "rebuild" | "edit") {
             snapshot.semantic_version = self.semantic_root_key().ok().and_then(|(root, key)| {
                 match DurableTransactionStore::observe_issue(&root, &key).ok()? {
                     Observation::Current(value) | Observation::ProjectionRepairRequired(value) => {

@@ -89,10 +89,13 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         if selected != 1 {
             return Err("intent_changes_single_surface_required".into());
         }
-        request.card_updates = changes.cards;
         if let Some(publication) = changes.publication {
-            return semantic_publication_edit(context, publication);
+            if changes.amendment.is_some() {
+                return Err("intent_publication_amendment_unexpected".into());
+            }
+            return semantic_publication_edit(context, publication, &intent.snapshot);
         }
+        request.card_updates = changes.cards;
         if let Some(validators) = changes.validators {
             return semantic_validation_edit(context, validators);
         }
@@ -1279,10 +1282,29 @@ fn validate_publication_edit(context: &Context, publication: &Publication) -> Re
     Ok(())
 }
 
-fn semantic_publication_edit(context: &Context, publication: Publication) -> Result<Value, String> {
+fn semantic_publication_edit(
+    context: &Context,
+    publication: Publication,
+    expected: &super::Snapshot,
+) -> Result<Value, String> {
     use crate::lifecycle::semantic::{Facts, SemanticCommand};
     use crate::storage::{semantic::protocol::*, DurableTransactionStore};
     let semantic = context.semantic_context()?;
+    // Preserve the caller's semantic version, including emitted requests. The
+    // same admitted snapshot is carried into reservation, whose CAS check also
+    // rejects changes racing this preflight.
+    let admitted_version = super::IssueVersion {
+        generation: Some(semantic.snapshot.version().generation()),
+        digest: Some(semantic.snapshot.version().digest().as_str().to_owned()),
+    };
+    if expected.semantic_version.as_ref() != Some(&admitted_version) {
+        return Err("intent_publication_stale_semantic_version".into());
+    }
+    if semantic.snapshot.pending().is_some() {
+        return Err(semantic_error(
+            crate::storage::semantic::Error::PendingOperation,
+        ));
+    }
     validate_publication_edit(context, &publication)?;
     let publication: crate::storage::semantic::Publication = serde_json::from_value(
         serde_json::to_value(publication).map_err(|_| "intent_publication_invalid")?,
@@ -1290,7 +1312,7 @@ fn semantic_publication_edit(context: &Context, publication: Publication) -> Res
     .map_err(|_| "intent_publication_invalid")?;
     if semantic.snapshot.inputs().publication() == &publication {
         return Ok(
-            json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop",
+            json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop","publication_amended":false,
             "read_only":true,"writes_v3_state":false,"operational_authority":true,
             "semantic_version":semantic.snapshot.version(),
             "inputs":semantic.snapshot.inputs_version()}),
@@ -1332,7 +1354,7 @@ fn semantic_publication_edit(context: &Context, publication: Publication) -> Res
         }
         Reservation::AlreadyCompleted(done) => {
             return Ok(
-                json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop",
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"expected_noop","publication_amended":false,
                 "read_only":true,"writes_v3_state":false,"operational_authority":true,
                 "operation_id":done.operation_id().as_str(),"semantic_version":done.current_version()}),
             )
@@ -1383,7 +1405,7 @@ fn semantic_publication_edit(context: &Context, publication: Publication) -> Res
             let projected = semantic.complete_projection(&snapshot)?;
             semantic_rebuild_current(context, &context.registry()?)?;
             Ok(
-                json!({"schema":"csdlc.v3.intent_local.v1","status":"completed",
+                json!({"schema":"csdlc.v3.intent_local.v1","status":"completed","publication_amended":true,
                 "read_only":false,"writes_v3_state":true,"operational_authority":true,
                 "operation_id":done.operation_id().as_str(),
                 "semantic_version":projected.version(),"inputs":projected.inputs_version()}),

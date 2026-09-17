@@ -1,0 +1,80 @@
+{
+  "issue": 1017,
+  "observed_at": "2026-09-16T23:49:48.232538+00:00",
+  "source_profile": "default",
+  "destination_profile": "agent-logic-admin",
+  "domains": [
+    {
+      "domain": "v-dev.ai",
+      "absent_from_source_registrations": true,
+      "present_in_destination_registrations": true,
+      "operation_status": {
+        "transfer": "SUCCESSFUL",
+        "accept": "SUCCESSFUL"
+      },
+      "preserved": {
+        "Nameservers": true,
+        "AutoRenew": true,
+        "ExpirationDate": true,
+        "AdminContact": true,
+        "RegistrantContact": true,
+        "TechContact": true,
+        "StatusList": true,
+        "DnssecKeys": true
+      },
+      "auto_renew": true,
+      "expiration": "2028-08-14T11:09:00-07:00",
+      "source_zone_records_unchanged": true,
+      "registration_transfer_verified": true
+    },
+    {
+      "domain": "v-fin.ai",
+      "absent_from_source_registrations": true,
+      "present_in_destination_registrations": true,
+      "operation_status": {
+        "transfer": "SUCCESSFUL",
+        "accept": "SUCCESSFUL"
+      },
+      "preserved": {
+        "Nameservers": true,
+        "AutoRenew": true,
+        "ExpirationDate": true,
+        "AdminContact": true,
+        "RegistrantContact": true,
+        "TechContact": true,
+        "StatusList": true,
+        "DnssecKeys": true
+      },
+      "auto_renew": true,
+      "expiration": "2028-08-21T11:14:28-07:00",
+      "source_zone_records_unchanged": true,
+      "registration_transfer_verified": true
+    },
+    {
+      "domain": "v-sec.ai",
+      "absent_from_source_registrations": true,
+      "present_in_destination_registrations": true,
+      "operation_status": {
+        "transfer": "SUCCESSFUL",
+        "accept": "SUCCESSFUL"
+      },
+      "preserved": {
+        "Nameservers": true,
+        "AutoRenew": true,
+        "ExpirationDate": true,
+        "AdminContact": true,
+        "RegistrantContact": true,
+        "TechContact": true,
+        "StatusList": true,
+        "DnssecKeys": true
+      },
+      "auto_renew": true,
+      "expiration": "2028-08-21T11:14:24-07:00",
+      "source_zone_records_unchanged": true,
+      "registration_transfer_verified": true
+    }
+  ],
+  "dns_changes_performed": false,
+  "hosted_zones_retained_in_source": true,
+  "owner_inventory_confirmation": "Operator OK and its fine following exact three-domain transfer question; nameserver/zone preservation explicitly stated."
+}

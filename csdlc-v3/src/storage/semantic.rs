@@ -521,6 +521,7 @@ impl Snapshot {
 pub enum LocalChange {
     AmendCards(BTreeMap<String, serde_json::Value>),
     AmendPlan(Vec<PlanStep>),
+    AmendPublication(Publication),
     AmendValidation(Vec<Validator>),
     AmendBinding(VerifiedBindingAmendment),
     AcknowledgeProjection(ProjectionWriteProof),
@@ -1240,6 +1241,24 @@ fn remote_residue(remote: &Path, key: &IssueKey) -> Result<bool, Error> {
                 continue;
             }
             if identity.1 > 0 && identity.1 == key.issue && identity.0 == key.repository {
+                // Completed issue metadata edits predate local preparation. They
+                // are remote history, not evidence that a local index exists.
+                // Preserve both files and reuse the native exact-receipt guard.
+                if matches!(namespace, "intents" | "mutations") {
+                    let receipt = remote.join("mutations").join(name);
+                    reject_symlinks(&receipt)?;
+                    if receipt.is_file()
+                        && crate::commands::remote::settled_issue_mutation_receipt(
+                            remote,
+                            &receipt,
+                            &key.repository,
+                            key.issue,
+                        )
+                        .map_err(|_| Error::RecoveryRequired)?
+                    {
+                        continue;
+                    }
+                }
                 return Ok(true);
             }
         }
@@ -2071,6 +2090,26 @@ impl DurableTransactionStore {
             }
             LocalChange::AmendPlan(plan) => {
                 payload.inputs.plan = plan;
+                amendment_class = Some(AmendmentClass::Plan);
+                SemanticCommand::AmendPlan
+            }
+            LocalChange::AmendPublication(publication) => {
+                if !matches!(
+                    current.phase(),
+                    LifecycleState::Ready
+                        | LifecycleState::Bound
+                        | LifecycleState::Implemented
+                        | LifecycleState::Reviewed
+                ) || publication.base != current.inputs().publication().base
+                    || publication.title.trim().is_empty()
+                    || !crate::commands::remote::publication_body_is_valid(
+                        &publication.body,
+                        admission.key.issue,
+                    )
+                {
+                    return Err(Error::InvalidInput("publication amendment rejected".into()));
+                }
+                payload.inputs.intent_plan.publication = publication;
                 amendment_class = Some(AmendmentClass::Plan);
                 SemanticCommand::AmendPlan
             }

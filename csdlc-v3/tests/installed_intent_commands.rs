@@ -4171,7 +4171,11 @@ fn publication_amendment_rejects_malformed_preparation_before_state_or_dispatch(
         );
         assert!(!output.status.success());
         assert!(
-            String::from_utf8_lossy(&output.stdout).contains("intent_publication_metadata_invalid")
+            String::from_utf8_lossy(&output.stdout).contains(if field == "body" {
+                "intent_publication_body_invalid"
+            } else {
+                "intent_publication_metadata_invalid"
+            })
         );
         assert_same_inventory!(before, publication_reservation_inventory(&primary));
         assert_eq!(fixture.remote_effects(), 0);
@@ -4372,6 +4376,26 @@ fn issue_1048_review_pending_publication_denies_topology_correction() {
     );
     assert_eq!(crash.status.code(), Some(91));
     assert_eq!(fixture.remote_effects(), 0);
+    let unchanged = fixture.write_json(
+        "pending-unchanged-publication.json",
+        &json!({
+            "schema":"csdlc.v3.intent_changes.v1", "publication":plan()["publication"]
+        }),
+    );
+    let unchanged_before = publication_reservation_inventory(&fixture.root);
+    let unchanged_result = fixture.run(
+        &linked,
+        &["edit", "505", "--changes", unchanged.to_str().unwrap()],
+    );
+    assert!(
+        !unchanged_result.status.success(),
+        "pending no-op was accepted: {unchanged_result:?}"
+    );
+    assert!(String::from_utf8_lossy(&unchanged_result.stdout).contains("PendingOperation"));
+    assert_same_inventory!(
+        unchanged_before,
+        publication_reservation_inventory(&fixture.root)
+    );
     let mut publication = plan()["publication"].clone();
     publication["base"] = json!("corrected-base");
     publication["draft"] = json!(false);
@@ -4421,7 +4445,11 @@ fn publication_amendment_rejects_invalid_edits_without_reservation() {
         );
         assert!(!output.status.success());
         assert!(
-            String::from_utf8_lossy(&output.stdout).contains("intent_publication_metadata_invalid")
+            String::from_utf8_lossy(&output.stdout).contains(if field == "body" {
+                "intent_publication_body_invalid"
+            } else {
+                "intent_publication_metadata_invalid"
+            })
         );
         assert_same_inventory!(before.clone(), publication_reservation_inventory(&primary));
     }
@@ -4469,4 +4497,193 @@ fn publication_amendment_prepared_recovery_keeps_planned_branch_identity() {
         "Prepared recovery"
     );
     assert_eq!(fixture.remote_effects(), 0);
+}
+
+// PVF: #1046 installed owner contract, deterministic Git/filesystem and synthetic
+// transport; small local CPU/disk, required tooling gate, no live service proof.
+#[test]
+fn issue_1046_installed_publication_prepare_and_amendment_guards() {
+    let mut fixture = Fixture::new("publication-plan-amendment");
+    let primary = fixture.root.clone();
+    for body in ["Description. Closes #505", "Closes #505\nFixes #506"] {
+        let mut invalid = plan();
+        invalid["publication"]["body"] = body.into();
+        let input = fixture.write_json("invalid-publication.json", &invalid);
+        let before = intent_fixture::inventory(&primary);
+        let result = fixture.run(
+            &primary,
+            &["prepare", "505", "--plan", input.to_str().unwrap()],
+        );
+        assert!(!result.status.success());
+        assert!(String::from_utf8_lossy(&result.stdout).contains("intent_publication_body_invalid"));
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    }
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let mut publication = plan()["publication"].clone();
+    publication["body"] = "Closes #505\n\nRepaired body".into();
+    let changes = fixture.write_json(
+        "publication-changes.json",
+        &json!({
+            "schema":"csdlc.v3.intent_changes.v1", "publication":publication
+        }),
+    );
+    let emitted = success(fixture.run(
+        &linked,
+        &[
+            "edit",
+            "505",
+            "--changes",
+            changes.to_str().unwrap(),
+            "--emit-request",
+        ],
+    ));
+    let stale = fixture.write_json("stale-publication.json", &emitted["request"]);
+    let edited = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(edited["publication_amended"], true);
+    let root =
+        SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
+            .unwrap();
+    let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+    let Observation::Current(snapshot) =
+        DurableTransactionStore::observe_issue(&root, &key).unwrap()
+    else {
+        panic!("missing semantic state")
+    };
+    assert_eq!(
+        snapshot.inputs().publication().body,
+        "Closes #505\n\nRepaired body"
+    );
+    let before = intent_fixture::inventory(&primary);
+    assert!(!fixture
+        .run(
+            &linked,
+            &["edit", "--intent-request", stale.to_str().unwrap()]
+        )
+        .status
+        .success());
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+
+    let repeated = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(repeated["status"], "expected_noop");
+    for extra in [
+        json!({"validators":[]}),
+        json!({"cards":{"sor":{"summary":"mixed"}}}),
+    ] {
+        let mut mixed = json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication});
+        mixed
+            .as_object_mut()
+            .unwrap()
+            .extend(extra.as_object().unwrap().clone());
+        let input = fixture.write_json("mixed-publication.json", &mixed);
+        let before = intent_fixture::inventory(&primary);
+        let result = fixture.run(
+            &linked,
+            &["edit", "505", "--changes", input.to_str().unwrap()],
+        );
+        assert!(!result.status.success());
+        assert!(String::from_utf8_lossy(&result.stdout)
+            .contains("intent_changes_single_surface_required"));
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    }
+}
+
+// PVF: deterministic installed local tooling; no remote effects, required #1048 regression.
+#[test]
+fn publication_amendment_saved_request_cannot_overwrite_newer_correction() {
+    for bound in [false, true] {
+        let mut fixture = Fixture::new("publication-stale-version");
+        let primary = fixture.root.clone();
+        prepare(&mut fixture);
+        let cwd = if bound {
+            success(fixture.run(&primary, &["bind", "505"]));
+            linked_worktree(&primary)
+        } else {
+            primary.clone()
+        };
+        let mut publication = plan()["publication"].clone();
+        publication["title"] = json!("Saved correction A");
+        let changes = fixture.write_json(
+            "correction-a.json",
+            &json!({
+                "schema":"csdlc.v3.intent_changes.v1", "publication":publication
+            }),
+        );
+        let emitted = success(fixture.run(
+            &cwd,
+            &[
+                "edit",
+                "505",
+                "--changes",
+                changes.to_str().unwrap(),
+                "--emit-request",
+            ],
+        ));
+        publication["title"] = json!("Current correction B");
+        let newer = fixture.write_json(
+            "correction-b.json",
+            &json!({
+                "schema":"csdlc.v3.intent_changes.v1", "publication":publication
+            }),
+        );
+        success(fixture.run(&cwd, &["edit", "505", "--changes", newer.to_str().unwrap()]));
+        let current = success(fixture.run(
+            &cwd,
+            &[
+                "edit",
+                "505",
+                "--changes",
+                newer.to_str().unwrap(),
+                "--emit-request",
+            ],
+        ));
+        // Reject stale A, even if its content is changed to the current value,
+        // and reject a missing semantic version rather than inventing one.
+        for mode in ["stale", "stale-noop", "missing-version"] {
+            let mut saved = emitted["request"].clone();
+            if mode == "stale-noop" {
+                saved["content"]["publication"] = publication.clone();
+            }
+            if mode == "missing-version" {
+                saved = current["request"].clone();
+                saved["snapshot"]
+                    .as_object_mut()
+                    .unwrap()
+                    .remove("semantic_version");
+            }
+            let saved = fixture.write_json(&format!("{mode}.json"), &saved);
+            let before = intent_fixture::inventory(&primary);
+            let output = fixture.run(&cwd, &["edit", "--intent-request", saved.to_str().unwrap()]);
+            assert!(!output.status.success(), "{mode}: {output:?}");
+            assert!(
+                String::from_utf8_lossy(&output.stdout)
+                    .contains("intent_publication_stale_semantic_version")
+                    || String::from_utf8_lossy(&output.stdout).contains("intent_snapshot_stale"),
+                "{mode}: {output:?}"
+            );
+            assert_same_inventory!(before, intent_fixture::inventory(&primary));
+        }
+        let root = SemanticRoot::from_git_common(
+            primary.join(".git"),
+            "agent-logic/agent-design-language",
+        )
+        .unwrap();
+        let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+        let snapshot = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
+            Observation::Current(s) | Observation::ProjectionRepairRequired(s) => s,
+            other => panic!("{other:?}"),
+        };
+        assert_eq!(
+            snapshot.inputs().publication().title,
+            "Current correction B"
+        );
+        assert_eq!(fixture.remote_effects(), 0);
+    }
 }

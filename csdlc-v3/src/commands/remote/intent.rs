@@ -687,6 +687,12 @@ pub fn validate_publication_metadata(
     title: &str,
     body: &str,
 ) -> Result<(), RemoteRouteFinding> {
+    if !super::publication_body_is_valid(body, issue) {
+        return Err(remote_finding(
+            "intent_publication_body_invalid",
+            "publication body must preserve the canonical closing issue",
+        ));
+    }
     let valid_base = !base.is_empty()
         && !base.starts_with('-')
         && !base.ends_with('.')

@@ -390,6 +390,81 @@ pub(crate) fn settled_issue_mutation_receipt(
     Ok(true)
 }
 
+/// Require the exact authenticated native completion that authorizes the
+/// narrow legacy coordination terminal compatibility path.
+pub(crate) fn settled_coordination_completion_receipt(
+    repo_root: &Path,
+    repository: &str,
+    issue: u64,
+    expected_head_sha: &str,
+) -> Result<bool, RemoteRouteFinding> {
+    let git_dir = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git control directory is required for mutation receipts",
+        )
+    })?;
+    let remote = git_dir.join("csdlc-v3/remote");
+    let receipts = remote.join("mutations");
+    let entries = match fs::read_dir(&receipts) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(false),
+        Err(_) => {
+            return Err(remote_finding(
+                "github_mutation_receipt_unreadable",
+                "existing mutation receipts cannot be inspected",
+            ))
+        }
+    };
+    for entry in entries {
+        let path = entry
+            .map_err(|_| {
+                remote_finding(
+                    "github_mutation_receipt_unreadable",
+                    "existing mutation receipt cannot be inspected",
+                )
+            })?
+            .path();
+        let Some(operation_digest) =
+            path.file_stem()
+                .and_then(|value| value.to_str())
+                .filter(|value| {
+                    value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+                })
+        else {
+            continue;
+        };
+        let intent_path = remote
+            .join("intents")
+            .join(format!("{operation_digest}.json"));
+        if !intent_path.is_file() {
+            continue;
+        }
+        let intent = load_mutation_intent(&intent_path, operation_digest)?;
+        if intent.request.repository != repository
+            || intent.request.issue != issue
+            || intent.request.expected_head_sha != expected_head_sha
+            || intent.request.pull_request.is_some()
+            || !matches!(
+                intent.request.mutation,
+                GithubMutation::IssueCompleteCoordination { .. }
+            )
+        {
+            continue;
+        }
+        let receipt = load_mutation_receipt(&path, operation_digest)?;
+        if receipt.repository == repository
+            && receipt.issue == issue
+            && receipt.pull_request.is_none()
+            && receipt.expected_head_sha == expected_head_sha
+            && receipt.intent_digest == github_mutation_intent_digest(&intent)
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
 pub(super) fn finalize_mutation_receipt(
     request: &GithubMutationRequest,
     operation_digest: &str,

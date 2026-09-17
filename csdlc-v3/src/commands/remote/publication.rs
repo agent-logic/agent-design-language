@@ -409,6 +409,14 @@ pub(super) fn same_principal(left: Option<&str>, right: Option<&str>) -> bool {
     !left.is_empty() && left.eq_ignore_ascii_case(right)
 }
 
+/// Shared preparation/amendment/publication closing-relation admission.
+pub fn publication_body_is_valid(body: &str, issue: u64) -> bool {
+    body_has_relation(Some(body), "Closes", issue)
+        && body_closing_issue_references(Some(body))
+            .iter()
+            .all(|other| *other == issue)
+}
+
 pub(super) fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
     let prefix = format!("{verb} #{issue}");
     body.unwrap_or_default()

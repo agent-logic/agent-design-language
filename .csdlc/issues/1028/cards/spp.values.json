@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1028,
+  "issue_padded": "1028",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1028",
+  "title": "[v0.92.2][C-SDLC v3][defect] Complete legacy coordination umbrellas without live conversion",
+  "branch": "codex/1028-legacy-coordination-completion",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1028-legacy-coordination-completion"
+}
