@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented atomic installation of the exact reviewed coordination contract during guarded legacy umbrella completion; focused local proof is green, while independent review, publication, CI, merge, and terminal closeout remain pending.
+Implemented atomic installation of the exact reviewed coordination contract during guarded legacy umbrella completion. Independent review findings for byte-exact trailing-body preservation and complete outbound-body size admission were fixed; fresh proof and final exact-head review remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::coordination; cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_coordination_completion; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
     `Proves legacy-only atomic marker installation, exact authenticated pre-state, contract identity and child guards, durable evidence, completed readback, exact replay, semantic-state rejection, ordinary legacy mutation denial, formatting, lint, and patch hygiene.`
 - Results:
-  - `Nine focused coordination unit tests and fourteen installed coordination tests passed with zero failures; formatting, strict Clippy, and diff hygiene passed.`
+  - `Ten focused coordination unit tests and sixteen installed coordination tests passed with zero failures; formatting, strict Clippy, and diff hygiene passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "9 coordination unit tests and 14 installed coordination tests"
+      - "10 coordination unit tests and 16 installed coordination tests"
   determinism:
     status: passed
     replay_verified: true
