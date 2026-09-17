@@ -142,15 +142,26 @@ transport journeys, not real GitHub delivery or authentic-record continuation.
 
 The authenticated archived generation-9 conversion rehearsal passed: seven
 record roles, twelve scenarios, and thirty durability-boundary sides. This
-establishes conversion/recovery qualification, not the full delivery continuation
-of an authentic older record.
+establishes conversion/recovery qualification. A separate installed test now
+continues copied prepared issue #511 through status, bind, validator correction,
+publication setup, proof, compact review, simulated publication, ready, explicitly
+approved simulated merge, finish and cleanup. Its source inventory remains
+unchanged and exactly three intended simulated remote effects occur. The
+candidate predecessor used by this continuation fixture is synthetic; authentic
+old-executable fencing remains the separate archived generation-9 rehearsal.
 
 Validator edits now validate declarations and semantic authority without requiring
 a clean source tree. Proof execution still admits candidate bytes and refuses dirty
 source. Claude's focused consultation recommended this separation; source inspection
 confirmed the original rejection came from candidate-byte admission.
 
-Still required: finish generated-state and ordinary-command recovery coverage,
-prove authentic-record continuation through delivery/cleanup, complete final
-checks, independent candidate review and PR publication.
+The continuation exposed two gaps now corrected: status no longer requires a
+legacy local index to read converted semantic state; bind materializes the files
+consumed by the existing native binder from canonical inputs through its existing
+create-only owner. This adds no alternate authority or conversion protocol and
+never replaces the copied source. A prepared record without publication metadata
+can select its first base; an existing publication target remains protected.
+
+Still required: final correction review, fixed-revision native proof and regression
+checks, exact candidate qualification, and PR publication with passing CI.
 Shared installation and merge remain outside this implementation boundary.

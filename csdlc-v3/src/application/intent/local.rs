@@ -35,6 +35,28 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         return prepare(context, &intent.content);
     }
     if intent.command == "status" {
+        // Converted records already have authoritative semantic state. Reading
+        // it must not require recreating a legacy local index first.
+        if context.index.is_null() {
+            let semantic = context.semantic_context()?;
+            let snapshot = &semantic.snapshot;
+            let pending = snapshot.pending().is_some();
+            let allowed_next = if pending {
+                vec!["recover"]
+            } else if snapshot.inputs().binding().is_none() {
+                vec!["bind"]
+            } else {
+                vec!["edit", "validate", "proof"]
+            };
+            return Ok(json!({
+                "schema":"csdlc.v3.intent_local.v1", "status":if pending {"recovery_required"} else {"completed"},
+                "read_only":true,"performed_mutation":false,"writes_v3_state":false,
+                "operational_authority":true,"issue":context.issue,
+                "phase":snapshot.phase(),"semantic_version":snapshot.version(),
+                "allowed_next":allowed_next,"evidence":{"validators_run":false},
+                "preparation":{"structural_state":"semantic_record_present","execution_ready":false}
+            }));
+        }
         let (semantic_root, semantic_key) = context.semantic_root_key()?;
         if let crate::storage::semantic::Observation::Current(snapshot)
         | crate::storage::semantic::Observation::ProjectionRepairRequired(snapshot) =
@@ -58,6 +80,55 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
                 }));
             }
         }
+    }
+    if intent.command == "bind" && context.index.is_null() {
+        if !intent.content.is_null() {
+            return Err("intent_unexpected_content".into());
+        }
+        let semantic = context.semantic_context()?;
+        if semantic.snapshot.phase() != crate::lifecycle::LifecycleState::Ready
+            || semantic.snapshot.pending().is_some()
+            || semantic.snapshot.inputs().binding().is_some()
+        {
+            return Err("intent_bind_phase_invalid".into());
+        }
+        let inputs = semantic.snapshot.inputs();
+        let registry = context.registry()?;
+        let policy = read_json(&context.root.join(".adl/worktree-policy.json"))?;
+        let parent = std::path::PathBuf::from(
+            policy["required_parent"]
+                .as_str()
+                .ok_or("intent_worktree_parent_missing")?,
+        );
+        let request = LocalPreparationRequest {
+            issue: context.issue,
+            title: inputs.intent().to_owned(),
+            repository: context.repository.clone(),
+            branch: format!("codex/{}-{}", context.issue, inputs.slug()),
+            worktree: parent
+                .join(format!("adl-issue-{}-{}", context.issue, inputs.slug()))
+                .to_string_lossy()
+                .into_owned(),
+            registry_version: registry.version.clone(),
+            expected_lifecycle_digest: None,
+            commands: local::required_local_commands().to_vec(),
+            card_updates: inputs.cards().clone(),
+            schedule_readiness: None,
+            shepherd_routing: None,
+        };
+        let native = owner(context, &request)?;
+        let plan =
+            serde_json::to_value(inputs.accepted_plan()).map_err(|_| "intent_plan_invalid")?;
+        context.fresh_integrity()?;
+        // The existing native binder still consumes a compatibility projection.
+        // Materialize it through its create-only owner from canonical inputs;
+        // do not recreate or replace the converted semantic record.
+        local::intent::prepare(&request, &registry, &native, &plan).map_err(errors)?;
+        let current = Context::load(&context.root, context.issue)?;
+        if current.semantic_context()?.snapshot.version() != semantic.snapshot.version() {
+            return Err("intent_snapshot_stale".into());
+        }
+        return run(&current, intent);
     }
     let mut request = context.local_request()?;
     let registry = context.registry()?;

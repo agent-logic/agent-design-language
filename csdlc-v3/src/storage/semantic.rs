@@ -2136,7 +2136,12 @@ impl DurableTransactionStore {
                         | LifecycleState::Reviewed
                         | LifecycleState::Published
                         | LifecycleState::MergeReady
-                ) || publication.base != current.inputs().publication().base
+                ) || (publication.base != current.inputs().publication().base
+                    && !(matches!(
+                        current.phase(),
+                        LifecycleState::Ready | LifecycleState::Bound
+                    ) && current.inputs().publication().base.is_empty()
+                        && current.inputs().publication().body.is_empty()))
                     || publication.title.trim().is_empty()
                     || !crate::commands::remote::publication_body_is_valid(
                         &publication.body,

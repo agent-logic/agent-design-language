@@ -5071,3 +5071,191 @@ fn publication_metadata_correction_after_ready_preserves_merge_ready() {
     assert_eq!(remote["draft"], false);
     assert_eq!(fixture.remote_effects(), 3);
 }
+
+// PVF #1064: authentic copied prepared record, deterministic isolated continuation.
+#[test]
+fn authentic_prepared_record_admits_public_continuation() {
+    let mut fixture = Fixture::new("1064-authentic-prepared");
+    let primary = fixture.root.clone();
+    let source =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/issue872-copied-records");
+    let copied = primary.join(".csdlc/copied-records");
+    intent_fixture::copy_tree(&source, &copied);
+    let before = intent_fixture::inventory(&copied);
+    let linked = primary.join("worktrees/conversion-target");
+    git(
+        &primary,
+        &[
+            "worktree",
+            "add",
+            "-q",
+            "-b",
+            "codex/copied-continuation",
+            linked.to_str().unwrap(),
+        ],
+    );
+    let records: Vec<Value> = [
+        (511, "prepared"),
+        (517, "bound_dirty"),
+        (497, "implemented"),
+        (3, "reviewed"),
+        (505, "published"),
+        (122, "terminal"),
+        (113, "pending_recovery"),
+    ]
+    .into_iter()
+    .map(|(issue, role)| json!({"issue":issue,"role":role,"source":copied.join(issue.to_string())}))
+    .collect();
+    let conversion = json!({
+        "schema":"csdlc.v3.copied_record_conversion.v1", "repository":"agent-logic/agent-design-language", "operation_id":"issue1064-authentic-continuation",
+        "authority_bytes_path":linked.join("csdlc-v3/operator/authority-selector.json"),
+        "prior_executable_path":env!("CARGO_BIN_EXE_csdlc"),
+        "prior_executable_blake3":blake3::hash(&fs::read(env!("CARGO_BIN_EXE_csdlc")).unwrap()).to_hex().to_string(),
+        "writer_fence_issues":[511,517,497,3,505,122,113,868],"writer_probe_issue":868,
+        "git_common":primary.join(".git"),"linked_branch":"codex/copied-continuation","linked_head":git(&linked,&["rev-parse","HEAD"]),"linked_worktree":linked,
+        "registry_path":linked.join("docs/templates/prompts/current.json"),"records":records
+    });
+    let conversion_path = fixture.write_json("conversion.json", &conversion);
+    let converted = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
+        .args(["convert", "--request", conversion_path.to_str().unwrap()])
+        .current_dir(&primary)
+        .output()
+        .unwrap();
+    assert!(
+        converted.status.success(),
+        "conversion failed: {converted:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&copied));
+    let script = primary.join(".git/installed-candidate/fake-bin/curl");
+    let transport = fs::read_to_string(&script).unwrap();
+    fs::write(
+        &script,
+        transport
+            .replace("/issues/505", "/issues/511")
+            .replace("\"number\":505", "\"number\":511")
+            .replace(
+                "Installed intent fixture",
+                "[v0.92.1][OBS-A] Observatory experience design",
+            ),
+    )
+    .unwrap();
+    let observational_before = intent_fixture::inventory(&primary);
+    let status = success(fixture.run(&primary, &["status", "511"]));
+    assert_eq!(status["phase"], "ready");
+    assert_same_inventory!(observational_before, intent_fixture::inventory(&primary));
+    let mut invalid_bind = success(fixture.run(&primary, &["bind", "511", "--emit-request"]));
+    invalid_bind["request"]["content"] = json!({"unexpected":"content"});
+    let invalid_path = fixture.write_json("invalid-bind.json", &invalid_bind);
+    let before_invalid = intent_fixture::inventory(&primary);
+    let rejected = fixture.run(
+        &primary,
+        &["bind", "--intent-request", invalid_path.to_str().unwrap()],
+    );
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("intent_unexpected_content"));
+    assert_same_inventory!(before_invalid, intent_fixture::inventory(&primary));
+    let bound = success(fixture.run(&primary, &["bind", "511"]));
+    assert_eq!(bound["status"], "completed");
+    let binding: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/bindings/511.json")).unwrap(),
+    )
+    .unwrap();
+    let worktree = std::path::PathBuf::from(binding["worktree"].as_str().unwrap());
+    let validators = fixture.write_json(
+        "validators.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","validators":plan()["validators"]}),
+    );
+    success(fixture.run(
+        &worktree,
+        &["edit", "511", "--changes", validators.to_str().unwrap()],
+    ));
+    let mut publication = plan()["publication"].clone();
+    publication["title"] = json!("[v0.92.1][OBS-A] Observatory experience design");
+    publication["body"] = json!("Closes #511");
+    let metadata = fixture.write_json(
+        "publication.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+    );
+    success(fixture.run(
+        &worktree,
+        &["edit", "511", "--changes", metadata.to_str().unwrap()],
+    ));
+    success(fixture.run(&worktree, &["proof", "511"]));
+    let review = fixture.write_json("review.json", &json!({
+        "schema":"csdlc.v3.review_judgment.v1", "implementer":"copied-record-fixture-author", "reviewer":"independent-copied-record-fixture-reviewer",
+        "reviewed_revision":git(&worktree,&["rev-parse","HEAD"]),"verdict":"pass",
+        "evidence":"Synthetic current-candidate judgment after authentic historical record conversion; no production approval."
+    }));
+    success(fixture.run(
+        &worktree,
+        &["review", "511", "--evidence", review.to_str().unwrap()],
+    ));
+    // The transport fixture defaults to issue 505. Retarget only fake transport
+    // endpoints/readbacks; never rewrite the copied records or authority receipt.
+    let retarget_transport = || {
+        for relative in [
+            "fake-bin/curl",
+            "remote-issue.json",
+            "merge-before.json",
+            "merge-after.json",
+        ] {
+            let path = primary.join(".git/installed-candidate").join(relative);
+            if path.is_file() {
+                let bytes = fs::read_to_string(&path).unwrap();
+                fs::write(
+                    path,
+                    bytes
+                        .replace("/issues/505", "/issues/511")
+                        .replace("\"number\":505", "\"number\":511")
+                        .replace("Closes #505", "Closes #511"),
+                )
+                .unwrap();
+            }
+        }
+    };
+    fixture.enable_pr_transport(&worktree);
+    retarget_transport();
+    success(fixture.run(&worktree, &["publish", "511"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "511",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&worktree);
+    retarget_transport();
+    let merge = fixture.write_json("merge.json", &json!({"action":"pull_request_merge","base":"main","method":"merge","operator_approval":"Synthetic approval for isolated PR639 in copied-record continuation only"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "511",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    success(fixture.run(&worktree, &["finish", "511"]));
+    let cleanup = success(fixture.run(&primary, &["clean", "511"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "clean",
+            "511",
+            "--execute",
+            "--preview",
+            cleanup["preview_token"].as_str().unwrap(),
+        ],
+    ));
+    assert!(!worktree.exists());
+    assert!(primary
+        .join(".git/csdlc-v3/local/evidence/511/terminal-receipt.json")
+        .is_file());
+    assert_eq!(fixture.remote_effects(), 3);
+    assert_same_inventory!(before, intent_fixture::inventory(&copied));
+}
