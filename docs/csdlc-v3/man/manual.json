@@ -1710,8 +1710,9 @@
         ],
         "4 CREATE AND VERIFY THE PR": [
           {
-            "code": "csdlc review ISSUE --evidence REVIEW.json\ncsdlc publish ISSUE\ncsdlc pr-state ISSUE"
+            "code": "csdlc review ISSUE --evidence REVIEW.json\ngit push -u origin YOUR_REVIEWED_BRANCH\ncsdlc publish ISSUE\ncsdlc pr-state ISSUE"
           },
+          "Push the exact reviewed branch before publication. Native publication verifies the authenticated remote branch head and does not push Git refs; a missing or changed remote head blocks dispatch.",
           "Publication resolves the exact reviewed head and accepted base, title, body and draft metadata. Correct metadata with csdlc edit ISSUE --changes publication.json before renewed proof and independent review. The changes use schema csdlc.v3.intent_changes.v1 and one publication object with base, title, body and draft. Closes #ISSUE must begin a line. Preparation rejects malformed metadata. Do not use retired github-pr --request writer syntax.",
           "Metadata amendments preserve issue and binding identity and invalidate downstream proof and review. Fresh reviews are retained immutably by HEAD and proof digest; legacy per-HEAD receipts remain readable. After publication, base and draft cannot change through this editor. Interrupted edits require recover preview and explicit execution. Retain the assigned numeric PR and authenticated mutation receipt; verify actual base/head and closing linkage immediately.",
           "To transition from draft after required proof, use csdlc github-pr ISSUE --operation ready-operation.json --execute with action pull_request_ready. A published PR remains open/unmerged until explicitly authorized merge."

@@ -60,9 +60,12 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 .SH 4 CREATE AND VERIFY THE PR
 .nf
 \&csdlc review ISSUE \-\-evidence REVIEW.json
+\&git push \-u origin YOUR_REVIEWED_BRANCH
 \&csdlc publish ISSUE
 \&csdlc pr\-state ISSUE
 .fi
+.PP
+\&Push the exact reviewed branch before publication. Native publication verifies the authenticated remote branch head and does not push Git refs; a missing or changed remote head blocks dispatch.
 .PP
 \&Publication resolves the exact reviewed head and accepted base, title, body and draft metadata. Correct metadata with csdlc edit ISSUE \-\-changes publication.json before renewed proof and independent review. The changes use schema csdlc.v3.intent_changes.v1 and one publication object with base, title, body and draft. Closes #ISSUE must begin a line. Preparation rejects malformed metadata. Do not use retired github\-pr \-\-request writer syntax.
 .PP
