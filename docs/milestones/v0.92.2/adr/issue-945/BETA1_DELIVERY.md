@@ -23,3 +23,7 @@ The website stays in `agent-logic/codefriend.ai`; product code has a separate pr
 ## Proof boundary
 
 Run the actual ingestion, review, synthesis, plans, approval and rendering journey in each mode. Record execution location, release/candidate identity, platform, source scope, failures, disconnects and recovery. Check invited-user access and isolation between users. Preserve existing PDF and publication approval obligations. Documentation checks establish these gates are recorded; they cannot prove the product works.
+
+## Beta 1 scope clarification
+
+The operator deferred bring-your-own-key (BYOK) until after Beta 1. GitHub sign-in remains the confirmed Beta 1 method; Google sign-in was discussed but not approved. Agent Logic supplies server-hosted model access. The local-agent model-access mechanism remains a required implementation decision; BYOK must not be assumed as its Beta 1 solution. This does not defer either website execution mode.

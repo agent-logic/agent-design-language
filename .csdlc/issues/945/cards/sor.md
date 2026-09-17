@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Operator individually accepted all twelve decisions; promoted ADR0076-0087, preserving proposal history and69 mappings. Revised CF09 requires both website modes in Beta1 plus CLI, installed local agent, invited GitHub access and Agent Logic server model access. Downstream implementation and qualification remain unproven.
+Operator individually accepted all twelve decisions; promoted ADR0076-0087, preserving proposal history and69 mappings. Revised CF09 requires both website modes in Beta1 plus CLI, installed local agent, invited GitHub access and Agent Logic server model access. Downstream implementation and qualification remain unproven. Operator subsequently deferred BYOK until after Beta1; Google sign-in was not approved.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -174,5 +174,5 @@ verification_summary:
 - `<decision_or_deviation_2>`
 
 ## Follow-ups / Deferred work
-- `Complete independent review and native proof/review, then update existing draftPR1054. No merge authorized.`
-- `Assign missing website/server/local-agent implementation owners and rebaseline typed #914/#915 dependencies before execution. Resolve local-mode model-access choice.`
+- `Refresh independent exact-head review and native evidence; publish1054 and mark ready under operator instruction. Stop before merge.`
+- `Downstream #914/#915 require missing component owners, typed dependency updates and a local-mode model-access design that does not assume BYOK in Beta1.`

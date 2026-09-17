@@ -30,3 +30,7 @@ The website remains `agent-logic/codefriend.ai`, separate from the private code 
 ## Validation and review
 
 Run `python3 docs/milestones/v0.92.2/adr/issue-945/validate_packet.py --self-test` and the historical issue-911 validator. PVF: docs_only; deterministic local CPU/file/Git reads, required document-integrity gate. Validate source and content hashes, twelve identities, 69 historical mappings, approval binding, unique accepted numbering, refinement links and both-mode delivery requirements. These checks validate recording integrity, not the correctness of a decision or the working product. Independent review and native publication evidence remain separate.
+
+## Beta 1 scope clarification
+
+The operator deferred bring-your-own-key (BYOK) until after Beta 1. GitHub sign-in remains the confirmed Beta 1 method; Google sign-in was discussed but not approved. Agent Logic supplies server-hosted model access. The local-agent model-access mechanism remains a required implementation decision; BYOK must not be assumed as its Beta 1 solution. This does not defer either website execution mode.

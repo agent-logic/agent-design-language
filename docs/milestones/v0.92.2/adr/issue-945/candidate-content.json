@@ -69,11 +69,11 @@
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-945/operator-decisions.json",
-      "sha256": "8d26660fe092ca9f0b371cc5831e0e6817a2274c6be376f1942e0511be9be027"
+      "sha256": "4a6065b823f32903a348afddbf82de0a769ba9a976efb628a2e24bb551bfce89"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-945/BETA1_DELIVERY.md",
-      "sha256": "03c79d9c2697d562979f06c9c4ecc9396946f3157bb33b0c36a4187bd7b092d3"
+      "sha256": "c1ef116a0951e53a66a87532f263053d5c6c1fef0b4d8c341b03ce199b77855f"
     },
     {
       "path": "docs/milestones/v0.92.2/adr/issue-945/relationships.json",
@@ -115,7 +115,7 @@
     },
     {
       "path": "docs/adr/0084-cf-09.md",
-      "sha256": "5388ec9010f78b6c1df4e62c7efc3beaecd3cc6e4d900c23f242c628f001bea8"
+      "sha256": "fb83bc5258b92a01fce4a4bc6c4adba598632f9d46a02305432d0d8d19caed31"
     },
     {
       "path": "docs/adr/0085-plat-01.md",

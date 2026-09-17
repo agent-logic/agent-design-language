@@ -185,6 +185,14 @@
       "authority": "Planning #7.3: user answered Agent Logic provides model access",
       "decision": "Agent Logic provides and pays for model access for server-hosted Beta 1 reviews.",
       "recorded_at": "2026-09-17T02:06:57.261999+00:00"
+    },
+    {
+      "candidate": "ADR-CF-09",
+      "disposition": "implementation_direction",
+      "actor": "operator",
+      "authority": "Planning #7.3: user answered deferred when asked whether BYOK is required for Beta 1 or deferred",
+      "decision": "Bring-your-own-key is deferred until after Beta 1. GitHub sign-in remains the confirmed Beta 1 choice; Google sign-in was discussed but not approved. Agent Logic provides server-hosted model access; local-mode model access remains an explicit implementation decision.",
+      "recorded_at": "2026-09-17T02:38:47.866092+00:00"
     }
   ]
 }
