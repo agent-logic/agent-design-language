@@ -208,9 +208,10 @@ pub fn render_html(options: HtmlRenderOptions) -> Result<HtmlRenderResult> {
         &options.destination_root,
         std::path::Path::new(&publication.target),
         "report.html",
-        "html",
         report.as_bytes(),
         &manifest_bytes,
+        MAX_RENDERED_BYTES as u64,
+        "html",
     )?;
     ensure!(
         actual_report == report.as_bytes(),

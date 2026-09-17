@@ -1,0 +1,32 @@
+{
+  "issue": 898,
+  "lane": "owner_binary",
+  "proof_role": "installed approved-review PDF rendering, governed semantic parity, exact manifest binding, Unicode and long-content layout, extracted-text qualification, and fail-closed local export",
+  "determinism": "fixed local predecessor review, generated canonical local bundles, controlled approval time, operator-selected local font bytes bound by digest, no provider or network",
+  "resource_profile": "bounded local CPU and issue-owned filesystem; Poppler text and page rendering for qualification",
+  "release_gate": true,
+  "test_target": "codefriend_render_pdf",
+  "success_cases": [
+    "installed complete PDF and bound manifest",
+    "long findings and long URL wrapping",
+    "table-like content and page breaks",
+    "Unicode glyph preservation",
+    "pdftotext semantic extraction",
+    "pdftoppm rendering of every retained page"
+  ],
+  "negative_cases": [
+    "withheld approval",
+    "renderer identity drift",
+    "approved artifact mutation",
+    "existing output target",
+    "invalid font",
+    "missing glyph coverage",
+    "renderer warning or empty output"
+  ],
+  "nonclaims": [
+    "provider execution",
+    "network or browser proof",
+    "HTML or Markdown export",
+    "remote or customer publication"
+  ]
+}

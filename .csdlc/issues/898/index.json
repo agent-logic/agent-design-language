@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 898,
+  "phase": "bound",
+  "generation": 11,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/898-v0922-codefriend-pdf-renderer",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-898-v0922-codefriend-pdf-renderer",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "e175f0896bbf6966a8bc34be25e5cd584f61474e749dbb624925310ccaccc742"
+}
