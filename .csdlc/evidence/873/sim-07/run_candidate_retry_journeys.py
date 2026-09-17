@@ -15,14 +15,13 @@ import run_predecessor_retry_journeys as common
 
 
 ISSUE = 1505
+AUTHENTIC_ADOPTION_ISSUE = 874
 RAW_SCHEMA = common.RAW_SCHEMA
 
 
 def candidate_plan(root: Path) -> dict[str, Any]:
     path = root / ".git/installed-candidate/plan.json"
     plan = json.loads(path.read_text(encoding="utf-8"))
-    plan["publication"]["body"] = f"Closes #{ISSUE}"
-    common.write_json(path, plan)
     return plan
 
 
@@ -85,6 +84,9 @@ def guard_snapshot(root: Path, linked: Path, cleanup_control: Path | None) -> st
     for checkout in (root, linked, cleanup_control):
         if checkout is None or not checkout.exists():
             continue
+        if checkout != root and not (checkout / ".git").exists():
+            digest.update(str(checkout.resolve()).encode() + b"\0unbound-shadow\0")
+            continue
         status = subprocess.check_output(
             ["git", "-C", str(checkout), "status", "--porcelain", "--untracked-files=all"]
         )
@@ -98,6 +100,9 @@ def guard_snapshot(root: Path, linked: Path, cleanup_control: Path | None) -> st
         for name in ("remote-effects", "remote-pr.json"):
             path = evidence / name
             digest.update(name.encode() + b"\0" + (path.read_bytes() if path.is_file() else b"missing"))
+    for name in ("remote-effects", "remote-pr.json"):
+        path = root / ".git/installed-candidate/fake-remote" / name
+        digest.update(name.encode() + b"\0" + (path.read_bytes() if path.is_file() else b"missing"))
     return digest.hexdigest()
 
 
@@ -193,7 +198,10 @@ def execute_primary(args: argparse.Namespace, root: Path, scenario: dict[str, An
     fixture_head = subprocess.check_output(
         ["git", "-C", str(root), "rev-parse", "HEAD"], text=True
     ).strip()
-    env = common.configure_fake_remote(root, fixture_head)
+    env = common.configure_fake_remote(
+        root, fixture_head, ISSUE, "codex/1505-installed-intent-fixture",
+        transport_root=root / ".git/installed-candidate/fake-remote",
+    )
     linked_steps = {
         "status-bound-linked", "validate-bound-linked", "linked-edit-preview-guard",
         "linked-edit", "validate-projection",
@@ -206,7 +214,15 @@ def execute_primary(args: argparse.Namespace, root: Path, scenario: dict[str, An
         before = guard_snapshot(root, linked, None) if guard else ""
         result = invoke(args, attempts, logs, step, root, linked, cwd, input_value, env)
         reason = result["envelope"].get("reason_code")
-        expected = "intent_preview_argument_not_supported" if step_id in {"prepare-preview-guard", "linked-edit-preview-guard"} else "command_completed"
+        expected = (
+            "intent_preview_argument_not_supported"
+            if step_id in {"prepare-preview-guard", "linked-edit-preview-guard"}
+            else "command_completed"
+            if step_id == "prepare"
+            else "lifecycle_digest_valid"
+            if step_id.startswith("status-") or step_id.startswith("validate-")
+            else "command_completed"
+        )
         if reason != expected:
             raise RuntimeError(f"{step_id} drifted: {reason}")
         if guard:
@@ -217,7 +233,7 @@ def execute_primary(args: argparse.Namespace, root: Path, scenario: dict[str, An
 
 
 def move_bound_worktree_to_cleanup_control(root: Path, linked: Path, logs: Path) -> tuple[Path, dict[str, Any]]:
-    """Move the completed bound checkout to the cleanup slot and retain a dirty control peer."""
+    """Keep the bound cleanup candidate exact and retain a dirty detached control peer."""
     parent = common.fixture_worktree_parent(root)
     control = parent / "cleanup-control"
     if control.exists():
@@ -225,11 +241,22 @@ def move_bound_worktree_to_cleanup_control(root: Path, linked: Path, logs: Path)
     head = subprocess.check_output(["git", "-C", str(linked), "rev-parse", "HEAD"], text=True).strip()
     baseline_head = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
     status = subprocess.check_output(["git", "-C", str(linked), "status", "--porcelain", "--untracked-files=all"], text=True)
-    if status:
-        raise RuntimeError("bound cleanup candidate is not untouched before topology handoff")
-    subprocess.run(["git", "-C", str(root), "worktree", "move", str(linked), str(control)], check=True, capture_output=True, text=True)
-    subprocess.run(["git", "-C", str(root), "worktree", "add", "--detach", str(linked), head], check=True, capture_output=True, text=True)
-    retained = linked / "issue-873-active-retained.tmp"
+    generated_prefixes = (
+        "?? .csdlc/evidence/1505/",
+        "?? .csdlc/issues/1505/",
+        "?? .csdlc/transactions/completed/1505/",
+        "?? .csdlc/v3/issues/1505/",
+    )
+    unexpected = [
+        line for line in status.splitlines()
+        if not line.startswith(generated_prefixes)
+    ]
+    if unexpected:
+        raise RuntimeError(f"bound cleanup candidate has unexpected residue: {unexpected}")
+    if not status:
+        raise RuntimeError("bound cleanup candidate is missing generated lifecycle artifacts")
+    subprocess.run(["git", "-C", str(root), "worktree", "add", "--detach", str(control), head], check=True, capture_output=True, text=True)
+    retained = control / "issue-873-active-retained.tmp"
     retained.write_text("synthetic retained dirty active checkout\n", encoding="utf-8")
     control_head = subprocess.check_output(["git", "-C", str(control), "rev-parse", "HEAD"], text=True).strip()
     control_status = subprocess.check_output(["git", "-C", str(control), "status", "--porcelain", "--untracked-files=all"], text=True)
@@ -238,24 +265,24 @@ def move_bound_worktree_to_cleanup_control(root: Path, linked: Path, logs: Path)
     control_inventory = subprocess.check_output(["git", "-C", str(control), "ls-tree", "-r", "--full-tree", control_head])
     registrations = subprocess.check_output(["git", "-C", str(root), "worktree", "list", "--porcelain"], text=True)
     registered = {Path(line[9:]).resolve() for line in registrations.splitlines() if line.startswith("worktree ")}
-    if control_head != head or head != baseline_head or primary_inventory != control_inventory or control_status or not active_status or not {root.resolve(), linked.resolve(), control.resolve()}.issubset(registered):
+    if control_head != head or head != baseline_head or primary_inventory != control_inventory or not control_status or not active_status or not {root.resolve(), linked.resolve(), control.resolve()}.issubset(registered):
         raise RuntimeError("candidate cleanup-control topology is not exact")
     topology = {
         "schema": "csdlc.v3.issue873.cleanup_control_topology.v1",
         "primary_root": str(root.resolve()),
-        "active_issue_worktree": str(linked.resolve()),
-        "cleanup_control_worktree": str(control.resolve()),
+        "active_issue_worktree": str(control.resolve()),
+        "cleanup_control_worktree": str(linked.resolve()),
         "baseline_head": baseline_head,
         "control_head": control_head,
         "tracked_inventory_sha256": hashlib.sha256(primary_inventory).hexdigest(),
-        "control_status_porcelain": control_status,
-        "active_status_porcelain": active_status,
+        "control_status_porcelain": active_status,
+        "active_status_porcelain": control_status,
         "registered_paths": sorted(str(path) for path in registered),
         "active_issue_retained": True,
-        "handoff": "git_worktree_move_then_detached_retained_peer",
+        "handoff": "exact_bound_cleanup_candidate_with_detached_retained_peer",
     }
     common.write_json(logs / "cleanup-control-topology.json", topology)
-    return control, topology
+    return linked, topology
 
 
 def review_input(linked: Path, helper: Path, head: str) -> dict[str, Any]:
@@ -277,11 +304,23 @@ def review_input(linked: Path, helper: Path, head: str) -> dict[str, Any]:
     payload = linked / f".csdlc/evidence/{ISSUE}/review-payload.bin"
     payload.parent.mkdir(parents=True, exist_ok=True)
     payload.write_bytes(b"".join(value.encode() + b"\0" for value in fields))
-    return {"receipt_digest": common.blake3_file(helper, payload), "receipt": receipt, "proof_path": f".csdlc/v3/issues/{ISSUE}/proof.json", "proof_digest": proof_digest}
+    legacy_digest = common.blake3_file(helper, payload)
+    linked_payload = linked / f".csdlc/evidence/{ISSUE}/review-linked-payload.bin"
+    linked_payload.write_bytes(b"".join(value.encode() + b"\0" for value in [
+        legacy_digest, receipt["repository"], str(ISSUE), "closing",
+    ]))
+    return {"receipt_digest": common.blake3_file(helper, linked_payload), "receipt": receipt, "proof_path": f".csdlc/v3/issues/{ISSUE}/proof.json", "proof_digest": proof_digest}
 
 
 def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, Any]) -> dict[str, Any]:
     plan = candidate_plan(root)
+    validator_changes = {
+        "schema": "csdlc.v3.intent_changes.v1",
+        "validators": plan["validators"],
+    }
+    common.write_json(
+        root / ".git/installed-candidate/validator-changes.json", validator_changes
+    )
     linked = common.fixture_worktree_parent(root) / "adl-issue-1505-installed-intent-fixture"
     attempts: list[dict[str, Any]] = []
     logs = Path(args.logs)
@@ -291,7 +330,10 @@ def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, A
     fixture_head = subprocess.check_output(
         ["git", "-C", str(root), "rev-parse", "HEAD"], text=True
     ).strip()
-    env: dict[str, str] | None = common.configure_fake_remote(root, fixture_head)
+    env: dict[str, str] | None = common.configure_fake_remote(
+        root, fixture_head, ISSUE, "codex/1505-installed-intent-fixture",
+        transport_root=root / ".git/installed-candidate/fake-remote",
+    )
     head: str | None = None
     review: dict[str, Any] | None = None
     cleanup_control: Path | None = None
@@ -301,9 +343,13 @@ def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, A
     for step in scenario["semantic_steps"]:
         step_id = step["id"]
         input_value: Any = {"issue": ISSUE}
-        cwd = linked if step_id in {"proof", "review", "finish-linked"} else root
+        cwd = linked if step_id in {
+            "proof-input-admission", "proof", "review", "finish-linked"
+        } else root
         if step_id == "prepare":
             input_value = plan
+        elif step_id == "proof-input-admission":
+            input_value = validator_changes
         elif step_id == "proof":
             head = subprocess.check_output(["git", "-C", str(linked), "rev-parse", "HEAD"], text=True).strip()
         elif step_id == "review":
@@ -327,31 +373,31 @@ def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, A
             cleanup_control, topology = move_bound_worktree_to_cleanup_control(root, linked, logs)
             foreign = cleanup_control / "issue-873-foreign-dirty.tmp"
             foreign.write_text("synthetic foreign dirty guard\n", encoding="utf-8")
-            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": str(linked)}
+            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": topology["active_issue_worktree"]}
         elif step_id == "cleanup-tracked-dirty-guard":
             assert cleanup_control is not None
             (cleanup_control / "issue-873-foreign-dirty.tmp").unlink()
             tracked = cleanup_control / "tracked"
             tracked_original = tracked.read_bytes()
             tracked.write_bytes(tracked_original + b"synthetic tracked dirty guard\n")
-            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": str(linked)}
+            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": topology["active_issue_worktree"]}
         elif step_id == "cleanup-preview":
             assert cleanup_control is not None and tracked_original is not None
             (cleanup_control / "tracked").write_bytes(tracked_original)
-            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": str(linked)}
+            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": topology["active_issue_worktree"]}
         actual_tokens: list[str] | None = None
         if step_id == "cleanup-stale-preview-guard":
             assert preview_digest is not None and cleanup_control is not None
             stale = ("0" if preview_digest[0] != "0" else "1") + preview_digest[1:]
             actual_tokens = ["clean", str(ISSUE), "--execute", "--preview", stale]
-            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": str(linked), "preview_receipt_digest": stale}
+            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": topology["active_issue_worktree"], "preview_receipt_digest": stale}
         elif step_id == "cleanup-refresh-preview":
             assert cleanup_control is not None
-            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": str(linked)}
+            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": topology["active_issue_worktree"]}
         elif step_id == "cleanup-execute":
             assert preview_digest is not None and cleanup_control is not None
             actual_tokens = ["clean", str(ISSUE), "--execute", "--preview", preview_digest]
-            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": str(linked), "preview_receipt_digest": preview_digest}
+            input_value = {"issue": ISSUE, "cleanup_candidate": str(cleanup_control), "active_issue_worktree": topology["active_issue_worktree"], "preview_receipt_digest": preview_digest}
         guard = step_id in {
             "merge-internal-input-guard", "cleanup-foreign-dirty-guard",
             "cleanup-tracked-dirty-guard", "cleanup-stale-preview-guard",
@@ -365,22 +411,166 @@ def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, A
             "cleanup-tracked-dirty-guard": "cleanup_archive_foreign_or_tracked_dirty",
             "cleanup-stale-preview-guard": "intent_cleanup_preview_stale",
         }
-        if reason != guards.get(step_id, "command_completed"):
+        expected_reason = (
+            "command_completed"
+            if step_id == "prepare"
+            else guards.get(step_id, "command_completed")
+        )
+        if reason != expected_reason:
             raise RuntimeError(f"{step_id} drifted: {reason}")
         if guard:
             assert_exact_guard(attempts[-1], before, guard_snapshot(root, linked, cleanup_control))
         if step_id in {"cleanup-preview", "cleanup-refresh-preview"}:
             cleanup = result.get("result", {}).get("cleanup", {})
-            if cleanup.get("decision") != "removable" or not isinstance(cleanup.get("receipt_digest"), str):
-                raise RuntimeError("candidate cleanup preview did not retain a removable receipt")
-            preview_digest = cleanup["receipt_digest"]
+            preview_token = result.get("preview_token")
+            if cleanup.get("decision") != "removable" or not isinstance(preview_token, str):
+                raise RuntimeError("candidate cleanup preview did not retain a removable semantic preview token")
+            preview_digest = preview_token
         if step_id == "cleanup-execute":
             assert cleanup_control is not None
-            if cleanup_control.exists() or not linked.is_dir():
-                raise RuntimeError("candidate cleanup did not remove only the cleanup control")
-    if len(attempts) != 18 or topology is None:
-        raise RuntimeError("candidate terminal common corpus must contain exactly 18 attempts and exact topology")
+            if linked.exists() or not Path(topology["active_issue_worktree"]).is_dir():
+                raise RuntimeError("candidate cleanup did not remove only the exact bound candidate")
+    if len(attempts) != 19 or topology is None:
+        raise RuntimeError("candidate terminal common corpus must contain exactly 19 attempts and exact topology")
     return raw(args, attempts, topology)
+
+
+def prepare_isolated_fixture(
+    args: argparse.Namespace, *, authentic_adoption: bool
+) -> Path:
+    root = args.fixture.resolve()
+    if not authentic_adoption:
+        fixture_filter = (
+            "installed_prepare_bind_edit_and_observations_use_canonical_context"
+            if args.scenario == "primary-linked-edit"
+            else "installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue"
+        )
+        common.capture_fixture(
+            args.harness.resolve(), args.slot.resolve(), fixture_filter, root
+        )
+        common.relocate_fixture(root)
+        for relative in (
+            f".git/csdlc-v3/semantic/issues/{ISSUE}/current.json",
+            f".git/csdlc-v3/local/issues/{ISSUE}/index.json",
+            f".csdlc/issues/{ISSUE}/index.json",
+        ):
+            if (root / relative).exists():
+                raise RuntimeError(f"common fixture must be unprepared: {relative}")
+        plan_path = root / ".git/installed-candidate/plan.json"
+        plan = json.loads(plan_path.read_text(encoding="utf-8"))
+        plan["publication"]["body"] = "Closes #1505"
+        common.write_json(plan_path, plan)
+        installed_binary = root / ".adl/bin/native-v3/csdlc"
+        installed_binary.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(args.binary.resolve(), installed_binary)
+        installed_binary.chmod(0o755)
+        args.binary = installed_binary
+        return root
+    shutil.copytree(
+        args.authentic_fixture_root.resolve(),
+        root,
+        ignore=shutil.ignore_patterns("target"),
+    )
+    subprocess.run(
+        [
+            "git", "-C", str(root), "fetch", "--no-tags",
+            str(args.authentic_repo_root.resolve()), args.source_revision,
+        ],
+        check=True,
+        stdout=subprocess.DEVNULL,
+    )
+    subprocess.run(
+        ["git", "-C", str(root), "reset", "--hard", args.source_revision],
+        check=True,
+        stdout=subprocess.DEVNULL,
+    )
+    state_root = root / ".git/csdlc-v3"
+    source_root = args.authentic_csdlc_root.resolve()
+    shutil.copytree(source_root / "local", state_root / "local", dirs_exist_ok=True)
+    shutil.copytree(source_root / "remote", state_root / "remote", dirs_exist_ok=True)
+    installed = root / ".git/installed-candidate"
+    installed.mkdir(parents=True, exist_ok=True)
+    plan_path = installed / "plan.json"
+    if authentic_adoption:
+        shutil.copy2(args.authentic_plan.resolve(), plan_path)
+        plan = json.loads(plan_path.read_text(encoding="utf-8"))
+        if plan.get("publication", {}).get("body") != "Closes #874\n\nPart of #866":
+            raise RuntimeError("authentic plan publication linkage drifted")
+        plan["publication"]["body"] = "Closes #874"
+    else:
+        plan = json.loads(plan_path.read_text(encoding="utf-8"))
+        publication = plan.get("publication")
+        if not isinstance(publication, dict) or publication.get("body") not in {
+            "Closes #505", "Closes #1505"
+        }:
+            raise RuntimeError("common fixture plan publication linkage drifted")
+        publication["body"] = "Closes #1505"
+        for path in (
+            state_root / f"semantic/issues/{ISSUE}/current.json",
+            state_root / f"local/issues/{ISSUE}/index.json",
+        ):
+            if path.exists():
+                raise RuntimeError(
+                    f"common candidate fixture is not unprepared for issue {ISSUE}: {path}"
+                )
+    common.write_json(plan_path, plan)
+    actual_revision = subprocess.check_output(
+        ["git", "-C", str(root), "rev-parse", "HEAD"], text=True
+    ).strip()
+    if actual_revision != args.source_revision:
+        raise RuntimeError("candidate fixture did not retain the frozen source revision")
+    installed_binary = root / ".adl/bin/native-v3/csdlc"
+    installed_binary.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(args.binary.resolve(), installed_binary)
+    installed_binary.chmod(0o755)
+    args.binary = installed_binary
+    return root
+
+
+def execute_authentic_adoption_acceptance(
+    args: argparse.Namespace, root: Path
+) -> dict[str, Any]:
+    canonical = [
+        "prepare", str(AUTHENTIC_ADOPTION_ISSUE), "--plan",
+        "$FIXTURE_ROOT/.git/installed-candidate/plan.json",
+    ]
+    actual = common.expand(canonical, root, root)
+    code, stdout, stderr, elapsed = common.run([str(args.binary), *actual], root)
+    result = common.envelope_result(stdout)
+    reason = result.get("envelope", {}).get("reason_code")
+    if code != 2 or reason != "issue_already_initialized":
+        raise RuntimeError(
+            "authentic adoption acceptance no longer proves the already-initialized guard"
+        )
+    logs = Path(args.logs)
+    logs.mkdir(parents=True, exist_ok=True)
+    (logs / "candidate-authentic-adoption.stdout.json").write_text(
+        stdout, encoding="utf-8"
+    )
+    (logs / "candidate-authentic-adoption.stderr.log").write_text(
+        stderr, encoding="utf-8"
+    )
+    return {
+        "schema": "csdlc.v3.issue873.non_comparator_acceptance.v1",
+        "issue": AUTHENTIC_ADOPTION_ISSUE,
+        "included_in_retry_comparison": False,
+        "acceptance": "authentic_already_initialized_adoption_guard",
+        "initial_fixture_facts": {
+            "issue_number": AUTHENTIC_ADOPTION_ISSUE,
+            "lifecycle_phase": "already_initialized",
+        },
+        "provenance": {
+            "source_head": args.source_revision,
+            "installed_binary_blake3": args.binary_blake3,
+        },
+        "attempt": {
+            "argv": canonical,
+            "executed_argv": actual,
+            "exit_code": code,
+            "elapsed_millis": elapsed,
+            "result": result,
+        },
+    }
 
 
 def main() -> None:
@@ -396,15 +586,36 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--target-dir", type=Path, required=True)
     parser.add_argument("--blake3-source", type=Path, required=True)
-    parser.add_argument("--scenario", choices=["primary-linked-edit", "terminal-journey"], required=True)
+    parser.add_argument("--authentic-csdlc-root", type=Path, required=True)
+    parser.add_argument("--authentic-plan", type=Path, required=True)
+    parser.add_argument("--authentic-repo-root", type=Path, required=True)
+    parser.add_argument("--authentic-fixture-root", type=Path, required=True)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--scenario", choices=["primary-linked-edit", "terminal-journey"])
+    mode.add_argument("--authentic-adoption-acceptance", action="store_true")
     args = parser.parse_args()
+    root = prepare_isolated_fixture(
+        args, authentic_adoption=args.authentic_adoption_acceptance
+    )
+    if args.authentic_adoption_acceptance:
+        common.write_json(args.output, execute_authentic_adoption_acceptance(args, root))
+        return
     scenario_map = json.loads(args.scenario_map.read_text(encoding="utf-8"))
-    scenario = next(value for value in scenario_map["scenarios"] if value["id"] == args.scenario)
-    fixture_filter = "installed_prepare_bind_edit_and_observations_use_canonical_context" if args.scenario == "primary-linked-edit" else "installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive_residue"
-    common.capture_fixture(args.harness.resolve(), args.slot.resolve(), fixture_filter, args.fixture.resolve())
-    common.relocate_fixture(args.fixture.resolve())
-    value = execute_primary(args, args.fixture.resolve(), scenario) if args.scenario == "primary-linked-edit" else execute_terminal(args, args.fixture.resolve(), scenario)
+    scenario = next(
+        value for value in scenario_map["scenarios"] if value["id"] == args.scenario
+    )
+    value = (
+        execute_primary(args, root, scenario)
+        if args.scenario == "primary-linked-edit"
+        else execute_terminal(args, root, scenario)
+    )
     common.write_json(args.output, value)
+    if args.scenario == "primary-linked-edit":
+        linked = common.fixture_worktree_parent(root) / "adl-issue-1505-installed-intent-fixture"
+        subprocess.run(
+            ["git", "-C", str(root), "worktree", "remove", "--force", str(linked)],
+            check=True,
+        )
 
 
 if __name__ == "__main__":

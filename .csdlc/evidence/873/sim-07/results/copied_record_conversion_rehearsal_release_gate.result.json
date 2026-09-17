@@ -1,27 +1,22 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "copied_record_conversion_rehearsal_release_gate",
-  "command": "env ISSUE872_OLD_CSDLC=$ISOLATED_OLD_BINARY ISSUE872_OLD_STATE=$ISOLATED_PORTABLE_GENERATION9 CARGO_TARGET_DIR=$TRUSTED_ISSUE1021_TARGET cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture",
-  "started_at": "2026-09-16T19:10:58Z",
-  "ended_at": "2026-09-16T19:21:34Z",
-  "elapsed_seconds": 636,
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
   "exit_status": 0,
   "test_counts": {
     "passed": 1,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "89453532af520559f55ce72577de05e3d77e621793770f22ead0026b49ef76ba",
-  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "proof_denominator": {
-    "cargo_tests": 1,
-    "roles": 7,
-    "scenarios": 12,
-    "fault_cases": 30
-  },
-  "source_proof": ".csdlc/evidence/1021/LOCAL_PROOF_RESULT.json",
-  "proved_source_commit": "717056d405dc01d75402d33b2bf0d0e7ec3e4768",
-  "candidate_sha256": "f52c2915fbd708b6c78a7ce20262a3bde276caf188c35336f2c4b422ca867e8e",
-  "old_binary_sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
-  "isolation": "portable generation-9 fixture and old binary copied outside live/shared roots; no live conversion or shared installation"
+  "elapsed_test_seconds": 304.68,
+  "process_exit_evidence": "Completed corpus-agent handoff reports success; raw Rust harness terminal summary retained.",
+  "stdout_sha256": "43e9623e12f6f453b1bf2144d5c1f03ad0a9215ad6f735de83f3ca78c1027795",
+  "stderr_sha256": "1140836d50ae375adeb4ac85b17e6073d3b4f37b0393dd5636d1504ec45c4023",
+  "evidence": [
+    "commands/copied_record_conversion_rehearsal_release_gate.stdout.log",
+    "commands/copied_record_conversion_rehearsal_release_gate.stderr.log"
+  ],
+  "prior_fixture_admission_attempts": "measurements/release-gate-fixture-admission",
+  "command": "env ISSUE872_OLD_CSDLC=$ACCEPTED_PREDECESSOR ISSUE872_OLD_STATE=$ISOLATED_PORTABLE_GENERATION9 cargo test --locked --manifest-path $EXACT_CANDIDATE_ROOT/csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture",
+  "command_capture_boundary": "Command reconstructed from runner contract and terminal handoff; absolute old-state path awaits retained runner details, not inferred from earlier rejected invocation."
 }

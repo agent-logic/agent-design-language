@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "installed_predecessor_dispositions",
-  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test installed_predecessor_dispositions -- --test-threads=1",
-  "started_at": "2026-09-16T06:44:11Z",
-  "ended_at": "2026-09-16T06:44:51Z",
-  "elapsed_seconds": 40,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test installed_predecessor_dispositions -- --test-threads=1",
+  "started_at": "2026-09-17T03:08:57Z",
+  "ended_at": "2026-09-17T03:09:15Z",
+  "elapsed_seconds": 18,
   "exit_status": 0,
   "test_counts": {
     "passed": 3,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "5fa3b3152981429fa4cb680df536ddcead31dca6a3c72ca4c4030becdf1ff4cc",
-  "stderr_sha256": "0e39796b7e0503d9317cabf42cf1a9d05e7d62ae3115ef51cdc8c980752fd336"
+  "stdout_sha256": "1e01fc81cab7e7df4c7969885f1b53425bdd41f0d3549401502652320f66647b",
+  "stderr_sha256": "b119cb284e580da795f1cbe0b40f0796e80171ed30d3de5a5bdee8c6fa3a16f4",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/installed_predecessor_dispositions.result.json",
+    "commands/installed_predecessor_dispositions.stdout.log",
+    "commands/installed_predecessor_dispositions.stderr.log"
+  ]
 }

@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "installed_recovery_scope",
-  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test installed_recovery_scope -- --test-threads=1",
-  "started_at": "2026-09-16T06:43:46Z",
-  "ended_at": "2026-09-16T06:44:11Z",
-  "elapsed_seconds": 25,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test installed_recovery_scope -- --test-threads=1",
+  "started_at": "2026-09-17T03:08:38Z",
+  "ended_at": "2026-09-17T03:08:57Z",
+  "elapsed_seconds": 19,
   "exit_status": 0,
   "test_counts": {
     "passed": 1,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "d2daf5a7b8e52a5e09b8c63d82c808c67abfe144e5f72c6835a1deab3cd30863",
-  "stderr_sha256": "3184f2865df2b324847a738616fda0a75a44e6082cd27d23f125b99382b17e03"
+  "stdout_sha256": "858564080b07ee85802b143b9dd256ad8e6fb90a71db65b1dd3dfc2210eb6229",
+  "stderr_sha256": "a42cdf7abcb7a65842485abf9fc1ab61b1b9a210f63aeafa4cb0525d2ecde45e",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/installed_recovery_scope.result.json",
+    "commands/installed_recovery_scope.stdout.log",
+    "commands/installed_recovery_scope.stderr.log"
+  ]
 }

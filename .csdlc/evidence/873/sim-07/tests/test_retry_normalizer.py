@@ -36,34 +36,50 @@ class RetryNormalizerTests(unittest.TestCase):
             "primary-linked-edit": (self.primary_path, load(self.primary_path)),
             "terminal-journey": (self.terminal_path, load(self.terminal_path)),
         }
+        candidate_issue = 1505
         for _, observation in self.observations.values():
+            observation["provenance"]["installed_binary_blake3"] = self.scenario_map[
+                "binaries"
+            ]["candidate"]["blake3"]
             for attempt in observation["attempts"]:
-                attempt["argv"] = [token.replace("505", "1505") for token in attempt["argv"]]
+                attempt["argv"] = [
+                    token.replace("505", str(candidate_issue))
+                    for token in attempt["argv"]
+                ]
                 input_value = attempt.get("input")
                 if isinstance(input_value, dict) and "issue" in input_value:
-                    input_value["issue"] = 1505
+                    input_value["issue"] = candidate_issue
                 result = attempt.get("result")
                 if isinstance(result, dict):
                     if "request_issue" in result:
-                        result["request_issue"] = 1505
+                        result["request_issue"] = candidate_issue
                     owner_result = result.get("result")
                     if isinstance(owner_result, dict) and "issue" in owner_result:
-                        owner_result["issue"] = 1505
+                        owner_result["issue"] = candidate_issue
                     envelope = result.get("envelope")
                     if isinstance(envelope, dict):
                         envelope_issue = envelope.get("issue")
                         if isinstance(envelope_issue, dict) and "number" in envelope_issue:
-                            envelope_issue["number"] = 1505
+                            envelope_issue["number"] = candidate_issue
         terminal = self.observations["terminal-journey"][1]
-        primary_finish = copy.deepcopy(terminal["attempts"][10])
+        proof_input_admission = copy.deepcopy(terminal["attempts"][2])
+        proof_input_admission["attempt_id"] = "candidate-proof-input-admission"
+        proof_input_admission["argv"] = [
+            "edit",
+            str(candidate_issue),
+            "--changes",
+            "$FIXTURE_ROOT/.git/installed-candidate/validator-changes.json",
+        ]
+        terminal["attempts"].insert(2, proof_input_admission)
+        primary_finish = copy.deepcopy(terminal["attempts"][11])
         primary_finish["attempt_id"] = "candidate-primary-finish"
         primary_finish["topology"] = "primary"
-        terminal["attempts"].insert(11, primary_finish)
-        terminal["attempts"] = terminal["attempts"][:16] + terminal["attempts"][20:22]
+        terminal["attempts"].insert(12, primary_finish)
+        terminal["attempts"] = terminal["attempts"][:17] + terminal["attempts"][21:23]
         terminal["attempted"] = len(terminal["attempts"])
         primary_root = "/fixture/primary"
-        active = "/fixture/worktrees/adl-issue-1505-installed-intent-fixture"
-        control = "/fixture/worktrees/cleanup-control"
+        active = "/fixture/worktrees/cleanup-control"
+        control = "/fixture/worktrees/adl-issue-1505-installed-intent-fixture"
         terminal["cleanup_topology"] = {
             "schema": "csdlc.v3.issue873.cleanup_control_topology.v1",
             "primary_root": primary_root,
@@ -72,14 +88,15 @@ class RetryNormalizerTests(unittest.TestCase):
             "baseline_head": "a" * 40,
             "control_head": "a" * 40,
             "tracked_inventory_sha256": "b" * 64,
-            "control_status_porcelain": "",
+            "control_status_porcelain": "?? .csdlc/evidence/1505/proof.json\n",
+            "active_status_porcelain": "?? issue-873-active-retained.tmp\n",
             "registered_paths": [primary_root, active, control],
             "active_issue_retained": True,
         }
         cleanup_attempts = terminal["attempts"][-6:]
         for attempt in cleanup_attempts:
             attempt["input"] = {
-                "issue": 1505,
+                "issue": candidate_issue,
                 "cleanup_candidate": control,
                 "active_issue_worktree": active,
             }
@@ -92,7 +109,9 @@ class RetryNormalizerTests(unittest.TestCase):
             digest = "c" * 64 if offset == 3 else "d" * 64
             attempt["argv"][-1] = placeholder
             attempt["input"]["preview_receipt_digest"] = digest
-            attempt["executed_argv"] = ["clean", "1505", "--execute", "--preview", digest]
+            attempt["executed_argv"] = [
+                "clean", str(candidate_issue), "--execute", "--preview", digest
+            ]
         for _, observation in self.observations.values():
             for attempt in observation["attempts"]:
                 result = attempt.get("result")
@@ -127,7 +146,7 @@ class RetryNormalizerTests(unittest.TestCase):
             ledger["scenario_map_sha256"],
             EVIDENCE,
         )
-        self.assertEqual(len(ledger["attempts"]), 31)
+        self.assertEqual(len(ledger["attempts"]), 32)
         self.assertEqual([journey["status"] for journey in ledger["journeys"]], ["completed", "completed"])
 
     def test_cleanup_target_must_match_declared_control(self):
@@ -170,10 +189,9 @@ class RetryNormalizerTests(unittest.TestCase):
             "finish", "clean", "status", "doctor", "validate", "edit",
         }
         for scenario in self.scenario_map["scenarios"]:
-            self.assertEqual(
-                scenario["relevant_facts"]["initial_fixture_facts"]["issue_number"],
-                1505,
-            )
+            fixture_facts = scenario["relevant_facts"]["initial_fixture_facts"]
+            self.assertEqual(fixture_facts["issue_number"], 1505)
+            self.assertEqual(fixture_facts["lifecycle_phase"], "unprepared")
             for step in scenario["semantic_steps"]:
                 self.assertNotIn("cutover", step["intended_operation"])
                 self.assertNotIn("rollback", step["intended_operation"])

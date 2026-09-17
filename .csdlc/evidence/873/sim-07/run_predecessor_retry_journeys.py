@@ -26,7 +26,7 @@ def write_json(path: Path, value: Any) -> None:
 
 def run(argv: list[str], cwd: Path, env: dict[str, str] | None = None) -> tuple[int, str, str, int]:
     started = time.monotonic_ns()
-    completed = subprocess.run(argv, cwd=cwd, env=env, text=True, capture_output=True, timeout=30)
+    completed = subprocess.run(argv, cwd=cwd, env=env, text=True, capture_output=True)
     elapsed = (time.monotonic_ns() - started) // 1_000_000
     return completed.returncode, completed.stdout, completed.stderr, elapsed
 
@@ -60,7 +60,7 @@ exit 2
         env["ADL_ISSUE873_CAPTURE_DEST"] = str(destination)
         subprocess.run(
             [str(harness), test_filter, "--exact", "--nocapture"],
-            cwd=harness.parents[3], env=env, text=True, capture_output=True, timeout=30,
+            cwd=harness.parents[3], env=env, text=True, capture_output=True,
         )
         if not (destination / ".git/installed-candidate/plan.json").is_file():
             raise RuntimeError("installed harness did not yield a fresh fixture")
@@ -94,7 +94,7 @@ def create_cleanup_control(root: Path, linked: Path, logs: Path) -> Path:
     ).strip()
     subprocess.run(
         ["git", "-C", str(root), "worktree", "add", "--detach", str(control), baseline_head],
-        text=True, capture_output=True, check=True, timeout=30,
+        text=True, capture_output=True, check=True,
     )
     control_head = subprocess.check_output(
         ["git", "-C", str(control), "rev-parse", "HEAD"], text=True
@@ -222,7 +222,7 @@ def primary_terminal_state(primary: Path, issue: int) -> dict[str, str]:
 
 
 def terminal_topology(step_id: str) -> str:
-    if step_id in {"proof", "review", "finish-linked"}:
+    if step_id in {"proof-input-admission", "proof", "review", "finish-linked"}:
         return "linked"
     return "primary"
 
@@ -445,6 +445,9 @@ def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, A
         if step_id == "prepare":
             request = dict(base)
         elif step_id == "bind":
+            request = dict(base)
+            request["expected_lifecycle_digest"] = digest
+        elif step_id == "proof-input-admission":
             request = dict(base)
             request["expected_lifecycle_digest"] = digest
         elif step_id == "proof":
@@ -712,6 +715,7 @@ def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, A
         reason = result["envelope"].get("reason_code")
         expected = {
             "prepare": {"command_completed"}, "bind": {"command_completed"},
+            "proof-input-admission": {"lifecycle_digest_valid"},
             "proof": {"command_completed"}, "review": {"command_completed"},
             "publish": {"command_completed"}, "github-pr-create": {"command_completed"},
             "merge-internal-input-guard": {"github_merge_ineligible"},
@@ -784,8 +788,14 @@ def execute_terminal(args: argparse.Namespace, root: Path, scenario: dict[str, A
     return value
 
 
-def configure_fake_remote(linked: Path, head: str) -> dict[str, str]:
-    evidence = linked / ".csdlc/evidence/1505"
+def configure_fake_remote(
+    linked: Path,
+    head: str,
+    issue: int = 1505,
+    branch: str = "codex/1505-installed-intent-fixture",
+    transport_root: Path | None = None,
+) -> dict[str, str]:
+    evidence = transport_root or linked / f".csdlc/evidence/{issue}"
     fake_bin = evidence / "fake-bin"
     fake_bin.mkdir(parents=True, exist_ok=True)
     curl = fake_bin / "curl"
@@ -807,12 +817,21 @@ while test "$#" -gt 0; do
 done
 printf '%s:%s\n' "$method" "$url" >> "$base/remote-requests"
 case "$method:$url" in
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/git/matching-refs/heads/*)
+  printf '[{{"ref":"refs/heads/{branch}","object":{{"sha":"{head}"}}}}]' ;;
  POST:https://api.github.com/repos/agent-logic/agent-design-language/pulls)
   data=$(cat "$payload")
-  data=$(printf '%s' "$data" | sed 's#"head":"[^"]*"#"head":{{"sha":"{head}","ref":"codex/1505-installed-intent-fixture"}}#;s#"base":"main"#"base":{{"ref":"main"}}#')
+  data=$(printf '%s' "$data" | sed 's#"head":"[^"]*"#"head":{{"sha":"{head}","ref":"{branch}"}}#;s#"base":"main"#"base":{{"ref":"main"}}#')
   body=$(printf '%s' "$data" | sed 's/^{{//')
   printf '{{"number":639,"id":639,"node_id":"PR_ready639","state":"open","merged":false,%s' "$body" > "$base/remote-pr.json"
   printf 'pr-create\\n' >> "$base/remote-effects"
+  cat "$base/remote-pr.json" ;;
+ PATCH:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639)
+  data=$(cat "$payload")
+  body=$(printf '%s' "$data" | sed 's/^{{//')
+  printf '{{"number":639,"id":639,"node_id":"PR_ready639","state":"open","merged":false,"base":{{"ref":"main"}},"head":{{"sha":"{head}","ref":"{branch}"}},"draft":false,%s' "$body" > "$base/remote-pr.next"
+  mv "$base/remote-pr.next" "$base/remote-pr.json"
+  printf 'pr-update\\n' >> "$base/remote-effects"
   cat "$base/remote-pr.json" ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls[?]*)
   printf '['; if test -f "$base/remote-pr.json"; then cat "$base/remote-pr.json"; fi; printf ']' ;;
@@ -826,33 +845,113 @@ case "$method:$url" in
   printf '%s' '{{"sha":"{merge_commit}","merged":true,"message":"Pull Request successfully merged"}}' ;;
  POST:https://api.github.com/graphql)
   if ! test -f "$base/remote-pr.json"; then exit 9; fi
-  sed 's/"draft":true/"draft":false/' "$base/remote-pr.json" > "$base/remote-pr.next"
-  mv "$base/remote-pr.next" "$base/remote-pr.json"
-  printf 'pr-ready\\n' >> "$base/remote-effects"
-  printf '%s' '{{"data":{{"markPullRequestReadyForReview":{{"pullRequest":{{"number":639,"headRefOid":"{head}","isDraft":false}}}}}}}}' ;;
+  if grep -q 'markPullRequestReadyForReview' "$payload"; then
+   sed 's/"draft":true/"draft":false/' "$base/remote-pr.json" > "$base/remote-pr.next"
+   mv "$base/remote-pr.next" "$base/remote-pr.json"
+   printf 'pr-ready\n' >> "$base/remote-effects"
+   printf '%s' '{{"data":{{"markPullRequestReadyForReview":{{"pullRequest":{{"number":639,"headRefOid":"{head}","isDraft":false}}}}}}}}'
+  elif grep -q '"merged":true' "$base/remote-pr.json"; then
+   cat "$base/graphql-merged.json"
+  else
+   cat "$base/graphql-open.json"
+  fi ;;
  GET:https://api.github.com/graphql)
   if test -f "$base/remote-pr.json" && grep -q '"merged":true' "$base/remote-pr.json"; then
-   printf '%s' '{{"data":{{"repository":{{"nameWithOwner":"agent-logic/agent-design-language","mergeCommitAllowed":true,"pullRequest":{{"number":639,"url":"https://github.com/agent-logic/agent-design-language/pull/639","headRefOid":"{head}","baseRefName":"main","baseRefOid":"1111111111111111111111111111111111111111","state":"MERGED","merged":true,"isDraft":false,"mergeable":"MERGEABLE","mergeStateStatus":"CLEAN","reviewDecision":"APPROVED","baseRef":{{"branchProtectionRule":{{"requiresStatusChecks":true,"requiresApprovingReviews":false,"requiresLinearHistory":false,"requiredStatusChecks":[{{"context":"issue-873-synthetic-check","app":{{"databaseId":873}}}}]}}}},"mergeCommit":{{"oid":"{merge_commit}","parents":{{"nodes":[{{"oid":"1111111111111111111111111111111111111111"}},{{"oid":"{head}"}}],"pageInfo":{{"hasNextPage":false}}}}}},"reviewThreads":{{"nodes":[],"pageInfo":{{"hasNextPage":false}}}},"latestReviews":{{"nodes":[{{"state":"APPROVED"}}],"pageInfo":{{"hasNextPage":false}}}},"commits":{{"nodes":[{{"commit":{{"oid":"{head}","statusCheckRollup":{{"state":"SUCCESS","contexts":{{"nodes":[{{"__typename":"CheckRun","name":"issue-873-synthetic-check","status":"COMPLETED","conclusion":"SUCCESS","isRequired":true,"checkSuite":{{"app":{{"databaseId":873}}}}}}],"pageInfo":{{"hasNextPage":false}}}}}}}}}}]}}}}}}}}}}'
+   cat "$base/graphql-merged.json"
   else
-   printf '%s' '{{"data":{{"repository":{{"nameWithOwner":"agent-logic/agent-design-language","mergeCommitAllowed":true,"pullRequest":{{"number":639,"url":"https://github.com/agent-logic/agent-design-language/pull/639","headRefOid":"{head}","baseRefName":"main","baseRefOid":"1111111111111111111111111111111111111111","state":"OPEN","merged":false,"isDraft":false,"mergeable":"MERGEABLE","mergeStateStatus":"CLEAN","reviewDecision":"APPROVED","baseRef":{{"branchProtectionRule":{{"requiresStatusChecks":true,"requiresApprovingReviews":false,"requiresLinearHistory":false,"requiredStatusChecks":[{{"context":"issue-873-synthetic-check","app":{{"databaseId":873}}}}]}}}},"mergeCommit":null,"reviewThreads":{{"nodes":[],"pageInfo":{{"hasNextPage":false}}}},"latestReviews":{{"nodes":[{{"state":"APPROVED"}}],"pageInfo":{{"hasNextPage":false}}}},"commits":{{"nodes":[{{"commit":{{"oid":"{head}","statusCheckRollup":{{"state":"SUCCESS","contexts":{{"nodes":[{{"__typename":"CheckRun","name":"issue-873-synthetic-check","status":"COMPLETED","conclusion":"SUCCESS","isRequired":true,"checkSuite":{{"app":{{"databaseId":873}}}}}}],"pageInfo":{{"hasNextPage":false}}}}}}}}}}]}}}}}}}}}}'
+   cat "$base/graphql-open.json"
   fi ;;
  GET:https://api.github.com/repos/agent-logic/agent-design-language/rules/branches/main[?]per_page=100"&"page=1)
   printf '%s' '[]' ;;
- GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/1505)
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/issues/{issue})
   if test -f "$base/remote-pr.json" && grep -q '"merged":true' "$base/remote-pr.json"; then
-   printf '%s' '{{"number":1505,"title":"Installed intent fixture","body":"Fixture issue","state":"closed","state_reason":"completed","updated_at":"2026-09-16T00:00:00Z","closed_at":"2026-09-16T00:00:00Z","labels":[],"assignees":[],"milestone":null}}'
+   printf '%s' '{{"number":{issue},"title":"Installed intent fixture","body":"Fixture issue","state":"closed","state_reason":"completed","updated_at":"2026-09-16T00:00:00Z","closed_at":"2026-09-16T00:00:00Z","labels":[],"assignees":[],"milestone":null}}'
   else
-   printf '%s' '{{"number":1505,"title":"Installed intent fixture","body":"Fixture issue","state":"open","state_reason":null,"updated_at":"2026-09-16T00:00:00Z","closed_at":null,"labels":[],"assignees":[],"milestone":null}}'
+   printf '%s' '{{"number":{issue},"title":"Installed intent fixture","body":"Fixture issue","state":"open","state_reason":null,"updated_at":"2026-09-16T00:00:00Z","closed_at":null,"labels":[],"assignees":[],"milestone":null}}'
   fi ;;
  *) exit 9 ;;
 esac
 ''', encoding="utf-8")
+    def graphql_observation(merged: bool) -> dict[str, Any]:
+        issue_state = "CLOSED" if merged else "OPEN"
+        pull_state = "MERGED" if merged else "OPEN"
+        merge = ({
+            "oid": merge_commit,
+            "parents": {"nodes": [
+                {"oid": "1" * 40}, {"oid": head},
+            ], "pageInfo": {"hasNextPage": False}},
+        } if merged else None)
+        pull = {
+            "number": 639,
+            "url": "https://github.com/agent-logic/agent-design-language/pull/639",
+            "body": f"Closes #{issue}",
+            "closingIssuesReferences": {
+                "nodes": [{
+                    "number": issue,
+                    "url": f"https://github.com/agent-logic/agent-design-language/issues/{issue}",
+                    "repository": {"nameWithOwner": "agent-logic/agent-design-language"},
+                }],
+                "pageInfo": {"hasNextPage": False},
+            },
+            "headRefOid": head,
+            "baseRefName": "main",
+            "baseRefOid": "1" * 40,
+            "state": pull_state,
+            "merged": merged,
+            "isDraft": False,
+            "mergeable": "MERGEABLE",
+            "mergeStateStatus": "CLEAN",
+            "reviewDecision": "APPROVED",
+            "baseRef": {"branchProtectionRule": {
+                "requiresStatusChecks": True,
+                "requiresApprovingReviews": False,
+                "requiresLinearHistory": False,
+                "requiredStatusChecks": [{
+                    "context": "issue-873-synthetic-check",
+                    "app": {"databaseId": 873},
+                }],
+            }},
+            "mergeCommit": merge,
+            "reviewThreads": {"nodes": [], "pageInfo": {"hasNextPage": False}},
+            "latestReviews": {"nodes": [{"state": "APPROVED"}], "pageInfo": {"hasNextPage": False}},
+            "commits": {"nodes": [{"commit": {
+                "oid": head,
+                "statusCheckRollup": {"state": "SUCCESS", "contexts": {
+                    "nodes": [{
+                        "__typename": "CheckRun",
+                        "name": "issue-873-synthetic-check",
+                        "status": "COMPLETED",
+                        "conclusion": "SUCCESS",
+                        "isRequired": True,
+                        "checkSuite": {"app": {"databaseId": 873}},
+                    }],
+                    "pageInfo": {"hasNextPage": False},
+                }},
+            }}]},
+        }
+        return {"data": {
+            "repository": {
+                "nameWithOwner": "agent-logic/agent-design-language",
+                "mergeCommitAllowed": True,
+                "pullRequest": pull,
+            },
+            "linkedRepository": {
+                "nameWithOwner": "agent-logic/agent-design-language",
+                "issue": {
+                    "number": issue,
+                    "url": f"https://github.com/agent-logic/agent-design-language/issues/{issue}",
+                    "state": issue_state,
+                },
+            },
+        }}
+    write_json(evidence / "graphql-open.json", graphql_observation(False))
+    write_json(evidence / "graphql-merged.json", graphql_observation(True))
     curl.chmod(0o755)
     token = evidence / "token"
     token.write_text("synthetic-token\n", encoding="utf-8")
     token.chmod(0o600)
     env = os.environ.copy()
-    env["PATH"] = f"{fake_bin}:/usr/bin:/bin"
+    env["PATH"] = f"{fake_bin}:{os.environ.get('PATH', '/usr/bin:/bin')}"
     env["ADL_GITHUB_TOKEN_FILE"] = str(token)
     return env
 

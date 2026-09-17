@@ -7,4 +7,5 @@ test observation_is_read_only_and_classifies_missing_altered_and_interrupted ...
 test recovery_resumes_when_stale_data_removal_was_synced_before_marker_removal ... ok
 test stale_semantic_snapshot_cannot_rebuild_or_acknowledge ... ok
 
-test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.80s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.98s
+

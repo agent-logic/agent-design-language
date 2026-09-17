@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "semantic_card_projections",
-  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_card_projections -- --test-threads=1",
-  "started_at": "2026-09-16T18:02:50Z",
-  "ended_at": "2026-09-16T18:02:56Z",
-  "elapsed_seconds": 6,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test semantic_card_projections -- --test-threads=1",
+  "started_at": "2026-09-17T03:15:54Z",
+  "ended_at": "2026-09-17T03:15:58Z",
+  "elapsed_seconds": 4,
   "exit_status": 0,
   "test_counts": {
     "passed": 6,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "8d52606ffd785d31573c788c06ec8756f26265a0e82d1825d165cc55b5ea4fff",
-  "stderr_sha256": "146e6efe6c03e78b82a08fc4de9f7b37b55d2f97a1beafc93c493dc6ad4202af"
+  "stdout_sha256": "d803d203dbfca43cd1ddf4427b018f32a2db8445b1ce43a73c521f92a719010e",
+  "stderr_sha256": "b6499969f9a70a5d085b59aa129dfc876a0cd3af4257359f1d403f7f8b0387a8",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/semantic_card_projections.result.json",
+    "commands/semantic_card_projections.stdout.log",
+    "commands/semantic_card_projections.stderr.log"
+  ]
 }

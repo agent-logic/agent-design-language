@@ -20,5 +20,5 @@ test legacy_simple_issue_create_execute_is_retired_before_authority_dispatch ...
 test legacy_simple_issue_create_is_retired ... ok
 test simple_issue_close_rejects_ambiguous_or_invalid_input ... ok
 
-test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 34.88s
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 33.65s
 

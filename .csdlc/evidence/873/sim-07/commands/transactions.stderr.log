@@ -1,2 +1,3 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.48s
      Running tests/transactions.rs (csdlc-v3/target/debug/deps/transactions-4fede2401b7b1f36)

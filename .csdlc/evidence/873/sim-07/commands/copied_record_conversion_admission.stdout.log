@@ -15,5 +15,5 @@ test source_identity_phase_and_prior_executable_mismatches_fail_before_effects .
 test stale_writer_fence_probe_acknowledgement_cannot_resume_conversion ... ok
 test swapped_wrapped_and_flat_card_kinds_fail_before_effects ... ok
 
-test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 44.38s
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 46.53s
 

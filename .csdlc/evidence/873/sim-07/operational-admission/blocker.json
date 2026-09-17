@@ -1,0 +1,26 @@
+{
+  "schema": "adl.csdlc.issue873.native_adoption_blocker.v1",
+  "issue": 873,
+  "candidate": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "operation": "native v3 prepare873 using existing validated bound cards and fresh issue873 plan",
+  "observed_reason": "semantic_prepare_refused",
+  "detail": "LegacyMigrationRequired",
+  "evidence": [
+    "prepare-result-2.json",
+    "prepare-candidate-result.json"
+  ],
+  "source_explanation": {
+    "path": "csdlc-v3/src/storage/semantic.rs",
+    "candidate_lines": [
+      1026,
+      1050,
+      1086,
+      1379
+    ],
+    "cause": "legacy_compatibility_census rejects retained primary .csdlc/evidence/873 as legacy residue, even though it contains tracked qualification checkpoint evidence; prior remote PR publication is an additional unadjudicated compatibility boundary."
+  },
+  "preserved_state": "No retained lifecycle state, checkpoint evidence, remote receipt or authority input deleted or rewritten.",
+  "operator_direction": "User explicitly directed no more reviews and use gh if necessary after seeing active work; publication fallback still requires truthful completed qualification.",
+  "publication_status": "not_performed",
+  "native_cards_status": "No successful semantic adoption or edit occurred; prior cards remain unchanged and stale."
+}

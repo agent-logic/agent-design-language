@@ -15,4 +15,5 @@ test scope_rebind_refreshes_head_before_replacing_an_inadmissible_validator ... 
 test scope_rewound_binding_can_rebind_at_the_same_head ... ok
 test tracked_projection_rebind_converges_before_proof ... ok
 
-test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 128.66s
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 115.83s
+

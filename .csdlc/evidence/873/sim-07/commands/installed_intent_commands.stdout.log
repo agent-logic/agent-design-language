@@ -1,7 +1,9 @@
 
-running 43 tests
+running 61 tests
+test cleanup_recover_reconciles_explicit_already_absent_without_prior_operation ... ok
 test installed_advanced_request_uses_same_writer_and_rejects_stale_snapshot ... ok
 test installed_bind_and_validate_refuse_malformed_bound_state_without_repair ... ok
+test installed_bind_recovery_handles_absent_target_before_loading_worktree ... ok
 test installed_edit_can_correct_validators_with_a_single_cargo_filter ... ok
 test installed_generated_request_roundtrips_exact_stdout_without_manual_extraction ... ok
 test installed_intent_rejects_foreign_repository_and_altered_authority_without_fallback ... ok
@@ -32,17 +34,33 @@ test installed_proof_runs_real_validator_and_rejects_zero_test_success ... ok
 test installed_publication_plan_tampering_invalidates_ordinary_and_emitted_requests ... ok
 test installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_receipts ... ok
 test installed_rebuild_diagnoses_and_repairs_six_active_registry_projections ... ok
+test installed_rebuild_repairs_projection_before_exact_binding_head_refresh ... ok
 test installed_recover_reconciles_interrupted_validator_edit ... ok
 test installed_recovery_requires_fresh_preview_of_actual_interrupted_transaction ... ok
 test installed_remote_recover_attaches_retained_receipt_after_native_dispatch_crash ... ok
 test installed_remote_recover_never_retries_when_native_receipt_is_already_durable ... ok
+test installed_remote_recover_pr_create_never_reuses_ambiguous_dispatch_or_wrong_branch ... ok
+test installed_remote_recover_pr_create_rejects_missing_or_wrong_head_before_reservation ... ok
+test installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejection_once ... ok
 test installed_remote_recover_reconciles_pending_merge_without_retry_flag ... ok
+test installed_remote_recover_rejected_reuse_crash_never_dispatches_twice ... ok
 test installed_remote_recover_rejects_tampered_native_receipt_target_identity ... ok
 test installed_remote_recover_retries_once_after_crash_before_dispatch ... ok
 test installed_remote_recover_retries_once_only_after_authenticated_absence ... ok
+test installed_remote_recover_retries_ready_once_after_crash_before_dispatch ... ok
+test installed_remote_recover_uses_retained_origin_after_bound_head_advances ... ok
 test installed_review_consumes_external_exact_head_evidence_and_rejects_wrong_identity ... ok
 test installed_status_preserves_native_recommendations_and_explicit_human_decisions ... ok
 test installed_unknown_intent_never_reports_success_or_creates_state ... ok
+test issue_1029_installed_prepare_reactivates_retained_unbound_native_record ... ok
+test issue_1029_installed_prepare_rejects_digest_consistent_invalid_legacy_cards_without_semantic_state ... ok
+test issue_1036_bound_legacy_adoption_rejects_changed_plan_and_damaged_completion ... ok
+test issue_1036_bound_legacy_adoption_rejects_mismatched_primary_binding ... ok
+test issue_1036_concurrent_rejected_adoption_cannot_release_active_fence ... ok
+test issue_1036_fast_forward_candidate_head_admits_edit_and_proof ... ok
+test issue_1036_installed_prepare_adopts_exact_registered_bound_legacy_record ... ok
+test issue_1036_interrupted_bound_legacy_adoption_replays_to_completion ... ok
+test issue_1036_review_amendment_rejects_before_head_refresh_invalidates_evidence ... ok
 
-test result: ok. 43 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 600.10s
+test result: ok. 61 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 958.60s
 

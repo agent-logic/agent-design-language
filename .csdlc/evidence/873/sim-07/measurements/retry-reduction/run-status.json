@@ -1,27 +1,34 @@
 {
-  "baseline_audit": "baseline-audit-result.json",
-  "boundary": "The authority-valid source fixture contains the tracked issue-505 terminal receipt, which the frozen candidate classifies as LegacyMigrationRequired. Removing it makes the authenticated authority receipt stale; no authority-valid clean retained fixture without it exists.",
-  "candidate": {
-    "finding_message": "LegacyMigrationRequired",
-    "journeys_completed": 0,
-    "reason_code": "semantic_prepare_refused",
-    "refusal": "candidate/refusal.raw.json"
-  },
-  "comparison_payload": null,
-  "corpus_id": "sim07-pre-resume-installed-journeys-v1",
-  "fifty_percent_claim": false,
-  "non_claims": [
-    "No comparable candidate ledger exists.",
-    "No retry-reduction percentage was calculated.",
-    "The 50 percent gate did not pass."
-  ],
-  "predecessor": {
-    "attempts": 34,
-    "avoidable_retries": 3,
-    "journeys_completed": 2,
-    "ledger": "predecessor/ledger.json"
-  },
-  "retry_reduction_percent": null,
   "schema": "adl.csdlc.issue873.retry_run_status.v1",
-  "status": "not_proven"
+  "status": "pass",
+  "corpus_id": "sim07-pre-resume-installed-journeys-v1",
+  "candidate_revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "candidate_sha256": "6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9",
+  "candidate_blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
+  "historical_not_proven_packet": "The earlier frozen f31b1b7 refusal and fixture audit remain retained under candidate/ and baseline-audit-*.json.",
+  "predecessor": {
+    "attempts": 35,
+    "avoidable_retries": 3,
+    "useful_retries": 0,
+    "journeys_completed": 2,
+    "ledger": "same-facts-067cb99/predecessor-retry-ledger.json"
+  },
+  "candidate": {
+    "attempts": 32,
+    "avoidable_retries": 0,
+    "useful_retries": 0,
+    "journeys_completed": 2,
+    "ledger": "same-facts-067cb99/candidate-retry-ledger.json"
+  },
+  "comparison_payload": "same-facts-067cb99/retry-comparison.json",
+  "retry_reduction_percent": 100.0,
+  "target_percent": 50.0,
+  "fifty_percent_claim": true,
+  "comparability": {
+    "same_scenario_map": true,
+    "same_relevant_facts": true,
+    "same_fake_remote_schedule": true,
+    "journeys_complete": true,
+    "all_declared_steps_observed": true
+  }
 }

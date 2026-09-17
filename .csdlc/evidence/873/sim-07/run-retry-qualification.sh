@@ -79,7 +79,7 @@ run_variant() {
   local binary="$2"
   local binary_sha="$3"
   local driver="$EVIDENCE/run_${variant}_retry_journeys.py"
-  local source_revision binary_blake3 scenario
+  local source_revision binary_blake3 scenario fixture_path
   source_revision="$(jq -r ".binaries.$variant.revision" "$MAP")"
   binary_blake3="$(jq -r ".binaries.$variant.blake3" "$MAP")"
   if [[ ! -x "$TEST_BIN" || ! -x "$HARNESS_BIN" || ! -f "$driver" ]]; then
@@ -87,7 +87,9 @@ run_variant() {
     return 2
   fi
   mkdir -p "$RUN_DIR/fixtures"
-  for scenario in primary-linked-edit terminal-journey; do
+  if [[ "$variant" == "candidate" ]]; then
+    local acceptance_fixture
+    acceptance_fixture="${ADL_ISSUE873_AUTHENTIC_FIXTURE_PARENT:?set ADL_ISSUE873_AUTHENTIC_FIXTURE_PARENT to the approved direct worktree parent}/qualification-873-$(basename "$RUN_DIR")-authentic-adoption"
     PYTHONDONTWRITEBYTECODE=1 python3 "$driver" \
       --binary "$binary" \
       --binary-blake3 "$binary_blake3" \
@@ -95,12 +97,44 @@ run_variant() {
       --scenario-map "$MAP" \
       --harness "$TEST_BIN" \
       --slot "$HARNESS_BIN" \
-      --fixture "$RUN_DIR/fixtures/$variant-$scenario" \
+      --fixture "$acceptance_fixture" \
+      --logs "$RUN_DIR/logs/candidate-authentic-adoption" \
+      --output "$RUN_DIR/raw/candidate-authentic-adoption.acceptance.json" \
+      --target-dir "$TARGET_DIR" \
+      --blake3-source "$EVIDENCE/blake3_digest.rs" \
+      --authentic-csdlc-root "${ADL_ISSUE873_AUTHENTIC_CSDLC_ROOT:?set ADL_ISSUE873_AUTHENTIC_CSDLC_ROOT to the retained .git/csdlc-v3 root}" \
+      --authentic-plan "${ADL_ISSUE873_AUTHENTIC_PLAN:?set ADL_ISSUE873_AUTHENTIC_PLAN to the exact retained plan}" \
+      --authentic-repo-root "${ADL_ISSUE873_AUTHENTIC_REPO_ROOT:?set ADL_ISSUE873_AUTHENTIC_REPO_ROOT to the candidate source repository}" \
+      --authentic-fixture-root "${ADL_ISSUE873_AUTHENTIC_FIXTURE_ROOT:?set ADL_ISSUE873_AUTHENTIC_FIXTURE_ROOT to the retained isolated repository}" \
+      --authentic-adoption-acceptance || return 2
+  fi
+  for scenario in primary-linked-edit terminal-journey; do
+    fixture_path="$RUN_DIR/fixtures/$variant-$scenario"
+    if [[ "$variant" == "candidate" ]]; then
+      fixture_path="${ADL_ISSUE873_AUTHENTIC_FIXTURE_PARENT:?set ADL_ISSUE873_AUTHENTIC_FIXTURE_PARENT to the approved direct worktree parent}/qualification-873-$(basename "$RUN_DIR")-${scenario}"
+    fi
+    local -a command=(python3 "$driver" \
+      --binary "$binary" \
+      --binary-blake3 "$binary_blake3" \
+      --source-revision "$source_revision" \
+      --scenario-map "$MAP" \
+      --harness "$TEST_BIN" \
+      --slot "$HARNESS_BIN" \
+      --fixture "$fixture_path" \
       --logs "$RUN_DIR/logs/$variant-$scenario" \
       --output "$RUN_DIR/raw/$variant-$scenario.attempts.json" \
       --target-dir "$TARGET_DIR" \
-      --blake3-source "$EVIDENCE/blake3_digest.rs" \
-      --scenario "$scenario" || return 2
+      --blake3-source "$EVIDENCE/blake3_digest.rs")
+    if [[ "$variant" == "candidate" ]]; then
+      command+=(
+        --authentic-csdlc-root "${ADL_ISSUE873_AUTHENTIC_CSDLC_ROOT:?set ADL_ISSUE873_AUTHENTIC_CSDLC_ROOT to the retained .git/csdlc-v3 root}"
+        --authentic-plan "${ADL_ISSUE873_AUTHENTIC_PLAN:?set ADL_ISSUE873_AUTHENTIC_PLAN to the exact retained plan}"
+        --authentic-repo-root "${ADL_ISSUE873_AUTHENTIC_REPO_ROOT:?set ADL_ISSUE873_AUTHENTIC_REPO_ROOT to the candidate source repository}"
+        --authentic-fixture-root "${ADL_ISSUE873_AUTHENTIC_FIXTURE_ROOT:?set ADL_ISSUE873_AUTHENTIC_FIXTURE_ROOT to the retained isolated repository}"
+      )
+    fi
+    command+=(--scenario "$scenario")
+    PYTHONDONTWRITEBYTECODE=1 "${command[@]}" || return 2
   done
   PYTHONDONTWRITEBYTECODE=1 python3 "$EVIDENCE/normalize_retry_ledger.py" \
     --scenario-map "$MAP" \

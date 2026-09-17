@@ -7,4 +7,5 @@ test parity_rejects_new_command_or_option_without_manual_coverage ... ok
 test primary_cleanup_requires_primary_durable_receipt_location ... ok
 test request_field_inventory_matches_current_source_and_operator_reference ... ok
 
-test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+

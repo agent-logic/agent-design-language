@@ -1,5 +1,5 @@
 
-running 45 tests
+running 53 tests
 test adapter_branch_observation_never_authorizes_lifecycle_work ... ok
 test adapter_invocations_are_argv_based_and_shell_strings_are_rejected ... ok
 test adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction ... ok
@@ -16,6 +16,14 @@ test recovery_honors_projection_repair_flag_from_committed_state ... ok
 test recovery_rejects_committed_state_intent_mismatches ... ok
 test recovery_rejects_no_commit_records_with_invalid_integrity ... ok
 test review_recovery_requires_structured_stale_truth_provenance ... ok
+test semantic_gate_a::issue_1029_explicit_fenced_prepare_preserves_valid_unbound_legacy_record ... ok
+test semantic_gate_a::issue_1029_fenced_prepare_accepts_valid_completed_local_and_remote_receipts ... ok
+test semantic_gate_a::issue_1029_fenced_prepare_rejects_pending_or_bound_legacy_record ... ok
+test semantic_gate_a::issue_1029_fenced_prepare_rejects_remote_linked_and_damaged_completion_residue ... ok
+test semantic_gate_a::issue_1029_fenced_prepare_rejects_stale_digest_and_wrong_identity ... ok
+test semantic_gate_a::issue_1029_merge_sidecars_are_scoped_through_their_retained_intent ... ok
+test semantic_gate_a::issue_1036_fenced_prepare_accepts_authentic_creation_receipt_census ... ok
+test semantic_gate_a::issue_1036_fenced_prepare_rejects_damaged_creation_receipt_census ... ok
 test semantic_gate_a::repository_scoped_issue_creation_receipt_does_not_block_created_issue_preparation ... ok
 test semantic_gate_a::repository_scoped_issue_creation_receipt_mismatches_fail_closed ... ok
 test semantic_gate_a::semantic_bookkeeping_preserves_evidence_inputs_and_amendments_advance_them ... ok
@@ -41,11 +49,11 @@ running 1 test
 running 1 test
 test semantic_gate_a::semantic_process_child ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.08s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 52 filtered out; finished in 0.04s
 
 test semantic_gate_a::semantic_process_child ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.08s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 52 filtered out; finished in 0.04s
 
 ok
 test semantic_gate_a::semantic_unactivated_intent_is_observational_recovery ... ok
@@ -60,5 +68,5 @@ test transition_matrix_explicitly_classifies_every_state_command_pair ... ok
 test transition_merge_ready_requires_current_readiness_evidence ... ok
 test transition_review_recovery_matches_retained_v2_behavior ... ok
 
-test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.64s
+test result: ok. 53 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.64s
 

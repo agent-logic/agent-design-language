@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "installed_intent_timeout",
-  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test installed_intent_timeout -- --test-threads=1",
-  "started_at": "2026-09-16T06:42:39Z",
-  "ended_at": "2026-09-16T06:42:52Z",
-  "elapsed_seconds": 13,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test installed_intent_timeout -- --test-threads=1",
+  "started_at": "2026-09-17T03:07:20Z",
+  "ended_at": "2026-09-17T03:07:34Z",
+  "elapsed_seconds": 14,
   "exit_status": 0,
   "test_counts": {
     "passed": 2,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "0396b2010e7f64eaa051164e805f7f414ec2eb8e7e02daca1383f50b1b3937b6",
-  "stderr_sha256": "fc5828ae057ef801eeb0542dae7c7a06d6c4dd1d51f7ce90a97e5c43ac2d26c8"
+  "stdout_sha256": "97b75bdbe1ea402a02e61311b946a1f12605705ddf7be69d15d9b4b777a79780",
+  "stderr_sha256": "ed6146c9f355d39d233cd1a0017d02258928a03257ee80c85eb5056ccc106e21",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/installed_intent_timeout.result.json",
+    "commands/installed_intent_timeout.stdout.log",
+    "commands/installed_intent_timeout.stderr.log"
+  ]
 }

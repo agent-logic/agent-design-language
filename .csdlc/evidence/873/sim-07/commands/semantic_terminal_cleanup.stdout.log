@@ -1,5 +1,7 @@
 
-running 1 test
+running 2 tests
+test cleanup_preview_execute_accepts_stale_generated_projection ... ok
 test no_pr_terminal_and_cleanup_keep_semantic_outcome_after_checkout_removal ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.61s
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.10s
+

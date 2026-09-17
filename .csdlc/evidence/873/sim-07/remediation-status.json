@@ -1,0 +1,25 @@
+{
+  "schema": "adl.csdlc.issue873.remediation_status.v1",
+  "candidate_revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "status": "not_proven",
+  "prior_staged_comparison": "invalid_initialized_candidate_vs_unprepared_predecessor",
+  "same_facts_run": "measurements/retry-reduction/same-facts-067cb99",
+  "predecessor_attempts_completed": 35,
+  "candidate_compared_journey": "passed_32_attempts",
+  "cause_classification": "harness_fixture_defects_repaired",
+  "native_issue873_adoption": "blocked_LegacyMigrationRequired",
+  "admission_evidence": [
+    "operational-admission/prepare-result-2.json",
+    "operational-admission/prepare-candidate-result.json"
+  ],
+  "harness_tests": {
+    "passed": 59,
+    "failed": 0
+  },
+  "full_exact_corpus": "passed_283_tests_33_test_commands_plus_retained_validator",
+  "publication": "pending",
+  "retry_comparison": "pass",
+  "candidate_avoidable_retries": 0,
+  "predecessor_avoidable_retries": 3,
+  "review": "operator_exception_no_more_reviews"
+}

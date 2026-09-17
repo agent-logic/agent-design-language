@@ -1,16 +1,23 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "copied_record_conversion_fault_recovery",
-  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-873-v0922-independent-qualification/csdlc-v3/Cargo.toml --test copied_record_conversion_fault_recovery -- --test-threads=1",
-  "started_at": "2026-09-16T06:45:36Z",
-  "ended_at": "2026-09-16T06:49:27Z",
-  "elapsed_seconds": 231,
+  "command": "cargo test --locked --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-1036-adopt-bound-legacy-semantic-state/csdlc-v3/Cargo.toml --test copied_record_conversion_fault_recovery -- --test-threads=1",
+  "started_at": "2026-09-17T03:10:02Z",
+  "ended_at": "2026-09-17T03:13:10Z",
+  "elapsed_seconds": 188,
   "exit_status": 0,
   "test_counts": {
     "passed": 1,
     "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "1f8170b699d682e28c4af72168cde48dfeaf580714414e65a7d735328de23dd1",
-  "stderr_sha256": "fafb970363cd30df572da0512311d1d6122edca2691c58b6aa9e0518e402a16f"
+  "stdout_sha256": "307c76e0612a05314f6c8bc1f586cb2874a32bd31d09ea2f383000a2e0578a4f",
+  "stderr_sha256": "02ad3f90ef8d1c4a95a0eb42f7aa2c569673254509d6a4a3ec48138e5f8b93ec",
+  "source_head": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "source_binding": "Exact candidate source paths verified unchanged against 067cb99; unrelated lifecycle evidence dirty state remains visible in raw measurements.",
+  "evidence": [
+    "results/copied_record_conversion_fault_recovery.result.json",
+    "commands/copied_record_conversion_fault_recovery.stdout.log",
+    "commands/copied_record_conversion_fault_recovery.stderr.log"
+  ]
 }

@@ -1,0 +1,7 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/copied_record_conversion_rehearsal.rs (csdlc-v3/target/debug/deps/copied_record_conversion_rehearsal-e02326650befb5e3)
+
+thread 'copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_denominator' (20235467) panicked at tests/copied_record_conversion_rehearsal.rs:277:5:
+original inputs rejected before copying: {"detail":"fixture root is beneath registered worktree adl-issue-1036-adopt-bound-legacy-semantic-state","effect_claim":"not_proven_without_hash_bound_before_after_evidence","proof_denominator":{"archive_copies":0,"authentic_files":0,"old_binaries":0,"portable_files":0,"transformations":0},"reason_code":"registered_worktree_rejected","schema":"csdlc.v3.issue872_generation9_fixture_validation.v1","status":"fail"}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `--test copied_record_conversion_rehearsal`

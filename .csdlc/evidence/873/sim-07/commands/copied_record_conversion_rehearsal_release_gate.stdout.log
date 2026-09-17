@@ -1,4 +1,6 @@
-ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 636.00s
+running 1 test
+test copied_record_conversion_rehearsal_release_gate_executes_complete_isolated_denominator ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 304.68s
 
