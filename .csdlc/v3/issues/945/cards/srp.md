@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/945/cards/sip.md"
   - ".csdlc/issues/945/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
-  recommended_outcome: "block"
-notes: "All12 candidates have current source evidence and explicit recommended disposition, owner, rationale, consequences and reversibility; all69 mappings retained; hashes and focused validation pass; independent exact-head review complete. Actual accepted/revised/rejected/deferred decisions require explicit operator or designated decision-owner evidence. No acceptance or closure claimed while required decisions remain pending."
+  findings_status: "no_findings"
+  recommended_outcome: "approve"
+notes: "Independent /root/review_945 confirms no actionable source/document findings at3cc6b7223451e14633f73da634fc87057ab66097. Website/code separation and pending acceptance are accurate. Final lifecycle-only delta receives exact-head review before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent review not yet run.
+- P2: CF09 treated repository allocation as undecided despite recorded private CodeFriend destination.
 
 ### Dispositions
 
-- No findings dispositioned; obtain independent exact-head review.
+- Initial P2 corrected; subsequent operator clarification supersedes the website-as-code interpretation. Website remains codefriend.ai; private code repository has no chosen name. Reviewer verified committed correction at3cc6b7223451e14633f73da634fc87057ab66097.
 
 ### Recommended Outcome
 
-- block
+- approve
 
 ## Notes
 
-All12 candidates have current source evidence and explicit recommended disposition, owner, rationale, consequences and reversibility; all69 mappings retained; hashes and focused validation pass; independent exact-head review complete. Actual accepted/revised/rejected/deferred decisions require explicit operator or designated decision-owner evidence. No acceptance or closure claimed while required decisions remain pending.
+Independent /root/review_945 confirms no actionable source/document findings at3cc6b7223451e14633f73da634fc87057ab66097. Website/code separation and pending acceptance are accurate. Final lifecycle-only delta receives exact-head review before publication.
