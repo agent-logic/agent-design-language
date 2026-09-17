@@ -14,7 +14,7 @@ What product is Beta 1, and where does it run and integrate?
 
 ## Context
 
-The selected baseline is a local operator-controlled CLI with artifact browsing in the current repository. The historical product ADR defines evidence-bound reports but does not specify this installed product journey. The current repository decomposition plan records the operator decision to reuse the existing private agent-logic/codefriend.ai repository. This source tree is the pre-extraction implementation; extraction still requires its own reviewed execution authorization.
+The selected baseline is a local operator-controlled CLI with artifact browsing in the current repository. The historical product ADR defines evidence-bound reports but does not specify this installed product journey. The current repository decomposition plan records the operator decision to keep the website and product code in separate repositories, with private CodeFriend code storage. This source tree is the pre-extraction implementation; extraction still requires its own reviewed execution authorization.
 
 ## Decision
 
@@ -22,11 +22,11 @@ Before the authorized extraction, deliver CodeFriend through adl codefriend in t
 
 CF-INTEGRATE connects the completed consumers into one installed operator journey before CF-PROOF independently qualifies it on ADL and the pinned licensed external Rust scope. Neither integration nor qualification may absorb unfinished features and call them delivered. The selected qualification environments are macOS and Linux; this proposal makes no Windows support claim.
 
-Beta 1 is not a hosted customer service, new authentication platform or multi-tenant deployment. The separately owned static Observatory sidecar does not change that boundary. Autonomous source mutation and broader integrations remain excluded. The selected destination is the existing private CodeFriend repository under the recorded product split. Do not infer extraction execution authority or completed migration from that allocation decision.
+Beta 1 is not a hosted customer service, new authentication platform or multi-tenant deployment. The separately owned static Observatory sidecar does not change that boundary. Autonomous source mutation and broader integrations remain excluded. The code destination is a separate private CodeFriend repository under the recorded product split; agent-logic/codefriend.ai remains website-only. The code repository identifier is allocated during repository setup. Do not infer extraction execution authority or completed migration from that allocation decision.
 
 ## Alternatives Considered
 
-A hosted service introduces tenant, account and operational responsibilities outside the admitted scope. The older standalone-versus-colocated choice has been resolved by the recorded product split; reusing the existing private repository preserves its contents and requires a reviewed integration inventory. Keeping only disconnected review skills would not deliver the installed product and complete journey required by CF-INTEGRATE. The local product provides a bounded delivery surface while retaining future boundary choices.
+A hosted service introduces tenant, account and operational responsibilities outside the admitted scope. The older standalone-versus-colocated choice has been resolved by the recorded product split; a separate private code repository preserves the website boundary and requires a reviewed code inventory before extraction. Keeping only disconnected review skills would not deliver the installed product and complete journey required by CF-INTEGRATE. The local product provides a bounded delivery surface while retaining future boundary choices.
 
 ## Consequences
 
@@ -42,7 +42,7 @@ Run the installed journey with actual ingestion, review, synthesis, action plans
 
 ## Supersession Relationships
 
-Refines accepted ADR0025. Reconciles present local delivery with the product split and private CodeFriend destination recorded in the current #848 decomposition plan. No permanent monorepo choice or extraction authorization is claimed.
+Refines accepted ADR0025. Reconciles present local delivery with the product split and separate private CodeFriend code destination clarified by the operator under #945. No permanent monorepo choice or extraction authorization is claimed.
 
 ## Source Evidence
 
@@ -63,7 +63,9 @@ Pinned implementation revision: `e76dd7e785d778916b524864118ef079e0a1836f`. This
 
 The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs.
 
-Proposed clarification: Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement is pre-extraction state under the already recorded product split and private CodeFriend allocation; it does not authorize or prove extraction.
+Operator clarification (2026-09-16): website and product code use two separate repositories. The pinned decomposition plan conflated them; its current correction preserves agent-logic/codefriend.ai as website-only. The website README at commit 99a3a85944e3095da29862654621a3c6bca80b61 says coming-soon website only and no application runtime.
+
+Proposed clarification: Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement is pre-extraction state under the operator-confirmed product split with distinct website and private code repositories; it does not authorize or prove extraction.
 
 - [adl/src/codefriend/operator/mod.rs](../../../../adl/src/codefriend/operator/mod.rs)
 - [adl/src/cli/codefriend_cmd.rs](../../../../adl/src/cli/codefriend_cmd.rs)

@@ -32,3 +32,7 @@ PDF #898, complete installed integration #914 and independent qualification #915
 ## Validation and review
 
 Run `python3 docs/milestones/v0.92.2/adr/issue-945/validate_packet.py --self-test` and the historical issue-911 validator. PVF: docs_only, deterministic local CPU/file/Git reads, required document-integrity gate. Checks cover candidate/source digests, twelve identities, 69 mappings, pending approval truth, and links. They do not prove architecture correctness. Native Cargo projection checks are tooling proof only. Independent exact-head review is recorded separately under the issue evidence directory before PR publication. No provider/cloud or product execution is claimed.
+
+## Website and code repository correction
+
+The operator clarified that CodeFriend uses two repositories: the existing website repository and separate private product code. [The corrected decomposition plan](../../repository-decomposition/PLAN.md) reflects this boundary. [The website README](https://github.com/agent-logic/codefriend.ai/blob/99a3a85944e3095da29862654621a3c6bca80b61/README.md) confirms its website-only scope. The code repository identifier remains for setup; no repository creation or extraction is claimed. The pinned source manifest preserves the earlier plan so the correction is auditable.

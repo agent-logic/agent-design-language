@@ -1,6 +1,6 @@
 # ADL repository decomposition plan
 
-Status: revised working plan, 2026-09-15. Repository ownership and visibility
+Status: revised working plan, 2026-09-16. Repository ownership and visibility
 reflect the operator decisions below. Scheduling is a recommendation, not an
 approved milestone amendment or extraction authorization. No repositories,
 visibility settings, releases, or infrastructure are changed by this document.
@@ -16,9 +16,11 @@ Those reviews apply to that historical version, not to this revised plan.
 The operator decided on 2026-09-15:
 
 - Use the current product-boundary split; abandon the older two-repository plan.
-- Reuse the existing CodeFriend repository and keep it private.
+- Keep CodeFriend product code private; the website/code repository distinction is clarified below.
 - Only the ADL language repository will be public; every other product repository
   will be private.
+
+Operator clarification on 2026-09-16 in #945: CodeFriend has separate website and code repositories. `agent-logic/codefriend.ai` remains the website; a separate private repository owns product code. The earlier wording incorrectly assigned code to the website repository. Its README at commit `99a3a85944e3095da29862654621a3c6bca80b61` explicitly limits it to the coming-soon website with no application runtime. The code repository identifier is allocated during repository setup; this plan does not claim it already exists.
 
 Accordingly, `docs/planning/POST_V095_ADL_CSM_LOGISTIC_SPLIT_PLAN.md` and its
 `docs/planning/ADL_LOGISTIC_SPLIT.md` predecessor are superseded strategy inputs.
@@ -36,11 +38,9 @@ inventories remain evidence of what was reviewed, not current execution proof.
 | cognitive-sdlc | Private | C-SDLC owner | Active lifecycle engine, templates, schemas, issue/review/publication/finish/cleanup tooling, manuals and independent validation |
 | agent-logic-infrastructure | Private | Infrastructure owner | Deployment modules, operational tooling, inventories and pinned-artifact deployment contracts |
 | agent-logic-enterprise-security | Private | Enterprise security owner | Enterprise policies, backends, integrations and restricted qualification evidence for the six v0.93 security work packages |
-| agent-logic/codefriend.ai (existing) | Private | CodeFriend owner | CodeFriend shell/CLI, acquisition, architecture analysis, review orchestration, memory consumers, evidence, action plans and report/publication experience |
+| Separate CodeFriend code repository (identifier allocated during setup) | Private | CodeFriend owner | CodeFriend shell/CLI, acquisition, architecture analysis, review orchestration, memory consumers, evidence, action plans and report/publication experience |
 
-The existing `agent-logic/codefriend.ai` repository was verified private on
-2026-09-15. Its existing contents must be inventoried and preserved before
-CodeFriend implementation is integrated; no replacement repository is proposed.
+The existing private `agent-logic/codefriend.ai` website repository remains separate from the six product-code boundaries above. Preserve its site assets, deployment infrastructure and history; do not move product implementation into it. Inventory the separate code destination before extraction.
 The other destination names remain proposed identifiers until creation setup.
 Named people, registries, licensing, release permissions and support windows
 must be recorded before the respective extraction.
@@ -109,7 +109,7 @@ proof. An execution issue must not close on a scaffold, schema or unexecuted pac
 | RD-07 remaining ADL cleanup decision | Each proposed deletion has an owner, replacement, proof, retained rollback source and retirement authority. Public ADL conformance and independent builds pass. Deletion is a separately approved operation. |
 | RD-08 demo ownership application | Each demo is placed with exactly one previously decided product owner and runs from that product's supported artifacts; no copied production code. Observatory moves with Runtime. Archival requires its own disposition. |
 | RD-09 enterprise-security repository | Private implementation boundary for the six v0.93 work packages, with explicit contract/implementation/fixture/evidence ownership and compatible Runtime interfaces. Real enterprise and synthetic Runtime integration pass independently. Repository setup does not imply completion of enterprise implementation. |
-| RD-10 CodeFriend integration into existing repository | Preserve existing repository content/history, move owned implementation, replace monorepo imports with versioned contracts, and independently build/install/run the complete Beta 1 journey on ADL and an external repository. Verify evidence, reports, approval behavior and rollback; repository presence alone is not delivery. |
+| RD-10 CodeFriend extraction into separate code repository | Preserve website repository content/history, verify the separate private code destination, move owned implementation, replace monorepo imports with versioned contracts, and independently build/install/run the complete Beta 1 journey on ADL and an external repository. Verify evidence, reports, approval behavior and rollback; repository presence alone is not delivery. |
 
 RD identifiers name results, not mandatory serial numbering. RD-01 and RD-02
 precede extraction; RD-03 precedes each consumer that needs those contracts;

@@ -159,8 +159,8 @@
         "adl/src/codefriend/mod.rs",
         "docs/milestones/v0.92.2/repository-decomposition/PLAN.md"
       ],
-      "observation": "The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs. The current repository plan records operator selection of the product split, existing private CodeFriend repository, and only ADL public.",
-      "correction": "Distinguish the delivered shell/consumer surfaces from the still-required complete installed integration #914 and independent qualification #915. Present local placement is pre-extraction state under the already recorded product split and private CodeFriend allocation; it does not authorize or prove extraction.",
+      "observation": "The local operator module exposes start, inspect, cancel, retry and withholding; retry requires a settled active attempt. Separate CodeFriend modules implement consumers. This pinned tree has no codefriend/integration.rs. The current repository plan records operator selection of the product split, existing private CodeFriend repository, and only ADL public. Operator clarification during #945 distinguishes website and code repositories; the pinned decomposition plan had incorrectly conflated the existing website with the code destination.",
+      "correction": "Keep current source placement as pre-extraction state. Preserve agent-logic/codefriend.ai for website assets and use a separate private CodeFriend code repository; identifier allocated during repository setup. This records the operator boundary clarification, not completed extraction or acceptance of all12 ADR texts.",
       "gate_consequence": "#925 arch_adr_decision_set_acceptance_complete remains false until explicit decisions settle all required candidates; product proof remains with original owners."
     },
     {
@@ -710,5 +710,12 @@
     848,
     910
   ],
-  "supersessions": []
+  "supersessions": [],
+  "repository_boundary": {
+    "website": "agent-logic/codefriend.ai",
+    "code": "separate private repository; identifier allocated during repository setup",
+    "authority": "Operator clarification in Planning #7.3 on 2026-09-16: two CodeFriend repos, one for website and one for code",
+    "website_readme_revision": "99a3a85944e3095da29862654621a3c6bca80b61",
+    "website_readme_url": "https://github.com/agent-logic/codefriend.ai/blob/99a3a85944e3095da29862654621a3c6bca80b61/README.md"
+  }
 }

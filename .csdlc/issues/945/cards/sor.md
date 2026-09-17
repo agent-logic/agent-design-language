@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Reconciled twelve Proposed ADRs with pinned implementation e76dd7e785d778916b524864118ef079e0a1836f; preserved all69 mappings and historical issue911 evidence. Explicit operator decisions remain pending; draft PR requested.
+Reconciled12 Proposed ADRs and69 mappings. Operator clarified two CodeFriend repositories: existing website and separate private code repo, name not yet chosen. Corrected CF09 and decomposition plan. All candidate acceptance remains pending; draft PR requested.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -110,7 +110,7 @@ Rules:
   - `<validation_command>`
     `<validation_effect>`
 - Results:
-  - `Focused document validators passed: issue945 12 candidates,69 mappings,43 sources,12 negative fixtures; historical issue911 12 candidates,69 mappings,21 sources,10 negatives. Native projection proof and independent review pending.`
+  - `Current document validator passes12 candidates,69 mappings,44 sources,14 negatives; historical validator passes10 negatives,21 sources. Native proof and final review remain separate evidence.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `<decision_or_deviation_2>`
 
 ## Follow-ups / Deferred work
-- `Obtain independent exact-head review and publish draft PR.`
+- `Publish reviewed draft after native proof and final records review.`
 - `Obtain explicit operator dispositions for each exact candidate before acceptance, numbering or closure.`

@@ -32,6 +32,11 @@ def check(decisions, content, manifest):
         require(not path.is_absolute() and '..' not in path.parts, 'unsafe source path')
         data = subprocess.check_output(['git', '-C', str(ROOT), 'show', manifest['revision'] + ':' + source['path']])
         require(len(data) == source['bytes'] and hashlib.sha256(data).hexdigest() == source['sha256'], 'source digest mismatch')
+    boundary = decisions['repository_boundary']
+    require(boundary['website'] == 'agent-logic/codefriend.ai' and boundary['code'].startswith('separate private repository'), 'website/code conflation')
+    supporting = content['supporting_files']
+    require(len(supporting) == 1 and supporting[0]['path'] == 'docs/milestones/v0.92.2/repository-decomposition/PLAN.md', 'missing corrected plan')
+    require(hashlib.sha256((ROOT / supporting[0]['path']).read_bytes()).hexdigest() == supporting[0]['sha256'], 'corrected plan digest mismatch')
     hashes = {x['path']: x['sha256'] for x in content['files']}
     require(len(content['files']) == len(hashes) == 12 and set(hashes) == {c['path'] for c in candidates}, 'content manifest denominator')
     for c in candidates:
@@ -66,6 +71,8 @@ def main():
     count = 0
     if args.self_test:
         mutations = [
+            lambda d,c,m: d['repository_boundary'].update(code='agent-logic/codefriend.ai'),
+            lambda d,c,m: c['supporting_files'][0].update(sha256='0'*64),
             lambda d,c,m: d['candidates'].pop(),
             lambda d,c,m: d['task_mapping'].pop(),
             lambda d,c,m: d.update(acceptance_complete=True),
