@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented installed `adl codefriend export pdf` for an approved governed review. The Rust-owned renderer verifies current approval and exact artifacts, binds source, renderer, destination, target and supplied font digest, rejects missing glyphs and unsafe inputs, paginates deterministically, writes PDF and manifest create-only, and retains extracted text plus every rendered page for visual proof.
+Implemented installed `adl codefriend export pdf` with exact governed-source and approval binding. The renderer now measures selected-font glyph advances against the explicit 174 mm printable width, splits wide unbroken tokens safely, and binds the maximum rendered line width in its manifest.
 
 ## PVF Lane Truth
 - Initial PVF lane: `owner_binary`
@@ -79,9 +79,9 @@ Implemented installed `adl codefriend export pdf` for an approved governed revie
 - Additional proof artifacts: `.csdlc/evidence/898/pdf-qualification/report.pdf; manifest.json; extracted.txt; pages/page-1.png through page-6.png; visual-inspection.md`
 
 ## Actions taken
-- `Added complete governed PDF rendering with bounded deterministic layout, font/glyph validation and bound manifest.`
-- `Registered installed export command, retained actual PDF/text/page evidence, documentation and PVF inventory.`
-- `Reconciled current main and proved PDF plus merged Markdown/HTML compatibility under focused tests, strict Clippy, formatting and visual inspection.`
+- `Replaced scalar-count pagination with selected-font glyph-advance measurement against the explicit printable page width.`
+- `Added wide unbroken-token and maximum rendered line-width regression proof.`
+- `Preserved create-only output, approval, provenance, redaction, path confinement, and sibling renderer behavior.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; all #898 implementation and proof changes are in the bound FastWork worktree`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_pdf --test codefriend_render_md --test codefriend_render_html; cargo clippy --manifest-path adl/Cargo.toml --lib --bins --tests -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff origin/main...HEAD --check`
-    `Focused PDF proof passed 4/4; merged HTML and Markdown regression proof passed 10/10; strict Clippy and formatting passed; retained six-page PDF text and every-page raster inspection passed without clipping, overlap, missing content or broken citations.`
+    `Focused PDF renderer proof passed 4/4, including a wide-glyph unbroken-token regression and a manifest assertion that every rendered line remains within the declared printable width.`
 - Results:
   - `passed`
 
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Focused installed PDF renderer proof: 4 tests passed; merged HTML and Markdown regression: 10 tests passed"
+      - "Focused installed PDF renderer proof: 4 tests passed; measured glyph-width boundary regression passed"
   determinism:
     status: passed
     replay_verified: true
@@ -174,5 +174,5 @@ verification_summary:
 - `Reconciled merged #897 HTML changes into shared helpers and reran all three renderer suites; no HTML scope was absorbed into #898.`
 
 ## Follow-ups / Deferred work
-- `Commit immutable #898 lifecycle candidate and obtain one fresh independent exact-head review.`
+- `Run native exact proof on the immutable remediation head and obtain one fresh independent exact-head review.`
 - `Publish only after review PASS; then shepherd required standard CI to merge-ready state.`
