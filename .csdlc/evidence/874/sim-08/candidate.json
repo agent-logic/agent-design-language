@@ -1,0 +1,13 @@
+{
+  "schema": "adl.sim08.candidate.v1",
+  "issue": 874,
+  "source_revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "binary_sha256": "6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9",
+  "binary_blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
+  "qualification_pr": 1060,
+  "qualification_head": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+  "qualification_merge": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+  "qualification_issue_state": "CLOSED",
+  "shared_binary_replaced": false,
+  "live_activation_authorized": false
+}

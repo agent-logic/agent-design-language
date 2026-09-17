@@ -1,0 +1,21 @@
+{
+  "schema": "adl.sim08.static_validation.v1",
+  "status": "pass",
+  "checked_at": "2026-09-17T11:48:00.400836+00:00",
+  "immutable_source_references_checked": 16,
+  "checks": [
+    "Retained references resolve from exact Git objects and SHA256 matches",
+    "All packet JSON parses",
+    "Candidate executable SHA256 matches SIM07 binding"
+  ],
+  "new_rehearsal": "not_run_operator_instruction",
+  "independent_review": "not_run_operator_instruction",
+  "live_activation": false,
+  "pvf": {
+    "lane": "tooling",
+    "proof_role": "document_and_evidence_integrity_only",
+    "determinism": "fixed_git_objects_and_sha256",
+    "resources": "local_cpu_files_git",
+    "release_gate": "not_runtime_or_activation_proof"
+  }
+}

@@ -1,0 +1,43 @@
+usage: csdlc <command>
+
+Operational commands:
+  bind <issue>
+  clean <issue> [--execute --preview <digest>]
+  doctor --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]
+  edit <issue> --changes <path>
+  eligibility --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]
+  finish <issue> [--disposition <path>]
+  github-issue <issue> --operation <path>
+  github-pr <issue> --operation <path>
+  pr-state <issue>
+  pr-state --request <path> [--observe-github] [--execute]
+  proof <issue>
+  publish <issue>
+  review <issue> --evidence <path>
+  remote --help
+  schedule --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]
+  shepherd --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]
+  sprint --repo-root <path> --request <path>
+  rebuild <issue>
+  validate <issue>
+  validate --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]
+  release-preflight --request <path>
+  status <issue> [--decisions <path>]
+  status <issue>
+  prepare <issue> --plan <path>
+  recover <issue> [--disposition <path>] [--execute --preview <digest>]
+
+Explicit historical / administrative commands (no alternate operational authority):
+  foundation --repo-root <path>
+  local --request <path> --registry <path> --registrations <path> [--repo-root <path>] [--v3-state-root <path>]
+  cutover <issue> --operation <path> [--execute]
+  github --help
+  install <issue> --operation <path> [--execute]
+  issue --help
+  shadow --request <path>
+  soak --request <path>
+  rollback <issue> --operation <path> [--execute]
+
+Discovery: --contract prints the complete descriptor; <command> --describe prints its input/effect/result contract.
+
+authority: C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.
