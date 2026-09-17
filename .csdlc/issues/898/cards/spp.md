@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implemented a Rust-owned PDF renderer with pinned printpdf 0.12.8, supplied TrueType font identity, exact governed-source and approval binding, deterministic bounded pagination, semantic parity checks, create-only anchored output, text extraction, every-page raster inspection, retained hashes and six-page visual proof. Current-main reconciliation preserves merged #897 HTML behavior. Fresh exact-head review and publication remain pending."
+plan_summary: "Implemented a Rust-owned PDF renderer with pinned printpdf 0.12.8, supplied TrueType font identity, exact governed-source and approval binding, deterministic bounded pagination, semantic parity checks, create-only anchored output, text extraction, every-page raster inspection, retained hashes and five-page visual proof. Current-main reconciliation preserves merged #897 HTML behavior. Fresh exact-head review and publication remain pending."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][CF-RENDER-PDF] Render an approved review as a verified PDF`.
 
-Implemented a Rust-owned PDF renderer with pinned printpdf 0.12.8, supplied TrueType font identity, exact governed-source and approval binding, deterministic bounded pagination, semantic parity checks, create-only anchored output, text extraction, every-page raster inspection, retained hashes and six-page visual proof. Current-main reconciliation preserves merged #897 HTML behavior. Fresh exact-head review and publication remain pending.
+Implemented a Rust-owned PDF renderer with pinned printpdf 0.12.8, supplied TrueType font identity, exact governed-source and approval binding, deterministic bounded pagination, semantic parity checks, create-only anchored output, text extraction, every-page raster inspection, retained hashes and five-page visual proof. Current-main reconciliation preserves merged #897 HTML behavior. Fresh exact-head review and publication remain pending.
 
 ## PVF Lane Plan
 

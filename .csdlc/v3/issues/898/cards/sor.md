@@ -76,7 +76,7 @@ Implemented installed `adl codefriend export pdf` with exact governed-source and
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
 - Tracked implementation artifacts: `adl/src/codefriend/publication/pdf.rs; adl/src/codefriend/publication/markdown.rs; adl/src/codefriend/publication/mod.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_render_pdf.rs; adl/tests/fixtures/codefriend/pdf/PVF.json; docs/codefriend/PDF_EXPORT.md; .csdlc/evidence/898/pdf-qualification; adl/Cargo.toml; adl/Cargo.lock`
-- Additional proof artifacts: `.csdlc/evidence/898/pdf-qualification/report.pdf; manifest.json; extracted.txt; pages/page-1.png through page-6.png; visual-inspection.md`
+- Additional proof artifacts: `.csdlc/evidence/898/pdf-qualification/report.pdf; manifest.json; extracted.txt; pages/page-1.png through page-5.png; visual-inspection.md`
 
 ## Actions taken
 - `Replaced scalar-count pagination with selected-font glyph-advance measurement against the explicit printable page width.`
@@ -163,7 +163,7 @@ verification_summary:
 - Replay result: `unit 1 passed; integration 4 passed; 0 failed`
 
 ## Artifact Verification
-- Primary proof surface: `adl/tests/codefriend_render_pdf.rs plus retained report.pdf, manifest, extracted text and six page images`
+- Primary proof surface: `adl/tests/codefriend_render_pdf.rs plus retained report.pdf, manifest, extracted text and five page images`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `<artifact_schema_checks>`
 - Hash/byte-stability checks: `Retained PDF and manifest digests are recorded in manifest.json and verified by create-only readback before success.`

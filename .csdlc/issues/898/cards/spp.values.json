@@ -14,7 +14,7 @@
   "step_5_status": "pending_publication_ci_merge",
   "issue_goal_token_budget": "unknown",
   "timestamp": "2026-09-12T00:10:10.730683+00:00",
-  "plan_summary": "Implemented a Rust-owned PDF renderer with pinned printpdf 0.12.8, supplied TrueType font identity, exact governed-source and approval binding, deterministic bounded pagination, semantic parity checks, create-only anchored output, text extraction, every-page raster inspection, retained hashes and six-page visual proof. Current-main reconciliation preserves merged #897 HTML behavior. Fresh exact-head review and publication remain pending.",
+  "plan_summary": "Implemented a Rust-owned PDF renderer with pinned printpdf 0.12.8, supplied TrueType font identity, exact governed-source and approval binding, deterministic bounded pagination, semantic parity checks, create-only anchored output, text extraction, every-page raster inspection, retained hashes and five-page visual proof. Current-main reconciliation preserves merged #897 HTML behavior. Fresh exact-head review and publication remain pending.",
   "target_files_surfaces_inline": "Implement `export pdf` behavior under the selected `adl codefriend` entrypoint. Proposed cohesive modules under `adl/src/codefriend/`: publication/pdf.rs. The CLI registration is `adl/src/cli/codefriend_cmd.rs` (CF-SHELL owns operator-control additions); coordinate shared wiring with predecessor owners. Add focused `adl/tests/codefriend_render_pdf.rs` and bounded fixture outputs. Exact flags are documented/tested during implementation; command wording denotes the selected behavior, not an already installed command.",
   "activation_state": "bound_implemented_pending_review",
   "status": "implemented_pending_review",
