@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1046,
+  "phase": "bound",
+  "generation": 5,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1046-publication-plan-amendment",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1046-publication-plan-amendment",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "a215c2be2b53ed59bba96fb0ef6b58b4daab6a8617d3065dcdd96ca1f5881a31"
+}

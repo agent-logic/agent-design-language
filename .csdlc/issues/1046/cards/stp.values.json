@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1046,
+  "issue_padded": "1046",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1046",
+  "title": "[C-SDLC v3][defect] Amend prepared publication metadata through native guards",
+  "branch": "codex/1046-publication-plan-amendment",
+  "version": "1.0.5",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1046-publication-plan-amendment",
+  "summary": "Validate prepared publication closing relations and permit a guarded native amendment of publication metadata to unblock #1044.",
+  "repo_inputs": "Issue #1046; #1044 publication-blocker.json; native application intent, storage semantic CAS and remote closing-relation guards.",
+  "target_files_surfaces": "csdlc-v3 application intent local/context, semantic storage, remote publication; transaction and installed-intent tests; request schema and operator manual."
+}

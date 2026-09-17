@@ -29,7 +29,7 @@ pub use publication::{
     github_adapter_receipt_payload_digest, github_readback_receipt_payload_digest,
     load_remote_route_receipts, observe_github_pr_readback, pending_mutation_finding,
     prepare_remote_publication_route, prepare_remote_publication_route_with_receipts,
-    typed_review_receipt_payload_digest,
+    publication_body_is_valid, typed_review_receipt_payload_digest,
 };
 pub use routing::dispatch_operational_remote;
 pub(crate) use storage::{

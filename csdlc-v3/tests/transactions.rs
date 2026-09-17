@@ -1312,6 +1312,72 @@ mod semantic_gate_a {
         assert_eq!(fs::read_dir(external).unwrap().count(), 0);
     }
 
+    // PVF: deterministic local owner-contract regression; tiny filesystem fixtures;
+    // required #1046 publication gate; no remote service or runtime proof.
+    #[test]
+    fn issue_1046_publication_amendment_preserves_history_and_rejects_stale_or_invalid() {
+        let fixture = Fixture::new();
+        let first = fixture.prepare();
+        let before = inventory(&fixture.issue_dir());
+        let mut publication = first.inputs().publication().clone();
+        publication.body = "Closes #870\n\nCorrected publication body".into();
+        DurableTransactionStore::commit_issue_local(
+            &fixture.root,
+            admission(&first),
+            LocalChange::AmendPublication(publication.clone()),
+        )
+        .unwrap();
+        let current = fixture.current();
+        assert_eq!(current.inputs().publication(), &publication);
+        assert_ne!(current.inputs_version(), first.inputs_version());
+        let projection: serde_json::Value =
+            serde_json::from_slice(&current.projection_bytes().unwrap()).unwrap();
+        for surface in ["proof", "review", "publication"] {
+            assert!(projection["invalidations"]
+                .as_array()
+                .unwrap()
+                .contains(&surface.into()));
+        }
+        let mut retained = 0;
+        for (path, bytes) in before {
+            if path.to_string_lossy().contains("/commits/")
+                || path.to_string_lossy().contains("/intents/")
+            {
+                retained += 1;
+                assert_eq!(fs::read(fixture.issue_dir().join(path)).unwrap(), bytes);
+            }
+        }
+        assert!(retained > 0);
+        assert_eq!(
+            DurableTransactionStore::commit_issue_local(
+                &fixture.root,
+                admission(&first),
+                LocalChange::AmendPublication(publication.clone())
+            ),
+            Err(Error::StaleVersion)
+        );
+        let stable = inventory(&fixture.directory);
+        for case in ["inline", "foreign", "base", "title"] {
+            let mut bad = publication.clone();
+            match case {
+                "inline" => bad.body = "Description. Closes #870".into(),
+                "foreign" => bad.body = "Closes #870\nFixes #871".into(),
+                "base" => bad.base = "different".into(),
+                _ => bad.title = " ".into(),
+            }
+            assert!(
+                DurableTransactionStore::commit_issue_local(
+                    &fixture.root,
+                    admission(&current),
+                    LocalChange::AmendPublication(bad)
+                )
+                .is_err(),
+                "{case}"
+            );
+            assert_eq!(stable, inventory(&fixture.directory), "{case}");
+        }
+    }
+
     #[test]
     fn semantic_bookkeeping_preserves_evidence_inputs_and_amendments_advance_them() {
         let fixture = Fixture::new();

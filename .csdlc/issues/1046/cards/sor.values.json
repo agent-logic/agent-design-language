@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1046,
+  "issue_padded": "1046",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1046",
+  "title": "[C-SDLC v3][defect] Amend prepared publication metadata through native guards",
+  "branch": "codex/1046-publication-plan-amendment",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1046-publication-plan-amendment",
+  "status": "in_progress",
+  "summary": "Implemented native publication metadata amendment and prepare closing-relation validation. Exact request semantic version, CAS, unchanged base and prepublication phase guards preserve identity and history. Independent review identified a request-to-admission race; fixed and re-reviewed with no actionable findings. Parent #1044 goal covers this authorized repair; separate goal creation was refused because that goal remains unfinished.",
+  "completion_state": "implementation_validated_publication_pending",
+  "validation_result": "28 semantic transaction tests, installed publication amendment and existing advanced-request tests passed. Final post-review installed regression and all-target clippy passed. Formatting, diff hygiene and manual render parity passed. Deterministic local proof only; no cloud or shared binary replacement.",
+  "integration_state": "worktree_only",
+  "integration_result": "not_integrated"
+}

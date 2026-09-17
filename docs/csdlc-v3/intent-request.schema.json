@@ -345,12 +345,69 @@
             "class",
             "transition_approved"
           ]
+        },
+        "publication": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "base": {
+              "type": "string",
+              "minLength": 1
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "body": {
+              "type": "string",
+              "minLength": 1
+            },
+            "draft": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "base",
+            "title",
+            "body",
+            "draft"
+          ]
         }
       },
       "required": [
-        "schema",
-        "cards",
-        "amendment"
+        "schema"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "cards",
+            "amendment"
+          ],
+          "not": {
+            "required": [
+              "publication"
+            ]
+          }
+        },
+        {
+          "required": [
+            "publication"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "cards"
+                ]
+              },
+              {
+                "required": [
+                  "amendment"
+                ]
+              }
+            ]
+          }
+        }
       ]
     },
     "status_decisions": {

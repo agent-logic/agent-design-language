@@ -71,6 +71,8 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
             #[serde(default)]
             validators: Option<Vec<Validator>>,
             #[serde(default)]
+            publication: Option<super::Publication>,
+            #[serde(default)]
             amendment: Option<AmendmentDeclaration>,
         }
         let changes: Changes =
@@ -78,11 +80,22 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         if changes.schema != "csdlc.v3.intent_changes.v1" {
             return Err("intent_changes_schema_unsupported".into());
         }
-        if changes.cards.is_empty() && changes.validators.is_none() {
+        if changes.cards.is_empty() && changes.validators.is_none() && changes.publication.is_none()
+        {
             return Err("intent_changes_missing".into());
         }
-        if !changes.cards.is_empty() && changes.validators.is_some() {
+        if usize::from(!changes.cards.is_empty())
+            + usize::from(changes.validators.is_some())
+            + usize::from(changes.publication.is_some())
+            > 1
+        {
             return Err("intent_changes_single_surface_required".into());
+        }
+        if let Some(publication) = changes.publication {
+            if changes.amendment.is_some() {
+                return Err("intent_publication_amendment_unexpected".into());
+            }
+            return semantic_publication_edit(context, publication, &registry, &intent.snapshot);
         }
         request.card_updates = changes.cards;
         if let Some(validators) = changes.validators {
@@ -931,6 +944,9 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     {
         return Err("intent_plan_six_cards_required".into());
     }
+    if !crate::commands::remote::publication_body_is_valid(&plan.publication.body, context.issue) {
+        return Err("intent_publication_body_invalid".into());
+    }
     crate::commands::proof::intent::admit_validator_declarations(&context.root, &plan.validators)?;
     let invocation = CommandInvocation::new(
         "github-api-read-only",
@@ -1106,6 +1122,44 @@ fn storage_validators(
             .map_err(|_| "intent_validator_invalid".into())
         })
         .collect()
+}
+
+fn semantic_publication_edit(
+    context: &Context,
+    publication: super::Publication,
+    registry: &local::PromptRegistry,
+    expected: &super::Snapshot,
+) -> Result<Value, String> {
+    use crate::storage::{
+        semantic::{CommitOutcome, LocalChange},
+        DurableTransactionStore,
+    };
+    let semantic = context.semantic_context()?;
+    let admitted_version = super::IssueVersion {
+        generation: Some(semantic.snapshot.version().generation()),
+        digest: Some(semantic.snapshot.version().digest().as_str().to_owned()),
+    };
+    if expected.semantic_version.as_ref() != Some(&admitted_version) {
+        return Err("intent_publication_stale_semantic_version".into());
+    }
+
+    let publication = serde_json::from_value(
+        serde_json::to_value(publication).map_err(|_| "intent_publication_invalid")?,
+    )
+    .map_err(|_| "intent_publication_invalid")?;
+    context.fresh_integrity()?;
+    let outcome = DurableTransactionStore::commit_issue_local(
+        &semantic.root,
+        semantic.admission,
+        LocalChange::AmendPublication(publication),
+    )
+    .map_err(semantic_error)?;
+    let changed = matches!(outcome, CommitOutcome::Committed(_));
+    let projection = semantic_rebuild_current(context, registry)?;
+    Ok(json!({"schema":"csdlc.v3.intent_local.v1",
+        "status":if changed {"completed"} else {"expected_noop"},
+        "read_only":!changed,"writes_v3_state":changed,"operational_authority":true,
+        "publication_amended":changed,"projection":projection}))
 }
 
 fn semantic_validation_edit(

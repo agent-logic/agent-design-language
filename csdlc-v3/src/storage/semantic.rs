@@ -521,6 +521,7 @@ impl Snapshot {
 pub enum LocalChange {
     AmendCards(BTreeMap<String, serde_json::Value>),
     AmendPlan(Vec<PlanStep>),
+    AmendPublication(Publication),
     AmendValidation(Vec<Validator>),
     AmendBinding(VerifiedBindingAmendment),
     AcknowledgeProjection(ProjectionWriteProof),
@@ -2089,6 +2090,26 @@ impl DurableTransactionStore {
             }
             LocalChange::AmendPlan(plan) => {
                 payload.inputs.plan = plan;
+                amendment_class = Some(AmendmentClass::Plan);
+                SemanticCommand::AmendPlan
+            }
+            LocalChange::AmendPublication(publication) => {
+                if !matches!(
+                    current.phase(),
+                    LifecycleState::Ready
+                        | LifecycleState::Bound
+                        | LifecycleState::Implemented
+                        | LifecycleState::Reviewed
+                ) || publication.base != current.inputs().publication().base
+                    || publication.title.trim().is_empty()
+                    || !crate::commands::remote::publication_body_is_valid(
+                        &publication.body,
+                        admission.key.issue,
+                    )
+                {
+                    return Err(Error::InvalidInput("publication amendment rejected".into()));
+                }
+                payload.inputs.intent_plan.publication = publication;
                 amendment_class = Some(AmendmentClass::Plan);
                 SemanticCommand::AmendPlan
             }
