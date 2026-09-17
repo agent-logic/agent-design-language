@@ -160,7 +160,7 @@ async fn invalid_update_retains_last_known_good() {
     assert_eq!(outcome.reloads_applied, 1);
 }
 
-#[tokio::test]
+#[tokio::test(start_paused = true)]
 async fn file_events_are_debounced() {
     let temp = TempDir::new().expect("temp dir");
     let path = temp.path().join("runtime.toml");
@@ -177,13 +177,48 @@ async fn file_events_are_debounced() {
         .expect("start reload");
     let handle = controller.handle();
 
-    write_config(&path, render("burst-1", 2, 2)).await;
-    sleep(Duration::from_millis(5)).await;
-    write_config(&path, render("burst-2", 3, 3)).await;
-    sleep(Duration::from_millis(5)).await;
-    write_config(&path, render("burst-3", 4, 4)).await;
-
-    let snapshot = wait_for_generation(&handle, 1).await;
+    // Keep virtual time under this test's control while filesystem operations
+    // use Tokio's blocking pool. Otherwise paused time can auto-advance during
+    // an I/O wait and expire the debounce window before the next write.
+    let clock_guard = tokio::spawn(async {
+        loop {
+            tokio::task::yield_now().await;
+        }
+    });
+    for (observation, name) in ["burst-1", "burst-2", "burst-3"].into_iter().enumerate() {
+        // On this current-thread runtime the complete write occurs before
+        // the watcher is polled, so truncation cannot become a fourth event.
+        std::fs::write(
+            &path,
+            render(name, observation as u32 + 2, observation as u32 + 2),
+        )
+        .expect("write burst candidate");
+        tokio::time::advance(options().debounce - options().poll_interval).await;
+        let deadline = std::time::Instant::now() + Duration::from_secs(5);
+        while handle.reload_status().candidate_observations() < observation as u64 + 1 {
+            assert!(
+                std::time::Instant::now() < deadline,
+                "candidate not observed"
+            );
+            tokio::task::yield_now().await;
+        }
+        assert_eq!(handle.current().generation(), 0);
+        assert_eq!(parses.load(Ordering::SeqCst), 1);
+    }
+    // Each candidate arrived before the previous debounce deadline, but the
+    // full burst exceeded one interval: every observation must reset it.
+    // Only the final candidate may be parsed after its interval expires.
+    tokio::time::advance(options().debounce).await;
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    while handle.current().generation() == 0 {
+        assert!(
+            std::time::Instant::now() < deadline,
+            "final candidate not applied"
+        );
+        tokio::task::yield_now().await;
+    }
+    let snapshot = handle.current();
+    clock_guard.abort();
     assert_eq!(snapshot.value().name, "burst-3");
     assert_eq!(parses.load(Ordering::SeqCst), 2);
 
