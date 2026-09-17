@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implementation and local proof complete; reviewed PR publication pending.
+PR #1053 merge conflict and stale publication amendment overwrite are repaired; fresh targeted checks passed; exact-head publication update pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -86,7 +86,7 @@ Implementation and local proof complete; reviewed PR publication pending.
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `<verification_scope>`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
@@ -110,7 +110,7 @@ Rules:
   - `<validation_command>`
     `<validation_effect>`
 - Results:
-  - `149 tests passed: 69 installed intents, 47 semantic unit, 14 semantic local-proof, 2 semantic remote-review, 11 command-manifest, 6 manual. Native proof passed both declared validators; independent review passed exact source/docs head 8a514568145dbe5c5a7ff524e12c9e8d06074c02.`
+  - `Fresh repair validation passed: 11 installed publication tests, 6 operator-manual tests, and a focused pending unchanged-metadata regression after its guard fix. Earlier 149-test proof is historical premerge evidence. Independent CAS review passed source/docs merge HEAD 2000ef872df02b3ef9642db0fa7bb92d06d750b2; final-head native proof/review renewal follows.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
