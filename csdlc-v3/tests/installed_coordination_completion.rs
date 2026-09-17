@@ -445,6 +445,47 @@ fn installed_legacy_completion_installs_contract_atomically_and_replays_once() {
 }
 
 #[test]
+fn installed_legacy_contract_installation_preserves_trailing_bytes() {
+    let (mut fixture, linked, _) = setup("legacy-contract-trailing-bytes");
+    retain_legacy_only(&fixture);
+    let exact_body = format!("{PROSE}  \n");
+    let mut remote = fixture.remote_issue();
+    remote["body"] = json!(exact_body);
+    write(&base(&fixture).join("remote-issue.json"), &remote);
+    let operation = fixture.write_json(
+        "legacy-install-trailing.json",
+        &installation_operation(&exact_body),
+    );
+    success(execute(&mut fixture, &linked, &operation));
+    let closed = fixture.remote_issue();
+    assert!(closed["body"]
+        .as_str()
+        .unwrap()
+        .starts_with(&format!("{exact_body}\n\n<!-- csdlc-coordination:v1 ")));
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
+#[test]
+fn installed_legacy_contract_installation_rejects_oversize_outbound_body() {
+    let (mut fixture, linked, _) = setup("legacy-contract-oversize");
+    retain_legacy_only(&fixture);
+    let exact_body = "x".repeat(65_500);
+    let mut remote = fixture.remote_issue();
+    remote["body"] = json!(exact_body);
+    write(&base(&fixture).join("remote-issue.json"), &remote);
+    let operation = fixture.write_json(
+        "legacy-install-oversize.json",
+        &installation_operation(&exact_body),
+    );
+    let denied = execute(&mut fixture, &linked, &operation);
+    assert!(!denied.status.success());
+    assert!(
+        String::from_utf8_lossy(&denied.stdout).contains("github_coordination_completion_denied")
+    );
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
 fn installed_legacy_contract_installation_denies_invalid_inputs_without_effects() {
     for case in [
         "stale_body",

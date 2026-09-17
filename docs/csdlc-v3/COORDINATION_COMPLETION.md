@@ -40,7 +40,9 @@ A legacy umbrella without semantic state cannot use ordinary `issue_edit`. For
 that bounded compatibility case, include `install_contract` in the completion
 object. The owner authenticates the exact marker-free current body and timestamp,
 validates the structured contract and every ordinary completion guard, and appends
-the canonical marker in the same PATCH that closes the issue. It rejects an
+the canonical marker after the exact authenticated body bytes in the same PATCH
+that closes the issue. The complete outbound body, including the contract and
+operation markers, must fit GitHub's body limit. It rejects an
 existing or malformed marker, extra contract fields, wrong identity or child
 set, stale pre-state, missing approval, and a changed replay. This does not enable
 any other legacy issue edit or synthesize semantic lifecycle state.

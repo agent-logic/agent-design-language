@@ -6,9 +6,12 @@ use super::model::{
 use super::publication::{is_durable_receipt_path, is_repo_or_git_receipt_path};
 use super::storage::persist_json_create_new;
 use super::support::{
-    git_control_dir, github_mutation_operation_digest, remote_finding, GITHUB_READ_ONLY_ADAPTER,
+    git_control_dir, github_mutation_operation_digest, github_mutation_operation_marker,
+    remote_finding, GITHUB_READ_ONLY_ADAPTER,
 };
-use super::transport::{mutation_credential_name, read_mutation_reconciliation_page};
+use super::transport::{
+    body_with_operation_marker, mutation_credential_name, read_mutation_reconciliation_page,
+};
 use crate::adapters::{CommandInvocation, ProcessAdapter};
 use serde_json::{json, Value};
 use std::collections::BTreeSet;
@@ -96,10 +99,7 @@ pub(super) fn target_body(
     if completion.current_body.trim().is_empty() {
         Ok(marker)
     } else {
-        Ok(format!(
-            "{}\n\n{marker}",
-            completion.current_body.trim_end()
-        ))
+        Ok(format!("{}\n\n{marker}", completion.current_body))
     }
 }
 
@@ -116,8 +116,7 @@ pub(super) fn validate(request: &GithubMutationRequest) -> Result<(), RemoteRout
                 .as_ref()
                 .is_some_and(|v| !v.trim().is_empty())
             && !completion.rationale.trim().is_empty()
-            && !completion.expected_updated_at.trim().is_empty()
-            && completion.current_body.len() <= 65536,
+            && !completion.expected_updated_at.trim().is_empty(),
         "completion requires explicit operator approval, exact issue snapshot and rationale",
     )?;
     ensure(
@@ -134,6 +133,12 @@ pub(super) fn validate(request: &GithubMutationRequest) -> Result<(), RemoteRout
         )?;
     }
     contract(request, completion)?;
+    let target = target_body(completion)?;
+    let marker = github_mutation_operation_marker(&github_mutation_operation_digest(request));
+    ensure(
+        body_with_operation_marker(&target, &marker).len() <= 65536,
+        "completed issue body exceeds the GitHub body limit",
+    )?;
     Ok(())
 }
 fn observe(

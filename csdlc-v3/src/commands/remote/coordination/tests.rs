@@ -141,20 +141,38 @@ fn coordination_contract_installation_is_canonical_and_preserves_pre_state() {
         "children": [{"issue":887,"pull_request":989,"head_sha":HEAD}]
     }))
     .unwrap();
-    fixture.completion().current_body = "Preserved coordinator prose.\n".into();
+    fixture.completion().current_body = "Preserved coordinator prose.  \n".into();
     fixture.completion().install_contract = Some(declaration);
-    fixture.parent["body"] = json!("Preserved coordinator prose.\n");
+    fixture.parent["body"] = json!("Preserved coordinator prose.  \n");
 
     validate(&fixture.request).unwrap();
     let target = target_body(fixture.completion()).unwrap();
     assert_eq!(
         target,
         format!(
-            "Preserved coordinator prose.\n\n<!-- csdlc-coordination:v1 {{\"repository\":\"{REPO}\",\"issue\":1006,\"kind\":\"coordination_only\",\"children\":[{{\"issue\":887,\"pull_request\":989,\"head_sha\":\"{HEAD}\"}}]}} -->"
+            "Preserved coordinator prose.  \n\n\n<!-- csdlc-coordination:v1 {{\"repository\":\"{REPO}\",\"issue\":1006,\"kind\":\"coordination_only\",\"children\":[{{\"issue\":887,\"pull_request\":989,\"head_sha\":\"{HEAD}\"}}]}} -->"
         )
     );
     let mut adapter = fixture.adapter();
     verify(&fixture.root, &fixture.request, &mut adapter).unwrap();
+}
+
+#[test]
+fn coordination_contract_installation_bounds_the_complete_outbound_body() {
+    let mut fixture = Fixture::new();
+    let declaration: CoordinationContract = serde_json::from_value(json!({
+        "repository": REPO,
+        "issue": 1006,
+        "kind": "coordination_only",
+        "children": [{"issue":887,"pull_request":989,"head_sha":HEAD}]
+    }))
+    .unwrap();
+    fixture.completion().current_body = "x".repeat(65_500);
+    fixture.completion().install_contract = Some(declaration);
+    assert_eq!(
+        validate(&fixture.request).unwrap_err().code,
+        "github_coordination_completion_denied"
+    );
 }
 
 #[test]
