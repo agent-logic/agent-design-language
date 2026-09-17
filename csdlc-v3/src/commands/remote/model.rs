@@ -24,11 +24,32 @@ pub struct CoordinationEvidence {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct CoordinationChild {
+    pub issue: u64,
+    pub pull_request: u64,
+    pub head_sha: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct CoordinationContract {
+    pub repository: String,
+    pub issue: u64,
+    pub kind: String,
+    pub children: Vec<CoordinationChild>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct CoordinationCompletion {
     pub current_body: String,
     pub expected_updated_at: String,
     pub rationale: String,
     pub evidence: Vec<CoordinationEvidence>,
+    /// Installs the canonical contract in the same guarded mutation that closes
+    /// a legacy coordination umbrella. Existing contracts must omit this field.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub install_contract: Option<CoordinationContract>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

@@ -872,6 +872,15 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             // against an existing issue. Repository-scoped issue creation is the
             // only operation that legitimately has no issue semantic state yet.
             let legacy_migration_required = context.semantic_migration_required()?;
+            if !legacy_migration_required
+                && matches!(
+                    &operation,
+                    GithubMutation::IssueCompleteCoordination { completion }
+                        if completion.install_contract.is_some()
+                )
+            {
+                return Err("intent_coordination_contract_installation_legacy_only".into());
+            }
             if legacy_migration_required
                 && !matches!(operation, GithubMutation::IssueCompleteCoordination { .. })
             {

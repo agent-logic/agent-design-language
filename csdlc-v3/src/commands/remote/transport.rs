@@ -289,7 +289,7 @@ pub(super) fn write_mutation_input(
     let value = match &request.mutation {
         GithubMutation::IssueCompleteCoordination { completion } => serde_json::json!({
             "state":"closed", "state_reason":"completed",
-            "body":body_with_operation_marker(&completion.current_body, operation_marker)
+            "body":body_with_operation_marker(&super::coordination::target_body(completion)?, operation_marker)
         }),
         GithubMutation::IssueCreate {
             title,
@@ -835,6 +835,7 @@ pub(super) fn match_reconciled_mutation(
                     })
             }
             GithubMutation::IssueCompleteCoordination { completion } => {
+                let expected_body = super::coordination::target_body(completion).ok();
                 candidate["number"].as_u64() == Some(request.issue)
                     && candidate["html_url"]
                         == format!(
@@ -843,11 +844,10 @@ pub(super) fn match_reconciled_mutation(
                         )
                     && candidate["state"] == "closed"
                     && candidate["state_reason"] == "completed"
-                    && candidate["body"].as_str()
-                        == Some(
-                            body_with_operation_marker(&completion.current_body, operation_marker)
-                                .as_str(),
-                        )
+                    && expected_body.as_ref().is_some_and(|body| {
+                        candidate["body"].as_str()
+                            == Some(body_with_operation_marker(body, operation_marker).as_str())
+                    })
             }
             GithubMutation::IssueClose {
                 rationale,

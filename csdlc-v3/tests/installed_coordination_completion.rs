@@ -85,6 +85,16 @@ fn setup(label: &str) -> (Fixture, PathBuf, String) {
 fn operation(body: &str) -> Value {
     json!({"action":"issue_complete_coordination","operator_approval":"Synthetic operator approves this exact completion","completion":{"current_body":body,"expected_updated_at":"2026-09-16T00:00:00Z","rationale":"All declared children have authenticated delivery evidence","evidence":[{"path":".csdlc/evidence/505/coordination.json","digest":blake3::hash(b"synthetic child delivery proof\n").to_hex().to_string()}]}})
 }
+fn installation_operation(body: &str) -> Value {
+    let mut value = operation(body);
+    value["completion"]["install_contract"] = json!({
+        "repository": REPO,
+        "issue": 505,
+        "kind": "coordination_only",
+        "children": [{"issue":887,"pull_request":989,"head_sha":HEAD}]
+    });
+    value
+}
 fn execute(fixture: &mut Fixture, linked: &Path, path: &Path) -> Output {
     execute_family(fixture, linked, "github-issue", path)
 }
@@ -405,6 +415,129 @@ fn installed_legacy_coordination_completion_uses_native_guards_and_replays_once(
     assert_eq!(cleanup_replay["status"], "expected_noop");
     assert_eq!(cleanup_replay["performed_mutation"], false);
     assert_eq!(cleanup_replay["compatibility"], "legacy_coordination_only");
+}
+
+#[test]
+fn installed_legacy_completion_installs_contract_atomically_and_replays_once() {
+    let (mut fixture, linked, _) = setup("legacy-contract-installation");
+    retain_legacy_only(&fixture);
+    let mut remote = fixture.remote_issue();
+    remote["body"] = json!(PROSE);
+    write(&base(&fixture).join("remote-issue.json"), &remote);
+
+    let operation = installation_operation(PROSE);
+    let path = fixture.write_json("legacy-install-and-complete.json", &operation);
+    let first = success(execute(&mut fixture, &linked, &path));
+    assert_eq!(first["compatibility"], "legacy_coordination_only");
+    assert_eq!(first["performed_mutation"], true);
+    let closed = fixture.remote_issue();
+    assert_eq!(closed["state"], "closed");
+    assert_eq!(closed["state_reason"], "completed");
+    let body = closed["body"].as_str().unwrap();
+    assert!(body.starts_with(PROSE));
+    assert_eq!(body.matches("<!-- csdlc-coordination:v1 ").count(), 1);
+    assert_eq!(body.matches("<!-- csdlc-v3-operation:").count(), 1);
+    assert_eq!(fixture.remote_effects(), 1);
+
+    let replay = success(execute(&mut fixture, &linked, &path));
+    assert_eq!(replay["performed_mutation"], false);
+    assert_eq!(fixture.remote_effects(), 1, "replay repeated PATCH");
+}
+
+#[test]
+fn installed_legacy_contract_installation_denies_invalid_inputs_without_effects() {
+    for case in [
+        "stale_body",
+        "stale_timestamp",
+        "wrong_repository",
+        "wrong_issue",
+        "wrong_children",
+        "malformed_contract",
+        "existing_malformed_marker",
+        "missing_approval",
+    ] {
+        let (mut fixture, linked, _) = setup(&format!("legacy-install-{case}"));
+        retain_legacy_only(&fixture);
+        let mut remote = fixture.remote_issue();
+        remote["body"] = json!(PROSE);
+        write(&base(&fixture).join("remote-issue.json"), &remote);
+        let mut operation = installation_operation(PROSE);
+        match case {
+            "stale_body" => operation["completion"]["current_body"] = json!("stale prose"),
+            "stale_timestamp" => {
+                operation["completion"]["expected_updated_at"] = json!("2026-09-16T00:00:01Z")
+            }
+            "wrong_repository" => {
+                operation["completion"]["install_contract"]["repository"] =
+                    json!("other/repository")
+            }
+            "wrong_issue" => operation["completion"]["install_contract"]["issue"] = json!(506),
+            "wrong_children" => {
+                operation["completion"]["install_contract"]["children"][0]["issue"] = json!(888)
+            }
+            "malformed_contract" => {
+                operation["completion"]["install_contract"]["unexpected"] = json!(true)
+            }
+            "existing_malformed_marker" => {
+                let malformed = format!("{PROSE}\n\n<!-- csdlc-coordination:v1 invalid -->");
+                operation["completion"]["current_body"] = json!(malformed);
+                let mut remote = fixture.remote_issue();
+                remote["body"] = operation["completion"]["current_body"].clone();
+                write(&base(&fixture).join("remote-issue.json"), &remote);
+            }
+            "missing_approval" => {
+                operation
+                    .as_object_mut()
+                    .unwrap()
+                    .remove("operator_approval");
+            }
+            _ => unreachable!(),
+        }
+        let path = fixture.write_json("legacy-install-denied.json", &operation);
+        let denied = execute(&mut fixture, &linked, &path);
+        assert!(
+            !denied.status.success(),
+            "invalid installation accepted: {case}"
+        );
+        assert_eq!(fixture.remote_effects(), 0, "denial mutated remote: {case}");
+    }
+}
+
+#[test]
+fn installed_semantic_completion_cannot_use_legacy_contract_installation() {
+    let (mut fixture, linked, _) = setup("semantic-install-denied");
+    let mut remote = fixture.remote_issue();
+    remote["body"] = json!(PROSE);
+    write(&base(&fixture).join("remote-issue.json"), &remote);
+    let operation = fixture.write_json(
+        "semantic-install-denied.json",
+        &installation_operation(PROSE),
+    );
+    let denied = execute(&mut fixture, &linked, &operation);
+    assert!(!denied.status.success());
+    assert!(String::from_utf8_lossy(&denied.stdout)
+        .contains("intent_coordination_contract_installation_legacy_only"));
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
+fn installed_legacy_contract_installation_replay_rejects_changed_contract() {
+    let (mut fixture, linked, _) = setup("legacy-install-replay-mismatch");
+    retain_legacy_only(&fixture);
+    let mut remote = fixture.remote_issue();
+    remote["body"] = json!(PROSE);
+    write(&base(&fixture).join("remote-issue.json"), &remote);
+    let first = fixture.write_json("legacy-install-first.json", &installation_operation(PROSE));
+    success(execute(&mut fixture, &linked, &first));
+    assert_eq!(fixture.remote_effects(), 1);
+
+    let mut changed = installation_operation(PROSE);
+    changed["completion"]["install_contract"]["children"][0]["head_sha"] =
+        json!("3333333333333333333333333333333333333333");
+    let changed = fixture.write_json("legacy-install-changed.json", &changed);
+    let denied = execute(&mut fixture, &linked, &changed);
+    assert!(!denied.status.success(), "changed replay was accepted");
+    assert_eq!(fixture.remote_effects(), 1, "changed replay repeated PATCH");
 }
 
 #[test]

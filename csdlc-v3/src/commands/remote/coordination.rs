@@ -1,7 +1,7 @@
 //! Explicit coordination-only completion; administrative closure remains separate.
 use super::model::{
-    CoordinationCompletion, CoordinationEvidence, GithubMutation, GithubMutationRequest,
-    PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
+    CoordinationCompletion, CoordinationContract, CoordinationEvidence, GithubMutation,
+    GithubMutationRequest, PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
 };
 use super::publication::{is_durable_receipt_path, is_repo_or_git_receipt_path};
 use super::storage::persist_json_create_new;
@@ -10,7 +10,6 @@ use super::support::{
 };
 use super::transport::{mutation_credential_name, read_mutation_reconciliation_page};
 use crate::adapters::{CommandInvocation, ProcessAdapter};
-use serde::Deserialize;
 use serde_json::{json, Value};
 use std::collections::BTreeSet;
 use std::fs;
@@ -20,21 +19,6 @@ use std::path::Path;
 const CONTRACT_PREFIX: &str = "<!-- csdlc-coordination:v1 ";
 const MAX_EVIDENCE_BYTES: u64 = 4 * 1024 * 1024;
 
-#[derive(Debug, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Contract {
-    repository: String,
-    issue: u64,
-    kind: String,
-    children: Vec<Child>,
-}
-#[derive(Debug, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Child {
-    issue: u64,
-    pull_request: u64,
-    head_sha: String,
-}
 fn reject(message: &str) -> RemoteRouteFinding {
     remote_finding("github_coordination_completion_denied", message)
 }
@@ -51,22 +35,29 @@ fn hex(value: &str, len: usize) -> bool {
 fn contract(
     request: &GithubMutationRequest,
     completion: &CoordinationCompletion,
-) -> Result<Contract, RemoteRouteFinding> {
+) -> Result<CoordinationContract, RemoteRouteFinding> {
     let lines: Vec<_> = completion
         .current_body
         .lines()
         .filter(|line| line.contains("csdlc-coordination:"))
         .collect();
-    ensure(
-        lines.len() == 1,
-        "one explicit coordination contract is required",
-    )?;
-    let encoded = lines[0]
-        .strip_prefix(CONTRACT_PREFIX)
-        .and_then(|line| line.strip_suffix(" -->"))
-        .ok_or_else(|| reject("coordination contract marker is malformed"))?;
-    let contract: Contract =
-        serde_json::from_str(encoded).map_err(|_| reject("coordination contract is invalid"))?;
+    let contract = if let Some(contract) = &completion.install_contract {
+        ensure(
+            lines.is_empty(),
+            "contract installation requires a marker-free current body",
+        )?;
+        contract.clone()
+    } else {
+        ensure(
+            lines.len() == 1,
+            "one explicit coordination contract is required",
+        )?;
+        let encoded = lines[0]
+            .strip_prefix(CONTRACT_PREFIX)
+            .and_then(|line| line.strip_suffix(" -->"))
+            .ok_or_else(|| reject("coordination contract marker is malformed"))?;
+        serde_json::from_str(encoded).map_err(|_| reject("coordination contract is invalid"))?
+    };
     ensure(
         contract.repository == request.repository
             && contract.issue == request.issue
@@ -91,6 +82,25 @@ fn contract(
         )?;
     }
     Ok(contract)
+}
+
+pub(super) fn target_body(
+    completion: &CoordinationCompletion,
+) -> Result<String, RemoteRouteFinding> {
+    let Some(contract) = &completion.install_contract else {
+        return Ok(completion.current_body.clone());
+    };
+    let encoded = serde_json::to_string(contract)
+        .map_err(|_| reject("coordination contract encoding failed"))?;
+    let marker = format!("{CONTRACT_PREFIX}{encoded} -->");
+    if completion.current_body.trim().is_empty() {
+        Ok(marker)
+    } else {
+        Ok(format!(
+            "{}\n\n{marker}",
+            completion.current_body.trim_end()
+        ))
+    }
 }
 
 pub(super) fn validate(request: &GithubMutationRequest) -> Result<(), RemoteRouteFinding> {

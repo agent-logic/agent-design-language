@@ -132,6 +132,89 @@ fn coordination_accepts_exact_authenticated_completed_children() {
 }
 
 #[test]
+fn coordination_contract_installation_is_canonical_and_preserves_pre_state() {
+    let mut fixture = Fixture::new();
+    let declaration: CoordinationContract = serde_json::from_value(json!({
+        "repository": REPO,
+        "issue": 1006,
+        "kind": "coordination_only",
+        "children": [{"issue":887,"pull_request":989,"head_sha":HEAD}]
+    }))
+    .unwrap();
+    fixture.completion().current_body = "Preserved coordinator prose.\n".into();
+    fixture.completion().install_contract = Some(declaration);
+    fixture.parent["body"] = json!("Preserved coordinator prose.\n");
+
+    validate(&fixture.request).unwrap();
+    let target = target_body(fixture.completion()).unwrap();
+    assert_eq!(
+        target,
+        format!(
+            "Preserved coordinator prose.\n\n<!-- csdlc-coordination:v1 {{\"repository\":\"{REPO}\",\"issue\":1006,\"kind\":\"coordination_only\",\"children\":[{{\"issue\":887,\"pull_request\":989,\"head_sha\":\"{HEAD}\"}}]}} -->"
+        )
+    );
+    let mut adapter = fixture.adapter();
+    verify(&fixture.root, &fixture.request, &mut adapter).unwrap();
+}
+
+#[test]
+fn coordination_contract_installation_rejects_existing_or_wrong_contracts() {
+    for case in ["existing", "repository", "issue", "kind", "head"] {
+        let mut fixture = Fixture::new();
+        let declaration: CoordinationContract = serde_json::from_value(json!({
+            "repository": REPO,
+            "issue": 1006,
+            "kind": "coordination_only",
+            "children": [{"issue":887,"pull_request":989,"head_sha":HEAD}]
+        }))
+        .unwrap();
+        fixture.completion().install_contract = Some(declaration);
+        match case {
+            "existing" => {}
+            "repository" => {
+                fixture.completion().current_body = "Legacy umbrella".into();
+                fixture
+                    .completion()
+                    .install_contract
+                    .as_mut()
+                    .unwrap()
+                    .repository = "other/repository".into();
+            }
+            "issue" => {
+                fixture.completion().current_body = "Legacy umbrella".into();
+                fixture
+                    .completion()
+                    .install_contract
+                    .as_mut()
+                    .unwrap()
+                    .issue = 1007;
+            }
+            "kind" => {
+                fixture.completion().current_body = "Legacy umbrella".into();
+                fixture.completion().install_contract.as_mut().unwrap().kind =
+                    "implementation".into();
+            }
+            "head" => {
+                fixture.completion().current_body = "Legacy umbrella".into();
+                fixture
+                    .completion()
+                    .install_contract
+                    .as_mut()
+                    .unwrap()
+                    .children[0]
+                    .head_sha = "short".into();
+            }
+            _ => unreachable!(),
+        }
+        assert_eq!(
+            validate(&fixture.request).unwrap_err().code,
+            "github_coordination_completion_denied",
+            "installation bypass: {case}"
+        );
+    }
+}
+
+#[test]
 fn coordination_structural_contract_rejects_missing_authority_and_unqualified_body() {
     for case in [
         "approval",
