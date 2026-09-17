@@ -18,8 +18,11 @@ pub const PDF_RESULT_SCHEMA: &str = "codefriend.pdf_render_result.v1";
 const MAX_FONT_BYTES: u64 = 32 * 1024 * 1024;
 const MAX_PDF_BYTES: u64 = 64 * 1024 * 1024;
 const MAX_PAGES: usize = 2_048;
-const MAX_LINE_CHARS: usize = 72;
 const LINES_PER_PAGE: usize = 50;
+const FONT_SIZE_PT: f32 = 9.5;
+const PAGE_WIDTH_MM: f32 = 210.0;
+const HORIZONTAL_MARGIN_MM: f32 = 18.0;
+const PRINTABLE_WIDTH_MM: f32 = PAGE_WIDTH_MM - (2.0 * HORIZONTAL_MARGIN_MM);
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PdfRenderOptions {
@@ -59,6 +62,8 @@ pub struct PdfManifest {
     pub semantic_digest: String,
     pub page_count: usize,
     pub line_count: usize,
+    pub printable_width_micrometers: u32,
+    pub maximum_line_width_micrometers: u32,
     pub finding_ids: Vec<String>,
     pub claims: Vec<String>,
     pub nonclaims: Vec<String>,
@@ -142,8 +147,18 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         );
     }
 
-    let lines = wrap_text(&prepared.text, MAX_LINE_CHARS);
+    let lines = wrap_text(&prepared.text, &font, PRINTABLE_WIDTH_MM)?;
     ensure!(!lines.is_empty(), "pdf_empty_semantic_report");
+    let maximum_line_width_mm = lines
+        .iter()
+        .map(|line| text_width_mm(line, &font))
+        .collect::<Result<Vec<_>>>()?
+        .into_iter()
+        .fold(0.0_f32, f32::max);
+    ensure!(
+        maximum_line_width_mm <= PRINTABLE_WIDTH_MM,
+        "pdf_line_exceeds_printable_width"
+    );
     let page_count = lines.len().div_ceil(LINES_PER_PAGE);
     ensure!(page_count <= MAX_PAGES, "pdf_page_limit_exceeded");
     let pdf_bytes = build_pdf(&lines, font)?;
@@ -186,6 +201,8 @@ pub fn render_pdf(options: PdfRenderOptions) -> Result<PdfRenderResult> {
         semantic_digest: digest(prepared.text.as_bytes()),
         page_count,
         line_count: lines.len(),
+        printable_width_micrometers: (PRINTABLE_WIDTH_MM * 1_000.0).round() as u32,
+        maximum_line_width_micrometers: (maximum_line_width_mm * 1_000.0).round() as u32,
         finding_ids,
         claims: prepared.publication.claims.clone(),
         nonclaims: prepared.publication.nonclaims.clone(),
@@ -244,7 +261,7 @@ fn build_pdf(lines: &[String], font: ParsedFont) -> Result<Vec<u8>> {
                 },
                 Op::SetFont {
                     font: PdfFontHandle::External(font_id.clone()),
-                    size: Pt(9.5),
+                    size: Pt(FONT_SIZE_PT),
                 },
                 Op::SetLineHeight { lh: Pt(14.0) },
             ];
@@ -272,7 +289,25 @@ fn build_pdf(lines: &[String], font: ParsedFont) -> Result<Vec<u8>> {
     Ok(bytes)
 }
 
-fn wrap_text(text: &str, width: usize) -> Vec<String> {
+fn glyph_width_mm(character: char, font: &ParsedFont) -> Result<f32> {
+    let glyph = font
+        .lookup_glyph_index(character as u32)
+        .ok_or_else(|| anyhow::anyhow!("pdf_font_missing_glyph_u{:04x}", character as u32))?;
+    let width = font
+        .get_glyph_width(glyph)
+        .ok_or_else(|| anyhow::anyhow!("pdf_font_missing_glyph_width_u{:04x}", character as u32))?;
+    ensure!(font.units_per_em > 0, "pdf_font_invalid_units_per_em");
+    Ok(width as f32 / font.units_per_em as f32 * FONT_SIZE_PT * 25.4 / 72.0)
+}
+
+fn text_width_mm(text: &str, font: &ParsedFont) -> Result<f32> {
+    text.chars().try_fold(0.0_f32, |width, character| {
+        Ok(width + glyph_width_mm(character, font)?)
+    })
+}
+
+fn wrap_text(text: &str, font: &ParsedFont, max_width_mm: f32) -> Result<Vec<String>> {
+    ensure!(max_width_mm > 0.0, "pdf_printable_width_invalid");
     let mut lines = Vec::new();
     for source_line in text.lines() {
         if source_line.is_empty() {
@@ -281,34 +316,38 @@ fn wrap_text(text: &str, width: usize) -> Vec<String> {
         }
         let mut current = String::new();
         for word in source_line.split_whitespace() {
-            let word_len = word.chars().count();
-            if word_len > width {
-                if !current.is_empty() {
-                    lines.push(std::mem::take(&mut current));
-                }
-                let mut chunk = String::new();
-                for character in word.chars() {
-                    chunk.push(character);
-                    if chunk.chars().count() == width {
-                        lines.push(std::mem::take(&mut chunk));
-                    }
-                }
-                current = chunk;
-            } else if current.is_empty() {
-                current.push_str(word);
-            } else if current.chars().count() + 1 + word_len <= width {
-                current.push(' ');
-                current.push_str(word);
+            let candidate = if current.is_empty() {
+                word.to_string()
             } else {
+                format!("{current} {word}")
+            };
+            if text_width_mm(&candidate, font)? <= max_width_mm {
+                current = candidate;
+                continue;
+            }
+            if !current.is_empty() {
                 lines.push(std::mem::take(&mut current));
-                current.push_str(word);
+            }
+            for character in word.chars() {
+                let mut candidate = current.clone();
+                candidate.push(character);
+                if !current.is_empty() && text_width_mm(&candidate, font)? > max_width_mm {
+                    lines.push(std::mem::take(&mut current));
+                    candidate = character.to_string();
+                }
+                ensure!(
+                    text_width_mm(&candidate, font)? <= max_width_mm,
+                    "pdf_glyph_exceeds_printable_width_u{:04x}",
+                    character as u32
+                );
+                current = candidate;
             }
         }
         if !current.is_empty() {
             lines.push(current);
         }
     }
-    lines
+    Ok(lines)
 }
 
 fn validate_manifest(
@@ -334,6 +373,9 @@ fn validate_manifest(
             && manifest.report_path == "report.pdf"
             && manifest.page_count > 0
             && manifest.line_count > 0
+            && manifest.printable_width_micrometers
+                == (PRINTABLE_WIDTH_MM * 1_000.0).round() as u32
+            && manifest.maximum_line_width_micrometers <= manifest.printable_width_micrometers
             && manifest.claims == prepared.publication.claims
             && manifest.nonclaims == prepared.publication.nonclaims
             && !manifest.external_resources,

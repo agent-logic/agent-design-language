@@ -209,8 +209,9 @@ fn cli(fixture: &Fixture) -> Output {
 #[test]
 fn installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest() {
     let mut review = predecessor_review();
+    let wide_token = "W".repeat(80);
     review.findings[0].rationale = format!(
-        "Résumé café π with a long URL https://example.invalid/{} and table row | cell | value. {}",
+        "Résumé café π with a long URL https://example.invalid/{} and wide token {wide_token} and table row | cell | value. {}",
         "abcdefghijklmnopqrstuvwxyz0123456789".repeat(4),
         "bounded evidence ".repeat(180)
     );
@@ -237,6 +238,10 @@ fn installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest() {
     assert_eq!(manifest.report_digest, digest(&fs::read(&report).unwrap()));
     assert_eq!(manifest.claims, ["Approved exact PDF review semantics"]);
     assert!(!manifest.external_resources);
+    assert!(
+        manifest.maximum_line_width_micrometers <= manifest.printable_width_micrometers,
+        "rendered line exceeded the declared printable width"
+    );
 
     let extracted = Command::new("pdftotext")
         .arg("-layout")
@@ -250,6 +255,10 @@ fn installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest() {
         String::from_utf8_lossy(&extracted.stderr)
     );
     let text = String::from_utf8(extracted.stdout).unwrap();
+    assert!(
+        !text.contains(&"W".repeat(72)),
+        "wide unbroken token was not split by measured glyph width"
+    );
     for semantic in [
         "CodeFriend Review Report",
         "Approved exact PDF review semantics",
