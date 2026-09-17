@@ -78,51 +78,86 @@ remote mutation. A refusal remains a refusal. Recovery is not snapshot rollback.
 
 ## Separate copied-record converter
 
-`csdlc-conversion-rehearsal` is a separate executable from the same pinned source,
-entrypoint `csdlc-v3/src/bin/csdlc_conversion_rehearsal.rs`. Its source hashes and
-command contract are in `conversion-command-contract.json`; the `csdlc` checksum
-above does not identify it. If later authorized for isolated use, build at that
-exact source with:
+`csdlc-conversion-rehearsal` is a separate executable, pinned to the same source
+revision as the candidate. The candidate's `csdlc` checksum does not identify it.
+The following is a **future isolated-use procedure**, not a live deployment
+procedure or an instruction to rerun the waived rehearsal now.
+
+The operator supplies only two paths: `ISOLATED_ROOT`, a new absolute directory
+outside the source checkout, and `PRIOR_BINARY`, the retained SIM06 executable
+from source `6425ba9bbce4cc1f46789c2e3ac019adf86238b8`. The builder authenticates
+that file against its retained SHA256 and supplies its corresponding BLAKE3.
+Run from this issue worktree's root. The commands create a genuine independent
+repository and registered linked worktree; historical machine paths are not reused.
 
 ```sh
-cargo build --locked --offline --manifest-path csdlc-v3/Cargo.toml --bin csdlc-conversion-rehearsal
+set -eu
+: "${ISOLATED_ROOT:?Set a new absolute isolated directory}"
+: "${PRIOR_BINARY:?Set the retained SIM06 executable path}"
+case "$ISOLATED_ROOT" in /*) ;; *) exit 2 ;; esac
+test ! -e "$ISOLATED_ROOT"
+SOURCE_REPOSITORY=$(git rev-parse --show-toplevel)
+PACKET="$SOURCE_REPOSITORY/.csdlc/evidence/874/sim-08"
+REVISION=067cb99bf5c6220f64c9faadd7da6abdca34bcc4
+mkdir -p "$ISOLATED_ROOT/requests" "$ISOLATED_ROOT/bin"
+printf '%s\n' '{"isolated":true}' > "$ISOLATED_ROOT/.csdlc-conversion-rehearsal.json"
+git clone --no-hardlinks --no-checkout "$SOURCE_REPOSITORY" "$ISOLATED_ROOT/primary"
+git -C "$ISOLATED_ROOT/primary" worktree add -b sim08-isolated "$ISOLATED_ROOT/linked" "$REVISION"
+cp "$PRIOR_BINARY" "$ISOLATED_ROOT/bin/prior-csdlc"
+cargo build --locked --offline --manifest-path "$ISOLATED_ROOT/linked/csdlc-v3/Cargo.toml" --target-dir "$ISOLATED_ROOT/build" --bin csdlc-conversion-rehearsal
+cp "$ISOLATED_ROOT/build/debug/csdlc-conversion-rehearsal" "$ISOLATED_ROOT/bin/csdlc-conversion-rehearsal"
+CONVERTER="$ISOLATED_ROOT/bin/csdlc-conversion-rehearsal"
+REQUEST="$ISOLATED_ROOT/requests/conversion.json"
+shasum -a 256 "$CONVERTER" "$ISOLATED_ROOT/linked/csdlc-v3/Cargo.lock" > "$ISOLATED_ROOT/requests/build.sha256"
+rustc --version --verbose > "$ISOLATED_ROOT/requests/toolchain.txt"
+python3 "$PACKET/conversion_request.py" --isolated-root "$ISOLATED_ROOT" --linked-worktree "$ISOLATED_ROOT/linked" --source-root "$ISOLATED_ROOT/linked/.csdlc/evidence/872/conversion-rehearsal/snapshots/source" --prior-executable "$ISOLATED_ROOT/bin/prior-csdlc" --operation-id sim08-copied-records --writer-probe-issue 868 --output "$REQUEST"
 ```
 
-Resolve Cargo's target directory through `cargo metadata`, retain the resulting
-`debug/csdlc-conversion-rehearsal` as operation-local `CONVERTER`, and record its
-SHA256/toolchain/lockfile provenance. Do not replace the installed owner.
+`conversion_request.py` writes only that new request. It derives Git common,
+linked branch/HEAD, registry/authority paths and the exact seven retained source
+roles. It rejects source identity drift, escaped paths, a primary-only checkout,
+the live repository's Git common directory and changed prior executable bytes.
+It neither invokes the converter nor claims native admission. No guardian request,
+fence marker, semantic state or approval is manufactured. The full request field
+contract is in `conversion-command-contract.json`.
 
-Its supported sequence is:
+After isolated execution is authorized, use this exact frozen request:
 
 ```sh
-"$CONVERTER" convert --request "$REQUEST"
-"$CONVERTER" operation-evidence --request "$REQUEST"
-"$CONVERTER" restore-pre-effect --request "$REQUEST"
+set +e
+"$CONVERTER" convert --request "$REQUEST" > "$ISOLATED_ROOT/requests/convert.stdout.json" 2> "$ISOLATED_ROOT/requests/convert.stderr"
+CONVERT_EXIT=$?
+printf '%s\n' "$CONVERT_EXIT" > "$ISOLATED_ROOT/requests/convert.exit"
+set -e
+"$CONVERTER" operation-evidence --request "$REQUEST" > "$ISOLATED_ROOT/requests/operation-evidence.json"
 ```
 
-`REQUEST` is one frozen, absolute JSON path for an **isolated copied census**.
-Construct it using the required-input table in `conversion-command-contract.json`.
-The seven record roles must appear exactly in the declared order. Derive paths,
-branch and HEAD from the actual registered isolated worktree, and the prior
-executable BLAKE3 from its bytes. The historical request indexed in
-`evidence-index.json` is an example, not a reusable live request.
+`convert` acquires the exact native issue locks through its internal
+`writer-fence-guardian`. Require exit 0 and `status:completed`; retain the result,
+request bytes, executable hashes and journal/effect paths. The builder sets
+`writer_fence_probe:false`: this standalone sequence does not claim old-writer
+probe proof. The retained SIM06 driver owns the two probe handshakes; do not set
+that flag without the driver. A failed conversion is not a successful no-op:
+inspect `operation-evidence` before deciding recovery. An admitted restart uses
+`convert` with identical request bytes and operation identity.
 
-`convert` owns the fence and starts `writer-fence-guardian` internally. Do not
-hand-author guardian requests. `writer_fence_probe:true` requires the existing
-SIM06 driver's two real old-writer probes and acknowledgments; use `false` for
-standalone copied conversion and make no old-writer-denial claim. Retain stdout,
-exit status and the journal/effect paths returned by `operation-evidence`.
-Restart only the same classified operation using the same request bytes.
-`restore-pre-effect` is conditional, not an unconditional third success step:
-it refuses any semantic or remote effect with exit 2 and `allowed:false`.
-With zero effects it verifies unchanged source hashes and releases the fence.
+**Restore is a conditional recovery branch, never the next success step.** If
+inspection reports zero semantic and remote effects, invoke:
 
-**This converter cannot deploy the live candidate.** It requires exactly seven
-copied roles, activates its own executable in a private slot, writes a synthetic
-remote acknowledgment, then restores that private slot. It has no arbitrary live
-census, qualified installed-candidate, operator pause/resume or live rollback
-request. Do not point it at production state. P2's live-cutover requirement is
-still unresolved; native per-issue adoption above does not replace it.
+```sh
+"$CONVERTER" restore-pre-effect --request "$REQUEST" > "$ISOLATED_ROOT/requests/restore-result.json"
+```
+
+Require exit 0 and `allowed:true`. The owner rechecks effects and unchanged source
+hashes before releasing the fence. Exit 2 with `allowed:false` prohibits restore;
+retain the operation for reconciliation. In particular, a completed conversion
+has effects and must not be followed by this restore command.
+
+This owner activates its own executable in a private slot, records a synthetic
+remote acknowledgment and restores that private slot internally. It **does not
+install the qualified live candidate or restore live snapshots**. There is no
+live request to construct for it. The original guide's implied live conversion
+and restore capability was incorrect; that part of P2 remains open.
 
 ## Live transition boundary and recovery
 

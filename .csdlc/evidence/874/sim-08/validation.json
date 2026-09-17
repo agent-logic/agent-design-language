@@ -1,7 +1,7 @@
 {
   "schema": "adl.sim08.static_validation.v1",
   "status": "pass",
-  "checked_at": "2026-09-17T11:48:00.400836+00:00",
+  "checked_at": "2026-09-17T12:59:59.946531+00:00",
   "immutable_source_references_checked": 16,
   "checks": [
     "Retained references resolve from exact Git objects and SHA256 matches",
@@ -39,5 +39,14 @@
       "admission": "not_checked"
     },
     "live_global_cutover": "still_unimplemented"
+  },
+  "copied_request_builder": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .csdlc/evidence/874/sim-08 -p 'test_*.py' -v",
+    "passed": 19,
+    "failed": 0,
+    "new_conversion_request_tests": 9,
+    "scope": "request construction and identity rejection unit tests; subprocess topology mocked; no converter or guardian execution",
+    "live_activation": false,
+    "rehearsal": "not_run_operator_instruction"
   }
 }
