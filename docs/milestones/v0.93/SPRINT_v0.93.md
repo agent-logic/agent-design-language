@@ -1,73 +1,65 @@
 # v0.93 Sprint Plan
 
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+
 ## Status
 
-Forward-planning sprint outline. The final sprint and WP sequence will be
-authored during v0.93 WP-01.
+First-pass planning under #1047. v0.93 is not open; no extraction or feature implementation is authorized by this package.
+
+## How To Use
+
+These are ordered planning phases, not calendar commitments or newly created sprint issues. The logical dependency graph is authoritative; split phase-sized groups into bounded sprints after capacity and ownership decisions.
+
+## Sprint Overview
+
+| Phase | Rows | Exit result |
+|---|---|---|
+| Opening | WP-01 | Explicit opening and ADL coordination/audit/decision identities; destination identities follow RD-02 bootstrap |
+| Repository split | RD-01 through RD-11 in dependency order | Independently qualified product lockset and rollback |
+| CodeFriend launch | CF-01 through CF-07; installed product depends on RV-08 | Authorized live Beta 1 launch, tester admission, verification and rollback |
+| Runtime foundation | RV-01 through RV-08, mandatory | Accepted plugin lifecycle and native/process/WASM proof |
+| Governance and security | GOV-01 through GOV-16; WP-S1 through WP-S6 | Installed evidence-backed behavior in owning repositories |
+| Qualification | DEMO-GOV, DEMO-SEC, INTEGRATE, QUALIFY | Independent installed milestone qualification |
+| Release tail | TAIL-01 through TAIL-10 | Accepted review/remediation/planning and authorized release |
+
+## Sprint Goals
+
+Split repositories without breaking Beta 1; complete Runtime v4, launch CodeFriend Beta 1, and deliver the retained governance/security scope on qualified contracts.
 
 ## Sprint Goal
 
-Build the first reviewable constitutional governance and social-cognition layer
-for the ADL polis: citizenship, rights, duties, Theory of Mind, reputation
-boundary, shared social memory, standing, challenge, appeal, delegation, IAM,
-enterprise security, and governance evidence over prior trace and identity
-substrates.
+No source move overlaps v0.92.2 coding or v0.93 feature implementation. Establish the independent products before new behavior grows.
 
-## Planned Phases
+## Planned Scope
 
-| Phase | Focus | Expected outcome |
-| --- | --- | --- |
-| 1 | Planning promotion | Reviewed milestone docs, issue wave, and cards. |
-| 2 | Constitutional citizenship core | Citizenship contract, human/citizen boundary, rights, duties, and standing states. |
-| 3 | Social cognition | ToM schema, signed update events, reputation boundary, shared social memory, conflict, decay, and projection rules. |
-| 4 | Review and appeal | Constitutional review packet, challenge flow, appeal flow, and evidence rules. |
-| 5 | Delegation, upstream delegation, and IAM | Authority-chain and escalation-routing rules across citizens, guests, operators, services, tools, polis services, trusted external polis boundaries, frontier cognition providers, and other external actors. |
-| 6 | Enterprise security foundation | Zero-trust architecture, enforcement, key/secrets lifecycle, audit/compliance evidence, isolation/data governance, and security operations. |
-| 7 | Social contract and communication | Bounded social-contract representation and communication-without-inspection proof. |
-| 8 | Demo and review tail | Governance and enterprise-security demos, demo matrix, quality gate, review handoff, and release ceremony. |
+The 64 candidates are a first-pass denominator, not a promise that all fit. Runtime v4 was omitted by the old package despite explicit handoff routing; operator direction now makes all eight Runtime v4 outcomes mandatory for release. CodeFriend launch is included as CF-01 through CF-07; audience, environment and limits are resolved before launch execution. See DECISIONS_v0.93.md.
 
-## Dependencies To Check Before WP-01
+## Work Plan
 
-- v0.90.3 citizen-state and standing outputs are stable enough to consume.
-- v0.91 moral trace and review planning is available.
-- v0.92 identity and birthday planning remains a prerequisite, not absorbed
-  into v0.93.
-- Governed-tool and economics lanes are either available as prerequisites or
-  explicitly deferred.
-- v0.91 secure Agent Comms, v0.90.5 governed-tool authority, and v0.92 identity
-  provide enough substrate for zero-trust, key/secrets, and policy-enforcement
-  work.
-- ToM source material is reconciled with v0.90.3 standing/access and no longer
-  carries stale late-roadmap-only targeting.
+Use PLANNED_ISSUE_CATALOG_v0.93.md and its exact dependencies. RD-04 follows complete-milestone C-SDLC proof. GOV-01 waits for the accepted Runtime contract; all native, process and WASM adapters must complete; adapter deferral cannot satisfy v0.93.
 
-## Demo And Review Plan
+## Execution Policy
 
-At least one later demo should show constitutional review of a challenged
-citizen action. Strong secondary demos include standing restoration, human
-guest versus mediated citizen-mode action, ToM/reputation boundary,
-delegation/upstream-delegation/IAM, zero-trust deny-by-default behavior,
-audit/compliance evidence, key rotation/revocation, isolation leakage
-prevention, and communication without inspection.
+One accountable repository and writing owner per issue. Cross-repository parent coordination never substitutes for native issue/PR evidence. Preserve exact commit/artifact/version links, authentic recovery proof and independent review. Feature starts require RD-11; milestone opening requires accepted #925, the 15-minute break and operator authorization.
 
-The review packet should make it easy to answer:
+## Cadence Expectations
 
-- What actor acted?
-- Under what standing and authority?
-- What evidence supports the governance finding?
-- Was any ToM-derived signal used, and was it authorized, redacted, and
-  challengeable?
-- What was hidden or redacted?
-- What appeal or restoration path remains?
-- Which security boundary was crossed or denied?
-- Which key, policy, audit, isolation, or provenance evidence proves the
-  decision?
+Measure build/review time after RD-01; do not infer duration from issue count. Recheck changed contracts before each consumer starts. Report completed behavior, failures and uncertain effects separately.
 
-## Exit Criteria For Active Planning
+## Risks / Dependencies
 
-- The WBS is converted from candidate areas into concrete WPs.
-- Every implementation WP has a code, fixture, test, demo, or reviewable docs
-  output.
-- Every demo maps to a governance claim.
-- Every security WP maps to a concrete enforcement, fixture, audit, incident,
-  isolation, provenance, or adversarial-regression proof surface.
-- Non-goals prevent overclaiming legal personhood or production citizenship.
+Unresolved public ADL/private Runtime coupling, registry access, C-SDLC recovery, plugin activation design and feature capacity can block the relevant phase. #922 supplies final residuals; this first pass does not close #922 or shift Beta 1 defects into v0.93.
+
+## Demo / Review Plan
+
+Requalify Beta 1 after extraction, then execute governance/security/plugin demonstrations against the installed lockset. Each includes a negative and interruption/recovery boundary where applicable.
+
+## Closeout Bar
+
+Complete installed integration and independent qualification precede the canonical ten-step release tail. No ceremony work may hide unfinished implementation or unsafe evidence disclosure.
+
+## Exit Criteria
+
+Every admitted candidate has accepted output or explicit operator-approved disposition; required product behavior cannot be silently deferred to make the milestone green.

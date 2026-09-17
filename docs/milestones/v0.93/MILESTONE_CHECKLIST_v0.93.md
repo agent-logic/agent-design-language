@@ -69,3 +69,31 @@ entered active execution.
   standing, review, appeal, delegation, IAM, the six enterprise-security WPs,
   and proof demos are traceable from docs to PRs and evidence.
 - The milestone can be audited without reconstructing intent from chat.
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+
+## Purpose
+
+Track accepted delivery, not merely planning-file existence.
+
+## Execution Discipline
+
+- [ ] Accepted v0.92.2 close, break and opening approval recorded.
+- [ ] RD-11 product lockset accepted before features.
+- [ ] Each work item uses its owning repository and native lifecycle.
+- [ ] Runtime v4 RV-01 through RV-08 completed with native, process and WASM adapter proof, provider integration and installed recovery qualification.
+
+## Release Packaging
+
+- [ ] Exact multi-repository artifacts and consumer versions pinned.
+- [ ] Public notes contain no restricted proof.
+- [ ] Rollback and independent installs verified.
+
+## Post-Release
+
+- [ ] Product tags/artifacts and links verified.
+- [ ] Residuals handed off with owners; shared rollback retirement separately authorized.
+
+- [ ] CF-01 through CF-07 qualified against the current Drive Beta 1 plan, including external-tester rehearsal and website handoff; deployment/publication authority recorded separately.

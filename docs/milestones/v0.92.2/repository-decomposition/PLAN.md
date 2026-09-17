@@ -1,8 +1,7 @@
 # ADL repository decomposition plan
 
-Status: revised working plan, 2026-09-15. Repository ownership and visibility
-reflect the operator decisions below. Scheduling is a recommendation, not an
-approved milestone amendment or extraction authorization. No repositories,
+Status: revised working plan, 2026-09-16. The operator selected repository decomposition as the opening phase of v0.93, after accepted v0.92.2 closure. The [v0.93 migration plan](../../v0.93/REPOSITORY_MIGRATION_v0.93.md) and its execution graph govern current sequencing. Repository ownership and visibility
+reflect the operator decisions below. This is a planning decision, not extraction authorization. No repositories,
 visibility settings, releases, or infrastructure are changed by this document.
 
 ## Decision and source authority
@@ -16,7 +15,7 @@ Those reviews apply to that historical version, not to this revised plan.
 The operator decided on 2026-09-15:
 
 - Use the current product-boundary split; abandon the older two-repository plan.
-- Reuse the existing CodeFriend repository and keep it private.
+- Preserve the existing private `codefriend.ai` website repository. The subsequent operator decision separates CodeFriend software into a second private repository (`codefriend`, proposed name).
 - Only the ADL language repository will be public; every other product repository
   will be private.
 
@@ -36,11 +35,11 @@ inventories remain evidence of what was reviewed, not current execution proof.
 | cognitive-sdlc | Private | C-SDLC owner | Active lifecycle engine, templates, schemas, issue/review/publication/finish/cleanup tooling, manuals and independent validation |
 | agent-logic-infrastructure | Private | Infrastructure owner | Deployment modules, operational tooling, inventories and pinned-artifact deployment contracts |
 | agent-logic-enterprise-security | Private | Enterprise security owner | Enterprise policies, backends, integrations and restricted qualification evidence for the six v0.93 security work packages |
-| agent-logic/codefriend.ai (existing) | Private | CodeFriend owner | CodeFriend shell/CLI, acquisition, architecture analysis, review orchestration, memory consumers, evidence, action plans and report/publication experience |
+| codefriend (proposed) | Private | CodeFriend software owner | Shell/CLI, acquisition, architecture analysis, review orchestration, memory consumers, evidence, action plans and report experience |
+| agent-logic/codefriend.ai (existing) | Private | CodeFriend website owner | Existing website, content, deployment, history and product-entry handoff |
 
 The existing `agent-logic/codefriend.ai` repository was verified private on
-2026-09-15. Its existing contents must be inventoried and preserved before
-CodeFriend implementation is integrated; no replacement repository is proposed.
+2026-09-15. Its existing website contents and history must be preserved independently. CodeFriend software moves into a separate private repository; `codefriend` is the proposed name.
 The other destination names remain proposed identifiers until creation setup.
 Named people, registries, licensing, release permissions and support windows
 must be recorded before the respective extraction.
@@ -109,7 +108,7 @@ proof. An execution issue must not close on a scaffold, schema or unexecuted pac
 | RD-07 remaining ADL cleanup decision | Each proposed deletion has an owner, replacement, proof, retained rollback source and retirement authority. Public ADL conformance and independent builds pass. Deletion is a separately approved operation. |
 | RD-08 demo ownership application | Each demo is placed with exactly one previously decided product owner and runs from that product's supported artifacts; no copied production code. Observatory moves with Runtime. Archival requires its own disposition. |
 | RD-09 enterprise-security repository | Private implementation boundary for the six v0.93 work packages, with explicit contract/implementation/fixture/evidence ownership and compatible Runtime interfaces. Real enterprise and synthetic Runtime integration pass independently. Repository setup does not imply completion of enterprise implementation. |
-| RD-10 CodeFriend integration into existing repository | Preserve existing repository content/history, move owned implementation, replace monorepo imports with versioned contracts, and independently build/install/run the complete Beta 1 journey on ADL and an external repository. Verify evidence, reports, approval behavior and rollback; repository presence alone is not delivery. |
+| RD-10 separate CodeFriend software extraction | Preserve existing website content/history independently, move owned software implementation into its own private repository, replace monorepo imports with versioned contracts, and independently build/install/run the complete Beta 1 journey on ADL and an external repository. Verify evidence, reports, approval behavior and rollback; repository presence alone is not delivery. |
 
 RD identifiers name results, not mandatory serial numbering. RD-01 and RD-02
 precede extraction; RD-03 precedes each consumer that needs those contracts;
@@ -119,38 +118,11 @@ C-SDLC complete-milestone v3 proof gates RD-04, not the audit or unrelated moves
 Retirement of v2 needs its own eligibility, review and authorization; extraction
 must not strand the known `csdlc-v2 -> adl-resilience` rollback dependency.
 
-## Recommended scheduling
+## Current scheduling
 
-Recommendation as of 2026-09-15; no calendar date or new milestone is committed.
+The operator selected the opening of v0.93 for the split. Prepare first-pass planning under #1047 during v0.92.2. After accepted v0.92.2 closure, the inter-milestone break and explicit v0.93 opening, refresh RD-01 against the frozen accepted head, settle and bootstrap RD-02, then execute the dependency graph through RD-11. No feature development starts before RD-11 accepts independently qualified products and rollback lockset.
 
-1. **During the remaining v0.92.2 work:** execute RD-01 alongside product work
-   using a pinned baseline. Measure actual dependencies, owners and independent
-   build feasibility; prepare RD-02 decisions. Do not move active source or
-   impose new dependency gates on existing sprint issues. Refresh the audit for
-   every affected merged change before extraction.
-2. **At v0.92.2 release readiness:** complete RD-02 and prepare the migration
-   issue wave. Preserve #914's installed integration and #915's independent
-   Beta 1 qualification on the existing topology. Budget extraction explicitly
-   in next-milestone planning (#922), rather than quietly adding it to this
-   milestone's release tail.
-3. **Immediately after accepted v0.92.2 close (#925):** use a dedicated migration
-   window before substantial v0.93 feature expansion. Start RD-04 once complete-
-   milestone C-SDLC proof is accepted. Publish needed RD-03 contracts and then
-   execute Runtime and CodeFriend moves in dependency order. They may run in
-   parallel only where source, installers, contracts and CI ownership are disjoint.
-4. **After Runtime artifact publication:** extract infrastructure. Apply demo
-   ownership with its respective product move. Establish enterprise-security
-   interfaces/repository before its private implementation grows in v0.93;
-   complete the six implementation packages in their own planned scope.
-5. **Before declaring migration complete:** qualify the extracted products and
-   the public ADL checkout independently, including CodeFriend's complete
-   installed Beta 1 journey. Then decide remaining cleanup and rollback retirement.
-
-#914, #915 and #925 were open when checked on 2026-09-15. This argues for
-preparing now and moving after their accepted completion, not assigning an
-unsupported date. No fixed duration is estimated until RD-01 measures coupling.
-A decision to move sooner must explicitly rebaseline in-flight consumers and
-repeat affected integration/qualification against the new topology.
+The [current migration contract](../../v0.93/REPOSITORY_MIGRATION_v0.93.md) supersedes the earlier unversioned migration-window recommendation. #977 remains baseline evidence with unresolved findings, not final-head extraction proof. Current Beta 1 coding and qualification remain on their accepted topology; #1047 does not add gates to those in-flight issues.
 
 ## Migration safety and measurement
 
@@ -180,7 +152,7 @@ improvement. Stop for unresolved ownership, incompatible contracts, required
 proof not run, authority collisions or unsafe disclosure. Preserve rollback
 until the corresponding product's consumer qualification passes.
 
-## Review status and next decision
+## Historical review and current next decision
 
 The earlier #848 reviews remain historical. A fresh bounded independent
 subagent review of this revised draft on 2026-09-15 found no actionable findings
@@ -192,5 +164,4 @@ The #977 baseline audit has now executed inventory and isolated probes with
 unresolved findings. No extraction has executed. The next decision is to resolve
 the audit's ownership/contract gaps for RD-02 and assign missing administrative
 and independent-release proof. Refresh the audit at the actual migration head.
-The recommended migration window remains after v0.92.2 acceptance and before
-major v0.93 expansion.
+The September 15 review above applies to the historical six-owner draft. The current seven-repository revision is reviewed under #1047; migration opens v0.93 and completes before feature work.

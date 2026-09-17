@@ -3,7 +3,7 @@
 ## Status
 
 Draft placeholder for later release closeout. These notes describe intended
-release themes only and must be rewritten during v0.93 WP-19/WP-20 to describe
+release themes only and must be rewritten during v0.93 TAIL-03/TAIL-10 to describe
 landed behavior.
 
 ## Planned Release Theme
@@ -66,3 +66,43 @@ The final notes must not claim:
   evidence.
 - v0.93 must keep private ToM, public reputation, standing, and constitutional
   review distinct.
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+
+## How To Use
+
+These are planned themes. TAIL-03 rewrites them from actual accepted product evidence; TAIL-10 publishes only with authorization.
+
+## Summary
+
+Planned opening repository split, mandatory Runtime v4 completion, governance and enterprise-security outcomes. Nothing here asserts those have shipped.
+
+## Highlights
+
+Independent product repositories; separate CodeFriend software/site; governed plugin lifecycle; evidence-backed citizenship, social cognition and private security.
+
+## What's New In Detail
+
+Populate from accepted candidate results and their exact artifacts during TAIL-03, preserving public/private boundaries. Current plans are linked in the canonical execution graph.
+
+## Upgrade Notes
+
+Migration needs versioned product installs and a compatibility lockset; retain accepted v0.92.2 rollback until consumer qualification. No upgrade commands are yet approved.
+
+## Known Limitations
+
+Milestone unopened; extraction, registry choices and remaining feature capacity unresolved. Runtime v4 is mandatory. No customer-scale deployment or external certification claim.
+
+## Validation Notes
+
+Planning validation and review are recorded in planning-review/REVIEW.md. Product and migration qualification have not run in #1047.
+
+## What's Next
+
+Resolve named decisions, incorporate #922 final residuals, then explicitly open v0.93 after predecessor acceptance.
+
+## Exit Criteria
+
+Published notes describe only accepted behavior and link verified product versions without private evidence disclosure.

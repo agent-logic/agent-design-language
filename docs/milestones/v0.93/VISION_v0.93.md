@@ -113,6 +113,34 @@ v0.93 should prepare ADL for a polis where citizens can:
   leakage
 - participate in a shared world with traceable accountability
 
-This is an essential bridge from Runtime v2 and first birthday work toward the
+This is an essential bridge from the accepted Runtime baseline and first-birthday work toward the
 later MVP: a serious agent society must be technically alive, morally legible,
 and institutionally governable.
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93. Authoring issue: #1047 in v0.92.2. Accountable planning role: milestone owner; named implementation owners are assigned before opening.
+
+## Purpose
+
+Deliver independently operated products before extending governed agent behavior.
+
+## How To Use
+
+Read this vision with the dependency graph and decision register; desired behavior is not implementation evidence.
+
+## Core Goals
+
+Qualify the opening split, preserve CodeFriend Beta 1, establish the accepted Runtime v4 boundary, and deliver evidence-backed governance and private security.
+
+## Milestone Context
+
+v0.92.2 must be accepted and closed before v0.93 opens. #1047 prepares now; #922 reconciles final residuals.
+
+## Summary
+
+Independent product ownership and accountable agent behavior are the two milestone outcomes.
+
+## Exit Criteria
+
+The selected scope has independent product and installed behavior proof, without certification or personhood claims.
