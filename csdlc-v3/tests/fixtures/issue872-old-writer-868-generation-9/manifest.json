@@ -1,0 +1,225 @@
+{
+  "accepted_binary": {
+    "blake3": "e7fa9aedc8f992151dcfc82ff9bd0da7f5415d69798ac67956f2977f88416f64",
+    "sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+    "size": 10721624,
+    "source_revision": "6425ba9bbce4cc1f46789c2e3ac019adf86238b8"
+  },
+  "branch": "codex/868-v0922-installed-command-contract",
+  "file_count": 14,
+  "files": [
+    {
+      "authentic_sha256": "b07ab7d0658e3c3afb472402debb5cc3bcd3780456957e7c221bd0466cfa5961",
+      "path": "binding.json",
+      "portable_sha256": "dd5a85eb6084563f5c040b3b831e10f4af56e2dcb8a35df931ac04bb5f8691c7",
+      "portable_size": 153,
+      "size": 207,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    },
+    {
+      "authentic_sha256": "951300d90252b322768061654d2333abb6481746b96d934249daa007572c90ed",
+      "path": "cards/sip.md",
+      "portable_sha256": "951300d90252b322768061654d2333abb6481746b96d934249daa007572c90ed",
+      "portable_size": 20938,
+      "size": 20938,
+      "transformations": []
+    },
+    {
+      "authentic_sha256": "b77202f13f3aef9f9c23f340df9809d639bf4bf56f6f8a966a09fc9793cc0230",
+      "path": "cards/sip.values.json",
+      "portable_sha256": "599307d701ed4650cd81e557224e6a7e29f65060c97d4525175af19b3e84d4ee",
+      "portable_size": 17255,
+      "size": 17309,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    },
+    {
+      "authentic_sha256": "ffd61c83f5dfa22838a2d812b207943e2f868a99b73ed3aaea479d6f64a17f55",
+      "path": "cards/sor.md",
+      "portable_sha256": "ffd61c83f5dfa22838a2d812b207943e2f868a99b73ed3aaea479d6f64a17f55",
+      "portable_size": 10325,
+      "size": 10325,
+      "transformations": []
+    },
+    {
+      "authentic_sha256": "655b9646ec0de81eecc30bda09698b1760e86e109c875b196b9b5a96e59d609d",
+      "path": "cards/sor.values.json",
+      "portable_sha256": "2104c0b485105c0b8a4c02c96913e225643ef8e47407034bc1df9813f8b261dd",
+      "portable_size": 7982,
+      "size": 8036,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    },
+    {
+      "authentic_sha256": "7e81edf911b502be5d2cab2da55ef7d06a5c4c82957383e52e18d2b4242ddcc8",
+      "path": "cards/spp.md",
+      "portable_sha256": "7e81edf911b502be5d2cab2da55ef7d06a5c4c82957383e52e18d2b4242ddcc8",
+      "portable_size": 38637,
+      "size": 38637,
+      "transformations": []
+    },
+    {
+      "authentic_sha256": "de06b4643049c3975df47126fdc3d8962f166bf3c5b774284db561741d52325a",
+      "path": "cards/spp.values.json",
+      "portable_sha256": "08c4a35d8d644489cde85dff3addd84eae3f9a324a9f2c15e916ff10adfd4b28",
+      "portable_size": 18366,
+      "size": 18420,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    },
+    {
+      "authentic_sha256": "10db3f2f044b80af9822fb2dd13af92014939872b7f984ca5ab85a21ae7a194d",
+      "path": "cards/srp.md",
+      "portable_sha256": "10db3f2f044b80af9822fb2dd13af92014939872b7f984ca5ab85a21ae7a194d",
+      "portable_size": 4639,
+      "size": 4639,
+      "transformations": []
+    },
+    {
+      "authentic_sha256": "59c13d44f86f89585d23c93584bc648c09673e0e8fb28cc60cd12105521b74a9",
+      "path": "cards/srp.values.json",
+      "portable_sha256": "243090f49b0de86bf5175ff3245338c6d0251d4182b21fe05d75f44680518039",
+      "portable_size": 1705,
+      "size": 1759,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    },
+    {
+      "authentic_sha256": "9a49cddd0c6fcf5ba7529c1a860dee609f995fad87b01041c284a6ae5adf8ffc",
+      "path": "cards/stp.md",
+      "portable_sha256": "9a49cddd0c6fcf5ba7529c1a860dee609f995fad87b01041c284a6ae5adf8ffc",
+      "portable_size": 19804,
+      "size": 19804,
+      "transformations": []
+    },
+    {
+      "authentic_sha256": "4baef69addc1774cd458863c5b7f82d842bc860e0235761ffe8daf78b93a5f31",
+      "path": "cards/stp.values.json",
+      "portable_sha256": "c240059df06690c17e413adba42c79478e4ec7173dc2dcad289e69b87ef9871e",
+      "portable_size": 19920,
+      "size": 19974,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    },
+    {
+      "authentic_sha256": "7bdcdb2449d3fcd062e47d36cf8c8b17f404ac36a8a53f3025379cccfaa71ea8",
+      "path": "cards/vpp.md",
+      "portable_sha256": "7bdcdb2449d3fcd062e47d36cf8c8b17f404ac36a8a53f3025379cccfaa71ea8",
+      "portable_size": 12360,
+      "size": 12360,
+      "transformations": []
+    },
+    {
+      "authentic_sha256": "a1b1882767aa06579c1b56b964766244ff8497e9b98f052f193f906e5a1c15db",
+      "path": "cards/vpp.values.json",
+      "portable_sha256": "0419cf559490524ced91c5b82dc206521be9550609a7e5ca4b5a447a8fcbdd6b",
+      "portable_size": 6531,
+      "size": 6585,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    },
+    {
+      "authentic_sha256": "9a3d2206485a06c04fb8926b58b61e089e8de54de937e724af7f7afd291bcbaf",
+      "path": "index.json",
+      "portable_sha256": "26d1e9b76d8fd34ec198dd76ff1f51cbb14a7e62d7968e0a6ca1a7c16ed9d4e9",
+      "portable_size": 402,
+      "size": 456,
+      "transformations": [
+        {
+          "count": 1,
+          "kind": "exact_json_string_substitution",
+          "replacement": "adl://worktree/issue/868",
+          "source_sha256": "ecc55462e0fd847c7367e371ed39c82f0d85eb371fb7e02b4acae68f2a4bc123"
+        }
+      ]
+    }
+  ],
+  "generation": 9,
+  "issue": 868,
+  "lifecycle_digest": "db09a36738970942ae88401ee79508503967cbc39ae6d03e5d57f2dbd26928c8",
+  "lineage": {
+    "archive_id": "868-20260912-closeout",
+    "copies": [
+      {
+        "id": "relocated-original",
+        "logical_source": "archive:868-20260912-closeout/relocated-original-.csdlc/issues/868"
+      },
+      {
+        "id": "verified-copy",
+        "logical_source": "archive:868-20260912-closeout/verified-copy/.csdlc/issues/868"
+      }
+    ],
+    "copies_byte_identical": true,
+    "manifest_inventory_sha256": "77390aa38e2b3fd8aaf527b1b7bd8e6978eeb204d05e9ad24f8dd96c54abaf24",
+    "retained_sorted_inventory_sha256": "5072f429f2737ac0fd81e990ab748aab894d84f89f263069ad4312e8e676051c",
+    "source_index_sha256": "9a3d2206485a06c04fb8926b58b61e089e8de54de937e724af7f7afd291bcbaf"
+  },
+  "phase": "bound",
+  "portable_materialization": {
+    "allowed_transformation_kinds": [
+      "exact_json_string_substitution"
+    ],
+    "authentic_bytes_source": "two retained archive copies bound by lineage and per-file hashes",
+    "authentic_bytes_tracked": false,
+    "execution_rebinding": {
+      "from": "adl://worktree/issue/868",
+      "recompute_lifecycle_digest": true,
+      "substitution_count": 8,
+      "target_class": "disposable_authenticated_worktree"
+    },
+    "logical_worktree": "adl://worktree/issue/868",
+    "root": "portable"
+  },
+  "proof_policy": {
+    "direct_archive_execution": false,
+    "live_roots_allowed": false,
+    "marker_only_proof": false,
+    "minimum_test_denominator": 1
+  },
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.v3.issue872_generation9_fixture.v1",
+  "template_registry_version": "1.0.5"
+}

@@ -1,16 +1,27 @@
 {
   "schema": "adl.csdlc.sim07.command_result.v1",
   "scenario_id": "copied_record_conversion_rehearsal_release_gate",
-  "command": "env ISSUE872_OLD_CSDLC=/Users/daniel/git/agent-design-language/.git/csdlc-v3/local/archives/868-20260912-closeout/relocated-original-.csdlc/evidence/868/execution/candidate-6425ba9bb/bin/csdlc cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture",
-  "started_at": "2026-09-16T07:14:02Z",
-  "ended_at": "2026-09-16T07:14:02Z",
-  "elapsed_seconds": 0,
-  "exit_status": 101,
+  "command": "env ISSUE872_OLD_CSDLC=$ISOLATED_OLD_BINARY ISSUE872_OLD_STATE=$ISOLATED_PORTABLE_GENERATION9 CARGO_TARGET_DIR=$TRUSTED_ISSUE1021_TARGET cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test copied_record_conversion_rehearsal -- --ignored --test-threads=1 --nocapture",
+  "started_at": "2026-09-16T19:10:58Z",
+  "ended_at": "2026-09-16T19:21:34Z",
+  "elapsed_seconds": 636,
+  "exit_status": 0,
   "test_counts": {
-    "passed": 0,
-    "failed": 1,
+    "passed": 1,
+    "failed": 0,
     "ignored": 0
   },
-  "stdout_sha256": "c7b45bede1b4c1e26c49e18f7513e140acefb25e477d23becd3bb4078f89ea1d",
-  "stderr_sha256": "292c9f456bf889133b5c1c870d85f1c8420d1c96ce9990083c4313f6b19122a6"
+  "stdout_sha256": "89453532af520559f55ce72577de05e3d77e621793770f22ead0026b49ef76ba",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "proof_denominator": {
+    "cargo_tests": 1,
+    "roles": 7,
+    "scenarios": 12,
+    "fault_cases": 30
+  },
+  "source_proof": ".csdlc/evidence/1021/LOCAL_PROOF_RESULT.json",
+  "proved_source_commit": "717056d405dc01d75402d33b2bf0d0e7ec3e4768",
+  "candidate_sha256": "f52c2915fbd708b6c78a7ce20262a3bde276caf188c35336f2c4b422ca867e8e",
+  "old_binary_sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
+  "isolation": "portable generation-9 fixture and old binary copied outside live/shared roots; no live conversion or shared installation"
 }

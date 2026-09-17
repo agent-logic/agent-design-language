@@ -166,21 +166,35 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
                 .map_err(|_| "intent_status_decisions_invalid")?
         };
         let projection = semantic_card_projection_observation(context, &registry, false)?;
-        let proof_current = match semantic_proof_current(context) {
-            Ok(current) => current,
-            // Status is an observation route. A commit after binding makes proof
-            // stale, but must not turn that read-only observation into a failure.
-            Err(error)
-                if matches!(
-                    error.as_str(),
-                    "intent_semantic_binding_stale" | "intent_semantic_projection_repair_required"
-                ) =>
-            {
-                false
+        let semantic_preparation_required = projection.is_none();
+        let proof_current = if semantic_preparation_required {
+            false
+        } else {
+            match semantic_proof_current(context) {
+                Ok(current) => current,
+                // Status is an observation route. A commit after binding makes proof
+                // stale, but must not turn that read-only observation into a failure.
+                Err(error)
+                    if matches!(
+                        error.as_str(),
+                        "intent_semantic_binding_stale"
+                            | "intent_semantic_projection_repair_required"
+                    ) =>
+                {
+                    false
+                }
+                Err(error) => return Err(error),
             }
-            Err(error) => return Err(error),
         };
         output["evidence"] = json!({"proof_current":proof_current,"validators_run":false});
+        if semantic_preparation_required {
+            output["preparation"] = json!({
+                "structural_state":"native_record_present_semantic_preparation_required",
+                "dependencies_ready":decisions.dependencies_ready,
+                "execution_ready":false,
+                "allowed_next":["prepare"]
+            });
+        }
         if let Some((_, bundle, observation)) = &projection {
             output["projection"] = json!({
                 "observation": observation,
@@ -226,7 +240,9 @@ pub fn run(context: &Context, intent: &IntentRequest) -> Result<Value, String> {
         )
         .map_err(errors)?);
         output["operator_decisions"] = json!({"required":unknown||decisions.operator_decision_needed,"design_ready":decisions.design_ready,"dependencies_ready":decisions.dependencies_ready,"budget_available":decisions.budget_available});
-        output["allowed_next"] = json!(if blocked {
+        output["allowed_next"] = json!(if semantic_preparation_required {
+            vec!["prepare"]
+        } else if blocked {
             vec!["status", "recover"]
         } else if context.index["phase"] == "ready" {
             vec!["bind"]
@@ -287,14 +303,15 @@ pub(super) fn semantic_card_projection_observation(
 > {
     use crate::storage::{semantic::Observation, DurableTransactionStore};
     let (root, key) = context.semantic_root_key()?;
-    let snapshot =
-        match DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)? {
-            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
-                *snapshot
-            }
-            Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
-            Observation::LegacyMigrationRequired | Observation::Absent => return Ok(None),
-        };
+    let snapshot = match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+        .map_err(semantic_error)?
+    {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            *snapshot
+        }
+        Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
+        Observation::LegacyMigrationRequired | Observation::Absent => return Ok(None),
+    };
     if snapshot.inputs().authority() != &context.semantic_authority()? {
         return Err("intent_semantic_authority_changed".into());
     }
@@ -402,8 +419,10 @@ fn semantic_edit(
     amendment: &AmendmentDeclaration,
 ) -> Result<Value, String> {
     use crate::lifecycle::semantic::{Facts, SemanticCommand};
-    use crate::storage::{semantic::protocol::*, DurableTransactionStore};
-    let semantic = context.semantic_context()?;
+    use crate::storage::{
+        semantic::{protocol::*, CardProjectionObservation},
+        DurableTransactionStore,
+    };
     fn merge(base: &mut Value, update: &Value) {
         if let (Some(base), Some(update)) = (base.as_object_mut(), update.as_object()) {
             for (key, value) in update {
@@ -418,7 +437,35 @@ fn semantic_edit(
             }
         }
     }
-    let mut cards = semantic.snapshot.inputs().cards().clone();
+    let Some((preflight, _, projection)) =
+        semantic_card_projection_observation(context, registry, false)?
+    else {
+        return Err("intent_semantic_state_missing".into());
+    };
+    if preflight.pending().is_some() {
+        return Err("intent_semantic_recovery_required".into());
+    }
+    if preflight.projection_required() || projection != CardProjectionObservation::Healthy {
+        return Err("intent_semantic_projection_repair_required".into());
+    }
+    let Some(binding) = preflight.inputs().binding() else {
+        return Err("intent_semantic_binding_stale".into());
+    };
+    let registration = blake3::hash(
+        serde_json::to_string(&json!({"branch":context.branch,"worktree":context.root}))
+            .map_err(|_| "intent_bind_identity_invalid")?
+            .as_bytes(),
+    )
+    .to_hex()
+    .to_string();
+    if binding.branch != context.branch
+        || binding.worktree != context.root
+        || binding.registration != registration
+    {
+        return Err("intent_semantic_binding_stale".into());
+    }
+    let binding_advances = binding.head != context.head;
+    let mut cards = preflight.inputs().cards().clone();
     for (kind, update) in &request.card_updates {
         let card = cards
             .get_mut(kind)
@@ -445,13 +492,32 @@ fn semantic_edit(
     {
         return Err("intent_amendment_revision_mismatch".into());
     }
-    let phase = semantic.snapshot.phase();
+    let phase = if binding_advances {
+        match crate::lifecycle::semantic::decide_amendment(
+            preflight.phase(),
+            crate::lifecycle::semantic::AmendmentClass::Binding,
+            &crate::lifecycle::semantic::AmendmentFacts {
+                source_version_current: true,
+                issue_checkout_match: true,
+                evidence_integrity: true,
+                transition_approved: true,
+                topology: true,
+                new_commit: true,
+                ..Default::default()
+            },
+        ) {
+            crate::lifecycle::semantic::AmendmentOutcome::Admitted { phase, .. } => phase,
+            _ => return Err("intent_semantic_binding_stale".into()),
+        }
+    } else {
+        preflight.phase()
+    };
     let amendment_facts = crate::lifecycle::semantic::AmendmentFacts {
         source_version_current: true,
         issue_checkout_match: true,
         evidence_integrity: true,
         transition_approved: amendment.transition_approved,
-        topology: semantic.snapshot.inputs().binding().is_some(),
+        topology: preflight.inputs().binding().is_some(),
         implementation_revision: amendment
             .implementation_revision
             .as_deref()
@@ -469,7 +535,7 @@ fn semantic_edit(
                 | crate::lifecycle::LifecycleState::Published
                 | crate::lifecycle::LifecycleState::MergeReady
         ),
-        projection_change: cards != *semantic.snapshot.inputs().cards(),
+        projection_change: cards != *preflight.inputs().cards(),
         new_commit: amendment.new_commit,
     };
     if !matches!(
@@ -477,6 +543,32 @@ fn semantic_edit(
         crate::lifecycle::semantic::AmendmentOutcome::Admitted { .. }
     ) {
         return Err("intent_amendment_policy_rejected".into());
+    }
+    let admitted_cards = cards;
+    if context.refresh_semantic_binding()? {
+        super::rebuild_semantic_card_projection(context)?;
+    }
+    let refreshed = Context::load(&context.root, context.issue)?;
+    let semantic = refreshed.semantic_context()?;
+    let mut cards = semantic.snapshot.inputs().cards().clone();
+    for (kind, update) in &request.card_updates {
+        let card = cards
+            .get_mut(kind)
+            .ok_or("intent_semantic_card_kind_invalid")?;
+        merge(card, update);
+    }
+    if semantic.snapshot.phase() != phase
+        || cards != admitted_cards
+        || !matches!(
+            crate::lifecycle::semantic::decide_amendment(
+                semantic.snapshot.phase(),
+                amendment.class,
+                &amendment_facts,
+            ),
+            crate::lifecycle::semantic::AmendmentOutcome::Admitted { .. }
+        )
+    {
+        return Err("intent_amendment_admission_changed_after_binding_refresh".into());
     }
     let request_bytes = serde_json::to_vec(&json!({
         "schema":"csdlc.v3.semantic_edit_request.v1",
@@ -793,9 +885,33 @@ fn semantic_bind(
 }
 
 fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
-    if !context.index.is_null() {
-        return Err("issue_already_initialized".into());
-    }
+    let legacy_native = if !context.index.is_null() {
+        let (root, key) = context.semantic_root_key()?;
+        match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+            .map_err(semantic_error)?
+        {
+            crate::storage::semantic::Observation::LegacyMigrationRequired => true,
+            crate::storage::semantic::Observation::RecoveryRequired => {
+                return Err("intent_semantic_recovery_required".into())
+            }
+            crate::storage::semantic::Observation::Absent => {
+                return Err("intent_native_state_without_semantic_classification".into())
+            }
+            crate::storage::semantic::Observation::Current(snapshot)
+            | crate::storage::semantic::Observation::ProjectionRepairRequired(snapshot)
+                if snapshot.phase() == crate::lifecycle::LifecycleState::Bound
+                    && snapshot.inputs().binding().is_some() =>
+            {
+                true
+            }
+            crate::storage::semantic::Observation::Current(_)
+            | crate::storage::semantic::Observation::ProjectionRepairRequired(_) => {
+                return Err("issue_already_initialized".into())
+            }
+        }
+    } else {
+        false
+    };
     let plan: IntentPlan =
         serde_json::from_value(value.clone()).map_err(|_| "intent_plan_invalid")?;
     if plan.schema != "csdlc.v3.intent_plan.v1"
@@ -849,6 +965,15 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     )
     .canonicalize()
     .map_err(|_| "intent_worktree_parent_unavailable")?;
+    let expected_lifecycle_digest = legacy_native
+        .then(|| {
+            context.index["digest"]
+                .as_str()
+                .filter(|value| !value.is_empty())
+                .map(str::to_owned)
+                .ok_or("intent_legacy_lifecycle_digest_missing")
+        })
+        .transpose()?;
     let mut request = LocalPreparationRequest {
         issue: context.issue,
         title: title.into(),
@@ -859,7 +984,7 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
             .to_string_lossy()
             .into_owned(),
         registry_version: registry.version.clone(),
-        expected_lifecycle_digest: None,
+        expected_lifecycle_digest,
         commands: local::required_local_commands().to_vec(),
         card_updates: plan.cards.clone(),
         schedule_readiness: None,
@@ -882,31 +1007,85 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
     let native = owner(context, &request)?;
     context.fresh()?;
     let (root, key) = context.semantic_root_key()?;
-    let snapshot = local::intent::prepare_semantic(
+    let legacy_binding = if legacy_native && context.index["phase"] == "bound" {
+        let primary_binding = read_json(
+            &context
+                .git_common
+                .join(format!("csdlc-v3/local/bindings/{}.json", context.issue)),
+        )?;
+        let linked_binding = read_json(&context.issue_root.join("binding.json"))?;
+        let exact = |binding: &Value| {
+            binding["schema"] == "csdlc.v3.binding.v1"
+                && binding["issue"] == context.issue
+                && binding["branch"] == context.branch
+                && binding["worktree"].as_str() == context.root.to_str()
+        };
+        if !exact(&primary_binding) || !exact(&linked_binding) || primary_binding != linked_binding
+        {
+            return Err("intent_bound_legacy_binding_mismatch".into());
+        }
+        Some(crate::storage::semantic::Binding {
+            branch: context.branch.clone(),
+            head: context.head.clone(),
+            worktree: context.root.clone(),
+            registration: blake3::hash(
+                serde_json::to_string(&json!({"branch":context.branch,"worktree":context.root}))
+                    .map_err(|_| "intent_bind_identity_invalid")?
+                    .as_bytes(),
+            )
+            .to_hex()
+            .to_string(),
+        })
+    } else {
+        None
+    };
+    let prepared = local::intent::prepare_semantic(
         &request,
         &registry,
         &native,
         value,
-        &root,
-        key,
-        context.semantic_authority()?,
+        local::intent::SemanticPrepareTarget {
+            root: &root,
+            key,
+            authority: context.semantic_authority()?,
+            legacy_binding,
+        },
     )
     .map_err(errors)?;
-    let native_result =
-        local::execute_operational_local_route("issue", &request, &registry, &native);
-    if let Err(findings) = native_result {
+    let snapshot = prepared.snapshot;
+    let native_result = (!legacy_native)
+        .then(|| local::execute_operational_local_route("issue", &request, &registry, &native));
+    if let Some(Err(findings)) = native_result {
         return Ok(
             json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",
             "issue":context.issue,"semantic_version":snapshot.version(),"native_prepare_findings":findings}),
         );
     }
+    #[cfg(debug_assertions)]
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("semantic_prepare_after_activation")
+    {
+        std::process::exit(91);
+    }
     match context.complete_semantic_projection(&snapshot) {
-        Ok(current) => Ok(
-            json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
-            "operational_authority":true,"writes_v3_state":true,"status":"completed",
-            "issue":context.issue,"semantic_version":current.version(),"inputs":current.inputs_version(),"phase":current.phase()}),
-        ),
+        Ok(current) => {
+            if let Some(fence) = prepared.adoption_fence {
+                if let Err(error) = fence.release() {
+                    return Ok(
+                        json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
+                        "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",
+                        "issue":context.issue,"semantic_version":current.version(),
+                        "adoption_fence":{"release_required":true,"finding":error}}),
+                    );
+                }
+            }
+            Ok(
+                json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
+                "operational_authority":true,"writes_v3_state":true,"status":"completed",
+                "issue":context.issue,"semantic_version":current.version(),"inputs":current.inputs_version(),"phase":current.phase()}),
+            )
+        }
         Err(error) => Ok(
             json!({"schema":"csdlc.v3.intent_local.v1","read_only":false,
             "operational_authority":true,"writes_v3_state":true,"status":"recovery_required",

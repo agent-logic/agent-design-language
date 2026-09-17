@@ -1,0 +1,22 @@
+{
+  "files": {
+    "adl/tools/run_issue872_conversion_rehearsal.py": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
+    "adl/tools/validate_issue872_generation9_fixture.py": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
+    "csdlc-v3/tests/copied_record_conversion_rehearsal.rs": "080a708d7cc23541271567b5b8cffda14a7a03830e849699e412a9ffdbf28361",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/manifest.json": "438f0dafbb2a4b4b674e770bea1a748dadafbbf0d1f4d78c3ee495e7ddf07a52",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/binding.json": "dd5a85eb6084563f5c040b3b831e10f4af56e2dcb8a35df931ac04bb5f8691c7",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.md": "951300d90252b322768061654d2333abb6481746b96d934249daa007572c90ed",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sip.values.json": "599307d701ed4650cd81e557224e6a7e29f65060c97d4525175af19b3e84d4ee",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sor.md": "ffd61c83f5dfa22838a2d812b207943e2f868a99b73ed3aaea479d6f64a17f55",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/sor.values.json": "2104c0b485105c0b8a4c02c96913e225643ef8e47407034bc1df9813f8b261dd",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/spp.md": "7e81edf911b502be5d2cab2da55ef7d06a5c4c82957383e52e18d2b4242ddcc8",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/spp.values.json": "08c4a35d8d644489cde85dff3addd84eae3f9a324a9f2c15e916ff10adfd4b28",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/srp.md": "10db3f2f044b80af9822fb2dd13af92014939872b7f984ca5ab85a21ae7a194d",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/srp.values.json": "243090f49b0de86bf5175ff3245338c6d0251d4182b21fe05d75f44680518039",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/stp.md": "9a49cddd0c6fcf5ba7529c1a860dee609f995fad87b01041c284a6ae5adf8ffc",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/stp.values.json": "c240059df06690c17e413adba42c79478e4ec7173dc2dcad289e69b87ef9871e",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/vpp.md": "7bdcdb2449d3fcd062e47d36cf8c8b17f404ac36a8a53f3025379cccfaa71ea8",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/cards/vpp.values.json": "0419cf559490524ced91c5b82dc206521be9550609a7e5ca4b5a447a8fcbdd6b",
+    "csdlc-v3/tests/fixtures/issue872-old-writer-868-generation-9/portable/index.json": "26d1e9b76d8fd34ec198dd76ff1f51cbb14a7e62d7968e0a6ca1a7c16ed9d4e9"
+  }
+}

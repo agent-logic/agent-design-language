@@ -255,3 +255,24 @@ They prove preservation of the original intent, target-bearing receipt before
 dispatch, no-authorization and identity/lookup failures, already-ready races,
 one-shot uncertain recovery, reconciliation replay and private input cleanup.
 No live GitHub mutation or logging-channel change is involved.
+
+### Pull-request-create recovery after branch publication
+
+Before consuming the single authenticated-absence recovery for PR creation,
+the owner now resolves the exact remote branch through authenticated readback
+and requires its commit SHA to match the retained expected head. A missing,
+malformed, or different branch remains retryable because the recovery receipt
+is not written and no mutation is dispatched.
+
+An already-consumed recovery remains ineligible for another dispatch. Current
+PR absence, later branch availability, missing response bytes, and missing
+reconciliation receipts do not prove that the earlier request had no effect.
+The owner may reconcile an exact PR that later becomes observable, but it does
+not infer historical non-effect or create a second recovery allowance.
+
+PVF: `pr_create_recovery_*` and
+`github_read_only_adapter_supports_exact_branch_head_readback` are required
+deterministic tests with fake authenticated transport. They cover exact branch
+admission before the first retry, missing and wrong-head rejection without
+consuming the allowance, successful one-shot dispatch, and fail-closed handling
+of an already-consumed uncertain operation.

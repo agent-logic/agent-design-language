@@ -1,0 +1,20 @@
+{
+  "receipt": {
+    "schema": "csdlc.v3.typed_review_receipt.v1",
+    "repository": "agent-logic/agent-design-language",
+    "issue": 1018,
+    "implementer": "Planning #7",
+    "reviewer": "codex/review_1018",
+    "reviewed_revision": "9a2d9bea24e7dcdffe8dd163d9547a052634ec02",
+    "expected_head_sha": "9a2d9bea24e7dcdffe8dd163d9547a052634ec02",
+    "evidence_digest": "c83b2b7ce644853f3d662c10c18c0034481920dba099d57e5b37d943921b4145",
+    "publication_linkage": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1018,
+      "mode": "closing"
+    }
+  },
+  "receipt_digest": "45975e31ef14e5a03fd5546d5f35197f4e6f81f766a24dc2da68854991b0d37a",
+  "proof_path": ".csdlc/v3/issues/1018/proof.json",
+  "proof_digest": "d6776b6497a9af62a1c7b4a4b3829a51be286973543e5973658f97c3bab364ea"
+}

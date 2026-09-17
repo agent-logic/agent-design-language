@@ -1,0 +1,6 @@
+
+running 2 tests
+test all_native_variants_have_exact_semantic_scope_without_terminal_inference ... ok
+test creation_cannot_borrow_calling_issue_and_existing_mutations_cannot_use_zero ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

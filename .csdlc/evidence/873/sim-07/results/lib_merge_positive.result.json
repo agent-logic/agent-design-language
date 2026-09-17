@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "lib_merge_positive",
+  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation -- --exact --test-threads=1",
+  "started_at": "2026-09-16T18:08:28Z",
+  "ended_at": "2026-09-16T18:08:34Z",
+  "elapsed_seconds": 6,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "c3ce1e989ae55f88008cdea4bd6501a079bb494682602df76790de301d5ce889",
+  "stderr_sha256": "ce1cdf5418d0cbc55729b244f5cd15b22c6044f3220a40d999780a424ce53a1c"
+}

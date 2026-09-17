@@ -6,29 +6,35 @@
   "pass_available": false,
   "blocking_findings": [
     "QUAL-873-001",
-    "QUAL-873-002",
     "QUAL-873-003",
     "QUAL-873-004",
     "QUAL-873-005"
   ],
   "not_proven_gates": [
-    "old-owner conversion release gate",
-    "finite recovery including conversion",
-    "OS-cold prepared-start",
+    "old-owner conversion release gate for frozen candidate f31b1b7",
+    "finite recovery including conversion for frozen candidate f31b1b7",
     "comparable retry reduction",
     "independent exact-head remediation review",
     "issue #873 evidence PR CI"
   ],
-  "adjudication": "The frozen installed binary passed both exact public-command journeys, 252 unique focused tests, retained conversion validation, and three exact-binary warm prepared-start samples. The retry qualification now retains a 34-attempt predecessor ledger with three avoidable retries, but the candidate refused the only authority-valid source baseline with LegacyMigrationRequired; the 89-fixture audit found no authority-valid clean alternative, so no candidate ledger, comparison payload, retry percentage, or 50 percent claim exists. Finite recovery including conversion, true OS-cold timing, comparable retry reduction, remediation review, and evidence-PR CI remain not proven and prevent a passing decision.",
+  "adjudication": "The bounded packet contains 37 passing result records with 256 passed tests, zero failed, and one regular ignored test. The corrected old-owner release gate passed independently for a different #1021-corrected binary, with one Cargo test covering seven roles, 12 scenarios, and 30 fault cases; that result is preserved but does not satisfy the conversion or finite-recovery gates for frozen candidate f31b1b710074fdb51f41400b32b79c633bc3336e. The exact frozen-candidate journeys and warm prepared-start gate pass. A comparable retry ledger remains unavailable because the frozen candidate refuses the authority-valid common fixture with LegacyMigrationRequired; independent final-head review and evidence-PR CI are also pending. The qualification therefore remains not_proven.",
   "main_advancement": {
-    "observed_main": "553232dbe6244c204f040fdd6e50c47a4161623b",
-    "classification": "unaffected_record_only_advancement",
-    "reason": "The advancement from the frozen candidate contains #932 lifecycle, evidence, and transaction records only; no csdlc-v3 source, manuals, templates, or #873 surfaces changed."
+    "observed_main": "8b482221e6a6c0eccab1175c2320aa1f7d441ce1",
+    "classification": "merged_issue1021_harness_and_portable_fixture_observed",
+    "reason": "Merged #1021 supplies the corrected portable generation-9 fixture and release-gate harness. The installed candidate remains frozen at f31b1b710074fdb51f41400b32b79c633bc3336e."
   },
   "retry_reduction_boundary": {
     "status": "not_proven",
     "evidence": "measurements/retry-reduction/run-status.json",
     "comparison_payload": null,
     "fifty_percent_claim": false
+  },
+  "prepared_start_boundary": {
+    "status": "pass",
+    "sample_ms": 6588,
+    "target_ms": 180000,
+    "condition": "first measured fixture/process on already warm host",
+    "os_cold_claim": false,
+    "evidence": "measurements/prepared-start-candidate-first-unadjudicated.json"
   }
 }

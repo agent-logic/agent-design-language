@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 868,
+  "phase": "bound",
+  "generation": 9,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/868-v0922-installed-command-contract",
+  "worktree": "adl://worktree/issue/868",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "db09a36738970942ae88401ee79508503967cbc39ae6d03e5d57f2dbd26928c8"
+}

@@ -1,8 +1,14 @@
 //! PVF: installed integration proof, deterministic local Git and synthetic transport.
 //! Required #869/SIM-07 lane; fixture bootstrap is not issue execution evidence.
+use csdlc_v3::storage::{
+    semantic::{IssueKey, Observation, SemanticRoot},
+    DurableTransactionStore,
+};
+use fs2::FileExt;
 use serde_json::{json, Value};
 use std::{
     fs,
+    fs::OpenOptions,
     path::Path,
     process::{Command, Output},
 };
@@ -32,6 +38,19 @@ fn success(output: Output) -> Value {
     result
 }
 
+fn publication_reservation_inventory(
+    root: &Path,
+) -> std::collections::BTreeMap<std::path::PathBuf, String> {
+    intent_fixture::inventory(root)
+        .into_iter()
+        .filter(|(path, _)| {
+            let path = path.to_string_lossy();
+            path.starts_with(".git/csdlc-v3/remote/intents")
+                || path.starts_with(".git/csdlc-v3/semantic")
+        })
+        .collect()
+}
+
 fn plan() -> Value {
     json!({"schema":"csdlc.v3.intent_plan.v1", "slug":"installed-intent-fixture",
       "cards":{"sip":{},"stp":{},"spp":{"dependencies_inline":"Fixture dependencies ready","repo_inputs_inline":"Tracked fixture inputs","target_files_surfaces_inline":"installed intent commands","deliverables_inline":"Run installed lifecycle commands","validation_plan_inline":"Declared Cargo validator","acceptance_criteria_inline":"Installed command behavior is proven","notes_risks_inline":"Synthetic transport and isolated repository"},"vpp":{},"srp":{},"sor":{}},
@@ -49,6 +68,48 @@ fn prepare(fixture: &mut Fixture) {
     ));
 }
 
+fn rehash_native_issue(issue_root: &Path) {
+    let index_path = issue_root.join("index.json");
+    let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+    index.as_object_mut().unwrap().remove("digest");
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(&serde_json::to_vec(&index).unwrap());
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            hasher.update(&fs::read(issue_root.join(format!("cards/{kind}.{suffix}"))).unwrap());
+        }
+    }
+    let intent_plan = issue_root.join("intent-plan.json");
+    if intent_plan.is_file() {
+        hasher.update(b"csdlc.v3.intent_plan.v1\0");
+        hasher.update(&fs::read(intent_plan).unwrap());
+    }
+    index["digest"] = hasher.finalize().to_hex().to_string().into();
+    fs::write(index_path, serde_json::to_vec(&index).unwrap()).unwrap();
+}
+
+fn add_retained_bound_edit_completion(bound: &Path) {
+    let issue_root = bound.join(".csdlc/issues/505");
+    let index: Value =
+        serde_json::from_slice(&fs::read(issue_root.join("index.json")).unwrap()).unwrap();
+    let digest = "a".repeat(64);
+    let path = bound
+        .join(".csdlc/transactions/completed/505")
+        .join(format!("edit-{digest}.json"));
+    fs::write(
+        path,
+        serde_json::to_vec(&json!({
+            "schema":"csdlc.v3.local_mutation_completion.v1",
+            "issue":505,"route":"edit","request_digest":digest,
+            "result":{"route":"edit","issue":505,"mutated":true,"phase":"bound",
+                "generation":index["generation"],"digest":index["digest"],
+                "next_route":"validate","findings":[]}
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+}
+
 fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
     let before = intent_fixture::inventory(&fixture.root);
     let result = success(fixture.run(cwd, &[route, "505"]));
@@ -57,6 +118,467 @@ fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
         before,
         intent_fixture::inventory(&fixture.root),
         "{route} changed fixture bytes"
+    );
+}
+
+#[test]
+fn issue_1029_installed_prepare_reactivates_retained_unbound_native_record() {
+    let mut fixture = Fixture::new("legacy-native-preparation");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let native_issue = primary.join(".git/csdlc-v3/local/issues/505");
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+
+    let status = success(fixture.run(&primary, &["status", "505"]));
+    assert_eq!(status["allowed_next"], json!(["prepare"]));
+    assert_eq!(
+        status["preparation"]["structural_state"],
+        "native_record_present_semantic_preparation_required"
+    );
+    assert_eq!(status["preparation"]["execution_ready"], false);
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "legacy status changed retained source"
+    );
+
+    let input = fixture.write_json("legacy-plan.json", &plan());
+    let prepared = success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(prepared["status"], "completed");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "compatibility preparation changed retained source"
+    );
+    observation(&mut fixture, &primary, "status");
+    observation(&mut fixture, &primary, "validate");
+}
+
+#[test]
+fn issue_1036_installed_prepare_adopts_exact_registered_bound_legacy_record() {
+    let mut fixture = Fixture::new("bound-legacy-semantic-adoption");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    let native_issue = bound.join(".csdlc/issues/505");
+    assert!(bound.is_dir(), "bound target missing: {}", bound.display());
+    assert!(native_issue.join("index.json").is_file());
+    assert!(!primary
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .exists());
+    assert!(!bound.join(".csdlc/transactions/505.json").exists());
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+
+    let input = fixture.write_json("bound-legacy-plan.json", &plan());
+    let prepared = success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(prepared["status"], "completed");
+    assert_eq!(prepared["phase"], "bound");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "bound compatibility preparation changed retained source"
+    );
+    let replayed = success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(replayed["status"], "completed");
+    assert_same_inventory!(native_before, intent_fixture::inventory(&native_issue));
+    observation(&mut fixture, &bound, "status");
+    observation(&mut fixture, &bound, "validate");
+}
+
+#[test]
+fn issue_1036_fast_forward_candidate_head_admits_edit_and_proof() {
+    let mut fixture = Fixture::new("bound-legacy-fast-forward-head");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let plan_path = fixture.write_json("fast-forward-plan.json", &plan());
+    success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", plan_path.to_str().unwrap()],
+    ));
+    success(fixture.run(&bound, &["rebuild", "505"]));
+    success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", plan_path.to_str().unwrap()],
+    ));
+
+    fs::write(bound.join("implementation.txt"), "candidate B\n").unwrap();
+    git(&bound, &["add", "implementation.txt"]);
+    git(&bound, &["commit", "--quiet", "-m", "candidate B"]);
+    let head_b = git(&bound, &["rev-parse", "HEAD"]);
+    let status = success(fixture.run(&bound, &["status", "505"]));
+    assert!(status["result"]["findings"]
+        .as_array()
+        .is_some_and(|findings| findings
+            .iter()
+            .any(|finding| finding["code"] == "binding_live")));
+    assert!(
+        status["allowed_next"]
+            .as_array()
+            .is_some_and(|routes| routes.iter().any(|route| route == "edit")),
+        "{status}"
+    );
+
+    for (name, approved, revision, expected) in [
+        (
+            "refused",
+            false,
+            head_b.as_str(),
+            "intent_amendment_policy_rejected",
+        ),
+        (
+            "wrong-revision",
+            true,
+            "1111111111111111111111111111111111111111",
+            "intent_amendment_revision_mismatch",
+        ),
+    ] {
+        let changes = fixture.write_json(
+            &format!("{name}-implementation.json"),
+            &json!({"schema":"csdlc.v3.intent_changes.v1",
+                "amendment":{"class":"implementation","transition_approved":approved,
+                    "implementation_revision":revision,"new_commit":true},
+                "cards":{"sor":{"summary":"candidate B implemented"}}}),
+        );
+        let before = intent_fixture::inventory(&fixture.root);
+        let rejected = fixture.run(
+            &bound,
+            &["edit", "505", "--changes", changes.to_str().unwrap()],
+        );
+        assert!(
+            !rejected.status.success(),
+            "{name} edit unexpectedly admitted"
+        );
+        assert!(
+            String::from_utf8_lossy(&rejected.stdout).contains(expected),
+            "unexpected {name} rejection: {rejected:?}"
+        );
+        assert_same_inventory!(before, intent_fixture::inventory(&fixture.root), name);
+    }
+
+    let changes = fixture.write_json(
+        "accepted-implementation.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1",
+            "amendment":{"class":"implementation","transition_approved":true,
+                "implementation_revision":head_b,"new_commit":true},
+            "cards":{"sor":{"summary":"candidate B implemented"}}}),
+    );
+    let edited = success(fixture.run(
+        &bound,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(edited["status"], "completed");
+    let semantic: Value =
+        serde_json::from_slice(&fs::read(bound.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    assert_eq!(semantic["inputs"]["binding"]["head"], head_b);
+
+    fs::write(bound.join("implementation.txt"), "candidate C\n").unwrap();
+    git(&bound, &["add", "implementation.txt"]);
+    git(&bound, &["commit", "--quiet", "-m", "candidate C"]);
+    let head_c = git(&bound, &["rev-parse", "HEAD"]);
+    let proof = success(fixture.run(&bound, &["proof", "505"]));
+    assert_eq!(proof["proof"]["status"], "passed");
+    let semantic: Value =
+        serde_json::from_slice(&fs::read(bound.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    assert_eq!(semantic["inputs"]["binding"]["head"], head_c);
+
+    git(&bound, &["reset", "--hard", &head_b]);
+    fs::write(bound.join("unrelated.txt"), "rewritten candidate\n").unwrap();
+    git(&bound, &["add", "unrelated.txt"]);
+    git(&bound, &["commit", "--quiet", "-m", "unrelated candidate"]);
+    let semantic_root = primary.join(".git/csdlc-v3/semantic/issues/505");
+    let semantic_before = intent_fixture::inventory(&semantic_root);
+    let projection_root = bound.join(".csdlc/v3/issues/505");
+    let projection_before = intent_fixture::inventory(&projection_root);
+    let rejected = fixture.run(&bound, &["proof", "505"]);
+    assert!(!rejected.status.success(), "rewritten HEAD admitted proof");
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("intent_semantic_binding_stale"));
+    assert_same_inventory!(semantic_before, intent_fixture::inventory(&semantic_root));
+    assert_same_inventory!(
+        projection_before,
+        intent_fixture::inventory(&projection_root)
+    );
+}
+
+#[test]
+fn issue_1036_bound_legacy_adoption_rejects_mismatched_primary_binding() {
+    let mut fixture = Fixture::new("bound-legacy-wrong-owner");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let primary_binding = primary.join(".git/csdlc-v3/local/bindings/505.json");
+    let mut binding: Value = serde_json::from_slice(&fs::read(&primary_binding).unwrap()).unwrap();
+    binding["branch"] = "codex/505-foreign-owner".into();
+    fs::write(&primary_binding, serde_json::to_vec(&binding).unwrap()).unwrap();
+    let input = fixture.write_json("wrong-owner-plan.json", &plan());
+    let before = intent_fixture::inventory(&fixture.root);
+    let rejected = fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    );
+    assert!(!rejected.status.success());
+    assert!(
+        String::from_utf8_lossy(&rejected.stdout).contains("intent_bound_legacy_binding_mismatch")
+    );
+    assert!(!primary.join(".git/csdlc-v3/semantic/issues/505").exists());
+    assert_same_inventory!(before, intent_fixture::inventory(&fixture.root));
+}
+
+#[test]
+fn issue_1036_interrupted_bound_legacy_adoption_replays_to_completion() {
+    let mut fixture = Fixture::new("bound-legacy-interrupted-adoption");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    let native_issue = bound.join(".csdlc/issues/505");
+    let native_before = intent_fixture::inventory(&native_issue);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let input = fixture.write_json("interrupted-bound-plan.json", &plan());
+    let interrupted = fixture.run_with_env(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_prepare_after_activation",
+        )],
+    );
+    assert_eq!(interrupted.status.code(), Some(91));
+    assert!(primary.join(".git/csdlc-v3/semantic/issues/505").is_dir());
+    let lock_path = primary.join(".git/csdlc-v3/local/locks/505.lock");
+    let old_writer_lock = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(&lock_path)
+        .unwrap();
+    let old_writer_admitted = old_writer_lock.try_lock_exclusive().is_ok();
+    if old_writer_admitted {
+        fs::write(native_issue.join("index.json"), b"old writer mutation\n").unwrap();
+    }
+    assert!(!old_writer_admitted, "old writer entered after activation");
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "old writer changed retained bytes while adoption awaited recovery"
+    );
+    let recovered = success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(recovered["status"], "completed");
+    let released_lock = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(lock_path)
+        .unwrap();
+    assert!(released_lock.try_lock_exclusive().is_ok());
+    assert_same_inventory!(native_before, intent_fixture::inventory(&native_issue));
+    observation(&mut fixture, &bound, "status");
+}
+
+#[test]
+fn issue_1036_concurrent_rejected_adoption_cannot_release_active_fence() {
+    let mut fixture = Fixture::new("bound-legacy-concurrent-adoption");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    let native = bound.join(".csdlc/issues/505");
+    let before = intent_fixture::inventory(&native);
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let valid = fixture.write_json("concurrent-valid.json", &plan());
+    let mut changed = plan();
+    changed["cards"]["sip"] = json!({"goal":"different retained truth"});
+    let invalid = fixture.write_json("concurrent-invalid.json", &changed);
+    let barrier = primary.join(".git/installed-candidate/adoption-continue");
+    let mut first = fixture
+        .command(
+            &bound,
+            &["prepare", "505", "--plan", valid.to_str().unwrap()],
+        )
+        .env("CSDLC_V3_TEST_ADOPTION_BARRIER", &barrier)
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn()
+        .unwrap();
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(20);
+    while !barrier.with_extension("ready").exists() {
+        if first.try_wait().unwrap().is_some() || std::time::Instant::now() >= deadline {
+            let _ = first.kill();
+            panic!(
+                "first adoption did not reach the fenced barrier: {:?}",
+                first.wait_with_output()
+            );
+        }
+        std::thread::sleep(std::time::Duration::from_millis(10));
+    }
+    let second = fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", invalid.to_str().unwrap()],
+    );
+    let native_lock = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(primary.join(".git/csdlc-v3/local/locks/505.lock"))
+        .unwrap();
+    let old_writer_entered = native_lock.try_lock_exclusive().is_ok();
+    if old_writer_entered {
+        FileExt::unlock(&native_lock).unwrap();
+    }
+    fs::write(&barrier, b"continue\n").unwrap();
+    let accepted = first.wait_with_output().unwrap();
+    assert!(
+        !old_writer_entered,
+        "rejected concurrent caller released the accepted caller's fence"
+    );
+    assert!(!second.status.success());
+    assert!(String::from_utf8_lossy(&second.stdout)
+        .contains("bound legacy adoption is already in progress"));
+    assert_eq!(success(accepted)["status"], "completed");
+    assert!(native_lock.try_lock_exclusive().is_ok());
+    FileExt::unlock(&native_lock).unwrap();
+    assert_same_inventory!(before, intent_fixture::inventory(&native));
+    observation(&mut fixture, &bound, "status");
+}
+
+#[test]
+fn issue_1036_bound_legacy_adoption_rejects_changed_plan_and_damaged_completion() {
+    for case in [
+        "changed_plan",
+        "damaged_completion",
+        "missing_completion_chain",
+        "empty_completion_chain",
+        "conflicting_non_tip_generation",
+    ] {
+        let mut fixture = Fixture::new(case);
+        let primary = fixture.root.clone();
+        prepare(&mut fixture);
+        success(fixture.run(&primary, &["bind", "505"]));
+        let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+        add_retained_bound_edit_completion(&bound);
+        fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+        fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+        let mut candidate = plan();
+        let completed = bound.join(".csdlc/transactions/completed/505");
+        match case {
+            "changed_plan" => {
+                candidate["cards"]["sip"] = json!({"goal":"different retained truth"});
+            }
+            "damaged_completion" => {
+                let receipt = fs::read_dir(&completed)
+                    .unwrap()
+                    .map(Result::unwrap)
+                    .map(|entry| entry.path())
+                    .max()
+                    .expect("bound completion receipt");
+                fs::write(receipt, b"{}\n").unwrap();
+            }
+            "missing_completion_chain" => fs::remove_dir_all(&completed).unwrap(),
+            "empty_completion_chain" => {
+                fs::remove_dir_all(&completed).unwrap();
+                fs::create_dir_all(&completed).unwrap();
+            }
+            "conflicting_non_tip_generation" => {
+                for (request_digest, result_digest) in [("b", "d"), ("c", "e")] {
+                    let request_digest = request_digest.repeat(64);
+                    fs::write(
+                        completed.join(format!("edit-{request_digest}.json")),
+                        serde_json::to_vec(&json!({
+                            "schema":"csdlc.v3.local_mutation_completion.v1",
+                            "issue":505,"route":"edit","request_digest":request_digest,
+                            "result":{"route":"edit","issue":505,"mutated":true,
+                                "phase":"bound","generation":1,
+                                "digest":result_digest.repeat(64),"next_route":"validate",
+                                "findings":[]}
+                        }))
+                        .unwrap(),
+                    )
+                    .unwrap();
+                }
+            }
+            _ => unreachable!(),
+        }
+        let input = fixture.write_json(&format!("{case}-plan.json"), &candidate);
+        // The persistent empty client-lock inode is coordination state, not
+        // retained issue truth; it must survive rejected-attempt cleanup.
+        fs::write(
+            primary.join(".git/csdlc-v3/local/locks/505.adoption.lock"),
+            b"",
+        )
+        .unwrap();
+        let before = intent_fixture::inventory(&fixture.root);
+        let rejected = fixture.run(
+            &bound,
+            &["prepare", "505", "--plan", input.to_str().unwrap()],
+        );
+        assert!(!rejected.status.success(), "{case} unexpectedly adopted");
+        let output = String::from_utf8_lossy(&rejected.stdout);
+        assert!(
+            output.contains(if case == "changed_plan" {
+                "bound legacy plan differs from retained sip card truth"
+            } else {
+                "semantic_prepare_refused"
+            }),
+            "unexpected {case} rejection: {output}"
+        );
+        assert!(!primary.join(".git/csdlc-v3/semantic/issues/505").exists());
+        assert_same_inventory!(before, intent_fixture::inventory(&fixture.root), case);
+    }
+}
+
+#[test]
+fn issue_1029_installed_prepare_rejects_digest_consistent_invalid_legacy_cards_without_semantic_state(
+) {
+    let mut fixture = Fixture::new("legacy-native-invalid-cards");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    let native_issue = primary.join(".git/csdlc-v3/local/issues/505");
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::write(native_issue.join("cards/sip.values.json"), b"[]\n").unwrap();
+    rehash_native_issue(&native_issue);
+    let native_before = intent_fixture::inventory(&native_issue);
+    let input = fixture.write_json("invalid-legacy-plan.json", &plan());
+    let rejected = fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    );
+    assert!(
+        !rejected.status.success(),
+        "invalid legacy cards were accepted"
+    );
+    assert!(!primary.join(".git/csdlc-v3/semantic/issues/505").exists());
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&native_issue),
+        "invalid legacy preparation changed retained source"
     );
 }
 
@@ -438,6 +960,51 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
     assert!(!refused.status.success());
     assert!(String::from_utf8_lossy(&refused.stdout).contains("intent_semantic_"));
     assert_same_inventory!(corrupt, intent_fixture::inventory(&fixture.root));
+}
+
+#[test]
+fn installed_rebuild_repairs_projection_before_exact_binding_head_refresh() {
+    let mut fixture = Fixture::new("projection-rebuild-before-rebind");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    success(fixture.run(&linked, &["rebuild", "505"]));
+
+    let manifest = linked.join(".csdlc/v3/issues/505/cards/manifest.json");
+    fs::write(&manifest, b"{}\n").unwrap();
+    git(&linked, &["add", ".csdlc/v3/issues/505"]);
+    git(
+        &linked,
+        &[
+            "commit",
+            "--quiet",
+            "-m",
+            "Retain interrupted projection bytes",
+        ],
+    );
+
+    let blocked = success(fixture.run(&linked, &["status", "505"]));
+    assert_eq!(blocked["projection"]["observation"]["status"], "altered");
+    assert_eq!(blocked["allowed_next"], json!(["rebuild"]));
+
+    let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(rebuilt["status"], "completed");
+    assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
+    git(&linked, &["add", ".csdlc/v3/issues/505"]);
+    git(
+        &linked,
+        &["commit", "--quiet", "-m", "Repair retained projection"],
+    );
+
+    let rebound = success(fixture.run(&linked, &["bind", "505"]));
+    assert_eq!(rebound["status"], "completed");
+    assert_eq!(rebound["binding_refreshed"], true);
+    let rebuilt_after_bind = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(
+        rebuilt_after_bind["projection"]["after"]["status"],
+        "healthy"
+    );
 }
 
 #[test]
@@ -1581,6 +2148,48 @@ fn reviewed_fixture(label: &str) -> (Fixture, std::path::PathBuf) {
 }
 
 #[test]
+fn issue_1036_review_amendment_rejects_before_head_refresh_invalidates_evidence() {
+    let (mut fixture, linked) = reviewed_fixture("review-head-drift-admission");
+    let primary = fixture.root.clone();
+    let binding_a: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    let head_a = binding_a["inputs"]["binding"]["head"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    assert_eq!(binding_a["phase"], "reviewed");
+
+    fs::write(linked.join("review-drift.txt"), "candidate B\n").unwrap();
+    git(&linked, &["add", "review-drift.txt"]);
+    git(&linked, &["commit", "--quiet", "-m", "candidate B"]);
+    assert_ne!(git(&linked, &["rev-parse", "HEAD"]), head_a);
+    let changes = fixture.write_json(
+        "stale-review-amendment.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1",
+            "amendment":{"class":"review","transition_approved":true,"new_commit":true},
+            "cards":{"srp":{"summary":"stale review must not authorize this edit"}}}),
+    );
+    let before = intent_fixture::inventory(&fixture.root);
+    let rejected = fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    );
+    assert!(
+        !rejected.status.success(),
+        "stale review amendment was admitted"
+    );
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("intent_amendment_policy_rejected"));
+    assert_same_inventory!(before, intent_fixture::inventory(&fixture.root));
+    let retained: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    assert_eq!(retained["phase"], "reviewed");
+    assert_eq!(retained["inputs"]["binding"]["head"], head_a);
+    assert!(primary.join(".git/csdlc-v3/semantic/issues/505").is_dir());
+}
+
+#[test]
 fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_receipts() {
     for ordinary_publication in [false, true] {
         let (mut fixture, linked) =
@@ -1607,9 +2216,9 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             let payload: Value = serde_json::from_slice(&failed_readback.stdout).unwrap();
             assert_eq!(payload["status"], "recovery_required");
             assert!(
-                payload["findings"]
+                payload["envelope"]["findings"]
                     .as_array()
-                    .unwrap()
+                    .expect("common result envelope must expose structured findings")
                     .iter()
                     .all(|finding| {
                         let code = finding["code"].as_str().unwrap();
@@ -1621,10 +2230,24 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             );
             assert_eq!(payload["envelope"]["status"], "recovery_required");
             assert_eq!(payload["envelope"]["process_status"], "failed");
-            assert_eq!(payload["envelope"]["effects"]["outcome"], "performed");
+            assert_eq!(
+                payload["envelope"]["effects"]["outcome"], "unknown",
+                "a dropped authenticated readback must preserve unknown-effect truth"
+            );
             assert_eq!(fixture.remote_effects(), 1);
             fixture.remote_flag("drop-publication-readback", false);
             fixture.remote_flag("drop-readback", false);
+            let recovery = success(fixture.run(&primary, &["recover", "505"]));
+            success(fixture.run(
+                &primary,
+                &[
+                    "recover",
+                    "505",
+                    "--execute",
+                    "--preview",
+                    recovery["preview_digest"].as_str().unwrap(),
+                ],
+            ));
             observation(&mut fixture, cwd, "pr-state");
             assert_eq!(
                 fixture.remote_effects(),
@@ -2064,6 +2687,210 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
 }
 
+// PVF #1041: installed deterministic local Git fixture. This proves the
+// explicit no-effect reconciliation for a merged terminal issue whose exact
+// checkout was removed outside native cleanup; no network or paid runner.
+#[test]
+fn cleanup_recover_reconciles_explicit_already_absent_without_prior_operation() {
+    let (mut fixture, linked) = reviewed_fixture("cleanup-already-absent-reconciliation");
+    let primary = fixture.root.clone();
+    success(fixture.run(&primary, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json(
+        "merge.json",
+        &json!({
+            "action":"pull_request_merge",
+            "base":"main",
+            "method":"merge",
+            "operator_approval":"synthetic operator authorizes only fixture PR639 exact candidate merge"
+        }),
+    );
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    success(fixture.run(&linked, &["finish", "505"]));
+
+    let binding_path = primary.join(".git/csdlc-v3/local/bindings/505.json");
+    let binding: Value = serde_json::from_slice(&fs::read(&binding_path).unwrap()).unwrap();
+    let receipt_path = primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json");
+    let receipt = fs::read(&receipt_path).unwrap();
+    let disposition = fixture.write_json(
+        "absent-cleanup-disposition.json",
+        &json!({
+            "schema":"csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1",
+            "disposition":"reconcile_already_absent_cleanup",
+            "repository":"agent-logic/agent-design-language",
+            "issue":505,
+            "worktree":binding["worktree"],
+            "branch":binding["branch"],
+            "head":intent_fixture::git(&linked, &["rev-parse", "HEAD"]),
+            "terminal_receipt_digest":blake3::hash(&receipt).to_hex().to_string(),
+            "operator":"synthetic-fixture-operator",
+            "rationale":"The exact terminal checkout was externally removed before native cleanup reserved an operation.",
+            "evidence_refs":["fixture:externally-removed-worktree"]
+        }),
+    );
+
+    let present = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !present.status.success(),
+        "present checkout was reconciled as absent"
+    );
+    assert!(
+        String::from_utf8_lossy(&present.stdout).contains("intent_cleanup_absence_target_present"),
+        "unexpected present-target failure: stdout={} stderr={}",
+        String::from_utf8_lossy(&present.stdout),
+        String::from_utf8_lossy(&present.stderr)
+    );
+
+    intent_fixture::git(
+        &primary,
+        &["worktree", "remove", "--force", linked.to_str().unwrap()],
+    );
+    assert!(!linked.exists());
+    let binding_bytes = fs::read(&binding_path).unwrap();
+    let mut stale_binding = binding.clone();
+    stale_binding["head"] = json!("0".repeat(40));
+    stale_binding["registration"] = json!("0".repeat(64));
+    fs::write(&binding_path, serde_json::to_vec(&stale_binding).unwrap()).unwrap();
+    let stale = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !stale.status.success()
+            && String::from_utf8_lossy(&stale.stdout).contains("intent_cleanup_binding_invalid"),
+        "stale local binding was accepted: {stale:?}"
+    );
+    fs::write(&binding_path, binding_bytes).unwrap();
+    let preview = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    assert_eq!(preview["status"], "ready");
+    assert_eq!(preview["performed_mutation"], false);
+    let token = preview["preview_token"].as_str().expect("preview token");
+    let interrupted = fixture.run_with_env(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            token,
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "cleanup_absence_after_reservation",
+        )],
+    );
+    assert_eq!(interrupted.status.code(), Some(91));
+    fs::create_dir_all(&linked).unwrap();
+    let overlapped = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(
+        !overlapped.status.success()
+            && String::from_utf8_lossy(&overlapped.stdout)
+                .contains("intent_cleanup_absence_target_present"),
+        "restored checkout was reconciled as absent: {overlapped:?}"
+    );
+    fs::remove_dir(&linked).unwrap();
+    let resumed = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+    let resumed_token = resumed["preview_token"].as_str().expect("resumed token");
+    let reconciled = success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--execute",
+            "--preview",
+            resumed_token,
+        ],
+    ));
+    assert_eq!(reconciled["status"], "expected_noop");
+    assert_eq!(reconciled["performed_mutation"], false);
+    assert_eq!(
+        reconciled["semantic"]["effect_truth"], "not_performed",
+        "reconciliation fabricated a native cleanup effect"
+    );
+
+    let root =
+        SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
+            .unwrap();
+    let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+    let snapshot = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        other => panic!("{other:?}"),
+    };
+    assert!(snapshot.pending().is_none());
+    assert_eq!(
+        snapshot.completed().last().unwrap().truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::NotPerformed
+    );
+    assert!(
+        !intent_fixture::git(&primary, &["worktree", "list", "--porcelain"])
+            .contains(linked.to_str().unwrap()),
+        "externally removed checkout remained registered"
+    );
+}
+
 #[test]
 fn installed_generated_request_roundtrips_exact_stdout_without_manual_extraction() {
     let mut fixture = Fixture::new("generated-wrapper");
@@ -2337,6 +3164,51 @@ fn installed_remote_recover_retries_once_only_after_authenticated_absence() {
 }
 
 #[test]
+fn installed_remote_recover_retries_ready_once_after_crash_before_dispatch() {
+    let (mut fixture, linked) = reviewed_fixture("remote-ready-reserved-crash");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(fixture.remote_pr()["draft"], true);
+
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 2);
+    assert_eq!(fixture.remote_pr()["draft"], false);
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(
+        fixture.remote_effects(),
+        2,
+        "ready recovery replayed dispatch"
+    );
+}
+
+#[test]
 fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let (mut fixture, linked) = reviewed_fixture("remote-recover-reserved-crash");
     let primary = fixture.root.clone();
@@ -2357,6 +3229,21 @@ fn installed_remote_recover_retries_once_after_crash_before_dispatch() {
     let preview = success(fixture.run(&primary, &["recover", "505"]));
     assert_eq!(preview["status"], "recovery_required");
     assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    fixture.remote_flag("wrong-branch-head", true);
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+    fixture.remote_flag("wrong-branch-head", false);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
     success(fixture.run(
         &primary,
         &[
@@ -2404,6 +3291,244 @@ fn installed_remote_recover_attaches_retained_receipt_after_native_dispatch_cras
     assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
     let settled = success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(settled["envelope"]["effects"]["outcome"], "none");
+}
+
+#[test]
+fn installed_remote_recover_pr_create_waits_for_branch_and_reuses_definite_rejection_once() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-branch-later");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fixture.remote_flag("remote-head-present", false);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let missing = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!missing.status.success());
+    assert!(String::from_utf8_lossy(&missing.stdout).contains("github_pr_head_branch_missing"));
+    assert_eq!(fixture.remote_effects(), 0);
+    let recoveries = primary.join(".git/csdlc-v3/remote/recoveries");
+    assert!(
+        !recoveries.exists() || fs::read_dir(&recoveries).unwrap().next().is_none(),
+        "missing branch consumed recovery"
+    );
+
+    // Model the #1028 compatibility shape: branch observation races with an
+    // authenticated create rejection, so the recovery receipt is durable but
+    // the semantic operation retains the definite rejection.
+    fixture.remote_flag("remote-head-present", true);
+    fixture.remote_flag("reject-pr-create", true);
+    let rejected_preview = success(fixture.run(&primary, &["recover", "505"]));
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            rejected_preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+    assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+
+    fixture.remote_flag("reject-pr-create", false);
+    let converging = success(fixture.run(&primary, &["recover", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            converging["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(
+        fixture.remote_pr()["head"]["sha"],
+        git(&linked, &["rev-parse", "HEAD"])
+    );
+    success(fixture.run(&linked, &["recover", "505"]));
+    assert_eq!(fixture.remote_effects(), 1, "replay duplicated PR creation");
+    assert_eq!(fs::read_dir(&recoveries).unwrap().count(), 1);
+}
+
+#[test]
+fn installed_remote_recover_rejected_reuse_crash_never_dispatches_twice() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-rejected-reuse-crash");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+
+    fixture.remote_flag("reject-pr-create", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let rejected = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!rejected.status.success());
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fixture.remote_flag("reject-pr-create", false);
+    fixture.remote_flag("drop-publication-readback", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let crashed = fixture.run_with_env(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_recovery_after_native",
+        )],
+    );
+    assert_eq!(crashed.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+
+    fixture.remote_flag("drop-publication-readback", false);
+    fixture.remote_flag("drop-readback", false);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let restart = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!restart.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "old definite rejection authorized a second PR create after ambiguous dispatch"
+    );
+}
+
+#[test]
+fn installed_remote_recover_pr_create_rejects_missing_or_wrong_head_before_reservation() {
+    for (name, flag, code) in [
+        (
+            "pr-create-initial-missing-head",
+            "remote-head-present",
+            "github_pr_head_branch_missing",
+        ),
+        (
+            "pr-create-initial-wrong-head",
+            "remote-head-wrong",
+            "github_pr_head_branch_mismatch",
+        ),
+    ] {
+        let (mut fixture, linked) = reviewed_fixture(name);
+        fixture.remote_flag(flag, flag == "remote-head-wrong");
+        let before = publication_reservation_inventory(&fixture.root);
+        let rejected = fixture.run(&linked, &["publish", "505"]);
+        assert!(!rejected.status.success());
+        assert!(String::from_utf8_lossy(&rejected.stdout).contains(code));
+        assert_eq!(fixture.remote_effects(), 0);
+        assert_eq!(
+            before,
+            publication_reservation_inventory(&fixture.root),
+            "{name} changed native intent or semantic reservation state"
+        );
+    }
+}
+
+#[test]
+fn installed_remote_recover_pr_create_never_reuses_ambiguous_dispatch_or_wrong_branch() {
+    let (mut fixture, linked) = reviewed_fixture("pr-create-recovery-ambiguous");
+    let primary = fixture.root.clone();
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    fixture.remote_flag("drop-publication-readback", true);
+    let preview = success(fixture.run(&primary, &["recover", "505"]));
+    let uncertain_output = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!uncertain_output.status.success());
+    let uncertain: Value = serde_json::from_slice(&uncertain_output.stdout).unwrap();
+    assert_eq!(uncertain["status"], "recovery_required");
+    assert_eq!(fixture.remote_effects(), 1);
+    fs::remove_file(primary.join(".git/installed-candidate/remote-pr.json")).unwrap();
+    fixture.remote_flag("drop-publication-readback", false);
+    fixture.remote_flag("drop-readback", false);
+    let exhausted = success(fixture.run(&primary, &["recover", "505"]));
+    let settled = fixture.run(
+        &primary,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            exhausted["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    assert!(!settled.status.success());
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "ambiguous dispatch reused recovery"
+    );
+
+    let (mut wrong, wrong_linked) = reviewed_fixture("pr-create-recovery-wrong-head");
+    wrong.remote_flag("remote-head-wrong", true);
+    let before = publication_reservation_inventory(&wrong.root);
+    let rejected = wrong.run(&wrong_linked, &["publish", "505"]);
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("github_pr_head_branch_mismatch"));
+    assert_eq!(wrong.remote_effects(), 0);
+    assert_eq!(before, publication_reservation_inventory(&wrong.root));
 }
 
 #[test]

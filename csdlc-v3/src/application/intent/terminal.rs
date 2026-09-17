@@ -15,6 +15,9 @@ use crate::{
 use serde_json::{json, Value};
 use std::{fs, path::PathBuf};
 
+const ABSENT_CLEANUP_DISPOSITION_SCHEMA: &str =
+    "csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1";
+
 fn semantic_error(error: semantic::Error) -> String {
     format!("intent_terminal_semantic_{error:?}")
 }
@@ -41,7 +44,11 @@ fn semantic_for(
             return context.semantic_recovery_context(pending.id());
         }
     }
-    context.semantic_context()
+    if command == SemanticCommand::RecordCleanup {
+        context.semantic_cleanup_context()
+    } else {
+        context.semantic_context()
+    }
 }
 fn effect_result(
     context: &Context,
@@ -146,6 +153,130 @@ fn native_request(context: &Context) -> Result<TerminalRouteRequest, String> {
         "expected_head_sha":context.head,"mode":"closing","credential_names":["GITHUB_TOKEN"]}))
         .map_err(|_|"intent_terminal_request_invalid".into())
 }
+fn attach_terminal_observation(
+    context: &Context,
+    command: SemanticCommand,
+    identity: &str,
+    evidence: &Value,
+    facts: Facts,
+) -> Result<(), String> {
+    let semantic = semantic_for(context, command)?;
+    let bytes = encode(evidence)?;
+    let operation = EffectRequest::new(
+        command,
+        NativeIdentity::new("terminal-finish".into(), identity.to_owned())
+            .map_err(semantic_error)?,
+        semantic.origin.clone(),
+        &bytes,
+    )
+    .map_err(semantic_error)?;
+    let reservation = DurableTransactionStore::reserve_effect(
+        &semantic.root,
+        EffectAdmission::from_native_owner(
+            semantic.admission.clone(),
+            operation.origin().clone(),
+            facts.clone(),
+        ),
+        operation.clone(),
+    )
+    .map_err(semantic_error)?;
+    let ticket = match reservation {
+        Reservation::AlreadyCompleted(_) => return Ok(()),
+        Reservation::AlreadyPending(ticket) | Reservation::Reserved(ticket) => ticket,
+    };
+    let outcome = VerifiedOutcome::from_native_owner(
+        OutcomeKind::Success,
+        EffectTruth::NotPerformed,
+        bytes,
+        facts,
+        operation.native_identity().clone(),
+    )
+    .map_err(semantic_error)?;
+    let observed = semantic.fresh_for_effect(ticket.id()).unwrap_or_else(|_| {
+        AttachmentAdmission::from_native_owner(
+            semantic.snapshot.inputs().authority().clone(),
+            operation.origin().clone(),
+        )
+    });
+    match DurableTransactionStore::attach_outcome(&semantic.root, ticket, outcome, observed)
+        .map_err(semantic_error)?
+    {
+        Attachment::AlreadyCompleted(_) | Attachment::Completed(_) => {
+            let snapshot =
+                match DurableTransactionStore::observe_issue(&semantic.root, &semantic.key)
+                    .map_err(semantic_error)?
+                {
+                    semantic::Observation::Current(value)
+                    | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                    _ => return Err("intent_terminal_semantic_state_unavailable".into()),
+                };
+            let _ = semantic.complete_projection(&snapshot)?;
+            Ok(())
+        }
+        Attachment::RecoveryRequired(_) => Err("intent_terminal_merge_recovery_required".into()),
+    }
+}
+fn catch_up_terminal_merge_state(
+    context: &Context,
+    staged: &TerminalRoutePlan,
+) -> Result<(), String> {
+    if staged.status != TerminalRouteStatus::Ready {
+        return Ok(());
+    }
+    let Some(finish) = staged.finish.as_ref() else {
+        return Ok(());
+    };
+    let evidence = json!({
+        "schema":"csdlc.v3.semantic_terminal_merge_observation.v1",
+        "repository":context.repository,
+        "issue":context.issue,
+        "head":context.head,
+        "finish":finish
+    });
+    let semantic = semantic_for(context, SemanticCommand::MarkMergeReady)
+        .or_else(|_| semantic_for(context, SemanticCommand::RecordMerge))
+        .or_else(|_| semantic_for(context, SemanticCommand::Finish))?;
+    match semantic.snapshot.phase() {
+        crate::lifecycle::LifecycleState::Published => {
+            attach_terminal_observation(
+                context,
+                SemanticCommand::MarkMergeReady,
+                &format!("merge-ready:{}", context.head),
+                &evidence,
+                Facts {
+                    merge_ready: true,
+                    ..Default::default()
+                },
+            )?;
+            attach_terminal_observation(
+                context,
+                SemanticCommand::RecordMerge,
+                &format!("merged:{}", context.head),
+                &evidence,
+                Facts {
+                    merge_ready: true,
+                    merged: true,
+                    ..Default::default()
+                },
+            )?;
+        }
+        crate::lifecycle::LifecycleState::MergeReady => {
+            attach_terminal_observation(
+                context,
+                SemanticCommand::RecordMerge,
+                &format!("merged:{}", context.head),
+                &evidence,
+                Facts {
+                    merge_ready: true,
+                    merged: true,
+                    ..Default::default()
+                },
+            )?;
+        }
+        _ => {}
+    }
+    Ok(())
+}
 fn state_root(context: &Context) -> Result<PathBuf, String> {
     operational_state_root(&context.primary)
         .map_err(|_| "intent_terminal_state_root_invalid".into())
@@ -156,6 +287,278 @@ fn file_digest(path: &std::path::Path) -> Result<Option<String>, String> {
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(None),
         Err(_) => Err("intent_terminal_state_unreadable".into()),
     }
+}
+
+pub fn recover_absent_cleanup(
+    context: &Context,
+    request: &IntentRequest,
+) -> Result<Option<Value>, String> {
+    if request.content.get("schema").and_then(Value::as_str)
+        != Some(ABSENT_CLEANUP_DISPOSITION_SCHEMA)
+    {
+        return Ok(None);
+    }
+    #[derive(serde::Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct Disposition {
+        schema: String,
+        disposition: String,
+        repository: String,
+        issue: u64,
+        worktree: PathBuf,
+        branch: String,
+        head: String,
+        terminal_receipt_digest: String,
+        operator: String,
+        rationale: String,
+        evidence_refs: Vec<String>,
+    }
+    let approved: Disposition = serde_json::from_value(request.content.clone())
+        .map_err(|_| "intent_cleanup_absence_disposition_invalid")?;
+    if approved.schema != ABSENT_CLEANUP_DISPOSITION_SCHEMA
+        || approved.disposition != "reconcile_already_absent_cleanup"
+        || approved.repository != context.repository
+        || approved.issue != context.issue
+        || approved.operator.trim().is_empty()
+        || approved.rationale.trim().is_empty()
+        || approved.evidence_refs.is_empty()
+        || approved
+            .evidence_refs
+            .iter()
+            .any(|reference| reference.trim().is_empty())
+    {
+        return Err("intent_cleanup_absence_disposition_invalid".into());
+    }
+    let output_root = state_root(context)?;
+    let receipt_path =
+        output_root.join(format!("evidence/{}/terminal-receipt.json", context.issue));
+    let receipt_bytes = fs::read(&receipt_path).map_err(|_| "intent_terminal_receipt_required")?;
+    let receipt: DurableTerminalReceipt =
+        serde_json::from_slice(&receipt_bytes).map_err(|_| "intent_terminal_receipt_invalid")?;
+    let receipt_digest = blake3::hash(&receipt_bytes).to_hex().to_string();
+    let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
+    if receipt.schema != "csdlc.v3.terminal_receipt.v1"
+        || receipt.repository != context.repository
+        || receipt.issue != context.issue
+        || receipt.disposition != "closed_out"
+        || receipt.pull_request.is_none()
+        || receipt.head_sha != approved.head
+        || approved.terminal_receipt_digest != receipt_digest
+        || receipt.state_digest.is_none()
+        || receipt.state_digest != file_digest(&state_path)?
+    {
+        return Err("intent_terminal_receipt_mismatch".into());
+    }
+    let binding_path = output_root.join(format!("bindings/{}.json", context.issue));
+    let binding = super::read_json(&binding_path).map_err(|_| "intent_cleanup_binding_required")?;
+    if binding["schema"] != "csdlc.v3.binding.v1"
+        || binding["issue"] != context.issue
+        || binding["worktree"].as_str() != approved.worktree.to_str()
+        || binding["branch"] != approved.branch
+    {
+        return Err("intent_cleanup_binding_invalid".into());
+    }
+    let topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
+    if approved.worktree.exists()
+        || topology
+            .lines()
+            .filter_map(|line| line.strip_prefix("worktree "))
+            .any(|path| path == approved.worktree.to_str().unwrap_or_default())
+    {
+        return Err("intent_cleanup_absence_target_present".into());
+    }
+    let semantic = context.semantic_cleanup_absence_context()?;
+    let semantic_binding = semantic
+        .snapshot
+        .inputs()
+        .binding()
+        .ok_or("intent_cleanup_semantic_binding_required")?;
+    if semantic_binding.worktree != approved.worktree
+        || semantic_binding.branch != approved.branch
+        || semantic_binding.head != approved.head
+    {
+        return Err("intent_cleanup_semantic_binding_mismatch".into());
+    }
+    let expected_registration = blake3::hash(
+        serde_json::to_string(&json!({
+            "branch":semantic_binding.branch,
+            "worktree":semantic_binding.worktree
+        }))
+        .map_err(|_| "intent_cleanup_binding_invalid")?
+        .as_bytes(),
+    )
+    .to_hex()
+    .to_string();
+    if semantic_binding.registration != expected_registration
+        || binding
+            .get("head")
+            .is_some_and(|head| head != &json!(semantic_binding.head))
+        || binding
+            .get("registration")
+            .is_some_and(|registration| registration != &json!(semantic_binding.registration))
+    {
+        return Err("intent_cleanup_binding_invalid".into());
+    }
+    if semantic
+        .snapshot
+        .pending()
+        .is_some_and(|pending| pending.command() != SemanticCommand::RecordCleanup)
+        || semantic.snapshot.completed().iter().any(|done| {
+            DurableTransactionStore::inspect_effect(&semantic.root, &semantic.key, done.id())
+                .is_ok_and(|inspection| {
+                    inspection.request().command() == SemanticCommand::RecordCleanup
+                })
+        })
+    {
+        return Err("intent_cleanup_absence_operation_already_exists".into());
+    }
+
+    let native: TerminalRouteRequest = serde_json::from_value(json!({
+        "repository":context.repository,
+        "issue":context.issue,
+        "expected_head_sha":receipt.head_sha,
+        "pull_request":receipt.pull_request,
+        "mode":"closing",
+        "credential_names":["GITHUB_TOKEN"]
+    }))
+    .map_err(|_| "intent_terminal_request_invalid")?;
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let staged = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|finding| finding.code)?;
+    if staged.status != TerminalRouteStatus::Ready {
+        return Err("intent_cleanup_absence_remote_terminal_required".into());
+    }
+
+    let packet = json!({
+        "schema":"csdlc.v3.semantic_cleanup_absence_reconciliation.v1",
+        "repository":context.repository,
+        "issue":context.issue,
+        "binding":semantic_binding,
+        "terminal_receipt_digest":receipt_digest,
+        "topology":topology,
+        "disposition":request.content,
+        "remote_terminal":staged
+    });
+    let token = blake3::hash(&encode(&packet)?).to_hex().to_string();
+    if !request.execute {
+        return Ok(Some(json!({
+            "status":"ready",
+            "read_only":true,
+            "operational_authority":false,
+            "performed_mutation":false,
+            "preview_token":token,
+            "reconciliation":packet
+        })));
+    }
+    if request.preview.as_deref() != Some(token.as_str()) {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    context.fresh()?;
+    if approved.worktree.exists()
+        || git(&context.primary, &["worktree", "list", "--porcelain"])? != packet["topology"]
+        || file_digest(&receipt_path)?.as_deref() != Some(approved.terminal_receipt_digest.as_str())
+    {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let refreshed_terminal = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|finding| finding.code)?;
+    if refreshed_terminal.status != TerminalRouteStatus::Ready
+        || serde_json::to_value(&refreshed_terminal)
+            .map_err(|_| "intent_terminal_observation_invalid")?
+            != packet["remote_terminal"]
+    {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    let disposition_bytes = encode(&request.content)?;
+    let origin = EffectOrigin::cleanup(
+        semantic_binding.clone(),
+        CleanupIdentity::from_absence_reconciliation(
+            receipt_bytes,
+            encode(&packet)?,
+            disposition_bytes.clone(),
+        )
+        .map_err(semantic_error)?,
+    );
+    let proposed = EffectRequest::new(
+        SemanticCommand::RecordCleanup,
+        NativeIdentity::new("terminal-cleanup-absence-reconciliation".into(), token)
+            .map_err(semantic_error)?,
+        origin,
+        &encode(&json!({
+            "schema":ABSENT_CLEANUP_DISPOSITION_SCHEMA,
+            "disposition":request.content,
+            "reconciliation":packet
+        }))?,
+    )
+    .map_err(semantic_error)?;
+    let operation = if let Some(pending) = semantic.snapshot.pending() {
+        let retained =
+            DurableTransactionStore::inspect_effect(&semantic.root, &semantic.key, pending.id())
+                .map_err(semantic_error)?;
+        if retained.request() != &proposed {
+            return Err("intent_cleanup_absence_operation_already_exists".into());
+        }
+        retained.request().clone()
+    } else {
+        proposed
+    };
+    let facts = Facts {
+        terminal_receipt: true,
+        cleanup: true,
+        ..Default::default()
+    };
+    let ticket = match DurableTransactionStore::reserve_effect(
+        &semantic.root,
+        EffectAdmission::from_native_owner(
+            semantic.admission.clone(),
+            operation.origin().clone(),
+            facts.clone(),
+        ),
+        operation.clone(),
+    )
+    .map_err(semantic_error)?
+    {
+        Reservation::Reserved(ticket) | Reservation::AlreadyPending(ticket) => ticket,
+        Reservation::AlreadyCompleted(_) => {
+            return Err("intent_cleanup_absence_operation_already_exists".into())
+        }
+    };
+    if std::env::var("CSDLC_V3_TEST_CRASH_POINT").as_deref()
+        == Ok("cleanup_absence_after_reservation")
+    {
+        std::process::exit(91);
+    }
+    let reserved_topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
+    let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let reserved_terminal = prepare_terminal_finish_with_github_observation(&native, &mut process)
+        .map_err(|finding| finding.code)?;
+    if approved.worktree.exists()
+        || reserved_topology != packet["topology"]
+        || file_digest(&receipt_path)?.as_deref() != Some(approved.terminal_receipt_digest.as_str())
+        || reserved_terminal.status != TerminalRouteStatus::Ready
+        || serde_json::to_value(&reserved_terminal)
+            .map_err(|_| "intent_terminal_observation_invalid")?
+            != packet["remote_terminal"]
+    {
+        return Err("intent_cleanup_absence_changed_after_reservation".into());
+    }
+    semantic.fresh_for_recovery_effect(ticket.id())?;
+    Ok(Some(effect_result(
+        context,
+        &semantic,
+        ticket,
+        &operation,
+        Ok(json!({
+            "status":"expected_noop",
+            "read_only":false,
+            "operational_authority":false,
+            "performed_mutation":false,
+            "historical_effect_truth":EffectTruth::NotPerformed,
+            "reconciled_absence":packet
+        })),
+        facts,
+    )?))
 }
 
 pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> {
@@ -292,6 +695,34 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 .map_err(semantic_error)?,
         )
         .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+        if retained["schema"] == ABSENT_CLEANUP_DISPOSITION_SCHEMA {
+            let completed = semantic
+                .snapshot
+                .completed()
+                .iter()
+                .find(|done| done.id() == &selected)
+                .ok_or("intent_cleanup_semantic_completion_required")?;
+            if completed.outcome() != OutcomeKind::Success
+                || completed.truth() != EffectTruth::NotPerformed
+            {
+                return Err("intent_cleanup_semantic_success_required".into());
+            }
+            return Ok(json!({
+                "status":"expected_noop",
+                "read_only":true,
+                "operational_authority":false,
+                "performed_mutation":false,
+                "historical_effect_truth":"not_performed",
+                "issue":context.issue,
+                "terminal_head":receipt.head_sha,
+                "semantic":{
+                    "operation_id":completed.id().as_str(),
+                    "outcome":completed.outcome(),
+                    "effect_truth":completed.truth(),
+                    "version":semantic.snapshot.version()
+                }
+            }));
+        }
         let expected = encode(&retained["archive_identity"])?;
         let archive = semantic_matching_retained_cleanup_archive_identity(
             &context.primary,
@@ -446,6 +877,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             } else {
                 SemanticCommand::Finish
             };
+            if command == SemanticCommand::Finish {
+                catch_up_terminal_merge_state(context, &staged)?;
+            }
             let semantic = semantic_for(context, command)?;
             let bytes = encode(&native)?;
             let operation = EffectRequest::new(
@@ -461,6 +895,8 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             .map_err(semantic_error)?;
             let facts = Facts {
                 terminal: true,
+                merged: native.no_pr_closeout.is_none()
+                    && staged.status == TerminalRouteStatus::Ready,
                 no_pr_disposition: native.no_pr_closeout.is_some(),
                 ..Default::default()
             };

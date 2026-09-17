@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csdlc.sim07.command_result.v1",
+  "scenario_id": "semantic_remote_review",
+  "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test semantic_remote_review -- --test-threads=1",
+  "started_at": "2026-09-16T18:08:14Z",
+  "ended_at": "2026-09-16T18:08:15Z",
+  "elapsed_seconds": 1,
+  "exit_status": 0,
+  "test_counts": {
+    "passed": 2,
+    "failed": 0,
+    "ignored": 0
+  },
+  "stdout_sha256": "8da0375fe8220afaba10d3dbc12650540efeea7e4f7d795fabc417eb33dcf6ca",
+  "stderr_sha256": "9aca2cff523d41bf5ecec01ad4d5d0d4b927de244d6df1fe4788001e7cea44b7"
+}
