@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-ADAPTER (#878).
 Participating owners: CF-ADAPTER (#878), CF-ADAPTER-GITHUB (#879), CF-ADAPTER-CI (#880).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -54,3 +54,18 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove the implementation, authorize provider/cloud execution or external publication, or satisfy the associated issue acceptance tests. Conflicts and required unresolved decisions remain visible in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
+
+Packet and Scope provide shared acquisition identity; local and GitHub acquisition produce Packet, while CI records a separate acquisition receipt around the packet. Acquisition remains distinct from evidence admission.
+
+Proposed clarification: Clarify that route-specific receipts supplement the shared packet rather than requiring byte-identical envelopes. Equivalent source identity does not imply every route has equal coverage.
+
+- [adl/src/codefriend/ingestion/mod.rs](../../../../adl/src/codefriend/ingestion/mod.rs)
+- [adl/src/codefriend/ingestion/local.rs](../../../../adl/src/codefriend/ingestion/local.rs)
+- [adl/src/codefriend/ingestion/github.rs](../../../../adl/src/codefriend/ingestion/github.rs)
+- [adl/src/codefriend/ingestion/ci.rs](../../../../adl/src/codefriend/ingestion/ci.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

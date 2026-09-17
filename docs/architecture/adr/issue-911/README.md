@@ -16,3 +16,7 @@ These twelve issue-local candidates remain Proposed. Accepted numeric ADRs remai
 - [ADR-CSDLC-02: Single-writer transition and recovery](adr-csdlc-02.md)
 
 [Milestone decision packet](../../../milestones/v0.92.2/adr/issue-911/README.md) contains the full69-task map, source manifest, validation and unresolved acceptance dispositions.
+
+## Current reconciliation
+
+The [issue-945 decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) contains current implementation observations and revised candidate hashes. This issue-911 review and source snapshot remain historical; they do not review or approve later changed bytes. Formal acceptance remains pending.

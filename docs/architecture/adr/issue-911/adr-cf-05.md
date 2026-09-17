@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-GOV (#887).
 Participating owners: CF-GOV (#887), CF-GOV-CI (#888).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -18,7 +18,7 @@ The milestone splits a local fitness runner from its CI adapter. Their atomic co
 
 ## Decision
 
-Declare machine-checkable architecture invariants and execute them through the local CF-GOV runner. Emit deterministic pass/fail results and actionable locations for the declared rule and scope. Keep questions needing human judgment visible as such; neither an unevaluated recommendation nor a missing policy may become a pass. Reject hidden policy that cannot be traced to the declared input.
+Declare supported machine-checkable architecture invariants and execute them through the local CF-GOV runner. The current implemented rule kind is forbidden_declared_use; additional invariant kinds require explicit implementation and qualification. Emit deterministic pass/fail results and actionable locations for the declared rule and scope. Keep questions needing human judgment visible as such; neither an unevaluated recommendation nor a missing policy may become a pass. Reject hidden policy that cannot be traced to the declared input.
 
 CF-GOV-CI invokes the same local runner and propagates its pass, fail and error states to actual CI exit status and retained artifacts. CI must not contain a second interpretation of the invariant. A runner error or missing result artifact cannot produce successful gate evidence. This governs the bounded architecture fitness function, not all policy decisions in ADL or unrestricted execution of repository scripts.
 
@@ -53,3 +53,16 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove the implementation, authorize provider/cloud execution or external publication, or satisfy the associated issue acceptance tests. Conflicts and required unresolved decisions remain visible in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
+
+Policy currently admits only forbidden_declared_use. Status maps Pass/Fail/Error to 0/1/2. The CI verifier checks candidate, packet and policy identities and validates the local report instead of defining another predicate.
+
+Proposed clarification: Narrow the implemented rule inventory to forbidden_declared_use; broader architecture fitness policies need separate implementations and proof.
+
+- [adl/src/codefriend/governance/local.rs](../../../../adl/src/codefriend/governance/local.rs)
+- [adl/src/codefriend/governance/ci.rs](../../../../adl/src/codefriend/governance/ci.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

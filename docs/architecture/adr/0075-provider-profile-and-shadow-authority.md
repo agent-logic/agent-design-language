@@ -47,3 +47,5 @@ This packet inspected source contracts and retained evidence. It made no provide
 ## Approval Boundary
 
 Review may accept this bounded configuration/authority record. It cannot authorize a provider call or promote shadow results into governed execution.
+
+Refinement accepted under #945: [ADR 0085 (ADR-PLAT-01)](../../adr/0085-plat-01.md). This link does not change the status of this source record.

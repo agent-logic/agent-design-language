@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-EVIDENCE (#881).
 Participating owners: CF-EVIDENCE (#881), CF-REVIEW (#890).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -18,7 +18,7 @@ CodeFriend reads potentially hostile repository text and creates durable reports
 
 ## Decision
 
-Treat source files, comments, embedded instructions and retrieved artifacts as untrusted evidence. Their contents cannot authorize tool execution, repository mutation, credential access or publication. Apply the declared redaction and privacy boundary before model use and durable evidence retention, with explicit retention and deletion disposition attached to admitted evidence. CF-EVIDENCE owns this boundary; CF-REVIEW preserves it in lane inputs and CF-UX separately enforces publication approval.
+Treat source files, comments, embedded instructions and retrieved artifacts as untrusted evidence. Their contents cannot authorize tool execution, repository mutation, credential access or publication. Apply the declared redaction and privacy boundary (currently bounded known-unsafe whole-object omission) before model use and durable evidence retention, with explicit retention and deletion disposition attached to admitted evidence. CF-EVIDENCE owns this boundary; CF-REVIEW preserves it in lane inputs and CF-UX separately enforces publication approval.
 
 Keep provider credentials and private manuscript contents out of public packets. A removed or redacted object cannot reappear through a renderer or a retrieved prior review without passing the same privacy contract. Record missing or withheld evidence as a scope limitation rather than inventing support for a finding. This is a bounded product trust boundary, not a promise to detect every possible secret or prompt injection.
 
@@ -54,3 +54,18 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove the implementation, authorize provider/cloud execution or external publication, or satisfy the associated issue acceptance tests. Conflicts and required unresolved decisions remain visible in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
+
+The evidence redaction marker is known_unsafe_whole_object_omission_v1 and trust is untrusted_repository_text. Admission has bounded retention and expiry. Review constructs scoped lane inputs from admitted evidence.
+
+Proposed clarification: Specify bounded known-unsafe whole-object omission rather than imply comprehensive secret discovery, arbitrary text sanitization or retroactive purge of already exported copies.
+
+- [adl/src/codefriend/ingestion/mod.rs](../../../../adl/src/codefriend/ingestion/mod.rs)
+- [adl/src/codefriend/evidence/mod.rs](../../../../adl/src/codefriend/evidence/mod.rs)
+- [adl/src/codefriend/evidence/store.rs](../../../../adl/src/codefriend/evidence/store.rs)
+- [adl/src/codefriend/review/runner.rs](../../../../adl/src/codefriend/review/runner.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-COG (#882).
 Participating owners: CF-COG (#882), CF-COG-IMPACT (#883), CF-COG-RATIONALE (#884), CF-COG-DRIFT (#886).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -18,7 +18,7 @@ Four atomic tasks separately own the structure reporter, change-impact reporter,
 
 ## Decision
 
-Build explanations from the admitted repository graph and its declared coverage. CF-COG reports dependency, layering, coupling and connascence findings with traceable evidence. CF-COG-IMPACT traces a changed symbol or module across known boundaries and exposes unknown edges; an opaque score is not an acceptable substitute. CF-COG-RATIONALE relates independently deployable boundaries to available ADR evidence and reports missing or conflicting rationale explicitly.
+Build explanations from the admitted repository graph and its declared coverage. CF-COG reports dependency, layering, coupling and connascence findings with traceable evidence. CF-COG-IMPACT traces an operator-declared changed symbol or module across known syntactic boundaries and exposes unknown edges; an opaque score is not an acceptable substitute. CF-COG-RATIONALE relates independently deployable boundaries to available ADR evidence and reports missing or conflicting rationale explicitly.
 
 CF-COG-DRIFT compares compatible baseline and current graphs through CF-MEMORY semantics. A partial graph cannot prove a problem resolved, and an incompatible baseline yields an explicit refusal or not-comparable outcome. Keep observed structure separate from inferred intent and risk. Unsupported language analysis remains unknown even when generic inventory can read the files. Do not invent a decision rationale from the architecture that happened to be implemented.
 
@@ -53,3 +53,18 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove the implementation, authorize provider/cloud execution or external publication, or satisfy the associated issue acceptance tests. Conflicts and required unresolved decisions remain visible in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
+
+Structure uses a syntactic single-crate Rust graph without compilation or macro expansion. Impact consumes operator-declared changes and reports potential dependency paths. Rationale relates declared deployment boundaries to human ADR evidence. Drift uses CF-MEMORY comparison and reports structural declarations.
+
+Proposed clarification: Specify that changes are declared inputs, not an automatically observed diff; structural added/resolved does not prove runtime effects, safety or corrected defects.
+
+- [adl/src/codefriend/architecture/structure.rs](../../../../adl/src/codefriend/architecture/structure.rs)
+- [adl/src/codefriend/architecture/impact.rs](../../../../adl/src/codefriend/architecture/impact.rs)
+- [adl/src/codefriend/architecture/rationale.rs](../../../../adl/src/codefriend/architecture/rationale.rs)
+- [adl/src/codefriend/architecture/drift.rs](../../../../adl/src/codefriend/architecture/drift.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

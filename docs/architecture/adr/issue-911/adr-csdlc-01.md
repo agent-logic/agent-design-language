@@ -6,7 +6,7 @@
 
 Accountable scope owner: SIM-04 (#870).
 Participating owners: SIM-01 (#867), SIM-02 (#868), SIM-03 (#869), SIM-04 (#870), SIM-05 (#871), CSDLC-DECOMPOSE (#862), CSDLC-REMOTE (#907), CSDLC-MERGE (#849).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -14,7 +14,7 @@ What owns lifecycle truth when commands, cards, local transactions and remote re
 
 ## Context
 
-The simplification plan identifies independently interpreted state and presentation-coupled digests as sources of contradiction. Current native v3 authority already depends on authenticated selector/receipt proof. The proposal is a simplification within that generation, not a new authority cutover.
+The simplification plan identifies independently interpreted state and presentation-coupled digests as sources of contradiction. Current native v3 authority already depends on authenticated selector/receipt proof. The semantic intent route is now implemented within that generation; this proposed decision documents its ownership boundary, not a new authority cutover.
 
 ## Decision
 
@@ -56,3 +56,18 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove implementation, authorize live provider/cloud effects or external publication, or satisfy issue acceptance tests. Required unresolved decisions remain explicit in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
+
+The semantic operation protocol models reservation, outcome, attachment and verified recovery. Intent routes use the semantic owner and retain independent projections. Current publication amendment checks an expected semantic version; pending operation identity remains part of recovery.
+
+Proposed clarification: Replace future-only adoption wording with an implemented semantic route at the pinned revision. An uncertain remote effect needs exact-operation reconciliation or proven non-effect before any new dispatch; a historical success receipt cannot prove a later request outcome.
+
+- [csdlc-v3/src/storage/semantic/protocol.rs](../../../../csdlc-v3/src/storage/semantic/protocol.rs)
+- [csdlc-v3/src/application/intent/local.rs](../../../../csdlc-v3/src/application/intent/local.rs)
+- [csdlc-v3/src/application/intent/remote.rs](../../../../csdlc-v3/src/application/intent/remote.rs)
+- [docs/csdlc-v3/INTENT_COMMANDS.md](../../../csdlc-v3/INTENT_COMMANDS.md)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

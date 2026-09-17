@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 945,
+  "issue_padded": "0945",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/945",
+  "title": "[v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obtain decision approval",
+  "branch": "codex/945-adr-decision-reconciliation",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-945-adr-decision-reconciliation",
+  "status": "in_progress",
+  "step_1_status": "completed",
+  "step_2_status": "completed",
+  "step_3_status": "completed",
+  "step_4_status": "in_progress",
+  "step_5_status": "pending",
+  "plan_summary": "Apply twelve individually approved operator decisions, preserving original proposal bytes and approval history. Promote numbered accepted records with reciprocal refinement links; revise CF09 for both website modes in Beta1 and installed local agent. Reconcile planning gates without claiming product delivery. Validate approval/content/source integrity, independently review and update existing PR1054 without merge.",
+  "deliverables_inline": "Twelve accepted ADR records; approval history; preserved 69 mappings and historical proposals; explicit Beta1 website integration and qualification gates; validation and independent review.",
+  "notes_risks_inline": "All twelve design decisions accepted; website implementation, hosting/access design and qualification remain separate unfinished work. Code repository name undecided. No runtime, deployment or merge claim."
+}

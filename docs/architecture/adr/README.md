@@ -60,3 +60,7 @@ all eight planned topics. Candidates below are tracked by issue #745; none is ac
 ## v0.92.2 proposed decision set
 
 [Issue #911 candidate set](issue-911/README.md) contains twelve complete proposed records covering CodeFriend, shared providers and the C-SDLC simplification. [The milestone packet](../../milestones/v0.92.2/adr/issue-911/README.md) accounts for all 69 core tasks, prior decisions, source revisions and unresolved acceptance. No candidate is accepted or allocated an accepted numeric ADR by this index.
+
+## v0.92.2 accepted successors
+
+The issue-911 candidate files above retain their historical Proposed text. The operator-approved successors ADR 0076–0087 are indexed in the [#945 approval packet](../../milestones/v0.92.2/adr/issue-945/README.md). ADR-CF-09 was revised to require both website execution modes in Beta 1; its old CLI-only proposal is not current authority.

@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-REVIEW (#890).
 Participating owners: CF-REVIEW (#890), CF-SYNTHESIS (#892), CF-REMEDIATE (#893), CF-TESTPLAN (#894).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -54,3 +54,19 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove the implementation, authorize provider/cloud execution or external publication, or satisfy the associated issue acceptance tests. Conflicts and required unresolved decisions remain visible in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
+
+Review rejects preloaded input, builds lane manifests with empty peer references and uses execute_provider_invocation. Synthesis requires a complete review and complete lane set; remediation and test-plan consumers bind synthesis, review and manifests.
+
+Proposed clarification: Retain information isolation as the decision, not vendor diversity or parallel scheduling. Actual provider outputs and four completed lanes still require executed proof; plans remain advisory artifacts.
+
+- [adl/src/codefriend/review/runner.rs](../../../../adl/src/codefriend/review/runner.rs)
+- [adl/src/codefriend/review/lanes.rs](../../../../adl/src/codefriend/review/lanes.rs)
+- [adl/src/codefriend/review/synthesis.rs](../../../../adl/src/codefriend/review/synthesis.rs)
+- [adl/src/codefriend/actions/remediation.rs](../../../../adl/src/codefriend/actions/remediation.rs)
+- [adl/src/codefriend/actions/test_plan.rs](../../../../adl/src/codefriend/actions/test_plan.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

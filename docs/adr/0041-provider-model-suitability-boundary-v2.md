@@ -92,3 +92,5 @@ broader claim.
 - This ADR does not disclose or require committing provider credentials.
 - This ADR does not make advisory role-provider selection autonomous.
 - This ADR does not claim aptitude-atlas work is part of the v0.95 MVP.
+
+Refinement accepted under #945: [ADR 0085 (ADR-PLAT-01)](0085-plat-01.md). This link does not change the status of this source record.

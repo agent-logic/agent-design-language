@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 945,
+  "issue_padded": "0945",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/945",
+  "title": "[v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obtain decision approval",
+  "branch": "codex/945-adr-decision-reconciliation",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-945-adr-decision-reconciliation",
+  "findings_status": "no_findings",
+  "review_notes": "Independent /root/review_945 found no actionable findings ata292e328157bcbb4636ac7d839142c022cb05f94. BYOK deferred afterBeta1; Google sign-in unapproved; both website modes retained.12 decisions,69 mappings,44 sources,14 negatives passed. Final lifecycle-only delta receives exact-head review before ready transition.",
+  "review_findings": "No actionable findings in accepted-decision update. Historical P2 repository-allocation finding was corrected before5507.",
+  "review_dispositions": "All12 accepted decisions preserved. BYOK deferred by operator; local model-access implementation remains separately required. No review blocker to readying1054 after native checks; no merge authorized.",
+  "recommended_outcome": "approve"
+}

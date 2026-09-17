@@ -6,7 +6,7 @@
 
 Accountable scope owner: CF-MEMORY (#885).
 Participating owners: CF-MEMORY (#885), PLAT-MEMORY (#889), CF-COG-DRIFT (#886).
-Curation owner: ARCH-ADR #911 under Sprint #935. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
+Original curation: ARCH-ADR #911 under Sprint #935. Current reconciliation owner: #945. Acceptance authority: operator or explicitly designated decision owner; acceptance is pending, not inferred from this ownership map.
 
 ## Decision Question
 
@@ -53,3 +53,18 @@ Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requiremen
 ## Approval Boundary
 
 Accepting this ADR would record this bounded design decision. It would not prove implementation, authorize live provider/cloud effects or external publication, or satisfy issue acceptance tests. Required unresolved decisions remain explicit in the milestone disposition map.
+
+## Implementation Reconciliation — #945
+
+Pinned implementation revision: `cf7b9d7ff8fc30ec605f994ee70aa838257fca51`. This is source inspection, not fresh runtime execution or acceptance.
+
+Comparison loads both records even for identical references and checks repository, schema, scope, lane versions and provider route. AdmittedBaselines stores review references without source copies and requires live admission. Palace indexing consumes VerifiedMemoryPalaceAuthority; authority provisioning uses separately selected operator trust.
+
+Proposed clarification: Retain evidence storage and Runtime-authorized context handoff as separate owners. A local baseline index is permitted subordinate storage, not a new memory authority. Compatibility includes provider route and current retention; authority assembly construction is not live Runtime qualification.
+
+- [adl/src/codefriend/memory/comparison.rs](../../../../adl/src/codefriend/memory/comparison.rs)
+- [adl/src/codefriend/memory/baseline.rs](../../../../adl/src/codefriend/memory/baseline.rs)
+- [adl/src/codefriend/memory/palace.rs](../../../../adl/src/codefriend/memory/palace.rs)
+- [adl/src/codefriend/memory/palace_authority.rs](../../../../adl/src/codefriend/memory/palace_authority.rs)
+
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.

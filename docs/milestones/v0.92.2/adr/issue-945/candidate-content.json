@@ -1,0 +1,133 @@
+{
+  "schema": "issue945.candidate_content.v1",
+  "files": [
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-01.md",
+      "sha256": "2d17c267aefaa5108e389601b0a1aef3027e585f4e71b6a7e4c67e7ed1296a51"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-02.md",
+      "sha256": "f406df43149daacc4bb71de0e6a65ca0344af04bd5aa2aff65f642dbba18f035"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-03.md",
+      "sha256": "cb1e5e78fba434716e1cd0dec1a8fe910b4a0c5f5197f3b4bf2803c6fc745442"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-04.md",
+      "sha256": "687af7d8ca2a474c880d7b91265c6fee2aa182985a8bbc4c27ccf98304f76214"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-05.md",
+      "sha256": "75cd500749dc3a174035f530d969486d13227b4d8dcc43ba1d9e6cdf42154370"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-06.md",
+      "sha256": "4178f60d2d74c130d816d6c720309c8108cce73df70f5295f269cb9dac99d3ed"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-07.md",
+      "sha256": "915303ef0bdf34688a6173783d3c8bb7d411feded5ef30bb1b91e2e9c2bff155"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-08.md",
+      "sha256": "60d3b6d8d845f73ce7ebcc99d4ff81918e2c15d0ec8ba7f39ab69bbe24c4064d"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-cf-09.md",
+      "sha256": "3031cef4cae59111c82ed736e0205a6015e64b592c46bc1b7e748d2020f7ea42"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-plat-01.md",
+      "sha256": "006afab22024f4983718489bafceef38203d926b7180dead0f4b65fa092aa925"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-01.md",
+      "sha256": "07076319ad55c63f05f44cd2b6a1d7dfde84ae3e780fc03040ce5e0a5d17fad6"
+    },
+    {
+      "path": "docs/architecture/adr/issue-911/adr-csdlc-02.md",
+      "sha256": "5ee8bd8cc0df21a71883c6d4c404658da771da0dc672be1e402f0b87439c7c41"
+    }
+  ],
+  "supporting_files": [
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/PLAN.md",
+      "sha256": "198ac09dc30c30730397f3c8a6a993d0fc9f63c9acfd69dd86cffcc474ece5c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "sha256": "e9c0cbf9f80396cfda6ef1091fca577e29f2fac6655ff5d5be2bcca43f59a548"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+      "sha256": "fc3d78d2087bb2cc8df5ffe7f53fb3f8ccef837345db42de6c0917187dfec266"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+      "sha256": "b1b5b751a7b3f7e3a22408d706e68835d29d080818bd818e2d9215c84a6be759"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/operator-decisions.json",
+      "sha256": "4a6065b823f32903a348afddbf82de0a769ba9a976efb628a2e24bb551bfce89"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/BETA1_DELIVERY.md",
+      "sha256": "c1ef116a0951e53a66a87532f263053d5c6c1fef0b4d8c341b03ce199b77855f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/relationships.json",
+      "sha256": "c5ccd5b69a28cbffd661c219ac47db39a8d68a449784e591d273becc5a0730c9"
+    }
+  ],
+  "accepted_files": [
+    {
+      "path": "docs/adr/0076-cf-01.md",
+      "sha256": "ead0c855f306d2d04653aed97f578b09bbc4780f4730d74ddd99fcb76ba8cfb2"
+    },
+    {
+      "path": "docs/adr/0077-cf-02.md",
+      "sha256": "9a506882eb207b0895acaa5df6ee8a2d9a0ca8f89133c11d3194280c4e9c7a98"
+    },
+    {
+      "path": "docs/adr/0078-cf-03.md",
+      "sha256": "f3fe421448db77216dc1c07c82276ee4e59c7611c5579fb0e72aa2dcbbeddbb7"
+    },
+    {
+      "path": "docs/adr/0079-cf-04.md",
+      "sha256": "c3a2d59540756b78a8926facda3029abe5bdac4e14376edbaef3df965fd0e455"
+    },
+    {
+      "path": "docs/adr/0080-cf-05.md",
+      "sha256": "ff22b4c9e2dbf80aadcdf47077450a95b878f58f85fcf1caa5963425303970a3"
+    },
+    {
+      "path": "docs/adr/0081-cf-06.md",
+      "sha256": "c030d31d41c2d6566434b587c37b3c01ba111d6a95dcb49e8b392b4a181aa1ed"
+    },
+    {
+      "path": "docs/adr/0082-cf-07.md",
+      "sha256": "04132a9fdba275d6002dcce01cc5c1d4e3d8e83ee70679e3b645dbf4fca58723"
+    },
+    {
+      "path": "docs/adr/0083-cf-08.md",
+      "sha256": "805e88b6cc65a3862c7d49a10a8003729f49a577b2ea52240b0515901957061f"
+    },
+    {
+      "path": "docs/adr/0084-cf-09.md",
+      "sha256": "fb83bc5258b92a01fce4a4bc6c4adba598632f9d46a02305432d0d8d19caed31"
+    },
+    {
+      "path": "docs/adr/0085-plat-01.md",
+      "sha256": "0e071a43845e2dd84b75e7f878df6387ab11ff09e6b4ef89012e2e89228b5423"
+    },
+    {
+      "path": "docs/adr/0086-csdlc-01.md",
+      "sha256": "2cce4a392cfa232244a3865c7e56e47c2b47f06bf87835119528776f3bfd4096"
+    },
+    {
+      "path": "docs/adr/0087-csdlc-02.md",
+      "sha256": "fff38afe14071a6522be5aeccf16d50d5240d901b74d597f921ac5d0fdafc1c5"
+    }
+  ]
+}
