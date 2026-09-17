@@ -191,7 +191,7 @@ fn remote_responsibilities_have_one_production_owner() {
         ("delivery", "pub(crate) fn deliver("),
         ("merge_linkage", "pub fn merge_linkage_query("),
         ("transport", "fn github_mutation_invocation("),
-        ("coordination", "const CONTRACT_PREFIX"),
+        ("model", "pub(super) const COORDINATION_CONTRACT_PREFIX"),
         ("publication", "pub fn prepare_remote_publication_route("),
         ("merge", "fn execute_inner("),
         ("mutation", "pub fn stage_github_mutation("),

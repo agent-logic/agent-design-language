@@ -289,7 +289,7 @@ pub(super) fn write_mutation_input(
     let value = match &request.mutation {
         GithubMutation::IssueCompleteCoordination { completion } => serde_json::json!({
             "state":"closed", "state_reason":"completed",
-            "body":body_with_operation_marker(&completion.current_body, operation_marker)
+            "body":body_with_operation_marker(&coordination_target_body(completion)?, operation_marker)
         }),
         GithubMutation::IssueCreate {
             title,
@@ -463,6 +463,26 @@ pub(super) fn body_with_operation_marker(body: &str, operation_marker: &str) -> 
         operation_marker.to_owned()
     } else {
         format!("{body}\n\n{operation_marker}")
+    }
+}
+
+pub(super) fn coordination_target_body(
+    completion: &CoordinationCompletion,
+) -> Result<String, RemoteRouteFinding> {
+    let Some(contract) = &completion.install_contract else {
+        return Ok(completion.current_body.clone());
+    };
+    let encoded = serde_json::to_string(contract).map_err(|_| {
+        remote_finding(
+            "github_coordination_completion_denied",
+            "coordination contract encoding failed",
+        )
+    })?;
+    let marker = format!("{COORDINATION_CONTRACT_PREFIX}{encoded} -->");
+    if completion.current_body.is_empty() {
+        Ok(marker)
+    } else {
+        Ok(format!("{}\n\n{marker}", completion.current_body))
     }
 }
 
@@ -835,6 +855,7 @@ pub(super) fn match_reconciled_mutation(
                     })
             }
             GithubMutation::IssueCompleteCoordination { completion } => {
+                let expected_body = coordination_target_body(completion).ok();
                 candidate["number"].as_u64() == Some(request.issue)
                     && candidate["html_url"]
                         == format!(
@@ -843,11 +864,10 @@ pub(super) fn match_reconciled_mutation(
                         )
                     && candidate["state"] == "closed"
                     && candidate["state_reason"] == "completed"
-                    && candidate["body"].as_str()
-                        == Some(
-                            body_with_operation_marker(&completion.current_body, operation_marker)
-                                .as_str(),
-                        )
+                    && expected_body.as_ref().is_some_and(|body| {
+                        candidate["body"].as_str()
+                            == Some(body_with_operation_marker(body, operation_marker).as_str())
+                    })
             }
             GithubMutation::IssueClose {
                 rationale,

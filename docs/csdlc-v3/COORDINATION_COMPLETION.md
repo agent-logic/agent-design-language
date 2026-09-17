@@ -31,11 +31,21 @@ multiple markers, wrong identities and missing children are not silently repaire
 The denominator is the explicit operator-approved contract in the live issue body;
 GitHub sub-issue membership and free-form Markdown lists are not inferred authority.
 
-For an existing umbrella, use the ordinary typed `issue_edit` operation to append
-that operator-approved contract while preserving all existing text. Read back the
-full resulting body, including the edit operation marker, and its current
+For a current semantic issue, use the ordinary typed `issue_edit` operation to
+append that operator-approved contract while preserving all existing text. Read
+back the full resulting body, including the edit operation marker, and its current
 `updated_at`. Completion preserves those bytes and appends its own operation marker.
-No automatic classification or remote contract edit occurs during completion.
+
+A legacy umbrella without semantic state cannot use ordinary `issue_edit`. For
+that bounded compatibility case, include `install_contract` in the completion
+object. The owner authenticates the exact marker-free current body and timestamp,
+validates the structured contract and every ordinary completion guard, and appends
+the canonical marker after the exact authenticated body bytes in the same PATCH
+that closes the issue. The complete outbound body, including the contract and
+operation markers, must fit GitHub's body limit. It rejects an
+existing or malformed marker, extra contract fields, wrong identity or child
+set, stale pre-state, missing approval, and a changed replay. This does not enable
+any other legacy issue edit or synthesize semantic lifecycle state.
 
 ## Complete, then finish
 
@@ -60,6 +70,23 @@ not the truth of arbitrary claims in those bytes.
   }
 }
 ```
+
+For a marker-free legacy umbrella, the completion object additionally contains:
+
+```json
+"install_contract": {
+  "repository": "agent-logic/agent-design-language",
+  "issue": 929,
+  "kind": "coordination_only",
+  "children": [
+    {"issue": 887, "pull_request": 989, "head_sha": "<exact 40-hex merged PR head>"}
+  ]
+}
+```
+
+`current_body` remains the exact authenticated pre-mutation body and therefore
+does not contain the marker in this form. Existing marked umbrellas must omit
+`install_contract`.
 
 Before dispatch the owner verifies the exact open parent issue, body and timestamp;
 each child must be authentically `closed` with an explicit `completed` reason.
@@ -101,10 +128,10 @@ Finish performs its own authenticated terminal observation. Then preview and run
 native `clean` separately. Completion does not itself finish, clean, publish,
 merge, or rewrite cards after closure.
 
-## #1006 validation classification
+## Validation classification
 
 The new owner tests in `commands/remote/coordination/tests.rs` and installed
-`installed_coordination_completion` target are PVF **tooling**, deterministic
+`installed_coordination_completion` target for #1006 and #1061 are PVF **tooling**, deterministic
 synthetic-transport integration proof, CPU/local-filesystem only, no live GitHub
 writes or provider calls. They are required issue proof, not independent evidence
 that any real coordination issue has completed. Installed tests copy the actual

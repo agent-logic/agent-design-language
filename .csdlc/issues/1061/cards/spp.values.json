@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1061,
+  "issue_padded": "1061",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1061",
+  "title": "[C-SDLC v3][defect] Add coordination contract marker to legacy umbrellas",
+  "branch": "codex/1061-legacy-coordination-marker",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1061-legacy-coordination-marker"
+}

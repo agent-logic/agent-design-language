@@ -1,40 +1,27 @@
 //! Explicit coordination-only completion; administrative closure remains separate.
 use super::model::{
-    CoordinationCompletion, CoordinationEvidence, GithubMutation, GithubMutationRequest,
-    PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
+    CoordinationCompletion, CoordinationContract, CoordinationEvidence, GithubMutation,
+    GithubMutationRequest, PublicationLinkage, RemotePublicationMode, RemoteRouteFinding,
+    COORDINATION_CONTRACT_PREFIX as CONTRACT_PREFIX,
 };
 use super::publication::{is_durable_receipt_path, is_repo_or_git_receipt_path};
 use super::storage::persist_json_create_new;
 use super::support::{
-    git_control_dir, github_mutation_operation_digest, remote_finding, GITHUB_READ_ONLY_ADAPTER,
+    git_control_dir, github_mutation_operation_digest, github_mutation_operation_marker,
+    remote_finding, GITHUB_READ_ONLY_ADAPTER,
 };
-use super::transport::{mutation_credential_name, read_mutation_reconciliation_page};
+use super::transport::{
+    body_with_operation_marker, mutation_credential_name, read_mutation_reconciliation_page,
+};
 use crate::adapters::{CommandInvocation, ProcessAdapter};
-use serde::Deserialize;
 use serde_json::{json, Value};
 use std::collections::BTreeSet;
 use std::fs;
 use std::io::Read;
 use std::path::Path;
 
-const CONTRACT_PREFIX: &str = "<!-- csdlc-coordination:v1 ";
 const MAX_EVIDENCE_BYTES: u64 = 4 * 1024 * 1024;
 
-#[derive(Debug, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Contract {
-    repository: String,
-    issue: u64,
-    kind: String,
-    children: Vec<Child>,
-}
-#[derive(Debug, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Child {
-    issue: u64,
-    pull_request: u64,
-    head_sha: String,
-}
 fn reject(message: &str) -> RemoteRouteFinding {
     remote_finding("github_coordination_completion_denied", message)
 }
@@ -51,22 +38,29 @@ fn hex(value: &str, len: usize) -> bool {
 fn contract(
     request: &GithubMutationRequest,
     completion: &CoordinationCompletion,
-) -> Result<Contract, RemoteRouteFinding> {
+) -> Result<CoordinationContract, RemoteRouteFinding> {
     let lines: Vec<_> = completion
         .current_body
         .lines()
         .filter(|line| line.contains("csdlc-coordination:"))
         .collect();
-    ensure(
-        lines.len() == 1,
-        "one explicit coordination contract is required",
-    )?;
-    let encoded = lines[0]
-        .strip_prefix(CONTRACT_PREFIX)
-        .and_then(|line| line.strip_suffix(" -->"))
-        .ok_or_else(|| reject("coordination contract marker is malformed"))?;
-    let contract: Contract =
-        serde_json::from_str(encoded).map_err(|_| reject("coordination contract is invalid"))?;
+    let contract = if let Some(contract) = &completion.install_contract {
+        ensure(
+            lines.is_empty(),
+            "contract installation requires a marker-free current body",
+        )?;
+        contract.clone()
+    } else {
+        ensure(
+            lines.len() == 1,
+            "one explicit coordination contract is required",
+        )?;
+        let encoded = lines[0]
+            .strip_prefix(CONTRACT_PREFIX)
+            .and_then(|line| line.strip_suffix(" -->"))
+            .ok_or_else(|| reject("coordination contract marker is malformed"))?;
+        serde_json::from_str(encoded).map_err(|_| reject("coordination contract is invalid"))?
+    };
     ensure(
         contract.repository == request.repository
             && contract.issue == request.issue
@@ -106,8 +100,7 @@ pub(super) fn validate(request: &GithubMutationRequest) -> Result<(), RemoteRout
                 .as_ref()
                 .is_some_and(|v| !v.trim().is_empty())
             && !completion.rationale.trim().is_empty()
-            && !completion.expected_updated_at.trim().is_empty()
-            && completion.current_body.len() <= 65536,
+            && !completion.expected_updated_at.trim().is_empty(),
         "completion requires explicit operator approval, exact issue snapshot and rationale",
     )?;
     ensure(
@@ -124,6 +117,12 @@ pub(super) fn validate(request: &GithubMutationRequest) -> Result<(), RemoteRout
         )?;
     }
     contract(request, completion)?;
+    let target = super::transport::coordination_target_body(completion)?;
+    let marker = github_mutation_operation_marker(&github_mutation_operation_digest(request));
+    ensure(
+        body_with_operation_marker(&target, &marker).len() <= 65536,
+        "completed issue body exceeds the GitHub body limit",
+    )?;
     Ok(())
 }
 fn observe(
