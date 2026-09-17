@@ -14,6 +14,22 @@ those verified executable bytes; do not substitute the currently installed binar
 without checking its hash. Actual discovery is retained in `candidate-help.txt`
 and `candidate-contract.json`.
 
+`transition.py` now constructs this request without hand-editing state. From this
+packet directory, use the actual issue, checkout, verified candidate, retained
+intent plan and a new output file:
+
+```sh
+python3 transition.py prepare --issue "$ISSUE" --checkout "$CHECKOUT" --candidate "$CSDLC" --retained-plan "$RETAINED_PLAN" --output-plan "$PLAN"
+```
+
+This prints the exact native argv and writes only the new plan file. It verifies
+candidate bytes, native/card identity, exact slug, supported phase, bound checkout
+and unchanged retained plan. Add `--execute` only when this issue's adoption is
+authorized; the native owner still performs all lifecycle admission. `status`,
+`validate` and `recover` use the same issue/checkout/candidate arguments. A
+recovery execution additionally requires `--preview` from fresh native inspection.
+The helper does not implement global cutover or snapshot restoration.
+
 For supported ready/bound legacy issue adoption, **the existing live entrypoint
 is `prepare`**, not the copied-record converter:
 
