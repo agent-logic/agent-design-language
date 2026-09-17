@@ -351,7 +351,7 @@ impl RuntimeSurfaceName for crate::provider_communication::ProviderRouteV1 {
     }
 }
 
-fn lane_input_manifest(
+pub(crate) fn lane_input_manifest(
     run_id: &str,
     lane: ReviewLane,
     admission: &Admission,
@@ -434,7 +434,7 @@ fn scoped_source(admission: &Admission) -> Result<String> {
     Ok(sections.join("\n"))
 }
 
-fn parse_lane_output(
+pub(crate) fn parse_lane_output(
     lane: ReviewLane,
     text: &str,
     admission: &Admission,
@@ -481,7 +481,7 @@ fn lane_output_json_text(text: &str) -> &str {
         .unwrap_or(trimmed)
 }
 
-fn finding_from_lane(
+pub(crate) fn finding_from_lane(
     lane: ReviewLane,
     admission: &Admission,
     parsed: ParsedLaneFinding,
