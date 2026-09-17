@@ -8,7 +8,7 @@ version: "v0.92.2"
 title: "[v0.92.2][CF-AGENT] Run website-controlled reviews through an installed local agent"
 branch: "codex/1058-v0922-installed-local-review-agent"
 generated_at: "2026-09-16T20:16:52.878587+00:00"
-card_status: "draft"
+card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/1058/cards/sip.md"
   - ".csdlc/issues/1058/cards/vpp.md"
 review_results:
-  findings_status: "not_run"
-  recommended_outcome: "not_run"
-notes: "Independent implementation review not yet run."
+  findings_status: "resolved"
+  recommended_outcome: "draft_publication_only"
+notes: "Reviewer review_1058_agent reviewed 4bfbb37336c7a746027f64d9d8698664bf75c80b.19 agent tests,14 existing runner tests and targeted clippy passed locally; reviewer inspected retained evidence. Record-only final followup requires fresh exact-head receipt. Real website pairing, installed macOS/Linux journeys, live-provider acceptance, integration #914 and qualification #915 remain outstanding; no merge-ready or sprint completion claim."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- not_run
+- Six P2 findings: cached consent; run retention; expired pairing renewal; cancelled retransmission; consent expiry during control GET; startup cleanup before expired pairing validation.
 
 ### Dispositions
 
-- not_run
+- All six fixed with targeted regression coverage. Immediate purge and interrupted restart proof gaps also covered. Independent exact-head source review found no remaining blockers.
 
 ### Recommended Outcome
 
-- not_run
+- draft_publication_only
 
 ## Notes
 
-Independent implementation review not yet run.
+Reviewer review_1058_agent reviewed 4bfbb37336c7a746027f64d9d8698664bf75c80b.19 agent tests,14 existing runner tests and targeted clippy passed locally; reviewer inspected retained evidence. Record-only final followup requires fresh exact-head receipt. Real website pairing, installed macOS/Linux journeys, live-provider acceptance, integration #914 and qualification #915 remain outstanding; no merge-ready or sprint completion claim.

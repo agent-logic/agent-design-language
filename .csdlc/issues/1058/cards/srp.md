@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "v0922-installed-local-review-agent-review-prompt"
 issue: 1058
 task_id: "issue-1058"
-version: "1.0.5"
+version: "v0.92.2"
 title: "[v0.92.2][CF-AGENT] Run website-controlled reviews through an installed local agent"
 branch: "codex/1058-v0922-installed-local-review-agent"
-generated_at: "<timestamp>"
+generated_at: "2026-09-16T20:16:52.878587+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1058"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/1058/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/1058/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/1058/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/1058/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/1058/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/1058/cards/stp.md"
+  - ".csdlc/issues/1058/cards/sip.md"
+  - ".csdlc/issues/1058/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/1058/cards/stp.md"
+  - ".csdlc/issues/1058/cards/sip.md"
+  - ".csdlc/issues/1058/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "resolved"
+  recommended_outcome: "draft_publication_only"
+notes: "Reviewer review_1058_agent reviewed 4bfbb37336c7a746027f64d9d8698664bf75c80b.19 agent tests,14 existing runner tests and targeted clippy passed locally; reviewer inspected retained evidence. Record-only final followup requires fresh exact-head receipt. Real website pairing, installed macOS/Linux journeys, live-provider acceptance, integration #914 and qualification #915 remain outstanding; no merge-ready or sprint completion claim."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/1058/cards/stp.md
+- .csdlc/issues/1058/cards/sip.md
+- .csdlc/issues/1058/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Six P2 findings: cached consent; run retention; expired pairing renewal; cancelled retransmission; consent expiry during control GET; startup cleanup before expired pairing validation.
 
 ### Dispositions
 
-- <review_dispositions>
+- All six fixed with targeted regression coverage. Immediate purge and interrupted restart proof gaps also covered. Independent exact-head source review found no remaining blockers.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- draft_publication_only
 
 ## Notes
 
-<review_notes>
+Reviewer review_1058_agent reviewed 4bfbb37336c7a746027f64d9d8698664bf75c80b.19 agent tests,14 existing runner tests and targeted clippy passed locally; reviewer inspected retained evidence. Record-only final followup requires fresh exact-head receipt. Real website pairing, installed macOS/Linux journeys, live-provider acceptance, integration #914 and qualification #915 remain outstanding; no merge-ready or sprint completion claim.
