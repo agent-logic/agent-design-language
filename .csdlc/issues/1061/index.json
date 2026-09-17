@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 1061,
   "phase": "bound",
-  "generation": 2,
+  "generation": 3,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/1061-legacy-coordination-marker",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1061-legacy-coordination-marker",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "d20091e9708f32c324b55eeec3c335843c6b2cb08a31fbac2ddd4aa42044080c"
+  "digest": "84537088f38fe0235a600bada82af35f0965ce4e7c44528c43aefb3355bcb6c4"
 }

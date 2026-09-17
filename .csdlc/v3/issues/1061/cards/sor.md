@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [C-SDLC v3][defect] Add coordination contract marker to legacy umbrellas
 Branch: codex/1061-legacy-coordination-marker
 Card Status: ready
-Status: not_started
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implementation, proof, review, publication, CI, integration, and terminal closeout are pending.
+Implemented atomic installation of the exact reviewed coordination contract during guarded legacy umbrella completion; focused local proof is green, while independent review, publication, CI, merge, and terminal closeout remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -75,8 +75,8 @@ Implementation, proof, review, publication, CI, integration, and terminal closeo
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Tracked implementation artifacts: `csdlc-v3/src/application/intent/remote.rs; csdlc-v3/src/commands/remote/coordination.rs; csdlc-v3/src/commands/remote/coordination/tests.rs; csdlc-v3/src/commands/remote/model.rs; csdlc-v3/src/commands/remote/transport.rs; csdlc-v3/tests/installed_coordination_completion.rs; docs/csdlc-v3/COORDINATION_COMPLETION.md; docs/csdlc-v3/INTENT_COMMANDS.md`
+- Additional proof artifacts: `.csdlc/evidence/1061/validation.md`
 
 ## Actions taken
 - `<actions_taken_line_1>`
@@ -86,8 +86,8 @@ Implementation, proof, review, publication, CI, integration, and terminal closeo
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `bound issue worktree`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::coordination; cargo test --manifest-path csdlc-v3/Cargo.toml --test installed_coordination_completion; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; git diff --check`
+    `Proves legacy-only atomic marker installation, exact authenticated pre-state, contract identity and child guards, durable evidence, completed readback, exact replay, semantic-state rejection, ordinary legacy mutation denial, formatting, lint, and patch hygiene.`
 - Results:
-  - `<validation_result>`
+  - `Nine focused coordination unit tests and fourteen installed coordination tests passed with zero failures; formatting, strict Clippy, and diff hygiene passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,24 +123,24 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - "9 coordination unit tests and 14 installed coordination tests"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: passed
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: true
+      approved: issue_scope
 ```
 
 ## Determinism Evidence
