@@ -23,7 +23,7 @@ async fn main() -> Result<()> {
     let service = Service::open(config, Arc::new(ProductionBackend))?;
     let listener = tokio::net::TcpListener::bind(listen).await?;
     let maintenance = service.clone();
-    tokio::spawn(async move {
+    let maintenance_task = tokio::spawn(async move {
         let mut interval = tokio::time::interval(std::time::Duration::from_secs(30));
         loop {
             interval.tick().await;
@@ -38,6 +38,15 @@ async fn main() -> Result<()> {
         "adl_event component=codefriend_server event=listening address={}",
         listener.local_addr()?
     );
-    axum::serve(listener, service.router()).await?;
+    let result = axum::serve(listener, service.router())
+        .with_graceful_shutdown(async {
+            if tokio::signal::ctrl_c().await.is_err() {
+                eprintln!("adl_event component=codefriend_server event=shutdown_signal_failure");
+            }
+        })
+        .await;
+    maintenance_task.abort();
+    let _ = maintenance_task.await;
+    result?;
     Ok(())
 }

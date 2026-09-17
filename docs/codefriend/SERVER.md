@@ -95,6 +95,9 @@ purged after termination. Minimal operation identity tombstones persist to preve
 replay. Treat the store and its backups as private. External deployment backup policy
 must honor the same retention contract.
 
+Ctrl-C (SIGINT on Unix) stops HTTP acceptance gracefully and stops the periodic
+retention task. It does not undo provider effects or authorize replay of an operation.
+
 ## Proof boundaries
 
 `adl/tests/codefriend_server.rs` provides deterministic local component/protocol proof.

@@ -773,11 +773,34 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         );
         assert_eq!(count.load(Ordering::SeqCst), 5);
     }));
-    let _ = child.kill();
-    let _ = child.wait();
+    // Exercise the operator shutdown path and let instrumented binaries flush
+    // their coverage. SIGKILL remains only bounded failure cleanup.
+    #[cfg(unix)]
+    let shutdown = {
+        // SAFETY: this is the live child process owned by this test.
+        let _ = unsafe { libc::kill(child.id() as libc::pid_t, libc::SIGINT) };
+        let deadline = std::time::Instant::now() + Duration::from_secs(5);
+        loop {
+            if let Some(status) = child.try_wait().unwrap() {
+                break Some(status);
+            }
+            if std::time::Instant::now() >= deadline {
+                break None;
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    };
+    #[cfg(not(unix))]
+    let shutdown: Option<std::process::ExitStatus> = None;
+    if shutdown.is_none() {
+        let _ = child.kill();
+        let _ = child.wait();
+    }
     stop.store(true, Ordering::SeqCst);
     mock.join().unwrap();
     if let Err(p) = outcome {
         std::panic::resume_unwind(p);
     }
+    #[cfg(unix)]
+    assert!(shutdown.expect("graceful shutdown deadline").success());
 }
