@@ -243,18 +243,11 @@ fn installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest() {
         "rendered line exceeded the declared printable width"
     );
 
-    let extracted = Command::new("pdftotext")
-        .arg("-layout")
-        .arg(&report)
-        .arg("-")
-        .output()
-        .expect("pdftotext is required for PDF semantic qualification");
-    assert!(
-        extracted.status.success(),
-        "{}",
-        String::from_utf8_lossy(&extracted.stderr)
-    );
-    let text = String::from_utf8(extracted.stdout).unwrap();
+    let document = lopdf::Document::load(&report).expect("rendered PDF must be parseable");
+    let pages = document.get_pages().into_keys().collect::<Vec<_>>();
+    let text = document
+        .extract_text(&pages)
+        .expect("rendered PDF must expose its semantic text without an external tool");
     assert!(
         !text.contains(&"W".repeat(72)),
         "wide unbroken token was not split by measured glyph width"

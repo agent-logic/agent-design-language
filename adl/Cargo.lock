@@ -46,6 +46,7 @@ dependencies = [
  "jsonschema",
  "libc",
  "loom",
+ "lopdf",
  "markdown",
  "mime_guess2",
  "ntp-daemon",
