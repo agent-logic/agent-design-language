@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the installed HTML exporter and resolved the first exact-head review findings: library tests compile again and failed HTML publication now removes its format-specific staging residue. Retained browser proof and all focused validation pass; replacement independent review remains before publication.
+Draft PR #1038 remains blocked by one accepted P2 finding: the focused proof does not yet compare the complete governed semantic payload between Markdown and HTML. Bounded parity regression work is in progress; prior review and publication truth are stale until a successor immutable head passes focused proof and fresh independent review.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -57,7 +57,7 @@ Implemented the installed HTML exporter and resolved the first exact-head review
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `implementation_local_proof_complete_re_review_pending`
+- Completion state: `review_finding_remediation_in_progress`
 - Issue goal ref: `Bounded #897 child under active Sprint 4 #930 goal; no token budget assigned.`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -86,7 +86,7 @@ Implemented the installed HTML exporter and resolved the first exact-head review
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `not_published`
+- Integration state: `draft_pr_changes_required`
 - Verification scope: `<verification_scope>`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path adl/Cargo.toml --lib codefriend::publication::markdown::tests::; cargo test --manifest-path adl/Cargo.toml --test codefriend_render_html; cargo test --manifest-path adl/Cargo.toml --test codefriend_render_md; cargo clippy --manifest-path adl/Cargo.toml --lib --bin adl -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml -- --check; git diff --check`
     `<validation_effect>`
 - Results:
-  - `PASS local: shared publication library tests 5/5, HTML 4/4, Markdown regression 5/5, strict relevant Clippy, formatting and diff hygiene. Prior P1 library-test compile and P2 HTML stage-residue findings are fixed.`
+  - `CHANGES REQUIRED: prior local tests and CI passed, but independent review found that selected-marker assertions do not prove complete Markdown/HTML semantic parity.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

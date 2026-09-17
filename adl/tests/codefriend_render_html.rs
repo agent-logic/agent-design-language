@@ -7,11 +7,15 @@ use adl::codefriend::{
         remediation::{plan_from_file as remediation_from_file, RemediationOptions},
         test_plan::{plan_from_file as test_plan_from_file, TestPlanOptions},
     },
-    evidence::contracts::ReviewRecord,
+    evidence::{
+        contracts::{Confidence, ReviewRecord, Severity},
+        hash,
+    },
     ingestion::digest,
     publication::{
-        append_decision, render_html, DecisionKind, HtmlManifest, HtmlRenderOptions, ManifestInput,
-        HTML_RENDERER_VERSION,
+        append_decision, render_html, render_markdown, DecisionKind, HtmlManifest,
+        HtmlRenderOptions, ManifestInput, MarkdownRenderOptions, HTML_RENDERER_VERSION,
+        MARKDOWN_RENDERER_VERSION,
     },
     review::synthesis::{synthesize_from_file, SynthesisOptions},
 };
@@ -69,7 +73,7 @@ impl Fixture {
         let input: ManifestInput = serde_json::from_value(json!({
             "schema":"codefriend.publication_manifest_input.v1",
             "artifact_manifest":artifact_inventory(&artifact_root),
-            "renderer_versions":{"html":renderer},
+            "renderer_versions":{"html":renderer,"markdown":MARKDOWN_RENDERER_VERSION},
             "target":"approved-report",
             "claims":["Approved exact review semantics"],
             "nonclaims":["No PDF, remote, or customer publication"]
@@ -141,6 +145,91 @@ impl Fixture {
             .env("ADL_OBSERVABILITY_OTEL", "0")
             .output()
             .unwrap()
+    }
+}
+
+fn recompute_finding_id(finding: &mut adl::codefriend::evidence::contracts::Finding) {
+    finding.id = hash(&(
+        "codefriend.finding_identity.v1",
+        &finding.repository,
+        &finding.perspective,
+        &finding.rule,
+        &finding.semantic_anchor,
+    ))
+    .unwrap();
+}
+
+fn parity_review() -> ReviewRecord {
+    let mut review = predecessor_review();
+
+    let mut corroborating = review.findings[0].clone();
+    corroborating.perspective = "security".to_string();
+    corroborating.rule = "security.raw_message_reuse_boundary".to_string();
+    corroborating.severity = Severity::Medium;
+    corroborating.rationale =
+        "Security lane retains a distinct bounded rationale token".to_string();
+    corroborating.confidence = Confidence::Known(61);
+    corroborating.inference = "Security lane retains a distinct inference token".to_string();
+    corroborating.limitations = vec!["Security lane uncertainty token".to_string()];
+    recompute_finding_id(&mut corroborating);
+    review.findings.push(corroborating);
+
+    let mut omitted = review.findings[0].clone();
+    omitted.perspective = "constitutional".to_string();
+    omitted.rule = "constitutional.no_repository_path".to_string();
+    omitted.semantic_anchor = "Behavioral contract without a repository location".to_string();
+    omitted.title = "Omitted action test parity token".to_string();
+    omitted.severity = Severity::Info;
+    omitted.rationale = "Omission rationale parity token".to_string();
+    omitted.confidence = Confidence::Unknown;
+    omitted.inference = "Omission inference parity token".to_string();
+    omitted.limitations = vec!["Omission uncertainty parity token".to_string()];
+    recompute_finding_id(&mut omitted);
+    review.findings.push(omitted);
+    review
+        .findings
+        .sort_by(|left, right| left.id.cmp(&right.id));
+    review.validate().unwrap();
+    review
+}
+
+fn normalized_semantics(value: &str) -> String {
+    value
+        .replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&#39;", "'")
+        .chars()
+        .filter(|character| character.is_alphanumeric())
+        .flat_map(char::to_lowercase)
+        .collect()
+}
+
+fn assert_json_strings_present(value: &serde_json::Value, html: &str, markdown: &str) {
+    match value {
+        serde_json::Value::String(expected) if !expected.is_empty() => {
+            let expected = normalized_semantics(expected);
+            assert!(
+                normalized_semantics(html).contains(&expected),
+                "HTML omitted semantic value: {expected}"
+            );
+            assert!(
+                normalized_semantics(markdown).contains(&expected),
+                "Markdown omitted semantic value: {expected}"
+            );
+        }
+        serde_json::Value::Array(values) => {
+            for value in values {
+                assert_json_strings_present(value, html, markdown);
+            }
+        }
+        serde_json::Value::Object(values) => {
+            for value in values.values() {
+                assert_json_strings_present(value, html, markdown);
+            }
+        }
+        _ => {}
     }
 }
 
@@ -304,4 +393,51 @@ fn empty_findings_have_explicit_complete_output() {
     let manifest: HtmlManifest =
         serde_json::from_slice(&fs::read(fixture.out.join("manifest.json")).unwrap()).unwrap();
     assert!(manifest.finding_ids.is_empty());
+}
+
+#[test]
+fn html_and_markdown_preserve_complete_governed_semantics() {
+    let fixture = Fixture::new(parity_review(), HTML_RENDERER_VERSION);
+    render_html(fixture.options()).unwrap();
+    let html = fs::read_to_string(fixture.out.join("report.html")).unwrap();
+
+    fs::remove_dir_all(&fixture.out).unwrap();
+    render_markdown(MarkdownRenderOptions {
+        review_record: fixture.review_path.clone(),
+        publication: fixture.publication_path.clone(),
+        approval_store: fixture.approval_store.clone(),
+        artifact_root: fixture.artifact_root.clone(),
+        synthesis: fixture.synthesis_rel.clone(),
+        remediation_plan: fixture.remediation_rel.clone(),
+        test_plan: fixture.test_plan_rel.clone(),
+        destination_root: fixture.destination_root.clone(),
+        out: fixture.out.clone(),
+    })
+    .unwrap();
+    let markdown = fs::read_to_string(fixture.out.join("report.md")).unwrap();
+
+    let synthesis: serde_json::Value = serde_json::from_slice(
+        &fs::read(fixture.artifact_root.join(&fixture.synthesis_rel)).unwrap(),
+    )
+    .unwrap();
+    let remediation: serde_json::Value = serde_json::from_slice(
+        &fs::read(fixture.artifact_root.join(&fixture.remediation_rel)).unwrap(),
+    )
+    .unwrap();
+    let test_plan: serde_json::Value = serde_json::from_slice(
+        &fs::read(fixture.artifact_root.join(&fixture.test_plan_rel)).unwrap(),
+    )
+    .unwrap();
+
+    assert_json_strings_present(&synthesis["synthesized_findings"], &html, &markdown);
+    assert_json_strings_present(&remediation["actions"], &html, &markdown);
+    assert_json_strings_present(&remediation["omitted_findings"], &html, &markdown);
+    assert_json_strings_present(&test_plan["test_cases"], &html, &markdown);
+    assert_json_strings_present(&test_plan["omitted_findings"], &html, &markdown);
+    assert_eq!(test_plan["omitted_findings"].as_array().unwrap().len(), 1);
+    assert!(html.contains("severity disagreement retained"));
+    assert!(markdown.contains("severity disagreement retained"));
+    let omission_reason = normalized_semantics("no_supported_repository_path_for_test_location");
+    assert!(normalized_semantics(&html).contains(&omission_reason));
+    assert!(normalized_semantics(&markdown).contains(&omission_reason));
 }
