@@ -307,7 +307,15 @@ fn text_width_mm(text: &str, font: &ParsedFont) -> Result<f32> {
 }
 
 fn wrap_text(text: &str, font: &ParsedFont, max_width_mm: f32) -> Result<Vec<String>> {
-    ensure!(max_width_mm > 0.0, "pdf_printable_width_invalid");
+    wrap_text_with_width(text, max_width_mm, |value| text_width_mm(value, font))
+}
+
+fn wrap_text_with_width(
+    text: &str,
+    max_width: f32,
+    measure: impl Fn(&str) -> Result<f32>,
+) -> Result<Vec<String>> {
+    ensure!(max_width > 0.0, "pdf_printable_width_invalid");
     let mut lines = Vec::new();
     for source_line in text.lines() {
         if source_line.is_empty() {
@@ -321,7 +329,7 @@ fn wrap_text(text: &str, font: &ParsedFont, max_width_mm: f32) -> Result<Vec<Str
             } else {
                 format!("{current} {word}")
             };
-            if text_width_mm(&candidate, font)? <= max_width_mm {
+            if measure(&candidate)? <= max_width {
                 current = candidate;
                 continue;
             }
@@ -331,12 +339,12 @@ fn wrap_text(text: &str, font: &ParsedFont, max_width_mm: f32) -> Result<Vec<Str
             for character in word.chars() {
                 let mut candidate = current.clone();
                 candidate.push(character);
-                if !current.is_empty() && text_width_mm(&candidate, font)? > max_width_mm {
+                if !current.is_empty() && measure(&candidate)? > max_width {
                     lines.push(std::mem::take(&mut current));
                     candidate = character.to_string();
                 }
                 ensure!(
-                    text_width_mm(&candidate, font)? <= max_width_mm,
+                    measure(&candidate)? <= max_width,
                     "pdf_glyph_exceeds_printable_width_u{:04x}",
                     character as u32
                 );
@@ -396,12 +404,13 @@ fn validate_manifest(
 
 #[cfg(test)]
 mod tests {
-    use super::wrap_text;
+    use super::wrap_text_with_width;
 
     #[test]
     fn wrapping_preserves_all_unicode_and_splits_long_tokens() {
         let input = "Résumé café π\nhttps://example.invalid/abcdefghijklmnopqrstuvwxyz";
-        let lines = wrap_text(input, 12);
+        let lines =
+            wrap_text_with_width(input, 12.0, |value| Ok(value.chars().count() as f32)).unwrap();
         assert!(lines.iter().all(|line| line.chars().count() <= 12));
         assert_eq!(
             lines.concat().replace(' ', ""),
