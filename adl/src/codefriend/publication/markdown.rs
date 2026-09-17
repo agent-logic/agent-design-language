@@ -223,6 +223,8 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
     let (actual_report, actual_manifest) = publish_create_only_anchored(
         &options.destination_root,
         Path::new(&publication.target),
+        "report.md",
+        "markdown",
         report.as_bytes(),
         &manifest_bytes,
     )?;
@@ -252,7 +254,7 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
     })
 }
 
-fn approved_input_path(
+pub(super) fn approved_input_path(
     relative: &Path,
     artifacts: &[crate::codefriend::evidence::contracts::Artifact],
 ) -> Result<PathBuf> {
@@ -271,7 +273,7 @@ fn approved_input_path(
     Ok(PathBuf::from(relative))
 }
 
-fn require_bundle_files(
+pub(super) fn require_bundle_files(
     selected: &Path,
     required_names: &[&str],
     artifacts: &[VerifiedArtifact],
@@ -312,7 +314,7 @@ fn bundle_path(selected: &Path, name: &str) -> Result<PathBuf> {
         .join(name))
 }
 
-fn read_synthesis_from_snapshot(
+pub(super) fn read_synthesis_from_snapshot(
     artifacts: &[VerifiedArtifact],
     selected: &Path,
 ) -> Result<ReviewSynthesis> {
@@ -360,7 +362,7 @@ fn validate_synthesis_snapshot(
     Ok(())
 }
 
-fn read_remediation_from_snapshot(
+pub(super) fn read_remediation_from_snapshot(
     artifacts: &[VerifiedArtifact],
     selected: &Path,
 ) -> Result<RemediationPlan> {
@@ -409,7 +411,7 @@ fn read_remediation_from_snapshot(
     Ok(plan)
 }
 
-fn read_test_plan_from_snapshot(
+pub(super) fn read_test_plan_from_snapshot(
     artifacts: &[VerifiedArtifact],
     selected: &Path,
 ) -> Result<TestPlan> {
@@ -457,7 +459,7 @@ fn read_test_plan_from_snapshot(
     Ok(plan)
 }
 
-fn validate_source_identity(
+pub(super) fn validate_source_identity(
     review: &crate::codefriend::evidence::contracts::ReviewRecord,
     synthesis: &ReviewSynthesis,
     remediation: &RemediationPlan,
@@ -502,7 +504,7 @@ fn validate_source_identity(
     Ok(())
 }
 
-fn validate_plan_parity(
+pub(super) fn validate_plan_parity(
     synthesis: &ReviewSynthesis,
     remediation: &RemediationPlan,
     tests: &TestPlan,
@@ -885,7 +887,7 @@ fn validate_manifest(
     Ok(())
 }
 
-fn normalized_path(path: &Path) -> Result<PathBuf> {
+pub(super) fn normalized_path(path: &Path) -> Result<PathBuf> {
     let mut normalized = PathBuf::new();
     for component in path.components() {
         match component {
@@ -899,9 +901,11 @@ fn normalized_path(path: &Path) -> Result<PathBuf> {
     Ok(normalized)
 }
 
-fn publish_create_only_anchored(
+pub(super) fn publish_create_only_anchored(
     destination_root: &Path,
     target: &Path,
+    report_name: &str,
+    stage_label: &str,
     report: &[u8],
     manifest: &[u8],
 ) -> Result<(Vec<u8>, Vec<u8>)> {
@@ -915,10 +919,10 @@ fn publish_create_only_anchored(
         "markdown_target_parent_identity_changed"
     );
 
-    let stage_name = create_stage_at(&parent)?;
+    let stage_name = create_stage_at(&parent, stage_label)?;
     let stage = open_directory_at(&parent, &stage_name)?;
     let result = (|| -> Result<(Vec<u8>, Vec<u8>)> {
-        write_create_only_at(&stage, "report.md", report)?;
+        write_create_only_at(&stage, report_name, report)?;
         write_create_only_at(&stage, "manifest.json", manifest)?;
         stage.sync_all()?;
         rename_create_only_at(&parent, &stage_name, target_name)?;
@@ -928,12 +932,12 @@ fn publish_create_only_anchored(
             "markdown_target_parent_identity_changed"
         );
         let committed = open_directory_at(&parent, target_name)?;
-        let actual_report = read_limited_at(&committed, "report.md", MAX_RENDERED_BYTES as u64)?;
+        let actual_report = read_limited_at(&committed, report_name, MAX_RENDERED_BYTES as u64)?;
         let actual_manifest = read_limited_at(&committed, "manifest.json", 2 * 1024 * 1024)?;
         Ok((actual_report, actual_manifest))
     })();
     if result.is_err() {
-        cleanup_stage_at(&parent, &stage_name, &stage);
+        cleanup_stage_at(&parent, &stage_name, &stage, report_name);
     }
     result
 }
@@ -1002,11 +1006,18 @@ fn mkdir_at(parent: &File, name: &std::ffi::OsStr) -> Result<()> {
     Err(error.into())
 }
 
-fn create_stage_at(parent: &File) -> Result<std::ffi::OsString> {
+fn create_stage_at(parent: &File, label: &str) -> Result<std::ffi::OsString> {
+    ensure!(
+        !label.is_empty()
+            && label
+                .chars()
+                .all(|character| character.is_ascii_alphanumeric()),
+        "markdown_stage_label_invalid"
+    );
     loop {
         let serial = NEXT_STAGE.fetch_add(1, Ordering::Relaxed);
         let name = std::ffi::OsString::from(format!(
-            ".codefriend-markdown-stage-{}-{serial}",
+            ".codefriend-{label}-stage-{}-{serial}",
             std::process::id()
         ));
         let c_name = c_name(&name)?;
@@ -1136,8 +1147,8 @@ fn rename_status(status: libc::c_int) -> Result<()> {
     Err(error.into())
 }
 
-fn cleanup_stage_at(parent: &File, stage_name: &std::ffi::OsStr, stage: &File) {
-    for name in ["report.md", "manifest.json"] {
+fn cleanup_stage_at(parent: &File, stage_name: &std::ffi::OsStr, stage: &File, report_name: &str) {
+    for name in [report_name, "manifest.json"] {
         if let Ok(name) = c_name(std::ffi::OsStr::new(name)) {
             // SAFETY: `name` is NUL terminated and `stage` remains open.
             unsafe {
@@ -1219,6 +1230,8 @@ mod tests {
         let error = publish_create_only_anchored(
             root.path(),
             Path::new("report"),
+            "report.md",
+            "markdown",
             b"review",
             br#"{"manifest":true}"#,
         )
@@ -1238,12 +1251,41 @@ mod tests {
     }
 
     #[test]
+    fn anchored_html_commit_removes_stage_after_competing_target() {
+        let root = tempfile::tempdir().unwrap();
+        let target = root.path().join("report");
+        fs::create_dir(&target).unwrap();
+        fs::write(target.join("owner"), b"competitor").unwrap();
+
+        let error = publish_create_only_anchored(
+            root.path(),
+            Path::new("report"),
+            "report.html",
+            "html",
+            b"<html>review</html>",
+            br#"{"manifest":true}"#,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(
+            error.contains("markdown_output_target_already_exists"),
+            "{error}"
+        );
+        assert_eq!(fs::read(target.join("owner")).unwrap(), b"competitor");
+        assert!(fs::read_dir(root.path()).unwrap().all(|entry| !entry
+            .unwrap()
+            .file_name()
+            .to_string_lossy()
+            .starts_with(".codefriend-html-stage-")));
+    }
+
+    #[test]
     fn anchored_parent_handle_cannot_be_redirected_by_path_swap() {
         let root = tempfile::tempdir().unwrap();
         let visible = root.path().join("visible");
         fs::create_dir(&visible).unwrap();
         let anchored = open_anchored_parent(root.path(), Path::new("visible")).unwrap();
-        let stage_name = create_stage_at(&anchored).unwrap();
+        let stage_name = create_stage_at(&anchored, "markdown").unwrap();
         let stage = open_directory_at(&anchored, &stage_name).unwrap();
         write_create_only_at(&stage, "report.md", b"anchored").unwrap();
 
