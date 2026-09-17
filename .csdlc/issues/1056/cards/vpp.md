@@ -35,11 +35,11 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/1056/cards/spp.md"
 selected_lanes:
-  - "runtime component and installed loopback; provider live acceptance pending deployment and spend approval"
+  - "runtime component and built-binary loopback; provider live acceptance pending deployment and spend approval"
 parallel_groups:
   - "Run disjoint deterministic tests in parallel; serialize shared service, installation and model-provider resources."
 validation_commands:
-  - "cargo test --manifest-path adl/Cargo.toml --test codefriend_server; cargo clippy --manifest-path adl/Cargo.toml --bin codefriend-server --test codefriend_server -- -D warnings; rustfmt --check --edition 2021 on changed Rust files; git diff --check. Test proof includes actual installed server and provider adapter with loopback fixture responses. Real deployed/provider acceptance remains required and not run."
+  - "cargo test --manifest-path adl/Cargo.toml --test codefriend_server; cargo clippy --manifest-path adl/Cargo.toml --bin codefriend-server --test codefriend_server -- -D warnings; rustfmt --check --edition 2021 on changed Rust files; git diff --check. Test proof includes actual built server subprocess and provider adapter with loopback fixture responses. Real deployed/provider acceptance remains required and not run."
 failure_policy: "Required positive and negative feature acceptance must execute with nonzero evidence; missing real product proof blocks completion."
 notes: "Coordinate accepted shared Runtime/provider/evidence and review consumer interfaces. Pin repository ownership and design before implementation; no live or paid operations during preparation."
 ---
@@ -61,7 +61,7 @@ Inspect and accept shared interfaces and repository ownership; implement the com
 
 ## Selected Validation Lanes
 
-- runtime component and installed loopback; provider live acceptance pending deployment and spend approval
+- runtime component and built-binary loopback; provider live acceptance pending deployment and spend approval
 
 ## Parallelization Plan
 
@@ -86,7 +86,7 @@ Inspect and accept shared interfaces and repository ownership; implement the com
 
 ## Validation Commands
 
-- cargo test --manifest-path adl/Cargo.toml --test codefriend_server; cargo clippy --manifest-path adl/Cargo.toml --bin codefriend-server --test codefriend_server -- -D warnings; rustfmt --check --edition 2021 on changed Rust files; git diff --check. Test proof includes actual installed server and provider adapter with loopback fixture responses. Real deployed/provider acceptance remains required and not run.
+- cargo test --manifest-path adl/Cargo.toml --test codefriend_server; cargo clippy --manifest-path adl/Cargo.toml --bin codefriend-server --test codefriend_server -- -D warnings; rustfmt --check --edition 2021 on changed Rust files; git diff --check. Test proof includes actual built server subprocess and provider adapter with loopback fixture responses. Real deployed/provider acceptance remains required and not run.
 
 ## Failure Semantics
 

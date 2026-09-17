@@ -9,8 +9,10 @@ Those owners are #1057 and #1058. Full journey integration and qualification rem
 
 ## Deployment boundary
 
-Build `cargo build --manifest-path adl/Cargo.toml --bin codefriend-server`.
-Run `codefriend-server --config <private-config.json> --listen 127.0.0.1:8080`.
+Install with `bash adl/tools/install_owner_binaries.sh --bin codefriend-server`.
+Run `.adl/bin/codefriend-server --config <private-config.json> --listen 127.0.0.1:8080`.
+Use an issue-local stable bin directory during validation; do not replace a shared
+operational installation without coordinating its users.
 The listener deliberately requires loopback. Hosted deployment needs an authenticated
 website integration and TLS ingress on the same server, private persistent storage,
 operator-provisioned credentials and an approved provider model. No deployment or
@@ -96,7 +98,7 @@ must honor the same retention contract.
 ## Proof boundaries
 
 `adl/tests/codefriend_server.rs` provides deterministic local component/protocol proof.
-Injected-backend scenarios do not prove actual hosted execution or model quality.
+Injected-backend scenarios do not prove real hosted execution or model quality.
 Before issue acceptance, retain a real bounded service/provider run with exact installed
 candidate, provider/profile, input/output identities and the source issue failure matrix.
 Website and installed-agent acceptance are separately required before Sprint 10 passes.

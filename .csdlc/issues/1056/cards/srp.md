@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "v0922-server-review-model-access-review-prompt"
 issue: 1056
 task_id: "issue-1056"
-version: "1.0.5"
+version: "v0.92.2"
 title: "[v0.92.2][CF-SERVER] Execute hosted reviews and provide governed model access"
 branch: "codex/1056-v0922-server-review-model-access"
-generated_at: "<timestamp>"
+generated_at: "2026-09-16T20:16:52.878587+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1056"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/1056/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/1056/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/1056/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/1056/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/1056/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/1056/cards/stp.md"
+  - ".csdlc/issues/1056/cards/sip.md"
+  - ".csdlc/issues/1056/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/1056/cards/stp.md"
+  - ".csdlc/issues/1056/cards/sip.md"
+  - ".csdlc/issues/1056/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "resolved"
+  recommended_outcome: "draft_publication_only"
+notes: "Reviewer review_1056_server reviewed ef119cf0f91439f7bc88de045922566f398b4912 exactly. Seven parent-run component/subprocess-loopback tests and targeted clippy passed. Record-only followups correct built-versus-installed wording and stale STP renderer status. Current native receipt must bind the final publication candidate. Real deployment/provider acceptance, website/local-agent qualification, merge readiness and Sprint10 completion remain outstanding."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/1056/cards/stp.md
+- .csdlc/issues/1056/cards/sip.md
+- .csdlc/issues/1056/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Three P2 findings: local-model semantic validation bypass; unsynced subject-directory ancestry before dispatch; result.tmp crash residue retained after expiry.
 
 ### Dispositions
 
-- <review_dispositions>
+- All three fixed and regression covered. Final independent source review found no remaining blocking source findings.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- draft_publication_only
 
 ## Notes
 
-<review_notes>
+Reviewer review_1056_server reviewed ef119cf0f91439f7bc88de045922566f398b4912 exactly. Seven parent-run component/subprocess-loopback tests and targeted clippy passed. Record-only followups correct built-versus-installed wording and stale STP renderer status. Current native receipt must bind the final publication candidate. Real deployment/provider acceptance, website/local-agent qualification, merge readiness and Sprint10 completion remain outstanding.

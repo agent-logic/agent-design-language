@@ -1,10 +1,10 @@
 # Issue 1056 implementation review
 
 Independent reviewer: `/root/review_1056_server`.
-Scope: server module, installed binary, protocol tests, runner helper visibility and server documentation.
+Scope: server module, built server binary, protocol tests, runner helper visibility and server documentation.
 
 Three actionable P2 findings were raised and resolved:
-1. Local model output bypassed semantic lane/finding validation. Reused both existing validators; installed loopback test rejects foreign/wrong-lane evidence.
+1. Local model output bypassed semantic lane/finding validation. Reused both existing validators; subprocess loopback test rejects foreign/wrong-lane evidence.
 2. New subject directory ancestry was not synced before dispatch. Root, operations, subject and operation reservation ancestry now persist before provider effects.
 3. Expiry left result.tmp crash residue. Purge both final and temporary result payload; regression test asserts removal.
 

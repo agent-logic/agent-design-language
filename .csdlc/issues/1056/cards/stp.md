@@ -1,6 +1,6 @@
 ---
 issue_card_schema: adl.issue.v1
-wp: "Sprint 10 umbrella #1056"
+wp: "Sprint 10 prerequisite #1056 (CF-SERVER)"
 slug: "v0922-server-review-model-access"
 title: "[v0.92.2][CF-SERVER] Execute hosted reviews and provide governed model access"
 labels:
@@ -22,7 +22,7 @@ canonical_files: []
 demo_required: false
 demo_names: []
 issue_graph_notes:
-  - "Coordination may start now without claiming children ready. #914 preserves all numeric prerequisites and accepted output gates, including unfinished #897 HTML report and #898 PDF report. #915 waits for the accepted exact #914 installed candidate. Sprint numbering creates no all-earlier-sprints barrier. Native finish and cleanup remain asynchronous and do not gate downstream execution."
+  - "Server/model-access prerequisite for #914; #1057 website and #1058 local agent consume its shared contracts. HTML #897 and PDF #898 are now delivered on main; full predecessor product acceptance remains an integration responsibility. This issue owns server implementation, not sprint coordination."
 pr_start:
   enabled: true
   slug: "v0922-server-review-model-access"
@@ -97,7 +97,7 @@ No Google sign-in, BYOK, open signup, unrelated repository migration, automatic 
 
 ## Issue-Graph Notes
 
-Coordination may start now without claiming children ready. #914 preserves all numeric prerequisites and accepted output gates, including unfinished #897 HTML report and #898 PDF report. #915 waits for the accepted exact #914 installed candidate. Sprint numbering creates no all-earlier-sprints barrier. Native finish and cleanup remain asynchronous and do not gate downstream execution.
+Server/model-access prerequisite for #914; #1057 website and #1058 local agent consume its shared contracts. HTML #897 and PDF #898 are now delivered on main; full predecessor product acceptance remains an integration responsibility. This issue owns server implementation, not sprint coordination.
 
 ## Notes
 

@@ -608,10 +608,10 @@ fn provider_request() -> adl::provider_communication::ProviderInvocationRequestV
     }
 }
 
-/// Exercises the installed server and real review/provider adapter over loopback.
+/// Exercises the built server and real review/provider adapter over loopback.
 /// Provider replies are controlled fixtures; this is not real-provider qualification.
 #[test]
-fn installed_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
+fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
     use std::io::{Read, Write};
     use std::net::TcpListener;
     use std::process::Stdio;
@@ -734,7 +734,7 @@ fn installed_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
                 std::thread::sleep(Duration::from_millis(10));
             }
-            panic!("installed operation timed out")
+            panic!("subprocess operation timed out")
         };
         assert_eq!(terminal(ALICE, "hosted")["status"], "complete");
         let response = client

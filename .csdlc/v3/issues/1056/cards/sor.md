@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Hosted HTTP review and local-agent model gateway implemented in ADL. Seven focused protocol/installed-loopback tests and targeted clippy passed. Independent source review found no remaining blocking code findings after three fixes. Live deployment/provider acceptance and #1057/#1058 integration remain outstanding; issue is not complete or merge-ready.
+Hosted HTTP review and local-agent model gateway implemented in ADL. Seven focused protocol/built-binary loopback tests and targeted clippy passed. Independent source review found no remaining blocking code findings after three fixes. Live deployment/provider acceptance and #1057/#1058 integration remain outstanding; issue is not complete or merge-ready.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs_only`
@@ -80,14 +80,14 @@ Hosted HTTP review and local-agent model gateway implemented in ADL. Seven focus
 
 ## Actions taken
 - `Implemented bounded authenticated server with durable per-user operation reservations, scoped model access, cancellation and retention.`
-- `Ran seven focused tests including installed binary and real runner/provider adapter with fixture loopback replies; ran targeted clippy.`
+- `Ran seven focused tests including built server binary and real runner/provider adapter with fixture loopback replies; ran targeted clippy.`
 - `Resolved independent review findings: local semantic validation, directory ancestry durability and temporary-result retention.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `preparation cards only`
 - Integration state: `worktree_only`
-- Verification scope: `Seven component and installed-loopback cases; live provider/deployment and whole Sprint10 remain unproven`
+- Verification scope: `Seven component and built-binary loopback cases; live provider/deployment and whole Sprint10 remain unproven`
 - Integration method used: `not_run`
 - Verification performed:
   - `not_run`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_server; cargo clippy --manifest-path adl/Cargo.toml --bin codefriend-server --test codefriend_server -- -D warnings`
-    `Component and installed-loopback protocol proof only`
+    `Component and built-binary loopback protocol proof only`
 - Results:
   - `7 tests passed; targeted clippy passed; live provider/deployment not run`
 

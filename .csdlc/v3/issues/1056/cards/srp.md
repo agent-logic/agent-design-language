@@ -8,7 +8,7 @@ version: "v0.92.2"
 title: "[v0.92.2][CF-SERVER] Execute hosted reviews and provide governed model access"
 branch: "codex/1056-v0922-server-review-model-access"
 generated_at: "2026-09-16T20:16:52.878587+00:00"
-card_status: "draft"
+card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/1056/cards/sip.md"
   - ".csdlc/issues/1056/cards/vpp.md"
 review_results:
-  findings_status: "not_run"
-  recommended_outcome: "not_run"
-notes: "Independent implementation review not yet run."
+  findings_status: "resolved"
+  recommended_outcome: "draft_publication_only"
+notes: "Reviewer review_1056_server reviewed ef119cf0f91439f7bc88de045922566f398b4912 exactly. Seven parent-run component/subprocess-loopback tests and targeted clippy passed. Record-only followups correct built-versus-installed wording and stale STP renderer status. Current native receipt must bind the final publication candidate. Real deployment/provider acceptance, website/local-agent qualification, merge readiness and Sprint10 completion remain outstanding."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- not_run
+- Three P2 findings: local-model semantic validation bypass; unsynced subject-directory ancestry before dispatch; result.tmp crash residue retained after expiry.
 
 ### Dispositions
 
-- not_run
+- All three fixed and regression covered. Final independent source review found no remaining blocking source findings.
 
 ### Recommended Outcome
 
-- not_run
+- draft_publication_only
 
 ## Notes
 
-Independent implementation review not yet run.
+Reviewer review_1056_server reviewed ef119cf0f91439f7bc88de045922566f398b4912 exactly. Seven parent-run component/subprocess-loopback tests and targeted clippy passed. Record-only followups correct built-versus-installed wording and stale STP renderer status. Current native receipt must bind the final publication candidate. Real deployment/provider acceptance, website/local-agent qualification, merge readiness and Sprint10 completion remain outstanding.
