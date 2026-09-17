@@ -1332,11 +1332,24 @@ mod semantic_gate_a {
         assert_ne!(current.inputs_version(), first.inputs_version());
         let projection: serde_json::Value =
             serde_json::from_slice(&current.projection_bytes().unwrap()).unwrap();
-        for surface in ["proof", "review", "publication"] {
-            assert!(projection["invalidations"]
-                .as_array()
-                .unwrap()
-                .contains(&surface.into()));
+        assert!(projection["invalidations"]
+            .as_array()
+            .unwrap()
+            .contains(&serde_json::json!("publication")));
+        let previous: serde_json::Value =
+            serde_json::from_slice(&first.projection_bytes().unwrap()).unwrap();
+        for surface in ["proof", "review", "readiness", "terminal", "cleanup"] {
+            assert_eq!(
+                projection["invalidations"]
+                    .as_array()
+                    .unwrap()
+                    .contains(&surface.into()),
+                previous["invalidations"]
+                    .as_array()
+                    .unwrap()
+                    .contains(&surface.into()),
+                "metadata changed {surface} invalidation"
+            );
         }
         let mut retained = 0;
         for (path, bytes) in before {

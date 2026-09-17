@@ -229,6 +229,19 @@ pub fn pending_operations(
     Ok(pending)
 }
 
+/// Reviewer-authored judgment. Receipt envelopes and proof identities are
+/// derived by the owner, while this source judgment is retained verbatim.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ReviewJudgment {
+    pub schema: String,
+    pub implementer: String,
+    pub reviewer: String,
+    pub reviewed_revision: String,
+    pub verdict: String,
+    pub evidence: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ExternalReview {
@@ -237,6 +250,8 @@ pub struct ExternalReview {
     pub receipt_digest: String,
     pub proof_path: String,
     pub proof_digest: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub judgment: Option<ReviewJudgment>,
 }
 
 fn strict_review_receipt<'de, D: serde::Deserializer<'de>>(
@@ -333,6 +348,27 @@ pub fn verify_external_review(
     evidence: &ExternalReview,
 ) -> Result<(), RemoteRouteFinding> {
     let receipt = &evidence.receipt;
+    if let Some(judgment) = &evidence.judgment {
+        let bytes = serde_json::to_vec(judgment).map_err(|_| {
+            remote_finding(
+                "intent_review_judgment_invalid",
+                "review judgment is not serializable",
+            )
+        })?;
+        if judgment.schema != "csdlc.v3.review_judgment.v1"
+            || judgment.verdict != "pass"
+            || judgment.evidence.trim().is_empty()
+            || judgment.implementer != receipt.implementer
+            || judgment.reviewer != receipt.reviewer
+            || judgment.reviewed_revision != receipt.reviewed_revision
+            || blake3::hash(&bytes).to_hex().as_str() != receipt.evidence_digest
+        {
+            return Err(remote_finding(
+                "intent_review_judgment_invalid",
+                "passing exact-head judgment must match its retained receipt",
+            ));
+        }
+    }
     if receipt.schema != "csdlc.v3.typed_review_receipt.v1"
         || receipt.repository != repository
         || receipt.issue != issue
@@ -472,46 +508,33 @@ pub fn record_external_review(
     verify_canonical_v3_authority(root, Some(authority_digest), head)?;
     verify_external_review(root, repository, issue, head, issue_digest, evidence)?;
     let receipt_path = root.join(proof_review_path(issue, head, &evidence.proof_digest));
-    let evidence_path = receipt_path.with_extension("external.json");
     guard_review_path(root, &receipt_path)?;
-    guard_review_path(root, &evidence_path)?;
-    // The full external packet is retained alongside the native receipt. A crash
-    // between the two writes is recoverable only with the identical packet.
-    let mut wrote = false;
-    for (path, value) in [
-        (evidence_path, serde_json::to_value(evidence)),
-        (receipt_path, serde_json::to_value(&evidence.receipt)),
-    ] {
-        let value = value.map_err(|_| {
-            remote_finding(
-                "intent_review_serialization_failed",
-                "external review cannot serialize",
-            )
-        })?;
-        if path.exists() {
-            let existing: Value = serde_json::from_slice(&fs::read(&path).map_err(|_| {
-                remote_finding(
-                    "intent_review_record_unreadable",
-                    "existing review record is unreadable",
-                )
-            })?)
-            .map_err(|_| {
-                remote_finding(
-                    "intent_review_record_invalid",
-                    "existing review record is invalid",
-                )
-            })?;
-            if existing != value {
-                return Err(remote_finding(
-                    "intent_review_record_conflict",
-                    "existing exact-head review cannot be replaced",
-                ));
-            }
-        } else {
-            persist_json_create_new(&path, &value)?;
-            wrote = true;
+    // One immutable file contains both the native receipt and source judgment.
+    // Existing two-file records remain readable and are never rewritten.
+    if receipt_path.exists() {
+        let retained = load_external_review(root, issue, head)?;
+        if serde_json::to_value(&retained).ok() != serde_json::to_value(evidence).ok() {
+            return Err(remote_finding(
+                "intent_review_record_conflict",
+                "existing exact-head review cannot be replaced",
+            ));
         }
+        return Ok(false);
     }
+    let mut record = serde_json::to_value(&evidence.receipt).map_err(|_| {
+        remote_finding(
+            "intent_review_serialization_failed",
+            "review cannot serialize",
+        )
+    })?;
+    record["external_review"] = serde_json::to_value(evidence).map_err(|_| {
+        remote_finding(
+            "intent_review_serialization_failed",
+            "judgment cannot serialize",
+        )
+    })?;
+    persist_json_create_new(&receipt_path, &record)?;
+    let wrote = true;
     Ok(wrote)
 }
 
@@ -531,34 +554,43 @@ pub fn load_external_review(
     } else {
         root.join(review_path(issue, head))
     };
-    let path = receipt_path.with_extension("external.json");
-    guard_review_path(root, &path)?;
-    let bytes = fs::read(path).map_err(|_| {
+    guard_review_path(root, &receipt_path)?;
+    let record: Value = serde_json::from_slice(&fs::read(&receipt_path).map_err(|_| {
         remote_finding(
             "intent_external_review_missing",
             "record independent exact-head review before publication",
         )
-    })?;
-    let evidence: ExternalReview = serde_json::from_slice(&bytes).map_err(|_| {
-        remote_finding(
-            "intent_external_review_invalid",
-            "retained external review is invalid",
-        )
-    })?;
-    guard_review_path(root, &receipt_path)?;
-    let receipt: TypedReviewReceipt =
-        serde_json::from_slice(&fs::read(receipt_path).map_err(|_| {
+    })?)
+    .map_err(|_| remote_finding("intent_review_record_invalid", "review record is invalid"))?;
+    let evidence: ExternalReview = if let Some(packet) = record.get("external_review") {
+        serde_json::from_value(packet.clone()).map_err(|_| {
             remote_finding(
-                "intent_review_record_missing",
-                "native review receipt is required",
+                "intent_external_review_invalid",
+                "retained judgment is invalid",
+            )
+        })?
+    } else {
+        let path = receipt_path.with_extension("external.json");
+        guard_review_path(root, &path)?;
+        serde_json::from_slice(&fs::read(path).map_err(|_| {
+            remote_finding(
+                "intent_external_review_missing",
+                "legacy external review is missing",
             )
         })?)
         .map_err(|_| {
             remote_finding(
-                "intent_review_record_invalid",
-                "native review receipt is invalid",
+                "intent_external_review_invalid",
+                "retained external review is invalid",
             )
-        })?;
+        })?
+    };
+    let receipt: TypedReviewReceipt = serde_json::from_value(record).map_err(|_| {
+        remote_finding(
+            "intent_review_record_invalid",
+            "native review receipt is invalid",
+        )
+    })?;
     if receipt != evidence.receipt {
         return Err(remote_finding(
             "intent_review_record_conflict",

@@ -125,8 +125,8 @@ pub(crate) fn admit_validators(
 
 /// Validate the bounded validator declaration without claiming that the current
 /// checkout is its future execution candidate. Preparation runs in the primary
-/// checkout before a worktree exists; candidate-byte admission belongs to edit
-/// and proof in the eventual bound worktree.
+/// checkout before a worktree exists; edits admit declarations while candidate-byte
+/// admission belongs to proof in the eventual bound worktree.
 pub(crate) fn admit_validator_declarations(
     root: &Path,
     validators: &[Validator],
@@ -174,11 +174,19 @@ pub(crate) fn admit_validator_declarations(
     Ok(())
 }
 
+pub(crate) fn admit_semantic_validator_declarations(
+    context: &Context,
+    validators: &[Validator],
+) -> Result<(), String> {
+    verify_semantic_card_inputs(context)?;
+    admit_validator_declarations(&context.root, validators)
+}
+
 pub(crate) fn admit_semantic_validators(
     context: &Context,
     validators: &[Validator],
 ) -> Result<AdmittedValidators, String> {
-    verify_semantic_projection_health(context)?;
+    verify_semantic_card_inputs(context)?;
     admit_validators_with_projection_inputs(
         &context.root,
         validators,
@@ -186,10 +194,24 @@ pub(crate) fn admit_semantic_validators(
     )
 }
 
-fn verify_semantic_projection_health(context: &Context) -> Result<(), String> {
-    if !crate::application::intent::semantic_card_projection_healthy(context)? {
-        return Err("intent_semantic_projection_not_healthy".into());
+fn verify_semantic_card_inputs(context: &Context) -> Result<(), String> {
+    // Validate the authoritative inputs through the renderer, not editable
+    // generated files. A missing or stale view cannot invalidate candidate proof.
+    let (root, key) = context.semantic_root_key()?;
+    let snapshot = match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+        .map_err(|_| "intent_semantic_state_observation_failed")?
+    {
+        crate::storage::semantic::Observation::Current(snapshot)
+        | crate::storage::semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
+        _ => return Err("intent_semantic_state_unavailable".into()),
+    };
+    if snapshot.inputs().authority() != &context.semantic_authority()? {
+        return Err("intent_semantic_authority_changed".into());
     }
+    // Preflight runs before the bound owner's checked fast-forward refresh.
+    // Do not require the previous binding HEAD to equal the new source HEAD here.
+    crate::application::derive_semantic_card_projection(&snapshot, &context.registry()?)
+        .map_err(|error| format!("intent_semantic_projection_derivation_failed:{error}"))?;
     Ok(())
 }
 
@@ -1339,7 +1361,7 @@ pub(crate) fn verify_semantic_execution_inputs(
     validators: &[Validator],
     proof: &Value,
 ) -> Result<(), String> {
-    verify_semantic_projection_health(context)?;
+    verify_semantic_card_inputs(context)?;
     verify_execution_inputs_with_projection_inputs(
         &context.root,
         validators,

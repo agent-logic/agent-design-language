@@ -461,7 +461,7 @@ impl Context {
         }
     }
 
-    /// Load one current, projection-coherent semantic snapshot and bind it to the
+    /// Load one current authoritative semantic snapshot and bind it to the
     /// authenticated native context. Legacy-only issues require the separately
     /// owned conversion flow and never seed semantic state here.
     pub(crate) fn semantic_context(&self) -> Result<SemanticContext, String> {
@@ -470,9 +470,8 @@ impl Context {
         let snapshot = match DurableTransactionStore::observe_issue(&root, &key)
             .map_err(semantic_error)?
         {
-            Observation::Current(snapshot) => *snapshot,
-            Observation::ProjectionRepairRequired(_) => {
-                return Err("intent_semantic_projection_repair_required".into())
+            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+                *snapshot
             }
             Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
             Observation::LegacyMigrationRequired => {
@@ -480,9 +479,6 @@ impl Context {
             }
             Observation::Absent => return Err("intent_semantic_state_missing".into()),
         };
-        if snapshot.projection_required() {
-            return Err("intent_semantic_projection_repair_required".into());
-        }
         let authority = self.semantic_authority()?;
         if snapshot.inputs().authority() != &authority {
             return Err("intent_semantic_authority_changed".into());
@@ -502,8 +498,8 @@ impl Context {
 
     /// Load canonical terminal state for the cleanup command without requiring
     /// generated tracked projections to be rewritten in the checkout that is
-    /// about to be removed. All other semantic commands retain the strict
-    /// projection-coherence requirement in `semantic_context`.
+    /// about to be removed. Generated views are non-authoritative for both
+    /// ordinary semantic admission and terminal cleanup.
     pub(crate) fn semantic_cleanup_context(&self) -> Result<SemanticContext, String> {
         self.fresh_integrity()?;
         let (root, key) = self.semantic_root_key()?;
@@ -964,26 +960,12 @@ impl SemanticContext {
 
 fn complete_projection(
     root: &SemanticRoot,
-    key: &IssueKey,
+    _key: &IssueKey,
     snapshot: &SemanticSnapshot,
 ) -> Result<SemanticSnapshot, String> {
-    let proof =
-        DurableTransactionStore::write_issue_projection(root, snapshot).map_err(semantic_error)?;
-    let admission = SemanticAdmission::new(
-        key.clone(),
-        snapshot.version().clone(),
-        snapshot.inputs().authority().clone(),
-    );
-    match DurableTransactionStore::commit_issue_local(
-        root,
-        admission,
-        crate::storage::semantic::LocalChange::AcknowledgeProjection(proof),
-    )
-    .map_err(semantic_error)?
-    {
-        crate::storage::semantic::CommitOutcome::Committed(snapshot)
-        | crate::storage::semantic::CommitOutcome::Unchanged(snapshot) => Ok(*snapshot),
-    }
+    // Materialization is a cache write, not a lifecycle transition.
+    DurableTransactionStore::write_issue_projection(root, snapshot).map_err(semantic_error)?;
+    Ok(snapshot.clone())
 }
 
 fn semantic_error(error: crate::storage::semantic::Error) -> String {

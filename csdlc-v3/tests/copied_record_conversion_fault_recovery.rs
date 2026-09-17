@@ -186,17 +186,17 @@ fn assert_single_semantic_effect(point: &str, boundary: &str, git_common: &Path)
         let current: Value = read_json(&issue_root.join("current.json"));
         assert_eq!(
             current.get("generation").and_then(Value::as_u64),
-            Some(2),
+            Some(1),
             "{point}/{boundary}: issue {issue} did not complete at the expected converted generation"
         );
         assert_eq!(
             regular_file_count(&issue_root.join("intents")),
-            2,
+            1,
             "{point}/{boundary}: issue {issue} has an unexpected conversion intent count"
         );
         assert_eq!(
             regular_file_count(&issue_root.join("commits")),
-            2,
+            1,
             "{point}/{boundary}: issue {issue} has an unexpected semantic commit count"
         );
 
