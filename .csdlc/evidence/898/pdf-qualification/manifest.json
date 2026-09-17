@@ -1,0 +1,33 @@
+{
+  "schema": "codefriend.pdf_report_manifest.v1",
+  "renderer_version": "v1-printpdf-0.12.8",
+  "renderer_engine": "printpdf@0.12.8; layout=codefriend-pdf-v1",
+  "font_digest": "920ba7d77f5d36a356b34b87b2443e1ffefb0e0d3849576edc09f24862dde29f",
+  "review_record_digest": "339759f52e7246323ac9f52d590e978f869530cdc488e50a69650558b193ec39",
+  "run_digest": "a82ad5ab4abd9e8de1f598964791107645171f5243e877b5b3b4e42cedeab3e2",
+  "finding_set_digest": "3fe8d70034c0c9756f6b6cf1ac0385531b50b32ff86aab7b0a605370fac8cf4f",
+  "synthesis_digest": "be79b9082b62363bb2878931158e32f530d7e2aac4d7c0112ea29841d2de2102",
+  "remediation_plan_digest": "2f93989f9642fa02a02716c0ee3612d3c0f190c039530d716d24e538a68c3efb",
+  "test_plan_digest": "20f6b4680a19b834c505aea19ca633e5957ef3c7b6da9540fbe3a149d650e512",
+  "publication_binding_digest": "91c9ab26cbd3c04781fd1f5c9f66eb8e3eff2ed994c7131bb58d73e0ac4770c1",
+  "approval_decision_digest": "d230fb6d7deb23b1795346b7b9adac9bbc26b419e9219a718fb3a15ce3e48d21",
+  "repository": "https://github.com/vectordotdev/vector",
+  "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+  "scope_digest": "9ab817de155ee4d1a207d0d61adeb3d02c7fc3317c99c9be1f56e56482fac421",
+  "target": "approved-pdf-report",
+  "report_path": "report.pdf",
+  "report_digest": "f8ca21cd6aea1ef5a7b18454faf4225cd588e312207e2337f0d5f4ad2c135d35",
+  "semantic_digest": "75fa8a61b0222139ef94c7fba4ea17662fb842ad3826b82c923e008be461156e",
+  "page_count": 6,
+  "line_count": 297,
+  "finding_ids": [
+    "444d15b0eae2ba3720852d84136753351fb94e180d7313056d0ef9aff96d88c2"
+  ],
+  "claims": [
+    "Approved exact PDF review semantics"
+  ],
+  "nonclaims": [
+    "No HTML, Markdown, remote, or customer publication"
+  ],
+  "external_resources": false
+}

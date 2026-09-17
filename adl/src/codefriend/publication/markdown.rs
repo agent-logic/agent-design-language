@@ -89,6 +89,16 @@ pub struct MarkdownRenderResult {
     pub approval_decision_digest: String,
 }
 
+pub(crate) struct PreparedReport {
+    pub review: ReviewRecord,
+    pub publication: crate::codefriend::evidence::contracts::Publication,
+    pub decision: super::approval::DecisionRecord,
+    pub synthesis: ReviewSynthesis,
+    pub remediation: RemediationPlan,
+    pub tests: TestPlan,
+    pub text: String,
+}
+
 pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderResult> {
     ensure!(
         !options.out.exists(),
@@ -102,76 +112,21 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
     reject_symlink_components(&options.destination_root)?;
     reject_symlink_components(&options.out)?;
 
-    let review = read_review(&options.review_record)?;
-    let publication = read_publication(&options.publication)?;
-    publication.validate(&review)?;
-    let artifacts = snapshot_artifacts(&options.artifact_root, &publication.artifact_manifest)?;
-    let decision = read_decision_head(&options.approval_store, &review, &publication)?
-        .ok_or_else(|| anyhow::anyhow!("markdown_requires_publication_decision"))?;
-    ensure!(
-        decision.decision == DecisionKind::Approved,
-        "markdown_requires_current_approval"
-    );
-    ensure!(
-        decision.publication.binding_digest()? == publication.binding_digest()?,
-        "markdown_approval_binding_mismatch"
-    );
-    ensure!(
-        publication
-            .renderer_versions
-            .get("markdown")
-            .is_some_and(|version| version == MARKDOWN_RENDERER_VERSION),
-        "markdown_renderer_identity_mismatch"
-    );
-    ensure!(
-        destination_digest(&options.destination_root)? == publication.destination_digest,
-        "markdown_destination_identity_mismatch"
-    );
-    let expected_out = options.destination_root.join(&publication.target);
-    ensure!(
-        normalized_path(&expected_out)? == normalized_path(&options.out)?,
-        "markdown_target_identity_mismatch"
-    );
-
-    let synthesis_path = approved_input_path(&options.synthesis, &publication.artifact_manifest)?;
-    let remediation_path =
-        approved_input_path(&options.remediation_plan, &publication.artifact_manifest)?;
-    let test_path = approved_input_path(&options.test_plan, &publication.artifact_manifest)?;
-    require_bundle_files(
-        &options.synthesis,
-        &["synthesis.json", "manifest.json", "review-record.json"],
-        &artifacts,
+    let prepared = prepare_report(
+        &options,
+        "markdown",
+        MARKDOWN_RENDERER_VERSION,
+        "This is the canonical local Markdown rendering of the approved review. It does not claim HTML, PDF, remote, or customer publication.",
     )?;
-    require_bundle_files(
-        &options.remediation_plan,
-        &[
-            "remediation-plan.json",
-            "manifest.json",
-            "synthesis.json",
-            "synthesis-manifest.json",
-            "review-record.json",
-        ],
-        &artifacts,
-    )?;
-    require_bundle_files(
-        &options.test_plan,
-        &[
-            "test-plan.json",
-            "manifest.json",
-            "synthesis.json",
-            "synthesis-manifest.json",
-            "review-record.json",
-        ],
-        &artifacts,
-    )?;
-
-    let synthesis = read_synthesis_from_snapshot(&artifacts, &synthesis_path)?;
-    let remediation = read_remediation_from_snapshot(&artifacts, &remediation_path)?;
-    let tests = read_test_plan_from_snapshot(&artifacts, &test_path)?;
-    validate_source_identity(&review, &synthesis, &remediation, &tests)?;
-    validate_plan_parity(&synthesis, &remediation, &tests)?;
-
-    let report = render_report(&review, &synthesis, &remediation, &tests, &decision)?;
+    let PreparedReport {
+        review,
+        publication,
+        decision,
+        synthesis,
+        remediation,
+        tests,
+        text: report,
+    } = prepared;
     ensure!(
         report.len() <= MAX_RENDERED_BYTES,
         "markdown_report_byte_limit_exceeded"
@@ -223,8 +178,11 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
     let (actual_report, actual_manifest) = publish_create_only_anchored(
         &options.destination_root,
         Path::new(&publication.target),
+        "report.md",
         report.as_bytes(),
         &manifest_bytes,
+        MAX_RENDERED_BYTES as u64,
+        "markdown",
     )?;
     ensure!(
         actual_report == report.as_bytes(),
@@ -249,6 +207,100 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         manifest_digest,
         finding_count: synthesis.synthesized_findings.len(),
         approval_decision_digest: decision.digest,
+    })
+}
+
+pub(crate) fn prepare_report(
+    options: &MarkdownRenderOptions,
+    renderer_key: &str,
+    renderer_version: &str,
+    output_boundary: &str,
+) -> Result<PreparedReport> {
+    let review = read_review(&options.review_record)?;
+    let publication = read_publication(&options.publication)?;
+    publication.validate(&review)?;
+    let artifacts = snapshot_artifacts(&options.artifact_root, &publication.artifact_manifest)?;
+    let decision = read_decision_head(&options.approval_store, &review, &publication)?
+        .ok_or_else(|| anyhow::anyhow!("markdown_requires_publication_decision"))?;
+    ensure!(
+        decision.decision == DecisionKind::Approved,
+        "markdown_requires_current_approval"
+    );
+    ensure!(
+        decision.publication.binding_digest()? == publication.binding_digest()?,
+        "markdown_approval_binding_mismatch"
+    );
+    ensure!(
+        publication
+            .renderer_versions
+            .get(renderer_key)
+            .is_some_and(|version| version == renderer_version),
+        "markdown_renderer_identity_mismatch"
+    );
+    ensure!(
+        destination_digest(&options.destination_root)? == publication.destination_digest,
+        "markdown_destination_identity_mismatch"
+    );
+    let expected_out = options.destination_root.join(&publication.target);
+    ensure!(
+        normalized_path(&expected_out)? == normalized_path(&options.out)?,
+        "markdown_target_identity_mismatch"
+    );
+
+    let synthesis_path = approved_input_path(&options.synthesis, &publication.artifact_manifest)?;
+    let remediation_path =
+        approved_input_path(&options.remediation_plan, &publication.artifact_manifest)?;
+    let test_path = approved_input_path(&options.test_plan, &publication.artifact_manifest)?;
+    require_bundle_files(
+        &options.synthesis,
+        &["synthesis.json", "manifest.json", "review-record.json"],
+        &artifacts,
+    )?;
+    require_bundle_files(
+        &options.remediation_plan,
+        &[
+            "remediation-plan.json",
+            "manifest.json",
+            "synthesis.json",
+            "synthesis-manifest.json",
+            "review-record.json",
+        ],
+        &artifacts,
+    )?;
+    require_bundle_files(
+        &options.test_plan,
+        &[
+            "test-plan.json",
+            "manifest.json",
+            "synthesis.json",
+            "synthesis-manifest.json",
+            "review-record.json",
+        ],
+        &artifacts,
+    )?;
+
+    let synthesis = read_synthesis_from_snapshot(&artifacts, &synthesis_path)?;
+    let remediation = read_remediation_from_snapshot(&artifacts, &remediation_path)?;
+    let tests = read_test_plan_from_snapshot(&artifacts, &test_path)?;
+    validate_source_identity(&review, &synthesis, &remediation, &tests)?;
+    validate_plan_parity(&synthesis, &remediation, &tests)?;
+    let text = render_report(
+        &review,
+        &synthesis,
+        &remediation,
+        &tests,
+        &decision,
+        renderer_version,
+        output_boundary,
+    )?;
+    Ok(PreparedReport {
+        review,
+        publication,
+        decision,
+        synthesis,
+        remediation,
+        tests,
+        text,
     })
 }
 
@@ -553,6 +605,8 @@ fn render_report(
     remediation: &RemediationPlan,
     tests: &TestPlan,
     decision: &super::approval::DecisionRecord,
+    renderer_version: &str,
+    output_boundary: &str,
 ) -> Result<String> {
     let publication = &decision.publication;
     let evidence = review
@@ -610,7 +664,7 @@ fn render_report(
         &publication.binding_digest()?,
     )?;
     field(&mut out, "Target", &publication.target)?;
-    field(&mut out, "Renderer", MARKDOWN_RENDERER_VERSION)?;
+    field(&mut out, "Renderer", renderer_version)?;
     list(&mut out, "Claims", &publication.claims)?;
     list(&mut out, "Nonclaims", &publication.nonclaims)?;
 
@@ -630,7 +684,8 @@ fn render_report(
         )?;
     }
     out.push_str("\n## Output boundary\n\n");
-    out.push_str("This is the canonical local Markdown rendering of the approved review. It does not claim HTML, PDF, remote, or customer publication.\n");
+    out.push_str(output_boundary);
+    out.push('\n');
     Ok(out)
 }
 
@@ -899,11 +954,14 @@ fn normalized_path(path: &Path) -> Result<PathBuf> {
     Ok(normalized)
 }
 
-fn publish_create_only_anchored(
+pub(crate) fn publish_create_only_anchored(
     destination_root: &Path,
     target: &Path,
+    artifact_name: &str,
     report: &[u8],
     manifest: &[u8],
+    artifact_limit: u64,
+    stage_kind: &str,
 ) -> Result<(Vec<u8>, Vec<u8>)> {
     let target_name = target
         .file_name()
@@ -915,10 +973,10 @@ fn publish_create_only_anchored(
         "markdown_target_parent_identity_changed"
     );
 
-    let stage_name = create_stage_at(&parent)?;
+    let stage_name = create_stage_at(&parent, stage_kind)?;
     let stage = open_directory_at(&parent, &stage_name)?;
     let result = (|| -> Result<(Vec<u8>, Vec<u8>)> {
-        write_create_only_at(&stage, "report.md", report)?;
+        write_create_only_at(&stage, artifact_name, report)?;
         write_create_only_at(&stage, "manifest.json", manifest)?;
         stage.sync_all()?;
         rename_create_only_at(&parent, &stage_name, target_name)?;
@@ -928,7 +986,7 @@ fn publish_create_only_anchored(
             "markdown_target_parent_identity_changed"
         );
         let committed = open_directory_at(&parent, target_name)?;
-        let actual_report = read_limited_at(&committed, "report.md", MAX_RENDERED_BYTES as u64)?;
+        let actual_report = read_limited_at(&committed, artifact_name, artifact_limit)?;
         let actual_manifest = read_limited_at(&committed, "manifest.json", 2 * 1024 * 1024)?;
         Ok((actual_report, actual_manifest))
     })();
@@ -1002,12 +1060,19 @@ fn mkdir_at(parent: &File, name: &std::ffi::OsStr) -> Result<()> {
     Err(error.into())
 }
 
-fn create_stage_at(parent: &File) -> Result<std::ffi::OsString> {
+fn create_stage_at(parent: &File, stage_kind: &str) -> Result<std::ffi::OsString> {
+    ensure!(
+        !stage_kind.is_empty()
+            && stage_kind
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte == b'-'),
+        "markdown_stage_kind_invalid"
+    );
     loop {
         let serial = NEXT_STAGE.fetch_add(1, Ordering::Relaxed);
         let name = std::ffi::OsString::from(format!(
-            ".codefriend-markdown-stage-{}-{serial}",
-            std::process::id()
+            ".codefriend-{stage_kind}-stage-{}-{serial}",
+            std::process::id(),
         ));
         let c_name = c_name(&name)?;
         // SAFETY: `c_name` is NUL terminated and `parent` remains open.
@@ -1219,8 +1284,11 @@ mod tests {
         let error = publish_create_only_anchored(
             root.path(),
             Path::new("report"),
+            "report.md",
             b"review",
             br#"{"manifest":true}"#,
+            MAX_RENDERED_BYTES as u64,
+            "markdown",
         )
         .unwrap_err()
         .to_string();
@@ -1243,7 +1311,7 @@ mod tests {
         let visible = root.path().join("visible");
         fs::create_dir(&visible).unwrap();
         let anchored = open_anchored_parent(root.path(), Path::new("visible")).unwrap();
-        let stage_name = create_stage_at(&anchored).unwrap();
+        let stage_name = create_stage_at(&anchored, "markdown").unwrap();
         let stage = open_directory_at(&anchored, &stage_name).unwrap();
         write_create_only_at(&stage, "report.md", b"anchored").unwrap();
 

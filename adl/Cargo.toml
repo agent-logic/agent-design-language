@@ -97,6 +97,7 @@ serde_jcs = "0.2"
 hex = "0.4"
 blake3 = "1"
 markdown = "1.0.0"
+printpdf = { version = "=0.12.8", default-features = false }
 chrono = { version = "0.4", features = ["serde"] }
 chrono-tz = "0.10"
 libc = "0.2"
