@@ -81,7 +81,7 @@ Implemented installed `adl codefriend export pdf` with exact governed-source and
 ## Actions taken
 - `Replaced scalar-count pagination with selected-font glyph-advance measurement against the explicit printable page width.`
 - `Added wide unbroken-token and maximum rendered line-width regression proof.`
-- `Preserved create-only output, approval, provenance, redaction, path confinement, and sibling renderer behavior.`
+- `Updated the focused unit proof to exercise the width-measurement seam; product behavior was unchanged.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; all #898 implementation and proof changes are in the bound FastWork worktree`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_pdf --test codefriend_render_md --test codefriend_render_html; cargo clippy --manifest-path adl/Cargo.toml --lib --bins --tests -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; git diff origin/main...HEAD --check`
-    `Focused PDF renderer proof passed 4/4, including a wide-glyph unbroken-token regression and a manifest assertion that every rendered line remains within the declared printable width.`
+    `PDF width-wrap unit proof compiled and passed 1/1; installed PDF integration proof passed 4/4; strict Clippy passed.`
 - Results:
   - `passed`
 
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Focused installed PDF renderer proof: 4 tests passed; measured glyph-width boundary regression passed"
+      - "PDF width-wrap unit proof 1/1 and installed renderer proof 4/4 passed"
   determinism:
     status: passed
     replay_verified: true
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `<trace_bundle_paths>`
 - Run artifact root: `.csdlc/evidence/898/pdf-qualification`
 - Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_render_pdf`
-- Replay result: `4 passed; 0 failed`
+- Replay result: `unit 1 passed; integration 4 passed; 0 failed`
 
 ## Artifact Verification
 - Primary proof surface: `adl/tests/codefriend_render_pdf.rs plus retained report.pdf, manifest, extracted text and six page images`
