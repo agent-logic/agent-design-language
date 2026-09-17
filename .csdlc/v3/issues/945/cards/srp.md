@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "Independent /root/review_945 found no actionable findings at93f45b1fa3f041893e2afe668a94ee70e144dd49. Verified twelve approvals, preserved proposals, ADR0076-0087 allocation, reciprocal refinements and both-mode Beta1 gates. Current14-negative/44-source and historical10-negative/21-source validators passed. Final lifecycle-record delta requires exact-head review before publication."
+notes: "Independent /root/review_945 found no actionable findings ata292e328157bcbb4636ac7d839142c022cb05f94. BYOK deferred afterBeta1; Google sign-in unapproved; both website modes retained.12 decisions,69 mappings,44 sources,14 negatives passed. Final lifecycle-only delta receives exact-head review before ready transition."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- All twelve decisions individually accepted by operator. CF09 revised approval replaces unaccepted CLI-only proposal; website/code separation retained. Missing implementation owners, downstream typed-card updates and local-mode funding remain explicit gaps.
+- All12 accepted decisions preserved. BYOK deferred by operator; local model-access implementation remains separately required. No review blocker to readying1054 after native checks; no merge authorized.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent /root/review_945 found no actionable findings at93f45b1fa3f041893e2afe668a94ee70e144dd49. Verified twelve approvals, preserved proposals, ADR0076-0087 allocation, reciprocal refinements and both-mode Beta1 gates. Current14-negative/44-source and historical10-negative/21-source validators passed. Final lifecycle-record delta requires exact-head review before publication.
+Independent /root/review_945 found no actionable findings ata292e328157bcbb4636ac7d839142c022cb05f94. BYOK deferred afterBeta1; Google sign-in unapproved; both website modes retained.12 decisions,69 mappings,44 sources,14 negatives passed. Final lifecycle-only delta receives exact-head review before ready transition.
