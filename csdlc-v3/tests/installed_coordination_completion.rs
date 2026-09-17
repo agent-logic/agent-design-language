@@ -408,6 +408,79 @@ fn installed_legacy_coordination_completion_uses_native_guards_and_replays_once(
 }
 
 #[test]
+fn installed_legacy_finish_requires_exact_native_coordination_completion() {
+    let (mut fixture, linked, _) = setup("legacy-finish-without-completion");
+    retain_legacy_only(&fixture);
+    let mut remote = fixture.remote_issue();
+    remote["state"] = json!("closed");
+    remote["state_reason"] = json!("completed");
+    write(&base(&fixture).join("remote-issue.json"), &remote);
+    let disposition=fixture.write_json("legacy-direct-disposition.json",&json!({"disposition":"coordination_completed","operator":"synthetic-fixture-operator","rationale":"Attempt direct terminal admission","evidence_refs":[".csdlc/evidence/505/coordination.json"]}));
+
+    let denied = fixture.run(
+        &linked,
+        &[
+            "finish",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    );
+    assert!(!denied.status.success());
+    assert!(String::from_utf8_lossy(&denied.stdout)
+        .contains("intent_legacy_coordination_completion_receipt_required"));
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")
+        .exists());
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/local/v3/issues/505/terminal.json")
+        .exists());
+
+    let clean = fixture.run(&linked, &["clean", "505", "--preview", "plan"]);
+    assert!(!clean.status.success());
+    assert!(linked.exists());
+    assert!(!fixture.root.join(".git/csdlc-v3/local/archives").exists());
+}
+
+#[test]
+fn installed_legacy_cleanup_replay_requires_native_cleanup_archive() {
+    let (mut fixture, linked, body) = setup("legacy-manual-removal");
+    retain_legacy_only(&fixture);
+    let op = fixture.write_json("legacy-completion.json", &operation(&body));
+    success(execute(&mut fixture, &linked, &op));
+    let disposition=fixture.write_json("legacy-disposition.json",&json!({"disposition":"coordination_completed","operator":"synthetic-fixture-operator","rationale":"Verified legacy coordination delivery","evidence_refs":[".csdlc/evidence/505/coordination.json"]}));
+    success(fixture.run(
+        &linked,
+        &[
+            "finish",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+    ));
+
+    let removed = std::process::Command::new("git")
+        .arg("-C")
+        .arg(&fixture.root)
+        .args(["worktree", "remove", "--force", "--"])
+        .arg(&linked)
+        .output()
+        .unwrap();
+    assert!(
+        removed.status.success(),
+        "manual removal failed: {removed:?}"
+    );
+    assert!(!linked.exists());
+    assert!(!fixture.root.join(".git/csdlc-v3/local/archives").exists());
+
+    let denied = fixture.run(&fixture.root.clone(), &["clean", "505"]);
+    assert!(!denied.status.success());
+    assert!(String::from_utf8_lossy(&denied.stdout).contains("cleanup_archive_recovery_required"));
+}
+
+#[test]
 fn installed_legacy_coordination_completion_preserves_all_denials() {
     for case in [
         "ordinary_body",

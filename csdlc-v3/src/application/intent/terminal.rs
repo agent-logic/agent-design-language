@@ -10,7 +10,11 @@ use crate::{
         CommandInvocation, EnvironmentCredentialResolver, ProcessAdapter, ProcessStatus,
         RealProcessAdapter,
     },
-    commands::{local::operational_state_root, remote::intent::publication_target, terminal::*},
+    commands::{
+        local::operational_state_root,
+        remote::{intent::publication_target, settled_coordination_completion_receipt},
+        terminal::*,
+    },
 };
 use serde_json::{json, Value};
 use std::{fs, path::PathBuf};
@@ -27,6 +31,20 @@ fn encode(value: &impl serde::Serialize) -> Result<Vec<u8>, String> {
 fn completion(value: &Completion) -> Value {
     json!({"operation_id":value.operation_id().as_str(),"outcome":value.outcome_kind(),
         "effect_truth":value.truth(),"version":value.current_version(),"original_version":value.original_version()})
+}
+fn legacy_coordination_completion_verified(context: &Context) -> Result<(), String> {
+    if settled_coordination_completion_receipt(
+        &context.primary,
+        &context.repository,
+        context.issue,
+        &context.head,
+    )
+    .map_err(|finding| finding.code)?
+    {
+        Ok(())
+    } else {
+        Err("intent_legacy_coordination_completion_receipt_required".into())
+    }
 }
 fn semantic_for(
     context: &Context,
@@ -614,6 +632,10 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             && !registered
             && !candidate.exists()
         {
+            legacy_coordination_completion_verified(context)?;
+            retained_cleanup_index(&context.primary, &candidate, context.issue)
+                .map_err(|finding| finding.code)?
+                .ok_or("cleanup_archive_recovery_required")?;
             context.fresh()?;
             return Ok(json!({
                 "status":"expected_noop",
@@ -875,6 +897,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         .as_ref()
         .is_some_and(|closeout| closeout.disposition == NoPrDisposition::CoordinationCompleted)
         && context.semantic_migration_required()?;
+    if legacy_coordination_compatibility {
+        legacy_coordination_completion_verified(context)?;
+    }
     match request.command.as_str() {
         "finish" => {
             if request.execute
