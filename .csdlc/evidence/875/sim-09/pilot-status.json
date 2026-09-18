@@ -1,0 +1,27 @@
+{
+  "schema": "adl.sim09.pilot_status.v1",
+  "issue": 875,
+  "status": "not_started",
+  "protocol": ".csdlc/evidence/874/sim-08/PILOT.md",
+  "protocol_revision": "904f650644217004fb3e16ac31586064f5e7b78f",
+  "protocol_sha256": "de19042a632de742a0d7e50073c1934537d680af07d602538d860e77ec227b58",
+  "sample_size": 30,
+  "resume_receipt": null,
+  "counts": {
+    "considered": 0,
+    "eligible": 0,
+    "excluded": 0,
+    "attempted": 0,
+    "not_attempted": 0,
+    "active": 0,
+    "completed": 0,
+    "failed": 0,
+    "abandoned": 0,
+    "censored": 0,
+    "command_attempts": 0,
+    "retries": 0
+  },
+  "observation_cutoff": null,
+  "scorecard": "not_proven",
+  "reason": "No authorized resume; preflight operations are not eligible pilot journeys."
+}

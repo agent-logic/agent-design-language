@@ -1,0 +1,43 @@
+{
+  "schema": "adl.sim09.preflight.v1",
+  "issue": 875,
+  "sprint": 866,
+  "observed_at": "2026-09-18T21:20:43.936930+00:00",
+  "status": "blocked_before_activation",
+  "operations_merge": "904f650644217004fb3e16ac31586064f5e7b78f",
+  "lifecycle_candidate": {
+    "source": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+    "sha256": "6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9",
+    "qualification_pr": 1060,
+    "qualification": "retained SIM07; byte identity rechecked, current full qualification not re-established"
+  },
+  "transition_owner": {
+    "source": "1166817866640d9b356ae0fe2c962e954b33972e",
+    "sha256": "bd27c244019fa846b88c52241344dc27e130bba7d11f450868cb5fdb86e5e33b",
+    "pull_request": 1071,
+    "state": "reviewed_and_ci_green_unmerged; isolated read-only inventory only"
+  },
+  "inventory": {
+    "status": "refused",
+    "reason": "issue 482: unregistered or changed lifecycle residue at /Users/daniel/.codex/worktrees/dae6/agent-design-language/.csdlc/issues/482; resolve native ownership before transition",
+    "automatic_retry": false
+  },
+  "blockers": [
+    "incomplete_census_unregistered_residue",
+    "affected_owner_acknowledgments_incomplete",
+    "pause_window_expired",
+    "current_qualification_and_accepted_repaired_transition_owner_required"
+  ],
+  "expired_window": {
+    "start": "2026-09-18T18:58:00Z",
+    "end": "2026-09-18T19:58:00Z",
+    "pause_started": false
+  },
+  "live_effects": {
+    "fence": false,
+    "conversion": false,
+    "shared_binary_replacement": false,
+    "resume": false
+  },
+  "pilot_enrollment": 0
+}
