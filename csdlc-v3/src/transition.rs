@@ -558,21 +558,17 @@ fn census_inventory(primary: &Path, common: &Path) -> Result<Census> {
         let checkout = Path::new(checkout);
         let root = checkout.join(".csdlc/issues");
         safe(&root)?;
-        if !root.exists() {
-            continue;
-        }
-        let mut unknown = Vec::new();
-        for entry in fs::read_dir(&root).map_err(err)? {
-            let entry = entry.map_err(err)?;
-            safe(&entry.path())?;
-            if let Ok(id) = entry.file_name().to_string_lossy().parse::<u64>() {
-                if id > 0 && entry.file_type().map_err(err)?.is_dir() && !issues.contains(&id) {
-                    unknown.push(id);
+        let mut unknown = BTreeSet::new();
+        if root.exists() {
+            for entry in fs::read_dir(&root).map_err(err)? {
+                let entry = entry.map_err(err)?;
+                safe(&entry.path())?;
+                if let Ok(id) = entry.file_name().to_string_lossy().parse::<u64>() {
+                    if id > 0 && entry.file_type().map_err(err)?.is_dir() && !issues.contains(&id) {
+                        unknown.insert(id);
+                    }
                 }
             }
-        }
-        if unknown.is_empty() {
-            continue;
         }
         let head = block
             .lines()
@@ -630,7 +626,18 @@ fn census_inventory(primary: &Path, common: &Path) -> Result<Census> {
             .chain(untracked.split('\0'))
             .filter_map(issue_from_card_path)
             .collect();
-        unknown.sort_unstable();
+        // Filesystem enumeration alone cannot see deleted issue directories,
+        // including deletion of the entire historical issues root.
+        unknown.extend(
+            tracked
+                .iter()
+                .filter_map(|p| issue_from_card_path(p))
+                .filter(|id| !issues.contains(id)),
+        );
+        unknown.extend(changed.iter().copied().filter(|id| !issues.contains(id)));
+        if unknown.is_empty() {
+            continue;
+        }
         for id in &unknown {
             let path = root.join(id.to_string());
             if !tracked.contains(&format!(".csdlc/issues/{id}/index.json")) || changed.contains(id)
@@ -2341,6 +2348,43 @@ mod tests {
                 fingerprint(&primary.join(".csdlc/issues/3")).unwrap(),
                 before
             );
+        }
+    }
+
+    #[test]
+    fn census_rejects_whole_historical_directory_deletions() {
+        for staged in [false, true] {
+            for whole_root in [false, true] {
+                let f = Fixture::new();
+                let primary = &f.0.request.primary;
+                let history = primary.join(".csdlc/issues/3");
+                put(&history.join("index.json"), b"historical").unwrap();
+                git(primary, &["add", ".csdlc/issues/3"]).unwrap();
+                git(primary, &["commit", "--quiet", "-m", "historical cards"]).unwrap();
+                let deleted = if whole_root {
+                    primary.join(".csdlc/issues")
+                } else {
+                    history.clone()
+                };
+                fs::remove_dir_all(&deleted).unwrap();
+                if staged {
+                    git(primary, &["add", "-A", "--", ".csdlc/issues"]).unwrap();
+                }
+                let index_before = fs::read(f.0.common.join("index")).unwrap();
+                for rejected in [
+                    census(primary, &f.0.common).unwrap_err(),
+                    inventory(primary).unwrap_err(),
+                    f.0.check_sources().unwrap_err(),
+                ] {
+                    assert!(
+                        rejected.contains("issue 3")
+                            && rejected.contains("changed lifecycle residue"),
+                        "staged={staged} whole_root={whole_root}: {rejected}"
+                    );
+                }
+                assert!(!deleted.exists());
+                assert_eq!(fs::read(f.0.common.join("index")).unwrap(), index_before);
+            }
         }
     }
 
