@@ -64,7 +64,10 @@ Admission requires all of the following:
   included in the preview and rechecked during every census.
 - Exactly the index, audit (or native binding) and six Markdown/value card pairs.
   Legacy terminal copies may also contain retained design/diagram files, only
-  when their exact bytes match the validated receipt. Missing, additional and
+  when their exact bytes match the validated receipt. Unbound preparation may
+  include `authored/design.md` and `authored/diagram.mmd` only when explicitly
+  referenced by that issue index; their bytes are snapshotted as preparation,
+  without asserting they match a later terminal delivery. Missing, additional and
   symlinked files refuse admission. Tracked copies retain their exact checkout
   HEAD, Git index/staged-diff digest and working-file snapshot; the command
   never stages, restores, deletes or commits their source files.

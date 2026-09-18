@@ -143,6 +143,17 @@ fn source(
         expected.insert(format!("{rel}/cards/{card}.md"));
         expected.insert(format!("{rel}/cards/{card}.values.json"));
     }
+    if preparation(&index) {
+        for (key, name) in [
+            ("design_path", "design.md"),
+            ("diagram_path", "diagram.mmd"),
+        ] {
+            let relative = format!("authored/{name}");
+            if index[key] == format!("{rel}/{relative}") {
+                expected.insert(format!("{rel}/{relative}"));
+            }
+        }
+    }
     for path in authored_paths {
         expected.insert(format!("{rel}/{path}"));
     }
@@ -721,6 +732,27 @@ mod tests {
         index["claim"] = json!({"branch":"codex/3-owner","worktree":"another-owner"});
         fs::write(f.source.join("index.json"), bytes(&index).unwrap()).unwrap();
         assert!(prepare(&f.spec, &mut Remote::closed()).is_err());
+    }
+    #[test]
+    fn history_preparation_preserves_explicit_authored_files_without_terminal_claims() {
+        let f = Fixture::new();
+        let mut index: Value = read(&f.source.join("index.json")).unwrap();
+        for (key, name) in [
+            ("design_path", "design.md"),
+            ("diagram_path", "diagram.mmd"),
+        ] {
+            index[key] = json!(format!(".csdlc/issues/3/authored/{name}"));
+            put(
+                &f.source.join(format!("authored/{name}")),
+                b"historical preparation",
+            )
+            .unwrap();
+        }
+        fs::write(f.source.join("index.json"), bytes(&index).unwrap()).unwrap();
+        f.apply();
+        assert!(f.read(&mut Remote::closed()).unwrap().is_some());
+        fs::write(f.source.join("authored/design.md"), b"changed").unwrap();
+        assert!(f.read(&mut Remote::closed()).is_err());
     }
     #[test]
     fn history_ready_preparation_remains_unbound_and_closed() {
