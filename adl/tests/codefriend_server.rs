@@ -353,6 +353,12 @@ fn build_provenance_tracks_sources_without_lifecycle_residue() {
     let clean = run();
     assert!(clean.contains(&format!("CODEFRIEND_BUILD_REVISION={revision}")));
     assert!(clean.contains("CODEFRIEND_BUILD_CLEAN=true"));
+    // An absent optional Git file must not make every Cargo build dirty.
+    assert!(!repository.join(".git/packed-refs").exists());
+    assert!(!clean.contains(".git/packed-refs"));
+    git(&repository, &["pack-refs", "--all"]);
+    assert!(run().contains(".git/packed-refs"));
+    assert!(run().contains(&format!("CODEFRIEND_BUILD_REVISION={revision}")));
     fs::create_dir_all(repository.join(".csdlc/evidence")).unwrap();
     fs::write(repository.join(".csdlc/evidence/untracked.json"), "{}").unwrap();
     assert!(run().contains("CODEFRIEND_BUILD_CLEAN=true"));
