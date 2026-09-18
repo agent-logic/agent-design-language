@@ -3930,6 +3930,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         Some(Err(IngressError::Conflict)) => {
                             outcome("refused", "conversation_conflict")
                         }
+                        Some(Err(IngressError::ProviderExecutionFailed(error))) => {
+                            outcome("failed", error)
+                        }
                         Some(Err(_)) => outcome("failed", "conversation_failed"),
                     }
                 }
@@ -6358,9 +6361,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             IngressError::Saturated | IngressError::Closed => {
                                 ControlError::AdmissionClosed
                             }
-                            IngressError::ExecutionFailed | IngressError::DrainTimeout => {
-                                ControlError::Internal
-                            }
+                            IngressError::ExecutionFailed
+                            | IngressError::ProviderExecutionFailed(_)
+                            | IngressError::DrainTimeout => ControlError::Internal,
                         })?;
                     Ok(ControlOutcome::Submitted {
                         work_result: result,

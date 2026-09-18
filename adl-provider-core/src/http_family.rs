@@ -862,6 +862,7 @@ pub struct OpenRouterProvider {
     auth_env: String,
     model: String,
     max_tokens: u64,
+    reasoning_effort: Option<String>,
     temperature: Option<f64>,
     top_p: Option<f64>,
     timeout_secs: Option<u64>,
@@ -888,12 +889,19 @@ impl OpenRouterProvider {
             "OPENROUTER_API_KEY",
             &["openrouter.ai"],
         )?;
+        if spec.config.contains_key("reasoning") {
+            return Err(invalid_config(
+                "openrouter",
+                "config.reasoning is not admitted; use config.reasoning_effort",
+            ));
+        }
         Ok(Self {
             runtime_bounded: runtime_bounded_calls(&spec.config)?,
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
             max_tokens: target.effective_inference.max_output_tokens.unwrap_or(220),
+            reasoning_effort: target.effective_inference.reasoning_effort.clone(),
             temperature: target.effective_inference.temperature,
             top_p: target.effective_inference.top_p,
             timeout_secs: target.effective_inference.timeout_secs,
@@ -923,6 +931,14 @@ impl Provider for OpenRouterProvider {
             "max_tokens": self.max_tokens,
             "stream": false,
         });
+        if let Some(reasoning_effort) = &self.reasoning_effort {
+            let effort = if reasoning_effort == "max" {
+                "xhigh"
+            } else {
+                reasoning_effort
+            };
+            body["reasoning"] = serde_json::json!({ "effort": effort });
+        }
         if let Some(value) = self.temperature {
             body["temperature"] = value.into();
         }

@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1079,
+  "issue_padded": "1079",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1079",
+  "title": "[v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek review turns",
+  "branch": "codex/1079-deepseek-openrouter-reasoning",
+  "version": "1.0.5",
+  "card": "sip",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1079-deepseek-openrouter-reasoning"
+}
