@@ -35,6 +35,21 @@ fn main() {
             }
         }
     }
+    // Production include_str!/include_bytes! resources outside the crate src trees.
+    for resource in [
+        "adl/schemas",
+        "adl-uts/schemas",
+        "adl-spec/examples/v0.8/godel_experiment_workflow.template.v1.json",
+        "adl-spec/schemas/v0.8/tool_result.v1.schema.json",
+        "demos/fixtures/stock_league/season_001_fixture.json",
+        "docs/api/runtime-v3/v1/openapi.json",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "docs/architecture/runtime_v3_parity_matrix.v1.json",
+        "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+    ] {
+        paths.push(resource.into());
+        println!("cargo:rerun-if-changed={}", root.join(resource).display());
+    }
     paths.push("adl/tools/adl_provider_adapter.rs".into());
     println!(
         "cargo:rerun-if-changed={}",

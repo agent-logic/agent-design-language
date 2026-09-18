@@ -469,9 +469,12 @@ async fn authorize(
 }
 async fn submit(
     State(service): State<Service>,
-    Extension(credential): Extension<Credential>,
+    headers: HeaderMap,
     Json(request): Json<Submit>,
 ) -> ApiResult<(StatusCode, Json<Operation>)> {
+    // Middleware rejects unauthenticated streams before polling their bodies.
+    // Recheck after the body await: a slow upload must not retain revoked authority.
+    let credential = service.auth(&headers)?;
     if credential.mode != request.mode {
         return Err(ApiError(StatusCode::FORBIDDEN, "scope_denied"));
     }

@@ -263,6 +263,52 @@ async fn unauthorized_bodies_are_never_polled_or_parsed() {
     }
 }
 
+#[tokio::test]
+async fn authorization_is_rechecked_after_a_delayed_body() {
+    for expire in [false, true] {
+        let f = Fixture::new();
+        let backend = Fake::new(false, false);
+        let app = Service::open(f.config.clone(), backend.clone())
+            .unwrap()
+            .router();
+        let mut body = Some(serde_json::to_vec(&f.request("delayed")).unwrap());
+        let credentials = f.config.credentials_file.clone();
+        // Polling starts only after early authentication. Revoke then yield the
+        // delayed JSON, reproducing expiry/revocation while a body is in flight.
+        let stream = futures_util::stream::poll_fn(move |_| {
+            let Some(bytes) = body.take() else {
+                return std::task::Poll::Ready(None);
+            };
+            let mut records: Vec<Credential> =
+                serde_json::from_slice(&fs::read(&credentials).unwrap()).unwrap();
+            if expire {
+                records[0].expires_at = 0;
+            } else {
+                records.remove(0);
+            }
+            fs::write(&credentials, serde_json::to_vec(&records).unwrap()).unwrap();
+            std::task::Poll::Ready(Some(Ok::<_, std::io::Error>(axum::body::Bytes::from(
+                bytes,
+            ))))
+        });
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/v1/operations")
+                    .header("content-type", "application/json")
+                    .header("authorization", format!("Bearer {ALICE}"))
+                    .body(Body::from_stream(stream))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert_eq!(backend.calls.load(Ordering::SeqCst), 0);
+        assert!(!f.config.root.join("operations/alice/delayed").exists());
+    }
+}
+
 #[test]
 fn build_provenance_tracks_sources_without_lifecycle_residue() {
     let f = Fixture::new();
@@ -270,8 +316,10 @@ fn build_provenance_tracks_sources_without_lifecycle_residue() {
     fs::create_dir_all(repository.join("adl/src")).unwrap();
     fs::write(repository.join("adl/Cargo.toml"), "fixture").unwrap();
     fs::write(repository.join("adl/src/lib.rs"), "// clean").unwrap();
+    fs::create_dir_all(repository.join("adl-uts/schemas")).unwrap();
+    fs::write(repository.join("adl-uts/schemas/resource.json"), "{}").unwrap();
     git(&repository, &["init"]);
-    git(&repository, &["add", "adl"]);
+    git(&repository, &["add", "adl", "adl-uts"]);
     git(
         &repository,
         &[
@@ -308,6 +356,15 @@ fn build_provenance_tracks_sources_without_lifecycle_residue() {
     fs::create_dir_all(repository.join(".csdlc/evidence")).unwrap();
     fs::write(repository.join(".csdlc/evidence/untracked.json"), "{}").unwrap();
     assert!(run().contains("CODEFRIEND_BUILD_CLEAN=true"));
+    fs::write(
+        repository.join("adl-uts/schemas/resource.json"),
+        "{\"changed\":true}",
+    )
+    .unwrap();
+    let dirty_resource = run();
+    assert!(dirty_resource.contains("CODEFRIEND_BUILD_CLEAN=false"));
+    assert!(dirty_resource.contains("adl-uts/schemas"));
+    fs::write(repository.join("adl-uts/schemas/resource.json"), "{}").unwrap();
     fs::write(repository.join("adl/src/lib.rs"), "// dirty").unwrap();
     assert!(run().contains("CODEFRIEND_BUILD_CLEAN=false"));
     git(&repository, &["add", "adl/src/lib.rs"]);
