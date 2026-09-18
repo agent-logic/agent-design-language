@@ -256,6 +256,35 @@ pub struct Journal {
     root: PathBuf,
     _lock: File,
 }
+impl Drop for Journal {
+    fn drop(&mut self) {
+        // Closing alone can leave flock held by a descriptor inherited during
+        // another thread's child-process launch. Ownership ends with Journal.
+        let _ = fs2::FileExt::unlock(&self._lock);
+    }
+}
+
+#[cfg(test)]
+mod journal_lock_tests {
+    use super::*;
+
+    #[test]
+    fn journal_drop_releases_lock_with_duplicate_descriptor_alive() {
+        let temp = tempfile::tempdir().unwrap();
+        let root = temp.path().join("state");
+        let journal = Journal::open(&root).unwrap();
+        let duplicate = journal._lock.try_clone().unwrap();
+        assert!(Journal::open(&root).is_err());
+        drop(journal);
+        let reopened = Journal::open(&root).unwrap();
+        assert!(Journal::open(&root).is_err());
+        drop(duplicate);
+        assert!(Journal::open(&root).is_err());
+        drop(reopened);
+        assert!(Journal::open(&root).is_ok());
+    }
+}
+
 impl Journal {
     pub fn open(root: &Path) -> Result<Self> {
         ensure!(

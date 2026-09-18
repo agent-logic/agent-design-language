@@ -6,5 +6,9 @@
   "determinism": "controlled clock, loopback HTTP faults and private local filesystem",
   "resource_profile": "bounded local CPU/disk and loopback fixtures including four 1.4MiB lane outputs; no real provider calls",
   "release_gate": "required component evidence, insufficient for installed/provider/browser acceptance",
-  "command": "cargo test --manifest-path adl/Cargo.toml --test codefriend_agent --bin codefriend-agent"
+  "command": "cargo test --manifest-path adl/Cargo.toml --test codefriend_agent --bin codefriend-agent",
+  "additional_commands": [
+    "cargo test --manifest-path adl/Cargo.toml --lib journal_drop_releases_lock_with_duplicate_descriptor_alive"
+  ],
+  "journal_lock_proof": "Deterministic duplicate-descriptor ownership test: exclusion before owner drop, release despite retained duplicate, and continued exclusion by replacement owner."
 }
