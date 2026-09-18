@@ -187,6 +187,9 @@ fn require_no_pending_native(c: &Context) -> Result<()> {
 fn namespace_paths(c: &Context) -> Vec<PathBuf> {
     [
         "local/locks",
+        "local/issues",
+        "local/transactions/pending",
+        "local/transactions",
         "remote/intents",
         "remote/mutations",
         "remote/recoveries",

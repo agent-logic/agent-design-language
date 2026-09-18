@@ -117,7 +117,7 @@ stderr. `status` lists retained markers and identities; it does not substitute
 for `verify`.
 
 `fence` retains native issue locks and semantic writer locks in independent
-persistent guardians. It seals old-writer lock/remote-intent namespace creation
+persistent guardians. It seals old-writer lock, issue, transaction and remote-intent namespace creation
 with saved directory permissions, and rejects unsettled remote intents. This is
 cooperative local-user fencing: privileged processes or manual chmod must not
 bypass it. Unknown/missing guardian identity cannot be replaced by a PID guess.

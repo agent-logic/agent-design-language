@@ -8,7 +8,7 @@
     "Immutable Git source reference SHA256 equality",
     "Packet JSON parsing",
     "Installed transition owner help matches documented command names",
-    "Issue-worktree-only installer selection and provenance",
+    "Isolated installer selection and provenance; final executable retained in native invocation metadata",
     "Rust fmt and clippy -D warnings"
   ],
   "new_rehearsal": "not_run_operator_instruction",
@@ -40,7 +40,8 @@
       "create-only journal integrity",
       "concurrent atomic receipts",
       "complete census and checkout identity",
-      "global pending native transaction rejection"
+      "global pending native transaction rejection",
+      "issue and transaction creation namespaces fenced even when an unused lock file already exists"
     ],
     "runner": "default parallel Rust test runner",
     "corrected_failure": "Parallel proof exposed colliding timestamp-only fixture directories; added atomic sequence and create-only directory allocation. All 16 tests pass under the same default parallel runner."
