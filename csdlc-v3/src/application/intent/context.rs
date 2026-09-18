@@ -217,7 +217,7 @@ impl Context {
                 }
             }
         }
-        if candidates.is_empty() {
+        if candidates.is_empty() && canonical_bound_worktree.is_none() {
             let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
                 .map_err(semantic_error)?;
             let semantic_key = IssueKey::new(repository.clone(), issue).map_err(semantic_error)?;
