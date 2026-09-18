@@ -1378,6 +1378,7 @@ jobs:
             adl/coverage-summary.txt
             adl/coverage-provenance.workspace.json
             ci-step-logs/
+            adl/partition-logs/workspace-${{ github.run_id }}-${{ github.run_attempt }}-workspace/
           if-no-files-found: error
           retention-days: 14
 

@@ -284,6 +284,12 @@ candidate_filter_for_path() {
     adl/src/cli/tooling_cmd/markdown.rs)
       printf 'markdown'
       ;;
+    adl/src/codefriend/review/runner.rs)
+      printf 'codefriend_review'
+      ;;
+    adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs)
+      printf 'codefriend_server'
+      ;;
     adl/src/cli/codefriend_publication_cmd.rs)
       printf 'codefriend_ux'
       ;;
@@ -495,6 +501,12 @@ nextest_expression_for_filter() {
       ;;
     markdown)
       printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::markdown/)'
+      ;;
+    codefriend_review)
+      printf 'binary_id(adl::codefriend_review)'
+      ;;
+    codefriend_server)
+      printf 'binary_id(adl::codefriend_server)'
       ;;
     codefriend_ux)
       printf 'binary_id(adl::codefriend_ux)'

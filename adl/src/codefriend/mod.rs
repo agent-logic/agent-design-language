@@ -9,3 +9,5 @@ pub mod memory;
 pub mod operator;
 pub mod publication;
 pub mod review;
+
+pub mod server;
