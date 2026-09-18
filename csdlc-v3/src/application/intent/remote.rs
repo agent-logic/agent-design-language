@@ -64,11 +64,6 @@ fn parse_operation(value: Value) -> Result<GithubMutation, String> {
 fn failure(finding: RemoteRouteFinding) -> String {
     finding.code
 }
-fn issue_digest(context: &Context) -> Result<&str, String> {
-    context.index["digest"]
-        .as_str()
-        .ok_or_else(|| "intent_issue_digest_required".into())
-}
 fn route(context: &Context) -> Result<RemoteRouteRequest, String> {
     serde_json::from_value(
         json!({"repository":context.repository,"issue":context.issue,
@@ -108,7 +103,7 @@ fn verify_semantic_external_review(
         &context.repository,
         context.issue,
         &context.head,
-        issue_digest(context)?,
+        &context.evidence_issue_digest()?,
         evidence,
     )
     .map_err(failure)
@@ -500,6 +495,7 @@ fn semantic_mutation(
         session.origin.clone(),
         staged.reservation_facts(),
     );
+    context.repair_before_effect(&session.snapshot, &operation)?;
     let (ticket, reconciliation_only) =
         match DurableTransactionStore::reserve_effect(&session.root, admission, operation)
             .map_err(semantic_error)?
@@ -698,6 +694,7 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
         session.origin.clone(),
         facts.clone(),
     );
+    context.repair_before_effect(&session.snapshot, &operation)?;
     let ticket = match DurableTransactionStore::reserve_effect(&session.root, admission, operation)
         .map_err(semantic_error)?
     {
@@ -711,7 +708,7 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
         &context.repository,
         context.issue,
         &context.head,
-        issue_digest(context)?,
+        &context.evidence_issue_digest()?,
         &context.authority_digest,
         evidence,
     );
@@ -1183,7 +1180,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                 &context.repository,
                 context.issue,
                 &context.head,
-                issue_digest(context)?,
+                &context.evidence_issue_digest()?,
                 &context.authority_digest,
                 &evidence,
             );

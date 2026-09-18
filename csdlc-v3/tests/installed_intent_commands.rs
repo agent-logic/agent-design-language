@@ -5073,9 +5073,15 @@ fn publication_metadata_correction_after_ready_preserves_merge_ready() {
 }
 
 // PVF #1064: authentic copied prepared record, deterministic isolated continuation.
-#[test]
-fn authentic_prepared_record_admits_public_continuation() {
-    let mut fixture = Fixture::new("1064-authentic-prepared");
+fn converted_authentic_fixture(
+    label: &str,
+) -> (
+    Fixture,
+    std::path::PathBuf,
+    std::path::PathBuf,
+    std::collections::BTreeMap<std::path::PathBuf, String>,
+) {
+    let fixture = Fixture::new(label);
     let primary = fixture.root.clone();
     let source =
         Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/issue872-copied-records");
@@ -5126,6 +5132,14 @@ fn authentic_prepared_record_admits_public_continuation() {
         "conversion failed: {converted:?}"
     );
     assert_same_inventory!(before, intent_fixture::inventory(&copied));
+    (fixture, linked, copied, before)
+}
+
+#[test]
+fn authentic_prepared_record_admits_public_continuation() {
+    let (mut fixture, _converted_worktree, copied, before) =
+        converted_authentic_fixture("1064-authentic-prepared");
+    let primary = fixture.root.clone();
     let script = primary.join(".git/installed-candidate/fake-bin/curl");
     let transport = fs::read_to_string(&script).unwrap();
     fs::write(
@@ -5258,4 +5272,273 @@ fn authentic_prepared_record_admits_public_continuation() {
         .is_file());
     assert_eq!(fixture.remote_effects(), 3);
     assert_same_inventory!(before, intent_fixture::inventory(&copied));
+}
+
+// PVF #1064: deterministic installed non-local transition recovery, synthetic transport.
+#[test]
+fn non_local_transitions_resume_interrupted_current_projection() {
+    for command in ["proof", "review", "publish"] {
+        let mut fixture = Fixture::new(&format!("1064-interrupted-{command}"));
+        let primary = fixture.root.clone();
+        prepare(&mut fixture);
+        success(fixture.run(&primary, &["bind", "505"]));
+        let linked = linked_worktree(&primary);
+        if command != "proof" {
+            success(fixture.run(&linked, &["proof", "505"]));
+        }
+        let evidence = if command != "proof" {
+            Some(fixture.write_json("review.json", &external_review(&linked)))
+        } else {
+            None
+        };
+        if command == "publish" {
+            success(fixture.run(
+                &linked,
+                &[
+                    "review",
+                    "505",
+                    "--evidence",
+                    evidence.as_ref().unwrap().to_str().unwrap(),
+                ],
+            ));
+            fixture.enable_pr_transport(&linked);
+        }
+        let cards = linked.join(".csdlc/v3/issues/505/cards");
+        let manifest = fs::read(cards.join("manifest.json")).unwrap();
+        let value: Value = serde_json::from_slice(&manifest).unwrap();
+        let suffix = value["projection_digest"]
+            .as_str()
+            .unwrap()
+            .rsplit(':')
+            .next()
+            .unwrap();
+        let pending = cards.join(format!(".projection-{suffix}.pending"));
+        let staged = cards.join(format!(".sip.md-{suffix}.next"));
+        fs::write(&pending, &manifest).unwrap();
+        fs::write(&staged, fs::read(cards.join("sip.md")).unwrap()).unwrap();
+        fs::write(cards.join("manifest.json"), "previous manifest").unwrap();
+        let before = intent_fixture::inventory(&primary);
+        success(fixture.run(&linked, &["status", "505"]));
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+        let args = if command == "review" {
+            vec![
+                command,
+                "505",
+                "--evidence",
+                evidence.as_ref().unwrap().to_str().unwrap(),
+            ]
+        } else {
+            vec![command, "505"]
+        };
+        success(fixture.run(&linked, &args));
+        assert!(
+            !pending.exists() && !staged.exists(),
+            "{command} stranded staging"
+        );
+        let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+        assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
+        assert_eq!(fixture.remote_effects(), usize::from(command == "publish"));
+    }
+}
+
+// PVF #1064: all converted roles are exercised directly; source copies stay immutable.
+#[test]
+fn converted_later_phases_accept_applicable_corrections_without_native_index() {
+    // Exercise the internal owner in a repository-installed test process: the
+    // retired CLI writer cannot reach proof authorization.
+    if let Some(request_path) = std::env::var_os("CSDLC_TEST_CONVERTED_PROOF_REQUEST") {
+        let request = serde_json::from_slice(&fs::read(request_path).unwrap()).unwrap();
+        let report = csdlc_v3::commands::proof::classify_route(
+            "proof",
+            request,
+            Some(&std::env::current_dir().unwrap()),
+        );
+        assert_eq!(
+            report.findings[0].code, "proof_lifecycle_stale",
+            "{report:?}"
+        );
+        assert!(!report.performed_mutation);
+        return;
+    }
+
+    let (mut fixture, linked, copied, source_before) =
+        converted_authentic_fixture("1064-later-phase-continuation");
+    let primary = fixture.root.clone();
+    for issue in [517_u64, 497, 3, 505, 122, 113] {
+        let id = issue.to_string();
+        assert!(!linked
+            .join(format!(".csdlc/issues/{issue}/index.json"))
+            .exists());
+        let root = SemanticRoot::from_git_common(
+            primary.join(".git"),
+            "agent-logic/agent-design-language",
+        )
+        .unwrap();
+        let key = IssueKey::new("agent-logic/agent-design-language", issue).unwrap();
+        let snapshot = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
+            Observation::Current(value) | Observation::ProjectionRepairRequired(value) => value,
+            other => panic!("unexpected conversion state: {other:?}"),
+        };
+        // The unchanged converter emits the historical marker. Continuation must
+        // repair these existing records, not merely newly hashed conversions.
+        assert_eq!(
+            snapshot.inputs().binding().unwrap().registration,
+            "git-worktree-list"
+        );
+        if issue == 517 {
+            let sibling = primary.join("worktrees/sibling");
+            git(
+                &primary,
+                &[
+                    "worktree",
+                    "add",
+                    "-q",
+                    "-b",
+                    "codex/sibling",
+                    sibling.to_str().unwrap(),
+                ],
+            );
+            fs::copy(
+                std::env::current_exe().unwrap(),
+                primary.join(".git/installed-candidate/proof-owner-test"),
+            )
+            .unwrap();
+            for (label, worktree, branch, generation) in [
+                (
+                    "sibling",
+                    &sibling,
+                    "codex/sibling",
+                    snapshot.version().generation(),
+                ),
+                (
+                    "stale",
+                    &linked,
+                    "codex/copied-continuation",
+                    snapshot.version().generation() + 1,
+                ),
+            ] {
+                let request = fixture.write_json(&format!("reject-{label}.json"), &json!({
+                    "issue":issue,"repository":"agent-logic/agent-design-language",
+                    "binding":{"worktree":worktree,"branch":branch,"exact_head":git(worktree,&["rev-parse","HEAD"]),
+                        "git_common_dir":primary.join(".git"),"generation":generation,"lifecycle_digest":snapshot.version().digest().as_str()},
+                    "evidence_root":worktree
+                }));
+                let before = intent_fixture::inventory(&primary);
+                let rejected = Command::new(
+                    primary.join(".git/installed-candidate/proof-owner-test"),
+                )
+                .current_dir(worktree)
+                .args([
+                    "--exact",
+                    "converted_later_phases_accept_applicable_corrections_without_native_index",
+                    "--nocapture",
+                ])
+                .env("CSDLC_TEST_CONVERTED_PROOF_REQUEST", &request)
+                .output()
+                .unwrap();
+                assert!(
+                    rejected.status.success(),
+                    "internal proof guard failed: {rejected:?}"
+                );
+                assert_same_inventory!(before, intent_fixture::inventory(&primary));
+            }
+        }
+        let before = intent_fixture::inventory(&primary);
+        let status = success(fixture.run(&primary, &["status", &id]));
+        let validated = success(fixture.run(&primary, &["validate", &id]));
+        assert_eq!(validated["read_only"], true);
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+        if issue == 122 {
+            assert!(!status["allowed_next"]
+                .as_array()
+                .unwrap()
+                .contains(&json!("proof")));
+            continue;
+        }
+        if issue == 113 {
+            git(
+                &linked,
+                &[
+                    "commit",
+                    "--quiet",
+                    "--allow-empty",
+                    "-m",
+                    "converted implementation advances",
+                ],
+            );
+            success(fixture.run(&linked, &["bind", &id]));
+            git(
+                &linked,
+                &[
+                    "commit",
+                    "--quiet",
+                    "--allow-empty",
+                    "-m",
+                    "converted implementation advances again",
+                ],
+            );
+        }
+        let validators = fixture.write_json(
+            &format!("validators-{issue}.json"),
+            &json!({"schema":"csdlc.v3.intent_changes.v1","validators":plan()["validators"]}),
+        );
+        success(fixture.run(
+            &linked,
+            &["edit", &id, "--changes", validators.to_str().unwrap()],
+        ));
+        success(fixture.run(&linked, &["validate", &id]));
+        success(fixture.run(&linked, &["proof", &id]));
+        let judgment = fixture.write_json(&format!("review-{issue}.json"), &json!({
+            "schema":"csdlc.v3.review_judgment.v1","implementer":"converted-fixture-author",
+            "reviewer":"independent-converted-fixture-reviewer","reviewed_revision":git(&linked,&["rev-parse","HEAD"]),
+            "verdict":"pass","evidence":"Synthetic current candidate judgment after real fixture proof; not production approval."
+        }));
+        success(fixture.run(
+            &linked,
+            &["review", &id, "--evidence", judgment.to_str().unwrap()],
+        ));
+
+        assert!(!linked
+            .join(format!(".csdlc/issues/{issue}/index.json"))
+            .exists());
+    }
+    assert_same_inventory!(source_before, intent_fixture::inventory(&copied));
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
+fn completed_proof_replay_leaves_interrupted_projection_read_only() {
+    let mut fixture = Fixture::new("1064-replay-interrupted-proof");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    success(fixture.run(&linked, &["proof", "505"]));
+    let cards = linked.join(".csdlc/v3/issues/505/cards");
+    let manifest = fs::read(cards.join("manifest.json")).unwrap();
+    let value: Value = serde_json::from_slice(&manifest).unwrap();
+    let suffix = value["projection_digest"]
+        .as_str()
+        .unwrap()
+        .rsplit(':')
+        .next()
+        .unwrap();
+    fs::write(
+        cards.join(format!(".projection-{suffix}.pending")),
+        &manifest,
+    )
+    .unwrap();
+    fs::write(
+        cards.join(format!(".sip.md-{suffix}.next")),
+        fs::read(cards.join("sip.md")).unwrap(),
+    )
+    .unwrap();
+    fs::write(cards.join("manifest.json"), "previous manifest").unwrap();
+    let before = intent_fixture::inventory(&primary);
+    let replay = success(fixture.run(&linked, &["proof", "505"]));
+    assert_eq!(replay["read_only"], true);
+    assert_eq!(replay["performed_mutation"], false);
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
 }

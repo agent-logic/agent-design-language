@@ -253,6 +253,7 @@ pub(super) fn run(context: &Context, intent: &IntentRequest) -> Result<Value, St
         &bytes,
     )
     .map_err(error)?;
+    context.repair_before_effect(&session.snapshot, &operation)?;
     let ticket = match DurableTransactionStore::reserve_effect(
         &session.root,
         EffectAdmission::from_native_owner(

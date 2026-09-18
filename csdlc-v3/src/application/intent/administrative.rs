@@ -268,6 +268,7 @@ pub(crate) fn run(context: &Context, request: &IntentRequest) -> Result<Value, S
         administrative: true,
         ..Default::default()
     };
+    context.repair_before_effect(&semantic.snapshot, &operation)?;
     let reservation = DurableTransactionStore::reserve_effect(
         &semantic.root,
         EffectAdmission::from_native_owner(

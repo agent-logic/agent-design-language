@@ -52,7 +52,7 @@ pub(crate) fn receipt_from_semantic_execution(
     let passed = execution["passed"] == true;
     let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1",
         "issue":context.issue,"repository":context.repository,"head":context.head,
-        "issue_digest":context.index["digest"],"validators":execution["validators"],
+        "issue_digest":context.evidence_issue_digest()?,"validators":execution["validators"],
         "status":if passed{"passed"}else{"failed"},
         "inputs_unchanged":execution["inputs_unchanged"],
         "input_revalidation":execution["input_revalidation"],
@@ -79,18 +79,29 @@ pub(crate) fn write_semantic_proof_projection(
     context: &Context,
     receipt: &Value,
 ) -> Result<String, String> {
+    let semantic = if context.index.is_null() {
+        Some(context.semantic_context()?)
+    } else {
+        None
+    };
     let binding = ProofWorktreeBinding {
         worktree: context.root.clone(),
         branch: context.branch.clone(),
         exact_head: context.head.clone(),
         git_common_dir: context.git_common.clone(),
-        generation: context.index["generation"]
-            .as_u64()
+        generation: semantic
+            .as_ref()
+            .map(|s| s.snapshot.version().generation())
+            .or_else(|| context.index["generation"].as_u64())
             .ok_or("intent_issue_generation_missing")?,
-        lifecycle_digest: context.index["digest"]
-            .as_str()
-            .ok_or("intent_issue_digest_missing")?
-            .into(),
+        lifecycle_digest: if let Some(semantic) = &semantic {
+            semantic.snapshot.version().digest().as_str().to_owned()
+        } else {
+            context.index["digest"]
+                .as_str()
+                .ok_or("intent_issue_digest_missing")?
+                .to_owned()
+        },
     };
     let request = ProofRouteRequest {
         issue: context.issue,
@@ -404,7 +415,7 @@ fn execute_unix(context: &Context, validators: &[Validator]) -> Result<Value, St
     let unchanged = executed.inputs_unchanged;
     let input_revalidation = &executed.input_revalidation;
     let execution_finding = &executed.execution_finding;
-    let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1","issue":context.issue,"repository":context.repository,"head":context.head,"issue_digest":context.index["digest"],"validators":outcomes,"status":if passed{"passed"}else{"failed"},"inputs_unchanged":unchanged,"input_revalidation":input_revalidation,"execution_finding":execution_finding});
+    let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1","issue":context.issue,"repository":context.repository,"head":context.head,"issue_digest":context.evidence_issue_digest()?,"validators":outcomes,"status":if passed{"passed"}else{"failed"},"inputs_unchanged":unchanged,"input_revalidation":input_revalidation,"execution_finding":execution_finding});
     receipt["payload_digest"] = blake3::hash(&canonical_json(&receipt))
         .to_hex()
         .to_string()
@@ -1320,7 +1331,7 @@ pub fn verify_current_inputs(root: &Path, proof: &Value) -> Result<(), String> {
     if proof["schema"] != "csdlc.v3.intent_proof.v1"
         || proof["repository"] != context.repository
         || proof["head"] != context.head
-        || proof["issue_digest"] != context.index["digest"]
+        || proof["issue_digest"] != context.evidence_issue_digest()?
         || proof["status"] != "passed"
         || blake3::hash(&canonical_json(&payload)).to_hex().as_str() != claimed
     {
