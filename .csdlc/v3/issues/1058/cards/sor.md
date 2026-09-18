@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Local-agent component and native website report verifier implemented; draft PR1066 open. Live website/provider/installed acceptance remains outstanding.
+Agent recovery, model identity, aggregate budget and unpair findings repaired; draft PR1066 remains unaccepted until required native/CI and real product evidence settle.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -80,15 +80,15 @@ Local-agent component and native website report verifier implemented; draft PR10
 
 ## Actions taken
 - `Implemented outbound pairing, private credentials, locally pinned consent, durable reservations, gateway lanes through existing runner and result forwarding.`
-- `21 agent integration tests, 14 review integration tests and 1 CLI unit test passed under LLVM instrumentation; focused clippy passed. Binary line coverage225/245; agent610/689. Fixtures do not prove live product acceptance.`
-- `Fixed reviewed cancellation, consent, retention and replay findings; added native report verification for website acceptance. Exact-head reviewer passed60ca5d34a1888f2588af13c3ffeb8d4f16f0e8cf.`
+- `Frozen candidate94180a9453 passed58 tests:32agent14review11server1CLI; focused clippy passed. Tests use controlled loopback providers, not real product acceptance.`
+- `Resolved four user P2 findings and review followups: acknowledged-operation reconnect, actual candidate/model attribution, aggregate report budget, and immediate unpair payload cleanup. Independent exact-head source review passed94180a9453.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `adl/src/codefriend/agent.rs; adl/src/bin/codefriend_agent.rs; adl/src/codefriend/review/runner.rs; adl/src/codefriend/mod.rs; adl/Cargo.toml; adl/tests/codefriend_agent.rs; adl/tests/fixtures/codefriend/agent/PVF.json; docs/codefriend/LOCAL_AGENT.md`
 - Integration state: `pr_open`
 - Verification scope: `Local component and existing runner regression evidence only`
-- Integration method used: `Draft PR1066 stacked on PR1063; parent8ae29a749b incorporated. Candidate60ca5d34a1 awaits publication update.`
+- Integration method used: `Draft PR1066 stacked on PR1063; reviewed server repair68750d357f merged. Website PR5 at34319df retains identities and approval binding.`
 - Verification performed:
   - `not_run`
     `not_run`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_agent --test codefriend_review; cargo clippy --manifest-path adl/Cargo.toml --bin codefriend-agent --test codefriend_agent -- -D warnings`
-    `36 local fixture tests passed:21agent,14review,1CLI; focused clippy passed. Native proof validator covers35integration tests; CLI/LLVM evidence is separate. No live provider or installed macOS/Linux acceptance.`
+    `58 controlled local tests and focused clippy passed at94180a9453. Native proof/publication refresh and CI remain pending; real OAuth/provider/platform acceptance is outstanding.`
 - Results:
   - `component_tests_passed_product_acceptance_outstanding`
 
