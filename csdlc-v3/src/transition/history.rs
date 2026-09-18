@@ -203,6 +203,26 @@ fn terminal_copy(common: &Path, checkout: &Path, issue: u64, index: &Value) -> R
     {
         return Err("exact retained native terminal receipt required".into());
     }
+    let state_path = common.join(format!("csdlc-v3/local/v3/issues/{issue}/terminal.json"));
+    safe(&state_path)?;
+    let state_bytes = fs::read(&state_path).map_err(err)?;
+    let state: Value = serde_json::from_slice(&state_bytes).map_err(err)?;
+    if receipt["state_digest"] != blake3::hash(&state_bytes).to_hex().to_string()
+        || state["schema"] != "csdlc.v3.terminal_state.v1"
+        || [
+            "repository",
+            "issue",
+            "pull_request",
+            "head_sha",
+            "disposition",
+        ]
+        .iter()
+        .any(|key| state[*key] != receipt[*key])
+        || !state["no_pr_closeout"].is_null()
+        || !receipt["no_pr_closeout"].is_null()
+    {
+        return Err("retained terminal state and receipt disagree".into());
+    }
     Ok(receipt)
 }
 fn terminal_readback(
@@ -575,6 +595,19 @@ mod tests {
         fs::remove_file(f.source.join("audit.jsonl")).unwrap();
         put(&f.source.join("binding.json"), &bytes(&binding).unwrap()).unwrap();
         put(&f.common.join("csdlc-v3/local/evidence/3/terminal-receipt.json"), &bytes(&json!({"schema":"csdlc.v3.terminal_receipt.v1","repository":REPOSITORY,"issue":3,"pull_request":7,"head_sha":"a".repeat(40),"disposition":"closed_out","state_digest":"retained-digest"})).unwrap()).unwrap();
+        let state = json!({"schema":"csdlc.v3.terminal_state.v1","repository":REPOSITORY,"issue":3,"pull_request":7,"head_sha":"a".repeat(40),"disposition":"closed_out"});
+        let state_bytes = bytes(&state).unwrap();
+        put(
+            &f.common.join("csdlc-v3/local/v3/issues/3/terminal.json"),
+            &state_bytes,
+        )
+        .unwrap();
+        let receipt_path = f
+            .common
+            .join("csdlc-v3/local/evidence/3/terminal-receipt.json");
+        let mut receipt: Value = read(&receipt_path).unwrap();
+        receipt["state_digest"] = json!(blake3::hash(&state_bytes).to_hex().to_string());
+        fs::write(receipt_path, bytes(&receipt).unwrap()).unwrap();
         TerminalRemote {
             pr: json!({"number":7,"state":"closed","merged":true,"html_url":format!("https://github.com/{REPOSITORY}/pull/7"),"head":{"sha":"a".repeat(40)},"base":{"repo":{"full_name":REPOSITORY}},"merged_at":"2026-08-01T00:00:00Z","merge_commit_sha":"b".repeat(40)}),
         }
@@ -620,6 +653,8 @@ mod tests {
             "wrong_head",
             "wrong_repo",
             "changed_receipt",
+            "missing_state",
+            "changed_state",
         ] {
             let f = Fixture::new();
             let mut remote = terminal_fixture(&f);
@@ -631,6 +666,15 @@ mod tests {
             match case {
                 "live_target" => fs::create_dir(f.spec.primary.join("removed-execution")).unwrap(),
                 "missing_receipt" => fs::remove_file(&path).unwrap(),
+                "missing_state" => {
+                    fs::remove_file(f.common.join("csdlc-v3/local/v3/issues/3/terminal.json"))
+                        .unwrap()
+                }
+                "changed_state" => fs::write(
+                    f.common.join("csdlc-v3/local/v3/issues/3/terminal.json"),
+                    b"{}",
+                )
+                .unwrap(),
                 "wrong_issue" | "changed_receipt" => {
                     let mut v: Value = read(&path).unwrap();
                     if case == "wrong_issue" {
