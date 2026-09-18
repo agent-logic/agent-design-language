@@ -1610,8 +1610,13 @@ mod tests {
                 .as_nanos();
             let primary = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
                 .join("target/transition-unit")
-                .join(format!("{}-{nonce}", std::process::id()));
-            fs::create_dir_all(&primary).unwrap();
+                .join(format!(
+                    "{}-{nonce}-{}",
+                    std::process::id(),
+                    WRITE_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+                ));
+            fs::create_dir_all(primary.parent().unwrap()).unwrap();
+            fs::create_dir(&primary).unwrap();
             git(&primary, &["init", "--quiet"]).unwrap();
             git(
                 &primary,

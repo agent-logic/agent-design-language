@@ -22,7 +22,7 @@
     "release_gate": "focused implementation proof, not live activation or renewed SIM07 qualification"
   },
   "native_transition_tests": {
-    "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --lib transition::tests -- --test-threads=1",
+    "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --lib transition::tests",
     "passed": 16,
     "failed": 0,
     "coverage": [
@@ -41,7 +41,9 @@
       "concurrent atomic receipts",
       "complete census and checkout identity",
       "global pending native transaction rejection"
-    ]
+    ],
+    "runner": "default parallel Rust test runner",
+    "corrected_failure": "Parallel proof exposed colliding timestamp-only fixture directories; added atomic sequence and create-only directory allocation. All 16 tests pass under the same default parallel runner."
   },
   "native_admission_regression": {
     "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --test transactions issue_1029 -- --test-threads=1",

@@ -12,7 +12,7 @@
     "platform": "Darwin-arm64"
   },
   "observed_executable_sha256": "3dedbe4bb254a481521c6d8557dd0518f73aa6991b6c61b5aaea8f1ef25555c8",
-  "executable_identity_scope": "local validation build; operator install provenance and request hash bind actual operational owner",
+  "executable_identity_scope": "local installer validation build before test-only fixture isolation correction; actual operational owner is bound by installer provenance and request hash",
   "qualified_lifecycle_candidate_source": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
   "qualified_lifecycle_candidate_blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
   "request_spec_required": [
@@ -45,7 +45,7 @@
   "remote_mutations": false,
   "live_execution_performed": false,
   "source_sha256": {
-    "csdlc-v3/src/transition.rs": "7c26973340ebfbca9193f09eb3b82ed44e53d6d7156e46ec17e93256c0d1008d",
+    "csdlc-v3/src/transition.rs": "9e98eefd7a22ffc8ff3cf6f3ad09292fa54b41273fabb3373a159bb63ff77eb1",
     "csdlc-v3/src/bin/csdlc_transition.rs": "8f195e8f7419d9704b7924bcbeaab11d54f0bdf839858519004337ef92a4fe39",
     "csdlc-v3/src/commands/remote/storage.rs": "6a7ad3f6051cb66c4c8e53314b8790e7f3482a40efa6db9399425016312d558d",
     "csdlc-v3/src/storage/semantic.rs": "03b1f98d0203ca7bb551291e1a6c4091edec360190a0b34b0dc9560d7ea566eb",
@@ -55,5 +55,6 @@
     "stdout": "one JSON result or refusal per foreground invocation",
     "stderr": "subprocess Git/build diagnostics only; no provider credentials or environment dumps",
     "runtime_observability_claim": "none"
-  }
+  },
+  "build_validation_revision": "e3656edf9b8dd18549765bf29377ac518f072f40"
 }
