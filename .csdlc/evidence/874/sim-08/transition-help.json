@@ -1,0 +1,13 @@
+{
+  "commands": [
+    "inventory --repo-root PRIMARY",
+    "request --spec FILE --output FILE",
+    "fence --request FILE",
+    "convert --request FILE",
+    "status --request FILE",
+    "verify --request FILE",
+    "restore --request FILE",
+    "resume --request FILE --decision FILE"
+  ],
+  "request_schema": "csdlc.v3.live_transition.v1"
+}

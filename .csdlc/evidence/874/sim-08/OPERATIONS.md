@@ -1,192 +1,194 @@
 # SIM-08 operations
 
-Issue #874 → pilot #875 → sprint #866. No new rehearsal or review is claimed;
-see `operator-disposition.json`. Publication does not authorize a writer pause,
-installation, conversion or resume.
+Issue #874 → pilot #875 → sprint #866. This packet supplies the executable
+procedure. Publication does not authorize its live execution. The operator's
+no-new-review/no-new-rehearsal exception remains in `operator-disposition.json`.
+Focused implementation tests are recorded separately in `validation.json`.
 
-## Use the existing native command
+## Executables and preparation
 
-The qualified executable is `csdlc`, source
-`067cb99bf5c6220f64c9faadd7da6abdca34bcc4`, SHA256
-`6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9`.
-`candidate.json` binds its qualification to merged PR #1060. Resolve `CSDLC` to
-those verified executable bytes; do not substitute the currently installed binary
-without checking its hash. Actual discovery is retained in `candidate-help.txt`
-and `candidate-contract.json`.
+Two executables have distinct roles:
 
-`transition.py` now constructs this request without hand-editing state. From this
-packet directory, use the actual issue, checkout, verified candidate, retained
-intent plan and a new output file:
+- `csdlc`: the qualified lifecycle candidate, source
+  `067cb99bf5c6220f64c9faadd7da6abdca34bcc4`, SHA256
+  `6d30fcc7aa17c417c444145809968d0c286ad15b3338303963c42761a0620fa9`,
+  BLAKE3 `764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e`.
+  `candidate.json` retains SIM07 qualification. Do not rebuild and assume the
+  resulting bytes have this identity.
+- `csdlc-transition`: this PR's separate native transition owner, declared in
+  `csdlc-v3/Cargo.toml`, implemented by `src/bin/csdlc_transition.rs` and
+  `src/transition.rs` in that component. It constructs live requests, holds the
+  pause, stages conversion, installs the supplied qualified candidate, verifies,
+  restores and releases writers. Its tests do not extend SIM07 qualification.
 
-```sh
-python3 transition.py prepare --issue "$ISSUE" --checkout "$CHECKOUT" --candidate "$CSDLC" --retained-plan "$RETAINED_PLAN" --output-plan "$PLAN"
-```
-
-This prints the exact native argv and writes only the new plan file. It verifies
-candidate bytes, native/card identity, exact slug, supported phase, bound checkout
-and unchanged retained plan. Add `--execute` only when this issue's adoption is
-authorized; the native owner still performs all lifecycle admission. `status`,
-`validate` and `recover` use the same issue/checkout/candidate arguments. A
-recovery execution additionally requires `--preview` from fresh native inspection.
-The helper does not implement global cutover or snapshot restoration.
-
-For supported ready/bound legacy issue adoption, **the existing live entrypoint
-is `prepare`**, not the copied-record converter:
-
-```sh
-"$CSDLC" status "$ISSUE" --repo-root "$CHECKOUT" --json
-"$CSDLC" prepare "$ISSUE" --plan "$PLAN" --repo-root "$CHECKOUT" --json
-"$CSDLC" validate "$ISSUE" --repo-root "$CHECKOUT" --json
-```
-
-These variables are required operator inputs: `ISSUE` is the actual numeric issue;
-`CHECKOUT` is its bound worktree for bound adoption, or primary for ready adoption;
-`PLAN` is an absolute path to its retained native intent plan. Construct that JSON
-with schema `csdlc.v3.intent_plan.v1`, the **existing exact slug**, all six current
-card-value objects under `cards`, existing validator declarations, and publication
-metadata (`base`, `title`, `body`, `draft`). Copy current semantic inputs rather
-than reconstructing approvals, validation or publication history. Resolve native
-records from `git rev-parse --path-format=absolute --git-common-dir`; prepared
-card values live beneath `csdlc-v3/local/issues/ISSUE/cards`. For bound records,
-use the bound issue's current card values and verify the matching native binding.
-Do not treat an arbitrary changed plan as preservation of the old issue contract.
-
-`prepare` resolves authority, observes GitHub identity, checks the compatibility
-census and handles its own native writer locking. Bound legacy adoption owns its
-persistent fence through projection completion. Do not manually launch a guardian
-or write fence markers. Require `status:completed`, then matching issue/binding
-identity and successful validation. `LegacyMigrationRequired`, unknown history,
-pending remote effects or unsupported phase means **no adoption**, not permission
-to delete evidence or force the request. This per-issue command is not a global
-cutover, installation or snapshot-restore command.
-
-For interrupted native operations, inspect the existing recovery identity:
-
-```sh
-"$CSDLC" recover "$ISSUE" --repo-root "$CHECKOUT" --json
-```
-
-Only when that result supplies an executable classified recovery and its fresh
-preview digest, use the same issue and checkout:
-
-```sh
-"$CSDLC" recover "$ISSUE" --execute --preview "$PREVIEW" --repo-root "$CHECKOUT" --json
-```
-
-`PREVIEW` comes from that observation; do not invent it or replay an uncertain
-remote mutation. A refusal remains a refusal. Recovery is not snapshot rollback.
-
-## Separate copied-record converter
-
-`csdlc-conversion-rehearsal` is a separate executable, pinned to the same source
-revision as the candidate. The candidate's `csdlc` checksum does not identify it.
-The following is a **future isolated-use procedure**, not a live deployment
-procedure or an instruction to rerun the waived rehearsal now.
-
-The operator supplies only two paths: `ISOLATED_ROOT`, a new absolute directory
-outside the source checkout, and `PRIOR_BINARY`, the retained SIM06 executable
-from source `6425ba9bbce4cc1f46789c2e3ac019adf86238b8`. The builder authenticates
-that file against its retained SHA256 and supplies its corresponding BLAKE3.
-Run from this issue worktree's root. The commands create a genuine independent
-repository and registered linked worktree; historical machine paths are not reused.
+From the exact accepted #874 worktree revision, install only the transition
+owner into its own generated stable directory. This does not replace shared
+`csdlc` or start a pause:
 
 ```sh
 set -eu
-: "${ISOLATED_ROOT:?Set a new absolute isolated directory}"
-: "${PRIOR_BINARY:?Set the retained SIM06 executable path}"
-case "$ISOLATED_ROOT" in /*) ;; *) exit 2 ;; esac
-test ! -e "$ISOLATED_ROOT"
-SOURCE_REPOSITORY=$(git rev-parse --show-toplevel)
-PACKET="$SOURCE_REPOSITORY/.csdlc/evidence/874/sim-08"
-REVISION=067cb99bf5c6220f64c9faadd7da6abdca34bcc4
-mkdir -p "$ISOLATED_ROOT/requests" "$ISOLATED_ROOT/bin"
-printf '%s\n' '{"isolated":true}' > "$ISOLATED_ROOT/.csdlc-conversion-rehearsal.json"
-git clone --no-hardlinks --no-checkout "$SOURCE_REPOSITORY" "$ISOLATED_ROOT/primary"
-git -C "$ISOLATED_ROOT/primary" worktree add -b sim08-isolated "$ISOLATED_ROOT/linked" "$REVISION"
-cp "$PRIOR_BINARY" "$ISOLATED_ROOT/bin/prior-csdlc"
-cargo build --locked --offline --manifest-path "$ISOLATED_ROOT/linked/csdlc-v3/Cargo.toml" --target-dir "$ISOLATED_ROOT/build" --bin csdlc-conversion-rehearsal
-cp "$ISOLATED_ROOT/build/debug/csdlc-conversion-rehearsal" "$ISOLATED_ROOT/bin/csdlc-conversion-rehearsal"
-CONVERTER="$ISOLATED_ROOT/bin/csdlc-conversion-rehearsal"
-REQUEST="$ISOLATED_ROOT/requests/conversion.json"
-shasum -a 256 "$CONVERTER" "$ISOLATED_ROOT/linked/csdlc-v3/Cargo.lock" > "$ISOLATED_ROOT/requests/build.sha256"
-rustc --version --verbose > "$ISOLATED_ROOT/requests/toolchain.txt"
-python3 "$PACKET/conversion_request.py" --isolated-root "$ISOLATED_ROOT" --linked-worktree "$ISOLATED_ROOT/linked" --source-root "$ISOLATED_ROOT/linked/.csdlc/evidence/872/conversion-rehearsal/snapshots/source" --prior-executable "$ISOLATED_ROOT/bin/prior-csdlc" --operation-id sim08-copied-records --writer-probe-issue 868 --output "$REQUEST"
+OPERATIONS_ROOT=$(git rev-parse --show-toplevel)
+TRANSITION_DIR="$OPERATIONS_ROOT/.adl/bin/sim08-transition"
+bash adl/tools/install_owner_binaries.sh --bin csdlc-transition --stable-bin-dir "$TRANSITION_DIR"
+TRANSITION="$TRANSITION_DIR/csdlc-transition"
+"$TRANSITION" --help
+shasum -a 256 "$TRANSITION"
 ```
 
-`conversion_request.py` writes only that new request. It derives Git common,
-linked branch/HEAD, registry/authority paths and the exact seven retained source
-roles. It rejects source identity drift, escaped paths, a primary-only checkout,
-the live repository's Git common directory and changed prior executable bytes.
-It neither invokes the converter nor claims native admission. No guardian request,
-fence marker, semantic state or approval is manufactured. The full request field
-contract is in `conversion-command-contract.json`.
+Retain the installer provenance, executable hash, source revision and help
+alongside the invocation. Keep these bytes in place until terminal recovery or
+resume; the request freezes the transition executable's BLAKE3 too. Do not use
+Cargo target output as the operational executable.
 
-After isolated execution is authorized, use this exact frozen request:
+The operator supplies `PRIMARY` (canonical primary checkout), `CANDIDATE`
+(retained qualified executable above), and `INVOCATION` (a new absolute operation
+directory beneath primary Git metadata, outside tracked source). Resolve metadata
+with `git -C "$PRIMARY" rev-parse --path-format=absolute --git-common-dir`.
+Before authorization, inspect without starting a pause:
 
 ```sh
-set +e
-"$CONVERTER" convert --request "$REQUEST" > "$ISOLATED_ROOT/requests/convert.stdout.json" 2> "$ISOLATED_ROOT/requests/convert.stderr"
-CONVERT_EXIT=$?
-printf '%s\n' "$CONVERT_EXIT" > "$ISOLATED_ROOT/requests/convert.exit"
-set -e
-"$CONVERTER" operation-evidence --request "$REQUEST" > "$ISOLATED_ROOT/requests/operation-evidence.json"
+mkdir -p "$INVOCATION"
+"$TRANSITION" inventory --repo-root "$PRIMARY" > "$INVOCATION/inventory.json"
 ```
 
-`convert` acquires the exact native issue locks through its internal
-`writer-fence-guardian`. Require exit 0 and `status:completed`; retain the result,
-request bytes, executable hashes and journal/effect paths. The builder sets
-`writer_fence_probe:false`: this standalone sequence does not claim old-writer
-probe proof. The retained SIM06 driver owns the two probe handshakes; do not set
-that flag without the driver. A failed conversion is not a successful no-op:
-inspect `operation-evidence` before deciding recovery. An admitted restart uses
-`convert` with identical request bytes and operation identity.
+Keep the whole inventory. For every current semantic record, retain its exact
+`issue`, `checkout` and `plan:null`. For every legacy record, retain its issue and
+checkout and supply the absolute path to its original accepted native intent
+plan (`csdlc.v3.intent_plan.v1`). That plan includes the exact existing `slug`,
+all six `cards` value objects, `validators` and `publication` metadata. Its card
+values must match `cards/{sip,stp,spp,vpp,srp,sor}.values.json` under the source:
+primary `.git/csdlc-v3/local/issues/ISSUE`, or bound
+`CHECKOUT/.csdlc/issues/ISSUE`. Preserve the accepted values; do not synthesize
+review, receipt or publication history. The owner checks equality and native
+compatibility admission. Missing plans, unsupported phases/history, unhealthy
+current records or pending recovery must be reconciled through native lifecycle
+commands before a transition; do not omit those records from the denominator.
 
-**Restore is a conditional recovery branch, never the next success step.** If
-inspection reports zero semantic and remote effects, invoke:
+## Construct the live request
 
-```sh
-"$CONVERTER" restore-pre-effect --request "$REQUEST" > "$ISOLATED_ROOT/requests/restore-result.json"
-```
+The accountable transition operator obtains an explicit pause window and scope,
+notifies every affected C-SDLC session, and retains acknowledgments for every
+inventory issue. Drain in-flight commands and reconcile remote intent uncertainty
+before proceeding. Preserve dirty work, original branches and registration.
+Runtime/provider/cloud services are outside this writer pause.
 
-Require exit 0 and `allowed:true`. The owner rechecks effects and unchanged source
-hashes before releasing the fence. Exit 2 with `allowed:false` prohibits restore;
-retain the operation for reconciliation. In particular, a completed conversion
-has effects and must not be followed by this restore command.
+Write `INVOCATION/spec.json` with these **required operator inputs** (the types
+below describe fields; they are not literal JSON values to copy):
 
-This owner activates its own executable in a private slot, records a synthetic
-remote acknowledgment and restores that private slot internally. It **does not
-install the qualified live candidate or restore live snapshots**. There is no
-live request to construct for it. The original guide's implied live conversion
-and restore capability was incorrect; that part of P2 remains open.
-
-## Live transition boundary and recovery
-
-Before #875 can activate, its owner must retain the exact installed provenance,
-registered worktrees/branches, generations/digests, pending transactions/remote
-intents, receipt identities and actual legacy layouts. Preserve dirty work.
-Obtain explicit scope/window/owner authorization; notify affected C-SDLC owners,
-drain or classify every writer, retain a hash-bound snapshot and complete mapping.
-Runtime/provider/cloud services remain outside this scope.
-
-The planned global transition still needs an executable owner that keeps old
-writers fenced through complete-census conversion, installed candidate readback,
-and primary/genuine-linked-worktree verification before authorized resume.
-Neither command above supplies that global lifecycle. **Do not start the pause
-on the assumption that the missing live conversion/restore procedure exists.**
-
-| State | Action |
+| Field | Required value |
 | --- | --- |
-| Missing authority, unsupported census, stale candidate or absent live owner | Do not start live conversion |
-| Interrupted supported per-issue adoption | Inspect native `recover`; execute only its classified fresh preview |
-| Copied operation with zero semantic/remote effects | `restore-pre-effect` with the identical request |
-| New-format write, remote effect or uncertain effects | Preserve state; no automatic snapshot restore or remote replay; require authorized reconciliation |
-| Live verification failure | Remain within the authorized pause/recovery decision; copied-record restore is not live rollback |
+| `primary` | Absolute `PRIMARY` path |
+| `candidate` | Absolute `CANDIDATE` path |
+| `operation_id` | New unique operation identifier, letters/digits/hyphen/underscore only |
+| `operator` | Accountable operator identity |
+| `approval_reference` | Durable reference to the actual pause authorization and acknowledgments |
+| `pause_expires_unix` | Authorized window end, integer Unix seconds in the future |
+| `acknowledged_issues` | Every inventory issue number, once each |
+| `records` | Every inventory record, once each: `{"issue": NUMBER, "checkout": "ABSOLUTE_PATH", "plan": null}` or the absolute retained-plan path in `plan` |
 
-Once an executable live procedure exists and its complete readback passes,
-resume only under the recorded operator decision. `PILOT.md` freezes the first
-30 consecutive real journeys and all-attempt accounting. No pilot has run here.
+Construct the immutable request; this command only creates that new file:
 
-`evidence-index.json` preserves SIM06's historical seven-role/114-file rehearsal
-and SIM07 qualification separately. Static checks in `validation.json` are
-integrity evidence only. No new rehearsal, review, installation or paid resource
-use is performed by this correction.
+```sh
+REQUEST="$INVOCATION/request.json"
+"$TRANSITION" request --spec "$INVOCATION/spec.json" --output "$REQUEST" > "$INVOCATION/request-result.json"
+```
+
+The owner derives authority, old installed executable identity, candidate identity,
+its own identity, complete issue census, native/semantic source hashes, remote
+state hash, registered branches/HEADs and retained-plan hashes from the actual
+repository. It rejects missing or inconsistent identity. These are not operator
+supplied digest placeholders. Do not edit the resulting request or reuse an
+operation ID with different inputs.
+
+## Authorized fence, conversion and paused verification
+
+Only after the preceding live authorization exists:
+
+```sh
+"$TRANSITION" fence --request "$REQUEST" > "$INVOCATION/fence.json"
+"$TRANSITION" convert --request "$REQUEST" > "$INVOCATION/convert.json"
+"$TRANSITION" verify --request "$REQUEST" > "$INVOCATION/verify.json"
+"$TRANSITION" status --request "$REQUEST" > "$INVOCATION/status.json"
+```
+
+Each command must exit zero. Expected states are `fenced`, `converted_paused`
+and `verified_paused`. Stop the sequence on refusal (exit 2); retain stdout and
+stderr. `status` lists retained markers and identities; it does not substitute
+for `verify`.
+
+`fence` retains native issue locks and semantic writer locks in independent
+persistent guardians. It seals old-writer lock/remote-intent namespace creation
+with saved directory permissions, and rejects unsettled remote intents. This is
+cooperative local-user fencing: privileged processes or manual chmod must not
+bypass it. Unknown/missing guardian identity cannot be replaced by a PID guess.
+The owner validates the whole census before admitting conversion.
+
+`convert` snapshots projections, installed binary and provenance; stages admitted
+legacy semantic state in a private Git directory; preserves existing current
+semantic records and native history; retains new-state writer locks; activates
+staged state and the exact qualified candidate; and records expected readback
+hashes. It does not send remote mutations. Existing native source, registered
+worktrees and dirty files remain in place.
+
+`verify` checks candidate/provenance, healthy native semantic observations,
+projections, continuous fences, unchanged original source/branches/HEADs and
+remote identity for the entire census. Inspect each issue from the appropriate
+checkout while paused, including primary prepared records and genuine registered
+linked worktrees:
+
+```sh
+"$PRIMARY/.adl/bin/native-v3/csdlc" status "$ISSUE" --repo-root "$CHECKOUT" --json
+```
+
+`ISSUE` and `CHECKOUT` come from each frozen inventory row. Retain every result;
+a failed readback forbids resume. Native `validate` records lifecycle proof and
+is a writer; do not run it while the transition fence is held. Do not test a writer by performing a real new
+lifecycle operation during this verification window.
+
+## Recovery and explicit resume
+
+The result reports `operation_directory`, under
+`.git/csdlc-v3/local/live-transitions/OPERATION_ID`. Keep its immutable request,
+inputs, snapshots, journals, guardian records and install provenance. Do not
+clean these while the operation is paused or recovery is unresolved.
+
+| Observation | Executable next action |
+| --- | --- |
+| Interrupted command; retained guardians authenticate and identities match | Inspect `status`, then repeat the same `fence` or `convert` with the identical request; journaled steps resume |
+| Failed fence admission before conversion started | `restore --request "$REQUEST"` aborts the pause and restores namespace permissions without rolling back issue state |
+| Failed paused verification, no later state/remote changes, guardians intact | `restore --request "$REQUEST"` restores saved binary/provenance/projections and quarantines converted semantic state; require `restored` and exit zero |
+| Interrupted restore | Repeat `restore` with the identical request; retained restore intents reconcile completed steps |
+| Lost guardian, changed native/source/current state, uncertain remote effect, or foreign installed bytes after conversion began | Automatic restore refuses. Preserve pause/evidence; obtain explicit forward-reconciliation repair. Do not replay a remote operation or remove lock/journal files |
+| Resume already recorded | Restore prohibited; any later repair requires a separate authorized operation |
+
+A restored or aborted operation is terminal; a later attempt needs a new
+operation ID and fresh request. A terminal release retry is safe and returns
+`terminal_release_reconciled` once release acknowledgments are observed.
+
+After **all** paused readbacks pass, obtain a fresh resume decision. Use the
+`request_digest`, `candidate_blake3` and `conversion_blake3` from native `status`
+in a new `INVOCATION/resume.json` object with:
+
+- `schema`: `csdlc.v3.live_transition_resume.v1`;
+- those three exact identity fields;
+- `operator` and `approval_reference` identifying this actual resume decision;
+- `approved_at_unix`: actual decision time in integer Unix seconds, after conversion;
+- `expires_unix`: decision expiry in integer Unix seconds, still in the future.
+
+Then, and only then:
+
+```sh
+"$TRANSITION" resume --request "$REQUEST" --decision "$INVOCATION/resume.json" > "$INVOCATION/resume-result.json"
+```
+
+Require exit zero and `resumed`. Resume re-verifies the converted state, records
+the irreversible terminal boundary and releases writer fences. Snapshot rollback
+is forbidden after resume/new writes; recovery becomes forward reconciliation.
+`PILOT.md` freezes the first 30 consecutive real journeys. No pilot has run here.
+
+The historical `csdlc-conversion-rehearsal` owner and its seven-role fixtures
+remain isolated evidence in `conversion-command-contract.json` and
+`evidence-index.json`. They are not the live executable above. No additional
+operational rehearsal, independent review or live transition ran for this
+correction; the retained exception does not claim the original full rehearsal
+acceptance was completed.

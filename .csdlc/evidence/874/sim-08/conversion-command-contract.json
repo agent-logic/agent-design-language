@@ -54,7 +54,7 @@
   ],
   "fence_owner": "convert starts writer-fence-guardian internally; no operator-authored guardian request",
   "live_activation_ready": false,
-  "p2_disposition": "documentation ambiguity corrected; live-execution requirement unresolved",
+  "p2_disposition": "live procedure supplied separately by csdlc-transition; this contract retains copied-only historical scope",
   "required_inputs": {
     "schema": "csdlc.v3.copied_record_conversion.v1",
     "repository": "agent-logic/agent-design-language",
@@ -90,12 +90,10 @@
     "scope": "admitted ready/bound legacy records; no global conversion or snapshot rollback",
     "recovery": "recover ISSUE --repo-root CHECKOUT --json then only classified recovery with fresh --execute --preview DIGEST"
   },
-  "request_builder": {
-    "path": "conversion_request.py",
-    "input_scope": "retained SIM06 seven-record census in a new isolated repository",
-    "lifecycle_effects": false,
-    "native_admission": "deferred to converter preflight",
-    "prior_executable_sha256": "c1c1a7a9a9928c25139e1d5d12cbbb275f8c595f69b65b2ff8feb43b9299aeaf",
-    "no_live_request": true
+  "live_transition": {
+    "owner": "csdlc-transition",
+    "procedure": "OPERATIONS.md",
+    "contract": "live-transition-contract.json",
+    "historical_copied_owner_is_not_live": true
   }
 }

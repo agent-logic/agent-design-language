@@ -1401,7 +1401,7 @@ fn canonical_json_bytes(value: &Value) -> Result<Vec<u8>, String> {
     serde_json::to_vec(&ordered(value)).map_err(|error| error.to_string())
 }
 
-fn copied_card_projection(
+pub(crate) fn copied_card_projection(
     snapshot: &Snapshot,
     registry: &PromptRegistry,
     source: &Path,
@@ -1441,7 +1441,7 @@ fn snapshot(outcome: CommitOutcome) -> Box<Snapshot> {
     }
 }
 
-fn source_digest(root: &Path) -> Result<Digest, String> {
+pub(crate) fn source_digest(root: &Path) -> Result<Digest, String> {
     fn collect(root: &Path, current: &Path, bytes: &mut Vec<u8>) -> Result<(), String> {
         let mut entries = fs::read_dir(current)
             .map_err(|error| format!("{}: {error}", current.display()))?
@@ -1500,7 +1500,7 @@ fn source_values(card: &Value) -> &Value {
     card.pointer("/content/values").unwrap_or(card)
 }
 
-fn source_plan(cards: &BTreeMap<String, Value>) -> Result<Vec<PlanStep>, String> {
+pub(crate) fn source_plan(cards: &BTreeMap<String, Value>) -> Result<Vec<PlanStep>, String> {
     let spp = source_values(
         cards
             .get("spp")

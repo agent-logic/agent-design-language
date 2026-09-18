@@ -390,6 +390,88 @@ pub(crate) fn settled_issue_mutation_receipt(
     Ok(true)
 }
 
+/// Read-only transition admission. Every retained remote intent must have its
+/// exact authenticated completion; repository-scoped creation is included.
+pub(crate) fn require_settled_transition_remote(remote: &Path) -> Result<(), RemoteRouteFinding> {
+    use super::support::stable_digest;
+    let fail = || {
+        remote_finding(
+            "transition_remote_unsettled",
+            "remote intent lacks exact authenticated completion; reconcile before transition",
+        )
+    };
+    let mut admitted = std::collections::BTreeSet::new();
+    for namespace in ["intents", "merges"] {
+        let directory = remote.join(namespace);
+        if !directory.exists() {
+            continue;
+        }
+        for entry in fs::read_dir(&directory).map_err(|_| fail())? {
+            let path = entry.map_err(|_| fail())?.path();
+            let name = path.file_name().and_then(|s| s.to_str()).ok_or_else(fail)?;
+            let digest = if namespace == "merges" {
+                let Some(d) = name.strip_suffix(".intent.json") else {
+                    continue;
+                };
+                d
+            } else {
+                if name.ends_with(".lock") {
+                    continue;
+                }
+                name.strip_suffix(".json").ok_or_else(fail)?
+            };
+            if digest.len() != 64 || !digest.bytes().all(|b| b.is_ascii_hexdigit()) {
+                return Err(fail());
+            }
+            let (request, intent_digest) = if namespace == "intents" {
+                let intent = load_mutation_intent(&path, digest)?;
+                let identity = github_mutation_intent_digest(&intent);
+                (intent.request, identity)
+            } else {
+                let intent: MergeIntent =
+                    serde_json::from_slice(&fs::read(&path).map_err(|_| fail())?)
+                        .map_err(|_| fail())?;
+                if intent.schema != "csdlc.v3.merge_intent.v1"
+                    || github_mutation_operation_digest(&intent.request) != digest
+                {
+                    return Err(fail());
+                }
+                let identity =
+                    stable_digest(&[&serde_json::to_string(&intent).map_err(|_| fail())?]);
+                (intent.request, identity)
+            };
+            let receipt = load_mutation_receipt(
+                &remote.join("mutations").join(format!("{digest}.json")),
+                digest,
+            )?;
+            if receipt.intent_digest != intent_digest
+                || receipt.repository != request.repository
+                || receipt.expected_head_sha != request.expected_head_sha
+            {
+                return Err(fail());
+            }
+            admitted.insert(digest.to_owned());
+        }
+    }
+    for namespace in ["mutations", "recoveries"] {
+        let directory = remote.join(namespace);
+        if !directory.exists() {
+            continue;
+        }
+        for entry in fs::read_dir(directory).map_err(|_| fail())? {
+            let path = entry.map_err(|_| fail())?.path();
+            let name = path.file_name().and_then(|s| s.to_str()).ok_or_else(fail)?;
+            if name.ends_with(".lock") {
+                continue;
+            }
+            if !admitted.contains(name.split('.').next().ok_or_else(fail)?) {
+                return Err(fail());
+            }
+        }
+    }
+    Ok(())
+}
+
 /// Require the exact authenticated native completion that authorizes the
 /// narrow legacy coordination terminal compatibility path.
 pub(crate) fn settled_coordination_completion_receipt(

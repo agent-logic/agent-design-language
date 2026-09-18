@@ -1,52 +1,57 @@
 {
   "schema": "adl.sim08.static_validation.v1",
   "status": "pass",
-  "checked_at": "2026-09-17T12:59:59.946531+00:00",
+  "checked_at": "2026-09-18T17:42:26.522296+00:00",
   "immutable_source_references_checked": 16,
+  "copied_contract_source_references_checked": 6,
   "checks": [
-    "Retained references resolve from exact Git objects and SHA256 matches",
-    "All packet JSON parses",
-    "Candidate executable SHA256 matches SIM07 binding"
+    "Immutable Git source reference SHA256 equality",
+    "Packet JSON parsing",
+    "Installed transition owner help matches documented command names",
+    "Issue-worktree-only installer selection and provenance",
+    "Rust fmt and clippy -D warnings"
   ],
   "new_rehearsal": "not_run_operator_instruction",
   "independent_review": "not_run_operator_instruction",
   "live_activation": false,
   "pvf": {
     "lane": "tooling",
-    "proof_role": "document_and_evidence_integrity_only",
-    "determinism": "fixed_git_objects_and_sha256",
+    "proof_role": "native_transition_unit_and_packet_integrity",
+    "determinism": "local fixture Git files locks and injected interruptions; synthetic authority/candidate inputs",
     "resources": "local_cpu_files_git",
-    "release_gate": "not_runtime_or_activation_proof"
+    "release_gate": "focused implementation proof, not live activation or renewed SIM07 qualification"
   },
+  "native_transition_tests": {
+    "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --lib transition::tests -- --test-threads=1",
+    "passed": 15,
+    "failed": 0,
+    "coverage": [
+      "registered bound checkout and dirty work preservation",
+      "current semantic passthrough",
+      "legacy ready conversion",
+      "binary provenance projection restore",
+      "continuous old/new writer locks",
+      "repository namespace fence restoration",
+      "unsettled remote intent rejection",
+      "interruption/restart and interrupted restore",
+      "later-write and uncertain-remote restore refusal",
+      "exact explicit resume",
+      "lost guardian identity refusal",
+      "create-only journal integrity",
+      "concurrent atomic receipts",
+      "complete census and checkout identity"
+    ]
+  },
+  "native_admission_regression": {
+    "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --test transactions issue_1029 -- --test-threads=1",
+    "passed": 6,
+    "failed": 0
+  },
+  "superseded_helpers": "Python builders and their 19 earlier checks removed; native request owner now supplies procedure",
   "p2_correction": {
-    "source_files_verified": 6,
-    "request_fields_verified": 14,
-    "command_arms_verified": 3,
-    "result": "static_contract_pass",
-    "live_cutover_requirement": "unresolved_missing_product_capability",
-    "rehearsal": "not_run",
-    "review": "not_run"
-  },
-  "native_request_builder": {
-    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .csdlc/evidence/874/sim-08 -p test_transition.py -v",
-    "passed": 10,
-    "failed": 0,
-    "scope": "pure identity/contract/argv guards; no mutation rehearsal",
-    "real_request_construction": {
-      "issue": 875,
-      "result": "exact native argv and plan constructed from retained real inputs",
-      "lifecycle_executed": false,
-      "admission": "not_checked"
-    },
-    "live_global_cutover": "still_unimplemented"
-  },
-  "copied_request_builder": {
-    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .csdlc/evidence/874/sim-08 -p 'test_*.py' -v",
-    "passed": 19,
-    "failed": 0,
-    "new_conversion_request_tests": 9,
-    "scope": "request construction and identity rejection unit tests; subprocess topology mocked; no converter or guardian execution",
-    "live_activation": false,
-    "rehearsal": "not_run_operator_instruction"
+    "live_owner": "csdlc-transition",
+    "procedure": "OPERATIONS.md",
+    "live_execution": "not_run",
+    "ci": "pending_new_head"
   }
 }
