@@ -838,6 +838,9 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
                 Err(e) => panic!("{e}"),
             };
+            // Accepted sockets can inherit the listener's nonblocking mode on
+            // macOS. Request reads use the explicit bounded blocking timeout.
+            stream.set_nonblocking(false).unwrap();
             stream
                 .set_read_timeout(Some(Duration::from_secs(3)))
                 .unwrap();
