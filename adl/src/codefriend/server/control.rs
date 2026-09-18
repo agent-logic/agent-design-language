@@ -157,9 +157,10 @@ impl ControlServer {
             }
         }
         let safe = self.service.drained_without_payloads()?;
+        let quiescent = self.service.quiescent_without_payloads()?;
         Ok(json!({"schema":SCHEMA,"ok":true,"service":"gateway",
             "instance":self.instance,"pid":std::process::id(),"candidate_revision":super::build_revision(),
             "attempt":self.attempt,"draining":self.attempt.is_some(),
-            "drained_without_payloads":safe}))
+            "drained_without_payloads":safe,"quiescent_without_payloads":quiescent}))
     }
 }

@@ -368,13 +368,24 @@ impl Service {
     /// Keep admissions frozen until service stop; website and host guards are
     /// still required. Errors and uncertain reservations never imply quiescence.
     pub fn drained_without_payloads(&self) -> Result<bool> {
+        self.payloads_quiescent(true)
+    }
+    /// Advisory preflight only: avoids draining while known work or retained
+    /// results remain. Admissions are still open and the frozen guard must be
+    /// checked again before stopping the service.
+    pub fn quiescent_without_payloads(&self) -> Result<bool> {
+        self.payloads_quiescent(false)
+    }
+    fn payloads_quiescent(&self, require_drain: bool) -> Result<bool> {
         self.expire()?;
         let draining = self
             .0
             .gate
             .lock()
             .map_err(|_| anyhow::anyhow!("gate_poisoned"))?;
-        if !*draining || self.0.slots.available_permits() != self.0.config.max_concurrent {
+        if (require_drain && !*draining)
+            || self.0.slots.available_permits() != self.0.config.max_concurrent
+        {
             return Ok(false);
         }
         for user in fs::read_dir(self.0.config.root.join("operations"))? {

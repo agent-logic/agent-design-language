@@ -1332,6 +1332,7 @@ async fn drain_blocks_new_reservations_without_consuming_identity_and_can_resume
     let service = Service::open(f.config.clone(), backend.clone()).unwrap();
     let app = service.clone().router();
     assert!(!service.drained_without_payloads().unwrap());
+    assert!(service.quiescent_without_payloads().unwrap());
     service.begin_drain().unwrap();
     assert!(service.drained_without_payloads().unwrap());
     let request = json!({"operation_id":"after_drain","packet":f.packet,"mode":"hosted"});
@@ -1360,11 +1361,13 @@ async fn drain_waits_for_worker_and_retained_payload_then_keeps_no_replay_identi
     .await;
     assert_eq!(status, StatusCode::ACCEPTED);
     service.begin_drain().unwrap();
+    assert!(!service.quiescent_without_payloads().unwrap());
     let before = service.drained_without_payloads();
     backend.hold.store(false, Ordering::SeqCst);
     assert!(!before.unwrap());
     settled(&app, ALICE, "active").await;
     assert!(!service.drained_without_payloads().unwrap());
+    assert!(!service.quiescent_without_payloads().unwrap());
     let dir = f.config.root.join("operations/alice/active");
     let file = dir.join("operation.json");
     let mut operation: Operation = serde_json::from_slice(&fs::read(&file).unwrap()).unwrap();
@@ -1378,6 +1381,9 @@ async fn drain_waits_for_worker_and_retained_payload_then_keeps_no_replay_identi
     }
     assert!(service.drained_without_payloads().unwrap());
     assert!(file.exists());
+    service.resume_admissions().unwrap();
+    assert!(service.quiescent_without_payloads().unwrap());
+    assert!(!service.drained_without_payloads().unwrap());
     assert!(!dir.join("work").exists());
     assert!(!dir.join("result.json").exists());
 }
@@ -1475,6 +1481,7 @@ async fn private_control_binds_drain_to_instance_and_attempt() {
     .await;
     assert_eq!(status["ok"], true);
     assert_eq!(status["drained_without_payloads"], false);
+    assert_eq!(status["quiescent_without_payloads"], true);
     let instance = status["instance"].as_str().unwrap();
     let attempt = "0123456789abcdef0123456789abcdef";
     let stale = operator_control(&socket, json!({"schema":"codefriend.host_control.v1","action":"drain","instance":"old","attempt":attempt})).await;
