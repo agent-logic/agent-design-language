@@ -663,3 +663,34 @@ fn serialized_reports_honor_shorter_website_command_deadlines() {
     assert_eq!(calls, 4);
     assert_eq!(reports[0]["status"], "complete");
 }
+
+#[test]
+fn website_verifier_checks_native_report_digest_and_complete_contract() {
+    let (_, reports) = journey(Scenario::Success);
+    let report: adl::codefriend::agent::RunReport =
+        serde_json::from_value(reports[0].clone()).unwrap();
+    report.validate(live_now()).unwrap();
+    let mut altered = reports[0].clone();
+    altered["digest"] = "b".repeat(64).into();
+    assert!(
+        serde_json::from_value::<adl::codefriend::agent::RunReport>(altered)
+            .unwrap()
+            .validate(live_now())
+            .is_err()
+    );
+    let mut extended: adl::codefriend::agent::RunReport =
+        serde_json::from_value(reports[0].clone()).unwrap();
+    extended.expires_at += 30;
+    extended.digest.clear();
+    extended.digest = adl::codefriend::evidence::hash(&extended).unwrap();
+    assert!(extended.validate(live_now()).is_err());
+    let mut missing = reports[0].clone();
+    missing["result"] = serde_json::json!({"schema":"codefriend.four_perspective_review_run.v1","run_id":"run-one","completion":"complete"});
+    assert!(serde_json::from_value::<adl::codefriend::agent::RunReport>(missing).is_err());
+    let mut incomplete: adl::codefriend::agent::RunReport =
+        serde_json::from_value(reports[0].clone()).unwrap();
+    incomplete.result.as_mut().unwrap().lane_results.pop();
+    incomplete.digest.clear();
+    incomplete.digest = adl::codefriend::evidence::hash(&incomplete).unwrap();
+    assert!(incomplete.validate(live_now()).is_err());
+}

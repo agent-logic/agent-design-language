@@ -48,7 +48,7 @@ impl AgentIo for Network {
 fn run_with(mut args: impl Iterator<Item = String>, io: &impl AgentIo) -> Result<()> {
     let command = args.next().unwrap_or_default();
     if command == "--help" {
-        println!("codefriend-agent pair --store PATH --origin HTTPS_ORIGIN --code-file PRIVATE_FILE\ncodefriend-agent run|once --store PATH --consent PRIVATE_FILE\ncodefriend-agent unpair|forget --store PATH");
+        println!("codefriend-agent pair --store PATH --origin HTTPS_ORIGIN --code-file PRIVATE_FILE\ncodefriend-agent run|once --store PATH --consent PRIVATE_FILE\ncodefriend-agent unpair|forget --store PATH\ncodefriend-agent verify-report --report-file PRIVATE_FILE");
         return Ok(());
     }
     let mut flags = BTreeMap::new();
@@ -60,6 +60,17 @@ fn run_with(mut args: impl Iterator<Item = String>, io: &impl AgentIo) -> Result
             flags.insert(key, value).is_none(),
             "agent_duplicate_argument"
         );
+    }
+    if command == "verify-report" {
+        let file = flags
+            .remove("--report-file")
+            .ok_or_else(|| anyhow::anyhow!("agent_report_file_required"))?;
+        ensure!(flags.is_empty(), "agent_unknown_argument");
+        let report: adl::codefriend::agent::RunReport =
+            serde_json::from_slice(&private_bytes(Path::new(&file), 4 * 1024 * 1024)?)?;
+        report.validate(now())?;
+        println!("{}", serde_json::to_string(&report)?);
+        return Ok(());
     }
     let store = flags
         .remove("--store")
@@ -239,6 +250,36 @@ mod tests {
         fs::set_permissions(&code, fs::Permissions::from_mode(0o644)).unwrap();
         assert!(invoke(pair_args()).is_err());
         assert_eq!(io.calls.get(), 4);
+        let file = root.join("report.json");
+        let mut report = adl::codefriend::agent::RunReport {
+            schema: adl::codefriend::agent::PROTOCOL.into(),
+            agent_id: "agent".into(),
+            subject: "github-123".into(),
+            run_id: "run".into(),
+            consent_digest: "a".repeat(64),
+            execution_location: "local_agent".into(),
+            status: "interrupted".into(),
+            expires_at: now() + 600,
+            result: None,
+            digest: String::new(),
+        };
+        report.digest = adl::codefriend::evidence::hash(&report).unwrap();
+        fs::write(&file, serde_json::to_vec(&report).unwrap()).unwrap();
+        fs::set_permissions(&file, fs::Permissions::from_mode(0o600)).unwrap();
+        invoke(vec![
+            "verify-report".into(),
+            "--report-file".into(),
+            file.display().to_string(),
+        ])
+        .unwrap();
+        report.status = "complete".into();
+        fs::write(&file, serde_json::to_vec(&report).unwrap()).unwrap();
+        assert!(invoke(vec![
+            "verify-report".into(),
+            "--report-file".into(),
+            file.display().to_string()
+        ])
+        .is_err());
         fs::remove_dir_all(root).unwrap();
     }
 }

@@ -115,3 +115,17 @@ Retention is enforced before further model dispatch and at terminal exits, inclu
 `once`. Expired local work/result payloads are purged while identity tombstones remain.
 An in-flight remote call cannot be undone by local cancellation or consent revocation;
 its capacity and retention are independently governed by #1056.
+
+## Website report verification
+
+The website must invoke the installed `codefriend-agent verify-report --report-file
+PRIVATE_FILE` command before accepting a local-agent report. The file must be a
+regular owner-only file of at most 4 MiB. Successful verification writes the
+validated report as JSON to stdout; failures return a nonzero status with a
+generic diagnostic. This command does not contact providers or the website.
+
+Verification checks the native report digest, identity shape, expiry, complete
+review-record contract, all four lane manifests and versions, and exact agreement
+between report and admitted-input retention deadlines. The website separately
+binds the verified report to the authenticated agent, pending run and consent.
+Contract integrity does not independently prove that a provider executed.

@@ -368,6 +368,96 @@ pub struct RunReport {
     pub result: Option<super::review::runner::FourPerspectiveReviewRun>,
     pub digest: String,
 }
+impl RunReport {
+    /// Validate received website artifacts using their native typed serialization.
+    /// This proves contract integrity, not independent provider execution.
+    pub fn validate(&self, now: u64) -> Result<()> {
+        use super::evidence::{contracts::Completion, valid_digest};
+        use super::review::{
+            lanes::{ReviewLane, LANE_CONTRACT_VERSION},
+            runner,
+        };
+        ensure!(
+            self.schema == PROTOCOL
+                && identifier(&self.agent_id)
+                && identifier(&self.subject)
+                && identifier(&self.run_id)
+                && valid_digest(&self.consent_digest)
+                && self.execution_location == "local_agent"
+                && self.expires_at > now,
+            "agent_report_identity"
+        );
+        let mut unsigned: serde_json::Value = serde_json::to_value(self)?;
+        unsigned["digest"] = serde_json::Value::String(String::new());
+        let unsigned: RunReport = serde_json::from_value(unsigned)?;
+        ensure!(self.digest == hash(&unsigned)?, "agent_report_digest");
+        match (&self.result, self.status.as_str()) {
+            (Some(result), "complete") => {
+                ensure!(
+                    result.schema == runner::REVIEW_RUN_SCHEMA
+                        && result.run_id == self.run_id
+                        && result.completion == Completion::Complete
+                        && result.failures.is_empty(),
+                    "agent_report_completion"
+                );
+                result.review_record.validate()?;
+                let record = &result.review_record;
+                ensure!(
+                    record.run.completion == Completion::Complete
+                        && record.run.failures.is_empty()
+                        && record.admission.expires_at == self.expires_at
+                        && record.admission.expires_at > now
+                        && result.lane_results.len() == ReviewLane::ALL.len(),
+                    "agent_report_review"
+                );
+                ensure!(
+                    record.run.lane_versions.len() == ReviewLane::ALL.len()
+                        && record.findings.iter().all(|finding| ReviewLane::ALL
+                            .iter()
+                            .any(|lane| lane.id() == finding.perspective)),
+                    "agent_report_perspectives"
+                );
+                for lane in ReviewLane::ALL {
+                    ensure!(
+                        record
+                            .run
+                            .lane_versions
+                            .get(lane.id())
+                            .is_some_and(|version| version == LANE_CONTRACT_VERSION),
+                        "agent_report_lane_version"
+                    );
+                    let found: Vec<_> = result
+                        .lane_results
+                        .iter()
+                        .filter(|item| item.lane == lane.id())
+                        .collect();
+                    ensure!(found.len() == 1, "agent_report_lane");
+                    let item = found[0];
+                    let (manifest, _) =
+                        runner::lane_input_manifest(&self.run_id, lane, &record.admission)?;
+                    let mut findings: Vec<_> = record
+                        .findings
+                        .iter()
+                        .filter(|finding| finding.perspective == lane.id())
+                        .map(|finding| finding.id.clone())
+                        .collect();
+                    findings.sort();
+                    ensure!(item.schema == runner::LANE_RESULT_SCHEMA && item.run_id == self.run_id
+                        && item.lane_contract == LANE_CONTRACT_VERSION && item.input_digest == manifest.input_digest
+                            && item.input_manifest_ref == format!("lanes/{}/input.json", lane.id())
+                            && item.provider_route == record.run.provider_route
+                        && item.provider_status == crate::provider_communication::ProviderInvocationFinalStatusV1::Ok
+                        && item.failure.is_none() && item.finding_ids == findings
+                        && item.output_digest.as_deref().is_some_and(valid_digest), "agent_report_lane_integrity");
+                }
+            }
+            (None, "failed_or_interrupted" | "interrupted") => {}
+            _ => anyhow::bail!("agent_report_completion"),
+        }
+        Ok(())
+    }
+}
+
 fn clock() -> u64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)

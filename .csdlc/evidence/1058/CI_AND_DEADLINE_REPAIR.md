@@ -21,3 +21,18 @@ agent integration and CLI binary tests. Parent1063 repair8ae29a749b is incorpora
 Independent working-tree review reported no blocking findings. Exact-head native
 proof/review and publication reconciliation follow the committed candidate.
 No live-provider, hosted/installed platform, website or Sprint10 acceptance claim.
+
+## Native report verifier follow-up
+
+The website completion endpoint now has an ADL-owned report-validation command.
+Regression coverage rejects malformed completion, corrupted digests, missing
+lanes and extended outer retention even when the outer digest is recomputed.
+Final local LLVM validation passed 21 agent integration tests, 14 review
+integration tests and 1 CLI unit test. Executable line coverage is 225/245
+(91.84%); agent implementation coverage is 610/689 (88.53%). Focused clippy passed.
+
+The installed native proof owner rejects `cargo test --bin` as an unadmitted
+validator argument. The native validator therefore retains the 35 integration
+tests; the separately executed CLI/LLVM command supplies the additional unit
+test and coverage evidence. This does not alter the native argument guard.
+Actual website, hosted/provider and installed-platform acceptance remain pending.
