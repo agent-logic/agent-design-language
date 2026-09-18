@@ -851,7 +851,9 @@ mod directory_tests {
 
 #[cfg(test)]
 mod lock_tests {
-    use super::*;
+    use super::MergeLock;
+    use fs2::FileExt;
+    use std::fs;
 
     #[test]
     fn merge_lock_releases_even_when_a_duplicate_handle_survives() {
