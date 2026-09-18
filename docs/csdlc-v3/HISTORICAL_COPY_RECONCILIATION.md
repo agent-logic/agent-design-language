@@ -1,7 +1,7 @@
 # Preserved historical copies in the transition census
 
 The transition census refuses unregistered or changed lifecycle residue. For a
-closed issue whose old checkout contains an unbound, initialized card bundle,
+closed issue whose old checkout contains an unbound preparation bundle or a stale native binding with retained terminal proof,
 `csdlc-transition reconcile-history` supplies an explicit reconciliation path.
 It preserves the original files and snapshots them under primary Git metadata.
 It does not create binding, publication or terminal authority and does not
@@ -51,9 +51,15 @@ Admission requires all of the following:
 
 - Exact registered checkout and HEAD, in the canonical repository.
 - No native issue, semantic issue, binding or pending native transaction.
-- An initialized source index for the exact repository/issue, with no branch,
-  worktree, publication, terminal record or lifecycle transitions.
-- Exactly the untracked index, audit and six Markdown/value card pairs. Missing,
+- An initialized or ready source index for the exact repository/issue, with no
+  branch, worktree, publication or terminal record. Initialized copies have no
+  transitions; ready copies have exactly the initialized-to-ready transition.
+- Alternatively, a native bound copy whose matching binding points to an absent,
+  unregistered execution target. This requires the exact retained native terminal
+  receipt and fresh authenticated confirmation that its PR merged with the
+  recorded head in this repository. The receipt and filtered PR readback are
+  included in the preview and rechecked during every census.
+- Exactly the untracked index, audit (or native binding) and six Markdown/value card pairs. Missing,
   additional, tracked and symlinked files refuse admission.
 - Fresh authenticated readback of the exact closed GitHub issue, not a PR.
 - Equal source and snapshot fingerprints before the disposition is recorded.

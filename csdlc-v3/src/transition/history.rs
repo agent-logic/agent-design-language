@@ -103,21 +103,40 @@ fn source(common: &Path, checkout: &Path, issue: u64) -> Result<(PathBuf, String
     let p = checkout.join(&rel);
     safe(&p)?;
     let index: Value = read(&p.join("index.json"))?;
-    if index["schema"] != "csdlc.issue.index.v1"
-        || index["issue"] != issue
-        || index["repository"] != REPOSITORY
-        || index["phase"] != "initialized"
-        || !index["branch"].is_null()
-        || !index["worktree"].is_null()
-        || !index["publication"].is_null()
-        || !index["terminal"].is_null()
-        || index["transitions"] != json!([])
-    {
+    if index["issue"] != issue || index["repository"] != REPOSITORY {
         return Err(format!(
-            "issue {issue}: only unbound initialized historical copies are admitted"
+            "issue {issue}: historical source identity mismatch"
         ));
     }
-    let mut expected = BTreeSet::from([format!("{rel}/index.json"), format!("{rel}/audit.jsonl")]);
+    let native = index["schema"] == "csdlc.v3.local_state.v1";
+    if native {
+        terminal_copy(common, checkout, issue, &index)?;
+    } else {
+        let preparation = match index["phase"].as_str() {
+            Some("initialized") => index["transitions"] == json!([]),
+            Some("ready") => index["transitions"].as_array().is_some_and(|rows| {
+                rows.len() == 1 && rows[0]["from"] == "initialized" && rows[0]["to"] == "ready"
+            }),
+            _ => false,
+        };
+        if index["schema"] != "csdlc.issue.index.v1"
+            || !preparation
+            || !index["branch"].is_null()
+            || !index["worktree"].is_null()
+            || !index["publication"].is_null()
+            || !index["terminal"].is_null()
+        {
+            return Err(format!(
+                "issue {issue}: unbound preparation or proven terminal copy required"
+            ));
+        }
+    }
+    let companion = if native {
+        "binding.json"
+    } else {
+        "audit.jsonl"
+    };
+    let mut expected = BTreeSet::from([format!("{rel}/index.json"), format!("{rel}/{companion}")]);
     for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
         expected.insert(format!("{rel}/cards/{card}.md"));
         expected.insert(format!("{rel}/cards/{card}.values.json"));
@@ -139,6 +158,92 @@ fn source(common: &Path, checkout: &Path, issue: u64) -> Result<(PathBuf, String
     }
     let digest = fingerprint(&p)?;
     Ok((p, digest))
+}
+// A stale native binding is historical only after its actual execution target
+// has gone and the retained terminal receipt identifies the merged delivery.
+fn terminal_copy(common: &Path, checkout: &Path, issue: u64, index: &Value) -> Result<Value> {
+    let binding: Value = read(&checkout.join(format!(".csdlc/issues/{issue}/binding.json")))?;
+    let target = PathBuf::from(
+        index["worktree"]
+            .as_str()
+            .ok_or("missing historical target")?,
+    );
+    safe(&target)?;
+    let registered = git(checkout, &["worktree", "list", "--porcelain"])?;
+    if index["phase"] != "bound"
+        || binding["schema"] != "csdlc.v3.binding.v1"
+        || binding["issue"] != issue
+        || binding["branch"] != index["branch"]
+        || binding["worktree"] != index["worktree"]
+        || index["branch"].as_str().is_none_or(str::is_empty)
+        || !target.is_absolute()
+        || target.exists()
+        || registered
+            .lines()
+            .any(|line| line == format!("worktree {}", target.display()))
+    {
+        return Err(
+            "historical native binding is inconsistent or its execution target remains".into(),
+        );
+    }
+    let path = common.join(format!(
+        "csdlc-v3/local/evidence/{issue}/terminal-receipt.json"
+    ));
+    safe(&path)?;
+    let receipt: Value = read(&path)?;
+    if receipt["schema"] != "csdlc.v3.terminal_receipt.v1"
+        || receipt["repository"] != REPOSITORY
+        || receipt["issue"] != issue
+        || receipt["disposition"] != "closed_out"
+        || receipt["pull_request"].as_u64().is_none_or(|n| n == 0)
+        || receipt["head_sha"]
+            .as_str()
+            .is_none_or(|s| s.len() != 40 || !s.bytes().all(|b| b.is_ascii_hexdigit()))
+        || receipt["state_digest"].as_str().is_none_or(str::is_empty)
+    {
+        return Err("exact retained native terminal receipt required".into());
+    }
+    Ok(receipt)
+}
+fn terminal_readback(
+    common: &Path,
+    checkout: &Path,
+    issue: u64,
+    process: &mut impl ProcessAdapter,
+) -> Result<Option<Value>> {
+    let index: Value = read(&checkout.join(format!(".csdlc/issues/{issue}/index.json")))?;
+    if index["schema"] != "csdlc.v3.local_state.v1" {
+        return Ok(None);
+    }
+    let receipt = terminal_copy(common, checkout, issue, &index)?;
+    let number = receipt["pull_request"]
+        .as_u64()
+        .ok_or("missing terminal PR")?;
+    let command = CommandInvocation::new(
+        "github-api-read-only",
+        ["pull-request".into(), REPOSITORY.into(), number.to_string()],
+    )
+    .and_then(|c| c.with_child_credential("GITHUB_TOKEN"))
+    .map_err(err)?;
+    let out = process.run(command);
+    if out.status != ProcessStatus::Exit(0) || out.truncated {
+        return Err("terminal PR readback unavailable".into());
+    }
+    let v: Value = serde_json::from_str(&out.stdout).map_err(|_| "invalid terminal PR readback")?;
+    if v["number"] != number
+        || v["state"] != "closed"
+        || v["merged"] != true
+        || v["html_url"] != format!("https://github.com/{REPOSITORY}/pull/{number}")
+        || v["head"]["sha"] != receipt["head_sha"]
+        || v["base"]["repo"]["full_name"] != REPOSITORY
+        || v["merged_at"].as_str().is_none_or(str::is_empty)
+        || v["merge_commit_sha"].as_str().is_none_or(str::is_empty)
+    {
+        return Err("terminal PR does not match retained merged delivery".into());
+    }
+    Ok(Some(
+        json!({"receipt":receipt,"pull_request":number,"merged_at":v["merged_at"],"merge_commit_sha":v["merge_commit_sha"]}),
+    ))
 }
 fn topology(spec: &Spec) -> Result<PathBuf> {
     if spec.operator.trim().is_empty()
@@ -186,7 +291,11 @@ fn prepare(spec: &Spec, process: &mut impl ProcessAdapter) -> Result<Value> {
         if source(&common, &spec.checkout, *issue)?.1 != digest {
             return Err("historical source changed during readback".into());
         }
-        records.push(json!({"issue":issue,"source_digest":digest,"closed_readback":remote}));
+        let mut row = json!({"issue":issue,"source_digest":digest,"closed_readback":remote});
+        if let Some(terminal) = terminal_readback(&common, &spec.checkout, *issue, process)? {
+            row["terminal_readback"] = terminal;
+        }
+        records.push(row);
     }
     Ok(json!({"schema":"csdlc.v3.historical_copy_preview.v1","spec":spec,"records":records}))
 }
@@ -289,6 +398,10 @@ fn disposition_with_process(
         return Err(format!(
             "issue {issue}: historical source or preserved snapshot changed"
         ));
+    }
+    let terminal = terminal_readback(common, checkout, issue, process)?;
+    if terminal.as_ref().unwrap_or(&Value::Null) != &receipt["record"]["terminal_readback"] {
+        return Err("historical terminal evidence changed".into());
     }
     let current = closed(process, issue)?;
     if current != receipt["record"]["closed_readback"] {
@@ -435,6 +548,106 @@ mod tests {
         }
         fn read(&self, remote: &mut Remote) -> Result<Option<Value>> {
             disposition_with_process(&self.common, &self.spec.checkout, 3, remote)
+        }
+    }
+    struct TerminalRemote {
+        pr: Value,
+    }
+    impl ProcessAdapter for TerminalRemote {
+        fn run(&mut self, cmd: CommandInvocation) -> ProcessOutput {
+            if cmd.argv()[0] == "issue" {
+                return Remote::closed().run(cmd);
+            }
+            assert_eq!(cmd.argv(), &["pull-request", REPOSITORY, "7"]);
+            assert_eq!(cmd.child_credential_name(), Some("GITHUB_TOKEN"));
+            ProcessOutput {
+                status: ProcessStatus::Exit(0),
+                stdout: self.pr.to_string(),
+                stderr: String::new(),
+                truncated: false,
+            }
+        }
+    }
+    fn terminal_fixture(f: &Fixture) -> TerminalRemote {
+        let target = f.spec.primary.join("removed-execution");
+        let binding = json!({"schema":"csdlc.v3.binding.v1","issue":3,"branch":"codex/3-done","worktree":target});
+        fs::write(f.source.join("index.json"), bytes(&json!({"schema":"csdlc.v3.local_state.v1","issue":3,"repository":REPOSITORY,"phase":"bound","branch":"codex/3-done","worktree":target})).unwrap()).unwrap();
+        fs::remove_file(f.source.join("audit.jsonl")).unwrap();
+        put(&f.source.join("binding.json"), &bytes(&binding).unwrap()).unwrap();
+        put(&f.common.join("csdlc-v3/local/evidence/3/terminal-receipt.json"), &bytes(&json!({"schema":"csdlc.v3.terminal_receipt.v1","repository":REPOSITORY,"issue":3,"pull_request":7,"head_sha":"a".repeat(40),"disposition":"closed_out","state_digest":"retained-digest"})).unwrap()).unwrap();
+        TerminalRemote {
+            pr: json!({"number":7,"state":"closed","merged":true,"html_url":format!("https://github.com/{REPOSITORY}/pull/7"),"head":{"sha":"a".repeat(40)},"base":{"repo":{"full_name":REPOSITORY}},"merged_at":"2026-08-01T00:00:00Z","merge_commit_sha":"b".repeat(40)}),
+        }
+    }
+    #[test]
+    fn history_ready_preparation_remains_unbound_and_closed() {
+        let f = Fixture::new();
+        let mut v: Value = read(&f.source.join("index.json")).unwrap();
+        v["phase"] = json!("ready");
+        v["transitions"] = json!([{"from":"initialized","to":"ready"}]);
+        fs::write(f.source.join("index.json"), bytes(&v).unwrap()).unwrap();
+        f.apply();
+        assert!(f.read(&mut Remote::closed()).unwrap().is_some());
+        v["transitions"][0]["from"] = json!("bound");
+        fs::write(f.source.join("index.json"), bytes(&v).unwrap()).unwrap();
+        assert!(prepare(&f.spec, &mut Remote::closed()).is_err());
+    }
+    #[test]
+    fn history_native_terminal_copy_preserves_and_rechecks_delivery() {
+        let f = Fixture::new();
+        let mut remote = terminal_fixture(&f);
+        let before = fingerprint(&f.source).unwrap();
+        let preview = prepare(&f.spec, &mut remote).unwrap();
+        let digest = blake3::hash(&bytes(&preview).unwrap()).to_hex().to_string();
+        apply(&f.spec, &digest, &mut remote).unwrap();
+        assert_eq!(fingerprint(&f.source).unwrap(), before);
+        assert!(
+            disposition_with_process(&f.common, &f.spec.checkout, 3, &mut remote)
+                .unwrap()
+                .is_some()
+        );
+        remote.pr["head"]["sha"] = json!("c".repeat(40));
+        assert!(disposition_with_process(&f.common, &f.spec.checkout, 3, &mut remote).is_err());
+    }
+    #[test]
+    fn history_native_terminal_requires_absent_target_and_exact_evidence() {
+        for case in [
+            "live_target",
+            "missing_receipt",
+            "wrong_issue",
+            "wrong_binding",
+            "unmerged",
+            "wrong_head",
+            "wrong_repo",
+            "changed_receipt",
+        ] {
+            let f = Fixture::new();
+            let mut remote = terminal_fixture(&f);
+            let preview = prepare(&f.spec, &mut remote).unwrap();
+            let digest = blake3::hash(&bytes(&preview).unwrap()).to_hex().to_string();
+            let path = f
+                .common
+                .join("csdlc-v3/local/evidence/3/terminal-receipt.json");
+            match case {
+                "live_target" => fs::create_dir(f.spec.primary.join("removed-execution")).unwrap(),
+                "missing_receipt" => fs::remove_file(&path).unwrap(),
+                "wrong_issue" | "changed_receipt" => {
+                    let mut v: Value = read(&path).unwrap();
+                    if case == "wrong_issue" {
+                        v["issue"] = json!(4);
+                    } else {
+                        v["state_digest"] = json!("changed");
+                    }
+                    fs::write(path, bytes(&v).unwrap()).unwrap();
+                }
+                "wrong_binding" => fs::write(f.source.join("binding.json"), b"{}").unwrap(),
+                "unmerged" => remote.pr["merged"] = json!(false),
+                "wrong_head" => remote.pr["head"]["sha"] = json!("c".repeat(40)),
+                "wrong_repo" => remote.pr["base"]["repo"]["full_name"] = json!("other/repo"),
+                _ => unreachable!(),
+            }
+            assert!(apply(&f.spec, &digest, &mut remote).is_err(), "{case}");
+            assert!(!location(&f.common, &f.spec.checkout, 3).exists(), "{case}");
         }
     }
     #[test]
