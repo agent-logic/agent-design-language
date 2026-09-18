@@ -1,0 +1,121 @@
+{
+  "schema": "adl.sim08.evidence_index.v1",
+  "entries": [
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/summary.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "90a80fc699292ea9961243dd3fd1489ceb5597b83f799bd1730f2c3e5a9dd46f",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/summary.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/source-census.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "db27e34bd2e684bd42b3483c357effc0f6d08b2f287fca2cc959ea543bd75c3c",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/source-census.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/source-counts.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "db752f899300c0d73bca83474e16d94d05194fa8f36db2dea53e23f5bfeda016",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/source-counts.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/source-files.sha256",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "41f99ea4c49bc59909efa69bc6de10695f98298beda2bfb778c40e65154dace0",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/source-files.sha256",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/scenario-index.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "e4dfd8942433bc24218eddfd01f7d78d1a6c45d8610b9fdd4eb724453e45e79a",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/scenario-index.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/request.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "953068cdc3ede8bb6a0d97524566658567a3b21ea7c8ab0023ed90057759769d",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/request.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/production-conversion-request.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "2164cc2300ada893eebb34c00f893da9bcefc65f461b85186a2ab97defcf59f8",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/production-conversion-request.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-result.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "bb06591c9f2089d3c262863c6efa81e9c6c4554eb890deb5c7eb584e3b7a8ef5",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-result.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/restore/post-local-write-refusal.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "2c86e59c2cf5525f7cb14ccaffeb7114a9d017263efab2197f28077d7c43fe83",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/restore/post-local-write-refusal.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/restore/post-remote-effect-refusal.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "6af42e03d16ca4544d744ec0eae8b9bd602b7aad424de116651631f308c55209",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/restore/post-remote-effect-refusal.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/primary-worktree-parity.json",
+      "revision": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+      "sha256": "45aa8f70967eee7c41f47c26f9a80647cf4cb33a466ef06b9ce6f3621eb1dbcc",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/034ccc2b9068c21833483931c4b3d71b257d85d3/.csdlc/evidence/872/conversion-rehearsal/primary-worktree-parity.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/873/sim-07/candidate.json",
+      "revision": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+      "sha256": "b9139e0b0418ac3ce21f9b77b6241d413e494faae2c9f17d2ad4092e38572247",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/9dab7cf91ab1726a894b8bedcaa1c10162dadcde/.csdlc/evidence/873/sim-07/candidate.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/873/sim-07/qualification-decision.json",
+      "revision": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+      "sha256": "ce9ea4f55c05f65af185f197988d6e51ef82c7f81419b15f196d2c138970178c",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/9dab7cf91ab1726a894b8bedcaa1c10162dadcde/.csdlc/evidence/873/sim-07/qualification-decision.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/873/sim-07/focused-corpus-summary.json",
+      "revision": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+      "sha256": "2d4e7c9c924fd2493f60e752ed7c073a376b76efd929719d280dd9a42e3d9a73",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/9dab7cf91ab1726a894b8bedcaa1c10162dadcde/.csdlc/evidence/873/sim-07/focused-corpus-summary.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/873/sim-07/operator-disposition.json",
+      "revision": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+      "sha256": "b0d59fed3cdc3f2b78e755ff67359e1977ca266fa3e056e37ad05b2c6e11b966",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/9dab7cf91ab1726a894b8bedcaa1c10162dadcde/.csdlc/evidence/873/sim-07/operator-disposition.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    },
+    {
+      "path": ".csdlc/evidence/873/sim-07/installed-journey-summary.json",
+      "revision": "9dab7cf91ab1726a894b8bedcaa1c10162dadcde",
+      "sha256": "7c380115d06e17ffaffff855b6d39eb015d4c9c0f525e26319df4d1466455898",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/9dab7cf91ab1726a894b8bedcaa1c10162dadcde/.csdlc/evidence/873/sim-07/installed-journey-summary.json",
+      "use": "retained upstream evidence; not a new SIM08 rehearsal"
+    }
+  ],
+  "sim08_rehearsal": "not_run_operator_instruction",
+  "upstream_sim06_candidate": "02c495616e7d1faeccb9920a3e279c3fcb14daae",
+  "qualification_candidate": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "candidate_difference": "SIM06 historical rehearsal is not represented as a fresh rehearsal of the SIM07 candidate."
+}

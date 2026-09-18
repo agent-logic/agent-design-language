@@ -1730,6 +1730,18 @@ impl DurableTransactionStore {
         inputs: IssueInputs,
         fence: &NativeWriterFenceGuard,
     ) -> Result<CommitOutcome, Error> {
+        Self::validate_legacy_native_issue_under_writer_fence(root, &key, &inputs, fence)?;
+        Self::prepare_issue_inner(root, key, inputs, Some(fence))
+    }
+
+    /// Read-only admission shared by preparation and the live transition owner.
+    /// No semantic state or projection is created until the whole census admits.
+    pub(crate) fn validate_legacy_native_issue_under_writer_fence(
+        root: &SemanticRoot,
+        key: &IssueKey,
+        inputs: &IssueInputs,
+        fence: &NativeWriterFenceGuard,
+    ) -> Result<(), Error> {
         if !fence.authenticates(root, key.issue) {
             return Err(Error::InvalidInput(
                 "native writer fence does not authenticate prepared issue".into(),
@@ -1856,7 +1868,7 @@ impl DurableTransactionStore {
                 &linked_state
                     .join("transactions/completed")
                     .join(key.issue.to_string()),
-                &key,
+                key,
                 &[("bind", "bound"), ("edit", "bound")],
                 Some((
                     index["generation"]
@@ -1898,8 +1910,8 @@ impl DurableTransactionStore {
         if binding.is_some() != Path::new(expected_worktree).try_exists().map_err(io)? {
             return Err(Error::LegacyMigrationRequired);
         }
-        legacy_compatibility_census(root, &key, binding.as_ref())?;
-        Self::prepare_issue_inner(root, key, inputs, Some(fence))
+        legacy_compatibility_census(root, key, binding.as_ref())?;
+        Ok(())
     }
 
     fn prepare_issue_inner(

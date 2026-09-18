@@ -1,0 +1,19 @@
+{
+  "schema": "adl.sim08.operator_disposition.v1",
+  "issue": 874,
+  "date": "2026-09-17",
+  "task": "Planning #4.5",
+  "instructions": [
+    "no more reviews, we already did 35",
+    "use gh if necessary",
+    "no reheasrasls, get it to PR now",
+    "set your sprint goal"
+  ],
+  "scope": "Publish operations packet immediately using retained evidence; no additional rehearsals or review rounds.",
+  "rehearsal": "not_run",
+  "new_independent_review": "not_run",
+  "original_full_acceptance": "not_claimed",
+  "live_activation": "not_authorized",
+  "merge": "not_authorized",
+  "sprint_goal": "01a0ad07-92cd-77d1-9438-5d009b8b7e8b"
+}

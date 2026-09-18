@@ -1,0 +1,61 @@
+{
+  "schema": "adl.sim08.static_validation.v1",
+  "status": "pass",
+  "checked_at": "2026-09-18T17:42:26.522296+00:00",
+  "immutable_source_references_checked": 16,
+  "copied_contract_source_references_checked": 6,
+  "checks": [
+    "Immutable Git source reference SHA256 equality",
+    "Packet JSON parsing",
+    "Installed transition owner help matches documented command names",
+    "Isolated installer selection and provenance; final executable retained in native invocation metadata",
+    "Rust fmt and clippy -D warnings"
+  ],
+  "new_rehearsal": "not_run_operator_instruction",
+  "independent_review": "not_run_operator_instruction",
+  "live_activation": false,
+  "pvf": {
+    "lane": "tooling",
+    "proof_role": "native_transition_unit_and_packet_integrity",
+    "determinism": "local fixture Git files locks and injected interruptions; synthetic authority/candidate inputs",
+    "resources": "local_cpu_files_git",
+    "release_gate": "focused implementation proof, not live activation or renewed SIM07 qualification"
+  },
+  "native_transition_tests": {
+    "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --lib transition::tests",
+    "passed": 16,
+    "failed": 0,
+    "coverage": [
+      "registered bound checkout and dirty work preservation",
+      "current semantic passthrough",
+      "legacy ready conversion",
+      "binary provenance projection restore",
+      "continuous old/new writer locks",
+      "repository namespace fence restoration",
+      "unsettled remote intent rejection",
+      "interruption/restart and interrupted restore",
+      "later-write and uncertain-remote restore refusal",
+      "exact explicit resume",
+      "lost guardian identity refusal",
+      "create-only journal integrity",
+      "concurrent atomic receipts",
+      "complete census and checkout identity",
+      "global pending native transaction rejection",
+      "issue and transaction creation namespaces fenced even when an unused lock file already exists"
+    ],
+    "runner": "default parallel Rust test runner",
+    "corrected_failure": "Parallel proof exposed colliding timestamp-only fixture directories; added atomic sequence and create-only directory allocation. All 16 tests pass under the same default parallel runner."
+  },
+  "native_admission_regression": {
+    "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --test transactions issue_1029 -- --test-threads=1",
+    "passed": 6,
+    "failed": 0
+  },
+  "superseded_helpers": "Python builders and their 19 earlier checks removed; native request owner now supplies procedure",
+  "p2_correction": {
+    "live_owner": "csdlc-transition",
+    "procedure": "OPERATIONS.md",
+    "live_execution": "not_run",
+    "ci": "pending_new_head"
+  }
+}

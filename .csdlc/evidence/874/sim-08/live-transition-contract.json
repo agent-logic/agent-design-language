@@ -1,0 +1,59 @@
+{
+  "schema": "adl.sim08.live_transition_contract.v1",
+  "binary": "csdlc-transition",
+  "implementation": "csdlc-v3/src/transition.rs",
+  "cli": "csdlc-v3/src/bin/csdlc_transition.rs",
+  "help": "transition-help.json",
+  "operations": "OPERATIONS.md",
+  "build": {
+    "binary": "csdlc-transition",
+    "source_hash": "1f7b6862eeca288d12ce15c5777f60dfcc2ed8c8593c9b5405d21527e2f7c5fd",
+    "build_profile": "debug",
+    "platform": "Darwin-arm64"
+  },
+  "observed_executable_sha256": "cbdf107ad2afb3522785a7d86677baa040fdf1e7746e0563dddb0b8e62b5ef06",
+  "executable_identity_scope": "isolated native invocation installation from the source hashes below; operational owner remains bound by actual installer provenance and request hash",
+  "qualified_lifecycle_candidate_source": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "qualified_lifecycle_candidate_blake3": "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e",
+  "request_spec_required": [
+    "primary",
+    "candidate",
+    "operation_id",
+    "operator",
+    "approval_reference",
+    "pause_expires_unix",
+    "acknowledged_issues",
+    "records"
+  ],
+  "record_fields": [
+    "issue",
+    "checkout",
+    "plan"
+  ],
+  "resume_required": [
+    "schema",
+    "request_digest",
+    "candidate_blake3",
+    "conversion_blake3",
+    "operator",
+    "approval_reference",
+    "approved_at_unix",
+    "expires_unix"
+  ],
+  "writer_fence": "persistent native and semantic locks plus saved lock, issue, transaction and remote namespace directory permissions; cooperative local-user model",
+  "restore_boundary": "continuous authenticated fence and unchanged source/remote/final-state identities; no automatic rollback after resume",
+  "remote_mutations": false,
+  "live_execution_performed": false,
+  "source_sha256": {
+    "csdlc-v3/src/transition.rs": "1ba8cac07db3e5ed3f0f0f950a1490c28d0411c75553b7e0bc881d1a8c603f43",
+    "csdlc-v3/src/bin/csdlc_transition.rs": "8f195e8f7419d9704b7924bcbeaab11d54f0bdf839858519004337ef92a4fe39",
+    "csdlc-v3/src/commands/remote/storage.rs": "6a7ad3f6051cb66c4c8e53314b8790e7f3482a40efa6db9399425016312d558d",
+    "csdlc-v3/src/storage/semantic.rs": "03b1f98d0203ca7bb551291e1a6c4091edec360190a0b34b0dc9560d7ea566eb",
+    "adl/tools/install_owner_binaries.sh": "377ea5822f42922f04c6d9e315e6b3217f117e1fdfd295ea3324618e2bae028b"
+  },
+  "logging": {
+    "stdout": "one JSON result or refusal per foreground invocation",
+    "stderr": "subprocess Git/build diagnostics only; no provider credentials or environment dumps",
+    "runtime_observability_claim": "none"
+  }
+}

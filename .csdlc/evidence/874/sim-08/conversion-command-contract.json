@@ -1,0 +1,99 @@
+{
+  "schema": "adl.sim08.conversion_command_contract.v1",
+  "source_revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+  "package": "csdlc-v3",
+  "binary": "csdlc-conversion-rehearsal",
+  "separate_from": "csdlc",
+  "qualified_csdlc_hash_does_not_identify_converter": true,
+  "sources": [
+    {
+      "path": "csdlc-v3/src/bin/csdlc_conversion_rehearsal.rs",
+      "revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+      "sha256": "03cc82b20aed49e3ba7ae5409cd7fc16ec665293f78c141c44c721b18eff9bea",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/067cb99bf5c6220f64c9faadd7da6abdca34bcc4/csdlc-v3/src/bin/csdlc_conversion_rehearsal.rs"
+    },
+    {
+      "path": "csdlc-v3/src/conversion.rs",
+      "revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+      "sha256": "6a5fec8bc71796b207fc6fe53e218742e68cbc66fbbc4d8f90775db5391e422b",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/067cb99bf5c6220f64c9faadd7da6abdca34bcc4/csdlc-v3/src/conversion.rs"
+    },
+    {
+      "path": "csdlc-v3/Cargo.toml",
+      "revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+      "sha256": "3b16856d7b546f949d5601568588cf8092cc9b28f8c54fa382c6d23454e1084a",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/067cb99bf5c6220f64c9faadd7da6abdca34bcc4/csdlc-v3/Cargo.toml"
+    },
+    {
+      "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+      "revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+      "sha256": "68723844068084a46f7b435f26621a89733c8cc1da5f409b551f378f2afdb3cb",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/067cb99bf5c6220f64c9faadd7da6abdca34bcc4/adl/tools/run_issue872_conversion_rehearsal.py"
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/local.rs",
+      "revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+      "sha256": "983aa02467e94f9b2e1dea59d4def7129c9a3d96cfdb4697f2fc6cc28398dd05",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/067cb99bf5c6220f64c9faadd7da6abdca34bcc4/csdlc-v3/src/application/intent/local.rs"
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/intent.rs",
+      "revision": "067cb99bf5c6220f64c9faadd7da6abdca34bcc4",
+      "sha256": "8ba0b9a5d0767e02da3714ecb8cb1c7736ba900aa70870ef8fe62b52bc24aa25",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/067cb99bf5c6220f64c9faadd7da6abdca34bcc4/csdlc-v3/src/commands/local/intent.rs"
+    }
+  ],
+  "supported_scope": "copied_record_conversion_only",
+  "live_request_contract": "absent",
+  "commands": [
+    "convert --request FILE",
+    "operation-evidence --request FILE",
+    "restore-pre-effect --request FILE",
+    "status --git-common PATH --repository OWNER/REPO --issue N",
+    "validate --git-common PATH --repository OWNER/REPO --issue N"
+  ],
+  "fence_owner": "convert starts writer-fence-guardian internally; no operator-authored guardian request",
+  "live_activation_ready": false,
+  "p2_disposition": "live procedure supplied separately by csdlc-transition; this contract retains copied-only historical scope",
+  "required_inputs": {
+    "schema": "csdlc.v3.copied_record_conversion.v1",
+    "repository": "agent-logic/agent-design-language",
+    "operation_id": "new nonempty identifier; unchanged across restart/evidence/restore",
+    "git_common": "canonical absolute Git common directory of isolated repository",
+    "linked_worktree": "canonical registered non-primary isolated worktree root",
+    "linked_branch": "actual symbolic-ref --quiet --short HEAD of linked_worktree",
+    "linked_head": "actual rev-parse HEAD of linked_worktree",
+    "registry_path": "linked_worktree/docs/templates/prompts/current.json",
+    "authority_bytes_path": "linked_worktree/csdlc-v3/operator/authority-selector.json",
+    "prior_executable_path": "canonical regular-file copy of prior executable",
+    "prior_executable_blake3": "BLAKE3 of actual prior executable bytes",
+    "writer_fence_issues": "unique nonzero IDs exactly equal to record issue IDs union writer_probe_issue",
+    "writer_probe_issue": "nonzero retained isolated old-writer probe issue ID",
+    "records": "exactly seven objects with role, unique numeric issue, absolute copied source directory containing native index/cards/evidence"
+  },
+  "record_roles_in_order": [
+    "prepared",
+    "bound_dirty",
+    "implemented",
+    "reviewed",
+    "published",
+    "terminal",
+    "pending_recovery"
+  ],
+  "optional_inputs": {
+    "writer_fence_probe": "false unless driven by SIM06 authenticated probe handshake",
+    "fault_injection": "omit; test-only fault object, never activation authority"
+  },
+  "native_adoption": {
+    "binary": "csdlc",
+    "command": "prepare ISSUE --plan PLAN --repo-root CHECKOUT --json",
+    "scope": "admitted ready/bound legacy records; no global conversion or snapshot rollback",
+    "recovery": "recover ISSUE --repo-root CHECKOUT --json then only classified recovery with fresh --execute --preview DIGEST"
+  },
+  "live_transition": {
+    "owner": "csdlc-transition",
+    "procedure": "OPERATIONS.md",
+    "contract": "live-transition-contract.json",
+    "historical_copied_owner_is_not_live": true
+  }
+}

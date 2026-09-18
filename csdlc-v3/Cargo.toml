@@ -18,6 +18,10 @@ path = "src/main.rs"
 name = "csdlc-conversion-rehearsal"
 path = "src/bin/csdlc_conversion_rehearsal.rs"
 
+[[bin]]
+name = "csdlc-transition"
+path = "src/bin/csdlc_transition.rs"
+
 [dependencies]
 blake3 = "1"
 fs2 = "0.4"

@@ -16,6 +16,7 @@ pub mod publication;
 pub mod repository;
 pub mod review;
 pub mod storage;
+pub mod transition;
 
 /// The predecessor issues retained by the V3-A contract.
 pub const PREDECESSOR_DENOMINATOR: [u64; 3] = [161, 162, 163];

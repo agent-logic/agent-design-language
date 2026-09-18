@@ -19,6 +19,7 @@ Usage:
 
 Installs ADL owner binaries into a stable repo-local generated directory outside
 Cargo target. Use --bin csdlc for the native v3 owner (installed in .adl/bin/native-v3).
+Use --bin csdlc-transition to install only the separate transition owner.
 The csdlc install also places man pages in <stable-bin-dir>/share/man and prints
 MANPATH discovery instructions. It never edits shell startup files.
 Re-running without relevant source changes is a no-op and does
@@ -68,7 +69,7 @@ if [[ "${#BINS[@]}" -eq 0 ]]; then
 fi
 
 for bin in "${BINS[@]}"; do
-  if [[ "$bin" == "csdlc" ]]; then
+  if [[ "$bin" == "csdlc" || "$bin" == "csdlc-transition" ]]; then
     [[ "${#BINS[@]}" == 1 ]] || { echo 'install_owner_binaries: install csdlc separately from ADL owners' >&2; exit 2; }
     SOURCE_COMPONENT="csdlc-v3"
     SOURCE_PATHS=(csdlc-v3/Cargo.toml csdlc-v3/Cargo.lock csdlc-v3/src)
@@ -92,7 +93,7 @@ install_vector_component() {
 }
 
 install_csdlc_manual() {
-  if [[ "$SOURCE_COMPONENT" == "csdlc-v3" ]]; then
+  if [[ "$SOURCE_COMPONENT" == "csdlc-v3" && "${BINS[0]}" == "csdlc" ]]; then
     bash "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" --stable-bin-dir "$STABLE_BIN_DIR"
   fi
 }
