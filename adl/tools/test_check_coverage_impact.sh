@@ -1210,4 +1210,9 @@ printf 'M\tadl/src/codefriend/review/runner.rs\n' >"$codefriend_review_changed"
 codefriend_review_expression="$(bash "$SCRIPT" --changed-files "$codefriend_review_changed" --print-risk-nextest-expression)"
 grep -Fx "binary_id(adl::codefriend_review)" <<<"$codefriend_review_expression" >/dev/null
 
+codefriend_agent_changed="$TMP/codefriend-agent-changed.txt"
+printf 'A\tadl/src/bin/codefriend_agent.rs\nA\tadl/src/codefriend/agent.rs\n' >"$codefriend_agent_changed"
+codefriend_agent_expression="$(bash "$SCRIPT" --changed-files "$codefriend_agent_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent)" <<<"$codefriend_agent_expression" >/dev/null
+
 echo "PASS test_check_coverage_impact"

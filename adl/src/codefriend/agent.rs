@@ -558,7 +558,8 @@ impl Transport {
         let expires_at = (self.clock)()
             .saturating_add(consent.retention_seconds)
             .min(consent.expires_at)
-            .min(pairing.expires_at);
+            .min(pairing.expires_at)
+            .min(command.expires_at);
         save_private(&dir.join("expires.json"), &expires_at)?;
         let authority = RunAuthority {
             pairing: &pairing,

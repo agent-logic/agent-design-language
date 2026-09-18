@@ -287,6 +287,9 @@ candidate_filter_for_path() {
     adl/src/codefriend/review/runner.rs)
       printf 'codefriend_review'
       ;;
+    adl/src/bin/codefriend_agent.rs|adl/src/codefriend/agent.rs)
+      printf 'codefriend_agent'
+      ;;
     adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs)
       printf 'codefriend_server'
       ;;
@@ -504,6 +507,9 @@ nextest_expression_for_filter() {
       ;;
     codefriend_review)
       printf 'binary_id(adl::codefriend_review)'
+      ;;
+    codefriend_agent)
+      printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent)'
       ;;
     codefriend_server)
       printf 'binary_id(adl::codefriend_server)'

@@ -189,6 +189,7 @@ fn journal_rejects_world_readable_or_symlink_store() {
 #[derive(Clone, Copy)]
 enum Scenario {
     Success,
+    ShortDeadline,
     LostModelReply,
     Cancel,
     DeleteConsent,
@@ -430,7 +431,12 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     c.revision = git(&checkout, &["rev-parse", "HEAD"]);
     c.expires_at = live_now() + 1000;
     let mut cmd = command(&c);
-    cmd.expires_at = live_now() + 500;
+    cmd.expires_at = live_now()
+        + if matches!(scenario, Scenario::ShortDeadline) {
+            30
+        } else {
+            500
+        };
     let consent_path = f.0.join("consent.json");
     fs::write(&consent_path, serde_json::to_vec(&c).unwrap()).unwrap();
     fs::set_permissions(&consent_path, fs::Permissions::from_mode(0o600)).unwrap();
@@ -524,6 +530,11 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         assert_eq!(reports[0], reports[1]);
     }
     assert_eq!(git(&checkout, &["status", "--porcelain"]), "");
+    if matches!(scenario, Scenario::ShortDeadline) {
+        for report in &reports {
+            assert_eq!(report["expires_at"].as_u64(), Some(cmd.expires_at));
+        }
+    }
     let calls = server.dispatches.load(Ordering::SeqCst);
     clock.store(live_now() + 2000, Ordering::SeqCst);
     journal.expire(clock.load(Ordering::SeqCst)).unwrap();
@@ -644,4 +655,11 @@ fn interrupted_reservation_reports_failure_without_new_dispatch() {
     assert_eq!(reports.len(), 2);
     assert_eq!(reports[0]["status"], "interrupted");
     assert!(reports[0]["result"].is_null());
+}
+
+#[test]
+fn serialized_reports_honor_shorter_website_command_deadlines() {
+    let (calls, reports) = journey(Scenario::ShortDeadline);
+    assert_eq!(calls, 4);
+    assert_eq!(reports[0]["status"], "complete");
 }
