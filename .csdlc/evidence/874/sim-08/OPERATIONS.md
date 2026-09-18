@@ -141,8 +141,8 @@ linked worktrees:
 ```
 
 `ISSUE` and `CHECKOUT` come from each frozen inventory row. Retain every result;
-a failed readback forbids resume. Native `validate` records lifecycle proof and
-is a writer; do not run it while the transition fence is held. Do not test a writer by performing a real new
+a failed readback forbids resume. Native `validate` uses lifecycle locking; use the transition owner’s
+`verify` while its fence is held. Do not test a writer by performing a real new
 lifecycle operation during this verification window.
 
 ## Recovery and explicit resume

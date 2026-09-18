@@ -159,6 +159,31 @@ fn remote_fingerprint(p: &Path) -> Result<String> {
 // Existing issue writers hold file locks. Denying directory creation also fences
 // old repository-scoped owners and writers targeting previously unknown issues.
 // This is a cooperative same-user fence, not protection against chmod/root.
+fn require_no_pending_native(c: &Context) -> Result<()> {
+    let mut roots = BTreeSet::from([c.common.join("csdlc-v3/local/transactions")]);
+    for record in &c.request.records {
+        if record.checkout != c.request.primary {
+            roots.insert(record.checkout.join(".csdlc/transactions"));
+        }
+    }
+    for root in roots {
+        for directory in [root.clone(), root.join("pending")] {
+            safe(&directory)?;
+            if !directory.exists() {
+                continue;
+            }
+            for entry in fs::read_dir(&directory).map_err(err)? {
+                let path = entry.map_err(err)?.path();
+                safe(&path)?;
+                if path.is_file() && path.extension().is_some_and(|s| s == "json") {
+                    return Err("pending native transaction; reconcile before transition".into());
+                }
+            }
+        }
+    }
+    Ok(())
+}
+
 fn namespace_paths(c: &Context) -> Vec<PathBuf> {
     [
         "local/locks",
@@ -414,6 +439,7 @@ impl Context {
     }
     fn check_sources(&self) -> Result<()> {
         check_namespaces(self)?;
+        require_no_pending_native(self)?;
         let actual = census(&self.request.primary, &self.common)?;
         let declared = self
             .request
@@ -1815,6 +1841,18 @@ mod tests {
         for (path, mode) in namespace_paths(&f.0).iter().zip(modes) {
             assert_eq!(fs::metadata(path).unwrap().permissions().mode(), mode);
         }
+    }
+
+    #[test]
+    fn pending_native_transaction_blocks_current_and_legacy_census() {
+        let f = Fixture::new();
+        let pending = f.0.common.join("csdlc-v3/local/transactions/999.json");
+        put(&pending, b"{}").unwrap();
+        assert!(f
+            .0
+            .check_sources()
+            .unwrap_err()
+            .contains("pending native transaction"));
     }
 
     #[test]

@@ -23,7 +23,7 @@
   },
   "native_transition_tests": {
     "command": "cargo test --locked --offline --manifest-path csdlc-v3/Cargo.toml --lib transition::tests -- --test-threads=1",
-    "passed": 15,
+    "passed": 16,
     "failed": 0,
     "coverage": [
       "registered bound checkout and dirty work preservation",
@@ -39,7 +39,8 @@
       "lost guardian identity refusal",
       "create-only journal integrity",
       "concurrent atomic receipts",
-      "complete census and checkout identity"
+      "complete census and checkout identity",
+      "global pending native transaction rejection"
     ]
   },
   "native_admission_regression": {
