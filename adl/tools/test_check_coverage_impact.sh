@@ -1200,4 +1200,19 @@ EOF
 bash "$SCRIPT" --changed-files "$duplicate_summary_changed" --summary "$duplicate_summary" >/tmp/coverage-impact-duplicate-summary-pass.out
 grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-duplicate-summary-pass.out >/dev/null
 
+codefriend_server_changed="$TMP/codefriend-server-changed.txt"
+printf 'A\tadl/src/bin/codefriend_server.rs\nA\tadl/src/codefriend/server.rs\n' >"$codefriend_server_changed"
+codefriend_server_expression="$(bash "$SCRIPT" --changed-files "$codefriend_server_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl::codefriend_server)" <<<"$codefriend_server_expression" >/dev/null
+
+codefriend_review_changed="$TMP/codefriend-review-changed.txt"
+printf 'M\tadl/src/codefriend/review/runner.rs\n' >"$codefriend_review_changed"
+codefriend_review_expression="$(bash "$SCRIPT" --changed-files "$codefriend_review_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl::codefriend_review)" <<<"$codefriend_review_expression" >/dev/null
+
+codefriend_agent_changed="$TMP/codefriend-agent-changed.txt"
+printf 'A\tadl/src/bin/codefriend_agent.rs\nA\tadl/src/codefriend/agent.rs\n' >"$codefriend_agent_changed"
+codefriend_agent_expression="$(bash "$SCRIPT" --changed-files "$codefriend_agent_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent)" <<<"$codefriend_agent_expression" >/dev/null
+
 echo "PASS test_check_coverage_impact"

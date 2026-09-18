@@ -756,7 +756,7 @@
         ],
         "ISSUE INTENT FORM": [
           "The semantic issue intent form is the current operational interface. It resolves issue identity and routes effects through the native semantic transaction owner.",
-          "The intent form validates and retains externally supplied independent exact-head review. REVIEW.json contains receipt, receipt_digest, proof_path and proof_digest. The receipt includes reviewed publication_linkage; proof binds exact candidate bytes and issue version. The ordinary form writes create-only external evidence and native review records; --preview plan is read-only. Legacy --request review admission remains observational.",
+          "Supply csdlc.v3.review_judgment.v1 with implementer, independent reviewer, reviewed_revision, verdict pass and actual evidence text. The owner derives proof and receipt bookkeeping and retains one combined review record. Legacy receipt/receipt_digest/proof_path/proof_digest inputs remain readable. Same-principal review, stale revisions, empty evidence and non-passing verdicts are rejected; the tool does not perform the independent review. --preview plan is read-only.",
           "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards."
         ],
         "DESCRIPTION": [
@@ -1333,7 +1333,7 @@
           "Semantic issue intent forms are the current operational contract. Direct issue-writer --request forms are retired and remain available only through --help and --describe for migration discovery. Observation and administrative request forms retain their documented contracts. See docs/csdlc-v3/INTENT_COMMANDS.md for strict content and effect boundaries.",
           "An emitted csdlc.v3.generated_intent_request.v1 wrapper is accepted directly by --intent-request, as is its csdlc.v3.intent_request.v1 request member with schema, command, content, execute, preview and snapshot. No manual extraction is required. Snapshot separates platform, repository/issue, authority selector, native issue generation/digest and checkout root/branch/head. It must equal current identity; stale or foreign-platform requests are refused, never refreshed automatically.",
           "Do not mix --intent-request with positional issue/content/execute/preview arguments. Ordinary argv and the advanced object reach one intent implementation. Existing internal --request schemas below are retained contracts, not interchangeable intent snapshots.",
-          "Plan content: csdlc.v3.intent_plan.v1 {schema,slug,cards,validators,publication}; cards contains six current-template values objects, validators declares id/program/args/success_marker and optional timeout_seconds (default 300, admitted 1 through 300), publication declares base/title/body/draft. Changes: csdlc.v3.intent_changes.v1 {schema,cards,amendment}; amendment declares class and transition_approved, with implementation_revision and new_commit when applicable. Publication-only edit uses {schema,publication} with the full base/title/body/draft object, unchanged base, and a line beginning Closes #ISSUE without unrelated closing references; it invalidates downstream proof/review/publication. Do not mix cards, validators and publication. Review: {receipt,receipt_digest,proof_path,proof_digest}, with supplied independent exact-head native review and current nonempty proof. See INTENT_COMMANDS.md for complete field and guard descriptions.",
+          "Plan content: csdlc.v3.intent_plan.v1 {schema,slug,cards,validators,publication}; cards contains six current-template values objects, validators declares id/program/args/success_marker and optional timeout_seconds (default 300, admitted 1 through 300), publication declares base/title/body/draft. Changes: csdlc.v3.intent_changes.v1 {schema,cards,amendment}; amendment declares class and transition_approved, with implementation_revision and new_commit when applicable. Publication-only edit uses {schema,publication} with the full base/title/body/draft object, unchanged base, and a line beginning Closes #ISSUE without unrelated closing references; it preserves current candidate proof/review and invalidates publication only. Do not mix cards, validators and publication. Review: csdlc.v3.review_judgment.v1 {schema,implementer,reviewer,reviewed_revision,verdict,evidence}; bookkeeping is tool-owned. Legacy envelopes remain readable. See INTENT_COMMANDS.md for complete field and guard descriptions.",
           "Status decisions content: optional design_ready, dependencies_ready and budget_available booleans; retryable_failure and operator_decision_needed default false. Missing admission decisions stay explicit. Finish disposition content: disposition/operator/rationale/evidence_refs using the native NoPrDisposition enum; authenticated closure timestamps are resolved internally and rechecked by the native owner."
         ],
         "DESCRIPTION": [
@@ -1703,11 +1703,11 @@
         ],
         "3 IMPLEMENT AND REVIEW": [
           "Implement only planned paths, execute VPP's smallest meaningful proof, update SPP if the plan changes and SOR with actual results through native edit/validate. Commit the intended source and evidence so review binds an exact head. Obtain independent review at that exact revision; resolve actionable findings and renew proof/review after source changes.",
-          "Record real review evidence and a TypedReviewReceipt with separate implementer/reviewer identities and actual reviewed_revision/expected_head_sha. Use the review-digest helper for its payload digest. A generated receipt or review_present true does not perform the review. Native review currently checks a narrower planning contract; independent review remains an operator policy requirement.",
+          "Record one actual independent review judgment using csdlc.v3.review_judgment.v1: implementer, reviewer, reviewed_revision, verdict and evidence. The tool derives receipt and proof digests. PR metadata changes preserve current candidate validation and review; scope, validator and source changes still require appropriate fresh evidence.",
           {
             "code": "csdlc review ISSUE --evidence review-evidence.json"
           },
-          "review-request.json is RemoteRouteRequest with issue/repository/implementer/reviewer/review_revision/expected_head_sha; review-dispatch.json wraps it in operation.kind review, canonical selector digest and exact_review_sha. Require ready in the result and valid current authority. Keep the typed receipt and actual evidence under .csdlc/evidence/ISSUE/."
+          "The ordinary issue review command derives the native request and retains judgment plus receipt together. No manual dispatch wrapper or digest helper is needed. Historical native receipts remain readable."
         ],
         "4 CREATE AND VERIFY THE PR": [
           {
@@ -1715,7 +1715,7 @@
           },
           "Push the exact reviewed branch before publication. Native publication verifies the authenticated remote branch head and does not push Git refs; a missing or changed remote head blocks dispatch.",
           "Publication resolves the exact reviewed head and accepted base, title, body and draft metadata. Correct metadata with csdlc edit ISSUE --changes publication.json before renewed proof and independent review. The changes use schema csdlc.v3.intent_changes.v1 and one publication object with base, title, body and draft. Closes #ISSUE must begin a line. Preparation rejects malformed metadata. Do not use retired github-pr --request writer syntax.",
-          "Metadata amendments preserve issue and binding identity and invalidate downstream proof and review. Fresh reviews are retained immutably by HEAD and proof digest; legacy per-HEAD receipts remain readable. After publication, base and draft cannot change through this editor. Interrupted edits require recover preview and explicit execution. Retain the assigned numeric PR and authenticated mutation receipt; verify actual base/head and closing linkage immediately.",
+          "Metadata amendments preserve issue and binding identity and current candidate validation/review. Publication state is invalidated. Older proof records without candidate-input identity need fresh proof after an input-version change. After publication, base and draft cannot change through this editor. Verify actual base/head and closing linkage immediately after publication.",
           "To transition from draft after required proof, use csdlc github-pr ISSUE --operation ready-operation.json --execute with action pull_request_ready. A published PR remains open/unmerged until explicitly authorized merge."
         ],
         "5 MERGE ONLY WITH AUTHORIZATION": [
@@ -1824,8 +1824,8 @@
         ],
         "DESCRIPTION": [
           "Semantic issue intent forms are the current operational contract. Rebuild resolves the authenticated issue, bound checkout, active prompt registry and exact semantic source version before any write.",
-          "Derive all six SIP, STP, SPP, VPP, SRP and SOR values and rendered cards from the single semantic issue record. Write projection artifacts deterministically and publish the manifest last, then acknowledge that exact projection through the transaction owner.",
-          "Status and validate report healthy, missing, altered or interrupted projection state without writing. Rebuild is the explicit repair operation. An unchanged healthy projection is an expected no-op with identical bytes and digests.",
+          "Derive all six SIP, STP, SPP, VPP, SRP and SOR values and rendered cards from the single semantic issue record. Write projection artifacts deterministically and publish the manifest last. Regeneration does not write a lifecycle acknowledgement or advance the task version.",
+          "Status and validate report projection health without writing or replacing the task next step. Rebuild regenerates missing, altered or interrupted views directly. An unchanged healthy projection is an expected no-op with identical bytes and digests.",
           "Rebuild preserves semantic facts, evidence references and immutable receipt bytes. It cannot create approval, proof, accepted review findings, publication or terminal completion. Pending work, stale semantic identity, corrupted retained state and mismatched issue or checkout fail closed.",
           "The generated wrapper emitted by --emit-request can be passed directly to --intent-request; its semantic_version prevents a reviewed request from silently rebuilding a later semantic record."
         ],
@@ -1833,7 +1833,7 @@
           "Machine JSON uses the common command-result envelope and reports projection health, semantic digest, projection digest, generated paths, mutation truth and semantic version."
         ],
         "RECOVERY": [
-          "If projection writing is interrupted, retain the pending marker and staged artifacts. Ordinary inspection remains read-only. Use the explicit recover route and exact preview digest; do not bless or hand-edit partial output."
+          "If projection writing is interrupted, ordinary inspection remains read-only. Rebuild can resume recognized generated staging residue directly; corrupt or unknown residue remains an explicit failure. Do not hand-edit partial output. The older recover preview/execution interface remains available for retained requests."
         ],
         "SEE ALSO": [
           "csdlc(1), csdlc-status(1), csdlc-validate(1), csdlc-recover(1), csdlc-workflow(1), docs/csdlc-v3/INTENT_COMMANDS.md."

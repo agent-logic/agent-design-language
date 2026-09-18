@@ -47,11 +47,11 @@ External plan, edits, independent review and explicit operation content remain
 intentional user inputs.
 
 `status` and `validate` only diagnose semantic projection health. They report
-healthy, missing, altered or interrupted projections without repairing files or
+healthy, missing, altered or interrupted projections without blocking task progress, repairing files or
 advancing semantic state. `rebuild` is the separate guarded mutation. It derives
 all six values and rendered cards from the current semantic record and active
-registry, writes the projection manifest last, and acknowledges the resulting
-projection through the transaction owner. Repeating it with unchanged inputs is
+registry and writes the projection manifest last. Regeneration does not write a
+lifecycle acknowledgement or advance the semantic task version. Repeating it with unchanged inputs is
 an expected no-op with identical bytes and digests. Rebuild preserves evidence
 and lifecycle facts; it cannot create proof, review, publication, approval or
 terminal truth. Pending semantic work, a stale semantic request version,
@@ -194,7 +194,7 @@ the amendment class as the cause of each invalidation.
 
 | Class | Admitted source states | Additional prerequisites | Resulting state | Invalidated evidence |
 | --- | --- | --- | --- | --- |
-| Scope or acceptance | Ready through Merge Ready | Approved semantic transition | Ready | Proof, readiness, review, publication, terminal, cleanup |
+| Scope or acceptance | Ready through Merge Ready | Approved semantic transition | Preserve Ready, otherwise Bound | Proof, readiness, review, publication, terminal, cleanup |
 | Plan | Ready through Merge Ready | Approved semantic transition | Ready stays Ready; later states return to Bound | Proof, readiness, review, publication, terminal, cleanup |
 | Proof or validator | Bound through Merge Ready | Approved semantic transition | Bound | Proof, readiness, review, publication, terminal, cleanup |
 | Binding | Bound through Merge Ready | Approved semantic transition and current bound topology | Bound | Proof, readiness, review, publication, terminal, cleanup |
@@ -235,44 +235,54 @@ hidden, `.lock`, or traversal components.
 Saved publication edit requests retain the exact `snapshot.semantic_version`.
 A stale or missing version is rejected, including requests whose publication
 content happens to equal the current value. Regenerate and review the request
-against the current state; the admitted version remains fixed through reservation.
+against the current state; the admitted version remains fixed through the atomic local commit.
 
-The local transaction preserves issue, cards, binding, branch and head. It
-invalidates proof, readiness, review, publication and terminal/cleanup evidence;
-a corrected body is never approval. Run fresh `proof`, obtain independent review,
-record it through `review`, then `publish`. Repeating the same metadata is a no-op.
-Once native publication has been recorded, base and draft changes are rejected
-even after proof/review invalidation; use the separately governed remote operations.
-Fresh reviews are retained immutably by exact HEAD and proof digest, so renewed
-review after metadata correction does not overwrite earlier evidence. Existing
-per-HEAD review receipts remain readable.
+The local transaction preserves issue, cards, binding, branch and head. PR title,
+body and draft metadata preserve current candidate validation and review; they
+invalidate publication state only. Scope, validators, source and authority remain
+part of candidate evidence identity. A corrected body is never approval, but it
+does not require an unchanged implementation to be reviewed again. Repeating the
+same metadata is a no-op. Once native publication has been recorded, base and
+draft changes are rejected; use the separately governed remote operations.
+Historical reviews remain immutable and readable. Older proof records without
+candidate-input identity require fresh proof after an input version change.
 
-Pending operations and terminal state remain guarded. Interrupted amendments need
-`recover ISSUE`, then explicit execution with the returned preview digest.
+Pending external operations and terminal state remain guarded. Local amendments
+commit atomically; generated views are not candidate authority. Ordinary card
+edit retry can continue after a committed local amendment without a separate
+recovery preview.
 
 This repairs metadata admission; it does not adopt a PR created through raw
 transport or remove the break-glass reconciliation requirement.
 
 ## Independent review and publication
 
-`REVIEW.json` contains `receipt`, `receipt_digest`, `proof_path` and
-`proof_digest`. `receipt` is the externally supplied native
-`csdlc.v3.typed_review_receipt.v1` object: repository, issue, distinct implementer
-and reviewer, exact `reviewed_revision` and `expected_head_sha`, nonempty
-`evidence_digest`, and `publication_linkage` with repository, issue and
-`mode: "closing"`. The reviewer supplies actual reviewed evidence; this command
-does not manufacture an approval or replace independent review.
+Supply the reviewer's judgment, not a hand-built receipt envelope:
 
-`receipt_digest` is the native `typed_review_receipt_payload_digest` of that
-receipt. `proof_path` must be `.csdlc/evidence/ISSUE/intent-proof.json`;
-`proof_digest` is BLAKE3 of its exact file bytes. The owner checks the proof's
-canonical payload digest, successful nonempty validators, current input digest,
-issue version and exact HEAD. A supplied hash is not permission to use stale
-proof. Mutation freshness recomputes native card and intent-plan integrity;
-changing plan bytes while leaving the index digest unchanged is refused.
-Review records are create-only per exact head and reject conflicting
-bytes or symlink traversal. Publication requires the retained external packet
-and native review receipt to agree.
+```json
+{
+  "schema": "csdlc.v3.review_judgment.v1",
+  "implementer": "implementation-author",
+  "reviewer": "independent-reviewer",
+  "reviewed_revision": "EXACT_REVIEWED_GIT_SHA",
+  "verdict": "pass",
+  "evidence": "Actual review scope, findings and dispositions"
+}
+```
+
+The tool derives repository, issue, current proof path/digest, receipt digest and
+closing linkage. It retains the judgment and derived receipt together in one
+create-only review file. The reviewer must supply real evidence; the command
+does not perform the review or manufacture approval. Same-principal review,
+stale revisions, empty evidence and non-passing verdicts are rejected.
+
+Legacy `{receipt, receipt_digest, proof_path, proof_digest}` inputs and retained
+two-file records remain readable. Current proof resides at
+`.csdlc/v3/issues/ISSUE/proof.json`. Proof must have successful nonempty
+validators and match the actual candidate inputs and exact HEAD. A supplied
+hash cannot make stale proof current. Generated state/card views are validated
+from authoritative inputs; missing or altered generated files do not invalidate
+candidate proof. Source dirty-work protection remains enforced.
 
 `review --preview plan`, `publish --preview plan` and `finish --preview plan`
 perform their supported read-only admission paths. Ordinary review and publish

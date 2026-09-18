@@ -13,6 +13,15 @@ use super::storage::*;
 use super::support::*;
 use super::transport::*;
 
+// Closing only the parent's descriptor can leave the shared open-file lock held
+// by a concurrently forked child until exec. Release ownership explicitly.
+struct MergeLock(fs::File);
+impl Drop for MergeLock {
+    fn drop(&mut self) {
+        let _ = FileExt::unlock(&self.0);
+    }
+}
+
 fn reject(message: &str) -> RemoteRouteFinding {
     remote_finding("github_merge_ineligible", message)
 }
@@ -361,6 +370,7 @@ pub(super) fn stage(
         .map_err(|_| reject("merge lock unavailable"))?;
     lock.try_lock_exclusive()
         .map_err(|_| reject("another merge invocation owns this PR"))?;
+    let _lock = MergeLock(lock);
 
     let intent_path = dir.join(format!("{operation_digest}.intent.json"));
     let target_path = dir.join(format!(
@@ -546,6 +556,7 @@ fn execute_inner(
         .map_err(|_| reject("merge lock unavailable"))?;
     lock.try_lock_exclusive()
         .map_err(|_| reject("another merge invocation owns this PR"))?;
+    let _lock = MergeLock(lock);
     let intent_path = dir.join(format!("{digest}.intent.json"));
     let reconciliation_path = dir.join(format!("{digest}.reconciliation.json"));
     let receipt_path = github_mutation_receipt_path(root, &digest)?;
@@ -835,5 +846,49 @@ mod directory_tests {
             .is_err());
             assert_eq!(count, fail_at + 1);
         }
+    }
+}
+
+#[cfg(test)]
+mod lock_tests {
+    use super::MergeLock;
+    use fs2::FileExt;
+    use std::fs;
+
+    #[test]
+    fn merge_lock_releases_even_when_a_duplicate_handle_survives() {
+        let root = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target/merge-lock-release")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        let path = root.join("merge.lock");
+        let file = fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(&path)
+            .unwrap();
+        file.try_lock_exclusive().unwrap();
+        let owner = MergeLock(file);
+        // Models the open-file description inherited by a concurrently spawned
+        // child until exec closes its CLOEXEC descriptor.
+        let inherited = owner.0.try_clone().unwrap();
+        let next = fs::OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(&path)
+            .unwrap();
+        assert!(
+            next.try_lock_exclusive().is_err(),
+            "live ownership must exclude another invocation"
+        );
+        drop(owner);
+        next.try_lock_exclusive()
+            .expect("ended owner must release even while a duplicate survives");
+        FileExt::unlock(&next).unwrap();
+        drop(inherited);
+        drop(next);
+        fs::remove_dir_all(root).unwrap();
     }
 }

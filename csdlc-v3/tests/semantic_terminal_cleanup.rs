@@ -269,7 +269,13 @@ fn cleanup_preview_execute_accepts_stale_generated_projection() {
         ],
     ));
 
+    let current_projection = intent_fixture::inventory(&linked.join(".csdlc/v3/issues/870"));
     intent_fixture::git(&linked, &["restore", ".csdlc/v3/issues/870"]);
+    assert_ne!(
+        current_projection,
+        intent_fixture::inventory(&linked.join(".csdlc/v3/issues/870")),
+        "restoring tracked views must actually make the generated projection stale"
+    );
     assert!(
         intent_fixture::git(&linked, &["status", "--porcelain", "--untracked-files=no"]).is_empty(),
         "fixture must reproduce no tracked dirt with stale generated projections"
@@ -278,9 +284,11 @@ fn cleanup_preview_execute_accepts_stale_generated_projection() {
     let repository = "agent-logic/agent-design-language";
     let root = SemanticRoot::from_git_common(primary.join(".git"), repository).unwrap();
     let key = IssueKey::new(repository, 870).unwrap();
+    // Stale generated views do not change semantic authority or require a
+    // projection acknowledgement before terminal cleanup can continue.
     assert!(matches!(
         DurableTransactionStore::observe_issue(&root, &key).unwrap(),
-        Observation::ProjectionRepairRequired(_)
+        Observation::Current(_)
     ));
 
     let preview = success(fixture.run(&primary, &["clean", "870"]));

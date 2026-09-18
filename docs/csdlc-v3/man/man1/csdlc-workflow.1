@@ -51,12 +51,12 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 .SH 3 IMPLEMENT AND REVIEW
 \&Implement only planned paths, execute VPP's smallest meaningful proof, update SPP if the plan changes and SOR with actual results through native edit/validate. Commit the intended source and evidence so review binds an exact head. Obtain independent review at that exact revision; resolve actionable findings and renew proof/review after source changes.
 .PP
-\&Record real review evidence and a TypedReviewReceipt with separate implementer/reviewer identities and actual reviewed_revision/expected_head_sha. Use the review\-digest helper for its payload digest. A generated receipt or review_present true does not perform the review. Native review currently checks a narrower planning contract; independent review remains an operator policy requirement.
+\&Record one actual independent review judgment using csdlc.v3.review_judgment.v1: implementer, reviewer, reviewed_revision, verdict and evidence. The tool derives receipt and proof digests. PR metadata changes preserve current candidate validation and review; scope, validator and source changes still require appropriate fresh evidence.
 .nf
 \&csdlc review ISSUE \-\-evidence review\-evidence.json
 .fi
 .PP
-\&review\-request.json is RemoteRouteRequest with issue/repository/implementer/reviewer/review_revision/expected_head_sha; review\-dispatch.json wraps it in operation.kind review, canonical selector digest and exact_review_sha. Require ready in the result and valid current authority. Keep the typed receipt and actual evidence under .csdlc/evidence/ISSUE/.
+\&The ordinary issue review command derives the native request and retains judgment plus receipt together. No manual dispatch wrapper or digest helper is needed. Historical native receipts remain readable.
 .SH 4 CREATE AND VERIFY THE PR
 .nf
 \&csdlc review ISSUE \-\-evidence REVIEW.json
@@ -69,7 +69,7 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 .PP
 \&Publication resolves the exact reviewed head and accepted base, title, body and draft metadata. Correct metadata with csdlc edit ISSUE \-\-changes publication.json before renewed proof and independent review. The changes use schema csdlc.v3.intent_changes.v1 and one publication object with base, title, body and draft. Closes #ISSUE must begin a line. Preparation rejects malformed metadata. Do not use retired github\-pr \-\-request writer syntax.
 .PP
-\&Metadata amendments preserve issue and binding identity and invalidate downstream proof and review. Fresh reviews are retained immutably by HEAD and proof digest; legacy per\-HEAD receipts remain readable. After publication, base and draft cannot change through this editor. Interrupted edits require recover preview and explicit execution. Retain the assigned numeric PR and authenticated mutation receipt; verify actual base/head and closing linkage immediately.
+\&Metadata amendments preserve issue and binding identity and current candidate validation/review. Publication state is invalidated. Older proof records without candidate\-input identity need fresh proof after an input\-version change. After publication, base and draft cannot change through this editor. Verify actual base/head and closing linkage immediately after publication.
 .PP
 \&To transition from draft after required proof, use csdlc github\-pr ISSUE \-\-operation ready\-operation.json \-\-execute with action pull_request_ready. A published PR remains open/unmerged until explicitly authorized merge.
 .SH 5 MERGE ONLY WITH AUTHORIZATION

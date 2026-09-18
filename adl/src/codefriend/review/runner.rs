@@ -156,12 +156,20 @@ pub fn run_from_store(options: ReviewRunOptions) -> Result<FourPerspectiveReview
     run(options, admission)
 }
 
+/// Transport-neutral orchestration options used by the installed agent.
+#[derive(Debug, Clone)]
+pub struct ExecutionOptions {
+    pub out: PathBuf,
+    pub run_id: String,
+    pub cancel_file: Option<PathBuf>,
+}
+
+pub struct LaneExecution {
+    pub final_status: ProviderInvocationFinalStatusV1,
+    pub output_text: Option<String>,
+}
+
 pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspectiveReviewRun> {
-    admission.validate()?;
-    ensure!(
-        admission.packet.completeness == "complete_scoped_acquisition",
-        "review_requires_complete_scoped_acquisition"
-    );
     ensure!(
         options
             .provider_request
@@ -171,6 +179,67 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
             .trim()
             .is_empty(),
         "provider_request_must_not_preload_review_input"
+    );
+    let route = provider_route_identity(&options.provider_request);
+    let run_id = options.run_id.clone();
+    run_with_executor(
+        ExecutionOptions {
+            out: options.out,
+            run_id: options.run_id,
+            cancel_file: options.cancel_file,
+        },
+        admission,
+        route,
+        move |lane, prompt, dir| {
+            let mut request = options.provider_request.clone();
+            request.prompt_contract_ref = format!("{PROMPT_CONTRACT}:{}", lane.id());
+            request.lane_ref = lane.id().to_string();
+            request.run_id = Some(run_id.clone());
+            request.request_id = Some(format!("{}-{}", run_id, lane.id()));
+            request.input_text = Some(prompt);
+            if request.max_output_tokens.is_none() {
+                request.max_output_tokens = Some(2_048);
+            }
+            let mut logger = ProviderRunLoggerV1::create_with_context(
+                dir.join("provider.log.jsonl"),
+                &run_id,
+                request.request_id.clone(),
+                Some(format!("lanes/{}/provider.log.jsonl", lane.id())),
+            )?;
+            let result = execute_provider_invocation(request, &mut logger);
+            write_json(&dir.join("provider-result.json"), &result)?;
+            Ok(LaneExecution {
+                final_status: result.final_status,
+                output_text: result.output_text,
+            })
+        },
+    )
+}
+
+/// Execute the same local four-lane validation and synthesis with a governed
+/// model transport. The executor cannot grant source or publication authority.
+pub fn run_with_executor<F>(
+    options: ExecutionOptions,
+    admission: Admission,
+    provider_route: String,
+    mut execute: F,
+) -> Result<FourPerspectiveReviewRun>
+where
+    F: FnMut(ReviewLane, String, &Path) -> Result<LaneExecution>,
+{
+    admission.validate()?;
+    ensure!(
+        admission.packet.completeness == "complete_scoped_acquisition",
+        "review_requires_complete_scoped_acquisition"
+    );
+    ensure!(
+        !options.run_id.is_empty()
+            && options.run_id.len() <= 80
+            && options
+                .run_id
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || b"._-".contains(&b)),
+        "invalid_review_run_id"
     );
     ensure!(
         !options.out.exists(),
@@ -185,7 +254,6 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
         lane_versions.insert(lane.id().to_string(), LANE_CONTRACT_VERSION.to_string());
     }
 
-    let provider_route = provider_route_identity(&options.provider_request);
     let mut findings = Vec::new();
     let mut lane_results = Vec::new();
     let mut failures = Vec::new();
@@ -205,23 +273,7 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
         let (manifest, prompt) = lane_input_manifest(&options.run_id, lane, &admission)?;
         write_json(&dir.join("input.json"), &manifest)?;
 
-        let mut request = options.provider_request.clone();
-        request.prompt_contract_ref = format!("{PROMPT_CONTRACT}:{}", lane_id);
-        request.lane_ref = lane_id.to_string();
-        request.run_id = Some(options.run_id.clone());
-        request.request_id = Some(format!("{}-{lane_id}", options.run_id));
-        request.input_text = Some(prompt);
-        if request.max_output_tokens.is_none() {
-            request.max_output_tokens = Some(2_048);
-        }
-        let log_path = dir.join("provider.log.jsonl");
-        let mut logger = ProviderRunLoggerV1::create_with_context(
-            &log_path,
-            &options.run_id,
-            request.request_id.clone(),
-            Some(format!("lanes/{lane_id}/provider.log.jsonl")),
-        )?;
-        let provider_result = execute_provider_invocation(request, &mut logger);
+        let provider_result = execute(lane, prompt, &dir)?;
         let output_digest = provider_result
             .output_text
             .as_deref()
@@ -276,7 +328,6 @@ pub fn run(options: ReviewRunOptions, admission: Admission) -> Result<FourPerspe
             failure,
         };
         write_json(&dir.join("result.json"), &result)?;
-        write_json(&dir.join("provider-result.json"), &provider_result)?;
         lane_results.push(result);
     }
     if options
@@ -351,7 +402,7 @@ impl RuntimeSurfaceName for crate::provider_communication::ProviderRouteV1 {
     }
 }
 
-fn lane_input_manifest(
+pub(crate) fn lane_input_manifest(
     run_id: &str,
     lane: ReviewLane,
     admission: &Admission,
@@ -434,7 +485,7 @@ fn scoped_source(admission: &Admission) -> Result<String> {
     Ok(sections.join("\n"))
 }
 
-fn parse_lane_output(
+pub(crate) fn parse_lane_output(
     lane: ReviewLane,
     text: &str,
     admission: &Admission,
@@ -481,7 +532,7 @@ fn lane_output_json_text(text: &str) -> &str {
         .unwrap_or(trimmed)
 }
 
-fn finding_from_lane(
+pub(crate) fn finding_from_lane(
     lane: ReviewLane,
     admission: &Admission,
     parsed: ParsedLaneFinding,

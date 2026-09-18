@@ -926,7 +926,7 @@ pub(crate) fn prepare_semantic(
                 &common,
                 request.issue,
                 &identity,
-                current.projection_required(),
+                crate::storage::semantic::ProjectionWriteProof::verify(root, current).is_err(),
             )
             .map_err(|error| {
                 vec![finding(

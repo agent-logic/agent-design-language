@@ -501,7 +501,7 @@ fn installed_bind_recovers_after_target_activation_without_ambiguous_topology() 
 }
 
 #[test]
-fn installed_edit_recovers_one_retained_semantic_amendment_after_native_crash() {
+fn installed_edit_retry_continues_after_committed_local_amendment() {
     let mut fixture = Fixture::new("semantic-edit-native-recovery");
     let primary = fixture.root.clone();
     let input = fixture.write_json("semantic-plan.json", &plan());
@@ -523,20 +523,18 @@ fn installed_edit_recovers_one_retained_semantic_amendment_after_native_crash() 
     let crash = fixture.run_with_env(
         &linked,
         &["edit", "870", "--changes", changes.to_str().unwrap()],
-        &[("CSDLC_V3_TEST_CRASH_POINT", "after_backup_rename")],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_local_amendment_after_commit",
+        )],
     );
     assert_eq!(crash.status.code(), Some(91));
-    let preview = success(fixture.run(&linked, &["recover", "870"]));
-    assert_eq!(preview["status"], "recovery_required");
+    let committed = snapshot(&primary);
+    assert!(committed.pending().is_none());
+    // Ordinary retry uses the committed record; no recovery preview or receipt.
     success(fixture.run(
         &linked,
-        &[
-            "recover",
-            "870",
-            "--execute",
-            "--preview",
-            preview["preview_digest"].as_str().unwrap(),
-        ],
+        &["edit", "870", "--changes", changes.to_str().unwrap()],
     ));
     let amended = snapshot(&primary);
     assert_eq!(
@@ -544,6 +542,13 @@ fn installed_edit_recovers_one_retained_semantic_amendment_after_native_crash() 
         "Recovered semantic edit"
     );
     assert!(amended.pending().is_none());
+    assert_eq!(committed.inputs_version(), amended.inputs_version());
+    assert_eq!(
+        committed.version(),
+        amended.version(),
+        "view repair advanced business state"
+    );
+    success(fixture.run(&linked, &["proof", "870"]));
 }
 
 #[test]
@@ -661,7 +666,7 @@ fn installed_semantic_proof_rejects_live_topology_and_output_escape_before_valid
 
 // PVF #1003: deterministic installed regression, local Git/CPU only, required gate.
 #[test]
-fn scope_rewound_binding_can_rebind_at_the_same_head() {
+fn scope_amendment_preserves_binding_and_repeated_bind_is_noop() {
     let mut fixture = Fixture::new("scope-rebind-same-head");
     let primary = fixture.root.clone();
     let input = fixture.write_json("semantic-plan.json", &plan());
@@ -682,12 +687,12 @@ fn scope_rewound_binding_can_rebind_at_the_same_head() {
         &["edit", "870", "--changes", changes.to_str().unwrap()],
     ));
     let rewound = snapshot(&primary);
-    assert_eq!(rewound.phase(), csdlc_v3::lifecycle::LifecycleState::Ready);
+    assert_eq!(rewound.phase(), csdlc_v3::lifecycle::LifecycleState::Bound);
     success(fixture.run(&linked, &["bind", "870"]));
     let rebound = snapshot(&primary);
     assert_eq!(rebound.phase(), csdlc_v3::lifecycle::LifecycleState::Bound);
     assert_eq!(rebound.inputs().binding(), rewound.inputs().binding());
-    assert!(rebound.version().generation() > rewound.version().generation());
+    assert_eq!(rebound.version(), rewound.version());
     assert_eq!(
         success(fixture.run(&linked, &["status", "870"]))["evidence"]["proof_current"],
         false
@@ -841,19 +846,12 @@ fn tracked_projection_rebind_converges_before_proof() {
 
     let state = linked.join(".csdlc/v3/issues/870/state.json");
     fs::write(&state, "{}\n").unwrap();
-    assert!(csdlc_v3::commands::proof::intent::verify_current_inputs(&linked, &retained).is_err());
-    success(fixture.run(&linked, &["rebuild", "870"]));
+    csdlc_v3::commands::proof::intent::verify_current_inputs(&linked, &retained).unwrap();
 
     let spp = linked.join(".csdlc/v3/issues/870/cards/spp.md");
-    fs::write(&spp, "tampered projection\n").unwrap();
-    let rejected = fixture.run(&linked, &["proof", "870"]);
-    assert!(!rejected.status.success());
-    assert!(
-        String::from_utf8_lossy(&rejected.stderr)
-            .contains("intent_semantic_projection_not_healthy"),
-        "{rejected:?}"
-    );
-    success(fixture.run(&linked, &["rebuild", "870"]));
+    fs::write(&spp, "stale generated view\n").unwrap();
+    // Generated views are disposable; no rebuild/recovery checkpoint is needed.
+    success(fixture.run(&linked, &["proof", "870"]));
 
     fs::write(linked.join("tracked"), "tampered\n").unwrap();
     let rejected = fixture.run(&linked, &["proof", "870"]);
@@ -946,6 +944,6 @@ fn scope_rebind_does_not_advance_when_native_doctor_is_blocked() {
     assert_eq!(before.version(), snapshot(&primary).version());
     assert_eq!(
         snapshot(&primary).phase(),
-        csdlc_v3::lifecycle::LifecycleState::Ready
+        csdlc_v3::lifecycle::LifecycleState::Bound
     );
 }

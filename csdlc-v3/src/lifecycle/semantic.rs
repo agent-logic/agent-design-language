@@ -254,7 +254,7 @@ pub fn amendment_rule(class: AmendmentClass) -> AmendmentRule {
         ScopeAcceptance => (
             ACTIVE_STATES.to_vec(),
             vec![ApprovedSemanticTransition],
-            Ready,
+            PreserveReadyOtherwiseBound,
             all_semantic_invalidations(),
         ),
         Plan => (
@@ -448,7 +448,7 @@ pub fn decide(
                 matches!(from, Reviewed | Published | MergeReady) && facts.recovery_provenance
             }
             Publish => {
-                matches!(from, Reviewed | Published)
+                matches!(from, Reviewed | Published | MergeReady)
                     && facts.current_proof
                     && facts.independent_review
             }
@@ -489,7 +489,10 @@ pub fn decide(
         Invalidation::Cleanup,
     ];
     let (to, admitted, invalidations) = match command {
-        AmendCards | AmendPlan | AmendValidation | AmendPublication => (from, active, all),
+        AmendCards | AmendPlan | AmendValidation => (from, active, all),
+        // Publication wording does not change the implementation candidate.
+        // Topology is checked by the amendment owner before committing.
+        AmendPublication => (from, active, vec![Invalidation::Publication]),
         AmendBinding => (from, executable && facts.topology, all),
         Bind => (
             Bound,
@@ -530,8 +533,12 @@ pub fn decide(
         ),
         RecordIssueMutation => (from, active || matches!(from, Merged | ClosedOut), vec![]),
         Publish => (
-            Published,
-            matches!(from, Reviewed | Published)
+            if from == MergeReady {
+                MergeReady
+            } else {
+                Published
+            },
+            matches!(from, Reviewed | Published | MergeReady)
                 && facts.current_proof
                 && facts.independent_review
                 && facts.publication,
@@ -695,13 +702,13 @@ mod amendment_tests {
     }
 
     #[test]
-    fn scope_acceptance_amendment_rewinds_to_ready_and_invalidates_dependents() {
+    fn scope_acceptance_amendment_keeps_binding_and_invalidates_dependents() {
         let (phase, invalidations, currency) = admitted(decide_amendment(
             LifecycleState::Reviewed,
             AmendmentClass::ScopeAcceptance,
             &valid_facts(),
         ));
-        assert_eq!(phase, LifecycleState::Ready);
+        assert_eq!(phase, LifecycleState::Bound);
         assert_eq!(evidence(&invalidations), all_semantic_invalidations());
         assert!(invalidations
             .iter()

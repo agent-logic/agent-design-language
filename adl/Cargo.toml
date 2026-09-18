@@ -55,6 +55,10 @@ path = "src/bin/demo_adl_gws_native_drive_sync.rs"
 name = "adl-gws-context-mirror"
 path = "src/bin/demo_adl_gws_context_mirror.rs"
 
+[[bin]]
+name = "codefriend-server"
+path = "src/bin/codefriend_server.rs"
+
 [features]
 # Heavy runtime_v2 proof-materialization and CLI proof-smoke tests stay out of
 # ordinary `cargo test` but remain covered by authoritative `--all-features`
@@ -145,7 +149,7 @@ octocrab = { version = "0.53", default-features = false, features = [
 rustls = { version = "0.23", default-features = false, features = ["ring"] }
 # Shared async runtime floor for long-lived cadence, ACIP runtime work, and
 # later bounded recurring verification on the existing ADL runtime.
-tokio = { version = "1", features = ["fs", "macros", "net", "rt", "rt-multi-thread", "sync", "time"] }
+tokio = { version = "1", features = ["fs", "macros", "net", "rt", "rt-multi-thread", "signal", "sync", "time"] }
 tokio-util = { version = "0.7", features = ["rt"] }
 tokio-tungstenite = "0.24"
 axum = "0.7"
@@ -167,6 +171,10 @@ deadpool = { version = "0.13.0", default-features = false, features = ["unmanage
 ntp-daemon = "0.3.7"
 rsntp = "4.1.2"
 
+aws-smithy-runtime-api = "1"
+aws-smithy-types = { version = "1", features = ["http-body-1-x"] }
+http-body-util = "0.1"
+
 [dev-dependencies]
 lopdf = { version = "=0.44.0", default-features = false }
 adl-runtime-kernel = { path = "../adl-runtime-kernel", features = ["test-support"] }
@@ -178,3 +186,7 @@ http = "1"
 rcgen = "0.14"
 tempfile = "3"
 x509-parser = "0.18.1"
+
+[[bin]]
+name = "codefriend-agent"
+path = "src/bin/codefriend_agent.rs"

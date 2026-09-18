@@ -1040,6 +1040,11 @@ if workspace_artifact_if != expected_workspace_artifact_if:
         "non-full workspace summary/log evidence must upload from the dedicated PR-fast producer; "
         f"found: {workspace_artifact_if}"
     )
+workspace_artifact = job_block("adl_coverage_workspace_hosted").split("- name: Upload workspace coverage evidence", 1)[1].split("- name:", 1)[0]
+if "if: always()" not in workspace_artifact:
+    raise SystemExit("full workspace partition diagnostics must upload on failure and cancellation")
+if "adl/partition-logs/workspace-${{ github.run_id }}-${{ github.run_attempt }}-workspace/" not in workspace_artifact:
+    raise SystemExit("workspace coverage must retain current-run partition diagnostics even on cancellation")
 rust_test_job = job_block("adl_rust_tests")
 if "runs-on: ubuntu-latest" not in rust_test_job:
     raise SystemExit("adl-rust-tests must use the standard GitHub-hosted runner")

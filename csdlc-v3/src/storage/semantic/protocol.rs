@@ -236,6 +236,16 @@ impl EffectRequest {
     pub fn command(&self) -> SemanticCommand {
         self.command
     }
+    pub(crate) fn has_retained_identity(&self, snapshot: &Snapshot) -> bool {
+        snapshot
+            .completed()
+            .iter()
+            .any(|done| done.native == self.native)
+            || snapshot
+                .pending()
+                .is_some_and(|pending| pending.native == self.native)
+    }
+
     pub fn native_identity(&self) -> &NativeIdentity {
         &self.native
     }

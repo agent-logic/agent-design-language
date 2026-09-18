@@ -349,6 +349,15 @@ impl IssueInputs {
     pub fn validation(&self) -> &[Validator] {
         &self.intent_plan.validators
     }
+    /// Candidate evidence depends on scope, validators, binding and authority,
+    /// but not PR presentation. Base topology remains part of the identity.
+    pub(crate) fn validation_digest(&self) -> Result<Digest, Error> {
+        let mut inputs = self.clone();
+        inputs.intent_plan.publication.title.clear();
+        inputs.intent_plan.publication.body.clear();
+        inputs.intent_plan.publication.draft = false;
+        hash("semantic-input-v1", &inputs)
+    }
     pub fn publication(&self) -> &Publication {
         &self.intent_plan.publication
     }
@@ -520,11 +529,33 @@ impl Snapshot {
 #[derive(Debug, Clone)]
 pub enum LocalChange {
     AmendCards(BTreeMap<String, serde_json::Value>),
+    AmendVerifiedCards(VerifiedCardAmendment),
     AmendPlan(Vec<PlanStep>),
     AmendPublication(Publication),
     AmendValidation(Vec<Validator>),
     AmendBinding(VerifiedBindingAmendment),
     AcknowledgeProjection(ProjectionWriteProof),
+}
+/// Card values admitted by the native application, committed with their policy
+/// class in the same CAS transaction as other local amendments.
+#[derive(Debug, Clone)]
+pub struct VerifiedCardAmendment {
+    cards: BTreeMap<String, serde_json::Value>,
+    class: AmendmentClass,
+    facts: AmendmentFacts,
+}
+impl VerifiedCardAmendment {
+    pub(crate) fn from_native_owner(
+        cards: BTreeMap<String, serde_json::Value>,
+        class: AmendmentClass,
+        facts: AmendmentFacts,
+    ) -> Self {
+        Self {
+            cards,
+            class,
+            facts,
+        }
+    }
 }
 /// Native owner attests the exact replacement binding after topology validation.
 /// Parsing a binding does not grant this capability.
@@ -1525,7 +1556,7 @@ fn legacy_compatibility_census(
 // whose retained construction API holds a lock for its lifetime.
 impl DurableTransactionStore {
     /// Durably materialize the current read-only projection. Semantic activation
-    /// remains authoritative; acknowledgement is a separate CAS mutation.
+    /// remains authoritative; materialization does not advance lifecycle state.
     pub fn write_issue_projection(
         root: &SemanticRoot,
         snapshot: &Snapshot,
@@ -1568,11 +1599,7 @@ impl DurableTransactionStore {
             .ok_or(Error::InvalidDigest)?;
         // Validate every stale residue before the first mutation. A corrupt
         // old marker must not be erased or hidden by a new pending marker.
-        let stale_paths = authenticated_stale_projection_paths(
-            &card_root,
-            suffix,
-            current.acknowledged_card_projection(),
-        )?;
+        let stale_paths = authenticated_stale_projection_paths(&card_root, suffix)?;
 
         // Keep version admission and every projection write under one lock.
         write_issue_projection_unlocked(root, &current)?;
@@ -2094,10 +2121,17 @@ impl DurableTransactionStore {
         let mut payload = current.payload.clone();
         let mut facts = policy::Facts::default();
         let mut amendment_class = None;
+        let mut card_facts = None;
         let command = match change {
             LocalChange::AmendCards(cards) => {
                 payload.inputs.intent_plan.cards = cards;
                 amendment_class = Some(AmendmentClass::ScopeAcceptance);
+                SemanticCommand::AmendCards
+            }
+            LocalChange::AmendVerifiedCards(amendment) => {
+                payload.inputs.intent_plan.cards = amendment.cards;
+                amendment_class = Some(amendment.class);
+                card_facts = Some(amendment.facts);
                 SemanticCommand::AmendCards
             }
             LocalChange::AmendPlan(plan) => {
@@ -2112,7 +2146,14 @@ impl DurableTransactionStore {
                         | LifecycleState::Bound
                         | LifecycleState::Implemented
                         | LifecycleState::Reviewed
-                ) || publication.base != current.inputs().publication().base
+                        | LifecycleState::Published
+                        | LifecycleState::MergeReady
+                ) || (publication.base != current.inputs().publication().base
+                    && !(matches!(
+                        current.phase(),
+                        LifecycleState::Ready | LifecycleState::Bound
+                    ) && current.inputs().publication().base.is_empty()
+                        && current.inputs().publication().body.is_empty()))
                     || publication.title.trim().is_empty()
                     || !crate::commands::remote::publication_body_is_valid(
                         &publication.body,
@@ -2122,8 +2163,7 @@ impl DurableTransactionStore {
                     return Err(Error::InvalidInput("publication amendment rejected".into()));
                 }
                 payload.inputs.intent_plan.publication = publication;
-                amendment_class = Some(AmendmentClass::Plan);
-                SemanticCommand::AmendPlan
+                SemanticCommand::AmendPublication
             }
             LocalChange::AmendValidation(validation) => {
                 payload.inputs.intent_plan.validators = validation;
@@ -2151,7 +2191,7 @@ impl DurableTransactionStore {
         }
         let (phase, invalidations, causal_invalidations) = if let Some(class) = amendment_class {
             let phase = current.phase();
-            let amendment_facts = AmendmentFacts {
+            let amendment_facts = card_facts.unwrap_or(AmendmentFacts {
                 source_version_current: true,
                 issue_checkout_match: true,
                 evidence_integrity: true,
@@ -2173,17 +2213,27 @@ impl DurableTransactionStore {
                 ),
                 projection_change: payload.inputs != current.payload.inputs,
                 new_commit: false,
-            };
+            });
             match policy::decide_amendment(phase, class, &amendment_facts) {
                 AmendmentOutcome::Admitted {
                     phase,
-                    invalidations,
-                    ..
-                } => (
-                    phase,
-                    invalidations.iter().map(|item| item.evidence).collect(),
-                    invalidations,
-                ),
+                    mut invalidations,
+                    review_currency,
+                } => {
+                    if review_currency == policy::ReviewCurrency::FreshExactHeadReviewRequired {
+                        invalidations.push(policy::CausalInvalidation {
+                            evidence: Invalidation::Review,
+                            cause: class,
+                        });
+                        invalidations.sort();
+                        invalidations.dedup();
+                    }
+                    (
+                        phase,
+                        invalidations.iter().map(|item| item.evidence).collect(),
+                        invalidations,
+                    )
+                }
                 _ => return Err(Error::InvalidInput("local amendment rejected".into())),
             }
         } else {
@@ -2355,7 +2405,6 @@ struct AuthenticatedStaleProjectionResidue {
 fn authenticated_stale_projection_paths(
     directory: &Path,
     current_suffix: &str,
-    acknowledged: Option<&Digest>,
 ) -> Result<Vec<AuthenticatedStaleProjectionResidue>, Error> {
     let staging = projection_staging_paths(directory)?;
     let mut by_suffix = BTreeMap::<String, Vec<PathBuf>>::new();
@@ -2371,10 +2420,11 @@ fn authenticated_stale_projection_paths(
     let committed_manifest = fs::read(directory.join("manifest.json")).map_err(io)?;
     let mut authenticated = Vec::new();
     for (suffix, paths) in by_suffix {
-        let retained_digest = acknowledged.ok_or(Error::EvidenceMismatch)?;
-        if retained_digest.as_str() != format!("card-projection-v1:{suffix}") {
-            return Err(Error::EvidenceMismatch);
-        }
+        // This digest identifies disposable bytes, not business authority.
+        // Exact manifest/staging equality and the recomputed bundle hash below
+        // constrain removal to recognized generated residue; no ack is needed.
+        let retained_digest = Digest::try_from(format!("card-projection-v1:{suffix}"))
+            .map_err(|_| Error::EvidenceMismatch)?;
         let pending_name = format!(".projection-{suffix}.pending");
         let pending = paths
             .iter()
@@ -2424,7 +2474,7 @@ fn authenticated_stale_projection_paths(
                     registry_version,
                     cards,
                 ),
-            )? != *retained_digest
+            )? != retained_digest
         {
             return Err(Error::EvidenceMismatch);
         }

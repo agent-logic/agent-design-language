@@ -10,9 +10,9 @@ csdlc\-rebuild \- explicitly rebuild all six cards from the semantic issue recor
 .SH DESCRIPTION
 \&Semantic issue intent forms are the current operational contract. Rebuild resolves the authenticated issue, bound checkout, active prompt registry and exact semantic source version before any write.
 .PP
-\&Derive all six SIP, STP, SPP, VPP, SRP and SOR values and rendered cards from the single semantic issue record. Write projection artifacts deterministically and publish the manifest last, then acknowledge that exact projection through the transaction owner.
+\&Derive all six SIP, STP, SPP, VPP, SRP and SOR values and rendered cards from the single semantic issue record. Write projection artifacts deterministically and publish the manifest last. Regeneration does not write a lifecycle acknowledgement or advance the task version.
 .PP
-\&Status and validate report healthy, missing, altered or interrupted projection state without writing. Rebuild is the explicit repair operation. An unchanged healthy projection is an expected no\-op with identical bytes and digests.
+\&Status and validate report projection health without writing or replacing the task next step. Rebuild regenerates missing, altered or interrupted views directly. An unchanged healthy projection is an expected no\-op with identical bytes and digests.
 .PP
 \&Rebuild preserves semantic facts, evidence references and immutable receipt bytes. It cannot create approval, proof, accepted review findings, publication or terminal completion. Pending work, stale semantic identity, corrupted retained state and mismatched issue or checkout fail closed.
 .PP
@@ -20,7 +20,7 @@ csdlc\-rebuild \- explicitly rebuild all six cards from the semantic issue recor
 .SH OUTPUT
 \&Machine JSON uses the common command\-result envelope and reports projection health, semantic digest, projection digest, generated paths, mutation truth and semantic version.
 .SH RECOVERY
-\&If projection writing is interrupted, retain the pending marker and staged artifacts. Ordinary inspection remains read\-only. Use the explicit recover route and exact preview digest; do not bless or hand\-edit partial output.
+\&If projection writing is interrupted, ordinary inspection remains read\-only. Rebuild can resume recognized generated staging residue directly; corrupt or unknown residue remains an explicit failure. Do not hand\-edit partial output. The older recover preview/execution interface remains available for retained requests.
 .SH SEE ALSO
 \&csdlc(1), csdlc\-status(1), csdlc\-validate(1), csdlc\-recover(1), csdlc\-workflow(1), docs/csdlc\-v3/INTENT_COMMANDS.md.
 .SH OPTIONS
