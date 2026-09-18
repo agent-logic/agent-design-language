@@ -20,7 +20,7 @@ use axum::{
     http::{HeaderMap, StatusCode},
     response::{IntoResponse, Response},
     routing::{get, post},
-    Json, Router,
+    Extension, Json, Router,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -33,6 +33,15 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 use tokio::sync::Semaphore;
+
+mod build {
+    pub const REVISION: &str = env!("CODEFRIEND_BUILD_REVISION");
+    pub const SOURCE_CLEAN: &str = env!("CODEFRIEND_BUILD_CLEAN");
+}
+/// Immutable source identity of this compiled artifact, never operator-supplied.
+pub fn build_revision() -> &'static str {
+    build::REVISION
+}
 
 pub const MAX_BODY: usize = 2 * 1024 * 1024;
 const MAX_RESULT: usize = 4 * 1024 * 1024;
@@ -106,6 +115,8 @@ pub struct Operation {
     pub packet_id: String,
     pub source_revision: String,
     pub candidate_revision: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model_identity: Option<crate::model_identity::ModelIdentityV1>,
     pub expires_at: u64,
     pub status: Status,
 }
@@ -187,7 +198,8 @@ impl Backend for ProductionBackend {
                 }
                 Ok(
                     json!({"schema":"codefriend.local_model_result.v1", "execution_location":"local_agent",
-                    "model_execution_location":"agent_logic_provider", "input_manifest":manifest,"output":parsed}),
+                    "model_execution_location":"agent_logic_provider", "candidate_revision":build::REVISION,
+                    "model_identity":result.model_identity, "input_manifest":manifest,"output":parsed}),
                 )
             }
         }
@@ -253,12 +265,12 @@ impl Service {
             "invalid_retention"
         );
         ensure!(
-            config.candidate_revision.len() == 40
-                && config
-                    .candidate_revision
-                    .bytes()
-                    .all(|b| b.is_ascii_hexdigit()),
-            "candidate_revision_required"
+            build::SOURCE_CLEAN == "true" && !build::REVISION.is_empty(),
+            "build_provenance_unavailable"
+        );
+        ensure!(
+            config.candidate_revision == build::REVISION,
+            "candidate_revision_mismatch"
         );
         ensure!(
             config
@@ -425,6 +437,10 @@ impl Service {
             .route("/v1/operations/:operation", get(inspect))
             .route("/v1/operations/:operation/cancel", post(cancel))
             .route("/v1/operations/:operation/result", get(result))
+            .route_layer(axum::middleware::from_fn_with_state(
+                self.clone(),
+                authorize,
+            ))
             .layer(axum::middleware::map_response(
                 |mut response: Response| async move {
                     response.headers_mut().insert(
@@ -438,12 +454,24 @@ impl Service {
             .with_state(self)
     }
 }
+async fn authorize(
+    State(service): State<Service>,
+    mut request: axum::extract::Request,
+    next: axum::middleware::Next,
+) -> Response {
+    match service.auth(request.headers()) {
+        Ok(credential) => {
+            request.extensions_mut().insert(credential);
+            next.run(request).await
+        }
+        Err(error) => error.into_response(),
+    }
+}
 async fn submit(
     State(service): State<Service>,
-    headers: HeaderMap,
+    Extension(credential): Extension<Credential>,
     Json(request): Json<Submit>,
 ) -> ApiResult<(StatusCode, Json<Operation>)> {
-    let credential = service.auth(&headers)?;
     if credential.mode != request.mode {
         return Err(ApiError(StatusCode::FORBIDDEN, "scope_denied"));
     }
@@ -513,7 +541,8 @@ async fn submit(
         request_digest: internal(super::evidence::hash(&request))?,
         packet_id: request.packet.packet_id.clone(),
         source_revision: request.packet.revision.clone(),
-        candidate_revision: service.0.config.candidate_revision.clone(),
+        candidate_revision: build::REVISION.into(),
+        model_identity: None,
         expires_at: admission.expires_at,
         status: Status::Running,
     };
@@ -547,6 +576,12 @@ async fn submit(
                 match serde_json::to_vec(&value) {
                     Ok(bytes) if bytes.len() <= MAX_RESULT => {
                         if write_json(&dir.join("result.json"), &value).is_ok() {
+                            if op.mode == Mode::LocalModel {
+                                op.model_identity =
+                                    value.get("model_identity").and_then(|identity| {
+                                        serde_json::from_value(identity.clone()).ok()
+                                    });
+                            }
                             Status::Complete
                         } else {
                             Status::Failed
@@ -570,19 +605,17 @@ async fn submit(
 }
 async fn inspect(
     State(service): State<Service>,
-    headers: HeaderMap,
+    Extension(c): Extension<Credential>,
     HttpPath(operation): HttpPath<String>,
 ) -> ApiResult<Json<Operation>> {
-    let c = service.auth(&headers)?;
     internal(service.expire())?;
     Ok(Json(service.operation(&c, &operation)?))
 }
 async fn cancel(
     State(service): State<Service>,
-    headers: HeaderMap,
+    Extension(c): Extension<Credential>,
     HttpPath(operation): HttpPath<String>,
 ) -> ApiResult<Json<Operation>> {
-    let c = service.auth(&headers)?;
     let _guard = service
         .0
         .gate
@@ -603,10 +636,9 @@ async fn cancel(
 }
 async fn result(
     State(service): State<Service>,
-    headers: HeaderMap,
+    Extension(c): Extension<Credential>,
     HttpPath(operation): HttpPath<String>,
 ) -> ApiResult<Json<Value>> {
-    let c = service.auth(&headers)?;
     internal(service.expire())?;
     let op = service.operation(&c, &operation)?;
     if op.status != Status::Complete || op.expires_at <= now() {
