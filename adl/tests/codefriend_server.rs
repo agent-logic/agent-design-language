@@ -460,7 +460,14 @@ fn cargo_provenance_stays_fresh_and_detects_packed_ref_recreation() {
     let first = commit();
     let build = || {
         let out = Command::new("cargo")
-            .args(["build", "--offline", "--verbose", "--manifest-path"])
+            .args([
+                "build",
+                "--offline",
+                "--verbose",
+                "--color",
+                "never",
+                "--manifest-path",
+            ])
             .arg(repository.join("adl/Cargo.toml"))
             .env("CARGO_TARGET_DIR", repository.join("target"))
             .env("CARGO_ENCODED_RUSTFLAGS", "")
