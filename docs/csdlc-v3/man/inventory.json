@@ -348,6 +348,7 @@
         "--intent-request",
         "--json",
         "--preview",
+        "--pull-request",
         "--repo-root",
         "-h"
       ]

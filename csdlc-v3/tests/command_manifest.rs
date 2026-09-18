@@ -62,7 +62,7 @@ fn help_exposes_one_binary_command_surface() {
         "github-pr <issue> --operation <path>",
         "review <issue> --evidence <path>",
         "publish <issue>",
-        "finish <issue> [--disposition <path>]",
+        "finish <issue> [--pull-request <number> | --disposition <path>]",
         "clean <issue> [--execute --preview <digest>]",
         "install <issue> --operation <path> [--execute]",
         "cutover <issue> --operation <path> [--execute]",

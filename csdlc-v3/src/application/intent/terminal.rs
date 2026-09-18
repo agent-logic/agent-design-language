@@ -165,11 +165,63 @@ fn effect_result(
     Ok(result)
 }
 
-fn native_request(context: &Context) -> Result<TerminalRouteRequest, String> {
-    serde_json::from_value(json!({"repository":context.repository,"issue":context.issue,
-        "pull_request":publication_target(&context.root,&context.repository,context.issue,&context.branch,&context.head).map_err(|finding|finding.code)?,
-        "expected_head_sha":context.head,"mode":"closing","credential_names":["GITHUB_TOKEN"]}))
-        .map_err(|_|"intent_terminal_request_invalid".into())
+fn finish_target(
+    native: Option<u64>,
+    explicit: Option<u64>,
+    retained: Option<u64>,
+) -> Result<Option<u64>, String> {
+    let selected = native.or(explicit).or(retained);
+    if [native, explicit, retained]
+        .into_iter()
+        .flatten()
+        .any(|number| Some(number) != selected || number == 0)
+    {
+        return Err("intent_finish_pull_request_conflict".into());
+    }
+    Ok(selected)
+}
+
+fn native_request(
+    context: &Context,
+    explicit: Option<u64>,
+    receipt_path: &std::path::Path,
+) -> Result<TerminalRouteRequest, String> {
+    let retained = if receipt_path.exists() {
+        let receipt: DurableTerminalReceipt = serde_json::from_slice(
+            &fs::read(receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
+        )
+        .map_err(|_| "intent_terminal_receipt_invalid")?;
+        let state_path =
+            state_root(context)?.join(format!("v3/issues/{}/terminal.json", context.issue));
+        if receipt.repository != context.repository
+            || receipt.issue != context.issue
+            || receipt.head_sha != context.head
+            || receipt.disposition != "closed_out"
+            || receipt.no_pr_closeout.is_some()
+            || receipt.state_digest.is_none()
+            || receipt.state_digest != file_digest(&state_path)?
+        {
+            return Err("intent_terminal_receipt_mismatch".into());
+        }
+        receipt.pull_request
+    } else {
+        None
+    };
+    let native = publication_target(
+        &context.root,
+        &context.repository,
+        context.issue,
+        &context.branch,
+        &context.head,
+    )
+    .map_err(|finding| finding.code)?;
+    let pull_request = finish_target(native, explicit, retained)?;
+    serde_json::from_value(
+        json!({"repository":context.repository,"issue":context.issue,
+        "pull_request":pull_request,
+        "expected_head_sha":context.head,"mode":"closing","credential_names":["GITHUB_TOKEN"]}),
+    )
+    .map_err(|_| "intent_terminal_request_invalid".into())
 }
 fn attach_terminal_observation(
     context: &Context,
@@ -585,6 +637,24 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
     if request.command != "finish" && !request.content.is_null() {
         return Err("intent_terminal_unexpected_content".into());
     }
+    // A supplied PR is only a target hint. The existing terminal owner must
+    // authenticate merged state, exact head, closing linkage and closed issue.
+    let explicit_pr =
+        if request.command == "finish" && request.content.get("pull_request").is_some() {
+            #[derive(serde::Deserialize)]
+            #[serde(deny_unknown_fields)]
+            struct ExternalPr {
+                pull_request: u64,
+            }
+            let value: ExternalPr = serde_json::from_value(request.content.clone())
+                .map_err(|_| "intent_finish_pull_request_invalid")?;
+            if value.pull_request == 0 {
+                return Err("intent_finish_pull_request_invalid".into());
+            }
+            Some(value.pull_request)
+        } else {
+            None
+        };
     context.fresh()?;
     let output_root = state_root(context)?;
     let receipt_path =
@@ -840,7 +910,10 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 "outcome":completed.outcome(),"effect_truth":completed.truth(),"version":semantic.snapshot.version()}}),
         );
     }
-    let mut native = if request.command == "finish" && !request.content.is_null() {
+    let mut native = if request.command == "finish"
+        && !request.content.is_null()
+        && explicit_pr.is_none()
+    {
         #[derive(serde::Deserialize)]
         #[serde(deny_unknown_fields)]
         struct Disposition {
@@ -892,7 +965,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         serde_json::from_value(json!({"repository":context.repository,"issue":context.issue,"expected_head_sha":context.head,"pull_request":receipt.pull_request,
             "mode":if receipt.no_pr_closeout.is_some(){Value::Null}else{json!("closing")},"no_pr_closeout":receipt.no_pr_closeout,"credential_names":["GITHUB_TOKEN"]})).map_err(|_|"intent_terminal_request_invalid")?
     } else {
-        native_request(context)?
+        native_request(context, explicit_pr, &receipt_path)?
     };
     let legacy_coordination_compatibility = native
         .no_pr_closeout

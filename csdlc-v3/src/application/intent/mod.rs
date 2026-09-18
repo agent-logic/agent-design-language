@@ -110,6 +110,7 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
     let mut root = std::env::current_dir().map_err(|_| "intent_cwd_unavailable")?;
     let mut issue = None;
     let mut content = Value::Null;
+    let mut explicit_pull_request = None;
     let mut execute = false;
     let mut preview = None;
     let mut advanced = None;
@@ -124,6 +125,17 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
             return Err("intent_duplicate_argument".into());
         }
         match flag.as_str() {
+            "--pull-request" if command == "finish" => {
+                let number = iter
+                    .next()
+                    .ok_or("intent_argument_value_missing")?
+                    .parse::<u64>()
+                    .map_err(|_| "intent_finish_pull_request_invalid")?;
+                if number == 0 {
+                    return Err("intent_finish_pull_request_invalid".into());
+                }
+                explicit_pull_request = Some(number);
+            }
             "--repo-root" => {
                 root = PathBuf::from(iter.next().ok_or("intent_argument_value_missing")?)
             }
@@ -174,6 +186,12 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
             "--json" => {}
             _ => return Err("intent_unknown_argument".into()),
         }
+    }
+    if let Some(number) = explicit_pull_request {
+        if !content.is_null() {
+            return Err("intent_finish_mixed_disposition".into());
+        }
+        content = serde_json::json!({"pull_request": number});
     }
     if advanced.is_some() && (issue.is_some() || !content.is_null() || execute || preview.is_some())
     {
