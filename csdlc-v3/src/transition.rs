@@ -551,6 +551,7 @@ fn census_inventory(primary: &Path, common: &Path) -> Result<Census> {
             issues.insert(id);
         }
     }
+    let retained_checkouts = history::retained_checkouts(common)?;
     let mut excluded_history = Vec::new();
     let mut tracked_by_head: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
     for block in git(primary, &["worktree", "list", "--porcelain"])?.split("\n\n") {
@@ -637,13 +638,11 @@ fn census_inventory(primary: &Path, common: &Path) -> Result<Census> {
                 .filter(|id| !issues.contains(id)),
         );
         unknown.extend(changed.iter().copied().filter(|id| !issues.contains(id)));
-        let retained_history = history::retained_issues(common, checkout)?;
-        unknown.extend(
-            retained_history
-                .iter()
-                .copied()
-                .filter(|id| !issues.contains(id)),
-        );
+        let retained_history = retained_checkouts
+            .get(checkout)
+            .cloned()
+            .unwrap_or_default();
+        unknown.extend(retained_history.iter().copied());
         if unknown.is_empty() {
             continue;
         }

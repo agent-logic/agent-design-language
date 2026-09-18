@@ -527,6 +527,54 @@ pub(super) fn disposition(common: &Path, checkout: &Path, issue: u64) -> Result<
         &mut RealProcessAdapter::new(EnvironmentCredentialResolver),
     )
 }
+// Discover durable receipts independently of the current worktree list. A lost
+// checkout must fail topology validation instead of erasing its census entry.
+pub(super) fn retained_checkouts(common: &Path) -> Result<BTreeMap<PathBuf, BTreeSet<u64>>> {
+    let root = common.join("csdlc-v3/local/historical-copies");
+    safe(&root)?;
+    let mut retained = BTreeMap::<PathBuf, BTreeSet<u64>>::new();
+    if !root.exists() {
+        return Ok(retained);
+    }
+    for checkout in fs::read_dir(root).map_err(err)? {
+        let checkout = checkout.map_err(err)?.path();
+        safe(&checkout)?;
+        for issue in fs::read_dir(checkout).map_err(err)? {
+            let issue = issue.map_err(err)?.path();
+            safe(&issue)?;
+            let path = issue.join("disposition.json");
+            safe(&path)?;
+            if !path.exists() {
+                continue;
+            }
+            let receipt: Value = read(&path)?;
+            let spec: Spec = serde_json::from_value(receipt["spec"].clone()).map_err(err)?;
+            let id = receipt["record"]["issue"]
+                .as_u64()
+                .filter(|id| *id > 0)
+                .ok_or("invalid historical disposition issue")?;
+            if receipt["schema"] != "csdlc.v3.historical_copy_disposition.v1"
+                || !spec.issues.contains(&id)
+                || location(common, &spec.checkout, id) != issue
+            {
+                return Err("historical disposition identity mismatch".into());
+            }
+            if topology(&spec).map_err(|error| {
+                format!(
+                    "issue {id}: retained historical checkout {}: {error}",
+                    spec.checkout.display()
+                )
+            })? != common
+            {
+                return Err("historical disposition common directory mismatch".into());
+            }
+            retained.entry(spec.checkout).or_default().insert(id);
+        }
+    }
+    Ok(retained)
+}
+
+#[cfg(test)]
 pub(super) fn retained_issues(common: &Path, checkout: &Path) -> Result<BTreeSet<u64>> {
     let root = location(common, checkout, 1)
         .parent()
@@ -702,6 +750,65 @@ mod tests {
             pr: json!({"number":7,"state":"closed","merged":true,"html_url":format!("https://github.com/{REPOSITORY}/pull/7"),"head":{"sha":"a".repeat(40)},"base":{"repo":{"full_name":REPOSITORY}},"merged_at":"2026-08-01T00:00:00Z","merge_commit_sha":"b".repeat(40)}),
         }
     }
+    // PVF: deterministic local Git contract regression, mocked remote, small
+    // CPU/disk; part of the required transition history validation lane.
+    #[test]
+    fn history_removed_or_unregistered_checkout_cannot_disappear_from_census() {
+        for case in ["removed", "missing", "unregistered"] {
+            let mut f = Fixture::new();
+            let linked = f.spec.primary.join("linked-history");
+            git(
+                &f.spec.primary,
+                &[
+                    "worktree",
+                    "add",
+                    "--detach",
+                    linked.to_str().unwrap(),
+                    "HEAD",
+                ],
+            )
+            .unwrap();
+            let source = linked.join(".csdlc/issues/3");
+            fs::create_dir_all(source.parent().unwrap()).unwrap();
+            fs::rename(&f.source, &source).unwrap();
+            f.spec.checkout = linked.clone();
+            f.source = source;
+            f.apply();
+            assert_eq!(
+                retained_checkouts(&f.common).unwrap()[&linked],
+                BTreeSet::from([3])
+            );
+            assert!(f.read(&mut Remote::closed()).unwrap().is_some());
+            match case {
+                "removed" => {
+                    git(
+                        &f.spec.primary,
+                        &["worktree", "remove", "--force", linked.to_str().unwrap()],
+                    )
+                    .unwrap();
+                }
+                "missing" => fs::remove_dir_all(&linked).unwrap(),
+                "unregistered" => {
+                    let moved = f.spec.primary.join("held-history");
+                    fs::rename(&linked, &moved).unwrap();
+                    git(&f.spec.primary, &["worktree", "prune", "--expire", "now"]).unwrap();
+                    fs::rename(moved, &linked).unwrap();
+                }
+                _ => unreachable!(),
+            }
+            assert!(location(&f.common, &linked, 3)
+                .join("disposition.json")
+                .exists());
+            let error = census_inventory(&f.spec.primary, &f.common)
+                .err()
+                .expect(case);
+            assert!(
+                error.contains("retained historical checkout"),
+                "{case}: {error}"
+            );
+        }
+    }
+
     #[test]
     fn history_foreign_identity_is_explicit_and_cannot_collide_with_current_repository() {
         let mut f = Fixture::new();
