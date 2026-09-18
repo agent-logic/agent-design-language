@@ -1227,3 +1227,109 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
     #[cfg(unix)]
     assert!(shutdown.expect("graceful shutdown deadline").success());
 }
+
+#[tokio::test]
+async fn drain_blocks_new_reservations_without_consuming_identity_and_can_resume() {
+    let f = Fixture::new();
+    let backend = Fake::new(false, false);
+    let service = Service::open(f.config.clone(), backend.clone()).unwrap();
+    let app = service.clone().router();
+    assert!(!service.drained_without_payloads().unwrap());
+    service.begin_drain().unwrap();
+    assert!(service.drained_without_payloads().unwrap());
+    let request = json!({"operation_id":"after_drain","packet":f.packet,"mode":"hosted"});
+    let (status, _) = call(&app, "POST", "/v1/operations", Some(ALICE), request.clone()).await;
+    assert_eq!(status, StatusCode::SERVICE_UNAVAILABLE);
+    assert!(!f.config.root.join("operations/alice/after_drain").exists());
+    service.resume_admissions().unwrap();
+    let (status, _) = call(&app, "POST", "/v1/operations", Some(ALICE), request).await;
+    assert_eq!(status, StatusCode::ACCEPTED);
+    settled(&app, ALICE, "after_drain").await;
+}
+
+#[tokio::test]
+async fn drain_waits_for_worker_and_retained_payload_then_keeps_no_replay_identity() {
+    let f = Fixture::new();
+    let backend = Fake::new(true, false);
+    let service = Service::open(f.config.clone(), backend.clone()).unwrap();
+    let app = service.clone().router();
+    let (status, _) = call(
+        &app,
+        "POST",
+        "/v1/operations",
+        Some(ALICE),
+        json!({"operation_id":"active","packet":f.packet,"mode":"hosted"}),
+    )
+    .await;
+    assert_eq!(status, StatusCode::ACCEPTED);
+    service.begin_drain().unwrap();
+    let before = service.drained_without_payloads();
+    backend.hold.store(false, Ordering::SeqCst);
+    assert!(!before.unwrap());
+    settled(&app, ALICE, "active").await;
+    assert!(!service.drained_without_payloads().unwrap());
+    let dir = f.config.root.join("operations/alice/active");
+    let file = dir.join("operation.json");
+    let mut operation: Operation = serde_json::from_slice(&fs::read(&file).unwrap()).unwrap();
+    operation.expires_at = 0;
+    fs::write(&file, serde_json::to_vec(&operation).unwrap()).unwrap();
+    for _ in 0..200 {
+        if service.drained_without_payloads().unwrap() {
+            break;
+        }
+        tokio::time::sleep(Duration::from_millis(5)).await;
+    }
+    assert!(service.drained_without_payloads().unwrap());
+    assert!(file.exists());
+    assert!(!dir.join("work").exists());
+    assert!(!dir.join("result.json").exists());
+}
+
+#[test]
+fn drain_rejects_uncertain_or_corrupt_reservations() {
+    let f = Fixture::new();
+    let service = Service::open(f.config.clone(), Fake::new(false, false)).unwrap();
+    let dir = f.config.root.join("operations/alice/unknown");
+    fs::create_dir_all(&dir).unwrap();
+    service.begin_drain().unwrap();
+    assert!(!service.drained_without_payloads().unwrap());
+    fs::write(dir.join("operation.json"), b"invalid").unwrap();
+    assert!(service.drained_without_payloads().is_err());
+}
+
+#[test]
+fn drain_retains_interrupted_uncertainty_through_expiry_and_restart() {
+    let f = Fixture::new();
+    let service = Service::open(f.config.clone(), Fake::new(false, false)).unwrap();
+    let dir = f.config.root.join("operations/alice/interrupted");
+    fs::create_dir_all(dir.join("work")).unwrap();
+    fs::write(dir.join("work/source"), b"retained fixture source").unwrap();
+    fs::write(dir.join("result.json"), b"{}").unwrap();
+    let operation = Operation {
+        operation_id: "interrupted".into(),
+        subject: "alice".into(),
+        mode: Mode::Hosted,
+        request_digest: "fixture".into(),
+        packet_id: f.packet.packet_id.clone(),
+        source_revision: f.packet.revision.clone(),
+        candidate_revision: build_revision().into(),
+        model_identity: None,
+        expires_at: 0,
+        status: Status::Interrupted,
+    };
+    fs::write(
+        dir.join("operation.json"),
+        serde_json::to_vec(&operation).unwrap(),
+    )
+    .unwrap();
+    drop(service);
+    // Startup invokes cleanup too: it must not turn uncertainty into permission.
+    let restarted = Service::open(f.config.clone(), Fake::new(false, false)).unwrap();
+    restarted.begin_drain().unwrap();
+    assert!(!restarted.drained_without_payloads().unwrap());
+    assert!(!dir.join("work").exists());
+    assert!(!dir.join("result.json").exists());
+    let retained: Operation =
+        serde_json::from_slice(&fs::read(dir.join("operation.json")).unwrap()).unwrap();
+    assert_eq!(retained.status, Status::Interrupted);
+}
