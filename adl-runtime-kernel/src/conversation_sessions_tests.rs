@@ -168,6 +168,20 @@ impl OperationExecutor for ConversationExecutor {
                 class: FailureClass::Retryable,
                 message: "provider failed".to_owned(),
             });
+        } else if work["tasks"][0]["input"].as_str().is_some_and(|input| {
+            matches!(
+                input,
+                "provider_timeout"
+                    | "provider_invalid_response"
+                    | "provider_quota"
+                    | "provider_transport"
+                    | "provider_cancelled"
+            )
+        }) {
+            return Err(ExecutorError {
+                class: FailureClass::Retryable,
+                message: work["tasks"][0]["input"].as_str().unwrap().to_owned(),
+            });
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
         serde_json::to_vec(&serde_json::json!({
@@ -1313,6 +1327,46 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
         .events()
         .iter()
         .any(|event| event.correlation_id.as_deref() == Some("fedcfedcfedcfedcfedcfedcfedcfedc")));
+
+    for (index, expected_error) in [
+        "provider_timeout",
+        "provider_invalid_response",
+        "provider_quota",
+        "provider_transport",
+        "provider_cancelled",
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let conversation_id = format!("conversation-{expected_error}");
+        let turn_id = format!("turn-{expected_error}");
+        let correlation_id = format!("{:032x}", 200 + index);
+        socket
+            .send(Message::Text(
+                serde_json::json!({
+                    "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                    "conversation_id": conversation_id,
+                    "turn_id": turn_id,
+                    "recipient_id": "shepherd",
+                    "correlation_id": correlation_id,
+                    "message": expected_error
+                })
+                .to_string()
+                .into(),
+            ))
+            .await
+            .unwrap();
+        let accepted = next_conversation_result_for_turn(&mut socket, &turn_id).await;
+        assert_eq!(accepted["status"], "accepted", "{accepted}");
+        let failed = next_conversation_result_for_turn(&mut socket, &turn_id).await;
+        assert_eq!(failed["status"], "failed", "{failed}");
+        assert_eq!(failed["error"], expected_error, "{failed}");
+        assert!(failed["reply"].is_null(), "{failed}");
+        let public_value = failed.to_string();
+        assert!(!public_value.contains("private-provider-failure-canary"));
+        assert!(!public_value.contains(TOKEN));
+        assert!(!public_value.contains(ROTATED_TOKEN));
+    }
 
     socket.close(None).await.unwrap();
     server.abort();

@@ -14,8 +14,8 @@ Generated: <timestamp>
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/1079
 - PR:
-- Source Issue Prompt: <source_issue_prompt>
-- Docs: <docs_context>
+- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/1079
+- Docs: docs/provider/inference-profiles.md and current Runtime provider/admission contracts
 - Other: none
 
 ## Agent Execution Rules
@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: <output_card>
+  output_card: .csdlc/issues/1079/cards/sor.md
   summary_style: concise_structured
 constraints:
   include_system_invariants: true
@@ -84,37 +84,37 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: <slug>
-- Required outcome type: <required_outcome_type>
-- Demo required: <demo_required>
+- Source issue-prompt slug: deepseek-openrouter-reasoning
+- Required outcome type: runtime_provider_behavior_and_live_proof
+- Demo required: true
 
 ## Goal
 
-<goal>
+Make OpenRouter reasoning effort explicit and model-specific so DeepSeek V4 Flash completes substantive Runtime reviews without changing other OpenRouter residents.
 
 ## Required Outcome
 
-<required_outcome>
+OpenRouter consumes normalized reasoning_effort, DeepSeek uses a separate low-effort bounded profile, provider failures remain typed at conversation boundaries, and installed Runtime proof covers a full issue review plus governed A2A continuation.
 
 ## Acceptance Criteria
 
-<acceptance_criteria>
+Capture low reasoning on the DeepSeek request; reject conflicting controls before dispatch; complete an untruncated full-issue review and A2A continuation; preserve Nexus and Nemotron profiles; distinguish timeout, invalid-response, quota, transport, and cancellation failures.
 
 ## Inputs
 
-<inputs>
+Issue #1079; adl-provider-core OpenRouter codec/adapter; Runtime ingress/control conversation paths; docs/provider/inference-profiles.md; merged provider lifecycle and hot-reload contracts.
 
 ## Target Files / Surfaces
 
-<target_files_surfaces>
+adl-provider-core/src/provider_substrate.rs; adl-provider-core/src/http_family.rs; adl-provider-core/src/http_family/tests.rs; adl-runtime-kernel/src/ingress.rs; adl-runtime-kernel/src/control.rs; adl-runtime-kernel/src/conversation_sessions_tests.rs; docs/provider/inference-profiles.md; installed local Runtime provider definition and retained redacted proof.
 
 ## Validation Plan
 
-<validation_plan>
+Run focused provider request-capture and invalid-control tests, conversation-level failure projection tests, provider-core suite and strict Clippy, Runtime focused tests, native card validation, independent exact-head review, then one installed full-issue review and one governed A2A exchange.
 
 ## Demo / Proof Requirements
 
-<demo_proof_requirements>
+Use DeepSeek V4 Flash through the installed Runtime with low reasoning, bounded output and timeout. Retain model identity, non-secret controls, elapsed time, finish/status, response presence, typed failures, and peer continuation. Do not retain hidden reasoning.
 
 ## Constraints / Policies
 
@@ -162,11 +162,11 @@ ci_validation_required: true
 
 ## Non-goals / Out of scope
 
-<non_goals>
+No global shared OpenRouter budget change, recurring inference, model replacement, credential or billing change, PAIR change, or unrelated Runtime repair.
 
 ## Notes / Risks
 
-<notes_risks>
+Real-provider proof is bounded and single-attempt after ambiguous outcomes. Preserve last-known-good provider state and keep Nexus/Nemotron effective profiles unchanged.
 
 ## Instructions to the Agent
 - Read this file.
