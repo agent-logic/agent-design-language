@@ -1430,3 +1430,116 @@ fn drain_retains_interrupted_uncertainty_through_expiry_and_restart() {
         serde_json::from_slice(&fs::read(dir.join("operation.json")).unwrap()).unwrap();
     assert_eq!(retained.status, Status::Interrupted);
 }
+
+#[cfg(unix)]
+async fn operator_control(socket: &Path, value: Value) -> Value {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let mut stream = tokio::net::UnixStream::connect(socket).await.unwrap();
+    let mut bytes = serde_json::to_vec(&value).unwrap();
+    bytes.push(b'\n');
+    stream.write_all(&bytes).await.unwrap();
+    let mut reply = Vec::new();
+    tokio::time::timeout(
+        Duration::from_secs(3),
+        stream.take(4096).read_to_end(&mut reply),
+    )
+    .await
+    .unwrap()
+    .unwrap();
+    serde_json::from_slice(&reply).unwrap()
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn private_control_binds_drain_to_instance_and_attempt() {
+    use std::os::unix::fs::PermissionsExt;
+    let f = Fixture::new();
+    let service = Service::open(f.config.clone(), Fake::new(false, false)).unwrap();
+    let parent = f.dir.join("control");
+    fs::create_dir(&parent).unwrap();
+    fs::set_permissions(&parent, fs::Permissions::from_mode(0o700)).unwrap();
+    // Relative socket names avoid the small sockaddr_un limit on macOS.
+    let cwd = std::env::current_dir().unwrap();
+    let socket = parent.strip_prefix(&cwd).unwrap().join("gateway.sock");
+    let control = control::ControlServer::bind(service.clone(), &socket).unwrap();
+    assert_eq!(
+        fs::metadata(&socket).unwrap().permissions().mode() & 0o777,
+        0o600
+    );
+    assert!(control::ControlServer::bind(service.clone(), &socket).is_err());
+    let task = tokio::spawn(control.serve());
+    let status = operator_control(
+        &socket,
+        json!({"schema":"codefriend.host_control.v1","action":"status"}),
+    )
+    .await;
+    assert_eq!(status["ok"], true);
+    assert_eq!(status["drained_without_payloads"], false);
+    let instance = status["instance"].as_str().unwrap();
+    let attempt = "0123456789abcdef0123456789abcdef";
+    let stale = operator_control(&socket, json!({"schema":"codefriend.host_control.v1","action":"drain","instance":"old","attempt":attempt})).await;
+    assert_eq!(stale["ok"], false);
+    let drained = operator_control(&socket, json!({"schema":"codefriend.host_control.v1","action":"drain","instance":instance,"attempt":attempt})).await;
+    assert_eq!(drained["drained_without_payloads"], true);
+    assert_eq!(drained["attempt"], attempt);
+    for action in ["drain", "resume"] {
+        let conflicting = operator_control(&socket, json!({"schema":"codefriend.host_control.v1","action":action,"instance":instance,"attempt":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"})).await;
+        assert_eq!(conflicting["ok"], false);
+        assert!(service.drained_without_payloads().unwrap());
+    }
+    let resumed = operator_control(&socket, json!({"schema":"codefriend.host_control.v1","action":"resume","instance":instance,"attempt":attempt})).await;
+    assert_eq!(resumed["draining"], false);
+    assert!(!service.drained_without_payloads().unwrap());
+    let replay = operator_control(&socket, json!({"schema":"codefriend.host_control.v1","action":"drain","instance":instance,"attempt":attempt})).await;
+    assert_eq!(replay["ok"], false);
+    assert!(!service.drained_without_payloads().unwrap());
+    let fresh = operator_control(&socket, json!({"schema":"codefriend.host_control.v1","action":"drain","instance":instance,"attempt":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"})).await;
+    assert_eq!(fresh["drained_without_payloads"], true);
+
+    let malformed = operator_control(
+        &socket,
+        json!({"schema":"codefriend.host_control.v1","action":"status","command":"shutdown"}),
+    )
+    .await;
+    assert_eq!(malformed["ok"], false);
+    task.abort();
+    let _ = task.await;
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn private_control_rejects_shared_directory_and_oversized_requests() {
+    use std::os::unix::fs::PermissionsExt;
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let f = Fixture::new();
+    let service = Service::open(f.config.clone(), Fake::new(false, false)).unwrap();
+    let parent = f.dir.join("control");
+    fs::create_dir(&parent).unwrap();
+    fs::set_permissions(&parent, fs::Permissions::from_mode(0o755)).unwrap();
+    let cwd = std::env::current_dir().unwrap();
+    let socket = parent.strip_prefix(&cwd).unwrap().join("gateway.sock");
+    assert!(control::ControlServer::bind(service.clone(), &socket).is_err());
+    assert!(!socket.exists());
+    fs::set_permissions(&parent, fs::Permissions::from_mode(0o700)).unwrap();
+    let task = tokio::spawn(
+        control::ControlServer::bind(service.clone(), &socket)
+            .unwrap()
+            .serve(),
+    );
+    let mut stream = tokio::net::UnixStream::connect(&socket).await.unwrap();
+    stream.write_all(&vec![b'x'; 4097]).await.unwrap();
+    let mut reply = Vec::new();
+    let _ = tokio::time::timeout(Duration::from_secs(3), stream.read_to_end(&mut reply))
+        .await
+        .unwrap();
+    assert!(reply.is_empty());
+    assert!(!service.drained_without_payloads().unwrap());
+    let status = operator_control(
+        &socket,
+        json!({"schema":"codefriend.host_control.v1","action":"status"}),
+    )
+    .await;
+    assert_eq!(status["ok"], true);
+    task.abort();
+    let _ = task.await;
+}

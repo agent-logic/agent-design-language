@@ -3,10 +3,10 @@
   "issue": 1056,
   "test": "adl/tests/codefriend_server.rs",
   "lane": "runtime",
-  "proof_role": "HTTP authentication, scoped isolation, operation durability, cancellation, quota and retention regression; Unix operator SIGINT shutdown and successful instrumented subprocess exit; authentication before body consumption, immutable clean-build provenance and relocation, bounded HTTP/SDK provider responses in both modes, observed model identity; local drain admission exclusion, worker/retention guard and uncertain-state refusal",
+  "proof_role": "HTTP authentication, scoped isolation, operation durability, cancellation, quota and retention regression; Unix operator SIGINT shutdown and successful instrumented subprocess exit; authentication before body consumption, immutable clean-build provenance and relocation, bounded HTTP/SDK provider responses in both modes, observed model identity; local drain admission exclusion, worker/retention guard and uncertain-state refusal; private Unix operator control framing, instance/attempt binding, permission guards and bounded malformed/oversized requests",
   "determinism": "deterministic fixtures and bounded loopback transport; no external provider",
   "resources": {
-    "network": "loopback only",
+    "network": "loopback HTTP and owner-only Unix sockets",
     "provider_spend": 0,
     "concurrency": "bounded fixture workers",
     "build_tools": "declared Rust toolchain and Git for isolated provenance fixture"

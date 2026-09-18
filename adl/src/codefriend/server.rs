@@ -1,5 +1,7 @@
 //! Hosted review and local-agent model gateway. Provider routing is operator-owned.
 //! No client-selected paths, identities, arbitrary prompts, endpoints or credentials.
+#[cfg(unix)]
+pub mod control;
 use super::{
     evidence::{contracts::Completion, store::Store, Admission, Retention},
     ingestion::Packet,

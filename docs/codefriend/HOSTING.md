@@ -70,9 +70,28 @@ so a POST that reaches reservation after the gate closes is rejected without
 consuming its operation ID. The readiness check runs existing expiry cleanup,
 checks worker permits, rejects missing/corrupt operation state and refuses while
 work/result payloads remain. These primitives alone cannot authorize host stop:
-website admission/activity control, authenticated operator transport, supervisor
-coordination and installed Linux proof are still required. They are not exposed
-as public HTTP endpoints.
+website admission/activity control, supervisor coordination and installed Linux
+proof are still required. They are not exposed as public HTTP endpoints.
+
+The gateway optionally accepts `--control-socket <path>` after its listen argument.
+Its parent must already be a nonsymlink directory owned by the service UID with
+mode0700; the socket is mode0600 and peer UID must match the service owner or
+root (the privileged local supervisor). Requests are one bounded
+JSON line with schema `codefriend.host_control.v1` and action `status`, `drain` or
+`resume`. Status discovers a random64-hex service instance identity. Mutations
+require that exact instance plus a32-hex stop-attempt ID; a conflicting attempt
+cannot drain or resume another attempt. Resumed attempts are retired and cannot
+be drained again in the same instance. Retired IDs are never evicted; after1024
+retired attempts, new drain requests fail closed until a supervised restart.
+Responses identify the actual instance,
+attempt and compiled candidate and report `drained_without_payloads`. An error,
+missing response or identity mismatch is never permission to stop.
+
+An existing socket causes startup to fail. The service supervisor must own the
+private runtime directory and remove stale sockets only after verifying the old
+process is stopped. Reconnection must discover the new instance and must not
+replay a stale drain/resume command. Same-UID services are not isolated from each
+other by these filesystem permissions.
 
 The unresolved retention choice is whether shutdown waits for current deadlines
 or a separately approved shorter retention policy applies. Do not silently
