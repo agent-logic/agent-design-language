@@ -30,6 +30,8 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 static WRITE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
+pub mod history;
+
 type Result<T> = std::result::Result<T, String>;
 const QUALIFIED_SOURCE: &str = "067cb99bf5c6220f64c9faadd7da6abdca34bcc4";
 const QUALIFIED_BINARY: &str = "764a2f43b4f752cae97680b3294f5d26bed7d2538821c3d1fb7d8e57691ac44e";
@@ -549,6 +551,7 @@ fn census_inventory(primary: &Path, common: &Path) -> Result<Census> {
             issues.insert(id);
         }
     }
+    let retained_checkouts = history::retained_checkouts(common)?;
     let mut excluded_history = Vec::new();
     let mut tracked_by_head: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
     for block in git(primary, &["worktree", "list", "--porcelain"])?.split("\n\n") {
@@ -635,17 +638,33 @@ fn census_inventory(primary: &Path, common: &Path) -> Result<Census> {
                 .filter(|id| !issues.contains(id)),
         );
         unknown.extend(changed.iter().copied().filter(|id| !issues.contains(id)));
+        let retained_history = retained_checkouts
+            .get(checkout)
+            .cloned()
+            .unwrap_or_default();
+        unknown.extend(retained_history.iter().copied());
         if unknown.is_empty() {
             continue;
         }
+        let mut tracked_history = Vec::new();
         for id in &unknown {
+            if retained_history.contains(id) {
+                excluded_history.push(
+                    history::disposition(common, checkout, *id)?
+                        .ok_or("historical disposition disappeared")?,
+                );
+                continue;
+            }
             let path = root.join(id.to_string());
             if !tracked.contains(&format!(".csdlc/issues/{id}/index.json")) || changed.contains(id)
             {
                 return Err(format!("issue {id}: unregistered or changed lifecycle residue at {}; resolve native ownership before transition", path.display()));
             }
+            tracked_history.push(*id);
         }
-        excluded_history.push(json!({"issues":unknown,"checkout":checkout,"revision":head,"disposition":"tracked_historical_projection","basis":"committed indexes; unchanged tracked files; no untracked residue; no native/semantic/binding records"}));
+        if !tracked_history.is_empty() {
+            excluded_history.push(json!({"issues":tracked_history,"checkout":checkout,"revision":head,"disposition":"tracked_historical_projection","basis":"committed indexes; unchanged tracked files; no untracked residue; no native/semantic/binding records"}));
+        }
     }
     Ok(Census {
         issues,
