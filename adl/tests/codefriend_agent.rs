@@ -199,6 +199,7 @@ enum Scenario {
     CandidateResultMismatch,
     CandidateAcrossLanes,
     ModelAcrossLanes,
+    PartialScope,
     ShortDeadline,
     LostModelReply,
     Cancel,
@@ -504,6 +505,10 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     c.repository_path = checkout.clone();
     c.revision = git(&checkout, &["rev-parse", "HEAD"]);
     c.expires_at = live_now() + 1000;
+    if matches!(scenario, Scenario::PartialScope) {
+        c.scope.analysis.push("src/missing.rs".into());
+        c.scope.max_files = 2;
+    }
     if matches!(scenario, Scenario::CachedBeyondObservationDeadline) {
         c.retention_seconds = 600;
     }
@@ -885,4 +890,12 @@ fn gateway_actual_model_must_remain_consistent_across_lanes() {
     let (calls, reports) = journey(Scenario::ModelAcrossLanes);
     assert_eq!(calls, 2);
     assert_eq!(reports[0]["status"], "failed_or_interrupted");
+}
+
+#[test]
+fn partial_scope_is_rejected_before_any_model_dispatch() {
+    let (calls, reports) = journey(Scenario::PartialScope);
+    assert_eq!(calls, 0);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+    assert!(reports[0]["result"].is_null());
 }

@@ -904,6 +904,10 @@ impl Transport {
             };
             admission.validate()?;
             ensure!(
+                admission.packet.completeness == "complete_scoped_acquisition",
+                "review_requires_complete_scoped_acquisition"
+            );
+            ensure!(
                 admission.expires_at == expires_at
                     && admission.packet.revision == consent.revision
                     && admission.packet.repository == consent.repository,
