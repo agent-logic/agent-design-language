@@ -56,7 +56,8 @@ Built-in codecs declare these consumption sets:
 | Ollama HTTP generate | context, output, temperature, top-p, seed, timeout, think, keep-alive |
 | Ollama local CLI | timeout only |
 | MLX OpenAI-compatible chat | output, temperature, top-p, seed, timeout |
-| OpenAI, Anthropic, DeepSeek, OpenRouter, Bedrock Nova, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
+| OpenAI, Anthropic, DeepSeek, Bedrock Nova, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
+| OpenRouter chat | common chat controls plus reasoning effort |
 | Vertex Gemini | output, temperature, top-p, timeout, thinking budget or level, include-thoughts |
 | Legacy generic HTTP `{prompt}` payload | timeout only; supplied sampling or output controls reject before adapter construction |
 | Kimi chat | common chat controls plus reasoning effort |
@@ -67,6 +68,11 @@ Built-in codecs declare these consumption sets:
 Timeout controls govern the trusted client or local supervisor and are not
 serialized into provider request bodies. All other declared controls in a
 codec's set are serialized into that codec's provider request.
+
+OpenRouter serializes normalized `reasoning_effort` as
+`reasoning.effort`. A value of `max` maps to OpenRouter's `xhigh`
+wire value. Raw `reasoning` objects are rejected so configuration cannot
+silently conflict with the normalized control.
 
 The shared profile contract is:
 
