@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the local agent component and shared runner transport seam; live website/provider/installed acceptance remains outstanding.
+Local-agent component and native website report verifier implemented; draft PR1066 open. Live website/provider/installed acceptance remains outstanding.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime`
@@ -80,15 +80,15 @@ Implemented the local agent component and shared runner transport seam; live web
 
 ## Actions taken
 - `Implemented outbound pairing, private credentials, locally pinned consent, durable reservations, gateway lanes through existing runner and result forwarding.`
-- `Local component evidence: 19 codefriend_agent tests passed, including model-gateway protocol fixtures, consent/control timing, retention, renewal, digest integrity and interrupted restart; 14 existing codefriend_review tests passed. Focused clippy passed. No real website pairing/backend, deployed model service, paid provider, installed macOS/Linux journey or whole-product qualification has run.`
-- `Fixed six independently reviewed consent, retention, renewal and retransmission findings; added focused regression evidence.`
+- `21 agent integration tests, 14 review integration tests and 1 CLI unit test passed under LLVM instrumentation; focused clippy passed. Binary line coverage225/245; agent610/689. Fixtures do not prove live product acceptance.`
+- `Fixed reviewed cancellation, consent, retention and replay findings; added native report verification for website acceptance. Exact-head reviewer passed60ca5d34a1888f2588af13c3ffeb8d4f16f0e8cf.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `adl/src/codefriend/agent.rs; adl/src/bin/codefriend_agent.rs; adl/src/codefriend/review/runner.rs; adl/src/codefriend/mod.rs; adl/Cargo.toml; adl/tests/codefriend_agent.rs; adl/tests/fixtures/codefriend/agent/PVF.json; docs/codefriend/LOCAL_AGENT.md`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `Local component and existing runner regression evidence only`
-- Integration method used: `Stacked on #1056 candidate e842618fe0; draft PR pending`
+- Integration method used: `Draft PR1066 stacked on PR1063; parent8ae29a749b incorporated. Candidate60ca5d34a1 awaits publication update.`
 - Verification performed:
   - `not_run`
     `not_run`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl/Cargo.toml --test codefriend_agent --test codefriend_review; cargo clippy --manifest-path adl/Cargo.toml --bin codefriend-agent --test codefriend_agent -- -D warnings`
-    `Local component evidence: 19 codefriend_agent tests passed, including model-gateway protocol fixtures, consent/control timing, retention, renewal, digest integrity and interrupted restart; 14 existing codefriend_review tests passed. Focused clippy passed. No real website pairing/backend, deployed model service, paid provider, installed macOS/Linux journey or whole-product qualification has run.`
+    `36 local fixture tests passed:21agent,14review,1CLI; focused clippy passed. Native proof validator covers35integration tests; CLI/LLVM evidence is separate. No live provider or installed macOS/Linux acceptance.`
 - Results:
   - `component_tests_passed_product_acceptance_outstanding`
 
