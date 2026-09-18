@@ -27,6 +27,10 @@ use std::sync::{Mutex, MutexGuard, OnceLock, TryLockError};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use zeroize::Zeroizing;
 
+/// Maximum decoded HTTP response bytes, including error and metadata replies.
+/// Independent of requested token limits: upstream services can ignore those.
+pub const MAX_PROVIDER_HTTP_RESPONSE_BYTES: usize = 4 * 1024 * 1024;
+
 const DEFAULT_OPENAI_RESPONSES_URL: &str = "https://api.openai.com/v1/responses";
 const DEFAULT_ANTHROPIC_MESSAGES_URL: &str = "https://api.anthropic.com/v1/messages";
 const DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL: &str = "https://api.deepseek.com/chat/completions";
@@ -854,6 +858,40 @@ fn execute_hosted_bedrock(
         .block_on(execute_hosted_bedrock_async(request, policy))
 }
 
+#[derive(Debug)]
+struct BoundedBedrockResponse;
+impl aws_smithy_runtime_api::client::interceptors::Intercept for BoundedBedrockResponse {
+    fn name(&self) -> &'static str {
+        "BoundedBedrockResponse"
+    }
+    fn modify_before_deserialization(
+        &self,
+        context: &mut aws_smithy_runtime_api::client::interceptors::context::BeforeDeserializationInterceptorContextMut<'_>,
+        _: &aws_smithy_runtime_api::client::runtime_components::RuntimeComponents,
+        _: &mut aws_smithy_types::config_bag::ConfigBag,
+    ) -> Result<(), aws_smithy_runtime_api::box_error::BoxError> {
+        let response = context.response_mut();
+        let body = std::mem::replace(
+            response.body_mut(),
+            aws_smithy_types::body::SdkBody::taken(),
+        );
+        *response.body_mut() = bounded_bedrock_body(body);
+        Ok(())
+    }
+}
+
+fn bounded_bedrock_body(body: aws_smithy_types::body::SdkBody) -> aws_smithy_types::body::SdkBody {
+    // Runs before the SDK orchestrator aggregates the response into its Blob.
+    aws_smithy_types::body::SdkBody::from_body_1_x(http_body_util::Limited::new(
+        body,
+        MAX_PROVIDER_HTTP_RESPONSE_BYTES,
+    ))
+}
+
+fn bounded_bedrock_client(builder: bedrockruntime::config::Builder) -> bedrockruntime::Client {
+    bedrockruntime::Client::from_conf(builder.interceptor(BoundedBedrockResponse).build())
+}
+
 async fn execute_hosted_bedrock_async(
     request: &ProviderInvocationRequestV1,
     policy: &ProviderAttemptPolicyV1,
@@ -879,7 +917,8 @@ async fn execute_hosted_bedrock_async(
         .await
         .map_err(|err| bedrock_failure(format!("{err:?}"), None))?;
     let body = bedrock_nova_request_body(request);
-    let response = bedrockruntime::Client::new(&shared_config)
+    let client = bounded_bedrock_client(bedrockruntime::config::Builder::from(&shared_config));
+    let response = client
         .invoke_model()
         .model_id(&request.route.provider_model_id)
         .content_type("application/json")
@@ -1221,6 +1260,65 @@ fn ollama_request_body(request: &ProviderInvocationRequestV1) -> Value {
     body
 }
 
+fn oversized_response(status: u16) -> ProviderFailureV1 {
+    ProviderFailureV1 {
+        kind: ProviderFailureKindV1::ProviderError,
+        retryable: false,
+        message: "provider response_body_too_large".into(),
+        provider_error_excerpt: None,
+        http_status: Some(status),
+    }
+}
+
+fn bounded_response_body(
+    response: reqwest::blocking::Response,
+) -> std::result::Result<String, ProviderFailureV1> {
+    let status = response.status().as_u16();
+    if response
+        .content_length()
+        .is_some_and(|n| n > MAX_PROVIDER_HTTP_RESPONSE_BYTES as u64)
+    {
+        return Err(oversized_response(status));
+    }
+    read_bounded_response(response, status)
+}
+
+fn read_bounded_response(
+    mut reader: impl std::io::Read,
+    status: u16,
+) -> std::result::Result<String, ProviderFailureV1> {
+    let mut bytes = Vec::new();
+    let mut chunk = [0u8; 8192];
+    loop {
+        let allowed = (MAX_PROVIDER_HTTP_RESPONSE_BYTES + 1 - bytes.len()).min(chunk.len());
+        let n = reader.read(&mut chunk[..allowed]).map_err(|error| {
+            let timed_out = error.kind() == std::io::ErrorKind::TimedOut
+                || error
+                    .get_ref()
+                    .and_then(|e| e.downcast_ref::<reqwest::Error>())
+                    .is_some_and(|e| e.is_timeout());
+            provider_failure_from_note(
+                if timed_out {
+                    "provider timed out reading response body"
+                } else {
+                    "provider response body read failed"
+                },
+                Some(status),
+            )
+        })?;
+        if n == 0 {
+            break;
+        }
+        if bytes.len() + n > MAX_PROVIDER_HTTP_RESPONSE_BYTES {
+            return Err(oversized_response(status));
+        }
+        bytes.extend_from_slice(&chunk[..n]);
+    }
+    String::from_utf8(bytes).map_err(|_| {
+        provider_failure_from_note("provider invalid_response: invalid_utf8", Some(status))
+    })
+}
+
 fn decode_text_response(
     response: reqwest::blocking::Response,
     extractor: impl Fn(&Value) -> Option<String>,
@@ -1228,7 +1326,7 @@ fn decode_text_response(
     runtime_surface: RuntimeSurfaceV1,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let status = response.status();
-    let body = response.text().map_err(map_reqwest_error)?;
+    let body = bounded_response_body(response)?;
     if !status.is_success() {
         return Err(map_http_failure(status.as_u16(), &body, runtime_surface));
     }
@@ -1255,7 +1353,7 @@ fn decode_minimax_response(
     response: reqwest::blocking::Response,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let status = response.status();
-    let body = response.text().map_err(map_reqwest_error)?;
+    let body = bounded_response_body(response)?;
     if !status.is_success() {
         if let Some(failure) = minimax_failure_from_body(&body, status.as_u16()) {
             return Err(failure);
@@ -1574,7 +1672,7 @@ fn ollama_show_digest(
     if !response.status().is_success() {
         return None;
     }
-    let json = serde_json::from_str::<Value>(&response.text().ok()?).ok()?;
+    let json = serde_json::from_str::<Value>(&bounded_response_body(response).ok()?).ok()?;
     json.get("digest")
         .and_then(Value::as_str)
         .or_else(|| json.pointer("/details/digest").and_then(Value::as_str))
@@ -1593,7 +1691,7 @@ fn ollama_tags_digest(
     if !response.status().is_success() {
         return None;
     }
-    let json = serde_json::from_str::<Value>(&response.text().ok()?).ok()?;
+    let json = serde_json::from_str::<Value>(&bounded_response_body(response).ok()?).ok()?;
     json.get("models")?
         .as_array()?
         .iter()
@@ -1912,6 +2010,180 @@ mod tests {
                 .expect("write response");
         });
         (format!("http://{addr}"), rx)
+    }
+
+    #[test]
+    fn bounded_provider_reader_stops_at_limit_plus_one() {
+        struct Endless {
+            count: usize,
+        }
+        impl Read for Endless {
+            fn read(&mut self, bytes: &mut [u8]) -> std::io::Result<usize> {
+                bytes.fill(b'x');
+                self.count += bytes.len();
+                Ok(bytes.len())
+            }
+        }
+        let mut reader = Endless { count: 0 };
+        let failure = read_bounded_response(&mut reader, 200).unwrap_err();
+        assert_eq!(reader.count, MAX_PROVIDER_HTTP_RESPONSE_BYTES + 1);
+        assert_eq!(failure.kind, ProviderFailureKindV1::ProviderError);
+        assert!(!failure.retryable);
+        assert_eq!(failure.message, "provider response_body_too_large");
+        assert!(failure.provider_error_excerpt.is_none());
+        assert_eq!(
+            read_bounded_response(
+                std::io::Cursor::new(vec![b'x'; MAX_PROVIDER_HTTP_RESPONSE_BYTES]),
+                200
+            )
+            .unwrap()
+            .len(),
+            MAX_PROVIDER_HTTP_RESPONSE_BYTES
+        );
+    }
+
+    fn oversized_http_server(status: u16, chunked: bool) -> (String, thread::JoinHandle<()>) {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let endpoint = format!("http://{}", listener.local_addr().unwrap());
+        let task = thread::spawn(move || {
+            let (mut socket, _) = listener.accept().unwrap();
+            socket
+                .set_write_timeout(Some(Duration::from_secs(5)))
+                .unwrap();
+            let _ = socket.read(&mut [0; 8192]);
+            let framing = if chunked {
+                "Transfer-Encoding: chunked".into()
+            } else {
+                format!("Content-Length: {}", MAX_PROVIDER_HTTP_RESPONSE_BYTES + 1)
+            };
+            if write!(
+                socket,
+                "HTTP/1.1 {status} fixture\r\n{framing}\r\nConnection: close\r\n\r\n"
+            )
+            .is_err()
+            {
+                return;
+            }
+            if !chunked {
+                return;
+            } // Length must be rejected before attempting a body read.
+            for _ in 0..=(MAX_PROVIDER_HTTP_RESPONSE_BYTES / 8192) {
+                if socket
+                    .write_all(b"2000\r\n")
+                    .and_then(|_| socket.write_all(&[b'x'; 8192]))
+                    .and_then(|_| socket.write_all(b"\r\n"))
+                    .is_err()
+                {
+                    return;
+                }
+            }
+            let _ = socket.write_all(b"0\r\n\r\n");
+        });
+        (endpoint, task)
+    }
+
+    #[test]
+    fn bounded_http_decoders_reject_oversized_success_and_error_replies() {
+        for status in [200, 500] {
+            for chunked in [false, true] {
+                for minimax in [false, true] {
+                    let (url, server) = oversized_http_server(status, chunked);
+                    let response = Client::builder()
+                        .timeout(Duration::from_secs(5))
+                        .build()
+                        .unwrap()
+                        .get(url)
+                        .send()
+                        .unwrap();
+                    let failure = if minimax {
+                        decode_minimax_response(response)
+                    } else {
+                        decode_text_response(
+                            response,
+                            |_| Some("must not extract".into()),
+                            |_| None,
+                            RuntimeSurfaceV1::HostedApi,
+                        )
+                    }
+                    .err()
+                    .expect("oversized response must fail");
+                    assert_eq!(failure.message, "provider response_body_too_large");
+                    assert_eq!(failure.http_status, Some(status));
+                    assert!(!failure.retryable);
+                    server.join().unwrap();
+                }
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn bounded_bedrock_body_fails_before_blob_collection() {
+        use aws_smithy_types::body::SdkBody;
+        use http_body_util::BodyExt;
+        let valid =
+            bounded_bedrock_body(SdkBody::from(vec![b'x'; MAX_PROVIDER_HTTP_RESPONSE_BYTES]));
+        assert_eq!(
+            valid.collect().await.unwrap().to_bytes().len(),
+            MAX_PROVIDER_HTTP_RESPONSE_BYTES
+        );
+        let oversized = bounded_bedrock_body(SdkBody::from(vec![
+            b'x';
+            MAX_PROVIDER_HTTP_RESPONSE_BYTES
+                + 1
+        ]));
+        assert!(oversized.collect().await.is_err());
+    }
+
+    #[tokio::test]
+    async fn bounded_bedrock_client_intercepts_success_and_error_bodies() {
+        use aws_smithy_http_client::test_util::capture_request;
+        use aws_smithy_types::body::SdkBody;
+        for status in [200, 500] {
+            let response = http::Response::builder()
+                .status(status)
+                .body(SdkBody::from(vec![
+                    b'x';
+                    MAX_PROVIDER_HTTP_RESPONSE_BYTES + 1
+                ]))
+                .unwrap();
+            let (http_client, _) = capture_request(Some(response));
+            let client = bounded_bedrock_client(
+                bedrockruntime::config::Builder::new()
+                    .behavior_version_latest()
+                    .region(bedrockruntime::config::Region::new("us-west-2"))
+                    .credentials_provider(bedrockruntime::config::Credentials::new(
+                        "fixture", "fixture", None, None, "test",
+                    ))
+                    .retry_config(aws_config::retry::RetryConfig::disabled())
+                    .http_client(http_client),
+            );
+            let error = client
+                .invoke_model()
+                .model_id("fixture")
+                .body(bedrockruntime::primitives::Blob::new(b"{}".to_vec()))
+                .send()
+                .await
+                .unwrap_err();
+            assert!(
+                format!("{error:?}").contains("LengthLimitError"),
+                "SDK must fail on the stream limit before deserialization"
+            );
+        }
+    }
+
+    #[test]
+    fn bounded_ollama_identity_reads_reject_oversized_metadata() {
+        for show in [false, true] {
+            let (url, server) = oversized_http_server(200, true);
+            let request = request(RuntimeSurfaceV1::OllamaHttp, url);
+            let result = if show {
+                ollama_show_digest(&request, &request.attempt_policy)
+            } else {
+                ollama_tags_digest(&request, &request.attempt_policy)
+            };
+            assert!(result.is_none());
+            server.join().unwrap();
+        }
     }
 
     #[test]

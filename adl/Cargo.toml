@@ -171,6 +171,10 @@ deadpool = { version = "0.13.0", default-features = false, features = ["unmanage
 ntp-daemon = "0.3.7"
 rsntp = "4.1.2"
 
+aws-smithy-runtime-api = "1"
+aws-smithy-types = { version = "1", features = ["http-body-1-x"] }
+http-body-util = "0.1"
+
 [dev-dependencies]
 lopdf = { version = "=0.44.0", default-features = false }
 adl-runtime-kernel = { path = "../adl-runtime-kernel", features = ["test-support"] }

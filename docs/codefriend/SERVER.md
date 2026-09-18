@@ -20,14 +20,24 @@ real-provider acceptance is claimed by the component tests.
 
 The config is the serialized `server::Config`: absolute private `root` with an existing
 parent, `credentials_file`, `provider` (the existing `ProviderInvocationRequestV1`
-contract), exact 40-hex `candidate_revision`, `max_concurrent` (1–8),
+contract), exact compiled `candidate_revision`, `max_concurrent` (1–8),
 `max_operations_per_subject` (1–1000) and `retention_seconds` (60–86400).
 Provider config permits one attempt, timeout at most 60 seconds and 1–4096 output
 tokens. Generated prompts are capped at 128 KiB per lane before any model dispatch.
+Response bodies are capped at 4 MiB before HTTP decoding or Bedrock SDK Blob
+aggregation, including error replies. Oversized responses fail without a successful
+result; token limits alone are not a byte bound.
 Do not preload input text. Only the service operator selects routes,
 endpoint, model and provider credential references. Provision actual credentials
 through approved server-side indirection; never send them to either client.
 The service logs fixed event codes to stderr and reserves stdout for machine output.
+
+The build embeds the Git revision and clean status of compilation-relevant source
+inputs. The service rejects missing/dirty build provenance and any configured revision
+that differs from its compiled identity. Build from a committed source candidate;
+Git must be available at build time, but is not needed by a relocated installed binary.
+Lifecycle cards and evidence do not affect source cleanliness. Adjacent provenance
+JSON or runtime configuration cannot override the embedded identity.
 
 ## Identity contract for website and agent owners
 
@@ -65,11 +75,20 @@ lane and finding validators. The agent retains orchestration/review execution; s
 evidence is sent to Agent Logic and the configured model provider. This is not an
 all-local or zero-egress promise.
 
+Authentication runs before any request-body consumption or JSON parsing. Missing
+or invalid credentials return 401 even for malformed or oversized request bodies.
+
 The response is HTTP 202 with the operation identity, request digest, packet/source
 and candidate identities, expiry and status. Poll `GET /v1/operations/<id>`.
 Fetch the bounded validated result using `GET /v1/operations/<id>/result` only after
 `complete`. `POST /v1/operations/<id>/cancel` requests cancellation. Access is scoped
 to the authenticated user and mode. Arbitrary provider logs/files are not served.
+A local-model result includes `candidate_revision` and the actual invocation's
+canonical `model_identity` (provider, model reference, provider model ID, runtime
+surface, identity strength and optional resolved digest). A completed local-model
+operation exposes the same identity; pending operations do not claim an observed
+model identity. Clients must verify both identities against their expected candidate
+and run contract, rather than using a constant gateway label.
 A hosted result is the existing four-perspective review result; publication approval,
 rendering and full journey wiring remain their existing owners and #914.
 

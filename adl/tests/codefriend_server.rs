@@ -107,7 +107,7 @@ impl Fixture {
             root: dir.join("state"),
             credentials_file,
             provider,
-            candidate_revision: revision,
+            candidate_revision: build_revision().into(),
             max_concurrent: 2,
             max_operations_per_subject: 4,
             retention_seconds: 60,
@@ -204,6 +204,207 @@ async fn settled(app: &Router, token: &str, id: &str) -> Value {
         tokio::time::sleep(Duration::from_millis(5)).await;
     }
     panic!("operation did not settle")
+}
+
+#[tokio::test]
+async fn unauthorized_bodies_are_never_polled_or_parsed() {
+    let f = Fixture::new();
+    let backend = Fake::new(false, false);
+    let app = Service::open(f.config.clone(), backend.clone())
+        .unwrap()
+        .router();
+    for token in [None, Some("invalid-token")] {
+        let polls = Arc::new(AtomicUsize::new(0));
+        let observed = polls.clone();
+        let body = Body::from_stream(futures_util::stream::poll_fn(move |_| {
+            observed.fetch_add(1, Ordering::SeqCst);
+            std::task::Poll::Ready(Some(Ok::<_, std::io::Error>(
+                axum::body::Bytes::from_static(b"{invalid"),
+            )))
+        }));
+        let mut request = Request::builder()
+            .method("POST")
+            .uri("/v1/operations")
+            .header("content-type", "application/json")
+            .header("content-length", MAX_BODY + 1);
+        if let Some(token) = token {
+            request = request.header("authorization", format!("Bearer {token}"));
+        }
+        let response = app
+            .clone()
+            .oneshot(request.body(body).unwrap())
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert_eq!(polls.load(Ordering::SeqCst), 0);
+        assert_eq!(response.headers()["cache-control"], "no-store");
+    }
+    for token in [None, Some(ALICE)] {
+        let mut request = Request::builder()
+            .method("POST")
+            .uri("/v1/operations")
+            .header("content-type", "application/json");
+        if let Some(token) = token {
+            request = request.header("authorization", format!("Bearer {token}"));
+        }
+        let response = app
+            .clone()
+            .oneshot(request.body(Body::from("{invalid")).unwrap())
+            .await
+            .unwrap();
+        assert_eq!(
+            response.status(),
+            if token.is_some() {
+                StatusCode::BAD_REQUEST
+            } else {
+                StatusCode::UNAUTHORIZED
+            }
+        );
+    }
+}
+
+#[tokio::test]
+async fn authorization_is_rechecked_after_a_delayed_body() {
+    for expire in [false, true] {
+        let f = Fixture::new();
+        let backend = Fake::new(false, false);
+        let app = Service::open(f.config.clone(), backend.clone())
+            .unwrap()
+            .router();
+        let mut body = Some(serde_json::to_vec(&f.request("delayed")).unwrap());
+        let credentials = f.config.credentials_file.clone();
+        // Polling starts only after early authentication. Revoke then yield the
+        // delayed JSON, reproducing expiry/revocation while a body is in flight.
+        let stream = futures_util::stream::poll_fn(move |_| {
+            let Some(bytes) = body.take() else {
+                return std::task::Poll::Ready(None);
+            };
+            let mut records: Vec<Credential> =
+                serde_json::from_slice(&fs::read(&credentials).unwrap()).unwrap();
+            if expire {
+                records[0].expires_at = 0;
+            } else {
+                records.remove(0);
+            }
+            fs::write(&credentials, serde_json::to_vec(&records).unwrap()).unwrap();
+            std::task::Poll::Ready(Some(Ok::<_, std::io::Error>(axum::body::Bytes::from(
+                bytes,
+            ))))
+        });
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/v1/operations")
+                    .header("content-type", "application/json")
+                    .header("authorization", format!("Bearer {ALICE}"))
+                    .body(Body::from_stream(stream))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert_eq!(backend.calls.load(Ordering::SeqCst), 0);
+        assert!(!f.config.root.join("operations/alice/delayed").exists());
+    }
+}
+
+#[test]
+fn build_provenance_tracks_sources_without_lifecycle_residue() {
+    let f = Fixture::new();
+    let repository = f.dir.join("build-source");
+    fs::create_dir_all(repository.join("adl/src")).unwrap();
+    fs::write(repository.join("adl/Cargo.toml"), "fixture").unwrap();
+    fs::write(repository.join("adl/src/lib.rs"), "// clean").unwrap();
+    fs::create_dir_all(repository.join("adl-uts/schemas")).unwrap();
+    fs::write(repository.join("adl-uts/schemas/resource.json"), "{}").unwrap();
+    git(&repository, &["init"]);
+    git(&repository, &["add", "adl", "adl-uts"]);
+    git(
+        &repository,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "commit",
+            "-m",
+            "source",
+        ],
+    );
+    let probe = f.dir.join("build-provenance-probe");
+    assert!(Command::new("rustc")
+        .args(["--edition", "2021"])
+        .arg(Path::new(env!("CARGO_MANIFEST_DIR")).join("build.rs"))
+        .arg("-o")
+        .arg(&probe)
+        .status()
+        .unwrap()
+        .success());
+    let run = || {
+        let result = Command::new(&probe)
+            .env("CARGO_MANIFEST_DIR", repository.join("adl"))
+            .output()
+            .unwrap();
+        assert!(result.status.success());
+        String::from_utf8(result.stdout).unwrap()
+    };
+    let revision = git(&repository, &["rev-parse", "HEAD"]);
+    let clean = run();
+    assert!(clean.contains(&format!("CODEFRIEND_BUILD_REVISION={revision}")));
+    assert!(clean.contains("CODEFRIEND_BUILD_CLEAN=true"));
+    fs::create_dir_all(repository.join(".csdlc/evidence")).unwrap();
+    fs::write(repository.join(".csdlc/evidence/untracked.json"), "{}").unwrap();
+    assert!(run().contains("CODEFRIEND_BUILD_CLEAN=true"));
+    fs::write(
+        repository.join("adl-uts/schemas/resource.json"),
+        "{\"changed\":true}",
+    )
+    .unwrap();
+    let dirty_resource = run();
+    assert!(dirty_resource.contains("CODEFRIEND_BUILD_CLEAN=false"));
+    assert!(dirty_resource.contains("adl-uts/schemas"));
+    fs::write(repository.join("adl-uts/schemas/resource.json"), "{}").unwrap();
+    fs::write(repository.join("adl/src/lib.rs"), "// dirty").unwrap();
+    assert!(run().contains("CODEFRIEND_BUILD_CLEAN=false"));
+    git(&repository, &["add", "adl/src/lib.rs"]);
+    assert!(run().contains("CODEFRIEND_BUILD_CLEAN=false"));
+    git(
+        &repository,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "commit",
+            "-m",
+            "changed source",
+        ],
+    );
+    let next = git(&repository, &["rev-parse", "HEAD"]);
+    assert_ne!(revision, next);
+    let clean = run();
+    assert!(clean.contains(&format!("CODEFRIEND_BUILD_REVISION={next}")));
+    assert!(clean.contains("CODEFRIEND_BUILD_CLEAN=true"));
+}
+
+#[test]
+fn candidate_identity_must_match_the_compiled_build() {
+    let mut f = Fixture::new();
+    for forged in [
+        "0".repeat(40),
+        "f".repeat(40),
+        git(&f.dir.join("repo"), &["rev-parse", "HEAD"]),
+    ] {
+        f.config.candidate_revision = forged;
+        assert!(Service::open(f.config.clone(), Fake::new(false, false))
+            .err()
+            .unwrap()
+            .to_string()
+            .contains("candidate_revision_mismatch"));
+    }
+    f.config.candidate_revision = build_revision().into();
+    assert!(Service::open(f.config.clone(), Fake::new(false, false)).is_ok());
 }
 
 #[tokio::test]
@@ -664,7 +865,28 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            let text = if index < 4 {
+            if index >= 6 {
+                if write!(
+                    stream,
+                    "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
+                )
+                .is_ok()
+                {
+                    for _ in 0..=(adl::provider_adapter::MAX_PROVIDER_HTTP_RESPONSE_BYTES / 8192) {
+                        if stream
+                            .write_all(b"2000\r\n")
+                            .and_then(|_| stream.write_all(&[b'x'; 8192]))
+                            .and_then(|_| stream.write_all(b"\r\n"))
+                            .is_err()
+                        {
+                            break;
+                        }
+                    }
+                    let _ = stream.write_all(b"0\r\n\r\n");
+                }
+                continue;
+            }
+            let text = if index < 4 || index == 5 {
                 json!({"findings":[]})
             } else {
                 json!({"findings":[{"rule":"correctness.wrong_lane","semantic_anchor":"lib.rs","title":"fixture","severity":"info","rationale":"fixture","confidence":{"state":"known","percent":90},"evidence":["foreign"],"inference":"fixture","limitations":[]}]})
@@ -679,8 +901,16 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         .unwrap()
         .local_addr()
         .unwrap();
+    // Relocation preserves compiled provenance; adjacent JSON has no authority.
+    let installed = f.dir.join("relocated-codefriend-server");
+    fs::copy(env!("CARGO_BIN_EXE_codefriend-server"), &installed).unwrap();
+    fs::write(
+        f.dir.join("relocated-codefriend-server.json"),
+        br#"{"candidate_revision":"0000000000000000000000000000000000000000"}"#,
+    )
+    .unwrap();
     let stderr = fs::File::create(f.dir.join("server.stderr")).unwrap();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_codefriend-server"))
+    let mut child = Command::new(&installed)
         .args([
             "--config",
             config.to_str().unwrap(),
@@ -772,6 +1002,78 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
             409
         );
         assert_eq!(count.load(Ordering::SeqCst), 5);
+        let mut valid = f.request("local-valid");
+        valid["mode"] = json!("local_model");
+        valid["lane"] = json!("security");
+        assert_eq!(
+            client
+                .post(format!("{base}/v1/operations"))
+                .bearer_auth(AGENT)
+                .json(&valid)
+                .send()
+                .unwrap()
+                .status()
+                .as_u16(),
+            202
+        );
+        let operation = terminal(AGENT, "local-valid");
+        assert_eq!(operation["status"], "complete");
+        let result: Value = client
+            .get(format!("{base}/v1/operations/local-valid/result"))
+            .bearer_auth(AGENT)
+            .send()
+            .unwrap()
+            .json()
+            .unwrap();
+        assert_eq!(result["candidate_revision"], build_revision());
+        assert_eq!(
+            operation["candidate_revision"],
+            result["candidate_revision"]
+        );
+        assert_eq!(operation["model_identity"], result["model_identity"]);
+        assert_eq!(
+            result["model_identity"]["provider"],
+            f.config.provider.route.provider
+        );
+        assert_eq!(
+            result["model_identity"]["provider_model_id"],
+            f.config.provider.route.provider_model_id
+        );
+        for (id, token, mode) in [
+            ("oversized-hosted", ALICE, "hosted"),
+            ("oversized-local", AGENT, "local_model"),
+        ] {
+            let mut request = f.request(id);
+            request["mode"] = json!(mode);
+            if mode == "local_model" {
+                request["lane"] = json!("security");
+            }
+            assert_eq!(
+                client
+                    .post(format!("{base}/v1/operations"))
+                    .bearer_auth(token)
+                    .json(&request)
+                    .send()
+                    .unwrap()
+                    .status()
+                    .as_u16(),
+                202
+            );
+            assert_eq!(terminal(token, id)["status"], "failed");
+            assert_eq!(
+                client
+                    .get(format!("{base}/v1/operations/{id}/result"))
+                    .bearer_auth(token)
+                    .send()
+                    .unwrap()
+                    .status()
+                    .as_u16(),
+                409
+            );
+            let operation_root = f.config.root.join("operations").join("alice").join(id);
+            assert!(operation_root.join("operation.json").exists());
+            assert!(!operation_root.join("result.json").exists());
+        }
     }));
     // Exercise the operator shutdown path and let instrumented binaries flush
     // their coverage. SIGKILL remains only bounded failure cleanup.
