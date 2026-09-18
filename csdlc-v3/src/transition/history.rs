@@ -282,8 +282,15 @@ fn terminal_readback(
         return Ok(None);
     } else {
         let terminal = legacy::terminal(common, checkout, issue, repository, &index)?;
-        json!({"schema":"validated_legacy_terminal_copy","repository":repository,"issue":issue,"pull_request":terminal.pull_request,"head_sha":terminal.head_sha,"receipt_digest":terminal.receipt_digest})
+        let mut receipt = json!({"schema":"validated_legacy_terminal_copy","repository":repository,"issue":issue,"pull_request":terminal.pull_request,"head_sha":terminal.head_sha,"receipt_digest":terminal.receipt_digest});
+        if terminal.publication_repository != repository {
+            receipt["publication_repository"] = json!(terminal.publication_repository);
+        }
+        receipt
     };
+    let repository = receipt["publication_repository"]
+        .as_str()
+        .unwrap_or(repository);
     let number = receipt["pull_request"]
         .as_u64()
         .ok_or("missing terminal PR")?;

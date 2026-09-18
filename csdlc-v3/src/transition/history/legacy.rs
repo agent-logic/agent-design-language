@@ -5,6 +5,7 @@ pub(super) struct LegacyTerminal {
     pub(super) pull_request: u64,
     pub(super) head_sha: String,
     pub(super) receipt_digest: String,
+    pub(super) publication_repository: String,
     /// Paths relative to `.csdlc/issues/ISSUE`, present and byte-matched here.
     pub(super) authored_paths: BTreeSet<String>,
 }
@@ -74,7 +75,12 @@ fn normalized_terminal(value: &Value) -> Result<Value> {
     Ok(normalized)
 }
 
-fn evidence(issue: u64, repository: &str, index: &Value, receipt: &Value) -> Result<(u64, String)> {
+fn evidence(
+    issue: u64,
+    repository: &str,
+    index: &Value,
+    receipt: &Value,
+) -> Result<(u64, String, String)> {
     verify_digest(receipt)?;
     let record = &receipt["record"];
     verify_digest(record)?;
@@ -93,8 +99,6 @@ fn evidence(issue: u64, repository: &str, index: &Value, receipt: &Value) -> Res
             .is_none_or(str::is_empty)
         || receipt["receipt_ref"] != reference
         || record["phase"] != "closed_out"
-        || !record["branch"].is_null()
-        || !record["worktree"].is_null()
         || !matches!(
             index["phase"].as_str(),
             Some(
@@ -115,6 +119,23 @@ fn evidence(issue: u64, repository: &str, index: &Value, receipt: &Value) -> Res
         return Err("exact legacy terminal identity required".into());
     }
     let publication = &record["publication"];
+    let publication_repository = match &record["code_repository"] {
+        Value::Null => repository,
+        Value::String(s)
+            if [
+                "agent-logic/agent-design-language",
+                "danielbaustin/agent-design-language",
+            ]
+            .contains(&s.as_str()) =>
+        {
+            s
+        }
+        _ => return Err("unsupported historical code repository".into()),
+    };
+    if !index["code_repository"].is_null() && index["code_repository"] != record["code_repository"]
+    {
+        return Err("historical code repository identity disagrees".into());
+    }
     let terminal_value = normalized_terminal(&record["terminal"])?;
     let terminal = &terminal_value;
     let pr = terminal["pull_request"]
@@ -129,12 +150,12 @@ fn evidence(issue: u64, repository: &str, index: &Value, receipt: &Value) -> Res
     if terminal["disposition"] != "merged"
         || terminal["observed_state"] != "merged"
         || terminal["receipt_path"] != reference
-        || publication["repository"] != repository
+        || publication["repository"] != publication_repository
         || publication["issue"] != issue
         || publication["pull_request"] != pr
         || publication["observed_state"] != "merged"
         || publication["draft"] != false
-        || publication["url"] != format!("https://github.com/{repository}/pull/{pr}")
+        || publication["url"] != format!("https://github.com/{publication_repository}/pull/{pr}")
         || !revision.starts_with(&format!("git-blake3:{sha}:"))
         || publication["head"] != terminal["branch"]
         || terminal["branch"].as_str().is_none_or(str::is_empty)
@@ -161,6 +182,9 @@ fn evidence(issue: u64, repository: &str, index: &Value, receipt: &Value) -> Res
         return Err("historical source disagrees with retained terminal evidence".into());
     }
     for key in ["branch", "worktree"] {
+        if !record[key].is_null() && record[key] != terminal[key] {
+            return Err("retained terminal topology disagrees with its record".into());
+        }
         if !index[key].is_null() && index[key] != terminal[key] {
             return Err("historical source topology disagrees with terminal evidence".into());
         }
@@ -173,7 +197,27 @@ fn evidence(issue: u64, repository: &str, index: &Value, receipt: &Value) -> Res
     {
         return Err("historical claim differs from terminated execution".into());
     }
-    Ok((pr, sha.to_owned()))
+    if record["branch"].is_null() != record["worktree"].is_null() {
+        return Err("partial retained terminal topology".into());
+    }
+    Ok((pr, sha.to_owned(), publication_repository.to_owned()))
+}
+
+fn authored_path(issue: u64, key: &str, record: &Value) -> Result<(String, Option<String>)> {
+    let filename = match key {
+        "design_path" => "design.md",
+        "diagram_path" => "diagram.mmd",
+        _ => return Err("unknown historical authored kind".into()),
+    };
+    let retained = format!(".csdlc/issues/{issue}/retained/{filename}");
+    let prepared = format!(".csdlc/prepared/issues/{issue}/{filename}");
+    if record[key] == retained {
+        Ok((retained, Some(format!("retained/{filename}"))))
+    } else if record[key] == prepared {
+        Ok((prepared, None))
+    } else {
+        Err("legacy retained authored path mismatch".into())
+    }
 }
 
 pub(super) fn terminal(
@@ -186,7 +230,8 @@ pub(super) fn terminal(
     let path = common.join(format!("csdlc-v2/closeout/{issue}.json"));
     safe(&path)?;
     let receipt: Value = read(&path)?;
-    let (pull_request, head_sha) = evidence(issue, repository, index, &receipt)?;
+    let (pull_request, head_sha, publication_repository) =
+        evidence(issue, repository, index, &receipt)?;
     let artifacts = receipt["authored_artifacts"]
         .as_object()
         .ok_or("legacy authored artifacts missing")?;
@@ -194,14 +239,8 @@ pub(super) fn terminal(
         return Err("exact retained design and diagram required".into());
     }
     let mut authored_paths = BTreeSet::new();
-    for (key, relative) in [
-        ("design_path", "retained/design.md"),
-        ("diagram_path", "retained/diagram.mmd"),
-    ] {
-        let full = format!(".csdlc/issues/{issue}/{relative}");
-        if receipt["record"][key] != full {
-            return Err("legacy retained authored path mismatch".into());
-        }
+    for key in ["design_path", "diagram_path"] {
+        let (full, relative) = authored_path(issue, key, &receipt["record"])?;
         let expected = artifacts
             .get(&full)
             .and_then(Value::as_str)
@@ -212,12 +251,15 @@ pub(super) fn terminal(
             if fs::read(&source).map_err(err)? != expected.as_bytes() {
                 return Err("historical authored content differs from terminal receipt".into());
             }
-            authored_paths.insert(relative.to_owned());
+            if let Some(relative) = relative {
+                authored_paths.insert(relative);
+            }
         }
     }
     Ok(LegacyTerminal {
         pull_request,
         head_sha,
+        publication_repository,
         receipt_digest: receipt["digest"]
             .as_str()
             .ok_or("legacy digest missing")?
@@ -298,5 +340,61 @@ mod tests {
         assert!(evidence(7, repo, &index, &receipt).is_ok());
         index["terminal"]["branch"] = json!("codex/7");
         assert!(evidence(7, repo, &index, &receipt).is_err());
+    }
+    #[test]
+    fn closed_record_may_retain_only_its_exact_terminal_topology() {
+        let (index, mut receipt) = fixture();
+        let repo = "danielbaustin/agent-design-language";
+        receipt["record"]["branch"] = json!("codex/7");
+        receipt["record"]["worktree"] = json!(".worktrees/7");
+        seal(&mut receipt["record"]);
+        seal(&mut receipt);
+        assert!(evidence(7, repo, &index, &receipt).is_ok());
+        receipt["record"]["worktree"] = json!(".worktrees/other");
+        seal(&mut receipt["record"]);
+        seal(&mut receipt);
+        assert!(evidence(7, repo, &index, &receipt).is_err());
+    }
+    #[test]
+    fn cross_repository_publication_requires_explicit_matching_code_repository() {
+        let (mut index, mut receipt) = fixture();
+        let repo = "danielbaustin/agent-design-language";
+        let code = "agent-logic/agent-design-language";
+        receipt["record"]["publication"]["repository"] = json!(code);
+        receipt["record"]["publication"]["url"] =
+            json!(format!("https://github.com/{code}/pull/8"));
+        seal(&mut receipt["record"]);
+        seal(&mut receipt);
+        assert!(evidence(7, repo, &index, &receipt).is_err());
+        receipt["record"]["code_repository"] = json!(code);
+        seal(&mut receipt["record"]);
+        seal(&mut receipt);
+        assert_eq!(evidence(7, repo, &index, &receipt).unwrap().2, code);
+        index["code_repository"] = json!(repo);
+        assert!(evidence(7, repo, &index, &receipt).is_err());
+        index["code_repository"] = Value::Null;
+        receipt["record"]["code_repository"] = json!("untrusted/project");
+        seal(&mut receipt["record"]);
+        seal(&mut receipt);
+        assert!(evidence(7, repo, &index, &receipt).is_err());
+    }
+    #[test]
+    fn authored_path_variants_are_issue_bound_and_do_not_admit_other_files() {
+        let mut record = json!({"design_path":".csdlc/prepared/issues/7/design.md"});
+        assert_eq!(authored_path(7, "design_path", &record).unwrap().1, None);
+        record["design_path"] = json!(".csdlc/issues/7/retained/design.md");
+        assert_eq!(
+            authored_path(7, "design_path", &record).unwrap().1,
+            Some("retained/design.md".into())
+        );
+        for wrong in [
+            ".csdlc/prepared/issues/8/design.md",
+            ".csdlc/prepared/issues/7/../design.md",
+            "/design.md",
+            ".csdlc/issues/7/retained/other.md",
+        ] {
+            record["design_path"] = json!(wrong);
+            assert!(authored_path(7, "design_path", &record).is_err());
+        }
     }
 }
