@@ -52,7 +52,7 @@ pub(crate) fn receipt_from_semantic_execution(
     let passed = execution["passed"] == true;
     let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1",
         "issue":context.issue,"repository":context.repository,"head":context.head,
-        "issue_digest":context.index["digest"],"validators":execution["validators"],
+        "issue_digest":context.evidence_issue_digest()?,"validators":execution["validators"],
         "status":if passed{"passed"}else{"failed"},
         "inputs_unchanged":execution["inputs_unchanged"],
         "input_revalidation":execution["input_revalidation"],
@@ -79,18 +79,29 @@ pub(crate) fn write_semantic_proof_projection(
     context: &Context,
     receipt: &Value,
 ) -> Result<String, String> {
+    let semantic = if context.index.is_null() {
+        Some(context.semantic_context()?)
+    } else {
+        None
+    };
     let binding = ProofWorktreeBinding {
         worktree: context.root.clone(),
         branch: context.branch.clone(),
         exact_head: context.head.clone(),
         git_common_dir: context.git_common.clone(),
-        generation: context.index["generation"]
-            .as_u64()
+        generation: semantic
+            .as_ref()
+            .map(|s| s.snapshot.version().generation())
+            .or_else(|| context.index["generation"].as_u64())
             .ok_or("intent_issue_generation_missing")?,
-        lifecycle_digest: context.index["digest"]
-            .as_str()
-            .ok_or("intent_issue_digest_missing")?
-            .into(),
+        lifecycle_digest: if let Some(semantic) = &semantic {
+            semantic.snapshot.version().digest().as_str().to_owned()
+        } else {
+            context.index["digest"]
+                .as_str()
+                .ok_or("intent_issue_digest_missing")?
+                .to_owned()
+        },
     };
     let request = ProofRouteRequest {
         issue: context.issue,
@@ -125,8 +136,8 @@ pub(crate) fn admit_validators(
 
 /// Validate the bounded validator declaration without claiming that the current
 /// checkout is its future execution candidate. Preparation runs in the primary
-/// checkout before a worktree exists; candidate-byte admission belongs to edit
-/// and proof in the eventual bound worktree.
+/// checkout before a worktree exists; edits admit declarations while candidate-byte
+/// admission belongs to proof in the eventual bound worktree.
 pub(crate) fn admit_validator_declarations(
     root: &Path,
     validators: &[Validator],
@@ -174,11 +185,19 @@ pub(crate) fn admit_validator_declarations(
     Ok(())
 }
 
+pub(crate) fn admit_semantic_validator_declarations(
+    context: &Context,
+    validators: &[Validator],
+) -> Result<(), String> {
+    verify_semantic_card_inputs(context)?;
+    admit_validator_declarations(&context.root, validators)
+}
+
 pub(crate) fn admit_semantic_validators(
     context: &Context,
     validators: &[Validator],
 ) -> Result<AdmittedValidators, String> {
-    verify_semantic_projection_health(context)?;
+    verify_semantic_card_inputs(context)?;
     admit_validators_with_projection_inputs(
         &context.root,
         validators,
@@ -186,10 +205,24 @@ pub(crate) fn admit_semantic_validators(
     )
 }
 
-fn verify_semantic_projection_health(context: &Context) -> Result<(), String> {
-    if !crate::application::intent::semantic_card_projection_healthy(context)? {
-        return Err("intent_semantic_projection_not_healthy".into());
+fn verify_semantic_card_inputs(context: &Context) -> Result<(), String> {
+    // Validate the authoritative inputs through the renderer, not editable
+    // generated files. A missing or stale view cannot invalidate candidate proof.
+    let (root, key) = context.semantic_root_key()?;
+    let snapshot = match crate::storage::DurableTransactionStore::observe_issue(&root, &key)
+        .map_err(|_| "intent_semantic_state_observation_failed")?
+    {
+        crate::storage::semantic::Observation::Current(snapshot)
+        | crate::storage::semantic::Observation::ProjectionRepairRequired(snapshot) => snapshot,
+        _ => return Err("intent_semantic_state_unavailable".into()),
+    };
+    if snapshot.inputs().authority() != &context.semantic_authority()? {
+        return Err("intent_semantic_authority_changed".into());
     }
+    // Preflight runs before the bound owner's checked fast-forward refresh.
+    // Do not require the previous binding HEAD to equal the new source HEAD here.
+    crate::application::derive_semantic_card_projection(&snapshot, &context.registry()?)
+        .map_err(|error| format!("intent_semantic_projection_derivation_failed:{error}"))?;
     Ok(())
 }
 
@@ -382,7 +415,7 @@ fn execute_unix(context: &Context, validators: &[Validator]) -> Result<Value, St
     let unchanged = executed.inputs_unchanged;
     let input_revalidation = &executed.input_revalidation;
     let execution_finding = &executed.execution_finding;
-    let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1","issue":context.issue,"repository":context.repository,"head":context.head,"issue_digest":context.index["digest"],"validators":outcomes,"status":if passed{"passed"}else{"failed"},"inputs_unchanged":unchanged,"input_revalidation":input_revalidation,"execution_finding":execution_finding});
+    let mut receipt = json!({"schema":"csdlc.v3.intent_proof.v1","issue":context.issue,"repository":context.repository,"head":context.head,"issue_digest":context.evidence_issue_digest()?,"validators":outcomes,"status":if passed{"passed"}else{"failed"},"inputs_unchanged":unchanged,"input_revalidation":input_revalidation,"execution_finding":execution_finding});
     receipt["payload_digest"] = blake3::hash(&canonical_json(&receipt))
         .to_hex()
         .to_string()
@@ -1298,7 +1331,7 @@ pub fn verify_current_inputs(root: &Path, proof: &Value) -> Result<(), String> {
     if proof["schema"] != "csdlc.v3.intent_proof.v1"
         || proof["repository"] != context.repository
         || proof["head"] != context.head
-        || proof["issue_digest"] != context.index["digest"]
+        || proof["issue_digest"] != context.evidence_issue_digest()?
         || proof["status"] != "passed"
         || blake3::hash(&canonical_json(&payload)).to_hex().as_str() != claimed
     {
@@ -1339,7 +1372,7 @@ pub(crate) fn verify_semantic_execution_inputs(
     validators: &[Validator],
     proof: &Value,
 ) -> Result<(), String> {
-    verify_semantic_projection_health(context)?;
+    verify_semantic_card_inputs(context)?;
     verify_execution_inputs_with_projection_inputs(
         &context.root,
         validators,

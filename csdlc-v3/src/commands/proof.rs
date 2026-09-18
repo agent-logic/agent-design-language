@@ -492,67 +492,98 @@ fn authorize_worktree(
     }
     let issue_ref = format!(".csdlc/issues/{}", request.issue);
     let index_path = confined_path(&root, &format!("{issue_ref}/index.json"))?;
-    let index: serde_json::Value = serde_json::from_slice(&fs::read(index_path).map_err(|_| {
-        finding(
-            "proof_issue_unbound",
-            "native bound issue index is required",
-        )
-    })?)
-    .map_err(|_| finding("proof_issue_invalid", "native issue index is invalid"))?;
-    if index["schema"] != "csdlc.v3.local_state.v1"
-        || index["operational_authority"] != true
-        || index["issue"] != request.issue
-        || index["repository"] != request.repository
-        || index["phase"] != "bound"
-        || index["branch"] != binding.branch
-        || index["worktree"]
-            .as_str()
-            .map(Path::new)
-            .map(canonical_identity)
-            .transpose()?
-            .as_ref()
-            != Some(&root)
-    {
-        return Err(finding(
-            "proof_issue_unbound",
-            "native issue identity must bind this repository, branch and worktree",
-        ));
-    }
-    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
-        for suffix in ["values.json", "md"] {
-            confined_path(&root, &format!("{issue_ref}/cards/{card}.{suffix}"))?;
+    if !index_path.exists() {
+        let context =
+            crate::application::intent::Context::load(&root, request.issue).map_err(|_| {
+                finding(
+                    "proof_semantic_context_invalid",
+                    "converted issue context is unavailable",
+                )
+            })?;
+        let semantic = context.semantic_context().map_err(|_| {
+            finding(
+                "proof_semantic_binding_invalid",
+                "converted issue binding is not current",
+            )
+        })?;
+        if context.root != root
+            || !semantic.snapshot.inputs().binding().is_some_and(|actual| {
+                actual.worktree == root
+                    && actual.branch == binding.branch
+                    && actual.head == binding.exact_head
+            })
+            || binding.generation != semantic.snapshot.version().generation()
+            || binding.lifecycle_digest != semantic.snapshot.version().digest().as_str()
+        {
+            return Err(finding(
+                "proof_lifecycle_stale",
+                "semantic generation and digest must match current bound authority",
+            ));
         }
-    }
-    let binding_path = confined_path(&root, &format!("{issue_ref}/binding.json"))?;
-    let bound: serde_json::Value = serde_json::from_slice(
-        &fs::read(binding_path)
-            .map_err(|_| finding("proof_issue_unbound", "native binding record is required"))?,
-    )
-    .map_err(|_| finding("proof_issue_invalid", "native binding record is invalid"))?;
-    if bound["schema"] != "csdlc.v3.binding.v1"
-        || bound["issue"] != request.issue
-        || bound["branch"] != binding.branch
-        || bound["worktree"]
-            .as_str()
-            .map(Path::new)
-            .map(canonical_identity)
-            .transpose()?
-            .as_ref()
-            != Some(&root)
-    {
-        return Err(finding(
-            "proof_issue_unbound",
-            "native binding record does not match issue ownership",
-        ));
-    }
-    let observed = super::local::inspect_local_lifecycle_state(&root, request.issue);
-    if !observed.ready_to_execute
-        || observed.phase.as_deref() != Some("bound")
-        || observed.generation != Some(binding.generation)
-        || binding.lifecycle_digest.is_empty()
-        || observed.digest.as_deref() != Some(binding.lifecycle_digest.as_str())
-    {
-        return Err(finding("proof_lifecycle_stale", "native lifecycle digest and generation must authenticate current card and binding bytes"));
+    } else {
+        let index: serde_json::Value =
+            serde_json::from_slice(&fs::read(index_path).map_err(|_| {
+                finding(
+                    "proof_issue_unbound",
+                    "native bound issue index is required",
+                )
+            })?)
+            .map_err(|_| finding("proof_issue_invalid", "native issue index is invalid"))?;
+        if index["schema"] != "csdlc.v3.local_state.v1"
+            || index["operational_authority"] != true
+            || index["issue"] != request.issue
+            || index["repository"] != request.repository
+            || index["phase"] != "bound"
+            || index["branch"] != binding.branch
+            || index["worktree"]
+                .as_str()
+                .map(Path::new)
+                .map(canonical_identity)
+                .transpose()?
+                .as_ref()
+                != Some(&root)
+        {
+            return Err(finding(
+                "proof_issue_unbound",
+                "native issue identity must bind this repository, branch and worktree",
+            ));
+        }
+        for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["values.json", "md"] {
+                confined_path(&root, &format!("{issue_ref}/cards/{card}.{suffix}"))?;
+            }
+        }
+        let binding_path = confined_path(&root, &format!("{issue_ref}/binding.json"))?;
+        let bound: serde_json::Value =
+            serde_json::from_slice(&fs::read(binding_path).map_err(|_| {
+                finding("proof_issue_unbound", "native binding record is required")
+            })?)
+            .map_err(|_| finding("proof_issue_invalid", "native binding record is invalid"))?;
+        if bound["schema"] != "csdlc.v3.binding.v1"
+            || bound["issue"] != request.issue
+            || bound["branch"] != binding.branch
+            || bound["worktree"]
+                .as_str()
+                .map(Path::new)
+                .map(canonical_identity)
+                .transpose()?
+                .as_ref()
+                != Some(&root)
+        {
+            return Err(finding(
+                "proof_issue_unbound",
+                "native binding record does not match issue ownership",
+            ));
+        }
+        let observed = super::local::inspect_local_lifecycle_state(&root, request.issue);
+        if !observed.ready_to_execute
+            || observed.phase.as_deref() != Some("bound")
+            || observed.generation != Some(binding.generation)
+            || binding.lifecycle_digest.is_empty()
+            || observed.digest.as_deref() != Some(binding.lifecycle_digest.as_str())
+        {
+            return Err(finding("proof_lifecycle_stale", "native lifecycle digest and generation must authenticate current card and binding bytes"));
+        }
     }
     confined_path(
         &root,

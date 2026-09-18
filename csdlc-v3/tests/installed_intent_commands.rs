@@ -710,7 +710,7 @@ fn installed_prepare_bind_edit_and_observations_use_canonical_context() {
         &["edit", "505", "--changes", changes.to_str().unwrap()],
     ));
     assert!(
-        fs::read_to_string(linked.join(".csdlc/issues/505/cards/sip.md"))
+        fs::read_to_string(linked.join(".csdlc/v3/issues/505/cards/sip.md"))
             .unwrap()
             .contains("Edited through ordinary intent")
     );
@@ -852,7 +852,7 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
         &["edit", "505", "--changes", changes.to_str().unwrap()],
         &[(
             "CSDLC_V3_TEST_CRASH_POINT",
-            "semantic_edit_before_projection_rebuild",
+            "semantic_local_amendment_after_commit",
         )],
     );
     assert_eq!(interrupted_edit.status.code(), Some(91));
@@ -943,14 +943,8 @@ fn installed_rebuild_diagnoses_and_repairs_six_active_registry_projections() {
         assert_eq!(result["projection"]["observation"]["status"], "interrupted");
         assert_same_inventory!(interrupted, intent_fixture::inventory(&fixture.root));
     }
-    let preview = success(fixture.run(&linked, &["recover", "505"]));
-    assert_eq!(preview["action"], "repair_semantic_projection");
-    let token = preview["preview_digest"].as_str().unwrap();
-    let recovered = success(fixture.run(
-        &linked,
-        &["recover", "505", "--execute", "--preview", token],
-    ));
-    assert_eq!(recovered["action"], "repaired_semantic_projection");
+    let recovered = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(recovered["projection"]["after"]["status"], "healthy");
     let healthy = success(fixture.run(&linked, &["status", "505"]));
     assert_eq!(healthy["projection"]["observation"]["status"], "healthy");
 
@@ -986,7 +980,8 @@ fn installed_rebuild_repairs_projection_before_exact_binding_head_refresh() {
 
     let blocked = success(fixture.run(&linked, &["status", "505"]));
     assert_eq!(blocked["projection"]["observation"]["status"], "altered");
-    assert_eq!(blocked["allowed_next"], json!(["rebuild"]));
+    assert_eq!(blocked["projection"]["repair_command"], "rebuild");
+    assert_ne!(blocked["allowed_next"], json!(["rebuild"]));
 
     let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
     assert_eq!(rebuilt["status"], "completed");
@@ -1162,7 +1157,7 @@ fn installed_advanced_request_uses_same_writer_and_rejects_stale_snapshot() {
         &["edit", "--intent-request", request.to_str().unwrap()],
     ));
     assert!(
-        fs::read_to_string(linked.join(".csdlc/issues/505/cards/sip.md"))
+        fs::read_to_string(linked.join(".csdlc/v3/issues/505/cards/sip.md"))
             .unwrap()
             .contains("Advanced intent execution")
     );
@@ -1189,7 +1184,10 @@ fn installed_recovery_requires_fresh_preview_of_actual_interrupted_transaction()
     let crash = fixture.run_with_env(
         &linked,
         &["edit", "505", "--changes", changes.to_str().unwrap()],
-        &[("CSDLC_V3_TEST_CRASH_POINT", "after_backup_rename")],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_local_amendment_after_commit",
+        )],
     );
     assert_eq!(
         crash.status.code(),
@@ -1390,6 +1388,11 @@ fn installed_edit_can_correct_validators_with_a_single_cargo_filter() {
     prepare(&mut fixture);
     success(fixture.run(&primary, &["bind", "505"]));
     let linked = linked_worktree(&primary);
+    fs::write(
+        linked.join("fixture-proof/src/lib.rs"),
+        "// implementation in progress\n",
+    )
+    .unwrap();
     let changes = fixture.write_json(
         "validator-changes.json",
         &json!({"schema":"csdlc.v3.intent_changes.v1","validators":[{
@@ -1409,6 +1412,25 @@ fn installed_edit_can_correct_validators_with_a_single_cargo_filter() {
         &["edit", "505", "--changes", changes.to_str().unwrap()],
     ));
     assert_eq!(repeated["status"], "expected_noop");
+    // Declaring a validator does not execute it or admit dirty candidate bytes.
+    let mut invalid: Value = serde_json::from_slice(&fs::read(&changes).unwrap()).unwrap();
+    invalid["validators"][0]["timeout_seconds"] = json!(0);
+    let invalid_path = fixture.write_json("invalid-dirty-validator.json", &invalid);
+    let before = intent_fixture::inventory(&primary);
+    let rejected = fixture.run(
+        &linked,
+        &["edit", "505", "--changes", invalid_path.to_str().unwrap()],
+    );
+    assert!(!rejected.status.success());
+    assert!(
+        String::from_utf8_lossy(&rejected.stdout).contains("intent_validator_timeout_not_admitted")
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    let dirty_proof = fixture.run(&linked, &["proof", "505"]);
+    assert!(!dirty_proof.status.success());
+    assert!(
+        String::from_utf8_lossy(&dirty_proof.stdout).contains("intent_candidate_tracked_changes")
+    );
     fs::write(
         linked.join("fixture-proof/src/lib.rs"),
         r#"#[test]
@@ -1459,13 +1481,13 @@ fn installed_recover_reconciles_interrupted_validator_edit() {
         &["edit", "505", "--changes", changes.to_str().unwrap()],
         &[(
             "CSDLC_V3_TEST_CRASH_POINT",
-            "semantic_validation_edit_after_reservation",
+            "semantic_local_amendment_after_commit",
         )],
     );
     assert_eq!(crash.status.code(), Some(91));
     let preview = success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(preview["status"], "recovery_required");
-    assert_eq!(preview["action"], "reconcile_validation_edit");
+    assert_eq!(preview["action"], "repair_semantic_projection");
     let recovered = success(fixture.run(
         &linked,
         &[
@@ -2551,7 +2573,7 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
     let token = clean["preview_token"]
         .as_str()
         .expect("cleanup preview token");
-    let card = linked.join(".csdlc/issues/505/cards/sip.md");
+    let card = linked.join(".csdlc/v3/issues/505/cards/sip.md");
     let original = fs::read(&card).unwrap();
     fs::write(
         &card,
@@ -4222,12 +4244,13 @@ fn publication_amendment_prepared_and_bound_preserve_identity_and_are_idempotent
 }
 
 #[test]
-fn publication_amendment_requires_fresh_proof_review_before_single_dispatch() {
+fn publication_metadata_preserves_proof_review_before_single_dispatch() {
     let (mut fixture, linked) = reviewed_fixture("publication-reviewed-amendment");
     let primary = fixture.root.clone();
     let state_path = linked.join(".csdlc/v3/issues/505/state.json");
     let before: Value = serde_json::from_slice(&fs::read(&state_path).unwrap()).unwrap();
-    let stale_review = fixture.write_json("old-review.json", &external_review(&linked));
+    let proof_before = fs::read(linked.join(".csdlc/v3/issues/505/proof.json")).unwrap();
+    let review_before = external_review(&linked);
     let mut publication = plan()["publication"].clone();
     publication["body"] = json!("Corrected metadata.\n\nCloses #505");
     let changes = fixture.write_json(
@@ -4241,26 +4264,13 @@ fn publication_amendment_requires_fresh_proof_review_before_single_dispatch() {
     let after: Value = serde_json::from_slice(&fs::read(&state_path).unwrap()).unwrap();
     assert_eq!(before["inputs"]["binding"], after["inputs"]["binding"]);
     assert_ne!(before["input_version"], after["input_version"]);
-    assert!(!fixture.run(&linked, &["publish", "505"]).status.success());
-    assert!(!fixture
-        .run(
-            &linked,
-            &[
-                "review",
-                "505",
-                "--evidence",
-                stale_review.to_str().unwrap()
-            ]
-        )
-        .status
-        .success());
+    // No proof or review command between the metadata edit and publication.
+    assert_eq!(
+        fs::read(linked.join(".csdlc/v3/issues/505/proof.json")).unwrap(),
+        proof_before
+    );
+    assert_eq!(external_review(&linked), review_before);
     assert_eq!(fixture.remote_effects(), 0);
-    success(fixture.run(&linked, &["proof", "505"]));
-    let review = fixture.write_json("renewed-review.json", &external_review(&linked));
-    success(fixture.run(
-        &linked,
-        &["review", "505", "--evidence", review.to_str().unwrap()],
-    ));
     let published = success(fixture.run(&linked, &["publish", "505"]));
     assert_eq!(published["status"], "completed");
     assert_eq!(fixture.remote_effects(), 1);
@@ -4284,7 +4294,7 @@ fn publication_amendment_requires_fresh_proof_review_before_single_dispatch() {
 }
 
 #[test]
-fn publication_amendment_interrupted_edit_requires_explicit_recovery() {
+fn publication_continues_after_committed_metadata_edit_without_recovery() {
     let (mut fixture, linked) = reviewed_fixture("publication-recovery");
     let mut publication = plan()["publication"].clone();
     publication["title"] = json!("Recovered metadata");
@@ -4297,38 +4307,18 @@ fn publication_amendment_interrupted_edit_requires_explicit_recovery() {
         &["edit", "505", "--changes", changes.to_str().unwrap()],
         &[(
             "CSDLC_V3_TEST_CRASH_POINT",
-            "semantic_publication_edit_after_reservation",
+            "semantic_local_amendment_after_commit",
         )],
     );
     assert_eq!(crash.status.code(), Some(91));
-    let pending_inventory = publication_reservation_inventory(&fixture.root);
-    assert!(!fixture.run(&linked, &["publish", "505"]).status.success());
-    assert_same_inventory!(
-        pending_inventory,
-        publication_reservation_inventory(&fixture.root)
-    );
-    assert_eq!(fixture.remote_effects(), 0);
-    let preview = success(fixture.run(&linked, &["recover", "505"]));
-    assert_eq!(preview["action"], "reconcile_publication_edit");
-    let recovered = success(fixture.run(
-        &linked,
-        &[
-            "recover",
-            "505",
-            "--execute",
-            "--preview",
-            preview["preview_digest"].as_str().unwrap(),
-        ],
-    ));
-    assert_eq!(recovered["status"], "completed");
-    assert!(!fixture.run(&linked, &["publish", "505"]).status.success());
-    success(fixture.run(&linked, &["proof", "505"]));
-    let review = fixture.write_json("recovered-review.json", &external_review(&linked));
-    success(fixture.run(
-        &linked,
-        &["review", "505", "--evidence", review.to_str().unwrap()],
-    ));
+    // The authoritative amendment already committed. Stale views are not a
+    // reason to repeat proof/review or run an operator recovery ceremony.
+    let proof = fs::read(linked.join(".csdlc/v3/issues/505/proof.json")).unwrap();
     success(fixture.run(&linked, &["publish", "505"]));
+    assert_eq!(
+        fs::read(linked.join(".csdlc/v3/issues/505/proof.json")).unwrap(),
+        proof
+    );
     assert_eq!(fixture.remote_effects(), 1);
 }
 
@@ -4346,12 +4336,15 @@ fn issue_1048_review_legacy_retention_publishes_with_existing_receipt() {
     ));
     let legacy = linked.join(csdlc_v3::commands::remote::intent::review_path(505, &head));
     // Model an existing installation's immutable per-HEAD review layout.
-    fs::rename(&current, &legacy).unwrap();
-    fs::rename(
-        current.with_extension("external.json"),
+    let combined: Value = serde_json::from_slice(&fs::read(&current).unwrap()).unwrap();
+    let packet = &combined["external_review"];
+    fs::write(&legacy, serde_json::to_vec(&packet["receipt"]).unwrap()).unwrap();
+    fs::write(
         legacy.with_extension("external.json"),
+        serde_json::to_vec(packet).unwrap(),
     )
     .unwrap();
+    fs::remove_file(&current).unwrap();
     assert!(!current.exists());
     let published = success(fixture.run(&linked, &["publish", "505"]));
     assert_eq!(published["status"], "completed");
@@ -4472,7 +4465,7 @@ fn publication_amendment_prepared_recovery_keeps_planned_branch_identity() {
         &["edit", "505", "--changes", changes.to_str().unwrap()],
         &[(
             "CSDLC_V3_TEST_CRASH_POINT",
-            "semantic_publication_edit_after_reservation",
+            "semantic_local_amendment_after_commit",
         )],
     );
     assert_eq!(crash.status.code(), Some(91));
@@ -4686,4 +4679,866 @@ fn publication_amendment_saved_request_cannot_overwrite_newer_correction() {
         );
         assert_eq!(fixture.remote_effects(), 0);
     }
+}
+
+// PVF #1064: deterministic installed integration, local Git and fake transport;
+// small CPU/disk, required simplification gate. No live external calls.
+#[test]
+fn compact_review_retains_judgment_and_derives_receipts() {
+    let mut fixture = Fixture::new("compact-review");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    success(fixture.run(&linked, &["proof", "505"]));
+    let judgment = json!({
+        "schema":"csdlc.v3.review_judgment.v1",
+        "implementer":"fixture-author",
+        "reviewer":"fixture-independent-reviewer",
+        "reviewed_revision":git(&linked, &["rev-parse","HEAD"]),
+        "verdict":"pass",
+        "evidence":"Synthetic fixture judgment: inspected exact candidate and regression evidence; no findings."
+    });
+    for defect in ["same-principal", "stale-head", "failed", "empty"] {
+        let mut bad = judgment.clone();
+        match defect {
+            "same-principal" => bad["reviewer"] = bad["implementer"].clone(),
+            "stale-head" => bad["reviewed_revision"] = json!("0".repeat(40)),
+            "failed" => bad["verdict"] = json!("fail"),
+            "empty" => bad["evidence"] = json!(" "),
+            _ => unreachable!(),
+        }
+        let input = fixture.write_json(&format!("{defect}.json"), &bad);
+        let before = publication_reservation_inventory(&primary);
+        assert!(!fixture
+            .run(
+                &linked,
+                &["review", "505", "--evidence", input.to_str().unwrap()]
+            )
+            .status
+            .success());
+        assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    }
+    let input = fixture.write_json("judgment.json", &judgment);
+    let result = success(fixture.run(
+        &linked,
+        &["review", "505", "--evidence", input.to_str().unwrap()],
+    ));
+    let retained =
+        fs::read_to_string(linked.join(result["review_receipt_path"].as_str().unwrap())).unwrap();
+    assert!(retained.contains(judgment["evidence"].as_str().unwrap()));
+    assert!(!linked
+        .join(result["review_receipt_path"].as_str().unwrap())
+        .with_extension("external.json")
+        .exists());
+    fixture.enable_pr_transport(&linked);
+    success(fixture.run(&linked, &["publish", "505"]));
+    assert_eq!(fixture.remote_effects(), 1);
+}
+
+#[test]
+fn local_amendment_ignores_stale_view_without_native_edit_receipts() {
+    let mut fixture = Fixture::new("local-amendment-single-owner");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let native_before = intent_fixture::inventory(&linked.join(".csdlc/issues/505"));
+    let receipts_before = intent_fixture::inventory(&linked.join(".csdlc/transactions"));
+    fs::write(
+        linked.join(".csdlc/v3/issues/505/cards/sip.md"),
+        "stale view",
+    )
+    .unwrap();
+    let input = fixture.write_json(
+        "amend.json",
+        &json!({
+            "schema":"csdlc.v3.intent_changes.v1",
+            "cards":{"sip":{"title":"Single semantic authority"}},
+            "amendment":{"class":"scope_acceptance","transition_approved":true}
+        }),
+    );
+    let result = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", input.to_str().unwrap()],
+    ));
+    assert_eq!(result["local_transaction"], true);
+    assert_same_inventory!(
+        native_before,
+        intent_fixture::inventory(&linked.join(".csdlc/issues/505"))
+    );
+    assert_same_inventory!(
+        receipts_before,
+        intent_fixture::inventory(&linked.join(".csdlc/transactions"))
+    );
+    let rendered = fs::read_to_string(linked.join(".csdlc/v3/issues/505/cards/sip.md")).unwrap();
+    assert!(rendered.contains("Single semantic authority"));
+    success(fixture.run(&linked, &["bind", "505"]));
+    success(fixture.run(&linked, &["proof", "505"]));
+}
+
+// PVF #1064: evidence reuse excludes presentation only. Scope and validation
+// changes still block publication even at the same source revision.
+#[test]
+fn candidate_changes_do_not_reuse_metadata_preserved_review() {
+    for change_kind in ["scope", "validators"] {
+        let (mut fixture, linked) = reviewed_fixture(&format!("evidence-scope-{change_kind}"));
+        let changes = if change_kind == "scope" {
+            json!({"schema":"csdlc.v3.intent_changes.v1",
+                "amendment":{"class":"scope_acceptance","transition_approved":true},
+                "cards":{"sip":{"title":"Changed acceptance scope"}}})
+        } else {
+            let mut validators = plan()["validators"].clone();
+            let timeout = validators[0]["timeout_seconds"].as_u64().unwrap_or(300);
+            validators[0]["timeout_seconds"] = json!(timeout - 1);
+            json!({"schema":"csdlc.v3.intent_changes.v1","validators":validators})
+        };
+        let input = fixture.write_json("candidate-change.json", &changes);
+        success(fixture.run(
+            &linked,
+            &["edit", "505", "--changes", input.to_str().unwrap()],
+        ));
+        let result = fixture.run(&linked, &["publish", "505"]);
+        assert!(
+            !result.status.success(),
+            "changed {change_kind} reused old evidence"
+        );
+        assert!(
+            String::from_utf8_lossy(&result.stdout).contains("proof_not_current"),
+            "{result:?}"
+        );
+        assert_eq!(fixture.remote_effects(), 0);
+    }
+}
+
+// PVF #1064: same deterministic delivery scenario for baseline and candidate.
+// This scenario is synthetic; authentic-record conversion has a separate census.
+fn complete_simplification_journey(baseline: Option<&Path>) -> Value {
+    let mut fixture = Fixture::new(if baseline.is_some() {
+        "1064-baseline"
+    } else {
+        "1064-candidate"
+    });
+    if let Some(binary) = baseline {
+        fixture.select_baseline_binary(binary, "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e");
+    }
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    fs::write(
+        linked.join(".csdlc/v3/issues/505/cards/sip.md"),
+        "stale generated view",
+    )
+    .unwrap();
+    let edit = fixture.write_json(
+        "scope.json",
+        &json!({
+            "schema":"csdlc.v3.intent_changes.v1",
+            "amendment":{"class":"scope_acceptance","transition_approved":true},
+            "cards":{"sip":{"title":"Qualified complete delivery"}}
+        }),
+    );
+    let edited = fixture.run(
+        &linked,
+        &["edit", "505", "--changes", edit.to_str().unwrap()],
+    );
+    if baseline.is_some() {
+        assert!(!edited.status.success());
+        success(fixture.run(&linked, &["rebuild", "505"]));
+        success(fixture.run(
+            &linked,
+            &["edit", "505", "--changes", edit.to_str().unwrap()],
+        ));
+        success(fixture.run(&linked, &["bind", "505"]));
+    } else {
+        success(edited);
+    }
+    success(fixture.run(&linked, &["proof", "505"]));
+    let judgment = json!({"schema":"csdlc.v3.review_judgment.v1",
+        "implementer":"synthetic-fixture-author","reviewer":"synthetic-independent-fixture-reviewer",
+        "reviewed_revision":git(&linked, &["rev-parse","HEAD"]),"verdict":"pass",
+        "evidence":"Synthetic exact-candidate fixture judgment; no production approval."});
+    let review = fixture.write_json(
+        "review.json",
+        &if baseline.is_some() {
+            external_review(&linked)
+        } else {
+            judgment
+        },
+    );
+    success(fixture.run(
+        &linked,
+        &["review", "505", "--evidence", review.to_str().unwrap()],
+    ));
+    let mut publication = plan()["publication"].clone();
+    publication["body"] = json!("Corrected presentation.\n\nCloses #505");
+    let correction = fixture.write_json(
+        "metadata.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+    );
+    success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", correction.to_str().unwrap()],
+    ));
+    if baseline.is_some() {
+        success(fixture.run(&linked, &["proof", "505"]));
+        let renewed = fixture.write_json("renewed.json", &external_review(&linked));
+        success(fixture.run(
+            &linked,
+            &["review", "505", "--evidence", renewed.to_str().unwrap()],
+        ));
+    }
+    fixture.enable_pr_transport(&linked);
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json(
+        "merge.json",
+        &json!({"action":"pull_request_merge","base":"main","method":"merge",
+        "operator_approval":"Synthetic operator approval for isolated PR639 only"}),
+    );
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    success(fixture.run(&linked, &["finish", "505"]));
+    let clean = success(fixture.run(&primary, &["clean", "505"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "clean",
+            "505",
+            "--execute",
+            "--preview",
+            clean["preview_token"].as_str().unwrap(),
+        ],
+    ));
+    assert!(!linked.exists());
+    assert_eq!(fixture.remote_effects(), 3);
+    assert!(primary
+        .join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")
+        .is_file());
+    let reviews = fixture
+        .attempts
+        .iter()
+        .filter(|v| v["argv"][0] == "review")
+        .count();
+    let failures = fixture
+        .attempts
+        .iter()
+        .filter(|v| v["exit_code"] != 0)
+        .count();
+    json!({"attempts":fixture.attempts.len(),"reviews":reviews,"failures":failures,
+        "elapsed_millis":fixture.attempts.iter().map(|v| v["elapsed_millis"].as_u64().unwrap()).sum::<u64>(),
+        "remote_effects":fixture.remote_effects(),"completed":true,"trace":fixture.attempts})
+}
+
+#[test]
+fn simplified_complete_delivery_journey() {
+    let result = complete_simplification_journey(None);
+    assert_eq!(result["reviews"], 1);
+    assert_eq!(result["failures"], 0);
+}
+
+#[test]
+#[ignore = "requires an explicitly built isolated baseline executable"]
+fn matched_baseline_and_candidate_complete_delivery() {
+    let path = std::env::var_os("CSDLC_1064_BASELINE_BINARY").expect("baseline binary required");
+    let baseline = complete_simplification_journey(Some(Path::new(&path)));
+    let candidate = complete_simplification_journey(None);
+    assert!(candidate["attempts"].as_u64().unwrap() < baseline["attempts"].as_u64().unwrap());
+    assert_eq!(baseline["reviews"], 2);
+    assert_eq!(candidate["reviews"], 1);
+    let output =
+        std::env::var_os("CSDLC_1064_COMPARISON_OUTPUT").expect("comparison output required");
+    fs::write(
+        output,
+        serde_json::to_vec_pretty(&json!({"baseline":baseline,"candidate":candidate})).unwrap(),
+    )
+    .unwrap();
+}
+
+// PVF #1064: deterministic installed recovery, owned staging only, no external effects.
+#[test]
+fn ordinary_edit_resumes_incomplete_current_render_before_advancing() {
+    let mut fixture = Fixture::new("1064-incomplete-render-edit");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    let cards = linked.join(".csdlc/v3/issues/505/cards");
+    let manifest = fs::read(cards.join("manifest.json")).unwrap();
+    let value: Value = serde_json::from_slice(&manifest).unwrap();
+    let suffix = value["projection_digest"]
+        .as_str()
+        .unwrap()
+        .rsplit(':')
+        .next()
+        .unwrap();
+    fs::write(
+        cards.join(format!(".projection-{suffix}.pending")),
+        &manifest,
+    )
+    .unwrap();
+    fs::write(
+        cards.join(format!(".sip.md-{suffix}.next")),
+        fs::read(cards.join("sip.md")).unwrap(),
+    )
+    .unwrap();
+    // Simulate a crash before replacing the committed manifest.
+    fs::write(cards.join("manifest.json"), "previous manifest").unwrap();
+    let changes = fixture.write_json(
+        "next-edit.json",
+        &json!({
+            "schema":"csdlc.v3.intent_changes.v1",
+            "amendment":{"class":"scope_acceptance","transition_approved":true},
+            "cards":{"sip":{"title":"Next edit after incomplete render"}}
+        }),
+    );
+    let result = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(result["projection"]["after"]["status"], "healthy");
+    assert!(!cards.join(format!(".projection-{suffix}.pending")).exists());
+    assert!(!cards.join(format!(".sip.md-{suffix}.next")).exists());
+    let repeated = success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    assert_eq!(repeated["semantic_version"], result["semantic_version"]);
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+// PVF #1064: deterministic delivery correction; no renewed proof or review.
+#[test]
+fn publication_metadata_correction_after_ready_preserves_merge_ready() {
+    let (mut fixture, linked) = reviewed_fixture("1064-ready-metadata");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    fixture.enable_pr_transport(&linked);
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    let mut publication = plan()["publication"].clone();
+    publication["body"] = json!("Corrected ready PR description.\n\nCloses #505");
+    let changes = fixture.write_json(
+        "metadata.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+    );
+    success(fixture.run(
+        &linked,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    success(fixture.run(&linked, &["publish", "505"]));
+    let state: Value =
+        serde_json::from_slice(&fs::read(linked.join(".csdlc/v3/issues/505/state.json")).unwrap())
+            .unwrap();
+    assert_eq!(state["phase"], "merge_ready");
+    let remote: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/installed-candidate/remote-pr.json")).unwrap(),
+    )
+    .unwrap();
+    assert!(remote["body"].as_str().unwrap().starts_with(&format!(
+        "{}\n\n<!-- csdlc-v3-operation:",
+        publication["body"].as_str().unwrap()
+    )));
+    assert_eq!(remote["draft"], false);
+    assert_eq!(fixture.remote_effects(), 3);
+}
+
+// PVF #1064: authentic copied prepared record, deterministic isolated continuation.
+fn converted_authentic_fixture(
+    label: &str,
+) -> (
+    Fixture,
+    std::path::PathBuf,
+    std::path::PathBuf,
+    std::collections::BTreeMap<std::path::PathBuf, String>,
+) {
+    let fixture = Fixture::new(label);
+    let primary = fixture.root.clone();
+    let source =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/issue872-copied-records");
+    let copied = primary.join(".csdlc/copied-records");
+    intent_fixture::copy_tree(&source, &copied);
+    let before = intent_fixture::inventory(&copied);
+    let linked = primary.join("worktrees/conversion-target");
+    git(
+        &primary,
+        &[
+            "worktree",
+            "add",
+            "-q",
+            "-b",
+            "codex/copied-continuation",
+            linked.to_str().unwrap(),
+        ],
+    );
+    let records: Vec<Value> = [
+        (511, "prepared"),
+        (517, "bound_dirty"),
+        (497, "implemented"),
+        (3, "reviewed"),
+        (505, "published"),
+        (122, "terminal"),
+        (113, "pending_recovery"),
+    ]
+    .into_iter()
+    .map(|(issue, role)| json!({"issue":issue,"role":role,"source":copied.join(issue.to_string())}))
+    .collect();
+    let conversion = json!({
+        "schema":"csdlc.v3.copied_record_conversion.v1", "repository":"agent-logic/agent-design-language", "operation_id":"issue1064-authentic-continuation",
+        "authority_bytes_path":linked.join("csdlc-v3/operator/authority-selector.json"),
+        "prior_executable_path":env!("CARGO_BIN_EXE_csdlc"),
+        "prior_executable_blake3":blake3::hash(&fs::read(env!("CARGO_BIN_EXE_csdlc")).unwrap()).to_hex().to_string(),
+        "writer_fence_issues":[511,517,497,3,505,122,113,868],"writer_probe_issue":868,
+        "git_common":primary.join(".git"),"linked_branch":"codex/copied-continuation","linked_head":git(&linked,&["rev-parse","HEAD"]),"linked_worktree":linked,
+        "registry_path":linked.join("docs/templates/prompts/current.json"),"records":records
+    });
+    let conversion_path = fixture.write_json("conversion.json", &conversion);
+    let converted = Command::new(env!("CARGO_BIN_EXE_csdlc-conversion-rehearsal"))
+        .args(["convert", "--request", conversion_path.to_str().unwrap()])
+        .current_dir(&primary)
+        .output()
+        .unwrap();
+    assert!(
+        converted.status.success(),
+        "conversion failed: {converted:?}"
+    );
+    assert_same_inventory!(before, intent_fixture::inventory(&copied));
+    (fixture, linked, copied, before)
+}
+
+#[test]
+fn authentic_prepared_record_admits_public_continuation() {
+    let (mut fixture, _converted_worktree, copied, before) =
+        converted_authentic_fixture("1064-authentic-prepared");
+    let primary = fixture.root.clone();
+    let script = primary.join(".git/installed-candidate/fake-bin/curl");
+    let transport = fs::read_to_string(&script).unwrap();
+    fs::write(
+        &script,
+        transport
+            .replace("/issues/505", "/issues/511")
+            .replace("\"number\":505", "\"number\":511")
+            .replace(
+                "Installed intent fixture",
+                "[v0.92.1][OBS-A] Observatory experience design",
+            ),
+    )
+    .unwrap();
+    let observational_before = intent_fixture::inventory(&primary);
+    let status = success(fixture.run(&primary, &["status", "511"]));
+    assert_eq!(status["phase"], "ready");
+    assert_same_inventory!(observational_before, intent_fixture::inventory(&primary));
+    let mut invalid_bind = success(fixture.run(&primary, &["bind", "511", "--emit-request"]));
+    invalid_bind["request"]["content"] = json!({"unexpected":"content"});
+    let invalid_path = fixture.write_json("invalid-bind.json", &invalid_bind);
+    let before_invalid = intent_fixture::inventory(&primary);
+    let rejected = fixture.run(
+        &primary,
+        &["bind", "--intent-request", invalid_path.to_str().unwrap()],
+    );
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stdout).contains("intent_unexpected_content"));
+    assert_same_inventory!(before_invalid, intent_fixture::inventory(&primary));
+    let bound = success(fixture.run(&primary, &["bind", "511"]));
+    assert_eq!(bound["status"], "completed");
+    let binding: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/bindings/511.json")).unwrap(),
+    )
+    .unwrap();
+    let worktree = std::path::PathBuf::from(binding["worktree"].as_str().unwrap());
+    let validators = fixture.write_json(
+        "validators.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","validators":plan()["validators"]}),
+    );
+    success(fixture.run(
+        &worktree,
+        &["edit", "511", "--changes", validators.to_str().unwrap()],
+    ));
+    let mut publication = plan()["publication"].clone();
+    publication["title"] = json!("[v0.92.1][OBS-A] Observatory experience design");
+    publication["body"] = json!("Closes #511");
+    let metadata = fixture.write_json(
+        "publication.json",
+        &json!({"schema":"csdlc.v3.intent_changes.v1","publication":publication}),
+    );
+    success(fixture.run(
+        &worktree,
+        &["edit", "511", "--changes", metadata.to_str().unwrap()],
+    ));
+    success(fixture.run(&worktree, &["proof", "511"]));
+    let review = fixture.write_json("review.json", &json!({
+        "schema":"csdlc.v3.review_judgment.v1", "implementer":"copied-record-fixture-author", "reviewer":"independent-copied-record-fixture-reviewer",
+        "reviewed_revision":git(&worktree,&["rev-parse","HEAD"]),"verdict":"pass",
+        "evidence":"Synthetic current-candidate judgment after authentic historical record conversion; no production approval."
+    }));
+    success(fixture.run(
+        &worktree,
+        &["review", "511", "--evidence", review.to_str().unwrap()],
+    ));
+    // The transport fixture defaults to issue 505. Retarget only fake transport
+    // endpoints/readbacks; never rewrite the copied records or authority receipt.
+    let retarget_transport = || {
+        for relative in [
+            "fake-bin/curl",
+            "remote-issue.json",
+            "merge-before.json",
+            "merge-after.json",
+        ] {
+            let path = primary.join(".git/installed-candidate").join(relative);
+            if path.is_file() {
+                let bytes = fs::read_to_string(&path).unwrap();
+                fs::write(
+                    path,
+                    bytes
+                        .replace("/issues/505", "/issues/511")
+                        .replace("\"number\":505", "\"number\":511")
+                        .replace("Closes #505", "Closes #511"),
+                )
+                .unwrap();
+            }
+        }
+    };
+    fixture.enable_pr_transport(&worktree);
+    retarget_transport();
+    success(fixture.run(&worktree, &["publish", "511"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "511",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&worktree);
+    retarget_transport();
+    let merge = fixture.write_json("merge.json", &json!({"action":"pull_request_merge","base":"main","method":"merge","operator_approval":"Synthetic approval for isolated PR639 in copied-record continuation only"}));
+    success(fixture.run(
+        &primary,
+        &[
+            "github-pr",
+            "511",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    success(fixture.run(&worktree, &["finish", "511"]));
+    let cleanup = success(fixture.run(&primary, &["clean", "511"]));
+    success(fixture.run(
+        &primary,
+        &[
+            "clean",
+            "511",
+            "--execute",
+            "--preview",
+            cleanup["preview_token"].as_str().unwrap(),
+        ],
+    ));
+    assert!(!worktree.exists());
+    assert!(primary
+        .join(".git/csdlc-v3/local/evidence/511/terminal-receipt.json")
+        .is_file());
+    assert_eq!(fixture.remote_effects(), 3);
+    assert_same_inventory!(before, intent_fixture::inventory(&copied));
+}
+
+// PVF #1064: deterministic installed non-local transition recovery, synthetic transport.
+#[test]
+fn non_local_transitions_resume_interrupted_current_projection() {
+    for command in ["proof", "review", "publish"] {
+        let mut fixture = Fixture::new(&format!("1064-interrupted-{command}"));
+        let primary = fixture.root.clone();
+        prepare(&mut fixture);
+        success(fixture.run(&primary, &["bind", "505"]));
+        let linked = linked_worktree(&primary);
+        if command != "proof" {
+            success(fixture.run(&linked, &["proof", "505"]));
+        }
+        let evidence = if command != "proof" {
+            Some(fixture.write_json("review.json", &external_review(&linked)))
+        } else {
+            None
+        };
+        if command == "publish" {
+            success(fixture.run(
+                &linked,
+                &[
+                    "review",
+                    "505",
+                    "--evidence",
+                    evidence.as_ref().unwrap().to_str().unwrap(),
+                ],
+            ));
+            fixture.enable_pr_transport(&linked);
+        }
+        let cards = linked.join(".csdlc/v3/issues/505/cards");
+        let manifest = fs::read(cards.join("manifest.json")).unwrap();
+        let value: Value = serde_json::from_slice(&manifest).unwrap();
+        let suffix = value["projection_digest"]
+            .as_str()
+            .unwrap()
+            .rsplit(':')
+            .next()
+            .unwrap();
+        let pending = cards.join(format!(".projection-{suffix}.pending"));
+        let staged = cards.join(format!(".sip.md-{suffix}.next"));
+        fs::write(&pending, &manifest).unwrap();
+        fs::write(&staged, fs::read(cards.join("sip.md")).unwrap()).unwrap();
+        fs::write(cards.join("manifest.json"), "previous manifest").unwrap();
+        let before = intent_fixture::inventory(&primary);
+        success(fixture.run(&linked, &["status", "505"]));
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+        let args = if command == "review" {
+            vec![
+                command,
+                "505",
+                "--evidence",
+                evidence.as_ref().unwrap().to_str().unwrap(),
+            ]
+        } else {
+            vec![command, "505"]
+        };
+        success(fixture.run(&linked, &args));
+        assert!(
+            !pending.exists() && !staged.exists(),
+            "{command} stranded staging"
+        );
+        let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+        assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
+        assert_eq!(fixture.remote_effects(), usize::from(command == "publish"));
+    }
+}
+
+// PVF #1064: all converted roles are exercised directly; source copies stay immutable.
+#[test]
+fn converted_later_phases_accept_applicable_corrections_without_native_index() {
+    // Exercise the internal owner in a repository-installed test process: the
+    // retired CLI writer cannot reach proof authorization.
+    if let Some(request_path) = std::env::var_os("CSDLC_TEST_CONVERTED_PROOF_REQUEST") {
+        let request = serde_json::from_slice(&fs::read(request_path).unwrap()).unwrap();
+        let report = csdlc_v3::commands::proof::classify_route(
+            "proof",
+            request,
+            Some(&std::env::current_dir().unwrap()),
+        );
+        assert_eq!(
+            report.findings[0].code, "proof_lifecycle_stale",
+            "{report:?}"
+        );
+        assert!(!report.performed_mutation);
+        return;
+    }
+
+    let (mut fixture, linked, copied, source_before) =
+        converted_authentic_fixture("1064-later-phase-continuation");
+    let primary = fixture.root.clone();
+    for issue in [517_u64, 497, 3, 505, 122, 113] {
+        let id = issue.to_string();
+        assert!(!linked
+            .join(format!(".csdlc/issues/{issue}/index.json"))
+            .exists());
+        let root = SemanticRoot::from_git_common(
+            primary.join(".git"),
+            "agent-logic/agent-design-language",
+        )
+        .unwrap();
+        let key = IssueKey::new("agent-logic/agent-design-language", issue).unwrap();
+        let snapshot = match DurableTransactionStore::observe_issue(&root, &key).unwrap() {
+            Observation::Current(value) | Observation::ProjectionRepairRequired(value) => value,
+            other => panic!("unexpected conversion state: {other:?}"),
+        };
+        // The unchanged converter emits the historical marker. Continuation must
+        // repair these existing records, not merely newly hashed conversions.
+        assert_eq!(
+            snapshot.inputs().binding().unwrap().registration,
+            "git-worktree-list"
+        );
+        if issue == 517 {
+            let sibling = primary.join("worktrees/sibling");
+            git(
+                &primary,
+                &[
+                    "worktree",
+                    "add",
+                    "-q",
+                    "-b",
+                    "codex/sibling",
+                    sibling.to_str().unwrap(),
+                ],
+            );
+            fs::copy(
+                std::env::current_exe().unwrap(),
+                primary.join(".git/installed-candidate/proof-owner-test"),
+            )
+            .unwrap();
+            for (label, worktree, branch, generation) in [
+                (
+                    "sibling",
+                    &sibling,
+                    "codex/sibling",
+                    snapshot.version().generation(),
+                ),
+                (
+                    "stale",
+                    &linked,
+                    "codex/copied-continuation",
+                    snapshot.version().generation() + 1,
+                ),
+            ] {
+                let request = fixture.write_json(&format!("reject-{label}.json"), &json!({
+                    "issue":issue,"repository":"agent-logic/agent-design-language",
+                    "binding":{"worktree":worktree,"branch":branch,"exact_head":git(worktree,&["rev-parse","HEAD"]),
+                        "git_common_dir":primary.join(".git"),"generation":generation,"lifecycle_digest":snapshot.version().digest().as_str()},
+                    "evidence_root":worktree
+                }));
+                let before = intent_fixture::inventory(&primary);
+                let rejected = Command::new(
+                    primary.join(".git/installed-candidate/proof-owner-test"),
+                )
+                .current_dir(worktree)
+                .args([
+                    "--exact",
+                    "converted_later_phases_accept_applicable_corrections_without_native_index",
+                    "--nocapture",
+                ])
+                .env("CSDLC_TEST_CONVERTED_PROOF_REQUEST", &request)
+                .output()
+                .unwrap();
+                assert!(
+                    rejected.status.success(),
+                    "internal proof guard failed: {rejected:?}"
+                );
+                assert_same_inventory!(before, intent_fixture::inventory(&primary));
+            }
+        }
+        let before = intent_fixture::inventory(&primary);
+        let status = success(fixture.run(&primary, &["status", &id]));
+        let validated = success(fixture.run(&primary, &["validate", &id]));
+        assert_eq!(validated["read_only"], true);
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+        if issue == 122 {
+            assert!(!status["allowed_next"]
+                .as_array()
+                .unwrap()
+                .contains(&json!("proof")));
+            continue;
+        }
+        if issue == 113 {
+            git(
+                &linked,
+                &[
+                    "commit",
+                    "--quiet",
+                    "--allow-empty",
+                    "-m",
+                    "converted implementation advances",
+                ],
+            );
+            success(fixture.run(&linked, &["bind", &id]));
+            git(
+                &linked,
+                &[
+                    "commit",
+                    "--quiet",
+                    "--allow-empty",
+                    "-m",
+                    "converted implementation advances again",
+                ],
+            );
+        }
+        let validators = fixture.write_json(
+            &format!("validators-{issue}.json"),
+            &json!({"schema":"csdlc.v3.intent_changes.v1","validators":plan()["validators"]}),
+        );
+        success(fixture.run(
+            &linked,
+            &["edit", &id, "--changes", validators.to_str().unwrap()],
+        ));
+        success(fixture.run(&linked, &["validate", &id]));
+        success(fixture.run(&linked, &["proof", &id]));
+        let judgment = fixture.write_json(&format!("review-{issue}.json"), &json!({
+            "schema":"csdlc.v3.review_judgment.v1","implementer":"converted-fixture-author",
+            "reviewer":"independent-converted-fixture-reviewer","reviewed_revision":git(&linked,&["rev-parse","HEAD"]),
+            "verdict":"pass","evidence":"Synthetic current candidate judgment after real fixture proof; not production approval."
+        }));
+        success(fixture.run(
+            &linked,
+            &["review", &id, "--evidence", judgment.to_str().unwrap()],
+        ));
+
+        assert!(!linked
+            .join(format!(".csdlc/issues/{issue}/index.json"))
+            .exists());
+    }
+    assert_same_inventory!(source_before, intent_fixture::inventory(&copied));
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+#[test]
+fn completed_proof_replay_leaves_interrupted_projection_read_only() {
+    let mut fixture = Fixture::new("1064-replay-interrupted-proof");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let linked = linked_worktree(&primary);
+    success(fixture.run(&linked, &["proof", "505"]));
+    let cards = linked.join(".csdlc/v3/issues/505/cards");
+    let manifest = fs::read(cards.join("manifest.json")).unwrap();
+    let value: Value = serde_json::from_slice(&manifest).unwrap();
+    let suffix = value["projection_digest"]
+        .as_str()
+        .unwrap()
+        .rsplit(':')
+        .next()
+        .unwrap();
+    fs::write(
+        cards.join(format!(".projection-{suffix}.pending")),
+        &manifest,
+    )
+    .unwrap();
+    fs::write(
+        cards.join(format!(".sip.md-{suffix}.next")),
+        fs::read(cards.join("sip.md")).unwrap(),
+    )
+    .unwrap();
+    fs::write(cards.join("manifest.json"), "previous manifest").unwrap();
+    let before = intent_fixture::inventory(&primary);
+    let replay = success(fixture.run(&linked, &["proof", "505"]));
+    assert_eq!(replay["read_only"], true);
+    assert_eq!(replay["performed_mutation"], false);
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
+    assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
 }

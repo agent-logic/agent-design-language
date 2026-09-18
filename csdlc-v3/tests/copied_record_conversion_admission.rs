@@ -483,7 +483,7 @@ fn invalid_generation_in_a_late_record_stops_before_any_semantic_effect() {
 }
 
 #[test]
-fn converted_snapshot_is_acknowledged_before_installed_observation() {
+fn converted_projection_is_observable_without_lifecycle_acknowledgement() {
     let fixture = Fixture::new();
     let operation = fixture.operation("projection-ack");
     let request = fixture.write_request(&operation, None);
@@ -545,11 +545,11 @@ fn converted_snapshot_is_acknowledged_before_installed_observation() {
         .unwrap(),
     )
     .unwrap();
-    assert_eq!(current.get("generation").and_then(Value::as_u64), Some(2));
+    assert_eq!(current.get("generation").and_then(Value::as_u64), Some(1));
     let commits = fixture
         .git_common
         .join("csdlc-v3/semantic/issues/511/commits");
-    assert!(all_files(&commits).iter().any(|path| {
+    assert!(!all_files(&commits).iter().any(|path| {
         fs::read(path).is_ok_and(|bytes| {
             String::from_utf8_lossy(&bytes)
                 .contains("\"acknowledged_card_projection\":\"card-projection-v1:")

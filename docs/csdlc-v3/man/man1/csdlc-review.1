@@ -10,7 +10,7 @@ csdlc\-review \- validate independent exact\-head review evidence
 .SH ISSUE INTENT FORM
 \&The semantic issue intent form is the current operational interface. It resolves issue identity and routes effects through the native semantic transaction owner.
 .PP
-\&The intent form validates and retains externally supplied independent exact\-head review. REVIEW.json contains receipt, receipt_digest, proof_path and proof_digest. The receipt includes reviewed publication_linkage; proof binds exact candidate bytes and issue version. The ordinary form writes create\-only external evidence and native review records; \-\-preview plan is read\-only. Legacy \-\-request review admission remains observational.
+\&Supply csdlc.v3.review_judgment.v1 with implementer, independent reviewer, reviewed_revision, verdict pass and actual evidence text. The owner derives proof and receipt bookkeeping and retains one combined review record. Legacy receipt/receipt_digest/proof_path/proof_digest inputs remain readable. Same\-principal review, stale revisions, empty evidence and non\-passing verdicts are rejected; the tool does not perform the independent review. \-\-preview plan is read\-only.
 .PP
 \&Optional \-\-repo\-root selects discovery, \-\-json retains machine output, and \-\-emit\-request returns a generated wrapper accepted directly by COMMAND \-\-intent\-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.
 .SH DESCRIPTION

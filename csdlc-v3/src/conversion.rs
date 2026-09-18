@@ -7,10 +7,10 @@ use crate::commands::local::{
 };
 use crate::lifecycle::LifecycleState;
 use crate::storage::semantic::{
-    AcceptedIntentPlan, Admission, Binding, CardProjectionArtifact, CardProjectionBundle,
+    AcceptedIntentPlan, Binding, CardProjectionArtifact, CardProjectionBundle,
     CardProjectionObservation, CommitOutcome, CopiedRecordConversion, Digest, IssueInputs,
-    IssueKey, LocalChange, NativeWriterFenceGuard, Observation, PlanStep, Publication,
-    SemanticRoot, Snapshot, Validator, SEMANTIC_CARD_KINDS,
+    IssueKey, NativeWriterFenceGuard, Observation, PlanStep, Publication, SemanticRoot, Snapshot,
+    Validator, SEMANTIC_CARD_KINDS,
 };
 use crate::storage::DurableTransactionStore;
 use fs2::FileExt;
@@ -1855,7 +1855,7 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
             .map_err(|error| format!("{error:?}"))?;
         let phase = source_phase(&record.role, &index)?;
         operation.fault("semantic_state_activation", "before")?;
-        let mut current = match DurableTransactionStore::observe_issue_under_native_writer_fence(
+        let current = match DurableTransactionStore::observe_issue_under_native_writer_fence(
             &root,
             &key,
             native_issue_writer_fences
@@ -1996,52 +1996,22 @@ pub fn convert(request: &ConversionRequest) -> Result<Vec<ConvertedRecord>, Stri
                 ));
             }
         }
-        let projection_healthy = current.acknowledged_card_projection()
-            == Some(&expected_card_projection)
-            && !current.projection_required()
-            && DurableTransactionStore::observe_card_projection(&root, &current, &cards)
-                .is_ok_and(|observation| observation == CardProjectionObservation::Healthy);
+        let projection_healthy =
+            crate::storage::semantic::ProjectionWriteProof::verify(&root, &current).is_ok()
+                && DurableTransactionStore::observe_card_projection(&root, &current, &cards)
+                    .is_ok_and(|observation| observation == CardProjectionObservation::Healthy);
         if !projection_healthy {
-            let proof = DurableTransactionStore::write_card_projection(&root, &current, cards)
+            DurableTransactionStore::write_card_projection(&root, &current, cards)
                 .map_err(|error| format!("card projection {}: {error:?}", record.role))?;
-            current = snapshot(
-                DurableTransactionStore::commit_issue_local(
-                    &root,
-                    Admission::new(key.clone(), current.version().clone(), authority.clone()),
-                    LocalChange::AcknowledgeProjection(proof),
-                )
-                .map_err(|error| {
-                    format!("projection acknowledgement {}: {error:?}", record.role)
-                })?,
-            );
-            let acknowledged_bundle = copied_card_projection(&current, &registry, &staged_source)
-                .map_err(|error| {
-                format!("acknowledged card derivation {}: {error}", record.role)
-            })?;
-            let acknowledged_observation = DurableTransactionStore::observe_card_projection(
-                &root,
-                &current,
-                &acknowledged_bundle,
-            )
-            .map_err(|error| {
-                format!(
-                    "acknowledged projection observation {}: {error:?}",
-                    record.role
-                )
-            })?;
-            if current.acknowledged_card_projection() != Some(&expected_card_projection)
-                || current.projection_required()
-                || acknowledged_bundle.projection_digest() != &expected_card_projection
-                || acknowledged_observation != CardProjectionObservation::Healthy
+            let regenerated = copied_card_projection(&current, &registry, &staged_source)?;
+            if regenerated.projection_digest() != &expected_card_projection
+                || DurableTransactionStore::observe_card_projection(&root, &current, &regenerated)
+                    .map_err(|error| format!("projection readback: {error:?}"))?
+                    != CardProjectionObservation::Healthy
             {
                 return Err(format!(
-                    "projection acknowledgement for {} failed exact readback: acknowledged={:?} required={} expected={} regenerated={} observation={:?}",
-                    record.role,
-                    current.acknowledged_card_projection().map(Digest::as_str),
-                    current.projection_required(),
-                    expected_card_projection.as_str(),
-                    acknowledged_bundle.projection_digest().as_str(),
-                    acknowledged_observation,
+                    "projection for {} failed exact readback",
+                    record.role
                 ));
             }
         }
@@ -2208,7 +2178,7 @@ pub fn observe(git_common: &Path, repository: &str, issue: u64) -> Result<Value,
                 "status":"passed", "issue":issue,
                 "generation":snapshot.version().generation(),
                 "digest":snapshot.version().digest().as_str(),
-                "projection_required":snapshot.projection_required(),
+                "projection_required":crate::storage::semantic::ProjectionWriteProof::verify(&root, &snapshot).is_err(),
             }))
         }
         Observation::LegacyMigrationRequired => {
@@ -2532,7 +2502,7 @@ pub fn relocate_current_observation_copy(
     .map_err(|error| format!("relocated semantic input: {error:?}"))?;
     let target_root = SemanticRoot::from_git_common(&target_common, request.repository.clone())
         .map_err(|error| format!("target semantic root: {error:?}"))?;
-    let mut current = match DurableTransactionStore::observe_issue(&target_root, &key)
+    let current = match DurableTransactionStore::observe_issue(&target_root, &key)
         .map_err(|error| format!("target semantic observation: {error:?}"))?
     {
         Observation::Absent => snapshot(
@@ -2658,21 +2628,12 @@ pub fn relocate_current_observation_copy(
     DurableTransactionStore::write_issue_projection(&target_root, &current)
         .map_err(|error| format!("target issue projection: {error:?}"))?;
     let bundle = copied_card_projection(&current, &registry, &target_issue_root)?;
-    let projection_healthy = !current.projection_required()
-        && current.acknowledged_card_projection() == Some(bundle.projection_digest())
-        && DurableTransactionStore::observe_card_projection(&target_root, &current, &bundle)
+    let projection_healthy =
+        DurableTransactionStore::observe_card_projection(&target_root, &current, &bundle)
             .is_ok_and(|observation| observation == CardProjectionObservation::Healthy);
     if !projection_healthy {
-        let proof = DurableTransactionStore::write_card_projection(&target_root, &current, bundle)
+        DurableTransactionStore::write_card_projection(&target_root, &current, bundle)
             .map_err(|error| format!("target card projection: {error:?}"))?;
-        current = snapshot(
-            DurableTransactionStore::commit_issue_local(
-                &target_root,
-                Admission::new(key, current.version().clone(), target_authority),
-                LocalChange::AcknowledgeProjection(proof),
-            )
-            .map_err(|error| format!("target projection acknowledgement: {error:?}"))?,
-        );
     }
 
     let target_semantic_current = target_common

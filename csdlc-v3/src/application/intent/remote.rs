@@ -64,11 +64,6 @@ fn parse_operation(value: Value) -> Result<GithubMutation, String> {
 fn failure(finding: RemoteRouteFinding) -> String {
     finding.code
 }
-fn issue_digest(context: &Context) -> Result<&str, String> {
-    context.index["digest"]
-        .as_str()
-        .ok_or_else(|| "intent_issue_digest_required".into())
-}
 fn route(context: &Context) -> Result<RemoteRouteRequest, String> {
     serde_json::from_value(
         json!({"repository":context.repository,"issue":context.issue,
@@ -108,7 +103,7 @@ fn verify_semantic_external_review(
         &context.repository,
         context.issue,
         &context.head,
-        issue_digest(context)?,
+        &context.evidence_issue_digest()?,
         evidence,
     )
     .map_err(failure)
@@ -500,6 +495,7 @@ fn semantic_mutation(
         session.origin.clone(),
         staged.reservation_facts(),
     );
+    context.repair_before_effect(&session.snapshot, &operation)?;
     let (ticket, reconciliation_only) =
         match DurableTransactionStore::reserve_effect(&session.root, admission, operation)
             .map_err(semantic_error)?
@@ -698,6 +694,7 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
         session.origin.clone(),
         facts.clone(),
     );
+    context.repair_before_effect(&session.snapshot, &operation)?;
     let ticket = match DurableTransactionStore::reserve_effect(&session.root, admission, operation)
         .map_err(semantic_error)?
     {
@@ -711,7 +708,7 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
         &context.repository,
         context.issue,
         &context.head,
-        issue_digest(context)?,
+        &context.evidence_issue_digest()?,
         &context.authority_digest,
         evidence,
     );
@@ -759,6 +756,49 @@ fn semantic_review(context: &Context, evidence: &owner::ExternalReview) -> Resul
     }
 }
 
+fn review_input(context: &Context, content: &Value) -> Result<owner::ExternalReview, String> {
+    if content["schema"] != "csdlc.v3.review_judgment.v1" {
+        return serde_json::from_value(content.clone())
+            .map_err(|_| "intent_external_review_invalid".into());
+    }
+    let judgment: owner::ReviewJudgment =
+        serde_json::from_value(content.clone()).map_err(|_| "intent_review_judgment_invalid")?;
+    if judgment.verdict != "pass" || judgment.evidence.trim().is_empty() {
+        return Err("intent_review_pass_required".into());
+    }
+    let proof_path = owner::semantic_proof_path(context.issue);
+    // The normal verifier below validates containment, proof currency and all
+    // identities before admitting or recording this derived envelope.
+    let proof =
+        std::fs::read(context.root.join(&proof_path)).map_err(|_| "intent_review_proof_missing")?;
+    let receipt = crate::commands::remote::TypedReviewReceipt {
+        schema: "csdlc.v3.typed_review_receipt.v1".into(),
+        repository: context.repository.clone(),
+        issue: context.issue,
+        implementer: judgment.implementer.clone(),
+        reviewer: judgment.reviewer.clone(),
+        reviewed_revision: judgment.reviewed_revision.clone(),
+        expected_head_sha: context.head.clone(),
+        evidence_digest: blake3::hash(
+            &serde_json::to_vec(&judgment).map_err(|_| "intent_review_judgment_invalid")?,
+        )
+        .to_hex()
+        .to_string(),
+        publication_linkage: Some(crate::commands::remote::PublicationLinkage {
+            repository: context.repository.clone(),
+            issue: context.issue,
+            mode: crate::commands::remote::RemotePublicationMode::Closing,
+        }),
+    };
+    Ok(owner::ExternalReview {
+        receipt_digest: crate::commands::remote::typed_review_receipt_payload_digest(&receipt),
+        receipt,
+        proof_path,
+        proof_digest: blake3::hash(&proof).to_hex().to_string(),
+        judgment: Some(judgment),
+    })
+}
+
 pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> {
     context.fresh_integrity()?;
     if let Some(preview) = &request.preview {
@@ -771,8 +811,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             if request.execute {
                 return Err("intent_review_arguments_invalid".into());
             }
-            let evidence: owner::ExternalReview = serde_json::from_value(request.content.clone())
-                .map_err(|_| "intent_external_review_invalid")?;
+            let evidence = review_input(context, &request.content)?;
             verify_semantic_external_review(context, &evidence)?;
             if request.preview.is_some() {
                 return Ok(
@@ -1150,7 +1189,7 @@ pub fn recover(context: &Context, request: &IntentRequest) -> Result<Option<Valu
                 &context.repository,
                 context.issue,
                 &context.head,
-                issue_digest(context)?,
+                &context.evidence_issue_digest()?,
                 &context.authority_digest,
                 &evidence,
             );

@@ -188,6 +188,7 @@ fn attach_terminal_observation(
         &bytes,
     )
     .map_err(semantic_error)?;
+    context.repair_before_effect(&semantic.snapshot, &operation)?;
     let reservation = DurableTransactionStore::reserve_effect(
         &semantic.root,
         EffectAdmission::from_native_owner(
@@ -526,6 +527,7 @@ pub fn recover_absent_cleanup(
         cleanup: true,
         ..Default::default()
     };
+    context.repair_before_effect(&semantic.snapshot, &operation)?;
     let ticket = match DurableTransactionStore::reserve_effect(
         &semantic.root,
         EffectAdmission::from_native_owner(
@@ -997,6 +999,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 no_pr_disposition: native.no_pr_closeout.is_some(),
                 ..Default::default()
             };
+            context.repair_before_effect(&semantic.snapshot, &operation)?;
             let reservation = DurableTransactionStore::reserve_effect(
                 &semantic.root,
                 EffectAdmission::from_native_owner(
@@ -1249,6 +1252,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 )
                 .map_err(semantic_error)?
             };
+            context.repair_before_effect(&semantic.snapshot, &operation)?;
             let ticket = match DurableTransactionStore::reserve_effect(
                 &semantic.root,
                 EffectAdmission::from_native_owner(

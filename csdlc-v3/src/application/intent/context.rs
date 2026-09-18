@@ -217,18 +217,34 @@ impl Context {
                 }
             }
         }
-        if candidates.is_empty() {
+        if candidates.is_empty() && canonical_bound_worktree.is_none() {
             let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
                 .map_err(semantic_error)?;
             let semantic_key = IssueKey::new(repository.clone(), issue).map_err(semantic_error)?;
-            if matches!(
+            if let Observation::Current(snapshot)
+            | Observation::ProjectionRepairRequired(snapshot) =
                 DurableTransactionStore::observe_issue(&semantic_root, &semantic_key)
-                    .map_err(semantic_error)?,
-                Observation::Current(ref snapshot)
-                    | Observation::ProjectionRepairRequired(ref snapshot)
-                    if snapshot.inputs().binding().is_none()
-            ) {
-                candidates.push((primary.clone(), prepared.clone()));
+                    .map_err(semantic_error)?
+            {
+                if let Some(binding) = snapshot.inputs().binding() {
+                    let registered = registrations.split("\n\n").any(|record| {
+                        record
+                            .lines()
+                            .any(|line| line.strip_prefix("worktree ") == binding.worktree.to_str())
+                            && record
+                                .lines()
+                                .any(|line| line == format!("branch refs/heads/{}", binding.branch))
+                    });
+                    if !registered || !binding.worktree.is_dir() {
+                        return Err("intent_semantic_binding_stale".into());
+                    }
+                    candidates.push((
+                        binding.worktree.clone(),
+                        binding.worktree.join(format!(".csdlc/issues/{issue}")),
+                    ));
+                } else {
+                    candidates.push((primary.clone(), prepared.clone()));
+                }
             }
         }
         if candidates.len() > 1 {
@@ -461,7 +477,7 @@ impl Context {
         }
     }
 
-    /// Load one current, projection-coherent semantic snapshot and bind it to the
+    /// Load one current authoritative semantic snapshot and bind it to the
     /// authenticated native context. Legacy-only issues require the separately
     /// owned conversion flow and never seed semantic state here.
     pub(crate) fn semantic_context(&self) -> Result<SemanticContext, String> {
@@ -470,9 +486,8 @@ impl Context {
         let snapshot = match DurableTransactionStore::observe_issue(&root, &key)
             .map_err(semantic_error)?
         {
-            Observation::Current(snapshot) => *snapshot,
-            Observation::ProjectionRepairRequired(_) => {
-                return Err("intent_semantic_projection_repair_required".into())
+            Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+                *snapshot
             }
             Observation::RecoveryRequired => return Err("intent_semantic_recovery_required".into()),
             Observation::LegacyMigrationRequired => {
@@ -480,9 +495,6 @@ impl Context {
             }
             Observation::Absent => return Err("intent_semantic_state_missing".into()),
         };
-        if snapshot.projection_required() {
-            return Err("intent_semantic_projection_repair_required".into());
-        }
         let authority = self.semantic_authority()?;
         if snapshot.inputs().authority() != &authority {
             return Err("intent_semantic_authority_changed".into());
@@ -500,10 +512,45 @@ impl Context {
         })
     }
 
+    /// Complete only an interrupted current render before authority advances.
+    /// Observational admission never calls this helper. The existing writer
+    /// verifies exact version, bundle bytes and confined staging paths.
+    /// Retained operations must reach replay/recovery without changing views.
+    /// The reservation owner still validates their full identity and content.
+    pub(crate) fn repair_before_effect(
+        &self,
+        snapshot: &SemanticSnapshot,
+        request: &crate::storage::semantic::protocol::EffectRequest,
+    ) -> Result<(), String> {
+        if request.has_retained_identity(snapshot) {
+            return Ok(());
+        }
+        self.repair_interrupted_projection(snapshot)
+    }
+
+    pub(crate) fn repair_interrupted_projection(
+        &self,
+        snapshot: &SemanticSnapshot,
+    ) -> Result<(), String> {
+        let (root, _) = self.semantic_root_key()?;
+        let bundle =
+            crate::application::derive_semantic_card_projection(snapshot, &self.registry()?)
+                .map_err(|error| format!("intent_semantic_projection_derivation_failed:{error}"))?;
+        if matches!(
+            DurableTransactionStore::observe_card_projection(&root, snapshot, &bundle)
+                .map_err(semantic_error)?,
+            crate::storage::semantic::CardProjectionObservation::Interrupted { .. }
+        ) {
+            DurableTransactionStore::write_card_projection(&root, snapshot, bundle)
+                .map_err(semantic_error)?;
+        }
+        Ok(())
+    }
+
     /// Load canonical terminal state for the cleanup command without requiring
     /// generated tracked projections to be rewritten in the checkout that is
-    /// about to be removed. All other semantic commands retain the strict
-    /// projection-coherence requirement in `semantic_context`.
+    /// about to be removed. Generated views are non-authoritative for both
+    /// ordinary semantic admission and terminal cleanup.
     pub(crate) fn semantic_cleanup_context(&self) -> Result<SemanticContext, String> {
         self.fresh_integrity()?;
         let (root, key) = self.semantic_root_key()?;
@@ -667,7 +714,7 @@ impl Context {
         .to_string();
         if binding.branch != self.branch
             || binding.worktree != self.root
-            || binding.registration != registration
+            || (binding.registration != registration && binding.registration != "git-worktree-list")
         {
             return Err("intent_semantic_binding_stale".into());
         }
@@ -684,13 +731,17 @@ impl Context {
                 Some(1) => return Err("intent_semantic_binding_stale".into()),
                 _ => return Err("intent_git_observation_failed".into()),
             }
+        }
+        if binding.head != self.head || binding.registration != registration {
             let mut refreshed = binding.clone();
             refreshed.head = self.head.clone();
+            refreshed.registration = registration;
             let admission = SemanticAdmission::new(
                 key.clone(),
                 snapshot.version().clone(),
                 self.semantic_authority()?,
             );
+            self.repair_interrupted_projection(&snapshot)?;
             let committed = match DurableTransactionStore::commit_issue_local(
                 &root,
                 admission,
@@ -782,9 +833,45 @@ impl Context {
         }
         Ok(registry)
     }
+    /// Stable issue identity for evidence when conversion has no native index.
+    /// Candidate/input freshness remains separately bound by semantic proof.
+    pub(crate) fn evidence_issue_digest(&self) -> Result<String, String> {
+        if let Some(digest) = self.index["digest"].as_str() {
+            return Ok(digest.to_owned());
+        }
+        let semantic = self.semantic_context()?;
+        Ok(blake3::hash(
+            serde_json::json!({
+                "schema":"csdlc.v3.semantic_issue_identity.v1", "repository":self.repository,
+                "issue":self.issue,"authority":semantic.snapshot.inputs().authority()
+            })
+            .to_string()
+            .as_bytes(),
+        )
+        .to_hex()
+        .to_string())
+    }
+
     pub fn local_request(&self) -> Result<LocalPreparationRequest, String> {
         if self.index.is_null() {
-            return Err("missing_local_lifecycle_state".into());
+            let (snapshot, _, _) =
+                super::local::semantic_card_projection_observation(self, &self.registry()?, false)?
+                    .ok_or("intent_semantic_state_missing")?;
+            let inputs = snapshot.inputs();
+            let binding = inputs.binding().ok_or("intent_semantic_binding_required")?;
+            return Ok(LocalPreparationRequest {
+                issue: self.issue,
+                title: inputs.intent().to_owned(),
+                repository: self.repository.clone(),
+                branch: binding.branch.clone(),
+                worktree: binding.worktree.to_string_lossy().into_owned(),
+                registry_version: self.registry()?.version,
+                expected_lifecycle_digest: None,
+                commands: required_local_commands().to_vec(),
+                card_updates: BTreeMap::new(),
+                schedule_readiness: None,
+                shepherd_routing: None,
+            });
         }
         let recovery =
             crate::commands::local::intent::recovery_source(&self.state_root, self.issue)
@@ -947,6 +1034,7 @@ impl SemanticContext {
                 return Err("intent_semantic_bind_target_changed".into());
             }
         }
+        refreshed.repair_interrupted_projection(&current)?;
         let authority = refreshed.semantic_authority()?;
         Ok(AttachmentAdmission::from_native_owner(
             authority,
@@ -964,26 +1052,12 @@ impl SemanticContext {
 
 fn complete_projection(
     root: &SemanticRoot,
-    key: &IssueKey,
+    _key: &IssueKey,
     snapshot: &SemanticSnapshot,
 ) -> Result<SemanticSnapshot, String> {
-    let proof =
-        DurableTransactionStore::write_issue_projection(root, snapshot).map_err(semantic_error)?;
-    let admission = SemanticAdmission::new(
-        key.clone(),
-        snapshot.version().clone(),
-        snapshot.inputs().authority().clone(),
-    );
-    match DurableTransactionStore::commit_issue_local(
-        root,
-        admission,
-        crate::storage::semantic::LocalChange::AcknowledgeProjection(proof),
-    )
-    .map_err(semantic_error)?
-    {
-        crate::storage::semantic::CommitOutcome::Committed(snapshot)
-        | crate::storage::semantic::CommitOutcome::Unchanged(snapshot) => Ok(*snapshot),
-    }
+    // Materialization is a cache write, not a lifecycle transition.
+    DurableTransactionStore::write_issue_projection(root, snapshot).map_err(semantic_error)?;
+    Ok(snapshot.clone())
 }
 
 fn semantic_error(error: crate::storage::semantic::Error) -> String {

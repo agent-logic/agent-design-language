@@ -306,6 +306,18 @@ exec @GIT@ "$@"
             git_log,
         }
     }
+    pub fn select_baseline_binary(&mut self, binary: &Path, source_revision: &str) {
+        assert!(
+            self.attempts.is_empty(),
+            "binary selection must precede the journey"
+        );
+        fs::copy(binary, &self.binary).unwrap();
+        self.provenance = json!({
+            "source_head":source_revision,
+            "installed_binary_blake3":blake3::hash(&fs::read(&self.binary).unwrap()).to_hex().to_string(),
+            "source_binding":"Explicit isolated baseline executable; no shared installation changed"
+        });
+    }
     pub fn run(&mut self, cwd: &Path, args: &[&str]) -> Output {
         self.run_with_env(cwd, args, &[])
     }
