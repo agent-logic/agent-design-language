@@ -11,3 +11,5 @@ pub mod publication;
 pub mod review;
 
 pub mod server;
+
+pub mod agent;
