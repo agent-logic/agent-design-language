@@ -15,7 +15,7 @@ use crate::storage::DurableTransactionStore as Store;
 use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::net::UdpSocket;
@@ -486,33 +486,167 @@ impl Context {
     }
 }
 
-fn census(primary: &Path, common: &Path) -> Result<BTreeSet<u64>> {
-    let mut roots = vec![
+struct Census {
+    issues: BTreeSet<u64>,
+    excluded_history: Vec<Value>,
+}
+fn issue_from_card_path(path: &str) -> Option<u64> {
+    path.strip_prefix(".csdlc/issues/")?
+        .split('/')
+        .next()?
+        .parse()
+        .ok()
+}
+fn census_inventory(primary: &Path, common: &Path) -> Result<Census> {
+    let mut issues = BTreeSet::new();
+    for root in [
         common.join("csdlc-v3/local/issues"),
         common.join("csdlc-v3/semantic/issues"),
-    ];
-    for line in git(primary, &["worktree", "list", "--porcelain"])?.lines() {
-        if let Some(path) = line.strip_prefix("worktree ") {
-            roots.push(Path::new(path).join(".csdlc/issues"));
-        }
-    }
-    let mut issues = BTreeSet::new();
-    for root in roots {
+    ] {
         safe(&root)?;
         if !root.exists() {
             continue;
         }
-        for e in fs::read_dir(root).map_err(err)? {
-            let e = e.map_err(err)?;
-            safe(&e.path())?;
-            if let Ok(id) = e.file_name().to_string_lossy().parse::<u64>() {
-                if id > 0 && e.file_type().map_err(err)?.is_dir() {
+        for entry in fs::read_dir(&root).map_err(err)? {
+            let entry = entry.map_err(err)?;
+            safe(&entry.path())?;
+            if let Ok(id) = entry.file_name().to_string_lossy().parse::<u64>() {
+                if id > 0 && entry.file_type().map_err(err)?.is_dir() {
                     issues.insert(id);
                 }
             }
         }
     }
-    Ok(issues)
+    // Bound legacy records live in their registered worktree, not necessarily
+    // under the primary native issue directory. Retained bindings remain part
+    // of the census even when a missing checkout needs recovery.
+    let bindings = common.join("csdlc-v3/local/bindings");
+    safe(&bindings)?;
+    if bindings.exists() {
+        for entry in fs::read_dir(&bindings).map_err(err)? {
+            let path = entry.map_err(err)?.path();
+            safe(&path)?;
+            if path.extension().is_none_or(|s| s != "json") {
+                continue;
+            }
+            let id = path
+                .file_stem()
+                .and_then(|s| s.to_str())
+                .and_then(|s| s.parse::<u64>().ok())
+                .filter(|id| *id > 0)
+                .ok_or_else(|| format!("invalid native binding path: {}", path.display()))?;
+            let binding: Value = read(&path)
+                .map_err(|error| format!("issue {id} binding {}: {error}", path.display()))?;
+            if binding["schema"] != "csdlc.v3.binding.v1"
+                || binding["issue"] != id
+                || binding["worktree"].as_str().is_none_or(str::is_empty)
+            {
+                return Err(format!(
+                    "issue {id}: invalid native binding {}",
+                    path.display()
+                ));
+            }
+            issues.insert(id);
+        }
+    }
+    let mut excluded_history = Vec::new();
+    let mut tracked_by_head: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+    for block in git(primary, &["worktree", "list", "--porcelain"])?.split("\n\n") {
+        let Some(checkout) = block.lines().find_map(|s| s.strip_prefix("worktree ")) else {
+            continue;
+        };
+        let checkout = Path::new(checkout);
+        let root = checkout.join(".csdlc/issues");
+        safe(&root)?;
+        if !root.exists() {
+            continue;
+        }
+        let mut unknown = Vec::new();
+        for entry in fs::read_dir(&root).map_err(err)? {
+            let entry = entry.map_err(err)?;
+            safe(&entry.path())?;
+            if let Ok(id) = entry.file_name().to_string_lossy().parse::<u64>() {
+                if id > 0 && entry.file_type().map_err(err)?.is_dir() && !issues.contains(&id) {
+                    unknown.push(id);
+                }
+            }
+        }
+        if unknown.is_empty() {
+            continue;
+        }
+        let head = block
+            .lines()
+            .find_map(|s| s.strip_prefix("HEAD "))
+            .ok_or_else(|| {
+                format!(
+                    "cannot classify historical cards in {}: missing registered HEAD",
+                    checkout.display()
+                )
+            })?;
+        if !tracked_by_head.contains_key(head) {
+            let tracked = git(
+                primary,
+                &[
+                    "ls-tree",
+                    "-r",
+                    "--name-only",
+                    "-z",
+                    head,
+                    "--",
+                    ".csdlc/issues",
+                ],
+            )?;
+            tracked_by_head.insert(
+                head.into(),
+                tracked
+                    .split('\0')
+                    .filter(|p| !p.is_empty())
+                    .map(str::to_owned)
+                    .collect(),
+            );
+        }
+        let tracked = &tracked_by_head[head];
+        let changed = git(
+            checkout,
+            &[
+                "diff",
+                "--no-ext-diff",
+                "--no-textconv",
+                "--name-only",
+                "-z",
+                "HEAD",
+                "--",
+                ".csdlc/issues",
+            ],
+        )?;
+        // Include ignored residue too: exclusion requires an entirely unchanged
+        // historical projection, not merely a clean default Git status.
+        let untracked = git(
+            checkout,
+            &["ls-files", "--others", "-z", "--", ".csdlc/issues"],
+        )?;
+        let changed: BTreeSet<u64> = changed
+            .split('\0')
+            .chain(untracked.split('\0'))
+            .filter_map(issue_from_card_path)
+            .collect();
+        unknown.sort_unstable();
+        for id in &unknown {
+            let path = root.join(id.to_string());
+            if !tracked.contains(&format!(".csdlc/issues/{id}/index.json")) || changed.contains(id)
+            {
+                return Err(format!("issue {id}: unregistered or changed lifecycle residue at {}; resolve native ownership before transition", path.display()));
+            }
+        }
+        excluded_history.push(json!({"issues":unknown,"checkout":checkout,"revision":head,"disposition":"tracked_historical_projection","basis":"committed indexes; unchanged tracked files; no untracked residue; no native/semantic/binding records"}));
+    }
+    Ok(Census {
+        issues,
+        excluded_history,
+    })
+}
+fn census(primary: &Path, common: &Path) -> Result<BTreeSet<u64>> {
+    Ok(census_inventory(primary, common)?.issues)
 }
 /// Census only: no writer locks, request construction, or lifecycle effects.
 pub fn inventory(primary: &Path) -> Result<Value> {
@@ -524,11 +658,11 @@ pub fn inventory(primary: &Path) -> Result<Value> {
     if common != primary.join(".git") {
         return Err("primary checkout required".into());
     }
-    let ids = census(&primary, &common)?;
+    let census = census_inventory(&primary, &common)?;
     let root =
         SemanticRoot::from_git_common(&common, "agent-logic/agent-design-language").map_err(err)?;
     let mut rows = Vec::new();
-    for issue in ids {
+    for issue in census.issues {
         let key = IssueKey::new("agent-logic/agent-design-language", issue).map_err(err)?;
         let observation = Store::observe_issue(&root, &key).map_err(err)?;
         let native = common.join("csdlc-v3/local/issues").join(issue.to_string());
@@ -547,16 +681,31 @@ pub fn inventory(primary: &Path) -> Result<Value> {
                 json!({"issue":issue,"checkout":checkout,"plan":null,"disposition":"preserve_current"})
             }
             Observation::LegacyMigrationRequired => {
-                let index: Value = read(&native.join("index.json"))?;
-                let checkout = if index["phase"] == "ready" {
-                    primary.clone()
-                } else {
-                    PathBuf::from(
-                        index["worktree"]
+                let binding_path = common.join(format!("csdlc-v3/local/bindings/{issue}.json"));
+                let (checkout, source) = if binding_path.exists() {
+                    let binding: Value = read(&binding_path)?;
+                    let checkout = PathBuf::from(
+                        binding["worktree"]
                             .as_str()
                             .ok_or("missing native checkout")?,
-                    )
+                    );
+                    let source = checkout.join(format!(".csdlc/issues/{issue}/index.json"));
+                    (checkout, source)
+                } else {
+                    (primary.clone(), native.join("index.json"))
                 };
+                let index: Value = read(&source).map_err(|error| {
+                    format!(
+                        "issue {issue}: cannot read live native record {}: {error}",
+                        source.display()
+                    )
+                })?;
+                if index["issue"] != issue || (checkout == primary && index["phase"] != "ready") {
+                    return Err(format!(
+                        "issue {issue}: native identity/phase does not match source {}",
+                        source.display()
+                    ));
+                }
                 json!({"issue":issue,"checkout":checkout,"retained_plan_required":true,"native_phase":index["phase"],"disposition":"requires_native_admission"})
             }
             _ => json!({"issue":issue,"disposition":"recovery_required_before_transition"}),
@@ -564,7 +713,7 @@ pub fn inventory(primary: &Path) -> Result<Value> {
         rows.push(row);
     }
     Ok(
-        json!({"schema":"csdlc.v3.live_transition_inventory.v1","repository":"agent-logic/agent-design-language","records":rows,"read_only":true}),
+        json!({"schema":"csdlc.v3.live_transition_inventory.v1","repository":"agent-logic/agent-design-language","records":rows,"excluded_history":census.excluded_history,"read_only":true}),
     )
 }
 
@@ -2127,5 +2276,107 @@ mod tests {
         assert_eq!(fingerprint(&current.0.live(875)).unwrap(), before);
         restore_live(&current.0).unwrap();
         assert_eq!(fingerprint(&current.0.live(875)).unwrap(), before);
+    }
+    #[test]
+    fn census_excludes_committed_history_but_rejects_changed_or_unknown_residue() {
+        let f = Fixture::new();
+        let historical = f.0.request.primary.join(".csdlc/issues/3/index.json");
+        put(&historical, b"{\"historical\":true}").unwrap();
+        git(&f.0.request.primary, &["add", ".csdlc/issues/3/index.json"]).unwrap();
+        git(
+            &f.0.request.primary,
+            &["commit", "--quiet", "-m", "historical cards"],
+        )
+        .unwrap();
+        let before = fingerprint(&f.0.common.join("csdlc-v3")).unwrap();
+        let observed = census_inventory(&f.0.request.primary, &f.0.common).unwrap();
+        assert_eq!(observed.issues, BTreeSet::from([875]));
+        assert_eq!(observed.excluded_history.len(), 1);
+        assert_eq!(observed.excluded_history[0]["issues"], json!([3]));
+        assert_eq!(fingerprint(&f.0.common.join("csdlc-v3")).unwrap(), before);
+        let packet = inventory(&f.0.request.primary).unwrap();
+        assert_eq!(packet["records"].as_array().unwrap().len(), 1);
+        assert_eq!(packet["excluded_history"][0]["issues"], json!([3]));
+        fs::write(&historical, b"changed historical lifecycle state").unwrap();
+        let rejected = census(&f.0.request.primary, &f.0.common).unwrap_err();
+        assert!(rejected.contains("issue 3") && rejected.contains("changed lifecycle residue"));
+        fs::write(&historical, b"{\"historical\":true}").unwrap();
+        let residue = f.0.request.primary.join(".csdlc/issues/999/index.json");
+        put(&residue, b"unregistered live residue").unwrap();
+        let rejected = f.0.check_sources().unwrap_err();
+        assert!(rejected.contains("issue 999") && rejected.contains("unregistered"));
+        assert_eq!(fs::read(residue).unwrap(), b"unregistered live residue");
+    }
+
+    #[test]
+    fn census_rejects_staged_and_ignored_historical_changes() {
+        for change in ["modify", "add", "delete", "ignored"] {
+            let f = Fixture::new();
+            let primary = &f.0.request.primary;
+            let historical = primary.join(".csdlc/issues/3/index.json");
+            put(&historical, b"historical").unwrap();
+            put(&primary.join(".csdlc/issues/3/sor.md"), b"historical card").unwrap();
+            git(primary, &["add", ".csdlc/issues/3"]).unwrap();
+            git(primary, &["commit", "--quiet", "-m", "historical cards"]).unwrap();
+            match change {
+                "modify" => fs::write(&historical, b"changed").unwrap(),
+                "add" => put(&primary.join(".csdlc/issues/3/new.md"), b"new").unwrap(),
+                "delete" => fs::remove_file(primary.join(".csdlc/issues/3/sor.md")).unwrap(),
+                "ignored" => {
+                    fs::write(f.0.common.join("info/exclude"), b"ignored-residue\n").unwrap();
+                    put(&primary.join(".csdlc/issues/3/ignored-residue"), b"unknown").unwrap();
+                }
+                _ => unreachable!(),
+            }
+            if change != "ignored" {
+                git(primary, &["add", "-A", ".csdlc/issues/3"]).unwrap();
+            }
+            let before = fingerprint(&primary.join(".csdlc/issues/3")).unwrap();
+            let rejected = census(primary, &f.0.common).unwrap_err();
+            assert!(
+                rejected.contains("issue 3") && rejected.contains("changed lifecycle residue"),
+                "{change}: {rejected}"
+            );
+            assert_eq!(
+                fingerprint(&primary.join(".csdlc/issues/3")).unwrap(),
+                before
+            );
+        }
+    }
+
+    #[test]
+    fn census_keeps_bound_legacy_records_without_primary_index() {
+        let f = Fixture::with_binding(true);
+        fs::remove_dir_all(f.0.common.join("csdlc-v3/local/issues/875")).unwrap();
+        let packet = inventory(&f.0.request.primary).unwrap();
+        let rows = packet["records"].as_array().unwrap();
+        assert_eq!(rows.len(), 1);
+        assert_eq!(rows[0]["issue"], 875);
+        assert_eq!(rows[0]["checkout"], json!(f.0.request.records[0].checkout));
+        assert_eq!(rows[0]["native_phase"], "bound");
+        assert_eq!(rows[0]["disposition"], "requires_native_admission");
+        assert_eq!(packet["excluded_history"], json!([]));
+        let source = f.0.request.records[0]
+            .checkout
+            .join(".csdlc/issues/875/index.json");
+        fs::remove_file(&source).unwrap();
+        let rejected = inventory(&f.0.request.primary).unwrap_err();
+        assert!(rejected.contains("issue 875") && rejected.contains(source.to_str().unwrap()));
+    }
+
+    #[test]
+    fn census_rejects_binding_identity_conflicts() {
+        let f = Fixture::new();
+        let binding = f.0.common.join("csdlc-v3/local/bindings/875.json");
+        put(
+            &binding,
+            &bytes(
+                &json!({"schema":"csdlc.v3.binding.v1","issue":876,"worktree":f.0.request.primary}),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        let rejected = census(&f.0.request.primary, &f.0.common).unwrap_err();
+        assert!(rejected.contains("issue 875") && rejected.contains("invalid native binding"));
     }
 }
