@@ -9,6 +9,7 @@ use serde_json::Value;
 use super::authority::{read_canonical_authority_selector, verify_canonical_v3_authority};
 use super::coordination::validate as validate_coordination;
 use super::model::*;
+pub use super::publication::validate_publication_metadata;
 use super::publication::{
     body_closing_issue_references, body_has_relation, review_findings, same_principal,
     typed_review_receipt_matches, typed_review_receipt_payload_digest,
@@ -712,46 +713,6 @@ pub fn publication_target(
 
 /// Shared preparation/edit/publication guard. This validates metadata, not review
 /// authority, and deliberately performs no remote operation.
-pub fn validate_publication_metadata(
-    issue: u64,
-    branch: &str,
-    base: &str,
-    title: &str,
-    body: &str,
-) -> Result<(), RemoteRouteFinding> {
-    if !super::publication_body_is_valid(body, issue) {
-        return Err(remote_finding(
-            "intent_publication_body_invalid",
-            "publication body must preserve the canonical closing issue",
-        ));
-    }
-    let valid_base = !base.is_empty()
-        && !base.starts_with('-')
-        && !base.ends_with('.')
-        && !base.contains("..")
-        && base
-            .split('/')
-            .all(|part| !part.is_empty() && !part.starts_with('.') && !part.ends_with(".lock"))
-        && base
-            .bytes()
-            .all(|b| b.is_ascii_alphanumeric() || b"/_-.".contains(&b));
-    if issue == 0
-        || !valid_base
-        || base == branch
-        || title.trim().is_empty()
-        || title.contains(['\n', '\r', '\0'])
-        || body.contains('\0')
-        || !body_has_relation(Some(body), "Closes", issue)
-        || body_closing_issue_references(Some(body))
-            .iter()
-            .any(|other| *other != issue)
-    {
-        return Err(remote_finding("intent_publication_metadata_invalid",
-            "publication requires a safe distinct base, nonempty title and only the canonical closing issue on its own line"));
-    }
-    Ok(())
-}
-
 pub fn publication_create_admission(
     request: &RemoteRouteRequest,
     evidence: &ExternalReview,
