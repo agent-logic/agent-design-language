@@ -1,0 +1,9 @@
+# PR 1063 repeated coverage compilation repair
+
+The diagnostics-only run35381629347 retained both partition logs. Initial instrumented compilation took17m21s. Partition1 then compiled ADL again for7m13s before running tests;912/1381 tests passed before job cancellation. Partition2 waited for the build-directory lock and was recompiling ADL at cancellation. The packet shows repeated compilation, not a hung-test assertion.
+
+An isolated dependency-free Cargo fixture using the production build script reproduced the exact invalidation: a second cargo check reported the absent .git/packed-refs file as dirty. GitHub detached checkouts may not have that optional file. The build script now watches only existing Git reference files. HEAD remains watched; changing a loose branch ref triggers refresh; packing it removes the watched loose file and the next build discovers packed-refs. Existing source/resource cleanliness and embedded revision verification remain intact.
+
+Validation: eleven server tests passed at885969a071, including an absent-packed-refs regression, subsequent pack-refs discovery, revision changes and dirty-source/resource refusal. The isolated Cargo fixture consuming both embedded provenance constants reports Fresh on its second unchanged build after the repair. The first disposable probe did not consume its emitted constants, so Cargo's unchanged metadata artifact retained an older timestamp; its intermediate dependency-dirty output is retained and is not claimed as successful freshness proof. No timeout, test selection, threshold or aggregation behavior changes.
+
+PVF: existing deterministic runtime provenance test plus bounded dependency-free build freshness probe; declared Rust/Cargo/Git only, no external network or provider spend. Local proof does not establish remote coverage success. Exact-head independent review, native lifecycle and fresh CI remain separate current-candidate records.

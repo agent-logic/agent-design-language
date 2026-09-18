@@ -65,7 +65,21 @@ fn main() {
     .flatten()
     {
         if let Some(path) = git(&["rev-parse", "--git-path", &reference]) {
-            println!("cargo:rerun-if-changed={}", root.join(path).display());
+            let path = root.join(path);
+            // Cargo treats a missing watched file as perpetually dirty. Fresh
+            // detached CI checkouts need not have packed-refs. HEAD remains
+            // watched; packing an existing loose ref deletes its watched file
+            // and causes the next build to discover the packed representation.
+            if path.exists() {
+                println!("cargo:rerun-if-changed={}", path.display());
+            } else if reference.starts_with("refs/") {
+                // A packed symbolic ref can become loose on the next commit
+                // without changing HEAD or packed-refs. Watch its existing
+                // parent so that creation invalidates the embedded revision.
+                if let Some(parent) = path.ancestors().skip(1).find(|p| p.exists()) {
+                    println!("cargo:rerun-if-changed={}", parent.display());
+                }
+            }
         }
     }
     let revision = git(&["rev-parse", "--verify", "HEAD"]).filter(|s| {
