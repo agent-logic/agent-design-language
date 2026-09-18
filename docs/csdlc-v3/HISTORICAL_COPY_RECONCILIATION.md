@@ -26,7 +26,10 @@ The spec contains these required fields:
 ```
 
 Supply the actual repository paths, exact HEAD, bounded issue list and real
-operator decision. The command accepts only this repository and authenticates
+operator decision. The primary remains this repository. An optional `source_repository` may name
+`danielbaustin/agent-design-language` for a copy from that historical repository;
+it must match the source index and authenticated GitHub identity exactly.
+Omitting it selects `agent-logic/agent-design-language`. The command authenticates
 GitHub through the shared native credential adapter. Set the approved
 `ADL_GITHUB_TOKEN_FILE` source when required; never copy its contents into a
 spec or receipt.
@@ -59,15 +62,27 @@ Admission requires all of the following:
   receipt and fresh authenticated confirmation that its PR merged with the
   recorded head in this repository. The receipt and filtered PR readback are
   included in the preview and rechecked during every census.
-- Exactly the untracked index, audit (or native binding) and six Markdown/value card pairs. Missing,
-  additional, tracked and symlinked files refuse admission.
+- Exactly the index, audit (or native binding) and six Markdown/value card pairs.
+  Legacy terminal copies may also contain retained design/diagram files, only
+  when their exact bytes match the validated receipt. Missing, additional and
+  symlinked files refuse admission. Tracked copies retain their exact checkout
+  HEAD, Git index/staged-diff digest and working-file snapshot; the command
+  never stages, restores, deletes or commits their source files.
+- Legacy copies with claims or later lifecycle phases require the retained
+  `csdlc-v2/closeout/ISSUE.json` receipt. Its receipt and record digests,
+  repository/issue/initialization identity, terminal/publication linkage and
+  source topology must agree. This is read-only historical evidence validation,
+  not a revival of the retired v2 lifecycle. Its exact merged PR/head is
+  authenticated in the source repository. Missing or inconsistent evidence
+  remains a refusal.
 - Fresh authenticated readback of the exact closed GitHub issue, not a PR.
 - Equal source and snapshot fingerprints before the disposition is recorded.
 
 Every later census checks retained dispositions before ordinary tracked-history
 classification. It verifies the source, snapshot, checkout identity and fresh
 closed readback. Reopening/reclosing the issue, changing the source or snapshot,
-committing the bundle, or deleting its directory refuses the census. A new live
+changing the Git index, committing the bundle, or deleting its directory refuses
+the census. A new live
 native/semantic/binding record stays in the operational denominator. Unknown
 residue without a disposition still refuses classification. This command does
 not waive complete census, owner acknowledgments, current qualification, an

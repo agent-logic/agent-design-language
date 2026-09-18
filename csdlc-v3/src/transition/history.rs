@@ -5,6 +5,8 @@ use crate::adapters::{
     RealProcessAdapter,
 };
 
+mod legacy;
+
 const REPOSITORY: &str = "agent-logic/agent-design-language";
 #[derive(Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -15,6 +17,13 @@ struct Spec {
     issues: Vec<u64>,
     operator: String,
     approval_reference: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    source_repository: Option<String>,
+}
+impl Spec {
+    fn repository(&self) -> &str {
+        self.source_repository.as_deref().unwrap_or(REPOSITORY)
+    }
 }
 fn common(primary: &Path) -> Result<PathBuf> {
     safe(primary)?;
@@ -37,10 +46,10 @@ fn location(common: &Path, checkout: &Path, issue: u64) -> PathBuf {
         )
         .join(issue.to_string())
 }
-fn closed(process: &mut impl ProcessAdapter, issue: u64) -> Result<Value> {
+fn closed(process: &mut impl ProcessAdapter, issue: u64, repository: &str) -> Result<Value> {
     let command = CommandInvocation::new(
         "github-api-read-only",
-        ["issue".into(), REPOSITORY.into(), issue.to_string()],
+        ["issue".into(), repository.into(), issue.to_string()],
     )
     .and_then(|c| c.with_child_credential("GITHUB_TOKEN"))
     .map_err(err)?;
@@ -55,7 +64,7 @@ fn closed(process: &mut impl ProcessAdapter, issue: u64) -> Result<Value> {
     if v["number"] != issue
         || v["state"] != "closed"
         || !v["pull_request"].is_null()
-        || v["html_url"] != format!("https://github.com/{REPOSITORY}/issues/{issue}")
+        || v["html_url"] != format!("https://github.com/{repository}/issues/{issue}")
         || v["closed_at"].as_str().is_none_or(str::is_empty)
         || v["id"].as_u64().is_none()
     {
@@ -67,7 +76,12 @@ fn closed(process: &mut impl ProcessAdapter, issue: u64) -> Result<Value> {
         json!({"id":v["id"],"number":issue,"url":v["html_url"],"state":"closed","closed_at":v["closed_at"]}),
     )
 }
-fn source(common: &Path, checkout: &Path, issue: u64) -> Result<(PathBuf, String)> {
+fn source(
+    common: &Path,
+    checkout: &Path,
+    issue: u64,
+    repository: &str,
+) -> Result<(PathBuf, String)> {
     for path in [
         common.join(format!("csdlc-v3/local/issues/{issue}")),
         common.join(format!("csdlc-v3/semantic/issues/{issue}")),
@@ -103,33 +117,21 @@ fn source(common: &Path, checkout: &Path, issue: u64) -> Result<(PathBuf, String
     let p = checkout.join(&rel);
     safe(&p)?;
     let index: Value = read(&p.join("index.json"))?;
-    if index["issue"] != issue || index["repository"] != REPOSITORY {
+    if index["issue"] != issue || index["repository"] != repository {
         return Err(format!(
             "issue {issue}: historical source identity mismatch"
         ));
     }
     let native = index["schema"] == "csdlc.v3.local_state.v1";
+    let mut authored_paths = BTreeSet::new();
     if native {
-        terminal_copy(common, checkout, issue, &index)?;
-    } else {
-        let preparation = match index["phase"].as_str() {
-            Some("initialized") => index["transitions"] == json!([]),
-            Some("ready") => index["transitions"].as_array().is_some_and(|rows| {
-                rows.len() == 1 && rows[0]["from"] == "initialized" && rows[0]["to"] == "ready"
-            }),
-            _ => false,
-        };
-        if index["schema"] != "csdlc.issue.index.v1"
-            || !preparation
-            || !index["branch"].is_null()
-            || !index["worktree"].is_null()
-            || !index["publication"].is_null()
-            || !index["terminal"].is_null()
-        {
-            return Err(format!(
-                "issue {issue}: unbound preparation or proven terminal copy required"
-            ));
+        if repository != REPOSITORY {
+            return Err("foreign native terminal copy refused".into());
         }
+        terminal_copy(common, checkout, issue, &index)?;
+    } else if !preparation(&index) {
+        authored_paths =
+            legacy::terminal(common, checkout, issue, repository, &index)?.authored_paths;
     }
     let companion = if native {
         "binding.json"
@@ -141,13 +143,24 @@ fn source(common: &Path, checkout: &Path, issue: u64) -> Result<(PathBuf, String
         expected.insert(format!("{rel}/cards/{card}.md"));
         expected.insert(format!("{rel}/cards/{card}.values.json"));
     }
+    for path in authored_paths {
+        expected.insert(format!("{rel}/{path}"));
+    }
     let actual: BTreeSet<_> = git(checkout, &["ls-files", "--others", "-z", "--", &rel])?
         .split('\0')
         .filter(|s| !s.is_empty())
         .map(str::to_owned)
         .collect();
-    if actual != expected || !git(checkout, &["ls-files", "-z", "--", &rel])?.is_empty() {
-        return Err(format!("issue {issue}: exact untracked card bundle required; extra/missing/tracked files refused"));
+    let tracked: BTreeSet<_> = git(checkout, &["ls-files", "-z", "--", &rel])?
+        .split('\0')
+        .filter(|s| !s.is_empty())
+        .map(str::to_owned)
+        .collect();
+    let present: BTreeSet<_> = actual.union(&tracked).cloned().collect();
+    if present != expected {
+        return Err(format!(
+            "issue {issue}: exact historical card bundle required; extra/missing files refused"
+        ));
     }
     for file in expected {
         let f = checkout.join(file);
@@ -158,6 +171,36 @@ fn source(common: &Path, checkout: &Path, issue: u64) -> Result<(PathBuf, String
     }
     let digest = fingerprint(&p)?;
     Ok((p, digest))
+}
+fn git_state(checkout: &Path, issue: u64) -> Result<Option<String>> {
+    let rel = format!(".csdlc/issues/{issue}");
+    let index = git(checkout, &["ls-files", "--stage", "-z", "--", &rel])?;
+    let staged = git(
+        checkout,
+        &["diff", "--cached", "--binary", "--no-ext-diff", "--", &rel],
+    )?;
+    if index.is_empty() && staged.is_empty() {
+        return Ok(None);
+    }
+    Ok(Some(
+        blake3::hash(&bytes(&json!({"index":index,"staged":staged}))?)
+            .to_hex()
+            .to_string(),
+    ))
+}
+fn preparation(index: &Value) -> bool {
+    let transitions = match index["phase"].as_str() {
+        Some("initialized") => index["transitions"] == json!([]),
+        Some("ready") => index["transitions"].as_array().is_some_and(|rows| {
+            rows.len() == 1 && rows[0]["from"] == "initialized" && rows[0]["to"] == "ready"
+        }),
+        _ => false,
+    };
+    index["schema"] == "csdlc.issue.index.v1"
+        && transitions
+        && ["branch", "worktree", "publication", "terminal", "claim"]
+            .iter()
+            .all(|key| index[*key].is_null())
 }
 // A stale native binding is historical only after its actual execution target
 // has gone and the retained terminal receipt identifies the merged delivery.
@@ -229,19 +272,24 @@ fn terminal_readback(
     common: &Path,
     checkout: &Path,
     issue: u64,
+    repository: &str,
     process: &mut impl ProcessAdapter,
 ) -> Result<Option<Value>> {
     let index: Value = read(&checkout.join(format!(".csdlc/issues/{issue}/index.json")))?;
-    if index["schema"] != "csdlc.v3.local_state.v1" {
+    let receipt = if index["schema"] == "csdlc.v3.local_state.v1" {
+        terminal_copy(common, checkout, issue, &index)?
+    } else if preparation(&index) {
         return Ok(None);
-    }
-    let receipt = terminal_copy(common, checkout, issue, &index)?;
+    } else {
+        let terminal = legacy::terminal(common, checkout, issue, repository, &index)?;
+        json!({"schema":"validated_legacy_terminal_copy","repository":repository,"issue":issue,"pull_request":terminal.pull_request,"head_sha":terminal.head_sha,"receipt_digest":terminal.receipt_digest})
+    };
     let number = receipt["pull_request"]
         .as_u64()
         .ok_or("missing terminal PR")?;
     let command = CommandInvocation::new(
         "github-api-read-only",
-        ["pull-request".into(), REPOSITORY.into(), number.to_string()],
+        ["pull-request".into(), repository.into(), number.to_string()],
     )
     .and_then(|c| c.with_child_credential("GITHUB_TOKEN"))
     .map_err(err)?;
@@ -253,9 +301,9 @@ fn terminal_readback(
     if v["number"] != number
         || v["state"] != "closed"
         || v["merged"] != true
-        || v["html_url"] != format!("https://github.com/{REPOSITORY}/pull/{number}")
+        || v["html_url"] != format!("https://github.com/{repository}/pull/{number}")
         || v["head"]["sha"] != receipt["head_sha"]
-        || v["base"]["repo"]["full_name"] != REPOSITORY
+        || v["base"]["repo"]["full_name"] != repository
         || v["merged_at"].as_str().is_none_or(str::is_empty)
         || v["merge_commit_sha"].as_str().is_none_or(str::is_empty)
     {
@@ -266,7 +314,8 @@ fn terminal_readback(
     ))
 }
 fn topology(spec: &Spec) -> Result<PathBuf> {
-    if spec.operator.trim().is_empty()
+    if ![REPOSITORY, "danielbaustin/agent-design-language"].contains(&spec.repository())
+        || spec.operator.trim().is_empty()
         || spec.approval_reference.trim().is_empty()
         || spec.issues.is_empty()
         || spec.issues.len() > 100
@@ -306,14 +355,19 @@ fn prepare(spec: &Spec, process: &mut impl ProcessAdapter) -> Result<Value> {
     let common = topology(spec)?;
     let mut records = Vec::new();
     for issue in &spec.issues {
-        let (_, digest) = source(&common, &spec.checkout, *issue)?;
-        let remote = closed(process, *issue)?;
-        if source(&common, &spec.checkout, *issue)?.1 != digest {
+        let (_, digest) = source(&common, &spec.checkout, *issue, spec.repository())?;
+        let remote = closed(process, *issue, spec.repository())?;
+        if source(&common, &spec.checkout, *issue, spec.repository())?.1 != digest {
             return Err("historical source changed during readback".into());
         }
         let mut row = json!({"issue":issue,"source_digest":digest,"closed_readback":remote});
-        if let Some(terminal) = terminal_readback(&common, &spec.checkout, *issue, process)? {
+        if let Some(terminal) =
+            terminal_readback(&common, &spec.checkout, *issue, spec.repository(), process)?
+        {
             row["terminal_readback"] = terminal;
+        }
+        if let Some(state) = git_state(&spec.checkout, *issue)? {
+            row["git_state"] = json!(state);
         }
         records.push(row);
     }
@@ -355,14 +409,23 @@ fn apply(spec: &Spec, preview: &str, process: &mut impl ProcessAdapter) -> Resul
     let common = topology(spec)?;
     for row in packet["records"].as_array().ok_or("missing records")? {
         let issue = row["issue"].as_u64().ok_or("missing issue")?;
-        let (src, before) = source(&common, &spec.checkout, issue)?;
-        if row["source_digest"] != before {
+        let (src, before) = source(&common, &spec.checkout, issue, spec.repository())?;
+        if row["source_digest"] != before
+            || row["git_state"]
+                != git_state(&spec.checkout, issue)?
+                    .map(Value::String)
+                    .unwrap_or(Value::Null)
+        {
             return Err("historical source changed".into());
         }
         let dest = location(&common, &spec.checkout, issue);
         tree(&src, &dest.join("snapshot"))?;
         if fingerprint(&dest.join("snapshot"))? != before
-            || source(&common, &spec.checkout, issue)?.1 != before
+            || source(&common, &spec.checkout, issue, spec.repository())?.1 != before
+            || row["git_state"]
+                != git_state(&spec.checkout, issue)?
+                    .map(Value::String)
+                    .unwrap_or(Value::Null)
         {
             return Err("historical snapshot verification failed; original preserved".into());
         }
@@ -411,7 +474,7 @@ fn disposition_with_process(
     {
         return Err("historical disposition identity mismatch".into());
     }
-    let (_, digest) = source(common, checkout, issue)?;
+    let (_, digest) = source(common, checkout, issue, spec.repository())?;
     if receipt["record"]["source_digest"] != digest
         || fingerprint(&root.join("snapshot"))? != digest
     {
@@ -419,11 +482,17 @@ fn disposition_with_process(
             "issue {issue}: historical source or preserved snapshot changed"
         ));
     }
-    let terminal = terminal_readback(common, checkout, issue, process)?;
+    let current_git = git_state(checkout, issue)?
+        .map(Value::String)
+        .unwrap_or(Value::Null);
+    if current_git != receipt["record"]["git_state"] {
+        return Err("historical Git index changed".into());
+    }
+    let terminal = terminal_readback(common, checkout, issue, spec.repository(), process)?;
     if terminal.as_ref().unwrap_or(&Value::Null) != &receipt["record"]["terminal_readback"] {
         return Err("historical terminal evidence changed".into());
     }
-    let current = closed(process, issue)?;
+    let current = closed(process, issue, spec.repository())?;
     if current != receipt["record"]["closed_readback"] {
         return Err(format!("issue {issue}: historical closure changed"));
     }
@@ -470,6 +539,7 @@ mod tests {
     use super::*;
     use crate::adapters::ProcessOutput;
     struct Remote {
+        repository: String,
         response: Value,
         status: ProcessStatus,
         truncated: bool,
@@ -477,6 +547,7 @@ mod tests {
     impl Remote {
         fn closed() -> Self {
             Self {
+                repository: REPOSITORY.into(),
                 response: json!({"id":99,"number":3,"state":"closed","html_url":format!("https://github.com/{REPOSITORY}/issues/3"),"closed_at":"2026-08-01T00:00:00Z"}),
                 status: ProcessStatus::Exit(0),
                 truncated: false,
@@ -486,7 +557,7 @@ mod tests {
     impl ProcessAdapter for Remote {
         fn run(&mut self, cmd: CommandInvocation) -> ProcessOutput {
             assert_eq!(cmd.program, "github-api-read-only");
-            assert_eq!(cmd.argv(), &["issue", REPOSITORY, "3"]);
+            assert_eq!(cmd.argv(), &["issue", &self.repository, "3"]);
             assert_eq!(cmd.child_credential_name(), Some("GITHUB_TOKEN"));
             ProcessOutput {
                 status: self.status,
@@ -551,6 +622,7 @@ mod tests {
                 issues: vec![3],
                 operator: "fixture".into(),
                 approval_reference: "fixture explicit historical disposition".into(),
+                source_repository: None,
             };
             Self {
                 spec,
@@ -611,6 +683,37 @@ mod tests {
         TerminalRemote {
             pr: json!({"number":7,"state":"closed","merged":true,"html_url":format!("https://github.com/{REPOSITORY}/pull/7"),"head":{"sha":"a".repeat(40)},"base":{"repo":{"full_name":REPOSITORY}},"merged_at":"2026-08-01T00:00:00Z","merge_commit_sha":"b".repeat(40)}),
         }
+    }
+    #[test]
+    fn history_foreign_identity_is_explicit_and_cannot_collide_with_current_repository() {
+        let mut f = Fixture::new();
+        let repository = "danielbaustin/agent-design-language";
+        let mut index: Value = read(&f.source.join("index.json")).unwrap();
+        index["repository"] = json!(repository);
+        fs::write(f.source.join("index.json"), bytes(&index).unwrap()).unwrap();
+        assert!(prepare(&f.spec, &mut Remote::closed()).is_err());
+        f.spec.source_repository = Some(repository.into());
+        let mut remote = Remote::closed();
+        remote.repository = repository.into();
+        remote.response["html_url"] = json!(format!("https://github.com/{repository}/issues/3"));
+        let preview = prepare(&f.spec, &mut remote).unwrap();
+        let digest = blake3::hash(&bytes(&preview).unwrap()).to_hex().to_string();
+        apply(&f.spec, &digest, &mut remote).unwrap();
+        assert!(
+            disposition_with_process(&f.common, &f.spec.checkout, 3, &mut remote)
+                .unwrap()
+                .is_some()
+        );
+        remote.response["html_url"] = json!(format!("https://github.com/{REPOSITORY}/issues/3"));
+        assert!(disposition_with_process(&f.common, &f.spec.checkout, 3, &mut remote).is_err());
+    }
+    #[test]
+    fn history_claim_bearing_preparation_requires_real_terminal_evidence() {
+        let f = Fixture::new();
+        let mut index: Value = read(&f.source.join("index.json")).unwrap();
+        index["claim"] = json!({"branch":"codex/3-owner","worktree":"another-owner"});
+        fs::write(f.source.join("index.json"), bytes(&index).unwrap()).unwrap();
+        assert!(prepare(&f.spec, &mut Remote::closed()).is_err());
     }
     #[test]
     fn history_ready_preparation_remains_unbound_and_closed() {
@@ -802,6 +905,39 @@ mod tests {
             assert!(prepare(&f.spec, &mut Remote::closed()).is_err(), "{case}");
             assert!(!location(&f.common, &f.spec.checkout, 3).exists());
         }
+    }
+    #[test]
+    fn history_tracked_copy_preserves_exact_working_bytes_and_index_state() {
+        let mut f = Fixture::new();
+        git(&f.spec.checkout, &["add", ".csdlc/issues/3"]).unwrap();
+        git(
+            &f.spec.checkout,
+            &["commit", "-qm", "historical preparation"],
+        )
+        .unwrap();
+        f.spec.expected_head = git(&f.spec.checkout, &["rev-parse", "HEAD"]).unwrap();
+        fs::write(
+            f.source.join("audit.jsonl"),
+            b"preserved historical audit change",
+        )
+        .unwrap();
+        f.apply();
+        assert!(f.read(&mut Remote::closed()).unwrap().is_some());
+        git(&f.spec.checkout, &["add", ".csdlc/issues/3/audit.jsonl"]).unwrap();
+        assert!(f
+            .read(&mut Remote::closed())
+            .unwrap_err()
+            .contains("Git index changed"));
+    }
+    #[test]
+    fn history_staging_an_untracked_retained_copy_does_not_bypass_guards() {
+        let f = Fixture::new();
+        f.apply();
+        git(&f.spec.checkout, &["add", ".csdlc/issues/3"]).unwrap();
+        assert!(f
+            .read(&mut Remote::closed())
+            .unwrap_err()
+            .contains("Git index changed"));
     }
     #[test]
     fn history_cannot_downgrade_retained_disposition_to_committed_history() {
