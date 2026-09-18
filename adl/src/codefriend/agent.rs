@@ -251,7 +251,7 @@ impl Transport {
 }
 
 /// Exclusive local ownership and create-only run reservation. Presence of a run
-/// directory always forbids another dispatch, including after a crash.
+/// directory forbids replaying dispatched operations, including after a crash.
 pub struct Journal {
     root: PathBuf,
     _lock: File,
@@ -354,6 +354,70 @@ struct Control {
     run_id: String,
     cancelled: bool,
 }
+#[derive(Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GatewayLaneIdentity {
+    pub lane: String,
+    pub candidate_revision: String,
+    pub model_identity: crate::model_identity::ModelIdentityV1,
+}
+impl GatewayLaneIdentity {
+    fn validate(&self) -> Result<()> {
+        ensure!(
+            self.candidate_revision.len() == 40
+                && self
+                    .candidate_revision
+                    .bytes()
+                    .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+                && self.candidate_revision.bytes().any(|b| b != b'0'),
+            "agent_gateway_candidate"
+        );
+        ensure!(
+            super::review::lanes::ReviewLane::ALL
+                .iter()
+                .any(|lane| lane.id() == self.lane),
+            "agent_gateway_lane"
+        );
+        crate::model_identity::validate_model_identity_v1(&self.model_identity)?;
+        ensure!(
+            !matches!(
+                self.model_identity.identity_strength,
+                crate::model_identity::ModelIdentityStrengthV1::Unknown
+            ),
+            "agent_gateway_model_unknown"
+        );
+        Ok(())
+    }
+    fn same_execution(&self, other: &Self) -> bool {
+        let a = &self.model_identity;
+        let b = &other.model_identity;
+        self.candidate_revision == other.candidate_revision
+            && a.provider_kind == b.provider_kind
+            && a.provider == b.provider
+            && a.model_ref == b.model_ref
+            && a.provider_model_id == b.provider_model_id
+            && a.runtime_surface == b.runtime_surface
+            && a.identity_strength == b.identity_strength
+            && a.resolved_digest == b.resolved_digest
+    }
+    fn route(&self) -> Result<String> {
+        // Contract identifiers are bounded; bind the full retained identity tuple
+        // by digest rather than truncating model IDs or losing their attribution.
+        Ok(format!(
+            "agent_logic_gateway:{}",
+            hash(&(
+                &self.candidate_revision,
+                &self.model_identity.provider_kind,
+                &self.model_identity.provider,
+                &self.model_identity.runtime_surface,
+                &self.model_identity.model_ref,
+                &self.model_identity.provider_model_id,
+                &self.model_identity.identity_strength,
+                &self.model_identity.resolved_digest
+            ))?
+        ))
+    }
+}
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct RunReport {
@@ -363,6 +427,7 @@ pub struct RunReport {
     pub run_id: String,
     pub consent_digest: String,
     pub execution_location: String,
+    pub gateway_lanes: Vec<GatewayLaneIdentity>,
     pub status: String,
     pub expires_at: u64,
     pub result: Option<super::review::runner::FourPerspectiveReviewRun>,
@@ -387,10 +452,25 @@ impl RunReport {
                 && self.expires_at > now,
             "agent_report_identity"
         );
+        ensure!(
+            serde_json::to_vec(self)?.len() as u64 <= MAX_RESPONSE,
+            "agent_report_limit"
+        );
         let mut unsigned: serde_json::Value = serde_json::to_value(self)?;
         unsigned["digest"] = serde_json::Value::String(String::new());
         let unsigned: RunReport = serde_json::from_value(unsigned)?;
         ensure!(self.digest == hash(&unsigned)?, "agent_report_digest");
+        for identity in &self.gateway_lanes {
+            identity.validate()?;
+        }
+        if let Some(first) = self.gateway_lanes.first() {
+            ensure!(
+                self.gateway_lanes
+                    .iter()
+                    .all(|identity| first.same_execution(identity)),
+                "agent_gateway_identity_changed"
+            );
+        }
         match (&self.result, self.status.as_str()) {
             (Some(result), "complete") => {
                 ensure!(
@@ -401,6 +481,25 @@ impl RunReport {
                     "agent_report_completion"
                 );
                 result.review_record.validate()?;
+                ensure!(
+                    self.gateway_lanes.len() == ReviewLane::ALL.len(),
+                    "agent_gateway_identities_missing"
+                );
+                let first = &self.gateway_lanes[0];
+                ensure!(
+                    result.review_record.run.provider_route == first.route()?,
+                    "agent_gateway_route"
+                );
+                for lane in ReviewLane::ALL {
+                    ensure!(
+                        self.gateway_lanes
+                            .iter()
+                            .filter(|identity| identity.lane == lane.id())
+                            .count()
+                            == 1,
+                        "agent_gateway_lane_identity"
+                    );
+                }
                 let record = &result.review_record;
                 ensure!(
                     record.run.completion == Completion::Complete
@@ -479,6 +578,20 @@ fn save_private(path: &Path, value: &impl Serialize) -> Result<()> {
     .sync_all()?;
     Ok(())
 }
+#[derive(Debug)]
+struct ObservationPending;
+impl std::fmt::Display for ObservationPending {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("agent_known_operation_observation_pending")
+    }
+}
+impl std::error::Error for ObservationPending {}
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AcknowledgedOperation {
+    operation: super::server::Operation,
+    observation_deadline: u64,
+}
 impl Transport {
     pub fn loopback_fixture_with_clock(
         origin: &str,
@@ -519,19 +632,34 @@ impl Transport {
         packet: &ingestion::Packet,
         lane: super::review::lanes::ReviewLane,
         dir: &Path,
-    ) -> Result<super::review::runner::LaneExecution> {
+    ) -> Result<(super::review::runner::LaneExecution, GatewayLaneIdentity)> {
         use super::server::{Mode, Operation, Status, Submit};
         let pairing = authority.pairing;
         let command = authority.command;
         authority.check((self.clock)())?;
-        ensure!(!self.control(pairing, command)?, "agent_cancelled");
+        ensure!(
+            !self
+                .control(pairing, command)
+                .map_err(|_| ObservationPending)?,
+            "agent_cancelled"
+        );
         authority.check((self.clock)())?;
         // Includes agent identity to avoid collisions between a user's paired machines.
         let operation_id = hash(&(PROTOCOL, &pairing.agent_id, &command.run_id, lane.id()))?;
-        save_private(
-            &dir.join("gateway-reservation.json"),
-            &serde_json::json!({"operation_id":operation_id,"packet_id":packet.packet_id}),
-        )?;
+        fs::create_dir_all(dir)?;
+        // The reservation must survive losing this process after POST. Persist
+        // every new directory entry, not just the file inside the lane directory.
+        let gateway = dir
+            .parent()
+            .ok_or_else(|| anyhow::anyhow!("agent_gateway_parent"))?;
+        let run_root = gateway
+            .parent()
+            .ok_or_else(|| anyhow::anyhow!("agent_run_parent"))?;
+        fs::set_permissions(gateway, fs::Permissions::from_mode(0o700))?;
+        fs::set_permissions(dir, fs::Permissions::from_mode(0o700))?;
+        for directory in [dir, gateway, run_root] {
+            File::open(directory)?.sync_all()?;
+        }
         let path = format!("/v1/operations/{operation_id}");
         let submit = Submit {
             operation_id: operation_id.clone(),
@@ -539,16 +667,7 @@ impl Transport {
             mode: Mode::LocalModel,
             lane: Some(lane),
         };
-        // Exactly one POST. Lost replies and 409 never authorize another dispatch.
-        let mut operation: Operation = self.request(
-            Method::POST,
-            "/v1/operations",
-            Some(&pairing.model_token),
-            Some(&serde_json::to_value(&submit)?),
-        )?;
-        let deadline = std::time::Instant::now() + Duration::from_secs(120);
-        let mut stopping = false;
-        loop {
+        let validate_operation = |operation: &Operation| -> Result<()> {
             ensure!(
                 operation.operation_id == operation_id
                     && operation.subject == pairing.subject
@@ -558,11 +677,45 @@ impl Transport {
                     && operation.request_digest == hash(&submit)?,
                 "agent_gateway_identity"
             );
-            let allowed = authority.check((self.clock)()).is_ok()
-                && self
-                    .control(pairing, command)
-                    .is_ok_and(|cancelled| !cancelled);
-            if !allowed || std::time::Instant::now() >= deadline {
+            Ok(())
+        };
+        let acknowledged = dir.join("acknowledged-operation.json");
+        let known: AcknowledgedOperation = if acknowledged.exists() {
+            serde_json::from_slice(&fs::read(&acknowledged)?)?
+        } else {
+            // Create-only reservation is the no-replay barrier, including lost POST replies.
+            save_private(&dir.join("gateway-reservation.json"), &submit.operation_id)?;
+            let operation: Operation = self.request(
+                Method::POST,
+                "/v1/operations",
+                Some(&pairing.model_token),
+                Some(&serde_json::to_value(&submit)?),
+            )?;
+            validate_operation(&operation)?;
+            let known = AcknowledgedOperation {
+                operation,
+                observation_deadline: (self.clock)().saturating_add(120).min(authority.expires_at),
+            };
+            save_private(&acknowledged, &known)?;
+            known
+        };
+        validate_operation(&known.operation)?;
+        let mut operation = known.operation;
+        let output_path = dir.join("gateway-result.json");
+        let mut stopping = false;
+        loop {
+            validate_operation(&operation)?;
+            let allowed = authority.check((self.clock)()).is_ok();
+            let cancelled = if allowed {
+                self.control(pairing, command)
+                    .map_err(|_| ObservationPending)?
+            } else {
+                true
+            };
+            if !allowed
+                || cancelled
+                || (!output_path.exists() && (self.clock)() >= known.observation_deadline)
+            {
                 // Cancellation is best effort; stopping local work is not a claim
                 // that an in-flight remote provider effect was undone.
                 let _: Result<Operation> = self.request(
@@ -576,29 +729,41 @@ impl Transport {
             if stopping {
                 anyhow::bail!("agent_stopped_remote_effect_may_continue");
             }
+            if output_path.exists() {
+                break;
+            }
             match operation.status {
                 Status::Complete => break,
                 Status::Running => {}
                 _ => anyhow::bail!("agent_gateway_not_complete"),
             }
             std::thread::sleep(Duration::from_millis(250));
-            operation = self.request(Method::GET, &path, Some(&pairing.model_token), None)?;
+            operation = self
+                .request(Method::GET, &path, Some(&pairing.model_token), None)
+                .map_err(|_| ObservationPending)?;
         }
-        #[derive(Deserialize)]
+        #[derive(Serialize, Deserialize)]
         #[serde(deny_unknown_fields)]
         struct ModelResult {
             schema: String,
             execution_location: String,
             model_execution_location: String,
+            candidate_revision: String,
+            model_identity: crate::model_identity::ModelIdentityV1,
             input_manifest: super::review::runner::LaneInputManifest,
             output: super::review::runner::ProviderLaneOutput,
         }
-        let result: ModelResult = self.request(
-            Method::GET,
-            &format!("{path}/result"),
-            Some(&pairing.model_token),
-            None,
-        )?;
+        let result: ModelResult = if output_path.exists() {
+            serde_json::from_slice(&fs::read(&output_path)?)?
+        } else {
+            self.request(
+                Method::GET,
+                &format!("{path}/result"),
+                Some(&pairing.model_token),
+                None,
+            )
+            .map_err(|_| ObservationPending)?
+        };
         ensure!(
             result.schema == "codefriend.local_model_result.v1"
                 && result.execution_location == "local_agent"
@@ -611,15 +776,29 @@ impl Transport {
                 && result.input_manifest.scope_digest == packet.scope_digest,
             "agent_gateway_result_identity"
         );
-        save_private(&dir.join("gateway-operation.json"), &operation)?;
-        save_private(&dir.join("gateway-input.json"), &result.input_manifest)?;
-        Ok(super::review::runner::LaneExecution {
-            final_status: crate::provider_communication::ProviderInvocationFinalStatusV1::Ok,
-            output_text: Some(serde_json::to_string(&result.output)?),
-        })
+        let identity = GatewayLaneIdentity {
+            lane: lane.id().into(),
+            candidate_revision: result.candidate_revision.clone(),
+            model_identity: result.model_identity.clone(),
+        };
+        identity.validate()?;
+        ensure!(
+            identity.candidate_revision == operation.candidate_revision,
+            "agent_gateway_candidate_changed"
+        );
+        if !output_path.exists() {
+            save_private(&output_path, &result)?;
+        }
+        Ok((
+            super::review::runner::LaneExecution {
+                final_status: crate::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some(serde_json::to_string(&result.output)?),
+            },
+            identity,
+        ))
     }
-    /// Executes at most one newly admitted review. Reconnection never replays a
-    /// reserved run; terminal result upload is separately idempotent.
+    /// Executes or resumes one review. Reconnection observes acknowledged operations
+    /// and reuses completed lanes; no dispatched POST is replayed.
     pub fn poll_once(&self, journal: &Journal, consent_path: &Path) -> Result<Option<String>> {
         journal.expire((self.clock)())?;
         let result = self.poll_inner(journal, consent_path);
@@ -638,40 +817,98 @@ impl Transport {
         };
         command.validate(&pairing, &consent, (self.clock)())?;
         let existing = journal.root.join(format!("run-{}", command.run_id));
-        if existing.exists() {
-            // A queued command may be redelivered after its acknowledgement was
-            // lost. Re-send retained terminal bytes only, never re-run review.
+        let resuming = existing.exists()
+            && !existing.join("report.json").exists()
+            && existing.join("admission.json").exists()
+            && super::review::lanes::ReviewLane::ALL.iter().any(|lane| {
+                existing
+                    .join("gateway")
+                    .join(lane.id())
+                    .join("acknowledged-operation.json")
+                    .exists()
+            });
+        if existing.exists() && !resuming {
             self.forward(journal, &pairing, &command, consent_path)?;
             return Ok(Some(command.run_id));
         }
-        let dir = journal.reserve(&command, &pairing, &consent, (self.clock)())?;
-        let expires_at = (self.clock)()
-            .saturating_add(consent.retention_seconds)
-            .min(consent.expires_at)
-            .min(pairing.expires_at)
-            .min(command.expires_at);
-        save_private(&dir.join("expires.json"), &expires_at)?;
+        let dir = if resuming {
+            let saved: Command = serde_json::from_slice(&fs::read(existing.join("command.json"))?)?;
+            ensure!(
+                hash(&saved)? == hash(&command)?,
+                "agent_duplicate_command_changed"
+            );
+            existing
+        } else {
+            journal.reserve(&command, &pairing, &consent, (self.clock)())?
+        };
+        let expires_at = if resuming {
+            serde_json::from_slice(&fs::read(dir.join("expires.json"))?)?
+        } else {
+            let expiry = (self.clock)()
+                .saturating_add(consent.retention_seconds)
+                .min(consent.expires_at)
+                .min(pairing.expires_at)
+                .min(command.expires_at);
+            save_private(&dir.join("expires.json"), &expiry)?;
+            expiry
+        };
         let authority = RunAuthority {
             pairing: &pairing,
             command: &command,
             consent_path,
             expires_at,
         };
+        let mut gateway_lanes = Vec::new();
         let run = (|| {
-            ensure!(!self.control(&pairing, &command)?, "agent_cancelled");
-            let packet = ingestion::local::acquire(
-                &consent.repository_path,
-                &consent.repository,
-                &consent.revision,
-                consent.scope.clone(),
+            authority.check((self.clock)())?;
+            ensure!(
+                !self
+                    .control(&pairing, &command)
+                    .map_err(|_| ObservationPending)?,
+                "agent_cancelled"
+            );
+            let admission: super::evidence::Admission = if resuming {
+                serde_json::from_slice(&fs::read(dir.join("admission.json"))?)?
+            } else {
+                let packet = ingestion::local::acquire(
+                    &consent.repository_path,
+                    &consent.repository,
+                    &consent.revision,
+                    consent.scope.clone(),
+                )?;
+                let saved = super::evidence::Admission::new(
+                    packet,
+                    super::evidence::Retention {
+                        seconds: expires_at.saturating_sub((self.clock)()),
+                    },
+                    (self.clock)(),
+                )?;
+                save_private(&dir.join("admission.json"), &saved)?;
+                saved
+            };
+            admission.validate()?;
+            ensure!(
+                admission.expires_at == expires_at
+                    && admission.packet.revision == consent.revision
+                    && admission.packet.repository == consent.repository,
+                "agent_resume_admission"
+            );
+            let packet = admission.packet.clone();
+            // Rebuild derived orchestration output only. Gateway acknowledgements and
+            // completed outputs remain durable and are never dispatched a second time.
+            if resuming && dir.join("work").exists() {
+                fs::remove_dir_all(dir.join("work"))?;
+            }
+            let first_lane = super::review::lanes::ReviewLane::ALL[0];
+            let (first_output, first_identity) = self.model_lane(
+                &authority,
+                &packet,
+                first_lane,
+                &dir.join("gateway").join(first_lane.id()),
             )?;
-            let admission = super::evidence::Admission::new(
-                packet.clone(),
-                super::evidence::Retention {
-                    seconds: expires_at.saturating_sub((self.clock)()),
-                },
-                (self.clock)(),
-            )?;
+            let route = first_identity.route()?;
+            let mut first_output = Some(first_output);
+            gateway_lanes.push(first_identity.clone());
             super::review::runner::run_with_executor(
                 super::review::runner::ExecutionOptions {
                     out: dir.join("work"),
@@ -679,14 +916,37 @@ impl Transport {
                     cancel_file: None,
                 },
                 admission,
-                "agent_logic:model_gateway:v1".into(),
-                |lane, _prompt, lane_dir| self.model_lane(&authority, &packet, lane, lane_dir),
+                route,
+                |lane, _prompt, _lane_dir| {
+                    if lane == first_lane {
+                        return Ok(first_output.take().expect("first lane executes once"));
+                    }
+                    let (output, identity) = self.model_lane(
+                        &authority,
+                        &packet,
+                        lane,
+                        &dir.join("gateway").join(lane.id()),
+                    )?;
+                    ensure!(
+                        first_identity.same_execution(&identity),
+                        "agent_gateway_identity_changed"
+                    );
+                    gateway_lanes.push(identity);
+                    Ok(output)
+                },
             )
         })();
+        if run
+            .as_ref()
+            .err()
+            .is_some_and(|error| error.is::<ObservationPending>())
+        {
+            return Err(ObservationPending.into());
+        }
         let still_allowed = authority.check((self.clock)()).is_ok()
-            && self
+            && !self
                 .control(&pairing, &command)
-                .is_ok_and(|cancelled| !cancelled);
+                .map_err(|_| ObservationPending)?;
         ensure!(expires_at > (self.clock)(), "agent_retention_expired");
         let mut report = RunReport {
             schema: PROTOCOL.into(),
@@ -695,6 +955,7 @@ impl Transport {
             run_id: command.run_id.clone(),
             consent_digest: command.consent_digest.clone(),
             execution_location: "local_agent".into(),
+            gateway_lanes,
             status: if run.is_ok() && still_allowed {
                 "complete"
             } else {
@@ -706,6 +967,19 @@ impl Transport {
             digest: String::new(),
         };
         report.digest = hash(&report)?;
+        // Individual lane caps do not bound the aggregate plus admitted evidence.
+        // Never persist or announce an unforwardable successful report.
+        if serde_json::to_vec(&report)?.len() as u64 > MAX_RESPONSE {
+            report.result = None;
+            report.status = "failed_or_interrupted".into();
+            report.digest.clear();
+            report.digest = hash(&report)?;
+            scrub_run_payloads(&dir)?;
+        }
+        ensure!(
+            serde_json::to_vec(&report)?.len() as u64 <= MAX_RESPONSE,
+            "agent_report_limit"
+        );
         save_private(&dir.join("report.json"), &report)?;
         // Never claim remote acceptance until exact result digest is acknowledged.
         self.forward(journal, &pairing, &command, consent_path)?;
@@ -743,6 +1017,7 @@ impl Transport {
                 run_id: command.run_id.clone(),
                 consent_digest: command.consent_digest.clone(),
                 execution_location: "local_agent".into(),
+                gateway_lanes: Vec::new(),
                 status: "interrupted".into(),
                 expires_at,
                 result: None,
@@ -813,6 +1088,9 @@ impl Transport {
             reply["revoked"] == true && reply["agent_id"] == pairing.agent_id,
             "agent_revoke_unconfirmed"
         );
+        // Confirmed revocation may be the final invocation. Purge payloads now,
+        // preserving command/expiry reservations that prevent a repeated dispatch.
+        journal.scrub_payloads()?;
         fs::remove_file(journal.root.join("pairing.json"))?;
         File::open(&journal.root)?.sync_all()?;
         Ok(())
@@ -844,11 +1122,40 @@ impl RunAuthority<'_> {
             .validate(self.pairing, &read_consent(self.consent_path, now)?, now)
     }
 }
+fn scrub_run_payloads(path: &Path) -> Result<()> {
+    let report = path.join("report.json");
+    if report.exists() {
+        fs::remove_file(report)?;
+    }
+    for name in ["work", "gateway"] {
+        let work = path.join(name);
+        if work.is_dir() {
+            fs::remove_dir_all(work)?;
+        }
+    }
+    let admission = path.join("admission.json");
+    if admission.exists() {
+        fs::remove_file(admission)?;
+    }
+    File::open(path)?.sync_all()?;
+    Ok(())
+}
 impl Journal {
+    fn scrub_payloads(&self) -> Result<()> {
+        for entry in fs::read_dir(&self.root)? {
+            let entry = entry?;
+            if entry.file_name().to_string_lossy().starts_with("run-")
+                && entry.file_type()?.is_dir()
+            {
+                scrub_run_payloads(&entry.path())?;
+            }
+        }
+        Ok(())
+    }
     /// Removes local authority, including expired pairings, without claiming remote
     /// revocation. The user must revoke the old agent from the website separately.
     pub fn forget_pairing(&self) -> Result<()> {
-        self.expire(u64::MAX)?;
+        self.scrub_payloads()?;
         fs::remove_file(self.root.join("pairing.json"))?;
         File::open(&self.root)?.sync_all()?;
         Ok(())
@@ -870,15 +1177,7 @@ impl Journal {
             if deadline > now {
                 continue;
             }
-            let report = path.join("report.json");
-            if report.exists() {
-                fs::remove_file(report)?;
-            }
-            let work = path.join("work");
-            if work.is_dir() {
-                fs::remove_dir_all(work)?;
-            }
-            File::open(&path)?.sync_all()?;
+            scrub_run_payloads(&path)?;
         }
         Ok(())
     }

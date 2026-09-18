@@ -189,6 +189,16 @@ fn journal_rejects_world_readable_or_symlink_store() {
 #[derive(Clone, Copy)]
 enum Scenario {
     Success,
+    Unpair,
+    AggregateLimit,
+    LostResultObservation,
+    LostStatusObservation,
+    LostInitialControl,
+    LostFinalControl,
+    CachedBeyondObservationDeadline,
+    CandidateResultMismatch,
+    CandidateAcrossLanes,
+    ModelAcrossLanes,
     ShortDeadline,
     LostModelReply,
     Cancel,
@@ -261,6 +271,7 @@ impl WireServer {
             let mut requests =
                 std::collections::BTreeMap::<String, adl::codefriend::server::Submit>::new();
             let mut controls = 0;
+            let mut observation_dropped = false;
             while !flag.load(Ordering::SeqCst) {
                 let (mut socket, _) = match listener.accept() {
                     Ok(v) => v,
@@ -316,11 +327,20 @@ impl WireServer {
                     "a".repeat(64)
                 };
                 assert!(header.contains(&format!("Bearer {expected_token}")));
-                let reply = if path == "/v1/agent/poll" {
+                let mut reply = if path == "/v1/agent/poll" {
                     assert_eq!(body["consent_digest"], command.consent_digest);
                     json!({"schema":PROTOCOL,"command":command})
+                } else if path == "/v1/agent/revoke" {
+                    json!({"agent_id":command.agent_id,"revoked":true})
                 } else if path.ends_with("/control") {
                     controls += 1;
+                    if ((matches!(scenario, Scenario::LostInitialControl) && controls == 4)
+                        || (matches!(scenario, Scenario::LostFinalControl) && controls == 10))
+                        && !observation_dropped
+                    {
+                        observation_dropped = true;
+                        continue;
+                    }
                     if (matches!(scenario, Scenario::DeleteDuringControl) && controls == 2)
                         || (matches!(scenario, Scenario::DeleteBeforeUpload) && controls == 11)
                     {
@@ -342,6 +362,11 @@ impl WireServer {
                     ));
                     let id = submit.operation_id.clone();
                     count.fetch_add(1, Ordering::SeqCst);
+                    if matches!(scenario, Scenario::CachedBeyondObservationDeadline)
+                        && count.load(Ordering::SeqCst) == 2
+                    {
+                        clock.fetch_add(100, Ordering::SeqCst);
+                    }
                     if matches!(scenario, Scenario::DeleteConsent) {
                         fs::remove_file(&consent_path).unwrap();
                     }
@@ -355,7 +380,7 @@ impl WireServer {
                     operation(
                         &requests[&id],
                         &command,
-                        if matches!(scenario, Scenario::Cancel) {
+                        if matches!(scenario, Scenario::Cancel | Scenario::LostStatusObservation) {
                             "running"
                         } else {
                             "complete"
@@ -366,12 +391,61 @@ impl WireServer {
                     operation(&requests[id], &command, "cancelled")
                 } else if path.ends_with("/result") {
                     let id = path.split('/').nth(3).unwrap();
+                    if matches!(
+                        scenario,
+                        Scenario::LostResultObservation | Scenario::CachedBeyondObservationDeadline
+                    ) && count.load(Ordering::SeqCst) == 2
+                        && !observation_dropped
+                    {
+                        observation_dropped = true;
+                        if matches!(scenario, Scenario::CachedBeyondObservationDeadline) {
+                            clock.fetch_add(30, Ordering::SeqCst);
+                        }
+                        continue;
+                    }
                     let r = &requests[id];
                     let lane = r.lane.unwrap().id();
-                    json!({"schema":"codefriend.local_model_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","input_manifest":{"schema":"codefriend.review_lane_input_manifest.v1","run_id":id,"packet_id":r.packet.packet_id,"admission_digest":"a".repeat(64),"lane":lane,"lane_contract":"codefriend.review_lane.v1","prompt_contract":"codefriend.four_perspective_review_prompt.v1","repository":r.packet.repository,"revision":r.packet.revision,"scope_digest":r.packet.scope_digest,"evidence":[],"peer_result_refs":[],"source_mutation_authority":"none","tool_authority":"none","publication_authority":"none","input_digest":"a".repeat(64)},"output":{"findings":[]}})
+                    let findings = if matches!(scenario, Scenario::AggregateLimit) {
+                        let admission = adl::codefriend::evidence::Admission::new(
+                            r.packet.clone(),
+                            adl::codefriend::evidence::Retention { seconds: 60 },
+                            live_now(),
+                        )
+                        .unwrap();
+                        json!([{"rule":format!("{lane}.aggregate"),"semantic_anchor":"src/lib.rs","title":"x".repeat(700_000),"severity":"info","rationale":"y".repeat(700_000),"confidence":{"state":"known","percent":90},"evidence":[admission.evidence[0].id],"inference":"bounded fixture","limitations":[]}])
+                    } else {
+                        json!([])
+                    };
+                    json!({"schema":"codefriend.local_model_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":{"schema":"codefriend.review_lane_input_manifest.v1","run_id":id,"packet_id":r.packet.packet_id,"admission_digest":"a".repeat(64),"lane":lane,"lane_contract":"codefriend.review_lane.v1","prompt_contract":"codefriend.four_perspective_review_prompt.v1","repository":r.packet.repository,"revision":r.packet.revision,"scope_digest":r.packet.scope_digest,"evidence":[],"peer_result_refs":[],"source_mutation_authority":"none","tool_authority":"none","publication_authority":"none","input_digest":"a".repeat(64)},"output":{"findings":findings}})
+                } else if method == "GET" && path.starts_with("/v1/operations/") {
+                    if matches!(scenario, Scenario::LostStatusObservation)
+                        && count.load(Ordering::SeqCst) == 2
+                        && !observation_dropped
+                    {
+                        observation_dropped = true;
+                        continue;
+                    }
+                    let id = path.split('/').nth(3).unwrap();
+                    operation(&requests[id], &command, "complete")
                 } else {
                     panic!("unexpected route {method} {path}")
                 };
+                if matches!(scenario, Scenario::CandidateAcrossLanes)
+                    && count.load(Ordering::SeqCst) >= 2
+                    && reply.get("candidate_revision").is_some()
+                {
+                    reply["candidate_revision"] = "d".repeat(40).into();
+                }
+                if reply.get("model_identity").is_some() {
+                    if matches!(scenario, Scenario::CandidateResultMismatch) {
+                        reply["candidate_revision"] = "d".repeat(40).into();
+                    }
+                    if matches!(scenario, Scenario::ModelAcrossLanes)
+                        && count.load(Ordering::SeqCst) >= 2
+                    {
+                        reply["model_identity"]["provider_model_id"] = "different-model-v2".into();
+                    }
+                }
                 let response = serde_json::to_vec(&reply).unwrap();
                 write!(socket,"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",response.len()).unwrap();
                 socket.write_all(&response).unwrap();
@@ -430,6 +504,9 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     c.repository_path = checkout.clone();
     c.revision = git(&checkout, &["rev-parse", "HEAD"]);
     c.expires_at = live_now() + 1000;
+    if matches!(scenario, Scenario::CachedBeyondObservationDeadline) {
+        c.retention_seconds = 600;
+    }
     let mut cmd = command(&c);
     cmd.expires_at = live_now()
         + if matches!(scenario, Scenario::ShortDeadline) {
@@ -487,6 +564,29 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         v["status"] = "tampered".into();
         fs::write(path, serde_json::to_vec(&v).unwrap()).unwrap();
     }
+    let reconnecting = matches!(
+        scenario,
+        Scenario::LostResultObservation
+            | Scenario::LostStatusObservation
+            | Scenario::LostInitialControl
+            | Scenario::LostFinalControl
+            | Scenario::CachedBeyondObservationDeadline
+    );
+    if reconnecting {
+        assert!(first.is_err());
+        assert!(!f.0.join("state/run-run-one/report.json").exists());
+        assert_eq!(
+            server.dispatches.load(Ordering::SeqCst),
+            match scenario {
+                Scenario::LostInitialControl => 1,
+                Scenario::LostFinalControl => 4,
+                _ => 2,
+            }
+        );
+    }
+    // Release the process-owned lock and re-open persisted state before reconnect.
+    drop(journal);
+    let journal = Journal::open(&f.0.join("state")).unwrap();
     let second = transport.poll_once(&journal, &consent_path);
     if matches!(
         scenario,
@@ -505,6 +605,9 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     ) {
         first.unwrap();
         assert!(second.is_err());
+    } else if reconnecting {
+        second.unwrap();
+        transport.poll_once(&journal, &consent_path).unwrap();
     } else {
         first.unwrap();
         second.unwrap();
@@ -536,6 +639,18 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         }
     }
     let calls = server.dispatches.load(Ordering::SeqCst);
+    if matches!(scenario, Scenario::Unpair) {
+        let dir = f.0.join("state/run-run-one");
+        assert!(dir.join("work").exists());
+        assert!(dir.join("report.json").exists());
+        transport.unpair(&journal).unwrap();
+        assert!(!dir.join("work").exists());
+        assert!(!dir.join("report.json").exists());
+        assert!(dir.join("command.json").exists());
+        assert!(dir.join("expires.json").exists());
+        assert!(journal.reserve(&cmd, &p, &c, live_now()).is_err());
+        assert!(!f.0.join("state/pairing.json").exists());
+    }
     clock.store(live_now() + 2000, Ordering::SeqCst);
     journal.expire(clock.load(Ordering::SeqCst)).unwrap();
     assert!(!f.0.join("state/run-run-one/work").exists());
@@ -551,6 +666,15 @@ fn local_orchestration_uses_four_gateway_lanes_and_redelivery_never_dispatches()
     assert_eq!(reports[0]["status"], "complete");
     assert_eq!(reports[0]["execution_location"], "local_agent");
     assert_eq!(reports[0]["result"]["completion"], "complete");
+    let identities = reports[0]["gateway_lanes"].as_array().unwrap();
+    assert_eq!(identities.len(), 4);
+    for identity in identities {
+        assert_eq!(identity["candidate_revision"], "c".repeat(40));
+        assert_eq!(
+            identity["model_identity"]["provider_model_id"],
+            "fixture-model-v1"
+        );
+    }
 }
 #[test]
 fn lost_model_reply_is_terminal_and_never_replayed() {
@@ -693,4 +817,72 @@ fn website_verifier_checks_native_report_digest_and_complete_contract() {
     incomplete.digest.clear();
     incomplete.digest = adl::codefriend::evidence::hash(&incomplete).unwrap();
     assert!(incomplete.validate(live_now()).is_err());
+}
+
+#[test]
+fn confirmed_unpair_scrubs_payloads_and_preserves_no_replay_tombstone() {
+    let (calls, _) = journey(Scenario::Unpair);
+    assert_eq!(calls, 4);
+}
+#[test]
+fn aggregate_four_lane_budget_never_persists_unforwardable_completion() {
+    let (calls, reports) = journey(Scenario::AggregateLimit);
+    assert_eq!(calls, 4);
+    for report in reports {
+        assert_eq!(report["status"], "failed_or_interrupted");
+        assert!(report["result"].is_null());
+        assert!(serde_json::to_vec(&report).unwrap().len() <= 4 * 1024 * 1024);
+    }
+}
+
+#[test]
+fn restart_resumes_known_result_observation_without_reposting_any_lane() {
+    let (calls, reports) = journey(Scenario::LostResultObservation);
+    assert_eq!(calls, 4);
+    assert_eq!(reports[0]["status"], "complete");
+}
+#[test]
+fn restart_resumes_known_status_observation_without_reposting_any_lane() {
+    let (calls, reports) = journey(Scenario::LostStatusObservation);
+    assert_eq!(calls, 4);
+    assert_eq!(reports[0]["status"], "complete");
+}
+
+#[test]
+fn reconnect_preserves_known_work_after_initial_lane_control_disconnect() {
+    let (calls, reports) = journey(Scenario::LostInitialControl);
+    assert_eq!(calls, 4);
+    assert_eq!(reports[0]["status"], "complete");
+}
+#[test]
+fn reconnect_preserves_completed_work_after_final_control_disconnect() {
+    let (calls, reports) = journey(Scenario::LostFinalControl);
+    assert_eq!(calls, 4);
+    assert_eq!(reports[0]["status"], "complete");
+}
+
+#[test]
+fn completed_lane_cache_survives_its_observation_timeout_during_later_lane_reconnect() {
+    let (calls, reports) = journey(Scenario::CachedBeyondObservationDeadline);
+    assert_eq!(calls, 4);
+    assert_eq!(reports[0]["status"], "complete");
+}
+
+#[test]
+fn gateway_result_must_match_acknowledged_candidate() {
+    let (calls, reports) = journey(Scenario::CandidateResultMismatch);
+    assert_eq!(calls, 1);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+}
+#[test]
+fn gateway_candidate_must_remain_consistent_across_lanes() {
+    let (calls, reports) = journey(Scenario::CandidateAcrossLanes);
+    assert_eq!(calls, 2);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+}
+#[test]
+fn gateway_actual_model_must_remain_consistent_across_lanes() {
+    let (calls, reports) = journey(Scenario::ModelAcrossLanes);
+    assert_eq!(calls, 2);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
 }

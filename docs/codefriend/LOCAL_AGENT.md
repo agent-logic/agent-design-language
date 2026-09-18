@@ -79,7 +79,9 @@ owner-only files. Local consent is reloaded and must still match its original di
 before every model dispatch and result upload. Removing/changing it stops subsequent
 work. The agent also checks website cancellation while observing a model operation.
 
-`unpair --store <dir>` confirms website revocation before removing local credentials.
+`unpair --store <dir>` confirms website revocation, immediately scrubs retained
+source/report/gateway payloads, and then removes local credentials. Run identity
+tombstones remain to prevent replay, even if the agent is never invoked again.
 For an expired or revoked pairing, `forget --store <dir>` removes local credentials
 and retained review payloads; it explicitly does **not** claim remote revocation.
 Revoke the old agent in the website and generate a fresh one-time code to pair again.
@@ -102,7 +104,19 @@ subject and paired agent, reject stale/expired/revoked authority, and make a rep
 identical result PUT idempotent. A different digest for an existing run is a conflict.
 A command redelivery never causes local acquisition/model dispatch again. The agent
 may retransmit the exact retained result after checking current consent and cancellation.
-A known reservation without a terminal report is forwarded as interrupted with no result; it is not replayed. A crash before reservation metadata completed requires explicit investigation.
+A reservation with no acknowledged model operation is forwarded as interrupted;
+a lost POST response never permits another POST. A durably acknowledged operation
+instead resumes bounded GET/control observation after disconnect or restart.
+Validated completed lane results are reused while consent/retention remain valid;
+only lanes that were never dispatched may start. The original 120-second observation
+deadline persists across restart for each pending operation, while already completed
+lane outputs remain reusable for the run retention period. Directory ancestry and
+reservation files are synced before dispatch. A crash before reservation metadata
+completed requires explicit investigation.
+
+The final report, including all four lanes and admitted evidence, must fit the
+4 MiB website/verifier limit. Oversized aggregates produce a bounded failure report
+and payload cleanup, never an unforwardable successful completion.
 
 `RunReport.result` is the validated four-perspective review record **including its
 selected admitted source evidence**, which is necessary for website artifact inspection.
@@ -129,3 +143,12 @@ review-record contract, all four lane manifests and versions, and exact agreemen
 between report and admitted-input retention deadlines. The website separately
 binds the verified report to the authenticated agent, pending run and consent.
 Contract integrity does not independently prove that a provider executed.
+
+Local `RunReport.gateway_lanes` retains each lane's gateway candidate revision and
+actual canonical provider/model identity. Completion requires all four lanes with
+consistent candidate, provider, model, runtime surface, identity strength and pinned
+digest (when available). Observation timestamps may differ between lanes. The
+review route is a bounded digest of that retained identity tuple, not a constant
+gateway label. The website must retain these identities and bind them into the
+exact artifact approval digest. A claimed model identity is not stronger than its
+recorded provider-asserted or pinned strength.

@@ -2,9 +2,9 @@
   "schema": "codefriend.agent.pvf.v1",
   "issue": 1058,
   "lane": "runtime",
-  "proof_role": "component_authorization_replay_deadline_and_cli_dispatch_guards",
-  "determinism": "controlled_clock_and_local_filesystem",
-  "resource_profile": "local CPU and temporary private files; no provider calls",
+  "proof_role": "component_authorization_no_replay_reconnect_aggregate_retention_and_cli_dispatch_guards",
+  "determinism": "controlled clock, loopback HTTP faults and private local filesystem",
+  "resource_profile": "bounded local CPU/disk and loopback fixtures including four 1.4MiB lane outputs; no real provider calls",
   "release_gate": "required component evidence, insufficient for installed/provider/browser acceptance",
   "command": "cargo test --manifest-path adl/Cargo.toml --test codefriend_agent --bin codefriend-agent"
 }

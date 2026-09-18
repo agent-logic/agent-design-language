@@ -258,6 +258,7 @@ mod tests {
             run_id: "run".into(),
             consent_digest: "a".repeat(64),
             execution_location: "local_agent".into(),
+            gateway_lanes: Vec::new(),
             status: "interrupted".into(),
             expires_at: now() + 600,
             result: None,
