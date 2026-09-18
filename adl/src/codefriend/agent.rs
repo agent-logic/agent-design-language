@@ -782,6 +782,22 @@ impl Transport {
             model_identity: result.model_identity.clone(),
         };
         identity.validate()?;
+        if operation.status == Status::Complete {
+            let observed = operation
+                .model_identity
+                .as_ref()
+                .ok_or_else(|| anyhow::anyhow!("agent_gateway_operation_model_missing"))?;
+            let operation_identity = GatewayLaneIdentity {
+                lane: lane.id().into(),
+                candidate_revision: operation.candidate_revision.clone(),
+                model_identity: observed.clone(),
+            };
+            operation_identity.validate()?;
+            ensure!(
+                identity.same_execution(&operation_identity),
+                "agent_gateway_operation_model_changed"
+            );
+        }
         ensure!(
             identity.candidate_revision == operation.candidate_revision,
             "agent_gateway_candidate_changed"

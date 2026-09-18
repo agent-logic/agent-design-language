@@ -465,7 +465,7 @@ fn operation(
     command: &Command,
     status: &str,
 ) -> serde_json::Value {
-    serde_json::json!({"operation_id":r.operation_id,"subject":command.subject,"mode":"local_model","request_digest":adl::codefriend::evidence::hash(r).unwrap(),"packet_id":r.packet.packet_id,"source_revision":r.packet.revision,"candidate_revision":"c".repeat(40),"expires_at":live_now()+1000,"status":status})
+    serde_json::json!({"operation_id":r.operation_id,"subject":command.subject,"mode":"local_model","request_digest":adl::codefriend::evidence::hash(r).unwrap(),"packet_id":r.packet.packet_id,"source_revision":r.packet.revision,"candidate_revision":"c".repeat(40),"expires_at":live_now()+1000,"status":status,"model_identity":if status == "complete" { serde_json::json!({"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}",live_now())}) } else { serde_json::Value::Null }})
 }
 fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     let f = Fixture::new();
