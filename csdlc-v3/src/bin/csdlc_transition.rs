@@ -5,8 +5,21 @@ fn run() -> Result<serde_json::Value, String> {
     let args: Vec<_> = env::args().skip(1).collect();
     if args == ["--help"] {
         return Ok(
-            json!({"commands":["inventory --repo-root PRIMARY", "request --spec FILE --output FILE", "fence --request FILE", "convert --request FILE", "status --request FILE", "verify --request FILE", "restore --request FILE", "resume --request FILE --decision FILE"],"request_schema":"csdlc.v3.live_transition.v1"}),
+            json!({"commands":["inventory --repo-root PRIMARY", "reconcile-history --spec FILE [--execute --preview DIGEST]", "request --spec FILE --output FILE", "fence --request FILE", "convert --request FILE", "status --request FILE", "verify --request FILE", "restore --request FILE", "resume --request FILE --decision FILE"],"request_schema":"csdlc.v3.live_transition.v1"}),
         );
+    }
+    if args.first().is_some_and(|s| s == "reconcile-history") {
+        return match args.as_slice() {
+            [_, flag, path] if flag == "--spec" => {
+                csdlc_v3::transition::history::reconcile(Path::new(path), None)
+            }
+            [_, flag, path, execute, preview, digest]
+                if flag == "--spec" && execute == "--execute" && preview == "--preview" =>
+            {
+                csdlc_v3::transition::history::reconcile(Path::new(path), Some(digest))
+            }
+            _ => Err("usage: reconcile-history --spec FILE [--execute --preview DIGEST]".into()),
+        };
     }
     if args.len() == 3 && args[0] == "inventory" && args[1] == "--repo-root" {
         return csdlc_v3::transition::inventory(Path::new(&args[2]));
