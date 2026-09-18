@@ -1,0 +1,160 @@
+{
+  "observed_at": "2026-09-18T22:54:39.633802+00:00",
+  "status": "PASS",
+  "domains": [
+    {
+      "domain": "agent-logic.ai",
+      "zone_id": "/hostedzone/Z05946533FYYYNSQWNG59",
+      "nameservers": [
+        "ns-1272.awsdns-31.org",
+        "ns-1951.awsdns-51.co.uk",
+        "ns-351.awsdns-43.com",
+        "ns-881.awsdns-46.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 20,
+      "source_records_sha256": "90be4066484d7de1694cfd78eec71e73d159fa31d8bb774d41ee4a387a5a2cd4",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    },
+    {
+      "domain": "agent-logic.net",
+      "zone_id": "/hostedzone/Z03483252NTGYO0LYGZ0",
+      "nameservers": [
+        "ns-1500.awsdns-59.org",
+        "ns-1670.awsdns-16.co.uk",
+        "ns-238.awsdns-29.com",
+        "ns-995.awsdns-60.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 2,
+      "source_records_sha256": "46198398796e13fe151e1799f4ea75f8b2209530fa92eda6d116f7fb9b920e1d",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    },
+    {
+      "domain": "aptitude-atlas.com",
+      "zone_id": "/hostedzone/Z0370056GNG2TL2O6OES",
+      "nameservers": [
+        "ns-121.awsdns-15.com",
+        "ns-1227.awsdns-25.org",
+        "ns-1625.awsdns-11.co.uk",
+        "ns-832.awsdns-40.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 2,
+      "source_records_sha256": "ccb9a67d42a7a8873e90565a2570b48a0b72efac998e27830a5c9c16f92f3453",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    },
+    {
+      "domain": "codefriend.ai",
+      "zone_id": "/hostedzone/Z05957091WYT8GKMGPEZU",
+      "nameservers": [
+        "ns-1466.awsdns-55.org",
+        "ns-1689.awsdns-19.co.uk",
+        "ns-450.awsdns-56.com",
+        "ns-836.awsdns-40.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 12,
+      "source_records_sha256": "6f7ecd3b739e89d687a558b3181113e1785692ebb783f7d5cebbe91f327fb416",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    },
+    {
+      "domain": "cognitivespacetimemanifold.com",
+      "zone_id": "/hostedzone/Z0594625XPUQRJ2RT8OH",
+      "nameservers": [
+        "ns-1509.awsdns-60.org",
+        "ns-1560.awsdns-03.co.uk",
+        "ns-277.awsdns-34.com",
+        "ns-837.awsdns-40.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 2,
+      "source_records_sha256": "060f0b2b9bb73d82dd778f7110db97ccf08c79fe985f06600b23628d6146bb9c",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    },
+    {
+      "domain": "v-dev.ai",
+      "zone_id": "/hostedzone/Z05967473GNB2RMTFICKD",
+      "nameservers": [
+        "ns-1054.awsdns-03.org",
+        "ns-1971.awsdns-54.co.uk",
+        "ns-85.awsdns-10.com",
+        "ns-877.awsdns-45.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 2,
+      "source_records_sha256": "82fd55c1458da54b5f0d668cef4b7635feb9c20d1345b30ea5d24eda65170012",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    },
+    {
+      "domain": "v-fin.ai",
+      "zone_id": "/hostedzone/Z05965712A6ZGCSCL5OQH",
+      "nameservers": [
+        "ns-1397.awsdns-46.org",
+        "ns-1903.awsdns-45.co.uk",
+        "ns-210.awsdns-26.com",
+        "ns-849.awsdns-42.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 2,
+      "source_records_sha256": "55ab69da93f66a4ade9313bfda5a613a01aa34bef7a7dd7c77ddd2c9ae0410fa",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    },
+    {
+      "domain": "v-sec.ai",
+      "zone_id": "/hostedzone/Z0594627IE9B8WFXJ5KY",
+      "nameservers": [
+        "ns-1329.awsdns-38.org",
+        "ns-1565.awsdns-03.co.uk",
+        "ns-52.awsdns-06.com",
+        "ns-739.awsdns-28.net"
+      ],
+      "disposition": "created",
+      "change_status": "INSYNC",
+      "destination_records": 2,
+      "source_record_count": 2,
+      "source_records_sha256": "bc5b4457d8fe50512f1fca0da2e3c3db526d76e1aec2f8d7623b553d02f0b069",
+      "source_unchanged": true,
+      "registrar_unchanged": true,
+      "public_ns_unchanged": true,
+      "public_ds_unchanged": true
+    }
+  ],
+  "existing_child_zone_metadata_unchanged": true,
+  "authoritative_migration_performed": false
+}

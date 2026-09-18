@@ -403,10 +403,9 @@ impl Service {
     }
     fn credentials(&self) -> Result<Vec<Credential>> {
         let credentials: Vec<Credential> = read_json(&self.0.config.credentials_file, 128 * 1024)?;
-        ensure!(
-            !credentials.is_empty() && credentials.len() <= 512,
-            "invalid_credentials_registry"
-        );
+        // Fresh website startup and revocation of the last credential publish an
+        // empty registry. It is a valid deny-all state, not a startup failure.
+        ensure!(credentials.len() <= 512, "invalid_credentials_registry");
         let mut hashes = BTreeSet::new();
         for c in &credentials {
             ensure!(

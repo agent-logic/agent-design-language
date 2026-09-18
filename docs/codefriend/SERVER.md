@@ -55,6 +55,13 @@ credential, shared administrative credentials or provider keys to a browser.
 Update the file atomically. It is re-read on each authenticated request, so removal
 or expiry immediately denies future requests and artifact access. A previously
 admitted provider call may still finish; credential revocation does not undo it.
+An empty JSON array is a valid deny-all registry: the service can start before the
+first website credential is provisioned and after the last one is revoked. Missing,
+malformed, duplicate or over-limit registries remain errors; no default credential
+is created. Issue #1074's deterministic runtime regressions cover empty startup,
+authentication before body polling, atomic provisioning/revocation and restart,
+plus invalid-registry rejection. These bounded local CPU/files/HTTP tests are a
+required regression gate, not deployed or paid-provider acceptance.
 The TLS ingress must preserve `Authorization` and disable caching. Responses also
 carry `Cache-Control: no-store`. There is no CORS wildcard or public signup.
 
