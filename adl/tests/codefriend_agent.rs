@@ -436,7 +436,7 @@ impl WireServer {
                 {
                     reply["candidate_revision"] = "d".repeat(40).into();
                 }
-                if reply.get("model_identity").is_some() {
+                if reply.get("input_manifest").is_some() {
                     if matches!(scenario, Scenario::CandidateResultMismatch) {
                         reply["candidate_revision"] = "d".repeat(40).into();
                     }
