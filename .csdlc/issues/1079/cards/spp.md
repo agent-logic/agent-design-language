@@ -1,7 +1,7 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_planning_prompt"
-name: "<slug>-execution-plan"
+name: "deepseek-openrouter-reasoning-execution-plan"
 issue: 1079
 task_id: "issue-1079"
 run_id: "issue-1079"
@@ -10,62 +10,62 @@ title: "[v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek revie
 branch: "codex/1079-deepseek-openrouter-reasoning"
 generated_at: "<timestamp>"
 card_status: "ready"
-status: "<status>"
-activation_state: "<activation_state>"
+status: "in_progress"
+activation_state: "bound"
 plan_revision: 1
-initial_pvf_lane: "<initial_pvf_lane>"
-planned_pvf_lane: "<planned_pvf_lane>"
-planned_pvf_lane_source: "<planned_pvf_lane_source>"
-estimate_elapsed_seconds: "<estimate_elapsed_seconds>"
-estimate_total_tokens: "<estimate_total_tokens>"
-estimate_validation_seconds: "<estimate_validation_seconds>"
-issue_goal_token_budget: "<issue_goal_token_budget>"
-variance_threshold_percent: "<variance_threshold_percent>"
-estimate_confidence: "<estimate_confidence>"
-estimate_data_source: "<estimate_data_source>"
-estimate_source_ref: "<estimate_source_ref>"
-issue_goal_ref: "<issue_goal_ref>"
-sprint_goal_ref: "<sprint_goal_ref>"
-goal_metrics_rollup_ref: "<goal_metrics_rollup_ref>"
+initial_pvf_lane: "runtime_provider_integration"
+planned_pvf_lane: "focused_provider_and_runtime_integration_plus_bounded_live_qualification"
+planned_pvf_lane_source: "issue_1079_acceptance"
+estimate_elapsed_seconds: "unknown"
+estimate_total_tokens: "unknown"
+estimate_validation_seconds: "unknown"
+issue_goal_token_budget: "unbounded"
+variance_threshold_percent: "10"
+estimate_confidence: "low"
+estimate_data_source: "not_collected"
+estimate_source_ref: "issue_1079"
+issue_goal_ref: "Issue #1079 active Codex goal"
+sprint_goal_ref: "not_assigned"
+goal_metrics_rollup_ref: "not_collected"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1079"
   - kind: "source_issue_prompt"
-    ref: "<source_issue_prompt>"
+    ref: "https://github.com/agent-logic/agent-design-language/issues/1079"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/1079/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/1079/cards/sip.md"
 scope:
   files:
-    - "<target_files_surfaces_inline>"
+    - "OpenRouter codec/adapter/tests; Runtime ingress/control/conversation tests; provider inference docs; installed local DeepSeek definition/proof"
   components:
-    - "<slug>"
+    - "deepseek-openrouter-reasoning"
   out_of_scope:
-    - "<non_goals_inline>"
+    - "shared OpenRouter widening, recurring inference, unrelated Runtime repair, billing or credential changes"
 constraints:
   - "design_time_plan_must_be_reviewed_before_execution"
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "<plan_summary>"
+plan_summary: "Implement normalized OpenRouter reasoning effort and safe typed Runtime failures, validate locally, install the reviewed generation, configure a separate bounded DeepSeek provider, and prove a full issue review plus governed A2A continuation without changing Nexus or Nemotron."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: <dependencies_inline>"
-    expected_output: "<sip_card>"
+    description: "Confirm dependency readiness and starting state: merged #855 provider lifecycle and #876 hot loading"
+    expected_output: ".csdlc/issues/1079/cards/sip.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
-    description: "Review repo inputs and scoped surfaces before editing: <repo_inputs_inline>"
-    expected_output: "<stp_card>"
+    description: "Review repo inputs and scoped surfaces before editing: issue #1079 and its seven canonical tracked surfaces"
+    expected_output: ".csdlc/issues/1079/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: <deliverables_inline>"
+    description: "Implement only the bounded deliverables: reasoning serialization, conflicting-control rejection, typed provider failures, docs, separate DeepSeek profile, live review and A2A proof"
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: <acceptance_criteria_inline>"
+    description: "Run focused proof gates for acceptance: captured low effort; pre-dispatch rejection; substantive full review; governed A2A continuation; Nexus/Nemotron preservation; five typed failure categories"
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -74,24 +74,24 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "<step_1_status>"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "<step_2_status>"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "<step_3_status>"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "<step_4_status>"
+    status: "in_progress"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "<step_5_status>"
+    status: "in_progress"
 affected_areas:
-  - "<slug>"
+  - "deepseek-openrouter-reasoning"
 invariants_to_preserve:
   - "Keep SPP issue-local; do not turn it into sprint orchestration."
   - "Keep VPP as validation-planning truth, SRP as review-result truth, and SOR as output truth."
 risks_and_edge_cases:
-  - "<risks_inline>"
+  - "provider latency, hidden reasoning budget, ambiguous live outcomes, and last-known-good preservation"
 test_strategy:
-  - "<validation_plan_inline>"
+  - "focused provider and Runtime regressions, provider-core suite/Clippy, native validation, exact-head review, then bounded installed live proof"
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "<notes_risks_inline>"
+notes: "Do not retry an ambiguous provider outcome; keep all retained proof redacted and repo-relative."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,25 +115,25 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek review turns`.
 
-<plan_summary>
+Implement normalized OpenRouter reasoning effort and safe typed Runtime failures, validate locally, install the reviewed generation, configure a separate bounded DeepSeek provider, and prove a full issue review plus governed A2A continuation without changing Nexus or Nemotron.
 
 ## PVF Lane Plan
 
-- Initial PVF lane from issue creation: `<initial_pvf_lane>`
-- Planned PVF lane for execution: `<planned_pvf_lane>`
-- Planning lane source: `<planned_pvf_lane_source>`
+- Initial PVF lane from issue creation: `runtime_provider_integration`
+- Planned PVF lane for execution: `focused_provider_and_runtime_integration_plus_bounded_live_qualification`
+- Planning lane source: `issue_1079_acceptance`
 - Revision rule: change `planned_pvf_lane` only when planning discovers a better explicit lane; keep `needs_planning_lane_assignment` fail-closed until that happens.
 
 ## Estimate Plan
 
-- Estimated elapsed seconds: `<estimate_elapsed_seconds>`
-- Estimated total tokens: `<estimate_total_tokens>`
-- Estimated validation seconds: `<estimate_validation_seconds>`
-- Issue goal token budget: `<issue_goal_token_budget>`
-- Variance threshold percent: `<variance_threshold_percent>`
-- Estimate confidence: `<estimate_confidence>`
-- Estimate data source: `<estimate_data_source>`
-- Estimate source ref: `<estimate_source_ref>`
+- Estimated elapsed seconds: `unknown`
+- Estimated total tokens: `unknown`
+- Estimated validation seconds: `unknown`
+- Issue goal token budget: `unbounded`
+- Variance threshold percent: `10`
+- Estimate confidence: `low`
+- Estimate data source: `not_collected`
+- Estimate source ref: `issue_1079`
 - Unknown-value rule: record `unknown`, never `0`, when the estimate is unavailable or intentionally deferred.
 
 ## Goal Accounting Plan
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [<step_1_status>] Confirm dependencies and starting state from the source issue prompt.
-2. [<step_2_status>] Inspect repo inputs and target surfaces before editing.
-3. [<step_3_status>] Implement the bounded deliverables only.
-4. [<step_4_status>] Run focused validation and proof gates.
-5. [<step_5_status>] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [in_progress] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -154,15 +154,15 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: <dependencies_inline>
-2. Review repo inputs and scoped surfaces before editing: <repo_inputs_inline>
-3. Implement only the bounded deliverables: <deliverables_inline>
-4. Run focused proof gates for acceptance: <acceptance_criteria_inline>
+1. Confirm dependency readiness and starting state: merged #855 provider lifecycle and #876 hot loading
+2. Review repo inputs and scoped surfaces before editing: issue #1079 and its seven canonical tracked surfaces
+3. Implement only the bounded deliverables: reasoning serialization, conflicting-control rejection, typed provider failures, docs, separate DeepSeek profile, live review and A2A proof
+4. Run focused proof gates for acceptance: captured low effort; pre-dispatch rejection; substantive full review; governed A2A continuation; Nexus/Nemotron preservation; five typed failure categories
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
 
-- <slug>
+- deepseek-openrouter-reasoning
 
 ## Invariants To Preserve
 
@@ -171,11 +171,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Risks And Edge Cases
 
-- <risks_inline>
+- provider latency, hidden reasoning budget, ambiguous live outcomes, and last-known-good preservation
 
 ## Test Strategy
 
-- <validation_plan_inline>
+- focused provider and Runtime regressions, provider-core suite/Clippy, native validation, exact-head review, then bounded installed live proof
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-<notes_risks_inline>
+Do not retry an ambiguous provider outcome; keep all retained proof redacted and repo-relative.
