@@ -35,7 +35,7 @@ it does not override a bound issue's ownership.
 | Proof | `csdlc proof ISSUE` | Run the declared admitted validators and retain their actual outcomes. |
 | Review | `csdlc review ISSUE --evidence REVIEW.json` | Validate and retain externally supplied independent exact-head review. |
 | Publish | `csdlc publish ISSUE` | Create or update the canonical PR through the authenticated remote owner and observe publication admission. |
-| Finish | `csdlc finish ISSUE [--disposition DISPOSITION.json]` | Observe merged delivery or explicit no-PR disposition, then persist native terminal records. |
+| Finish | `csdlc finish ISSUE [--pull-request NUMBER | --disposition DISPOSITION.json]` | Observe merged delivery or explicit no-PR disposition, then persist native terminal records. |
 | Clean | `csdlc clean ISSUE` | Preview the exact terminal worktree; removal requires the returned token and `--execute`. |
 | Recover | `csdlc recover ISSUE [--disposition DISPOSITION.json]` | Inspect one retained local transaction or remote operation; execution requires the exact returned digest. An indeterminate proof attempt also requires the typed abandonment disposition returned by preview. |
 
@@ -468,3 +468,10 @@ install the exact structured contract in the same guarded completion mutation;
 ordinary legacy edits remain denied. See
 [Coordination completion](COORDINATION_COMPLETION.md) for the complete
 ordinary edit, completion, reconciliation and finish sequence.
+
+For an externally created, already merged PR without a native publication receipt,
+use `csdlc finish ISSUE --pull-request NUMBER`. The number is a target hint;
+native authenticated terminal readback still checks exact head, closing linkage
+and closed issue. A conflicting native or retained terminal target is refused.
+This does not manufacture a publication mutation receipt or merge the PR.
+The flag and `--disposition` are mutually exclusive.

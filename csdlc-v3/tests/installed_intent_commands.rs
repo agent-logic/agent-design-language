@@ -4687,3 +4687,116 @@ fn publication_amendment_saved_request_cannot_overwrite_newer_correction() {
         assert_eq!(fixture.remote_effects(), 0);
     }
 }
+
+// PVF #1068: deterministic installed terminal qualification, same-host local Git
+// and synthetic authenticated transport; required repair gate, no live writes.
+#[test]
+fn external_pr_finish_authenticates_without_fabricating_publication_history() {
+    let (mut fixture, linked) = reviewed_fixture("external-pr-finish");
+    let primary = fixture.root.clone();
+    let head = git(&linked, &["rev-parse", "HEAD"]);
+    let pr = json!({"number":639,"head":{"sha":head},"merged":true,"state":"closed","body":"Closes #505"});
+    fixture.set_remote_pr(&pr);
+    let issue_path = primary.join(".git/installed-candidate/remote-issue.json");
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    for (field, bad, reason) in [
+        (
+            "head",
+            json!({"sha":"0000000000000000000000000000000000000000"}),
+            "head_mismatch",
+        ),
+        ("merged", json!(false), "pull_request_not_merged"),
+        ("body", json!("Closes #506"), "closing_linkage_missing"),
+        ("number", json!(640), "github_observation_pr_mismatch"),
+    ] {
+        let mut invalid = pr.clone();
+        invalid[field] = bad;
+        fixture.set_remote_pr(&invalid);
+        let before = intent_fixture::inventory(&primary);
+        let denied = fixture.run(&linked, &["finish", "505", "--pull-request", "639"]);
+        assert!(!denied.status.success());
+        assert!(
+            String::from_utf8_lossy(&denied.stdout).contains(reason),
+            "{denied:?}"
+        );
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    }
+    fixture.set_remote_pr(&pr);
+    issue["state"] = json!("open");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    let before = intent_fixture::inventory(&primary);
+    let denied = fixture.run(&linked, &["finish", "505", "--pull-request", "639"]);
+    assert!(String::from_utf8_lossy(&denied.stdout).contains("closing_issue_still_open"));
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    issue["state"] = json!("closed");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    let before = intent_fixture::inventory(&primary);
+    success(fixture.run(
+        &linked,
+        &[
+            "finish",
+            "505",
+            "--pull-request",
+            "639",
+            "--preview",
+            "plan",
+        ],
+    ));
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    success(fixture.run(&linked, &["finish", "505", "--pull-request", "639"]));
+    let receipt: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(receipt["pull_request"], 639);
+    assert_eq!(receipt["head_sha"], head);
+    assert_eq!(fixture.remote_effects(), 0);
+    let before = intent_fixture::inventory(&primary);
+    success(fixture.run(&linked, &["finish", "505"]));
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    let denied = fixture.run(&linked, &["finish", "505", "--pull-request", "640"]);
+    assert!(String::from_utf8_lossy(&denied.stdout).contains("intent_finish_pull_request_conflict"));
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    let native_intents = primary.join(".git/csdlc-v3/remote/intents");
+    assert!(!native_intents.exists() || fs::read_dir(native_intents).unwrap().next().is_none());
+}
+
+#[test]
+fn external_pr_finish_rejects_conflicting_native_target_and_mixed_inputs() {
+    let (mut fixture, linked) = reviewed_fixture("external-pr-conflict");
+    let primary = fixture.root.clone();
+    success(fixture.run(&primary, &["publish", "505"]));
+    let disposition = fixture.write_json(
+        "unused-disposition.json",
+        &json!({"disposition":"retired_without_execution"}),
+    );
+    for args in [
+        vec!["finish", "505", "--pull-request", "640"],
+        vec!["finish", "505", "--pull-request", "0"],
+        vec![
+            "finish",
+            "505",
+            "--pull-request",
+            "639",
+            "--disposition",
+            disposition.to_str().unwrap(),
+        ],
+        vec![
+            "finish",
+            "505",
+            "--disposition",
+            disposition.to_str().unwrap(),
+            "--pull-request",
+            "639",
+        ],
+        vec!["clean", "505", "--pull-request", "639"],
+    ] {
+        let before = intent_fixture::inventory(&primary);
+        let denied = fixture.run(&linked, &args);
+        assert!(!denied.status.success(), "{denied:?}");
+        assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    }
+    assert_eq!(fixture.remote_effects(), 1);
+}
