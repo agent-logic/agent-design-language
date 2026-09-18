@@ -207,6 +207,103 @@ async fn settled(app: &Router, token: &str, id: &str) -> Value {
 }
 
 #[tokio::test]
+async fn empty_registry_starts_denies_then_provisions_revokes_and_restarts() {
+    let f = Fixture::new();
+    let backend = Fake::new(false, false);
+    let replace = |records: &[Credential]| {
+        let temp = f.config.credentials_file.with_extension("tmp");
+        fs::write(&temp, serde_json::to_vec(records).unwrap()).unwrap();
+        fs::rename(temp, &f.config.credentials_file).unwrap();
+    };
+    replace(&[]);
+    let app = Service::open(f.config.clone(), backend.clone())
+        .unwrap()
+        .router();
+    for token in [None, Some(ALICE)] {
+        let polls = Arc::new(AtomicUsize::new(0));
+        let observed = polls.clone();
+        let body = Body::from_stream(futures_util::stream::poll_fn(move |_| {
+            observed.fetch_add(1, Ordering::SeqCst);
+            std::task::Poll::Ready(Some(Ok::<_, std::io::Error>(
+                axum::body::Bytes::from_static(b"{invalid"),
+            )))
+        }));
+        let mut request = Request::builder()
+            .method("POST")
+            .uri("/v1/operations")
+            .header("content-type", "application/json")
+            .header("content-length", MAX_BODY + 1);
+        if let Some(token) = token {
+            request = request.header("authorization", format!("Bearer {token}"));
+        }
+        let response = app
+            .clone()
+            .oneshot(request.body(body).unwrap())
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert_eq!(polls.load(Ordering::SeqCst), 0);
+    }
+    replace(&[credential(ALICE, "alice", Mode::Hosted)]);
+    let path = "/v1/operations/not-created";
+    assert_eq!(
+        call(&app, "GET", path, Some(ALICE), Value::Null).await.0,
+        StatusCode::NOT_FOUND
+    );
+    assert_eq!(
+        call(&app, "GET", path, Some(BOB), Value::Null).await.0,
+        StatusCode::UNAUTHORIZED
+    );
+    replace(&[]);
+    assert_eq!(
+        call(&app, "GET", path, Some(ALICE), Value::Null).await.0,
+        StatusCode::UNAUTHORIZED
+    );
+    drop(app);
+    let restarted = Service::open(f.config.clone(), backend.clone())
+        .unwrap()
+        .router();
+    assert_eq!(
+        call(&restarted, "GET", path, Some(ALICE), Value::Null)
+            .await
+            .0,
+        StatusCode::UNAUTHORIZED
+    );
+    assert_eq!(backend.calls.load(Ordering::SeqCst), 0);
+    assert_eq!(
+        fs::read_dir(f.config.root.join("operations"))
+            .unwrap()
+            .count(),
+        0
+    );
+}
+
+#[test]
+fn empty_registry_support_does_not_admit_invalid_registries() {
+    let duplicate = vec![
+        credential(ALICE, "alice", Mode::Hosted),
+        credential(ALICE, "alice", Mode::Hosted),
+    ];
+    let too_many: Vec<_> = (0..513)
+        .map(|i| credential(&format!("fixture-token-{i}"), "alice", Mode::Hosted))
+        .collect();
+    for bytes in [
+        b"{".to_vec(),
+        b"{}".to_vec(),
+        b"[{}]".to_vec(),
+        serde_json::to_vec(&duplicate).unwrap(),
+        serde_json::to_vec(&too_many).unwrap(),
+    ] {
+        let f = Fixture::new();
+        fs::write(&f.config.credentials_file, bytes).unwrap();
+        assert!(Service::open(f.config.clone(), Fake::new(false, false)).is_err());
+    }
+    let f = Fixture::new();
+    fs::remove_file(&f.config.credentials_file).unwrap();
+    assert!(Service::open(f.config.clone(), Fake::new(false, false)).is_err());
+}
+
+#[tokio::test]
 async fn unauthorized_bodies_are_never_polled_or_parsed() {
     let f = Fixture::new();
     let backend = Fake::new(false, false);
