@@ -1,0 +1,27 @@
+[Unit]
+Description=CodeFriend private model gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=codefriend
+Group=codefriend
+UMask=0077
+RuntimeDirectory=codefriend-gateway
+RuntimeDirectoryMode=0700
+WorkingDirectory=/opt/codefriend/current
+ExecStart=/opt/codefriend/current/bin/codefriend-server --config /etc/codefriend/gateway.json --listen 127.0.0.1:43155 --control-socket /run/codefriend-gateway/control.sock
+EnvironmentFile=/etc/codefriend/provider.env
+KillSignal=SIGINT
+TimeoutStopSec=90
+SendSIGKILL=no
+Restart=no
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/codefriend /run/codefriend-gateway
+
+[Install]
+WantedBy=multi-user.target

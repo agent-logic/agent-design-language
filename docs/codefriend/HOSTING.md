@@ -5,8 +5,9 @@ Tracked implementation: [#1077](https://github.com/agent-logic/agent-design-lang
 The operator selected `beta.codefriend.ai` in the Agent Logic AWS account, with
 manual AWS start and automatic stop after 30 minutes without meaningful activity
 and without a running review. The gateway, website and host must agree that it is
-safe to stop. This implementation is in progress: no installed idle controller or
-live start/stop acceptance is established yet.
+safe to stop. The controller and private service controls are implemented and
+have focused component proof. Installed Linux and live start/stop acceptance are
+still outstanding.
 
 ## Infrastructure preparation
 
@@ -46,7 +47,7 @@ provider invocation, secret, certificate or application activation. Apply is a
 separate explicitly authorized operation after reviewing the fresh plan and
 application/shutdown readiness. No apply has been performed by this issue.
 
-## Shutdown protocol being implemented
+## Shutdown protocol
 
 1. Measure meaningful authenticated activity across both website execution modes.
    Idle agent polling and unauthenticated traffic must not extend the idle timer.
@@ -64,27 +65,31 @@ application/shutdown readiness. No apply has been performed by this issue.
 5. Preserve consumed-operation identities across stop/start. Known operations
    may resume observation; a lost or uncertain POST must never be replayed.
 
-The gateway currently exposes in-process `begin_drain`, `resume_admissions` and
+The gateway exposes in-process `begin_drain`, `resume_admissions` and
 `drained_without_payloads` primitives. The drain gate shares the reservation lock,
 so a POST that reaches reservation after the gate closes is rejected without
 consuming its operation ID. The readiness check runs existing expiry cleanup,
 checks worker permits, rejects missing/corrupt operation state and refuses while
 work/result payloads remain. These primitives alone cannot authorize host stop:
-website admission/activity control, supervisor coordination and installed Linux
-proof are still required. They are not exposed as public HTTP endpoints.
+website admission/activity control and supervisor coordination must also pass.
+They are not exposed as public HTTP endpoints.
 
 The gateway optionally accepts `--control-socket <path>` after its listen argument.
 Its parent must already be a nonsymlink directory owned by the service UID with
-mode0700; the socket is mode0600 and peer UID must match the service owner or
+mode 0700; the socket is mode 0600 and peer UID must match the service owner or
 root (the privileged local supervisor). Requests are one bounded
 JSON line with schema `codefriend.host_control.v1` and action `status`, `drain` or
-`resume`. Status discovers a random64-hex service instance identity. Mutations
-require that exact instance plus a32-hex stop-attempt ID; a conflicting attempt
+`resume`. Status discovers a random 64-hex service instance identity. Mutations
+require that exact instance plus a 32-hex stop-attempt ID; a conflicting attempt
 cannot drain or resume another attempt. Resumed attempts are retired and cannot
-be drained again in the same instance. Retired IDs are never evicted; after1024
+be drained again in the same instance. Retired IDs are never evicted; after 1024
 retired attempts, new drain requests fail closed until a supervised restart.
 Responses identify the actual instance,
-attempt and compiled candidate and report `drained_without_payloads`. An error,
+attempt and compiled candidate and report `drained_without_payloads`. The
+advisory `quiescent_without_payloads` field runs the same resource scan without
+requiring closed admissions. The controller checks it before draining, so retained
+results do not consume a fresh attempt every minute. Advisory readiness never
+replaces the frozen readiness check. An error,
 missing response or identity mismatch is never permission to stop.
 
 An existing socket causes startup to fail. The service supervisor must own the
@@ -92,6 +97,26 @@ private runtime directory and remove stale sockets only after verifying the old
 process is stopped. Reconnection must discover the new instance and must not
 replay a stale drain/resume command. Same-UID services are not isolated from each
 other by these filesystem permissions.
+
+Prepare the offline release with the
+[release assembly instructions](../../tools/codefriend_host/release/README.md),
+using reviewed source revisions and explicitly supplied Linux executables.
+Checksums and ELF-format checks establish packet integrity, not authenticated
+build provenance; actual binary provenance and installation remain separate
+acceptance requirements. The
+[HTTPS proxy configuration](../../tools/codefriend_host/proxy/README.md) forwards
+only to the website listener. Certificate issuance/renewal and the authoritative
+beta DNS record remain deployment inputs.
+
+The Linux controller and fixed systemd units are under
+[`tools/codefriend_host`](../../tools/codefriend_host/README.md). The website's
+private control reports authenticated inactivity and pending request/maintenance
+work. Both services must identify their exact installed candidates and current
+process instances. The controller verifies Linux peer PIDs against systemd,
+drains website before gateway, rechecks both, and verifies graceful service stops
+before requesting host poweroff. Configuration defaults to disabled; enabling the
+timer is part of separately authorized installation. Unknown durable operations
+and verifier scratch cleanup failures deny shutdown.
 
 The unresolved retention choice is whether shutdown waits for current deadlines
 or a separately approved shorter retention policy applies. Do not silently

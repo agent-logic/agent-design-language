@@ -1,0 +1,11 @@
+{
+  "schema": "codefriend.release_validation.v1",
+  "issue": 1077,
+  "lane_class": "deterministic_component",
+  "proof_role": "offline_packaging_guards_and_fixture_assembly",
+  "determinism": "local_temporary_git_repositories_and_synthetic_nonexecutable_elf_bytes",
+  "resource_profile": "bounded_local_disk_no_network_no_provider_no_install",
+  "release_gate": false,
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tools/codefriend_host/release -p 'test_*.py' -v",
+  "non_claims": ["binary_authenticity", "actual_linux_binary_execution", "deployment", "installed_service_acceptance"]
+}
