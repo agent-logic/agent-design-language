@@ -72,6 +72,13 @@ fn main() {
             // and causes the next build to discover the packed representation.
             if path.exists() {
                 println!("cargo:rerun-if-changed={}", path.display());
+            } else if reference.starts_with("refs/") {
+                // A packed symbolic ref can become loose on the next commit
+                // without changing HEAD or packed-refs. Watch its existing
+                // parent so that creation invalidates the embedded revision.
+                if let Some(parent) = path.ancestors().skip(1).find(|p| p.exists()) {
+                    println!("cargo:rerun-if-changed={}", parent.display());
+                }
             }
         }
     }

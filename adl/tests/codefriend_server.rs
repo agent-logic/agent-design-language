@@ -358,6 +358,7 @@ fn build_provenance_tracks_sources_without_lifecycle_residue() {
     assert!(!clean.contains(".git/packed-refs"));
     git(&repository, &["pack-refs", "--all"]);
     assert!(run().contains(".git/packed-refs"));
+    assert!(run().contains(".git/refs/heads"));
     assert!(run().contains(&format!("CODEFRIEND_BUILD_REVISION={revision}")));
     fs::create_dir_all(repository.join(".csdlc/evidence")).unwrap();
     fs::write(repository.join(".csdlc/evidence/untracked.json"), "{}").unwrap();
@@ -392,6 +393,110 @@ fn build_provenance_tracks_sources_without_lifecycle_residue() {
     let clean = run();
     assert!(clean.contains(&format!("CODEFRIEND_BUILD_REVISION={next}")));
     assert!(clean.contains("CODEFRIEND_BUILD_CLEAN=true"));
+}
+
+#[test]
+fn cargo_provenance_stays_fresh_and_detects_packed_ref_recreation() {
+    let f = Fixture::new();
+    let repository = f.dir.join("cargo-provenance");
+    fs::create_dir_all(repository.join("adl/src")).unwrap();
+    fs::write(repository.join(".gitignore"), "target/\n").unwrap();
+    fs::write(
+        repository.join("adl/Cargo.toml"),
+        "[package]\nname=\"provenance-probe\"\nversion=\"0.1.0\"\nedition=\"2021\"\n",
+    )
+    .unwrap();
+    fs::write(repository.join("adl/src/main.rs"), "fn main() { println!(\"{} {}\", env!(\"CODEFRIEND_BUILD_REVISION\"), env!(\"CODEFRIEND_BUILD_CLEAN\")); }\n").unwrap();
+    fs::copy(
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("build.rs"),
+        repository.join("adl/build.rs"),
+    )
+    .unwrap();
+    git(&repository, &["init"]);
+    // Materialize all declared production-resource watches in this tiny fixture.
+    let probe = f.dir.join("cargo-build-script-probe");
+    assert!(Command::new("rustc")
+        .arg(repository.join("adl/build.rs"))
+        .arg("-o")
+        .arg(&probe)
+        .status()
+        .unwrap()
+        .success());
+    let output = Command::new(&probe)
+        .env("CARGO_MANIFEST_DIR", repository.join("adl"))
+        .output()
+        .unwrap();
+    for line in String::from_utf8(output.stdout).unwrap().lines() {
+        if let Some(path) = line.strip_prefix("cargo:rerun-if-changed=") {
+            let path = Path::new(path);
+            if !path.exists() && !path.starts_with(repository.join(".git")) {
+                fs::create_dir_all(path.parent().unwrap()).unwrap();
+                fs::write(path, "{}").unwrap();
+            }
+        }
+    }
+    let commit = || {
+        git(&repository, &["add", "."]);
+        git(
+            &repository,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.com",
+                "commit",
+                "-m",
+                "fixture",
+            ],
+        );
+        git(&repository, &["rev-parse", "HEAD"])
+    };
+    assert!(Command::new("cargo")
+        .args(["generate-lockfile", "--offline", "--manifest-path"])
+        .arg(repository.join("adl/Cargo.toml"))
+        .status()
+        .unwrap()
+        .success());
+    let first = commit();
+    let build = || {
+        let out = Command::new("cargo")
+            .args(["build", "--offline", "--verbose", "--manifest-path"])
+            .arg(repository.join("adl/Cargo.toml"))
+            .env("CARGO_TARGET_DIR", repository.join("target"))
+            .env("CARGO_ENCODED_RUSTFLAGS", "")
+            .env("RUSTFLAGS", "")
+            .output()
+            .unwrap();
+        assert!(
+            out.status.success(),
+            "{}",
+            String::from_utf8_lossy(&out.stderr)
+        );
+        String::from_utf8(out.stderr).unwrap()
+    };
+    let embedded = || {
+        let out = Command::new(repository.join("target/debug/provenance-probe"))
+            .output()
+            .unwrap();
+        assert!(out.status.success());
+        String::from_utf8(out.stdout).unwrap().trim().to_string()
+    };
+    build();
+    assert_eq!(embedded(), format!("{first} true"));
+    assert!(build().contains("Fresh provenance-probe"));
+    git(&repository, &["pack-refs", "--all"]);
+    build();
+    assert!(build().contains("Fresh provenance-probe"));
+    fs::write(repository.join("README.md"), "docs-only commit\n").unwrap();
+    let second = commit();
+    assert_ne!(first, second);
+    build();
+    assert_eq!(embedded(), format!("{second} true"));
+    assert!(build().contains("Fresh provenance-probe"));
+    git(&repository, &["checkout", "--detach", &first]);
+    build();
+    assert_eq!(embedded(), format!("{first} true"));
+    assert!(build().contains("Fresh provenance-probe"));
 }
 
 #[test]
