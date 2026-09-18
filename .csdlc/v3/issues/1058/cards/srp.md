@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "resolved"
   recommended_outcome: "draft_publication_only"
-notes: "Reviewer review_1058_agent reviewed 4bfbb37336c7a746027f64d9d8698664bf75c80b.19 agent tests,14 existing runner tests and targeted clippy passed locally; reviewer inspected retained evidence. Record-only final followup requires fresh exact-head receipt. Real website pairing, installed macOS/Linux journeys, live-provider acceptance, integration #914 and qualification #915 remain outstanding; no merge-ready or sprint completion claim."
+notes: "Exact-head source review passed33ad3d7abd146e4845344fed3b0473a03441bb87. Combined58tests, separate1journal-lock regression,640 repeated agent tests and focused clippy passed. Fresh native57integration proof passed. Isolated macOS binaries installed and website native-verifier compatibility probe passed. Real OAuth/provider/platform journeys and current CI remain separate acceptance gates. Parent1063 native proof/review/publication passed b34a32da6d. Final generated-record head requires review refresh."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Six P2 findings: cached consent; run retention; expired pairing renewal; cancelled retransmission; consent expiry during control GET; startup cleanup before expired pairing validation.
+- Four user P2s at670b7b74bb: acknowledged operations lost on disconnect; candidate/model attribution discarded; aggregate report can exceed transport cap; unpair strands retained payloads. Followup review: directory durability, transient controls, cached output timeout, partial-evidence bootstrap dispatch.
 
 ### Dispositions
 
-- All six fixed with targeted regression coverage. Immediate purge and interrupted restart proof gaps also covered. Independent exact-head source review found no remaining blockers.
+- All four user P2 findings and subsequent review findings repaired. Independent exact-head source review passed33ad3d7abd146e4845344fed3b0473a03441bb87; journal lock lifetime repair reviewed and validated. No live acceptance or merge-ready claim.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Reviewer review_1058_agent reviewed 4bfbb37336c7a746027f64d9d8698664bf75c80b.19 agent tests,14 existing runner tests and targeted clippy passed locally; reviewer inspected retained evidence. Record-only final followup requires fresh exact-head receipt. Real website pairing, installed macOS/Linux journeys, live-provider acceptance, integration #914 and qualification #915 remain outstanding; no merge-ready or sprint completion claim.
+Exact-head source review passed33ad3d7abd146e4845344fed3b0473a03441bb87. Combined58tests, separate1journal-lock regression,640 repeated agent tests and focused clippy passed. Fresh native57integration proof passed. Isolated macOS binaries installed and website native-verifier compatibility probe passed. Real OAuth/provider/platform journeys and current CI remain separate acceptance gates. Parent1063 native proof/review/publication passed b34a32da6d. Final generated-record head requires review refresh.
