@@ -1,0 +1,16 @@
+{
+  "issue": 914,
+  "lane": "runtime",
+  "proof_role": "native exact Publication binding, format-separated atomic bundles, authenticated service approval and retention",
+  "determinism": "fixed local review/artifacts and explicit timestamps; no network",
+  "resource_profile": "local CPU and isolated temporary filesystem",
+  "release_gate": true,
+  "test_target": "codefriend_integration",
+  "nonclaims": [
+    "real OAuth",
+    "installed binary",
+    "provider execution",
+    "rendered exports",
+    "complete Beta journey"
+  ]
+}

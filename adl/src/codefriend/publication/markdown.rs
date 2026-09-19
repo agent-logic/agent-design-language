@@ -1140,7 +1140,7 @@ fn same_open_directory(open: &File, path: &Path) -> Result<bool> {
 }
 
 #[cfg(target_os = "linux")]
-fn rename_create_only_at(
+pub(crate) fn rename_create_only_at(
     parent: &File,
     from: &std::ffi::OsStr,
     to: &std::ffi::OsStr,
@@ -1161,7 +1161,7 @@ fn rename_create_only_at(
 }
 
 #[cfg(target_os = "macos")]
-fn rename_create_only_at(
+pub(crate) fn rename_create_only_at(
     parent: &File,
     from: &std::ffi::OsStr,
     to: &std::ffi::OsStr,
@@ -1182,7 +1182,7 @@ fn rename_create_only_at(
 }
 
 #[cfg(not(any(target_os = "linux", target_os = "macos")))]
-fn rename_create_only_at(
+pub(crate) fn rename_create_only_at(
     _parent: &File,
     _from: &std::ffi::OsStr,
     _to: &std::ffi::OsStr,

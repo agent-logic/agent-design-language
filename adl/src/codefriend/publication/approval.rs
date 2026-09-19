@@ -280,14 +280,7 @@ impl DecisionStore {
         reason: &str,
         decided_at: u64,
     ) -> Result<DecisionRecord> {
-        publication.validate(review)?;
-        let binding = publication.binding_digest()?;
-        let directory = self.decision_directory(&binding)?;
         let previous = self.head(review, publication)?;
-        if !directory.exists() {
-            fs::create_dir(&directory)?;
-            File::open(self.root.join("decisions"))?.sync_all()?;
-        }
         let record = DecisionRecord::new(
             review,
             publication,
@@ -297,6 +290,28 @@ impl DecisionStore {
             decided_at,
             previous.as_ref(),
         )?;
+        self.commit(review, publication, record)
+    }
+
+    fn commit(
+        &self,
+        review: &ReviewRecord,
+        publication: &Publication,
+        record: DecisionRecord,
+    ) -> Result<DecisionRecord> {
+        record.validate(review)?;
+        let previous = self.head(review, publication)?;
+        ensure!(
+            record.previous_decision_digest.as_deref()
+                == previous.as_ref().map(|r| r.digest.as_str()),
+            "decision_head_changed"
+        );
+        let binding = publication.binding_digest()?;
+        let directory = self.decision_directory(&binding)?;
+        if !directory.exists() {
+            fs::create_dir(&directory)?;
+            File::open(self.root.join("decisions"))?.sync_all()?;
+        }
         write_json_create_only(&directory.join(format!("{}.json", record.digest)), &record)?;
         File::open(&directory)?.sync_all()?;
         let generation = fs::read_dir(&directory)?.count() as u64;
@@ -376,6 +391,18 @@ pub enum DecisionKind {
     Invalidated,
 }
 
+/// Integrity-bound audit data from the authenticated service writer. This is
+/// not a deserializable authentication capability and does not authorize append.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct WebsiteDecisionProvenance {
+    pub subject: String,
+    pub operation: String,
+    pub candidate_revision: String,
+    pub challenge_digest: String,
+    pub binding_digest: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct DecisionRecord {
@@ -387,6 +414,8 @@ pub struct DecisionRecord {
     pub channel: String,
     pub decided_at: u64,
     pub previous_decision_digest: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub website: Option<WebsiteDecisionProvenance>,
     pub digest: String,
 }
 
@@ -405,6 +434,28 @@ impl DecisionRecord {
         reason: &str,
         decided_at: u64,
         previous: Option<&DecisionRecord>,
+    ) -> Result<Self> {
+        Self::new_with_website(
+            review,
+            publication,
+            decision,
+            actor,
+            reason,
+            decided_at,
+            previous,
+            None,
+        )
+    }
+
+    fn new_with_website(
+        review: &ReviewRecord,
+        publication: &Publication,
+        decision: DecisionKind,
+        actor: &str,
+        reason: &str,
+        decided_at: u64,
+        previous: Option<&DecisionRecord>,
+        website: Option<WebsiteDecisionProvenance>,
     ) -> Result<Self> {
         publication.validate(review)?;
         if let Some(previous) = previous {
@@ -441,14 +492,23 @@ impl DecisionRecord {
             }
         }
         let mut record = Self {
-            schema: DECISION_SCHEMA.to_string(),
+            schema: if website.is_some() {
+                "codefriend.publication_decision.v2".into()
+            } else {
+                DECISION_SCHEMA.into()
+            },
             publication: governed,
             decision,
             actor: actor.trim().to_string(),
             reason: reason.trim().to_string(),
-            channel: "explicit_cli".to_string(),
+            channel: if website.is_some() {
+                "authenticated_website".into()
+            } else {
+                "explicit_cli".into()
+            },
             decided_at,
             previous_decision_digest: previous.map(|record| record.digest.clone()),
+            website,
             digest: String::new(),
         };
         record.digest = record.expected_digest()?;
@@ -458,13 +518,33 @@ impl DecisionRecord {
 
     pub fn validate(&self, review: &ReviewRecord) -> Result<()> {
         ensure!(
-            self.schema == DECISION_SCHEMA,
+            (self.schema == DECISION_SCHEMA && self.website.is_none())
+                || (self.schema == "codefriend.publication_decision.v2" && self.website.is_some()),
             "unsupported_decision_version"
         );
         self.publication.validate(review)?;
         safe_text(&self.actor, "decision_actor")?;
         safe_text(&self.reason, "decision_reason")?;
-        ensure!(self.channel == "explicit_cli", "invalid_decision_channel");
+        if let Some(web) = &self.website {
+            ensure!(
+                self.channel == "authenticated_website" && self.actor == web.subject,
+                "invalid_decision_channel"
+            );
+            safe_text(&web.subject, "website_subject")?;
+            safe_text(&web.operation, "website_operation")?;
+            ensure!(
+                valid_digest(&web.challenge_digest)
+                    && web.binding_digest == self.publication.binding_digest()?
+                    && web.candidate_revision.len() == 40
+                    && web
+                        .candidate_revision
+                        .bytes()
+                        .all(|b| b.is_ascii_hexdigit()),
+                "invalid_website_provenance"
+            );
+        } else {
+            ensure!(self.channel == "explicit_cli", "invalid_decision_channel");
+        }
         ensure!(self.decided_at > 0, "invalid_decision_time");
         if let Some(previous) = &self.previous_decision_digest {
             ensure!(valid_digest(previous), "invalid_previous_decision_digest");
@@ -1023,4 +1103,47 @@ mod tests {
             assert!(!destination.join("published").exists());
         }
     }
+}
+
+/// Only the native service can construct this live authenticated authority.
+/// Browser JSON and actor strings cannot reach this writer on their own.
+pub(crate) fn append_authenticated_website_decision(
+    store_root: &Path,
+    review: &ReviewRecord,
+    publication: &Publication,
+    decision: DecisionKind,
+    authority: &crate::codefriend::server::WebsiteDecisionAuthority<'_>,
+) -> Result<DecisionRecord> {
+    let store = DecisionStore::open(store_root)?;
+    let previous = store.head(review, publication)?;
+    if let Some(record) = &previous {
+        if record.website.is_some() && record.decision == decision {
+            if let Ok((web, _)) = authority.verify(
+                review,
+                publication,
+                record.previous_decision_digest.as_deref(),
+            ) {
+                if record.website.as_ref() == Some(&web) {
+                    return Ok(record.clone());
+                }
+            }
+        }
+    }
+    let (web, decided_at) = authority.verify(
+        review,
+        publication,
+        previous.as_ref().map(|r| r.digest.as_str()),
+    )?;
+    let actor = web.subject.clone();
+    let record = DecisionRecord::new_with_website(
+        review,
+        publication,
+        decision,
+        &actor,
+        "Authenticated website artifact decision",
+        decided_at,
+        previous.as_ref(),
+        Some(web),
+    )?;
+    store.commit(review, publication, record)
 }

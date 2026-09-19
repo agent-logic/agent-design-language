@@ -18,7 +18,7 @@ use crate::{
 };
 use anyhow::{ensure, Result};
 use axum::{
-    extract::{DefaultBodyLimit, Path as HttpPath, State},
+    extract::{DefaultBodyLimit, Path as HttpPath, Query, State},
     http::{HeaderMap, StatusCode},
     response::{IntoResponse, Response},
     routing::{get, post},
@@ -512,6 +512,18 @@ impl Service {
             .route("/v1/operations/:operation", get(inspect))
             .route("/v1/operations/:operation/cancel", post(cancel))
             .route("/v1/operations/:operation/result", get(result))
+            .route(
+                "/v1/operations/:operation/publication/challenge",
+                post(publication_challenge),
+            )
+            .route(
+                "/v1/operations/:operation/publication/decision",
+                post(publication_decision),
+            )
+            .route(
+                "/v1/operations/:operation/publication/result",
+                get(publication_result),
+            )
             .route_layer(axum::middleware::from_fn_with_state(
                 self.clone(),
                 authorize,
@@ -732,4 +744,323 @@ async fn result(
         &service.dir(&c.subject, &operation).join("result.json"),
         MAX_RESULT,
     ))?))
+}
+
+#[derive(Deserialize, Default)]
+#[serde(deny_unknown_fields)]
+struct PublicationSelection {
+    #[serde(default)]
+    format: super::integration::PublicationFormat,
+}
+fn publication_directory(
+    service: &Service,
+    subject: &str,
+    operation: &str,
+    format: super::integration::PublicationFormat,
+) -> PathBuf {
+    service
+        .dir(subject, operation)
+        .join("work/publications")
+        .join(format.key())
+}
+
+/// Prepare only from this service's authenticated, complete hosted operation.
+/// Local-agent publication authority remains at the paired local artifact owner.
+async fn publication_challenge(
+    State(service): State<Service>,
+    headers: HeaderMap,
+    HttpPath(operation): HttpPath<String>,
+    Json(selection): Json<PublicationSelection>,
+) -> ApiResult<Json<Value>> {
+    use super::{
+        evidence::contracts::{Publication, ReviewRecord},
+        integration::{prepare_publication_bundle_for_format, PublicationChallenge},
+        publication::{read_decision_head, verify_artifacts},
+        review::runner::FourPerspectiveReviewRun,
+    };
+    let _guard = service
+        .0
+        .gate
+        .lock()
+        .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
+    // Re-read the live registry inside the operation boundary; a middleware
+    // credential snapshot must not survive revocation while waiting for this lock.
+    let credential = service.auth(&headers)?;
+    let op = service.operation(&credential, &operation)?;
+    let issued_at = now();
+    if credential.mode != Mode::Hosted
+        || op.status != Status::Complete
+        || op.expires_at <= issued_at
+    {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "publication_requires_complete_hosted_operation",
+        ));
+    }
+    if op.candidate_revision != build::REVISION {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "publication_candidate_changed",
+        ));
+    }
+    let dir = service.dir(&credential.subject, &operation);
+    let run: FourPerspectiveReviewRun = internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
+    let review_path = dir.join("work/review/review-record.json");
+    let review: ReviewRecord = internal(read_json(&review_path, MAX_RESULT))?;
+    if run.schema != runner::REVIEW_RUN_SCHEMA
+        || run.run_id != operation
+        || run.completion != Completion::Complete
+        || run.review_record != review
+        || review.run.packet_id != op.packet_id
+        || review.run.revision != op.source_revision
+    {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "publication_operation_identity_mismatch",
+        ));
+    }
+    let destination = dir.join("work/exports");
+    internal(fs::create_dir_all(&destination).map_err(Into::into))?;
+    internal(fs::create_dir_all(dir.join("work/publications")).map_err(Into::into))?;
+    let bundle = publication_directory(&service, &credential.subject, &operation, selection.format);
+    let publication: Publication = if bundle.exists() {
+        internal(read_json(&bundle.join("publication.json"), MAX_RESULT))?
+    } else {
+        internal(prepare_publication_bundle_for_format(
+            &review_path,
+            &bundle,
+            &destination,
+            selection.format,
+        ))?
+    };
+    internal(publication.validate(&review))?;
+    internal(verify_artifacts(
+        &bundle.join("artifacts"),
+        &publication.artifact_manifest,
+    ))?;
+    let head = internal(read_decision_head(
+        &bundle.join("approval"),
+        &review,
+        &publication,
+    ))?;
+    let expected = head.as_ref().map(|record| record.digest.as_str());
+    let expires_at = op
+        .expires_at
+        .min(credential.expires_at)
+        .min(issued_at + 300);
+    let challenge = internal(PublicationChallenge::prepare(
+        &credential.subject,
+        &operation,
+        build::REVISION,
+        &review,
+        &publication,
+        &bundle.join("artifacts"),
+        expected,
+        issued_at,
+        op.expires_at
+            .min(credential.expires_at)
+            .min(issued_at + 300),
+    ))?;
+    internal(write_json(&bundle.join("challenge.json"), &challenge))?;
+    Ok(Json(json!({
+        "schema":"codefriend.publication_challenge_response.v1",
+        "format":selection.format,"expires_at":expires_at,
+        "challenge_digest":challenge.digest(),
+        "binding_digest":internal(publication.binding_digest())?,
+        "expected_decision_digest":expected,
+        "candidate_revision":build::REVISION,
+        "challenge":challenge,
+        "approval_status":"not_approved"
+    })))
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct WebsiteDecisionRequest {
+    #[serde(default)]
+    format: super::integration::PublicationFormat,
+    challenge_digest: String,
+    binding_digest: String,
+    expected_decision_digest: Option<String>,
+    decision: super::publication::DecisionKind,
+}
+
+/// A live service authentication boundary, never deserialized or publicly
+/// constructible. The approval owner rechecks it while holding its append lock.
+pub(crate) struct WebsiteDecisionAuthority<'a> {
+    service: &'a Service,
+    headers: &'a HeaderMap,
+    operation: &'a str,
+    request: &'a WebsiteDecisionRequest,
+    challenge: &'a super::integration::PublicationChallenge,
+}
+impl WebsiteDecisionAuthority<'_> {
+    pub(crate) fn verify(
+        &self,
+        review: &super::evidence::contracts::ReviewRecord,
+        publication: &super::evidence::contracts::Publication,
+        current_head: Option<&str>,
+    ) -> Result<(super::publication::approval::WebsiteDecisionProvenance, u64)> {
+        let credential = self
+            .service
+            .auth(self.headers)
+            .map_err(|_| anyhow::anyhow!("unauthorized"))?;
+        let op = self
+            .service
+            .operation(&credential, self.operation)
+            .map_err(|_| anyhow::anyhow!("operation_not_found"))?;
+        let time = now();
+        ensure!(
+            credential.mode == Mode::Hosted
+                && op.status == Status::Complete
+                && op.expires_at > time
+                && op.candidate_revision == build::REVISION,
+            "publication_operation_not_current"
+        );
+        ensure!(
+            review.run.packet_id == op.packet_id && review.run.revision == op.source_revision,
+            "publication_operation_identity_mismatch"
+        );
+        ensure!(
+            current_head == self.request.expected_decision_digest.as_deref(),
+            "decision_head_changed"
+        );
+        self.challenge.verify_response(
+            &credential.subject,
+            self.operation,
+            build::REVISION,
+            &self.request.challenge_digest,
+            &self.request.binding_digest,
+            current_head,
+            review,
+            publication,
+            &publication_directory(
+                self.service,
+                &credential.subject,
+                self.operation,
+                self.request.format,
+            )
+            .join("artifacts"),
+            time,
+        )?;
+        Ok((
+            super::publication::approval::WebsiteDecisionProvenance {
+                subject: credential.subject,
+                operation: self.operation.into(),
+                candidate_revision: build::REVISION.into(),
+                challenge_digest: self.request.challenge_digest.clone(),
+                binding_digest: self.request.binding_digest.clone(),
+            },
+            time,
+        ))
+    }
+}
+
+async fn publication_decision(
+    State(service): State<Service>,
+    headers: HeaderMap,
+    HttpPath(operation): HttpPath<String>,
+    Json(request): Json<WebsiteDecisionRequest>,
+) -> ApiResult<Json<Value>> {
+    use super::publication::approval::{append_authenticated_website_decision, DecisionKind};
+    if !matches!(
+        request.decision,
+        DecisionKind::Approved | DecisionKind::Withheld
+    ) {
+        return Err(ApiError(
+            StatusCode::BAD_REQUEST,
+            "invalid_website_decision",
+        ));
+    }
+    let _guard = service
+        .0
+        .gate
+        .lock()
+        .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
+    let credential = service.auth(&headers)?;
+    let op = service.operation(&credential, &operation)?;
+    if credential.mode != Mode::Hosted || op.status != Status::Complete || op.expires_at <= now() {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "publication_operation_not_current",
+        ));
+    }
+    let dir = service.dir(&credential.subject, &operation);
+    let bundle = publication_directory(&service, &credential.subject, &operation, request.format);
+    let review = internal(read_json(
+        &dir.join("work/review/review-record.json"),
+        MAX_RESULT,
+    ))?;
+    let publication = internal(read_json(&bundle.join("publication.json"), MAX_RESULT))?;
+    let challenge = internal(read_json(&bundle.join("challenge.json"), MAX_RESULT))?;
+    let authority = WebsiteDecisionAuthority {
+        service: &service,
+        headers: &headers,
+        operation: &operation,
+        request: &request,
+        challenge: &challenge,
+    };
+    let record = append_authenticated_website_decision(
+        &bundle.join("approval"),
+        &review,
+        &publication,
+        request.decision.clone(),
+        &authority,
+    )
+    .map_err(|_| ApiError(StatusCode::CONFLICT, "publication_decision_rejected"))?;
+    Ok(Json(
+        json!({"schema":"codefriend.publication_decision_response.v1",
+        "candidate_revision":build::REVISION,"format":request.format, "decision":record}),
+    ))
+}
+
+async fn publication_result(
+    State(service): State<Service>,
+    headers: HeaderMap,
+    HttpPath(operation): HttpPath<String>,
+    Query(selection): Query<PublicationSelection>,
+) -> ApiResult<Json<Value>> {
+    use super::evidence::contracts::{Publication, ReviewRecord};
+    let _guard = service
+        .0
+        .gate
+        .lock()
+        .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
+    let credential = service.auth(&headers)?;
+    let op = service.operation(&credential, &operation)?;
+    if credential.mode != Mode::Hosted
+        || op.status != Status::Complete
+        || op.expires_at <= now()
+        || op.candidate_revision != build::REVISION
+    {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "publication_operation_not_current",
+        ));
+    }
+    let dir = service.dir(&credential.subject, &operation);
+    let bundle = publication_directory(&service, &credential.subject, &operation, selection.format);
+    if !bundle.join("publication.json").exists() {
+        return Err(ApiError(StatusCode::NOT_FOUND, "publication_not_prepared"));
+    }
+    let review: ReviewRecord = internal(read_json(
+        &dir.join("work/review/review-record.json"),
+        MAX_RESULT,
+    ))?;
+    let publication: Publication =
+        internal(read_json(&bundle.join("publication.json"), MAX_RESULT))?;
+    internal(publication.validate(&review))?;
+    internal(super::publication::verify_artifacts(
+        &bundle.join("artifacts"),
+        &publication.artifact_manifest,
+    ))?;
+    let decision = internal(super::publication::read_decision_head(
+        &bundle.join("approval"),
+        &review,
+        &publication,
+    ))?;
+    Ok(Json(
+        json!({"schema":"codefriend.publication_result.v1", "candidate_revision":build::REVISION,"format":selection.format,
+        "publication":publication, "decision":decision, "exports":[], "export_status":"not_rendered"}),
+    ))
 }
