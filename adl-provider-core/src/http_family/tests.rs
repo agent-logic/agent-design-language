@@ -1262,11 +1262,12 @@ fn openrouter_provider_complete_records_chat_completion_request() {
         Some("OPENROUTER_API_KEY"),
         &[],
     );
-    let target = provider_target(
+    let mut target = provider_target(
         "openrouter",
         format!("{endpoint}/api/v1/chat/completions"),
         "deepseek/deepseek-chat",
     );
+    target.effective_inference.reasoning_effort = Some("low".to_string());
     let provider = OpenRouterProvider::from_target(&spec, &target).expect("provider");
 
     let output = provider.complete("hello openrouter").expect("completion");
@@ -1279,6 +1280,10 @@ fn openrouter_provider_complete_records_chat_completion_request() {
         .contains(r#""model":"deepseek/deepseek-chat""#));
     assert!(captured.body.contains(r#""content":"hello openrouter""#));
     assert!(captured.body.contains(r#""stream":false"#));
+    let request_body: serde_json::Value =
+        serde_json::from_str(&captured.body).expect("OpenRouter request JSON");
+    assert_eq!(request_body["reasoning"]["effort"], "low");
+    assert!(request_body.get("reasoning_effort").is_none());
     assert!(captured.headers.iter().any(
         |(k, v)| k.eq_ignore_ascii_case("authorization") && v == "Bearer test-openrouter-token"
     ));
@@ -1300,6 +1305,30 @@ fn openrouter_provider_complete_records_chat_completion_request() {
     }
 
     let _ = handle.join();
+}
+
+#[test]
+fn openrouter_provider_rejects_raw_reasoning_object_before_dispatch() {
+    let mut spec = provider_spec(
+        "openrouter",
+        OPENROUTER_CHAT_COMPLETIONS_ENDPOINT,
+        Some("OPENROUTER_API_KEY"),
+        &[],
+    );
+    spec.config
+        .insert("reasoning".to_string(), json!({"effort": "high"}));
+    let mut target = provider_target(
+        "openrouter",
+        OPENROUTER_CHAT_COMPLETIONS_ENDPOINT.to_string(),
+        "deepseek/deepseek-chat",
+    );
+    target.effective_inference.reasoning_effort = Some("low".to_string());
+
+    let error = OpenRouterProvider::from_target(&spec, &target)
+        .expect_err("raw and normalized reasoning controls must not coexist");
+    assert!(error
+        .to_string()
+        .contains("config.reasoning is not admitted; use config.reasoning_effort"));
 }
 
 #[test]

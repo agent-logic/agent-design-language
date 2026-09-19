@@ -776,7 +776,11 @@ fn codec_controls(
         ("openai", ProviderTransportV1::Http) => ("openai_responses_v1", common.clone()),
         ("anthropic", ProviderTransportV1::Http) => ("anthropic_messages_v1", common.clone()),
         ("deepseek", ProviderTransportV1::Http) => ("deepseek_chat_v1", common.clone()),
-        ("openrouter", ProviderTransportV1::Http) => ("openrouter_chat_v1", common.clone()),
+        ("openrouter", ProviderTransportV1::Http) => {
+            let mut controls = common.clone();
+            controls.push(ReasoningEffort);
+            ("openrouter_chat_v1", controls)
+        }
         ("bedrock", ProviderTransportV1::Http) | ("aws_bedrock", ProviderTransportV1::Http) => {
             ("aws_bedrock_invoke_v1", common.clone())
         }
@@ -1518,6 +1522,8 @@ mod tests {
             "provider_model_id".to_string(),
             json!("anthropic/claude-3.5-haiku"),
         );
+        spec.config
+            .insert("reasoning_effort".to_string(), json!("low"));
 
         let substrate = provider_substrate_v1("openrouter_primary", &spec).expect("substrate");
         assert_eq!(substrate.vendor, "openrouter");
@@ -1536,6 +1542,14 @@ mod tests {
             "anthropic/claude-3.5-haiku"
         );
         assert_eq!(target.model_identity.runtime_surface, "hosted_http");
+        assert_eq!(
+            target.effective_inference.reasoning_effort.as_deref(),
+            Some("low")
+        );
+        assert!(target
+            .codec_controls
+            .consumes
+            .contains(&InferenceControlV1::ReasoningEffort));
     }
 
     #[test]

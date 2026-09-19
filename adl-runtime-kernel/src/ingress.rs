@@ -69,6 +69,8 @@ pub enum IngressError {
     UnsupportedKind,
     #[error("domain work execution failed")]
     ExecutionFailed,
+    #[error("provider execution failed: {0}")]
+    ProviderExecutionFailed(&'static str),
     #[error("canonical ingress drain timed out")]
     DrainTimeout,
 }
@@ -303,11 +305,36 @@ impl CanonicalIngress {
                 cancellation,
             )
             .await
-            .map_err(|error| match error {
-                OperationError::InvalidRequest => IngressError::Conflict,
-                _ => IngressError::ExecutionFailed,
-            })?;
+            .map_err(ingress_error_from_operation_error)?;
         apply(&self.state, work, &operation)
+    }
+}
+
+fn ingress_error_from_operation_error(error: OperationError) -> IngressError {
+    match error {
+        OperationError::InvalidRequest => IngressError::Conflict,
+        OperationError::Exhausted { ref message, .. }
+        | OperationError::Degraded(ref message)
+        | OperationError::Fatal(ref message) => provider_failure_code(message)
+            .map(IngressError::ProviderExecutionFailed)
+            .unwrap_or(IngressError::ExecutionFailed),
+        _ => IngressError::ExecutionFailed,
+    }
+}
+
+fn provider_failure_code(message: &str) -> Option<&'static str> {
+    match message {
+        "provider_unknown" => Some("provider_unknown"),
+        "provider_credentials" => Some("provider_credentials"),
+        "provider_quota" => Some("provider_quota"),
+        "provider_unsupported_capability" => Some("provider_unsupported_capability"),
+        "provider_model_unavailable" => Some("provider_model_unavailable"),
+        "provider_transport" => Some("provider_transport"),
+        "provider_timeout" => Some("provider_timeout"),
+        "provider_invalid_response" => Some("provider_invalid_response"),
+        "provider_invalid_configuration" => Some("provider_invalid_configuration"),
+        "provider_cancelled" => Some("provider_cancelled"),
+        _ => None,
     }
 }
 
@@ -619,6 +646,38 @@ fn valid_multipart_agent_message(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn provider_failure_projection_is_allowlisted_and_redacted() {
+        for code in [
+            "provider_unknown",
+            "provider_credentials",
+            "provider_quota",
+            "provider_unsupported_capability",
+            "provider_model_unavailable",
+            "provider_transport",
+            "provider_timeout",
+            "provider_invalid_response",
+            "provider_invalid_configuration",
+            "provider_cancelled",
+        ] {
+            assert_eq!(provider_failure_code(code), Some(code));
+        }
+        assert_eq!(provider_failure_code("secret-bearing provider error"), None);
+        assert_eq!(provider_failure_code("agent_provider_failed"), None);
+        assert_eq!(
+            ingress_error_from_operation_error(OperationError::Fatal(
+                "provider_timeout".to_owned()
+            )),
+            IngressError::ProviderExecutionFailed("provider_timeout")
+        );
+        assert_eq!(
+            ingress_error_from_operation_error(OperationError::Fatal(
+                "secret-bearing provider error".to_owned()
+            )),
+            IngressError::ExecutionFailed
+        );
+    }
 
     fn conversation_work_payload(recipient_id: &str) -> Vec<u8> {
         serde_json::to_vec(&serde_json::json!({
