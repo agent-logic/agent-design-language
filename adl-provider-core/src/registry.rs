@@ -633,19 +633,24 @@ struct NativeAdapter {
 
 const RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS: u64 = 600;
 
-fn apply_runtime_transport_bounds(spec: &mut ProviderSpec) {
+fn apply_runtime_transport_bounds(spec: &mut ProviderSpec, kind: &str) {
     // A blocking transport retains one of Runtime's provider permits until it
     // returns, including after its caller stops waiting. Preserve useful
     // model-specific timeouts while preventing a valid definition from
     // retaining shared capacity for hours.
-    let timeout_secs = spec
-        .config
-        .get("timeout_secs")
-        .and_then(serde_json::Value::as_u64)
-        .unwrap_or(30)
-        .min(RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS);
-    spec.config
-        .insert("timeout_secs".into(), timeout_secs.into());
+    // `timeout_secs` is an inference control consumed by network transports.
+    // Do not inject it into the in-process mock codec: current ProviderSpec
+    // validation correctly rejects controls a codec cannot consume.
+    if kind != "mock" {
+        let timeout_secs = spec
+            .config
+            .get("timeout_secs")
+            .and_then(serde_json::Value::as_u64)
+            .unwrap_or(30)
+            .min(RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS);
+        spec.config
+            .insert("timeout_secs".into(), timeout_secs.into());
+    }
     spec.config.insert("runtime_max_attempts".into(), 1.into());
 }
 
@@ -685,7 +690,7 @@ impl RuntimeProviderAdapter for NativeAdapter {
                 .insert("api_format".into(), "openai_chat_completions".into());
         }
         // Bound transport even if the caller stops awaiting the blocking call.
-        apply_runtime_transport_bounds(&mut spec);
+        apply_runtime_transport_bounds(&mut spec, &self.kind);
         if let Some(reference) = &binding.credential_ref {
             let name = credential_env(reference)?;
             spec.config.insert("auth_env".into(), name.into());
