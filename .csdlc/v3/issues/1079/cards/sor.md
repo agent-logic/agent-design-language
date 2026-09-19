@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path adl-provider-core/Cargo.toml; cargo clippy --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings; focused adl-runtime-kernel tests; native csdlc validate`
     `Verifies request controls, rejection semantics, provider suite integrity, typed Runtime failures, and lifecycle card structure.`
 - Results:
-  - `Native exact-head proof passed all 124 provider-core tests after the timeout fix; strict Clippy passed before the timeout-only registry change; authenticated Runtime failure regression passed; installed full issue review and governed A2A recipient/continuation both delivered. Two unrelated broader Runtime test failures and existing Runtime Clippy warnings reproduce on clean main.`
+  - `Native proof passed all 125 provider-core tests against implementation head cf90bfc53c after bounding Runtime transport timeouts at 600 seconds; strict all-target Clippy passed; authenticated Runtime failure regression passed; installed full issue review and governed A2A recipient/continuation both delivered. Two unrelated broader Runtime test failures and existing Runtime Clippy warnings reproduce on clean main.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

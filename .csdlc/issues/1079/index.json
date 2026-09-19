@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 1079,
   "phase": "bound",
-  "generation": 13,
+  "generation": 14,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/1079-deepseek-openrouter-reasoning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1079-deepseek-openrouter-reasoning",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "a354a1acebcd0a8c46e623a63a15f0e5ee6e9948712329be476fdfa340e80f69"
+  "digest": "8084041606ca206db334fd1aff75ee1374bbcd31208ba15cd7d772bb33d4ac18"
 }
