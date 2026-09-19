@@ -1,5 +1,7 @@
 //! Installed agent authority. Website commands select locally approved evidence;
 //! they never provide paths, executable commands, or provider credentials.
+pub mod publication;
+
 use super::{
     evidence::hash,
     ingestion::{self, Scope},
@@ -861,7 +863,11 @@ impl Transport {
     /// and reuses completed lanes; no dispatched POST is replayed.
     pub fn poll_once(&self, journal: &Journal, consent_path: &Path) -> Result<Option<String>> {
         journal.expire((self.clock)())?;
-        let result = self.poll_inner(journal, consent_path);
+        let result = match self.poll_publication(journal, consent_path) {
+            Ok(Some(run)) => Ok(Some(run)),
+            Ok(None) => self.poll_inner(journal, consent_path),
+            Err(error) => Err(error),
+        };
         journal.expire((self.clock)())?;
         result
     }

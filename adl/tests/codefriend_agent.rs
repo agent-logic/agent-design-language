@@ -328,7 +328,10 @@ impl WireServer {
                     "a".repeat(64)
                 };
                 assert!(header.contains(&format!("Bearer {expected_token}")));
-                let mut reply = if path == "/v1/agent/poll" {
+                let mut reply = if method == "GET" && path == "/v1/agent/publications" {
+                    assert_eq!(size, 0);
+                    json!({"job": null})
+                } else if path == "/v1/agent/poll" {
                     assert_eq!(body["consent_digest"], command.consent_digest);
                     json!({"schema":PROTOCOL,"command":command})
                 } else if path == "/v1/agent/revoke" {

@@ -2,6 +2,7 @@
 //! No client-selected paths, identities, arbitrary prompts, endpoints or credentials.
 #[cfg(unix)]
 pub mod control;
+mod publication_export;
 use super::{
     evidence::{contracts::Completion, store::Store, Admission, Retention},
     ingestion::Packet,
@@ -523,6 +524,10 @@ impl Service {
             .route(
                 "/v1/operations/:operation/publication/result",
                 get(publication_result),
+            )
+            .route(
+                "/v1/operations/:operation/publication/render",
+                post(publication_export::render),
             )
             .route_layer(axum::middleware::from_fn_with_state(
                 self.clone(),
@@ -1059,8 +1064,14 @@ async fn publication_result(
         &review,
         &publication,
     ))?;
-    Ok(Json(
-        json!({"schema":"codefriend.publication_result.v1", "candidate_revision":build::REVISION,"format":selection.format,
-        "publication":publication, "decision":decision, "exports":[], "export_status":"not_rendered"}),
-    ))
+    let value = internal(publication_export::observe(
+        &service,
+        &credential.subject,
+        &operation,
+        selection.format,
+        &review,
+        &publication,
+        decision.as_ref(),
+    ))?;
+    publication_export::checked_response(&service, &headers, &operation, &credential.subject, value)
 }

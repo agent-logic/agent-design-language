@@ -48,7 +48,7 @@ impl AgentIo for Network {
 fn run_with(mut args: impl Iterator<Item = String>, io: &impl AgentIo) -> Result<()> {
     let command = args.next().unwrap_or_default();
     if command == "--help" {
-        println!("codefriend-agent pair --store PATH --origin HTTPS_ORIGIN --code-file PRIVATE_FILE\ncodefriend-agent run|once --store PATH --consent PRIVATE_FILE\ncodefriend-agent unpair|forget --store PATH\ncodefriend-agent verify-report --report-file PRIVATE_FILE");
+        println!("codefriend-agent pair --store PATH --origin HTTPS_ORIGIN --code-file PRIVATE_FILE\ncodefriend-agent run|once --store PATH --consent PRIVATE_FILE\ncodefriend-agent unpair|forget --store PATH\ncodefriend-agent verify-report --report-file PRIVATE_FILE\ncodefriend-agent verify-publication-stage --stage-file PRIVATE_FILE --context-file PRIVATE_FILE");
         return Ok(());
     }
     let mut flags = BTreeMap::new();
@@ -60,6 +60,27 @@ fn run_with(mut args: impl Iterator<Item = String>, io: &impl AgentIo) -> Result
             flags.insert(key, value).is_none(),
             "agent_duplicate_argument"
         );
+    }
+    if command == "verify-publication-stage" {
+        let stage_file = flags
+            .remove("--stage-file")
+            .ok_or_else(|| anyhow::anyhow!("agent_stage_file_required"))?;
+        let context_file = flags
+            .remove("--context-file")
+            .ok_or_else(|| anyhow::anyhow!("agent_context_file_required"))?;
+        ensure!(flags.is_empty(), "agent_unknown_argument");
+        let stage: adl::codefriend::agent::publication::Stage =
+            serde_json::from_slice(&private_bytes(Path::new(&stage_file), 4 * 1024 * 1024)?)?;
+        let context: adl::codefriend::agent::publication::VerificationContext =
+            serde_json::from_slice(&private_bytes(Path::new(&context_file), 9 * 1024 * 1024)?)?;
+        adl::codefriend::agent::publication::verify_stage(&stage, &context, now())?;
+        println!(
+            "{}",
+            serde_json::to_string(&serde_json::json!({
+                "schema":"codefriend.agent_publication_verification.v1", "stage":stage.stage, "digest":stage.digest
+            }))?
+        );
+        return Ok(());
     }
     if command == "verify-report" {
         let file = flags

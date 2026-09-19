@@ -362,6 +362,147 @@ async fn website_approval_authenticates_rejects_stale_binding_and_expires_payloa
         repeated["decision"]["digest"],
         approved["decision"]["digest"]
     );
+    // Actual native renderers consume the authenticated website decision. Synthetic
+    // review input remains component proof, not live provider or human acceptance.
+    use base64::Engine;
+    let render_route = "/v1/operations/run1/publication/render";
+    let render_request = json!({"format":"markdown", "binding_digest":challenge["binding_digest"],
+        "decision_digest":approved["decision"]["digest"]});
+    assert_eq!(
+        http_call(&app, "POST", render_route, None, render_request.clone())
+            .await
+            .0,
+        401
+    );
+    assert_eq!(
+        http_call(
+            &app,
+            "POST",
+            render_route,
+            Some(bob),
+            render_request.clone()
+        )
+        .await
+        .0,
+        404
+    );
+    let mut forged = render_request.clone();
+    forged["decision_digest"] = json!("forged");
+    assert_eq!(
+        http_call(&app, "POST", render_route, Some(alice), forged)
+            .await
+            .0,
+        409
+    );
+    assert!(!operation
+        .join("work/publications/markdown/render-reservation.json")
+        .exists());
+    let (status, rendered) = http_call(
+        &app,
+        "POST",
+        render_route,
+        Some(alice),
+        render_request.clone(),
+    )
+    .await;
+    assert_eq!(status, 200, "{rendered}");
+    assert_eq!(rendered["export_status"], "complete");
+    let report = base64::engine::general_purpose::STANDARD
+        .decode(rendered["exports"][0]["bytes_base64"].as_str().unwrap())
+        .unwrap();
+    assert!(!report.is_empty());
+    assert_eq!(
+        rendered["exports"][0]["digest"],
+        blake3::hash(&report).to_hex().to_string()
+    );
+    let marker = operation.join("work/publications/markdown/render-reservation.json");
+    let reserved_bytes = fs::read(&marker).unwrap();
+    let (_, observed) = http_call(
+        &app,
+        "GET",
+        "/v1/operations/run1/publication/result",
+        Some(alice),
+        json!(null),
+    )
+    .await;
+    assert_eq!(observed, rendered);
+    let (_, repeated_render) = http_call(
+        &app,
+        "POST",
+        render_route,
+        Some(alice),
+        render_request.clone(),
+    )
+    .await;
+    assert_eq!(repeated_render, rendered);
+    assert_eq!(fs::read(&marker).unwrap(), reserved_bytes);
+    let report_path = operation
+        .join("work/exports")
+        .join(&publication.target)
+        .join("report.md");
+    fs::write(&report_path, b"tampered").unwrap();
+    assert_eq!(
+        http_call(
+            &app,
+            "GET",
+            "/v1/operations/run1/publication/result",
+            Some(alice),
+            json!(null)
+        )
+        .await
+        .0,
+        500
+    );
+    assert_eq!(
+        http_call(
+            &app,
+            "POST",
+            render_route,
+            Some(alice),
+            render_request.clone()
+        )
+        .await
+        .0,
+        500
+    );
+    assert_eq!(fs::read(&report_path).unwrap(), b"tampered"); // no rerender repairs tampered output
+    fs::write(&report_path, &report).unwrap();
+    let font = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+    ]
+    .into_iter()
+    .map(std::path::PathBuf::from)
+    .find(|p| p.is_file())
+    .expect("PDF fixture font required");
+    fs::copy(font, root.join("publication-font.ttf")).unwrap();
+    for format in ["html", "pdf"] {
+        let (status, challenge) =
+            http_call(&app, "POST", prepare, Some(alice), json!({"format":format})).await;
+        assert_eq!(status, 200, "{challenge}");
+        let (status, approved) = http_call(&app, "POST", decide, Some(alice), json!({"format":format,
+            "challenge_digest":challenge["challenge_digest"], "binding_digest":challenge["binding_digest"],
+            "expected_decision_digest":challenge["expected_decision_digest"], "decision":"approved"})).await;
+        assert_eq!(status, 200, "{approved}");
+        let (status, output) = http_call(&app, "POST", render_route, Some(alice), json!({"format":format,
+            "binding_digest":challenge["binding_digest"], "decision_digest":approved["decision"]["digest"]})).await;
+        assert_eq!(status, 200, "{output}");
+        assert_eq!(output["export_status"], "complete", "{output}");
+        assert_eq!(output["exports"].as_array().unwrap().len(), 1);
+        let bytes = base64::engine::general_purpose::STANDARD
+            .decode(output["exports"][0]["bytes_base64"].as_str().unwrap())
+            .unwrap();
+        if format == "pdf" {
+            assert!(bytes.starts_with(b"%PDF-"));
+        }
+        let manifest = base64::engine::general_purpose::STANDARD
+            .decode(output["manifest_bytes_base64"].as_str().unwrap())
+            .unwrap();
+        assert_eq!(
+            output["render_result"]["manifest_digest"],
+            blake3::hash(&manifest).to_hex().to_string()
+        );
+    }
     append_decision(
         &store,
         &review,
@@ -385,6 +526,21 @@ async fn website_approval_authenticates_rejects_stale_binding_and_expires_payloa
             .decision,
         DecisionKind::Invalidated
     );
+    assert_eq!(
+        http_call(&app, "POST", render_route, Some(alice), render_request)
+            .await
+            .0,
+        409
+    );
+    let (_, revoked_output) = http_call(
+        &app,
+        "GET",
+        "/v1/operations/run1/publication/result",
+        Some(alice),
+        json!(null),
+    )
+    .await;
+    assert_eq!(revoked_output["exports"], json!([]));
     fs::write(
         operation.join("work/exports/retained-output.md"),
         "source-derived output fixture",

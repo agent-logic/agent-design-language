@@ -902,7 +902,7 @@ fn markdown_code_span(value: &str) -> Result<String> {
     Ok(format!("{fence} {value} {fence}"))
 }
 
-fn validate_manifest(
+pub(crate) fn validate_manifest(
     manifest: &MarkdownManifest,
     review: &crate::codefriend::evidence::contracts::ReviewRecord,
     synthesis: &ReviewSynthesis,

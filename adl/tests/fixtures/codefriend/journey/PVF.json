@@ -8,7 +8,13 @@
     "cpu": "bounded local",
     "disk": "temporary scoped Git/evidence directories",
     "provider_calls": 0,
-    "fonts": "installed Unicode TrueType font (DejaVu Sans on Linux or Arial on macOS), required, not skipped"
+    "fonts": "installed Unicode TrueType font (DejaVu Sans on Linux or Arial on macOS), required, not skipped",
+    "continuation_limits": {
+      "max_checkpoints": 64,
+      "max_entries": 2048,
+      "max_file_bytes": 33554432,
+      "max_aggregate_bytes": 268435456
+    }
   },
   "release_gate": "required supporting proof; insufficient for complete Beta acceptance",
   "nonclaims": [
@@ -28,6 +34,8 @@
   "component_proof": [
     "four generated lane records feed native synthesis, remediation and test plans",
     "three format-specific synthetic approvals gate actual Markdown/HTML/PDF bytes",
-    "missing and withheld approval deny output; one format approval cannot authorize another"
+    "missing and withheld approval deny output; one format approval cannot authorize another",
+    "digest-linked durable resume preserves owner locks, exact retained artifacts, original options and acquisition provenance",
+    "restart failure, private directory/record permission changes and source/retention changes fail closed; no provider redispatch"
   ]
 }

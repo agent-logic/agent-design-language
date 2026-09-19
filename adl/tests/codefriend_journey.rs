@@ -528,3 +528,173 @@ fn generated_four_lane_review_flows_through_three_separately_approved_exports() 
     assert_eq!(journey.manifest().status, StageStatus::Pending);
     assert_eq!(git(&fixture.source, &["status", "--porcelain=v1"]), "");
 }
+
+#[test]
+fn durable_resume_reconstructs_owners_and_keeps_pending_denominator() {
+    use adl::codefriend::integration::journey::{resume, Continuation};
+    let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    let j = prepare_local(f.options()).unwrap();
+    let output = j.output().to_path_buf();
+    drop(j);
+    let mut resumed = resume(&output).unwrap();
+    assert!(resumed.graph().is_some());
+    resumed.continue_with(Continuation::Status).unwrap();
+    assert_eq!(resumed.manifest().status, StageStatus::Pending);
+    assert!(
+        resume(&output).is_err(),
+        "the admission owner lock remains held during continuation"
+    );
+}
+#[test]
+fn resume_rejects_retained_artifact_tampering_and_uncheckpointed_outputs() {
+    use adl::codefriend::integration::journey::resume;
+    for name in ["structure.json", "orphan-effect.json", "session.json"] {
+        let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+        let j = prepare_local(f.options()).unwrap();
+        let output = j.output().to_path_buf();
+        drop(j);
+        fs::write(output.join(name), "{}").unwrap();
+        assert!(resume(&output).is_err(), "{name}");
+    }
+}
+#[test]
+fn resume_rejects_missing_checkpoint_or_manifest() {
+    use adl::codefriend::integration::journey::resume;
+    for altered in ["checkpoint-0001.json", "journey-0003.json"] {
+        let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+        let j = prepare_local(f.options()).unwrap();
+        let output = j.output().to_path_buf();
+        drop(j);
+        fs::remove_file(output.join(altered)).unwrap();
+        assert!(resume(&output).is_err());
+    }
+}
+#[test]
+fn compiled_cli_dispatch_can_observe_a_resumed_journey() {
+    let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    let request = f.dir.path().join("journey-request.json");
+    fs::write(&request, serde_json::to_vec(&f.options()).unwrap()).unwrap();
+    let exe = env!("CARGO_BIN_EXE_adl");
+    assert!(Command::new(exe)
+        .args(["codefriend", "journey", "local", "--request"])
+        .arg(request)
+        .status()
+        .unwrap()
+        .success());
+    let step = f.dir.path().join("step.json");
+    fs::write(&step, r#"{"stage":"status"}"#).unwrap();
+    let result = Command::new(exe)
+        .args(["codefriend", "journey", "resume", "--output"])
+        .arg(f.options().output)
+        .arg("--request")
+        .arg(step)
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    let manifest: serde_json::Value = serde_json::from_slice(&result.stdout).unwrap();
+    assert_eq!(manifest["status"], "pending");
+}
+
+#[test]
+fn failed_review_continuation_survives_restart_without_another_dispatch() {
+    use adl::codefriend::integration::journey::{resume, Continuation};
+    let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    let j = prepare_local(f.options()).unwrap();
+    let output = j.output().to_path_buf();
+    drop(j);
+    let request = || Continuation::Review {
+        provider_request: f.dir.path().join("missing-provider-request.json"),
+        run_id: "review1".into(),
+        cancel_file: None,
+    };
+    let mut j = resume(&output).unwrap();
+    assert!(j.continue_with(request()).is_err());
+    assert_eq!(j.manifest().stages["review"].status, StageStatus::Failed);
+    drop(j);
+    let mut j = resume(&output).unwrap();
+    assert!(j.continue_with(request()).is_err());
+    assert_eq!(j.manifest().status, StageStatus::Failed);
+    assert!(output.join("intent-review.json").is_file());
+    assert!(!output.join("review").exists());
+}
+
+#[cfg(unix)]
+#[test]
+fn resume_rejects_broadened_private_record_permissions() {
+    use adl::codefriend::integration::journey::resume;
+    use std::os::unix::fs::PermissionsExt;
+    for name in [
+        "",
+        "session.json",
+        "checkpoint-0000.json",
+        "journey-0000.json",
+    ] {
+        let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+        let j = prepare_local(f.options()).unwrap();
+        let output = j.output().to_path_buf();
+        drop(j);
+        fs::set_permissions(
+            output.join(name),
+            fs::Permissions::from_mode(if name.is_empty() { 0o755 } else { 0o644 }),
+        )
+        .unwrap();
+        assert!(resume(&output).is_err(), "broadened permissions: {name}");
+    }
+}
+
+#[test]
+fn resume_rejects_source_changes_and_deleted_admission() {
+    use adl::codefriend::integration::journey::resume;
+    for deleted in [false, true] {
+        let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+        let j = prepare_local(f.options()).unwrap();
+        let output = j.output().to_path_buf();
+        drop(j);
+        if deleted {
+            fs::remove_dir_all(f.options().store).unwrap();
+        } else {
+            fs::remove_dir_all(f.source.join(".git")).unwrap();
+        }
+        assert!(resume(&output).is_err());
+    }
+}
+
+#[test]
+fn ci_continuation_pins_original_provenance() {
+    use adl::codefriend::{
+        ingestion::ci,
+        integration::journey::{prepare_source, resume, AcquisitionSource},
+    };
+    let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    let options = f.options();
+    let (_, mut receipt) = ci::acquire(
+        &f.source,
+        &options.repository,
+        &f.revision,
+        options.scope.clone(),
+        env!("CODEFRIEND_BUILD_REVISION"),
+        [("run_id".into(), "123".into())].into(),
+    )
+    .unwrap();
+    let path = f.dir.path().join("ci-receipt.json");
+    fs::write(&path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+    let j = prepare_source(
+        options,
+        AcquisitionSource::Ci {
+            receipt: path.clone(),
+        },
+    )
+    .unwrap();
+    let output = j.output().to_path_buf();
+    drop(j);
+    drop(resume(&output).unwrap());
+    // This remains a structurally valid receipt for the same packet. The saved
+    // original provenance must nevertheless reject replacement with another run.
+    receipt.metadata.insert("run_id".into(), "456".into());
+    fs::write(&path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+    assert!(resume(&output).is_err());
+}

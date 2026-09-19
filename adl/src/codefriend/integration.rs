@@ -262,72 +262,29 @@ fn build_publication_bundle(
     destination: &Path,
     format: PublicationFormat,
 ) -> Result<Publication> {
-    use crate::codefriend::{
-        actions::{
-            remediation::{plan_from_file as remediate, RemediationOptions},
-            test_plan::{plan_from_file as test_plan, TestPlanOptions},
-        },
-        evidence::contracts::Artifact,
-        ingestion::digest,
-        publication::{read_review, ManifestInput},
-        review::synthesis::{synthesize_from_file, SynthesisOptions},
-    };
-    use std::{collections::BTreeMap, fs};
+    use crate::codefriend::publication::{read_review, ManifestInput};
+    use std::{collections::BTreeMap, fs, io::Write};
     let review = read_review(review_path)?;
     ensure!(
         review.run.completion == Completion::Complete,
         "publication_bundle_requires_complete_run"
     );
+    let snapshot = fs::read(review_path)?;
+    let generated = publication_artifacts(&review, &snapshot)?;
     let artifact_root = output.join("artifacts");
     fs::create_dir(&artifact_root)?;
-    synthesize_from_file(SynthesisOptions {
-        input: review_path.into(),
-        out: artifact_root.join("synthesis"),
-    })?;
-    remediate(RemediationOptions {
-        input: artifact_root.join("synthesis/synthesis.json"),
-        out: artifact_root.join("remediation"),
-    })?;
-    test_plan(TestPlanOptions {
-        input: artifact_root.join("synthesis/synthesis.json"),
-        out: artifact_root.join("tests"),
-    })?;
-    let mut artifacts = Vec::new();
-    for (directory, names) in [
-        (
-            "synthesis",
-            &["manifest.json", "review-record.json", "synthesis.json"][..],
-        ),
-        (
-            "remediation",
-            &[
-                "manifest.json",
-                "remediation-plan.json",
-                "review-record.json",
-                "synthesis-manifest.json",
-                "synthesis.json",
-            ][..],
-        ),
-        (
-            "tests",
-            &[
-                "manifest.json",
-                "review-record.json",
-                "synthesis-manifest.json",
-                "synthesis.json",
-                "test-plan.json",
-            ][..],
-        ),
-    ] {
-        for name in names {
-            let path = format!("{directory}/{name}");
-            artifacts.push(Artifact {
-                path: path.clone(),
-                digest: digest(&fs::read(artifact_root.join(path))?),
-            });
-        }
+    for name in ["synthesis", "remediation", "tests"] {
+        fs::create_dir(artifact_root.join(name))?;
     }
-    artifacts.sort_by(|left, right| left.path.cmp(&right.path));
+    for (name, bytes) in &generated.files {
+        let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(artifact_root.join(name))?;
+        file.write_all(bytes)?;
+        file.sync_all()?;
+    }
+    let artifacts = generated.inventory();
     let manifest = ManifestInput {
         schema: "codefriend.publication_manifest_input.v1".into(),
         artifact_manifest: artifacts,
@@ -346,4 +303,108 @@ fn build_publication_bundle(
         &publication,
     )?;
     Ok(publication)
+}
+
+pub(crate) struct PublicationArtifacts {
+    pub files: std::collections::BTreeMap<String, Vec<u8>>,
+}
+impl PublicationArtifacts {
+    pub(crate) fn inventory(&self) -> Vec<crate::codefriend::evidence::contracts::Artifact> {
+        self.files
+            .iter()
+            .map(
+                |(path, bytes)| crate::codefriend::evidence::contracts::Artifact {
+                    path: path.clone(),
+                    digest: crate::codefriend::ingestion::digest(bytes),
+                },
+            )
+            .collect()
+    }
+}
+/// Preserve the original snapshot bytes exactly; file owners intentionally retain
+/// them in synthesis/tests, while remediation writes a typed pretty snapshot.
+pub(crate) fn publication_artifacts(
+    review: &crate::codefriend::evidence::contracts::ReviewRecord,
+    review_bytes: &[u8],
+) -> anyhow::Result<PublicationArtifacts> {
+    use crate::codefriend::{
+        actions::{
+            remediation::{self, RemediationManifest, REMEDIATION_MANIFEST_SCHEMA},
+            test_plan::{self, TestPlanManifest, TEST_PLAN_MANIFEST_SCHEMA},
+        },
+        evidence::hash,
+        review::synthesis::{self, SynthesisManifest, SYNTHESIS_MANIFEST_SCHEMA},
+    };
+    let parsed: crate::codefriend::evidence::contracts::ReviewRecord =
+        serde_json::from_slice(review_bytes)?;
+    anyhow::ensure!(&parsed == review, "publication_snapshot_mismatch");
+    review.validate()?;
+    let synthesis = synthesis::synthesize(review)?;
+    let remediation = remediation::plan(&synthesis, review)?;
+    let tests = test_plan::plan(&synthesis)?;
+    let sm = SynthesisManifest {
+        schema: SYNTHESIS_MANIFEST_SCHEMA.into(),
+        synthesis_ref: "synthesis.json".into(),
+        synthesis_digest: hash(&synthesis)?,
+        review_record_ref: "review-record.json".into(),
+        review_record_digest: hash(review)?,
+        synthesized_finding_count: synthesis.synthesized_findings.len(),
+        input_finding_count: synthesis.input_finding_count,
+    };
+    let rm = RemediationManifest {
+        schema: REMEDIATION_MANIFEST_SCHEMA.into(),
+        synthesis_ref: "synthesis.json".into(),
+        synthesis_digest: remediation.synthesis_digest.clone(),
+        synthesis_manifest_ref: "synthesis-manifest.json".into(),
+        synthesis_manifest_digest: hash(&sm)?,
+        review_record_ref: "review-record.json".into(),
+        review_record_digest: hash(review)?,
+        remediation_plan_ref: "remediation-plan.json".into(),
+        remediation_plan_digest: hash(&remediation)?,
+        action_count: remediation.actions.len(),
+        omitted_finding_count: remediation.omitted_findings.len(),
+    };
+    let tm = TestPlanManifest {
+        schema: TEST_PLAN_MANIFEST_SCHEMA.into(),
+        synthesis_manifest_ref: "synthesis-manifest.json".into(),
+        synthesis_manifest_digest: hash(&sm)?,
+        synthesis_ref: "synthesis.json".into(),
+        synthesis_digest: tests.synthesis_digest.clone(),
+        review_record_ref: "review-record.json".into(),
+        review_record_digest: hash(review)?,
+        test_plan_ref: "test-plan.json".into(),
+        test_plan_digest: hash(&tests)?,
+        test_case_count: tests.test_cases.len(),
+        omitted_finding_count: tests.omitted_findings.len(),
+    };
+    fn bytes<T: serde::Serialize>(v: &T) -> anyhow::Result<Vec<u8>> {
+        let mut b = serde_json::to_vec_pretty(v)?;
+        b.push(b'\n');
+        Ok(b)
+    }
+    let synthesis_bytes = bytes(&synthesis)?;
+    let sm_bytes = bytes(&sm)?;
+    Ok(PublicationArtifacts {
+        files: std::collections::BTreeMap::from([
+            ("synthesis/review-record.json".into(), review_bytes.to_vec()),
+            ("synthesis/synthesis.json".into(), synthesis_bytes.clone()),
+            ("synthesis/manifest.json".into(), sm_bytes.clone()),
+            ("remediation/review-record.json".into(), bytes(review)?),
+            ("remediation/synthesis.json".into(), synthesis_bytes.clone()),
+            (
+                "remediation/synthesis-manifest.json".into(),
+                sm_bytes.clone(),
+            ),
+            (
+                "remediation/remediation-plan.json".into(),
+                bytes(&remediation)?,
+            ),
+            ("remediation/manifest.json".into(), bytes(&rm)?),
+            ("tests/review-record.json".into(), review_bytes.to_vec()),
+            ("tests/synthesis.json".into(), synthesis_bytes),
+            ("tests/synthesis-manifest.json".into(), sm_bytes),
+            ("tests/test-plan.json".into(), bytes(&tests)?),
+            ("tests/manifest.json".into(), bytes(&tm)?),
+        ]),
+    })
 }
