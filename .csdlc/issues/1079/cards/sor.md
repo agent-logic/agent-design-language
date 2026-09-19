@@ -33,12 +33,12 @@ Execution:
 
 ## Summary
 
-Implemented OpenRouter reasoning-effort serialization, conflicting-control rejection, safe typed Runtime provider failures, docs, and focused tests. Conversation-level regressions, installed DeepSeek profile, live proof, final review, PR, CI, and merge remain in progress.
+Implemented OpenRouter reasoning-effort serialization, conflicting-control rejection, typed Runtime provider failures, provider-specific timeout preservation, docs, focused tests, and successful installed DeepSeek full-review and governed A2A proof. Exact-head review, publication, CI, and merge remain in progress.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime_provider_integration`
 - Planned PVF lane: `focused_provider_and_runtime_integration_plus_bounded_live_qualification`
-- Final PVF lane: `in_progress`
+- Final PVF lane: `focused_provider_and_runtime_integration_plus_bounded_live_qualification`
 - Lane change reason: `No material lane change.`
 
 ## Issue Metrics Truth
@@ -57,7 +57,7 @@ Implemented OpenRouter reasoning-effort serialization, conflicting-control rejec
 - Goal metrics source ref: `Issue #1079 active Codex goal`
 - Data-source confidence: `low`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_and_local_proof_complete_live_qualification_in_progress`
+- Completion state: `implementation_local_validation_and_live_qualification_complete_exact_head_review_in_progress`
 - Issue goal ref: `Issue #1079 active Codex goal`
 - Sprint goal ref: `not_assigned`
 - Goal metrics rollup ref: `not_collected`
@@ -75,13 +75,13 @@ Implemented OpenRouter reasoning-effort serialization, conflicting-control rejec
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/1079/cards/sor.md`
-- Tracked implementation artifacts: `OpenRouter codec/adapter/tests, Runtime ingress/control/conversation tests, provider inference docs, and six native lifecycle cards on the issue branch.`
-- Additional proof artifacts: `Focused local validation results; installed proof pending.`
+- Tracked implementation artifacts: `OpenRouter codec/adapter/tests, Runtime provider timeout preservation and authenticated conversation tests, provider inference docs, and six native lifecycle cards on the issue branch.`
+- Additional proof artifacts: `Installed generation issue-1079-1ca3c7ec02; full issue review delivered through DeepSeek; governed Nova-to-DeepSeek A2A recipient turn and Nova continuation delivered with both replies present.`
 
 ## Actions taken
-- `Added normalized reasoning-effort consumption and OpenRouter reasoning.effort request serialization.`
-- `Added safe allowlisted provider failure projection at Runtime conversation boundaries and focused coverage.`
-- `Documented the contract and prepared reviewed release binaries for a separate DeepSeek provider profile.`
+- `Added normalized reasoning-effort consumption and OpenRouter reasoning.effort request serialization with contradictory-control rejection.`
+- `Added safe allowlisted provider failure projection and authenticated conversation regressions for timeout, invalid response, quota, transport, and cancellation.`
+- `Preserved validated provider-specific Runtime timeouts, installed a separate low-reasoning DeepSeek definition, and completed full-review plus governed A2A qualification.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; issue branch is not merged`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path adl-provider-core/Cargo.toml; cargo clippy --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings; focused adl-runtime-kernel tests; native csdlc validate`
     `Verifies request controls, rejection semantics, provider suite integrity, typed Runtime failures, and lifecycle card structure.`
 - Results:
-  - `Provider-core 122 tests and strict Clippy passed; Runtime helper regression passed; conversation-level regression and installed proof in progress. Two unrelated broader Runtime test failures and existing Runtime Clippy warnings reproduce on clean main.`
+  - `Native exact-head proof passed all 124 provider-core tests after the timeout fix; strict Clippy passed before the timeout-only registry change; authenticated Runtime failure regression passed; installed full issue review and governed A2A recipient/continuation both delivered. Two unrelated broader Runtime test failures and existing Runtime Clippy warnings reproduce on clean main.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: in_progress
+    status: passed_local_and_live_pending_exact_head_review
     checks_run:
-      - "Exact-head independent review found three actionable gaps; remediation and re-review are in progress."
+      - "All three initial review findings are remediated; exact-head re-review is pending."
   determinism:
     status: passed_local
     replay_verified: true
@@ -136,8 +136,8 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: in_progress
-    required_artifacts_present: false
+    status: present
+    required_artifacts_present: true
     schema_changes:
       present: false
       approved: not_applicable
@@ -145,28 +145,28 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `Focused request-capture and invalid-control tests use deterministic local capture fixtures.`
-- Fixtures or scripts used: `adl-provider-core request-capture fixtures; Runtime authenticated conversation fixture; installed local proof scripts pending.`
+- Fixtures or scripts used: `Provider-core request-capture fixtures; Runtime authenticated conversation fixtures; installed full-issue review and governed A2A probes retaining final outputs only.`
 - Replay verification (same inputs -> same artifacts/order): `Focused local tests replayed successfully.`
 - Ordering guarantees (sorting / tie-break rules used): `Provider candidate validation occurs before dispatch; conversation terminal results remain sequenced and idempotently retained.`
-- Artifact stability notes: `Tracked behavior is committed; installed proof artifacts remain pending.`
+- Artifact stability notes: `Tracked behavior is committed; installed generation identifies exact source revision 1ca3c7ec029f5d524d5dbef513e5b42605a60bc1.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `Focused public-result tests assert no secret-bearing provider error crosses the boundary.`
-- Prompt / tool argument redaction verified: `Yes for focused Runtime results; live proof pending.`
+- Prompt / tool argument redaction verified: `Yes; live proof retains final response presence and governed routing fields without hidden reasoning or credentials.`
 - Absolute path leakage check: `Tracked cards use repository-relative proof references; machine-local invocation state is untracked.`
 - Sandbox / policy invariants preserved: `Yes; tracked edits remain in the bound FastWork worktree and main is inspection-only.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_available_preproof`
+- Trace bundle path(s): `Machine-local installed qualification output is intentionally untracked; SOR records the redacted result.`
 - Run artifact root: `.csdlc/evidence/1079`
 - Replay command used for verification: `Focused Cargo test commands recorded above.`
 - Replay result: `passed for completed local lanes`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/1079 (pending)`
-- Required artifacts present: `false; installed review/A2A proof and passing re-review remain pending`
-- Artifact schema/version checks: `Native card validation pending after this edit.`
-- Hash/byte-stability checks: `Exact tracked commit identity will be recorded before final review.`
+- Primary proof surface: `.csdlc/issues/1079/cards/sor.md and native exact-head review evidence`
+- Required artifacts present: `true for implementation and installed qualification; PR, CI, merge, and terminal artifacts remain future lifecycle state`
+- Artifact schema/version checks: `Native card validation will run after this edit.`
+- Hash/byte-stability checks: `Installed generation receipt identifies source revision 1ca3c7ec029f5d524d5dbef513e5b42605a60bc1 and its kernel SHA-256.`
 - Missing/optional artifacts and rationale: `PR, CI, merge, and terminal artifacts do not exist before publication.`
 
 ## Decisions / Deviations
@@ -174,5 +174,5 @@ verification_summary:
 - `Use a separate DeepSeek provider definition with low reasoning, 8192 output tokens, and 180-second timeout.`
 
 ## Follow-ups / Deferred work
-- `Install the reviewed candidate generation and run full-issue plus governed A2A proof.`
-- `Fix all exact-head review findings, re-review, publish a draft PR, and shepherd CI.`
+- `Run exact-head independent review and fix every actionable finding.`
+- `Publish the draft PR through native C-SDLC v3 and shepherd required CI.`
