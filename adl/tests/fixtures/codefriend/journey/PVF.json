@@ -1,0 +1,11 @@
+{
+  "issue": 914,
+  "surface": "adl/tests/codefriend_journey.rs",
+  "lane_class": "runtime",
+  "proof_role": "supporting integration and failure propagation",
+  "determinism": "controlled local Git fixtures; real acquisition/admission/architecture/fitness owners; no network or providers",
+  "resources": {"cpu": "bounded local", "disk": "temporary scoped Git/evidence directories", "provider_calls": 0},
+  "release_gate": "required supporting proof; insufficient for complete Beta acceptance",
+  "nonclaims": ["installed candidate qualification", "real provider acceptance", "website hosted/local-agent acceptance", "human approval", "complete journey acceptance"],
+  "pending_proof": ["real four-lane provider run", "compatible authenticated Palace comparison", "all three separately approved exports", "selected installed macOS/Linux journey"]
+}

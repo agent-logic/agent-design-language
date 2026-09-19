@@ -3,6 +3,7 @@
 //! A challenge is inspectable binding data, never authentication or permission to
 //! append a decision. The eventual authenticated service must retain it and check
 //! its current decision head under the approval owner's append lock.
+pub mod journey;
 use crate::codefriend::{
     evidence::{
         contracts::{Completion, Publication, ReviewRecord},
