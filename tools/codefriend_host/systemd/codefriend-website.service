@@ -1,0 +1,26 @@
+[Unit]
+Description=CodeFriend invited beta website
+After=network-online.target codefriend-gateway.service
+Wants=network-online.target codefriend-gateway.service
+
+[Service]
+Type=simple
+User=codefriend
+Group=codefriend
+UMask=0077
+RuntimeDirectory=codefriend-website
+RuntimeDirectoryMode=0700
+WorkingDirectory=/opt/codefriend/current/website
+ExecStart=/usr/bin/node /opt/codefriend/current/website/app/main.mjs /etc/codefriend/website.json
+KillSignal=SIGINT
+TimeoutStopSec=90
+SendSIGKILL=no
+Restart=no
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/codefriend /run/codefriend-website
+
+[Install]
+WantedBy=multi-user.target

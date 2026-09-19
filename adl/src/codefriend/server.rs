@@ -1,5 +1,7 @@
 //! Hosted review and local-agent model gateway. Provider routing is operator-owned.
 //! No client-selected paths, identities, arbitrary prompts, endpoints or credentials.
+#[cfg(unix)]
+pub mod control;
 use super::{
     evidence::{contracts::Completion, store::Store, Admission, Retention},
     ingestion::Packet,
@@ -208,7 +210,7 @@ impl Backend for ProductionBackend {
 struct Inner {
     config: Config,
     backend: Arc<dyn Backend>,
-    gate: Mutex<()>,
+    gate: Mutex<bool>,
     slots: Arc<Semaphore>,
     // Retained for service lifetime; rejects a second process using this store.
     _lock: File,
@@ -321,7 +323,7 @@ impl Service {
             slots: Arc::new(Semaphore::new(config.max_concurrent)),
             config,
             backend,
-            gate: Mutex::new(()),
+            gate: Mutex::new(false),
             _lock: lock,
         }));
         service.credentials()?;
@@ -342,6 +344,75 @@ impl Service {
         }
         service.expire()?;
         Ok(service)
+    }
+    /// Freeze new reservations under the same gate used by submit. Existing work
+    /// and observations continue; the host must separately drain the website.
+    pub fn begin_drain(&self) -> Result<()> {
+        *self
+            .0
+            .gate
+            .lock()
+            .map_err(|_| anyhow::anyhow!("gate_poisoned"))? = true;
+        Ok(())
+    }
+    /// Only the local operator control path may resume admissions after a failed stop.
+    pub fn resume_admissions(&self) -> Result<()> {
+        *self
+            .0
+            .gate
+            .lock()
+            .map_err(|_| anyhow::anyhow!("gate_poisoned"))? = false;
+        Ok(())
+    }
+    /// A point-in-time local guard, not authorization to power off the host.
+    /// Keep admissions frozen until service stop; website and host guards are
+    /// still required. Errors and uncertain reservations never imply quiescence.
+    pub fn drained_without_payloads(&self) -> Result<bool> {
+        self.payloads_quiescent(true)
+    }
+    /// Advisory preflight only: avoids draining while known work or retained
+    /// results remain. Admissions are still open and the frozen guard must be
+    /// checked again before stopping the service.
+    pub fn quiescent_without_payloads(&self) -> Result<bool> {
+        self.payloads_quiescent(false)
+    }
+    fn payloads_quiescent(&self, require_drain: bool) -> Result<bool> {
+        self.expire()?;
+        let draining = self
+            .0
+            .gate
+            .lock()
+            .map_err(|_| anyhow::anyhow!("gate_poisoned"))?;
+        if (require_drain && !*draining)
+            || self.0.slots.available_permits() != self.0.config.max_concurrent
+        {
+            return Ok(false);
+        }
+        for user in fs::read_dir(self.0.config.root.join("operations"))? {
+            for entry in fs::read_dir(user?.path())? {
+                let dir = entry?.path();
+                let path = dir.join("operation.json");
+                if !path.exists() {
+                    return Ok(false);
+                }
+                let op: Operation = read_json(&path, 16384)?;
+                if matches!(
+                    op.status,
+                    Status::Running | Status::CancelRequested | Status::Interrupted
+                ) {
+                    return Ok(false);
+                }
+                // Retain unexpired results until their existing deadline. expire()
+                // removes expired payloads and keeps no-replay operation identities.
+                if dir.join("work").exists()
+                    || dir.join("result.json").exists()
+                    || dir.join("result.tmp").exists()
+                {
+                    return Ok(false);
+                }
+            }
+        }
+        Ok(true)
     }
     fn credentials(&self) -> Result<Vec<Credential>> {
         let credentials: Vec<Credential> = read_json(&self.0.config.credentials_file, 128 * 1024)?;
@@ -424,7 +495,12 @@ impl Service {
                         fs::remove_file(dir.join(name))?;
                     }
                 }
-                op.status = Status::Expired;
+                // Expiry removes payloads, not uncertainty about an interrupted
+                // provider dispatch. Preserve that tombstone across restart so
+                // automatic host shutdown cannot infer a reconciled outcome.
+                if op.status != Status::Interrupted {
+                    op.status = Status::Expired;
+                }
                 write_json(&path, &op)?;
             }
         }
@@ -499,6 +575,12 @@ async fn submit(
         .gate
         .lock()
         .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
+    if *guard {
+        return Err(ApiError(
+            StatusCode::SERVICE_UNAVAILABLE,
+            "service_draining",
+        ));
+    }
     let user = service
         .0
         .config

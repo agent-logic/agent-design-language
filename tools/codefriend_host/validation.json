@@ -1,0 +1,25 @@
+{
+  "issue": 1077,
+  "command": "python3 -m unittest discover -s tools/codefriend_host -p 'test_*.py' -v",
+  "lanes": [
+    {
+      "test_files": ["test_idle_stop.py", "test_initialize_registry.py"],
+      "lane_class": "deterministic_component",
+      "proof_role": "controller_decision_logic_and_create_only_registry_initialization",
+      "determinism": "fake_supervisor_and_transport_private_temporary_files_no_external_network",
+      "resource_profile": "small_local_cpu_and_temporary_files",
+      "release_gate": "required_component_preflight"
+    },
+    {
+      "test_files": ["test_linux_transport.py"],
+      "lane_class": "local_platform_integration",
+      "proof_role": "Linux_kernel_SO_PEERCRED_matching_and_mismatching_PID",
+      "determinism": "synthetic_service_real_private_Unix_socket_no_external_network_or_services",
+      "resource_profile": "small_Linux_local_CPU_socket_and_thread",
+      "platform": "Linux_required_explicit_skip_elsewhere",
+      "release_gate": "required_Linux_transport_preflight_not_installed_product_acceptance"
+    }
+  ],
+  "separate_installed_probe": "probe_linux_control.py requires actual isolated installed service sockets; not included in unit suite",
+  "non_claims": ["actual systemd supervision", "EC2 stop or restart", "provider execution", "OAuth acceptance", "production amd64 installed stack"]
+}

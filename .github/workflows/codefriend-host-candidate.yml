@@ -1,0 +1,74 @@
+name: codefriend-host-candidate
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  linux-amd64:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      PYTHONDONTWRITEBYTECODE: '1'
+      CODEFRIEND_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Select runner-local build directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'CARGO_TARGET_DIR=%s/codefriend-host-target\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+      - name: Build exact candidate binaries once
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = x86_64
+          test "$(git rev-parse HEAD)" = "$CODEFRIEND_SOURCE_SHA"
+          test -z "$(git status --porcelain --untracked-files=all)"
+          cargo build --locked --manifest-path adl/Cargo.toml --bin codefriend-server --bin codefriend-agent
+      - name: Install isolated candidate copies
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash adl/tools/install_owner_binaries.sh --bin codefriend-server --bin codefriend-agent \
+            --no-build --source-bin-dir "$CARGO_TARGET_DIR/debug" \
+            --stable-bin-dir "$RUNNER_TEMP/codefriend-host-installed"
+      - name: Exercise installed control and report verifier without providers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/codefriend_host/ci/smoke.py \
+            --installed "$RUNNER_TEMP/codefriend-host-installed" \
+            --candidate "$CODEFRIEND_SOURCE_SHA" --output "$RUNNER_TEMP/codefriend-host-smoke"
+          python3 -m unittest discover -s tools/codefriend_host -p 'test_*.py' -v
+          python3 -m unittest discover -s tools/codefriend_host/ci -p 'test_*.py' -v
+      - name: Retain build inputs and exact binary hashes
+        run: |
+          set -euo pipefail
+          python3 tools/codefriend_host/ci/manifest.py \
+            --built "$CARGO_TARGET_DIR/debug" --installed "$RUNNER_TEMP/codefriend-host-installed" \
+            --candidate "$CODEFRIEND_SOURCE_SHA" --smoke "$RUNNER_TEMP/codefriend-host-smoke/result.json" \
+            --output "$RUNNER_TEMP/codefriend-host-artifact"
+          tar -C "$RUNNER_TEMP" -czf "$RUNNER_TEMP/codefriend-host-artifact.tar.gz" codefriend-host-artifact
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        id: upload
+        with:
+          name: codefriend-host-linux-amd64-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/codefriend-host-artifact.tar.gz
+          if-no-files-found: error
+          retention-days: 14
+      - name: Record immutable artifact transport identity
+        env:
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.upload.outputs.artifact-digest }}
+        run: |
+          test -n "$ARTIFACT_ID"
+          test -n "$ARTIFACT_DIGEST"
+          printf 'Artifact ID: %s\nArtifact digest: %s\n' "$ARTIFACT_ID" "$ARTIFACT_DIGEST" >> "$GITHUB_STEP_SUMMARY"
