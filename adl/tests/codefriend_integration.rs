@@ -467,6 +467,56 @@ async fn website_approval_authenticates_rejects_stale_binding_and_expires_payloa
     );
     assert_eq!(fs::read(&report_path).unwrap(), b"tampered"); // no rerender repairs tampered output
     fs::write(&report_path, &report).unwrap();
+    // An existing reservation never permits a second render when the committed
+    // output is absent, regardless of how the interruption occurred.
+    let target = report_path.parent().unwrap();
+    let saved_target = operation.join("work/export-test-held");
+    fs::rename(target, &saved_target).unwrap();
+    let (status, unresolved) = http_call(
+        &app,
+        "POST",
+        render_route,
+        Some(alice),
+        render_request.clone(),
+    )
+    .await;
+    assert_eq!(status, 200, "{unresolved}");
+    assert_eq!(unresolved["export_status"], "effect_unresolved");
+    assert_eq!(unresolved["exports"], json!([]));
+    assert!(!target.exists());
+    fs::rename(&saved_target, target).unwrap();
+    // Bound bytes before serialization; committed oversized payloads cannot be
+    // claimed as deliverable or silently replaced by another renderer effect.
+    fs::write(&report_path, vec![b'x'; 2 * 1024 * 1024 + 1]).unwrap();
+    assert_eq!(
+        http_call(
+            &app,
+            "GET",
+            "/v1/operations/run1/publication/result",
+            Some(alice),
+            json!(null)
+        )
+        .await
+        .0,
+        500
+    );
+    assert_eq!(
+        http_call(
+            &app,
+            "POST",
+            render_route,
+            Some(alice),
+            render_request.clone()
+        )
+        .await
+        .0,
+        500
+    );
+    assert_eq!(
+        fs::metadata(&report_path).unwrap().len(),
+        2 * 1024 * 1024 + 1
+    );
+    fs::write(&report_path, &report).unwrap();
     let font = [
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
         "/System/Library/Fonts/Supplemental/Arial.ttf",
@@ -611,10 +661,31 @@ async fn http_call(
     let bytes = to_bytes(response.into_body(), 16 * 1024 * 1024)
         .await
         .unwrap();
-    (
-        status,
-        serde_json::from_slice(&bytes).unwrap_or(serde_json::Value::Null),
-    )
+    let value: serde_json::Value =
+        serde_json::from_slice(&bytes).unwrap_or(serde_json::Value::Null);
+    // Explicit optional evidence export for cross-language interoperability. This
+    // records the actual native response; it never changes assertions or behavior.
+    if status == 200 {
+        if let Some(output) = std::env::var_os("CODEFRIEND_TEST_RESPONSE_OUTPUT") {
+            let output = std::path::PathBuf::from(output);
+            assert!(
+                output.is_absolute(),
+                "fixture evidence directory must be explicit and absolute"
+            );
+            fs::create_dir_all(&output).unwrap();
+            let name = format!("{}.json", blake3::hash(&bytes).to_hex());
+            let file = output.join(name);
+            if file.exists() {
+                assert_eq!(
+                    serde_json::from_slice::<serde_json::Value>(&fs::read(file).unwrap()).unwrap(),
+                    value
+                );
+            } else {
+                adl::codefriend::publication::write_json_create_only(&file, &value).unwrap();
+            }
+        }
+    }
+    (status, value)
 }
 
 fn provider_request() -> adl::provider_communication::ProviderInvocationRequestV1 {

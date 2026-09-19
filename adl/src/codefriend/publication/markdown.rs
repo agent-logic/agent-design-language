@@ -1,5 +1,6 @@
 //! Deterministic Markdown export for an approved CodeFriend review.
 
+pub(crate) const MARKDOWN_OUTPUT_BOUNDARY: &str = "This is the canonical local Markdown rendering of the approved review. It does not claim HTML, PDF, remote, or customer publication.";
 use super::{
     approval::{read_decision_head, DecisionKind},
     manifest::{
@@ -116,7 +117,7 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         &options,
         "markdown",
         MARKDOWN_RENDERER_VERSION,
-        "This is the canonical local Markdown rendering of the approved review. It does not claim HTML, PDF, remote, or customer publication.",
+        MARKDOWN_OUTPUT_BOUNDARY,
     )?;
     let PreparedReport {
         review,
@@ -599,7 +600,7 @@ pub(super) fn validate_plan_parity(
     Ok(())
 }
 
-fn render_report(
+pub(crate) fn render_report(
     review: &crate::codefriend::evidence::contracts::ReviewRecord,
     synthesis: &ReviewSynthesis,
     remediation: &RemediationPlan,

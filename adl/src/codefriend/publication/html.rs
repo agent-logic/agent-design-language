@@ -235,7 +235,7 @@ pub fn render_html(options: HtmlRenderOptions) -> Result<HtmlRenderResult> {
     })
 }
 
-fn render_report(
+pub(crate) fn render_report(
     review: &ReviewRecord,
     synthesis: &ReviewSynthesis,
     remediation: &remediation::RemediationPlan,

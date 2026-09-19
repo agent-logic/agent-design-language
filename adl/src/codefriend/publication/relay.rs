@@ -175,6 +175,19 @@ pub(crate) fn verify_rendered(
                     && r.finding_count == synthesis.synthesized_findings.len(),
                 "relay_markdown_result"
             );
+            let expected = markdown::render_report(
+                review,
+                &synthesis,
+                &remediation,
+                &tests,
+                decision,
+                MARKDOWN_RENDERER_VERSION,
+                markdown::MARKDOWN_OUTPUT_BOUNDARY,
+            )?;
+            ensure!(
+                bytes == expected.as_bytes(),
+                "relay_markdown_content_mismatch"
+            );
             markdown::validate_manifest(&m, review, &synthesis, publication, &decision.digest)?;
             ensure!(
                 m.remediation_plan_digest == hash(&remediation)?
@@ -191,6 +204,8 @@ pub(crate) fn verify_rendered(
                     && r.finding_count == synthesis.synthesized_findings.len(),
                 "relay_html_result"
             );
+            let expected = html::render_report(review, &synthesis, &remediation, &tests, decision)?;
+            ensure!(bytes == expected.as_bytes(), "relay_html_content_mismatch");
             html::validate_manifest(
                 &m,
                 review,

@@ -313,6 +313,30 @@ impl Transport {
             root,
         })
     }
+    fn recheck_publication_context(
+        &self,
+        journal: &Journal,
+        consent_path: &Path,
+        binding: &Binding,
+        context: &LocalContext,
+    ) -> Result<()> {
+        let now = (self.clock)();
+        let pairing = journal.pairing(now)?;
+        ensure!(
+            hash(&pairing)? == hash(&context.pairing)?,
+            "publication_pairing_changed"
+        );
+        context
+            .command
+            .validate(&pairing, &read_consent(consent_path, now)?, now)?;
+        binding.validate_report(&context.report, now)?;
+        let expiry: u64 = read(&context.root.join("expires.json"), 64)?;
+        ensure!(
+            expiry == binding.expires_at && expiry > now,
+            "publication_retention_changed"
+        );
+        Ok(())
+    }
     fn job(&self, pairing: &Pairing, binding: &Binding) -> Result<Job> {
         let job: Job = self.request(
             Method::GET,
@@ -447,6 +471,7 @@ impl Transport {
         );
         let context = self.publication_context(journal, consent_path, &stage.binding)?;
         let observed = self.job(&context.pairing, &stage.binding)?;
+        self.recheck_publication_context(journal, consent_path, &stage.binding, &context)?;
         let head = if stage.stage == "prepared" {
             &observed.prepared_digest
         } else {
@@ -467,6 +492,7 @@ impl Transport {
             Some(&serde_json::to_value(stage)?),
         )?;
         let observed = self.job(&context.pairing, &stage.binding)?;
+        self.recheck_publication_context(journal, consent_path, &stage.binding, &context)?;
         let head = if stage.stage == "prepared" {
             observed.prepared_digest
         } else {

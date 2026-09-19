@@ -10,7 +10,7 @@
     "font": "installed Unicode TrueType required for PDF"
   },
   "release_gate": "required supporting proof; not complete Beta acceptance",
-  "status": "materialized; focused native stage tests pending execution",
+  "status": "Four original tests passed at 6e98590bc5; two added public-path tests await clean-candidate execution.",
   "nonclaims": [
     "full transport/crash matrix",
     "real provider",
@@ -18,5 +18,11 @@
     "installed candidate qualification",
     "human approval",
     "complete Beta acceptance"
+  ],
+  "surfaces": [
+    "native prepared-stage and authoritative report validation",
+    "exact shared artifact bytes against existing native owners",
+    "consent, pairing, and retention changes during publication observation",
+    "public prepare, explicit decision, native Markdown/HTML/PDF render, stage upload and receiver verification"
   ]
 }
