@@ -631,12 +631,21 @@ struct NativeAdapter {
     chat_compatible: bool,
 }
 
+const RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS: u64 = 600;
+
 fn apply_runtime_transport_bounds(spec: &mut ProviderSpec) {
-    // Keep calls bounded when a definition omits a timeout, while preserving a
-    // validated model-specific timeout selected by the provider definition.
+    // A blocking transport retains one of Runtime's provider permits until it
+    // returns, including after its caller stops waiting. Preserve useful
+    // model-specific timeouts while preventing a valid definition from
+    // retaining shared capacity for hours.
+    let timeout_secs = spec
+        .config
+        .get("timeout_secs")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or(30)
+        .min(RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS);
     spec.config
-        .entry("timeout_secs".into())
-        .or_insert_with(|| 30.into());
+        .insert("timeout_secs".into(), timeout_secs.into());
     spec.config.insert("runtime_max_attempts".into(), 1.into());
 }
 
@@ -820,5 +829,15 @@ mod runtime_transport_bounds_tests {
         apply_runtime_transport_bounds(&mut provider);
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(30));
+    }
+
+    #[test]
+    fn runtime_transport_bounds_cap_timeout_at_shared_capacity_ceiling() {
+        let mut provider = spec();
+        provider.config.insert("timeout_secs".into(), 86_400.into());
+
+        apply_runtime_transport_bounds(&mut provider);
+
+        assert_eq!(provider.config["timeout_secs"], serde_json::json!(600));
     }
 }
