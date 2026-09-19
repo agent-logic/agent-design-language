@@ -456,6 +456,8 @@ impl DecisionRecord {
         )
     }
 
+    // Preserve the decision constructor contract while adding sealed website provenance.
+    #[allow(clippy::too_many_arguments)]
     fn new_with_website(
         review: &ReviewRecord,
         publication: &Publication,
@@ -878,6 +880,49 @@ fn safe_text(value: &str, label: &str) -> Result<()> {
     Ok(())
 }
 
+/// Only the native service can construct this live authenticated authority.
+/// Browser JSON and actor strings cannot reach this writer on their own.
+pub(crate) fn append_authenticated_website_decision(
+    store_root: &Path,
+    review: &ReviewRecord,
+    publication: &Publication,
+    decision: DecisionKind,
+    authority: &crate::codefriend::server::WebsiteDecisionAuthority<'_>,
+) -> Result<DecisionRecord> {
+    let store = DecisionStore::open(store_root)?;
+    let previous = store.head(review, publication)?;
+    if let Some(record) = &previous {
+        if record.website.is_some() && record.decision == decision {
+            if let Ok((web, _)) = authority.verify(
+                review,
+                publication,
+                record.previous_decision_digest.as_deref(),
+            ) {
+                if record.website.as_ref() == Some(&web) {
+                    return Ok(record.clone());
+                }
+            }
+        }
+    }
+    let (web, decided_at) = authority.verify(
+        review,
+        publication,
+        previous.as_ref().map(|r| r.digest.as_str()),
+    )?;
+    let actor = web.subject.clone();
+    let record = DecisionRecord::new_with_website(
+        review,
+        publication,
+        decision,
+        &actor,
+        "Authenticated website artifact decision",
+        decided_at,
+        previous.as_ref(),
+        Some(web),
+    )?;
+    store.commit(review, publication, record)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1140,47 +1185,4 @@ mod tests {
             assert!(!destination.join("published").exists());
         }
     }
-}
-
-/// Only the native service can construct this live authenticated authority.
-/// Browser JSON and actor strings cannot reach this writer on their own.
-pub(crate) fn append_authenticated_website_decision(
-    store_root: &Path,
-    review: &ReviewRecord,
-    publication: &Publication,
-    decision: DecisionKind,
-    authority: &crate::codefriend::server::WebsiteDecisionAuthority<'_>,
-) -> Result<DecisionRecord> {
-    let store = DecisionStore::open(store_root)?;
-    let previous = store.head(review, publication)?;
-    if let Some(record) = &previous {
-        if record.website.is_some() && record.decision == decision {
-            if let Ok((web, _)) = authority.verify(
-                review,
-                publication,
-                record.previous_decision_digest.as_deref(),
-            ) {
-                if record.website.as_ref() == Some(&web) {
-                    return Ok(record.clone());
-                }
-            }
-        }
-    }
-    let (web, decided_at) = authority.verify(
-        review,
-        publication,
-        previous.as_ref().map(|r| r.digest.as_str()),
-    )?;
-    let actor = web.subject.clone();
-    let record = DecisionRecord::new_with_website(
-        review,
-        publication,
-        decision,
-        &actor,
-        "Authenticated website artifact decision",
-        decided_at,
-        previous.as_ref(),
-        Some(web),
-    )?;
-    store.commit(review, publication, record)
 }

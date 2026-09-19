@@ -33,6 +33,8 @@ pub struct PublicationChallenge {
 impl PublicationChallenge {
     /// Prepare from owner-resolved subject, operation, review, artifacts and head.
     /// These arguments are NOT a substitute for service authentication.
+    // Keep independently resolved identity, artifact and lifetime inputs explicit.
+    #[allow(clippy::too_many_arguments)]
     pub fn prepare(
         subject: &str,
         operation: &str,
@@ -91,6 +93,8 @@ impl PublicationChallenge {
 
     /// Recheck a response against the retained owner snapshot. Success is only a
     /// binding check; it does not mint an authenticated capability or decision.
+    // Separate caller observations from the retained snapshot at this trust boundary.
+    #[allow(clippy::too_many_arguments)]
     pub fn verify_response(
         &self,
         subject: &str,
