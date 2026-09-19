@@ -630,6 +630,16 @@ struct NativeAdapter {
     hosted: bool,
     chat_compatible: bool,
 }
+
+fn apply_runtime_transport_bounds(spec: &mut ProviderSpec) {
+    // Keep calls bounded when a definition omits a timeout, while preserving a
+    // validated model-specific timeout selected by the provider definition.
+    spec.config
+        .entry("timeout_secs".into())
+        .or_insert_with(|| 30.into());
+    spec.config.insert("runtime_max_attempts".into(), 1.into());
+}
+
 impl RuntimeProviderAdapter for NativeAdapter {
     fn capabilities(&self) -> AdapterCapabilities {
         let mut capabilities = AdapterCapabilities::text(
@@ -666,8 +676,7 @@ impl RuntimeProviderAdapter for NativeAdapter {
                 .insert("api_format".into(), "openai_chat_completions".into());
         }
         // Bound transport even if the caller stops awaiting the blocking call.
-        spec.config.insert("timeout_secs".into(), 30.into());
-        spec.config.insert("runtime_max_attempts".into(), 1.into());
+        apply_runtime_transport_bounds(&mut spec);
         if let Some(reference) = &binding.credential_ref {
             let name = credential_env(reference)?;
             spec.config.insert("auth_env".into(), name.into());
@@ -761,6 +770,46 @@ impl RuntimeProviderAdapter for NativeAdapter {
         })
     }
 }
+
+#[cfg(test)]
+mod runtime_transport_bounds_tests {
+    use super::*;
+
+    fn spec() -> ProviderSpec {
+        ProviderSpec {
+            id: Some("fixture".into()),
+            profile: None,
+            kind: "openrouter".into(),
+            base_url: None,
+            default_model: None,
+            config: HashMap::new(),
+        }
+    }
+
+    #[test]
+    fn runtime_transport_bounds_preserve_declared_provider_timeout() {
+        let mut provider = spec();
+        provider.config.insert("timeout_secs".into(), 180.into());
+
+        apply_runtime_transport_bounds(&mut provider);
+
+        assert_eq!(provider.config["timeout_secs"], serde_json::json!(180));
+        assert_eq!(
+            provider.config["runtime_max_attempts"],
+            serde_json::json!(1)
+        );
+    }
+
+    #[test]
+    fn runtime_transport_bounds_supply_timeout_when_definition_omits_it() {
+        let mut provider = spec();
+
+        apply_runtime_transport_bounds(&mut provider);
+
+        assert_eq!(provider.config["timeout_secs"], serde_json::json!(30));
+    }
+}
+
 fn map_adapter_failure(error: anyhow::Error) -> ProviderFailure {
     match crate::failure_category(&error) {
         "credentials" => ProviderFailure::Credentials,
