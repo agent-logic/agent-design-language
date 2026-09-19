@@ -1,16 +1,7 @@
 name: codefriend-host-candidate
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/codefriend-host-candidate.yml'
-      - 'tools/codefriend_host/**'
-      - 'adl/**'
-      - 'adl-uts/**'
-      - 'adl-provider-core/**'
-      - 'adl-resilience/**'
-      - 'adl-runtime/**'
-      - 'adl-runtime-kernel/**'
-      - 'rust-toolchain.toml'
+  workflow_call:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -20,11 +11,11 @@ jobs:
     env:
       CARGO_PROFILE_DEV_DEBUG: '0'
       PYTHONDONTWRITEBYTECODE: '1'
-      CODEFRIEND_SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+      CODEFRIEND_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - name: Select runner-local build directory
         shell: bash
@@ -69,7 +60,7 @@ jobs:
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         id: upload
         with:
-          name: codefriend-host-linux-amd64-${{ github.event.pull_request.head.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: codefriend-host-linux-amd64-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/codefriend-host-artifact.tar.gz
           if-no-files-found: error
           retention-days: 14

@@ -1,8 +1,12 @@
 # Candidate Linux host artifacts (#1077)
 
-`codefriend-host-candidate.yml` is an ordinary pull-request lane with read-only
-repository permission, explicit full PR-head checkout, pinned actions and Rust
-1.92.0, Ubuntu 24.04 x86_64, and a 45-minute timeout. It does not dispatch workflows,
+`codefriend-host-candidate.yml` is a reusable lane selected by the canonical
+`ci.yaml` pull-request classifier, with read-only
+repository permission, explicit full PR-head checkout (or exact dispatched commit), pinned actions and Rust
+1.92.0, Ubuntu 24.04 x86_64, and a 45-minute timeout. Its standalone `workflow_dispatch` entry remains available as repository policy
+requires; this implementation does not invoke it. The main `adl-ci` aggregate
+requires success when selected and skip when unselected, rejecting failures and
+cancellation. It does not dispatch workflows,
 use AWS or provider credentials, publish releases, deploy, or invoke poweroff.
 The binaries are built together using the declared **dev profile with debug
 information disabled**. They are not mislabeled optimized release builds.

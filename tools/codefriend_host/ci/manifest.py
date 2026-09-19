@@ -53,7 +53,7 @@ def assemble(args):
     hashes=binary_pair(args.built,args.installed,smoke)
     context={name:os.environ.get(name,'') for name in ('GITHUB_REPOSITORY','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT',
              'GITHUB_EVENT_NAME','GITHUB_SHA','GITHUB_WORKFLOW_REF','GITHUB_WORKFLOW_SHA','RUNNER_OS','RUNNER_ARCH')}
-    require(all(context.values()) and context['GITHUB_EVENT_NAME']=='pull_request','complete PR builder context required')
+    require(all(context.values()) and context['GITHUB_EVENT_NAME'] in ('pull_request','workflow_dispatch'),'complete supported builder context required')
     args.output.mkdir(mode=0o700)
     binaries=args.output/'bin';binaries.mkdir()
     for name in BINARIES:

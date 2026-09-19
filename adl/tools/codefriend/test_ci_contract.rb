@@ -46,3 +46,21 @@ raise 'fitness callable route' unless fitness.fetch('uses') == './.github/workfl
   raise "fitness path skipped: #{path}" unless status.success? && value.strip == 'true'
 end
 puts 'PASS: 12 fitness aggregate outcomes, 7 fitness path selections, callable workflow wiring'
+
+raise 'missing required host candidate need' unless aggregate.fetch('needs').include?('codefriend_host_candidate')
+host_block = script.split('# BEGIN CI host candidate aggregate contract', 2)[1].split('# END CI host candidate aggregate contract', 2)[0]
+%w[true false garbage].product(%w[success skipped failure cancelled]).each do |selected, result|
+  _, status = Open3.capture2e({'CODEFRIEND_CI_REQUIRED'=>selected, 'CODEFRIEND_HOST_RESULT'=>result}, 'bash', '-eu', '-c', host_block)
+  expected = (selected == 'true' && result == 'success') || (selected == 'false' && result == 'skipped')
+  raise "incorrect host gate #{selected}:#{result}" unless status.success? == expected
+end
+host = jobs.fetch('codefriend_host_candidate')
+raise 'host permissions' unless host.fetch('permissions') == {'contents'=>'read'}
+raise 'host selector' unless host.fetch('if').include?("outputs.codefriend_ci_required == 'true'")
+raise 'host callable route' unless host.fetch('uses') == './.github/workflows/codefriend-host-candidate.yml'
+raise 'host aggregate result wiring' unless aggregate.fetch('steps').find { |s| s['name'] == 'Aggregate split adl-ci lanes' }.fetch('env').fetch('CODEFRIEND_HOST_RESULT') == '${{ needs.codefriend_host_candidate.result }}'
+%w[tools/codefriend_host/idle_stop.py tools/codefriend_host/ci/smoke.py .github/workflows/codefriend-host-candidate.yml adl/src/bin/codefriend_server.rs adl/src/bin/codefriend_agent.rs adl/build.rs].each do |path|
+  value, status = Open3.capture2('python3', root.join('adl/tools/codefriend/ci_select.py').to_s, stdin_data: path+"\n")
+  raise "host path skipped: #{path}" unless status.success? && value.strip == 'true'
+end
+puts 'PASS: 12 host aggregate outcomes, 6 host path selections, callable workflow wiring'
