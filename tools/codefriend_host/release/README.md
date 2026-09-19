@@ -14,7 +14,7 @@ python3 tools/codefriend_host/release/assemble.py \
   --website /approved/checkouts/website \
   --website-revision "$WEBSITE_REVISION" \
   --gateway /approved/linux-build/codefriend-server \
-  --verifier /approved/linux-build/adl \
+  --verifier /approved/linux-build/codefriend-agent \
   --output /approved/releases/beta-candidate
 ```
 
@@ -23,7 +23,7 @@ explicit approved local inputs. Source candidates must have no tracked changes
 or untracked files. Output must not exist. A failed run leaves its partial output
 for inspection; it never deletes an existing release or silently retries.
 
-Output contains `bin/codefriend-server`, `bin/adl` (the report-verifier CLI), a
+Output contains `bin/codefriend-server`, `bin/codefriend-agent` (the report-verifier CLI), a
 standalone website Git checkout pinned detached at the requested commit, and
 `host/` controller, systemd and proxy inputs. Terraform is excluded from runtime
 assembly. Website clone has no remote URL and copies no ignored/untracked local
@@ -32,6 +32,14 @@ installation remains an explicit installer step: run `npm ci --ignore-scripts`
 against the pinned lockfile in an approved build environment with Node 24, record
 its resolved dependency evidence, then install the resulting reviewed tree.
 Do not run npm or mutate source during service startup.
+
+Set the website's private `reportVerifier` configuration to
+`/opt/codefriend/current/bin/codefriend-agent`. The website invokes this binary
+with `verify-report --report-file <private-report-file>`; the implementation is
+`adl/src/bin/codefriend_agent.rs`. The general `adl` CLI does not implement that
+contract and must not be substituted. The manifest records this required
+executable path and argument contract, but does not prove the supplied binary
+implements it: authenticated installed CLI validation remains mandatory.
 
 `manifest.json` records both exact source revisions and SHA-256 of every packet
 file, including Git metadata. It intentionally says `ready_for_activation:false`
@@ -84,7 +92,7 @@ set to the approved canonical installed release path, before adding dependencies
 sudo chown -R root:root "$release"
 sudo find "$release" -type d -exec chmod 0755 '{}' +
 sudo find "$release" -type f -exec chmod 0644 '{}' +
-sudo chmod 0755 "$release/bin/codefriend-server" "$release/bin/adl"
+sudo chmod 0755 "$release/bin/codefriend-server" "$release/bin/codefriend-agent"
 sudo chmod 0755 "$release/host/idle_stop.py"
 sudo -u codefriend /usr/bin/node --input-type=module -e 'const module = await import(process.argv[1]); console.log(module.websiteCandidate())' "$release/website/app/host-control.mjs"
 ```

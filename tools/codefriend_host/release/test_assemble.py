@@ -106,10 +106,16 @@ class AssemblyPipeline(unittest.TestCase):
             executable = root/'synthetic-elf'
             executable.write_bytes(elf)
             executable.chmod(0o755)
+            verifier = root/'synthetic-verifier-elf'
+            verifier.write_bytes(elf + b'verifier-fixture-only')
+            verifier.chmod(0o755)
             output = root/'output'
             args=argparse.Namespace(adl=adl,adl_revision=adl_revision,website=website,
-                website_revision=website_revision,gateway=executable,verifier=executable,output=output)
+                website_revision=website_revision,gateway=executable,verifier=verifier,output=output)
             with contextlib.redirect_stdout(io.StringIO()): assemble(args)
+            self.assertEqual((output/'bin/codefriend-agent').read_bytes(), verifier.read_bytes())
+            self.assertEqual((output/'bin/codefriend-server').read_bytes(), executable.read_bytes())
+            self.assertFalse((output/'bin/adl').exists())
             self.assertTrue((output/'website/.git').is_dir())
             self.assertEqual(git(output/'website','rev-parse','HEAD'),website_revision)
             self.assertEqual(git(output/'website','remote'),'')
@@ -119,5 +125,7 @@ class AssemblyPipeline(unittest.TestCase):
             self.assertFalse((output/'website/node_modules').exists())
             self.assertGreater(verify(output),3)
             manifest=json.loads((output/'manifest.json').read_text())
+            self.assertEqual(manifest['report_verifier'], {'path':'bin/codefriend-agent','argv':['verify-report','--report-file','<private-report-file>']})
+            self.assertIn('bin/codefriend-agent',manifest['files'])
             self.assertFalse(manifest['ready_for_activation'])
             with self.assertRaises(FileExistsError): assemble(args)

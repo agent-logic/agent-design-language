@@ -44,7 +44,7 @@ def assemble(args):
     output.mkdir(mode=0o700)
     (output / 'bin').mkdir()
     binary(args.gateway, output / 'bin' / 'codefriend-server')
-    binary(args.verifier, output / 'bin' / 'adl')
+    binary(args.verifier, output / 'bin' / 'codefriend-agent')
     subprocess.run(['git', 'clone', '--no-local', '--no-hardlinks', '--no-checkout', '--', str(website), str(output / 'website')], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     git(output / 'website', 'checkout', '--detach', args.website_revision)
     git(output / 'website', 'remote', 'remove', 'origin')
@@ -74,6 +74,7 @@ def assemble(args):
             files[str(path.relative_to(output))] = hashlib.sha256(path.read_bytes()).hexdigest()
     manifest = dict(schema='codefriend.release_preparation.v1', adl_revision=args.adl_revision,
                     website_revision=args.website_revision, platform='linux-x86_64', files=files,
+                    report_verifier=dict(path='bin/codefriend-agent', argv=['verify-report', '--report-file', '<private-report-file>']),
                     binary_authentication='pending_installer_verification', dependencies='not_installed',
                     ready_for_activation=False)
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
