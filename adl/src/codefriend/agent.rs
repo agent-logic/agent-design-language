@@ -447,6 +447,21 @@ impl GatewayLaneIdentity {
         ))
     }
 }
+/// Authenticated website acknowledgement of a retained completed report.
+/// This is an upload binding, never publication approval or continuing authority.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ForwardReceipt {
+    pub schema: String,
+    pub subject: String,
+    pub agent_id: String,
+    pub run_id: String,
+    pub report_digest: String,
+    pub received_digest: String,
+    pub consent_digest: String,
+    pub expires_at: u64,
+}
+
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct RunReport {
@@ -1123,6 +1138,97 @@ impl Transport {
             "agent_result_ack_mismatch"
         );
         Ok(())
+    }
+    /// Recover the website's receipt using authenticated observation only. This
+    /// explicit publication-preparation step leaves ordinary forwarding compatible
+    /// with older websites. A missing upload ACK never authorizes redispatch.
+    /// Every invocation re-observes current website authority; cached receipts do
+    /// not grant offline publication permission or promise future non-revocation.
+    pub fn publication_receipt(
+        &self,
+        journal: &Journal,
+        run_id: &str,
+        consent_path: &Path,
+    ) -> Result<ForwardReceipt> {
+        journal.expire((self.clock)())?;
+        ensure!(identifier(run_id), "agent_receipt_run_id");
+        let pairing = journal.pairing((self.clock)())?;
+        self.paired(&pairing)?;
+        let dir = journal.root.join(format!("run-{run_id}"));
+        let read = |path: &Path, limit: u64| -> Result<Vec<u8>> {
+            let m = fs::symlink_metadata(path)?;
+            ensure!(
+                m.is_file() && m.permissions().mode() & 0o077 == 0 && m.len() <= limit,
+                "agent_receipt_file_permissions"
+            );
+            let mut bytes = Vec::new();
+            File::open(path)?.take(limit + 1).read_to_end(&mut bytes)?;
+            ensure!(bytes.len() as u64 <= limit, "agent_receipt_file_limit");
+            Ok(bytes)
+        };
+        ensure!(
+            fs::symlink_metadata(&dir)?.is_dir(),
+            "agent_receipt_run_directory"
+        );
+        let command: Command = serde_json::from_slice(&read(&dir.join("command.json"), 8192)?)?;
+        let report: RunReport =
+            serde_json::from_slice(&read(&dir.join("report.json"), MAX_RESPONSE)?)?;
+        report.validate((self.clock)())?;
+        ensure!(
+            report.status == "complete"
+                && command.run_id == run_id
+                && report.run_id == run_id
+                && report.agent_id == pairing.agent_id
+                && report.subject == pairing.subject
+                && report.consent_digest == command.consent_digest,
+            "agent_receipt_report_identity"
+        );
+        let deadline: u64 = serde_json::from_slice(&read(&dir.join("expires.json"), 64)?)?;
+        ensure!(report.expires_at == deadline, "agent_receipt_retention");
+        let authority = RunAuthority {
+            pairing: &pairing,
+            command: &command,
+            consent_path,
+            expires_at: deadline,
+        };
+        authority.check((self.clock)())?;
+        ensure!(!self.control(&pairing, &command)?, "agent_cancelled");
+        let receipt: ForwardReceipt = self.request(
+            Method::GET,
+            &format!("/v1/agent/runs/{run_id}/receipt"),
+            Some(&pairing.agent_token),
+            None,
+        )?;
+        authority.check((self.clock)())?;
+        // A pairing replaced/removed while observing cannot authorize retention.
+        ensure!(
+            hash(&journal.pairing((self.clock)())?)? == hash(&pairing)?,
+            "agent_pairing_changed"
+        );
+        ensure!(
+            receipt.schema == "codefriend.agent_report_receipt.v1"
+                && receipt.subject == report.subject
+                && receipt.agent_id == report.agent_id
+                && receipt.run_id == report.run_id
+                && receipt.report_digest == report.digest
+                && receipt.consent_digest == report.consent_digest
+                && receipt.expires_at == report.expires_at
+                && super::evidence::valid_digest(&receipt.received_digest),
+            "agent_receipt_binding"
+        );
+        let work = dir.join("work");
+        ensure!(
+            fs::symlink_metadata(&work)?.is_dir(),
+            "agent_receipt_work_directory"
+        );
+        let path = work.join("forward-receipt.json");
+        if fs::symlink_metadata(&path).is_ok() {
+            let retained: ForwardReceipt = serde_json::from_slice(&read(&path, 8192)?)?;
+            ensure!(retained == receipt, "agent_receipt_changed");
+        } else {
+            save_private(&path, &receipt)?;
+        }
+        Ok(receipt)
     }
     pub fn unpair(&self, journal: &Journal) -> Result<()> {
         let pairing = journal.pairing((self.clock)())?;

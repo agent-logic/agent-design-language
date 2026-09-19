@@ -342,3 +342,189 @@ fn symlink_output_alias_cannot_write_inside_source() {
     assert!(prepare_local(options).is_err());
     assert!(!fixture.source.join("results").exists());
 }
+
+/// Composition proof uses generated native review output and explicitly synthetic
+/// lane responses/approval. Journey's provider-only review wrapper is not executed.
+#[test]
+fn generated_four_lane_review_flows_through_three_separately_approved_exports() {
+    use adl::codefriend::{
+        evidence::{contracts::Completion, Admission},
+        integration::prepare_publication_bundle_for_format,
+        publication::{
+            self, append_decision, DecisionKind, HtmlRenderOptions, MarkdownRenderOptions,
+            PdfRenderOptions,
+        },
+        review::runner::{run_with_executor, ExecutionOptions, LaneExecution},
+    };
+    use adl::provider_communication::ProviderInvocationFinalStatusV1;
+    let fixture = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    let journey = prepare_local(fixture.options()).unwrap();
+    let admission: Admission =
+        serde_json::from_slice(&fs::read(journey.output().join("admission.json")).unwrap())
+            .unwrap();
+    let review_dir = fixture.dir.path().join("generated-review");
+    let mut lanes = BTreeSet::new();
+    let run = run_with_executor(
+        ExecutionOptions {
+            out: review_dir.clone(),
+            run_id: "generated-component-review".into(),
+            cancel_file: None,
+        },
+        admission,
+        "fixture:deterministic:no-provider".into(),
+        |lane, prompt, _| {
+            assert!(prompt.contains("answer"));
+            assert!(lanes.insert(lane.id().to_owned()));
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some(r#"{"findings":[]}"#.into()),
+            })
+        },
+    )
+    .unwrap();
+    assert_eq!(lanes.len(), 4);
+    assert_eq!(run.completion, Completion::Complete);
+    run.review_record.validate().unwrap();
+    assert_eq!(
+        run.review_record.admission.packet.revision,
+        fixture.revision
+    );
+    let review_record = review_dir.join("review-record.json");
+    assert_eq!(
+        publication::read_review(&review_record).unwrap(),
+        run.review_record
+    );
+    let destination = fixture.dir.path().join("exports");
+    fs::create_dir(&destination).unwrap();
+    let approval_store = fixture.dir.path().join("approvals");
+    let font = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    .find(|p| p.is_file())
+    .expect("PDF component proof requires an installed Unicode TrueType font");
+    let mut decisions = BTreeSet::new();
+    for format in [
+        PublicationFormat::Markdown,
+        PublicationFormat::Html,
+        PublicationFormat::Pdf,
+    ] {
+        let key = format.key();
+        let bundle = fixture.dir.path().join(format!("bundle-{key}"));
+        let bound =
+            prepare_publication_bundle_for_format(&review_record, &bundle, &destination, format)
+                .unwrap();
+        assert_eq!(bound.artifact_manifest.len(), 13);
+        publication::verify_artifacts(&bundle.join("artifacts"), &bound.artifact_manifest).unwrap();
+        assert!(bound.approval.is_none());
+        let out = destination.join(&bound.target);
+        let render = || -> anyhow::Result<serde_json::Value> {
+            let review_record = review_record.clone();
+            let publication = bundle.join("publication.json");
+            let approval_store = approval_store.clone();
+            let artifact_root = bundle.join("artifacts");
+            let synthesis = "synthesis/synthesis.json".into();
+            let remediation_plan = "remediation/remediation-plan.json".into();
+            let test_plan = "tests/test-plan.json".into();
+            let destination_root = destination.clone();
+            let out = out.clone();
+            Ok(match format {
+                PublicationFormat::Markdown => {
+                    serde_json::to_value(publication::render_markdown(MarkdownRenderOptions {
+                        review_record,
+                        publication,
+                        approval_store,
+                        artifact_root,
+                        synthesis,
+                        remediation_plan,
+                        test_plan,
+                        destination_root,
+                        out,
+                    })?)?
+                }
+                PublicationFormat::Html => {
+                    serde_json::to_value(publication::render_html(HtmlRenderOptions {
+                        review_record,
+                        publication,
+                        approval_store,
+                        artifact_root,
+                        synthesis,
+                        remediation_plan,
+                        test_plan,
+                        destination_root,
+                        out,
+                    })?)?
+                }
+                PublicationFormat::Pdf => {
+                    serde_json::to_value(publication::render_pdf(PdfRenderOptions {
+                        review_record,
+                        publication,
+                        approval_store,
+                        artifact_root,
+                        synthesis,
+                        remediation_plan,
+                        test_plan,
+                        destination_root,
+                        out,
+                        font: font.clone(),
+                    })?)?
+                }
+            })
+        };
+        // Another format's approval must never authorize this format's output.
+        assert!(render().is_err());
+        assert!(!out.exists());
+        append_decision(
+            &approval_store,
+            &run.review_record,
+            &bound,
+            DecisionKind::Withheld,
+            "component-fixture",
+            "Withheld for authorization regression",
+            1_700_000_000,
+        )
+        .unwrap();
+        assert!(render().is_err());
+        assert!(!out.exists());
+        let approved = append_decision(
+            &approval_store,
+            &run.review_record,
+            &bound,
+            DecisionKind::Approved,
+            "component-fixture",
+            "Synthetic component approval for this exact format",
+            1_700_000_001,
+        )
+        .unwrap();
+        assert!(decisions.insert(approved.digest.clone()));
+        let result = render().unwrap();
+        assert_eq!(result["approval_decision_digest"], approved.digest);
+        let extension = match format {
+            PublicationFormat::Markdown => "md",
+            PublicationFormat::Html => "html",
+            PublicationFormat::Pdf => "pdf",
+        };
+        let bytes = fs::read(out.join(format!("report.{extension}"))).unwrap();
+        assert_eq!(
+            result["report_digest"],
+            adl::codefriend::ingestion::digest(&bytes)
+        );
+        assert!(!bytes.is_empty());
+        if extension == "pdf" {
+            assert!(bytes.starts_with(b"%PDF-"));
+        } else {
+            assert!(String::from_utf8(bytes)
+                .unwrap()
+                .contains(&fixture.revision));
+        }
+    }
+    assert_eq!(decisions.len(), 3);
+    assert_eq!(
+        journey.manifest().stages["review"].status,
+        StageStatus::Pending
+    );
+    assert_eq!(journey.manifest().status, StageStatus::Pending);
+    assert_eq!(git(&fixture.source, &["status", "--porcelain=v1"]), "");
+}
