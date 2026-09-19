@@ -584,6 +584,9 @@ mod transport_tests {
                             let current = web.lock().unwrap().clone();
                             json!({"job":if acknowledged && controls == 0 {job.clone()} else {current}})
                         }
+                    } else if first.starts_with("GET /v1/agent/runs/run1/control ") {
+                        assert_eq!(count, 0);
+                        json!({"schema":PROTOCOL,"agent_id":"agent1","subject":"user1","run_id":"run1","cancelled":false})
                     } else if first.starts_with("GET /v1/agent/runs/run1/receipt ") {
                         receipt.clone()
                     } else if first.starts_with("GET /v1/agent/publications/job1 ") {
@@ -655,7 +658,10 @@ mod transport_tests {
     impl Drop for Case {
         fn drop(&mut self) {
             self.stop.store(true, Ordering::SeqCst);
-            self.server.take().unwrap().join().unwrap();
+            let result = self.server.take().unwrap().join();
+            if !thread::panicking() {
+                result.unwrap();
+            }
         }
     }
     #[test]
