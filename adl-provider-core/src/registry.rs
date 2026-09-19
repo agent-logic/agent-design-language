@@ -683,6 +683,8 @@ impl RuntimeProviderAdapter for NativeAdapter {
         spec: &ProviderSpec,
         binding: &ProviderBinding,
     ) -> Result<PreparedProvider, ProviderFailure> {
+        crate::profiles::validate_materialized_profile_state(id, spec)
+            .map_err(|_| ProviderFailure::InvalidConfiguration)?;
         let mut spec = spec.clone();
         spec.kind = self.kind.clone();
         if self.chat_compatible {
@@ -758,8 +760,13 @@ impl RuntimeProviderAdapter for NativeAdapter {
         {
             return Err(ProviderFailure::ModelUnavailable);
         }
-        crate::candidate::reject_credential_values(&HashMap::from([(id.to_owned(), spec.clone())]))
-            .map_err(|_| ProviderFailure::InvalidConfiguration)?;
+        let mut credential_scan_spec = spec.clone();
+        credential_scan_spec.config.remove("profile_state");
+        crate::candidate::reject_credential_values(&HashMap::from([(
+            id.to_owned(),
+            credential_scan_spec,
+        )]))
+        .map_err(|_| ProviderFailure::InvalidConfiguration)?;
         let target = crate::provider_substrate::provider_invocation_target_v1(
             id,
             &spec,
@@ -858,5 +865,32 @@ mod runtime_transport_bounds_tests {
             provider.config["runtime_max_attempts"],
             serde_json::json!(1)
         );
+    }
+
+    #[test]
+    fn runtime_registry_accepts_exact_materialized_bedrock_profile_state() {
+        let candidate = crate::candidate::parse_validated_provider_sidecar(
+            r#"
+providers:
+  fixture:
+    profile: bedrock:kimi-k2.5
+    config:
+      profile: agent-logic-admin
+      region: us-west-2
+"#,
+        )
+        .expect("profile candidate");
+        let registry = ProviderRegistry::standard();
+        registry
+            .replace_definitions(candidate.providers, candidate.digest)
+            .expect("definitions");
+
+        registry
+            .validate_binding_compatibility(&ProviderBinding {
+                provider: "fixture".into(),
+                model: "hosted:adl-bedrock:moonshotai.kimi-k2.5".into(),
+                ..Default::default()
+            })
+            .expect("materialized profile must remain executable");
     }
 }

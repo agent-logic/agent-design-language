@@ -941,6 +941,56 @@ fn materialized_active_provider_profiles(doc: &ProviderMap) -> Result<ProviderMa
     Ok(active)
 }
 
+/// Verify that retained profile state is the exact generated projection for
+/// the active materialized definition. Runtime adapters use this before
+/// excluding the non-executable state object from credential-value scanning.
+pub(crate) fn validate_materialized_profile_state(
+    provider_id: &str,
+    spec: &adl::ProviderSpec,
+) -> Result<()> {
+    let Some(profile_name) = spec.profile.as_deref().map(str::trim) else {
+        if spec.config.contains_key("profile_state") {
+            return Err(anyhow!(
+                "providers.{provider_id}.config.profile_state requires a profile"
+            ));
+        }
+        return Ok(());
+    };
+    let preset = provider_profile_registry()
+        .get(profile_name)
+        .copied()
+        .ok_or_else(|| anyhow!("providers.{provider_id}.profile '{profile_name}' is unknown"))?;
+    materialized_active_provider_profiles(&ProviderMap::from([(
+        provider_id.to_string(),
+        spec.clone(),
+    )]))?;
+    let state = spec
+        .config
+        .get("profile_state")
+        .and_then(Value::as_object)
+        .ok_or_else(|| anyhow!("providers.{provider_id}.config.profile_state must be an object"))?;
+    let exact_string =
+        |key: &str, expected: &str| state.get(key).and_then(Value::as_str) == Some(expected);
+    if !exact_string("schema", PROFILE_STATE_SCHEMA)
+        || !exact_string("profile", profile_name)
+        || !exact_string("last_known_good_profile", profile_name)
+        || !exact_string("retention", "retain_last_valid_materialization")
+        || !exact_string("activation", "validate_before_activation")
+    {
+        return Err(anyhow!(
+            "providers.{provider_id}.config.profile_state does not match the active profile"
+        ));
+    }
+    let config: BTreeMap<String, Value> = spec.config.clone().into_iter().collect();
+    let expected = materialization_state(profile_name, preset, &config);
+    if state.get("last_known_good_materialization") != Some(&expected) {
+        return Err(anyhow!(
+            "providers.{provider_id}.config.profile_state materialization does not match the active definition"
+        ));
+    }
+    Ok(())
+}
+
 /// Expand provider profiles in an ADL document into explicit concrete specs.
 ///
 /// This is a bounded transform: it expands profile-only providers while keeping
