@@ -818,7 +818,7 @@ mod runtime_transport_bounds_tests {
         let mut provider = spec();
         provider.config.insert("timeout_secs".into(), 180.into());
 
-        apply_runtime_transport_bounds(&mut provider);
+        apply_runtime_transport_bounds(&mut provider, "openrouter");
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(180));
         assert_eq!(
@@ -831,7 +831,7 @@ mod runtime_transport_bounds_tests {
     fn runtime_transport_bounds_supply_timeout_when_definition_omits_it() {
         let mut provider = spec();
 
-        apply_runtime_transport_bounds(&mut provider);
+        apply_runtime_transport_bounds(&mut provider, "openrouter");
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(30));
     }
@@ -841,8 +841,22 @@ mod runtime_transport_bounds_tests {
         let mut provider = spec();
         provider.config.insert("timeout_secs".into(), 86_400.into());
 
-        apply_runtime_transport_bounds(&mut provider);
+        apply_runtime_transport_bounds(&mut provider, "openrouter");
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(600));
+    }
+
+    #[test]
+    fn runtime_transport_bounds_do_not_inject_network_control_into_mock_codec() {
+        let mut provider = spec();
+        provider.kind = "mock".into();
+
+        apply_runtime_transport_bounds(&mut provider, "mock");
+
+        assert!(!provider.config.contains_key("timeout_secs"));
+        assert_eq!(
+            provider.config["runtime_max_attempts"],
+            serde_json::json!(1)
+        );
     }
 }
