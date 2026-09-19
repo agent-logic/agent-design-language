@@ -45,5 +45,6 @@
   "acceptance_criteria_inline": "captured low effort; pre-dispatch rejection; substantive full review; governed A2A continuation; Nexus/Nemotron preservation; five typed failure categories",
   "risks_inline": "provider latency, hidden reasoning budget, ambiguous live outcomes, and last-known-good preservation",
   "validation_plan_inline": "focused provider and Runtime regressions, provider-core suite/Clippy, native validation, exact-head review, then bounded installed live proof",
-  "notes_risks_inline": "Do not retry an ambiguous provider outcome; keep all retained proof redacted and repo-relative."
+  "notes_risks_inline": "Do not retry an ambiguous provider outcome; keep all retained proof redacted and repo-relative.",
+  "timestamp": "2026-09-18T23:46:34Z"
 }

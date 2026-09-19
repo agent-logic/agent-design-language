@@ -45,5 +45,6 @@
   "non_goals": "No shared OpenRouter profile widening, recurring probe, other resident model change, cloud billing/configuration change, or unrelated baseline Runtime repair.",
   "issue_graph_notes": "Issue #1079 closes only this provider-control and Runtime qualification defect.",
   "notes_risks": "OpenRouter may return long hidden reasoning; low effort, 8192 output tokens, and 180-second timeout bound the DeepSeek-specific profile.",
-  "tooling_notes": "Use native C-SDLC v3, the bound FastWork worktree, typed card edits, exact-head review, and installed local proof."
+  "tooling_notes": "Use native C-SDLC v3, the bound FastWork worktree, typed card edits, exact-head review, and installed local proof.",
+  "timestamp": "2026-09-18T23:46:34Z"
 }

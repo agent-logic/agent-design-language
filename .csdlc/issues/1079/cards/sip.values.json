@@ -25,5 +25,6 @@
   "validation_plan": "Run focused provider request-capture and invalid-control tests, conversation-level failure projection tests, provider-core suite and strict Clippy, Runtime focused tests, native card validation, independent exact-head review, then one installed full-issue review and one governed A2A exchange.",
   "demo_proof_requirements": "Use DeepSeek V4 Flash through the installed Runtime with low reasoning, bounded output and timeout. Retain model identity, non-secret controls, elapsed time, finish/status, response presence, typed failures, and peer continuation. Do not retain hidden reasoning.",
   "non_goals": "No global shared OpenRouter budget change, recurring inference, model replacement, credential or billing change, PAIR change, or unrelated Runtime repair.",
-  "notes_risks": "Real-provider proof is bounded and single-attempt after ambiguous outcomes. Preserve last-known-good provider state and keep Nexus/Nemotron effective profiles unchanged."
+  "notes_risks": "Real-provider proof is bounded and single-attempt after ambiguous outcomes. Preserve last-known-good provider state and keep Nexus/Nemotron effective profiles unchanged.",
+  "timestamp": "2026-09-18T23:46:34Z"
 }

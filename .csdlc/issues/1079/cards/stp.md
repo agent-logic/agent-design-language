@@ -6,7 +6,7 @@ title: "[v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek revie
 labels:
   - "track:roadmap"
 issue_number: 1079
-generated_at: "<timestamp>"
+generated_at: "2026-09-18T23:46:34Z"
 card_status: "ready"
 status: "draft"
 action: "edit"
@@ -29,7 +29,7 @@ pr_start:
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/stp.md`
-Generated: <timestamp>
+Generated: 2026-09-18T23:46:34Z
 
 # Structured Task Prompt
 

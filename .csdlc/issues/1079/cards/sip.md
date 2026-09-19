@@ -9,7 +9,7 @@ Version: 1.0.5
 Title: [v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek review turns
 Branch: codex/1079-deepseek-openrouter-reasoning
 Card Status: ready
-Generated: <timestamp>
+Generated: 2026-09-18T23:46:34Z
 
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/1079
