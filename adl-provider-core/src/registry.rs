@@ -771,6 +771,19 @@ impl RuntimeProviderAdapter for NativeAdapter {
     }
 }
 
+fn map_adapter_failure(error: anyhow::Error) -> ProviderFailure {
+    match crate::failure_category(&error) {
+        "credentials" => ProviderFailure::Credentials,
+        "quota" => ProviderFailure::Quota,
+        "unsupported_capability" => ProviderFailure::UnsupportedCapability,
+        "model_unavailable" => ProviderFailure::ModelUnavailable,
+        "timeout" => ProviderFailure::Timeout,
+        "invalid_response" => ProviderFailure::InvalidResponse,
+        "invalid_configuration" => ProviderFailure::InvalidConfiguration,
+        _ => ProviderFailure::Transport,
+    }
+}
+
 #[cfg(test)]
 mod runtime_transport_bounds_tests {
     use super::*;
@@ -807,18 +820,5 @@ mod runtime_transport_bounds_tests {
         apply_runtime_transport_bounds(&mut provider);
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(30));
-    }
-}
-
-fn map_adapter_failure(error: anyhow::Error) -> ProviderFailure {
-    match crate::failure_category(&error) {
-        "credentials" => ProviderFailure::Credentials,
-        "quota" => ProviderFailure::Quota,
-        "unsupported_capability" => ProviderFailure::UnsupportedCapability,
-        "model_unavailable" => ProviderFailure::ModelUnavailable,
-        "timeout" => ProviderFailure::Timeout,
-        "invalid_response" => ProviderFailure::InvalidResponse,
-        "invalid_configuration" => ProviderFailure::InvalidConfiguration,
-        _ => ProviderFailure::Transport,
     }
 }
