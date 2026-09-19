@@ -1,7 +1,7 @@
 {
   "issue": 914,
   "lane": "runtime",
-  "proof_role": "native exact Publication binding, format-separated atomic bundles, authenticated service approval and retention; authenticated hosted actual Markdown/HTML/PDF exports, current approval, tamper rejection and no rerender",
+  "proof_role": "native exact Publication binding, format-separated atomic bundles, authenticated service approval and retention; authenticated hosted actual Markdown/HTML/PDF exports, current approval, tamper rejection and no rerender; hosted common-journey attachment to original admission and completed review without redispatch, auth before body and cross-subject graph denial",
   "determinism": "fixed local review/artifacts and explicit timestamps; no network",
   "resource_profile": "local CPU and isolated temporary filesystem; installed system font for PDF component fixture",
   "release_gate": true,

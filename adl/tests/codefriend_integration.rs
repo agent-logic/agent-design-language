@@ -308,6 +308,30 @@ async fn website_approval_authenticates_rejects_stale_binding_and_expires_payloa
         .unwrap(),
     )
     .unwrap();
+    // The shared journey routes keep the same pre-body authentication boundary.
+    for (method, route) in [
+        ("POST", "/v1/operations/run1/journey"),
+        ("GET", "/v1/operations/run1/journey"),
+        ("POST", "/v1/operations/run1/journey/step"),
+        ("GET", "/v1/operations/run1/journey/graph"),
+    ] {
+        assert_eq!(
+            http_call(&app, method, route, None, json!(null)).await.0,
+            401
+        );
+    }
+    for route in [
+        "/v1/operations/run1/journey",
+        "/v1/operations/run1/journey/graph",
+    ] {
+        assert_eq!(
+            http_call(&app, "GET", route, Some(bob), json!(null))
+                .await
+                .0,
+            404
+        );
+    }
+    assert!(!operation.join("work/journey-reservation.json").exists());
     let prepare = "/v1/operations/run1/publication/challenge";
     let decide = "/v1/operations/run1/publication/decision";
     assert_eq!(
@@ -775,4 +799,197 @@ fn interrupted_preparation_does_not_block_distinct_format_bundles() {
         assert!(targets.insert(publication.target));
     }
     assert_eq!(fs::read_dir(&destination).unwrap().count(), 0);
+}
+
+#[tokio::test]
+async fn hosted_journey_reuses_original_admission_and_completed_review() {
+    use adl::codefriend::{
+        evidence::Admission,
+        ingestion::{local, Scope},
+        review::runner::{run_with_executor, ExecutionOptions, LaneExecution},
+        server::*,
+    };
+    use std::{
+        path::Path,
+        process::Command,
+        sync::{
+            atomic::{AtomicUsize, Ordering},
+            Arc,
+        },
+        time::{SystemTime, UNIX_EPOCH},
+    };
+    struct FixtureBackend(Arc<AtomicUsize>);
+    impl Backend for FixtureBackend {
+        fn execute(
+            &self,
+            _: &Config,
+            request: &Submit,
+            admission: Admission,
+            dir: &Path,
+        ) -> anyhow::Result<serde_json::Value> {
+            self.0.fetch_add(1, Ordering::SeqCst);
+            Ok(serde_json::to_value(run_with_executor(
+                ExecutionOptions {
+                    out: dir.join("work/review"),
+                    run_id: request.operation_id.clone(),
+                    cancel_file: None,
+                },
+                admission,
+                "fixture:no-provider".into(),
+                |_, _, _| {
+                    Ok(LaneExecution {
+                        final_status:
+                            adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                        output_text: Some(r#"{"findings":[]}"#.into()),
+                    })
+                },
+            )?)?)
+        }
+    }
+    let temp = local_temp();
+    let source = temp.path().join("source");
+    fs::create_dir(&source).unwrap();
+    let git = |args: &[&str]| {
+        let out = Command::new("git")
+            .arg("-C")
+            .arg(&source)
+            .args(args)
+            .env("GIT_CONFIG_NOSYSTEM", "1")
+            .env("GIT_CONFIG_GLOBAL", "/dev/null")
+            .output()
+            .unwrap();
+        assert!(
+            out.status.success(),
+            "{}",
+            String::from_utf8_lossy(&out.stderr)
+        );
+        String::from_utf8(out.stdout).unwrap().trim().to_string()
+    };
+    git(&["init", "-b", "main"]);
+    git(&["remote", "add", "origin", "https://example.com/owner/repo"]);
+    fs::write(source.join("lib.rs"), "pub fn answer() -> u8 { 42 }\n").unwrap();
+    git(&["add", "lib.rs"]);
+    git(&[
+        "-c",
+        "user.name=fixture",
+        "-c",
+        "user.email=fixture@example.com",
+        "-c",
+        "commit.gpgsign=false",
+        "commit",
+        "-m",
+        "fixture",
+    ]);
+    let revision = git(&["rev-parse", "HEAD"]);
+    let packet = local::acquire(
+        &source,
+        "https://example.com/owner/repo",
+        &revision,
+        Scope {
+            analysis: vec!["lib.rs".into()],
+            context: vec![],
+            max_files: 1,
+            max_bytes: 4096,
+            max_file_bytes: 4096,
+        },
+    )
+    .unwrap();
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+    let token = "hosted-journey-fixture-token-0123456789012345";
+    let credentials = temp.path().join("credentials.json");
+    fs::write(
+        &credentials,
+        serde_json::to_vec(&vec![Credential {
+            token_hash: blake3::hash(token.as_bytes()).to_hex().to_string(),
+            subject: "alice".into(),
+            mode: Mode::Hosted,
+            expires_at: now + 3600,
+        }])
+        .unwrap(),
+    )
+    .unwrap();
+    let root = temp.path().join("service");
+    let calls = Arc::new(AtomicUsize::new(0));
+    let service = Service::open(
+        Config {
+            root: root.clone(),
+            credentials_file: credentials,
+            provider: provider_request(),
+            candidate_revision: build_revision().into(),
+            max_concurrent: 1,
+            max_operations_per_subject: 4,
+            retention_seconds: 3600,
+        },
+        Arc::new(FixtureBackend(calls.clone())),
+    )
+    .unwrap();
+    let app = service.router();
+    let submit = json!({"operation_id":"journey1", "packet":packet, "mode":"hosted", "lane":null});
+    assert_eq!(
+        http_call(&app, "POST", "/v1/operations", Some(token), submit)
+            .await
+            .0,
+        202
+    );
+    let result_path = root.join("operations/alice/journey1/result.json");
+    for _ in 0..200 {
+        let (_, observed) = http_call(
+            &app,
+            "GET",
+            "/v1/operations/journey1",
+            Some(token),
+            json!(null),
+        )
+        .await;
+        if observed["status"] == "complete" {
+            break;
+        }
+        tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+    }
+    assert!(result_path.exists());
+    let completed: serde_json::Value =
+        serde_json::from_slice(&fs::read(result_path).unwrap()).unwrap();
+    let original_digest = completed["review_record"]["admission"]["digest"].clone();
+    let route = "/v1/operations/journey1/journey";
+    let policies = json!({
+        "boundary_policy":{"schema":"codefriend.structure.v1","crate_root":"lib.rs","manifest_path":null,"layers":{"lib.rs":"core"},"allowed":[],"coupling_threshold":2},
+        "fitness_policy":{"schema":"codefriend.fitness.v1","rules":[{"id":"no_network","kind":"forbidden_declared_use","source_path":"lib.rs","forbidden_prefix":"reqwest"}]}
+    });
+    let (status, manifest) = http_call(&app, "POST", route, Some(token), policies.clone()).await;
+    assert_eq!(status, 200, "{manifest}");
+    assert_eq!(manifest["admission_digest"], original_digest);
+    assert_eq!(manifest["stages"]["review"]["status"], "complete");
+    assert_eq!(manifest["status"], "pending");
+    assert_eq!(
+        http_call(&app, "POST", route, Some(token), policies.clone()).await,
+        (200, manifest.clone())
+    );
+    assert_eq!(
+        http_call(&app, "GET", route, Some(token), json!(null)).await,
+        (200, manifest)
+    );
+    let (status, graph) = http_call(
+        &app,
+        "GET",
+        "/v1/operations/journey1/journey/graph",
+        Some(token),
+        json!(null),
+    )
+    .await;
+    assert_eq!(status, 200, "{graph}");
+    assert_eq!(graph["record"]["admission"]["digest"], original_digest);
+    let mut changed = policies;
+    changed["boundary_policy"]["coupling_threshold"] = json!(3);
+    assert_eq!(
+        http_call(&app, "POST", route, Some(token), changed).await.0,
+        409
+    );
+    assert_eq!(
+        calls.load(Ordering::SeqCst),
+        1,
+        "journey must not redispatch the review"
+    );
 }

@@ -2,6 +2,7 @@
 //! No client-selected paths, identities, arbitrary prompts, endpoints or credentials.
 #[cfg(unix)]
 pub mod control;
+mod journey;
 mod publication_export;
 use super::{
     evidence::{contracts::Completion, store::Store, Admission, Retention},
@@ -528,6 +529,18 @@ impl Service {
             .route(
                 "/v1/operations/:operation/publication/render",
                 post(publication_export::render),
+            )
+            .route(
+                "/v1/operations/:operation/journey",
+                get(journey::status).post(journey::prepare),
+            )
+            .route(
+                "/v1/operations/:operation/journey/step",
+                post(journey::step),
+            )
+            .route(
+                "/v1/operations/:operation/journey/graph",
+                get(journey::graph),
             )
             .route_layer(axum::middleware::from_fn_with_state(
                 self.clone(),

@@ -1,5 +1,5 @@
 //! Composition of existing owners. A prepared journey is not a completed Beta review.
-//! Handles are created from local acquisition, never deserialized from an asserted manifest.
+//! Handles derive from acquisition or an authenticated owner attachment, never an asserted manifest.
 use super::PublicationFormat;
 use crate::codefriend::{
     architecture::{drift, impact, rationale, structure},
@@ -72,7 +72,10 @@ pub struct Journey {
     store: Store,
     store_path: PathBuf,
     output: PathBuf,
-    source: PathBuf,
+    source: PathBoundary,
+    review_root: PathBuf,
+    deadline: Option<u64>,
+    external_review: Option<ExternalReviewBinding>,
     manifest: JourneyManifest,
     graph: Option<structure::StructureReport>,
     review: Option<FourPerspectiveReviewRun>,
@@ -90,7 +93,7 @@ fn now() -> u64 {
 }
 
 /// Reject aliases and parent traversal before any source-adjacent write.
-fn outside_source(path: &Path, source: &Path) -> Result<PathBuf> {
+fn safe_absolute(path: &Path) -> Result<PathBuf> {
     let absolute = std::path::absolute(path)?;
     let mut cursor = PathBuf::new();
     for component in absolute.components() {
@@ -106,6 +109,10 @@ fn outside_source(path: &Path, source: &Path) -> Result<PathBuf> {
             );
         }
     }
+    Ok(absolute)
+}
+fn outside_source(path: &Path, source: &Path) -> Result<PathBuf> {
+    let absolute = safe_absolute(path)?;
     ensure!(
         !absolute.starts_with(source) && !source.starts_with(&absolute),
         "journey_output_overlaps_source"
@@ -154,6 +161,35 @@ pub fn prepare_source(
     options.fitness_policy.validate()?;
     let store = Store::open(&store_path, now)?;
     let admission = store.admit(packet, options.retention)?;
+    initialize(
+        store,
+        store_path,
+        output.clone(),
+        PathBoundary::Checkout(source),
+        output.join("review"),
+        None,
+        None,
+        &session,
+        admission,
+        options.boundary_policy,
+        options.fitness_policy,
+    )
+}
+
+#[allow(clippy::too_many_arguments)] // Explicit owner inputs preserve source and retention boundaries.
+fn initialize<S: Serialize>(
+    store: Store,
+    store_path: PathBuf,
+    output: PathBuf,
+    source: PathBoundary,
+    review_root: PathBuf,
+    deadline: Option<u64>,
+    external_review: Option<ExternalReviewBinding>,
+    session: &S,
+    admission: Admission,
+    boundary_policy: structure::BoundaryPolicy,
+    fitness_policy: fitness::Policy,
+) -> Result<Journey> {
     #[cfg(unix)]
     {
         use std::os::unix::fs::DirBuilderExt;
@@ -161,7 +197,7 @@ pub fn prepare_source(
     }
     #[cfg(not(unix))]
     fs::create_dir(&output)?;
-    write_json_create_only(&output.join("session.json"), &session)?;
+    write_json_create_only(&output.join("session.json"), session)?;
     let mut manifest = JourneyManifest {
         schema: "codefriend.journey.v1".into(),
         candidate_revision: env!("CODEFRIEND_BUILD_REVISION").into(),
@@ -209,12 +245,15 @@ pub fn prepare_source(
         store_path,
         output,
         source,
+        review_root,
+        deadline,
+        external_review,
         manifest,
         graph: None,
         review: None,
         sequence: 0,
         persistence_failed: false,
-        session_digest: hash(&session)?,
+        session_digest: hash(session)?,
         checkpoint_digest: None,
     };
     journey.record("acquisition", &admission.packet, true)?;
@@ -222,7 +261,7 @@ pub fn prepare_source(
     match structure::repository_structure_reporter(
         &journey.store,
         &journey.manifest.packet_id,
-        options.boundary_policy,
+        boundary_policy,
     ) {
         Ok(graph) => {
             let complete = graph.record.run.completion == Completion::Complete;
@@ -231,11 +270,8 @@ pub fn prepare_source(
         }
         Err(_) => journey.failed("structure", "structure_execution_failed")?,
     }
-    match fitness::local_fitness_runner(
-        &journey.store,
-        &journey.manifest.packet_id,
-        options.fitness_policy,
-    ) {
+    match fitness::local_fitness_runner(&journey.store, &journey.manifest.packet_id, fitness_policy)
+    {
         Ok(report) => {
             let passed = report.status == fitness::Status::Pass;
             journey.record("fitness", &report, passed)?;
@@ -246,6 +282,29 @@ pub fn prepare_source(
 }
 
 impl Journey {
+    fn live_admission(&self) -> Result<Admission> {
+        ensure!(
+            self.deadline.is_none_or(|d| now() < d),
+            "journey_operation_expired"
+        );
+        let admission = self.store.get(&self.manifest.packet_id)?;
+        ensure!(
+            admission.digest == self.manifest.admission_digest,
+            "journey_admission_changed"
+        );
+        if let Some(binding) = &self.external_review {
+            ensure!(
+                inventory(&binding.root)? == binding.files,
+                "journey_external_review_changed"
+            );
+        }
+        ensure!(
+            self.deadline.is_none_or(|d| now() < d),
+            "journey_operation_expired"
+        );
+        self.store.get(&self.manifest.packet_id)?;
+        Ok(admission)
+    }
     pub fn manifest(&self) -> &JourneyManifest {
         &self.manifest
     }
@@ -269,7 +328,7 @@ impl Journey {
             self.manifest.status != StageStatus::Failed,
             "journey_failed"
         );
-        self.store.get(&self.manifest.packet_id)?;
+        self.live_admission()?;
         Ok(())
     }
     fn persist(&mut self) -> Result<()> {
@@ -324,7 +383,7 @@ impl Journey {
     }
     fn record<T: Serialize>(&mut self, name: &str, value: &T, complete: bool) -> Result<()> {
         // An owner operation may have crossed the retention deadline.
-        self.store.get(&self.manifest.packet_id)?;
+        self.live_admission()?;
         let artifact = format!("{name}.json");
         write_json_create_only(&self.output.join(&artifact), value)?;
         let stage = self.manifest.stages.get_mut(name).unwrap();
@@ -378,10 +437,14 @@ impl Journey {
     ) -> Result<()> {
         self.pending("review")?;
         ensure!(
+            self.external_review.is_none(),
+            "journey_owned_review_cannot_dispatch"
+        );
+        ensure!(
             self.manifest.candidate_clean,
             "journey_dispatch_requires_clean_candidate"
         );
-        let admission = self.store.get(&self.manifest.packet_id)?;
+        let admission = self.live_admission()?;
         // A durable reservation is deliberately non-successful. If dispatch or output
         // recording fails, this handle cannot issue another possibly paid request.
         self.failed("review", "review_dispatch_reserved_outcome_unknown")?;
@@ -390,7 +453,7 @@ impl Journey {
                 store: self.store_path.clone(),
                 packet_id: self.manifest.packet_id.clone(),
                 provider_request: request,
-                out: self.output.join("review"),
+                out: self.review_root.clone(),
                 run_id,
                 cancel_file,
             },
@@ -417,15 +480,15 @@ impl Journey {
                 .is_some_and(|r| r.completion == Completion::Complete),
             "journey_complete_review_required"
         );
-        outside_source(destination, &self.source)?;
+        self.source.check(destination)?;
         ensure!(
             crate::codefriend::publication::read_review(
-                &self.output.join("review/review-record.json")
+                &self.review_root.join("review-record.json")
             )? == self.review.as_ref().unwrap().review_record,
             "journey_review_artifact_changed"
         );
         match super::prepare_publication_bundle_for_format(
-            &self.output.join("review/review-record.json"),
+            &self.review_root.join("review-record.json"),
             &self.output.join(&stage),
             destination,
             format,
@@ -441,7 +504,7 @@ impl Journey {
         baseline: structure::StructureReport,
     ) -> Result<()> {
         self.pending("drift")?;
-        outside_source(baseline_root, &self.source)?;
+        self.source.check(baseline_root)?;
         let result = (|| {
             let current = self
                 .graph
@@ -473,8 +536,8 @@ impl Journey {
         mut retrieve: palace::RetrieveRequest,
     ) -> Result<()> {
         self.pending("palace_comparison")?;
-        outside_source(baseline_root, &self.source)?;
-        outside_source(palace_root, &self.source)?;
+        self.source.check(baseline_root)?;
+        self.source.check(palace_root)?;
         let result = (|| {
             let review = self
                 .review
@@ -517,9 +580,9 @@ impl Journey {
             self.manifest.stages[&bundle].status == StageStatus::Complete,
             "journey_publication_missing"
         );
-        let destination = outside_source(destination, &self.source)?;
-        outside_source(approval_store, &self.source)?;
-        let review_record = self.output.join("review/review-record.json");
+        let destination = self.source.check(destination)?;
+        self.source.check(approval_store)?;
+        let review_record = self.review_root.join("review-record.json");
         let publication = self.output.join(&bundle).join("publication.json");
         let bound_publication = publication::read_publication(&publication)?;
         let target = destination.join(&bound_publication.target);
@@ -891,19 +954,12 @@ impl Continuation {
 /// No legacy snapshot is promoted by synthesizing missing original options.
 pub fn resume(output: &Path) -> Result<Journey> {
     private_journey(output)?;
-    let record: SessionRecord = read_typed(&output.join("session.json"))?;
-    ensure!(
-        record.schema == "codefriend.journey_session.v1"
-            && record.candidate_revision == env!("CODEFRIEND_BUILD_REVISION"),
-        "journey_candidate_changed"
-    );
-    let source = fs::canonicalize(&record.options.checkout)?;
-    let output = outside_source(output, &source)?;
-    ensure!(
-        output == record.options.output,
-        "journey_output_binding_changed"
-    );
-    let store_path = outside_source(&record.options.store, &source)?;
+    let session: PersistedSession = read_typed(&output.join("session.json"))?;
+    let session_digest = hash(&session)?;
+    let binding = session.resume_binding(output)?;
+    let source = binding.source;
+    let output = binding.output;
+    let store_path = binding.store;
     let store = Store::open(&store_path, now)?;
     let all = inventory(&output)?;
     let mut previous = None;
@@ -921,7 +977,7 @@ pub fn resume(output: &Path) -> Result<Journey> {
             cp.schema == "codefriend.journey_checkpoint.v1"
                 && cp.sequence == index
                 && cp.previous == previous
-                && cp.session_digest == hash(&record)?
+                && cp.session_digest == session_digest
                 && cp.digest == hash(&unsigned)?,
             "journey_checkpoint_changed"
         );
@@ -940,7 +996,7 @@ pub fn resume(output: &Path) -> Result<Journey> {
     let manifest: JourneyManifest =
         read_typed(&output.join(format!("journey-{:04}.json", count - 1)))?;
     ensure!(
-        manifest.candidate_revision == record.candidate_revision
+        manifest.candidate_revision == binding.candidate_revision
             && manifest.candidate_clean == (env!("CODEFRIEND_BUILD_CLEAN") == "true"),
         "journey_candidate_changed"
     );
@@ -950,20 +1006,12 @@ pub fn resume(output: &Path) -> Result<Journey> {
         admission.digest == manifest.admission_digest
             && admission.packet.repository == manifest.repository
             && admission.packet.revision == manifest.revision
-            && admission.packet.scope_digest == manifest.scope_digest
-            && admission.packet == acquire_source(&record.options, &record.acquisition)?,
+            && admission.packet.scope_digest == manifest.scope_digest,
         "journey_admission_or_source_changed"
     );
-    ensure!(
-        record.provenance_digest == provenance_digest(&record.options, &record.acquisition)?,
-        "journey_acquisition_provenance_changed"
-    );
-    record.options.boundary_policy.validate(&admission)?;
-    record.options.fitness_policy.validate()?;
-    ensure!(
-        hash(&admission.retention)? == hash(&record.options.retention)?,
-        "journey_retention_changed"
-    );
+    session.validate_admission(&admission)?;
+    binding.boundary_policy.validate(&admission)?;
+    binding.fitness_policy.validate()?;
     let expected_stages: std::collections::BTreeSet<_> = [
         "acquisition",
         "admission",
@@ -1014,6 +1062,11 @@ pub fn resume(output: &Path) -> Result<Journey> {
         computed == manifest.status && manifest.stages.len() == 18,
         "journey_status_changed"
     );
+    ensure!(
+        binding.external_review.is_none()
+            || manifest.stages["review"].status == StageStatus::Complete,
+        "journey_owned_attachment_incomplete"
+    );
     let mut graph = None;
     let mut review = None;
     for (name, stage) in &manifest.stages {
@@ -1041,7 +1094,7 @@ pub fn resume(output: &Path) -> Result<Journey> {
         value.validate(&store)?;
         ensure!(
             value.record.admission == admission
-                && hash(&value.policy)? == hash(&record.options.boundary_policy)?
+                && hash(&value.policy)? == hash(&binding.boundary_policy)?
                 && manifest.stages["structure"].digest.as_deref() == Some(hash(&value)?.as_str()),
             "journey_structure_changed"
         );
@@ -1055,17 +1108,23 @@ pub fn resume(output: &Path) -> Result<Journey> {
                 && value.review_record.admission == admission
                 && manifest.stages["review"].digest.as_deref() == Some(hash(&value)?.as_str())
                 && crate::codefriend::publication::read_review(
-                    &output.join("review/review-record.json")
+                    &binding.review_root.join("review-record.json")
                 )? == value.review_record,
             "journey_review_changed"
         );
+        if let Some(external) = &binding.external_review {
+            ensure!(
+                hash(&value)? == external.run_digest,
+                "journey_owned_review_changed"
+            );
+        }
         review = Some(value);
     }
     if manifest.stages["fitness"].status == StageStatus::Complete {
         let value: fitness::Report = read_typed(&output.join("fitness.json"))?;
         value.validate(&store)?;
         ensure!(
-            hash(&value.policy)? == hash(&record.options.fitness_policy)?,
+            hash(&value.policy)? == hash(&binding.fitness_policy)?,
             "journey_fitness_policy_changed"
         );
     }
@@ -1082,7 +1141,7 @@ pub fn resume(output: &Path) -> Result<Journey> {
         let Continuation::Drift { baseline_root, .. } = step else {
             anyhow::bail!("journey_drift_intent_missing")
         };
-        outside_source(&baseline_root, &source)?;
+        source.check(&baseline_root)?;
         let backend = AdmittedBaselines::open(&store, &baseline_root, false)?;
         let value: drift::DriftReport = read_typed(&output.join("drift.json"))?;
         value.validate(&store, &backend)?;
@@ -1100,8 +1159,8 @@ pub fn resume(output: &Path) -> Result<Journey> {
         else {
             anyhow::bail!("journey_palace_intent_missing")
         };
-        outside_source(&baseline_root, &source)?;
-        outside_source(&palace_root, &source)?;
+        source.check(&baseline_root)?;
+        source.check(&palace_root)?;
         let _authority =
             crate::codefriend::memory::palace_authority::provision(&trust, &authority)?;
         let retained: palace::RetrievedComparison =
@@ -1130,8 +1189,8 @@ pub fn resume(output: &Path) -> Result<Journey> {
         if manifest.stages[key].status == StageStatus::Complete {
             let external: ExternalOutput =
                 read_typed(&output.join(format!("external-{key}.json")))?;
-            outside_source(&external.root, &source)?;
-            outside_source(&external.approval_store, &source)?;
+            source.check(&external.root)?;
+            source.check(&external.approval_store)?;
             ensure!(
                 inventory(&external.root)? == external.files,
                 "journey_export_changed"
@@ -1159,12 +1218,15 @@ pub fn resume(output: &Path) -> Result<Journey> {
         store_path,
         output,
         source,
+        review_root: binding.review_root,
+        deadline: binding.deadline,
+        external_review: binding.external_review,
         manifest,
         graph,
         review,
         sequence: count,
         persistence_failed: false,
-        session_digest: hash(&record)?,
+        session_digest,
         checkpoint_digest: previous,
     })
 }
@@ -1172,6 +1234,7 @@ impl Journey {
     pub fn continue_with(&mut self, mut step: Continuation) -> Result<()> {
         step.normalize_paths()?;
         if matches!(step, Continuation::Status) {
+            self.live_admission()?;
             return Ok(());
         }
         let key = step.key();
@@ -1228,3 +1291,287 @@ impl Journey {
         result
     }
 }
+
+// Server-only attachment of an existing admission; callers supply owner-resolved paths.
+pub(crate) struct OwnedAdmissionJourneyOptions {
+    pub store: PathBuf,
+    pub output: PathBuf,
+    pub owner_root: PathBuf,
+    pub review_root: PathBuf,
+    pub packet_id: String,
+    pub admission_digest: String,
+    pub operation_id: String,
+    pub candidate_revision: String,
+    pub expires_at: u64,
+    pub completed_run: FourPerspectiveReviewRun,
+    pub boundary_policy: structure::BoundaryPolicy,
+    pub fitness_policy: fitness::Policy,
+}
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ExternalReviewBinding {
+    root: PathBuf,
+    files: BTreeMap<String, String>,
+    run_digest: String,
+}
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct OwnedSession {
+    schema: String,
+    candidate_revision: String,
+    owner_root: PathBuf,
+    store: PathBuf,
+    output: PathBuf,
+    packet_id: String,
+    admission_digest: String,
+    operation_id: String,
+    expires_at: u64,
+    external_review: ExternalReviewBinding,
+    boundary_policy: structure::BoundaryPolicy,
+    fitness_policy: fitness::Policy,
+}
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+enum PersistedSession {
+    Checkout(SessionRecord),
+    Owned(OwnedSession),
+}
+enum PathBoundary {
+    Checkout(PathBuf),
+    Owned {
+        root: PathBuf,
+        store: PathBuf,
+        review: PathBuf,
+    },
+}
+impl PathBoundary {
+    fn check(&self, path: &Path) -> Result<PathBuf> {
+        match self {
+            Self::Checkout(source) => outside_source(path, source),
+            Self::Owned {
+                root,
+                store,
+                review,
+            } => {
+                let path = safe_absolute(path)?;
+                ensure!(
+                    path.starts_with(root) && path != *root,
+                    "journey_owned_path_escape"
+                );
+                ensure!(
+                    !path.starts_with(store)
+                        && !store.starts_with(&path)
+                        && !path.starts_with(review)
+                        && !review.starts_with(&path),
+                    "journey_owned_path_overlap"
+                );
+                Ok(path)
+            }
+        }
+    }
+}
+struct ResumeBinding {
+    source: PathBoundary,
+    output: PathBuf,
+    store: PathBuf,
+    review_root: PathBuf,
+    candidate_revision: String,
+    boundary_policy: structure::BoundaryPolicy,
+    fitness_policy: fitness::Policy,
+    deadline: Option<u64>,
+    external_review: Option<ExternalReviewBinding>,
+}
+impl PersistedSession {
+    fn resume_binding(&self, output: &Path) -> Result<ResumeBinding> {
+        match self {
+            Self::Checkout(record) => {
+                ensure!(
+                    record.schema == "codefriend.journey_session.v1"
+                        && record.candidate_revision == env!("CODEFRIEND_BUILD_REVISION"),
+                    "journey_candidate_changed"
+                );
+                let source = fs::canonicalize(&record.options.checkout)?;
+                let output = outside_source(output, &source)?;
+                ensure!(
+                    output == record.options.output,
+                    "journey_output_binding_changed"
+                );
+                Ok(ResumeBinding {
+                    store: outside_source(&record.options.store, &source)?,
+                    review_root: output.join("review"),
+                    output,
+                    source: PathBoundary::Checkout(source),
+                    candidate_revision: record.candidate_revision.clone(),
+                    boundary_policy: record.options.boundary_policy.clone(),
+                    fitness_policy: record.options.fitness_policy.clone(),
+                    deadline: None,
+                    external_review: None,
+                })
+            }
+            Self::Owned(record) => {
+                ensure!(
+                    record.schema == "codefriend.journey_owned_session.v1"
+                        && record.candidate_revision == env!("CODEFRIEND_BUILD_REVISION"),
+                    "journey_candidate_changed"
+                );
+                ensure!(now() < record.expires_at, "journey_operation_expired");
+                private_journey(&record.owner_root)?;
+                let root = safe_absolute(&record.owner_root)?;
+                let store = safe_absolute(&record.store)?;
+                let review = safe_absolute(&record.external_review.root)?;
+                ensure!(
+                    store.starts_with(&root)
+                        && review.starts_with(&root)
+                        && store != root
+                        && review != root
+                        && !store.starts_with(&review)
+                        && !review.starts_with(&store),
+                    "journey_owned_path_overlap"
+                );
+                let source = PathBoundary::Owned {
+                    root,
+                    store: store.clone(),
+                    review: review.clone(),
+                };
+                let output = source.check(output)?;
+                ensure!(output == record.output, "journey_output_binding_changed");
+                ensure!(
+                    inventory(&review)? == record.external_review.files,
+                    "journey_external_review_changed"
+                );
+                Ok(ResumeBinding {
+                    source,
+                    output,
+                    store,
+                    review_root: review,
+                    candidate_revision: record.candidate_revision.clone(),
+                    boundary_policy: record.boundary_policy.clone(),
+                    fitness_policy: record.fitness_policy.clone(),
+                    deadline: Some(record.expires_at),
+                    external_review: Some(record.external_review.clone()),
+                })
+            }
+        }
+    }
+    fn validate_admission(&self, admission: &Admission) -> Result<()> {
+        match self {
+            Self::Checkout(record) => {
+                ensure!(
+                    admission.packet == acquire_source(&record.options, &record.acquisition)?,
+                    "journey_admission_or_source_changed"
+                );
+                ensure!(
+                    record.provenance_digest
+                        == provenance_digest(&record.options, &record.acquisition)?,
+                    "journey_acquisition_provenance_changed"
+                );
+                ensure!(
+                    hash(&admission.retention)? == hash(&record.options.retention)?,
+                    "journey_retention_changed"
+                );
+            }
+            Self::Owned(record) => {
+                ensure!(
+                    admission.packet.packet_id == record.packet_id
+                        && admission.digest == record.admission_digest
+                        && record.expires_at <= admission.expires_at
+                        && now() < record.expires_at,
+                    "journey_owned_admission_changed"
+                );
+                let run: FourPerspectiveReviewRun =
+                    read_typed(&record.external_review.root.join("run.json"))?;
+                ensure!(
+                    run.run_id == record.operation_id
+                        && hash(&run)? == record.external_review.run_digest,
+                    "journey_owned_run_changed"
+                );
+                let review = crate::codefriend::publication::read_review(
+                    &record.external_review.root.join("review-record.json"),
+                )?;
+                ensure!(
+                    review.admission == *admission,
+                    "journey_owned_review_changed"
+                );
+            }
+        }
+        Ok(())
+    }
+}
+pub(crate) fn prepare_owned_admission(options: OwnedAdmissionJourneyOptions) -> Result<Journey> {
+    ensure!(
+        options.candidate_revision == env!("CODEFRIEND_BUILD_REVISION"),
+        "journey_candidate_changed"
+    );
+    ensure!(now() < options.expires_at, "journey_operation_expired");
+    let store_path = safe_absolute(&options.store)?;
+    let store = Store::open(&store_path, now)?;
+    let admission = store.get(&options.packet_id)?;
+    ensure!(
+        admission.digest == options.admission_digest,
+        "journey_admission_changed"
+    );
+    let run = options.completed_run;
+    run.review_record.validate()?;
+    ensure!(
+        run.schema == runner::REVIEW_RUN_SCHEMA
+            && run.completion == Completion::Complete
+            && run.run_id == options.operation_id
+            && run.review_record.admission == admission,
+        "journey_owned_review_changed"
+    );
+    let review_root = safe_absolute(&options.review_root)?;
+    let retained_run: FourPerspectiveReviewRun = read_typed(&review_root.join("run.json"))?;
+    ensure!(retained_run == run, "journey_owned_run_changed");
+    ensure!(
+        crate::codefriend::publication::read_review(&review_root.join("review-record.json"))?
+            == run.review_record,
+        "journey_owned_review_changed"
+    );
+    options.boundary_policy.validate(&admission)?;
+    options.fitness_policy.validate()?;
+    let session = OwnedSession {
+        schema: "codefriend.journey_owned_session.v1".into(),
+        candidate_revision: options.candidate_revision,
+        owner_root: safe_absolute(&options.owner_root)?,
+        store: store_path.clone(),
+        output: safe_absolute(&options.output)?,
+        packet_id: options.packet_id,
+        admission_digest: admission.digest.clone(),
+        operation_id: options.operation_id,
+        expires_at: options.expires_at.min(admission.expires_at),
+        external_review: ExternalReviewBinding {
+            root: review_root,
+            files: inventory(&options.review_root)?,
+            run_digest: hash(&run)?,
+        },
+        boundary_policy: options.boundary_policy,
+        fitness_policy: options.fitness_policy,
+    };
+    let persisted = PersistedSession::Owned(session.clone());
+    let binding = persisted.resume_binding(&session.output)?;
+    persisted.validate_admission(&admission)?;
+    ensure!(
+        session.output.parent().is_some_and(Path::is_dir) && !session.output.exists(),
+        "journey_output_unavailable"
+    );
+    let mut journey = initialize(
+        store,
+        store_path,
+        session.output.clone(),
+        binding.source,
+        binding.review_root,
+        binding.deadline,
+        binding.external_review,
+        &persisted,
+        admission,
+        session.boundary_policy,
+        session.fitness_policy,
+    )?;
+    journey.record("review", &run, true)?;
+    journey.review = Some(run);
+    Ok(journey)
+}
+
+#[cfg(test)]
+#[path = "journey/owned_tests.rs"]
+mod owned_tests;
