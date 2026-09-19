@@ -272,12 +272,11 @@ impl ProviderUsageRequest {
             .get_mut(&self.key)
             .expect("request counted before completion");
         counter.succeeded = counter.succeeded.saturating_add(1);
-        if let Some(metadata) = metadata.filter(|value| {
-            value.input_tokens.is_some()
-                || value.output_tokens.is_some()
-                || value.total_tokens.is_some()
-                || value.finish_reason.is_some()
-        }) {
+        if let Some(metadata) = metadata {
+            counter.last_finish_reason = metadata.finish_reason.clone();
+            let has_reported_usage = metadata.input_tokens.is_some()
+                || metadata.output_tokens.is_some()
+                || metadata.total_tokens.is_some();
             counter.provider_reported_input_tokens = counter
                 .provider_reported_input_tokens
                 .saturating_add(metadata.input_tokens.unwrap_or(0));
@@ -287,10 +286,16 @@ impl ProviderUsageRequest {
             counter.provider_reported_total_tokens = counter
                 .provider_reported_total_tokens
                 .saturating_add(metadata.total_tokens.unwrap_or(0));
-            counter.provider_reported_responses =
-                counter.provider_reported_responses.saturating_add(1);
-            counter.last_finish_reason = metadata.finish_reason.clone();
-            counter.token_accounting = "provider_reported_exact_with_estimate_fallback";
+            if has_reported_usage {
+                counter.provider_reported_responses =
+                    counter.provider_reported_responses.saturating_add(1);
+                counter.token_accounting = "provider_reported_exact_with_estimate_fallback";
+            }
+            if metadata.output_tokens.is_none() {
+                counter.estimated_output_tokens = counter
+                    .estimated_output_tokens
+                    .saturating_add(estimate(response));
+            }
         } else {
             counter.estimated_output_tokens = counter
                 .estimated_output_tokens
@@ -352,6 +357,40 @@ mod tests {
             "provider_reported_exact_with_estimate_fallback"
         );
         assert_eq!(rows[0].estimated_output_tokens, 0);
+    }
+
+    #[test]
+    fn finish_reason_without_usage_keeps_estimated_token_accounting() {
+        let usage = ProviderUsage::default();
+        usage
+            .begin(
+                "harbor.axioma",
+                "bedrock_kimi_k25",
+                "hosted:adl-bedrock:moonshotai.kimi-k2.5",
+                ProviderRequestReason::OperatorConversation,
+                "hello",
+            )
+            .success_with_metadata(
+                "hello back",
+                Some(&adl_provider_core::provider::ProviderCompletionMetadata {
+                    finish_reason: Some("end_turn".to_owned()),
+                    ..Default::default()
+                }),
+            );
+
+        let rows = usage.snapshot();
+        assert_eq!(rows.len(), 1);
+        assert_eq!(rows[0].provider_reported_responses, 0);
+        assert_eq!(rows[0].provider_reported_input_tokens, 0);
+        assert_eq!(rows[0].provider_reported_output_tokens, 0);
+        assert_eq!(rows[0].provider_reported_total_tokens, 0);
+        assert_eq!(rows[0].estimated_input_tokens, 2);
+        assert_eq!(rows[0].estimated_output_tokens, 3);
+        assert_eq!(rows[0].last_finish_reason.as_deref(), Some("end_turn"));
+        assert_eq!(
+            rows[0].token_accounting,
+            "estimate_utf8_bytes_div_4_rounded_up_not_billing"
+        );
     }
 
     // PVF: deterministic local Runtime health-identity contract; no network;
