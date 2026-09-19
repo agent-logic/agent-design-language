@@ -8,7 +8,7 @@ run_id: "issue-1079"
 version: "1.0.5"
 title: "[v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek review turns"
 branch: "codex/1079-deepseek-openrouter-reasoning"
-generated_at: "<timestamp>"
+generated_at: "2026-09-18T23:46:34Z"
 card_status: "ready"
 status: "in_progress"
 initial_pvf_lane: "runtime_provider_integration"
@@ -50,7 +50,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Planning Summary
 
-<plan_summary>
+Validate OpenRouter low-reasoning serialization and conflicting-control rejection, typed authenticated Runtime conversation failures, current exact-head provider-core proof, and one installed full-issue review plus governed A2A continuation while preserving Nexus and Nemotron profiles.
 
 ## Lane Registry Inputs
 

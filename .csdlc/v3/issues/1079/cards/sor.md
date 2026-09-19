@@ -22,7 +22,7 @@ Title: [v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek review
 Branch: codex/1079-deepseek-openrouter-reasoning
 Card Status: draft
 Status: IN_PROGRESS
-Generated: <timestamp>
+Generated: 2026-09-18T23:46:34Z
 
 Execution:
 - Actor: `codex/root`
@@ -57,7 +57,7 @@ Implemented OpenRouter reasoning-effort serialization, conflicting-control rejec
 - Goal metrics source ref: `Issue #1079 active Codex goal`
 - Data-source confidence: `low`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_and_validation_in_progress`
+- Completion state: `implementation_and_local_proof_complete_live_qualification_in_progress`
 - Issue goal ref: `Issue #1079 active Codex goal`
 - Sprint goal ref: `not_assigned`
 - Goal metrics rollup ref: `not_collected`
