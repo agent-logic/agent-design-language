@@ -56,7 +56,7 @@ Built-in codecs declare these consumption sets:
 | Ollama HTTP generate | context, output, temperature, top-p, seed, timeout, think, keep-alive |
 | Ollama local CLI | timeout only |
 | MLX OpenAI-compatible chat | output, temperature, top-p, seed, timeout |
-| OpenAI, Anthropic, DeepSeek, Bedrock Nova, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
+| OpenAI, Anthropic, DeepSeek, Bedrock Converse, generic HTTP with `api_format: openai_chat_completions` | output, temperature, top-p, timeout |
 | OpenRouter chat | common chat controls plus reasoning effort |
 | Vertex Gemini | output, temperature, top-p, timeout, thinking budget or level, include-thoughts |
 | Legacy generic HTTP `{prompt}` payload | timeout only; supplied sampling or output controls reject before adapter construction |
@@ -156,6 +156,23 @@ The direct Z.ai profile is separate from provider variants:
 Provider profiles are configuration contracts only. They do not authorize a
 paid provider call, cloud mutation, credential disclosure, or provider-specific
 acceptance claim.
+
+## AWS Bedrock Converse
+
+The Bedrock adapter uses the typed Bedrock Runtime `Converse` API for every
+supported text model. It does not select a provider-specific request body from
+the model name. The built-in profiles are:
+
+- `bedrock:nova-lite-v1` -> `amazon.nova-lite-v1:0`
+- `bedrock:nova-pro-v1` -> `us.amazon.nova-pro-v1:0`
+- `bedrock:kimi-k2.5` -> `moonshotai.kimi-k2.5`
+- `bedrock:nemotron-super-3-120b` -> `nvidia.nemotron-super-3-120b`
+
+Each profile records a stable ADL model reference separately from the native
+Bedrock model ID. Runtime resident names and IDs are separate again: changing a
+resident's Bedrock profile or native model ID does not rename the resident or
+create a new identity. A canonical name change requires the explicit identity
+migration route so continuity is retained intentionally.
 
 Server-owned settings remain outside this contract. For example, an Ollama
 server may enforce a lower model or resource ceiling than

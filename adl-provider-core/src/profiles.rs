@@ -674,6 +674,16 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             "hosted:adl-bedrock:us.amazon.nova-pro-v1:0",
             "us.amazon.nova-pro-v1:0",
         ),
+        (
+            "bedrock:kimi-k2.5",
+            "hosted:adl-bedrock:moonshotai.kimi-k2.5",
+            "moonshotai.kimi-k2.5",
+        ),
+        (
+            "bedrock:nemotron-super-3-120b",
+            "hosted:adl-bedrock:nvidia.nemotron-super-3-120b",
+            "nvidia.nemotron-super-3-120b",
+        ),
     ] {
         m.insert(
             name,

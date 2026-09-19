@@ -916,25 +916,18 @@ async fn execute_hosted_bedrock_async(
         .send()
         .await
         .map_err(|err| bedrock_failure(format!("{err:?}"), None))?;
-    let body = bedrock_nova_request_body(request);
+    let message = bedrock_converse_message(request)?;
+    let inference_config = bedrock_converse_inference_config(request)?;
     let client = bounded_bedrock_client(bedrockruntime::config::Builder::from(&shared_config));
     let response = client
-        .invoke_model()
+        .converse()
         .model_id(&request.route.provider_model_id)
-        .content_type("application/json")
-        .accept("application/json")
-        .body(bedrockruntime::primitives::Blob::new(
-            serde_json::to_vec(&body).map_err(|err| {
-                provider_failure_from_note(&format!("bedrock request serialization: {err}"), None)
-            })?,
-        ))
+        .messages(message)
+        .inference_config(inference_config)
         .send()
         .await
         .map_err(|err| bedrock_failure(format!("{err:?}"), None))?;
-    let json: Value = serde_json::from_slice(response.body().as_ref()).map_err(|err| {
-        provider_failure_from_note(&format!("bedrock invalid_json: {err}"), Some(200))
-    })?;
-    let output_text = extract_bedrock_nova_output_text(&json)
+    let output_text = extract_bedrock_converse_output_text(response.output())
         .ok_or_else(|| provider_failure_from_note("empty Bedrock provider output", Some(200)))?;
     Ok(ProviderTextResponse {
         output_text,
@@ -968,32 +961,44 @@ fn bedrock_region() -> String {
         .unwrap_or_else(|_| DEFAULT_BEDROCK_REGION.to_string())
 }
 
-fn bedrock_nova_request_body(request: &ProviderInvocationRequestV1) -> Value {
-    json!({
-        "schemaVersion": "messages-v1",
-        "messages": [{
-            "role": "user",
-            "content": [{"text": request.input_text.as_deref().unwrap_or_default()}],
-        }],
-        "inferenceConfig": {
-            "maxTokens": output_token_budget_or_default(request, 256),
-        },
-    })
+fn bedrock_converse_message(
+    request: &ProviderInvocationRequestV1,
+) -> std::result::Result<bedrockruntime::types::Message, ProviderFailureV1> {
+    bedrockruntime::types::Message::builder()
+        .role(bedrockruntime::types::ConversationRole::User)
+        .content(bedrockruntime::types::ContentBlock::Text(
+            request.input_text.clone().unwrap_or_default(),
+        ))
+        .build()
+        .map_err(|err| {
+            provider_failure_from_note(&format!("bedrock Converse message: {err}"), None)
+        })
 }
 
-fn extract_bedrock_nova_output_text(json: &Value) -> Option<String> {
-    let mut chunks = Vec::new();
-    if let Some(content) = json
-        .pointer("/output/message/content")
-        .and_then(Value::as_array)
-    {
-        for item in content {
-            if let Some(text) = item.get("text").and_then(Value::as_str) {
-                chunks.push(text);
-            }
-        }
-    }
-    let joined = chunks.join("\n").trim().to_string();
+fn bedrock_converse_inference_config(
+    request: &ProviderInvocationRequestV1,
+) -> std::result::Result<bedrockruntime::types::InferenceConfiguration, ProviderFailureV1> {
+    let max_tokens = i32::try_from(output_token_budget_or_default(request, 256)).map_err(|_| {
+        provider_failure_from_note("bedrock max_output_tokens exceeds Converse limit", None)
+    })?;
+    Ok(bedrockruntime::types::InferenceConfiguration::builder()
+        .max_tokens(max_tokens)
+        .build())
+}
+
+fn extract_bedrock_converse_output_text(
+    output: Option<&bedrockruntime::types::ConverseOutput>,
+) -> Option<String> {
+    let message = output?.as_message().ok()?;
+    let joined = message
+        .content()
+        .iter()
+        .filter_map(|block| block.as_text().ok())
+        .map(String::as_str)
+        .collect::<Vec<_>>()
+        .join("\n")
+        .trim()
+        .to_string();
     (!joined.is_empty()).then_some(joined)
 }
 
@@ -2306,8 +2311,10 @@ mod tests {
         assert_eq!(openrouter_request_body(&req)["max_tokens"], json!(1_024));
         assert_eq!(zai_request_body(&req)["max_tokens"], json!(1_024));
         assert_eq!(
-            bedrock_nova_request_body(&req).pointer("/inferenceConfig/maxTokens"),
-            Some(&json!(1_024))
+            bedrock_converse_inference_config(&req)
+                .expect("Converse config")
+                .max_tokens(),
+            Some(1_024)
         );
         assert_eq!(
             gemini_request_body(&req)
@@ -2395,8 +2402,10 @@ mod tests {
             json!(DEFAULT_OPENROUTER_MAX_TOKENS)
         );
         assert_eq!(
-            bedrock_nova_request_body(&req).pointer("/inferenceConfig/maxTokens"),
-            Some(&json!(256))
+            bedrock_converse_inference_config(&req)
+                .expect("Converse config")
+                .max_tokens(),
+            Some(256)
         );
         assert!(gemini_request_body(&req).get("generationConfig").is_none());
 
@@ -2431,31 +2440,41 @@ mod tests {
     }
 
     #[test]
-    fn bedrock_request_body_uses_nova_messages_shape() {
+    fn bedrock_converse_shapes_are_model_neutral() {
         let mut req = request(RuntimeSurfaceV1::HostedApi, "bedrock-runtime".to_string());
         req.route.provider = "bedrock".to_string();
-        req.route.provider_model_id = "amazon.nova-lite-v1:0".to_string();
-        req.input_text = Some("hello nova".to_string());
+        req.route.provider_model_id = "moonshotai.kimi-k2.5".to_string();
+        req.input_text = Some("hello bedrock".to_string());
         req.max_output_tokens = Some(99);
 
-        let body = bedrock_nova_request_body(&req);
-        assert_eq!(body["schemaVersion"], json!("messages-v1"));
-        assert_eq!(body["messages"][0]["role"], json!("user"));
+        let message = bedrock_converse_message(&req).expect("Converse message");
         assert_eq!(
-            body["messages"][0]["content"][0]["text"],
-            json!("hello nova")
+            message.role(),
+            &bedrockruntime::types::ConversationRole::User
         );
-        assert_eq!(body["inferenceConfig"]["maxTokens"], json!(99));
+        assert_eq!(
+            message.content()[0].as_text().map(String::as_str),
+            Ok("hello bedrock")
+        );
+        assert_eq!(
+            bedrock_converse_inference_config(&req)
+                .expect("Converse config")
+                .max_tokens(),
+            Some(99)
+        );
 
-        let parsed = extract_bedrock_nova_output_text(&json!({
-            "output": {
-                "message": {
-                    "role": "assistant",
-                    "content": [{"text": "nova ok"}]
-                }
-            }
-        }));
-        assert_eq!(parsed.as_deref(), Some("nova ok"));
+        let response = bedrockruntime::types::Message::builder()
+            .role(bedrockruntime::types::ConversationRole::Assistant)
+            .content(bedrockruntime::types::ContentBlock::Text(
+                "bedrock ok".into(),
+            ))
+            .build()
+            .expect("Converse response");
+        let output = bedrockruntime::types::ConverseOutput::Message(response);
+        assert_eq!(
+            extract_bedrock_converse_output_text(Some(&output)).as_deref(),
+            Some("bedrock ok")
+        );
     }
 
     #[test]

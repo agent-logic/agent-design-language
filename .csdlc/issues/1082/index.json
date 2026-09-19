@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1082,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1082-bedrock-converse-resident-bindings",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1082-bedrock-converse-resident-bindings",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "57ec04b7ff53674d1ee9c93b8efe7bbcf617320726a48ee0915ccc63c17c08cc"
+}

@@ -36,6 +36,15 @@ resident ID is removed and re-admitted with a different provider or model, its
 new observations have a separate row; the previous row remains historical
 evidence. A late completion from the old model cannot overwrite the new row.
 
+The resident's canonical name and office remain independent from that health
+key. Replacing a provider or model for the same resident ID preserves its
+conversation continuity and welcome-package delivery. Renaming an existing
+canonical identity requires `POST /v1/agents/{agent_id}/identity` with schema
+`adl.runtime_v3.agent_identity_migration.v1` and the exact previous name. The
+Runtime rejects an ordinary admission that tries to rename an existing ID, and
+the explicit migration preserves the internal continuity key and durable
+welcome record.
+
 Reasons are `operator_conversation`, `agent_to_agent`, `startup_probe` and
 `recovery_probe`. Compatibility fallback from tool chat to plain generation is
 counted as two provider attempts. Failed or cancelled attempts remain counted;

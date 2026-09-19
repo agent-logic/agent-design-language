@@ -782,7 +782,7 @@ fn codec_controls(
             ("openrouter_chat_v1", controls)
         }
         ("bedrock", ProviderTransportV1::Http) | ("aws_bedrock", ProviderTransportV1::Http) => {
-            ("aws_bedrock_invoke_v1", common.clone())
+            ("aws_bedrock_converse_v1", common.clone())
         }
         ("vertex_ai_gemini", ProviderTransportV1::Http)
         | ("vertex_ai", ProviderTransportV1::Http)
@@ -850,7 +850,7 @@ fn validate_codec_controls(
     }
     if matches!(
         codec.codec.as_str(),
-        "anthropic_messages_v1" | "aws_bedrock_invoke_v1"
+        "anthropic_messages_v1" | "aws_bedrock_converse_v1"
     ) && effective.temperature.is_some_and(|value| value > 1.0)
     {
         return Err(invalid_control(
@@ -871,7 +871,7 @@ fn apply_codec_defaults(
         | "deepseek_chat_v1"
         | "kimi_chat_v1"
         | "openrouter_chat_v1"
-        | "aws_bedrock_invoke_v1"
+        | "aws_bedrock_converse_v1"
         | "z_ai_chat_v1" => Some(220),
         "vertex_gemini_v1" => Some(1024),
         _ => None,
@@ -1940,6 +1940,57 @@ mod tests {
                 .model_identity
                 .inference_parameter_fingerprint
         );
+    }
+
+    #[test]
+    fn bedrock_profiles_materialize_current_provider_spec_with_stable_model_refs() {
+        for (profile_name, stable_ref, native_model) in [
+            (
+                "bedrock:kimi-k2.5",
+                "hosted:adl-bedrock:moonshotai.kimi-k2.5",
+                "moonshotai.kimi-k2.5",
+            ),
+            (
+                "bedrock:nemotron-super-3-120b",
+                "hosted:adl-bedrock:nvidia.nemotron-super-3-120b",
+                "nvidia.nemotron-super-3-120b",
+            ),
+        ] {
+            let profile = adl::ProviderSpec {
+                id: Some("resident".to_string()),
+                profile: Some(profile_name.to_string()),
+                kind: String::new(),
+                base_url: None,
+                default_model: None,
+                config: HashMap::from([
+                    ("runtime_max_calls".to_string(), json!(6)),
+                    ("runtime_max_input_bytes".to_string(), json!(32_000)),
+                    ("runtime_stop_after_failure".to_string(), json!(true)),
+                ]),
+            };
+            let expanded = crate::candidate::validate_provider_candidate(&HashMap::from([(
+                "resident".to_string(),
+                profile,
+            )]))
+            .expect("current provider spec should materialize");
+            let spec = &expanded["resident"];
+            let substrate = provider_substrate_v1("resident", spec).unwrap();
+            let target = provider_invocation_target_v1("resident", spec, Some(stable_ref)).unwrap();
+
+            assert_eq!(spec.kind, "bedrock");
+            assert_eq!(substrate.vendor, "aws_bedrock");
+            assert_eq!(substrate.transport, ProviderTransportV1::Http);
+            assert_eq!(substrate.default_model_ref.as_deref(), Some(stable_ref));
+            assert_eq!(
+                substrate.provider_default_model_id.as_deref(),
+                Some(native_model)
+            );
+            assert_eq!(target.model_ref, stable_ref);
+            assert_eq!(target.provider_model_id, native_model);
+            assert_eq!(target.codec_controls.codec, "aws_bedrock_converse_v1");
+            assert_eq!(target.effective_inference.max_output_tokens, Some(1024));
+            assert_eq!(target.effective_inference.timeout_secs, Some(120));
+        }
     }
 
     #[test]

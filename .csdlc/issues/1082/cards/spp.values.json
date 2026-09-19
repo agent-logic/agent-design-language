@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1082,
+  "issue_padded": "1082",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1082",
+  "title": "[v0.92.2][Runtime][Bedrock] Adopt Converse and migrate unreliable OpenRouter residents",
+  "branch": "codex/1082-bedrock-converse-resident-bindings",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1082-bedrock-converse-resident-bindings"
+}

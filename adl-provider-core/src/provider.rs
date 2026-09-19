@@ -1095,6 +1095,14 @@ mod tests {
             "vertex_ai_gemini"
         );
         assert_eq!(
+            provider_profile_registry()["bedrock:kimi-k2.5"].provider_model_id,
+            Some("moonshotai.kimi-k2.5")
+        );
+        assert_eq!(
+            provider_profile_registry()["bedrock:nemotron-super-3-120b"].provider_model_id,
+            Some("nvidia.nemotron-super-3-120b")
+        );
+        assert_eq!(
             provider_profile_registry()["vertex_ai:gemini-2.5-flash"].provider_model_id,
             Some("gemini-2.5-flash")
         );
