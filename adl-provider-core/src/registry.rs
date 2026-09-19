@@ -497,6 +497,12 @@ impl Provider for BudgetedProvider {
         self.inner.verify_model_metadata()
     }
     fn complete(&self, prompt: &str) -> anyhow::Result<String> {
+        Ok(self.complete_with_metadata(prompt)?.output)
+    }
+    fn complete_with_metadata(
+        &self,
+        prompt: &str,
+    ) -> anyhow::Result<crate::provider::ProviderCompletion> {
         use std::sync::atomic::Ordering;
         // The optional demo envelope allows one active call; never queue a new
         // dispatch inside blocking work after its caller may have cancelled.
@@ -517,13 +523,16 @@ impl Provider for BudgetedProvider {
                 (n < self.max_calls).then_some(n + 1)
             })
             .map_err(|_| ProviderFailure::Quota)?;
-        let result = self.inner.complete(prompt).and_then(|output| {
-            if output.trim().is_empty() || output.len() > 4_194_304 {
-                Err(ProviderFailure::InvalidResponse.into())
-            } else {
-                Ok(output)
-            }
-        });
+        let result = self
+            .inner
+            .complete_with_metadata(prompt)
+            .and_then(|completion| {
+                if completion.output.trim().is_empty() || completion.output.len() > 4_194_304 {
+                    Err(ProviderFailure::InvalidResponse.into())
+                } else {
+                    Ok(completion)
+                }
+            });
         if result.is_err() {
             self.budget.failed.store(true, Ordering::SeqCst);
         }
@@ -809,6 +818,28 @@ fn map_adapter_failure(error: anyhow::Error) -> ProviderFailure {
 mod runtime_transport_bounds_tests {
     use super::*;
 
+    struct MetadataProvider;
+    impl Provider for MetadataProvider {
+        fn complete(&self, _prompt: &str) -> anyhow::Result<String> {
+            Ok("text-only fallback".to_owned())
+        }
+
+        fn complete_with_metadata(
+            &self,
+            _prompt: &str,
+        ) -> anyhow::Result<crate::provider::ProviderCompletion> {
+            Ok(crate::provider::ProviderCompletion {
+                output: "metadata output".to_owned(),
+                metadata: crate::provider::ProviderCompletionMetadata {
+                    finish_reason: Some("end_turn".to_owned()),
+                    input_tokens: Some(3),
+                    output_tokens: Some(2),
+                    total_tokens: Some(5),
+                },
+            })
+        }
+    }
+
     fn spec() -> ProviderSpec {
         ProviderSpec {
             id: Some("fixture".into()),
@@ -892,5 +923,25 @@ providers:
                 ..Default::default()
             })
             .expect("materialized profile must remain executable");
+    }
+
+    #[test]
+    fn runtime_budget_preserves_provider_completion_metadata() {
+        let provider = BudgetedProvider {
+            inner: Box::new(MetadataProvider),
+            budget: Arc::new(RuntimeBudget::default()),
+            max_calls: 1,
+            input_bytes: 64,
+            stop_after_failure: true,
+        };
+        let completion = provider
+            .complete_with_metadata("hello")
+            .expect("completion");
+        assert_eq!(completion.output, "metadata output");
+        assert_eq!(
+            completion.metadata.finish_reason.as_deref(),
+            Some("end_turn")
+        );
+        assert_eq!(completion.metadata.total_tokens, Some(5));
     }
 }

@@ -1433,7 +1433,7 @@ impl InProcessOperationExecutor {
                                 .to_owned()],
                             };
                             let usage = accounting.begin(provider, model, &prompt);
-                            let message = match crate::provider_registry::complete(
+                            let completion = match crate::provider_registry::complete_with_metadata(
                                 Arc::clone(&self.state.recorder.providers),
                                 binding,
                                 prompt,
@@ -1441,12 +1441,13 @@ impl InProcessOperationExecutor {
                             )
                             .await
                             {
-                                Ok(message) => message,
+                                Ok(completion) => completion,
                                 Err(error) => {
                                     usage.failure(error.code());
                                     return Err(adapter_error(FailureClass::Fatal, error.code()));
                                 }
                             };
+                            let message = completion.output.clone();
                             let response =
                                 crate::control::normalize_registered_conversation(message.clone())
                                     .map_err(|error| {
@@ -1457,7 +1458,7 @@ impl InProcessOperationExecutor {
                                             .record_response_failure(provider);
                                         adapter_error(FailureClass::Fatal, error)
                                     })?;
-                            usage.success(&message);
+                            usage.success_with_metadata(&message, Some(&completion.metadata));
                             provider_conversation_output(task, recipient_id, response)?
                         }
                         _ => {

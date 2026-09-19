@@ -61,10 +61,35 @@ pub(crate) use profiles::{
     Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT, Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
 };
 
+/// Provider completion metadata retained when the upstream transport reports it.
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
+pub struct ProviderCompletionMetadata {
+    pub finish_reason: Option<String>,
+    pub input_tokens: Option<u64>,
+    pub output_tokens: Option<u64>,
+    pub total_tokens: Option<u64>,
+}
+
+/// A provider completion with optional provider-reported accounting metadata.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ProviderCompletion {
+    pub output: String,
+    pub metadata: ProviderCompletionMetadata,
+}
+
 /// A minimal blocking provider abstraction used by runtime execution paths.
 pub trait Provider: Send + Sync {
     /// Run a single completion call and return output text.
     fn complete(&self, prompt: &str) -> Result<String>;
+
+    /// Run a completion while preserving provider-reported finish and usage
+    /// metadata. Providers without this metadata retain the text-only fallback.
+    fn complete_with_metadata(&self, prompt: &str) -> Result<ProviderCompletion> {
+        Ok(ProviderCompletion {
+            output: self.complete(prompt)?,
+            metadata: ProviderCompletionMetadata::default(),
+        })
+    }
 
     /// Verify installed-model metadata without inference. `false` means unavailable.
     fn verify_model_metadata(&self) -> Result<bool> {
@@ -335,9 +360,16 @@ impl Provider for ProviderShadowWrapper {
         self.authoritative_provider.verify_model_metadata()
     }
     fn complete(&self, prompt: &str) -> Result<String> {
-        let authority_output = self.authoritative_provider.complete(prompt)?;
-        let execution = self.observe_with_authority_output(prompt, authority_output)?;
-        Ok(execution.authoritative.output)
+        Ok(self.complete_with_metadata(prompt)?.output)
+    }
+
+    fn complete_with_metadata(&self, prompt: &str) -> Result<ProviderCompletion> {
+        let completion = self.authoritative_provider.complete_with_metadata(prompt)?;
+        let execution = self.observe_with_authority_output(prompt, completion.output.clone())?;
+        Ok(ProviderCompletion {
+            output: execution.authoritative.output,
+            metadata: completion.metadata,
+        })
     }
 
     fn complete_stream(&self, prompt: &str, on_chunk: &mut dyn FnMut(&str)) -> Result<String> {

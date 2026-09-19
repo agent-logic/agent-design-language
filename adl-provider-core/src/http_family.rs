@@ -1065,7 +1065,7 @@ impl AwsBedrockProvider {
         })
     }
 
-    async fn complete_async(&self, prompt: &str) -> Result<String> {
+    async fn complete_async(&self, prompt: &str) -> Result<ProviderCompletion> {
         let region_provider =
             RegionProviderChain::first_try(Some(aws_config::Region::new(self.region.clone())));
         let mut timeout_config = aws_config::timeout::TimeoutConfig::builder()
@@ -1117,6 +1117,7 @@ impl AwsBedrockProvider {
             runtime_error_non_retryable("bedrock", "Converse response missing text output")
         })?;
         let usage = response.usage();
+        let metadata = bedrock_completion_metadata(response.stop_reason().as_str(), usage);
         write_bedrock_invocation_record(BedrockInvocationRecord {
             model: &self.model,
             prompt,
@@ -1131,7 +1132,19 @@ impl AwsBedrockProvider {
             output_tokens: usage.map(|value| value.output_tokens()),
             total_tokens: usage.map(|value| value.total_tokens()),
         })?;
-        Ok(output)
+        Ok(ProviderCompletion { output, metadata })
+    }
+}
+
+fn bedrock_completion_metadata(
+    finish_reason: &str,
+    usage: Option<&bedrockruntime::types::TokenUsage>,
+) -> ProviderCompletionMetadata {
+    ProviderCompletionMetadata {
+        finish_reason: Some(finish_reason.to_owned()),
+        input_tokens: usage.and_then(|value| value.input_tokens().try_into().ok()),
+        output_tokens: usage.and_then(|value| value.output_tokens().try_into().ok()),
+        total_tokens: usage.and_then(|value| value.total_tokens().try_into().ok()),
     }
 }
 
@@ -1222,6 +1235,10 @@ fn verify_bedrock_account_identity(
 
 impl Provider for AwsBedrockProvider {
     fn complete(&self, prompt: &str) -> Result<String> {
+        Ok(self.complete_with_metadata(prompt)?.output)
+    }
+
+    fn complete_with_metadata(&self, prompt: &str) -> Result<ProviderCompletion> {
         tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()

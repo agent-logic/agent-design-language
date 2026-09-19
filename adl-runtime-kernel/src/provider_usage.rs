@@ -27,6 +27,11 @@ pub struct ProviderUsageCounter {
     pub failed: u64,
     pub estimated_input_tokens: u64,
     pub estimated_output_tokens: u64,
+    pub provider_reported_input_tokens: u64,
+    pub provider_reported_output_tokens: u64,
+    pub provider_reported_total_tokens: u64,
+    pub provider_reported_responses: u64,
+    pub last_finish_reason: Option<String>,
     pub token_accounting: &'static str,
 }
 
@@ -196,6 +201,11 @@ impl ProviderUsage {
                 failed: 0,
                 estimated_input_tokens: 0,
                 estimated_output_tokens: 0,
+                provider_reported_input_tokens: 0,
+                provider_reported_output_tokens: 0,
+                provider_reported_total_tokens: 0,
+                provider_reported_responses: 0,
+                last_finish_reason: None,
                 token_accounting: "estimate_utf8_bytes_div_4_rounded_up_not_billing",
             });
         counter.requests = counter.requests.saturating_add(1);
@@ -248,15 +258,44 @@ impl ProviderUsageRequest {
         }
     }
 
-    pub fn success(mut self, response: &str) {
+    pub fn success(self, response: &str) {
+        self.success_with_metadata(response, None);
+    }
+
+    pub fn success_with_metadata(
+        mut self,
+        response: &str,
+        metadata: Option<&adl_provider_core::provider::ProviderCompletionMetadata>,
+    ) {
         let mut counters = self.usage.0.lock().expect("provider usage lock poisoned");
         let counter = counters
             .get_mut(&self.key)
             .expect("request counted before completion");
         counter.succeeded = counter.succeeded.saturating_add(1);
-        counter.estimated_output_tokens = counter
-            .estimated_output_tokens
-            .saturating_add(estimate(response));
+        if let Some(metadata) = metadata.filter(|value| {
+            value.input_tokens.is_some()
+                || value.output_tokens.is_some()
+                || value.total_tokens.is_some()
+                || value.finish_reason.is_some()
+        }) {
+            counter.provider_reported_input_tokens = counter
+                .provider_reported_input_tokens
+                .saturating_add(metadata.input_tokens.unwrap_or(0));
+            counter.provider_reported_output_tokens = counter
+                .provider_reported_output_tokens
+                .saturating_add(metadata.output_tokens.unwrap_or(0));
+            counter.provider_reported_total_tokens = counter
+                .provider_reported_total_tokens
+                .saturating_add(metadata.total_tokens.unwrap_or(0));
+            counter.provider_reported_responses =
+                counter.provider_reported_responses.saturating_add(1);
+            counter.last_finish_reason = metadata.finish_reason.clone();
+            counter.token_accounting = "provider_reported_exact_with_estimate_fallback";
+        } else {
+            counter.estimated_output_tokens = counter
+                .estimated_output_tokens
+                .saturating_add(estimate(response));
+        }
         self.completed = true;
         self.usage.observe_inference(&self.key, true);
     }
@@ -279,6 +318,41 @@ fn estimate(text: &str) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn provider_reported_usage_and_finish_reason_are_preserved() {
+        let usage = ProviderUsage::default();
+        usage
+            .begin(
+                "harbor.axioma",
+                "bedrock_kimi_k25",
+                "hosted:adl-bedrock:moonshotai.kimi-k2.5",
+                ProviderRequestReason::OperatorConversation,
+                "hello",
+            )
+            .success_with_metadata(
+                "hello back",
+                Some(&adl_provider_core::provider::ProviderCompletionMetadata {
+                    finish_reason: Some("end_turn".to_owned()),
+                    input_tokens: Some(11),
+                    output_tokens: Some(7),
+                    total_tokens: Some(18),
+                }),
+            );
+
+        let rows = usage.snapshot();
+        assert_eq!(rows.len(), 1);
+        assert_eq!(rows[0].provider_reported_input_tokens, 11);
+        assert_eq!(rows[0].provider_reported_output_tokens, 7);
+        assert_eq!(rows[0].provider_reported_total_tokens, 18);
+        assert_eq!(rows[0].provider_reported_responses, 1);
+        assert_eq!(rows[0].last_finish_reason.as_deref(), Some("end_turn"));
+        assert_eq!(
+            rows[0].token_accounting,
+            "provider_reported_exact_with_estimate_fallback"
+        );
+        assert_eq!(rows[0].estimated_output_tokens, 0);
+    }
 
     // PVF: deterministic local Runtime health-identity contract; no network;
     // required #854 regression for reusing an admitted resident ID.

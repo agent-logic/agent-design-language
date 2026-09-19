@@ -4040,7 +4040,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
         };
         let usage = accounting.begin(&binding.provider, &binding.model, &prompt);
-        let message = match crate::provider_registry::complete(
+        let completion = match crate::provider_registry::complete_with_metadata(
             Arc::clone(&self.recorder.providers),
             provider_binding(binding),
             prompt,
@@ -4048,12 +4048,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         )
         .await
         {
-            Ok(message) => message,
+            Ok(completion) => completion,
             Err(error) => {
                 usage.failure(error.code());
                 return Err(error.code());
             }
         };
+        let message = completion.output.clone();
         let output = normalize_registered_conversation(message.clone()).inspect_err(|error| {
             usage.failure(error);
             self.recorder
@@ -4067,7 +4068,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .record_response_failure(&binding.provider);
             return Err("agent_result_continuation_invalid");
         }
-        usage.success(&message);
+        usage.success_with_metadata(&message, Some(&completion.metadata));
         Ok(output.message)
     }
 
@@ -5148,6 +5149,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 true
             }
             Some(_) => return Err(AgentAdmissionFailure::Conflict("agent_id_conflict")),
+            None if expected_previous_name.is_some() => {
+                return Err(AgentAdmissionFailure::Conflict("agent_not_found"));
+            }
             None => {
                 agents.push(request.clone());
                 agents.sort_by(|left, right| left.id.cmp(&right.id));
@@ -13014,6 +13018,27 @@ mod agent_lifecycle {
                 .await,
             Err(AgentAdmissionFailure::Conflict("agent_id_conflict"))
         ));
+        let mut absent = migrated.clone();
+        absent.id = "missing-legacy-agent".to_owned();
+        assert!(matches!(
+            service
+                .migrate_agent_identity(
+                    &absent.id,
+                    AgentIdentityMigrationRequest {
+                        schema: AGENT_IDENTITY_MIGRATION_SCHEMA.to_owned(),
+                        previous_name: original.name.clone(),
+                        declaration: absent.clone(),
+                    },
+                )
+                .await,
+            Err(AgentAdmissionFailure::Conflict("agent_not_found"))
+        ));
+        assert!(service
+            .dynamic_agents
+            .lock()
+            .unwrap()
+            .iter()
+            .all(|agent| agent.id != absent.id));
         let response = service
             .migrate_agent_identity(
                 &original.id,

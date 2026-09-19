@@ -215,6 +215,22 @@ fn bedrock_converse_request_and_response_are_model_neutral() {
         Some("bedrock \nok")
     );
     assert!(extract_bedrock_converse_output_text(None).is_none());
+
+    let usage = bedrockruntime::types::TokenUsage::builder()
+        .input_tokens(11)
+        .output_tokens(7)
+        .total_tokens(18)
+        .build()
+        .expect("usage");
+    assert_eq!(
+        bedrock_completion_metadata("end_turn", Some(&usage)),
+        ProviderCompletionMetadata {
+            finish_reason: Some("end_turn".to_owned()),
+            input_tokens: Some(11),
+            output_tokens: Some(7),
+            total_tokens: Some(18),
+        }
+    );
 }
 
 #[test]

@@ -19,6 +19,7 @@ use aws_sdk_bedrockruntime as bedrockruntime;
 use aws_sdk_sts as sts;
 use reqwest::{blocking::Client, Url};
 use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::env;
@@ -45,6 +46,7 @@ const DEFAULT_MINIMAX_CHAT_COMPLETIONS_URL: &str = "https://api.minimax.io/v1/ch
 const DEFAULT_OPENROUTER_MAX_TOKENS: u64 = 2048;
 const DEFAULT_BEDROCK_PROFILE: &str = "agent-logic-admin";
 const DEFAULT_BEDROCK_REGION: &str = "us-west-2";
+const BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV: &str = "ADL_AWS_BEDROCK_ACCOUNT_SHA256";
 const DEFAULT_GEMINI_BASE_URL: &str = "https://generativelanguage.googleapis.com/v1beta";
 const DEFAULT_OLLAMA_BASE_URL: &str = "http://127.0.0.1:11434";
 static OLLAMA_RUNTIME_BULKHEADS: OnceLock<Mutex<HashMap<String, &'static Mutex<()>>>> =
@@ -911,11 +913,17 @@ async fn execute_hosted_bedrock_async(
         .timeout_config(timeout_config)
         .load()
         .await;
-    sts::Client::new(&shared_config)
+    let identity = sts::Client::new(&shared_config)
         .get_caller_identity()
         .send()
         .await
         .map_err(|err| bedrock_failure(format!("{err:?}"), None))?;
+    let observed_account_sha256 = identity.account().map(sha256_hex);
+    let expected_account_sha256 = env::var(BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV).ok();
+    verify_bedrock_account_identity(
+        observed_account_sha256.as_deref(),
+        expected_account_sha256.as_deref(),
+    )?;
     let message = bedrock_converse_message(request)?;
     let inference_config = bedrock_converse_inference_config(request)?;
     let client = bounded_bedrock_client(bedrockruntime::config::Builder::from(&shared_config));
@@ -959,6 +967,36 @@ fn bedrock_region() -> String {
         .or_else(|_| env::var("AWS_REGION"))
         .or_else(|_| env::var("AWS_DEFAULT_REGION"))
         .unwrap_or_else(|_| DEFAULT_BEDROCK_REGION.to_string())
+}
+
+fn sha256_hex(value: &str) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(value.as_bytes());
+    format!("{:x}", hasher.finalize())
+}
+
+fn verify_bedrock_account_identity(
+    observed: Option<&str>,
+    expected: Option<&str>,
+) -> std::result::Result<(), ProviderFailureV1> {
+    let valid_hash =
+        |value: &str| value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit());
+    let Some(expected) = expected
+        .filter(|value| valid_hash(value))
+        .map(str::to_ascii_lowercase)
+    else {
+        return Err(provider_failure_from_note(
+            "bedrock Agent Logic account hash verification failed",
+            None,
+        ));
+    };
+    if observed != Some(expected.as_str()) {
+        return Err(provider_failure_from_note(
+            "bedrock Agent Logic account hash verification failed",
+            None,
+        ));
+    }
+    Ok(())
 }
 
 fn bedrock_converse_message(
@@ -1908,6 +1946,22 @@ mod tests {
     use std::thread;
 
     static TEMP_LOG_COUNTER: AtomicU64 = AtomicU64::new(0);
+
+    #[test]
+    fn bedrock_account_guard_rejects_missing_or_wrong_identity() {
+        let observed = sha256_hex("123456789012");
+        let other = sha256_hex("210987654321");
+        assert!(verify_bedrock_account_identity(Some(&observed), Some(&observed)).is_ok());
+        assert!(verify_bedrock_account_identity(
+            Some(&observed),
+            Some(&observed.to_ascii_uppercase())
+        )
+        .is_ok());
+        assert!(verify_bedrock_account_identity(Some(&observed), Some(&other)).is_err());
+        assert!(verify_bedrock_account_identity(Some(&observed), None).is_err());
+        assert!(verify_bedrock_account_identity(None, Some(&observed)).is_err());
+        assert!(verify_bedrock_account_identity(None, None).is_err());
+    }
 
     fn temp_log(name: &str) -> PathBuf {
         let mut path = env::temp_dir();

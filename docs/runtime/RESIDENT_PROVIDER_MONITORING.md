@@ -24,7 +24,9 @@ No periodic synthetic-inference monitoring option is provided.
 The existing Runtime API now also exposes:
 
 - `GET /v1/metrics/providers`: process-lifetime request counts by agent, provider,
-  model and reason, successful/failed counts, and input/output token estimates.
+  model and reason, successful/failed counts, byte-based input/output estimates,
+  and provider-reported token totals and finish reason when the transport supplies
+  them.
 - `GET /v1/health/providers`: last-observed provider reachability, model
   availability and inference readiness as separate nullable signals.
 
@@ -53,11 +55,14 @@ conversation's execution deadline is a failure and wakes recovery even when
 the deadline cancels the underlying provider future. Explicit provider failures
 in both conversation and Shepherd routes invalidate shared resident readiness.
 
-Token estimates are UTF-8 bytes divided by four, rounded up. They are labeled
-as estimates, are not tokenizer measurements or provider billing receipts, and
-can undercount provider-side output from failed/cancelled requests. Counts are
-attempts and do not assert that a provider billed each one. Counters reset when
-Runtime restarts. Inspect request rate and reasons to detect unwanted usage.
+Token estimates are UTF-8 bytes divided by four, rounded up. They remain
+separate from provider-reported usage. Bedrock Converse success records exact
+input, output and total tokens plus its finish reason through the provider
+abstraction; transports that omit usage retain the labeled estimate fallback.
+Neither form is a provider billing receipt, and failed or cancelled requests may
+have provider-side usage that cannot be observed. Counts are attempts and do not
+assert that a provider billed each one. Counters reset when Runtime restarts.
+Inspect request rate and reasons to detect unwanted usage.
 
 Provider request diagnostics use `adl_event` on stderr; JSON API payloads remain
 separate. Accounting retains identities and aggregate counts, not prompts,
