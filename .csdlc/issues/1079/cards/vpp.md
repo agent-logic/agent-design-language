@@ -1,7 +1,7 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_validation_planning_prompt"
-name: "<slug>-validation-plan"
+name: "deepseek-openrouter-reasoning-validation-plan"
 issue: 1079
 task_id: "issue-1079"
 run_id: "issue-1079"
@@ -10,38 +10,38 @@ title: "[v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek revie
 branch: "codex/1079-deepseek-openrouter-reasoning"
 generated_at: "<timestamp>"
 card_status: "ready"
-status: "<status>"
-initial_pvf_lane: "<initial_pvf_lane>"
-planned_pvf_lane: "<planned_pvf_lane>"
-lane_registry_path: "<lane_registry_path>"
-lane_registry_template_set: "<lane_registry_template_set>"
-validation_runtime_class: "<validation_runtime_class>"
-validation_resource_profile: "<validation_resource_profile>"
-validation_family: "<validation_family>"
-validation_size_split: "<validation_size_split>"
-expected_proof_cost: "<expected_proof_cost>"
-planned_validation_seconds: "<planned_validation_seconds>"
-planned_validation_tokens: "<planned_validation_tokens>"
-issue_goal_ref: "<issue_goal_ref>"
-sprint_goal_ref: "<sprint_goal_ref>"
-goal_metrics_rollup_ref: "<goal_metrics_rollup_ref>"
+status: "in_progress"
+initial_pvf_lane: "runtime_provider_integration"
+planned_pvf_lane: "focused_provider_and_runtime_integration_plus_bounded_live_qualification"
+lane_registry_path: "docs/validation/pvf-lanes.json"
+lane_registry_template_set: "1.0.5"
+validation_runtime_class: "bounded_local_plus_single_live_provider_calls"
+validation_resource_profile: "local_cpu_network_and_installed_runtime"
+validation_family: "provider_request_contract_runtime_conversation_and_live_qualification"
+validation_size_split: "focused_then_provider_suite_then_two_live_turns"
+expected_proof_cost: "two bounded OpenRouter Runtime turns plus local tests"
+planned_validation_seconds: "unknown"
+planned_validation_tokens: "unknown"
+issue_goal_ref: "Issue #1079 active Codex goal"
+sprint_goal_ref: "not_assigned"
+goal_metrics_rollup_ref: "not_collected"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/1079"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/1079/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/1079/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/1079/cards/spp.md"
 selected_lanes:
-  - "<selected_lanes_inline>"
+  - "provider-core request contract; Runtime authenticated conversation behavior; installed DeepSeek full-review and A2A qualification"
 parallel_groups:
-  - "<parallel_groups_inline>"
+  - "Provider-core and Runtime local checks may run independently; installed live proof runs only after reviewed release installation."
 validation_commands:
-  - "<validation_commands_inline>"
-failure_policy: "<failure_policy>"
-notes: "<notes_risks_inline>"
+  - "cargo test --manifest-path adl-provider-core/Cargo.toml; cargo clippy --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings; cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress; native csdlc validate/review; installed Runtime review and A2A proof scripts"
+failure_policy: "Fail closed on any request mismatch, card validation error, review finding, ambiguous provider result, profile drift, or missing peer continuation. Do not retry ambiguous live outcomes."
+notes: "Known unrelated Runtime suite and Clippy baseline failures are recorded separately and must not be misattributed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -54,43 +54,43 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Lane Registry Inputs
 
-- Registry path: `<lane_registry_path>`
-- Registry template set: `<lane_registry_template_set>`
-- Initial PVF lane from issue creation: `<initial_pvf_lane>`
-- Planned PVF lane for execution: `<planned_pvf_lane>`
+- Registry path: `docs/validation/pvf-lanes.json`
+- Registry template set: `1.0.5`
+- Initial PVF lane from issue creation: `runtime_provider_integration`
+- Planned PVF lane for execution: `focused_provider_and_runtime_integration_plus_bounded_live_qualification`
 
 ## Selected Validation Lanes
 
-- <selected_lanes_inline>
+- provider-core request contract; Runtime authenticated conversation behavior; installed DeepSeek full-review and A2A qualification
 
 ## Parallelization Plan
 
-- Parallel groups: <parallel_groups_inline>
-- Validation runtime class: `<validation_runtime_class>`
-- Validation resource profile: `<validation_resource_profile>`
-- Validation family: `<validation_family>`
-- Validation size split: `<validation_size_split>`
+- Parallel groups: Provider-core and Runtime local checks may run independently; installed live proof runs only after reviewed release installation.
+- Validation runtime class: `bounded_local_plus_single_live_provider_calls`
+- Validation resource profile: `local_cpu_network_and_installed_runtime`
+- Validation family: `provider_request_contract_runtime_conversation_and_live_qualification`
+- Validation size split: `focused_then_provider_suite_then_two_live_turns`
 
 ## Goal Accounting Hooks
 
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
+- Issue goal ref: `Issue #1079 active Codex goal`
+- Sprint goal ref: `not_assigned`
+- Goal metrics rollup ref: `not_collected`
 
 ## Proof Cost / Runtime Expectations
 
-- Expected proof cost: `<expected_proof_cost>`
-- Planned validation seconds: `<planned_validation_seconds>`
-- Planned validation token budget: `<planned_validation_tokens>`
+- Expected proof cost: `two bounded OpenRouter Runtime turns plus local tests`
+- Planned validation seconds: `unknown`
+- Planned validation token budget: `unknown`
 - Unknown-value rule: record `unknown`, never `0`, when the estimate is unavailable or intentionally deferred.
 
 ## Validation Commands
 
-- <validation_commands_inline>
+- cargo test --manifest-path adl-provider-core/Cargo.toml; cargo clippy --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings; cargo test --manifest-path adl-runtime-kernel/Cargo.toml --lib resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress; native csdlc validate/review; installed Runtime review and A2A proof scripts
 
 ## Failure Semantics
 
-- <failure_policy>
+- Fail closed on any request mismatch, card validation error, review finding, ambiguous provider result, profile drift, or missing peer continuation. Do not retry ambiguous live outcomes.
 
 ## Handoff
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-<notes_risks_inline>
+Known unrelated Runtime suite and Clippy baseline failures are recorded separately and must not be misattributed.
