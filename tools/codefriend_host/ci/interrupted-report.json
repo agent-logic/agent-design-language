@@ -1,0 +1,13 @@
+{
+  "schema": "codefriend.local_agent.v1",
+  "agent_id": "fixture_agent",
+  "subject": "github_1",
+  "run_id": "fixture_run",
+  "consent_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "execution_location": "local_agent",
+  "gateway_lanes": [],
+  "status": "interrupted",
+  "expires_at": 4102444800,
+  "result": null,
+  "digest": "571bf49dd8957ccf7165b1e4cf40b6e963ae0d6b01bcfa74b4c22fb86f94aab0"
+}

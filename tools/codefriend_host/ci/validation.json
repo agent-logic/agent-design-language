@@ -1,0 +1,22 @@
+{
+  "issue": 1077,
+  "lanes": [
+    {
+      "surface": "test_manifest.py",
+      "lane_class": "deterministic_component",
+      "proof_role": "reject_binary_substitution_wrong_architecture_and_untested_bytes",
+      "determinism": "small_synthetic_ELF_files_no_network_or_process_execution",
+      "resource_profile": "small_local_cpu_temporary_files",
+      "release_gate": "required_candidate_artifact_preflight"
+    },
+    {
+      "surface": "smoke.py",
+      "lane_class": "installed_platform_integration",
+      "proof_role": "actual_gateway_control_and_agent_report_CLI",
+      "determinism": "empty_registry_static_report_fixture_loopback_provider_trap_no_external_requests",
+      "resource_profile": "two_sequential_gateway_processes_two_short_verifier_processes_bounded_timeouts",
+      "release_gate": "required_Linux_amd64_candidate_artifact_gate",
+      "non_claims": ["paid_provider", "OAuth", "systemd", "poweroff", "deployment"]
+    }
+  ]
+}
