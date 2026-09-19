@@ -287,11 +287,17 @@ candidate_filter_for_path() {
     adl/src/codefriend/review/runner.rs)
       printf 'codefriend_review'
       ;;
-    adl/src/bin/codefriend_agent.rs|adl/src/codefriend/agent.rs)
+    adl/src/bin/codefriend_agent.rs|adl/src/codefriend/agent.rs|adl/src/codefriend/agent/publication.rs)
       printf 'codefriend_agent'
       ;;
-    adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs)
+    adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs|adl/src/codefriend/server/journey.rs|adl/src/codefriend/server/publication_export.rs)
       printf 'codefriend_server'
+      ;;
+    adl/src/cli/codefriend_cmd.rs|adl/src/codefriend/integration.rs|adl/src/codefriend/integration/journey.rs|adl/src/codefriend/integration/journey/owned_tests.rs)
+      printf 'codefriend_journey'
+      ;;
+    adl/src/codefriend/publication/approval.rs|adl/src/codefriend/publication/html.rs|adl/src/codefriend/publication/markdown.rs|adl/src/codefriend/publication/pdf.rs|adl/src/codefriend/publication/relay.rs)
+      printf 'codefriend_publication'
       ;;
     adl/src/cli/codefriend_publication_cmd.rs)
       printf 'codefriend_ux'
@@ -509,10 +515,16 @@ nextest_expression_for_filter() {
       printf 'binary_id(adl::codefriend_review)'
       ;;
     codefriend_agent)
-      printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent)'
+      printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::codefriend_agent_receipt)'
       ;;
     codefriend_server)
-      printf 'binary_id(adl::codefriend_server)'
+      printf 'binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_journey)
+      printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_tests::/))'
+      ;;
+    codefriend_publication)
+      printf 'binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_integration) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::publication::/))'
       ;;
     codefriend_ux)
       printf 'binary_id(adl::codefriend_ux)'

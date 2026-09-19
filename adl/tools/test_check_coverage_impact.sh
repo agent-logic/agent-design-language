@@ -1203,7 +1203,7 @@ grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-duplicate-summar
 codefriend_server_changed="$TMP/codefriend-server-changed.txt"
 printf 'A\tadl/src/bin/codefriend_server.rs\nA\tadl/src/codefriend/server.rs\n' >"$codefriend_server_changed"
 codefriend_server_expression="$(bash "$SCRIPT" --changed-files "$codefriend_server_changed" --print-risk-nextest-expression)"
-grep -Fx "binary_id(adl::codefriend_server)" <<<"$codefriend_server_expression" >/dev/null
+grep -Fx "binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)" <<<"$codefriend_server_expression" >/dev/null
 
 codefriend_review_changed="$TMP/codefriend-review-changed.txt"
 printf 'M\tadl/src/codefriend/review/runner.rs\n' >"$codefriend_review_changed"
@@ -1213,6 +1213,17 @@ grep -Fx "binary_id(adl::codefriend_review)" <<<"$codefriend_review_expression" 
 codefriend_agent_changed="$TMP/codefriend-agent-changed.txt"
 printf 'A\tadl/src/bin/codefriend_agent.rs\nA\tadl/src/codefriend/agent.rs\n' >"$codefriend_agent_changed"
 codefriend_agent_expression="$(bash "$SCRIPT" --changed-files "$codefriend_agent_changed" --print-risk-nextest-expression)"
-grep -Fx "binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent)" <<<"$codefriend_agent_expression" >/dev/null
+grep -Fx "binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::codefriend_agent_receipt)" <<<"$codefriend_agent_expression" >/dev/null
+
+codefriend_journey_changed="$TMP/codefriend-journey-changed.txt"
+printf 'A\tadl/src/codefriend/integration/journey.rs\nA\tadl/src/codefriend/integration/journey/owned_tests.rs\nM\tadl/src/cli/codefriend_cmd.rs\n' >"$codefriend_journey_changed"
+codefriend_journey_expression="$(bash "$SCRIPT" --changed-files "$codefriend_journey_changed" --print-risk-nextest-expression)"
+grep -Fx 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_tests::/))' <<<"$codefriend_journey_expression" >/dev/null
+
+codefriend_render_changed="$TMP/codefriend-render-changed.txt"
+printf 'A\tadl/src/codefriend/publication/relay.rs\nM\tadl/src/codefriend/publication/pdf.rs\n' >"$codefriend_render_changed"
+codefriend_render_expression="$(bash "$SCRIPT" --changed-files "$codefriend_render_changed" --print-risk-nextest-expression)"
+grep -F 'binary_id(adl::codefriend_render_pdf)' <<<"$codefriend_render_expression" >/dev/null
+grep -F 'binary_id(adl::codefriend_agent_publication)' <<<"$codefriend_render_expression" >/dev/null
 
 echo "PASS test_check_coverage_impact"

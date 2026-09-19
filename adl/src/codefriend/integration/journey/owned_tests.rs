@@ -111,6 +111,12 @@ use crate::codefriend::{
 };
 
 fn owned(f: &Fixture) -> (OwnedAdmissionJourneyOptions, Admission) {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        // Match the server adapter's explicitly private owner boundary.
+        fs::set_permissions(f.dir.path(), fs::Permissions::from_mode(0o700)).unwrap();
+    }
     let o = f.options();
     let packet = crate::codefriend::ingestion::local::acquire(
         &o.checkout,
@@ -239,4 +245,22 @@ fn interrupted_owned_attachment_cannot_be_resumed_for_review_dispatch() {
     assert!(error
         .to_string()
         .contains("journey_owned_attachment_incomplete"));
+}
+
+#[cfg(unix)]
+#[test]
+fn nonprivate_owned_boundary_is_rejected_without_journey_creation() {
+    use std::os::unix::fs::PermissionsExt;
+    let f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    let (o, _) = owned(&f);
+    let output = o.output.clone();
+    fs::set_permissions(f.dir.path(), fs::Permissions::from_mode(0o755)).unwrap();
+    let error = match prepare_owned_admission(o) {
+        Ok(_) => panic!("a nonprivate owner boundary must be rejected"),
+        Err(error) => error,
+    };
+    assert!(error
+        .to_string()
+        .contains("journey_private_directory_required"));
+    assert!(!output.exists());
 }
