@@ -63,7 +63,7 @@ Merged provider-neutral lifecycle and provider-definition hot loading. No unreso
 
 ## Target Files / Surfaces
 
-The seven canonical tracked files plus local installed Runtime provider/admission state and repo-local retained proof.
+The eight canonical tracked files plus local installed Runtime provider/admission state and redacted proof.
 
 ## Validation Plan
 
@@ -83,7 +83,7 @@ Issue #1079 closes only this provider-control and Runtime qualification defect.
 
 ## Notes
 
-OpenRouter may return long hidden reasoning; low effort, 8192 output tokens, and 180-second timeout bound the DeepSeek-specific profile.
+Runtime provider preparation must preserve a validated provider-specific timeout; a bounded fallback applies only when the definition omits one.
 
 ## Tooling Notes
 

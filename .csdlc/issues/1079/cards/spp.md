@@ -38,7 +38,7 @@ source_refs:
     ref: ".csdlc/issues/1079/cards/sip.md"
 scope:
   files:
-    - "OpenRouter codec/adapter/tests; Runtime ingress/control/conversation tests; provider inference docs; installed local DeepSeek definition/proof"
+    - "OpenRouter codec/adapter/tests; Runtime provider registry timeout preservation and authenticated conversation tests; provider inference docs; installed local DeepSeek definition/proof"
   components:
     - "deepseek-openrouter-reasoning"
   out_of_scope:
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implement normalized OpenRouter reasoning effort and safe typed Runtime failures, validate locally, install the reviewed generation, configure a separate bounded DeepSeek provider, and prove a full issue review plus governed A2A continuation without changing Nexus or Nemotron."
+plan_summary: "Implement normalized OpenRouter reasoning effort and safe typed Runtime failures, preserve validated provider-specific transport timeouts, validate locally, install the exact-head generation, configure a separate bounded DeepSeek provider, and prove a full issue review plus governed A2A continuation without changing Nexus or Nemotron."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -80,7 +80,7 @@ codex_plan:
   - step: "Implement the bounded deliverables only."
     status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "in_progress"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "in_progress"
 affected_areas:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek review turns`.
 
-Implement normalized OpenRouter reasoning effort and safe typed Runtime failures, validate locally, install the reviewed generation, configure a separate bounded DeepSeek provider, and prove a full issue review plus governed A2A continuation without changing Nexus or Nemotron.
+Implement normalized OpenRouter reasoning effort and safe typed Runtime failures, preserve validated provider-specific transport timeouts, validate locally, install the exact-head generation, configure a separate bounded DeepSeek provider, and prove a full issue review plus governed A2A continuation without changing Nexus or Nemotron.
 
 ## PVF Lane Plan
 
@@ -145,7 +145,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
-4. [in_progress] Run focused validation and proof gates.
+4. [completed] Run focused validation and proof gates.
 5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
