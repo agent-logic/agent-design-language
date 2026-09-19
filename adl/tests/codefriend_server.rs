@@ -1437,6 +1437,163 @@ fn drain_retains_interrupted_uncertainty_through_expiry_and_restart() {
     assert_eq!(retained.status, Status::Interrupted);
 }
 
+// PVF: local platform integration; exercises the real CLI control lifecycle and
+// graceful shutdown with private sockets and no provider requests. Required
+// component/coverage regression; not installed systemd or deployment acceptance.
+#[cfg(unix)]
+#[test]
+fn server_cli_control_socket_drains_resumes_and_shuts_down_gracefully() {
+    use std::io::{Read, Write};
+    use std::os::unix::{fs::PermissionsExt, net::UnixStream};
+    use std::process::{Child, Stdio};
+
+    struct ChildGuard(Child);
+    impl Drop for ChildGuard {
+        fn drop(&mut self) {
+            if self.0.try_wait().ok().flatten().is_none() {
+                let _ = self.0.kill();
+                let _ = self.0.wait();
+            }
+        }
+    }
+    let f = Fixture::new();
+    fs::write(
+        f.dir.join("config.json"),
+        serde_json::to_vec(&f.config).unwrap(),
+    )
+    .unwrap();
+    let private = f.dir.join("control");
+    fs::create_dir(&private).unwrap();
+    fs::set_permissions(&private, fs::Permissions::from_mode(0o700)).unwrap();
+    // Resolve the short socket name relative to the child directory on macOS.
+    let socket = private.join("gateway.sock");
+    let stderr = fs::File::create(f.dir.join("control-server.stderr")).unwrap();
+    let mut child = ChildGuard(
+        Command::new(env!("CARGO_BIN_EXE_codefriend-server"))
+            .current_dir(&f.dir)
+            .args([
+                "--config",
+                "config.json",
+                "--listen",
+                "127.0.0.1:0",
+                "--control-socket",
+                "control/gateway.sock",
+            ])
+            .env("ADL_OBSERVABILITY_OTEL", "0")
+            .stdout(Stdio::null())
+            .stderr(stderr)
+            .spawn()
+            .unwrap(),
+    );
+    // The client also needs a short path: Unix socket paths have a small limit.
+    let client_socket = socket
+        .strip_prefix(std::env::current_dir().unwrap())
+        .unwrap();
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    while !socket.exists() {
+        assert!(
+            child.0.try_wait().unwrap().is_none(),
+            "server exited before control bind"
+        );
+        assert!(
+            std::time::Instant::now() < deadline,
+            "control bind deadline"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    let request = |value: Value| -> Value {
+        let mut stream = UnixStream::connect(client_socket).unwrap();
+        stream
+            .set_read_timeout(Some(Duration::from_secs(3)))
+            .unwrap();
+        stream
+            .set_write_timeout(Some(Duration::from_secs(3)))
+            .unwrap();
+        let mut bytes = serde_json::to_vec(&value).unwrap();
+        bytes.push(b'\n');
+        stream.write_all(&bytes).unwrap();
+        let mut reply = Vec::new();
+        stream.take(4096).read_to_end(&mut reply).unwrap();
+        serde_json::from_slice(&reply).unwrap()
+    };
+    let status = request(json!({"schema":"codefriend.host_control.v1","action":"status"}));
+    assert_eq!(
+        fs::metadata(&socket).unwrap().permissions().mode() & 0o777,
+        0o600
+    );
+    assert_eq!(status["ok"], true);
+    assert_eq!(status["candidate_revision"], build_revision());
+    assert_eq!(status["pid"], child.0.id());
+    assert_eq!(status["quiescent_without_payloads"], true);
+    let instance = status["instance"].as_str().unwrap();
+    assert!(!instance.is_empty());
+    let attempt = "0123456789abcdef0123456789abcdef";
+    let drained = request(
+        json!({"schema":"codefriend.host_control.v1","action":"drain","instance":instance,"attempt":attempt}),
+    );
+    assert_eq!(drained["ok"], true);
+    assert_eq!(drained["drained_without_payloads"], true);
+    assert_eq!(drained["attempt"], attempt);
+    let resumed = request(
+        json!({"schema":"codefriend.host_control.v1","action":"resume","instance":instance,"attempt":attempt}),
+    );
+    assert_eq!(resumed["ok"], true);
+    assert_eq!(resumed["draining"], false);
+    // A control task can answer before Axum polls its shutdown future. Prove
+    // the HTTP server is serving before sending the shutdown signal.
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    let address = loop {
+        let log = fs::read_to_string(f.dir.join("control-server.stderr")).unwrap();
+        if let Some(value) = log.split_inclusive('\n').find_map(|line| {
+            line.strip_suffix('\n')?
+                .strip_prefix("adl_event component=codefriend_server event=listening address=")
+        }) {
+            break value.parse::<std::net::SocketAddr>().unwrap();
+        }
+        assert!(
+            child.0.try_wait().unwrap().is_none(),
+            "server exited before HTTP readiness"
+        );
+        assert!(
+            std::time::Instant::now() < deadline,
+            "HTTP readiness deadline"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    };
+    assert!(address.ip().is_loopback());
+    assert_ne!(address.port(), 0);
+    let response = reqwest::blocking::Client::builder()
+        .timeout(Duration::from_secs(3))
+        .build()
+        .unwrap()
+        .get(format!("http://{address}/no-such-route"))
+        .send()
+        .unwrap();
+    assert_eq!(response.status().as_u16(), 404);
+    // SIGINT exercises control task cancellation and permits LLVM profile flush.
+    // SAFETY: the PID belongs to the live child owned by this test.
+    assert_eq!(
+        unsafe { libc::kill(child.0.id() as libc::pid_t, libc::SIGINT) },
+        0
+    );
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    loop {
+        if let Some(status) = child.0.try_wait().unwrap() {
+            assert!(
+                status.success(),
+                "graceful server shutdown failed: {status}"
+            );
+            break;
+        }
+        assert!(
+            std::time::Instant::now() < deadline,
+            "graceful shutdown deadline"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    assert!(UnixStream::connect(client_socket).is_err());
+}
+
 #[cfg(unix)]
 async fn operator_control(socket: &Path, value: Value) -> Value {
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
