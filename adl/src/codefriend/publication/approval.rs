@@ -136,6 +136,15 @@ struct DecisionStore {
     _lock: File,
 }
 
+impl Drop for DecisionStore {
+    fn drop(&mut self) {
+        // Closing only this descriptor can leave flock held by a descriptor
+        // inherited by a concurrently spawned child until it execs. The guard
+        // owns the critical section, so release it before closing its file.
+        let _ = FileExt::unlock(&self._lock);
+    }
+}
+
 impl DecisionStore {
     fn open(root: &Path) -> Result<Self> {
         reject_symlink_components(root)?;
@@ -877,6 +886,34 @@ mod tests {
         ingestion::digest,
         publication::manifest::{ManifestInput, MANIFEST_INPUT_SCHEMA},
     };
+
+    // PVF: runtime lane, supporting beta regression, deterministic local filesystem
+    // descriptor lifetime; bounded CPU/disk, no providers or release qualification.
+    #[test]
+    fn decision_store_drop_releases_duplicated_description() {
+        let target_tmp = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/test-tmp");
+        fs::create_dir_all(&target_tmp).unwrap();
+        let directory = tempfile::tempdir_in(target_tmp).unwrap();
+        let root = directory.path().join("store");
+        let owner = DecisionStore::open(&root).unwrap();
+        // Like a descriptor inherited across fork, try_clone shares the locked
+        // open file description even after the original descriptor is closed.
+        let inherited = owner._lock.try_clone().unwrap();
+        assert_eq!(
+            DecisionStore::open(&root).err().unwrap().to_string(),
+            "publication_store_busy"
+        );
+        drop(owner);
+        let next_owner = DecisionStore::open(&root)
+            .expect("dropping the owner must release its lock despite an inherited descriptor");
+        drop(inherited);
+        assert_eq!(
+            DecisionStore::open(&root).err().unwrap().to_string(),
+            "publication_store_busy"
+        );
+        drop(next_owner);
+        DecisionStore::open(&root).unwrap();
+    }
 
     #[test]
     fn atomic_publication_uses_the_verified_snapshot_not_a_second_source_read() {
