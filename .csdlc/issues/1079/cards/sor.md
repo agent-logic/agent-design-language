@@ -1,4 +1,4 @@
-# <slug>
+# deepseek-openrouter-reasoning
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -20,79 +20,79 @@ Run ID: issue-1079
 Version: 1.0.5
 Title: [v0.92.2][Runtime][OpenRouter] Honor reasoning effort for DeepSeek review turns
 Branch: codex/1079-deepseek-openrouter-reasoning
-Card Status: ready
-Status: <status>
+Card Status: draft
+Status: IN_PROGRESS
 Generated: <timestamp>
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `codex/root`
+- Model: `GPT-6`
+- Provider: `OpenAI`
+- Start Time: `2026-09-18T22:00:00Z`
+- End Time: `in_progress`
 
 ## Summary
 
-<summary>
+Implemented OpenRouter reasoning-effort serialization, conflicting-control rejection, safe typed Runtime provider failures, docs, and focused tests. Conversation-level regressions, installed DeepSeek profile, live proof, final review, PR, CI, and merge remain in progress.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `runtime_provider_integration`
+- Planned PVF lane: `focused_provider_and_runtime_integration_plus_bounded_live_qualification`
+- Final PVF lane: `in_progress`
+- Lane change reason: `No material lane change.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `bounded_local_plus_live_provider`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `unknown`
+- Actual active work seconds: `unknown`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `unknown`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `unknown`
+- Actual PR wait seconds: `not_applicable_prepublication`
+- Actual CI wait seconds: `not_applicable_prepublication`
+- Budget source: `not_collected`
+- Goal metrics data source: `not_collected`
+- Goal metrics source ref: `Issue #1079 active Codex goal`
+- Data-source confidence: `low`
+- Estimate error percent: `unknown`
+- Completion state: `implementation_and_validation_in_progress`
+- Issue goal ref: `Issue #1079 active Codex goal`
+- Sprint goal ref: `not_assigned`
+- Goal metrics rollup ref: `not_collected`
+- Validation planning prompt: `.csdlc/issues/1079/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `unknown`
+- Variance analysis completed: `false`
+- Variance category: `not_applicable`
+- Variance note: `Unknown estimates cannot produce a truthful variance calculation.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Local ignored output-card scaffold at `.csdlc/issues/1079/cards/sor.md`
+- Tracked implementation artifacts: `OpenRouter codec/adapter/tests, Runtime ingress/control/conversation tests, provider inference docs, and six native lifecycle cards on the issue branch.`
+- Additional proof artifacts: `Focused local validation results; installed proof pending.`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Added normalized reasoning-effort consumption and OpenRouter reasoning.effort request serialization.`
+- `Added safe allowlisted provider failure projection at Runtime conversation boundaries and focused coverage.`
+- `Documented the contract and prepared reviewed release binaries for a separate DeepSeek provider profile.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Main-repo paths updated: `none; issue branch is not merged`
+- Worktree-only paths remaining: `all issue-branch changes pending PR merge`
+- Integration state: `worktree_only`
+- Verification scope: `bound issue worktree and installed local Runtime proof surface`
+- Integration method used: `issue branch commit; PR pending`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git status --short --branch; git rev-parse HEAD; git diff --check`
+    `Verifies exact branch identity and patch hygiene.`
+- Result: `In progress; not merged.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path adl-provider-core/Cargo.toml; cargo clippy --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings; focused adl-runtime-kernel tests; native csdlc validate`
+    `Verifies request controls, rejection semantics, provider suite integrity, typed Runtime failures, and lifecycle card structure.`
 - Results:
-  - `<validation_result>`
+  - `Provider-core 122 tests and strict Clippy passed; Runtime helper regression passed; conversation-level regression and installed proof in progress. Two unrelated broader Runtime test failures and existing Runtime Clippy warnings reproduce on clean main.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: in_progress
     checks_run:
-      - "<verification_check_1>"
+      - "Exact-head independent review found three actionable gaps; remediation and re-review are in progress."
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed_local
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed_local
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: in_progress
+    required_artifacts_present: false
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Focused request-capture and invalid-control tests use deterministic local capture fixtures.`
+- Fixtures or scripts used: `adl-provider-core request-capture fixtures; Runtime authenticated conversation fixture; installed local proof scripts pending.`
+- Replay verification (same inputs -> same artifacts/order): `Focused local tests replayed successfully.`
+- Ordering guarantees (sorting / tie-break rules used): `Provider candidate validation occurs before dispatch; conversation terminal results remain sequenced and idempotently retained.`
+- Artifact stability notes: `Tracked behavior is committed; installed proof artifacts remain pending.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Focused public-result tests assert no secret-bearing provider error crosses the boundary.`
+- Prompt / tool argument redaction verified: `Yes for focused Runtime results; live proof pending.`
+- Absolute path leakage check: `Tracked cards use repository-relative proof references; machine-local invocation state is untracked.`
+- Sandbox / policy invariants preserved: `Yes; tracked edits remain in the bound FastWork worktree and main is inspection-only.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `not_available_preproof`
+- Run artifact root: `.csdlc/evidence/1079`
+- Replay command used for verification: `Focused Cargo test commands recorded above.`
+- Replay result: `passed for completed local lanes`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `.csdlc/evidence/1079 (pending)`
+- Required artifacts present: `false; installed review/A2A proof and passing re-review remain pending`
+- Artifact schema/version checks: `Native card validation pending after this edit.`
+- Hash/byte-stability checks: `Exact tracked commit identity will be recorded before final review.`
+- Missing/optional artifacts and rationale: `PR, CI, merge, and terminal artifacts do not exist before publication.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `Kept Nexus and Nemotron on the shared OpenRouter definition.`
+- `Use a separate DeepSeek provider definition with low reasoning, 8192 output tokens, and 180-second timeout.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Install the reviewed candidate generation and run full-issue plus governed A2A proof.`
+- `Fix all exact-head review findings, re-review, publish a draft PR, and shepherd CI.`
