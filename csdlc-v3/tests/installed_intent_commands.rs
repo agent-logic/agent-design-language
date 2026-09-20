@@ -440,6 +440,107 @@ fn issue_1092_installed_finish_accepts_explicit_authenticated_legacy_target() {
     assert_eq!(fixture.remote_effects(), 0);
 }
 
+// PVF #1092: an external closing PR changes only authenticated publication
+// readback identity. Current semantic issues must still complete Finish and
+// RecordCleanup before their bound worktree can be removed.
+#[test]
+fn issue_1092_current_semantic_external_publication_finishes_and_cleans() {
+    let (mut fixture, linked) = reviewed_fixture("current-external-publication");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    fixture.enable_external_pr_transport();
+    let external_head = "1".repeat(40);
+    let external_pr_path = primary.join(".git/installed-candidate/remote-pr-638.json");
+    fs::write(
+        &external_pr_path,
+        serde_json::to_vec(&json!({
+            "number":638,"head":{"sha":external_head},"merged":true,"state":"closed",
+            "body":"Closes #505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(
+        primary.join(".git/installed-candidate/remote-issue.json"),
+        serde_json::to_vec(&issue).unwrap(),
+    )
+    .unwrap();
+
+    let external_args = [
+        "finish",
+        "505",
+        "--pull-request",
+        "638",
+        "--publication-repository",
+        "agent-logic/codefriend.ai",
+    ];
+    let unqualified = fixture.run(&linked, &external_args);
+    assert!(!unqualified.status.success());
+    assert!(String::from_utf8_lossy(&unqualified.stdout).contains("closing_linkage_missing"));
+    fs::write(
+        &external_pr_path,
+        serde_json::to_vec(&json!({
+            "number":638,"head":{"sha":external_head},"merged":true,"state":"closed",
+            "body":"Closes agent-logic/agent-design-language#505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+
+    let finished = success(fixture.run(&linked, &external_args));
+    assert_eq!(finished["status"], "completed");
+    assert!(finished.get("compatibility").is_none());
+    let receipt: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        receipt["publication_repository"],
+        "agent-logic/codefriend.ai"
+    );
+    assert_eq!(receipt["head_sha"], external_head);
+    let semantic_root =
+        SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
+            .unwrap();
+    let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+    let snapshot = match DurableTransactionStore::observe_issue(&semantic_root, &key).unwrap() {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        other => panic!("{other:?}"),
+    };
+    assert_eq!(
+        snapshot.phase(),
+        csdlc_v3::lifecycle::LifecycleState::ClosedOut
+    );
+    let completed_before_cleanup = snapshot.completed().len();
+
+    let preview = success(fixture.run(&primary, &["clean", "505"]));
+    let token = preview["preview_token"].as_str().unwrap();
+    let cleaned =
+        success(fixture.run(&primary, &["clean", "505", "--execute", "--preview", token]));
+    assert_eq!(cleaned["status"], "completed");
+    assert!(cleaned.get("compatibility").is_none());
+    assert!(!linked.exists());
+    let snapshot = match DurableTransactionStore::observe_issue(&semantic_root, &key).unwrap() {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        other => panic!("{other:?}"),
+    };
+    assert_eq!(
+        snapshot.phase(),
+        csdlc_v3::lifecycle::LifecycleState::ClosedOut
+    );
+    assert_eq!(snapshot.completed().len(), completed_before_cleanup + 1);
+    assert_eq!(
+        snapshot.completed().last().unwrap().truth(),
+        csdlc_v3::storage::semantic::protocol::EffectTruth::Performed
+    );
+}
+
 #[test]
 fn issue_1036_fast_forward_candidate_head_admits_edit_and_proof() {
     let mut fixture = Fixture::new("bound-legacy-fast-forward-head");

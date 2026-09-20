@@ -501,6 +501,21 @@ esac
 }
 
 impl Fixture {
+    pub fn enable_external_pr_transport(&self) {
+        let script = self.root.join(".git/installed-candidate/fake-bin/curl");
+        let old = fs::read_to_string(&script).unwrap();
+        let cases = r#"
+ GET:https://api.github.com/repos/agent-logic/codefriend.ai/pulls/638)
+  cat "$base/remote-pr-638.json" ;;
+"#;
+        let replaced = old.replacen(
+            "case \"$method:$url\" in\n",
+            &format!("case \"$method:$url\" in\n{cases}"),
+            1,
+        );
+        fs::write(script, replaced).unwrap();
+    }
+
     pub fn enable_pr_transport(&self, linked: &Path) {
         self.enable_issue_transport();
         let script = self.root.join(".git/installed-candidate/fake-bin/curl");

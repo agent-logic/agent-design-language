@@ -3,7 +3,7 @@
 csdlc\-finish \- reconcile terminal issue truth
 .SH SYNOPSIS
 .nf
-\&csdlc finish ISSUE [\-\-pull\-request NUMBER | \-\-disposition DISPOSITION.json]
+\&csdlc finish ISSUE [\-\-pull\-request NUMBER [\-\-publication\-repository OWNER/NAME] | \-\-disposition DISPOSITION.json]
 \&csdlc finish \-\-intent\-request REQUEST.json
 \&csdlc finish \-\-help
 .fi
@@ -16,7 +16,7 @@ csdlc\-finish \- reconcile terminal issue truth
 .PP
 \&Optional \-\-disposition supplies strict disposition/operator/rationale/evidence_refs for native no\-PR terminal reconciliation. Disposition uses retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. The adapter authenticates closed issue timestamps internally and the native owner rechecks them before persistence; no caller timestamps or internal receipts are required. Administrative disposition is not merged implementation proof.
 .PP
-\&For a PR created outside the native publication owner, supply \-\-pull\-request NUMBER. This is only an explicit target hint: the existing terminal owner authenticates the exact issue/head, merged PR, closing relation and closed issue before persisting terminal truth. Conflicting native or durable terminal PR identities are rejected. No publication mutation receipt is fabricated. The flag cannot be combined with \-\-disposition; generated intent content is {\(dqpull_request\(dq: NUMBER}. After successful reconciliation, ordinary finish can use the validated retained terminal receipt for idempotent readback.
+\&For a PR created outside the native publication owner, supply \-\-pull\-request NUMBER. If that PR belongs to another repository, also supply \-\-publication\-repository OWNER/NAME. These are only explicit target hints: the existing terminal owner authenticates the exact issue/head, merged PR, qualified closing relation and closed issue before persisting terminal truth. Current semantic issues still complete the ordinary Finish transition; only genuine legacy migration state uses compatibility reconciliation. Conflicting native or durable terminal identities are rejected. No publication mutation receipt is fabricated. These flags cannot be combined with \-\-disposition; generated intent content retains both identities. After successful reconciliation, ordinary finish can use the validated retained terminal receipt for idempotent readback.
 .SH DESCRIPTION
 \&The legacy \-\-request writer syntax is retired. It remains visible only through \-\-help and \-\-describe for migration discovery; execution fails before request parsing or effects. The semantic issue form above is the current operational interface.
 .PP
@@ -27,6 +27,8 @@ csdlc\-finish \- reconcile terminal issue truth
 \&\-\-request: Required path to a UTF\-8 JSON request of the command's request family.
 .PP
 \&\-\-observe\-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.
+.PP
+\&\-\-publication\-repository: Qualified owner/name repository containing the explicit closing PR; valid only with \-\-pull\-request. The target issue remains in the issue repository.
 .PP
 \&\-\-help: Show standalone help; \-h is equivalent.
 .PP

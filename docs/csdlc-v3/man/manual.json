@@ -804,7 +804,7 @@
       "sections": {
         "SYNOPSIS": [
           {
-            "code": "csdlc finish ISSUE [--pull-request NUMBER | --disposition DISPOSITION.json]\ncsdlc finish --intent-request REQUEST.json\ncsdlc finish --help"
+            "code": "csdlc finish ISSUE [--pull-request NUMBER [--publication-repository OWNER/NAME] | --disposition DISPOSITION.json]\ncsdlc finish --intent-request REQUEST.json\ncsdlc finish --help"
           }
         ],
         "ISSUE INTENT FORM": [
@@ -812,7 +812,7 @@
           "The intent form derives canonical PR identity and authenticates merged PR plus closed issue through the existing terminal owner. Successful execution retains terminal state and receipt in primary Git metadata. --preview plan observes without persistence. It does not merge or close the issue itself.",
           "Optional --repo-root selects discovery, --json retains machine output, and --emit-request returns a generated wrapper accepted directly by COMMAND --intent-request REQUEST.json; its inner request is also accepted. Both forms share identity and mutation guards.",
           "Optional --disposition supplies strict disposition/operator/rationale/evidence_refs for native no-PR terminal reconciliation. Disposition uses retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. The adapter authenticates closed issue timestamps internally and the native owner rechecks them before persistence; no caller timestamps or internal receipts are required. Administrative disposition is not merged implementation proof.",
-          "For a PR created outside the native publication owner, supply --pull-request NUMBER. This is only an explicit target hint: the existing terminal owner authenticates the exact issue/head, merged PR, closing relation and closed issue before persisting terminal truth. Conflicting native or durable terminal PR identities are rejected. No publication mutation receipt is fabricated. The flag cannot be combined with --disposition; generated intent content is {\"pull_request\": NUMBER}. After successful reconciliation, ordinary finish can use the validated retained terminal receipt for idempotent readback."
+          "For a PR created outside the native publication owner, supply --pull-request NUMBER. If that PR belongs to another repository, also supply --publication-repository OWNER/NAME. These are only explicit target hints: the existing terminal owner authenticates the exact issue/head, merged PR, qualified closing relation and closed issue before persisting terminal truth. Current semantic issues still complete the ordinary Finish transition; only genuine legacy migration state uses compatibility reconciliation. Conflicting native or durable terminal identities are rejected. No publication mutation receipt is fabricated. These flags cannot be combined with --disposition; generated intent content retains both identities. After successful reconciliation, ordinary finish can use the validated retained terminal receipt for idempotent readback."
         ],
         "DESCRIPTION": [
           "The legacy --request writer syntax is retired. It remains visible only through --help and --describe for migration discovery; execution fails before request parsing or effects. The semantic issue form above is the current operational interface.",
@@ -822,6 +822,7 @@
           "The legacy --request writer syntax is retired. It remains visible only through --help and --describe for migration discovery; execution fails before request parsing or effects. The semantic issue form above is the current operational interface.",
           "--request: Required path to a UTF-8 JSON request of the command's request family.",
           "--observe-github: Perform authenticated GitHub readback. Requires selected credentials. It does not itself create, update or merge a PR.",
+          "--publication-repository: Qualified owner/name repository containing the explicit closing PR; valid only with --pull-request. The target issue remains in the issue repository.",
           "--help: Show standalone help; -h is equivalent.",
           "-h: Show standalone help; do not combine with execution options.",
           "--intent-request: Execute an exact generated csdlc.v3.intent_request.v1 request or its generated wrapper; stale snapshots fail closed."
@@ -1358,9 +1359,9 @@
           "A native result's returned digest/receipt path is preferable to recomputing a lifecycle receipt. Never claim authentication by writing a receipt with a matching checksum; transport-derived receipts require actual native observation."
         ],
         "TERMINAL CONTRACT": [
-          "TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus --observe-github. historical_pull_requests is a finish-only list of retained checkpoint PRs: each must authenticate as merged for the same repository and issue, must not close the issue, and must explicitly declare Part of or Part-Of linkage; it does not override the selected closing PR. terminal_state identifies the canonical repository_root and exact state_path/receipt_path; optional reconciliation_checkout binds the checkout whose HEAD must match a no-PR expected head, while optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.",
+          "TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus --observe-github. publication_repository optionally identifies a different owner/name repository containing the closing pull request; authenticated readback must still prove that it closes the target issue in repository, and the durable receipt retains both identities. historical_pull_requests is a finish-only list of retained checkpoint PRs: each must authenticate as merged for the publication repository and issue, must not close the issue, and must explicitly declare Part of or Part-Of linkage; it does not override the selected closing PR. terminal_state identifies the canonical repository_root and exact state_path/receipt_path; optional reconciliation_checkout binds the checkout whose HEAD must match a no-PR expected head, while optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.",
           "NoPrCloseout.disposition is retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. It requires operator/rationale/evidence_refs and exact authenticated issue updated/closed timestamps. It is administrative disposition, not merged implementation. expected_head_sha must match the actual reconciliation checkout for this route.",
-          "CleanupRouteRequest.remove defaults false. terminal_receipt is not sufficient alone: use terminal_receipt_path and its exact BLAKE3 byte digest, then preview_receipt_digest returned by an eligible preview for removal. approved_parent/repository_root/candidate_path must be actual normalized paths; candidate must be absolute. Preserve dirty or live work.",
+          "CleanupRouteRequest.remove defaults false. terminal_receipt is not sufficient alone: use terminal_receipt_path and its exact BLAKE3 byte digest, then preview_receipt_digest returned by an eligible preview for removal. retained_archive_identity is tool-owned compatibility state retained from preview and is not operator authority. approved_parent/repository_root/candidate_path must be actual normalized paths; candidate must be absolute. Preserve dirty or live work.",
           "CutoverDecisionRequest.operation is apply (default) or rollback; execute defaults false. Execution requires exact selected binary, selector, installation, rollback receipt and readiness evidence paths/digests plus explicit approval. Retained cutover configuration is not a routine startup requirement."
         ],
         "PROOF CONTRACT": [
@@ -1484,6 +1485,7 @@
         ],
         "TERMINALROUTEREQUEST": [
           "repository: String; required.",
+          "publication_repository: Option<String>; optional/defaulted.",
           "issue: u64; required.",
           "pull_request: Option<u64>; optional/defaulted.",
           "historical_pull_requests: Vec<u64>; optional/defaulted.",
@@ -1516,7 +1518,8 @@
           "terminal_receipt: bool; optional/defaulted.",
           "terminal_receipt_path: Option<String>; optional/defaulted.",
           "terminal_receipt_digest: Option<String>; optional/defaulted.",
-          "preview_receipt_digest: Option<String>; optional/defaulted."
+          "preview_receipt_digest: Option<String>; optional/defaulted.",
+          "retained_archive_identity: Option<serde_json::Value>; optional/defaulted."
         ],
         "TERMINALSTATEWRITEREQUEST": [
           "repository_root: PathBuf; required.",

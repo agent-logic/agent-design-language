@@ -529,14 +529,28 @@ fn observe_historical_pull_requests(
         )?;
         let body = value["body"].as_str().unwrap_or_default();
         let head = value["head"]["sha"].as_str().unwrap_or_default();
+        let same_repository = publication_repository == request.repository;
         if value["number"].as_u64() != Some(*pull_request)
             || value["merged"].as_bool() != Some(true)
             || head.len() != 40
             || !head.bytes().all(|byte| byte.is_ascii_hexdigit())
-            || body_has_relation(Some(body), "Closes", request.issue)
+            || (same_repository && body_has_relation(Some(body), "Closes", request.issue))
             || body_has_qualified_relation(Some(body), "Closes", &request.repository, request.issue)
-            || !(body_has_relation(Some(body), "Part of", request.issue)
-                || body_has_relation(Some(body), "Part-Of", request.issue))
+            || !((same_repository
+                && (body_has_relation(Some(body), "Part of", request.issue)
+                    || body_has_relation(Some(body), "Part-Of", request.issue)))
+                || body_has_qualified_relation(
+                    Some(body),
+                    "Part of",
+                    &request.repository,
+                    request.issue,
+                )
+                || body_has_qualified_relation(
+                    Some(body),
+                    "Part-Of",
+                    &request.repository,
+                    request.issue,
+                ))
         {
             return Err(finding(
                 "historical_pull_request_not_checkpoint",
@@ -711,11 +725,16 @@ pub(crate) fn observe_terminal_github_readback(
         )
     })?;
     let body = pr_value["body"].as_str().unwrap_or_default();
-    let closes_issue = (body_has_relation(Some(body), "Closes", request.issue)
+    let same_repository = publication_repository == request.repository;
+    let closes_issue = ((same_repository
+        && body_has_relation(Some(body), "Closes", request.issue))
         || body_has_qualified_relation(Some(body), "Closes", &request.repository, request.issue))
     .then_some(request.issue);
-    let part_of_issue = (body_has_relation(Some(body), "Part of", request.issue)
-        || body_has_relation(Some(body), "Part-Of", request.issue))
+    let part_of_issue = ((same_repository
+        && (body_has_relation(Some(body), "Part of", request.issue)
+            || body_has_relation(Some(body), "Part-Of", request.issue)))
+        || body_has_qualified_relation(Some(body), "Part of", &request.repository, request.issue)
+        || body_has_qualified_relation(Some(body), "Part-Of", &request.repository, request.issue))
     .then_some(request.issue);
 
     let issue_value = run_github_observation(

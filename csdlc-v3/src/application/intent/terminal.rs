@@ -434,7 +434,7 @@ fn native_request(
     .map_err(|_| "intent_terminal_request_invalid".to_owned())?;
     Ok((
         request,
-        legacy_settled.is_some() || legacy_explicit || missing_state_repair || external_publication,
+        legacy_settled.is_some() || legacy_explicit || missing_state_repair,
     ))
 }
 fn attach_terminal_observation(
@@ -1219,7 +1219,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
             context.fresh()?;
             let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
-            if legacy_merged_compatibility {
+            if legacy_merged_compatibility || native.publication_repository.is_some() {
                 let observed = observe_terminal_github_readback(&native, &mut process)
                     .map_err(|finding| finding.code)?;
                 native.expected_head_sha = Some(observed.head_sha().to_owned());
@@ -1272,7 +1272,8 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     .map_err(|_| "intent_terminal_receipt_invalid")?;
                     if receipt.repository != context.repository
                         || receipt.issue != context.issue
-                        || receipt.head_sha != context.head
+                        || (receipt.head_sha != context.head
+                            && receipt.publication_repository.is_none())
                         || receipt.disposition != "closed_out"
                         || receipt.no_pr_closeout != native.no_pr_closeout
                         || receipt.state_digest.is_none()
@@ -1473,7 +1474,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let cleanup = native.cleanup.as_mut().expect("cleanup constructed above");
             cleanup.remove = true;
             cleanup.preview_receipt_digest = Some(native_digest);
-            if legacy_coordination_compatibility || native.publication_repository.is_some() {
+            let legacy_external_publication =
+                native.publication_repository.is_some() && context.semantic_migration_required()?;
+            if legacy_coordination_compatibility || legacy_external_publication {
                 let result = prepare_intent_cleanup(&native).map_err(|finding| finding.code)?;
                 let removed = matches!(result.cleanup, Some(CleanupDecision::Removed { .. }));
                 let noop = matches!(
