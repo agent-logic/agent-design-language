@@ -10,7 +10,7 @@ title: "[v0.92.2][C-SDLC v3][defect] Preserve staged cleanup evidence and reconc
 branch: "codex/1098-cleanup-index-and-retry-outcome-safety"
 generated_at: "<timestamp>"
 card_status: "ready"
-status: "planned"
+status: "in_progress"
 activation_state: "prepared"
 plan_revision: 1
 initial_pvf_lane: "csdlc"
@@ -74,13 +74,13 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "in_progress"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "pending"
 affected_areas:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Do not equate retry reservation with absence after retry."
+notes: "Implementation and focused tests complete. Current exact-head proof, final independent review and PR publication remain; CI is separately required for handoff."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -142,10 +142,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [in_progress] Run focused validation and proof gates.
 5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Do not equate retry reservation with absence after retry.
+Implementation and focused tests complete. Current exact-head proof, final independent review and PR publication remain; CI is separately required for handoff.

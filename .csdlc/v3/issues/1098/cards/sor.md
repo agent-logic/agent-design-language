@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][C-SDLC v3][defect] Preserve staged cleanup evidence and reconcile publication retry outcomes
 Branch: codex/1098-cleanup-index-and-retry-outcome-safety
 Card Status: ready
-Status: not_started
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implementation not started.
+Implemented both PR #1093 findings: cleanup refuses staged changes before archival and during recovery; stale publication retirement requires fresh authenticated empty branch inventory and no retained completion receipt. Successful receipts follow ordinary reconciliation; unavailable or changed remote outcomes stay pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -75,8 +75,8 @@ Implementation not started.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `csdlc-v3/src/commands/terminal/intent_archive.rs; csdlc-v3/src/application/intent/remote.rs; csdlc-v3/src/commands/remote; csdlc-v3/tests/installed_intent_commands.rs.`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Tracked implementation artifacts: `csdlc-v3/src/commands/terminal/intent_archive.rs; csdlc-v3/src/commands/remote/storage.rs; csdlc-v3/src/commands/remote/transport.rs; csdlc-v3/src/application/intent/remote.rs; csdlc-v3/tests/installed_intent_commands.rs`
+- Additional proof artifacts: `.csdlc/evidence/1098/validation.md`
 
 ## Actions taken
 - `<actions_taken_line_1>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path csdlc-v3/Cargo.toml issue_1098`
-    `Pending focused proof.`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml issue_1098; existing issue_1092 and interrupted cleanup tests; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml --check; git diff --check`
+    `Six new tests, five existing issue_1092 integration tests and one existing interrupted cleanup test passed. Strict Clippy, formatting and diff hygiene passed. Native exact-head proof, final independent review and CI publication pending.`
 - Results:
-  - `not_run`
+  - `passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
