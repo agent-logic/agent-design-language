@@ -225,7 +225,12 @@ fn native_request(
     if retained.is_some() && explicit.is_some() && retained != explicit {
         return Err("intent_finish_pull_request_conflict".into());
     }
-    let native = if explicit.is_some() {
+    // A validated terminal receipt is the authoritative final target for an
+    // ordinary replay. Inventory the remaining native targets as historical
+    // checkpoints instead of sending replay back through singular publication
+    // selection, which rejects the intentionally preserved history.
+    let effective = explicit.or(retained);
+    let native = if effective.is_some() {
         crate::commands::remote::intent::publication_targets_for_finish(
             &context.root,
             &context.repository,
@@ -244,7 +249,7 @@ fn native_request(
         .map(|target| target.into_iter().collect())
     }
     .map_err(|finding| finding.code)?;
-    let (pull_request, historical_pull_requests) = finish_target(native, explicit, retained)?;
+    let (pull_request, historical_pull_requests) = finish_target(native, effective, retained)?;
     serde_json::from_value(
         json!({"repository":context.repository,"issue":context.issue,
         "pull_request":pull_request,"historical_pull_requests":historical_pull_requests,

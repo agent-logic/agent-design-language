@@ -4756,10 +4756,10 @@ fn external_pr_finish_authenticates_without_fabricating_publication_history() {
     assert!(!native_intents.exists() || fs::read_dir(native_intents).unwrap().next().is_none());
 }
 
-// PVF #1083: deterministic installed terminal reconciliation for a retained
+// PVF #1090: deterministic installed terminal reconciliation and replay for a retained
 // merged checkpoint followed by the actual exact-head closing PR.
 #[test]
-fn issue_1083_installed_finish_authenticates_checkpoint_then_closing_pr() {
+fn issue_1090_installed_finish_replays_checkpoint_then_closing_pr() {
     use csdlc_v3::commands::remote::{
         canonical_authority_selector_digest, github_mutation_operation_digest,
         github_mutation_operation_marker, GithubMutation, GithubMutationRequest,
@@ -4903,12 +4903,16 @@ fn issue_1083_installed_finish_authenticates_checkpoint_then_closing_pr() {
     .unwrap();
     assert_eq!(receipt["pull_request"], 640);
     assert_eq!(receipt["head_sha"], head);
+    let before_replay = intent_fixture::inventory(&primary);
+    let replay = success(fixture.run(&linked, &["finish", "505"]));
+    assert_eq!(replay["status"], "expected_noop");
+    assert_same_inventory!(before_replay, intent_fixture::inventory(&primary));
 }
 
-// PVF #1083: deterministic installed reconciliation for an obsolete absent
+// PVF #1090: deterministic installed reconciliation and replay for an obsolete absent
 // create candidate followed by an independently authenticated exact-head PR.
 #[test]
-fn issue_1083_installed_finish_retires_authenticated_absent_stale_create() {
+fn issue_1090_installed_finish_replays_authenticated_absent_stale_create() {
     use csdlc_v3::commands::remote::{
         canonical_authority_selector_digest, github_mutation_operation_digest,
         github_mutation_operation_marker, GithubMutation, GithubMutationRequest,
@@ -5008,6 +5012,10 @@ fn issue_1083_installed_finish_retires_authenticated_absent_stale_create() {
     assert_eq!(receipt["pull_request"], 640);
     assert_eq!(receipt["head_sha"], head);
     assert_eq!(fixture.remote_effects(), 0);
+    let before_replay = intent_fixture::inventory(&primary);
+    let replay = success(fixture.run(&linked, &["finish", "505"]));
+    assert_eq!(replay["status"], "expected_noop");
+    assert_same_inventory!(before_replay, intent_fixture::inventory(&primary));
 }
 
 #[test]
