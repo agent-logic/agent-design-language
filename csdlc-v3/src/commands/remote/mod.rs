@@ -14,6 +14,7 @@ mod publication;
 mod routing;
 mod storage;
 mod support;
+mod target;
 mod transport;
 
 pub use authority::canonical_authority_selector_digest;

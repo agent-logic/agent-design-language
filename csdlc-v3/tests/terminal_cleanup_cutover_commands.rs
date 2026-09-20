@@ -26,6 +26,7 @@ fn base_request() -> TerminalRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
         issue: 630,
         pull_request: Some(641),
+        historical_pull_requests: vec![],
         expected_head_sha: Some("0123456789012345678901234567890123456789".into()),
         mode: Some(TerminalPublicationMode::Closing),
         public_adapter_receipt: None,
@@ -1031,6 +1032,7 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
+        reconciliation_checkout: None,
         state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
         receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
@@ -1091,6 +1093,7 @@ fn pre_cutover_finish_denies_terminal_persistence() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root,
+        reconciliation_checkout: None,
         state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
         receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
@@ -1728,6 +1731,71 @@ fn github_issue_json(number: u64, state: &str) -> String {
     .to_string()
 }
 
+#[test]
+fn terminal_finish_authenticates_merged_non_closing_checkpoint_before_later_closing_pr() {
+    let mut request = base_request();
+    request.historical_pull_requests = vec![640];
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(
+            640,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            true,
+            "Qualification checkpoint.\n\nPart of #630",
+        ),
+        github_pr_json(
+            641,
+            request.expected_head_sha.as_deref().unwrap(),
+            true,
+            "Closes #630",
+        ),
+        github_issue_json(630, "closed"),
+    ]);
+    let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(plan.status, TerminalRouteStatus::Ready, "{plan:#?}");
+    assert!(plan.findings.is_empty());
+}
+
+#[test]
+fn terminal_finish_rejects_historical_target_that_also_closes_issue() {
+    let root = fixture_root("historical_closing_target_no_persistence");
+    init_repo(&root);
+    write_generation_selector(&root, "v3");
+    let mut request = base_request();
+    request.historical_pull_requests = vec![640];
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    let receipt_path = ".git/csdlc-v3/local/evidence/630/terminal-receipt.json";
+    request.terminal_state = Some(TerminalStateWriteRequest {
+        repository_root: root.clone(),
+        reconciliation_checkout: None,
+        state_path: ".git/csdlc-v3/local/v3/issues/630/terminal.json".into(),
+        receipt_path: receipt_path.into(),
+        expected_state_digest: None,
+    });
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(
+            640,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            true,
+            "Closes #630",
+        ),
+        github_pr_json(
+            641,
+            request.expected_head_sha.as_deref().unwrap(),
+            true,
+            "Closes #630",
+        ),
+        github_issue_json(630, "closed"),
+    ]);
+    let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+    assert!(plan
+        .findings
+        .iter()
+        .any(|finding| finding.code == "historical_pull_request_not_checkpoint"));
+    assert!(!root.join(receipt_path).exists());
+}
+
 fn fixture_root(name: &str) -> PathBuf {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("target")
@@ -1806,6 +1874,7 @@ fn conflicting_terminal_receipt_preserves_state() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
+        reconciliation_checkout: None,
         state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
         receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
@@ -1868,6 +1937,7 @@ fn non_regular_terminal_receipt_preserves_absent_state() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
+        reconciliation_checkout: None,
         state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
         receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
@@ -1982,6 +2052,7 @@ fn no_pr_closeout_persists_idempotently_and_cleanup_binds_disposition() {
     let receipt_path = ".git/csdlc-v3/local/evidence/630/terminal-receipt.json";
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
+        reconciliation_checkout: None,
         state_path: ".git/csdlc-v3/local/v3/issues/630/terminal.json".into(),
         receipt_path: receipt_path.into(),
         expected_state_digest: None,
@@ -2040,4 +2111,60 @@ fn no_pr_closeout_persists_idempotently_and_cleanup_binds_disposition() {
     let plan = prepare_terminal_route("clean", &request).unwrap();
     assert_eq!(plan.status, TerminalRouteStatus::Blocked);
     assert_eq!(plan.findings[0].code, "terminal_receipt_mismatch");
+}
+
+// PVF: small deterministic offline persistence proof for an issue worktree whose
+// exact reconciliation head differs from the canonical primary checkout.
+#[test]
+fn issue_1083_no_pr_closeout_uses_the_explicit_reconciliation_checkout() {
+    let root = fixture_root("issue_1083_no_pr_reconciliation_checkout");
+    init_repo(&root);
+    write_generation_selector(&root, "v3");
+    let checkout = root.parent().unwrap().join(format!(
+        "issue_1083-reconciliation-checkout-{}",
+        std::process::id()
+    ));
+    if checkout.exists() {
+        fs::remove_dir_all(&checkout).expect("clean stale reconciliation checkout");
+    }
+    git(
+        &root,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-1083-reconciliation",
+            checkout.to_str().unwrap(),
+        ],
+    );
+    fs::write(checkout.join("issue.txt"), "issue worktree\n").unwrap();
+    git(&checkout, &["add", "issue.txt"]);
+    git(&checkout, &["commit", "-m", "issue worktree head"]);
+    let checkout_head = git_stdout(&checkout, &["rev-parse", "HEAD"]);
+    assert_ne!(checkout_head, git_stdout(&root, &["rev-parse", "HEAD"]));
+
+    let mut request = no_pr_request();
+    request.expected_head_sha = Some(checkout_head);
+    request.terminal_state = Some(TerminalStateWriteRequest {
+        repository_root: root.clone(),
+        reconciliation_checkout: Some(checkout.clone()),
+        state_path: ".git/csdlc-v3/local/v3/issues/630/terminal.json".into(),
+        receipt_path: ".git/csdlc-v3/local/evidence/630/terminal-receipt.json".into(),
+        expected_state_digest: None,
+    });
+    let mut adapter = FakeGithubAdapter::new([no_pr_observation().to_string()]);
+    let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(
+        plan.status,
+        TerminalRouteStatus::Ready,
+        "{:?}",
+        plan.findings
+    );
+    assert!(plan.operational_authority);
+
+    request.expected_head_sha = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".into());
+    let mut adapter = FakeGithubAdapter::new([no_pr_observation().to_string()]);
+    let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+    assert_eq!(plan.findings[0].code, "no_pr_head_mismatch");
 }

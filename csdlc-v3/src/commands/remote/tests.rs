@@ -936,6 +936,109 @@ fn publication_target_ignores_stale_unresolved_create_after_current_receipt() {
     );
 }
 
+#[test]
+fn finish_target_accepts_stale_create_only_with_exact_authenticated_absence_receipt() {
+    let root = mutation_repo("finish-target-authenticated-absence", true);
+    let branch = "codex/505-fixture-publication";
+    mutation_git(&root, &["checkout", "-q", "-b", branch]);
+    let stale_head = mutation_head(&root);
+    let stale = mutation_request(
+        &stale_head,
+        super::GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: branch.into(),
+            title: "Stale fixture publication".into(),
+            body: "Closes #505".into(),
+            draft: true,
+        },
+    );
+    let intent_path = persist_mutation_intent(&root, &stale);
+    let operation = super::github_mutation_operation_digest(&stale);
+    let intent = super::load_mutation_intent(&intent_path, &operation).unwrap();
+    let current_head = "1111111111111111111111111111111111111111";
+    let mut checkpoint = mutation_request(current_head, super::GithubMutation::PullRequestReady);
+    checkpoint.pull_request = Some(639);
+    let checkpoint_path = persist_mutation_intent(&root, &checkpoint);
+    let checkpoint_operation = super::github_mutation_operation_digest(&checkpoint);
+    let checkpoint_intent =
+        super::load_mutation_intent(&checkpoint_path, &checkpoint_operation).unwrap();
+    let checkpoint_receipt = super::GithubMutationReceipt {
+        schema: "csdlc.v3.github_mutation_receipt.v2".into(),
+        repository: checkpoint.repository.clone(),
+        issue: checkpoint.issue,
+        pull_request: Some(639),
+        expected_head_sha: checkpoint.expected_head_sha.clone(),
+        operation_digest: checkpoint_operation.clone(),
+        response_digest: Some("fixture-response".into()),
+        readback_digest: Some("fixture-readback".into()),
+        intent_digest: super::github_mutation_intent_digest(&checkpoint_intent),
+        reconciliation_digest: "fixture-reconciliation".into(),
+        adapter: super::GITHUB_OPERATIONAL_ADAPTER.into(),
+        authenticated: true,
+        idempotent_replay: false,
+    };
+    super::persist_json_create_new(
+        &super::github_mutation_receipt_path(&root, &checkpoint_operation).unwrap(),
+        &checkpoint_receipt,
+    )
+    .unwrap();
+
+    assert_eq!(
+        super::intent::publication_target(
+            &root,
+            "agent-logic/agent-design-language",
+            505,
+            branch,
+            current_head,
+        )
+        .unwrap(),
+        Some(639),
+        "ordinary publication preserves its existing current-target behavior"
+    );
+
+    assert_eq!(
+        super::intent::publication_targets_for_finish(
+            &root,
+            "agent-logic/agent-design-language",
+            505,
+            branch,
+            current_head,
+        )
+        .unwrap_err()
+        .code,
+        "intent_publication_uncertain_head"
+    );
+
+    let recovery = super::GithubMutationRecoveryReceipt {
+        schema: "csdlc.v3.github_mutation_recovery.v1".into(),
+        operation_digest: operation.clone(),
+        intent_digest: super::github_mutation_intent_digest(&intent),
+        recovery: super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence,
+        repository: stale.repository.clone(),
+        issue: stale.issue,
+        pull_request: None,
+        expected_head_sha: stale.expected_head_sha.clone(),
+        resolved_ready_target: None,
+    };
+    super::persist_json_create_new(
+        &super::github_mutation_recovery_path(&root, &operation).unwrap(),
+        &recovery,
+    )
+    .unwrap();
+
+    assert_eq!(
+        super::intent::publication_targets_for_finish(
+            &root,
+            "agent-logic/agent-design-language",
+            505,
+            branch,
+            current_head,
+        )
+        .unwrap(),
+        vec![639]
+    );
+}
+
 fn process_output(
     status: crate::adapters::ProcessStatus,
     value: serde_json::Value,

@@ -537,6 +537,12 @@ impl Fixture {
  GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639)
   if test -f "$base/drop-readback"; then exit 9; fi
   cat "$base/remote-pr.json" ;;
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/638)
+  if test -f "$base/drop-readback"; then exit 9; fi
+  cat "$base/remote-pr-638.json" ;;
+ GET:https://api.github.com/repos/agent-logic/agent-design-language/pulls/640)
+  if test -f "$base/drop-readback"; then exit 9; fi
+  cat "$base/remote-pr-640.json" ;;
  POST:https://api.github.com/graphql)
   if test -f "$base/reject-ready-before-effect"; then exit 9; fi
   if ! test -f "$base/remote-pr.json"; then exit 9; fi

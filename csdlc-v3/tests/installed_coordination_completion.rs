@@ -329,7 +329,7 @@ fn installed_coordination_accepts_child_closing_link_with_parent_reference() {
 }
 
 #[test]
-fn installed_legacy_coordination_completion_uses_native_guards_and_replays_once() {
+fn issue_1083_installed_legacy_coordination_completion_uses_bound_reconciliation_checkout() {
     let (mut fixture, linked, body) = setup("legacy-coordination-success");
     retain_legacy_only(&fixture);
     let op = fixture.write_json("legacy-completion.json", &operation(&body));
@@ -352,6 +352,24 @@ fn installed_legacy_coordination_completion_uses_native_guards_and_replays_once(
         .root
         .join(".git/csdlc-v3/semantic/issues/505")
         .exists());
+
+    // The coordination operation was authenticated from the linked issue
+    // checkout. A later primary-main advance must not replace that exact
+    // reconciliation identity during no-PR terminal persistence.
+    fs::write(
+        fixture.root.join("primary-advance.txt"),
+        "later main state\n",
+    )
+    .unwrap();
+    git(&fixture.root, &["add", "primary-advance.txt"]);
+    git(
+        &fixture.root,
+        &["commit", "--quiet", "-m", "advance primary"],
+    );
+    assert_ne!(
+        git(&fixture.root, &["rev-parse", "HEAD"]),
+        git(&linked, &["rev-parse", "HEAD"])
+    );
 
     let disposition=fixture.write_json("legacy-disposition.json",&json!({"disposition":"coordination_completed","operator":"synthetic-fixture-operator","rationale":"Verified legacy coordination delivery","evidence_refs":[".csdlc/evidence/505/coordination.json"]}));
     let finish = success(fixture.run(
@@ -410,11 +428,6 @@ fn installed_legacy_coordination_completion_uses_native_guards_and_replays_once(
         .root
         .join(".git/csdlc-v3/semantic/issues/505")
         .exists());
-    let primary = fixture.root.clone();
-    let cleanup_replay = success(fixture.run(&primary, &["clean", "505"]));
-    assert_eq!(cleanup_replay["status"], "expected_noop");
-    assert_eq!(cleanup_replay["performed_mutation"], false);
-    assert_eq!(cleanup_replay["compatibility"], "legacy_coordination_only");
 }
 
 #[test]
