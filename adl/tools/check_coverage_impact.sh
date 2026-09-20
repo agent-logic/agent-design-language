@@ -290,8 +290,20 @@ candidate_filter_for_path() {
     adl/src/bin/codefriend_agent.rs|adl/src/codefriend/agent.rs|adl/src/codefriend/agent/publication.rs)
       printf 'codefriend_agent'
       ;;
-    adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs|adl/src/codefriend/server/journey.rs|adl/src/codefriend/server/publication_export.rs)
+    adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs|adl/src/codefriend/server/journey.rs|adl/src/codefriend/server/publication_export.rs|adl/src/codefriend/server/journey_publication.rs)
       printf 'codefriend_server'
+      ;;
+    adl/src/codefriend/architecture/drift.rs)
+      printf 'codefriend_drift'
+      ;;
+    adl/src/codefriend/memory/palace.rs)
+      printf 'codefriend_palace'
+      ;;
+    adl/src/codefriend/integration/journey/owned_baseline.rs)
+      printf 'codefriend_owned_baseline'
+      ;;
+    adl/src/codefriend/integration/journey/publication_attachment.rs)
+      printf 'codefriend_hosted_attachment'
       ;;
     adl/src/cli/codefriend_cmd.rs)
       printf 'codefriend_cli'
@@ -522,6 +534,18 @@ nextest_expression_for_filter() {
       ;;
     codefriend_server)
       printf 'binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_drift)
+      printf 'binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_palace)
+      printf 'binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)'
+      ;;
+    codefriend_owned_baseline)
+      printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))'
+      ;;
+    codefriend_hosted_attachment)
+      printf 'binary_id(adl::codefriend_integration)'
       ;;
     codefriend_cli)
       printf 'binary_id(adl::codefriend_ingestion) or binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
@@ -919,7 +943,7 @@ file_has_no_executable_surface() {
   local path="$1"
   [ -f "$ROOT/$path" ] || return 1
 
-  ! grep -Eq '^[[:space:]]*(pub([[:space:]]*\([^)]*\))?[[:space:]]+)?fn[[:space:]]+|^[[:space:]]*impl([[:space:][:alnum:]_<>,:&]+)?[[:space:]]*\{' "$ROOT/$path"
+  ! grep -Eq '^[[:space:]]*(pub([[:space:]]*\([^)]*\))?[[:space:]]+)?(async[[:space:]]+)?fn[[:space:]]+|^[[:space:]]*impl([[:space:][:alnum:]_<>,:&]+)?[[:space:]]*\{' "$ROOT/$path"
 }
 
 file_is_live_runtime_boundary_surface() {

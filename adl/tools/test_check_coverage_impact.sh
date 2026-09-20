@@ -1231,4 +1231,16 @@ printf 'A\tadl/src/cli/codefriend_cmd.rs\n' >"$codefriend_cli_changed"
 codefriend_cli_expression="$(bash "$SCRIPT" --changed-files "$codefriend_cli_changed" --print-risk-nextest-expression)"
 grep -Fx 'binary_id(adl::codefriend_ingestion) or binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' <<<"$codefriend_cli_expression" >/dev/null
 
+# These new production owners must select their real component tests, never a basename fallback.
+for mapping in \
+  'adl/src/codefriend/architecture/drift.rs|binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' \
+  'adl/src/codefriend/memory/palace.rs|binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)' \
+  'adl/src/codefriend/integration/journey/owned_baseline.rs|binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))' \
+  'adl/src/codefriend/integration/journey/publication_attachment.rs|binary_id(adl::codefriend_integration)' \
+  'adl/src/codefriend/server/journey_publication.rs|binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'; do
+  printf 'A\t%s\n' "${mapping%%|*}" >"$TMP/codefriend-owned-source.txt"
+  actual="$(bash "$SCRIPT" --changed-files "$TMP/codefriend-owned-source.txt" --print-risk-nextest-expression)"
+  grep -Fx "${mapping#*|}" <<<"$actual" >/dev/null
+done
+
 echo "PASS test_check_coverage_impact"
