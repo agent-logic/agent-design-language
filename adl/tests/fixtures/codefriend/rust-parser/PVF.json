@@ -1,0 +1,10 @@
+{
+  "issue": 1100,
+  "lane": "runtime",
+  "proof_role": "shared parser resource admission, parse/visit/drop protection and architecture/fitness production integration",
+  "determinism": "fixed source strings and unchanged ADL input; no model, provider, network or source execution",
+  "resource_profile": "CPU and bounded parser worker; source400KiB, tokens32768, nesting32, ancestor statement budget2048; one64MiB stack with at most32 admitted callers",
+  "release_gate": true,
+  "tests": ["lib::codefriend::rust_parse", "codefriend_cf_cog::pathological_rust_is_partial_before_recursive_parsing", "codefriend_cf_gov::bounded_parser_accepts_normal_files_and_denies_recursive_chains"],
+  "non_claims": ["No hard wall-clock timeout", "No full Rust semantic coverage", "No independent Sprint10 acceptance"]
+}

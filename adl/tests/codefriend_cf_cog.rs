@@ -520,8 +520,7 @@ fn pathological_rust_is_partial_before_recursive_parsing() {
             "Vec<".repeat(6_000),
             ">".repeat(6_000)
         ),
-        format!("// {}\npub fn f() {{}}", "!".repeat(129)),
-        format!("// {}\npub fn f() {{}}", "a".repeat(32 * 1024)),
+        format!("// {}\npub fn f() {{}}", "a".repeat(400 * 1024)),
     ];
     for source in &sources {
         let f = Fixture::new(&[("src/lib.rs", source)]);
