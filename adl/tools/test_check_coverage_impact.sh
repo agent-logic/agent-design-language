@@ -1229,6 +1229,6 @@ grep -F 'binary_id(adl::codefriend_agent_publication)' <<<"$codefriend_render_ex
 codefriend_cli_changed="$TMP/codefriend-cli-changed.txt"
 printf 'A\tadl/src/cli/codefriend_cmd.rs\n' >"$codefriend_cli_changed"
 codefriend_cli_expression="$(bash "$SCRIPT" --changed-files "$codefriend_cli_changed" --print-risk-nextest-expression)"
-grep -Fx 'binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' <<<"$codefriend_cli_expression" >/dev/null
+grep -Fx 'binary_id(adl::codefriend_ingestion) or binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' <<<"$codefriend_cli_expression" >/dev/null
 
 echo "PASS test_check_coverage_impact"

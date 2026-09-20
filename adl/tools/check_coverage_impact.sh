@@ -524,7 +524,7 @@ nextest_expression_for_filter() {
       printf 'binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'
       ;;
     codefriend_cli)
-      printf 'binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
+      printf 'binary_id(adl::codefriend_ingestion) or binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
       ;;
     codefriend_journey)
       printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_tests::/))'
