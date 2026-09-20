@@ -17,6 +17,7 @@ use super::publication::{
 use super::routing::dispatch_operational_remote;
 use super::storage::*;
 use super::support::*;
+use super::target::publication_target_inventory;
 use super::transport::*;
 
 /// Observe only retained native operations. No effect or reconciliation is
@@ -610,98 +611,7 @@ pub fn publication_target(
     branch: &str,
     head: &str,
 ) -> Result<Option<u64>, RemoteRouteFinding> {
-    let control = git_control_dir(root).ok_or_else(|| {
-        remote_finding(
-            "git_control_dir_unavailable",
-            "Git control directory is required",
-        )
-    })?;
-    let directory = control.join("csdlc-v3/remote/intents");
-    if !directory.exists() {
-        return Ok(None);
-    }
-    let mut targets = std::collections::BTreeSet::new();
-    let mut stale_unresolved_create = false;
-    for entry in fs::read_dir(directory).map_err(|_| {
-        remote_finding(
-            "intent_publication_inventory_unreadable",
-            "native intent inventory cannot be read",
-        )
-    })? {
-        let path = entry
-            .map_err(|_| {
-                remote_finding(
-                    "intent_publication_inventory_unreadable",
-                    "native intent entry cannot be read",
-                )
-            })?
-            .path();
-        if path.extension().and_then(|s| s.to_str()) != Some("json") {
-            continue;
-        }
-        let digest = path.file_stem().and_then(|s| s.to_str()).ok_or_else(|| {
-            remote_finding(
-                "intent_publication_inventory_invalid",
-                "intent filename is invalid",
-            )
-        })?;
-        let intent = load_mutation_intent(&path, digest)?;
-        if intent.request.repository != repository || intent.request.issue != issue {
-            continue;
-        }
-        let receipt_path = github_mutation_receipt_path(root, digest)?;
-        match &intent.request.mutation {
-            GithubMutation::PullRequestCreate {
-                head: published_branch,
-                ..
-            } => {
-                if published_branch != branch {
-                    return Err(remote_finding(
-                        "intent_publication_branch_conflict",
-                        "issue has publication intent on another branch",
-                    ));
-                }
-                if !receipt_path.exists() {
-                    if intent.request.expected_head_sha != head {
-                        stale_unresolved_create = true;
-                    }
-                    continue;
-                }
-            }
-            GithubMutation::PullRequestUpdate { .. }
-            | GithubMutation::PullRequestReady
-            | GithubMutation::PullRequestMerge { .. } => {
-                if !receipt_path.exists() {
-                    continue;
-                }
-            }
-            _ => continue,
-        }
-        let receipt = load_mutation_receipt(&receipt_path, digest)?;
-        if receipt.intent_digest != github_mutation_intent_digest(&intent)
-            || receipt.repository != repository
-            || receipt.issue != issue
-            || receipt.expected_head_sha != intent.request.expected_head_sha
-        {
-            return Err(remote_finding(
-                "intent_publication_receipt_mismatch",
-                "publication receipt does not bind its native intent",
-            ));
-        }
-        let number = receipt.pull_request.filter(|n| *n > 0).ok_or_else(|| {
-            remote_finding(
-                "intent_publication_target_missing",
-                "authenticated publication receipt lacks PR identity",
-            )
-        })?;
-        targets.insert(number);
-    }
-    if targets.is_empty() && stale_unresolved_create {
-        return Err(remote_finding(
-            "intent_publication_uncertain_head",
-            "reconcile the retained publication intent before changing its candidate",
-        ));
-    }
+    let targets = publication_target_inventory(root, repository, issue, branch, head, false)?;
     if targets.len() > 1 {
         return Err(remote_finding(
             "intent_publication_ambiguous",
@@ -709,6 +619,20 @@ pub fn publication_target(
         ));
     }
     Ok(targets.into_iter().next())
+}
+
+/// Terminal reconciliation may name the actual closing PR after a retained
+/// publication attempt was proven absent. Ordinary publication keeps the
+/// stricter behavior above; this compatibility is read-only and cannot create
+/// or update a PR.
+pub fn publication_targets_for_finish(
+    root: &Path,
+    repository: &str,
+    issue: u64,
+    branch: &str,
+    head: &str,
+) -> Result<Vec<u64>, RemoteRouteFinding> {
+    publication_target_inventory(root, repository, issue, branch, head, true)
 }
 
 /// Shared preparation/edit/publication guard. This validates metadata, not review

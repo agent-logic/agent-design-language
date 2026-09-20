@@ -20,6 +20,8 @@ pub struct TerminalRouteRequest {
     #[serde(default)]
     pub pull_request: Option<u64>,
     #[serde(default)]
+    pub historical_pull_requests: Vec<u64>,
+    #[serde(default)]
     pub expected_head_sha: Option<String>,
     #[serde(default)]
     pub mode: Option<TerminalPublicationMode>,
@@ -107,6 +109,8 @@ pub struct DurableTerminalReceipt {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct TerminalStateWriteRequest {
     pub repository_root: PathBuf,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reconciliation_checkout: Option<PathBuf>,
     pub state_path: PathBuf,
     pub receipt_path: PathBuf,
     #[serde(default)]
@@ -440,6 +444,9 @@ pub fn prepare_terminal_finish_with_github_observation(
     process: &mut impl ProcessAdapter,
 ) -> Result<TerminalRoutePlan, TerminalFinding> {
     let mut findings = Vec::new();
+    if let Err(finding) = observe_historical_pull_requests(request, process) {
+        findings.push(finding);
+    }
     let observed = if request.no_pr_closeout.is_some() {
         observe_no_pr_closeout(request, process)
     } else {
@@ -447,7 +454,9 @@ pub fn prepare_terminal_finish_with_github_observation(
             .and_then(|readback| derive_finish_from_verified(request, readback))
     };
     let finish = match observed.and_then(|decision| {
-        persist_terminal_finish(request, &decision)?;
+        if findings.is_empty() {
+            persist_terminal_finish(request, &decision)?;
+        }
         Ok(decision)
     }) {
         Ok(decision) => Some(decision),
@@ -476,6 +485,50 @@ pub fn prepare_terminal_finish_with_github_observation(
         cleanup: None,
         cutover: None,
     })
+}
+
+fn observe_historical_pull_requests(
+    request: &TerminalRouteRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), TerminalFinding> {
+    if request.historical_pull_requests.is_empty() {
+        return Ok(());
+    }
+    let credential_name = single_credential_name(request)?;
+    let selected = request.pull_request;
+    let mut observed = std::collections::BTreeSet::new();
+    for pull_request in &request.historical_pull_requests {
+        if *pull_request == 0 || Some(*pull_request) == selected || !observed.insert(*pull_request)
+        {
+            return Err(finding(
+                "historical_pull_request_invalid",
+                "historical publication targets must be distinct non-selected PRs",
+            ));
+        }
+        let value = run_github_observation(
+            process,
+            &credential_name,
+            "pull-request",
+            &request.repository,
+            *pull_request,
+        )?;
+        let body = value["body"].as_str().unwrap_or_default();
+        let head = value["head"]["sha"].as_str().unwrap_or_default();
+        if value["number"].as_u64() != Some(*pull_request)
+            || value["merged"].as_bool() != Some(true)
+            || head.len() != 40
+            || !head.bytes().all(|byte| byte.is_ascii_hexdigit())
+            || body_has_relation(Some(body), "Closes", request.issue)
+            || !(body_has_relation(Some(body), "Part of", request.issue)
+                || body_has_relation(Some(body), "Part-Of", request.issue))
+        {
+            return Err(finding(
+                "historical_pull_request_not_checkpoint",
+                "retained historical PR must be merged, non-closing, and explicitly part of the issue",
+            ));
+        }
+    }
+    Ok(())
 }
 
 fn observe_no_pr_closeout(
@@ -1016,8 +1069,13 @@ fn persist_terminal_finish(
         return Ok(());
     };
     let repository_root = canonical_dir(&write_request.repository_root, "repository_root")?;
+    let reconciliation_checkout = write_request
+        .reconciliation_checkout
+        .as_deref()
+        .unwrap_or(&repository_root);
     if request.no_pr_closeout.is_some()
-        && request.expected_head_sha.as_deref() != Some(worktree_head(&repository_root)?.as_str())
+        && request.expected_head_sha.as_deref()
+            != Some(worktree_head(reconciliation_checkout)?.as_str())
     {
         return Err(finding(
             "no_pr_head_mismatch",
@@ -2916,6 +2974,7 @@ mod tests {
             repository: "agent-logic/agent-design-language".into(),
             issue: 630,
             pull_request: Some(641),
+            historical_pull_requests: vec![],
             expected_head_sha: Some("0123456789012345678901234567890123456789".into()),
             mode: Some(TerminalPublicationMode::Closing),
             public_adapter_receipt: None,

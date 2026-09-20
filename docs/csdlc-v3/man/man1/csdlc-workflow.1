@@ -84,7 +84,7 @@ csdlc\-workflow \- prepare, execute, publish and reconcile one issue
 \&csdlc finish ISSUE
 .fi
 .PP
-\&Use TerminalRouteRequest repository/issue/numeric PR/expected_head_sha/mode closing and credential_names. To persist terminal truth include terminal_state with actual reconciliation root and exact canonical state/receipt locations from csdlc(1). Linked: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Primary: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json.
+\&Use TerminalRouteRequest repository/issue/numeric PR/expected_head_sha/mode closing and credential_names. When retained earlier publication targets exist, list them in historical_pull_requests so finish authenticates each merged non\-closing Part of checkpoint before accepting the selected closing PR. To persist terminal truth include terminal_state with the canonical repository_root and exact state/receipt locations from csdlc(1); for no\-PR reconciliation, reconciliation_checkout may name the bound checkout whose HEAD must match expected_head_sha without changing the canonical output root. Linked: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal\-receipt.json. Primary: resolved Git metadata csdlc\-v3/local/v3/issues/ISSUE/terminal.json and csdlc\-v3/local/evidence/ISSUE/terminal\-receipt.json.
 .PP
 \&Finish independently observes merged PR, correct expected head and closed linked issue; no second GitHub mutation or closeout PR is needed. Retain returned terminal state/receipt and distinguish terminal observation from persistence when terminal_state is omitted.
 .SH 7 CLEAN

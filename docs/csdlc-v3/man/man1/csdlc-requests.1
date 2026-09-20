@@ -38,7 +38,7 @@ csdlc\-requests \- native request fields, enums and digest contracts
 .PP
 \&A native result's returned digest/receipt path is preferable to recomputing a lifecycle receipt. Never claim authentication by writing a receipt with a matching checksum; transport\-derived receipts require actual native observation.
 .SH TERMINAL CONTRACT
-\&TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus \-\-observe\-github. terminal_state identifies the actual repository_root and exact canonical state_path/receipt_path; optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.
+\&TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus \-\-observe\-github. historical_pull_requests is a finish\-only list of retained checkpoint PRs: each must authenticate as merged for the same repository and issue, must not close the issue, and must explicitly declare Part of or Part\-Of linkage; it does not override the selected closing PR. terminal_state identifies the canonical repository_root and exact state_path/receipt_path; optional reconciliation_checkout binds the checkout whose HEAD must match a no\-PR expected head, while optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.
 .PP
 \&NoPrCloseout.disposition is retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. It requires operator/rationale/evidence_refs and exact authenticated issue updated/closed timestamps. It is administrative disposition, not merged implementation. expected_head_sha must match the actual reconciliation checkout for this route.
 .PP
@@ -242,6 +242,8 @@ csdlc\-requests \- native request fields, enums and digest contracts
 .PP
 \&pull_request: Option<u64>; optional/defaulted.
 .PP
+\&historical_pull_requests: Vec<u64>; optional/defaulted.
+.PP
 \&expected_head_sha: Option<String>; optional/defaulted.
 .PP
 \&mode: Option<TerminalPublicationMode>; optional/defaulted.
@@ -291,6 +293,8 @@ csdlc\-requests \- native request fields, enums and digest contracts
 \&preview_receipt_digest: Option<String>; optional/defaulted.
 .SH TERMINALSTATEWRITEREQUEST
 \&repository_root: PathBuf; required.
+.PP
+\&reconciliation_checkout: Option<PathBuf>; optional/defaulted.
 .PP
 \&state_path: PathBuf; required.
 .PP

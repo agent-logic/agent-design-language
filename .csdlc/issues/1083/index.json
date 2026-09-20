@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1083,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1083-historical-terminal-identity-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1083-historical-terminal-identity-reconciliation",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "96292e743a88f0d3fa65939756ff4f569c3f5e9ded90c54838d2a505d2d29e9f"
+}

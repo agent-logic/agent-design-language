@@ -461,6 +461,7 @@ fn merge_result_is_consumed_by_existing_finish_observation_without_mutation() {
         repository: identity.repository.clone(),
         issue: r.issue,
         pull_request: Some(identity.pull_request),
+        historical_pull_requests: vec![],
         expected_head_sha: Some(identity.head_sha.clone()),
         mode: Some(TerminalPublicationMode::Closing),
         public_adapter_receipt: None,

@@ -1126,6 +1126,11 @@
           "optional": true
         },
         {
+          "name": "historical_pull_requests",
+          "type": "Vec<u64>",
+          "optional": true
+        },
+        {
           "name": "expected_head_sha",
           "type": "Option<String>",
           "optional": true
@@ -1277,6 +1282,11 @@
           "name": "repository_root",
           "type": "PathBuf",
           "optional": false
+        },
+        {
+          "name": "reconciliation_checkout",
+          "type": "Option<PathBuf>",
+          "optional": true
         },
         {
           "name": "state_path",

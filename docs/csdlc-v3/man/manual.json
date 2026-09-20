@@ -1358,7 +1358,7 @@
           "A native result's returned digest/receipt path is preferable to recomputing a lifecycle receipt. Never claim authentication by writing a receipt with a matching checksum; transport-derived receipts require actual native observation."
         ],
         "TERMINAL CONTRACT": [
-          "TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus --observe-github. terminal_state identifies the actual repository_root and exact canonical state_path/receipt_path; optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.",
+          "TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus --observe-github. historical_pull_requests is a finish-only list of retained checkpoint PRs: each must authenticate as merged for the same repository and issue, must not close the issue, and must explicitly declare Part of or Part-Of linkage; it does not override the selected closing PR. terminal_state identifies the canonical repository_root and exact state_path/receipt_path; optional reconciliation_checkout binds the checkout whose HEAD must match a no-PR expected head, while optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.",
           "NoPrCloseout.disposition is retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. It requires operator/rationale/evidence_refs and exact authenticated issue updated/closed timestamps. It is administrative disposition, not merged implementation. expected_head_sha must match the actual reconciliation checkout for this route.",
           "CleanupRouteRequest.remove defaults false. terminal_receipt is not sufficient alone: use terminal_receipt_path and its exact BLAKE3 byte digest, then preview_receipt_digest returned by an eligible preview for removal. approved_parent/repository_root/candidate_path must be actual normalized paths; candidate must be absolute. Preserve dirty or live work.",
           "CutoverDecisionRequest.operation is apply (default) or rollback; execute defaults false. Execution requires exact selected binary, selector, installation, rollback receipt and readiness evidence paths/digests plus explicit approval. Retained cutover configuration is not a routine startup requirement."
@@ -1486,6 +1486,7 @@
           "repository: String; required.",
           "issue: u64; required.",
           "pull_request: Option<u64>; optional/defaulted.",
+          "historical_pull_requests: Vec<u64>; optional/defaulted.",
           "expected_head_sha: Option<String>; optional/defaulted.",
           "mode: Option<TerminalPublicationMode>; optional/defaulted.",
           "public_adapter_receipt: Option<AdapterReceipt>; optional/defaulted.",
@@ -1519,6 +1520,7 @@
         ],
         "TERMINALSTATEWRITEREQUEST": [
           "repository_root: PathBuf; required.",
+          "reconciliation_checkout: Option<PathBuf>; optional/defaulted.",
           "state_path: PathBuf; required.",
           "receipt_path: PathBuf; required.",
           "expected_state_digest: Option<String>; optional/defaulted."
@@ -1729,7 +1731,7 @@
           {
             "code": "csdlc finish ISSUE"
           },
-          "Use TerminalRouteRequest repository/issue/numeric PR/expected_head_sha/mode closing and credential_names. To persist terminal truth include terminal_state with actual reconciliation root and exact canonical state/receipt locations from csdlc(1). Linked: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Primary: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json.",
+          "Use TerminalRouteRequest repository/issue/numeric PR/expected_head_sha/mode closing and credential_names. When retained earlier publication targets exist, list them in historical_pull_requests so finish authenticates each merged non-closing Part of checkpoint before accepting the selected closing PR. To persist terminal truth include terminal_state with the canonical repository_root and exact state/receipt locations from csdlc(1); for no-PR reconciliation, reconciliation_checkout may name the bound checkout whose HEAD must match expected_head_sha without changing the canonical output root. Linked: .csdlc/v3/issues/ISSUE/terminal.json and .csdlc/evidence/ISSUE/terminal-receipt.json. Primary: resolved Git metadata csdlc-v3/local/v3/issues/ISSUE/terminal.json and csdlc-v3/local/evidence/ISSUE/terminal-receipt.json.",
           "Finish independently observes merged PR, correct expected head and closed linked issue; no second GitHub mutation or closeout PR is needed. Retain returned terminal state/receipt and distinguish terminal observation from persistence when terminal_state is omitted."
         ],
         "7 CLEAN": [

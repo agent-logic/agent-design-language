@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1083,
+  "issue_padded": "1083",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1083",
+  "title": "[v0.92.2][C-SDLC v3][defect] Reconcile preserved historical terminal identities",
+  "branch": "codex/1083-historical-terminal-identity-reconciliation",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1083-historical-terminal-identity-reconciliation"
+}

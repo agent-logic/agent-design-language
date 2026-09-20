@@ -1245,6 +1245,7 @@ fn legacy_proof_and_rollback_direct_writers_are_retired() {
         repository: "agent-logic/agent-design-language".into(),
         issue: 505,
         pull_request: None,
+        historical_pull_requests: vec![],
         expected_head_sha: None,
         mode: None,
         public_adapter_receipt: None,

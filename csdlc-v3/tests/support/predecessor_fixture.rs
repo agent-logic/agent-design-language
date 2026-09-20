@@ -19,6 +19,7 @@ fn base_request() -> TerminalRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
         issue: 630,
         pull_request: Some(641),
+        historical_pull_requests: vec![],
         expected_head_sha: Some("0123456789012345678901234567890123456789".into()),
         mode: Some(TerminalPublicationMode::Closing),
         public_adapter_receipt: None,

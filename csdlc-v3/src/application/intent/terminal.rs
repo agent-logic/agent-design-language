@@ -166,19 +166,34 @@ fn effect_result(
 }
 
 fn finish_target(
-    native: Option<u64>,
+    native: Vec<u64>,
     explicit: Option<u64>,
     retained: Option<u64>,
-) -> Result<Option<u64>, String> {
-    let selected = native.or(explicit).or(retained);
-    if [native, explicit, retained]
-        .into_iter()
-        .flatten()
-        .any(|number| Some(number) != selected || number == 0)
-    {
+) -> Result<(Option<u64>, Vec<u64>), String> {
+    if let Some(explicit) = explicit {
+        if explicit == 0 {
+            return Err("intent_finish_pull_request_conflict".into());
+        }
+        let mut historical = std::collections::BTreeSet::new();
+        for target in native.into_iter().chain(retained) {
+            if target == 0 {
+                return Err("intent_finish_pull_request_conflict".into());
+            }
+            if target != explicit {
+                historical.insert(target);
+            }
+        }
+        return Ok((Some(explicit), historical.into_iter().collect()));
+    }
+    if native.contains(&0) || native.len() > 1 {
         return Err("intent_finish_pull_request_conflict".into());
     }
-    Ok(selected)
+    let native = native.into_iter().next();
+    let selected = native.or(retained);
+    if retained.is_some() && retained != selected {
+        return Err("intent_finish_pull_request_conflict".into());
+    }
+    Ok((selected, Vec::new()))
 }
 
 fn native_request(
@@ -207,18 +222,32 @@ fn native_request(
     } else {
         None
     };
-    let native = publication_target(
-        &context.root,
-        &context.repository,
-        context.issue,
-        &context.branch,
-        &context.head,
-    )
+    if retained.is_some() && explicit.is_some() && retained != explicit {
+        return Err("intent_finish_pull_request_conflict".into());
+    }
+    let native = if explicit.is_some() {
+        crate::commands::remote::intent::publication_targets_for_finish(
+            &context.root,
+            &context.repository,
+            context.issue,
+            &context.branch,
+            &context.head,
+        )
+    } else {
+        publication_target(
+            &context.root,
+            &context.repository,
+            context.issue,
+            &context.branch,
+            &context.head,
+        )
+        .map(|target| target.into_iter().collect())
+    }
     .map_err(|finding| finding.code)?;
-    let pull_request = finish_target(native, explicit, retained)?;
+    let (pull_request, historical_pull_requests) = finish_target(native, explicit, retained)?;
     serde_json::from_value(
         json!({"repository":context.repository,"issue":context.issue,
-        "pull_request":pull_request,
+        "pull_request":pull_request,"historical_pull_requests":historical_pull_requests,
         "expected_head_sha":context.head,"mode":"closing","credential_names":["GITHUB_TOKEN"]}),
     )
     .map_err(|_| "intent_terminal_request_invalid".into())
@@ -1033,6 +1062,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 }
                 native.terminal_state = Some(TerminalStateWriteRequest {
                     repository_root: context.primary.clone(),
+                    reconciliation_checkout: Some(context.root.clone()),
                     state_path,
                     receipt_path: receipt_path.clone(),
                     expected_state_digest: file_digest(
@@ -1121,6 +1151,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             semantic.admit_before_effect(ticket.id())?;
             native.terminal_state = Some(TerminalStateWriteRequest {
                 repository_root: context.primary.clone(),
+                reconciliation_checkout: Some(context.root.clone()),
                 state_path,
                 receipt_path: receipt_path.clone(),
                 expected_state_digest: file_digest(
