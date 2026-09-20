@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1098,
+  "issue_padded": "1098",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1098",
+  "title": "[v0.92.2][C-SDLC v3][defect] Preserve staged cleanup evidence and reconcile publication retry outcomes",
+  "branch": "codex/1098-cleanup-index-and-retry-outcome-safety",
+  "version": "1.0.5",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1098-cleanup-index-and-retry-outcome-safety"
+}

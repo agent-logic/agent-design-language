@@ -1,0 +1,6 @@
+{
+  "schema": "csdlc.v3.binding.v1",
+  "issue": 1098,
+  "branch": "codex/1098-cleanup-index-and-retry-outcome-safety",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1098-cleanup-index-and-retry-outcome-safety"
+}

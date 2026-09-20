@@ -438,10 +438,9 @@ pub(crate) fn settled_issue_scoped_mutation_receipt(
     Ok(true)
 }
 
-/// Authenticate that the one allowed absence recovery was consumed for this
-/// exact retained mutation. This proves only that the historical effect did
-/// not occur; any replacement publication must establish its own authority.
-pub(crate) fn authenticated_absence_recovery(
+/// Authenticate a consumed retry with no retained completion receipt.
+/// This is eligibility for fresh readback, never proof that dispatch was absent.
+pub(super) fn unsettled_absence_recovery(
     repo_root: &Path,
     request: &GithubMutationRequest,
 ) -> Result<bool, RemoteRouteFinding> {
@@ -470,14 +469,18 @@ pub(crate) fn authenticated_absence_recovery(
                 "retained recovery receipt is not valid typed JSON",
             )
         })?;
-    Ok(recovery.schema == "csdlc.v3.github_mutation_recovery.v1"
+    let identity_matches = recovery.schema == "csdlc.v3.github_mutation_recovery.v1"
         && recovery.operation_digest == operation_digest
         && recovery.intent_digest == github_mutation_intent_digest(&intent)
         && recovery.recovery == GithubMutationRecovery::RetryAfterAuthenticatedAbsence
         && recovery.repository == request.repository
         && recovery.issue == request.issue
         && recovery.pull_request == request.pull_request
-        && recovery.expected_head_sha == request.expected_head_sha)
+        && recovery.expected_head_sha == request.expected_head_sha;
+    if !identity_matches || github_mutation_receipt_path(repo_root, &operation_digest)?.exists() {
+        return Ok(false);
+    }
+    Ok(true)
 }
 
 /// Read-only transition admission. Every retained remote intent must have its
