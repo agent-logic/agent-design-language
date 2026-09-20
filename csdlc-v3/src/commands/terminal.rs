@@ -16,6 +16,8 @@ pub const TERMINAL_ROUTE_NAMES: [&str; 3] = ["finish", "clean", "cutover"];
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct TerminalRouteRequest {
     pub repository: String,
+    #[serde(default)]
+    pub publication_repository: Option<String>,
     pub issue: u64,
     #[serde(default)]
     pub pull_request: Option<u64>,
@@ -98,6 +100,8 @@ pub struct CleanupRouteRequest {
 pub struct DurableTerminalReceipt {
     pub schema: String,
     pub repository: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub publication_repository: Option<String>,
     pub issue: u64,
     pub pull_request: Option<u64>,
     pub head_sha: String,
@@ -281,6 +285,10 @@ pub struct VerifiedTerminalReadback {
 }
 
 impl VerifiedTerminalReadback {
+    pub(crate) fn head_sha(&self) -> &str {
+        &self.head_sha
+    }
+
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn from_typed_adapter_receipt(
         producer: &str,
@@ -498,6 +506,11 @@ fn observe_historical_pull_requests(
     }
     let credential_name = single_credential_name(request)?;
     let selected = request.pull_request;
+    let publication_repository = request
+        .publication_repository
+        .as_deref()
+        .unwrap_or(&request.repository);
+    validate_repository_name(publication_repository)?;
     let mut observed = std::collections::BTreeSet::new();
     for pull_request in &request.historical_pull_requests {
         if *pull_request == 0 || Some(*pull_request) == selected || !observed.insert(*pull_request)
@@ -511,7 +524,7 @@ fn observe_historical_pull_requests(
             process,
             &credential_name,
             "pull-request",
-            &request.repository,
+            publication_repository,
             *pull_request,
         )?;
         let body = value["body"].as_str().unwrap_or_default();
@@ -521,6 +534,7 @@ fn observe_historical_pull_requests(
             || head.len() != 40
             || !head.bytes().all(|byte| byte.is_ascii_hexdigit())
             || body_has_relation(Some(body), "Closes", request.issue)
+            || body_has_qualified_relation(Some(body), "Closes", &request.repository, request.issue)
             || !(body_has_relation(Some(body), "Part of", request.issue)
                 || body_has_relation(Some(body), "Part-Of", request.issue))
         {
@@ -648,7 +662,7 @@ pub fn derive_finish_from_verified(
     }
 }
 
-fn observe_terminal_github_readback(
+pub(crate) fn observe_terminal_github_readback(
     request: &TerminalRouteRequest,
     process: &mut impl ProcessAdapter,
 ) -> Result<VerifiedTerminalReadback, TerminalFinding> {
@@ -660,11 +674,16 @@ fn observe_terminal_github_readback(
     })?;
     let credential_name = single_credential_name(request)?;
     validate_repository_name(&request.repository)?;
+    let publication_repository = request
+        .publication_repository
+        .as_deref()
+        .unwrap_or(&request.repository);
+    validate_repository_name(publication_repository)?;
     let pr_value = run_github_observation(
         process,
         &credential_name,
         "pull-request",
-        &request.repository,
+        publication_repository,
         pull_request,
     )?;
     let number = pr_value["number"].as_u64().ok_or_else(|| {
@@ -692,8 +711,9 @@ fn observe_terminal_github_readback(
         )
     })?;
     let body = pr_value["body"].as_str().unwrap_or_default();
-    let closes_issue =
-        body_has_relation(Some(body), "Closes", request.issue).then_some(request.issue);
+    let closes_issue = (body_has_relation(Some(body), "Closes", request.issue)
+        || body_has_qualified_relation(Some(body), "Closes", &request.repository, request.issue))
+    .then_some(request.issue);
     let part_of_issue = (body_has_relation(Some(body), "Part of", request.issue)
         || body_has_relation(Some(body), "Part-Of", request.issue))
     .then_some(request.issue);
@@ -834,6 +854,18 @@ fn validate_repository_name(repository: &str) -> Result<(), TerminalFinding> {
 
 fn body_has_relation(body: Option<&str>, verb: &str, issue: u64) -> bool {
     let prefix = format!("{verb} #{issue}");
+    body.unwrap_or_default()
+        .lines()
+        .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
+}
+
+fn body_has_qualified_relation(
+    body: Option<&str>,
+    verb: &str,
+    repository: &str,
+    issue: u64,
+) -> bool {
+    let prefix = format!("{verb} {repository}#{issue}");
     body.unwrap_or_default()
         .lines()
         .any(|line| has_issue_relation_prefix(line.trim_start(), &prefix))
@@ -1175,6 +1207,9 @@ fn persist_terminal_finish(
         "head_sha": head_sha,
         "disposition": "closed_out"
     });
+    if let Some(repository) = &request.publication_repository {
+        state["publication_repository"] = serde_json::Value::String(repository.clone());
+    }
     if let Some(closeout) = &no_pr_closeout {
         state["no_pr_closeout"] = serde_json::to_value(closeout)
             .map_err(|e| finding("terminal_state_serialize_failed", &e.to_string()))?;
@@ -1196,6 +1231,7 @@ fn persist_terminal_finish(
     let receipt = DurableTerminalReceipt {
         schema: "csdlc.v3.terminal_receipt.v1".into(),
         repository: request.repository.clone(),
+        publication_repository: request.publication_repository.clone(),
         issue,
         pull_request,
         no_pr_closeout,
@@ -1337,9 +1373,11 @@ fn verify_terminal_receipt(
     })?;
     if receipt.schema != "csdlc.v3.terminal_receipt.v1"
         || receipt.repository != terminal_request.repository
+        || receipt.publication_repository != terminal_request.publication_repository
         || receipt.issue != terminal_request.issue
         || receipt.pull_request != terminal_request.pull_request
-        || Some(receipt.head_sha.as_str()) != terminal_request.expected_head_sha.as_deref()
+        || (receipt.publication_repository.is_none()
+            && Some(receipt.head_sha.as_str()) != terminal_request.expected_head_sha.as_deref())
         || receipt.disposition != "closed_out"
         || receipt.no_pr_closeout != terminal_request.no_pr_closeout
     {
@@ -3004,6 +3042,7 @@ mod tests {
     fn base_request() -> TerminalRouteRequest {
         TerminalRouteRequest {
             repository: "agent-logic/agent-design-language".into(),
+            publication_repository: None,
             issue: 630,
             pull_request: Some(641),
             historical_pull_requests: vec![],

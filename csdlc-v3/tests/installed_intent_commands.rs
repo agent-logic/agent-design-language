@@ -348,6 +348,98 @@ fn issue_1092_installed_prepare_authenticates_retained_pr_create_receipt() {
     }
 }
 
+// PVF #1092: terminal reconciliation from the primary checkout adopts the
+// exact head and PR identity from a completed native PR-create receipt. The
+// current main checkout must not be mistaken for the historical candidate.
+#[test]
+fn issue_1092_installed_finish_adopts_settled_legacy_publication_identity() {
+    let mut fixture = Fixture::new("legacy-finish-settled-publication-identity");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    fs::write(
+        bound.join("historical-candidate.txt"),
+        "historical candidate\n",
+    )
+    .unwrap();
+    git(&bound, &["add", "historical-candidate.txt"]);
+    git(&bound, &["commit", "--quiet", "-m", "historical candidate"]);
+    let historical_head = git(&bound, &["rev-parse", "HEAD"]);
+    assert_ne!(historical_head, git(&primary, &["rev-parse", "HEAD"]));
+    add_retained_pull_request_create_completion(&primary, &bound, |_| {});
+    fixture.enable_pr_transport(&bound);
+    fs::write(bound.join("final-candidate.txt"), "final candidate\n").unwrap();
+    git(&bound, &["add", "final-candidate.txt"]);
+    git(&bound, &["commit", "--quiet", "-m", "final candidate"]);
+    let final_head = git(&bound, &["rev-parse", "HEAD"]);
+    assert_ne!(historical_head, final_head);
+
+    fs::write(
+        primary.join(".git/installed-candidate/remote-pr-638.json"),
+        serde_json::to_vec(&json!({
+            "number":638,"head":{"sha":final_head},"merged":true,"state":"closed",
+            "body":"Closes #505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let issue_path = primary.join(".git/installed-candidate/remote-issue.json");
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+
+    let finished = success(fixture.run(&primary, &["finish", "505"]));
+    assert_eq!(finished["status"], "completed");
+    assert_eq!(finished["compatibility"], "legacy_merged_publication");
+    let receipt: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(receipt["pull_request"], 638);
+    assert_eq!(receipt["head_sha"], final_head);
+    assert_eq!(fixture.remote_effects(), 0);
+
+    let state_path = primary.join(".git/csdlc-v3/local/v3/issues/505/terminal.json");
+    fs::remove_file(&state_path).unwrap();
+    let repaired = success(fixture.run(&primary, &["finish", "505"]));
+    assert_eq!(repaired["status"], "completed");
+    assert_eq!(repaired["compatibility"], "legacy_merged_publication");
+    assert!(state_path.is_file());
+}
+
+#[test]
+fn issue_1092_installed_finish_accepts_explicit_authenticated_legacy_target() {
+    let mut fixture = Fixture::new("legacy-finish-explicit-authenticated-target");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    fixture.enable_pr_transport(&bound);
+    let head = git(&bound, &["rev-parse", "HEAD"]);
+    fs::write(
+        primary.join(".git/installed-candidate/remote-pr-638.json"),
+        serde_json::to_vec(&json!({
+            "number":638,"head":{"sha":head},"merged":true,"state":"closed",
+            "body":"Closes #505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let issue_path = primary.join(".git/installed-candidate/remote-issue.json");
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+
+    let finished = success(fixture.run(&primary, &["finish", "505", "--pull-request", "638"]));
+    assert_eq!(finished["status"], "completed");
+    assert_eq!(finished["compatibility"], "legacy_merged_publication");
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
 #[test]
 fn issue_1036_fast_forward_candidate_head_admits_edit_and_proof() {
     let mut fixture = Fixture::new("bound-legacy-fast-forward-head");

@@ -24,6 +24,7 @@ use std::os::unix::fs::PermissionsExt;
 fn base_request() -> TerminalRouteRequest {
     TerminalRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
+        publication_repository: None,
         issue: 630,
         pull_request: Some(641),
         historical_pull_requests: vec![],
@@ -1006,6 +1007,7 @@ fn write_terminal_receipt_at(
     let receipt = DurableTerminalReceipt {
         schema: "csdlc.v3.terminal_receipt.v1".into(),
         repository: "agent-logic/agent-design-language".into(),
+        publication_repository: None,
         issue,
         pull_request: Some(pull_request),
         no_pr_closeout: None,

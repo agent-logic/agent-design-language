@@ -459,6 +459,7 @@ fn merge_result_is_consumed_by_existing_finish_observation_without_mutation() {
     let identity = result.reconciliation.merge.unwrap();
     let request = TerminalRouteRequest {
         repository: identity.repository.clone(),
+        publication_repository: None,
         issue: r.issue,
         pull_request: Some(identity.pull_request),
         historical_pull_requests: vec![],

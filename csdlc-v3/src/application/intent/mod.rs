@@ -111,6 +111,7 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
     let mut issue = None;
     let mut content = Value::Null;
     let mut explicit_pull_request = None;
+    let mut publication_repository = None;
     let mut execute = false;
     let mut preview = None;
     let mut advanced = None;
@@ -135,6 +136,10 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
                     return Err("intent_finish_pull_request_invalid".into());
                 }
                 explicit_pull_request = Some(number);
+            }
+            "--publication-repository" if command == "finish" => {
+                publication_repository =
+                    Some(iter.next().ok_or("intent_argument_value_missing")?.clone());
             }
             "--repo-root" => {
                 root = PathBuf::from(iter.next().ok_or("intent_argument_value_missing")?)
@@ -191,7 +196,10 @@ pub fn run(command: &str, args: &[String]) -> Result<Value, String> {
         if !content.is_null() {
             return Err("intent_finish_mixed_disposition".into());
         }
-        content = serde_json::json!({"pull_request": number});
+        content = serde_json::json!({"pull_request": number,
+            "publication_repository":publication_repository});
+    } else if publication_repository.is_some() {
+        return Err("intent_finish_publication_repository_requires_pull_request".into());
     }
     if advanced.is_some() && (issue.is_some() || !content.is_null() || execute || preview.is_some())
     {

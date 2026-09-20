@@ -468,6 +468,15 @@ impl Context {
         ))
     }
 
+    pub(crate) fn semantic_terminal_compatibility_required(&self) -> Result<bool, String> {
+        self.fresh_integrity()?;
+        let (root, key) = self.semantic_root_key()?;
+        Ok(matches!(
+            DurableTransactionStore::observe_issue(&root, &key).map_err(semantic_error)?,
+            Observation::LegacyMigrationRequired | Observation::Absent
+        ))
+    }
+
     pub(crate) fn semantic_authority(&self) -> Result<SemanticDigest, String> {
         // canonical_v3_authority was established by Context::load. Hash the exact
         // selected bytes into the semantic domain instead of reusing a differently
