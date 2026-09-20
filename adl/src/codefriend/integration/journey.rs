@@ -1176,17 +1176,15 @@ pub(crate) fn resume_with_baseline(
     }
     let owned_drift =
         owned_baseline::validate_saved(&source, &output, &store, binding.deadline, baseline)?;
-    if manifest.stages["drift"].status == StageStatus::Complete {
-        if !owned_drift {
-            let step: Continuation = read_typed(&output.join("intent-drift.json"))?;
-            let Continuation::Drift { baseline_root, .. } = step else {
-                anyhow::bail!("journey_drift_intent_missing")
-            };
-            source.check(&baseline_root)?;
-            let backend = AdmittedBaselines::open(&store, &baseline_root, false)?;
-            let value: drift::DriftReport = read_typed(&output.join("drift.json"))?;
-            value.validate(&store, &backend)?;
-        }
+    if manifest.stages["drift"].status == StageStatus::Complete && !owned_drift {
+        let step: Continuation = read_typed(&output.join("intent-drift.json"))?;
+        let Continuation::Drift { baseline_root, .. } = step else {
+            anyhow::bail!("journey_drift_intent_missing")
+        };
+        source.check(&baseline_root)?;
+        let backend = AdmittedBaselines::open(&store, &baseline_root, false)?;
+        let value: drift::DriftReport = read_typed(&output.join("drift.json"))?;
+        value.validate(&store, &backend)?;
     }
     if manifest.stages["palace_comparison"].status == StageStatus::Complete {
         let step: Continuation = read_typed(&output.join("intent-palace_comparison.json"))?;
