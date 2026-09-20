@@ -158,6 +158,89 @@ fn noncargo_validator_edit_retains_execution_refusal() {
     );
 }
 
+// #1094 PVF: authentic retained prepared inputs, copied into an isolated repo.
+// Admission must preserve the historical source and reject stale replay/proof.
+#[test]
+fn noncargo_authentic_prepared_record_preserves_source_and_guards() {
+    let (mut fixture, _linked, retained, original) =
+        converted_authentic_fixture("1094-authentic-noncargo");
+    let primary = fixture.root.clone();
+    let script = primary.join(".git/installed-candidate/fake-bin/curl");
+    let transport = fs::read_to_string(&script).unwrap();
+    fs::write(
+        &script,
+        transport
+            .replace("/issues/505", "/issues/511")
+            .replace("\"number\":505", "\"number\":511")
+            .replace(
+                "Installed intent fixture",
+                "[v0.92.1][OBS-A] Observatory experience design",
+            ),
+    )
+    .unwrap();
+    success(fixture.run(&primary, &["bind", "511"]));
+    let binding: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/bindings/511.json")).unwrap(),
+    )
+    .unwrap();
+    let bound = std::path::PathBuf::from(binding["worktree"].as_str().unwrap());
+    let changes = fixture.write_json(
+        "authentic-noncargo.json",
+        &json!({
+        "schema":"csdlc.v3.intent_changes.v1", "validators":[{
+            "id":"review","program":"manual-review","args":["observatory-design"],
+            "success_marker":"accepted independent evidence"}]}),
+    );
+    let emitted = success(fixture.run(
+        &bound,
+        &[
+            "edit",
+            "511",
+            "--changes",
+            changes.to_str().unwrap(),
+            "--emit-request",
+        ],
+    ));
+    let request = fixture.write_json("authentic-edit-request.json", &emitted["request"]);
+    success(fixture.run(
+        &bound,
+        &["edit", "--intent-request", request.to_str().unwrap()],
+    ));
+    success(fixture.run(&bound, &["validate", "511"]));
+    assert_same_inventory!(original, intent_fixture::inventory(&retained));
+    let before = publication_reservation_inventory(&primary);
+    let stale = fixture.run(
+        &bound,
+        &["edit", "--intent-request", request.to_str().unwrap()],
+    );
+    assert!(
+        !stale.status.success(),
+        "stale declaration edit was admitted"
+    );
+    assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    let invalid = fixture.write_json(
+        "authentic-invalid.json",
+        &json!({
+        "schema":"csdlc.v3.intent_changes.v1", "validators":[{
+            "id":"review","program":"sh","args":["-c","true"],"success_marker":"pass"}]}),
+    );
+    let before = publication_reservation_inventory(&primary);
+    assert!(!fixture
+        .run(
+            &bound,
+            &["edit", "511", "--changes", invalid.to_str().unwrap()]
+        )
+        .status
+        .success());
+    let refused = fixture.run(&bound, &["proof", "511"]);
+    assert!(!refused.status.success());
+    assert!(
+        String::from_utf8_lossy(&refused.stdout).contains("intent_validator_execution_unsupported")
+    );
+    assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    assert_same_inventory!(original, intent_fixture::inventory(&retained));
+}
+
 fn rehash_native_issue(issue_root: &Path) {
     let index_path = issue_root.join("index.json");
     let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
