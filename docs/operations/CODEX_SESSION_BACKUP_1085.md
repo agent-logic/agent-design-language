@@ -62,8 +62,8 @@ AWS profile from that handoff. The retained verifier currently requires an
 Apple Silicon macOS host with AWS CLI, Python 3 and `zstd` installed at
 `/opt/homebrew/bin/zstd`; it has not been qualified as a portable Linux or
 Intel-macOS tool. Use a new private directory on that supported host. Set the
-three variables below to the supplied values; no credentials belong in the
-command or repository.
+variables below to the supplied values; no credentials belong in the command
+or repository.
 
 ```sh
 export CODEX_BACKUP_BUCKET='REPLACE_WITH_PRIVATE_BUCKET'
