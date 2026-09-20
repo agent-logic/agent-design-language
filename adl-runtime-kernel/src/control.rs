@@ -205,6 +205,16 @@ pub struct AgentAdmissionResponse {
     pub greeting_disposition: Option<String>,
 }
 
+pub const AGENT_IDENTITY_MIGRATION_SCHEMA: &str = "adl.runtime_v3.agent_identity_migration.v1";
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AgentIdentityMigrationRequest {
+    pub schema: String,
+    pub previous_name: String,
+    pub declaration: AgentAdmissionRequest,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 struct DynamicAgentStore {
     schema: String,
@@ -4030,7 +4040,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
         };
         let usage = accounting.begin(&binding.provider, &binding.model, &prompt);
-        let message = match crate::provider_registry::complete(
+        let completion = match crate::provider_registry::complete_with_metadata(
             Arc::clone(&self.recorder.providers),
             provider_binding(binding),
             prompt,
@@ -4038,12 +4048,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         )
         .await
         {
-            Ok(message) => message,
+            Ok(completion) => completion,
             Err(error) => {
                 usage.failure(error.code());
                 return Err(error.code());
             }
         };
+        let message = completion.output.clone();
         let output = normalize_registered_conversation(message.clone()).inspect_err(|error| {
             usage.failure(error);
             self.recorder
@@ -4057,7 +4068,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .record_response_failure(&binding.provider);
             return Err("agent_result_continuation_invalid");
         }
-        usage.success(&message);
+        usage.success_with_metadata(&message, Some(&completion.metadata));
         Ok(output.message)
     }
 
@@ -5031,6 +5042,35 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         request: AgentAdmissionRequest,
     ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
+        self.admit_agent_inner(request, None).await
+    }
+
+    async fn migrate_agent_identity(
+        &self,
+        agent_id: &str,
+        request: AgentIdentityMigrationRequest,
+    ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
+        if request.schema != AGENT_IDENTITY_MIGRATION_SCHEMA
+            || request.declaration.id != agent_id
+            || request.previous_name == request.declaration.name
+            || !is_canonical_agent_name(&request.previous_name)
+        {
+            return Err(AgentAdmissionFailure::Invalid(
+                "invalid_agent_identity_migration",
+            ));
+        }
+        let mut response = self
+            .admit_agent_inner(request.declaration, Some(&request.previous_name))
+            .await?;
+        response.status = "identity_migrated".to_owned();
+        Ok(response)
+    }
+
+    async fn admit_agent_inner(
+        &self,
+        request: AgentAdmissionRequest,
+        expected_previous_name: Option<&str>,
+    ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
         validate_agent_admission(&request)
             .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
         let (provider_projection, _transaction) = {
@@ -5095,7 +5135,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .any(|agent| agent.id == request.id && agent != &request);
         let is_new = match agents.iter().find(|agent| agent.id == request.id) {
             Some(existing) if existing == &request => false,
-            Some(existing) if existing.name == request.name => {
+            Some(existing)
+                if match expected_previous_name {
+                    Some(previous) => existing.name == previous,
+                    None => existing.name == request.name,
+                } =>
+            {
                 let slot = agents
                     .iter_mut()
                     .find(|agent| agent.id == request.id)
@@ -5104,6 +5149,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 true
             }
             Some(_) => return Err(AgentAdmissionFailure::Conflict("agent_id_conflict")),
+            None if expected_previous_name.is_some() => {
+                return Err(AgentAdmissionFailure::Conflict("agent_not_found"));
+            }
             None => {
                 agents.push(request.clone());
                 agents.sort_by(|left, right| left.id.cmp(&right.id));
@@ -6543,6 +6591,10 @@ where
             post(agent_checkpoint_handler::<C>).options(control_preflight_handler::<C>),
         )
         .route(
+            "/v1/agents/{agent_id}/identity",
+            post(agent_identity_migration_handler::<C>).options(control_preflight_handler::<C>),
+        )
+        .route(
             "/v1/agents/{agent_id}/dehydrate",
             post(agent_dehydrate_handler::<C>).options(control_preflight_handler::<C>),
         )
@@ -6765,6 +6817,21 @@ async fn agent_checkpoint_handler<C: LifecycleControl + 'static>(
     }
     match service.checkpoint_agent(&agent_id) {
         Ok(checkpoint) => Json(checkpoint).into_response(),
+        Err(error) => agent_failure_response(error),
+    }
+}
+
+async fn agent_identity_migration_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    AxumPath(agent_id): AxumPath<String>,
+    headers: HeaderMap,
+    Json(request): Json<AgentIdentityMigrationRequest>,
+) -> Response {
+    if !agent_write_authorized(&service, &headers) {
+        return StatusCode::UNAUTHORIZED.into_response();
+    }
+    match service.migrate_agent_identity(&agent_id, request).await {
+        Ok(response) => (StatusCode::OK, Json(response)).into_response(),
         Err(error) => agent_failure_response(error),
     }
 }
@@ -12912,6 +12979,106 @@ mod agent_lifecycle {
         tampered.bundle_digest = freeze_dried_agent_digest(&tampered).unwrap();
         assert!(destination.rehydrate_agent(tampered).await.is_err());
         assert!(destination.remove_agent("shepherd").is_err());
+        ollama_task.abort();
+    }
+
+    #[tokio::test]
+    async fn explicit_identity_migration_preserves_continuity_and_binding_independence() {
+        let fixture_root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/tmp");
+        fs::create_dir_all(&fixture_root).expect("create repository-local fixture root");
+        let root = tempfile::tempdir_in(fixture_root).expect("temp root");
+        let (endpoint, ollama_task) = ollama().await;
+        let service = service(root.path().join("dynamic-agent-admissions.json"));
+        let original = declaration(endpoint.clone());
+        let admitted = service
+            .admit_agent(original.clone())
+            .await
+            .expect("admit legacy identity");
+        let greeting_key = admitted
+            .greeting_idempotency_key
+            .clone()
+            .expect("durable welcome key");
+        service
+            .restore_conversation_history(&original.id, &restored_history(1))
+            .expect("seed continuity history");
+
+        let mut migrated = original.clone();
+        migrated.name = "harbor.axioma".to_owned();
+        migrated.display_name = "Harbor Axioma".to_owned();
+        assert!(matches!(
+            service
+                .migrate_agent_identity(
+                    &original.id,
+                    AgentIdentityMigrationRequest {
+                        schema: AGENT_IDENTITY_MIGRATION_SCHEMA.to_owned(),
+                        previous_name: "wrong.axioma".to_owned(),
+                        declaration: migrated.clone(),
+                    },
+                )
+                .await,
+            Err(AgentAdmissionFailure::Conflict("agent_id_conflict"))
+        ));
+        let mut absent = migrated.clone();
+        absent.id = "missing-legacy-agent".to_owned();
+        assert!(matches!(
+            service
+                .migrate_agent_identity(
+                    &absent.id,
+                    AgentIdentityMigrationRequest {
+                        schema: AGENT_IDENTITY_MIGRATION_SCHEMA.to_owned(),
+                        previous_name: original.name.clone(),
+                        declaration: absent.clone(),
+                    },
+                )
+                .await,
+            Err(AgentAdmissionFailure::Conflict("agent_not_found"))
+        ));
+        assert!(service
+            .dynamic_agents
+            .lock()
+            .unwrap()
+            .iter()
+            .all(|agent| agent.id != absent.id));
+        let response = service
+            .migrate_agent_identity(
+                &original.id,
+                AgentIdentityMigrationRequest {
+                    schema: AGENT_IDENTITY_MIGRATION_SCHEMA.to_owned(),
+                    previous_name: original.name.clone(),
+                    declaration: migrated.clone(),
+                },
+            )
+            .await
+            .expect("explicit identity migration");
+
+        assert_eq!(response.status, "identity_migrated");
+        assert_eq!(
+            response.greeting_idempotency_key.as_deref(),
+            Some(greeting_key.as_str())
+        );
+        assert_eq!(
+            service
+                .dynamic_agents
+                .lock()
+                .unwrap()
+                .iter()
+                .find(|agent| agent.id == original.id)
+                .map(|agent| agent.name.as_str()),
+            Some("harbor.axioma")
+        );
+        let history = service.agent_conversation_checkpoint(&original.id).unwrap();
+        assert_eq!(
+            history.len(),
+            1,
+            "conversation continuity must survive rename"
+        );
+
+        let mut unauthorized_rename = migrated;
+        unauthorized_rename.name = "another.axioma".to_owned();
+        assert!(matches!(
+            service.admit_agent(unauthorized_rename).await,
+            Err(AgentAdmissionFailure::Conflict("agent_id_conflict"))
+        ));
         ollama_task.abort();
     }
 

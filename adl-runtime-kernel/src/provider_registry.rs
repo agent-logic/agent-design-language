@@ -31,6 +31,16 @@ pub async fn complete(
     prompt: String,
     cancellation: &CancellationToken,
 ) -> Result<String, ProviderFailure> {
+    complete_with_metadata(registry, binding, prompt, cancellation)
+        .await
+        .map(|completion| completion.output)
+}
+pub async fn complete_with_metadata(
+    registry: Arc<ProviderRegistry>,
+    binding: ProviderBinding,
+    prompt: String,
+    cancellation: &CancellationToken,
+) -> Result<adl_provider_core::provider::ProviderCompletion, ProviderFailure> {
     let semaphore = calls();
     let permit = tokio::select! {
         _=cancellation.cancelled()=>return Err(ProviderFailure::Cancelled),
@@ -47,26 +57,29 @@ pub async fn complete(
         if cancel.is_cancelled() {
             return Err(ProviderFailure::Cancelled);
         }
-        let out = prepared.executor.complete(&prompt).map_err(|error| {
-            if let Some(failure) = error.downcast_ref::<ProviderFailure>() {
-                *failure
-            } else {
-                match adl_provider_core::failure_category(&error) {
-                    "credentials" => ProviderFailure::Credentials,
-                    "quota" => ProviderFailure::Quota,
-                    "unsupported_capability" => ProviderFailure::UnsupportedCapability,
-                    "model_unavailable" => ProviderFailure::ModelUnavailable,
-                    "timeout" => ProviderFailure::Timeout,
-                    "invalid_response" => ProviderFailure::InvalidResponse,
-                    "invalid_configuration" => ProviderFailure::InvalidConfiguration,
-                    _ => ProviderFailure::Transport,
+        let completion = prepared
+            .executor
+            .complete_with_metadata(&prompt)
+            .map_err(|error| {
+                if let Some(failure) = error.downcast_ref::<ProviderFailure>() {
+                    *failure
+                } else {
+                    match adl_provider_core::failure_category(&error) {
+                        "credentials" => ProviderFailure::Credentials,
+                        "quota" => ProviderFailure::Quota,
+                        "unsupported_capability" => ProviderFailure::UnsupportedCapability,
+                        "model_unavailable" => ProviderFailure::ModelUnavailable,
+                        "timeout" => ProviderFailure::Timeout,
+                        "invalid_response" => ProviderFailure::InvalidResponse,
+                        "invalid_configuration" => ProviderFailure::InvalidConfiguration,
+                        _ => ProviderFailure::Transport,
+                    }
                 }
-            }
-        })?;
-        if out.trim().is_empty() || out.len() > 4_194_304 {
+            })?;
+        if completion.output.trim().is_empty() || completion.output.len() > 4_194_304 {
             return Err(ProviderFailure::InvalidResponse);
         }
-        Ok(out)
+        Ok(completion)
     });
     tokio::select! {
         _=cancellation.cancelled()=>Err(ProviderFailure::Cancelled),

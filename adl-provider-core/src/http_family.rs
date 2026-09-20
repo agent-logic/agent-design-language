@@ -286,6 +286,10 @@ struct BedrockInvocationRecord<'a> {
     region: &'a str,
     account_id_sha256: Option<&'a str>,
     account_profile_validation_status: &'a str,
+    stop_reason: Option<&'a str>,
+    input_tokens: Option<i32>,
+    output_tokens: Option<i32>,
+    total_tokens: Option<i32>,
 }
 
 fn write_bedrock_invocation_record(record: BedrockInvocationRecord<'_>) -> Result<()> {
@@ -351,7 +355,11 @@ fn write_bedrock_invocation_record(record: BedrockInvocationRecord<'_>) -> Resul
         "aws_profile": record.profile,
         "aws_region": record.region,
         "account_id_sha256": record.account_id_sha256,
-        "account_profile_validation_status": record.account_profile_validation_status
+        "account_profile_validation_status": record.account_profile_validation_status,
+        "stop_reason": record.stop_reason,
+        "input_tokens": record.input_tokens,
+        "output_tokens": record.output_tokens,
+        "total_tokens": record.total_tokens
     }));
     let bytes = serde_json::to_vec_pretty(&payload).map_err(|err| {
         runtime_error_non_retryable(
@@ -488,27 +496,6 @@ fn extract_gemini_output_text(json: &Value) -> Option<String> {
         return serde_json::to_string(&envelope).ok();
     }
     let joined = text_chunks.join("\n").trim().to_string();
-    (!joined.is_empty()).then_some(joined)
-}
-
-fn extract_bedrock_nova_output_text(json: &Value) -> Option<String> {
-    let mut chunks = Vec::new();
-    if let Some(content) = json
-        .pointer("/output/message/content")
-        .and_then(|v| v.as_array())
-    {
-        for part in content {
-            if let Some(text) = part.get("text").and_then(|v| v.as_str()) {
-                chunks.push(text);
-            }
-        }
-    }
-    if chunks.is_empty() {
-        if let Some(text) = json.get("outputText").and_then(|v| v.as_str()) {
-            chunks.push(text);
-        }
-    }
-    let joined = chunks.join("\n").trim().to_string();
     (!joined.is_empty()).then_some(joined)
 }
 
@@ -962,9 +949,40 @@ impl Provider for OpenRouterProvider {
 const DEFAULT_BEDROCK_PROFILE: &str = "agent-logic-admin";
 const DEFAULT_BEDROCK_REGION: &str = "us-west-2";
 const BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV: &str = "ADL_AWS_BEDROCK_ACCOUNT_SHA256";
+const MAX_BEDROCK_RESPONSE_BYTES: usize = 4 * 1024 * 1024;
+
+#[derive(Debug)]
+struct BoundedBedrockResponse;
+
+impl aws_smithy_runtime_api::client::interceptors::Intercept for BoundedBedrockResponse {
+    fn name(&self) -> &'static str {
+        "BoundedBedrockResponse"
+    }
+
+    fn modify_before_deserialization(
+        &self,
+        context: &mut aws_smithy_runtime_api::client::interceptors::context::BeforeDeserializationInterceptorContextMut<'_>,
+        _: &aws_smithy_runtime_api::client::runtime_components::RuntimeComponents,
+        _: &mut aws_smithy_types::config_bag::ConfigBag,
+    ) -> Result<(), aws_smithy_runtime_api::box_error::BoxError> {
+        let response = context.response_mut();
+        let body = std::mem::replace(
+            response.body_mut(),
+            aws_smithy_types::body::SdkBody::taken(),
+        );
+        *response.body_mut() = aws_smithy_types::body::SdkBody::from_body_1_x(
+            http_body_util::Limited::new(body, MAX_BEDROCK_RESPONSE_BYTES),
+        );
+        Ok(())
+    }
+}
+
+fn bounded_bedrock_client(builder: bedrockruntime::config::Builder) -> bedrockruntime::Client {
+    bedrockruntime::Client::from_conf(builder.interceptor(BoundedBedrockResponse).build())
+}
 
 #[derive(Debug, Clone)]
-/// AWS Bedrock native provider using Bedrock Runtime InvokeModel.
+/// AWS Bedrock native provider using the provider-neutral Bedrock Converse API.
 pub struct AwsBedrockProvider {
     runtime_bounded: bool,
     model: String,
@@ -1047,7 +1065,7 @@ impl AwsBedrockProvider {
         })
     }
 
-    async fn complete_async(&self, prompt: &str) -> Result<String> {
+    async fn complete_async(&self, prompt: &str) -> Result<ProviderCompletion> {
         let region_provider =
             RegionProviderChain::first_try(Some(aws_config::Region::new(self.region.clone())));
         let mut timeout_config = aws_config::timeout::TimeoutConfig::builder()
@@ -1083,34 +1101,23 @@ impl AwsBedrockProvider {
             account_id_sha256.as_deref(),
             self.expected_account_sha256.as_deref(),
         )?;
-        let body = bedrock_nova_request_body_with_sampling(
-            prompt,
-            self.max_tokens,
-            self.temperature,
-            self.top_p,
-        );
-        let response = bedrockruntime::Client::new(&shared_config)
-            .invoke_model()
-            .model_id(&self.model)
-            .content_type("application/json")
-            .accept("application/json")
-            .body(bedrockruntime::primitives::Blob::new(
-                serde_json::to_vec(&body).map_err(|err| {
-                    runtime_error_non_retryable(
-                        "bedrock",
-                        format!("failed to serialize Bedrock request: {err}"),
-                    )
-                })?,
-            ))
-            .send()
-            .await
-            .map_err(|err| bedrock_sdk_error(format!("{err:?}")))?;
-        let json: Value = serde_json::from_slice(response.body().as_ref()).map_err(|err| {
-            runtime_error_non_retryable("bedrock", format!("invalid Bedrock JSON: {err}"))
+        let message = bedrock_converse_message(prompt)?;
+        let inference_config =
+            bedrock_converse_inference_config(self.max_tokens, self.temperature, self.top_p)?;
+        let response =
+            bounded_bedrock_client(bedrockruntime::config::Builder::from(&shared_config))
+                .converse()
+                .model_id(&self.model)
+                .messages(message)
+                .inference_config(inference_config)
+                .send()
+                .await
+                .map_err(|err| bedrock_sdk_error(format!("{err:?}")))?;
+        let output = extract_bedrock_converse_output_text(response.output()).ok_or_else(|| {
+            runtime_error_non_retryable("bedrock", "Converse response missing text output")
         })?;
-        let output = extract_bedrock_nova_output_text(&json).ok_or_else(|| {
-            runtime_error_non_retryable("bedrock", "response missing Bedrock output text")
-        })?;
+        let usage = response.usage();
+        let metadata = bedrock_completion_metadata(response.stop_reason().as_str(), usage);
         write_bedrock_invocation_record(BedrockInvocationRecord {
             model: &self.model,
             prompt,
@@ -1120,8 +1127,24 @@ impl AwsBedrockProvider {
             region: &self.region,
             account_id_sha256: account_id_sha256.as_deref(),
             account_profile_validation_status: "account_hash_verified",
+            stop_reason: Some(response.stop_reason().as_str()),
+            input_tokens: usage.map(|value| value.input_tokens()),
+            output_tokens: usage.map(|value| value.output_tokens()),
+            total_tokens: usage.map(|value| value.total_tokens()),
         })?;
-        Ok(output)
+        Ok(ProviderCompletion { output, metadata })
+    }
+}
+
+fn bedrock_completion_metadata(
+    finish_reason: &str,
+    usage: Option<&bedrockruntime::types::TokenUsage>,
+) -> ProviderCompletionMetadata {
+    ProviderCompletionMetadata {
+        finish_reason: Some(finish_reason.to_owned()),
+        input_tokens: usage.and_then(|value| value.input_tokens().try_into().ok()),
+        output_tokens: usage.and_then(|value| value.output_tokens().try_into().ok()),
+        total_tokens: usage.and_then(|value| value.total_tokens().try_into().ok()),
     }
 }
 
@@ -1212,6 +1235,10 @@ fn verify_bedrock_account_identity(
 
 impl Provider for AwsBedrockProvider {
     fn complete(&self, prompt: &str) -> Result<String> {
+        Ok(self.complete_with_metadata(prompt)?.output)
+    }
+
+    fn complete_with_metadata(&self, prompt: &str) -> Result<ProviderCompletion> {
         tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()
@@ -1790,49 +1817,97 @@ fn cfg_string(cfg: &HashMap<String, Value>, key: &str) -> Option<String> {
         .map(ToString::to_string)
 }
 
-#[cfg(test)]
-fn bedrock_nova_request_body(prompt: &str, max_tokens: u64) -> Value {
-    bedrock_nova_request_body_with_sampling(prompt, max_tokens, None, None)
+fn bedrock_converse_message(prompt: &str) -> Result<bedrockruntime::types::Message> {
+    bedrockruntime::types::Message::builder()
+        .role(bedrockruntime::types::ConversationRole::User)
+        .content(bedrockruntime::types::ContentBlock::Text(prompt.to_owned()))
+        .build()
+        .map_err(|err| {
+            runtime_error_non_retryable(
+                "bedrock",
+                format!("failed to build Bedrock Converse message: {err}"),
+            )
+        })
 }
 
-fn bedrock_nova_request_body_with_sampling(
-    prompt: &str,
+fn bedrock_converse_inference_config(
     max_tokens: u64,
     temperature: Option<f64>,
     top_p: Option<f64>,
-) -> Value {
-    let mut body = serde_json::json!({
-        "schemaVersion": "messages-v1",
-        "messages": [{
-            "role": "user",
-            "content": [{"text": prompt}],
-        }],
-        "inferenceConfig": {
-            "maxTokens": max_tokens,
-        },
-    });
+) -> Result<bedrockruntime::types::InferenceConfiguration> {
+    let max_tokens = i32::try_from(max_tokens).map_err(|_| {
+        invalid_config(
+            "bedrock",
+            "max_output_tokens exceeds the Bedrock Converse i32 limit",
+        )
+    })?;
+    let mut builder =
+        bedrockruntime::types::InferenceConfiguration::builder().max_tokens(max_tokens);
     if let Some(value) = temperature {
-        body["inferenceConfig"]["temperature"] = value.into();
+        builder = builder.temperature(value as f32);
     }
     if let Some(value) = top_p {
-        body["inferenceConfig"]["topP"] = value.into();
+        builder = builder.top_p(value as f32);
     }
-    body
+    Ok(builder.build())
+}
+
+fn extract_bedrock_converse_output_text(
+    output: Option<&bedrockruntime::types::ConverseOutput>,
+) -> Option<String> {
+    let message = output?.as_message().ok()?;
+    let joined = message
+        .content()
+        .iter()
+        .filter_map(|block| block.as_text().ok())
+        .map(String::as_str)
+        .collect::<Vec<_>>()
+        .join("\n")
+        .trim()
+        .to_string();
+    (!joined.is_empty()).then_some(joined)
 }
 
 fn bedrock_sdk_error(message: String) -> anyhow::Error {
     let sanitized = sanitize_bedrock_error(&message);
+    let lower = sanitized.to_ascii_lowercase();
     let retryable = sanitized.contains("Throttling")
         || sanitized.contains("TooManyRequests")
         || sanitized.contains("timeout")
         || sanitized.contains("Timeout")
         || sanitized.contains("ServiceUnavailable")
         || sanitized.contains("InternalServer");
-    if retryable {
-        runtime_error("bedrock", sanitized)
+    let mut error = if lower.contains("timeout") {
+        ProviderError::timeout("bedrock", sanitized)
+    } else if retryable {
+        ProviderError::runtime("bedrock", sanitized)
     } else {
-        runtime_error_non_retryable("bedrock", sanitized)
-    }
+        ProviderError::runtime_non_retryable("bedrock", sanitized)
+    };
+    error.category = if lower.contains("accessdenied")
+        || lower.contains("access denied")
+        || lower.contains("not authorized")
+        || lower.contains("unauthorized")
+    {
+        "credentials"
+    } else if lower.contains("throttling") || lower.contains("toomanyrequests") {
+        "quota"
+    } else if lower.contains("modelnotready")
+        || lower.contains("model not ready")
+        || lower.contains("resourcenotfound")
+        || lower.contains("resource not found")
+        || lower.contains("model is not supported")
+        || lower.contains("on-demand throughput isn't supported")
+    {
+        "model_unavailable"
+    } else if lower.contains("timeout") {
+        "timeout"
+    } else if retryable {
+        "transport"
+    } else {
+        "invalid_response"
+    };
+    error.into()
 }
 
 fn sanitize_bedrock_error(message: &str) -> String {

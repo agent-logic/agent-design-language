@@ -24,7 +24,9 @@ No periodic synthetic-inference monitoring option is provided.
 The existing Runtime API now also exposes:
 
 - `GET /v1/metrics/providers`: process-lifetime request counts by agent, provider,
-  model and reason, successful/failed counts, and input/output token estimates.
+  model and reason, successful/failed counts, byte-based input/output estimates,
+  and provider-reported token totals and finish reason when the transport supplies
+  them.
 - `GET /v1/health/providers`: last-observed provider reachability, model
   availability and inference readiness as separate nullable signals.
 
@@ -36,6 +38,15 @@ resident ID is removed and re-admitted with a different provider or model, its
 new observations have a separate row; the previous row remains historical
 evidence. A late completion from the old model cannot overwrite the new row.
 
+The resident's canonical name and office remain independent from that health
+key. Replacing a provider or model for the same resident ID preserves its
+conversation continuity and welcome-package delivery. Renaming an existing
+canonical identity requires `POST /v1/agents/{agent_id}/identity` with schema
+`adl.runtime_v3.agent_identity_migration.v1` and the exact previous name. The
+Runtime rejects an ordinary admission that tries to rename an existing ID, and
+the explicit migration preserves the internal continuity key and durable
+welcome record.
+
 Reasons are `operator_conversation`, `agent_to_agent`, `startup_probe` and
 `recovery_probe`. Compatibility fallback from tool chat to plain generation is
 counted as two provider attempts. Failed or cancelled attempts remain counted;
@@ -44,11 +55,14 @@ conversation's execution deadline is a failure and wakes recovery even when
 the deadline cancels the underlying provider future. Explicit provider failures
 in both conversation and Shepherd routes invalidate shared resident readiness.
 
-Token estimates are UTF-8 bytes divided by four, rounded up. They are labeled
-as estimates, are not tokenizer measurements or provider billing receipts, and
-can undercount provider-side output from failed/cancelled requests. Counts are
-attempts and do not assert that a provider billed each one. Counters reset when
-Runtime restarts. Inspect request rate and reasons to detect unwanted usage.
+Token estimates are UTF-8 bytes divided by four, rounded up. They remain
+separate from provider-reported usage. Bedrock Converse success records exact
+input, output and total tokens plus its finish reason through the provider
+abstraction; transports that omit usage retain the labeled estimate fallback.
+Neither form is a provider billing receipt, and failed or cancelled requests may
+have provider-side usage that cannot be observed. Counts are attempts and do not
+assert that a provider billed each one. Counters reset when Runtime restarts.
+Inspect request rate and reasons to detect unwanted usage.
 
 Provider request diagnostics use `adl_event` on stderr; JSON API payloads remain
 separate. Accounting retains identities and aggregate counts, not prompts,

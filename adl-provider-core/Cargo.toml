@@ -19,6 +19,9 @@ aws-types = "1"
 libc = "0.2"
 aws-sdk-bedrockruntime = "1"
 aws-sdk-sts = "1"
+aws-smithy-runtime-api = "1"
+aws-smithy-types = { version = "1", features = ["http-body-1-x"] }
+http-body-util = "0.1"
 fs2 = "0.4"
 tokio = { version = "1", features = ["rt", "time", "process", "io-util"] }
 zeroize = "1"

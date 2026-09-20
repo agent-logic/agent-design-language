@@ -25,6 +25,10 @@ macro_rules! bedrock_invocation_record {
             region: $region,
             account_id_sha256: $account_id_sha256,
             account_profile_validation_status: $account_profile_validation_status,
+            stop_reason: None,
+            input_tokens: None,
+            output_tokens: None,
+            total_tokens: None,
         }
     };
 }
@@ -179,23 +183,106 @@ fn restore_env_var(key: &str, previous: Option<std::ffi::OsString>) {
 }
 
 #[test]
-fn bedrock_request_and_response_shapes_cover_nova_messages() {
-    let body = bedrock_nova_request_body("hello bedrock", 123);
-    assert_eq!(body["schemaVersion"], "messages-v1");
-    assert!(body.get("model").is_none());
-    assert_eq!(body["messages"][0]["role"], "user");
-    assert_eq!(body["messages"][0]["content"][0]["text"], "hello bedrock");
-    assert_eq!(body["inferenceConfig"]["maxTokens"], 123);
+fn bedrock_converse_request_and_response_are_model_neutral() {
+    let message = bedrock_converse_message("hello bedrock").expect("message");
+    assert_eq!(
+        message.role(),
+        &bedrockruntime::types::ConversationRole::User
+    );
+    assert_eq!(message.content().len(), 1);
+    assert_eq!(
+        message.content()[0].as_text().map(String::as_str),
+        Ok("hello bedrock")
+    );
 
-    let output = extract_bedrock_nova_output_text(&json!({
-        "output": {
-            "message": {
-                "role": "assistant",
-                "content": [{"text": "bedrock ok"}]
-            }
+    let inference =
+        bedrock_converse_inference_config(123, Some(0.25), Some(0.8)).expect("inference config");
+    assert_eq!(inference.max_tokens(), Some(123));
+    assert_eq!(inference.temperature(), Some(0.25));
+    assert_eq!(inference.top_p(), Some(0.8));
+
+    let response_message = bedrockruntime::types::Message::builder()
+        .role(bedrockruntime::types::ConversationRole::Assistant)
+        .content(bedrockruntime::types::ContentBlock::Text(
+            " bedrock ".into(),
+        ))
+        .content(bedrockruntime::types::ContentBlock::Text("ok ".into()))
+        .build()
+        .expect("response message");
+    let output = bedrockruntime::types::ConverseOutput::Message(response_message);
+    assert_eq!(
+        extract_bedrock_converse_output_text(Some(&output)).as_deref(),
+        Some("bedrock \nok")
+    );
+    assert!(extract_bedrock_converse_output_text(None).is_none());
+
+    let usage = bedrockruntime::types::TokenUsage::builder()
+        .input_tokens(11)
+        .output_tokens(7)
+        .total_tokens(18)
+        .build()
+        .expect("usage");
+    assert_eq!(
+        bedrock_completion_metadata("end_turn", Some(&usage)),
+        ProviderCompletionMetadata {
+            finish_reason: Some("end_turn".to_owned()),
+            input_tokens: Some(11),
+            output_tokens: Some(7),
+            total_tokens: Some(18),
         }
-    }));
-    assert_eq!(output.as_deref(), Some("bedrock ok"));
+    );
+}
+
+#[test]
+fn bedrock_converse_rejects_unrepresentable_output_limit() {
+    let err = bedrock_converse_inference_config(i32::MAX as u64 + 1, None, None)
+        .expect_err("Converse max tokens must fit the SDK field");
+    assert!(err.to_string().contains("i32 limit"));
+}
+
+#[test]
+fn bedrock_failures_project_current_runtime_categories() {
+    for (message, category, retryable) in [
+        ("AccessDeniedException", "credentials", false),
+        ("ThrottlingException", "quota", true),
+        ("ModelNotReadyException", "model_unavailable", false),
+        ("operation timeout", "timeout", true),
+        ("ValidationException", "invalid_response", false),
+        ("ServiceUnavailableException", "transport", true),
+    ] {
+        let error = bedrock_sdk_error(message.to_owned());
+        assert_eq!(crate::failure_category(&error), category, "{message}");
+        assert_eq!(crate::is_retryable_error(&error), retryable, "{message}");
+    }
+}
+
+#[test]
+fn bounded_bedrock_response_rejects_oversized_payloads() {
+    use http_body_util::BodyExt;
+    tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .unwrap()
+        .block_on(async {
+            let valid =
+                aws_smithy_types::body::SdkBody::from_body_1_x(http_body_util::Limited::new(
+                    aws_smithy_types::body::SdkBody::from(vec![b'x'; MAX_BEDROCK_RESPONSE_BYTES]),
+                    MAX_BEDROCK_RESPONSE_BYTES,
+                ));
+            assert_eq!(
+                valid.collect().await.unwrap().to_bytes().len(),
+                MAX_BEDROCK_RESPONSE_BYTES
+            );
+            let oversized =
+                aws_smithy_types::body::SdkBody::from_body_1_x(http_body_util::Limited::new(
+                    aws_smithy_types::body::SdkBody::from(vec![
+                        b'x';
+                        MAX_BEDROCK_RESPONSE_BYTES + 1
+                    ]),
+                    MAX_BEDROCK_RESPONSE_BYTES,
+                ));
+            assert!(oversized.collect().await.is_err());
+        });
 }
 
 #[test]
@@ -402,16 +489,20 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
         "account_hash_verified",
     ))
     .expect("first bedrock invocation record should write");
-    write_bedrock_invocation_record(bedrock_invocation_record!(
-        "amazon.nova-pro-v1:0",
-        "second",
-        "ok",
-        202,
-        "agent-logic-admin",
-        "us-east-1",
-        None,
-        "account_hash_verified",
-    ))
+    write_bedrock_invocation_record(BedrockInvocationRecord {
+        model: "moonshotai.kimi-k2.5",
+        prompt: "second",
+        output: "ok",
+        http_status: 202,
+        profile: "agent-logic-admin",
+        region: "us-east-1",
+        account_id_sha256: None,
+        account_profile_validation_status: "account_hash_verified",
+        stop_reason: Some("end_turn"),
+        input_tokens: Some(11),
+        output_tokens: Some(7),
+        total_tokens: Some(18),
+    })
     .expect("second bedrock invocation record should append");
 
     let payload: serde_json::Value =
@@ -428,6 +519,11 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
     assert_eq!(invocations[0]["family"], "bedrock");
     assert_eq!(invocations[0]["model"], "amazon.nova-lite-v1:0");
     assert_eq!(invocations[0]["http_status"], 200);
+    assert_eq!(invocations[1]["model"], "moonshotai.kimi-k2.5");
+    assert_eq!(invocations[1]["stop_reason"], "end_turn");
+    assert_eq!(invocations[1]["input_tokens"], 11);
+    assert_eq!(invocations[1]["output_tokens"], 7);
+    assert_eq!(invocations[1]["total_tokens"], 18);
     assert_eq!(invocations[0]["aws_profile"], "agent-logic-admin");
     assert_eq!(invocations[0]["aws_region"], "us-west-2");
     assert_eq!(invocations[0]["account_id_sha256"], "account-hash");
@@ -700,12 +796,6 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     assert!(conflict
         .to_string()
         .contains("ADL_AWS_BEDROCK_ACCOUNT_SHA256 is authoritative"));
-
-    let fallback = extract_bedrock_nova_output_text(&json!({
-        "outputText": " fallback bedrock text "
-    }));
-    assert_eq!(fallback.as_deref(), Some("fallback bedrock text"));
-    assert!(extract_bedrock_nova_output_text(&json!({"output": {}})).is_none());
 
     let retryable = bedrock_sdk_error("ServiceUnavailable: try later".to_string());
     assert!(retryable.to_string().contains("ServiceUnavailable"));

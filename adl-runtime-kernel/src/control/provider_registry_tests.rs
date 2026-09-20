@@ -739,8 +739,17 @@ async fn invalid_runtime_limits_preserve_reloaded_provider_generation() {
         assert_eq!(handle.current().generation(), original.generation());
         assert_eq!(registry.prepare(&binding).unwrap().projection.definition_digest, digest);
     }
-    std::fs::write(&path, render(serde_json::json!({"runtime_max_calls":2,"runtime_max_input_bytes":100,
-        "runtime_stop_after_failure":true,"runtime_max_attempts":1,"runtime_max_output_tokens":256}))).unwrap();
+    // The in-process mock codec does not consume an output-token control. Keep
+    // the accepted candidate aligned with the current ProviderSpec contract;
+    // the invalid candidate above still proves malformed caps fail closed.
+    std::fs::write(
+        &path,
+        render(
+            serde_json::json!({"runtime_max_calls":2,"runtime_max_input_bytes":100,
+        "runtime_stop_after_failure":true,"runtime_max_attempts":1}),
+        ),
+    )
+    .unwrap();
     tokio::time::timeout(Duration::from_secs(2), handle.changed())
         .await
         .unwrap()

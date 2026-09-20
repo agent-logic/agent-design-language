@@ -497,6 +497,12 @@ impl Provider for BudgetedProvider {
         self.inner.verify_model_metadata()
     }
     fn complete(&self, prompt: &str) -> anyhow::Result<String> {
+        Ok(self.complete_with_metadata(prompt)?.output)
+    }
+    fn complete_with_metadata(
+        &self,
+        prompt: &str,
+    ) -> anyhow::Result<crate::provider::ProviderCompletion> {
         use std::sync::atomic::Ordering;
         // The optional demo envelope allows one active call; never queue a new
         // dispatch inside blocking work after its caller may have cancelled.
@@ -517,13 +523,16 @@ impl Provider for BudgetedProvider {
                 (n < self.max_calls).then_some(n + 1)
             })
             .map_err(|_| ProviderFailure::Quota)?;
-        let result = self.inner.complete(prompt).and_then(|output| {
-            if output.trim().is_empty() || output.len() > 4_194_304 {
-                Err(ProviderFailure::InvalidResponse.into())
-            } else {
-                Ok(output)
-            }
-        });
+        let result = self
+            .inner
+            .complete_with_metadata(prompt)
+            .and_then(|completion| {
+                if completion.output.trim().is_empty() || completion.output.len() > 4_194_304 {
+                    Err(ProviderFailure::InvalidResponse.into())
+                } else {
+                    Ok(completion)
+                }
+            });
         if result.is_err() {
             self.budget.failed.store(true, Ordering::SeqCst);
         }
@@ -633,19 +642,24 @@ struct NativeAdapter {
 
 const RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS: u64 = 600;
 
-fn apply_runtime_transport_bounds(spec: &mut ProviderSpec) {
+fn apply_runtime_transport_bounds(spec: &mut ProviderSpec, kind: &str) {
     // A blocking transport retains one of Runtime's provider permits until it
     // returns, including after its caller stops waiting. Preserve useful
     // model-specific timeouts while preventing a valid definition from
     // retaining shared capacity for hours.
-    let timeout_secs = spec
-        .config
-        .get("timeout_secs")
-        .and_then(serde_json::Value::as_u64)
-        .unwrap_or(30)
-        .min(RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS);
-    spec.config
-        .insert("timeout_secs".into(), timeout_secs.into());
+    // `timeout_secs` is an inference control consumed by network transports.
+    // Do not inject it into the in-process mock codec: current ProviderSpec
+    // validation correctly rejects controls a codec cannot consume.
+    if kind != "mock" {
+        let timeout_secs = spec
+            .config
+            .get("timeout_secs")
+            .and_then(serde_json::Value::as_u64)
+            .unwrap_or(30)
+            .min(RUNTIME_PROVIDER_TIMEOUT_CEILING_SECS);
+        spec.config
+            .insert("timeout_secs".into(), timeout_secs.into());
+    }
     spec.config.insert("runtime_max_attempts".into(), 1.into());
 }
 
@@ -678,6 +692,8 @@ impl RuntimeProviderAdapter for NativeAdapter {
         spec: &ProviderSpec,
         binding: &ProviderBinding,
     ) -> Result<PreparedProvider, ProviderFailure> {
+        crate::profiles::validate_materialized_profile_state(id, spec)
+            .map_err(|_| ProviderFailure::InvalidConfiguration)?;
         let mut spec = spec.clone();
         spec.kind = self.kind.clone();
         if self.chat_compatible {
@@ -685,7 +701,7 @@ impl RuntimeProviderAdapter for NativeAdapter {
                 .insert("api_format".into(), "openai_chat_completions".into());
         }
         // Bound transport even if the caller stops awaiting the blocking call.
-        apply_runtime_transport_bounds(&mut spec);
+        apply_runtime_transport_bounds(&mut spec, &self.kind);
         if let Some(reference) = &binding.credential_ref {
             let name = credential_env(reference)?;
             spec.config.insert("auth_env".into(), name.into());
@@ -753,8 +769,13 @@ impl RuntimeProviderAdapter for NativeAdapter {
         {
             return Err(ProviderFailure::ModelUnavailable);
         }
-        crate::candidate::reject_credential_values(&HashMap::from([(id.to_owned(), spec.clone())]))
-            .map_err(|_| ProviderFailure::InvalidConfiguration)?;
+        let mut credential_scan_spec = spec.clone();
+        credential_scan_spec.config.remove("profile_state");
+        crate::candidate::reject_credential_values(&HashMap::from([(
+            id.to_owned(),
+            credential_scan_spec,
+        )]))
+        .map_err(|_| ProviderFailure::InvalidConfiguration)?;
         let target = crate::provider_substrate::provider_invocation_target_v1(
             id,
             &spec,
@@ -797,6 +818,28 @@ fn map_adapter_failure(error: anyhow::Error) -> ProviderFailure {
 mod runtime_transport_bounds_tests {
     use super::*;
 
+    struct MetadataProvider;
+    impl Provider for MetadataProvider {
+        fn complete(&self, _prompt: &str) -> anyhow::Result<String> {
+            Ok("text-only fallback".to_owned())
+        }
+
+        fn complete_with_metadata(
+            &self,
+            _prompt: &str,
+        ) -> anyhow::Result<crate::provider::ProviderCompletion> {
+            Ok(crate::provider::ProviderCompletion {
+                output: "metadata output".to_owned(),
+                metadata: crate::provider::ProviderCompletionMetadata {
+                    finish_reason: Some("end_turn".to_owned()),
+                    input_tokens: Some(3),
+                    output_tokens: Some(2),
+                    total_tokens: Some(5),
+                },
+            })
+        }
+    }
+
     fn spec() -> ProviderSpec {
         ProviderSpec {
             id: Some("fixture".into()),
@@ -813,7 +856,7 @@ mod runtime_transport_bounds_tests {
         let mut provider = spec();
         provider.config.insert("timeout_secs".into(), 180.into());
 
-        apply_runtime_transport_bounds(&mut provider);
+        apply_runtime_transport_bounds(&mut provider, "openrouter");
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(180));
         assert_eq!(
@@ -826,7 +869,7 @@ mod runtime_transport_bounds_tests {
     fn runtime_transport_bounds_supply_timeout_when_definition_omits_it() {
         let mut provider = spec();
 
-        apply_runtime_transport_bounds(&mut provider);
+        apply_runtime_transport_bounds(&mut provider, "openrouter");
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(30));
     }
@@ -836,8 +879,69 @@ mod runtime_transport_bounds_tests {
         let mut provider = spec();
         provider.config.insert("timeout_secs".into(), 86_400.into());
 
-        apply_runtime_transport_bounds(&mut provider);
+        apply_runtime_transport_bounds(&mut provider, "openrouter");
 
         assert_eq!(provider.config["timeout_secs"], serde_json::json!(600));
+    }
+
+    #[test]
+    fn runtime_transport_bounds_do_not_inject_network_control_into_mock_codec() {
+        let mut provider = spec();
+        provider.kind = "mock".into();
+
+        apply_runtime_transport_bounds(&mut provider, "mock");
+
+        assert!(!provider.config.contains_key("timeout_secs"));
+        assert_eq!(
+            provider.config["runtime_max_attempts"],
+            serde_json::json!(1)
+        );
+    }
+
+    #[test]
+    fn runtime_registry_accepts_exact_materialized_bedrock_profile_state() {
+        let candidate = crate::candidate::parse_validated_provider_sidecar(
+            r#"
+providers:
+  fixture:
+    profile: bedrock:kimi-k2.5
+    config:
+      profile: agent-logic-admin
+      region: us-west-2
+"#,
+        )
+        .expect("profile candidate");
+        let registry = ProviderRegistry::standard();
+        registry
+            .replace_definitions(candidate.providers, candidate.digest)
+            .expect("definitions");
+
+        registry
+            .validate_binding_compatibility(&ProviderBinding {
+                provider: "fixture".into(),
+                model: "hosted:adl-bedrock:moonshotai.kimi-k2.5".into(),
+                ..Default::default()
+            })
+            .expect("materialized profile must remain executable");
+    }
+
+    #[test]
+    fn runtime_budget_preserves_provider_completion_metadata() {
+        let provider = BudgetedProvider {
+            inner: Box::new(MetadataProvider),
+            budget: Arc::new(RuntimeBudget::default()),
+            max_calls: 1,
+            input_bytes: 64,
+            stop_after_failure: true,
+        };
+        let completion = provider
+            .complete_with_metadata("hello")
+            .expect("completion");
+        assert_eq!(completion.output, "metadata output");
+        assert_eq!(
+            completion.metadata.finish_reason.as_deref(),
+            Some("end_turn")
+        );
+        assert_eq!(completion.metadata.total_tokens, Some(5));
     }
 }
