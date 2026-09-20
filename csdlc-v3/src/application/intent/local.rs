@@ -992,6 +992,13 @@ fn prepare(context: &Context, value: &Value) -> Result<Value, String> {
         schedule_readiness: None,
         shepherd_routing: None,
     };
+    // A bound legacy issue already has an authenticated checkout identity.
+    // Preparation may refresh its plan slug, but it must not reinterpret that
+    // slug as a request to move the retained branch or worktree.
+    if legacy_native && context.index["phase"] == "bound" {
+        request.branch.clone_from(&context.branch);
+        request.worktree = context.root.to_string_lossy().into_owned();
+    }
     // Identity fields are derived once and cannot be overridden by changed prose.
     for card in request.card_updates.values_mut() {
         for key in [
