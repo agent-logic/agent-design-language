@@ -66,6 +66,8 @@ variables below to the supplied values; no credentials belong in the command
 or repository.
 
 ```sh
+(
+set -eu
 export CODEX_BACKUP_BUCKET='REPLACE_WITH_PRIVATE_BUCKET'
 export CODEX_BACKUP_PREFIX='REPLACE_WITH_BACKUP_PREFIX'
 export CODEX_BACKUP_PROFILE='REPLACE_WITH_APPROVED_PROFILE'
@@ -83,10 +85,17 @@ aws s3api get-object --bucket "$CODEX_BACKUP_BUCKET" \
   --version-id "$CODEX_BACKUP_VERIFIER_VERSION_ID" \
   --profile "$CODEX_BACKUP_PROFILE" --region "$CODEX_BACKUP_REGION" \
   verify_backup.py
-printf '%s  verify_backup.py\n' "$CODEX_BACKUP_VERIFIER_SHA256" | \
-  shasum -a 256 -c -
-test -f completion.json
+if ! printf '%s  verify_backup.py\n' "$CODEX_BACKUP_VERIFIER_SHA256" | \
+  shasum -a 256 -c -; then
+  echo 'verifier checksum mismatch; refusing execution' >&2
+  exit 1
+fi
+if ! test -f completion.json; then
+  echo 'completion metadata missing; refusing execution' >&2
+  exit 1
+fi
 CODEX_BACKUP_RESTORE_TMP="$PWD/restore-check" python3 verify_backup.py
+)
 ```
 
 Obtain the exact verifier object version and SHA-256 from the private handoff;
