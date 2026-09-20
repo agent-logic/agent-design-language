@@ -56,7 +56,10 @@ editorial approval or external publication.
 
 ## Before Publication
 
-Open items are tracked outside this directory:
+Remaining publication work (deferred to the later review/editing issue):
+
+- article 1 references `platform-overview.png`, which is not included in this
+  draft packet; supply or replace the illustration before publication
 
 - repo status drift, including the birthday claim in `docs/milestones/v0.92/README.md`
   and `docs/planning/ADL_FEATURE_LIST.md` — these contradict the birthday feature
