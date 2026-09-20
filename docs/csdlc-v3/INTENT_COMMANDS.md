@@ -119,6 +119,23 @@ A bounded validator declaration has this shape:
 
 The proof owner admits bounded Cargo test arguments, verifies issue/worktree
 ownership and requires successful output with a nonzero passed-test count.
+Preparation and validator edits also admit three explicitly non-executing
+declaration forms: `python3` with a tracked repository-relative `.py` script and
+optional `--self-test`; `git` with exactly `diff --check`; and `manual-review`
+with one nonempty review-scope identifier excluding path separators and `.`/`..`. Each declaration still needs
+a unique ID, nonempty success marker and bounded timeout. For example,
+`{"id":"quality-review","program":"manual-review","args":["release-evidence"],"success_marker":"accepted independent evidence"}`
+retains a human acceptance requirement without inventing a Rust test.
+
+These declarations only unblock honest planning, card validation and binding.
+They are not executable proof adapters. If any declared validator is non-Cargo,
+`proof` refuses with `intent_validator_execution_unsupported` before running
+commands or reserving proof effects. Run applicable checks and retain real
+review evidence through their actual owners; this release does not provide a
+native non-Cargo proof-completion route. Never replace a required review or
+document check with an unrelated Cargo test to obtain publication admission.
+Preparing or binding a task does not satisfy its predecessor or acceptance gates.
+
 An empty validator set, an exit-zero marker-only process or stale candidate
 bytes does not establish proof. Cargo targets selected by the validator and
 declaring `harness = false` are not admitted because their arbitrary stdout

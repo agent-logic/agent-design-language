@@ -68,6 +68,96 @@ fn prepare(fixture: &mut Fixture) {
     ));
 }
 
+// #1094 PVF: deterministic installed preparation/proof-boundary regressions;
+// local Git/files only, required for declaration admission, not document proof.
+#[test]
+fn noncargo_preparation_preserves_declarations_but_proof_has_no_effects() {
+    let mut fixture = Fixture::new("noncargo-preparation");
+    let primary = fixture.root.clone();
+    fs::write(
+        primary.join("check.py"),
+        "raise RuntimeError('must never execute')\n",
+    )
+    .unwrap();
+    git(&primary, &["add", "check.py"]);
+    git(&primary, &["commit", "-qm", "tracked declaration input"]);
+    let mut input = plan();
+    input["validators"] = json!([
+        {"id":"document-check","program":"python3","args":["check.py","--self-test"],"success_marker":"pass"},
+        {"id":"whitespace","program":"git","args":["diff","--check"],"success_marker":"exit status 0"},
+        {"id":"independent-review","program":"manual-review","args":["release-evidence"],"success_marker":"accepted review evidence"}
+    ]);
+    let path = fixture.write_json("noncargo.json", &input);
+    success(fixture.run(
+        &primary,
+        &["prepare", "505", "--plan", path.to_str().unwrap()],
+    ));
+    success(fixture.run(&primary, &["validate", "505"]));
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    let before = publication_reservation_inventory(&primary);
+    let result = fixture.run(&bound, &["proof", "505"]);
+    assert!(!result.status.success());
+    assert!(
+        String::from_utf8_lossy(&result.stdout).contains("intent_validator_execution_unsupported")
+    );
+    assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    assert!(!bound.join(".csdlc/v3/issues/505/proof.json").exists());
+}
+
+#[test]
+fn noncargo_invalid_declarations_fail_before_preparation() {
+    let mut fixture = Fixture::new("noncargo-invalid");
+    let primary = fixture.root.clone();
+    fs::write(primary.join("untracked.py"), "pass\n").unwrap();
+    for (program, args) in [
+        ("python3", json!(["untracked.py"])),
+        ("python3", json!(["../outside.py"])),
+        ("python3", json!(["-c", "print('pass')"])),
+        ("git", json!(["clean", "-fd"])),
+        ("sh", json!(["-c", "true"])),
+        ("manual-review", json!(["../unconfined"])),
+    ] {
+        let mut input = plan();
+        input["validators"] =
+            json!([{"id":"bad","program":program,"args":args,"success_marker":"pass"}]);
+        let path = fixture.write_json("invalid-noncargo.json", &input);
+        let before = publication_reservation_inventory(&primary);
+        let result = fixture.run(
+            &primary,
+            &["prepare", "505", "--plan", path.to_str().unwrap()],
+        );
+        assert!(
+            !result.status.success(),
+            "unexpected admission: {program} {args}"
+        );
+        assert_same_inventory!(before, publication_reservation_inventory(&primary));
+    }
+}
+
+#[test]
+fn noncargo_validator_edit_retains_execution_refusal() {
+    let mut fixture = Fixture::new("noncargo-edit");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    let changes = fixture.write_json("noncargo-changes.json", &json!({
+        "schema":"csdlc.v3.intent_changes.v1",
+        "validators":[{"id":"human-review","program":"manual-review","args":["quality-gate"],"success_marker":"accepted evidence"}]
+    }));
+    success(fixture.run(
+        &bound,
+        &["edit", "505", "--changes", changes.to_str().unwrap()],
+    ));
+    success(fixture.run(&bound, &["validate", "505"]));
+    let result = fixture.run(&bound, &["proof", "505"]);
+    assert!(!result.status.success());
+    assert!(
+        String::from_utf8_lossy(&result.stdout).contains("intent_validator_execution_unsupported")
+    );
+}
+
 fn rehash_native_issue(issue_root: &Path) {
     let index_path = issue_root.join("index.json");
     let mut index: Value = serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();

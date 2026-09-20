@@ -147,17 +147,22 @@ pub(crate) fn admit_validator_declarations(
     }
     let mut ids = std::collections::BTreeSet::new();
     for validator in validators {
-        if validator.program != "cargo"
-            || validator.args.first().map(String::as_str) != Some("test")
-            || validator.success_marker != "test result: ok."
-            || !ids.insert(&validator.id)
-        {
+        if !ids.insert(&validator.id) {
             return Err("intent_validator_not_admitted".into());
         }
         if !(1..=300).contains(&validator.timeout_seconds) {
             return Err("intent_validator_timeout_not_admitted".into());
         }
         safe_component(&validator.id).map_err(|finding| finding.code)?;
+        if validator.program != "cargo" {
+            admit_preparation_only_declaration(root, validator)?;
+            continue;
+        }
+        if validator.args.first().map(String::as_str) != Some("test")
+            || validator.success_marker != "test result: ok."
+        {
+            return Err("intent_validator_not_admitted".into());
+        }
         let mut args = validator.args.iter().skip(1);
         let mut filter_seen = false;
         while let Some(arg) = args.next() {
@@ -181,6 +186,42 @@ pub(crate) fn admit_validator_declarations(
                 _ => return Err("intent_validator_argument_not_admitted".into()),
             }
         }
+    }
+    Ok(())
+}
+
+/// These are bounded design-time declarations, never executable proof adapters.
+/// Keep the execution refusal below independent of declaration admission.
+fn admit_preparation_only_declaration(root: &Path, validator: &Validator) -> Result<(), String> {
+    if validator.success_marker.trim().is_empty() || validator.success_marker.len() > 256 {
+        return Err("intent_validator_marker_invalid".into());
+    }
+    match validator.program.as_str() {
+        "python3" => {
+            let script = validator
+                .args
+                .first()
+                .ok_or("intent_validator_script_missing")?;
+            if !script.ends_with(".py")
+                || validator
+                    .args
+                    .iter()
+                    .skip(1)
+                    .any(|arg| arg != "--self-test")
+                || validator.args.len() > 2
+            {
+                return Err("intent_validator_argument_not_admitted".into());
+            }
+            resolve_repo_path(root, script, true).map_err(|finding| finding.code)?;
+            if git_read(root, &["ls-files", "--error-unmatch", "--", script]).is_err() {
+                return Err("intent_validator_input_not_tracked".into());
+            }
+        }
+        "git" if validator.args == ["diff", "--check"] => {}
+        "manual-review" if validator.args.len() == 1 => {
+            safe_component(&validator.args[0]).map_err(|finding| finding.code)?;
+        }
+        _ => return Err("intent_validator_not_admitted".into()),
     }
     Ok(())
 }
@@ -232,6 +273,12 @@ fn admit_validators_with_projection_inputs(
     excluded_projection_inputs: Vec<String>,
 ) -> Result<AdmittedValidators, String> {
     admit_validator_declarations(root, validators)?;
+    if validators
+        .iter()
+        .any(|validator| validator.program != "cargo")
+    {
+        return Err("intent_validator_execution_unsupported".into());
+    }
     let input_digest = tracked_input_digest(root, validators, &excluded_projection_inputs)?;
     Ok(AdmittedValidators {
         root: root.to_path_buf(),
