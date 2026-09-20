@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][C-SDLC v3][defect] Reconcile preserved historical terminal identities
 Branch: codex/1083-historical-terminal-identity-reconciliation
 Card Status: ready
-Status: <status>
+Status: in_progress
 Generated: <timestamp>
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-<summary>
+Implemented exact historical terminal reconciliation for multiple non-closing checkpoints, authenticated absence of obsolete create intents, bound-checkout no-PR identity, and immutable merged PR heads. Two independent-review P1 findings were fixed and final re-review passed. Publication, CI, merge, repair deployment, and remaining real issue closeouts are pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -57,7 +57,7 @@ Execution:
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
+- Completion state: `implementation_validated_review_handoff`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -75,8 +75,8 @@ Execution:
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Tracked implementation artifacts: `csdlc-v3/src/application/intent/terminal.rs; csdlc-v3/src/commands/terminal.rs; csdlc-v3/src/commands/remote/intent.rs; csdlc-v3/src/commands/remote/target.rs; csdlc-v3/tests; docs/csdlc-v3/man`
+- Additional proof artifacts: `.csdlc/evidence/1083/validation.md`
 
 ## Actions taken
 - `<actions_taken_line_1>`
@@ -86,8 +86,8 @@ Execution:
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `bound issue worktree`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path csdlc-v3/Cargo.toml --quiet; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets --all-features -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check; git diff --check; python3 docs/csdlc-v3/man/render.py --check`
+    `Proves the full native-v3 component, installed historical reconciliation paths, adversarial checkpoint and stale-create cases, module decomposition, operator-manual parity, strict lint, formatting, and diff hygiene.`
 - Results:
-  - `<validation_result>`
+  - `Full csdlc-v3 test suite passed with nonzero focused and installed lanes; strict all-target Clippy, formatting, diff hygiene, and all 34 generated manual pages passed. No paid provider, AWS, or live credential-backed inference was used.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,24 +123,24 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - "Full csdlc-v3 suite, installed #1083 intent and coordination regressions, strict Clippy, fmt, manual parity, module decomposition, and diff hygiene"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: historical authentication precedes terminal persistence and cleanup remains separate
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
