@@ -287,11 +287,41 @@ candidate_filter_for_path() {
     adl/src/codefriend/review/runner.rs)
       printf 'codefriend_review'
       ;;
-    adl/src/bin/codefriend_agent.rs|adl/src/codefriend/agent.rs)
+    adl/src/codefriend/agent/journey.rs|adl/src/codefriend/agent/journey/delivery.rs|adl/src/codefriend/agent/journey/verification.rs)
+      printf 'codefriend_agent_journey'
+      ;;
+    adl/src/bin/codefriend_agent.rs|adl/src/codefriend/agent.rs|adl/src/codefriend/agent/publication.rs)
       printf 'codefriend_agent'
       ;;
-    adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs)
+    adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs|adl/src/codefriend/server/journey.rs|adl/src/codefriend/server/publication_export.rs|adl/src/codefriend/server/journey_publication.rs)
       printf 'codefriend_server'
+      ;;
+    adl/src/codefriend/architecture/drift.rs)
+      printf 'codefriend_drift'
+      ;;
+    adl/src/codefriend/memory/palace.rs)
+      printf 'codefriend_palace'
+      ;;
+    adl/src/codefriend/integration/journey/owned_baseline.rs)
+      printf 'codefriend_owned_baseline'
+      ;;
+    adl/src/codefriend/integration/journey/owned_palace.rs)
+      printf 'codefriend_owned_palace'
+      ;;
+    adl/src/codefriend/integration/journey/local_publication_attachment.rs)
+      printf 'codefriend_local_attachment'
+      ;;
+    adl/src/codefriend/integration/journey/publication_attachment.rs)
+      printf 'codefriend_hosted_attachment'
+      ;;
+    adl/src/cli/codefriend_cmd.rs)
+      printf 'codefriend_cli'
+      ;;
+    adl/src/codefriend/integration.rs|adl/src/codefriend/integration/journey.rs)
+      printf 'codefriend_journey'
+      ;;
+    adl/src/codefriend/publication/approval.rs|adl/src/codefriend/publication/html.rs|adl/src/codefriend/publication/markdown.rs|adl/src/codefriend/publication/pdf.rs|adl/src/codefriend/publication/relay.rs)
+      printf 'codefriend_publication'
       ;;
     adl/src/cli/codefriend_publication_cmd.rs)
       printf 'codefriend_ux'
@@ -508,11 +538,41 @@ nextest_expression_for_filter() {
     codefriend_review)
       printf 'binary_id(adl::codefriend_review)'
       ;;
+    codefriend_agent_journey)
+      printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))'
+      ;;
     codefriend_agent)
-      printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent)'
+      printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::codefriend_agent_receipt)'
       ;;
     codefriend_server)
-      printf 'binary_id(adl::codefriend_server)'
+      printf 'binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_drift)
+      printf 'binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_palace)
+      printf 'binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)'
+      ;;
+    codefriend_owned_palace)
+      printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_owned_baseline)
+      printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))'
+      ;;
+    codefriend_local_attachment)
+      printf 'binary_id(adl::codefriend_agent_publication) or (binary_id(adl) and test(/^codefriend::integration::journey::local_publication_attachment::tests::/))'
+      ;;
+    codefriend_hosted_attachment)
+      printf 'binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_cli)
+      printf 'binary_id(adl::codefriend_ingestion) or binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_journey)
+      printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_tests::/))'
+      ;;
+    codefriend_publication)
+      printf 'binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_integration) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::publication::/))'
       ;;
     codefriend_ux)
       printf 'binary_id(adl::codefriend_ux)'
@@ -901,7 +961,7 @@ file_has_no_executable_surface() {
   local path="$1"
   [ -f "$ROOT/$path" ] || return 1
 
-  ! grep -Eq '^[[:space:]]*(pub([[:space:]]*\([^)]*\))?[[:space:]]+)?fn[[:space:]]+|^[[:space:]]*impl([[:space:][:alnum:]_<>,:&]+)?[[:space:]]*\{' "$ROOT/$path"
+  ! grep -Eq '^[[:space:]]*(pub([[:space:]]*\([^)]*\))?[[:space:]]+)?(async[[:space:]]+)?fn[[:space:]]+|^[[:space:]]*impl([[:space:][:alnum:]_<>,:&]+)?[[:space:]]*\{' "$ROOT/$path"
 }
 
 file_is_live_runtime_boundary_surface() {

@@ -4,6 +4,7 @@ pub mod html;
 pub mod manifest;
 pub mod markdown;
 pub mod pdf;
+pub(crate) mod relay;
 
 pub use approval::{
     admit_local, append_decision, read_decision_head, write_json_create_only, AdmissionReceipt,

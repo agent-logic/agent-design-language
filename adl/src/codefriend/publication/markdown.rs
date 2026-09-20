@@ -1,5 +1,6 @@
 //! Deterministic Markdown export for an approved CodeFriend review.
 
+pub(crate) const MARKDOWN_OUTPUT_BOUNDARY: &str = "This is the canonical local Markdown rendering of the approved review. It does not claim HTML, PDF, remote, or customer publication.";
 use super::{
     approval::{read_decision_head, DecisionKind},
     manifest::{
@@ -116,7 +117,7 @@ pub fn render_markdown(options: MarkdownRenderOptions) -> Result<MarkdownRenderR
         &options,
         "markdown",
         MARKDOWN_RENDERER_VERSION,
-        "This is the canonical local Markdown rendering of the approved review. It does not claim HTML, PDF, remote, or customer publication.",
+        MARKDOWN_OUTPUT_BOUNDARY,
     )?;
     let PreparedReport {
         review,
@@ -599,7 +600,7 @@ pub(super) fn validate_plan_parity(
     Ok(())
 }
 
-fn render_report(
+pub(crate) fn render_report(
     review: &crate::codefriend::evidence::contracts::ReviewRecord,
     synthesis: &ReviewSynthesis,
     remediation: &RemediationPlan,
@@ -902,7 +903,7 @@ fn markdown_code_span(value: &str) -> Result<String> {
     Ok(format!("{fence} {value} {fence}"))
 }
 
-fn validate_manifest(
+pub(crate) fn validate_manifest(
     manifest: &MarkdownManifest,
     review: &crate::codefriend::evidence::contracts::ReviewRecord,
     synthesis: &ReviewSynthesis,
@@ -1140,7 +1141,7 @@ fn same_open_directory(open: &File, path: &Path) -> Result<bool> {
 }
 
 #[cfg(target_os = "linux")]
-fn rename_create_only_at(
+pub(crate) fn rename_create_only_at(
     parent: &File,
     from: &std::ffi::OsStr,
     to: &std::ffi::OsStr,
@@ -1161,7 +1162,7 @@ fn rename_create_only_at(
 }
 
 #[cfg(target_os = "macos")]
-fn rename_create_only_at(
+pub(crate) fn rename_create_only_at(
     parent: &File,
     from: &std::ffi::OsStr,
     to: &std::ffi::OsStr,
@@ -1182,7 +1183,7 @@ fn rename_create_only_at(
 }
 
 #[cfg(not(any(target_os = "linux", target_os = "macos")))]
-fn rename_create_only_at(
+pub(crate) fn rename_create_only_at(
     _parent: &File,
     _from: &std::ffi::OsStr,
     _to: &std::ffi::OsStr,

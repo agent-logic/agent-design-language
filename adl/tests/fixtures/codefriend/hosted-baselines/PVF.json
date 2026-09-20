@@ -1,0 +1,27 @@
+{
+  "issue": 914,
+  "surface": "adl/tests/codefriend_cf_cog_drift.rs",
+  "lane_class": "runtime",
+  "proof_role": "supporting original-admission pair-owner integration",
+  "determinism": "inert local Git revisions, two authentic evidence Stores with independently controlled clocks, exact-reference routing fixture",
+  "resources": "bounded CPU/filesystem; no provider, network, cloud or source execution",
+  "release_gate": "required supporting proof; insufficient for full Beta acceptance",
+  "cases": [
+    "original_store_pair_compares_without_readmission_and_preserves_lifetimes",
+    "existing single-Store drift and native Palace tests preserve wrapper compatibility",
+    "identical_reference_requires_both_selected_original_owners_live"
+  ],
+  "nonclaims": [
+    "website hosted or paired-agent full Journey",
+    "multi-Store Runtime Palace acceptance",
+    "real-provider or installed candidate qualification"
+  ],
+  "surfaces": [
+    "adl/tests/codefriend_cf_cog_drift.rs",
+    "adl/src/codefriend/integration/journey/owned_baseline.rs",
+    "adl/tests/codefriend_integration.rs"
+  ],
+  "pending_proof": [
+    "authenticated hosted two-operation drift routing, checkpoint binding, expiry/deletion and source noncopying"
+  ]
+}

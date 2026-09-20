@@ -117,13 +117,18 @@ def run(installed, candidate, output):
         rejected=subprocess.run(command,capture_output=True,text=True,env=env,timeout=10)
         require(rejected.returncode!=0 and not rejected.stdout,'tampered report was accepted')
         cases.append('installed_agent_rejects_tampered_report')
+        cli=subprocess.run([str(installed/'adl'),'codefriend','--help'],
+                           capture_output=True,text=True,env=env,timeout=10)
+        require(cli.returncode==0 and 'adl codefriend journey resume' in cli.stdout,
+                'installed ADL CodeFriend entrypoint unavailable')
+        cases.append('installed_adl_exposes_codefriend_journey')
         require(not list((output/'state'/'operations').iterdir()),'unexpected reservation')
         try:
             connection,_=provider.accept();connection.close();raise RuntimeError('unexpected provider connection')
         except BlockingIOError:pass
         result={'schema':'codefriend.host_smoke.v1','status':'PASS','candidate':candidate,'platform':sys.platform,
                 'cases':cases,'graceful_stops':stops,'provider_connections':0,'operation_reservations':0,
-                'binary_sha256':{name:hashlib.sha256((installed/name).read_bytes()).hexdigest() for name in ('codefriend-server','codefriend-agent')},
+                'binary_sha256':{name:hashlib.sha256((installed/name).read_bytes()).hexdigest() for name in ('codefriend-server','codefriend-agent','adl')},
                 'non_claims':['real provider reviews','OAuth','systemd supervision','host poweroff','deployment']}
         (output/'result.json').write_text(json.dumps(result,indent=2)+'\n')
         print(json.dumps({'status':'PASS','cases':len(cases),'candidate':candidate}))

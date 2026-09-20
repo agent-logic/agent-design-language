@@ -1,0 +1,26 @@
+{
+  "issue": 914,
+  "surface": "adl/tests/support/codefriend_owned_journey.rs",
+  "lane_class": "runtime",
+  "proof_role": "owned hosted admission attachment and restart supporting proof",
+  "determinism": "local Git acquisition and original Store admission; native four-lane runner with deterministic injected no-provider lane outputs",
+  "resources": {
+    "network": false,
+    "provider_calls": 0,
+    "disk": "temporary private source/admission/review/journey directories",
+    "cpu": "bounded local"
+  },
+  "release_gate": "required supporting proof; insufficient for hosted or full Beta acceptance",
+  "nonclaims": [
+    "real provider acceptance",
+    "HTTP or browser acceptance",
+    "installed candidate qualification",
+    "all 18 journey stages complete"
+  ],
+  "cases": [
+    "exact original admission and deadline retained; checkout removed before attach/resume; completed review cannot redispatch",
+    "foreign admission/run/candidate, expired operation and modified retained review rejected before output",
+    "external review mutation and deleted Store rejected on resume"
+  ],
+  "status": "draft unexecuted"
+}

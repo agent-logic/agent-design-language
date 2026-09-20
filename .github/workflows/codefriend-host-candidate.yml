@@ -32,12 +32,12 @@ jobs:
           test "$(uname -m)" = x86_64
           test "$(git rev-parse HEAD)" = "$CODEFRIEND_SOURCE_SHA"
           test -z "$(git status --porcelain --untracked-files=all)"
-          cargo build --locked --manifest-path adl/Cargo.toml --bin codefriend-server --bin codefriend-agent
+          cargo build --locked --manifest-path adl/Cargo.toml --bin codefriend-server --bin codefriend-agent --bin adl
       - name: Install isolated candidate copies
         shell: bash
         run: |
           set -euo pipefail
-          bash adl/tools/install_owner_binaries.sh --bin codefriend-server --bin codefriend-agent \
+          bash adl/tools/install_owner_binaries.sh --bin codefriend-server --bin codefriend-agent --bin adl \
             --no-build --source-bin-dir "$CARGO_TARGET_DIR/debug" \
             --stable-bin-dir "$RUNNER_TEMP/codefriend-host-installed"
       - name: Exercise installed control and report verifier without providers

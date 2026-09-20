@@ -1,0 +1,10 @@
+{
+  "schema": "codefriend.agent_receipt.pvf.v1",
+  "issue": 914,
+  "lane": "runtime",
+  "proof_role": "authenticated completed report receipt observation, immutable retention and no redispatch",
+  "determinism": "controlled clock, loopback HTTP and private temporary filesystem; native four-lane runner with deterministic executor outputs",
+  "resource_profile": "bounded local CPU/disk and HTTP; no provider credentials, external network or model calls",
+  "release_gate": "required component regression; insufficient for installed browser, real provider or publication acceptance",
+  "command": "cargo test --manifest-path adl/Cargo.toml --test codefriend_agent_receipt"
+}

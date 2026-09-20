@@ -1203,7 +1203,7 @@ grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-duplicate-summar
 codefriend_server_changed="$TMP/codefriend-server-changed.txt"
 printf 'A\tadl/src/bin/codefriend_server.rs\nA\tadl/src/codefriend/server.rs\n' >"$codefriend_server_changed"
 codefriend_server_expression="$(bash "$SCRIPT" --changed-files "$codefriend_server_changed" --print-risk-nextest-expression)"
-grep -Fx "binary_id(adl::codefriend_server)" <<<"$codefriend_server_expression" >/dev/null
+grep -Fx "binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)" <<<"$codefriend_server_expression" >/dev/null
 
 codefriend_review_changed="$TMP/codefriend-review-changed.txt"
 printf 'M\tadl/src/codefriend/review/runner.rs\n' >"$codefriend_review_changed"
@@ -1213,6 +1213,39 @@ grep -Fx "binary_id(adl::codefriend_review)" <<<"$codefriend_review_expression" 
 codefriend_agent_changed="$TMP/codefriend-agent-changed.txt"
 printf 'A\tadl/src/bin/codefriend_agent.rs\nA\tadl/src/codefriend/agent.rs\n' >"$codefriend_agent_changed"
 codefriend_agent_expression="$(bash "$SCRIPT" --changed-files "$codefriend_agent_changed" --print-risk-nextest-expression)"
-grep -Fx "binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent)" <<<"$codefriend_agent_expression" >/dev/null
+grep -Fx "binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::codefriend_agent_receipt)" <<<"$codefriend_agent_expression" >/dev/null
+
+codefriend_journey_changed="$TMP/codefriend-journey-changed.txt"
+printf 'A\tadl/src/codefriend/integration/journey.rs\n' >"$codefriend_journey_changed"
+codefriend_journey_expression="$(bash "$SCRIPT" --changed-files "$codefriend_journey_changed" --print-risk-nextest-expression)"
+grep -Fx 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_tests::/))' <<<"$codefriend_journey_expression" >/dev/null
+
+codefriend_render_changed="$TMP/codefriend-render-changed.txt"
+printf 'A\tadl/src/codefriend/publication/relay.rs\nM\tadl/src/codefriend/publication/pdf.rs\n' >"$codefriend_render_changed"
+codefriend_render_expression="$(bash "$SCRIPT" --changed-files "$codefriend_render_changed" --print-risk-nextest-expression)"
+grep -F 'binary_id(adl::codefriend_render_pdf)' <<<"$codefriend_render_expression" >/dev/null
+grep -F 'binary_id(adl::codefriend_agent_publication)' <<<"$codefriend_render_expression" >/dev/null
+
+codefriend_cli_changed="$TMP/codefriend-cli-changed.txt"
+printf 'A\tadl/src/cli/codefriend_cmd.rs\n' >"$codefriend_cli_changed"
+codefriend_cli_expression="$(bash "$SCRIPT" --changed-files "$codefriend_cli_changed" --print-risk-nextest-expression)"
+grep -Fx 'binary_id(adl::codefriend_ingestion) or binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' <<<"$codefriend_cli_expression" >/dev/null
+
+# These new production owners must select their real component tests, never a basename fallback.
+for mapping in \
+  'adl/src/codefriend/architecture/drift.rs|binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' \
+  'adl/src/codefriend/memory/palace.rs|binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)' \
+  'adl/src/codefriend/integration/journey/owned_baseline.rs|binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))' \
+  'adl/src/codefriend/integration/journey/owned_palace.rs|binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' \
+  'adl/src/codefriend/integration/journey/local_publication_attachment.rs|binary_id(adl::codefriend_agent_publication) or (binary_id(adl) and test(/^codefriend::integration::journey::local_publication_attachment::tests::/))' \
+  'adl/src/codefriend/agent/journey.rs|binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))' \
+  'adl/src/codefriend/agent/journey/delivery.rs|binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))' \
+  'adl/src/codefriend/agent/journey/verification.rs|binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))' \
+  'adl/src/codefriend/integration/journey/publication_attachment.rs|binary_id(adl::codefriend_integration)' \
+  'adl/src/codefriend/server/journey_publication.rs|binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'; do
+  printf 'A\t%s\n' "${mapping%%|*}" >"$TMP/codefriend-owned-source.txt"
+  actual="$(bash "$SCRIPT" --changed-files "$TMP/codefriend-owned-source.txt" --print-risk-nextest-expression)"
+  grep -Fx "${mapping#*|}" <<<"$actual" >/dev/null
+done
 
 echo "PASS test_check_coverage_impact"

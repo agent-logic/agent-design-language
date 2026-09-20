@@ -1,0 +1,45 @@
+{
+  "issue": 914,
+  "surface": "adl/tests/codefriend_journey.rs",
+  "lane_class": "runtime",
+  "proof_role": "supporting integration and failure propagation",
+  "determinism": "controlled local Git fixtures; native acquisition/admission/architecture/fitness and four-lane orchestration with synthetic no-provider outputs; real synthesis/action/approval/render owners; installed font dependency for PDF",
+  "resources": {
+    "cpu": "bounded local",
+    "disk": "temporary scoped Git/evidence directories",
+    "fonts": "installed Unicode TrueType font (DejaVu Sans on Linux or Arial on macOS), required, not skipped",
+    "continuation_limits": {
+      "max_checkpoints": 64,
+      "max_entries": 2048,
+      "max_file_bytes": 33554432,
+      "max_aggregate_bytes": 268435456
+    },
+    "external_provider_calls": 0,
+    "loopback_responses_requests": 8,
+    "loopback_listener": "localhost only; eight bounded requests, per-accept deadline30s, read/write timeout5s, request<=1MiB",
+    "clock": "real current wall clock for native admission/approval/Palace lifetime; fixed deterministic source/lane responses",
+    "case_alias_regression": "macOS runtime test requires actual case-insensitive temporary filesystem; verifies identical file identity and denies output/store writes before admission. Linux retains ordinary distinct/nested path tests; no macOS proof claimed there."
+  },
+  "release_gate": "required supporting proof; insufficient for complete Beta acceptance",
+  "nonclaims": [
+    "installed candidate qualification",
+    "real provider acceptance",
+    "website hosted/local-agent acceptance",
+    "human approval",
+    "complete product/Beta journey acceptance"
+  ],
+  "pending_proof": [
+    "real four-lane provider run",
+    "actual human approval and visual inspection of three exports",
+    "selected installed macOS/Linux journey",
+    "operator-provisioned deployed Palace authority and lifetime acceptance"
+  ],
+  "component_proof": [
+    "four generated lane records feed native synthesis, remediation and test plans",
+    "three format-specific synthetic approvals gate actual Markdown/HTML/PDF bytes",
+    "missing and withheld approval deny output; one format approval cannot authorize another",
+    "digest-linked durable resume preserves owner locks, exact retained artifacts, original options and acquisition provenance",
+    "restart failure, private directory/record permission changes and source/retention changes fail closed; no provider redispatch",
+    "Actual compiled CLI Journey Review/Impact/Rationale/Drift/Palace/PreparePublication/Export continuations and restart reach all eighteen stages using eight loopback Responses requests, native signed public test authority, synthetic per-format approval and real Markdown/HTML/PDF owners; repeated review and changed export bytes deny"
+  ]
+}

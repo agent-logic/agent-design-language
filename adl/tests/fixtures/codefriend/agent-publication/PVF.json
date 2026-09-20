@@ -1,0 +1,28 @@
+{
+  "issue": 914,
+  "lane_class": "runtime",
+  "proof_role": "supporting local publication protocol integration",
+  "determinism": "controlled native outputs, synthetic provider lane responses, loopback transport",
+  "resources": {
+    "network": "loopback only",
+    "provider_calls": 0,
+    "filesystem": "private bounded retained fixtures",
+    "font": "installed Unicode TrueType required for PDF"
+  },
+  "release_gate": "required supporting proof; not complete Beta acceptance",
+  "status": "Four original tests passed at 6e98590bc5; two added public-path tests await clean-candidate execution.",
+  "nonclaims": [
+    "full transport/crash matrix",
+    "real provider",
+    "cloud deployment",
+    "installed candidate qualification",
+    "human approval",
+    "complete Beta acceptance"
+  ],
+  "surfaces": [
+    "native prepared-stage and authoritative report validation",
+    "exact shared artifact bytes against existing native owners",
+    "consent, pairing, and retention changes during publication observation",
+    "public prepare, explicit decision, native Markdown/HTML/PDF render, stage upload and receiver verification"
+  ]
+}

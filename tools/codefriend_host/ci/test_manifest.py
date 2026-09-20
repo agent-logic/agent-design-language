@@ -9,7 +9,7 @@ class BinaryProof(unittest.TestCase):
     def fixture(self,root):
         built=root/'built';installed=root/'installed';built.mkdir();installed.mkdir()
         hashes={}
-        for number,name in enumerate(('codefriend-server','codefriend-agent')):
+        for number,name in enumerate(('codefriend-server','codefriend-agent','adl')):
             header=bytearray(64);header[:6]=b'\x7fELF\x02\x01';header[18]=62
             for base in (built,installed):
                 path=base/name;path.write_bytes(header+bytes([number]));path.chmod(0o755)
@@ -26,6 +26,16 @@ class BinaryProof(unittest.TestCase):
     def test_different_tested_bytes_denied(self):
         with tempfile.TemporaryDirectory() as root:
             built,installed,smoke=self.fixture(Path(root));smoke['binary_sha256']['codefriend-agent']='0'*64
+            with self.assertRaises(ValueError):binary_pair(built,installed,smoke)
+    def test_cli_binary_is_required(self):
+        with tempfile.TemporaryDirectory() as root:
+            built,installed,smoke=self.fixture(Path(root))
+            (installed/'adl').unlink()
+            with self.assertRaises(ValueError):binary_pair(built,installed,smoke)
+    def test_cli_must_be_in_tested_binary_evidence(self):
+        with tempfile.TemporaryDirectory() as root:
+            built,installed,smoke=self.fixture(Path(root))
+            del smoke['binary_sha256']['adl']
             with self.assertRaises(ValueError):binary_pair(built,installed,smoke)
     def test_non_amd64_and_symlink_denied(self):
         with tempfile.TemporaryDirectory() as root:

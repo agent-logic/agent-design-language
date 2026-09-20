@@ -1,0 +1,12 @@
+{
+  "issue": 914,
+  "surface": "codefriend::agent::journey::verification::tests",
+  "lane_class": "runtime",
+  "proof_role": "supporting pure verifier over actual paired native snapshots",
+  "determinism": "bounded loopback; actual original Store and native Journey; synthetic model lane output; current-time retention and clean candidate",
+  "resources": "private temporary filesystem and bounded loopback HTTP; no external provider/cloud",
+  "release_gate": "required component proof",
+  "cases": ["actual preparation and typed graph response", "rewritten source/candidate/receipt/original digests", "unknown or inconsistent stage shape", "expiry", "same-binding previous snapshot ordering"],
+  "nonclaims": ["absent artifact semantic recomputation", "live website authorization", "independent qualification"],
+  "execution_status": "authored; pending clean-candidate execution"
+}

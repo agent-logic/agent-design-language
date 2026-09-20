@@ -136,6 +136,15 @@ struct DecisionStore {
     _lock: File,
 }
 
+impl Drop for DecisionStore {
+    fn drop(&mut self) {
+        // Closing only this descriptor can leave flock held by a descriptor
+        // inherited by a concurrently spawned child until it execs. The guard
+        // owns the critical section, so release it before closing its file.
+        let _ = FileExt::unlock(&self._lock);
+    }
+}
+
 impl DecisionStore {
     fn open(root: &Path) -> Result<Self> {
         reject_symlink_components(root)?;
@@ -280,14 +289,7 @@ impl DecisionStore {
         reason: &str,
         decided_at: u64,
     ) -> Result<DecisionRecord> {
-        publication.validate(review)?;
-        let binding = publication.binding_digest()?;
-        let directory = self.decision_directory(&binding)?;
         let previous = self.head(review, publication)?;
-        if !directory.exists() {
-            fs::create_dir(&directory)?;
-            File::open(self.root.join("decisions"))?.sync_all()?;
-        }
         let record = DecisionRecord::new(
             review,
             publication,
@@ -297,6 +299,28 @@ impl DecisionStore {
             decided_at,
             previous.as_ref(),
         )?;
+        self.commit(review, publication, record)
+    }
+
+    fn commit(
+        &self,
+        review: &ReviewRecord,
+        publication: &Publication,
+        record: DecisionRecord,
+    ) -> Result<DecisionRecord> {
+        record.validate(review)?;
+        let previous = self.head(review, publication)?;
+        ensure!(
+            record.previous_decision_digest.as_deref()
+                == previous.as_ref().map(|r| r.digest.as_str()),
+            "decision_head_changed"
+        );
+        let binding = publication.binding_digest()?;
+        let directory = self.decision_directory(&binding)?;
+        if !directory.exists() {
+            fs::create_dir(&directory)?;
+            File::open(self.root.join("decisions"))?.sync_all()?;
+        }
         write_json_create_only(&directory.join(format!("{}.json", record.digest)), &record)?;
         File::open(&directory)?.sync_all()?;
         let generation = fs::read_dir(&directory)?.count() as u64;
@@ -376,6 +400,18 @@ pub enum DecisionKind {
     Invalidated,
 }
 
+/// Integrity-bound audit data from the authenticated service writer. This is
+/// not a deserializable authentication capability and does not authorize append.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct WebsiteDecisionProvenance {
+    pub subject: String,
+    pub operation: String,
+    pub candidate_revision: String,
+    pub challenge_digest: String,
+    pub binding_digest: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct DecisionRecord {
@@ -387,6 +423,10 @@ pub struct DecisionRecord {
     pub channel: String,
     pub decided_at: u64,
     pub previous_decision_digest: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub website: Option<WebsiteDecisionProvenance>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub local_agent: Option<crate::codefriend::agent::publication::LocalProvenance>,
     pub digest: String,
 }
 
@@ -406,6 +446,59 @@ impl DecisionRecord {
         decided_at: u64,
         previous: Option<&DecisionRecord>,
     ) -> Result<Self> {
+        Self::new_with_website(
+            review,
+            publication,
+            decision,
+            actor,
+            reason,
+            decided_at,
+            previous,
+            None,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn new_with_website(
+        review: &ReviewRecord,
+        publication: &Publication,
+        decision: DecisionKind,
+        actor: &str,
+        reason: &str,
+        decided_at: u64,
+        previous: Option<&DecisionRecord>,
+        website: Option<WebsiteDecisionProvenance>,
+    ) -> Result<Self> {
+        Self::new_with_provenance(
+            review,
+            publication,
+            decision,
+            actor,
+            reason,
+            decided_at,
+            previous,
+            website,
+            None,
+        )
+    }
+
+    // Preserve the decision constructor contract while adding sealed website provenance.
+    #[allow(clippy::too_many_arguments)]
+    fn new_with_provenance(
+        review: &ReviewRecord,
+        publication: &Publication,
+        decision: DecisionKind,
+        actor: &str,
+        reason: &str,
+        decided_at: u64,
+        previous: Option<&DecisionRecord>,
+        website: Option<WebsiteDecisionProvenance>,
+        local_agent: Option<crate::codefriend::agent::publication::LocalProvenance>,
+    ) -> Result<Self> {
+        ensure!(
+            website.is_none() || local_agent.is_none(),
+            "decision_provenance_conflict"
+        );
         publication.validate(review)?;
         if let Some(previous) = previous {
             previous.validate(review)?;
@@ -441,14 +534,28 @@ impl DecisionRecord {
             }
         }
         let mut record = Self {
-            schema: DECISION_SCHEMA.to_string(),
+            schema: if local_agent.is_some() {
+                "codefriend.publication_decision.v3".into()
+            } else if website.is_some() {
+                "codefriend.publication_decision.v2".into()
+            } else {
+                DECISION_SCHEMA.into()
+            },
             publication: governed,
             decision,
             actor: actor.trim().to_string(),
             reason: reason.trim().to_string(),
-            channel: "explicit_cli".to_string(),
+            channel: if local_agent.is_some() {
+                "authenticated_local_agent".into()
+            } else if website.is_some() {
+                "authenticated_website".into()
+            } else {
+                "explicit_cli".into()
+            },
             decided_at,
             previous_decision_digest: previous.map(|record| record.digest.clone()),
+            website,
+            local_agent,
             digest: String::new(),
         };
         record.digest = record.expected_digest()?;
@@ -458,13 +565,83 @@ impl DecisionRecord {
 
     pub fn validate(&self, review: &ReviewRecord) -> Result<()> {
         ensure!(
-            self.schema == DECISION_SCHEMA,
+            (self.schema == DECISION_SCHEMA
+                && self.website.is_none()
+                && self.local_agent.is_none())
+                || (self.schema == "codefriend.publication_decision.v2"
+                    && self.website.is_some()
+                    && self.local_agent.is_none())
+                || (self.schema == "codefriend.publication_decision.v3"
+                    && self.website.is_none()
+                    && self.local_agent.is_some()),
             "unsupported_decision_version"
         );
         self.publication.validate(review)?;
         safe_text(&self.actor, "decision_actor")?;
         safe_text(&self.reason, "decision_reason")?;
-        ensure!(self.channel == "explicit_cli", "invalid_decision_channel");
+        if let Some(web) = &self.website {
+            ensure!(
+                self.channel == "authenticated_website" && self.actor == web.subject,
+                "invalid_decision_channel"
+            );
+            safe_text(&web.subject, "website_subject")?;
+            safe_text(&web.operation, "website_operation")?;
+            ensure!(
+                valid_digest(&web.challenge_digest)
+                    && web.binding_digest == self.publication.binding_digest()?
+                    && web.candidate_revision.len() == 40
+                    && web
+                        .candidate_revision
+                        .bytes()
+                        .all(|b| b.is_ascii_hexdigit()),
+                "invalid_website_provenance"
+            );
+        } else if let Some(local) = &self.local_agent {
+            ensure!(
+                self.channel == "authenticated_local_agent" && self.actor == local.subject,
+                "invalid_local_agent_channel"
+            );
+            ensure!(
+                local.schema == "codefriend.local_agent_decision.v1"
+                    && local.publication_binding_digest == self.publication.binding_digest()?
+                    && [
+                        &local.job_digest,
+                        &local.report_digest,
+                        &local.received_digest,
+                        &local.consent_digest,
+                        &local.challenge_digest
+                    ]
+                    .iter()
+                    .all(|d| valid_digest(d))
+                    && local.agent_candidate_revision.len() == 40
+                    && local.agent_candidate_revision != "0".repeat(40)
+                    && local
+                        .agent_candidate_revision
+                        .bytes()
+                        .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+                "invalid_local_agent_provenance"
+            );
+            for id in [&local.subject, &local.agent_id, &local.run_id] {
+                ensure!(
+                    !id.is_empty()
+                        && id.len() <= 80
+                        && id
+                            .bytes()
+                            .all(|b| b.is_ascii_alphanumeric() || b"_-".contains(&b)),
+                    "invalid_local_agent_identity"
+                );
+            }
+            ensure!(
+                self.publication.renderer_versions
+                    == std::collections::BTreeMap::from([(
+                        local.format.key().into(),
+                        local.format.renderer_version().into()
+                    )]),
+                "invalid_local_agent_format"
+            );
+        } else {
+            ensure!(self.channel == "explicit_cli", "invalid_decision_channel");
+        }
         ensure!(self.decided_at > 0, "invalid_decision_time");
         if let Some(previous) = &self.previous_decision_digest {
             ensure!(valid_digest(previous), "invalid_previous_decision_digest");
@@ -789,6 +966,85 @@ fn safe_text(value: &str, label: &str) -> Result<()> {
     Ok(())
 }
 
+/// Only the native service can construct this live authenticated authority.
+/// Browser JSON and actor strings cannot reach this writer on their own.
+pub(crate) fn append_authenticated_website_decision(
+    store_root: &Path,
+    review: &ReviewRecord,
+    publication: &Publication,
+    decision: DecisionKind,
+    authority: &crate::codefriend::server::WebsiteDecisionAuthority<'_>,
+) -> Result<DecisionRecord> {
+    let store = DecisionStore::open(store_root)?;
+    let previous = store.head(review, publication)?;
+    if let Some(record) = &previous {
+        if record.website.is_some() && record.decision == decision {
+            if let Ok((web, _)) = authority.verify(
+                review,
+                publication,
+                record.previous_decision_digest.as_deref(),
+            ) {
+                if record.website.as_ref() == Some(&web) {
+                    return Ok(record.clone());
+                }
+            }
+        }
+    }
+    let (web, decided_at) = authority.verify(
+        review,
+        publication,
+        previous.as_ref().map(|r| r.digest.as_str()),
+    )?;
+    let actor = web.subject.clone();
+    let record = DecisionRecord::new_with_website(
+        review,
+        publication,
+        decision,
+        &actor,
+        "Authenticated website artifact decision",
+        decided_at,
+        previous.as_ref(),
+        Some(web),
+    )?;
+    store.commit(review, publication, record)
+}
+
+/// Only the local paired transport can construct this live capability.
+pub(crate) fn append_authenticated_local_agent_decision(
+    store_root: &Path,
+    review: &ReviewRecord,
+    publication: &Publication,
+    decision: DecisionKind,
+    authority: &crate::codefriend::agent::publication::LocalDecisionAuthority<'_>,
+) -> Result<DecisionRecord> {
+    ensure!(
+        &decision == authority.requested_decision(),
+        "local_agent_decision_kind_mismatch"
+    );
+    let store = DecisionStore::open(store_root)?;
+    let previous = store.head(review, publication)?;
+    // The agent's durable reservation routes replay to readback before reaching
+    // this fresh append. A racing head change is checked by live authority here.
+    let (local, decided_at) = authority.verify(
+        review,
+        publication,
+        previous.as_ref().map(|r| r.digest.as_str()),
+    )?;
+    let actor = local.subject.clone();
+    let record = DecisionRecord::new_with_provenance(
+        review,
+        publication,
+        decision,
+        &actor,
+        "Authenticated local agent artifact decision",
+        decided_at,
+        previous.as_ref(),
+        None,
+        Some(local),
+    )?;
+    store.commit(review, publication, record)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -797,6 +1053,34 @@ mod tests {
         ingestion::digest,
         publication::manifest::{ManifestInput, MANIFEST_INPUT_SCHEMA},
     };
+
+    // PVF: runtime lane, supporting beta regression, deterministic local filesystem
+    // descriptor lifetime; bounded CPU/disk, no providers or release qualification.
+    #[test]
+    fn decision_store_drop_releases_duplicated_description() {
+        let target_tmp = Path::new(env!("CARGO_MANIFEST_DIR")).join("target/test-tmp");
+        fs::create_dir_all(&target_tmp).unwrap();
+        let directory = tempfile::tempdir_in(target_tmp).unwrap();
+        let root = directory.path().join("store");
+        let owner = DecisionStore::open(&root).unwrap();
+        // Like a descriptor inherited across fork, try_clone shares the locked
+        // open file description even after the original descriptor is closed.
+        let inherited = owner._lock.try_clone().unwrap();
+        assert_eq!(
+            DecisionStore::open(&root).err().unwrap().to_string(),
+            "publication_store_busy"
+        );
+        drop(owner);
+        let next_owner = DecisionStore::open(&root)
+            .expect("dropping the owner must release its lock despite an inherited descriptor");
+        drop(inherited);
+        assert_eq!(
+            DecisionStore::open(&root).err().unwrap().to_string(),
+            "publication_store_busy"
+        );
+        drop(next_owner);
+        DecisionStore::open(&root).unwrap();
+    }
 
     #[test]
     fn atomic_publication_uses_the_verified_snapshot_not_a_second_source_read() {
@@ -1021,6 +1305,79 @@ mod tests {
             )
             .is_err());
             assert!(!destination.join("published").exists());
+        }
+    }
+    #[test]
+    fn local_provenance_extension_preserves_legacy_decision_bytes() {
+        // PVF agent-publication: byte-level compatibility of preexisting v1/v2
+        // records. Independently serialize the old field set and compare bytes.
+        #[derive(Serialize)]
+        struct Legacy<'a> {
+            schema: &'a str,
+            publication: &'a Publication,
+            decision: &'a DecisionKind,
+            actor: &'a str,
+            reason: &'a str,
+            channel: &'a str,
+            decided_at: u64,
+            previous_decision_digest: &'a Option<String>,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            website: &'a Option<WebsiteDecisionProvenance>,
+            digest: &'a str,
+        }
+        let review: ReviewRecord = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/codefriend/evidence/review-v1.json"
+        ))
+        .unwrap();
+        let publication: Publication = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/codefriend/evidence/publication-v1.json"
+        ))
+        .unwrap();
+        for website in [
+            None,
+            Some(WebsiteDecisionProvenance {
+                subject: "operator".into(),
+                operation: "operation".into(),
+                candidate_revision: "a".repeat(40),
+                challenge_digest: "b".repeat(64),
+                binding_digest: publication.binding_digest().unwrap(),
+            }),
+        ] {
+            let record = DecisionRecord::new_with_website(
+                &review,
+                &publication,
+                DecisionKind::Withheld,
+                "operator",
+                "compatibility fixture",
+                100,
+                None,
+                website,
+            )
+            .unwrap();
+            let old = Legacy {
+                schema: &record.schema,
+                publication: &record.publication,
+                decision: &record.decision,
+                actor: &record.actor,
+                reason: &record.reason,
+                channel: &record.channel,
+                decided_at: record.decided_at,
+                previous_decision_digest: &record.previous_decision_digest,
+                website: &record.website,
+                digest: &record.digest,
+            };
+            assert_eq!(
+                serde_json::to_vec(&record).unwrap(),
+                serde_json::to_vec(&old).unwrap()
+            );
+            assert!(!serde_json::to_value(&record)
+                .unwrap()
+                .as_object()
+                .unwrap()
+                .contains_key("local_agent"));
+            let mut forged = record.clone();
+            forged.schema = "codefriend.publication_decision.v3".into();
+            assert!(forged.validate(&review).is_err());
         }
     }
 }

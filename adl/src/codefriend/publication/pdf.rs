@@ -430,7 +430,7 @@ fn wrap_text_with_width(
     Ok(lines)
 }
 
-fn validate_manifest(
+pub(crate) fn validate_manifest(
     manifest: &PdfManifest,
     prepared: &super::markdown::PreparedReport,
 ) -> Result<()> {

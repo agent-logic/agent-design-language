@@ -3,8 +3,17 @@ mod github_command;
 use adl::codefriend::ingestion::{local, AdmissionInput, Scope};
 use anyhow::{ensure, Result};
 use std::{collections::BTreeMap, path::Path};
-const USAGE: &str = "Usage: adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend plan tests --input <synthesis.json> --out <new-dir>\n       adl codefriend plan tests read --input <test-plan.json>\n       adl codefriend publication prepare|approve|withhold|invalidate|inspect|admit ...\n       adl codefriend export markdown|html --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir>\n       adl codefriend export pdf --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir> --font <font.ttf>\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
+const USAGE: &str = "Usage: adl codefriend journey resume --output <journey-directory> --request <step.json>\n       adl codefriend journey admitted --request <acquisition-options.json>\n        adl codefriend journey local --request <journey.json> [--provider-request <request.json> --run-id <id> --destination <existing-directory>]\n       adl codefriend ingest local --checkout <directory> --repository <https://host/owner/repo> --revision <full-commit-id> --scope <scope.json> --out <new-packet.json>\n       adl codefriend packet read --input <packet.json>\n       adl codefriend review run --store <store-dir> --packet-id <id> --provider-request <request.json> --out <dir> [--run-id <id>]\n       adl codefriend review synthesize --input <review-record.json> --out <new-dir>\n       adl codefriend plan remediation --input <synthesis.json> --out <new-dir>\n       adl codefriend plan remediation read --input <remediation-plan.json>\n       adl codefriend plan tests --input <synthesis.json> --out <new-dir>\n       adl codefriend plan tests read --input <test-plan.json>\n       adl codefriend publication prepare|approve|withhold|invalidate|inspect|admit ...\n       adl codefriend export markdown|html --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir>\n       adl codefriend export pdf --review-record <review-record.json> --publication <publication.json> --approval-store <dir> --artifact-root <dir> --synthesis <relative-path> --remediation-plan <relative-path> --test-plan <relative-path> --destination-root <dir> --out <new-dir> --font <font.ttf>\n       adl codefriend review shell start|inspect|cancel|retry|withhold-publication ...";
 pub(super) fn real_codefriend(args: &[String]) -> Result<()> {
+    if args.len() >= 2 && args[0] == "journey" && args[1] == "resume" {
+        return journey_resume(&args[2..]);
+    }
+    if args.len() >= 2 && args[0] == "journey" && args[1] == "admitted" {
+        return journey_admitted(&args[2..]);
+    }
+    if args.len() >= 2 && args[0] == "journey" && args[1] == "local" {
+        return journey_local(&args[2..]);
+    }
     if args.first().is_some_and(|arg| arg == "memory") {
         return super::codefriend_memory_cmd::run(&args[1..]);
     }
@@ -512,4 +521,107 @@ fn review_shell_withhold_publication(args: &[String]) -> Result<()> {
         Path::new(flags["--out"]),
         flags["--reason"],
     )?)
+}
+
+fn journey_local(args: &[String]) -> Result<()> {
+    use adl::codefriend::integration::{
+        journey::{prepare_local, LocalJourneyOptions, StageStatus},
+        PublicationFormat,
+    };
+    use std::io::Read;
+    let with_provider = args.iter().any(|arg| arg == "--provider-request");
+    let expected: &[&str] = if with_provider {
+        &[
+            "--request",
+            "--provider-request",
+            "--run-id",
+            "--destination",
+        ]
+    } else {
+        &["--request"]
+    };
+    let flags = exact_flags(args, expected, "journey")?;
+    let mut bytes = Vec::new();
+    std::fs::File::open(flags["--request"])
+        .map_err(|_| anyhow::anyhow!("journey_request_open_failed"))?
+        .take(131073)
+        .read_to_end(&mut bytes)?;
+    ensure!(bytes.len() <= 131072, "journey_request_too_large");
+    let options: LocalJourneyOptions =
+        serde_json::from_slice(&bytes).map_err(|_| anyhow::anyhow!("invalid_journey_request"))?;
+    // Validate provider input before acquisition, but dispatch only after native preparation.
+    let provider = if with_provider {
+        Some(adl::codefriend::review::runner::read_provider_request(
+            Path::new(flags["--provider-request"]),
+        )?)
+    } else {
+        None
+    };
+    let mut journey = prepare_local(options)?;
+    if let Some(request) = provider {
+        if journey.manifest().status != StageStatus::Failed {
+            journey.run_review(request, flags["--run-id"].into(), None)?;
+            if journey.manifest().status != StageStatus::Failed {
+                for format in [
+                    PublicationFormat::Markdown,
+                    PublicationFormat::Html,
+                    PublicationFormat::Pdf,
+                ] {
+                    journey.prepare_publication(Path::new(flags["--destination"]), format)?;
+                    if journey.manifest().status == StageStatus::Failed {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    println!("{}", serde_json::to_string(journey.manifest())?);
+    ensure!(
+        journey.manifest().status != StageStatus::Failed,
+        "journey_stage_failed"
+    );
+    Ok(())
+}
+
+fn journey_resume(args: &[String]) -> Result<()> {
+    use adl::codefriend::integration::journey::{resume, Continuation, StageStatus};
+    let flags = exact_flags(args, &["--output", "--request"], "journey resume")?;
+    let step: Continuation = journey_read_request(Path::new(flags["--request"]))?;
+    let mut journey = resume(Path::new(flags["--output"]))?;
+    journey.continue_with(step)?;
+    println!("{}", serde_json::to_string(journey.manifest())?);
+    ensure!(
+        journey.manifest().status != StageStatus::Failed,
+        "journey_stage_failed"
+    );
+    Ok(())
+}
+fn journey_read_request<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
+    use std::io::Read;
+    let mut bytes = Vec::new();
+    std::fs::File::open(path)?
+        .take(131073)
+        .read_to_end(&mut bytes)?;
+    ensure!(bytes.len() <= 131072, "journey_request_too_large");
+    Ok(serde_json::from_slice(&bytes)?)
+}
+fn journey_admitted(args: &[String]) -> Result<()> {
+    use adl::codefriend::integration::journey::{
+        prepare_source, AcquisitionSource, LocalJourneyOptions, StageStatus,
+    };
+    #[derive(serde::Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct Input {
+        options: LocalJourneyOptions,
+        acquisition: AcquisitionSource,
+    }
+    let flags = exact_flags(args, &["--request"], "journey admitted")?;
+    let request: Input = journey_read_request(Path::new(flags["--request"]))?;
+    let journey = prepare_source(request.options, request.acquisition)?;
+    println!("{}", serde_json::to_string(journey.manifest())?);
+    ensure!(
+        journey.manifest().status != StageStatus::Failed,
+        "journey_stage_failed"
+    );
+    Ok(())
 }

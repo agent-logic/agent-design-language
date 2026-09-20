@@ -1,5 +1,8 @@
 //! Installed agent authority. Website commands select locally approved evidence;
 //! they never provide paths, executable commands, or provider credentials.
+pub mod journey;
+pub mod publication;
+
 use super::{
     evidence::hash,
     ingestion::{self, Scope},
@@ -447,6 +450,21 @@ impl GatewayLaneIdentity {
         ))
     }
 }
+/// Authenticated website acknowledgement of a retained completed report.
+/// This is an upload binding, never publication approval or continuing authority.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ForwardReceipt {
+    pub schema: String,
+    pub subject: String,
+    pub agent_id: String,
+    pub run_id: String,
+    pub report_digest: String,
+    pub received_digest: String,
+    pub consent_digest: String,
+    pub expires_at: u64,
+}
+
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct RunReport {
@@ -842,11 +860,63 @@ impl Transport {
             identity,
         ))
     }
+    fn original_admission(
+        &self,
+        dir: &Path,
+        consent: &Consent,
+        expires_at: u64,
+        resuming: bool,
+    ) -> Result<super::evidence::Admission> {
+        use super::evidence::{store::Store, Admission, Retention};
+        let store_path = dir.join("evidence");
+        let saved_path = dir.join("admission.json");
+        let admission: Admission = if resuming {
+            // A missing original owner cannot authorize a replacement admission.
+            ensure!(store_path.is_dir(), "agent_original_store_missing");
+            serde_json::from_slice(&fs::read(&saved_path)?)?
+        } else {
+            ensure!(!store_path.exists(), "agent_original_store_already_exists");
+            let packet = ingestion::local::acquire(
+                &consent.repository_path,
+                &consent.repository,
+                &consent.revision,
+                consent.scope.clone(),
+            )?;
+            let admitted_at = (self.clock)();
+            ensure!(admitted_at < expires_at, "agent_retention_expired");
+            // One explicit timestamp binds admission to the durable deadline.
+            // This Store is closed before reopening under the live clock below.
+            let store = Store::open(&store_path, move || admitted_at)?;
+            let admission = store.admit(
+                packet,
+                Retention {
+                    seconds: expires_at - admitted_at,
+                },
+            )?;
+            save_private(&saved_path, &admission)?;
+            admission
+        };
+        admission.validate()?;
+        let clock = self.clock.clone();
+        let store = Store::open(&store_path, move || clock())?;
+        ensure!(
+            store.get(&admission.packet.packet_id)? == admission,
+            "agent_original_admission_changed"
+        );
+        Ok(admission)
+    }
     /// Executes or resumes one review. Reconnection observes acknowledged operations
     /// and reuses completed lanes; no dispatched POST is replayed.
     pub fn poll_once(&self, journal: &Journal, consent_path: &Path) -> Result<Option<String>> {
         journal.expire((self.clock)())?;
-        let result = self.poll_inner(journal, consent_path);
+        let result = match self.poll_publication(journal, consent_path) {
+            Ok(Some(run)) => Ok(Some(run)),
+            Ok(None) => match self.poll_journey(journal, consent_path) {
+                Ok(None) => self.poll_inner(journal, consent_path),
+                result => result,
+            },
+            Err(error) => Err(error),
+        };
         journal.expire((self.clock)())?;
         result
     }
@@ -884,7 +954,21 @@ impl Transport {
             );
             existing
         } else {
-            journal.reserve(&command, &pairing, &consent, (self.clock)())?
+            let dir = journal.reserve(&command, &pairing, &consent, (self.clock)())?;
+            let path = fs::canonicalize(consent_path)?;
+            let current = read_consent(&path, (self.clock)())?;
+            ensure!(
+                current.digest()? == consent.digest()?,
+                "agent_consent_changed"
+            );
+            save_private(
+                &dir.join("local-consent.json"),
+                &LocalConsentBinding {
+                    path,
+                    digest: consent.digest()?,
+                },
+            )?;
+            dir
         };
         let expires_at = if resuming {
             serde_json::from_slice(&fs::read(dir.join("expires.json"))?)?
@@ -912,25 +996,8 @@ impl Transport {
                     .map_err(|_| ObservationPending)?,
                 "agent_cancelled"
             );
-            let admission: super::evidence::Admission = if resuming {
-                serde_json::from_slice(&fs::read(dir.join("admission.json"))?)?
-            } else {
-                let packet = ingestion::local::acquire(
-                    &consent.repository_path,
-                    &consent.repository,
-                    &consent.revision,
-                    consent.scope.clone(),
-                )?;
-                let saved = super::evidence::Admission::new(
-                    packet,
-                    super::evidence::Retention {
-                        seconds: expires_at.saturating_sub((self.clock)()),
-                    },
-                    (self.clock)(),
-                )?;
-                save_private(&dir.join("admission.json"), &saved)?;
-                saved
-            };
+            let admission = self.original_admission(&dir, &consent, expires_at, resuming)?;
+            authority.check((self.clock)())?;
             admission.validate()?;
             ensure!(
                 admission.packet.completeness == "complete_scoped_acquisition",
@@ -960,7 +1027,7 @@ impl Transport {
             gateway_lanes.push(first_identity.clone());
             super::review::runner::run_with_executor(
                 super::review::runner::ExecutionOptions {
-                    out: dir.join("work"),
+                    out: dir.join("work/review"),
                     run_id: command.run_id.clone(),
                     cancel_file: None,
                 },
@@ -1124,6 +1191,97 @@ impl Transport {
         );
         Ok(())
     }
+    /// Recover the website's receipt using authenticated observation only. This
+    /// explicit publication-preparation step leaves ordinary forwarding compatible
+    /// with older websites. A missing upload ACK never authorizes redispatch.
+    /// Every invocation re-observes current website authority; cached receipts do
+    /// not grant offline publication permission or promise future non-revocation.
+    pub fn publication_receipt(
+        &self,
+        journal: &Journal,
+        run_id: &str,
+        consent_path: &Path,
+    ) -> Result<ForwardReceipt> {
+        journal.expire((self.clock)())?;
+        ensure!(identifier(run_id), "agent_receipt_run_id");
+        let pairing = journal.pairing((self.clock)())?;
+        self.paired(&pairing)?;
+        let dir = journal.root.join(format!("run-{run_id}"));
+        let read = |path: &Path, limit: u64| -> Result<Vec<u8>> {
+            let m = fs::symlink_metadata(path)?;
+            ensure!(
+                m.is_file() && m.permissions().mode() & 0o077 == 0 && m.len() <= limit,
+                "agent_receipt_file_permissions"
+            );
+            let mut bytes = Vec::new();
+            File::open(path)?.take(limit + 1).read_to_end(&mut bytes)?;
+            ensure!(bytes.len() as u64 <= limit, "agent_receipt_file_limit");
+            Ok(bytes)
+        };
+        ensure!(
+            fs::symlink_metadata(&dir)?.is_dir(),
+            "agent_receipt_run_directory"
+        );
+        let command: Command = serde_json::from_slice(&read(&dir.join("command.json"), 8192)?)?;
+        let report: RunReport =
+            serde_json::from_slice(&read(&dir.join("report.json"), MAX_RESPONSE)?)?;
+        report.validate((self.clock)())?;
+        ensure!(
+            report.status == "complete"
+                && command.run_id == run_id
+                && report.run_id == run_id
+                && report.agent_id == pairing.agent_id
+                && report.subject == pairing.subject
+                && report.consent_digest == command.consent_digest,
+            "agent_receipt_report_identity"
+        );
+        let deadline: u64 = serde_json::from_slice(&read(&dir.join("expires.json"), 64)?)?;
+        ensure!(report.expires_at == deadline, "agent_receipt_retention");
+        let authority = RunAuthority {
+            pairing: &pairing,
+            command: &command,
+            consent_path,
+            expires_at: deadline,
+        };
+        authority.check((self.clock)())?;
+        ensure!(!self.control(&pairing, &command)?, "agent_cancelled");
+        let receipt: ForwardReceipt = self.request(
+            Method::GET,
+            &format!("/v1/agent/runs/{run_id}/receipt"),
+            Some(&pairing.agent_token),
+            None,
+        )?;
+        authority.check((self.clock)())?;
+        // A pairing replaced/removed while observing cannot authorize retention.
+        ensure!(
+            hash(&journal.pairing((self.clock)())?)? == hash(&pairing)?,
+            "agent_pairing_changed"
+        );
+        ensure!(
+            receipt.schema == "codefriend.agent_report_receipt.v1"
+                && receipt.subject == report.subject
+                && receipt.agent_id == report.agent_id
+                && receipt.run_id == report.run_id
+                && receipt.report_digest == report.digest
+                && receipt.consent_digest == report.consent_digest
+                && receipt.expires_at == report.expires_at
+                && super::evidence::valid_digest(&receipt.received_digest),
+            "agent_receipt_binding"
+        );
+        let work = dir.join("work");
+        ensure!(
+            fs::symlink_metadata(&work)?.is_dir(),
+            "agent_receipt_work_directory"
+        );
+        let path = work.join("forward-receipt.json");
+        if fs::symlink_metadata(&path).is_ok() {
+            let retained: ForwardReceipt = serde_json::from_slice(&read(&path, 8192)?)?;
+            ensure!(retained == receipt, "agent_receipt_changed");
+        } else {
+            save_private(&path, &receipt)?;
+        }
+        Ok(receipt)
+    }
     pub fn unpair(&self, journal: &Journal) -> Result<()> {
         let pairing = journal.pairing((self.clock)())?;
         self.paired(&pairing)?;
@@ -1145,6 +1303,13 @@ impl Transport {
         Ok(())
     }
 }
+#[derive(Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct LocalConsentBinding {
+    path: PathBuf,
+    digest: String,
+}
+
 pub fn read_consent(path: &Path, now: u64) -> Result<Consent> {
     let m = fs::symlink_metadata(path)?;
     ensure!(
@@ -1176,7 +1341,15 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
     if report.exists() {
         fs::remove_file(report)?;
     }
-    for name in ["work", "gateway"] {
+    for name in [
+        "work",
+        "gateway",
+        "evidence",
+        "journey",
+        "relay-delivery",
+        "baseline-owners",
+        "palace",
+    ] {
         let work = path.join(name);
         if work.is_dir() {
             fs::remove_dir_all(work)?;
@@ -1185,6 +1358,10 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
     let admission = path.join("admission.json");
     if admission.exists() {
         fs::remove_file(admission)?;
+    }
+    let consent = path.join("local-consent.json");
+    if consent.exists() {
+        fs::remove_file(consent)?;
     }
     File::open(path)?.sync_all()?;
     Ok(())
