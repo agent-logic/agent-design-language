@@ -176,8 +176,16 @@ fn issue_1036_installed_prepare_adopts_exact_registered_bound_legacy_record() {
     let native_before = intent_fixture::inventory(&native_issue);
     fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
     fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    fs::create_dir_all(primary.join(".csdlc/evidence/505")).unwrap();
+    fs::write(
+        primary.join(".csdlc/evidence/505/retained-proof.json"),
+        b"{}\n",
+    )
+    .unwrap();
 
-    let input = fixture.write_json("bound-legacy-plan.json", &plan());
+    let mut refreshed_plan = plan();
+    refreshed_plan["slug"] = json!("refreshed-bound-legacy-plan");
+    let input = fixture.write_json("bound-legacy-plan.json", &refreshed_plan);
     let prepared = success(fixture.run(
         &bound,
         &["prepare", "505", "--plan", input.to_str().unwrap()],

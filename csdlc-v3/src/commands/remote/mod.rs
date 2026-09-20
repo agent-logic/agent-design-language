@@ -36,6 +36,7 @@ pub use routing::dispatch_operational_remote;
 pub(crate) use storage::{
     repository_scoped_issue_creation_receipt, require_settled_transition_remote,
     settled_coordination_completion_receipt, settled_issue_mutation_receipt,
+    settled_issue_scoped_mutation_receipt,
 };
 pub use support::{github_mutation_operation_digest, github_mutation_operation_marker};
 
