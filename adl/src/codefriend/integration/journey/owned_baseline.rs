@@ -8,6 +8,7 @@ pub(crate) struct OwnedBaseline<'a> {
     pub operation: &'a str,
     pub store: &'a Store,
     pub graph: &'a structure::StructureReport,
+    pub review: &'a crate::codefriend::evidence::contracts::ReviewRecord,
     pub baseline_root: &'a Path,
     pub expires_at: u64,
 }
@@ -19,6 +20,11 @@ impl OwnedBaseline<'_> {
             "journey_baseline_operation_invalid"
         );
         self.graph.validate(self.store)?;
+        self.review.validate()?;
+        ensure!(
+            self.review.admission == self.graph.record.admission,
+            "journey_baseline_review_changed"
+        );
         ensure!(
             now() < self.expires_at && self.expires_at <= self.graph.record.admission.expires_at,
             "journey_baseline_expired"
@@ -166,11 +172,27 @@ pub(crate) fn validate_graph_source(
             && stage.digest.as_deref() == Some(hash(graph)?.as_str()),
         "journey_baseline_structure_binding_changed"
     );
+    let retained: FourPerspectiveReviewRun = read_typed(&binding.review_root.join("run.json"))?;
+    let original = crate::codefriend::publication::read_review(
+        &binding.review_root.join("review-record.json"),
+    )?;
+    ensure!(
+        retained.review_record == original && original.admission == graph.record.admission,
+        "journey_baseline_review_changed"
+    );
     Ok(())
 }
 
-struct Pair<'a> {
-    owners: [(&'a AdmittedBaselines<'a>, BaselineRef); 2],
+pub(crate) fn original_review(
+    output: &Path,
+) -> Result<crate::codefriend::evidence::contracts::ReviewRecord> {
+    let session: PersistedSession = read_typed(&output.join("session.json"))?;
+    let binding = session.resume_binding(output)?;
+    crate::codefriend::publication::read_review(&binding.review_root.join("review-record.json"))
+}
+
+pub(super) struct Pair<'a> {
+    pub(super) owners: [(&'a AdmittedBaselines<'a>, BaselineRef); 2],
 }
 impl BaselineAccess for Pair<'_> {
     fn load(

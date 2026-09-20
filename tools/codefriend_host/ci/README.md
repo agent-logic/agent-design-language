@@ -11,11 +11,13 @@ use AWS or provider credentials, publish releases, deploy, or invoke poweroff.
 The binaries are built together using the declared **dev profile with debug
 information disabled**. They are not mislabeled optimized release builds.
 
-The job installs isolated copies of codefriend-server and codefriend-agent, then
-runs 15 installed smoke cases: empty-registry startup/current embedded gateway
+The job installs isolated copies of codefriend-server, codefriend-agent, and adl, then
+runs 16 installed smoke cases: empty-registry startup/current embedded gateway
 candidate, read-only quiescence, drain/resume ownership, retired attempt and old
 instance rejection, restart, unauthenticated malformed-body denial, and actual
-agent CLI acceptance/rejection of report fixtures. A bound loopback provider trap
+agent CLI acceptance/rejection of report fixtures, plus the installed ADL CodeFriend
+Journey help entrypoint. All three binaries come from the same exact source commit.
+The CLI help case establishes availability only, not a completed product journey. A bound loopback provider trap
 must receive zero connections, and the durable operations directory stays empty.
 The subprocess environment contains only explicit PATH/HOME values; provider,
 GitHub and AWS credentials are not inherited. Both gateway instances must exit
@@ -35,7 +37,7 @@ workflow SHA/ref, run ID/attempt and smoke proof. Artifact copying is create-onl
 A tar archive preserves executable modes through artifact transport. The upload
 step records its artifact ID and digest in the job summary. Fetchers
 must independently authenticate GitHub run/job/artifact metadata and compare the
-server digest before trusting downloaded bytes. **This is build evidence, not a
+digest of each required binary before trusting downloaded bytes. **This is build evidence, not a
 signed attestation.** Installer `--no-build` metadata alone is not provenance.
 The manifest retains `ready_for_deployment:false`; systemd, actual product
 journeys and deployed shutdown acceptance remain separate requirements.

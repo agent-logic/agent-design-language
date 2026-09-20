@@ -1,0 +1,11 @@
+{
+  "schema": "codefriend.fixture_pvf.v1",
+  "lane": "deterministic_component",
+  "proof_role": "Hosted original-owner Palace integration through actual signed Runtime authority and native comparison",
+  "test": "codefriend_integration::hosted_journey_reuses_original_admission_and_completed_review",
+  "determinism": "real local Store admissions, synthetic review lanes, public deterministic signing fixture, no external provider",
+  "resource_profile": "bounded temporary private stores, two service operations, no network listener or cloud",
+  "external_provider_calls": 0,
+  "release_gate": "component regression only; installed operator and full Beta qualification remain separate",
+  "status": "authored_unexecuted"
+}

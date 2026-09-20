@@ -20,6 +20,7 @@ use std::{
 };
 
 pub(crate) mod owned_baseline;
+pub(crate) mod owned_palace;
 mod publication_attachment;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -991,6 +992,14 @@ pub(crate) fn resume_with_baseline(
     output: &Path,
     baseline: Option<&owned_baseline::OwnedBaseline<'_>>,
 ) -> Result<Journey> {
+    resume_with_owners(output, baseline, None)
+}
+
+pub(crate) fn resume_with_owners(
+    output: &Path,
+    baseline: Option<&owned_baseline::OwnedBaseline<'_>>,
+    palace: Option<&owned_palace::AuthorityContext>,
+) -> Result<Journey> {
     private_journey(output)?;
     let session: PersistedSession = read_typed(&output.join("session.json"))?;
     let session_digest = hash(&session)?;
@@ -1186,7 +1195,9 @@ pub(crate) fn resume_with_baseline(
         let value: drift::DriftReport = read_typed(&output.join("drift.json"))?;
         value.validate(&store, &backend)?;
     }
-    if manifest.stages["palace_comparison"].status == StageStatus::Complete {
+    let owned_palace =
+        owned_palace::validate_saved(&source, &output, &store, baseline, palace, review.as_ref())?;
+    if manifest.stages["palace_comparison"].status == StageStatus::Complete && !owned_palace {
         let step: Continuation = read_typed(&output.join("intent-palace_comparison.json"))?;
         let Continuation::Palace {
             baseline_root,

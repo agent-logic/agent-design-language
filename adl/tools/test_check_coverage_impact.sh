@@ -1236,6 +1236,7 @@ for mapping in \
   'adl/src/codefriend/architecture/drift.rs|binary_id(adl::codefriend_cf_cog_drift) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' \
   'adl/src/codefriend/memory/palace.rs|binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)' \
   'adl/src/codefriend/integration/journey/owned_baseline.rs|binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))' \
+  'adl/src/codefriend/integration/journey/owned_palace.rs|binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' \
   'adl/src/codefriend/integration/journey/publication_attachment.rs|binary_id(adl::codefriend_integration)' \
   'adl/src/codefriend/server/journey_publication.rs|binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'; do
   printf 'A\t%s\n' "${mapping%%|*}" >"$TMP/codefriend-owned-source.txt"

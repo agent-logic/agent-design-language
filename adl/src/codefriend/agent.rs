@@ -859,6 +859,51 @@ impl Transport {
             identity,
         ))
     }
+    fn original_admission(
+        &self,
+        dir: &Path,
+        consent: &Consent,
+        expires_at: u64,
+        resuming: bool,
+    ) -> Result<super::evidence::Admission> {
+        use super::evidence::{store::Store, Admission, Retention};
+        let store_path = dir.join("evidence");
+        let saved_path = dir.join("admission.json");
+        let admission: Admission = if resuming {
+            // A missing original owner cannot authorize a replacement admission.
+            ensure!(store_path.is_dir(), "agent_original_store_missing");
+            serde_json::from_slice(&fs::read(&saved_path)?)?
+        } else {
+            ensure!(!store_path.exists(), "agent_original_store_already_exists");
+            let packet = ingestion::local::acquire(
+                &consent.repository_path,
+                &consent.repository,
+                &consent.revision,
+                consent.scope.clone(),
+            )?;
+            let admitted_at = (self.clock)();
+            ensure!(admitted_at < expires_at, "agent_retention_expired");
+            // One explicit timestamp binds admission to the durable deadline.
+            // This Store is closed before reopening under the live clock below.
+            let store = Store::open(&store_path, move || admitted_at)?;
+            let admission = store.admit(
+                packet,
+                Retention {
+                    seconds: expires_at - admitted_at,
+                },
+            )?;
+            save_private(&saved_path, &admission)?;
+            admission
+        };
+        admission.validate()?;
+        let clock = self.clock.clone();
+        let store = Store::open(&store_path, move || clock())?;
+        ensure!(
+            store.get(&admission.packet.packet_id)? == admission,
+            "agent_original_admission_changed"
+        );
+        Ok(admission)
+    }
     /// Executes or resumes one review. Reconnection observes acknowledged operations
     /// and reuses completed lanes; no dispatched POST is replayed.
     pub fn poll_once(&self, journal: &Journal, consent_path: &Path) -> Result<Option<String>> {
@@ -933,25 +978,8 @@ impl Transport {
                     .map_err(|_| ObservationPending)?,
                 "agent_cancelled"
             );
-            let admission: super::evidence::Admission = if resuming {
-                serde_json::from_slice(&fs::read(dir.join("admission.json"))?)?
-            } else {
-                let packet = ingestion::local::acquire(
-                    &consent.repository_path,
-                    &consent.repository,
-                    &consent.revision,
-                    consent.scope.clone(),
-                )?;
-                let saved = super::evidence::Admission::new(
-                    packet,
-                    super::evidence::Retention {
-                        seconds: expires_at.saturating_sub((self.clock)()),
-                    },
-                    (self.clock)(),
-                )?;
-                save_private(&dir.join("admission.json"), &saved)?;
-                saved
-            };
+            let admission = self.original_admission(&dir, &consent, expires_at, resuming)?;
+            authority.check((self.clock)())?;
             admission.validate()?;
             ensure!(
                 admission.packet.completeness == "complete_scoped_acquisition",
@@ -1288,7 +1316,7 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
     if report.exists() {
         fs::remove_file(report)?;
     }
-    for name in ["work", "gateway"] {
+    for name in ["work", "gateway", "evidence", "journey"] {
         let work = path.join(name);
         if work.is_dir() {
             fs::remove_dir_all(work)?;

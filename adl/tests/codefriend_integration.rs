@@ -1335,6 +1335,84 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         second_graph_bytes,
         fs::read(second_work.join("journey/structure.json")).unwrap()
     );
+    // Actual Runtime authority and comparison, using public deterministic signing
+    // seeds only in this fixture. Missing authority must not reserve or dispatch.
+    let palace_request = json!({"stage":"palace_comparison","baseline_operation":"journey1"});
+    assert_ne!(
+        http_call(
+            &app,
+            "POST",
+            second_step,
+            Some(token),
+            palace_request.clone()
+        )
+        .await
+        .0,
+        200
+    );
+    assert!(!second_work
+        .join("journey/intent-palace_comparison.json")
+        .exists());
+    hosted_palace_authority_fixture::generate(&root.join("palace-authority")).unwrap();
+    let (status, palace_state) = http_call(
+        &app,
+        "POST",
+        second_step,
+        Some(token),
+        palace_request.clone(),
+    )
+    .await;
+    assert_eq!(status, 200, "{palace_state}");
+    assert_eq!(
+        palace_state["stages"]["palace_comparison"]["status"], "complete",
+        "{palace_state}"
+    );
+    let palace_packet = fs::read(second_work.join("palace/latest.json")).unwrap();
+    let (status, palace_result) = http_call(
+        &app,
+        "GET",
+        "/v1/operations/journey2/journey/artifacts/palace_comparison",
+        Some(token),
+        json!(null),
+    )
+    .await;
+    assert_eq!(status, 200, "{palace_result}");
+    assert_eq!(palace_result["schema"], "codefriend.palace.v1");
+    assert!(!serde_json::to_string(&palace_result)
+        .unwrap()
+        .contains("pub fn answer"));
+    assert_eq!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    assert_eq!(
+        http_call(&app, "POST", second_step, Some(token), palace_request)
+            .await
+            .0,
+        409
+    );
+    assert_eq!(
+        fs::read(second_work.join("palace/latest.json")).unwrap(),
+        palace_packet
+    );
+    let trust_path = root.join("palace-authority/trust.json");
+    let trust_bytes = fs::read(&trust_path).unwrap();
+    fs::write(&trust_path, b"{}").unwrap();
+    assert_ne!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    fs::write(&trust_path, trust_bytes).unwrap();
+    assert_eq!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
     // Changing the original graph or its live operation validity denies access
     // to the dependent report. Restoring exact fixture bytes restores observation.
     fs::write(first_work.join("journey/structure.json"), b"{}").unwrap();
@@ -1472,3 +1550,7 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         "journey must not redispatch the review"
     );
 }
+
+#[allow(dead_code)]
+#[path = "../examples/codefriend_palace_fixture.rs"]
+mod hosted_palace_authority_fixture;

@@ -10,7 +10,7 @@ import shutil
 import struct
 import subprocess
 
-BINARIES=('codefriend-server','codefriend-agent')
+BINARIES=('codefriend-server','codefriend-agent','adl')
 
 def require(condition, message):
     if not condition: raise ValueError(message)
@@ -48,7 +48,7 @@ def assemble(args):
     rust=command('rustc','-vV');require('release: 1.92.0\n' in rust+'\n','unexpected Rust version')
     smoke=json.loads(args.smoke.read_text())
     require(smoke.get('status')=='PASS' and smoke.get('candidate')==args.candidate and smoke.get('platform')=='linux','matching Linux smoke required')
-    require(smoke.get('schema')=='codefriend.host_smoke.v1' and len(smoke.get('cases',[]))==15 and smoke.get('graceful_stops')==2,'complete smoke denominator required')
+    require(smoke.get('schema')=='codefriend.host_smoke.v1' and len(smoke.get('cases',[]))==16 and 'installed_adl_exposes_codefriend_journey' in smoke.get('cases',[]) and smoke.get('graceful_stops')==2,'complete smoke denominator required')
     require(smoke.get('provider_connections')==0 and smoke.get('operation_reservations')==0,'fixture side effects')
     hashes=binary_pair(args.built,args.installed,smoke)
     context={name:os.environ.get(name,'') for name in ('GITHUB_REPOSITORY','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT',
@@ -69,7 +69,7 @@ def assemble(args):
               'source_tree':command('git','rev-parse','HEAD^{tree}'),'source_clean':True,'builder_context':context,
               'runner_architecture':command('uname','-m'),'rustc':rust,'cargo':command('cargo','-vV'),
               'build_profile':'dev','build_environment':{'CARGO_PROFILE_DEV_DEBUG':'0'},
-              'build_command':['cargo','build','--locked','--manifest-path','adl/Cargo.toml','--bin','codefriend-server','--bin','codefriend-agent'],
+              'build_command':['cargo','build','--locked','--manifest-path','adl/Cargo.toml','--bin','codefriend-server','--bin','codefriend-agent','--bin','adl'],
               'binary_sha256':hashes,'input_sha256':sources,'smoke_sha256':digest(args.output/'smoke.json'),
               'authentication':'requires_authenticated_GitHub_run_job_and_artifact_digest_readback',
               'attestation':False,'ready_for_deployment':False,

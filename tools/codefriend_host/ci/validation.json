@@ -16,7 +16,21 @@
       "determinism": "empty_registry_static_report_fixture_loopback_provider_trap_no_external_requests",
       "resource_profile": "two_sequential_gateway_processes_two_short_verifier_processes_bounded_timeouts",
       "release_gate": "required_Linux_amd64_candidate_artifact_gate",
-      "non_claims": ["paid_provider", "OAuth", "systemd", "poweroff", "deployment"]
+      "non_claims": [
+        "paid_provider",
+        "OAuth",
+        "systemd",
+        "poweroff",
+        "deployment"
+      ]
     }
-  ]
+  ],
+  "integration_extension": {
+    "issue": 914,
+    "lane_class": "deterministic_component",
+    "proof_role": "require exact-candidate installed CLI alongside server and agent in Linux artifact",
+    "determinism": "synthetic ELF fixtures and actual installed help invocation without providers",
+    "resource_profile": "local bounded CPU/disk plus existing CI build",
+    "release_gate": "component artifact proof; insufficient for independent complete product qualification"
+  }
 }

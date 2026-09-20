@@ -28,12 +28,16 @@ pub(super) enum StepRequest {
     Drift {
         baseline_operation: String,
     },
+    PalaceComparison {
+        baseline_operation: String,
+    },
 }
 
 struct BaselineOwner {
     operation: String,
     store: crate::codefriend::evidence::store::Store,
     graph: structure::StructureReport,
+    review: crate::codefriend::evidence::contracts::ReviewRecord,
     root: PathBuf,
     expires_at: u64,
 }
@@ -43,6 +47,7 @@ impl BaselineOwner {
             operation: &self.operation,
             store: &self.store,
             graph: &self.graph,
+            review: &self.review,
             baseline_root: &self.root,
             expires_at: self.expires_at,
         }
@@ -76,6 +81,15 @@ impl BaselineOwner {
             &work.join("journey"),
             &graph,
         ))?;
+        let review = internal(journey::owned_baseline::original_review(
+            &work.join("journey"),
+        ))?;
+        if review != run.review_record {
+            return Err(ApiError(
+                StatusCode::CONFLICT,
+                "journey_baseline_review_changed",
+            ));
+        }
         let store = internal(crate::codefriend::evidence::store::Store::open(
             &work.join("evidence"),
             now,
@@ -84,6 +98,7 @@ impl BaselineOwner {
             operation: operation.into(),
             expires_at: op.expires_at.min(graph.record.admission.expires_at),
             graph,
+            review,
             store,
             root: work.join("hosted-baselines"),
         };
@@ -117,7 +132,15 @@ fn with_selected_baseline<T: Serialize>(
     let output = service
         .dir(&credential.subject, operation)
         .join("work/journey");
-    let saved = internal(journey::owned_baseline::operation(&output))?;
+    let saved_drift = internal(journey::owned_baseline::operation(&output))?;
+    let saved_palace = internal(journey::owned_palace::operation(&output))?;
+    if saved_drift.is_some() && saved_palace.is_some() && saved_drift != saved_palace {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "journey_baseline_selection_changed",
+        ));
+    }
+    let saved = saved_drift.or(saved_palace);
     if selected.is_some() && saved.as_deref().is_some_and(|s| Some(s) != selected) {
         return Err(ApiError(
             StatusCode::CONFLICT,
@@ -135,11 +158,17 @@ fn with_selected_baseline<T: Serialize>(
         .map(|id| BaselineOwner::load(service, headers, id, &credential.subject))
         .transpose()?;
     let context = owner.as_ref().map(BaselineOwner::context);
-    let mut current = internal(journey::resume_with_baseline(&output, context.as_ref()))?;
+    let palace = palace_context(service, &output);
+    let mut current = internal(journey::resume_with_owners(
+        &output,
+        context.as_ref(),
+        Some(&palace),
+    ))?;
     let value = callback(&mut current, context.as_ref())?;
     if internal(serde_json::to_vec(&value).map_err(Into::into))?.len() > MAX_RESULT {
         return Err(ApiError(StatusCode::CONFLICT, "journey_response_limit"));
     }
+    internal(current.validate_owned_palace(context.as_ref(), &palace))?;
     internal(current.continue_with(Continuation::Status))?;
     if owned(service, headers, operation)?.0.subject != credential.subject {
         return Err(ApiError(StatusCode::UNAUTHORIZED, "unauthorized"));
@@ -285,7 +314,8 @@ pub(super) async fn step(
         ));
     }
     let selected = match &request {
-        StepRequest::Drift { baseline_operation } => Some(baseline_operation.clone()),
+        StepRequest::Drift { baseline_operation }
+        | StepRequest::PalaceComparison { baseline_operation } => Some(baseline_operation.clone()),
         _ => None,
     };
     let value = with_selected_baseline(
@@ -301,6 +331,10 @@ pub(super) async fn step(
                 StepRequest::Rationale { selection } => {
                     j.continue_with(Continuation::Rationale { selection })
                 }
+                StepRequest::PalaceComparison { .. } => j.continue_owned_palace(
+                    baseline.ok_or(ApiError(StatusCode::CONFLICT, "journey_baseline_missing"))?,
+                    &palace_context(&service, j.output()),
+                ),
                 StepRequest::Drift { .. } => j.continue_owned_drift(
                     baseline.ok_or(ApiError(StatusCode::CONFLICT, "journey_baseline_missing"))?,
                 ),
@@ -348,6 +382,7 @@ pub(super) async fn artifact(
         "impact" => "impact.json",
         "rationale" => "rationale.json",
         "drift" => "drift.json",
+        "palace_comparison" => "palace_comparison.json",
         _ => {
             return Err(ApiError(
                 StatusCode::NOT_FOUND,
@@ -380,4 +415,17 @@ pub(super) async fn artifact(
             internal(read_json(&journey.output().join(file), MAX_RESULT))
         },
     )?))
+}
+
+fn palace_context(
+    service: &Service,
+    output: &std::path::Path,
+) -> journey::owned_palace::AuthorityContext {
+    journey::owned_palace::AuthorityContext {
+        root: service.0.config.root.join("palace-authority"),
+        palace_root: output
+            .parent()
+            .expect("owned Journey has work parent")
+            .join("palace"),
+    }
 }

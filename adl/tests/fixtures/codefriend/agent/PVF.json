@@ -10,5 +10,18 @@
   "additional_commands": [
     "cargo test --manifest-path adl/Cargo.toml --lib journal_drop_releases_lock_with_duplicate_descriptor_alive"
   ],
-  "journal_lock_proof": "Deterministic duplicate-descriptor ownership test: exclusion before owner drop, release despite retained duplicate, and continued exclusion by replacement owner."
+  "journal_lock_proof": "Deterministic duplicate-descriptor ownership test: exclusion before owner drop, release despite retained duplicate, and continued exclusion by replacement owner.",
+  "original_store_integration": {
+    "issue": 914,
+    "lane": "runtime",
+    "proof_role": "original admission ownership across actual four-lane reconnect and retained payload cleanup",
+    "determinism": "existing controlled clock and bounded loopback agent fixtures",
+    "resource_profile": "local CPU/disk and loopback only; no provider calls",
+    "release_gate": "required component proof; not full installed website or independent qualification",
+    "cases": [
+      "exact original Store/admission identity survives reconnect",
+      "missing or tampered original Store denies further dispatch without re-admission",
+      "expiry and confirmed unpair scrub original Store while preserving no-replay reservations"
+    ]
+  }
 }

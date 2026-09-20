@@ -192,6 +192,8 @@ enum Scenario {
     Unpair,
     AggregateLimit,
     LostResultObservation,
+    MissingOriginalStore,
+    TamperedOriginalStore,
     LostStatusObservation,
     LostInitialControl,
     LostFinalControl,
@@ -397,7 +399,10 @@ impl WireServer {
                     let id = path.split('/').nth(3).unwrap();
                     if matches!(
                         scenario,
-                        Scenario::LostResultObservation | Scenario::CachedBeyondObservationDeadline
+                        Scenario::LostResultObservation
+                            | Scenario::MissingOriginalStore
+                            | Scenario::TamperedOriginalStore
+                            | Scenario::CachedBeyondObservationDeadline
                     ) && count.load(Ordering::SeqCst) == 2
                         && !observation_dropped
                     {
@@ -553,6 +558,19 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         journal
     };
     let first = transport.poll_once(&journal, &consent_path);
+    let run_dir = f.0.join("state/run-run-one");
+    let saved_admission = fs::read(run_dir.join("admission.json")).ok();
+    if let Some(bytes) = &saved_admission {
+        let admission: adl::codefriend::evidence::Admission =
+            serde_json::from_slice(bytes).unwrap();
+        let live_clock = clock.clone();
+        let store =
+            adl::codefriend::evidence::store::Store::open(&run_dir.join("evidence"), move || {
+                live_clock.load(Ordering::SeqCst)
+            })
+            .unwrap();
+        assert_eq!(store.get(&admission.packet.packet_id).unwrap(), admission);
+    }
     if matches!(
         scenario,
         Scenario::ExpireRetention | Scenario::ExpireDuringControl
@@ -575,6 +593,8 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     let reconnecting = matches!(
         scenario,
         Scenario::LostResultObservation
+            | Scenario::MissingOriginalStore
+            | Scenario::TamperedOriginalStore
             | Scenario::LostStatusObservation
             | Scenario::LostInitialControl
             | Scenario::LostFinalControl
@@ -591,6 +611,19 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
                 _ => 2,
             }
         );
+    }
+    if matches!(scenario, Scenario::MissingOriginalStore) {
+        fs::remove_dir_all(run_dir.join("evidence")).unwrap();
+    } else if matches!(scenario, Scenario::TamperedOriginalStore) {
+        let admission: adl::codefriend::evidence::Admission =
+            serde_json::from_slice(saved_admission.as_ref().unwrap()).unwrap();
+        fs::write(
+            run_dir
+                .join("evidence")
+                .join(format!("{}.json", admission.packet.packet_id)),
+            b"{}",
+        )
+        .unwrap();
     }
     // Release the process-owned lock and re-open persisted state before reconnect.
     drop(journal);
@@ -640,6 +673,29 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         assert_eq!(reports.len(), 2);
         assert_eq!(reports[0], reports[1]);
     }
+    if matches!(scenario, Scenario::MissingOriginalStore) {
+        assert!(
+            !run_dir.join("evidence").exists(),
+            "missing owner must not be recreated"
+        );
+    }
+    if let Some(bytes) = &saved_admission {
+        assert_eq!(fs::read(run_dir.join("admission.json")).unwrap(), *bytes);
+        if !matches!(
+            scenario,
+            Scenario::MissingOriginalStore | Scenario::TamperedOriginalStore
+        ) {
+            let admission: adl::codefriend::evidence::Admission =
+                serde_json::from_slice(bytes).unwrap();
+            let live_clock = clock.clone();
+            let store = adl::codefriend::evidence::store::Store::open(
+                &run_dir.join("evidence"),
+                move || live_clock.load(Ordering::SeqCst),
+            )
+            .unwrap();
+            assert_eq!(store.get(&admission.packet.packet_id).unwrap(), admission);
+        }
+    }
     assert_eq!(git(&checkout, &["status", "--porcelain"]), "");
     if matches!(scenario, Scenario::ShortDeadline) {
         for report in &reports {
@@ -653,6 +709,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         assert!(dir.join("report.json").exists());
         transport.unpair(&journal).unwrap();
         assert!(!dir.join("work").exists());
+        assert!(!dir.join("evidence").exists());
         assert!(!dir.join("report.json").exists());
         assert!(dir.join("command.json").exists());
         assert!(dir.join("expires.json").exists());
@@ -662,6 +719,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     clock.store(live_now() + 2000, Ordering::SeqCst);
     journal.expire(clock.load(Ordering::SeqCst)).unwrap();
     assert!(!f.0.join("state/run-run-one/work").exists());
+    assert!(!f.0.join("state/run-run-one/evidence").exists());
     assert!(!f.0.join("state/run-run-one/report.json").exists());
     assert!(transport.poll_once(&journal, &consent_path).is_err());
     assert_eq!(server.dispatches.load(Ordering::SeqCst), calls);
@@ -899,6 +957,22 @@ fn gateway_actual_model_must_remain_consistent_across_lanes() {
 fn partial_scope_is_rejected_before_any_model_dispatch() {
     let (calls, reports) = journey(Scenario::PartialScope);
     assert_eq!(calls, 0);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+    assert!(reports[0]["result"].is_null());
+}
+
+#[test]
+fn missing_original_store_never_readmits_or_dispatches_on_reconnect() {
+    let (calls, reports) = journey(Scenario::MissingOriginalStore);
+    assert_eq!(calls, 2);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+    assert!(reports[0]["result"].is_null());
+}
+
+#[test]
+fn tampered_original_store_never_dispatches_on_reconnect() {
+    let (calls, reports) = journey(Scenario::TamperedOriginalStore);
+    assert_eq!(calls, 2);
     assert_eq!(reports[0]["status"], "failed_or_interrupted");
     assert!(reports[0]["result"].is_null());
 }

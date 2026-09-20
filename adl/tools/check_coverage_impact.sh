@@ -302,6 +302,9 @@ candidate_filter_for_path() {
     adl/src/codefriend/integration/journey/owned_baseline.rs)
       printf 'codefriend_owned_baseline'
       ;;
+    adl/src/codefriend/integration/journey/owned_palace.rs)
+      printf 'codefriend_owned_palace'
+      ;;
     adl/src/codefriend/integration/journey/publication_attachment.rs)
       printf 'codefriend_hosted_attachment'
       ;;
@@ -540,6 +543,9 @@ nextest_expression_for_filter() {
       ;;
     codefriend_palace)
       printf 'binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)'
+      ;;
+    codefriend_owned_palace)
+      printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
       ;;
     codefriend_owned_baseline)
       printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))'
