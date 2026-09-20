@@ -6,7 +6,7 @@
   "determinism": "fixed JSON and filesystem unit tests; bounded loopback native Journey test uses original fixture review, actual Store and sampled current-time retention with clean embedded candidate required",
   "resources": "private temporary files and local loopback; no external network, provider or cloud",
   "release_gate": "required supporting component proof; not full Beta qualification",
-  "cases": ["effect tombstone survives retained payload scrub", "changed candidate, expiry, request or receipt cannot replace reservation", "eight bounded observation slots preserve request identity", "UTF-16 Unicode key order and safe integer encoding", "paired native prepare, identical replay and graph retain original review without POST; removed consent stops upload"],
+  "cases": ["effect tombstone survives retained payload scrub", "changed candidate, expiry, request or receipt cannot replace reservation", "next effect waits for exact acknowledgement", "eight bounded observation slots preserve request identity", "UTF-16 Unicode key order and safe integer encoding", "paired native prepare, identical replay and graph retain original review without POST; removed consent stops upload", "lost acknowledgement resends identical result", "pre-dispatch reservation remains unresolved without native effect or result acknowledgement"],
   "nonclaims": ["complete paired-agent website journey", "provider qualification", "installed-candidate acceptance"],
   "execution_status": "authored; execution recorded in issue proof"
 }

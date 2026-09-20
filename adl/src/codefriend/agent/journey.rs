@@ -9,6 +9,7 @@ use crate::codefriend::{
 use crate::codefriend::{evidence::store::Store, integration::journey as native};
 use sha2::{Digest, Sha256};
 mod delivery;
+pub mod verification;
 
 #[cfg(all(test, unix))]
 #[path = "../../../tests/support/codefriend_agent_journey_tests.rs"]

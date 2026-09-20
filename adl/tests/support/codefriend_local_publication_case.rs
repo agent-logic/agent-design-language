@@ -72,6 +72,8 @@ struct Case {
     journey: Arc<Mutex<Value>>,
     #[allow(dead_code)]
     journey_results: Arc<Mutex<Vec<Value>>>,
+    #[allow(dead_code)]
+    drop_journey_ack: Arc<AtomicBool>,
     calls: Arc<Mutex<Vec<String>>>,
     stop: Arc<AtomicBool>,
     server: Option<thread::JoinHandle<()>>,
@@ -291,6 +293,8 @@ impl Case {
         let journey_web = journey.clone();
         let journey_results = Arc::new(Mutex::new(Vec::new()));
         let received_journeys = journey_results.clone();
+        let drop_journey_ack = Arc::new(AtomicBool::new(false));
+        let drop_ack = drop_journey_ack.clone();
         let calls = Arc::new(Mutex::new(Vec::new()));
         let seen = calls.clone();
         let stop = Arc::new(AtomicBool::new(false));
@@ -355,6 +359,7 @@ impl Case {
                 } else if first.starts_with("PUT /v1/agent/journeys/") {
                     let posted: Value = serde_json::from_slice(&bytes[split..split + count]).unwrap();
                     received_journeys.lock().unwrap().push(posted.clone());
+                    if drop_ack.swap(false, Ordering::SeqCst) { continue; }
                     json!({"binding":posted["binding"],"agent_candidate_revision":posted["agent_candidate_revision"],
                         "checkpoint_sequence":posted["checkpoint_sequence"],"digest":posted["digest"],"superseded":false})
                 } else if first.starts_with("GET /v1/agent/runs/run1/control ") {
@@ -412,6 +417,7 @@ impl Case {
             state,
             journey,
             journey_results,
+            drop_journey_ack,
             calls,
             stop,
             server: Some(server),

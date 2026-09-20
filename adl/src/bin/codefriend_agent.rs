@@ -48,7 +48,7 @@ impl AgentIo for Network {
 fn run_with(mut args: impl Iterator<Item = String>, io: &impl AgentIo) -> Result<()> {
     let command = args.next().unwrap_or_default();
     if command == "--help" {
-        println!("codefriend-agent pair --store PATH --origin HTTPS_ORIGIN --code-file PRIVATE_FILE\ncodefriend-agent run|once --store PATH --consent PRIVATE_FILE\ncodefriend-agent unpair|forget --store PATH\ncodefriend-agent verify-report --report-file PRIVATE_FILE\ncodefriend-agent verify-publication-stage --stage-file PRIVATE_FILE --context-file PRIVATE_FILE");
+        println!("codefriend-agent pair --store PATH --origin HTTPS_ORIGIN --code-file PRIVATE_FILE\ncodefriend-agent run|once --store PATH --consent PRIVATE_FILE\ncodefriend-agent unpair|forget --store PATH\ncodefriend-agent verify-report --report-file PRIVATE_FILE\ncodefriend-agent verify-publication-stage --stage-file PRIVATE_FILE --context-file PRIVATE_FILE\ncodefriend-agent verify-journey-stage --stage-file PRIVATE_FILE --context-file PRIVATE_FILE");
         return Ok(());
     }
     let mut flags = BTreeMap::new();
@@ -60,6 +60,31 @@ fn run_with(mut args: impl Iterator<Item = String>, io: &impl AgentIo) -> Result
             flags.insert(key, value).is_none(),
             "agent_duplicate_argument"
         );
+    }
+    if command == "verify-journey-stage" {
+        let stage_file = flags
+            .remove("--stage-file")
+            .ok_or_else(|| anyhow::anyhow!("agent_stage_file_required"))?;
+        let context_file = flags
+            .remove("--context-file")
+            .ok_or_else(|| anyhow::anyhow!("agent_context_file_required"))?;
+        ensure!(flags.is_empty(), "agent_unknown_argument");
+        let stage: adl::codefriend::agent::journey::StageResult =
+            serde_json::from_slice(&private_bytes(Path::new(&stage_file), 4 * 1024 * 1024)?)?;
+        let context: adl::codefriend::agent::journey::verification::VerificationContext =
+            serde_json::from_slice(&private_bytes(Path::new(&context_file), 9 * 1024 * 1024)?)?;
+        adl::codefriend::agent::journey::verification::verify_stage(&stage, &context, now())?;
+        ensure!(
+            now() < stage.binding.expires_at,
+            "agent_journey_verifier_expired"
+        );
+        println!(
+            "{}",
+            serde_json::to_string(&serde_json::json!({
+                "schema":"codefriend.agent_journey_verification.v1", "digest":stage.digest, "checkpoint_sequence":stage.checkpoint_sequence
+            }))?
+        );
+        return Ok(());
     }
     if command == "verify-publication-stage" {
         let stage_file = flags
@@ -170,6 +195,29 @@ mod tests {
     struct FixtureIo {
         calls: Cell<usize>,
         report: bool,
+    }
+    #[test]
+    fn journey_verifier_rejects_malformed_private_inputs_without_network() {
+        let temp = tempfile::tempdir().unwrap();
+        let stage = temp.path().join("stage.json");
+        let context = temp.path().join("context.json");
+        fs::write(&stage, b"{}").unwrap();
+        fs::write(&context, b"{}").unwrap();
+        fs::set_permissions(&stage, fs::Permissions::from_mode(0o600)).unwrap();
+        fs::set_permissions(&context, fs::Permissions::from_mode(0o600)).unwrap();
+        let io = FixtureIo {
+            calls: Cell::new(0),
+            report: false,
+        };
+        let args = vec![
+            "verify-journey-stage".into(),
+            "--stage-file".into(),
+            stage.display().to_string(),
+            "--context-file".into(),
+            context.display().to_string(),
+        ];
+        assert!(run_with(args.into_iter(), &io).is_err());
+        assert_eq!(io.calls.get(), 0);
     }
     impl AgentIo for FixtureIo {
         fn pair(&self, origin: &str, code: &str) -> Result<Pairing> {
