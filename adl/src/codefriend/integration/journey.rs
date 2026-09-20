@@ -19,6 +19,9 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
+pub(crate) mod owned_baseline;
+mod publication_attachment;
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum StageStatus {
@@ -981,6 +984,13 @@ impl Continuation {
 /// Resume holds the admission Store lock throughout validation and continuation.
 /// No legacy snapshot is promoted by synthesizing missing original options.
 pub fn resume(output: &Path) -> Result<Journey> {
+    resume_with_baseline(output, None)
+}
+
+pub(crate) fn resume_with_baseline(
+    output: &Path,
+    baseline: Option<&owned_baseline::OwnedBaseline<'_>>,
+) -> Result<Journey> {
     private_journey(output)?;
     let session: PersistedSession = read_typed(&output.join("session.json"))?;
     let session_digest = hash(&session)?;
@@ -1164,15 +1174,19 @@ pub fn resume(output: &Path) -> Result<Journey> {
         let value: rationale::RationaleReport = read_typed(&output.join("rationale.json"))?;
         value.validate(&store)?;
     }
+    let owned_drift =
+        owned_baseline::validate_saved(&source, &output, &store, binding.deadline, baseline)?;
     if manifest.stages["drift"].status == StageStatus::Complete {
-        let step: Continuation = read_typed(&output.join("intent-drift.json"))?;
-        let Continuation::Drift { baseline_root, .. } = step else {
-            anyhow::bail!("journey_drift_intent_missing")
-        };
-        source.check(&baseline_root)?;
-        let backend = AdmittedBaselines::open(&store, &baseline_root, false)?;
-        let value: drift::DriftReport = read_typed(&output.join("drift.json"))?;
-        value.validate(&store, &backend)?;
+        if !owned_drift {
+            let step: Continuation = read_typed(&output.join("intent-drift.json"))?;
+            let Continuation::Drift { baseline_root, .. } = step else {
+                anyhow::bail!("journey_drift_intent_missing")
+            };
+            source.check(&baseline_root)?;
+            let backend = AdmittedBaselines::open(&store, &baseline_root, false)?;
+            let value: drift::DriftReport = read_typed(&output.join("drift.json"))?;
+            value.validate(&store, &backend)?;
+        }
     }
     if manifest.stages["palace_comparison"].status == StageStatus::Complete {
         let step: Continuation = read_typed(&output.join("intent-palace_comparison.json"))?;
@@ -1213,6 +1227,9 @@ pub fn resume(output: &Path) -> Result<Journey> {
         PublicationFormat::Html,
         PublicationFormat::Pdf,
     ] {
+        if publication_attachment::validate(&source, &output, &manifest, review.as_ref(), format)? {
+            continue;
+        }
         let key = format.key();
         if manifest.stages[key].status == StageStatus::Complete {
             let external: ExternalOutput =

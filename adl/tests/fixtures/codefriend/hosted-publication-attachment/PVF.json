@@ -1,0 +1,16 @@
+{
+  "issue": 914,
+  "surface": "adl/tests/codefriend_integration.rs::hosted_journey_reuses_original_admission_and_completed_review",
+  "lane_class": "runtime",
+  "proof_role": "supporting authenticated hosted original-export attachment",
+  "determinism": "local Git and synthetic provider backend; real native approval and Markdown/HTML render owners; bounded in-process HTTP",
+  "resources": "temporary filesystem and CPU; no external provider, network, cloud or source execution",
+  "release_gate": "required supporting proof; insufficient for full Beta acceptance",
+  "cases": [
+    "existing hosted native exports attach and survive restart without another render or admission",
+    "missing authentication or uncommitted exports reject attachment",
+    "attachment preserves exact original manifest, reservation, admission and provider dispatch count",
+    "changed retained Markdown fails resume; restored original bytes resume successfully"
+  ],
+  "nonclaims": ["human approval", "PDF semantic content acceptance", "live provider qualification", "complete hosted or paired-agent journey"]
+}

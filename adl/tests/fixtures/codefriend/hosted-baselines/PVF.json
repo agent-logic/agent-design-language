@@ -8,12 +8,20 @@
   "release_gate": "required supporting proof; insufficient for full Beta acceptance",
   "cases": [
     "original_store_pair_compares_without_readmission_and_preserves_lifetimes",
-    "existing single-Store drift and native Palace tests preserve wrapper compatibility"
+    "existing single-Store drift and native Palace tests preserve wrapper compatibility",
+    "identical_reference_requires_both_selected_original_owners_live"
   ],
   "nonclaims": [
-    "authenticated HTTP operation selection",
     "website hosted or paired-agent full Journey",
     "multi-Store Runtime Palace acceptance",
     "real-provider or installed candidate qualification"
+  ],
+  "surfaces": [
+    "adl/tests/codefriend_cf_cog_drift.rs",
+    "adl/src/codefriend/integration/journey/owned_baseline.rs",
+    "adl/tests/codefriend_integration.rs"
+  ],
+  "pending_proof": [
+    "authenticated hosted two-operation drift routing, checkpoint binding, expiry/deletion and source noncopying"
   ]
 }

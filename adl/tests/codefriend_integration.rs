@@ -909,15 +909,24 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         .unwrap()
         .as_secs();
     let token = "hosted-journey-fixture-token-0123456789012345";
+    let other_token = "hosted-other-fixture-token-0123456789012345";
     let credentials = temp.path().join("credentials.json");
     fs::write(
         &credentials,
-        serde_json::to_vec(&vec![Credential {
-            token_hash: blake3::hash(token.as_bytes()).to_hex().to_string(),
-            subject: "alice".into(),
-            mode: Mode::Hosted,
-            expires_at: now + 3600,
-        }])
+        serde_json::to_vec(&vec![
+            Credential {
+                token_hash: blake3::hash(token.as_bytes()).to_hex().to_string(),
+                subject: "alice".into(),
+                mode: Mode::Hosted,
+                expires_at: now + 3600,
+            },
+            Credential {
+                token_hash: blake3::hash(other_token.as_bytes()).to_hex().to_string(),
+                subject: "bob".into(),
+                mode: Mode::Hosted,
+                expires_at: now + 3600,
+            },
+        ])
         .unwrap(),
     )
     .unwrap();
@@ -1058,6 +1067,361 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         assert_eq!(status, 200, "{value}");
         assert_eq!(value["record"]["admission"]["digest"], original_digest);
     }
+    // Existing hosted native exports join the same Journey without renderer replay,
+    // source re-admission, or another provider request.
+    let attach_route = "/v1/operations/journey1/journey/publication";
+    assert_eq!(
+        http_call(
+            &app,
+            "POST",
+            attach_route,
+            None,
+            json!({"format":"markdown"})
+        )
+        .await
+        .0,
+        401
+    );
+    for format in ["markdown", "html"] {
+        let (status, challenge) = http_call(
+            &app,
+            "POST",
+            "/v1/operations/journey1/publication/challenge",
+            Some(token),
+            json!({"format":format}),
+        )
+        .await;
+        assert_eq!(status, 200, "{challenge}");
+        assert_eq!(
+            http_call(
+                &app,
+                "POST",
+                attach_route,
+                Some(token),
+                json!({"format":format})
+            )
+            .await
+            .0,
+            409
+        );
+        let (status, approved) = http_call(&app, "POST",
+            "/v1/operations/journey1/publication/decision", Some(token),
+            json!({"format":format,"challenge_digest":challenge["challenge_digest"],
+                "binding_digest":challenge["binding_digest"],
+                "expected_decision_digest":challenge["expected_decision_digest"],"decision":"approved"})).await;
+        assert_eq!(status, 200, "{approved}");
+        let (status, rendered) = http_call(
+            &app,
+            "POST",
+            "/v1/operations/journey1/publication/render",
+            Some(token),
+            json!({"format":format,"binding_digest":challenge["binding_digest"],
+                "decision_digest":approved["decision"]["digest"]}),
+        )
+        .await;
+        assert_eq!(status, 200, "{rendered}");
+        let (status, automatic) = http_call(&app, "GET", route, Some(token), json!(null)).await;
+        assert_eq!(status, 200, "{automatic}");
+        assert_eq!(
+            automatic["stages"][format]["status"], "complete",
+            "render POST must connect the website flow"
+        );
+        let work = root.join("operations/alice/journey1/work");
+        for entry in fs::read_dir(work.join("journey")).unwrap() {
+            let path = entry.unwrap().path();
+            if path
+                .file_name()
+                .unwrap()
+                .to_string_lossy()
+                .starts_with("journey-")
+            {
+                let checkpoint: serde_json::Value =
+                    serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+                let stages = &checkpoint["stages"];
+                assert_eq!(
+                    stages[format!("publication_{format}")]["status"],
+                    stages[format!("approval_{format}")]["status"],
+                    "one checkpoint must expose all attachment stages together"
+                );
+                assert_eq!(
+                    stages[format!("approval_{format}")]["status"],
+                    stages[format]["status"]
+                );
+            }
+        }
+        let target = work.join("exports").join(if format == "markdown" {
+            "report-md"
+        } else {
+            "report-html"
+        });
+        let native_manifest = fs::read(target.join("manifest.json")).unwrap();
+        let reservation = fs::read(
+            work.join("publications")
+                .join(format)
+                .join("render-reservation.json"),
+        )
+        .unwrap();
+        let (status, attached) = http_call(
+            &app,
+            "POST",
+            attach_route,
+            Some(token),
+            json!({"format":format}),
+        )
+        .await;
+        assert_eq!(status, 200, "{attached}");
+        for stage in [
+            format!("publication_{format}"),
+            format!("approval_{format}"),
+            format.into(),
+        ] {
+            assert_eq!(attached["stages"][stage]["status"], "complete");
+        }
+        assert_eq!(attached["admission_digest"], original_digest);
+        assert_eq!(
+            attached["status"], "pending",
+            "unexecuted stages remain visible"
+        );
+        assert_eq!(
+            http_call(
+                &app,
+                "POST",
+                attach_route,
+                Some(token),
+                json!({"format":format})
+            )
+            .await,
+            (200, attached.clone())
+        );
+        assert_eq!(
+            http_call(&app, "GET", route, Some(token), json!(null)).await,
+            (200, attached)
+        );
+        assert_eq!(
+            native_manifest,
+            fs::read(target.join("manifest.json")).unwrap()
+        );
+        assert_eq!(
+            reservation,
+            fs::read(
+                work.join("publications")
+                    .join(format)
+                    .join("render-reservation.json")
+            )
+            .unwrap()
+        );
+        assert!(
+            !work
+                .join("journey")
+                .join(format!("publication_{format}"))
+                .exists(),
+            "must retain original bundle rather than regenerate it"
+        );
+    }
+    // A second real service operation uses its own original admission. The
+    // comparison keeps only references to the first operation's retained source.
+    let second_route = "/v1/operations/journey2/journey";
+    let second_step = "/v1/operations/journey2/journey/step";
+    let second_submit =
+        json!({"operation_id":"journey2", "packet":packet, "mode":"hosted", "lane":null});
+    assert_eq!(
+        http_call(&app, "POST", "/v1/operations", Some(token), second_submit)
+            .await
+            .0,
+        202
+    );
+    for _ in 0..200 {
+        let (_, result) = http_call(
+            &app,
+            "GET",
+            "/v1/operations/journey2",
+            Some(token),
+            json!(null),
+        )
+        .await;
+        if result["status"] == "complete" {
+            break;
+        }
+        tokio::time::sleep(std::time::Duration::from_millis(10)).await;
+    }
+    let (status, second) =
+        http_call(&app, "POST", second_route, Some(token), policies.clone()).await;
+    assert_eq!(status, 200, "{second}");
+    let first_work = root.join("operations/alice/journey1/work");
+    let second_work = root.join("operations/alice/journey2/work");
+    let first_graph_bytes = fs::read(first_work.join("journey/structure.json")).unwrap();
+    let second_graph_bytes = fs::read(second_work.join("journey/structure.json")).unwrap();
+    let drift_request = json!({"stage":"drift","baseline_operation":"journey1"});
+    assert_eq!(
+        http_call(
+            &app,
+            "POST",
+            second_step,
+            Some(other_token),
+            drift_request.clone()
+        )
+        .await
+        .0,
+        404
+    );
+    assert_eq!(
+        http_call(
+            &app,
+            "POST",
+            second_step,
+            Some(token),
+            json!({"stage":"drift","baseline_operation":"journey2"})
+        )
+        .await
+        .0,
+        409
+    );
+    let (status, compared) = http_call(
+        &app,
+        "POST",
+        second_step,
+        Some(token),
+        drift_request.clone(),
+    )
+    .await;
+    assert_eq!(status, 200, "{compared}");
+    assert_eq!(
+        compared["stages"]["drift"]["status"], "complete",
+        "{compared}"
+    );
+    assert_eq!(compared["admission_digest"], second["admission_digest"]);
+    assert_eq!(
+        http_call(&app, "GET", second_route, Some(token), json!(null)).await,
+        (200, compared)
+    );
+    assert_eq!(
+        http_call(
+            &app,
+            "POST",
+            second_step,
+            Some(token),
+            json!({"stage":"drift","baseline_operation":"changed"})
+        )
+        .await
+        .0,
+        409
+    );
+    assert_eq!(
+        http_call(&app, "POST", second_step, Some(token), drift_request)
+            .await
+            .0,
+        409
+    );
+    let (status, projection) = http_call(
+        &app,
+        "GET",
+        "/v1/operations/journey2/journey/artifacts/drift",
+        Some(token),
+        json!(null),
+    )
+    .await;
+    assert_eq!(status, 200, "{projection}");
+    assert_eq!(projection["schema"], "codefriend.owned_drift.v1");
+    assert!(projection.get("baseline").is_none());
+    assert!(projection.get("baseline_traces").is_none());
+    assert!(!serde_json::to_string(&projection)
+        .unwrap()
+        .contains("pub fn answer"));
+    assert_eq!(
+        first_graph_bytes,
+        fs::read(first_work.join("journey/structure.json")).unwrap()
+    );
+    assert_eq!(
+        second_graph_bytes,
+        fs::read(second_work.join("journey/structure.json")).unwrap()
+    );
+    // Changing the original graph or its live operation validity denies access
+    // to the dependent report. Restoring exact fixture bytes restores observation.
+    fs::write(first_work.join("journey/structure.json"), b"{}").unwrap();
+    assert_ne!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    fs::write(
+        first_work.join("journey/structure.json"),
+        &first_graph_bytes,
+    )
+    .unwrap();
+    let checkpoint_path = first_work.join("journey/checkpoint-0000.json");
+    let checkpoint_bytes = fs::read(&checkpoint_path).unwrap();
+    let mut changed_checkpoint: serde_json::Value =
+        serde_json::from_slice(&checkpoint_bytes).unwrap();
+    changed_checkpoint["sequence"] = json!(9);
+    fs::write(
+        &checkpoint_path,
+        serde_json::to_vec(&changed_checkpoint).unwrap(),
+    )
+    .unwrap();
+    assert_ne!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    fs::write(&checkpoint_path, checkpoint_bytes).unwrap();
+    assert_eq!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    let first_operation = root.join("operations/alice/journey1/operation.json");
+    let operation_bytes = fs::read(&first_operation).unwrap();
+    let mut expired: serde_json::Value = serde_json::from_slice(&operation_bytes).unwrap();
+    expired["expires_at"] = json!(0);
+    fs::write(&first_operation, serde_json::to_vec(&expired).unwrap()).unwrap();
+    assert_ne!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    fs::write(&first_operation, operation_bytes).unwrap();
+    assert_eq!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    // Delete through the actual baseline owner rather than forging a success record.
+    {
+        use adl::codefriend::{
+            architecture::structure::StructureReport,
+            evidence::store::Store,
+            memory::baseline::{AdmittedBaselines, BaselineRef},
+        };
+        let baseline: StructureReport = serde_json::from_slice(&first_graph_bytes).unwrap();
+        let store = Store::open(&first_work.join("evidence"), || {
+            SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_secs()
+        })
+        .unwrap();
+        let baselines =
+            AdmittedBaselines::open(&store, &first_work.join("hosted-baselines"), false).unwrap();
+        baselines
+            .delete(&BaselineRef::from_record(&baseline.record).unwrap())
+            .unwrap();
+    }
+    assert_ne!(
+        http_call(&app, "GET", second_route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    assert_eq!(
+        calls.load(Ordering::SeqCst),
+        2,
+        "only the two requested reviews execute"
+    );
     service.begin_drain().unwrap();
     assert_eq!(http_call(&app,"POST",step_route,Some(token),json!({"stage":"impact","changes":{"schema":"codefriend.impact.v1","repository":graph["record"]["run"]["repository"],"revision":revision,"graph_digest":graph["digest"],"targets":[]}})).await.0,503);
     // Existing preparation is observation-only and remains readable during drain.
@@ -1072,6 +1436,22 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     assert_eq!(
         http_call(&app, "POST", route, Some(token), changed).await.0,
         409
+    );
+    let original_export = root.join("operations/alice/journey1/work/exports/report-md/report.md");
+    let export_bytes = fs::read(&original_export).unwrap();
+    fs::write(&original_export, b"Changed retained Markdown").unwrap();
+    assert_ne!(
+        http_call(&app, "GET", route, Some(token), json!(null))
+            .await
+            .0,
+        200
+    );
+    fs::write(&original_export, export_bytes).unwrap();
+    assert_eq!(
+        http_call(&app, "GET", route, Some(token), json!(null))
+            .await
+            .0,
+        200
     );
     fs::write(&credentials, b"[]").unwrap();
     assert_eq!(
@@ -1088,7 +1468,7 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     );
     assert_eq!(
         calls.load(Ordering::SeqCst),
-        1,
+        2,
         "journey must not redispatch the review"
     );
 }

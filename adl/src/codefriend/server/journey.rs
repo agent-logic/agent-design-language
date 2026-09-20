@@ -25,6 +25,132 @@ pub(super) enum StepRequest {
     Rationale {
         selection: rationale::RationaleSelection,
     },
+    Drift {
+        baseline_operation: String,
+    },
+}
+
+struct BaselineOwner {
+    operation: String,
+    store: crate::codefriend::evidence::store::Store,
+    graph: structure::StructureReport,
+    root: PathBuf,
+    expires_at: u64,
+}
+impl BaselineOwner {
+    fn context(&self) -> journey::owned_baseline::OwnedBaseline<'_> {
+        journey::owned_baseline::OwnedBaseline {
+            operation: &self.operation,
+            store: &self.store,
+            graph: &self.graph,
+            baseline_root: &self.root,
+            expires_at: self.expires_at,
+        }
+    }
+    fn load(
+        service: &Service,
+        headers: &HeaderMap,
+        operation: &str,
+        subject: &str,
+    ) -> ApiResult<Self> {
+        let (credential, op) = owned(service, headers, operation)?;
+        if credential.subject != subject {
+            return Err(ApiError(StatusCode::UNAUTHORIZED, "unauthorized"));
+        }
+        let dir = service.dir(&credential.subject, operation);
+        let work = dir.join("work");
+        let run: FourPerspectiveReviewRun =
+            internal(read_json(&dir.join("result.json"), MAX_RESULT))?;
+        let graph: structure::StructureReport =
+            internal(read_json(&work.join("journey/structure.json"), MAX_RESULT))?;
+        if run.run_id != operation
+            || graph.record.admission != run.review_record.admission
+            || graph.record.run.packet_id != op.packet_id
+        {
+            return Err(ApiError(
+                StatusCode::CONFLICT,
+                "journey_baseline_identity_changed",
+            ));
+        }
+        internal(journey::owned_baseline::validate_graph_source(
+            &work.join("journey"),
+            &graph,
+        ))?;
+        let store = internal(crate::codefriend::evidence::store::Store::open(
+            &work.join("evidence"),
+            now,
+        ))?;
+        let owner = Self {
+            operation: operation.into(),
+            expires_at: op.expires_at.min(graph.record.admission.expires_at),
+            graph,
+            store,
+            root: work.join("hosted-baselines"),
+        };
+        internal(owner.context().validate())?;
+        Ok(owner)
+    }
+}
+
+// All callers hold the service gate. Owner references are reconstructed per
+// observation and kept live through callback output validation.
+pub(super) fn with_owned_journey<T: Serialize>(
+    service: &Service,
+    headers: &HeaderMap,
+    operation: &str,
+    callback: impl FnOnce(&mut journey::Journey) -> ApiResult<T>,
+) -> ApiResult<T> {
+    with_selected_baseline(service, headers, operation, None, |j, _| callback(j))
+}
+
+fn with_selected_baseline<T: Serialize>(
+    service: &Service,
+    headers: &HeaderMap,
+    operation: &str,
+    selected: Option<&str>,
+    callback: impl FnOnce(
+        &mut journey::Journey,
+        Option<&journey::owned_baseline::OwnedBaseline<'_>>,
+    ) -> ApiResult<T>,
+) -> ApiResult<T> {
+    let (credential, _) = owned(service, headers, operation)?;
+    let output = service
+        .dir(&credential.subject, operation)
+        .join("work/journey");
+    let saved = internal(journey::owned_baseline::operation(&output))?;
+    if selected.is_some() && saved.as_deref().is_some_and(|s| Some(s) != selected) {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "journey_baseline_selection_changed",
+        ));
+    }
+    let selected = selected.or(saved.as_deref());
+    if selected == Some(operation) {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "journey_baseline_must_be_distinct",
+        ));
+    }
+    let owner = selected
+        .map(|id| BaselineOwner::load(service, headers, id, &credential.subject))
+        .transpose()?;
+    let context = owner.as_ref().map(BaselineOwner::context);
+    let mut current = internal(journey::resume_with_baseline(&output, context.as_ref()))?;
+    let value = callback(&mut current, context.as_ref())?;
+    if internal(serde_json::to_vec(&value).map_err(Into::into))?.len() > MAX_RESULT {
+        return Err(ApiError(StatusCode::CONFLICT, "journey_response_limit"));
+    }
+    internal(current.continue_with(Continuation::Status))?;
+    if owned(service, headers, operation)?.0.subject != credential.subject {
+        return Err(ApiError(StatusCode::UNAUTHORIZED, "unauthorized"));
+    }
+    if let Some(owner) = &owner {
+        if owned(service, headers, &owner.operation)?.0.subject != credential.subject {
+            return Err(ApiError(StatusCode::UNAUTHORIZED, "unauthorized"));
+        }
+        internal(owner.context().validate())?;
+    }
+    Ok(value)
 }
 
 fn owned(
@@ -45,23 +171,6 @@ fn owned(
         ));
     }
     Ok((credential, op))
-}
-
-fn response(
-    service: &Service,
-    headers: &HeaderMap,
-    operation: &str,
-    subject: &str,
-    value: Value,
-) -> ApiResult<Json<Value>> {
-    if internal(serde_json::to_vec(&value).map_err(Into::into))?.len() > MAX_RESULT {
-        return Err(ApiError(StatusCode::CONFLICT, "journey_response_limit"));
-    }
-    let (current, _) = owned(service, headers, operation)?;
-    if current.subject != subject {
-        return Err(ApiError(StatusCode::UNAUTHORIZED, "unauthorized"));
-    }
-    Ok(Json(value))
 }
 
 pub(super) async fn prepare(
@@ -134,9 +243,10 @@ pub(super) async fn prepare(
         drop(journey);
     }
     // An incomplete reservation is observed through the owner; never re-run it.
-    let journey = internal(journey::resume(&output))?;
-    let value = internal(serde_json::to_value(journey.manifest()).map_err(Into::into))?;
-    response(&service, &headers, &operation, &credential.subject, value)
+    let value = with_owned_journey(&service, &headers, &operation, |j| {
+        internal(serde_json::to_value(j.manifest()).map_err(Into::into))
+    })?;
+    Ok(Json(value))
 }
 
 pub(super) async fn status(
@@ -149,19 +259,12 @@ pub(super) async fn status(
         .gate
         .lock()
         .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
-    let (credential, _) = owned(&service, &headers, &operation)?;
-    let journey = internal(journey::resume(
-        &service
-            .dir(&credential.subject, &operation)
-            .join("work/journey"),
-    ))?;
-    response(
+    Ok(Json(with_owned_journey(
         &service,
         &headers,
         &operation,
-        &credential.subject,
-        internal(serde_json::to_value(journey.manifest()).map_err(Into::into))?,
-    )
+        |j| internal(serde_json::to_value(j.manifest()).map_err(Into::into)),
+    )?))
 }
 
 pub(super) async fn step(
@@ -181,26 +284,32 @@ pub(super) async fn step(
             "service_draining",
         ));
     }
-    let (credential, _) = owned(&service, &headers, &operation)?;
-    let mut journey = internal(journey::resume(
-        &service
-            .dir(&credential.subject, &operation)
-            .join("work/journey"),
-    ))?;
-    let step = match request {
-        StepRequest::Impact { changes } => Continuation::Impact { changes },
-        StepRequest::Rationale { selection } => Continuation::Rationale { selection },
+    let selected = match &request {
+        StepRequest::Drift { baseline_operation } => Some(baseline_operation.clone()),
+        _ => None,
     };
-    journey
-        .continue_with(step)
-        .map_err(|_| ApiError(StatusCode::CONFLICT, "journey_step_rejected"))?;
-    response(
+    let value = with_selected_baseline(
         &service,
         &headers,
         &operation,
-        &credential.subject,
-        internal(serde_json::to_value(journey.manifest()).map_err(Into::into))?,
-    )
+        selected.as_deref(),
+        |j, baseline| {
+            let result = match request {
+                StepRequest::Impact { changes } => {
+                    j.continue_with(Continuation::Impact { changes })
+                }
+                StepRequest::Rationale { selection } => {
+                    j.continue_with(Continuation::Rationale { selection })
+                }
+                StepRequest::Drift { .. } => j.continue_owned_drift(
+                    baseline.ok_or(ApiError(StatusCode::CONFLICT, "journey_baseline_missing"))?,
+                ),
+            };
+            result.map_err(|_| ApiError(StatusCode::CONFLICT, "journey_step_rejected"))?;
+            internal(serde_json::to_value(j.manifest()).map_err(Into::into))
+        },
+    )?;
+    Ok(Json(value))
 }
 
 /// Fixed native graph projection for browser selectors; no caller-selected path.
@@ -214,22 +323,17 @@ pub(super) async fn graph(
         .gate
         .lock()
         .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
-    let (credential, _) = owned(&service, &headers, &operation)?;
-    let journey = internal(journey::resume(
-        &service
-            .dir(&credential.subject, &operation)
-            .join("work/journey"),
-    ))?;
-    let graph = journey
-        .graph()
-        .ok_or(ApiError(StatusCode::CONFLICT, "journey_graph_unavailable"))?;
-    response(
+    Ok(Json(with_owned_journey(
         &service,
         &headers,
         &operation,
-        &credential.subject,
-        internal(serde_json::to_value(graph).map_err(Into::into))?,
-    )
+        |journey| {
+            let graph = journey
+                .graph()
+                .ok_or(ApiError(StatusCode::CONFLICT, "journey_graph_unavailable"))?;
+            internal(serde_json::to_value(graph).map_err(Into::into))
+        },
+    )?))
 }
 
 /// Fixed report names only; resume revalidates retained owner artifacts first.
@@ -243,6 +347,7 @@ pub(super) async fn artifact(
         "fitness" => "fitness.json",
         "impact" => "impact.json",
         "rationale" => "rationale.json",
+        "drift" => "drift.json",
         _ => {
             return Err(ApiError(
                 StatusCode::NOT_FOUND,
@@ -255,24 +360,24 @@ pub(super) async fn artifact(
         .gate
         .lock()
         .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
-    let (credential, _) = owned(&service, &headers, &operation)?;
-    let journey = internal(journey::resume(
-        &service
-            .dir(&credential.subject, &operation)
-            .join("work/journey"),
-    ))?;
-    if journey
-        .manifest()
-        .stages
-        .get(&stage)
-        .and_then(|s| s.artifact.as_deref())
-        != Some(file)
-    {
-        return Err(ApiError(
-            StatusCode::CONFLICT,
-            "journey_artifact_unavailable",
-        ));
-    }
-    let value = internal(read_json(&journey.output().join(file), MAX_RESULT))?;
-    response(&service, &headers, &operation, &credential.subject, value)
+    Ok(Json(with_owned_journey(
+        &service,
+        &headers,
+        &operation,
+        |journey| {
+            if journey
+                .manifest()
+                .stages
+                .get(&stage)
+                .and_then(|s| s.artifact.as_deref())
+                != Some(file)
+            {
+                return Err(ApiError(
+                    StatusCode::CONFLICT,
+                    "journey_artifact_unavailable",
+                ));
+            }
+            internal(read_json(&journey.output().join(file), MAX_RESULT))
+        },
+    )?))
 }

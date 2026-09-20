@@ -290,6 +290,26 @@ pub(super) async fn render(
         &publication,
         decision.as_ref(),
     ))?;
+    // This is an explicit POST: connect a committed export to an existing
+    // Journey. GET observation remains read-only, and neither path re-renders.
+    if value["export_status"] == "complete" && dir.join("work/journey/session.json").exists() {
+        journey::with_owned_journey(&service, &headers, &operation, |journey| {
+            if *_guard
+                && journey.manifest().stages[request.format.key()].status
+                    != crate::codefriend::integration::journey::StageStatus::Complete
+            {
+                return Err(ApiError(
+                    StatusCode::SERVICE_UNAVAILABLE,
+                    "service_draining",
+                ));
+            }
+            internal(journey.attach_hosted_publication(
+                request.format,
+                &current.subject,
+                &operation,
+            ))
+        })?;
+    }
     checked_response(&service, &headers, &operation, &current.subject, value)
 }
 

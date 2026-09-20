@@ -3,6 +3,7 @@
 #[cfg(unix)]
 pub mod control;
 mod journey;
+mod journey_publication;
 mod publication_export;
 use super::{
     evidence::{contracts::Completion, store::Store, Admission, Retention},
@@ -541,6 +542,10 @@ impl Service {
             .route(
                 "/v1/operations/:operation/journey/graph",
                 get(journey::graph),
+            )
+            .route(
+                "/v1/operations/:operation/journey/publication",
+                post(journey_publication::attach),
             )
             .route(
                 "/v1/operations/:operation/journey/artifacts/:stage",
