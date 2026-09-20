@@ -20,6 +20,38 @@ use super::support::*;
 use super::target::publication_target_inventory;
 use super::transport::*;
 
+/// Only an empty authenticated branch inventory establishes absence here.
+/// A changed PR (title, draft state, or head) is still a possible performed
+/// effect and must not be discarded just because exact reconciliation fails.
+pub(crate) fn authenticated_absence_recovery(
+    root: &Path,
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<bool, RemoteRouteFinding> {
+    if !matches!(request.mutation, GithubMutation::PullRequestCreate { .. })
+        || !unsettled_absence_recovery(root, request)?
+    {
+        return Ok(false);
+    }
+    let operation_digest = github_mutation_operation_digest(request);
+    let invocation = github_mutation_reconciliation_invocation(request, &operation_digest)?
+        .with_child_credential(mutation_credential_name(request)?)
+        .map_err(|_| {
+            remote_finding(
+                "github_credential_scope_invalid",
+                "invalid credential scope",
+            )
+        })?;
+    let value = read_mutation_reconciliation_page(invocation, process)?;
+    let candidates = value.as_array().ok_or_else(|| {
+        remote_finding(
+            "github_mutation_reconciliation_invalid_json",
+            "publication absence requires an authenticated pull-request array",
+        )
+    })?;
+    Ok(candidates.is_empty())
+}
+
 /// Observe only retained native operations. No effect or reconciliation is
 /// attempted while describing recovery, and settled operations are excluded.
 pub fn pending_operations(

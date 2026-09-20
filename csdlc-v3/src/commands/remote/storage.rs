@@ -438,13 +438,11 @@ pub(crate) fn settled_issue_scoped_mutation_receipt(
     Ok(true)
 }
 
-/// Authenticate the consumed recovery identity, then require fresh absence.
-/// A retry reservation alone says nothing about whether its dispatch succeeded.
-/// A retained mutation receipt must be reconciled by the normal recovery owner.
-pub(crate) fn authenticated_absence_recovery(
+/// Authenticate a consumed retry with no retained completion receipt.
+/// This is eligibility for fresh readback, never proof that dispatch was absent.
+pub(super) fn unsettled_absence_recovery(
     repo_root: &Path,
     request: &GithubMutationRequest,
-    process: &mut impl crate::adapters::ProcessAdapter,
 ) -> Result<bool, RemoteRouteFinding> {
     let operation_digest = github_mutation_operation_digest(request);
     let intent_path = github_mutation_intent_path(repo_root, &operation_digest)?;
@@ -482,7 +480,7 @@ pub(crate) fn authenticated_absence_recovery(
     if !identity_matches || github_mutation_receipt_path(repo_root, &operation_digest)?.exists() {
         return Ok(false);
     }
-    super::transport::observe_publication_absence(request, &operation_digest, process)
+    Ok(true)
 }
 
 /// Read-only transition admission. Every retained remote intent must have its
