@@ -846,6 +846,9 @@ fn acquire_source(
     Ok(packet)
 }
 /// Explicit continuation instructions; provider credential values are never retained.
+// Processed one continuation at a time; keep the public construction API without
+// boxing Palace request fields solely to shrink the less frequent variants.
+#[allow(clippy::large_enum_variant)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "stage", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Continuation {
