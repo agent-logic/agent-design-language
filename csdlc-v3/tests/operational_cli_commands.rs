@@ -1243,6 +1243,7 @@ fn legacy_proof_and_rollback_direct_writers_are_retired() {
     let rollback_path = fixture.join("rollback.json");
     let rollback_request = TerminalRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
+        publication_repository: None,
         issue: 505,
         pull_request: None,
         historical_pull_requests: vec![],

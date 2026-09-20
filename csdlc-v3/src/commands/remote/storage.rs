@@ -390,6 +390,96 @@ pub(crate) fn settled_issue_mutation_receipt(
     Ok(true)
 }
 
+/// Verify any retained issue-scoped mutation receipt against its exact intent.
+/// Legacy semantic activation uses this for historical publication and comment
+/// effects as well as ordinary issue edits; orphan or cross-issue receipts are
+/// never admitted.
+pub(crate) fn settled_issue_scoped_mutation_receipt(
+    remote: &Path,
+    receipt_path: &Path,
+    repository: &str,
+    issue: u64,
+) -> Result<bool, RemoteRouteFinding> {
+    let Some(operation_digest) = receipt_path
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .filter(|value| value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit()))
+    else {
+        return Ok(false);
+    };
+    let intent_path = remote
+        .join("intents")
+        .join(format!("{operation_digest}.json"));
+    if !intent_path
+        .symlink_metadata()
+        .is_ok_and(|metadata| metadata.is_file() && !metadata.file_type().is_symlink())
+    {
+        return Ok(false);
+    }
+    let intent = load_mutation_intent(&intent_path, operation_digest)?;
+    let receipt = load_mutation_receipt(receipt_path, operation_digest)?;
+    let pull_request_matches = match &intent.request.mutation {
+        GithubMutation::PullRequestCreate { .. } => {
+            intent.request.pull_request.is_none()
+                && receipt.pull_request.is_some_and(|number| number > 0)
+        }
+        _ => receipt.pull_request == intent.request.pull_request,
+    };
+    if intent.request.repository != repository
+        || intent.request.issue != issue
+        || receipt.repository != intent.request.repository
+        || receipt.issue != intent.request.issue
+        || !pull_request_matches
+        || receipt.expected_head_sha != intent.request.expected_head_sha
+        || receipt.intent_digest != github_mutation_intent_digest(&intent)
+    {
+        return Ok(false);
+    }
+    Ok(true)
+}
+
+/// Authenticate that the one allowed absence recovery was consumed for this
+/// exact retained mutation. This proves only that the historical effect did
+/// not occur; any replacement publication must establish its own authority.
+pub(crate) fn authenticated_absence_recovery(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+) -> Result<bool, RemoteRouteFinding> {
+    let operation_digest = github_mutation_operation_digest(request);
+    let intent_path = github_mutation_intent_path(repo_root, &operation_digest)?;
+    let recovery_path = github_mutation_recovery_path(repo_root, &operation_digest)?;
+    if !intent_path.is_file() || !recovery_path.is_file() {
+        return Ok(false);
+    }
+    let intent = load_mutation_intent(&intent_path, &operation_digest)?;
+    let mut original_request = request.clone();
+    original_request.recovery = None;
+    if intent.request != original_request {
+        return Ok(false);
+    }
+    let recovery: GithubMutationRecoveryReceipt =
+        serde_json::from_slice(&fs::read(&recovery_path).map_err(|_| {
+            remote_finding(
+                "github_mutation_recovery_unreadable",
+                "retained recovery receipt cannot be read",
+            )
+        })?)
+        .map_err(|_| {
+            remote_finding(
+                "github_mutation_recovery_invalid",
+                "retained recovery receipt is not valid typed JSON",
+            )
+        })?;
+    Ok(recovery.schema == "csdlc.v3.github_mutation_recovery.v1"
+        && recovery.operation_digest == operation_digest
+        && recovery.intent_digest == github_mutation_intent_digest(&intent)
+        && recovery.recovery == GithubMutationRecovery::RetryAfterAuthenticatedAbsence
+        && recovery.repository == request.repository
+        && recovery.issue == request.issue
+        && recovery.pull_request == request.pull_request
+        && recovery.expected_head_sha == request.expected_head_sha)
+}
+
 /// Read-only transition admission. Every retained remote intent must have its
 /// exact authenticated completion; repository-scoped creation is included.
 pub(crate) fn require_settled_transition_remote(remote: &Path) -> Result<(), RemoteRouteFinding> {

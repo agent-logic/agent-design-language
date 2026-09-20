@@ -17,6 +17,7 @@ use std::{
 fn base_request() -> TerminalRouteRequest {
     TerminalRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
+        publication_repository: None,
         issue: 630,
         pull_request: Some(641),
         historical_pull_requests: vec![],

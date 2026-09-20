@@ -38,11 +38,11 @@ csdlc\-requests \- native request fields, enums and digest contracts
 .PP
 \&A native result's returned digest/receipt path is preferable to recomputing a lifecycle receipt. Never claim authentication by writing a receipt with a matching checksum; transport\-derived receipts require actual native observation.
 .SH TERMINAL CONTRACT
-\&TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus \-\-observe\-github. historical_pull_requests is a finish\-only list of retained checkpoint PRs: each must authenticate as merged for the same repository and issue, must not close the issue, and must explicitly declare Part of or Part\-Of linkage; it does not override the selected closing PR. terminal_state identifies the canonical repository_root and exact state_path/receipt_path; optional reconciliation_checkout binds the checkout whose HEAD must match a no\-PR expected head, while optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.
+\&TerminalRouteRequest.mode is closing or part_of. Ordinary finish needs numeric pull_request, expected_head_sha and closing mode plus \-\-observe\-github. publication_repository optionally identifies a different owner/name repository containing the closing pull request; authenticated readback must still prove that it closes the target issue in repository, and the durable receipt retains both identities. historical_pull_requests is a finish\-only list of retained checkpoint PRs: each must authenticate as merged for the publication repository and issue, must not close the issue, and must explicitly declare Part of or Part\-Of linkage; it does not override the selected closing PR. terminal_state identifies the canonical repository_root and exact state_path/receipt_path; optional reconciliation_checkout binds the checkout whose HEAD must match a no\-PR expected head, while optional expected_state_digest binds existing terminal bytes. Omitting terminal_state performs observation without durable terminal persistence.
 .PP
 \&NoPrCloseout.disposition is retired_without_execution, duplicate, superseded, absorbed, coordination_completed or historical_disposition. It requires operator/rationale/evidence_refs and exact authenticated issue updated/closed timestamps. It is administrative disposition, not merged implementation. expected_head_sha must match the actual reconciliation checkout for this route.
 .PP
-\&CleanupRouteRequest.remove defaults false. terminal_receipt is not sufficient alone: use terminal_receipt_path and its exact BLAKE3 byte digest, then preview_receipt_digest returned by an eligible preview for removal. approved_parent/repository_root/candidate_path must be actual normalized paths; candidate must be absolute. Preserve dirty or live work.
+\&CleanupRouteRequest.remove defaults false. terminal_receipt is not sufficient alone: use terminal_receipt_path and its exact BLAKE3 byte digest, then preview_receipt_digest returned by an eligible preview for removal. retained_archive_identity is tool\-owned compatibility state retained from preview and is not operator authority. approved_parent/repository_root/candidate_path must be actual normalized paths; candidate must be absolute. Preserve dirty or live work.
 .PP
 \&CutoverDecisionRequest.operation is apply (default) or rollback; execute defaults false. Execution requires exact selected binary, selector, installation, rollback receipt and readiness evidence paths/digests plus explicit approval. Retained cutover configuration is not a routine startup requirement.
 .SH PROOF CONTRACT
@@ -238,6 +238,8 @@ csdlc\-requests \- native request fields, enums and digest contracts
 .SH TERMINALROUTEREQUEST
 \&repository: String; required.
 .PP
+\&publication_repository: Option<String>; optional/defaulted.
+.PP
 \&issue: u64; required.
 .PP
 \&pull_request: Option<u64>; optional/defaulted.
@@ -291,6 +293,8 @@ csdlc\-requests \- native request fields, enums and digest contracts
 \&terminal_receipt_digest: Option<String>; optional/defaulted.
 .PP
 \&preview_receipt_digest: Option<String>; optional/defaulted.
+.PP
+\&retained_archive_identity: Option<serde_json::Value>; optional/defaulted.
 .SH TERMINALSTATEWRITEREQUEST
 \&repository_root: PathBuf; required.
 .PP

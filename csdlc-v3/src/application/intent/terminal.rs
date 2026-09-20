@@ -68,6 +68,134 @@ fn semantic_for(
         context.semantic_context()
     }
 }
+
+fn resume_pending_cleanup(
+    context: &Context,
+    request: &IntentRequest,
+    receipt_path: &std::path::Path,
+) -> Result<Option<Value>, String> {
+    let semantic = semantic_for(context, SemanticCommand::RecordCleanup)?;
+    let Some(pending) = semantic
+        .snapshot
+        .pending()
+        .filter(|pending| pending.command() == SemanticCommand::RecordCleanup)
+    else {
+        return Ok(None);
+    };
+    let inspection =
+        DurableTransactionStore::inspect_effect(&semantic.root, &semantic.key, pending.id())
+            .map_err(semantic_error)?;
+    let operation = inspection.request();
+    let content: Value =
+        serde_json::from_slice(&operation.canonical_content().map_err(semantic_error)?)
+            .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+    let mut native: TerminalRouteRequest = serde_json::from_value(content["native"].clone())
+        .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+    let cleanup = native
+        .cleanup
+        .as_ref()
+        .ok_or("intent_cleanup_retained_request_invalid")?;
+    if !cleanup.remove
+        || cleanup.repository_root != context.primary
+        || cleanup.candidate_path != context.root
+    {
+        return Err("intent_cleanup_retained_request_invalid".into());
+    }
+    let expected = encode(&content["archive_identity"])?;
+    let retained = semantic_matching_retained_cleanup_archive_identity(
+        &context.primary,
+        &context.root,
+        context.issue,
+        &expected,
+    )
+    .map_err(|finding| finding.code)?;
+    let packet = if let Some(archive) = &retained {
+        let identity: Value = serde_json::from_slice(archive)
+            .map_err(|_| "intent_cleanup_archive_identity_invalid")?;
+        if content["archive_identity"] != identity {
+            return Err("intent_cleanup_retained_archive_mismatch".into());
+        }
+        native
+            .cleanup
+            .as_mut()
+            .expect("cleanup verified above")
+            .retained_archive_identity = Some(identity.clone());
+        let receipt: DurableTerminalReceipt = serde_json::from_slice(
+            &fs::read(receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
+        )
+        .map_err(|_| "intent_terminal_receipt_invalid")?;
+        let topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
+        json!({"schema":"csdlc.v3.semantic_cleanup_recovery.v1",
+            "operation":pending.id().as_str(),"version":semantic.snapshot.version(),
+            "archive":identity,"receipt":receipt,"topology":topology})
+    } else {
+        content["preview"].clone()
+    };
+    let token = if retained.is_none() {
+        match content["preview_token"].as_str() {
+            Some(token) => token.to_owned(),
+            None => blake3::hash(&encode(&packet)?).to_hex().to_string(),
+        }
+    } else {
+        blake3::hash(&encode(&packet)?).to_hex().to_string()
+    };
+    if !request.execute {
+        return Ok(Some(
+            json!({"status":"ready","read_only":true,"performed_mutation":false,
+                "preview_token":token,"recovery":packet}),
+        ));
+    }
+    let retained_preview = content["preview_token"].as_str();
+    if request.preview.as_deref() != Some(token.as_str())
+        && request.preview.as_deref() != retained_preview
+    {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    context.repair_before_effect(&semantic.snapshot, operation)?;
+    let ticket = inspection
+        .ticket()
+        .ok_or("intent_cleanup_pending_ticket_missing")?
+        .clone();
+    semantic.admit_before_effect(ticket.id())?;
+    let facts = Facts {
+        terminal_receipt: true,
+        cleanup: true,
+        ..Default::default()
+    };
+    let result = match prepare_intent_cleanup(&native) {
+        Ok(result) => result,
+        Err(finding) => {
+            return effect_result(
+                context,
+                &semantic,
+                ticket,
+                operation,
+                Ok(json!({"status":"recovery_required","error":finding.code,
+                    "performed_mutation":if retained.is_some(){Some(true)}else{None},
+                    "effects_unknown":retained.is_none()})),
+                facts,
+            )
+            .map(Some);
+        }
+    };
+    let removed = matches!(result.cleanup, Some(CleanupDecision::Removed { .. }));
+    let noop = matches!(
+        result.cleanup,
+        Some(CleanupDecision::Absent { .. } | CleanupDecision::AlreadyRemoved { .. })
+    );
+    effect_result(
+        context,
+        &semantic,
+        ticket,
+        operation,
+        Ok(json!({"status":if removed {"completed"}else if noop{"expected_noop"}else{"blocked"},
+            "read_only":false,"operational_authority":removed,
+            "performed_mutation":if removed{Some(true)}else if noop{Some(false)}else{None},
+            "historical_effect_truth":"performed","effects_unknown":!removed&&!noop,"result":result})),
+        facts,
+    )
+    .map(Some)
+}
 fn effect_result(
     context: &Context,
     semantic: &super::context::SemanticContext,
@@ -199,8 +327,12 @@ fn finish_target(
 fn native_request(
     context: &Context,
     explicit: Option<u64>,
+    publication_repository: Option<&str>,
     receipt_path: &std::path::Path,
-) -> Result<TerminalRouteRequest, String> {
+) -> Result<(TerminalRouteRequest, bool), String> {
+    let mut missing_state_repair = false;
+    let mut retained_head = None;
+    let mut retained_publication_repository = None;
     let retained = if receipt_path.exists() {
         let receipt: DurableTerminalReceipt = serde_json::from_slice(
             &fs::read(receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
@@ -208,16 +340,28 @@ fn native_request(
         .map_err(|_| "intent_terminal_receipt_invalid")?;
         let state_path =
             state_root(context)?.join(format!("v3/issues/{}/terminal.json", context.issue));
+        let state_digest = file_digest(&state_path)?;
         if receipt.repository != context.repository
             || receipt.issue != context.issue
-            || receipt.head_sha != context.head
             || receipt.disposition != "closed_out"
             || receipt.no_pr_closeout.is_some()
             || receipt.state_digest.is_none()
-            || receipt.state_digest != file_digest(&state_path)?
+            || (state_digest.is_some() && receipt.state_digest != state_digest)
         {
             return Err("intent_terminal_receipt_mismatch".into());
         }
+        if state_digest.is_none() {
+            missing_state_repair = true;
+            retained_head = Some(receipt.head_sha.clone());
+        } else if receipt.head_sha != context.head
+            && receipt
+                .publication_repository
+                .as_deref()
+                .is_none_or(|repository| repository == context.repository)
+        {
+            return Err("intent_terminal_receipt_mismatch".into());
+        }
+        retained_publication_repository = receipt.publication_repository.clone();
         receipt.pull_request
     } else {
         None
@@ -225,12 +369,61 @@ fn native_request(
     if retained.is_some() && explicit.is_some() && retained != explicit {
         return Err("intent_finish_pull_request_conflict".into());
     }
+    if publication_repository.is_some()
+        && retained_publication_repository.as_deref() != publication_repository
+        && retained_publication_repository.is_some()
+    {
+        return Err("intent_finish_publication_repository_conflict".into());
+    }
+    let publication_repository = publication_repository
+        .map(str::to_owned)
+        .or(retained_publication_repository);
+    let semantic_migration = context.semantic_terminal_compatibility_required()?;
+    let external_publication = publication_repository
+        .as_deref()
+        .is_some_and(|repository| !repository.is_empty() && repository != context.repository);
+    let legacy_settled = if retained.is_none() && semantic_migration {
+        crate::commands::remote::intent::settled_publication_identity_for_finish(
+            &context.root,
+            &context.repository,
+            context.issue,
+            explicit,
+        )
+        .map_err(|finding| finding.code)?
+    } else {
+        None
+    };
     // A validated terminal receipt is the authoritative final target for an
     // ordinary replay. Inventory the remaining native targets as historical
     // checkpoints instead of sending replay back through singular publication
     // selection, which rejects the intentionally preserved history.
-    let effective = explicit.or(retained);
-    let native = if effective.is_some() {
+    let effective = explicit.or(retained).or_else(|| {
+        legacy_settled
+            .as_ref()
+            .map(|identity| identity.pull_request)
+    });
+    let legacy_explicit = retained.is_none() && semantic_migration && explicit.is_some();
+    if external_publication && !legacy_explicit && !missing_state_repair && legacy_settled.is_none()
+    {
+        let native = crate::commands::remote::intent::publication_targets_for_finish(
+            &context.root,
+            &context.repository,
+            context.issue,
+            &context.branch,
+            &context.head,
+        )
+        .map_err(|finding| finding.code)?;
+        if !native.is_empty() {
+            return Err("intent_finish_publication_repository_conflict".to_owned());
+        }
+    }
+    let native = if legacy_settled.is_some()
+        || legacy_explicit
+        || missing_state_repair
+        || external_publication
+    {
+        Ok(Vec::new())
+    } else if effective.is_some() {
         crate::commands::remote::intent::publication_targets_for_finish(
             &context.root,
             &context.repository,
@@ -250,12 +443,25 @@ fn native_request(
     }
     .map_err(|finding| finding.code)?;
     let (pull_request, historical_pull_requests) = finish_target(native, effective, retained)?;
-    serde_json::from_value(
+    let expected_head = retained_head
+        .as_deref()
+        .or_else(|| {
+            legacy_settled
+                .as_ref()
+                .map(|identity| identity.head.as_str())
+        })
+        .unwrap_or(context.head.as_str());
+    let request: TerminalRouteRequest = serde_json::from_value(
         json!({"repository":context.repository,"issue":context.issue,
+        "publication_repository":publication_repository,
         "pull_request":pull_request,"historical_pull_requests":historical_pull_requests,
-        "expected_head_sha":context.head,"mode":"closing","credential_names":["GITHUB_TOKEN"]}),
+        "expected_head_sha":expected_head,"mode":"closing","credential_names":["GITHUB_TOKEN"]}),
     )
-    .map_err(|_| "intent_terminal_request_invalid".into())
+    .map_err(|_| "intent_terminal_request_invalid".to_owned())?;
+    Ok((
+        request,
+        legacy_settled.is_some() || legacy_explicit || missing_state_repair,
+    ))
 }
 fn attach_terminal_observation(
     context: &Context,
@@ -673,18 +879,22 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
     }
     // A supplied PR is only a target hint. The existing terminal owner must
     // authenticate merged state, exact head, closing linkage and closed issue.
+    let mut publication_repository = None;
     let explicit_pr =
         if request.command == "finish" && request.content.get("pull_request").is_some() {
             #[derive(serde::Deserialize)]
             #[serde(deny_unknown_fields)]
             struct ExternalPr {
                 pull_request: u64,
+                #[serde(default)]
+                publication_repository: Option<String>,
             }
             let value: ExternalPr = serde_json::from_value(request.content.clone())
                 .map_err(|_| "intent_finish_pull_request_invalid")?;
             if value.pull_request == 0 {
                 return Err("intent_finish_pull_request_invalid".into());
             }
+            publication_repository = value.publication_repository;
             Some(value.pull_request)
         } else {
             None
@@ -944,6 +1154,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 "outcome":completed.outcome(),"effect_truth":completed.truth(),"version":semantic.snapshot.version()}}),
         );
     }
+    let mut legacy_merged_compatibility = false;
     let mut native = if request.command == "finish"
         && !request.content.is_null()
         && explicit_pr.is_none()
@@ -992,14 +1203,26 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         .map_err(|_| "intent_terminal_receipt_invalid")?;
         if receipt.repository != context.repository
             || receipt.issue != context.issue
-            || receipt.head_sha != context.head
+            || (receipt.head_sha != context.head && receipt.publication_repository.is_none())
         {
             return Err("intent_terminal_receipt_mismatch".into());
         }
-        serde_json::from_value(json!({"repository":context.repository,"issue":context.issue,"expected_head_sha":context.head,"pull_request":receipt.pull_request,
+        let cleanup_head = if receipt.publication_repository.is_some() {
+            context.head.as_str()
+        } else {
+            receipt.head_sha.as_str()
+        };
+        serde_json::from_value(json!({"repository":context.repository,"publication_repository":receipt.publication_repository,"issue":context.issue,"expected_head_sha":cleanup_head,"pull_request":receipt.pull_request,
             "mode":if receipt.no_pr_closeout.is_some(){Value::Null}else{json!("closing")},"no_pr_closeout":receipt.no_pr_closeout,"credential_names":["GITHUB_TOKEN"]})).map_err(|_|"intent_terminal_request_invalid")?
     } else {
-        native_request(context, explicit_pr, &receipt_path)?
+        let (native, compatibility) = native_request(
+            context,
+            explicit_pr,
+            publication_repository.as_deref(),
+            &receipt_path,
+        )?;
+        legacy_merged_compatibility = compatibility;
+        native
     };
     let legacy_coordination_compatibility = native
         .no_pr_closeout
@@ -1022,6 +1245,11 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
             context.fresh()?;
             let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
+            if legacy_merged_compatibility || native.publication_repository.is_some() {
+                let observed = observe_terminal_github_readback(&native, &mut process)
+                    .map_err(|finding| finding.code)?;
+                native.expected_head_sha = Some(observed.head_sha().to_owned());
+            }
             // Authentication and terminal admission are observational before reservation.
             let staged = prepare_terminal_finish_with_github_observation(&native, &mut process)
                 .map_err(|finding| finding.code)?;
@@ -1036,8 +1264,31 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             } else {
                 SemanticCommand::Finish
             };
-            if command == SemanticCommand::Finish {
+            if command == SemanticCommand::Finish && !legacy_merged_compatibility {
                 catch_up_terminal_merge_state(context, &staged)?;
+            }
+            if legacy_merged_compatibility {
+                native.terminal_state = Some(TerminalStateWriteRequest {
+                    repository_root: context.primary.clone(),
+                    reconciliation_checkout: Some(context.root.clone()),
+                    state_path,
+                    receipt_path: receipt_path.clone(),
+                    expected_state_digest: file_digest(
+                        &output_root.join(format!("v3/issues/{}/terminal.json", context.issue)),
+                    )?,
+                });
+                let result = prepare_terminal_finish_with_github_observation(&native, &mut process)
+                    .map_err(|finding| finding.code)?;
+                let completed = result.status == TerminalRouteStatus::Ready;
+                return Ok(json!({
+                    "status":if completed {"completed"} else {"blocked"},
+                    "read_only":false,
+                    "operational_authority":result.operational_authority,
+                    "performed_mutation":if completed {Some(true)} else {None},
+                    "effects_unknown":!completed,
+                    "result":result,
+                    "compatibility":"legacy_merged_publication"
+                }));
             }
             if legacy_coordination_compatibility {
                 if receipt_path.exists() {
@@ -1047,7 +1298,8 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     .map_err(|_| "intent_terminal_receipt_invalid")?;
                     if receipt.repository != context.repository
                         || receipt.issue != context.issue
-                        || receipt.head_sha != context.head
+                        || (receipt.head_sha != context.head
+                            && receipt.publication_repository.is_none())
                         || receipt.disposition != "closed_out"
                         || receipt.no_pr_closeout != native.no_pr_closeout
                         || receipt.state_digest.is_none()
@@ -1203,7 +1455,13 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 terminal_receipt_path: Some(receipt_path.to_string_lossy().into_owned()),
                 terminal_receipt_digest: Some(receipt_digest.clone()),
                 preview_receipt_digest: None,
+                retained_archive_identity: None,
             });
+            if context.cleanup_pending {
+                if let Some(result) = resume_pending_cleanup(context, request, &receipt_path)? {
+                    return Ok(result);
+                }
+            }
             let preview = prepare_intent_cleanup(&native).map_err(|finding| finding.code)?;
             let native_digest = match &preview.cleanup {
                 Some(CleanupDecision::Removable { receipt_digest, .. }) => {
@@ -1242,7 +1500,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let cleanup = native.cleanup.as_mut().expect("cleanup constructed above");
             cleanup.remove = true;
             cleanup.preview_receipt_digest = Some(native_digest);
-            if legacy_coordination_compatibility {
+            let legacy_external_publication =
+                native.publication_repository.is_some() && context.semantic_migration_required()?;
+            if legacy_coordination_compatibility || legacy_external_publication {
                 let result = prepare_intent_cleanup(&native).map_err(|finding| finding.code)?;
                 let removed = matches!(result.cleanup, Some(CleanupDecision::Removed { .. }));
                 let noop = matches!(
@@ -1256,7 +1516,11 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     "performed_mutation":if removed {Some(true)} else if noop {Some(false)} else {None},
                     "effects_unknown":!removed&&!noop,
                     "result":result,
-                    "compatibility":"legacy_coordination_only"
+                    "compatibility":if legacy_coordination_compatibility {
+                        "legacy_coordination_only"
+                    } else {
+                        "external_publication_cleanup"
+                    }
                 }));
             }
             let semantic = semantic_for(context, SemanticCommand::RecordCleanup)?;
@@ -1346,8 +1610,8 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     )
                     .map_err(semantic_error)?,
                 );
-                let content =
-                    json!({"native":native,"archive_identity":archive_identity,"preview":packet});
+                let content = json!({"native":native,"archive_identity":archive_identity,
+                    "preview":packet,"preview_token":token});
                 let bytes = encode(&content)?;
                 EffectRequest::new(
                     SemanticCommand::RecordCleanup,

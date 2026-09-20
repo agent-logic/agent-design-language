@@ -504,13 +504,6 @@ enum RecoveryResolutionMode {
     AbandonStaleReview,
 }
 impl VerifiedRecoveryResolution {
-    #[cfg_attr(
-        not(test),
-        expect(
-            dead_code,
-            reason = "reserved for authenticated native outcome reconciliation"
-        )
-    )]
     pub(crate) fn adopt_observed_after_native_reconciliation(preview: &RecoveryPreview) -> Self {
         Self {
             preview: preview.digest.clone(),

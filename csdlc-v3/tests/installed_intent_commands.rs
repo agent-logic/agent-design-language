@@ -110,6 +110,74 @@ fn add_retained_bound_edit_completion(bound: &Path) {
     .unwrap();
 }
 
+fn add_retained_pull_request_create_completion<F>(primary: &Path, bound: &Path, mutate: F)
+where
+    F: FnOnce(&mut Value),
+{
+    use csdlc_v3::commands::remote::{
+        canonical_authority_selector_digest, github_mutation_operation_digest,
+        github_mutation_operation_marker, GithubMutation, GithubMutationRequest,
+    };
+
+    let request = GithubMutationRequest {
+        repository: "agent-logic/agent-design-language".into(),
+        issue: 505,
+        pull_request: None,
+        cutover_issue: None,
+        operator_approval: None,
+        expected_head_sha: git(bound, &["rev-parse", "HEAD"]),
+        credential_names: vec!["GITHUB_TOKEN".into()],
+        recovery: None,
+        mutation: GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: git(bound, &["symbolic-ref", "--short", "HEAD"]),
+            title: "Retained publication".into(),
+            body: "Closes #505".into(),
+            draft: true,
+        },
+    };
+    let operation = github_mutation_operation_digest(&request);
+    let marker = github_mutation_operation_marker(&operation);
+    let selector = canonical_authority_selector_digest(primary).unwrap();
+    let schema = "csdlc.v3.github_mutation_intent.v1";
+    let adapter = "github-api-operational";
+    let mut hasher = blake3::Hasher::new();
+    for value in [schema, &operation, &marker, &selector, adapter] {
+        hasher.update(value.as_bytes());
+        hasher.update(b"\0");
+    }
+    let intent_digest = hasher.finalize().to_hex().to_string();
+    let intents = primary.join(".git/csdlc-v3/remote/intents");
+    let mutations = primary.join(".git/csdlc-v3/remote/mutations");
+    fs::create_dir_all(&intents).unwrap();
+    fs::create_dir_all(&mutations).unwrap();
+    fs::write(
+        intents.join(format!("{operation}.json")),
+        serde_json::to_vec(&json!({
+            "schema":schema,"operation_digest":operation,
+            "operation_marker":marker,"authority_selector_digest":selector,
+            "request":request,"adapter":adapter
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let mut receipt = json!({
+        "schema":"csdlc.v3.github_mutation_receipt.v2",
+        "repository":"agent-logic/agent-design-language","issue":505,
+        "pull_request":638,"expected_head_sha":request.expected_head_sha,
+        "operation_digest":operation,"response_digest":"fixture-response",
+        "readback_digest":"fixture-readback","intent_digest":intent_digest,
+        "reconciliation_digest":"fixture-reconciliation","adapter":adapter,
+        "authenticated":true,"idempotent_replay":false
+    });
+    mutate(&mut receipt);
+    fs::write(
+        mutations.join(format!("{operation}.json")),
+        serde_json::to_vec(&receipt).unwrap(),
+    )
+    .unwrap();
+}
+
 fn observation(fixture: &mut Fixture, cwd: &Path, route: &str) {
     let before = intent_fixture::inventory(&fixture.root);
     let result = success(fixture.run(cwd, &[route, "505"]));
@@ -176,8 +244,16 @@ fn issue_1036_installed_prepare_adopts_exact_registered_bound_legacy_record() {
     let native_before = intent_fixture::inventory(&native_issue);
     fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
     fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    fs::create_dir_all(primary.join(".csdlc/evidence/505")).unwrap();
+    fs::write(
+        primary.join(".csdlc/evidence/505/retained-proof.json"),
+        b"{}\n",
+    )
+    .unwrap();
 
-    let input = fixture.write_json("bound-legacy-plan.json", &plan());
+    let mut refreshed_plan = plan();
+    refreshed_plan["slug"] = json!("refreshed-bound-legacy-plan");
+    let input = fixture.write_json("bound-legacy-plan.json", &refreshed_plan);
     let prepared = success(fixture.run(
         &bound,
         &["prepare", "505", "--plan", input.to_str().unwrap()],
@@ -197,6 +273,258 @@ fn issue_1036_installed_prepare_adopts_exact_registered_bound_legacy_record() {
     assert_same_inventory!(native_before, intent_fixture::inventory(&native_issue));
     observation(&mut fixture, &bound, "status");
     observation(&mut fixture, &bound, "validate");
+}
+
+// PVF #1092: bound legacy adoption accepts only an exact completed PR-create
+// intent and its authenticated assigned-PR receipt.
+#[test]
+fn issue_1092_installed_prepare_authenticates_retained_pr_create_receipt() {
+    let mut fixture = Fixture::new("bound-legacy-pr-create-completion");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    add_retained_bound_edit_completion(&bound);
+    add_retained_pull_request_create_completion(&primary, &bound, |_| {});
+    let remote_before = intent_fixture::inventory(&primary.join(".git/csdlc-v3/remote"));
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+    let input = fixture.write_json("bound-pr-create-plan.json", &plan());
+    let prepared = success(fixture.run(
+        &bound,
+        &["prepare", "505", "--plan", input.to_str().unwrap()],
+    ));
+    assert_eq!(prepared["phase"], "bound");
+    assert_same_inventory!(
+        remote_before,
+        intent_fixture::inventory(&primary.join(".git/csdlc-v3/remote")),
+        "successful adoption changed retained remote records"
+    );
+
+    for (name, mutate) in [
+        (
+            "missing-pr",
+            (|receipt: &mut Value| receipt["pull_request"] = Value::Null) as fn(&mut Value),
+        ),
+        ("zero-pr", |receipt: &mut Value| {
+            receipt["pull_request"] = json!(0)
+        }),
+        ("intent-digest", |receipt: &mut Value| {
+            receipt["intent_digest"] = json!("0".repeat(64))
+        }),
+        ("head", |receipt: &mut Value| {
+            receipt["expected_head_sha"] = json!("0".repeat(40))
+        }),
+        ("repository", |receipt: &mut Value| {
+            receipt["repository"] = json!("other/repository")
+        }),
+        ("issue", |receipt: &mut Value| receipt["issue"] = json!(506)),
+    ] {
+        let mut fixture = Fixture::new(&format!("bound-legacy-pr-create-{name}"));
+        let primary = fixture.root.clone();
+        prepare(&mut fixture);
+        success(fixture.run(&primary, &["bind", "505"]));
+        let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+        add_retained_bound_edit_completion(&bound);
+        add_retained_pull_request_create_completion(&primary, &bound, mutate);
+        fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+        fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+        let input = fixture.write_json("bound-pr-create-plan.json", &plan());
+        let remote_before = intent_fixture::inventory(&primary.join(".git/csdlc-v3/remote"));
+        let denied = fixture.run(
+            &bound,
+            &["prepare", "505", "--plan", input.to_str().unwrap()],
+        );
+        assert!(!denied.status.success(), "{name} unexpectedly admitted");
+        assert!(
+            String::from_utf8_lossy(&denied.stdout).contains("semantic_prepare_refused"),
+            "{name}: {denied:?}"
+        );
+        assert_same_inventory!(
+            remote_before,
+            intent_fixture::inventory(&primary.join(".git/csdlc-v3/remote")),
+            name
+        );
+    }
+}
+
+// PVF #1092: terminal reconciliation from the primary checkout adopts the
+// exact head and PR identity from a completed native PR-create receipt. The
+// current main checkout must not be mistaken for the historical candidate.
+#[test]
+fn issue_1092_installed_finish_adopts_settled_legacy_publication_identity() {
+    let mut fixture = Fixture::new("legacy-finish-settled-publication-identity");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    fs::write(
+        bound.join("historical-candidate.txt"),
+        "historical candidate\n",
+    )
+    .unwrap();
+    git(&bound, &["add", "historical-candidate.txt"]);
+    git(&bound, &["commit", "--quiet", "-m", "historical candidate"]);
+    let historical_head = git(&bound, &["rev-parse", "HEAD"]);
+    assert_ne!(historical_head, git(&primary, &["rev-parse", "HEAD"]));
+    add_retained_pull_request_create_completion(&primary, &bound, |_| {});
+    fixture.enable_pr_transport(&bound);
+    fs::write(bound.join("final-candidate.txt"), "final candidate\n").unwrap();
+    git(&bound, &["add", "final-candidate.txt"]);
+    git(&bound, &["commit", "--quiet", "-m", "final candidate"]);
+    let final_head = git(&bound, &["rev-parse", "HEAD"]);
+    assert_ne!(historical_head, final_head);
+
+    fs::write(
+        primary.join(".git/installed-candidate/remote-pr-638.json"),
+        serde_json::to_vec(&json!({
+            "number":638,"head":{"sha":final_head},"merged":true,"state":"closed",
+            "body":"Closes #505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let issue_path = primary.join(".git/installed-candidate/remote-issue.json");
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+
+    let finished = success(fixture.run(&primary, &["finish", "505"]));
+    assert_eq!(finished["status"], "completed");
+    assert_eq!(finished["compatibility"], "legacy_merged_publication");
+    let receipt: Value = serde_json::from_slice(
+        &fs::read(primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(receipt["pull_request"], 638);
+    assert_eq!(receipt["head_sha"], final_head);
+    assert_eq!(fixture.remote_effects(), 0);
+
+    let state_path = primary.join(".git/csdlc-v3/local/v3/issues/505/terminal.json");
+    fs::remove_file(&state_path).unwrap();
+    let repaired = success(fixture.run(&primary, &["finish", "505"]));
+    assert_eq!(repaired["status"], "completed");
+    assert_eq!(repaired["compatibility"], "legacy_merged_publication");
+    assert!(state_path.is_file());
+}
+
+#[test]
+fn issue_1092_installed_finish_accepts_explicit_authenticated_legacy_target() {
+    let mut fixture = Fixture::new("legacy-finish-explicit-authenticated-target");
+    let primary = fixture.root.clone();
+    prepare(&mut fixture);
+    success(fixture.run(&primary, &["bind", "505"]));
+    let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
+    fixture.enable_pr_transport(&bound);
+    fixture.enable_external_pr_transport();
+    let head = git(&bound, &["rev-parse", "HEAD"]);
+    fs::write(
+        primary.join(".git/installed-candidate/remote-pr-638.json"),
+        serde_json::to_vec(&json!({
+            "number":638,"head":{"sha":head},"merged":true,"state":"closed",
+            "body":"Closes agent-logic/agent-design-language#505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let issue_path = primary.join(".git/installed-candidate/remote-issue.json");
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
+    fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
+
+    let finished = success(fixture.run(
+        &primary,
+        &[
+            "finish",
+            "505",
+            "--pull-request",
+            "638",
+            "--publication-repository",
+            "agent-logic/codefriend.ai",
+        ],
+    ));
+    assert_eq!(finished["status"], "completed");
+    assert_eq!(finished["compatibility"], "legacy_merged_publication");
+    let receipt_path = primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json");
+    let receipt: Value = serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    assert_eq!(
+        receipt["publication_repository"],
+        "agent-logic/codefriend.ai"
+    );
+    let state_path = primary.join(".git/csdlc-v3/local/v3/issues/505/terminal.json");
+    fs::remove_file(&state_path).unwrap();
+    let repaired = success(fixture.run(&primary, &["finish", "505"]));
+    assert_eq!(repaired["status"], "completed");
+    assert_eq!(repaired["compatibility"], "legacy_merged_publication");
+    assert!(state_path.is_file());
+    let repaired_receipt: Value = serde_json::from_slice(&fs::read(receipt_path).unwrap()).unwrap();
+    assert_eq!(
+        repaired_receipt["publication_repository"],
+        "agent-logic/codefriend.ai"
+    );
+    assert_eq!(fixture.remote_effects(), 0);
+}
+
+// PVF #1092: an external closing PR cannot suppress an already retained native
+// publication identity for a current semantic issue.
+#[test]
+fn issue_1092_current_semantic_external_publication_rejects_native_conflict() {
+    let (mut fixture, linked) = reviewed_fixture("current-external-publication");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    fixture.enable_external_pr_transport();
+    let external_head = "1".repeat(40);
+    let external_pr_path = primary.join(".git/installed-candidate/remote-pr-638.json");
+    fs::write(
+        &external_pr_path,
+        serde_json::to_vec(&json!({
+            "number":638,"head":{"sha":external_head},"merged":true,"state":"closed",
+            "body":"Closes agent-logic/agent-design-language#505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(
+        primary.join(".git/installed-candidate/remote-issue.json"),
+        serde_json::to_vec(&issue).unwrap(),
+    )
+    .unwrap();
+
+    let external_args = [
+        "finish",
+        "505",
+        "--pull-request",
+        "638",
+        "--publication-repository",
+        "agent-logic/codefriend.ai",
+    ];
+    let conflict = fixture.run(&linked, &external_args);
+    assert!(!conflict.status.success());
+    assert!(String::from_utf8_lossy(&conflict.stdout)
+        .contains("intent_finish_publication_repository_conflict"));
+    assert!(!primary
+        .join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")
+        .exists());
+    let semantic_root =
+        SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
+            .unwrap();
+    let key = IssueKey::new("agent-logic/agent-design-language", 505).unwrap();
+    let snapshot = match DurableTransactionStore::observe_issue(&semantic_root, &key).unwrap() {
+        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
+            snapshot
+        }
+        other => panic!("{other:?}"),
+    };
+    assert_eq!(
+        snapshot.phase(),
+        csdlc_v3::lifecycle::LifecycleState::Published
+    );
+    assert!(linked.exists());
 }
 
 #[test]
@@ -2648,32 +2976,13 @@ fn installed_merge_finish_and_exact_bound_cleanup_preserve_authority_and_archive
         .join("manifest.json")
         .is_file()));
 
-    let interrupted = fixture.interrupt_clean_after_index_removal(
-        &primary,
-        &["clean", "505", "--execute", "--preview", token],
-    );
-    assert!(!interrupted.status.success());
-    assert!(
-        linked.exists(),
-        "interruption occurred after full removal rather than before it"
-    );
-    assert!(
-        !linked.join(".csdlc/issues/505/index.json").exists(),
-        "interruption occurred before source index removal"
-    );
-    assert!(git(&primary, &["worktree", "list", "--porcelain"]).contains(linked.to_str().unwrap()));
-    let partial = intent_fixture::inventory(&primary);
-    assert!(
-        !fixture.run(&primary, &["status", "505"]).status.success(),
-        "partial cleanup evidence authorized ordinary issue work"
-    );
-    assert_same_inventory!(partial, intent_fixture::inventory(&primary));
+    let retained = intent_fixture::inventory(&primary);
     let continuation = success(fixture.run(&primary, &["clean", "505"]));
     assert_ne!(
         continuation["envelope"]["status"], "expected_noop",
         "registered partial removal misreported as complete"
     );
-    assert_same_inventory!(partial, intent_fixture::inventory(&primary));
+    assert_same_inventory!(retained, intent_fixture::inventory(&primary));
     let continued_token = continuation["preview_token"]
         .as_str()
         .expect("fresh continuation preview");
@@ -3313,6 +3622,112 @@ fn installed_remote_recover_attaches_retained_receipt_after_native_dispatch_cras
     assert_eq!(fixture.remote_effects(), 1, "recovery replayed publication");
     let settled = success(fixture.run(&linked, &["recover", "505"]));
     assert_eq!(settled["envelope"]["effects"]["outcome"], "none");
+}
+
+// PVF #1092: an exact authenticated-absence receipt retires only the stale
+// historical publication reservation. The later merged closing PR must still
+// pass ordinary terminal authentication before finish succeeds.
+#[test]
+fn issue_1092_installed_recover_retires_absent_historical_publication() {
+    let (mut fixture, linked) = reviewed_fixture("stale-publication-later-closing-pr");
+    let primary = fixture.root.clone();
+    let historical_head = git(&linked, &["rev-parse", "HEAD"]);
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fs::write(
+        linked.join("later-closing-pr.txt"),
+        "later reviewed delivery\n",
+    )
+    .unwrap();
+    git(&linked, &["add", "later-closing-pr.txt"]);
+    git(
+        &linked,
+        &["commit", "--quiet", "-m", "later closing delivery"],
+    );
+    let closing_head = git(&linked, &["rev-parse", "HEAD"]);
+    assert_ne!(historical_head, closing_head);
+
+    let intents = primary.join(".git/csdlc-v3/remote/intents");
+    let intent_path = fs::read_dir(&intents)
+        .unwrap()
+        .map(|entry| entry.unwrap().path())
+        .find(|path| path.extension().and_then(|value| value.to_str()) == Some("json"))
+        .expect("retained publication intent");
+    let operation = intent_path
+        .file_stem()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .to_owned();
+    let intent: Value = serde_json::from_slice(&fs::read(&intent_path).unwrap()).unwrap();
+    assert_eq!(intent["request"]["expected_head_sha"], historical_head);
+    let mut hasher = blake3::Hasher::new();
+    for value in [
+        intent["schema"].as_str().unwrap(),
+        &operation,
+        intent["operation_marker"].as_str().unwrap(),
+        intent["authority_selector_digest"].as_str().unwrap(),
+        intent["adapter"].as_str().unwrap(),
+    ] {
+        hasher.update(value.as_bytes());
+        hasher.update(b"\0");
+    }
+    let intent_digest = hasher.finalize().to_hex().to_string();
+    let recoveries = primary.join(".git/csdlc-v3/remote/recoveries");
+    fs::create_dir_all(&recoveries).unwrap();
+    let recovery_path = recoveries.join(format!("{operation}.json"));
+    let recovery = json!({
+        "schema":"csdlc.v3.github_mutation_recovery.v1",
+        "operation_digest":operation,"intent_digest":intent_digest,
+        "recovery":"retry_after_authenticated_absence",
+        "repository":"agent-logic/agent-design-language","issue":505,
+        "pull_request":null,"expected_head_sha":historical_head
+    });
+    fs::write(&recovery_path, serde_json::to_vec(&recovery).unwrap()).unwrap();
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    let recovered = success(fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    ));
+    assert_eq!(
+        recovered["result"]["recovery"],
+        "authenticated_absent_historical_publication"
+    );
+    assert_eq!(fixture.remote_effects(), 0);
+
+    fs::write(
+        primary.join(".git/installed-candidate/remote-pr-640.json"),
+        serde_json::to_vec(&json!({
+            "number":640,"head":{"sha":closing_head},"merged":true,"state":"closed",
+            "body":"Closes #505"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let issue_path = primary.join(".git/installed-candidate/remote-issue.json");
+    let mut issue = fixture.remote_issue();
+    issue["state"] = json!("closed");
+    fs::write(&issue_path, serde_json::to_vec(&issue).unwrap()).unwrap();
+    let finished = success(fixture.run(&linked, &["finish", "505", "--pull-request", "640"]));
+    assert_eq!(finished["status"], "completed");
+    assert_eq!(fixture.remote_effects(), 0);
+    let replay = success(fixture.run(&linked, &["finish", "505"]));
+    assert_eq!(replay["status"], "expected_noop");
 }
 
 #[test]

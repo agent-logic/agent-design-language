@@ -635,6 +635,25 @@ pub fn publication_targets_for_finish(
     publication_target_inventory(root, repository, issue, branch, head, true)
 }
 
+pub(crate) fn settled_publication_identity_for_finish(
+    root: &Path,
+    repository: &str,
+    issue: u64,
+    requested_pull_request: Option<u64>,
+) -> Result<Option<super::target::SettledPublicationIdentity>, RemoteRouteFinding> {
+    let mut identities = super::target::settled_publication_identities(root, repository, issue)?;
+    if let Some(requested) = requested_pull_request {
+        identities.retain(|identity| identity.pull_request == requested);
+    }
+    if identities.len() > 1 {
+        return Err(remote_finding(
+            "intent_publication_ambiguous",
+            "multiple settled publication identities require an explicit pull request",
+        ));
+    }
+    Ok(identities.pop())
+}
+
 /// Shared preparation/edit/publication guard. This validates metadata, not review
 /// authority, and deliberately performs no remote operation.
 pub fn publication_create_admission(

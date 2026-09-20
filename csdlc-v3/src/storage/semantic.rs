@@ -1044,7 +1044,7 @@ impl SemanticRoot {
                         .any(|path| path == &expected)
                         .then_some(expected)
                 });
-            if legacy_residue(&root, key.issue, ignored_lock.as_deref())? {
+            if legacy_residue(&root, key.issue, ignored_lock.as_deref(), false)? {
                 return Ok(true);
             }
         }
@@ -1055,7 +1055,12 @@ impl SemanticRoot {
 /// Enumerates issue-scoped native local, preparation, mutation and terminal roots.
 /// Empty directories still count as ambiguous residue. Do not parse a damaged
 /// receipt to decide whether it is safe to overwrite its namespace.
-fn legacy_residue(root: &Path, issue: u64, ignored_lock: Option<&Path>) -> Result<bool, Error> {
+fn legacy_residue(
+    root: &Path,
+    issue: u64,
+    ignored_lock: Option<&Path>,
+    allow_preserved_evidence: bool,
+) -> Result<bool, Error> {
     let exact = [
         format!("issues/{issue}"),
         format!("locks/{issue}.lock"),
@@ -1078,7 +1083,7 @@ fn legacy_residue(root: &Path, issue: u64, ignored_lock: Option<&Path>) -> Resul
     }
     let evidence = root.join(format!("evidence/{issue}"));
     reject_symlinks(&evidence)?;
-    if evidence.try_exists().map_err(io)? {
+    if evidence.try_exists().map_err(io)? && !allow_preserved_evidence {
         let mut entries = fs::read_dir(&evidence)
             .map_err(io)?
             .map(|entry| entry.map_err(io).map(|entry| entry.file_name()))
@@ -1428,7 +1433,12 @@ fn legacy_compatibility_census(
     )?;
 
     if let Some(primary) = root.common.parent() {
-        if legacy_residue(&primary.join(".csdlc"), key.issue, None)? {
+        if legacy_residue(
+            &primary.join(".csdlc"),
+            key.issue,
+            None,
+            adopted_binding.is_some(),
+        )? {
             return Err(Error::LegacyMigrationRequired);
         }
     }
@@ -1483,7 +1493,7 @@ fn legacy_compatibility_census(
                     }
                     continue;
                 }
-                if legacy_residue(&linked, key.issue, None)? {
+                if legacy_residue(&linked, key.issue, None, adopted_binding.is_some())? {
                     return Err(Error::LegacyMigrationRequired);
                 }
             }
@@ -1522,7 +1532,7 @@ fn legacy_compatibility_census(
                     .and_then(|value| value.to_str())
                     .ok_or(Error::RecoveryRequired)?;
                 let receipt = remote.join("mutations").join(format!("{operation}.json"));
-                if crate::commands::remote::settled_issue_mutation_receipt(
+                if crate::commands::remote::settled_issue_scoped_mutation_receipt(
                     &remote,
                     &receipt,
                     &key.repository,
@@ -1537,7 +1547,7 @@ fn legacy_compatibility_census(
             if namespace != "mutations" {
                 return Err(Error::LegacyMigrationRequired);
             }
-            if !crate::commands::remote::settled_issue_mutation_receipt(
+            if !crate::commands::remote::settled_issue_scoped_mutation_receipt(
                 &remote,
                 &path,
                 &key.repository,
