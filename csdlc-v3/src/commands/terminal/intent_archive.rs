@@ -130,6 +130,20 @@ fn preview_with_partial_removal(
         if untracked && admitted(path, issue) {
             continue;
         }
+        // The archive retains filesystem bytes, not the worktree index. Even
+        // an admitted issue file may have distinct staged evidence; never let
+        // forced worktree removal discard it (including on cleanup recovery).
+        if !untracked
+            && entry
+                .as_bytes()
+                .first()
+                .is_some_and(|status| *status != b' ')
+        {
+            return Err(finding(
+                "cleanup_archive_staged_changes",
+                "cleanup refuses staged changes; preserve or unstage them before archival",
+            ));
+        }
         let tracked_issue_record = !untracked
             && entry.len() >= 4
             && (allow_partial_removal
@@ -885,6 +899,45 @@ mod tests {
             Err(finding) => finding,
         };
         assert_eq!(finding.code, "cleanup_archive_foreign_or_tracked_dirty");
+        fs::remove_dir_all(&root).unwrap();
+    }
+
+    // PVF #1098: required deterministic local archive guard proof; small Git
+    // fixture, no network. Covers initial and interrupted-cleanup admission.
+    #[test]
+    fn issue_1098_archive_refuses_staged_evidence_during_recovery() {
+        let root = std::env::current_dir()
+            .unwrap()
+            .join("target/intent-archive-tests")
+            .join(format!("issue-1098-{}", std::process::id()));
+        if root.exists() {
+            fs::remove_dir_all(&root).unwrap();
+        }
+        fs::create_dir_all(root.join(".csdlc/evidence/505")).unwrap();
+        let relative = ".csdlc/evidence/505/proof.txt";
+        let file = root.join(relative);
+        fs::write(&file, b"committed\n").unwrap();
+        git(&root, &["init", "-q"]);
+        git(&root, &["config", "user.email", "fixture@example.com"]);
+        git(&root, &["config", "user.name", "Fixture"]);
+        git(&root, &["add", "."]);
+        git(&root, &["commit", "-q", "-m", "fixture"]);
+        fs::write(&file, b"staged evidence\n").unwrap();
+        git(&root, &["add", relative]);
+        fs::write(&file, b"working evidence\n").unwrap();
+        for partial in [false, true] {
+            let finding = match preview_with_partial_removal(&root, 505, partial) {
+                Ok(_) => panic!("distinct staged evidence admitted, partial={partial}"),
+                Err(finding) => finding,
+            };
+            assert_eq!(finding.code, "cleanup_archive_staged_changes");
+            assert_eq!(fs::read(&file).unwrap(), b"working evidence\n");
+        }
+        git(&root, &["reset", "--quiet", "HEAD", "--", relative]);
+        assert!(
+            preview(&root, 505).is_ok(),
+            "unstaged evidence should remain archivable"
+        );
         fs::remove_dir_all(&root).unwrap();
     }
 }

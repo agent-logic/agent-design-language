@@ -302,7 +302,7 @@ fn semantic_recover_remote_effect(
         crate::lifecycle::semantic::SemanticCommand::Publish
     ) && matches!(request.mutation, GithubMutation::PullRequestCreate { .. })
         && request.expected_head_sha != context.head
-        && crate::commands::remote::authenticated_absence_recovery(&context.root, request)
+        && crate::commands::remote::authenticated_absence_recovery(&context.root, request, process)
             .map_err(failure)?
     {
         let evidence = serde_json::to_vec(&json!({

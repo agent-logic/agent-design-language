@@ -6332,3 +6332,169 @@ fn completed_proof_replay_leaves_interrupted_projection_read_only() {
     let rebuilt = success(fixture.run(&linked, &["rebuild", "505"]));
     assert_eq!(rebuilt["projection"]["after"]["status"], "healthy");
 }
+
+// PVF #1098: required deterministic local installed-owner regressions; small
+// CPU/Git/filesystem fixtures and synthetic GitHub transport, no live effects.
+#[test]
+fn issue_1098_cleanup_refuses_distinct_staged_evidence() {
+    let (mut fixture, linked) = reviewed_fixture("cleanup-staged-evidence");
+    let primary = fixture.root.clone();
+    success(fixture.run(&linked, &["publish", "505"]));
+    let ready = fixture.write_json("ready.json", &json!({"action":"pull_request_ready"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            ready.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    fixture.enable_merge_transport(&linked);
+    let merge = fixture.write_json("merge.json", &json!({"action":"pull_request_merge", "base":"main", "method":"merge", "operator_approval":"synthetic operator authorizes fixture PR639 exact candidate merge"}));
+    success(fixture.run(
+        &linked,
+        &[
+            "github-pr",
+            "505",
+            "--operation",
+            merge.to_str().unwrap(),
+            "--execute",
+        ],
+    ));
+    success(fixture.run(&linked, &["finish", "505"]));
+    let relative = ".csdlc/evidence/505/staged-proof.txt";
+    let file = linked.join(relative);
+    fs::create_dir_all(file.parent().unwrap()).unwrap();
+    fs::write(&file, "unique staged proof\n").unwrap();
+    git(&linked, &["add", "-f", relative]);
+    fs::write(&file, "working copy proof\n").unwrap();
+    let before = intent_fixture::inventory(&primary);
+    let refused = fixture.run(&primary, &["clean", "505"]);
+    assert!(
+        !refused.status.success(),
+        "staged proof admitted for destruction"
+    );
+    assert!(String::from_utf8_lossy(&refused.stdout).contains("cleanup_archive_staged_changes"));
+    assert_same_inventory!(before, intent_fixture::inventory(&primary));
+    assert_eq!(
+        git(&linked, &["show", ":.csdlc/evidence/505/staged-proof.txt"]),
+        "unique staged proof"
+    );
+    assert_eq!(fs::read_to_string(file).unwrap(), "working copy proof\n");
+    assert!(linked.exists());
+}
+
+fn successful_retry_recovery_fixture(label: &str) -> (Fixture, std::path::PathBuf) {
+    let (mut fixture, linked) = reviewed_fixture(label);
+    let crash = fixture.run_with_env(
+        &linked,
+        &["publish", "505"],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_after_reservation",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    let crash = fixture.run_with_env(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+        &[(
+            "CSDLC_V3_TEST_CRASH_POINT",
+            "semantic_remote_recovery_after_native",
+        )],
+    );
+    assert_eq!(crash.status.code(), Some(91));
+    assert_eq!(fixture.remote_effects(), 1);
+    assert_eq!(fixture.remote_pr()["number"], 639);
+    assert!(
+        fs::read_dir(fixture.root.join(".git/csdlc-v3/remote/recoveries"))
+            .unwrap()
+            .next()
+            .is_some()
+    );
+    fs::write(linked.join("later.txt"), "later candidate\n").unwrap();
+    git(&linked, &["add", "later.txt"]);
+    git(&linked, &["commit", "--quiet", "-m", "later candidate"]);
+    (fixture, linked)
+}
+
+fn check_retry_not_absent(case: &str) {
+    let (mut fixture, linked) = successful_retry_recovery_fixture(case);
+    if case != "retained-receipt" {
+        let receipts = fixture.root.join(".git/csdlc-v3/remote/mutations");
+        for entry in fs::read_dir(receipts).unwrap() {
+            fs::remove_file(entry.unwrap().path()).unwrap();
+        }
+    }
+    if case == "unavailable-readback" {
+        fixture.remote_flag("drop-readback", true);
+    }
+    if case == "changed-pr" {
+        let mut pr = fixture.remote_pr();
+        pr["title"] = json!("Updated title after successful retry");
+        fixture.set_remote_pr(&pr);
+    }
+    let preview = success(fixture.run(&linked, &["recover", "505"]));
+    let output = fixture.run(
+        &linked,
+        &[
+            "recover",
+            "505",
+            "--execute",
+            "--preview",
+            preview["preview_digest"].as_str().unwrap(),
+        ],
+    );
+    let recovered: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_ne!(
+        recovered["result"]["recovery"], "authenticated_absent_historical_publication",
+        "{recovered}"
+    );
+    if case == "retained-receipt" {
+        // An idempotent readback performs no new mutation, but the retained
+        // publication must attach as a success with its authenticated PR.
+        assert!(output.status.success(), "{recovered}");
+        assert_eq!(recovered["semantic"]["outcome"], "success", "{recovered}");
+        assert_eq!(recovered["result"]["receipt"]["pull_request"], 639);
+        assert_eq!(recovered["result"]["receipt"]["authenticated"], true);
+    }
+    assert_eq!(
+        fixture.remote_effects(),
+        1,
+        "recovery repeated the remote effect"
+    );
+    assert_eq!(fixture.remote_pr()["number"], 639);
+    if case != "retained-receipt" {
+        let pending = success(fixture.run(&linked, &["recover", "505"]));
+        assert_eq!(pending["status"], "recovery_required", "{pending}");
+    }
+}
+
+#[test]
+fn issue_1098_recovery_preserves_successful_retry_receipt() {
+    check_retry_not_absent("retained-receipt");
+}
+
+#[test]
+fn issue_1098_recovery_preserves_pending_success_without_receipt() {
+    check_retry_not_absent("missing-receipt");
+}
+
+#[test]
+fn issue_1098_recovery_keeps_unavailable_readback_pending() {
+    check_retry_not_absent("unavailable-readback");
+}
+
+#[test]
+fn issue_1098_recovery_does_not_treat_changed_pr_as_absent() {
+    check_retry_not_absent("changed-pr");
+}
