@@ -19,6 +19,7 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
+mod local_publication_attachment;
 pub(crate) mod owned_baseline;
 pub(crate) mod owned_palace;
 mod publication_attachment;
@@ -336,6 +337,10 @@ impl Journey {
     }
     pub fn manifest(&self) -> &JourneyManifest {
         &self.manifest
+    }
+    /// Monotonic count of retained native checkpoints for authenticated observation.
+    pub fn checkpoint_sequence(&self) -> usize {
+        self.sequence
     }
     pub fn output(&self) -> &Path {
         &self.output
@@ -1236,6 +1241,15 @@ pub(crate) fn resume_with_owners(
         PublicationFormat::Html,
         PublicationFormat::Pdf,
     ] {
+        if local_publication_attachment::validate(
+            &source,
+            &output,
+            &manifest,
+            review.as_ref(),
+            format,
+        )? {
+            continue;
+        }
         if publication_attachment::validate(&source, &output, &manifest, review.as_ref(), format)? {
             continue;
         }

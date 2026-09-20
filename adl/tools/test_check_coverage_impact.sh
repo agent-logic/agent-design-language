@@ -1237,6 +1237,10 @@ for mapping in \
   'adl/src/codefriend/memory/palace.rs|binary_id(adl::codefriend_plat_memory) or binary_id(adl::codefriend_journey)' \
   'adl/src/codefriend/integration/journey/owned_baseline.rs|binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))' \
   'adl/src/codefriend/integration/journey/owned_palace.rs|binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' \
+  'adl/src/codefriend/integration/journey/local_publication_attachment.rs|binary_id(adl::codefriend_agent_publication) or (binary_id(adl) and test(/^codefriend::integration::journey::local_publication_attachment::tests::/))' \
+  'adl/src/codefriend/agent/journey.rs|binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))' \
+  'adl/src/codefriend/agent/journey/delivery.rs|binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))' \
+  'adl/src/codefriend/agent/journey/verification.rs|binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))' \
   'adl/src/codefriend/integration/journey/publication_attachment.rs|binary_id(adl::codefriend_integration)' \
   'adl/src/codefriend/server/journey_publication.rs|binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'; do
   printf 'A\t%s\n' "${mapping%%|*}" >"$TMP/codefriend-owned-source.txt"

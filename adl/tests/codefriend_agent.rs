@@ -330,7 +330,9 @@ impl WireServer {
                     "a".repeat(64)
                 };
                 assert!(header.contains(&format!("Bearer {expected_token}")));
-                let mut reply = if method == "GET" && path == "/v1/agent/publications" {
+                let mut reply = if method == "GET"
+                    && matches!(path, "/v1/agent/publications" | "/v1/agent/journeys")
+                {
                     assert_eq!(size, 0);
                     json!({"job": null})
                 } else if path == "/v1/agent/poll" {
@@ -557,10 +559,15 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     } else {
         journal
     };
+    let original_consent_path = fs::canonicalize(&consent_path).unwrap();
     let first = transport.poll_once(&journal, &consent_path);
     let run_dir = f.0.join("state/run-run-one");
     let saved_admission = fs::read(run_dir.join("admission.json")).ok();
     if let Some(bytes) = &saved_admission {
+        let binding: serde_json::Value =
+            serde_json::from_slice(&fs::read(run_dir.join("local-consent.json")).unwrap()).unwrap();
+        assert_eq!(binding["path"], original_consent_path.to_str().unwrap());
+        assert_eq!(binding["digest"], cmd.consent_digest);
         let admission: adl::codefriend::evidence::Admission =
             serde_json::from_slice(bytes).unwrap();
         let live_clock = clock.clone();
@@ -570,6 +577,16 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
             })
             .unwrap();
         assert_eq!(store.get(&admission.packet.packet_id).unwrap(), admission);
+    }
+    if let Ok(bytes) = fs::read(run_dir.join("report.json")) {
+        let report: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+        if report["status"] == "complete" {
+            let original: serde_json::Value =
+                serde_json::from_slice(&fs::read(run_dir.join("work/review/run.json")).unwrap())
+                    .unwrap();
+            assert_eq!(original, report["result"]);
+            assert!(!run_dir.join("work/run.json").exists());
+        }
     }
     if matches!(
         scenario,
@@ -710,6 +727,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
         transport.unpair(&journal).unwrap();
         assert!(!dir.join("work").exists());
         assert!(!dir.join("evidence").exists());
+        assert!(!dir.join("local-consent.json").exists());
         assert!(!dir.join("report.json").exists());
         assert!(dir.join("command.json").exists());
         assert!(dir.join("expires.json").exists());
@@ -720,6 +738,7 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     journal.expire(clock.load(Ordering::SeqCst)).unwrap();
     assert!(!f.0.join("state/run-run-one/work").exists());
     assert!(!f.0.join("state/run-run-one/evidence").exists());
+    assert!(!f.0.join("state/run-run-one/local-consent.json").exists());
     assert!(!f.0.join("state/run-run-one/report.json").exists());
     assert!(transport.poll_once(&journal, &consent_path).is_err());
     assert_eq!(server.dispatches.load(Ordering::SeqCst), calls);

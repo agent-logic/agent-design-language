@@ -58,7 +58,7 @@ struct OwnedDriftIntent {
 /// Full original graphs contain admitted source and remain with their owners.
 #[derive(Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
-struct OwnedDriftReport {
+pub(crate) struct OwnedDriftReport {
     schema: String,
     original_report_digest: String,
     expires_at: u64,

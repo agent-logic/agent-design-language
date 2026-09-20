@@ -1,5 +1,6 @@
 //! Installed agent authority. Website commands select locally approved evidence;
 //! they never provide paths, executable commands, or provider credentials.
+pub mod journey;
 pub mod publication;
 
 use super::{
@@ -910,7 +911,10 @@ impl Transport {
         journal.expire((self.clock)())?;
         let result = match self.poll_publication(journal, consent_path) {
             Ok(Some(run)) => Ok(Some(run)),
-            Ok(None) => self.poll_inner(journal, consent_path),
+            Ok(None) => match self.poll_journey(journal, consent_path) {
+                Ok(None) => self.poll_inner(journal, consent_path),
+                result => result,
+            },
             Err(error) => Err(error),
         };
         journal.expire((self.clock)())?;
@@ -950,7 +954,21 @@ impl Transport {
             );
             existing
         } else {
-            journal.reserve(&command, &pairing, &consent, (self.clock)())?
+            let dir = journal.reserve(&command, &pairing, &consent, (self.clock)())?;
+            let path = fs::canonicalize(consent_path)?;
+            let current = read_consent(&path, (self.clock)())?;
+            ensure!(
+                current.digest()? == consent.digest()?,
+                "agent_consent_changed"
+            );
+            save_private(
+                &dir.join("local-consent.json"),
+                &LocalConsentBinding {
+                    path,
+                    digest: consent.digest()?,
+                },
+            )?;
+            dir
         };
         let expires_at = if resuming {
             serde_json::from_slice(&fs::read(dir.join("expires.json"))?)?
@@ -1009,7 +1027,7 @@ impl Transport {
             gateway_lanes.push(first_identity.clone());
             super::review::runner::run_with_executor(
                 super::review::runner::ExecutionOptions {
-                    out: dir.join("work"),
+                    out: dir.join("work/review"),
                     run_id: command.run_id.clone(),
                     cancel_file: None,
                 },
@@ -1285,6 +1303,13 @@ impl Transport {
         Ok(())
     }
 }
+#[derive(Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct LocalConsentBinding {
+    path: PathBuf,
+    digest: String,
+}
+
 pub fn read_consent(path: &Path, now: u64) -> Result<Consent> {
     let m = fs::symlink_metadata(path)?;
     ensure!(
@@ -1316,7 +1341,15 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
     if report.exists() {
         fs::remove_file(report)?;
     }
-    for name in ["work", "gateway", "evidence", "journey"] {
+    for name in [
+        "work",
+        "gateway",
+        "evidence",
+        "journey",
+        "journey-delivery",
+        "journey-baselines",
+        "palace",
+    ] {
         let work = path.join(name);
         if work.is_dir() {
             fs::remove_dir_all(work)?;
@@ -1325,6 +1358,10 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
     let admission = path.join("admission.json");
     if admission.exists() {
         fs::remove_file(admission)?;
+    }
+    let consent = path.join("local-consent.json");
+    if consent.exists() {
+        fs::remove_file(consent)?;
     }
     File::open(path)?.sync_all()?;
     Ok(())

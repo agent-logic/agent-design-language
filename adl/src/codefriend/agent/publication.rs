@@ -162,7 +162,7 @@ fn private_dirs(path: &Path) -> Result<()> {
     );
     Ok(())
 }
-fn read<T: serde::de::DeserializeOwned>(path: &Path, limit: usize) -> Result<T> {
+pub(super) fn read<T: serde::de::DeserializeOwned>(path: &Path, limit: usize) -> Result<T> {
     use std::io::Read;
     native::manifest::reject_symlink_components(path)?;
     let meta = fs::symlink_metadata(path)?;

@@ -1,0 +1,12 @@
+{
+  "issue": 914,
+  "surface": "codefriend::integration::journey::local_publication_attachment::tests",
+  "lane_class": "runtime",
+  "proof_role": "supporting original local publication attachment",
+  "determinism": "bounded loopback transport; synthetic model output; actual native preparation, authenticated local decision, Markdown and HTML renderer owners; real current-time retention; clean embedded candidate required",
+  "resources": "private temporary filesystem and bounded loopback listener; no external provider, cloud or source execution",
+  "release_gate": "required component proof; not full Beta qualification",
+  "cases": ["one atomic publication/approval/export checkpoint", "repeat and restart without effect dispatch", "retained Markdown and HTML tamper rejects resume", "withheld and changed agent/job identity cannot attach"],
+  "nonclaims": ["human approval", "PDF semantic acceptance", "live provider qualification", "complete paired-agent website journey"],
+  "execution_status": "authored; pending clean-candidate execution"
+}

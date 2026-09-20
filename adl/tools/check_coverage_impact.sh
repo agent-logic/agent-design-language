@@ -287,6 +287,9 @@ candidate_filter_for_path() {
     adl/src/codefriend/review/runner.rs)
       printf 'codefriend_review'
       ;;
+    adl/src/codefriend/agent/journey.rs|adl/src/codefriend/agent/journey/delivery.rs|adl/src/codefriend/agent/journey/verification.rs)
+      printf 'codefriend_agent_journey'
+      ;;
     adl/src/bin/codefriend_agent.rs|adl/src/codefriend/agent.rs|adl/src/codefriend/agent/publication.rs)
       printf 'codefriend_agent'
       ;;
@@ -304,6 +307,9 @@ candidate_filter_for_path() {
       ;;
     adl/src/codefriend/integration/journey/owned_palace.rs)
       printf 'codefriend_owned_palace'
+      ;;
+    adl/src/codefriend/integration/journey/local_publication_attachment.rs)
+      printf 'codefriend_local_attachment'
       ;;
     adl/src/codefriend/integration/journey/publication_attachment.rs)
       printf 'codefriend_hosted_attachment'
@@ -532,6 +538,9 @@ nextest_expression_for_filter() {
     codefriend_review)
       printf 'binary_id(adl::codefriend_review)'
       ;;
+    codefriend_agent_journey)
+      printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or (binary_id(adl) and test(/^codefriend::agent::journey::/))'
+      ;;
     codefriend_agent)
       printf 'binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::codefriend_agent_receipt)'
       ;;
@@ -549,6 +558,9 @@ nextest_expression_for_filter() {
       ;;
     codefriend_owned_baseline)
       printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_baseline::tests::/))'
+      ;;
+    codefriend_local_attachment)
+      printf 'binary_id(adl::codefriend_agent_publication) or (binary_id(adl) and test(/^codefriend::integration::journey::local_publication_attachment::tests::/))'
       ;;
     codefriend_hosted_attachment)
       printf 'binary_id(adl::codefriend_integration)'
