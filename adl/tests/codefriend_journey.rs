@@ -698,3 +698,407 @@ fn ci_continuation_pins_original_provenance() {
     fs::write(&path, serde_json::to_vec(&receipt).unwrap()).unwrap();
     assert!(resume(&output).is_err());
 }
+
+fn journey_provider_request() -> adl::provider_communication::ProviderInvocationRequestV1 {
+    use adl::{model_identity::ModelIdentityStrengthV1, provider_communication::*};
+    let route = ProviderRouteV1 {
+        provider_kind: ProviderKindV1::Hosted,
+        provider: "openai".to_string(),
+        runtime_surface: RuntimeSurfaceV1::HostedApi,
+        provider_model_id: "codefriend-fixture-model".to_string(),
+        endpoint_ref: Some("http://127.0.0.1:1".to_string()),
+        credential_ref: Some("env:ADL_CODEFRIEND_REVIEW_FIXTURE_KEY".to_string()),
+        source_registry: Some("codefriend-review-fixture".to_string()),
+    };
+    let mut model_identity = hosted_model_identity(
+        "openai",
+        "codefriend-fixture-model",
+        "codefriend-fixture-model",
+        Some("codefriend-review-fixture".to_string()),
+    );
+    model_identity.identity_strength = ModelIdentityStrengthV1::ProviderAsserted;
+    ProviderInvocationRequestV1 {
+        route,
+        model_identity,
+        prompt_contract_ref: "template.replaced.by.runner".to_string(),
+        lane_ref: "template".to_string(),
+        run_id: None,
+        request_id: None,
+        attempt_policy: ProviderAttemptPolicyV1 {
+            max_attempts: 1,
+            timeout_ms: 5_000,
+            retry_backoff_ms: Some(1),
+        },
+        input_text: None,
+        max_output_tokens: Some(512),
+        context_window_tokens: None,
+        reasoning_effort: None,
+        clear_thinking: Some(true),
+        temperature: Some(0.0),
+        top_p: None,
+        local_keep_alive: None,
+        inference_parameter_fingerprint: Some("temperature=0,max_output_tokens=512".into()),
+        tool_surface: Some("none".into()),
+        governance_surface: Some("read_only_findings_only".into()),
+        evaluator_ref: None,
+        benchmark_ref: None,
+    }
+}
+
+#[allow(dead_code)]
+#[path = "../examples/codefriend_palace_fixture.rs"]
+mod journey_authority_fixture;
+
+// Actual provider adapter transport, but deterministic loopback output; no paid provider.
+fn journey_responses_server() -> (String, std::thread::JoinHandle<usize>) {
+    use std::{
+        io::{Read, Write},
+        net::TcpListener,
+        time::{Duration, Instant},
+    };
+    let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+    listener.set_nonblocking(true).unwrap();
+    let endpoint = format!("http://{}/v1/responses", listener.local_addr().unwrap());
+    let worker = std::thread::spawn(move || {
+        for _ in 0..8 {
+            let deadline = Instant::now() + Duration::from_secs(30);
+            let mut stream = loop {
+                match listener.accept() {
+                    Ok((s, _)) => break s,
+                    Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+                        assert!(
+                            Instant::now() < deadline,
+                            "expected review request did not arrive"
+                        );
+                        std::thread::sleep(Duration::from_millis(5));
+                    }
+                    Err(e) => panic!("fixture accept failed: {e}"),
+                }
+            };
+            stream.set_nonblocking(false).unwrap();
+            stream
+                .set_read_timeout(Some(Duration::from_secs(5)))
+                .unwrap();
+            stream
+                .set_write_timeout(Some(Duration::from_secs(5)))
+                .unwrap();
+            let mut request = Vec::new();
+            loop {
+                let mut chunk = [0u8; 4096];
+                let n = stream.read(&mut chunk).unwrap();
+                assert!(n > 0);
+                request.extend_from_slice(&chunk[..n]);
+                assert!(request.len() < 1024 * 1024);
+                if let Some(end) = request.windows(4).position(|w| w == b"\r\n\r\n") {
+                    let headers = String::from_utf8_lossy(&request[..end]);
+                    let length: usize = headers
+                        .lines()
+                        .find_map(|line| {
+                            let (k, v) = line.split_once(':')?;
+                            (k.eq_ignore_ascii_case("content-length"))
+                                .then(|| v.trim().parse().unwrap())
+                        })
+                        .unwrap();
+                    if request.len() >= end + 4 + length {
+                        break;
+                    }
+                }
+            }
+            assert!(String::from_utf8_lossy(&request).contains("answer"));
+            let body = r#"{"output_text":"{\"findings\":[]}"}"#;
+            write!(stream,"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",body.len(),body).unwrap();
+        }
+        8
+    });
+    (endpoint, worker)
+}
+fn journey_step(
+    output: &Path,
+    step: adl::codefriend::integration::journey::Continuation,
+) -> serde_json::Value {
+    let input = output.parent().unwrap().join("continuation-request.json");
+    fs::write(&input, serde_json::to_vec(&step).unwrap()).unwrap();
+    let result = Command::new(env!("CARGO_BIN_EXE_adl"))
+        .args(["codefriend", "journey", "resume", "--output"])
+        .arg(output)
+        .arg("--request")
+        .arg(input)
+        .env(
+            "ADL_CODEFRIEND_REVIEW_FIXTURE_KEY",
+            "public-loopback-fixture",
+        )
+        .env("ADL_OBSERVABILITY_OTEL", "0")
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    serde_json::from_slice(&result.stdout).unwrap()
+}
+
+#[test]
+fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
+    use adl::codefriend::{
+        architecture::{
+            rationale::{BoundarySelection, RationaleSelection},
+            structure::StructureReport,
+        },
+        evidence::{contracts::ReviewRecord, store::Store},
+        integration::journey::{resume, Continuation},
+        memory::{
+            baseline::{AdmittedBaselines, BaselineRef},
+            palace::{self, IndexRequest, RetrieveRequest},
+            palace_authority,
+        },
+        publication::{self, append_decision, DecisionKind},
+    };
+    let mut f = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    fs::write(
+        f.source.join("compose.json"),
+        r#"{"services":{"api":{"image":"fixture:v1","labels":{"codefriend.boundary":"core"}}}}"#,
+    )
+    .unwrap();
+    fs::write(f.source.join("adr.md"),"+++\nstatus = \"accepted\"\nboundary = \"core\"\nservice = \"api\"\ndecision_key = \"core_service\"\nchoice = \"separate\"\n+++\nKeep the declared boundary explicit.\n").unwrap();
+    git(&f.source, &["add", "."]);
+    git(
+        &f.source,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "-c",
+            "commit.gpgsign=false",
+            "commit",
+            "-m",
+            "context declarations",
+        ],
+    );
+    f.revision = git(&f.source, &["rev-parse", "HEAD"]);
+    let options = |fixture: &Fixture, name: &str| {
+        let mut o = fixture.options();
+        o.output = fixture.dir.path().join(name);
+        o.scope.context = vec!["adr.md".into(), "compose.json".into()];
+        o.scope.max_files = 3;
+        o
+    };
+    let baseline_output = f.dir.path().join("baseline-journey");
+    drop(prepare_local(options(&f, "baseline-journey")).unwrap());
+    let (endpoint, server) = journey_responses_server();
+    let mut provider = journey_provider_request();
+    provider.route.endpoint_ref = Some(endpoint);
+    let provider_path = f.dir.path().join("journey-provider.json");
+    fs::write(&provider_path, serde_json::to_vec(&provider).unwrap()).unwrap();
+    journey_step(
+        &baseline_output,
+        Continuation::Review {
+            provider_request: provider_path.clone(),
+            run_id: "baseline-provider-review".into(),
+            cancel_file: None,
+        },
+    );
+    let baseline_graph: StructureReport =
+        serde_json::from_slice(&fs::read(baseline_output.join("structure.json")).unwrap()).unwrap();
+    let baseline_review: ReviewRecord =
+        publication::read_review(&baseline_output.join("review/review-record.json")).unwrap();
+    let baseline_root = f.dir.path().join("baselines");
+    {
+        let store = Store::open(&f.options().store, || {
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_secs()
+        })
+        .unwrap();
+        let backend = AdmittedBaselines::open(&store, &baseline_root, true).unwrap();
+        backend.retain(&baseline_review).unwrap();
+    }
+    fs::write(
+        f.source.join("lib.rs"),
+        "pub fn answer() -> u8 { 42 }\npub fn another() -> u8 { 7 }\n",
+    )
+    .unwrap();
+    git(&f.source, &["add", "lib.rs"]);
+    git(
+        &f.source,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.com",
+            "-c",
+            "commit.gpgsign=false",
+            "commit",
+            "-m",
+            "current revision",
+        ],
+    );
+    f.revision = git(&f.source, &["rev-parse", "HEAD"]);
+    let output = f.dir.path().join("complete-journey");
+    let j = prepare_local(options(&f, "complete-journey")).unwrap();
+    let graph = j.graph().unwrap().clone();
+    drop(j);
+    journey_step(
+        &output,
+        Continuation::Impact {
+            changes: ChangeSet {
+                schema: "codefriend.impact.v1".into(),
+                repository: graph.record.run.repository.clone(),
+                revision: f.revision.clone(),
+                graph_digest: graph.digest.clone(),
+                targets: vec![ChangeTarget::Module("crate".into())],
+            },
+        },
+    );
+    journey_step(
+        &output,
+        Continuation::Rationale {
+            selection: RationaleSelection {
+                schema: "codefriend.rationale.v1".into(),
+                graph_digest: graph.digest,
+                revision: f.revision.clone(),
+                boundaries: vec![BoundarySelection {
+                    boundary: "core".into(),
+                    deployment_path: "compose.json".into(),
+                    service: "api".into(),
+                    rationale_paths: vec!["adr.md".into()],
+                }],
+            },
+        },
+    );
+    journey_step(
+        &output,
+        Continuation::Drift {
+            baseline_root: baseline_root.clone(),
+            baseline: baseline_output.join("structure.json"),
+        },
+    );
+    journey_step(
+        &output,
+        Continuation::Review {
+            provider_request: provider_path,
+            run_id: "current-provider-review".into(),
+            cancel_file: None,
+        },
+    );
+    assert_eq!(
+        server.join().unwrap(),
+        8,
+        "exactly four loopback calls per review"
+    );
+    let current = publication::read_review(&output.join("review/review-record.json")).unwrap();
+    assert_ne!(baseline_graph.record.run.revision, current.run.revision);
+    let authority_root = f.dir.path().join("authority");
+    journey_authority_fixture::generate(&authority_root).unwrap();
+    let authority = palace_authority::provision(
+        &authority_root.join("trust.json"),
+        &authority_root.join("authority-evidence.json"),
+    )
+    .unwrap();
+    let before = BaselineRef::from_record(&baseline_review).unwrap();
+    let after = BaselineRef::from_record(&current).unwrap();
+    journey_step(
+        &output,
+        Continuation::Palace {
+            baseline_root,
+            palace_root: f.dir.path().join("palace"),
+            trust: authority_root.join("trust.json"),
+            authority: authority_root.join("authority-evidence.json"),
+            index: IndexRequest {
+                schema: palace::VERSION.into(),
+                references: vec![before.clone(), after.clone()],
+                observed_epoch_ms: 0,
+                stale_after_ms: 600_000,
+                max_working_set_items: 8,
+            },
+            retrieve: RetrieveRequest {
+                schema: palace::VERSION.into(),
+                baseline: before,
+                current: after,
+                expected_identity_root: authority.identity().identity_root.clone(),
+                expected_continuity_head: authority.continuity().record().continuity_head.clone(),
+                packet_observed_epoch_ms: 0,
+                observed_epoch_ms: 0,
+                stale_after_ms: 600_000,
+                max_working_set_items: 8,
+            },
+        },
+    );
+    let destination = f.dir.path().join("exports");
+    fs::create_dir(&destination).unwrap();
+    let approvals = f.dir.path().join("approvals");
+    let font = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+    ]
+    .into_iter()
+    .map(PathBuf::from)
+    .find(|p| p.is_file())
+    .expect("native PDF fixture needs installed Unicode font");
+    for (format, key, extension) in [
+        (PublicationFormat::Markdown, "markdown", "md"),
+        (PublicationFormat::Html, "html", "html"),
+        (PublicationFormat::Pdf, "pdf", "pdf"),
+    ] {
+        journey_step(
+            &output,
+            Continuation::PreparePublication {
+                destination: destination.clone(),
+                format,
+            },
+        );
+        let publication = publication::read_publication(
+            &output.join(format!("publication_{key}/publication.json")),
+        )
+        .unwrap();
+        append_decision(
+            &approvals,
+            &current,
+            &publication,
+            DecisionKind::Approved,
+            "component-fixture",
+            "Synthetic approval for exact native journey format",
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_secs(),
+        )
+        .unwrap();
+        journey_step(
+            &output,
+            Continuation::Export {
+                approval_store: approvals.clone(),
+                destination: destination.clone(),
+                format,
+                font: Some(font.clone()),
+            },
+        );
+        assert!(destination
+            .join(publication.target)
+            .join(format!("report.{extension}"))
+            .is_file());
+    }
+    let status = journey_step(&output, Continuation::Status);
+    assert_eq!(status["status"], "complete");
+    assert_eq!(status["stages"].as_object().unwrap().len(), 18);
+    assert!(status["stages"]
+        .as_object()
+        .unwrap()
+        .values()
+        .all(|v| v["status"] == "complete"));
+    let mut j = resume(&output).unwrap();
+    assert!(j
+        .continue_with(Continuation::Review {
+            provider_request: f.dir.path().join("never-read"),
+            run_id: "no-replay".into(),
+            cancel_file: None
+        })
+        .is_err());
+    drop(j);
+    assert_eq!(git(&f.source, &["status", "--porcelain=v1"]), "");
+    // A completed export cannot survive tampered bytes on a later restart.
+    fs::write(destination.join("report-md/report.md"), "tampered").unwrap();
+    assert!(resume(&output).is_err());
+}

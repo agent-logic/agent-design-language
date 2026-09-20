@@ -1573,5 +1573,5 @@ pub(crate) fn prepare_owned_admission(options: OwnedAdmissionJourneyOptions) -> 
 }
 
 #[cfg(test)]
-#[path = "journey/owned_tests.rs"]
+#[path = "../../../tests/support/codefriend_owned_journey.rs"]
 mod owned_tests;

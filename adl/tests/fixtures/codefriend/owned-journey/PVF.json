@@ -1,6 +1,6 @@
 {
   "issue": 914,
-  "surface": "adl/src/codefriend/integration/journey/owned_tests.rs",
+  "surface": "adl/tests/support/codefriend_owned_journey.rs",
   "lane_class": "runtime",
   "proof_role": "owned hosted admission attachment and restart supporting proof",
   "determinism": "local Git acquisition and original Store admission; native four-lane runner with deterministic injected no-provider lane outputs",

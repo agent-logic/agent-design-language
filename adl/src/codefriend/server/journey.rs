@@ -231,3 +231,48 @@ pub(super) async fn graph(
         internal(serde_json::to_value(graph).map_err(Into::into))?,
     )
 }
+
+/// Fixed report names only; resume revalidates retained owner artifacts first.
+pub(super) async fn artifact(
+    State(service): State<Service>,
+    headers: HeaderMap,
+    HttpPath((operation, stage)): HttpPath<(String, String)>,
+) -> ApiResult<Json<Value>> {
+    let file = match stage.as_str() {
+        "structure" => "structure.json",
+        "fitness" => "fitness.json",
+        "impact" => "impact.json",
+        "rationale" => "rationale.json",
+        _ => {
+            return Err(ApiError(
+                StatusCode::NOT_FOUND,
+                "journey_artifact_not_found",
+            ))
+        }
+    };
+    let _gate = service
+        .0
+        .gate
+        .lock()
+        .map_err(|_| ApiError(StatusCode::INTERNAL_SERVER_ERROR, "service_unavailable"))?;
+    let (credential, _) = owned(&service, &headers, &operation)?;
+    let journey = internal(journey::resume(
+        &service
+            .dir(&credential.subject, &operation)
+            .join("work/journey"),
+    ))?;
+    if journey
+        .manifest()
+        .stages
+        .get(&stage)
+        .and_then(|s| s.artifact.as_deref())
+        != Some(file)
+    {
+        return Err(ApiError(
+            StatusCode::CONFLICT,
+            "journey_artifact_unavailable",
+        ));
+    }
+    let value = internal(read_json(&journey.output().join(file), MAX_RESULT))?;
+    response(&service, &headers, &operation, &credential.subject, value)
+}

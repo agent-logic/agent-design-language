@@ -1216,7 +1216,7 @@ codefriend_agent_expression="$(bash "$SCRIPT" --changed-files "$codefriend_agent
 grep -Fx "binary_id(adl::codefriend_agent) or binary_id(adl::bin/codefriend-agent) or binary_id(adl::codefriend_agent_publication) or binary_id(adl::codefriend_agent_receipt)" <<<"$codefriend_agent_expression" >/dev/null
 
 codefriend_journey_changed="$TMP/codefriend-journey-changed.txt"
-printf 'A\tadl/src/codefriend/integration/journey.rs\nA\tadl/src/codefriend/integration/journey/owned_tests.rs\nM\tadl/src/cli/codefriend_cmd.rs\n' >"$codefriend_journey_changed"
+printf 'A\tadl/src/codefriend/integration/journey.rs\n' >"$codefriend_journey_changed"
 codefriend_journey_expression="$(bash "$SCRIPT" --changed-files "$codefriend_journey_changed" --print-risk-nextest-expression)"
 grep -Fx 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_tests::/))' <<<"$codefriend_journey_expression" >/dev/null
 
@@ -1225,5 +1225,10 @@ printf 'A\tadl/src/codefriend/publication/relay.rs\nM\tadl/src/codefriend/public
 codefriend_render_expression="$(bash "$SCRIPT" --changed-files "$codefriend_render_changed" --print-risk-nextest-expression)"
 grep -F 'binary_id(adl::codefriend_render_pdf)' <<<"$codefriend_render_expression" >/dev/null
 grep -F 'binary_id(adl::codefriend_agent_publication)' <<<"$codefriend_render_expression" >/dev/null
+
+codefriend_cli_changed="$TMP/codefriend-cli-changed.txt"
+printf 'A\tadl/src/cli/codefriend_cmd.rs\n' >"$codefriend_cli_changed"
+codefriend_cli_expression="$(bash "$SCRIPT" --changed-files "$codefriend_cli_changed" --print-risk-nextest-expression)"
+grep -Fx 'binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)' <<<"$codefriend_cli_expression" >/dev/null
 
 echo "PASS test_check_coverage_impact"

@@ -7,14 +7,17 @@
   "resources": {
     "cpu": "bounded local",
     "disk": "temporary scoped Git/evidence directories",
-    "provider_calls": 0,
     "fonts": "installed Unicode TrueType font (DejaVu Sans on Linux or Arial on macOS), required, not skipped",
     "continuation_limits": {
       "max_checkpoints": 64,
       "max_entries": 2048,
       "max_file_bytes": 33554432,
       "max_aggregate_bytes": 268435456
-    }
+    },
+    "external_provider_calls": 0,
+    "loopback_responses_requests": 8,
+    "loopback_listener": "localhost only; eight bounded requests, per-accept deadline30s, read/write timeout5s, request<=1MiB",
+    "clock": "real current wall clock for native admission/approval/Palace lifetime; fixed deterministic source/lane responses"
   },
   "release_gate": "required supporting proof; insufficient for complete Beta acceptance",
   "nonclaims": [
@@ -37,5 +40,8 @@
     "missing and withheld approval deny output; one format approval cannot authorize another",
     "digest-linked durable resume preserves owner locks, exact retained artifacts, original options and acquisition provenance",
     "restart failure, private directory/record permission changes and source/retention changes fail closed; no provider redispatch"
+  ],
+  "planned_component_proof": [
+    "Actual CLI Journey continuations across eighteen stages using loopback Responses transport, signed public test authority, synthetic explicit approvals and three native renderers; execution pending"
   ]
 }

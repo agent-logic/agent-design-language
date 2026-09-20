@@ -868,7 +868,17 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     git(&["init", "-b", "main"]);
     git(&["remote", "add", "origin", "https://example.com/owner/repo"]);
     fs::write(source.join("lib.rs"), "pub fn answer() -> u8 { 42 }\n").unwrap();
-    git(&["add", "lib.rs"]);
+    fs::write(
+        source.join("compose.json"),
+        include_bytes!("fixtures/codefriend/rationale/compose.json"),
+    )
+    .unwrap();
+    fs::write(
+        source.join("adr.md"),
+        include_bytes!("fixtures/codefriend/rationale/accepted.md"),
+    )
+    .unwrap();
+    git(&["add", "lib.rs", "compose.json", "adr.md"]);
     git(&[
         "-c",
         "user.name=fixture",
@@ -887,9 +897,9 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         &revision,
         Scope {
             analysis: vec!["lib.rs".into()],
-            context: vec![],
-            max_files: 1,
-            max_bytes: 4096,
+            context: vec!["adr.md".into(), "compose.json".into()],
+            max_files: 3,
+            max_bytes: 8192,
             max_file_bytes: 4096,
         },
     )
@@ -916,7 +926,7 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     let service = Service::open(
         Config {
             root: root.clone(),
-            credentials_file: credentials,
+            credentials_file: credentials.clone(),
             provider: provider_request(),
             candidate_revision: build_revision().into(),
             max_concurrent: 1,
@@ -926,7 +936,7 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         Arc::new(FixtureBackend(calls.clone())),
     )
     .unwrap();
-    let app = service.router();
+    let app = service.clone().router();
     let submit = json!({"operation_id":"journey1", "packet":packet, "mode":"hosted", "lane":null});
     assert_eq!(
         http_call(&app, "POST", "/v1/operations", Some(token), submit)
@@ -958,6 +968,21 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
         "boundary_policy":{"schema":"codefriend.structure.v1","crate_root":"lib.rs","manifest_path":null,"layers":{"lib.rs":"core"},"allowed":[],"coupling_threshold":2},
         "fitness_policy":{"schema":"codefriend.fitness.v1","rules":[{"id":"no_network","kind":"forbidden_declared_use","source_path":"lib.rs","forbidden_prefix":"reqwest"}]}
     });
+    let mut invalid = policies.clone();
+    invalid["fitness_policy"]["rules"][0]["forbidden_prefix"] = json!("self::bad");
+    assert_eq!(
+        http_call(&app, "POST", route, Some(token), invalid).await.0,
+        400
+    );
+    let mut invalid = policies.clone();
+    invalid["boundary_policy"]["crate_root"] = json!("foreign.rs");
+    assert_eq!(
+        http_call(&app, "POST", route, Some(token), invalid).await.0,
+        400
+    );
+    assert!(!root
+        .join("operations/alice/journey1/work/journey-reservation.json")
+        .exists());
     let (status, manifest) = http_call(&app, "POST", route, Some(token), policies.clone()).await;
     assert_eq!(status, 200, "{manifest}");
     assert_eq!(manifest["admission_digest"], original_digest);
@@ -981,11 +1006,85 @@ async fn hosted_journey_reuses_original_admission_and_completed_review() {
     .await;
     assert_eq!(status, 200, "{graph}");
     assert_eq!(graph["record"]["admission"]["digest"], original_digest);
+    let artifact_route = "/v1/operations/journey1/journey/artifacts";
+    assert_eq!(
+        http_call(
+            &app,
+            "GET",
+            &format!("{artifact_route}/impact"),
+            Some(token),
+            json!(null)
+        )
+        .await
+        .0,
+        409
+    );
+    assert_eq!(
+        http_call(
+            &app,
+            "GET",
+            &format!("{artifact_route}/unknown"),
+            Some(token),
+            json!(null)
+        )
+        .await
+        .0,
+        404
+    );
+    let step_route = "/v1/operations/journey1/journey/step";
+    let changes = json!({"stage":"impact","changes":{"schema":"codefriend.impact.v1","repository":graph["record"]["run"]["repository"],"revision":revision,"graph_digest":graph["digest"],"targets":[{"kind":"module","name":graph["nodes"][0]["module"]}]}});
+    let rationale = json!({"stage":"rationale","selection":{"schema":"codefriend.rationale.v1","graph_digest":graph["digest"],"revision":revision,"boundaries":[{"boundary":"core","deployment_path":"compose.json","service":"api","rationale_paths":["adr.md"]}]}});
+    for body in [changes, rationale] {
+        let stage = body["stage"].as_str().unwrap().to_string();
+        let (status, value) = http_call(&app, "POST", step_route, Some(token), body.clone()).await;
+        assert_eq!(status, 200, "{value}");
+        assert_eq!(value["stages"][&stage]["status"], "complete", "{value}");
+        assert_eq!(
+            http_call(&app, "POST", step_route, Some(token), body)
+                .await
+                .0,
+            409
+        );
+    }
+    for stage in ["structure", "fitness", "impact", "rationale"] {
+        let (status, value) = http_call(
+            &app,
+            "GET",
+            &format!("{artifact_route}/{stage}"),
+            Some(token),
+            json!(null),
+        )
+        .await;
+        assert_eq!(status, 200, "{value}");
+        assert_eq!(value["record"]["admission"]["digest"], original_digest);
+    }
+    service.begin_drain().unwrap();
+    assert_eq!(http_call(&app,"POST",step_route,Some(token),json!({"stage":"impact","changes":{"schema":"codefriend.impact.v1","repository":graph["record"]["run"]["repository"],"revision":revision,"graph_digest":graph["digest"],"targets":[]}})).await.0,503);
+    // Existing preparation is observation-only and remains readable during drain.
+    assert_eq!(
+        http_call(&app, "POST", route, Some(token), policies.clone())
+            .await
+            .0,
+        200
+    );
     let mut changed = policies;
     changed["boundary_policy"]["coupling_threshold"] = json!(3);
     assert_eq!(
         http_call(&app, "POST", route, Some(token), changed).await.0,
         409
+    );
+    fs::write(&credentials, b"[]").unwrap();
+    assert_eq!(
+        http_call(
+            &app,
+            "GET",
+            &format!("{artifact_route}/structure"),
+            Some(token),
+            json!(null)
+        )
+        .await
+        .0,
+        401
     );
     assert_eq!(
         calls.load(Ordering::SeqCst),

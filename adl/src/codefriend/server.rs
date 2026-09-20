@@ -542,6 +542,7 @@ impl Service {
                 "/v1/operations/:operation/journey/graph",
                 get(journey::graph),
             )
+            .route("/v1/operations/:operation/journey/artifacts/:stage", get(journey::artifact))
             .route_layer(axum::middleware::from_fn_with_state(
                 self.clone(),
                 authorize,

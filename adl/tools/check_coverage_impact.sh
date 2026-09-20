@@ -293,7 +293,10 @@ candidate_filter_for_path() {
     adl/src/bin/codefriend_server.rs|adl/src/codefriend/server.rs|adl/src/codefriend/server/journey.rs|adl/src/codefriend/server/publication_export.rs)
       printf 'codefriend_server'
       ;;
-    adl/src/cli/codefriend_cmd.rs|adl/src/codefriend/integration.rs|adl/src/codefriend/integration/journey.rs|adl/src/codefriend/integration/journey/owned_tests.rs)
+    adl/src/cli/codefriend_cmd.rs)
+      printf 'codefriend_cli'
+      ;;
+    adl/src/codefriend/integration.rs|adl/src/codefriend/integration/journey.rs)
       printf 'codefriend_journey'
       ;;
     adl/src/codefriend/publication/approval.rs|adl/src/codefriend/publication/html.rs|adl/src/codefriend/publication/markdown.rs|adl/src/codefriend/publication/pdf.rs|adl/src/codefriend/publication/relay.rs)
@@ -519,6 +522,9 @@ nextest_expression_for_filter() {
       ;;
     codefriend_server)
       printf 'binary_id(adl::codefriend_server) or binary_id(adl::codefriend_integration)'
+      ;;
+    codefriend_cli)
+      printf 'binary_id(adl::codefriend_review) or binary_id(adl::codefriend_synthesis) or binary_id(adl::codefriend_remediate) or binary_id(adl::codefriend_testplan) or binary_id(adl::codefriend_render_md) or binary_id(adl::codefriend_render_html) or binary_id(adl::codefriend_render_pdf) or binary_id(adl::codefriend_ux) or binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration)'
       ;;
     codefriend_journey)
       printf 'binary_id(adl::codefriend_journey) or binary_id(adl::codefriend_integration) or (binary_id(adl) and test(/^codefriend::integration::journey::owned_tests::/))'
