@@ -69,21 +69,32 @@ command or repository.
 export CODEX_BACKUP_BUCKET='REPLACE_WITH_PRIVATE_BUCKET'
 export CODEX_BACKUP_PREFIX='REPLACE_WITH_BACKUP_PREFIX'
 export CODEX_BACKUP_PROFILE='REPLACE_WITH_APPROVED_PROFILE'
+export CODEX_BACKUP_REGION='REPLACE_WITH_PRIVATE_REGION'
+export CODEX_BACKUP_VERIFIER_VERSION_ID='REPLACE_WITH_EXACT_VERSION_ID'
+export CODEX_BACKUP_VERIFIER_SHA256='REPLACE_WITH_RETAINED_SHA256'
 umask 077
 mkdir codex-backup-restore
 cd codex-backup-restore
 aws s3 sync "s3://${CODEX_BACKUP_BUCKET}/${CODEX_BACKUP_PREFIX}/" . \
   --exclude '*' --include '*.json' --include 'RESTORE.md' \
-  --include 'verify_backup.py' --profile "$CODEX_BACKUP_PROFILE" \
-  --region us-west-2
+  --profile "$CODEX_BACKUP_PROFILE" --region "$CODEX_BACKUP_REGION"
+aws s3api get-object --bucket "$CODEX_BACKUP_BUCKET" \
+  --key "${CODEX_BACKUP_PREFIX}/verify_backup.py" \
+  --version-id "$CODEX_BACKUP_VERIFIER_VERSION_ID" \
+  --profile "$CODEX_BACKUP_PROFILE" --region "$CODEX_BACKUP_REGION" \
+  verify_backup.py
+printf '%s  verify_backup.py\n' "$CODEX_BACKUP_VERIFIER_SHA256" | \
+  shasum -a 256 -c -
 test -f completion.json
 CODEX_BACKUP_RESTORE_TMP="$PWD/restore-check" python3 verify_backup.py
 ```
 
-Before running the verifier, confirm that `/opt/homebrew/bin/zstd` exists. The
-retained verifier uses the original approved profile name recorded in the
-private instructions. Configure that profile before running it; changing the
-download profile variable alone does not alter the verifier's configuration.
+Obtain the exact verifier object version and SHA-256 from the private handoff;
+do not run an unversioned or mismatched verifier. Before running it, confirm
+that `/opt/homebrew/bin/zstd` exists. The retained verifier uses the original
+approved profile name recorded in the private instructions. Configure that
+profile before running it; changing the download profile variable alone does
+not alter the verifier's configuration.
 Keep both supplemental subdirectories. The verifier checks all archive checksums
 and manifest coverage and repeats representative restores without relying on the
 original disks. Allow several GiB of temporary space for that check; full
