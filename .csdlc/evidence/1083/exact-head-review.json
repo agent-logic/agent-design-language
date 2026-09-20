@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.v3.review_judgment.v1",
+  "implementer": "codex-issue-1083-implementer",
+  "reviewer": "independent-review-agent-1083",
+  "reviewed_revision": "0f16688feecd57a81ed2a6d5d4bb48671af6a6a2",
+  "verdict": "pass",
+  "evidence": "Independent exact-head review PASS with no actionable findings at 0f16688feecd57a81ed2a6d5d4bb48671af6a6a2. Implementation, tests, and manuals are byte-unchanged from the prior reviewed candidate; the intervening lifecycle-only correction removed an incorrectly committed generated proof. Native proof now binds this exact head with 4 passed, 0 failed, inputs unchanged, and diff hygiene passing."
+}
