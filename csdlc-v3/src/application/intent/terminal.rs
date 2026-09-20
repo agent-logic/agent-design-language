@@ -332,6 +332,7 @@ fn native_request(
 ) -> Result<(TerminalRouteRequest, bool), String> {
     let mut missing_state_repair = false;
     let mut retained_head = None;
+    let mut retained_publication_repository = None;
     let retained = if receipt_path.exists() {
         let receipt: DurableTerminalReceipt = serde_json::from_slice(
             &fs::read(receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
@@ -360,6 +361,7 @@ fn native_request(
         {
             return Err("intent_terminal_receipt_mismatch".into());
         }
+        retained_publication_repository = receipt.publication_repository.clone();
         receipt.pull_request
     } else {
         None
@@ -367,8 +369,18 @@ fn native_request(
     if retained.is_some() && explicit.is_some() && retained != explicit {
         return Err("intent_finish_pull_request_conflict".into());
     }
+    if publication_repository.is_some()
+        && retained_publication_repository.as_deref() != publication_repository
+        && retained_publication_repository.is_some()
+    {
+        return Err("intent_finish_publication_repository_conflict".into());
+    }
+    let publication_repository = publication_repository
+        .map(str::to_owned)
+        .or(retained_publication_repository);
     let semantic_migration = context.semantic_terminal_compatibility_required()?;
     let external_publication = publication_repository
+        .as_deref()
         .is_some_and(|repository| !repository.is_empty() && repository != context.repository);
     let legacy_settled = if retained.is_none() && semantic_migration {
         crate::commands::remote::intent::settled_publication_identity_for_finish(
@@ -391,6 +403,20 @@ fn native_request(
             .map(|identity| identity.pull_request)
     });
     let legacy_explicit = retained.is_none() && semantic_migration && explicit.is_some();
+    if external_publication && !legacy_explicit && !missing_state_repair && legacy_settled.is_none()
+    {
+        let native = crate::commands::remote::intent::publication_targets_for_finish(
+            &context.root,
+            &context.repository,
+            context.issue,
+            &context.branch,
+            &context.head,
+        )
+        .map_err(|finding| finding.code)?;
+        if !native.is_empty() {
+            return Err("intent_finish_publication_repository_conflict".to_owned());
+        }
+    }
     let native = if legacy_settled.is_some()
         || legacy_explicit
         || missing_state_repair

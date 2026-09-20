@@ -417,12 +417,13 @@ fn issue_1092_installed_finish_accepts_explicit_authenticated_legacy_target() {
     success(fixture.run(&primary, &["bind", "505"]));
     let bound = primary.join("worktrees/adl-issue-505-installed-intent-fixture");
     fixture.enable_pr_transport(&bound);
+    fixture.enable_external_pr_transport();
     let head = git(&bound, &["rev-parse", "HEAD"]);
     fs::write(
         primary.join(".git/installed-candidate/remote-pr-638.json"),
         serde_json::to_vec(&json!({
             "number":638,"head":{"sha":head},"merged":true,"state":"closed",
-            "body":"Closes #505"
+            "body":"Closes agent-logic/agent-design-language#505"
         }))
         .unwrap(),
     )
@@ -434,17 +435,43 @@ fn issue_1092_installed_finish_accepts_explicit_authenticated_legacy_target() {
     fs::remove_dir_all(primary.join(".git/csdlc-v3/semantic/issues/505")).unwrap();
     fs::remove_dir_all(bound.join(".csdlc/v3/issues/505")).unwrap();
 
-    let finished = success(fixture.run(&primary, &["finish", "505", "--pull-request", "638"]));
+    let finished = success(fixture.run(
+        &primary,
+        &[
+            "finish",
+            "505",
+            "--pull-request",
+            "638",
+            "--publication-repository",
+            "agent-logic/codefriend.ai",
+        ],
+    ));
     assert_eq!(finished["status"], "completed");
     assert_eq!(finished["compatibility"], "legacy_merged_publication");
+    let receipt_path = primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json");
+    let receipt: Value = serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    assert_eq!(
+        receipt["publication_repository"],
+        "agent-logic/codefriend.ai"
+    );
+    let state_path = primary.join(".git/csdlc-v3/local/v3/issues/505/terminal.json");
+    fs::remove_file(&state_path).unwrap();
+    let repaired = success(fixture.run(&primary, &["finish", "505"]));
+    assert_eq!(repaired["status"], "completed");
+    assert_eq!(repaired["compatibility"], "legacy_merged_publication");
+    assert!(state_path.is_file());
+    let repaired_receipt: Value = serde_json::from_slice(&fs::read(receipt_path).unwrap()).unwrap();
+    assert_eq!(
+        repaired_receipt["publication_repository"],
+        "agent-logic/codefriend.ai"
+    );
     assert_eq!(fixture.remote_effects(), 0);
 }
 
-// PVF #1092: an external closing PR changes only authenticated publication
-// readback identity. Current semantic issues must still complete Finish and
-// RecordCleanup before their bound worktree can be removed.
+// PVF #1092: an external closing PR cannot suppress an already retained native
+// publication identity for a current semantic issue.
 #[test]
-fn issue_1092_current_semantic_external_publication_finishes_and_cleans() {
+fn issue_1092_current_semantic_external_publication_rejects_native_conflict() {
     let (mut fixture, linked) = reviewed_fixture("current-external-publication");
     let primary = fixture.root.clone();
     success(fixture.run(&linked, &["publish", "505"]));
@@ -455,7 +482,7 @@ fn issue_1092_current_semantic_external_publication_finishes_and_cleans() {
         &external_pr_path,
         serde_json::to_vec(&json!({
             "number":638,"head":{"sha":external_head},"merged":true,"state":"closed",
-            "body":"Closes #505"
+            "body":"Closes agent-logic/agent-design-language#505"
         }))
         .unwrap(),
     )
@@ -476,31 +503,13 @@ fn issue_1092_current_semantic_external_publication_finishes_and_cleans() {
         "--publication-repository",
         "agent-logic/codefriend.ai",
     ];
-    let unqualified = fixture.run(&linked, &external_args);
-    assert!(!unqualified.status.success());
-    assert!(String::from_utf8_lossy(&unqualified.stdout).contains("closing_linkage_missing"));
-    fs::write(
-        &external_pr_path,
-        serde_json::to_vec(&json!({
-            "number":638,"head":{"sha":external_head},"merged":true,"state":"closed",
-            "body":"Closes agent-logic/agent-design-language#505"
-        }))
-        .unwrap(),
-    )
-    .unwrap();
-
-    let finished = success(fixture.run(&linked, &external_args));
-    assert_eq!(finished["status"], "completed");
-    assert!(finished.get("compatibility").is_none());
-    let receipt: Value = serde_json::from_slice(
-        &fs::read(primary.join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")).unwrap(),
-    )
-    .unwrap();
-    assert_eq!(
-        receipt["publication_repository"],
-        "agent-logic/codefriend.ai"
-    );
-    assert_eq!(receipt["head_sha"], external_head);
+    let conflict = fixture.run(&linked, &external_args);
+    assert!(!conflict.status.success());
+    assert!(String::from_utf8_lossy(&conflict.stdout)
+        .contains("intent_finish_publication_repository_conflict"));
+    assert!(!primary
+        .join(".git/csdlc-v3/local/evidence/505/terminal-receipt.json")
+        .exists());
     let semantic_root =
         SemanticRoot::from_git_common(primary.join(".git"), "agent-logic/agent-design-language")
             .unwrap();
@@ -513,32 +522,9 @@ fn issue_1092_current_semantic_external_publication_finishes_and_cleans() {
     };
     assert_eq!(
         snapshot.phase(),
-        csdlc_v3::lifecycle::LifecycleState::ClosedOut
+        csdlc_v3::lifecycle::LifecycleState::Published
     );
-    let completed_before_cleanup = snapshot.completed().len();
-
-    let preview = success(fixture.run(&primary, &["clean", "505"]));
-    let token = preview["preview_token"].as_str().unwrap();
-    let cleaned =
-        success(fixture.run(&primary, &["clean", "505", "--execute", "--preview", token]));
-    assert_eq!(cleaned["status"], "completed");
-    assert!(cleaned.get("compatibility").is_none());
-    assert!(!linked.exists());
-    let snapshot = match DurableTransactionStore::observe_issue(&semantic_root, &key).unwrap() {
-        Observation::Current(snapshot) | Observation::ProjectionRepairRequired(snapshot) => {
-            snapshot
-        }
-        other => panic!("{other:?}"),
-    };
-    assert_eq!(
-        snapshot.phase(),
-        csdlc_v3::lifecycle::LifecycleState::ClosedOut
-    );
-    assert_eq!(snapshot.completed().len(), completed_before_cleanup + 1);
-    assert_eq!(
-        snapshot.completed().last().unwrap().truth(),
-        csdlc_v3::storage::semantic::protocol::EffectTruth::Performed
-    );
+    assert!(linked.exists());
 }
 
 #[test]
