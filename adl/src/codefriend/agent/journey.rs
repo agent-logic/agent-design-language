@@ -442,7 +442,7 @@ impl Transport {
             binding,
             store,
             graph,
-            baseline_root: root.join("journey-baselines"),
+            baseline_root: root.join("baseline-owners"),
         };
         baseline.context().validate()?;
         Ok(baseline)

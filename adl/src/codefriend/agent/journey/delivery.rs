@@ -195,8 +195,8 @@ impl Transport {
         let Some(job) = poll.job else { return Ok(None) };
         let owner = self.journey_owner(journal, consent_path, &job)?;
         self.journey_remote_job(&pairing, &job)?;
-        let tombstones = owner.root.join("journey-reservations");
-        let payloads = owner.root.join("journey-delivery");
+        let tombstones = owner.root.join("relay-reservations");
+        let payloads = owner.root.join("relay-delivery");
         directory(&tombstones)?;
         directory(&payloads)?;
         let slot = observation_slot(&job.request);
@@ -320,13 +320,13 @@ mod tests {
         let temp = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
         let root = temp.path().join("run-run1");
         directory(&root).unwrap();
-        let reservations = root.join("journey-reservations");
+        let reservations = root.join("relay-reservations");
         directory(&reservations).unwrap();
         let path = reservations.join("effect-job1.json");
         let original = job();
         assert!(reserve(&path, &original).unwrap());
         let bytes = fs::read(&path).unwrap();
-        let payloads = root.join("journey-delivery");
+        let payloads = root.join("relay-delivery");
         directory(&payloads).unwrap();
         save_private(
             &payloads.join("result.json"),

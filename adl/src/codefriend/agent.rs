@@ -1346,8 +1346,8 @@ fn scrub_run_payloads(path: &Path) -> Result<()> {
         "gateway",
         "evidence",
         "journey",
-        "journey-delivery",
-        "journey-baselines",
+        "relay-delivery",
+        "baseline-owners",
         "palace",
     ] {
         let work = path.join(name);
