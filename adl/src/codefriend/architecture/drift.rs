@@ -111,14 +111,13 @@ fn facts(g: &StructureReport) -> Result<(ReviewRecord, Vec<FactTrace>)> {
 /// Recomputed facts are not a compatibility bypass: original graph comparison is mandatory,
 /// and all inherited lane/policy, coverage, completion and admission identities stay intact.
 struct FactAccess<'a> {
-    store: &'a Store,
-    graphs: [&'a StructureReport; 2],
+    graphs: [(&'a Store, &'a StructureReport); 2],
 }
 impl BaselineAccess for FactAccess<'_> {
     fn load(&self, reference: &BaselineRef) -> Result<ReviewRecord> {
         reference.validate()?;
-        for graph in self.graphs {
-            graph.validate(self.store)?;
+        for (store, graph) in self.graphs {
+            graph.validate(store)?;
             let (record, _) = facts(graph)?;
             if &BaselineRef::from_record(&record)? == reference {
                 return Ok(record);
@@ -133,8 +132,20 @@ pub fn architecture_drift_reporter(
     baseline: StructureReport,
     current: StructureReport,
 ) -> Result<DriftReport> {
-    baseline.validate(store)?;
-    current.validate(store)?;
+    architecture_drift_reporter_pair(store, store, baselines, baseline, current)
+}
+
+/// Each graph remains bound to its original live admission owner. The caller
+/// supplies a trusted, exact-reference backend; no admission is copied here.
+pub fn architecture_drift_reporter_pair(
+    baseline_store: &Store,
+    current_store: &Store,
+    baselines: &impl BaselineAccess,
+    baseline: StructureReport,
+    current: StructureReport,
+) -> Result<DriftReport> {
+    baseline.validate(baseline_store)?;
+    current.validate(current_store)?;
     // Caller explicitly retains these actual producer records; missing/deleted baselines fail.
     let before = BaselineRef::from_record(&baseline.record)?;
     let after = BaselineRef::from_record(&current.record)?;
@@ -143,8 +154,7 @@ pub fn architecture_drift_reporter(
     let (current_facts, current_traces) = facts(&current)?;
     let structural_comparison = comparison::compare(
         &FactAccess {
-            store,
-            graphs: [&baseline, &current],
+            graphs: [(baseline_store, &baseline), (current_store, &current)],
         },
         &BaselineRef::from_record(&baseline_facts)?,
         &BaselineRef::from_record(&current_facts)?,
@@ -167,14 +177,34 @@ pub fn architecture_drift_reporter(
         digest: String::new(),
     };
     r.digest = hash(&r)?;
+    // Calculation does not extend either admission's lifetime. Recheck the
+    // original owners and retained references before exposing the result.
+    for reference in [&before, &after] {
+        ensure!(
+            BaselineRef::from_record(&baselines.load(reference)?)? == *reference,
+            "drift_baseline_reference_changed"
+        );
+    }
+    r.baseline.validate(baseline_store)?;
+    r.current.validate(current_store)?;
     Ok(r)
 }
 impl DriftReport {
     pub fn validate(&self, store: &Store, baselines: &AdmittedBaselines<'_>) -> Result<()> {
+        self.validate_pair(store, store, baselines)
+    }
+
+    pub fn validate_pair(
+        &self,
+        baseline_store: &Store,
+        current_store: &Store,
+        baselines: &impl BaselineAccess,
+    ) -> Result<()> {
         ensure!(
             *self
-                == architecture_drift_reporter(
-                    store,
+                == architecture_drift_reporter_pair(
+                    baseline_store,
+                    current_store,
                     baselines,
                     self.baseline.clone(),
                     self.current.clone()
@@ -190,8 +220,18 @@ pub fn write_report(
     baselines: &AdmittedBaselines<'_>,
     path: &std::path::Path,
 ) -> Result<()> {
+    write_report_pair(r, store, store, baselines, path)
+}
+
+pub fn write_report_pair(
+    r: &DriftReport,
+    baseline_store: &Store,
+    current_store: &Store,
+    baselines: &impl BaselineAccess,
+    path: &std::path::Path,
+) -> Result<()> {
     use std::io::Write;
-    r.validate(store, baselines)?;
+    r.validate_pair(baseline_store, current_store, baselines)?;
     super::structure::safe_artifact_path(path)?;
     let bytes = serde_json::to_vec(r)?;
     ensure!(bytes.len() as u64 <= LIMIT, "drift_artifact_too_large");
@@ -214,6 +254,15 @@ pub fn read_report(
     baselines: &AdmittedBaselines<'_>,
     path: &std::path::Path,
 ) -> Result<DriftReport> {
+    read_report_pair(store, store, baselines, path)
+}
+
+pub fn read_report_pair(
+    baseline_store: &Store,
+    current_store: &Store,
+    baselines: &impl BaselineAccess,
+    path: &std::path::Path,
+) -> Result<DriftReport> {
     use std::io::Read;
     super::structure::safe_artifact_path(path)?;
     ensure!(
@@ -227,6 +276,6 @@ pub fn read_report(
     ensure!(bytes.len() as u64 <= LIMIT, "drift_artifact_too_large");
     let r: DriftReport =
         serde_json::from_slice(&bytes).map_err(|_| anyhow::anyhow!("invalid_drift_artifact"))?;
-    r.validate(store, baselines)?;
+    r.validate_pair(baseline_store, current_store, baselines)?;
     Ok(r)
 }

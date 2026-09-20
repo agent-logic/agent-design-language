@@ -93,6 +93,17 @@ pub fn index(
     authority: &VerifiedMemoryPalaceAuthority,
     request: &IndexRequest,
 ) -> Result<PalaceReceipt> {
+    index_with_baselines(backend, root, authority, request)
+}
+
+/// Supports authenticated routing to multiple original admission owners while
+/// preserving the same Runtime authority, bounds and reference validation.
+pub fn index_with_baselines(
+    backend: &impl BaselineAccess,
+    root: &Path,
+    authority: &VerifiedMemoryPalaceAuthority,
+    request: &IndexRequest,
+) -> Result<PalaceReceipt> {
     bounds(
         &request.schema,
         request.max_working_set_items,
@@ -194,6 +205,14 @@ fn read_trace(path: &Path) -> Result<Vec<u8>> {
 /// Every selected reference is re-admitted before comparison; a saved packet cannot resurrect data.
 pub fn retrieve(
     backend: &AdmittedBaselines<'_>,
+    root: &Path,
+    request: &RetrieveRequest,
+) -> Result<RetrievedComparison> {
+    retrieve_with_baselines(backend, root, request)
+}
+
+pub fn retrieve_with_baselines(
+    backend: &impl BaselineAccess,
     root: &Path,
     request: &RetrieveRequest,
 ) -> Result<RetrievedComparison> {

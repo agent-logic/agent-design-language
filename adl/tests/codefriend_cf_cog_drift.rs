@@ -7,7 +7,7 @@ use adl::codefriend::{
     },
     evidence::{contracts::Delta, store::Store, Retention},
     ingestion::{local, Scope},
-    memory::baseline::{AdmittedBaselines, BaselineRef},
+    memory::baseline::{AdmittedBaselines, BaselineAccess, BaselineRef},
 };
 use std::{
     collections::BTreeSet,
@@ -90,6 +90,9 @@ impl Fixture {
         }
     }
     fn graph(&self) -> StructureReport {
+        self.graph_in(&self.store)
+    }
+    fn graph_in(&self, store: &Store) -> StructureReport {
         git(&self.source, &["add", "."]);
         git(
             &self.source,
@@ -112,17 +115,138 @@ impl Fixture {
             self.scope.clone(),
         )
         .unwrap();
-        let a = self.store.admit(p, Retention { seconds: 1000 }).unwrap();
-        structure::repository_structure_reporter(
-            &self.store,
-            &a.packet.packet_id,
-            self.policy.clone(),
-        )
-        .unwrap()
+        let a = store.admit(p, Retention { seconds: 1000 }).unwrap();
+        structure::repository_structure_reporter(store, &a.packet.packet_id, self.policy.clone())
+            .unwrap()
     }
     fn baselines(&self) -> AdmittedBaselines<'_> {
         AdmittedBaselines::open(&self.store, &self._dir.path().join("baselines"), true).unwrap()
     }
+}
+
+// This test adapter selects exact original references, not packet-id discovery.
+// HTTP ownership and Runtime Palace authority require their separate proofs.
+struct SelectedPair<'a> {
+    owners: [(&'a AdmittedBaselines<'a>, BaselineRef); 2],
+}
+impl BaselineAccess for SelectedPair<'_> {
+    fn load(
+        &self,
+        reference: &BaselineRef,
+    ) -> anyhow::Result<adl::codefriend::evidence::contracts::ReviewRecord> {
+        let mut selected = self.owners.iter().filter(|(_, r)| r == reference);
+        let (owner, _) = selected
+            .next()
+            .ok_or_else(|| anyhow::anyhow!("selected_baseline_missing"))?;
+        anyhow::ensure!(selected.next().is_none(), "selected_baseline_ambiguous");
+        owner.load(reference)
+    }
+}
+
+struct ExpiryDuringLoad<'a> {
+    pair: &'a SelectedPair<'a>,
+    clock: &'a AtomicU64,
+    loads: std::cell::Cell<usize>,
+}
+impl BaselineAccess for ExpiryDuringLoad<'_> {
+    fn load(
+        &self,
+        reference: &BaselineRef,
+    ) -> anyhow::Result<adl::codefriend::evidence::contracts::ReviewRecord> {
+        let record = self.pair.load(reference)?;
+        let loads = self.loads.get() + 1;
+        self.loads.set(loads);
+        if loads == 3 {
+            self.clock.store(1200, Ordering::SeqCst);
+        }
+        Ok(record)
+    }
+}
+
+#[test]
+fn original_store_pair_compares_without_readmission_and_preserves_lifetimes() {
+    let _g = FIXTURES.lock().unwrap();
+    let f = Fixture::new();
+    let baseline = f.graph();
+    let current_clock = Arc::new(AtomicU64::new(200));
+    let clock = current_clock.clone();
+    let current_store = Store::open(&f._dir.path().join("current-store"), move || {
+        clock.load(Ordering::SeqCst)
+    })
+    .unwrap();
+    fs::write(f.source.join("a.rs"), "use crate::c::C;").unwrap();
+    let current = f.graph_in(&current_store);
+    let before = f.store.get(&baseline.record.run.packet_id).unwrap();
+    let after = current_store.get(&current.record.run.packet_id).unwrap();
+    assert_eq!((before.admitted_at, after.admitted_at), (100, 200));
+    assert_ne!(before.digest, after.digest);
+    assert!(current_store.get(&baseline.record.run.packet_id).is_err());
+    assert!(f.store.get(&current.record.run.packet_id).is_err());
+    let baseline_owner = f.baselines();
+    let current_owner = AdmittedBaselines::open(
+        &current_store,
+        &f._dir.path().join("current-baselines"),
+        true,
+    )
+    .unwrap();
+    let baseline_ref = baseline_owner.retain(&baseline.record).unwrap();
+    let current_ref = current_owner.retain(&current.record).unwrap();
+    let pair = SelectedPair {
+        owners: [
+            (&baseline_owner, baseline_ref.clone()),
+            (&current_owner, current_ref),
+        ],
+    };
+    let report = drift::architecture_drift_reporter_pair(
+        &f.store,
+        &current_store,
+        &pair,
+        baseline.clone(),
+        current.clone(),
+    )
+    .unwrap();
+    assert!(report.structural_comparison.comparable);
+    assert!(!report.structural_comparison.changes.is_empty());
+    assert_eq!(before, f.store.get(&baseline.record.run.packet_id).unwrap());
+    assert_eq!(
+        after,
+        current_store.get(&current.record.run.packet_id).unwrap()
+    );
+    assert!(current_store.get(&baseline.record.run.packet_id).is_err());
+    assert!(report
+        .validate_pair(&current_store, &f.store, &pair)
+        .is_err());
+    let output = f._dir.path().join("paired-drift.json");
+    drift::write_report_pair(&report, &f.store, &current_store, &pair, &output).unwrap();
+    assert_eq!(
+        report,
+        drift::read_report_pair(&f.store, &current_store, &pair, &output).unwrap()
+    );
+    let expiring = ExpiryDuringLoad {
+        pair: &pair,
+        clock: &f.clock,
+        loads: std::cell::Cell::new(0),
+    };
+    assert!(drift::architecture_drift_reporter_pair(
+        &f.store,
+        &current_store,
+        &expiring,
+        baseline.clone(),
+        current.clone()
+    )
+    .is_err());
+    f.clock.store(1200, Ordering::SeqCst);
+    assert!(report
+        .validate_pair(&f.store, &current_store, &pair)
+        .is_err());
+    f.clock.store(100, Ordering::SeqCst);
+    current_clock.store(1300, Ordering::SeqCst);
+    assert!(report
+        .validate_pair(&f.store, &current_store, &pair)
+        .is_err());
+    current_clock.store(200, Ordering::SeqCst);
+    baseline_owner.delete(&baseline_ref).unwrap();
+    assert!(drift::read_report_pair(&f.store, &current_store, &pair, &output).is_err());
 }
 fn run(f: &Fixture, b: StructureReport, c: StructureReport) -> drift::DriftReport {
     let db = f.baselines();
