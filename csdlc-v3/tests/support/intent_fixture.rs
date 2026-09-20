@@ -702,6 +702,7 @@ impl Fixture {
     pub fn interrupt_clean_after_archive(&mut self, cwd: &Path, args: &[&str]) -> Output {
         self.interrupt_clean(cwd, args, false)
     }
+    #[allow(dead_code)]
     pub fn interrupt_clean_after_index_removal(&mut self, cwd: &Path, args: &[&str]) -> Output {
         self.interrupt_clean(cwd, args, true)
     }

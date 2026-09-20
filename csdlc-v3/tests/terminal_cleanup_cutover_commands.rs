@@ -880,6 +880,7 @@ fn cleanup_plan(
         terminal_receipt_digest: (!terminal_receipt_digest.is_empty())
             .then_some(terminal_receipt_digest),
         preview_receipt_digest,
+        retained_archive_identity: None,
     });
     request
 }
@@ -2107,6 +2108,7 @@ fn no_pr_closeout_persists_idempotently_and_cleanup_binds_disposition() {
         terminal_receipt_path: Some(receipt_path.into()),
         terminal_receipt_digest: Some(blake3::hash(&bytes).to_hex().to_string()),
         preview_receipt_digest: None,
+        retained_archive_identity: None,
     });
     let plan = prepare_terminal_route("clean", &request).unwrap();
     assert_eq!(plan.status, TerminalRouteStatus::Blocked);

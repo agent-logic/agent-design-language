@@ -68,6 +68,134 @@ fn semantic_for(
         context.semantic_context()
     }
 }
+
+fn resume_pending_cleanup(
+    context: &Context,
+    request: &IntentRequest,
+    receipt_path: &std::path::Path,
+) -> Result<Option<Value>, String> {
+    let semantic = semantic_for(context, SemanticCommand::RecordCleanup)?;
+    let Some(pending) = semantic
+        .snapshot
+        .pending()
+        .filter(|pending| pending.command() == SemanticCommand::RecordCleanup)
+    else {
+        return Ok(None);
+    };
+    let inspection =
+        DurableTransactionStore::inspect_effect(&semantic.root, &semantic.key, pending.id())
+            .map_err(semantic_error)?;
+    let operation = inspection.request();
+    let content: Value =
+        serde_json::from_slice(&operation.canonical_content().map_err(semantic_error)?)
+            .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+    let mut native: TerminalRouteRequest = serde_json::from_value(content["native"].clone())
+        .map_err(|_| "intent_cleanup_retained_request_invalid")?;
+    let cleanup = native
+        .cleanup
+        .as_ref()
+        .ok_or("intent_cleanup_retained_request_invalid")?;
+    if !cleanup.remove
+        || cleanup.repository_root != context.primary
+        || cleanup.candidate_path != context.root
+    {
+        return Err("intent_cleanup_retained_request_invalid".into());
+    }
+    let expected = encode(&content["archive_identity"])?;
+    let retained = semantic_matching_retained_cleanup_archive_identity(
+        &context.primary,
+        &context.root,
+        context.issue,
+        &expected,
+    )
+    .map_err(|finding| finding.code)?;
+    let packet = if let Some(archive) = &retained {
+        let identity: Value = serde_json::from_slice(archive)
+            .map_err(|_| "intent_cleanup_archive_identity_invalid")?;
+        if content["archive_identity"] != identity {
+            return Err("intent_cleanup_retained_archive_mismatch".into());
+        }
+        native
+            .cleanup
+            .as_mut()
+            .expect("cleanup verified above")
+            .retained_archive_identity = Some(identity.clone());
+        let receipt: DurableTerminalReceipt = serde_json::from_slice(
+            &fs::read(receipt_path).map_err(|_| "intent_terminal_receipt_required")?,
+        )
+        .map_err(|_| "intent_terminal_receipt_invalid")?;
+        let topology = git(&context.primary, &["worktree", "list", "--porcelain"])?;
+        json!({"schema":"csdlc.v3.semantic_cleanup_recovery.v1",
+            "operation":pending.id().as_str(),"version":semantic.snapshot.version(),
+            "archive":identity,"receipt":receipt,"topology":topology})
+    } else {
+        content["preview"].clone()
+    };
+    let token = if retained.is_none() {
+        match content["preview_token"].as_str() {
+            Some(token) => token.to_owned(),
+            None => blake3::hash(&encode(&packet)?).to_hex().to_string(),
+        }
+    } else {
+        blake3::hash(&encode(&packet)?).to_hex().to_string()
+    };
+    if !request.execute {
+        return Ok(Some(
+            json!({"status":"ready","read_only":true,"performed_mutation":false,
+                "preview_token":token,"recovery":packet}),
+        ));
+    }
+    let retained_preview = content["preview_token"].as_str();
+    if request.preview.as_deref() != Some(token.as_str())
+        && request.preview.as_deref() != retained_preview
+    {
+        return Err("intent_cleanup_preview_stale".into());
+    }
+    context.repair_before_effect(&semantic.snapshot, operation)?;
+    let ticket = inspection
+        .ticket()
+        .ok_or("intent_cleanup_pending_ticket_missing")?
+        .clone();
+    semantic.admit_before_effect(ticket.id())?;
+    let facts = Facts {
+        terminal_receipt: true,
+        cleanup: true,
+        ..Default::default()
+    };
+    let result = match prepare_intent_cleanup(&native) {
+        Ok(result) => result,
+        Err(finding) => {
+            return effect_result(
+                context,
+                &semantic,
+                ticket,
+                operation,
+                Ok(json!({"status":"recovery_required","error":finding.code,
+                    "performed_mutation":if retained.is_some(){Some(true)}else{None},
+                    "effects_unknown":retained.is_none()})),
+                facts,
+            )
+            .map(Some);
+        }
+    };
+    let removed = matches!(result.cleanup, Some(CleanupDecision::Removed { .. }));
+    let noop = matches!(
+        result.cleanup,
+        Some(CleanupDecision::Absent { .. } | CleanupDecision::AlreadyRemoved { .. })
+    );
+    effect_result(
+        context,
+        &semantic,
+        ticket,
+        operation,
+        Ok(json!({"status":if removed {"completed"}else if noop{"expected_noop"}else{"blocked"},
+            "read_only":false,"operational_authority":removed,
+            "performed_mutation":if removed{Some(true)}else if noop{Some(false)}else{None},
+            "historical_effect_truth":"performed","effects_unknown":!removed&&!noop,"result":result})),
+        facts,
+    )
+    .map(Some)
+}
 fn effect_result(
     context: &Context,
     semantic: &super::context::SemanticContext,
@@ -1203,7 +1331,13 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 terminal_receipt_path: Some(receipt_path.to_string_lossy().into_owned()),
                 terminal_receipt_digest: Some(receipt_digest.clone()),
                 preview_receipt_digest: None,
+                retained_archive_identity: None,
             });
+            if context.cleanup_pending {
+                if let Some(result) = resume_pending_cleanup(context, request, &receipt_path)? {
+                    return Ok(result);
+                }
+            }
             let preview = prepare_intent_cleanup(&native).map_err(|finding| finding.code)?;
             let native_digest = match &preview.cleanup {
                 Some(CleanupDecision::Removable { receipt_digest, .. }) => {
@@ -1346,8 +1480,8 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                     )
                     .map_err(semantic_error)?,
                 );
-                let content =
-                    json!({"native":native,"archive_identity":archive_identity,"preview":packet});
+                let content = json!({"native":native,"archive_identity":archive_identity,
+                    "preview":packet,"preview_token":token});
                 let bytes = encode(&content)?;
                 EffectRequest::new(
                     SemanticCommand::RecordCleanup,

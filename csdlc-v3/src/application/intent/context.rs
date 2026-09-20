@@ -304,17 +304,38 @@ impl Context {
             let semantic_root = SemanticRoot::from_git_common(&common, repository.clone())
                 .map_err(semantic_error)?;
             let semantic_key = IssueKey::new(repository.clone(), issue).map_err(semantic_error)?;
+            let snapshot =
+                match DurableTransactionStore::observe_issue(&semantic_root, &semantic_key)
+                    .map_err(semantic_error)?
+                {
+                    Observation::Current(snapshot)
+                    | Observation::ProjectionRepairRequired(snapshot) => Some(snapshot),
+                    _ => None,
+                };
+            if let Some(digest) = snapshot
+                .as_ref()
+                .map(|snapshot| cleanup_archive_digest(&semantic_root, &semantic_key, snapshot))
+                .transpose()?
+                .flatten()
+            {
+                let retained = common
+                    .join("csdlc-v3/local/archives")
+                    .join(format!("{issue}-intent-{digest}"));
+                if retained.is_dir() {
+                    archived_index = crate::commands::terminal::matching_retained_cleanup_index(
+                        &primary, &root, issue, &digest,
+                    )
+                    .map_err(|finding| finding.code)?;
+                }
+            }
             let cleanup_pending = matches!(
-                DurableTransactionStore::observe_issue(&semantic_root, &semantic_key)
-                    .map_err(semantic_error)?,
-                Observation::Current(ref snapshot)
-                    | Observation::ProjectionRepairRequired(ref snapshot)
-                    if snapshot.pending().is_some_and(|pending| {
+                snapshot.as_ref(),
+                Some(snapshot) if snapshot.pending().is_some_and(|pending| {
                         pending.command()
                             == crate::lifecycle::semantic::SemanticCommand::RecordCleanup
                     }) && snapshot.inputs().binding().is_some_and(|binding| binding.worktree == root)
             );
-            if cleanup_pending {
+            if archived_index.is_none() && cleanup_pending {
                 if issue_root.join("index.json").exists() {
                     partial_cleanup_pending = true;
                 } else {

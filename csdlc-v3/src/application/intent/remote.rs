@@ -297,6 +297,78 @@ fn semantic_recover_remote_effect(
                 && evidence["code"] == "github_mutation_rejected"
         })
     });
+    if matches!(
+        retained.request().command(),
+        crate::lifecycle::semantic::SemanticCommand::Publish
+    ) && matches!(request.mutation, GithubMutation::PullRequestCreate { .. })
+        && request.expected_head_sha != context.head
+        && crate::commands::remote::authenticated_absence_recovery(&context.root, request)
+            .map_err(failure)?
+    {
+        let evidence = serde_json::to_vec(&json!({
+            "schema":"csdlc.v3.semantic_remote_publication_recovery.v1",
+            "recovery":"authenticated_absent_historical_publication",
+            "repository":context.repository,
+            "issue":context.issue,
+            "historical_head":request.expected_head_sha,
+            "current_head":context.head,
+            "effects":"not_performed"
+        }))
+        .map_err(|_| "semantic_outcome_encoding_failed")?;
+        let outcome = transaction::VerifiedOutcome::from_native_owner(
+            transaction::OutcomeKind::Failure,
+            transaction::EffectTruth::NotPerformed,
+            evidence,
+            crate::lifecycle::semantic::Facts {
+                current_proof: true,
+                independent_review: true,
+                ..Default::default()
+            },
+            retained.request().native_identity().clone(),
+        )
+        .map_err(semantic_error)?;
+        let observed = transaction::AttachmentAdmission::from_native_owner(
+            session.snapshot.inputs().authority().clone(),
+            session.origin.clone(),
+        );
+        let resolution =
+            transaction::VerifiedRecoveryResolution::adopt_observed_after_native_reconciliation(
+                &preview,
+            );
+        return match DurableTransactionStore::execute_effect_recovery_with_resolution(
+            &session.root,
+            preview,
+            outcome,
+            observed,
+            Some(resolution),
+        )
+        .map_err(semantic_error)?
+        {
+            transaction::Attachment::AlreadyCompleted(done) => Ok(semantic_replay(&done)),
+            transaction::Attachment::RecoveryRequired(_) => Ok(recovery_result()),
+            transaction::Attachment::Completed(done) => {
+                let snapshot =
+                    match DurableTransactionStore::observe_issue(&session.root, &session.key)
+                        .map_err(semantic_error)?
+                    {
+                        semantic::Observation::Current(value)
+                        | semantic::Observation::ProjectionRepairRequired(value) => *value,
+                        _ => return Err("semantic_remote_projection_state_unavailable".into()),
+                    };
+                let projected = session.complete_projection(&snapshot)?;
+                super::rebuild_semantic_card_projection(context)?;
+                Ok(json!({"status":"completed","read_only":false,
+                    "operational_authority":true,"performed_mutation":false,
+                    "effects_unknown":false,
+                    "result":{"recovery":"authenticated_absent_historical_publication",
+                    "historical_head":request.expected_head_sha},
+                    "semantic":{"original_version":done.original_version(),
+                    "current_version":projected.version(),
+                    "operation":done.operation_id().as_str(),
+                    "outcome":done.outcome_kind(),"effect_truth":done.truth()}}))
+            }
+        };
+    }
     let staged = if matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
         stage_github_mutation(&context.root, request, process).map_err(failure)?
     } else if definitely_rejected {

@@ -90,6 +90,8 @@ pub struct CleanupRouteRequest {
     pub terminal_receipt_digest: Option<String>,
     #[serde(default)]
     pub preview_receipt_digest: Option<String>,
+    #[serde(default)]
+    pub retained_archive_identity: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -966,8 +968,37 @@ fn classify_cleanup_with_archive(
             "cleanup target worktree HEAD must match the terminal closeout head",
         ));
     }
+    let retained_archive = request.retained_archive_identity.as_ref();
     let archive = if archive_generated {
-        Some(intent_archive::preview(&candidate, terminal_request.issue)?)
+        Some(if let Some(identity) = retained_archive {
+            let expected = serde_json::to_vec(identity).map_err(|_| {
+                finding(
+                    "cleanup_archive_manifest_invalid",
+                    "retained semantic archive identity cannot serialize",
+                )
+            })?;
+            let verified = intent_archive::matching_retained_semantic_identity(
+                &repository_root,
+                &candidate,
+                terminal_request.issue,
+                &expected,
+            )?
+            .ok_or_else(|| {
+                finding(
+                    "cleanup_archive_recovery_required",
+                    "retained semantic archive identity has no exact verified archive",
+                )
+            })?;
+            let verified: serde_json::Value = serde_json::from_slice(&verified).map_err(|_| {
+                finding(
+                    "cleanup_archive_manifest_invalid",
+                    "verified retained semantic archive identity is invalid",
+                )
+            })?;
+            intent_archive::verify_partial_source(&candidate, terminal_request.issue, &verified)?
+        } else {
+            intent_archive::preview(&candidate, terminal_request.issue)?
+        })
     } else {
         None
     };
@@ -995,18 +1026,16 @@ fn classify_cleanup_with_archive(
                         .into(),
             });
         }
-        if let Some(archive) = &archive {
+        if let Some(archive) = &archive.filter(|_| retained_archive.is_none()) {
             intent_archive::execute(
                 &repository_root,
                 &candidate,
                 terminal_request.issue,
                 archive,
             )?;
+            intent_archive::verify_archived_source_removed(&candidate, terminal_request.issue)?;
         }
-        if worktree_dirty(&candidate)? {
-            return Err(finding("cleanup_changed_after_archive","worktree changed after verified archival; preserved archive requires explicit reconciliation"));
-        }
-        remove_registered_worktree(&repository_root, &candidate)?;
+        remove_registered_worktree(&repository_root, &candidate, archive_generated)?;
         Ok(CleanupDecision::Removed {
             path: candidate,
             receipt_digest,
@@ -1218,19 +1247,22 @@ fn canonical_v3_authority(
 fn remove_registered_worktree(
     repository_root: &Path,
     candidate: &Path,
+    force: bool,
 ) -> Result<(), TerminalFinding> {
-    let output = std::process::Command::new("git")
+    let mut command = std::process::Command::new("git");
+    command
         .arg("-C")
         .arg(repository_root)
-        .args(["worktree", "remove", "--"])
-        .arg(candidate)
-        .output()
-        .map_err(|error| {
-            finding(
-                "cleanup_remove_failed",
-                &format!("could not invoke git worktree remove: {error}"),
-            )
-        })?;
+        .args(["worktree", "remove"]);
+    if force {
+        command.arg("--force");
+    }
+    let output = command.arg("--").arg(candidate).output().map_err(|error| {
+        finding(
+            "cleanup_remove_failed",
+            &format!("could not invoke git worktree remove: {error}"),
+        )
+    })?;
     if !output.status.success() {
         return Err(finding(
             "cleanup_remove_failed",

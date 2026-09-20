@@ -1,4 +1,4 @@
-//! Verified terminal archival for generated, untracked issue residue only.
+//! Verified terminal archival for generated issue residue.
 //! This is cleanup evidence, never a second lifecycle state authority.
 use super::*;
 use serde_json::{json, Value};
@@ -105,7 +105,11 @@ fn fingerprint(path: &Path) -> Result<Value, TerminalFinding> {
     }
 }
 
-pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalFinding> {
+fn preview_with_partial_removal(
+    candidate: &Path,
+    issue: u64,
+    allow_partial_removal: bool,
+) -> Result<Archive, TerminalFinding> {
     let lock_path = candidate.join(format!(".csdlc/locks/{issue}.lock"));
     if lock_path.symlink_metadata().is_ok() {
         let lock = fingerprint(&lock_path)?;
@@ -121,12 +125,25 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
         &["status", "--porcelain=v1", "-z", "--untracked-files=all"],
     )?;
     for entry in strings(&status)? {
-        if !entry.starts_with("?? ") || !admitted(&entry[3..], issue) {
-            return Err(finding(
-                "cleanup_archive_foreign_or_tracked_dirty",
-                "cleanup refuses tracked changes and unrelated untracked files",
-            ));
+        let path = entry.get(3..).unwrap_or_default();
+        let untracked = entry.starts_with("?? ");
+        if untracked && admitted(path, issue) {
+            continue;
         }
+        let tracked_issue_record = !untracked
+            && entry.len() >= 4
+            && (allow_partial_removal
+                || !entry.as_bytes()[..2]
+                    .iter()
+                    .any(|status| matches!(*status, b'D' | b'R' | b'C' | b'U' | b'?')))
+            && admitted(path, issue);
+        if tracked_issue_record {
+            continue;
+        }
+        return Err(finding(
+            "cleanup_archive_foreign_or_tracked_dirty",
+            "cleanup refuses tracked changes outside the exact generated issue namespace, destructive tracked changes, and unrelated untracked files",
+        ));
     }
     let ignored = git_bytes(
         candidate,
@@ -147,13 +164,10 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
             return Err(finding("cleanup_archive_unclassified_ignored_file","ignored residue outside exact issue evidence or declared disposable Rust targets requires explicit preservation"));
         }
     }
-    let tracked = git_bytes(candidate, &["ls-files", "-z"])?;
-    let tracked: BTreeSet<_> = strings(&tracked)?.into_iter().collect();
     let mut entries = BTreeMap::new();
     fn visit(
         root: &Path,
         path: &Path,
-        tracked: &BTreeSet<&str>,
         entries: &mut BTreeMap<String, Value>,
     ) -> Result<(), TerminalFinding> {
         let metadata = match fs::symlink_metadata(path) {
@@ -183,7 +197,6 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
                             )
                         })?
                         .path(),
-                    tracked,
                     entries,
                 )?;
             }
@@ -198,9 +211,7 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
                         "generated path must remain within worktree",
                     )
                 })?;
-            if !tracked.contains(relative) {
-                entries.insert(relative.into(), fingerprint(path)?);
-            }
+            entries.insert(relative.into(), fingerprint(path)?);
         }
         Ok(())
     }
@@ -228,7 +239,7 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
                 ));
             }
         }
-        visit(candidate, &path, &tracked, &mut entries)?;
+        visit(candidate, &path, &mut entries)?;
     }
     if entries.keys().any(|path| !admitted(path, issue)) {
         return Err(finding(
@@ -246,6 +257,72 @@ pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalF
         digest: blake3::hash(&bytes).to_hex().to_string(),
         entries,
     })
+}
+
+pub(super) fn preview(candidate: &Path, issue: u64) -> Result<Archive, TerminalFinding> {
+    preview_with_partial_removal(candidate, issue, false)
+}
+
+pub(super) fn verify_partial_source(
+    candidate: &Path,
+    issue: u64,
+    identity: &Value,
+) -> Result<Archive, TerminalFinding> {
+    let digest = identity["inventory_digest"].as_str().ok_or_else(|| {
+        finding(
+            "cleanup_archive_manifest_invalid",
+            "retained cleanup archive digest is missing",
+        )
+    })?;
+    let entries: BTreeMap<String, Value> = serde_json::from_value(identity["files"].clone())
+        .map_err(|_| {
+            finding(
+                "cleanup_archive_manifest_invalid",
+                "retained cleanup archive inventory is invalid",
+            )
+        })?;
+    let remaining = preview_with_partial_removal(candidate, issue, true)?;
+    let tracked = git_bytes(candidate, &["ls-files", "-z"])?;
+    let tracked: BTreeSet<_> = strings(&tracked)?.into_iter().map(str::to_owned).collect();
+    let status = git_bytes(
+        candidate,
+        &["status", "--porcelain=v1", "-z", "--untracked-files=all"],
+    )?;
+    let dirty: BTreeSet<_> = strings(&status)?
+        .into_iter()
+        .map(|entry| entry.get(3..).unwrap_or_default().to_owned())
+        .collect();
+    if remaining
+        .entries
+        .iter()
+        .any(|(path, fingerprint)| match entries.get(path) {
+            Some(expected) => expected != fingerprint,
+            None => !tracked.contains(path) || dirty.contains(path),
+        })
+    {
+        return Err(finding(
+            "cleanup_changed_after_archive",
+            "remaining generated residue differs from the verified retained archive",
+        ));
+    }
+    Ok(Archive {
+        digest: digest.to_owned(),
+        entries,
+    })
+}
+
+pub(super) fn verify_archived_source_removed(
+    candidate: &Path,
+    issue: u64,
+) -> Result<(), TerminalFinding> {
+    let remaining = preview_with_partial_removal(candidate, issue, true)?;
+    if !remaining.entries.is_empty() {
+        return Err(finding(
+            "cleanup_changed_after_archive",
+            "generated residue remained after verified archival",
+        ));
+    }
+    Ok(())
 }
 
 fn safe_directory(path: &Path) -> Result<(), TerminalFinding> {
@@ -604,9 +681,6 @@ fn retained_archive(
             ));
         }
         let index_ref = format!(".csdlc/issues/{issue}/index.json");
-        if !files.contains_key(&index_ref) {
-            continue;
-        }
         for (relative, expected) in &files {
             if !admitted(relative, issue)
                 || Path::new(relative).components().any(|part| {
@@ -628,20 +702,27 @@ fn retained_archive(
                 ));
             }
         }
-        if files[&index_ref]["kind"] != "file" {
+        let archived_index = directory.join("files").join(&index_ref);
+        let live_index = candidate.join(&index_ref);
+        let index_path = if files.contains_key(&index_ref) {
+            archived_index.as_path()
+        } else if live_index.is_file() {
+            live_index.as_path()
+        } else {
+            continue;
+        };
+        if fingerprint(index_path)?["kind"] != "file" {
             return Err(finding(
                 "cleanup_archive_index_invalid",
                 "archived index must be a regular file",
             ));
         }
-        let index: Value = serde_json::from_slice(
-            &fs::read(directory.join("files").join(&index_ref)).map_err(|_| {
-                finding(
-                    "cleanup_archive_index_invalid",
-                    "archived index unavailable",
-                )
-            })?,
-        )
+        let index: Value = serde_json::from_slice(&fs::read(index_path).map_err(|_| {
+            finding(
+                "cleanup_archive_index_invalid",
+                "archived index unavailable",
+            )
+        })?)
         .map_err(|_| finding("cleanup_archive_index_invalid", "archived index is invalid"))?;
         if index["schema"] != "csdlc.v3.local_state.v1"
             || index["issue"] != issue
@@ -748,4 +829,62 @@ pub(super) fn semantic_identity(
             "cannot serialize exact archive identity",
         )
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::process::Command;
+
+    fn git(root: &Path, args: &[&str]) {
+        let output = Command::new("git")
+            .arg("-C")
+            .arg(root)
+            .args(args)
+            .output()
+            .unwrap();
+        assert!(output.status.success(), "{args:?}: {output:?}");
+    }
+
+    #[test]
+    fn issue_1092_archive_preserves_modified_tracked_issue_projection_only() {
+        let root = std::env::current_dir()
+            .unwrap()
+            .join("target/intent-archive-tests")
+            .join(format!("issue-1092-{}", std::process::id()));
+        if root.exists() {
+            fs::remove_dir_all(&root).unwrap();
+        }
+        fs::create_dir_all(root.join(".csdlc/v3/issues/505")).unwrap();
+        fs::create_dir_all(root.join(".csdlc/evidence/505")).unwrap();
+        fs::write(root.join(".csdlc/v3/issues/505/state.json"), b"old\n").unwrap();
+        fs::write(root.join("tracked.txt"), b"old\n").unwrap();
+        git(&root, &["init", "-q"]);
+        git(&root, &["config", "user.email", "fixture@example.com"]);
+        git(&root, &["config", "user.name", "Fixture"]);
+        git(&root, &["add", "."]);
+        git(&root, &["commit", "-q", "-m", "fixture"]);
+
+        fs::write(
+            root.join(".csdlc/v3/issues/505/state.json"),
+            b"closed out\n",
+        )
+        .unwrap();
+        fs::write(root.join(".csdlc/evidence/505/terminal.json"), b"{}\n").unwrap();
+        let archive = preview(&root, 505).unwrap();
+        assert!(archive
+            .entries
+            .contains_key(".csdlc/v3/issues/505/state.json"));
+        assert!(archive
+            .entries
+            .contains_key(".csdlc/evidence/505/terminal.json"));
+
+        fs::write(root.join("tracked.txt"), b"foreign change\n").unwrap();
+        let finding = match preview(&root, 505) {
+            Ok(_) => panic!("foreign tracked change was admitted"),
+            Err(finding) => finding,
+        };
+        assert_eq!(finding.code, "cleanup_archive_foreign_or_tracked_dirty");
+        fs::remove_dir_all(&root).unwrap();
+    }
 }

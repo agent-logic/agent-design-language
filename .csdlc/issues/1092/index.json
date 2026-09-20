@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1092,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1092-legacy-closeout-adoption-stale-publication-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1092-legacy-closeout-adoption-stale-publication-recovery",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "a1d7186977c801db6b13f72e9c1e39c8c52c79e8b17047246f8a0c524b3d529a"
+}
