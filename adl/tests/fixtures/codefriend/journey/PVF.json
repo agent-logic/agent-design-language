@@ -17,7 +17,8 @@
     "external_provider_calls": 0,
     "loopback_responses_requests": 8,
     "loopback_listener": "localhost only; eight bounded requests, per-accept deadline30s, read/write timeout5s, request<=1MiB",
-    "clock": "real current wall clock for native admission/approval/Palace lifetime; fixed deterministic source/lane responses"
+    "clock": "real current wall clock for native admission/approval/Palace lifetime; fixed deterministic source/lane responses",
+    "case_alias_regression": "macOS runtime test requires actual case-insensitive temporary filesystem; verifies identical file identity and denies output/store writes before admission. Linux retains ordinary distinct/nested path tests; no macOS proof claimed there."
   },
   "release_gate": "required supporting proof; insufficient for complete Beta acceptance",
   "nonclaims": [

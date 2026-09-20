@@ -264,3 +264,33 @@ fn nonprivate_owned_boundary_is_rejected_without_journey_creation() {
         .contains("journey_private_directory_required"));
     assert!(!output.exists());
 }
+
+#[cfg(target_os = "macos")]
+#[test]
+fn case_alias_destinations_and_owned_store_boundaries_use_identity() {
+    let dir = tempfile::tempdir().unwrap();
+    let root = dir.path().canonicalize().unwrap();
+    let source = root.join("Source");
+    let store = root.join("Store");
+    let review = root.join("Review");
+    for path in [&source, &store, &review] {
+        fs::create_dir(path).unwrap();
+    }
+    let alias = root.join("source");
+    assert!(same_file::is_same_file(&source, &alias).unwrap());
+    let checkout = super::PathBoundary::Checkout(source.clone());
+    assert!(checkout.check(&alias.join("new/deep/export")).is_err());
+    assert!(checkout.check(&alias).is_err());
+    assert!(checkout.check(&root).is_err());
+    assert!(checkout.check(&root.join("distinct-export")).is_ok());
+    let owned = super::PathBoundary::Owned {
+        root: root.clone(),
+        store,
+        review,
+    };
+    for path in [root.join("store/new"), root.join("review/new")] {
+        assert!(owned.check(&path).is_err());
+    }
+    assert!(owned.check(&root.join("new-export")).is_ok());
+    assert!(!source.join("new").exists());
+}

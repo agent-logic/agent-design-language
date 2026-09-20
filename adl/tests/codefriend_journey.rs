@@ -1102,3 +1102,34 @@ fn actual_journey_continuations_complete_all_eighteen_stages_and_resume() {
     fs::write(destination.join("report-md/report.md"), "tampered").unwrap();
     assert!(resume(&output).is_err());
 }
+
+// This lane explicitly requires a case-insensitive macOS temporary filesystem;
+// an unsupported filesystem fails setup rather than silently claiming proof.
+#[cfg(target_os = "macos")]
+#[test]
+fn case_alias_source_output_and_store_are_rejected_before_writes() {
+    let fixture = Fixture::new("pub fn answer() -> u8 { 42 }\n");
+    let alias = fixture.dir.path().join("Source");
+    assert!(
+        same_file::is_same_file(&fixture.source, &alias).unwrap(),
+        "case-insensitive filesystem required for this platform regression"
+    );
+    let before = git(&fixture.source, &["status", "--porcelain=v1"]);
+    for store in [false, true] {
+        let mut options = fixture.options();
+        if store {
+            options.store = alias.join("retained");
+        } else {
+            options.output = alias.join("journey");
+        }
+        let error = prepare_local(options)
+            .err()
+            .expect("source alias must reject");
+        assert!(error.to_string().contains("journey_output_overlaps_source"));
+        assert!(!fixture.source.join("journey").exists());
+        assert!(!fixture.source.join("retained").exists());
+        assert!(!fixture.options().output.exists());
+        assert!(!fixture.options().store.exists());
+    }
+    assert_eq!(before, git(&fixture.source, &["status", "--porcelain=v1"]));
+}

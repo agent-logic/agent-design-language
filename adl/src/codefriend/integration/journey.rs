@@ -111,10 +111,35 @@ fn safe_absolute(path: &Path) -> Result<PathBuf> {
     }
     Ok(absolute)
 }
+// Compare open filesystem identities, not canonical path spelling: filesystem
+// casing aliases can survive canonicalization. Missing leaves still have existing
+// ancestors; permission and other lookup failures must not become non-overlap.
+fn contains_identity(root: &Path, path: &Path) -> Result<bool> {
+    let root = match same_file::Handle::from_path(root) {
+        Ok(handle) => handle,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(false),
+        Err(error) => return Err(error.into()),
+    };
+    for ancestor in path.ancestors() {
+        match same_file::Handle::from_path(ancestor) {
+            Ok(handle) if handle == root => return Ok(true),
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) => return Err(error.into()),
+        }
+    }
+    Ok(false)
+}
+fn paths_overlap(left: &Path, right: &Path) -> Result<bool> {
+    Ok(left.starts_with(right)
+        || right.starts_with(left)
+        || contains_identity(left, right)?
+        || contains_identity(right, left)?)
+}
 fn outside_source(path: &Path, source: &Path) -> Result<PathBuf> {
     let absolute = safe_absolute(path)?;
     ensure!(
-        !absolute.starts_with(source) && !source.starts_with(&absolute),
+        !paths_overlap(&absolute, source)?,
         "journey_output_overlaps_source"
     );
     Ok(absolute)
@@ -134,7 +159,7 @@ pub fn prepare_source(
     let output = outside_source(&options.output, &source)?;
     let store_path = outside_source(&options.store, &source)?;
     ensure!(
-        !output.starts_with(&store_path) && !store_path.starts_with(&output),
+        !paths_overlap(&output, &store_path)?,
         "journey_store_output_overlap"
     );
     ensure!(
@@ -1358,14 +1383,11 @@ impl PathBoundary {
             } => {
                 let path = safe_absolute(path)?;
                 ensure!(
-                    path.starts_with(root) && path != *root,
+                    contains_identity(root, &path)? && !contains_identity(&path, root)?,
                     "journey_owned_path_escape"
                 );
                 ensure!(
-                    !path.starts_with(store)
-                        && !store.starts_with(&path)
-                        && !path.starts_with(review)
-                        && !review.starts_with(&path),
+                    !paths_overlap(&path, store)? && !paths_overlap(&path, review)?,
                     "journey_owned_path_overlap"
                 );
                 Ok(path)
