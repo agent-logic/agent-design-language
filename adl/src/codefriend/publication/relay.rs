@@ -237,6 +237,7 @@ pub(crate) fn verify_rendered(
                 remediation,
                 tests,
                 text: String::new(),
+                architecture: Default::default(),
             };
             pdf::validate_manifest(&m, &prepared)?;
             common(&r, &m, bytes, decision)?;

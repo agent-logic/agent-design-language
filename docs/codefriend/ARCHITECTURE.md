@@ -83,3 +83,52 @@ does not claim full analysis of arbitrarily large Rust files.
 Proof is declared in `ARCHITECTURE_PROOF_INVENTORY.json`. Cargo CLI tests and
 isolated installed-binary evidence are recorded separately; tests do not imply
 unrun operating-system, provider or external-repository qualification.
+
+## Evidence-grounded 4+1 package (#1109)
+
+The optional native journey continuation generates logical, development, process,
+deployment and scenario views from the same admitted revision as the structure
+report. A governed provider receives the admitted source with exact evidence IDs
+and line numbers. Model output cannot choose repository identity, completeness or
+digests. Citations must reproduce admitted source lines exactly. This establishes
+provenance, not semantic entailment: a reviewer must still assess each inference.
+
+For an already prepared native journey, write a continuation request outside the
+analyzed checkout. `provider_request` names an operator-owned invocation template
+with no preloaded `input_text`; the journey constructs its evidence-bound prompt.
+
+```json
+{"stage":"four_plus_one","provider_request":"/local/operator/provider-request.json"}
+```
+
+```sh
+adl codefriend journey resume --output /local/operator/journey \
+  --request /local/operator/four-plus-one-request.json
+```
+
+Use the installed, clean candidate that created the journey. A generation request
+reserves its intent before dispatch and is not automatically retried following an
+uncertain result. The retained `four_plus_one.json` contains the generated package;
+`four-plus-one-rendered/` contains the readable Markdown package, editable Mermaid
+sources and deterministic SVGs. Resume verifies response reconstruction, current
+admission and rendered bytes before returning journey status.
+
+Run generation before preparing the existing Markdown, HTML or PDF publication
+bundles. The same approval binds the package, source graph, retained model response,
+diagram sources and rendered artifacts. Exports include the architecture narrative
+and diagram attachments; PDF draws the same entities and directed relationships
+with the existing vector renderer. No additional approval or review pipeline is
+introduced. Existing exported copies remain subject to the repository's retention
+policy; deleting an admission does not delete independent exports.
+
+`complete` means every view and scenario trace is populated without declared gaps,
+conflicts or assumptions. It never means verified running topology. Missing runtime
+or deployment evidence produces actionable missing-input descriptions. Shared
+entity IDs connect views; source declarations, inferences and assumptions stay
+explicit. Conflict records retain citations to conflicting evidence.
+
+A lower-level `adl codefriend architecture four-plus-one --store STORE --graph
+GRAPH --provider-request REQUEST --out NEW_DIRECTORY` command uses the same
+contracts. That command alone does not establish product-journey qualification.
+Hosted/paired generation and installed ADL/external-repository qualification remain
+pending in this candidate. Component fixtures do not establish their completion.

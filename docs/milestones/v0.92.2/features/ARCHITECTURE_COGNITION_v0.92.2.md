@@ -7,3 +7,17 @@ CodeFriend must explain dependencies, boundaries, layering, coupling and connasc
 Acceptance uses known architecture fixtures, reviewer calibration, and sampled false-positive analysis. Opaque scores and automatic architecture rewrites are rejected.
 
 The listed owners deliver separate working tasks, with complete consumer and failure evidence defined in the [atomic task contracts](../ATOMIC_TASK_CONTRACTS_v0.92.2.md). A feature packet or schema alone cannot close an implementation row.
+
+Issue #1109 adds a Beta 1 acceptance requirement: one evidence-grounded 4+1 package
+for an admitted repository revision, generated and retrieved through the existing
+CodeFriend journey. It must include logical, development, process and declared
+deployment views, representative scenarios including failure/recovery when supported,
+editable diagram sources, rendered diagrams, evidence references and a scenario-to-view
+table in the existing Markdown/HTML/PDF surfaces. Shared identities must remain
+consistent across views; conflicts and missing evidence must remain explicit.
+
+A populated sufficient-evidence fixture, truthful partial/conflict fixtures, installed
+ADL and bounded external-repository generation, and HTML/PDF readability checks are
+required before this outcome is complete. A schema, hand-written sample, source-only
+test or empty view does not qualify. #915 retains independent Beta 1 qualification;
+this requirement does not reassign that work or declare it complete.

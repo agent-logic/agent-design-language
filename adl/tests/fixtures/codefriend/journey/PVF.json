@@ -15,8 +15,8 @@
       "max_aggregate_bytes": 268435456
     },
     "external_provider_calls": 0,
-    "loopback_responses_requests": 8,
-    "loopback_listener": "localhost only; eight bounded requests, per-accept deadline30s, read/write timeout5s, request<=1MiB",
+    "loopback_responses_requests": 17,
+    "loopback_listener": "localhost only; eight legacy-journey requests and nine architecture-journey requests, per-accept deadline30s, read/write timeout5s, request<=1MiB",
     "clock": "real current wall clock for native admission/approval/Palace lifetime; fixed deterministic source/lane responses",
     "case_alias_regression": "macOS runtime test requires actual case-insensitive temporary filesystem; verifies identical file identity and denies output/store writes before admission. Linux retains ordinary distinct/nested path tests; no macOS proof claimed there."
   },
@@ -40,6 +40,7 @@
     "missing and withheld approval deny output; one format approval cannot authorize another",
     "digest-linked durable resume preserves owner locks, exact retained artifacts, original options and acquisition provenance",
     "restart failure, private directory/record permission changes and source/retention changes fail closed; no provider redispatch",
-    "Actual compiled CLI Journey Review/Impact/Rationale/Drift/Palace/PreparePublication/Export continuations and restart reach all eighteen stages using eight loopback Responses requests, native signed public test authority, synthetic per-format approval and real Markdown/HTML/PDF owners; repeated review and changed export bytes deny"
+    "Actual compiled CLI Journey Review/Impact/Rationale/Drift/Palace/PreparePublication/Export continuations and restart reach all eighteen stages using eight loopback Responses requests, native signed public test authority, synthetic per-format approval and real Markdown/HTML/PDF owners; repeated review and changed export bytes deny",
+    "Issue 1109 adds optional nineteenth-stage architecture generation, retained response reconstruction, same approval/export owners and repeated-dispatch rejection; execution pending clean candidate check."
   ]
 }

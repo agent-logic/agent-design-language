@@ -1,0 +1,17 @@
+{
+  "schema": "codefriend.four_plus_one_tests.pvf.v1",
+  "test_target": "codefriend_four_plus_one",
+  "expected_tests": 12,
+  "lane": "component",
+  "proof_role": "Generation, source/admission binding, full/partial/conflicting package contracts, isolated diagram entities, approved Markdown/HTML/PDF export and artifact-tamper rejection",
+  "determinism": "Local inert Git fixtures and fixed admission clocks; no providers",
+  "resource_profile": "Local CPU, small Git fixtures under worktree TMPDIR, installed Unicode TrueType font for PDF",
+  "release_gate": true,
+  "executed": true,
+  "non_claims": [
+    "Not installed generation",
+    "Injected model output is not live semantic-analysis proof",
+    "Not independent qualification"
+  ],
+  "validation_log": ".adl/issue-1109/export-tests-03.log"
+}

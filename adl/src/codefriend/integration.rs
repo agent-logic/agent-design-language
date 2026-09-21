@@ -207,6 +207,17 @@ pub fn prepare_publication_bundle_for_format(
     destination: &Path,
     format: PublicationFormat,
 ) -> Result<Publication> {
+    prepare_publication_bundle_with_architecture(review_path, output, destination, format, None)
+}
+
+/// Prepare the existing approval bundle with an optional, validated 4+1 package.
+pub fn prepare_publication_bundle_with_architecture(
+    review_path: &Path,
+    output: &Path,
+    destination: &Path,
+    format: PublicationFormat,
+    architecture: Option<&std::collections::BTreeMap<String, Vec<u8>>>,
+) -> Result<Publication> {
     use std::{
         fs::{self, File},
         sync::atomic::{AtomicU64, Ordering},
@@ -230,9 +241,13 @@ pub fn prepare_publication_bundle_for_format(
             Err(error) => return Err(error.into()),
         }
     };
-    let publication = build_publication_bundle(review_path, &stage, destination, format)?;
+    let publication =
+        build_publication_bundle(review_path, &stage, destination, format, architecture)?;
     for artifact in &publication.artifact_manifest {
         File::open(stage.join("artifacts").join(&artifact.path))?.sync_all()?;
+    }
+    if architecture.is_some() {
+        File::open(stage.join("artifacts/architecture"))?.sync_all()?;
     }
     for directory in [
         "artifacts/synthesis",
@@ -261,6 +276,7 @@ fn build_publication_bundle(
     output: &Path,
     destination: &Path,
     format: PublicationFormat,
+    architecture: Option<&std::collections::BTreeMap<String, Vec<u8>>>,
 ) -> Result<Publication> {
     use crate::codefriend::publication::{read_review, ManifestInput};
     use std::{collections::BTreeMap, fs, io::Write};
@@ -270,11 +286,32 @@ fn build_publication_bundle(
         "publication_bundle_requires_complete_run"
     );
     let snapshot = fs::read(review_path)?;
-    let generated = publication_artifacts(&review, &snapshot)?;
+    let mut generated = publication_artifacts(&review, &snapshot)?;
+    if let Some(files) = architecture {
+        for (name, bytes) in files {
+            ensure!(
+                !name.contains('/') && !name.starts_with('.'),
+                "architecture_artifact_name"
+            );
+            generated
+                .files
+                .insert(format!("architecture/{name}"), bytes.clone());
+        }
+        crate::codefriend::publication::architecture::validate_files(
+            files,
+            &review,
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)?
+                .as_secs(),
+        )?;
+    }
     let artifact_root = output.join("artifacts");
     fs::create_dir(&artifact_root)?;
     for name in ["synthesis", "remediation", "tests"] {
         fs::create_dir(artifact_root.join(name))?;
+    }
+    if architecture.is_some() {
+        fs::create_dir(artifact_root.join("architecture"))?;
     }
     for (name, bytes) in &generated.files {
         let mut file = fs::OpenOptions::new()
