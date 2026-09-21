@@ -355,7 +355,7 @@ impl UpdateCycleResult {
             "activity_completion_invalid"
         );
         ensure!(
-            !self.review.is_some() || plan.activities.contains(&Activity::Review),
+            self.review.is_none() || plan.activities.contains(&Activity::Review),
             "activity_review_presence"
         );
         ensure!(

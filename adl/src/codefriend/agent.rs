@@ -1186,8 +1186,8 @@ impl Transport {
             expires_at,
         };
         enum AgentRun {
-            Review(super::review::runner::FourPerspectiveReviewRun),
-            Cycle(super::activities::UpdateCycleResult),
+            Review(Box<super::review::runner::FourPerspectiveReviewRun>),
+            Cycle(Box<super::activities::UpdateCycleResult>),
         }
         let mut gateway_lanes = Vec::new();
         let run: Result<AgentRun> = (|| {
@@ -1221,7 +1221,7 @@ impl Transport {
                 let (result, identity) =
                     self.model_cycle(&authority, &admission, plan, &dir.join("gateway/cycle"))?;
                 gateway_lanes.push(identity);
-                return Ok(AgentRun::Cycle(result));
+                return Ok(AgentRun::Cycle(Box::new(result)));
             }
             let first_lane = super::review::lanes::ReviewLane::ALL[0];
             let (first_output, first_identity) = self.model_lane(
@@ -1259,7 +1259,7 @@ impl Transport {
                     Ok(output)
                 },
             )?;
-            Ok(AgentRun::Review(review))
+            Ok(AgentRun::Review(Box::new(review)))
         })();
         if run
             .as_ref()
@@ -1275,8 +1275,8 @@ impl Transport {
         ensure!(expires_at > (self.clock)(), "agent_retention_expired");
         let (review_result, cycle_result) = if still_allowed {
             match run.ok() {
-                Some(AgentRun::Review(result)) => (Some(result), None),
-                Some(AgentRun::Cycle(result)) => (None, Some(result)),
+                Some(AgentRun::Review(result)) => (Some(*result), None),
+                Some(AgentRun::Cycle(result)) => (None, Some(*result)),
                 None => (None, None),
             }
         } else {
