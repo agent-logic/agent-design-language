@@ -61,7 +61,7 @@
       "prompt_digest": "bbe3bbfc27479ec33deba6cb960f79d656fff81c47b4578db704ef6c456f57b7",
       "response_digest": "8a8c2b2f635b34fc9284e2a50002d56dc808d32968030599565e777b4554d5b7",
       "graph_digest": "61870205a1b45207af69cbe95e340f3bdf9be4656e711db4137bee7df4e539cc",
-      "local_evidence_root": ".adl/issue-1109/qualification-r2/adl",
+      "local_evidence_root": ".csdlc/issue-1109-evidence/qualification-r2/adl",
       "sha256": {
         "journey/four_plus_one.json": "09c311050ad20072ed6cc403ffcd281729b05d47f9b75f6f608d73d7aeaf8c73",
         "journey/session.json": "ae6dc59f3a01ca734aa9923ee1835de6405d8572445b7c88b7da3a8a4d411bc0",
@@ -126,7 +126,7 @@
       "prompt_digest": "6a6d3ee89b4ced08d78d966f3c1bcb78e21a4cff41f10bb93e2d23a7c75f6d65",
       "response_digest": "628d53877b1172e899389b4e5c8d16a4141d93b3850f5eedba1e8305fa034b64",
       "graph_digest": "cd2d514b37b7a0ad889fd91e75c39829a4bbf809a44f5b910e75b594d2eda9c8",
-      "local_evidence_root": ".adl/issue-1109/qualification-r3/external",
+      "local_evidence_root": ".csdlc/issue-1109-evidence/qualification-r3/external",
       "sha256": {
         "journey/four_plus_one.json": "38bce8bb3076aa291f3ec6d23a14fc8d03b5a6fcac65a4f037fd8e7fc5314899",
         "journey/session.json": "8da1c215586abd2c5c59d4afa58341fd4775439624898702eb8ea1a15a2e188c",

@@ -30,6 +30,10 @@ continuation, followed by a separate `status` resume. Reconstruction checked the
 retained response, graph, live admission and deterministic rendered bytes.
 Repository acquisition was pinned and read-only. Source and model response packets
 remain local under the evidence roots in the summary; they are not published here.
+After execution, the retained evidence directory moved from `.adl/issue-1109/`
+to `.csdlc/issue-1109-evidence/` for native proof admission. Original request/session
+paths and installer provenance remain immutable historical execution evidence;
+relocation is not a claim that a relocated session was resumed.
 
 Commands, with each path selected outside the analyzed checkout:
 
