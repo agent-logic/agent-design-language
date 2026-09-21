@@ -1754,3 +1754,25 @@ async fn uncertain_provider_effect_is_retained_after_cancel_and_cannot_redispatc
     service.begin_drain().unwrap();
     assert!(!service.drained_without_payloads().unwrap());
 }
+
+// PVF runtime deterministic serialization: legacy request identity is unchanged;
+// explicit assessment generation is authenticated by the existing request digest.
+#[test]
+fn model_generation_is_explicit_and_legacy_submit_bytes_are_preserved() {
+    let f = Fixture::new();
+    let old = json!({"operation_id":"legacy-model", "packet":f.packet,"mode":"local_model","lane":"code"});
+    let mut old = old;
+    old["lane"] = serde_json::to_value(ReviewLane::ALL[0]).unwrap();
+    let legacy: Submit = serde_json::from_value(old.clone()).unwrap();
+    assert!(legacy.review_generation.is_none());
+    assert_eq!(serde_json::to_value(&legacy).unwrap(), old);
+    let mut modern = legacy.clone();
+    modern.review_generation = Some(ReviewGeneration::Assessments);
+    assert_ne!(
+        adl::codefriend::evidence::hash(&modern).unwrap(),
+        adl::codefriend::evidence::hash(&legacy).unwrap()
+    );
+    let mut unknown = serde_json::to_value(modern).unwrap();
+    unknown["review_generation"] = "unknown".into();
+    assert!(serde_json::from_value::<Submit>(unknown).is_err());
+}

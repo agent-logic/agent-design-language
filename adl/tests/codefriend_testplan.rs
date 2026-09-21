@@ -101,6 +101,8 @@ fn synthesis() -> ReviewSynthesis {
     ReviewSynthesis {
         schema: SYNTHESIS_SCHEMA.to_string(),
         coverage: None,
+        assessment_counts: None,
+        observations: None,
         review_record_digest: "review-digest".to_string(),
         run_id: "test-plan-run".to_string(),
         repository: "https://example.com/team/test-plan-target".to_string(),

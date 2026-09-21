@@ -1,0 +1,25 @@
+{
+  "schema": "codefriend.test_proof.v1",
+  "issue": 1120,
+  "test_surface": [
+    "codefriend_review_assessments",
+    "codefriend_review",
+    "codefriend_evidence",
+    "codefriend_synthesis",
+    "codefriend_remediate",
+    "codefriend_testplan",
+    "codefriend_render_html",
+    "codefriend_render_pdf"
+  ],
+  "lane": "runtime",
+  "proof_role": "Versioned assessment classification, admitted-source citation binding, canonical action selection and historical compatibility",
+  "determinism": "Fixed admitted source and synthetic provider responses; actual owner execution and byte comparisons",
+  "resource_profile": "Bounded local CPU, files and JSON; original Store authority; no provider, cloud or source mutation",
+  "release_gate": true,
+  "non_claims": [
+    "Citation validity proves semantic relevance or model truth",
+    "Synthetic responses establish live model quality",
+    "Zero defect candidates proves a defect-free repository",
+    "Focused tests complete the twelve Sprint 10 qualification journeys"
+  ]
+}

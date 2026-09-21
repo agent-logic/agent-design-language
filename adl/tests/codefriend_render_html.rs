@@ -532,3 +532,111 @@ fn html_and_markdown_preserve_complete_governed_semantics() {
     assert!(normalized_semantics(&html).contains(&omission_reason));
     assert!(normalized_semantics(&markdown).contains(&omission_reason));
 }
+
+#[test]
+fn assessment_details_and_observations_survive_approved_exports() {
+    use adl::codefriend::review::runner::{self, ExecutionOptions, LaneExecution};
+    use adl::provider_communication::ProviderInvocationFinalStatusV1;
+    let admission = predecessor_review().admission;
+    let item = admission.evidence.first().unwrap();
+    let source = admission
+        .packet
+        .objects
+        .iter()
+        .find(|o| o.path == item.path)
+        .unwrap()
+        .content
+        .as_ref()
+        .unwrap();
+    let end = source
+        .char_indices()
+        .nth(32)
+        .map(|(i, _)| i)
+        .unwrap_or(source.len());
+    let quote = source[..end].to_string();
+    let raw = json!({"assessments": [
+        {"kind":"defect_candidate", "summary":"Synthetic supported defect", "explanation":"Fixture explanation", "citations":[{"evidence_id":item.id,"start_byte":0,"end_byte":end,"quote":quote}], "limitations":["Synthetic routing proof only"], "defect":{"severity":"high","observed_behavior":"Observed sentinel","expected_behavior":"Expected sentinel","concrete_trigger":"Trigger sentinel","impact":"Impact sentinel","proposed_remedy_or_verification":"Remedy sentinel"}},
+        {"kind":"positive_observation", "summary":"Working safeguard retained", "explanation":"The selected excerpt is retained without a repair claim", "citations":[{"evidence_id":item.id,"start_byte":0,"end_byte":end,"quote":quote}], "limitations":["Synthetic routing proof only"], "defect":null},
+        {"kind":"unresolved_question", "summary":"Runtime context remains unresolved", "explanation":"The admitted excerpt does not establish runtime behavior", "citations":[{"evidence_id":item.id,"start_byte":0,"end_byte":end,"quote":quote}], "limitations":["Requires independent semantic review"], "defect":null}
+    ]}).to_string();
+    let run_root = tempfile::tempdir().unwrap();
+    let run = runner::run_assessments_with_executor(
+        ExecutionOptions {
+            out: run_root.path().join("run"),
+            run_id: "assessment-export-fixture".into(),
+            cancel_file: None,
+        },
+        admission,
+        "fixture:no-provider".into(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some(raw.clone()),
+            })
+        },
+    )
+    .unwrap();
+    run.successful_execution().unwrap();
+    let fixture = Fixture::new(run.review_record, HTML_RENDERER_VERSION);
+    render_html(fixture.options()).unwrap();
+    let html = fs::read_to_string(fixture.out.join("report.html")).unwrap();
+    fs::remove_dir_all(&fixture.out).unwrap();
+    render_markdown(MarkdownRenderOptions {
+        review_record: fixture.review_path.clone(),
+        publication: fixture.publication_path.clone(),
+        approval_store: fixture.approval_store.clone(),
+        artifact_root: fixture.artifact_root.clone(),
+        synthesis: fixture.synthesis_rel.clone(),
+        remediation_plan: fixture.remediation_rel.clone(),
+        test_plan: fixture.test_plan_rel.clone(),
+        destination_root: fixture.destination_root.clone(),
+        out: fixture.out.clone(),
+    })
+    .unwrap();
+    let markdown = fs::read_to_string(fixture.out.join("report.md")).unwrap();
+    for text in [&html, &markdown] {
+        for expected in [
+            "Working safeguard retained",
+            "Runtime context remains unresolved",
+            "Positive observation",
+            "Unresolved question",
+            "Observed sentinel",
+            "Expected sentinel",
+            "Trigger sentinel",
+            "Impact sentinel",
+            "Remedy sentinel",
+            &quote,
+        ] {
+            assert!(
+                normalized_semantics(text).contains(&normalized_semantics(expected)),
+                "missing {expected}"
+            );
+        }
+    }
+    let actions: serde_json::Value = serde_json::from_slice(
+        &fs::read(fixture.artifact_root.join(&fixture.remediation_rel)).unwrap(),
+    )
+    .unwrap();
+    let tests: serde_json::Value = serde_json::from_slice(
+        &fs::read(fixture.artifact_root.join(&fixture.test_plan_rel)).unwrap(),
+    )
+    .unwrap();
+    let synthesis: serde_json::Value = serde_json::from_slice(
+        &fs::read(fixture.artifact_root.join(&fixture.synthesis_rel)).unwrap(),
+    )
+    .unwrap();
+    let defects = synthesis["synthesized_findings"].as_array().unwrap();
+    assert!(!defects.is_empty());
+    for action in actions["actions"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .chain(tests["test_cases"].as_array().unwrap())
+    {
+        assert!(defects
+            .iter()
+            .any(|finding| finding["id"] == action["finding_id"]));
+    }
+    assert_eq!(synthesis["assessment_counts"]["positive_observations"], 4);
+    assert_eq!(synthesis["assessment_counts"]["unresolved_questions"], 4);
+}

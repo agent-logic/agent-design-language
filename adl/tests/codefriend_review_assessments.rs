@@ -1,0 +1,499 @@
+//! PVF owner_binary: deterministic source-bound assessment contracts and actual
+//! four-lane runner with synthetic executor; no semantic-truth or live-quality claim.
+use adl::codefriend::{
+    evidence::{
+        assessments::{
+            self, AssessmentKind, AssessmentSet, DefectDetails, ProviderAssessment,
+            ProviderAssessmentOutput, ProviderCitation,
+        },
+        contracts::{Completion, Severity},
+        store::Store,
+        Admission, Retention,
+    },
+    ingestion::{local, Scope},
+    review::runner::{self, ExecutionOptions, LaneExecution},
+};
+use adl::provider_communication::ProviderInvocationFinalStatusV1;
+use std::{fs, path::Path, process::Command};
+fn git(root: &Path, args: &[&str]) -> String {
+    let out = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .unwrap();
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    String::from_utf8(out.stdout).unwrap().trim().into()
+}
+struct Fixture {
+    dir: tempfile::TempDir,
+    admission: Admission,
+    _store: Store,
+}
+impl Fixture {
+    fn new(privacy: bool) -> Self {
+        Self::version(privacy, 0)
+    }
+    fn version(privacy: bool, revision: u8) -> Self {
+        let dir = tempfile::tempdir_in(std::env::temp_dir().canonicalize().unwrap()).unwrap();
+        let source = dir.path().join("source");
+        fs::create_dir(&source).unwrap();
+        git(&source, &["init", "-b", "main"]);
+        git(
+            &source,
+            &[
+                "remote",
+                "add",
+                "origin",
+                "https://example.com/review/source",
+            ],
+        );
+        fs::write(source.join("a.rs"), "// café\npub fn guarded() {}\n").unwrap();
+        fs::write(
+            source.join("b.rs"),
+            format!("pub fn other() {{}}\n// version {revision}\n"),
+        )
+        .unwrap();
+        let mut context = Vec::new();
+        if privacy {
+            fs::write(source.join(".env"), "TOKEN=private\n").unwrap();
+            context.push(".env".into());
+        }
+        git(&source, &["add", "."]);
+        git(
+            &source,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.com",
+                "commit",
+                "-m",
+                "fixture",
+            ],
+        );
+        let revision = git(&source, &["rev-parse", "HEAD"]);
+        let packet = local::acquire(
+            &source,
+            "https://example.com/review/source",
+            &revision,
+            Scope {
+                analysis: vec!["a.rs".into(), "b.rs".into()],
+                context,
+                max_files: 3,
+                max_bytes: 65536,
+                max_file_bytes: 32768,
+            },
+        )
+        .unwrap();
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        let store = Store::open(&dir.path().join("store"), move || now).unwrap();
+        let admission = store.admit(packet, Retention { seconds: 3600 }).unwrap();
+        Self {
+            dir,
+            admission,
+            _store: store,
+        }
+    }
+    fn item(&self, kind: AssessmentKind) -> ProviderAssessment {
+        ProviderAssessment {
+            kind,
+            summary: "Assessment of guard".into(),
+            explanation: "Synthetic component assessment, not semantic verification".into(),
+            citations: vec![ProviderCitation {
+                evidence_id: self
+                    .admission
+                    .evidence
+                    .iter()
+                    .find(|e| e.path == "a.rs")
+                    .unwrap()
+                    .id
+                    .clone(),
+                start_byte: 0,
+                end_byte: 8,
+                quote: "// café".into(),
+            }],
+            limitations: vec!["Fixture has no independent semantic adjudication".into()],
+            defect: (kind == AssessmentKind::DefectCandidate).then(|| DefectDetails {
+                severity: Severity::Medium,
+                observed_behavior: "Observed fixture behavior".into(),
+                expected_behavior: "Expected fixture behavior".into(),
+                concrete_trigger: "Declared fixture input".into(),
+                impact: "Declared fixture impact".into(),
+                proposed_remedy_or_verification: "Verify the declared input".into(),
+            }),
+        }
+    }
+    fn execute(
+        &self,
+        name: &str,
+        output: impl Fn(&str) -> String,
+    ) -> anyhow::Result<runner::FourPerspectiveReviewRun> {
+        runner::run_assessments_with_executor(
+            ExecutionOptions {
+                out: self.dir.path().join(name),
+                run_id: name.into(),
+                cancel_file: None,
+            },
+            self.admission.clone(),
+            "fixture:no-provider".into(),
+            |lane, prompt, _| {
+                assert!(prompt.contains("codefriend.review_lane.v2"));
+                assert!(prompt.contains("[byte 0]"));
+                assert!(!prompt.contains("TOKEN=private"));
+                Ok(LaneExecution {
+                    final_status: ProviderInvocationFinalStatusV1::Ok,
+                    output_text: Some(output(lane.id())),
+                })
+            },
+        )
+    }
+}
+fn json(items: Vec<ProviderAssessment>) -> String {
+    serde_json::to_string(&ProviderAssessmentOutput { assessments: items }).unwrap()
+}
+#[test]
+fn mixed_assessments_bind_receipts_and_project_only_defects() {
+    let f = Fixture::new(false);
+    let raw = json(vec![
+        f.item(AssessmentKind::DefectCandidate),
+        f.item(AssessmentKind::PositiveObservation),
+        f.item(AssessmentKind::UnresolvedQuestion),
+    ]);
+    let run = f.execute("mixed", |_| raw.clone()).unwrap();
+    run.successful_execution().unwrap();
+    assert_eq!(run.schema, runner::REVIEW_RUN_SCHEMA_V3);
+    assert_eq!(run.review_record.findings.len(), 4);
+    let counts = run.review_record.assessment_counts().unwrap();
+    assert_eq!(
+        (
+            counts.defect_candidates,
+            counts.positive_observations,
+            counts.unresolved_questions
+        ),
+        (4, 4, 4)
+    );
+    assert_eq!(run.review_record.actionable_findings().unwrap().len(), 4);
+    assert!(run
+        .lane_results
+        .iter()
+        .all(|lane| lane.assessment_ids.as_ref().unwrap().len() == 3));
+    let synthesis = adl::codefriend::review::synthesis::synthesize(&run.review_record).unwrap();
+    assert_eq!(synthesis.synthesized_findings.len(), 4);
+    assert_eq!(synthesis.observations.as_ref().unwrap().len(), 8);
+    assert_eq!(synthesis.assessment_counts, Some(counts));
+    let mut mixed = synthesis.clone();
+    mixed.schema = adl::codefriend::review::synthesis::SYNTHESIS_SCHEMA.into();
+    assert!(adl::codefriend::review::synthesis::validate_generation(&mixed).is_err());
+    let mut mixed = synthesis.clone();
+    let defect = run
+        .review_record
+        .run
+        .assessment_set
+        .as_ref()
+        .unwrap()
+        .assessments
+        .iter()
+        .find(|a| a.kind == AssessmentKind::DefectCandidate)
+        .unwrap()
+        .clone();
+    mixed.observations.as_mut().unwrap().push(defect);
+    assert!(adl::codefriend::review::synthesis::validate_generation(&mixed).is_err());
+    // Same admission/lane labels do not authorize comparing different contract generations.
+    let mut legacy = run.review_record.clone();
+    legacy.run = adl::codefriend::evidence::contracts::Run::new(
+        &legacy.admission,
+        legacy.run.lane_versions.clone(),
+        legacy.run.provider_route.clone(),
+        Completion::Complete,
+        vec![],
+    )
+    .unwrap();
+    legacy.validate().unwrap();
+    let comparison = adl::codefriend::evidence::contracts::Comparison {
+        schema: adl::codefriend::evidence::contracts::CONTRACT.into(),
+        baseline_run: legacy.run.id.clone(),
+        current_run: run.review_record.run.id.clone(),
+        baseline_version: legacy.run.schema.clone(),
+        current_version: run.review_record.run.schema.clone(),
+        finding_id: Some(run.review_record.findings[0].id.clone()),
+        outcome: adl::codefriend::evidence::contracts::Delta::Unchanged,
+        reason: "Fixture comparison across generations".into(),
+    };
+    assert!(comparison
+        .validate(&legacy, &run.review_record)
+        .unwrap_err()
+        .to_string()
+        .contains("comparison_requires_compatible_completed_coverage"));
+    let mut tampered = run.clone();
+    tampered.lane_results[0].assessment_ids = Some(vec![]);
+    assert!(tampered
+        .successful_execution()
+        .unwrap_err()
+        .to_string()
+        .contains("assessment_mismatch"));
+    let mut changed = run.review_record.clone();
+    changed.run.assessment_set.as_mut().unwrap().assessments[0].summary =
+        "Resealed outer payload".into();
+    assert!(changed.validate().is_err());
+}
+#[test]
+fn valid_nonactionable_only_is_successful_even_with_explicit_privacy_coverage() {
+    for privacy in [false, true] {
+        let f = Fixture::new(privacy);
+        let raw = json(vec![
+            f.item(AssessmentKind::PositiveObservation),
+            f.item(AssessmentKind::UnresolvedQuestion),
+        ]);
+        let run = f.execute("observations", |_| raw.clone()).unwrap();
+        run.successful_execution().unwrap();
+        assert!(run.review_record.findings.is_empty());
+        let synthesis = adl::codefriend::review::synthesis::synthesize(&run.review_record).unwrap();
+        assert!(synthesis.synthesized_findings.is_empty());
+        assert_eq!(synthesis.observations.as_ref().unwrap().len(), 8);
+        assert_eq!(synthesis.coverage.is_some(), privacy);
+        let tests = adl::codefriend::actions::test_plan::plan(&synthesis).unwrap();
+        assert!(tests.test_cases.is_empty() && tests.omitted_findings.is_empty());
+        let remedies =
+            adl::codefriend::actions::remediation::plan(&synthesis, &run.review_record).unwrap();
+        assert!(remedies.actions.is_empty() && remedies.omitted_findings.is_empty());
+        assert_eq!(
+            run.review_record
+                .assessment_counts()
+                .unwrap()
+                .unresolved_questions,
+            4
+        );
+        assert_eq!(run.review_record.run.coverage.is_some(), privacy);
+        assert_eq!(
+            run.completion,
+            if privacy {
+                Completion::Incomplete
+            } else {
+                Completion::Complete
+            }
+        );
+    }
+}
+#[test]
+fn wrong_file_support_retains_incomplete_run_not_empty_success() {
+    let f = Fixture::new(false);
+    let good = json(vec![f.item(AssessmentKind::PositiveObservation)]);
+    let mut wrong = f.item(AssessmentKind::DefectCandidate);
+    wrong.citations[0].evidence_id = f
+        .admission
+        .evidence
+        .iter()
+        .find(|e| e.path == "b.rs")
+        .unwrap()
+        .id
+        .clone();
+    let bad = json(vec![wrong]);
+    assert!(f
+        .execute("bad", |lane| if lane == "adversarial" {
+            bad.clone()
+        } else {
+            good.clone()
+        })
+        .is_err());
+    let run: runner::FourPerspectiveReviewRun =
+        serde_json::from_slice(&fs::read(f.dir.path().join("bad/run.json")).unwrap()).unwrap();
+    assert_eq!(run.completion, Completion::Incomplete);
+    assert_eq!(run.failures.len(), 1);
+    assert_eq!(
+        run.review_record
+            .assessment_counts()
+            .unwrap()
+            .positive_observations,
+        3
+    );
+    assert!(run.successful_execution().is_err());
+}
+#[test]
+fn citation_utf8_and_actionability_and_aggregate_bounds_fail_closed() {
+    let f = Fixture::new(false);
+    let good = f.item(AssessmentKind::PositiveObservation);
+    assessments::parse_lane("correctness", &json(vec![good.clone()]), &f.admission).unwrap();
+    let mut split = good.clone();
+    split.citations[0].end_byte = 7;
+    split.citations[0].quote = "// caf".into();
+    assert!(assessments::parse_lane("correctness", &json(vec![split]), &f.admission).is_err());
+    let mut illegal = good.clone();
+    illegal.defect = f.item(AssessmentKind::DefectCandidate).defect;
+    assert!(assessments::parse_lane("correctness", &json(vec![illegal]), &f.admission).is_err());
+    let mut duplicate = good.clone();
+    duplicate.citations.push(duplicate.citations[0].clone());
+    assert!(assessments::parse_lane("correctness", &json(vec![duplicate]), &f.admission).is_err());
+    assert!(assessments::parse_lane("correctness", &json(vec![good; 101]), &f.admission).is_err());
+    assert!(assessments::parse_lane(
+        "correctness",
+        &" ".repeat(assessments::MAX_LANE_BYTES + 1),
+        &f.admission
+    )
+    .is_err());
+}
+#[test]
+fn legacy_complete_and_privacy_run_bytes_omit_assessment_fields() {
+    for privacy in [false, true] {
+        let f = Fixture::new(privacy);
+        let run = runner::run_with_executor(
+            ExecutionOptions {
+                out: f.dir.path().join("old"),
+                run_id: "old".into(),
+                cancel_file: None,
+            },
+            f.admission.clone(),
+            "fixture:no-provider".into(),
+            |_, _, _| {
+                Ok(LaneExecution {
+                    final_status: ProviderInvocationFinalStatusV1::Ok,
+                    output_text: Some("{\"findings\":[]}".into()),
+                })
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            run.schema,
+            if privacy {
+                runner::REVIEW_RUN_SCHEMA_V2
+            } else {
+                runner::REVIEW_RUN_SCHEMA
+            }
+        );
+        let bytes = serde_json::to_vec(&run).unwrap();
+        assert!(!String::from_utf8(bytes.clone())
+            .unwrap()
+            .contains("assessment_"));
+        let decoded: runner::FourPerspectiveReviewRun = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(serde_json::to_vec(&decoded).unwrap(), bytes);
+        let mut altered = decoded;
+        altered.review_record.run.assessment_set =
+            Some(AssessmentSet::new(&f.admission, vec![]).unwrap());
+        assert!(altered.successful_execution().is_err());
+    }
+}
+
+#[test]
+fn logical_defect_identity_survives_assessment_changes_and_original_revision_changes() {
+    use adl::codefriend::evidence::contracts::{Comparison, Delta, CONTRACT};
+    let first = Fixture::version(false, 0);
+    let second = Fixture::version(false, 1);
+    assert_ne!(
+        first.admission.packet.revision,
+        second.admission.packet.revision
+    );
+    let a = first
+        .execute("first", |_| {
+            json(vec![first.item(AssessmentKind::DefectCandidate)])
+        })
+        .unwrap();
+    let mut revised = second.item(AssessmentKind::DefectCandidate);
+    revised.explanation = "A revised assessment of the same concrete behavior".into();
+    revised.defect.as_mut().unwrap().severity = Severity::High;
+    let b = second
+        .execute("second", |_| json(vec![revised.clone()]))
+        .unwrap();
+    assert_ne!(
+        a.review_record.run.assessment_set.as_ref().unwrap().digest,
+        b.review_record.run.assessment_set.as_ref().unwrap().digest
+    );
+    for old in &a.review_record.findings {
+        let new = b
+            .review_record
+            .findings
+            .iter()
+            .find(|new| new.id == old.id)
+            .unwrap();
+        assert!(!old.same_assessment(new));
+        let comparison = Comparison {
+            schema: CONTRACT.into(),
+            baseline_run: a.review_record.run.id.clone(),
+            current_run: b.review_record.run.id.clone(),
+            baseline_version: a.review_record.run.schema.clone(),
+            current_version: b.review_record.run.schema.clone(),
+            finding_id: Some(old.id.clone()),
+            outcome: Delta::Changed,
+            reason: "Same logical defect with changed assessment".into(),
+        };
+        comparison
+            .validate(&a.review_record, &b.review_record)
+            .unwrap();
+    }
+    let c = second
+        .execute("unchanged", |_| {
+            json(vec![second.item(AssessmentKind::DefectCandidate)])
+        })
+        .unwrap();
+    for old in &a.review_record.findings {
+        let new = c
+            .review_record
+            .findings
+            .iter()
+            .find(|new| new.id == old.id)
+            .unwrap();
+        assert!(old.same_assessment(new));
+    }
+}
+
+#[test]
+fn conflicting_receipts_for_same_logical_defect_are_incomplete_not_silently_deduplicated() {
+    let f = Fixture::new(false);
+    let one = f.item(AssessmentKind::DefectCandidate);
+    let mut other = one.clone();
+    other.defect.as_mut().unwrap().severity = Severity::High;
+    let raw = json(vec![one, other]);
+    assert!(assessments::parse_lane("correctness", &raw, &f.admission)
+        .unwrap_err()
+        .to_string()
+        .contains("assessment_logical_identity_collision"));
+    assert!(f.execute("collision", |_| raw.clone()).is_err());
+    let retained: runner::FourPerspectiveReviewRun =
+        serde_json::from_slice(&fs::read(f.dir.path().join("collision/run.json")).unwrap())
+            .unwrap();
+    assert_eq!(retained.completion, Completion::Incomplete);
+    assert_eq!(retained.failures.len(), 4);
+}
+
+#[test]
+fn remedy_only_change_preserves_logical_identity_but_changes_assessment() {
+    use adl::codefriend::evidence::contracts::{Comparison, Delta, CONTRACT};
+    let f = Fixture::new(false);
+    let one = f.item(AssessmentKind::DefectCandidate);
+    let a = f
+        .execute("remedy-before", |_| json(vec![one.clone()]))
+        .unwrap();
+    let mut two = one;
+    two.defect.as_mut().unwrap().proposed_remedy_or_verification =
+        "Different concrete verification".into();
+    let b = f
+        .execute("remedy-after", |_| json(vec![two.clone()]))
+        .unwrap();
+    for old in &a.review_record.findings {
+        let new = b
+            .review_record
+            .findings
+            .iter()
+            .find(|item| item.id == old.id)
+            .unwrap();
+        assert!(!old.same_assessment(new));
+        Comparison {
+            schema: CONTRACT.into(),
+            baseline_run: a.review_record.run.id.clone(),
+            current_run: b.review_record.run.id.clone(),
+            baseline_version: a.review_record.run.schema.clone(),
+            current_version: b.review_record.run.schema.clone(),
+            finding_id: Some(old.id.clone()),
+            outcome: Delta::Changed,
+            reason: "Remedy changes assessment without changing logical defect".into(),
+        }
+        .validate(&a.review_record, &b.review_record)
+        .unwrap();
+    }
+}

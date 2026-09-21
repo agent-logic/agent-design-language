@@ -189,6 +189,7 @@ fn journal_rejects_world_readable_or_symlink_store() {
 #[derive(Clone, Copy)]
 enum Scenario {
     Success,
+    MixedGeneration,
     PrivacyOmission,
     Unpair,
     AggregateLimit,
@@ -429,19 +430,44 @@ impl WireServer {
                         continue;
                     }
                     let r = &requests[id];
-                    let lane = r.lane.unwrap().id();
-                    let findings = if matches!(scenario, Scenario::AggregateLimit) {
-                        let admission = adl::codefriend::evidence::Admission::new(
-                            r.packet.clone(),
-                            adl::codefriend::evidence::Retention { seconds: 60 },
-                            live_now(),
+                    let assessment_mode = r.review_generation.is_some();
+                    let admission = adl::codefriend::evidence::Admission::new(
+                        r.packet.clone(),
+                        adl::codefriend::evidence::Retention { seconds: 60 },
+                        live_now(),
+                    )
+                    .unwrap();
+                    let (manifest, _) = if assessment_mode {
+                        adl::codefriend::review::runner::assessment_lane_input_manifest(
+                            id,
+                            r.lane.unwrap(),
+                            &admission,
                         )
-                        .unwrap();
-                        json!([{"rule":format!("{lane}.aggregate"),"semantic_anchor":"src/lib.rs","title":"x".repeat(700_000),"severity":"info","rationale":"y".repeat(700_000),"confidence":{"state":"known","percent":90},"evidence":[admission.evidence[0].id],"inference":"bounded fixture","limitations":[]}])
                     } else {
-                        json!([])
+                        adl::codefriend::review::runner::lane_input_manifest(
+                            id,
+                            r.lane.unwrap(),
+                            &admission,
+                        )
+                    }
+                    .unwrap();
+                    let assessments = if matches!(scenario, Scenario::AggregateLimit) {
+                        (0..50).map(|i| json!({"kind":"defect_candidate", "summary":format!("{i}{}", "x".repeat(7900)), "explanation":"y".repeat(7900), "citations":[{"evidence_id":admission.evidence[0].id,"start_byte":0,"end_byte":3,"quote":"pub"}],"limitations":[],"defect":{"severity":"medium","observed_behavior":"observed", "expected_behavior":"expected","concrete_trigger":format!("distinct trigger {i}"),"impact":"impact","proposed_remedy_or_verification":"verify"}})).collect::<Vec<_>>()
+                    } else {
+                        vec![]
                     };
-                    json!({"schema":"codefriend.local_model_result.v1","execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":{"schema":"codefriend.review_lane_input_manifest.v1","run_id":id,"packet_id":r.packet.packet_id,"admission_digest":"a".repeat(64),"lane":lane,"lane_contract":"codefriend.review_lane.v1","prompt_contract":"codefriend.four_perspective_review_prompt.v1","repository":r.packet.repository,"revision":r.packet.revision,"scope_digest":r.packet.scope_digest,"evidence":[],"peer_result_refs":[],"source_mutation_authority":"none","tool_authority":"none","publication_authority":"none","input_digest":"a".repeat(64)},"output":{"findings":findings}})
+                    if matches!(scenario, Scenario::AggregateLimit) {
+                        use adl::codefriend::evidence::assessments::{parse_lane, AssessmentSet};
+                        let raw =
+                            serde_json::to_string(&json!({"assessments": &assessments})).unwrap();
+                        let parsed = parse_lane(r.lane.unwrap().id(), &raw, &admission).unwrap();
+                        assert_eq!(parsed.len(), 50);
+                        let valid = AssessmentSet::new(&admission, parsed).unwrap();
+                        assert_eq!(valid.findings(&admission).unwrap().len(), 50);
+                    }
+                    let wrong_generation = matches!(scenario, Scenario::MixedGeneration)
+                        && count.load(Ordering::SeqCst) == 2;
+                    json!({"schema":if assessment_mode && !wrong_generation {"codefriend.local_model_result.v2"} else {"codefriend.local_model_result.v1"},"execution_location":"local_agent","model_execution_location":"agent_logic_provider","candidate_revision":"c".repeat(40),"model_identity":{"provider_kind":"openai","provider":"agent-logic-fixture","model_ref":"fixture/exact","provider_model_id":"fixture-model-v1","runtime_surface":"hosted_api","identity_strength":"provider_asserted","observed_at":format!("unix:{}", clock.load(Ordering::SeqCst))},"input_manifest":manifest,"output":if assessment_mode {json!({"assessments":assessments})} else {json!({"findings":[]})}})
                 } else if method == "GET" && path.starts_with("/v1/operations/") {
                     if ((matches!(scenario, Scenario::LostStatusObservation)
                         && count.load(Ordering::SeqCst) == 2)
@@ -590,6 +616,43 @@ fn journey(scenario: Scenario) -> (u64, Vec<serde_json::Value>) {
     let first = transport.poll_once(&journal, &consent_path);
     let run_dir = f.0.join("state/run-run-one");
     let saved_admission = fs::read(run_dir.join("admission.json")).ok();
+    if matches!(scenario, Scenario::AggregateLimit) {
+        // RunReport intentionally exposes no internal error text. Replay only the
+        // retained inert lane responses through the same native runner to prove
+        // its failure is the aggregate byte guard, not malformed fixture data.
+        use adl::codefriend::review::runner;
+        let admission = serde_json::from_slice(saved_admission.as_ref().unwrap()).unwrap();
+        let mut observed = 0;
+        let error = runner::run_assessments_with_executor(
+            runner::ExecutionOptions {
+                out: f.0.join("aggregate-proof"),
+                run_id: cmd.run_id.clone(),
+                cancel_file: None,
+            },
+            admission,
+            "aggregate-budget-fixture".into(),
+            |lane, _, _| {
+                observed += 1;
+                let result: serde_json::Value = serde_json::from_slice(
+                    &fs::read(
+                        run_dir
+                            .join("gateway")
+                            .join(lane.id())
+                            .join("gateway-result.json"),
+                    )
+                    .unwrap(),
+                )
+                .unwrap();
+                Ok(runner::LaneExecution {
+                    final_status: adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                    output_text: Some(serde_json::to_string(&result["output"]).unwrap()),
+                })
+            },
+        )
+        .unwrap_err();
+        assert_eq!(observed, 4);
+        assert_eq!(error.to_string(), "assessment_byte_limit", "{error:#}");
+    }
     if let Some(bytes) = &saved_admission {
         let binding: serde_json::Value =
             serde_json::from_slice(&fs::read(run_dir.join("local-consent.json")).unwrap()).unwrap();
@@ -1069,4 +1132,55 @@ fn privacy_omissions_survive_agent_forwarding_without_replay_or_secret_bytes() {
     let report: adl::codefriend::agent::RunReport =
         serde_json::from_value(reports[0].clone()).unwrap();
     report.validate(live_now()).unwrap();
+}
+
+// PVF runtime deterministic transport: mixed result generation fails before forwarding completion.
+#[test]
+fn assessment_gateway_rejects_mixed_generations() {
+    let (calls, reports) = journey(Scenario::MixedGeneration);
+    assert_eq!(calls, 2);
+    assert_eq!(reports[0]["status"], "failed_or_interrupted");
+    assert!(reports[0]["result"].is_null());
+}
+
+// PVF runtime compatibility: genuine legacy runner output remains accepted unchanged.
+#[test]
+fn agent_report_accepts_legacy_and_assessment_runs_with_exact_lane_pairing() {
+    use adl::codefriend::{agent::RunReport, evidence::hash, review::runner};
+    let (_, reports) = journey(Scenario::Success);
+    let mut report: RunReport = serde_json::from_value(reports[0].clone()).unwrap();
+    report.validate(live_now()).unwrap();
+    assert!(report
+        .result
+        .as_ref()
+        .unwrap()
+        .review_record
+        .run
+        .assessment_generation());
+    let temp = Fixture::new();
+    let current = report.result.as_ref().unwrap();
+    let old = runner::run_with_executor(
+        runner::ExecutionOptions {
+            out: temp.0.join("legacy"),
+            run_id: report.run_id.clone(),
+            cancel_file: None,
+        },
+        current.review_record.admission.clone(),
+        current.review_record.run.provider_route.clone(),
+        |_, _, _| {
+            Ok(runner::LaneExecution {
+                final_status: adl::provider_communication::ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    report.result = Some(old);
+    report.digest.clear();
+    report.digest = hash(&report).unwrap();
+    report.validate(live_now()).unwrap();
+    report.result.as_mut().unwrap().lane_results[0].schema = runner::LANE_RESULT_SCHEMA_V2.into();
+    report.digest.clear();
+    report.digest = hash(&report).unwrap();
+    assert!(report.validate(live_now()).is_err());
 }

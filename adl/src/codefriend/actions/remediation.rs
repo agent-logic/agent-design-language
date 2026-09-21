@@ -6,7 +6,7 @@ use crate::codefriend::{
     ingestion::validate_path as validate_ingestion_path,
     review::synthesis::{
         synthesize, ReviewSynthesis, SynthesisManifest, SynthesizedFinding,
-        SYNTHESIS_MANIFEST_SCHEMA, SYNTHESIS_SCHEMA, SYNTHESIS_SCHEMA_V2,
+        SYNTHESIS_MANIFEST_SCHEMA, SYNTHESIS_SCHEMA, SYNTHESIS_SCHEMA_V2, SYNTHESIS_SCHEMA_V3,
     },
 };
 use anyhow::{ensure, Context, Result};
@@ -333,7 +333,7 @@ pub fn validate_plan(plan: &RemediationPlan) -> Result<()> {
         plan.schema == REMEDIATION_PLAN_SCHEMA
             && matches!(
                 plan.synthesis_schema.as_str(),
-                SYNTHESIS_SCHEMA | SYNTHESIS_SCHEMA_V2
+                SYNTHESIS_SCHEMA | SYNTHESIS_SCHEMA_V2 | SYNTHESIS_SCHEMA_V3
             ),
         "invalid_remediation_plan_schema"
     );
@@ -441,11 +441,7 @@ fn validate_plan_against_synthesis(
 }
 
 fn validate_synthesis(synthesis: &ReviewSynthesis) -> Result<()> {
-    ensure!(
-        (synthesis.schema == SYNTHESIS_SCHEMA && synthesis.coverage.is_none())
-            || (synthesis.schema == SYNTHESIS_SCHEMA_V2 && synthesis.coverage.is_some()),
-        "invalid_synthesis_schema"
-    );
+    crate::codefriend::review::synthesis::validate_generation(synthesis)?;
     // A complete review may truthfully contain no findings. Its canonical
     // remediation output is therefore an empty, provenance-bound plan rather
     // than an error or an invented action.

@@ -91,6 +91,12 @@ pub struct Config {
     pub max_operations_per_subject: usize,
     pub retention_seconds: u64,
 }
+/// Explicit model-lane generation. Omission preserves legacy request digests.
+#[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ReviewGeneration {
+    Assessments,
+}
 #[derive(Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Submit {
@@ -98,6 +104,8 @@ pub struct Submit {
     pub packet: Packet,
     pub mode: Mode,
     pub lane: Option<ReviewLane>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_generation: Option<ReviewGeneration>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -148,9 +156,15 @@ impl Backend for ProductionBackend {
     ) -> Result<Value> {
         let work = dir.join("work");
         fs::create_dir_all(&work)?;
+        let assessments = request.mode == Mode::Hosted
+            || request.review_generation == Some(ReviewGeneration::Assessments);
         // Bound model input before the first provider effect, including hosted lanes.
         for lane in ReviewLane::ALL {
-            let (_, prompt) = runner::lane_input_manifest(&request.operation_id, lane, &admission)?;
+            let (_, prompt) = if assessments {
+                runner::assessment_lane_input_manifest(&request.operation_id, lane, &admission)?
+            } else {
+                runner::lane_input_manifest(&request.operation_id, lane, &admission)?
+            };
             ensure!(prompt.len() <= MAX_PROMPT_BYTES, "model_prompt_byte_limit");
         }
         match request.mode {
@@ -176,14 +190,17 @@ impl Backend for ProductionBackend {
                 let lane = request
                     .lane
                     .ok_or_else(|| anyhow::anyhow!("lane_required"))?;
-                let (manifest, prompt) =
-                    runner::lane_input_manifest(&request.operation_id, lane, &admission)?;
+                let (manifest, prompt) = if assessments {
+                    runner::assessment_lane_input_manifest(&request.operation_id, lane, &admission)?
+                } else {
+                    runner::lane_input_manifest(&request.operation_id, lane, &admission)?
+                };
                 let mut provider = config.provider.clone();
                 provider.input_text = Some(prompt);
                 provider.run_id = Some(request.operation_id.clone());
                 provider.request_id = Some(format!("{}-{}", request.operation_id, lane.id()));
                 provider.lane_ref = lane.id().into();
-                provider.prompt_contract_ref = format!("{}:{}", runner::PROMPT_CONTRACT, lane.id());
+                provider.prompt_contract_ref = manifest.prompt_contract.clone();
                 let mut logger = ProviderRunLoggerV1::create(
                     work.join("provider.jsonl"),
                     &request.operation_id,
@@ -200,12 +217,20 @@ impl Backend for ProductionBackend {
                     .output_text
                     .ok_or_else(|| anyhow::anyhow!("model_output_missing"))?;
                 ensure!(output.len() <= MAX_RESULT, "model_output_too_large");
-                let parsed = runner::parse_lane_output(lane, &output, &admission)?;
-                for finding in &parsed.findings {
-                    runner::finding_from_lane(lane, &admission, finding.clone())?;
-                }
+                let parsed = if assessments {
+                    super::evidence::assessments::parse_lane(lane.id(), &output, &admission)?;
+                    serde_json::to_value(serde_json::from_str::<
+                        super::evidence::assessments::ProviderAssessmentOutput,
+                    >(&output)?)?
+                } else {
+                    let parsed = runner::parse_lane_output(lane, &output, &admission)?;
+                    for finding in &parsed.findings {
+                        runner::finding_from_lane(lane, &admission, finding.clone())?;
+                    }
+                    serde_json::to_value(parsed)?
+                };
                 Ok(
-                    json!({"schema":"codefriend.local_model_result.v1", "execution_location":"local_agent",
+                    json!({"schema":if assessments { "codefriend.local_model_result.v2" } else { "codefriend.local_model_result.v1" }, "execution_location":"local_agent",
                     "model_execution_location":"agent_logic_provider", "candidate_revision":build::REVISION,
                     "model_identity":result.model_identity, "input_manifest":manifest,"output":parsed}),
                 )

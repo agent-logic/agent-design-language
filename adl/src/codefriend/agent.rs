@@ -486,7 +486,7 @@ impl RunReport {
     pub fn validate(&self, now: u64) -> Result<()> {
         use super::evidence::valid_digest;
         use super::review::{
-            lanes::{ReviewLane, LANE_CONTRACT_VERSION},
+            lanes::{ReviewLane, ASSESSMENT_LANE_CONTRACT_VERSION, LANE_CONTRACT_VERSION},
             runner,
         };
         ensure!(
@@ -562,13 +562,19 @@ impl RunReport {
                             .any(|lane| lane.id() == finding.perspective)),
                     "agent_report_perspectives"
                 );
+                let assessments = record.run.assessment_generation();
+                let lane_contract = if assessments {
+                    ASSESSMENT_LANE_CONTRACT_VERSION
+                } else {
+                    LANE_CONTRACT_VERSION
+                };
                 for lane in ReviewLane::ALL {
                     ensure!(
                         record
                             .run
                             .lane_versions
                             .get(lane.id())
-                            .is_some_and(|version| version == LANE_CONTRACT_VERSION),
+                            .is_some_and(|version| version == lane_contract),
                         "agent_report_lane_version"
                     );
                     let found: Vec<_> = result
@@ -578,8 +584,15 @@ impl RunReport {
                         .collect();
                     ensure!(found.len() == 1, "agent_report_lane");
                     let item = found[0];
-                    let (manifest, _) =
-                        runner::lane_input_manifest(&self.run_id, lane, &record.admission)?;
+                    let (manifest, _) = if assessments {
+                        runner::assessment_lane_input_manifest(
+                            &self.run_id,
+                            lane,
+                            &record.admission,
+                        )?
+                    } else {
+                        runner::lane_input_manifest(&self.run_id, lane, &record.admission)?
+                    };
                     let mut findings: Vec<_> = record
                         .findings
                         .iter()
@@ -587,8 +600,8 @@ impl RunReport {
                         .map(|finding| finding.id.clone())
                         .collect();
                     findings.sort();
-                    ensure!(item.schema == runner::LANE_RESULT_SCHEMA && item.run_id == self.run_id
-                        && item.lane_contract == LANE_CONTRACT_VERSION && item.input_digest == manifest.input_digest
+                    ensure!(item.schema == if assessments { runner::LANE_RESULT_SCHEMA_V2 } else { runner::LANE_RESULT_SCHEMA } && item.run_id == self.run_id
+                        && item.lane_contract == lane_contract && item.input_digest == manifest.input_digest
                             && item.input_manifest_ref == format!("lanes/{}/input.json", lane.id())
                             && item.provider_route == record.run.provider_route
                         && item.provider_status == crate::provider_communication::ProviderInvocationFinalStatusV1::Ok
@@ -679,6 +692,7 @@ impl Transport {
         packet: &ingestion::Packet,
         lane: super::review::lanes::ReviewLane,
         dir: &Path,
+        assessment_mode: bool,
     ) -> Result<(super::review::runner::LaneExecution, GatewayLaneIdentity)> {
         use super::server::{Mode, Operation, Status, Submit};
         let pairing = authority.pairing;
@@ -713,6 +727,8 @@ impl Transport {
             packet: packet.clone(),
             mode: Mode::LocalModel,
             lane: Some(lane),
+            review_generation: assessment_mode
+                .then_some(super::server::ReviewGeneration::Assessments),
         };
         let validate_operation = |operation: &Operation| -> Result<()> {
             ensure!(
@@ -787,6 +803,12 @@ impl Transport {
                 .map_err(|_| ObservationPending)?;
         }
         #[derive(Serialize, Deserialize)]
+        #[serde(untagged)]
+        enum ModelOutput {
+            Legacy(super::review::runner::ProviderLaneOutput),
+            Assessments(super::evidence::assessments::ProviderAssessmentOutput),
+        }
+        #[derive(Serialize, Deserialize)]
         #[serde(deny_unknown_fields)]
         struct ModelResult {
             schema: String,
@@ -795,7 +817,7 @@ impl Transport {
             candidate_revision: String,
             model_identity: crate::model_identity::ModelIdentityV1,
             input_manifest: super::review::runner::LaneInputManifest,
-            output: super::review::runner::ProviderLaneOutput,
+            output: ModelOutput,
         }
         let result: ModelResult = if output_path.exists() {
             serde_json::from_slice(&fs::read(&output_path)?)?
@@ -809,7 +831,38 @@ impl Transport {
             .map_err(|_| ObservationPending)?
         };
         ensure!(
-            result.schema == "codefriend.local_model_result.v1"
+            result.schema
+                == if assessment_mode {
+                    "codefriend.local_model_result.v2"
+                } else {
+                    "codefriend.local_model_result.v1"
+                }
+                && matches!(
+                    (&result.output, assessment_mode),
+                    (ModelOutput::Assessments(_), true) | (ModelOutput::Legacy(_), false)
+                )
+                && result.input_manifest.schema
+                    == if assessment_mode {
+                        super::review::runner::LANE_INPUT_SCHEMA_V2
+                    } else {
+                        super::review::runner::LANE_INPUT_SCHEMA
+                    }
+                && result.input_manifest.lane_contract
+                    == if assessment_mode {
+                        super::review::lanes::ASSESSMENT_LANE_CONTRACT_VERSION
+                    } else {
+                        super::review::lanes::LANE_CONTRACT_VERSION
+                    }
+                && result.input_manifest.prompt_contract
+                    == format!(
+                        "{}:{}",
+                        if assessment_mode {
+                            super::review::runner::PROMPT_CONTRACT_V2
+                        } else {
+                            super::review::runner::PROMPT_CONTRACT
+                        },
+                        lane.id()
+                    )
                 && result.execution_location == "local_agent"
                 && result.model_execution_location == "agent_logic_provider"
                 && result.input_manifest.run_id == operation_id
@@ -967,6 +1020,22 @@ impl Transport {
             )?;
             dir
         };
+        let generation_path = dir.join("review-generation.json");
+        let assessment_mode = if resuming {
+            if generation_path.exists() {
+                let _: super::server::ReviewGeneration =
+                    serde_json::from_slice(&fs::read(&generation_path)?)?;
+                true
+            } else {
+                false // Historical acknowledged runs retain their original request bytes.
+            }
+        } else {
+            save_private(
+                &generation_path,
+                &super::server::ReviewGeneration::Assessments,
+            )?;
+            true
+        };
         let expires_at = if resuming {
             serde_json::from_slice(&fs::read(dir.join("expires.json"))?)?
         } else {
@@ -1015,11 +1084,35 @@ impl Transport {
                 &packet,
                 first_lane,
                 &dir.join("gateway").join(first_lane.id()),
+                assessment_mode,
             )?;
             let route = first_identity.route()?;
             let mut first_output = Some(first_output);
             gateway_lanes.push(first_identity.clone());
-            super::review::runner::run_with_executor(
+            let execute = |lane, _prompt, _lane_dir: &Path| {
+                if lane == first_lane {
+                    return Ok(first_output.take().expect("first lane executes once"));
+                }
+                let (output, identity) = self.model_lane(
+                    &authority,
+                    &packet,
+                    lane,
+                    &dir.join("gateway").join(lane.id()),
+                    assessment_mode,
+                )?;
+                ensure!(
+                    first_identity.same_execution(&identity),
+                    "agent_gateway_identity_changed"
+                );
+                gateway_lanes.push(identity);
+                Ok(output)
+            };
+            let run = if assessment_mode {
+                super::review::runner::run_assessments_with_executor
+            } else {
+                super::review::runner::run_with_executor
+            };
+            run(
                 super::review::runner::ExecutionOptions {
                     out: dir.join("work/review"),
                     run_id: command.run_id.clone(),
@@ -1027,23 +1120,7 @@ impl Transport {
                 },
                 admission,
                 route,
-                |lane, _prompt, _lane_dir| {
-                    if lane == first_lane {
-                        return Ok(first_output.take().expect("first lane executes once"));
-                    }
-                    let (output, identity) = self.model_lane(
-                        &authority,
-                        &packet,
-                        lane,
-                        &dir.join("gateway").join(lane.id()),
-                    )?;
-                    ensure!(
-                        first_identity.same_execution(&identity),
-                        "agent_gateway_identity_changed"
-                    );
-                    gateway_lanes.push(identity);
-                    Ok(output)
-                },
+                execute,
             )
         })();
         if run
