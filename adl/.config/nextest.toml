@@ -30,6 +30,14 @@ slow-timeout = { period = "240s", terminate-after = 1 }
 filter = 'test(/^runtime_v2::tests::resource_stewardship_bridge::runtime_v2_resource_stewardship_bridge_negative_matrix_rejects_drift$/)'
 slow-timeout = { period = "240s", terminate-after = 1 }
 
+# Issue #1110: the unchanged governed-shutdown failure proof passed in 118.773s
+# in run 35557102726, then reached the generic 120s ceiling in run 35559799557.
+# Preserve both failure scenarios and zero retries; bound only this exact
+# coverage test at the existing 240s allowance.
+[[profile.ci-coverage.overrides]]
+filter = 'test(/^agent::csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_success$/)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
 # Rust 1.92.0 coverage instrumentation can push the exact signed continuity
 # restore proof past the generic 120s hosted ceiling even while the ordinary
 # required Rust test lane remains green. Keep the proof in required coverage
