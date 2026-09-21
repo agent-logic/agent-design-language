@@ -30,7 +30,8 @@ pub fn resident_shepherd_provider_is_available(provider: &str) -> bool {
 pub struct ResidentShepherdExecutor {
     runtime_id: String,
     primary_name: String,
-    configs: BTreeMap<String, ResidentShepherdInitConfig>,
+    configs: RwLock<BTreeMap<String, (u64, ResidentShepherdInitConfig)>>,
+    next_revision: std::sync::atomic::AtomicU64,
     ready: ResidentShepherdReadiness,
     admission: Arc<dyn OperationExecutor>,
     usage: crate::provider_usage::ProviderUsage,
@@ -181,13 +182,40 @@ impl ResidentShepherdRecoveryState {
     }
 }
 
+/// A recovery task may mutate readiness only while its binding is current.
+/// The config read lock makes the check and mutation atomic with replacement.
+pub struct ResidentShepherdRecoveryScope {
+    readiness: ResidentShepherdReadiness,
+    binding: Option<(Arc<ResidentShepherdExecutor>, String, u64)>,
+}
+
+impl From<ResidentShepherdReadiness> for ResidentShepherdRecoveryScope {
+    fn from(readiness: ResidentShepherdReadiness) -> Self {
+        Self {
+            readiness,
+            binding: None,
+        }
+    }
+}
+
+impl ResidentShepherdRecoveryScope {
+    fn with_current<T>(&self, action: impl FnOnce() -> T) -> Option<T> {
+        match &self.binding {
+            Some((executor, name, revision)) => {
+                executor.with_current_binding(name, *revision, action)
+            }
+            None => Some(action()),
+        }
+    }
+}
+
 /// Runs the resident Shepherd's complete lifetime health cycle. An attempt is
 /// successful only after both provider preload and governed inference succeed.
 /// The same controller is used by production and focused recovery tests.
 pub async fn run_resident_shepherd_recovery<Attempt, AttemptFuture, Observe>(
     name: &str,
     policy: ResidentShepherdRecoveryPolicy,
-    readiness: ResidentShepherdReadiness,
+    scope: impl Into<ResidentShepherdRecoveryScope>,
     shutdown: CancellationToken,
     mut attempt: Attempt,
     mut observe: Observe,
@@ -196,24 +224,39 @@ pub async fn run_resident_shepherd_recovery<Attempt, AttemptFuture, Observe>(
     AttemptFuture: Future<Output = Result<(), &'static str>> + Send,
     Observe: FnMut(ResidentShepherdRecoveryState) + Send,
 {
+    let scope = scope.into();
+    let readiness = &scope.readiness;
     let mut retry = policy.retry_initial;
     loop {
         if shutdown.is_cancelled() {
             break;
         }
-        let generation = readiness.begin_attempt(name);
+        let Some(generation) = scope.with_current(|| readiness.begin_attempt(name)) else {
+            break;
+        };
         observe(ResidentShepherdRecoveryState::ModelLoading);
         let result = tokio::select! {
             _ = shutdown.cancelled() => break,
             result = tokio::time::timeout(policy.timeout, attempt()) => result,
         };
-        if matches!(result, Ok(Ok(()))) && readiness.complete_attempt(name, generation) {
+        if matches!(result, Ok(Ok(())))
+            && scope.with_current(|| readiness.complete_attempt(name, generation)) == Some(true)
+        {
             observe(ResidentShepherdRecoveryState::Ready);
             retry = policy.retry_initial;
-            tokio::select! {
-                _ = shutdown.cancelled() => break,
-                _ = readiness.wait_until_unready(name) => continue,
+            loop {
+                tokio::select! {
+                    _ = shutdown.cancelled() => return,
+                    _ = readiness.wait_until_unready(name) => break,
+                    _ = tokio::time::sleep(Duration::from_secs(10)) => {
+                        if scope.with_current(|| readiness.is_ready(name)) == Some(true) {
+                            // Fresh supervisor observation; no recurring generated inference.
+                            observe(ResidentShepherdRecoveryState::Ready);
+                        }
+                    }
+                }
             }
+            continue;
         }
 
         let state = match result {
@@ -244,13 +287,14 @@ impl ResidentShepherdExecutor {
             .clone();
         let configs = configs
             .into_iter()
-            .map(|config| (config.name.clone(), config))
+            .map(|config| (config.name.clone(), (1, config)))
             .collect::<BTreeMap<_, _>>();
         let usage = crate::provider_usage::ProviderUsage::default();
         Self {
             runtime_id: runtime_id.into(),
             primary_name,
-            configs,
+            configs: RwLock::new(configs),
+            next_revision: std::sync::atomic::AtomicU64::new(2),
             ready: usage.readiness(),
             admission,
             usage,
@@ -261,6 +305,81 @@ impl ResidentShepherdExecutor {
         self.ready = usage.readiness();
         self.usage = usage;
         self
+    }
+
+    /// Current live declarations and epochs; old recovery callbacks must match both.
+    pub fn bindings(&self) -> Vec<(u64, ResidentShepherdInitConfig)> {
+        self.configs
+            .read()
+            .expect("shepherd bindings poisoned")
+            .values()
+            .cloned()
+            .collect()
+    }
+
+    pub fn binding_is_current(&self, name: &str, revision: u64) -> bool {
+        self.configs
+            .read()
+            .expect("shepherd bindings poisoned")
+            .get(name)
+            .is_some_and(|(active, _)| *active == revision)
+    }
+
+    pub fn with_current_binding<T>(
+        &self,
+        name: &str,
+        revision: u64,
+        action: impl FnOnce() -> T,
+    ) -> Option<T> {
+        let configs = self.configs.read().expect("shepherd bindings poisoned");
+        if configs
+            .get(name)
+            .is_some_and(|(active, _)| *active == revision)
+        {
+            Some(action())
+        } else {
+            None
+        }
+    }
+
+    pub fn recovery_scope(
+        self: &Arc<Self>,
+        name: &str,
+        revision: u64,
+    ) -> ResidentShepherdRecoveryScope {
+        ResidentShepherdRecoveryScope {
+            readiness: self.ready.clone(),
+            binding: Some((Arc::clone(self), name.to_owned(), revision)),
+        }
+    }
+
+    pub fn replace_bindings(&self, configs: Vec<ResidentShepherdInitConfig>) {
+        let mut current = self.configs.write().expect("shepherd bindings poisoned");
+        let names = configs
+            .iter()
+            .map(|c| c.name.clone())
+            .collect::<std::collections::BTreeSet<_>>();
+        current.retain(|name, _| {
+            if names.contains(name) {
+                true
+            } else {
+                self.usage.invalidate_binding(name);
+                false
+            }
+        });
+        for config in configs {
+            if current
+                .get(&config.name)
+                .is_some_and(|(_, old)| old == &config)
+            {
+                continue;
+            }
+            self.usage.invalidate_binding(&config.name);
+            let revision = self
+                .next_revision
+                .fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+            current.insert(config.name.clone(), (revision, config));
+        }
     }
 
     pub fn readiness(&self) -> ResidentShepherdReadiness {
@@ -297,9 +416,12 @@ impl ResidentShepherdExecutor {
             .shepherd_name
             .as_deref()
             .unwrap_or(&self.primary_name);
-        let config = self
+        let (revision, config) = self
             .configs
+            .read()
+            .expect("shepherd bindings poisoned")
             .get(shepherd_name)
+            .cloned()
             .ok_or_else(|| Self::invalid("shepherd_unknown_resident"))?;
         if require_ready && !self.ready.is_ready(shepherd_name) {
             return Err(ExecutorError {
@@ -334,7 +456,7 @@ impl ResidentShepherdExecutor {
         )
         .await
         .map_err(|message| {
-            usage.failure(message);
+            self.with_current_binding(shepherd_name, revision, || usage.failure(message));
             ExecutorError {
                 class: if message == "operation cancelled" {
                     FailureClass::Degraded
@@ -344,7 +466,8 @@ impl ResidentShepherdExecutor {
                 message: message.to_owned(),
             }
         })?;
-        usage.success(&response);
+        self.with_current_binding(shepherd_name, revision, || usage.success(&response))
+            .ok_or_else(|| Self::invalid("shepherd_binding_replaced"))?;
         let response_sha256 = sha256(response.as_bytes());
         serde_json::to_vec(&ShepherdResponse {
             schema: SHEPHERD_RESPONSE_SCHEMA.to_owned(),

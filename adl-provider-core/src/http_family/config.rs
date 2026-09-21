@@ -128,6 +128,16 @@ pub(super) fn auth_env_for(spec: &adl::ProviderSpec, default_env: &str) -> Resul
             format!("config.auth.type must be 'bearer' (got '{auth_type}')"),
         ));
     }
+    if obj.contains_key("key_file") {
+        if !matches!(default_env, "OPENAI_API_KEY" | "ANTHROPIC_API_KEY") {
+            return Err(invalid_config(
+                "native",
+                "key file reference unsupported by provider",
+            ));
+        }
+        auth_key_file_for(spec)?;
+        return Ok(default_env.to_owned());
+    }
     let env_key = obj
         .get("env")
         .and_then(|v| v.as_str())
@@ -140,6 +150,78 @@ pub(super) fn auth_env_for(spec: &adl::ProviderSpec, default_env: &str) -> Resul
         ));
     }
     Ok(trimmed.to_string())
+}
+
+pub(super) fn auth_key_file_for(spec: &adl::ProviderSpec) -> Result<Option<String>> {
+    let Some(auth) = spec.config.get("auth") else {
+        return Ok(None);
+    };
+    let Some(value) = auth.get("key_file") else {
+        return Ok(None);
+    };
+    let name = value
+        .as_str()
+        .ok_or_else(|| invalid_config("native", "invalid key file reference"))?;
+    crate::registry::validate_key_file_name(name)
+        .map_err(|_| invalid_config("native", "invalid key file reference"))?;
+    if auth.get("env").is_some() || auth.get("file_env").is_some() {
+        return Err(invalid_config("native", "ambiguous credential reference"));
+    }
+    Ok(Some(name.to_owned()))
+}
+
+pub(super) fn credential_from_key_file(provider: &str, name: &str) -> Result<String> {
+    let home = env::var_os("HOME")
+        .ok_or_else(|| invalid_config(provider, "credential root unavailable"))?;
+    read_key_file(provider, &std::path::PathBuf::from(home).join("keys"), name)
+}
+
+fn read_key_file(provider: &str, root: &std::path::Path, name: &str) -> Result<String> {
+    use std::io::Read;
+    crate::registry::validate_key_file_name(name)
+        .map_err(|_| invalid_config(provider, "invalid key file reference"))?;
+    let unavailable = || invalid_config(provider, "configured credential file is unavailable");
+    #[cfg(unix)]
+    let file = {
+        use std::os::fd::{AsRawFd, FromRawFd};
+        use std::os::unix::fs::OpenOptionsExt;
+        let directory = fs::OpenOptions::new()
+            .read(true)
+            .custom_flags(libc::O_DIRECTORY | libc::O_CLOEXEC)
+            .open(root)
+            .map_err(|_| unavailable())?;
+        let name = std::ffi::CString::new(name).map_err(|_| unavailable())?;
+        // Pin the approved directory, reject symlinks, and never block on FIFOs.
+        let fd = unsafe {
+            libc::openat(
+                directory.as_raw_fd(),
+                name.as_ptr(),
+                libc::O_RDONLY | libc::O_CLOEXEC | libc::O_NOFOLLOW | libc::O_NONBLOCK,
+            )
+        };
+        if fd < 0 {
+            return Err(unavailable());
+        }
+        unsafe { fs::File::from_raw_fd(fd) }
+    };
+    #[cfg(not(unix))]
+    let file: fs::File = return Err(unavailable());
+    let metadata = file.metadata().map_err(|_| unavailable())?;
+    if !metadata.is_file() || metadata.len() > 65_536 {
+        return Err(unavailable());
+    }
+    let mut value = String::new();
+    file.take(65_537)
+        .read_to_string(&mut value)
+        .map_err(|_| unavailable())?;
+    let value = value.trim();
+    if value.is_empty() || value.len() > 65_536 || value.chars().any(char::is_control) {
+        return Err(invalid_config(
+            provider,
+            "configured credential file is invalid",
+        ));
+    }
+    Ok(value.to_owned())
 }
 
 pub(super) fn auth_file_env_for(spec: &adl::ProviderSpec) -> Result<Option<String>> {
@@ -342,6 +424,50 @@ pub(crate) fn cfg_u64_strict(
 #[cfg(test)]
 mod credential_file_tests {
     use super::*;
+
+    // PVF runtime: deterministic local credential-rotation and confinement proof;
+    // tiny disposable files, no provider network, required for live credentials.
+    #[test]
+    fn live_key_file_rotation_and_revocation_without_environment_changes() {
+        let root = tempfile::tempdir().unwrap();
+        let path = root.path().join("provider.key");
+        fs::write(&path, "first-fixture-value\n").unwrap();
+        assert_eq!(
+            read_key_file("openai", root.path(), "provider.key").unwrap(),
+            "first-fixture-value"
+        );
+        let next = root.path().join("next");
+        fs::write(&next, "second-fixture-value\n").unwrap();
+        fs::rename(next, &path).unwrap();
+        assert_eq!(
+            read_key_file("openai", root.path(), "provider.key").unwrap(),
+            "second-fixture-value"
+        );
+        fs::remove_file(path).unwrap();
+        let error = read_key_file("openai", root.path(), "provider.key")
+            .unwrap_err()
+            .to_string();
+        assert!(!error.contains("provider.key"));
+        assert!(!error.contains(&root.path().display().to_string()));
+    }
+
+    #[test]
+    fn live_key_file_rejects_escape_and_invalid_contents() {
+        let root = tempfile::tempdir().unwrap();
+        for name in ["", "../outside", "/absolute", ".hidden", "sub/key", "key\n"] {
+            assert!(read_key_file("openai", root.path(), name).is_err());
+        }
+        for contents in ["", "  ", "first\nsecond", "value\0"] {
+            fs::write(root.path().join("provider.key"), contents).unwrap();
+            assert!(read_key_file("openai", root.path(), "provider.key").is_err());
+        }
+        #[cfg(unix)]
+        {
+            let outside = tempfile::NamedTempFile::new().unwrap();
+            std::os::unix::fs::symlink(outside.path(), root.path().join("link.key")).unwrap();
+            assert!(read_key_file("openai", root.path(), "link.key").is_err());
+        }
+    }
 
     #[test]
     fn credential_file_reference_is_used_without_exposing_the_value() {
