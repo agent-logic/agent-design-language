@@ -271,7 +271,7 @@ fn execute_cycle(
                     provider.request_id.clone(),
                     Some(format!("lanes/{}/provider.log.jsonl", lane.id())),
                 )?;
-                let output = execute_provider_invocation(provider, &mut logger);
+                let output = execute_codefriend_invocation(provider, &mut logger);
                 identities.push(output.model_identity);
                 Ok(runner::LaneExecution {
                     final_status: output.final_status,
@@ -304,7 +304,7 @@ fn execute_cycle(
                 provider.request_id.clone(),
                 Some(format!("activity-{}.jsonl", activity.id())),
             )?;
-            let output = execute_provider_invocation(provider, &mut logger);
+            let output = execute_codefriend_invocation(provider, &mut logger);
             identities.push(output.model_identity);
             Ok(ProviderOutput {
                 final_status: output.final_status,

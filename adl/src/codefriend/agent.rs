@@ -4,7 +4,7 @@ pub mod journey;
 pub mod publication;
 
 use super::{
-    evidence::hash,
+    evidence::{contracts::Completion, hash},
     ingestion::{self, Scope},
 };
 use anyhow::{ensure, Result};
