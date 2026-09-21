@@ -6,7 +6,8 @@
   "tests": [
     "paired_continuations_and_native_artifacts_preserve_owner_and_order",
     "paired_jobs_reject_foreign_authority_and_unavailable_baselines_without_dispatch",
-    "paired_existing_publication_attaches_without_renderer_or_provider_replay"
+    "paired_existing_publication_attaches_without_renderer_or_provider_replay",
+    "paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline"
   ],
   "proof": "pending root clean-candidate tests and measured coverage; no percentage claim",
   "coverage_scope": [
@@ -14,6 +15,7 @@
     "Status/Structure/Fitness/Impact artifact readback and verification",
     "identity and absent/same-owner baseline denial",
     "genuine approved Markdown attachment and cached replay without POST",
-    "publication mutation invalidates replay"
+    "publication mutation invalidates replay",
+    "separate native run2 Store admission and actual review; paired drift and saved baseline status with consent revocation"
   ]
 }

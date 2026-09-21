@@ -378,3 +378,113 @@ fn paired_existing_publication_attaches_without_renderer_or_provider_replay() {
         .is_err());
     assert_eq!(case.posts(), before_posts);
 }
+
+#[test]
+fn paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline() {
+    let (case, mut current) = prepared_job();
+    case.poll().unwrap();
+    let now = crate::codefriend::agent::clock();
+    let source_root = case.temp.path().join("state/run-run1");
+    let report: RunReport =
+        serde_json::from_slice(&fs::read(source_root.join("report.json")).unwrap()).unwrap();
+    let mut consent: Consent =
+        serde_json::from_slice(&fs::read(case.temp.path().join("consent.json")).unwrap()).unwrap();
+    consent.expires_at = now + 100;
+    let consent_path = case.temp.path().join("baseline-consent.json");
+    private(&consent_path, &consent);
+    let pairing = case.journal.pairing(now).unwrap();
+    let command = Command {
+        schema: PROTOCOL.into(),
+        agent_id: pairing.agent_id.clone(),
+        subject: pairing.subject.clone(),
+        run_id: "run2".into(),
+        consent_digest: consent.digest().unwrap(),
+        expires_at: now + 80,
+    };
+    let root = case
+        .journal
+        .reserve(&command, &pairing, &consent, now)
+        .unwrap();
+    let store =
+        crate::codefriend::evidence::store::Store::open(&root.join("evidence"), move || now)
+            .unwrap();
+    // A separate original admission and native run, even for a repeated source revision.
+    let original = &report.result.as_ref().unwrap().review_record;
+    let admission = store
+        .admit(
+            original.admission.packet.clone(),
+            original.admission.retention.clone(),
+        )
+        .unwrap();
+    drop(store);
+    let result = runner::run_with_executor(
+        ExecutionOptions {
+            out: root.join("work/review"),
+            run_id: "run2".into(),
+            cancel_file: None,
+        },
+        admission.clone(),
+        original.run.provider_route.clone(),
+        |_, _, _| {
+            Ok(LaneExecution {
+                final_status: ProviderInvocationFinalStatusV1::Ok,
+                output_text: Some("{\"findings\":[]}".into()),
+            })
+        },
+    )
+    .unwrap();
+    let mut second = RunReport {
+        schema: PROTOCOL.into(),
+        subject: pairing.subject,
+        agent_id: pairing.agent_id,
+        run_id: "run2".into(),
+        consent_digest: command.consent_digest.clone(),
+        execution_location: "local_agent".into(),
+        gateway_lanes: report.gateway_lanes,
+        status: "complete".into(),
+        expires_at: admission.expires_at,
+        result: Some(result),
+        digest: String::new(),
+    };
+    second.digest = hash(&second).unwrap();
+    second.validate(now).unwrap();
+    private(&root.join("expires.json"), &second.expires_at);
+    private(&root.join("report.json"), &second);
+    private(
+        &root.join("local-consent.json"),
+        &json!({"path":consent_path.canonicalize().unwrap(),"digest":second.consent_digest}),
+    );
+    case.extra_receipts.lock().unwrap().insert("run2".into(), json!({"schema":"codefriend.agent_report_receipt.v1",
+        "subject":second.subject,"agent_id":second.agent_id,"run_id":"run2","report_digest":second.digest,
+        "received_digest":"e".repeat(64),"consent_digest":second.consent_digest,"expires_at":second.expires_at}));
+    let mut baseline = current.clone();
+    baseline.binding.job_id = "prepare_run2".into();
+    baseline.binding.run_id = "run2".into();
+    baseline.binding.report_digest = second.digest.clone();
+    baseline.binding.consent_digest = second.consent_digest.clone();
+    baseline.binding.received_digest = "e".repeat(64);
+    baseline.binding.expires_at = second.expires_at;
+    *case.journey.lock().unwrap() = serde_json::to_value(&baseline).unwrap();
+    case.transport
+        .poll_journey(&case.journal, &consent_path)
+        .unwrap();
+    current.binding.job_id = "drift_original_owners".into();
+    current.request = relay::Request::Drift {
+        baseline_run: "run2".into(),
+    };
+    current.binding.request_digest = current.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&current).unwrap();
+    case.poll().unwrap();
+    let drift = case.journey_results.lock().unwrap().last().unwrap().clone();
+    assert_eq!(drift["manifest"]["stages"]["drift"]["status"], "complete");
+    current.binding.job_id = "status_with_saved_baseline".into();
+    current.request = relay::Request::Status;
+    current.binding.request_digest = current.request.digest().unwrap();
+    *case.journey.lock().unwrap() = serde_json::to_value(&current).unwrap();
+    case.poll().unwrap();
+    let count = case.journey_results.lock().unwrap().len();
+    fs::remove_file(&consent_path).unwrap();
+    assert!(case.poll().is_err());
+    assert_eq!(case.journey_results.lock().unwrap().len(), count);
+    assert_eq!(case.posts(), 0);
+}
