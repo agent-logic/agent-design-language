@@ -252,7 +252,7 @@ fn execute_cycle(
     let cancel = dir.join("cancel");
     let mut identities = Vec::new();
     let review = if plan.activities.contains(&Activity::Review) {
-        Some(runner::run_with_executor(
+        runner::run_with_executor(
             runner::ExecutionOptions {
                 out: work.join("review"),
                 run_id: request.operation_id.clone(),
@@ -281,7 +281,8 @@ fn execute_cycle(
                     output_text: output.output_text,
                 })
             },
-        )?)
+        )
+        .ok()
     } else {
         None
     };

@@ -1144,7 +1144,7 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
                 }
             }
             let index = calls.fetch_add(1, Ordering::SeqCst);
-            if index >= 7 {
+            if index >= 11 {
                 if write!(
                     stream,
                     "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n"
@@ -1350,7 +1350,38 @@ fn built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings() {
         assert_eq!(failed_result["completion"], "failed");
         assert_eq!(failed_result["activities"][0]["status"], "failed");
         assert_eq!(failed_result["failures"][0], "documentation_failed");
-        assert_eq!(count.load(Ordering::SeqCst), 7);
+        let mut failed_review_cycle = f.request("cycle-review-failed");
+        failed_review_cycle["cycle"] = serde_json::to_value(UpdateCyclePlan {
+            schema: PLAN_SCHEMA.into(),
+            repository: f.packet.repository.clone(),
+            activities: vec![Activity::Review],
+            testing: None,
+        })
+        .unwrap();
+        assert_eq!(
+            client
+                .post(format!("{base}/v1/operations"))
+                .bearer_auth(ALICE)
+                .json(&failed_review_cycle)
+                .send()
+                .unwrap()
+                .status()
+                .as_u16(),
+            202
+        );
+        assert_eq!(terminal(ALICE, "cycle-review-failed")["status"], "failed");
+        let failed_review_result: Value = client
+            .get(format!("{base}/v1/operations/cycle-review-failed/result"))
+            .bearer_auth(ALICE)
+            .send()
+            .unwrap()
+            .json()
+            .unwrap();
+        assert_eq!(failed_review_result["completion"], "failed");
+        assert_eq!(failed_review_result["activities"][0]["activity"], "review");
+        assert_eq!(failed_review_result["activities"][0]["status"], "failed");
+        assert_eq!(failed_review_result["failures"][0], "review_failed");
+        assert_eq!(count.load(Ordering::SeqCst), 11);
         for (id, token, mode) in [
             ("oversized-hosted", ALICE, "hosted"),
             ("oversized-local", AGENT, "local_model"),

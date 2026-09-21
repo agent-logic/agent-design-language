@@ -1027,6 +1027,7 @@ impl Transport {
             model_execution_location: String,
             candidate_revision: String,
             model_identity: crate::model_identity::ModelIdentityV1,
+            admission: super::evidence::Admission,
             cycle_result: super::activities::UpdateCycleResult,
         }
         let result: CycleModelResult = if output_path.exists() {
@@ -1046,7 +1047,8 @@ impl Transport {
                 && result.model_execution_location == "agent_logic_provider"
                 && result.cycle_result.run_id == operation_id
                 && result.cycle_result.plan == *plan
-                && result.cycle_result.admission.packet == admission.packet,
+                && result.admission == *admission
+                && result.cycle_result.admission == result.admission,
             "agent_cycle_result_identity"
         );
         let route =

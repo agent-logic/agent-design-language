@@ -424,6 +424,112 @@ fn validate_paths(paths: &[String], admitted: &BTreeSet<&str>) -> Result<()> {
     Ok(())
 }
 
+fn mermaid_identifier(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 128
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'_')
+}
+
+fn mermaid_node(value: &str) -> bool {
+    let value = value.trim();
+    let id_end = value
+        .find(|character: char| !character.is_ascii_alphanumeric() && character != '_')
+        .unwrap_or(value.len());
+    let (id, shape) = value.split_at(id_end);
+    if !mermaid_identifier(id) {
+        return false;
+    }
+    if shape.is_empty() {
+        return true;
+    }
+    let pairs = [("[", "]"), ("(", ")"), ("{", "}")];
+    pairs.iter().any(|(open, close)| {
+        shape
+            .strip_prefix(open)
+            .and_then(|value| value.strip_suffix(close))
+            .is_some_and(|label| {
+                !label.is_empty()
+                    && label.len() <= 256
+                    && label.chars().all(|character| {
+                        character.is_ascii_alphanumeric()
+                            || character.is_ascii_whitespace()
+                            || "_-.!?,'".contains(character)
+                    })
+            })
+    })
+}
+
+fn mermaid_flowchart_line(line: &str) -> bool {
+    let compact: String = line
+        .chars()
+        .filter(|character| !character.is_whitespace())
+        .collect();
+    ["-->", "---"].iter().any(|edge| {
+        compact
+            .split_once(edge)
+            .is_some_and(|(left, right)| mermaid_node(left) && mermaid_node(right))
+    })
+}
+
+fn mermaid_sequence_line(line: &str) -> bool {
+    let line = line.trim();
+    if let Some(id) = line
+        .strip_prefix("participant ")
+        .or_else(|| line.strip_prefix("actor "))
+    {
+        return mermaid_identifier(id.trim());
+    }
+    let Some((message, label)) = line.split_once(':') else {
+        return false;
+    };
+    let label = label.trim();
+    if label.is_empty()
+        || label.len() > 512
+        || !label.chars().all(|character| {
+            character.is_ascii_alphanumeric()
+                || character.is_ascii_whitespace()
+                || "_-.!?,'".contains(character)
+        })
+    {
+        return false;
+    }
+    ["-->>", "->>", "-->", "->"].iter().any(|arrow| {
+        message.split_once(arrow).is_some_and(|(left, right)| {
+            mermaid_identifier(left.trim()) && mermaid_identifier(right.trim())
+        })
+    })
+}
+
+fn valid_mermaid(source: &str) -> bool {
+    let mut lines = source
+        .lines()
+        .map(str::trim)
+        .filter(|line| !line.is_empty() && !line.starts_with("%%"));
+    let Some(header) = lines.next() else {
+        return false;
+    };
+    let body: Vec<_> = lines.collect();
+    if body.is_empty() {
+        return false;
+    }
+    let mut header_parts = header.split_whitespace();
+    match (
+        header_parts.next(),
+        header_parts.next(),
+        header_parts.next(),
+    ) {
+        (Some("flowchart" | "graph"), Some("TB" | "TD" | "BT" | "RL" | "LR"), None) => {
+            body.iter().all(|line| mermaid_flowchart_line(line))
+        }
+        (Some("sequenceDiagram"), None, None) => {
+            body.iter().all(|line| mermaid_sequence_line(line))
+        }
+        _ => false,
+    }
+}
+
 pub(crate) fn validate_output(
     activity: Activity,
     output: &ActivityOutput,
@@ -467,30 +573,8 @@ pub(crate) fn validate_output(
         );
         ensure!(kind_ok, "activity_artifact_kind_mismatch");
         if artifact.kind == ArtifactKind::MermaidDiagram {
-            let source = artifact.content.trim_start();
-            let valid_start = [
-                "flowchart ",
-                "graph ",
-                "sequenceDiagram",
-                "classDiagram",
-                "stateDiagram",
-                "erDiagram",
-                "journey",
-                "gantt",
-                "pie",
-                "mindmap",
-                "timeline",
-                "gitGraph",
-                "C4Context",
-                "C4Container",
-                "C4Component",
-                "C4Dynamic",
-                "C4Deployment",
-            ]
-            .iter()
-            .any(|prefix| source.starts_with(prefix));
             ensure!(
-                artifact.path.ends_with(".mmd") && valid_start,
+                artifact.path.ends_with(".mmd") && valid_mermaid(&artifact.content),
                 "activity_mermaid_invalid"
             );
             let render = artifact

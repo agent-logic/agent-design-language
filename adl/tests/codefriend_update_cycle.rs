@@ -328,6 +328,12 @@ fn diagrams_require_mermaid_syntax_and_an_exact_render_manifest() {
                 json!({"schema":"codefriend.mermaid_render_manifest.v1","source_path":"docs/system.mmd","output_path":"docs/system.svg","format":"svg","renderer":"mmdc"}),
             ),
         ),
+        (
+            "flowchart garbage",
+            Some(
+                json!({"schema":"codefriend.mermaid_render_manifest.v1","source_path":"docs/system.mmd","output_path":"docs/system.svg","format":"svg","renderer":"mmdc"}),
+            ),
+        ),
         ("flowchart LR\nA-->B", None),
         (
             "flowchart LR\nA-->B",
