@@ -1,5 +1,8 @@
 //! Schema dispatch must not erase duplicate fields before typed validation.
-use serde::{de::{Error, MapAccess, SeqAccess, Visitor}, Deserialize, Deserializer};
+use serde::{
+    de::{Error, MapAccess, SeqAccess, Visitor},
+    Deserialize, Deserializer,
+};
 use serde_json::Value;
 use std::fmt;
 
@@ -23,7 +26,10 @@ impl<'de> Deserialize<'de> for UniqueValue {
                 }
                 Ok(UniqueValue(Value::Object(result)))
             }
-            fn visit_seq<A: SeqAccess<'de>>(self, mut sequence: A) -> Result<Self::Value, A::Error> {
+            fn visit_seq<A: SeqAccess<'de>>(
+                self,
+                mut sequence: A,
+            ) -> Result<Self::Value, A::Error> {
                 let mut values = Vec::new();
                 while let Some(value) = sequence.next_element::<UniqueValue>()? {
                     values.push(value.0);
@@ -46,11 +52,16 @@ impl<'de> Deserialize<'de> for UniqueValue {
                 Ok(UniqueValue(Value::Number(value.into())))
             }
             fn visit_f64<E: Error>(self, value: f64) -> Result<Self::Value, E> {
-                serde_json::Number::from_f64(value).map(|n| UniqueValue(Value::Number(n)))
+                serde_json::Number::from_f64(value)
+                    .map(|n| UniqueValue(Value::Number(n)))
                     .ok_or_else(|| E::custom("nonfinite_json_number"))
             }
-            fn visit_unit<E: Error>(self) -> Result<Self::Value, E> { Ok(UniqueValue(Value::Null)) }
-            fn visit_none<E: Error>(self) -> Result<Self::Value, E> { self.visit_unit() }
+            fn visit_unit<E: Error>(self) -> Result<Self::Value, E> {
+                Ok(UniqueValue(Value::Null))
+            }
+            fn visit_none<E: Error>(self) -> Result<Self::Value, E> {
+                self.visit_unit()
+            }
         }
         deserializer.deserialize_any(UniqueVisitor)
     }

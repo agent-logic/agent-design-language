@@ -358,7 +358,7 @@ impl AnalysisReport {
                 text(&d.name)?;
                 d.span.validate(source)?;
                 ensure!(
-                    &source[d.span.start_byte..d.span.end_byte] == d.name,
+                    source[d.span.start_byte..d.span.end_byte] == d.name,
                     "language_declaration_text_mismatch"
                 );
                 ensure!(
@@ -377,7 +377,7 @@ impl AnalysisReport {
                 label(&i.kind)?;
                 i.span.validate(source)?;
                 ensure!(
-                    &source[i.span.start_byte..i.span.end_byte] == i.spelling,
+                    source[i.span.start_byte..i.span.end_byte] == i.spelling,
                     "language_import_text_mismatch"
                 );
                 if let Some(p) = &i.target_path {
@@ -397,7 +397,7 @@ impl AnalysisReport {
                 text(&r.spelling)?;
                 r.span.validate(source)?;
                 ensure!(
-                    &source[r.span.start_byte..r.span.end_byte] == r.spelling,
+                    source[r.span.start_byte..r.span.end_byte] == r.spelling,
                     "language_reference_text_mismatch"
                 );
             }

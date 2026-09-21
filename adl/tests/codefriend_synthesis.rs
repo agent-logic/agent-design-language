@@ -511,9 +511,9 @@ fn privacy_omissions_preserve_failed_guards_and_explicit_synthesis_coverage() {
         },
     )
     .unwrap();
-    match Admission::new(omitted_packet, Retention { seconds: 3600 }, 100) {
-        Ok(omitted) => assert!(reviewable_acquisition(&omitted).is_err()),
-        Err(_) => {} // Acquisition admission itself may reject a packet with no usable evidence.
+    // Acquisition admission itself may reject a packet with no usable evidence.
+    if let Ok(omitted) = Admission::new(omitted_packet, Retention { seconds: 3600 }, 100) {
+        assert!(reviewable_acquisition(&omitted).is_err());
     }
 
     let mut erased = output.review_record.clone();

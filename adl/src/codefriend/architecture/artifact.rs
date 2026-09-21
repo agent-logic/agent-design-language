@@ -13,6 +13,8 @@ pub enum BoundaryPolicyArtifact {
 }
 
 #[derive(Debug, Clone)]
+// Both versions own a bounded report; keep the version-dispatch API uniform.
+#[allow(clippy::large_enum_variant)]
 pub enum StructureArtifact {
     V1(structure::StructureReport),
     V2(structure_v2::StructureReportV2),
@@ -23,6 +25,8 @@ pub enum ChangeSetArtifact {
     V2(impact_v2::ChangeSetV2),
 }
 #[derive(Debug, Clone)]
+// Both versions own a bounded report; keep the version-dispatch API uniform.
+#[allow(clippy::large_enum_variant)]
 pub enum ImpactArtifact {
     V1(impact::ImpactReport),
     V2(impact_v2::ImpactReportV2),
@@ -258,11 +262,15 @@ pub enum RationaleSelectionArtifact {
     V2(rationale_v2::RationaleSelectionV2),
 }
 #[derive(Debug, Clone)]
+// Both versions own a bounded report; keep the version-dispatch API uniform.
+#[allow(clippy::large_enum_variant)]
 pub enum RationaleArtifact {
     V1(rationale::RationaleReport),
     V2(rationale_v2::RationaleReportV2),
 }
 #[derive(Debug, Clone)]
+// Both versions own a bounded report; keep the version-dispatch API uniform.
+#[allow(clippy::large_enum_variant)]
 pub enum DriftArtifact {
     V1(drift::DriftReport),
     V2(drift_v2::DriftReportV2),

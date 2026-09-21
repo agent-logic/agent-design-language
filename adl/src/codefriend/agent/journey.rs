@@ -40,6 +40,8 @@ pub struct Binding {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(tag = "stage", rename_all = "snake_case", deny_unknown_fields)]
+// One bounded request is processed at a time; preserve the owned wire-contract API.
+#[allow(clippy::large_enum_variant)]
 pub enum Request {
     Prepare {
         boundary_policy: BoundaryPolicyArtifact,

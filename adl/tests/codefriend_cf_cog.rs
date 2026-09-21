@@ -33,10 +33,21 @@ fn version_dispatch_preserves_original_v1_payload_and_source_authority() {
     assert_eq!(serde_json::to_vec(&policy).unwrap(), policy_bytes);
     let policy_text = String::from_utf8(policy_bytes).unwrap();
     let duplicate_schema = policy_text.replacen("{", "{\"schema\":\"codefriend.structure.v1\",", 1);
-    assert!(serde_json::from_str::<BoundaryPolicyArtifact>(&duplicate_schema).unwrap_err().to_string().contains("duplicate_json_field"));
-    let duplicate_nested = policy_text.replace("\"layers\":{", "\"layers\":{\"src/lib.rs\":\"forged\",");
+    assert!(
+        serde_json::from_str::<BoundaryPolicyArtifact>(&duplicate_schema)
+            .unwrap_err()
+            .to_string()
+            .contains("duplicate_json_field")
+    );
+    let duplicate_nested =
+        policy_text.replace("\"layers\":{", "\"layers\":{\"src/lib.rs\":\"forged\",");
     assert_ne!(duplicate_nested, policy_text);
-    assert!(serde_json::from_str::<BoundaryPolicyArtifact>(&duplicate_nested).unwrap_err().to_string().contains("duplicate_json_field"));
+    assert!(
+        serde_json::from_str::<BoundaryPolicyArtifact>(&duplicate_nested)
+            .unwrap_err()
+            .to_string()
+            .contains("duplicate_json_field")
+    );
     for schema in ["codefriend.structure.v3", "", "codefriend.fitness.v1"] {
         let mut value = serde_json::to_value(&original).unwrap();
         value["schema"] = schema.into();

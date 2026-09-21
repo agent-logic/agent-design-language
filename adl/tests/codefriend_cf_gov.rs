@@ -32,7 +32,10 @@ fn fitness_dispatch_preserves_v1_bytes_and_original_store_validation() {
     assert_eq!(serde_json::to_vec(&decoded_policy).unwrap(), policy_bytes);
     let text = String::from_utf8(policy_bytes).unwrap();
     let duplicate = text.replacen("{", "{\"schema\":\"codefriend.fitness.v1\",", 1);
-    assert!(serde_json::from_str::<PolicyArtifact>(&duplicate).unwrap_err().to_string().contains("duplicate_json_field"));
+    assert!(serde_json::from_str::<PolicyArtifact>(&duplicate)
+        .unwrap_err()
+        .to_string()
+        .contains("duplicate_json_field"));
     store.delete(&fixture.packet).unwrap();
     assert!(decoded.validate(&store, now).is_err());
 }

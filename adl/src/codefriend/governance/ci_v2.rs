@@ -73,7 +73,7 @@ pub fn verify(
         original_exit,
         exit_code: original_exit,
         artifact_valid: true,
-        assessment: Some(report.status.clone()),
+        assessment: Some(report.status),
         candidate: Some(expected.candidate.clone()),
         packet_id: Some(expected.packet_id.clone()),
         policy_digest: Some(expected.policy_digest.clone()),

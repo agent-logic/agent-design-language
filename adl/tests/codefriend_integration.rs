@@ -845,8 +845,8 @@ async fn hosted_privacy_omissions_continue_through_approval_and_exports() {
 
 async fn hosted_journey(v2: bool, privacy_omission: bool) {
     // These fixtures share the intentional single-parser quota.
-    static SERIAL: std::sync::Mutex<()> = std::sync::Mutex::new(());
-    let _guard = SERIAL.lock().unwrap();
+    static SERIAL: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+    let _guard = SERIAL.lock().await;
     use adl::codefriend::{
         evidence::Admission,
         ingestion::{local, Scope},
